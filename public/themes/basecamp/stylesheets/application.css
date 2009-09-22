@@ -1,0 +1,122 @@
+/**
+ * Basecamp stylesheet, based on "alternate"
+ * author: Peter Theill, Commanigy - http://commanigy.com
+ */
+
+@import url(../../../stylesheets/application.css);
+
+body, #wrapper { background-color:#eee; font-family:"Lucida Grande", verdana, arial, helvetica, sans-serif; }
+
+a:hover { text-decoration: underline; }
+a:hover, a:active { color: #2A5685; }
+
+#header, #top-menu { margin: 0; }
+#header { background-color: #333; padding: 8px 8px 0 8px; height: 5.5em; }
+#header h1 { margin: 0 24px; }
+#header #quick-search { margin: 0 24px; }
+#top-menu { background-color: #000; font-size: 10px; position: relative; padding: 0; height: 21px }
+#top-menu ul { padding: 0 21px; }
+#top-menu li, #top-menu #loggedas { color: #ddd; line-height: 21px; margin-right: 4px; }
+#top-menu li a { color: #999; font-weight: normal; padding:4px 5px; }
+#top-menu li a:hover { color: #fff; text-decoration: none; }
+#main { background: #EEEEEE; margin: 8px 24px 0px 24px; }
+#content { background: #fff; border-right: 1px solid #bbb; border-bottom: 1px solid #bbb; width: 70%; overflow: auto; }
+#sidebar { width: 26%; }
+#footer { background-color:#EEEEEE; border: 0px; clear: left; color:#666666; font-size:9px; margin:4px 0 20px 20px; padding-bottom:15px; text-align:left; }
+#footer a:hover { background:#666666 none repeat scroll 0 0; color:#FFFFFF !important;}
+#footer a:link, #footer a:visited { color:#666666; }
+
+/* Headers */
+h1, h2, h3, h4 { font-family: "Lucida Grande",arial,sans-serif; }
+h1 { font-size: 24px; font-weight: normal; margin:0pt 0pt 0pt 0.25em; padding:0pt 0pt 10px; text-align:left; }
+h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { border-bottom: 0px;}
+
+h2, .wiki h1 { background-color: #edf3fe; margin: -6px -10px 10px; padding: 10px 20px; font-size: 14px; color: #000; }
+.wiki h1 { font-family:"Trebuchet MS",Verdana,sans-serif; font-weight: bold;}
+.wiki h2 { background-color: #fff; }
+
+h3, h4 { font-weight: normal; }
+
+#sidebar h3 { border-bottom:1px solid #DCDCDC; padding:6px 8px; }
+
+/* Links */
+
+#sidebar a:hover { background-color:#003399; color:#FFFFFF; text-decoration: none;}
+
+/* Menu */
+#main-menu { margin: 0 24px; }
+#main-menu li a { background-color: #666; font-weight: normal; padding:4px 8px 6px; }
+#main-menu li a:hover { background: #999; text-decoration: none; }
+#main-menu li a.selected, #main-menu li a.selected:hover { background-color:#EEEEEE; color: #111; font-weight:bold; }
+
+/* Tables */
+table.list { border: none; }
+table.list th { background-color: #fff; }
+table.list tbody td, table.list tbody tr td { border-bottom: solid 1px #ddd; font-size: 11px; padding:4px 10px 4px 3px; }
+table.list thead th {
+	border: none;
+	border-bottom:1px solid #999999;
+	font-size:9px;
+	font-weight:normal;
+	padding:0pt 3px 3px;
+	text-transform:uppercase;
+}
+
+table.list thead th a { color: #000; }
+table.list thead th a:hover { color: #000; }
+
+/* Issues grid styles by priorities (provided by Wynn Netherland) */
+table.list tr.issue a { color: #333; }
+
+tr.odd.priority-5, table.list tbody tr.odd.priority-5:hover { color: #900; font-weight: bold; }
+tr.odd.priority-5 { background: #ffc4c4; }
+tr.even.priority-5, table.list tbody tr.even.priority-5:hover { color: #900; font-weight: bold; }
+tr.even.priority-5 { background: #ffd4d4; }
+tr.priority-5 a, tr.priority-5:hover a { color: #900; }
+tr.odd.priority-5 td, tr.even.priority-5 td { border-color: #ffb4b4; }
+
+tr.odd.priority-4, table.list tbody tr.odd.priority-4:hover { color: #900; }
+tr.odd.priority-4 { background: #ffc4c4; }
+tr.even.priority-4, table.list tbody tr.even.priority-4:hover { color: #900; }
+tr.even.priority-4 { background: #ffd4d4; }
+tr.priority-4 a { color: #900; }
+tr.odd.priority-4 td, tr.even.priority-4 td { border-color: #ffb4b4; }
+
+tr.odd.priority-3, table.list tbody tr.odd.priority-3:hover { color: #900; }
+tr.odd.priority-3 { background: #fee; }
+tr.even.priority-3, table.list tbody tr.even.priority-3:hover { color: #900; }
+tr.even.priority-3 { background: #fff2f2; }
+tr.priority-3 a { color: #900; }
+tr.odd.priority-3 td, tr.even.priority-3 td { border-color: #fcc; }
+
+tr.odd.priority-1, table.list tbody tr.odd.priority-1:hover { color: #559; }
+tr.odd.priority-1 { background: #eaf7ff; }
+tr.even.priority-1, table.list tbody tr.even.priority-1:hover { color: #559; }
+tr.even.priority-1 { background: #f2faff; }
+tr.priority-1 a { color: #559; }
+tr.odd.priority-1 td, tr.even.priority-1 td { border-color: #add7f3; }
+
+p.breadcrumb {
+	background-color:#EEEEEE;
+	border-bottom:1px solid white;
+	font-size:0.9em;
+	margin:-6px -10px 6px;
+	padding:6px;
+	text-indent:15px;
+}
+
+/* Fields */
+input[type="text"], textarea, select { padding: 2px; border: 1px solid #d7d7d7; }
+input[type="text"] { padding: 4px; }
+input[type="text"]:focus, textarea:focus, select:focus { border: 1px solid #888866; }
+option { border-bottom: 1px dotted #d7d7d7; }
+input#issue_subject { font-size: 200%; width: 90%; }
+
+textarea.wiki-edit { font-family: Cambria, Verdana, Serif; font-size: larger; }
+
+/* Misc */
+.box { background-color: #fcfcfc; }
+
+.contextual { font-size: 0.9em; font-family:verdana; }
+
+hr { background:#eee none repeat scroll 0% 0%; }
