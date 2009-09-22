@@ -49,4 +49,7 @@ Rails::Initializer.run do |config|
   # Define your email configuration in email.yml instead.
   # It will automatically turn deliveries on
   config.action_mailer.perform_deliveries = false
+  
+  #Added this to bypass error
+  config.action_controller.session = { :key => "_bettermeans_session", :secret => "95fd75499b43ada8cfbc538558d74312asdf" }
 end
