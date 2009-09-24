@@ -1,1 +1,2 @@
-page.replace_html "votes_#{@issue.id}", :partial => "issue_vote", :locals => {:issue => @issue}
+page.replace_html "votes_#{@voteable.id}", :partial => params[:voteable_type] + "_vote", :locals => {:issue => @voteable}
+
