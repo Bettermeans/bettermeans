@@ -1,0 +1,1 @@
+page.alert "Couldn't save your vote: You can only vote once, and you cannot vote for your own items."

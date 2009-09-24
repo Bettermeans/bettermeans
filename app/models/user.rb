@@ -44,6 +44,8 @@ class User < Principal
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
   
+  acts_as_voter #for vote_fu plugin
+  
   acts_as_customizable
   
   attr_accessor :password, :password_confirmation
