@@ -252,29 +252,19 @@ hr { background:#eee none repeat scroll 0% 0%; }
 .icon, .icon-add, .icon-time { background: none; }
 
 
-/*Added for voting*/
+/*Voting*/
 
-/*#votes_6 {float:left;}*/
 
 .issuevote { 
-	float: left;
-	background-color: #cde9a7; 
+/*	float: left;*/
 	margin: 2px 0px 1px; 
 	padding: 1px; 
-	font-size: 10px;
-	font-weight: normal;
+	font-size: 12px;
+	font-weight: bold;
 	font-family: baskerville, Times, Times New Roman, serif;
 	color:#C6C6C6;
-	font-weight: bold;
 	text-align:center;
-/*	color: #455138;*/
-	border-left: 1px #adde6b solid;
-	border-top: 1px #adde6b solid;
-	
-	-moz-border-radius-topleft: 3px; -webkit-border-top-left-radius: 3px;
-	-moz-border-radius-topright: 3px; -webkit-border-top-right-radius: 3px;
-	-moz-border-radius-bottomleft: 3px; -webkit-border-bottom-left-radius: 3px;
-	-moz-border-radius-bottomright: 3px; -webkit-border-bottom-right-radius: 3px;	
+	width:20px;
 	
 }
 

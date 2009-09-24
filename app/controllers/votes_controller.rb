@@ -51,16 +51,22 @@ class VotesController < ApplicationController
   # POST /users/:user_id/issues/:issue_id/votes.xml
   def create
 
-    @issue = Issue.find(params[:issue_id])
+    #TODO: Is there a way to cast the model from :voteable_type automatically?
+    #Depending on the type of voteable, we dig it up from a different model 
+    case params[:voteable_type]
+      when "issue"    
+        @voteable = Issue.find(params[:issue_id])      
+      when "comment"
+        #Do something else here
+      end
     
-    logger.info("CREATING VOTE")
     
     respond_to do |format|
-      if User.current.vote(@issue, params[:vote])      
+      if User.current.vote(@voteable, params[:vote])      
         # flash[:notice] = 'Vote was successfully saved.'        
-        format.js  { render :action => "create", :vote => @vote }
-        format.html { redirect_to([@issue.author, @issue]) }
-        format.xml  { render :xml => @issue, :status => :created, :location => @issue }
+        format.js  { render :action => "create", :vote => @vote, :voteable_type => params[:voteable_type] }
+        format.html { redirect_to([@voteable.author, @voteable]) }
+        format.xml  { render :xml => @voteable, :status => :created, :location => @voteable }
       else
         # flash[:notice] = 'Error saving vote'        
         format.js  { render :action => "error" }

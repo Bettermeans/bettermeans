@@ -8,22 +8,32 @@
 </div>
 
 
-<div class="issuevote" id="votes_<%= @issue.id %>"><%= render :partial => "votes/issue_vote", :locals => {:issue => @issue} %></div>    
 
 
 <h2><%= @issue.tracker.name %> #<%= @issue.id %></h2>
 
 
 
+
 <div class="<%= @issue.css_classes %> details">
         <%= avatar(@issue.author, :size => "64") %>
+        <table>
+          <tr>
+            <td>
+        <div class="issuevote" id="votes_<%= @issue.id %>"><%= render :partial => "votes/issue_vote", :locals => {:issue => @issue} %></div>            
+          </td>
+          <td>
+
         <h3><%=h @issue.subject %></h3>
-        <p class="author">
-        <%= authoring @issue.created_on, @issue.author %>.
-        <% if @issue.created_on != @issue.updated_on %>
-        <%= l(:label_updated_time, time_tag(@issue.updated_on)) %>.
-        <% end %>
-        </p>
+          <p class="author">
+            <%= authoring @issue.created_on, @issue.author %>.
+            <% if @issue.created_on != @issue.updated_on %>
+            <%= l(:label_updated_time, time_tag(@issue.updated_on)) %>.
+            <% end %>
+          </p>
+          <td>
+            </tr>
+          </table>
 
 <table class="attributes">
 <tr>
