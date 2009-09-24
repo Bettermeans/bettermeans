@@ -1,0 +1,8 @@
+<div id="voteable_<%= @voteable.id %>">
+
+		..... Show some fields .....
+
+	<div id="votes_<%= @voteable.id %>">
+		<%= render :partial => "votes/voteable_vote", :locals => {:voteable => @voteable} %>
+	</div>
+</div>

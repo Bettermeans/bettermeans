@@ -1,0 +1,55 @@
+<% 
+	# You can't vote if it is your quote, 
+	# you are not logged in, 
+	# or you have already voted on this item
+	
+	if issue.author == User.current ||
+	!User.current.logged? ||
+	User.current.voted_on?(@issue)
+%>
+
+<table class="issuevotes">
+  <tr>
+    <td>
+	  </td>
+	</tr>	
+	<tr>
+	  <td>
+	    <%= issue.votes_for - issue.votes_against %>
+	  </td>
+  </tr>
+  <tr>	
+    <td>
+ 	</td>
+ 	</tr>
+</table>
+
+<% else %>
+
+<table class="issuevotes">
+  <tr>
+    <td>
+	<%= link_to_remote image_tag("/images/aupgray.gif", :size => "15x14", :border => 0), 
+		:url => user_issue_votes_path(User.current, issue, :vote => :true, :format => :js), 
+		:method => :post
+	%> 
+	  </td>
+	</tr>	
+	<tr>
+	  <td>
+	    <%= issue.votes_for - issue.votes_against %>
+	  </td>
+  </tr>
+  <tr>	
+    <td>
+	<%= link_to_remote image_tag("/images/adowngray.gif", :size => "15x14", :border => 0), 
+		:url => user_issue_votes_path(User.current, issue, :vote => :false, :format => :js), 
+		:method => :post
+ 	%> 
+ 	</td>
+ 	</tr>
+</table>
+
+<% end %>
+
+

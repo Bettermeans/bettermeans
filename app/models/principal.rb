@@ -30,7 +30,8 @@ class Principal < ActiveRecord::Base
     {:conditions => ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?", s, s, s],
      :order => 'type, login, lastname, firstname'
     }
-  }
+  } 
+  
   
   def <=>(principal)
     self.to_s.downcase <=> principal.to_s.downcase

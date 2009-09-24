@@ -248,6 +248,14 @@ ActionController::Routing::Routes.draw do |map|
     sys.connect 'sys/projects.:format', :action => 'projects', :conditions => {:method => :get}
     sys.connect 'sys/projects/:id/repository.:format', :action => 'create_project_repository', :conditions => {:method => :post}
   end
+  
+  # Vote fu mappings
+  map.resources :users do |user|
+    user.resources :votes
+    user.resources :issue do |mv|
+      mv.resources :votes
+    end
+  end
  
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
