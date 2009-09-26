@@ -57,7 +57,13 @@ module PeteOnRails
         def options_for_karma (object, options = {})
             #GuillaumeNM : 2009-01-30 Adding condition for SQLite3
             conditions = ["u.id = ? AND vote = ?" , self[:id] , true]
+            logger.info "CLASS NAME = " + object.table_name
+          if object.table_name == "issues"
+            logger.info "EXCEPTION FOR ISSUE TABLE ACTIVATED"
+            joins = ["inner join votes v on #{object.table_name}.id = v.voteable_id", "inner join #{self.class.table_name} u on u.id = issues.author_id"]
+          else
             joins = ["inner join votes v on #{object.table_name}.id = v.voteable_id", "inner join #{self.class.table_name} u on u.id = #{object.name.tableize}.#{self.class.name.foreign_key}"]
+          end  
             { :joins => joins.join(" "), :conditions => conditions }.update(options)          
         end
         
