@@ -56,8 +56,8 @@ class VotesController < ApplicationController
     case params[:voteable_type]
       when "issue"    
         @voteable = Issue.find(params[:issue_id])      
-      when "comment"
-        #Do something else here
+      when "journal"
+        @voteable = Journal.find(params[:journal_id])      
       end
     
     

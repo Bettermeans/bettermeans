@@ -252,6 +252,9 @@ ActionController::Routing::Routes.draw do |map|
   # Vote fu mappings
   map.resources :users do |user|
     user.resources :votes
+    user.resources :journal do |mv|
+      mv.resources :votes    
+    end
     user.resources :issue do |mv|
       mv.resources :votes
     end

@@ -284,3 +284,19 @@ hr { background:#eee none repeat scroll 0% 0%; }
 	padding: 0px;
 	margin: 0px;
 }
+
+.journalvote {
+	float:right; 
+	white-space: nowrap; 
+	line-height:1.4em;
+	padding-left: 10px; 
+	font-size:0.9em;
+	margin-top: 1.4em; 
+	margin-right: 1em; f
+	padding: 1px; 
+	font-weight: bold;
+	font-family: baskerville, Times, Times New Roman, serif;
+	color:#060606;
+	text-align:center;
+/*	float: right;*/
+}
