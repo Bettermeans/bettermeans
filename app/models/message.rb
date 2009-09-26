@@ -35,6 +35,8 @@ class Message < ActiveRecord::Base
   acts_as_activity_provider :find_options => {:include => [{:board => :project}, :author]},
                             :author_key => :author_id
   acts_as_watchable
+  
+  acts_as_voteable
     
   attr_protected :locked, :sticky
   validates_presence_of :board, :subject, :content

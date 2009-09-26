@@ -58,6 +58,10 @@ class VotesController < ApplicationController
         @voteable = Issue.find(params[:issue_id])      
       when "journal"
         @voteable = Journal.find(params[:journal_id])      
+      when "message"
+        @voteable = Message.find(params[:message_id])      
+      # when "reply"
+      #         @reply = Message.find(params[:reply_id])      
       end
     
     

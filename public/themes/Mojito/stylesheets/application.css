@@ -285,6 +285,45 @@ hr { background:#eee none repeat scroll 0% 0%; }
 	margin: 0px;
 }
 
+.messagevote {
+	-moz-border-radius-bottomleft:3px;
+	-moz-border-radius-bottomright:3px;
+	-moz-border-radius-topleft:3px;
+	-moz-border-radius-topright:3px;
+	background-color:#CDE9A7;
+	border:1px solid #ADDE6B;
+	color:#455138;
+	font-family:baskerville,Times,Times New Roman,serif;
+	font-size:21px;
+	font-weight:normal;
+	margin:2px 0 10px;
+	padding:0px 0px 0px 10px;
+	flaot: left;
+}
+
+.messagevote table{
+	padding: 0px;
+	margin: 0px;
+	font-size:12px;
+}
+
+.messagevote tr{
+	padding: 0px;
+	margin: 0px;
+/*	width: 15px;*/
+}
+
+.messagevote td{
+	padding: 0px 2px 0px 0px;
+	margin: 0px;
+	text-align: center;
+}
+
+.messagevote td#topic{
+	font-size: 21px;
+	vertical-align: top;
+}
+
 .journalvote {
 	float:right; 
 	white-space: nowrap; 
