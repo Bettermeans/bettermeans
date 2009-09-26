@@ -18,6 +18,7 @@
 	<% unless @user.last_login_on.nil? %>
 		<li><%=l(:field_last_login_on)%>: <%= format_date(@user.last_login_on) %></li>
 	<% end %>
+	<li>Total Kudos: <%= @user.karma %></li>
 </ul>
 
 <% unless @memberships.empty? %>
