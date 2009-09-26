@@ -25,6 +25,8 @@ class Journal < ActiveRecord::Base
   has_many :details, :class_name => "JournalDetail", :dependent => :delete_all
   attr_accessor :indice
   
+  acts_as_voteable #for vote_fu plugin  
+  
   acts_as_event :title => Proc.new {|o| status = ((s = o.new_status) ? " (#{s})" : nil); "#{o.issue.tracker} ##{o.issue.id}#{status}: #{o.issue.subject}" },
                 :description => :notes,
                 :author => :user,

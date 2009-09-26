@@ -1,0 +1,14 @@
+<% 
+	# You can't vote if it is your quote, 
+	# you are not logged in, 
+	# or you have already voted on this item
+	
+	# if issue.author == User.current ||
+	#  !User.current.logged? ||
+	#  User.current.voted_on?(issue)
+%>
+
+<%= @voteable.votes_for - @voteable.votes_against %>
+
+
+

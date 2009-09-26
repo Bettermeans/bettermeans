@@ -17,18 +17,46 @@
 
 module JournalsHelper
   def render_notes(journal, options={})
+    votingcontent = ''
     content = ''
     editable = journal.editable_by?(User.current)
     links = []
     if !journal.notes.blank?
+      
       links << link_to_remote(image_tag('comment.png'),
                               { :url => {:controller => 'issues', :action => 'reply', :id => journal.journalized, :journal_id => journal} },
                               :title => l(:button_quote)) if options[:reply_links]
+                              
       links << link_to_in_place_notes_editor(image_tag('edit.png'), "journal-#{journal.id}-notes", 
                                              { :controller => 'journals', :action => 'edit', :id => journal },
                                                 :title => l(:button_edit)) if editable
+      
+      # Voting on journal items
+       unless journal.user_id == User.current.id ||
+    	  !User.current.logged? ||
+    	  User.current.voted_on?(journal)
+        votingcontent << link_to_remote (image_tag('/images/aupgray.gif', :size => "15x14", :border => 0), 
+        {
+    		  :url => user_journal_votes_path(User.current, journal, :vote => :true, :format => :js, :voteable_type => "journal"), 
+    		  :method => :post
+  		    })
+  		    votingcontent << link_to_remote (image_tag('/images/adowngray.gif', :size => "15x14", :border => 0), 
+          {
+    		    :url => user_journal_votes_path(User.current, journal, :vote => :false, :format => :js, :voteable_type => "journal"), 
+    		    :method => :post
+  		      })
+		    end
+		    
+		    #We show total votes regardless 
+  		  votingcontent << " " + String(journal.votes_for - journal.votes_against)
+  		  
+  		
+
+    	
+    		
     end
     content << content_tag('div', links.join(' '), :class => 'contextual') unless links.empty?
+    content << content_tag('div', votingcontent, :id => "votes_" + String(journal.id), :class => 'journalvote')        
     content << textilizable(journal, :notes)
     css_classes = "wiki"
     css_classes << " editable" if editable
