@@ -46,6 +46,7 @@ class User < Principal
   
   has_karma :issues
   has_karma :journals
+  has_karma :messages
   
   acts_as_voter #for vote_fu plugin
   
