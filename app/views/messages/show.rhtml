@@ -8,10 +8,19 @@
     <%= link_to(l(:button_delete), {:action => 'destroy', :id => @topic}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del') if @message.destroyable_by?(User.current) %>
 </div>
 
-<h2><%=h @topic.subject %></h2>
+
+<div class="messagevote" id="votes_<%= @message.id %>"><%= render :partial => "votes/message_vote", :locals => {:topic => @topic} %></div>            
+    <!-- <h2><%#=h @topic.subject %></h2> -->
+    
+
+
 
 <div class="message">
+  
+  
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
+  
+  
 <div class="wiki">
 <%= textilizable(@topic.content, :attachments => @topic.attachments) %>
 </div>

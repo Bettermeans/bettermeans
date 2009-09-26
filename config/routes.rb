@@ -255,6 +255,12 @@ ActionController::Routing::Routes.draw do |map|
     user.resources :journal do |mv|
       mv.resources :votes    
     end
+    user.resources :message do |mv|
+      mv.resources :votes    
+    end
+    user.resources :reply do |mv|
+      mv.resources :votes    
+    end
     user.resources :issue do |mv|
       mv.resources :votes
     end
