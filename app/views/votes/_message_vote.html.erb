@@ -1,0 +1,63 @@
+<% 
+	# You can't vote if it is your quote, 
+	# you are not logged in, 
+	# or you have already voted on this item
+	
+	if topic.author == User.current ||
+	!User.current.logged? ||
+	User.current.voted_on?(topic)
+%>
+
+<table class="messagevotes">
+ 
+  <tr>
+    <td>
+	  </td>
+	</tr>	
+	<tr>
+	  <td>
+	    <%= topic.votes_for - topic.votes_against %>
+	  </td>
+	  <td id="topic" rowspan="3">
+	     <%=h topic.subject %>
+	  </td>
+  </tr>
+  <tr>	
+    <td>
+ 	</td>
+ 	</tr>
+</table>
+
+<% else %>
+
+<table class="messagevotes">
+ 
+  <tr>
+    <td>
+	<%= link_to_remote image_tag("/images/aupgray.gif", :size => "15x14", :border => 0), 
+		:url => user_message_votes_path(User.current, topic, :vote => :true, :format => :js, :voteable_type => "message"), 
+		:method => :post
+	%> 
+	  </td>
+	</tr>	
+	<tr>
+	  <td>
+	    <%= topic.votes_for - topic.votes_against %>
+	  </td>
+	  <td id="topic" rowspan="3">
+	     <%=h topic.subject %>
+	  </td>
+  </tr>
+  <tr>	
+    <td>
+	<%= link_to_remote image_tag("/images/adowngray.gif", :size => "15x14", :border => 0), 
+	  :url => user_message_votes_path(User.current, topic, :vote => :false, :format => :js, :voteable_type => "message"), 
+		:method => :post
+ 	%> 
+ 	</td>
+ 	</tr>
+</table>
+
+<% end %>
+
+
