@@ -44,7 +44,7 @@
   <tr>	
     <td>
 	<%= link_to_remote image_tag("/images/adowngray.gif", :size => "15x14", :border => 0), 
-		:url => user_issue_votes_path(User.current, issue, :vote => :false, :format => :js), 
+	  :url => user_issue_votes_path(User.current, issue, :vote => :false, :format => :js, :voteable_type => "issue"), 
 		:method => :post
  	%> 
  	</td>

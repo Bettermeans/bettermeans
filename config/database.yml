@@ -17,7 +17,7 @@ production:
 development:
   adapter: mysql
   database: redmine_development
-  host: mbpro
+  host: localhost
   username: root
   password: tree
   encoding: utf8
