@@ -1,0 +1,26 @@
+<% 
+	# You can't vote if it is your quote, 
+	# you are not logged in, 
+	# or you have already voted on this item
+	
+	if reply.author == User.current ||
+	!User.current.logged? ||
+	User.current.voted_on?(reply)
+%>
+
+	    <%= reply.votes_for - reply.votes_against -%> points
+
+<% else -%>
+
+	<%= link_to_remote image_tag("/images/aupgray.gif", :size => "15x14", :border => 0), 
+		:url => user_reply_votes_path(User.current, reply, :vote => :true, :format => :js, :voteable_type => "reply"), 
+		:method => :post
+	-%> 
+	<%= link_to_remote image_tag("/images/adowngray.gif", :size => "15x14", :border => 0), 
+	  :url => user_reply_votes_path(User.current, reply, :vote => :false, :format => :js, :voteable_type => "reply"), 
+		:method => :post
+ 	-%> 
+  <%= reply.votes_for - reply.votes_against -%> points
+<% end -%>
+
+
