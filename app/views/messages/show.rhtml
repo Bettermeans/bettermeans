@@ -37,6 +37,8 @@
       <%= link_to(image_tag('edit.png'), {:action => 'edit', :id => message}, :title => l(:button_edit)) if message.editable_by?(User.current) %>
       <%= link_to(image_tag('delete.png'), {:action => 'destroy', :id => message}, :method => :post, :confirm => l(:text_are_you_sure), :title => l(:button_delete)) if message.destroyable_by?(User.current) %>
     </div>
+    <div class="replyvote" id="votes_<%= message.id %>"><%= render :partial => "votes/reply_vote", :locals => {:reply => message} %></div>            
+    
   <h4>
     <%= link_to h(message.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :anchor => "message-#{message.id}" } %>
     -

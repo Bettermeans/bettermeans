@@ -65,7 +65,6 @@ module PeteOnRails
         end
 
         def vote(voteable, vote)
-          logger.info("SELF CLASS NAME:" + self.class.name)
           vote = Vote.new(:vote => vote, :voteable => voteable, :voter_id => self.id, :voter_type => self.class.name)
           vote.save
         end

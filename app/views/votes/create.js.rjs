@@ -5,6 +5,9 @@ case params[:voteable_type]
   when "message"
     logger.info("CREATING TOPIC")
     page.replace_html "votes_#{@voteable.id}", :partial => params[:voteable_type] + "_vote", :locals => {:topic => @voteable}
+  when "reply"
+    logger.info("CREATING REPLY")
+    page.replace_html "votes_#{@voteable.id}", :partial => params[:voteable_type] + "_vote", :locals => {:reply => @voteable}
   else 
     page.replace_html "votes_#{@voteable.id}", :partial => params[:voteable_type] + "_vote", :locals => {:issue => @voteable}
   end
