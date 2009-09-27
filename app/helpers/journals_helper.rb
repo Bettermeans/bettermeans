@@ -48,7 +48,7 @@ module JournalsHelper
 		    end
 		    
 		    #We show total votes regardless 
-  		  votingcontent << " " + String(journal.votes_for - journal.votes_against)
+  		  votingcontent << " " + String(journal.votes_for - journal.votes_against) + " points"
   		  
   		
 

@@ -69,6 +69,9 @@ module PeteOnRails
           when "journals"
             conditions = ["u.id = ? AND vote = ? AND v.voteable_type = ?" , self[:id] , true, "journal"] #TODO this could be DRYER
             joins = ["inner join votes v on #{object.table_name}.id = v.voteable_id", "inner join #{self.class.table_name} u on u.id = #{object.name.tableize}.#{self.class.name.foreign_key}"]
+          when "reply"
+            conditions = ["u.id = ? AND vote = ? AND v.voteable_type = ?" , self[:id] , true, "reply"] #TODO this could be DRYER
+            joins = ["inner join votes v on #{object.table_name}.id = v.voteable_id", "inner join #{self.class.table_name} u on u.id = messages.author_id"]
           end  
             { :joins => joins.join(" "), :conditions => conditions }.update(options)          
         end
