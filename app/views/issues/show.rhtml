@@ -45,6 +45,7 @@
     <th class="due-date"><%=l(:field_due_date)%>:</th><td class="due-date"><%= format_date(@issue.due_date) %></td>
 </tr>
 <tr>
+
     <th class="assigned-to"><%=l(:field_assigned_to)%>:</th><td><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
     <th class="progress"><%=l(:field_done_ratio)%>:</th><td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
 </tr>
