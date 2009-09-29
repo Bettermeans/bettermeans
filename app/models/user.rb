@@ -41,6 +41,8 @@ class User < Principal
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   belongs_to :auth_source
   
+  has_many :commit_requests, :dependent => :delete_all
+  
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
   

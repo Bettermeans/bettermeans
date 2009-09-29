@@ -744,6 +744,8 @@ en:
   button_update: Update
   button_configure: Configure
   button_quote: Quote
+  button_request_commitment: Request Commitment #new
+  button_request_commitment_remove: Recind Commitment Request #new
   
   status_active: active
   status_registered: registered
