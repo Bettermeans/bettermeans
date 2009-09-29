@@ -1,0 +1,1 @@
+page.alert "Couldn't send your commitment request. You can only request items that are not yet committed to someone."

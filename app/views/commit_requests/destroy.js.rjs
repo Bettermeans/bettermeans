@@ -1,0 +1,2 @@
+logger.info("PARAMS FOR DESTROY #{params.inspect}")
+page.replace_html "commit_request", :partial => "show", :locals => {:issue => params['issue_id'], :user => params['user_id']}
