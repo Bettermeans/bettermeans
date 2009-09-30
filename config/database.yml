@@ -13,6 +13,14 @@ production:
   username: redmine
   password: tree
   encoding: utf8
+
+# development:
+#   adapter: postgresql
+#   database: redmine_development
+#   host: localhost
+#   username: postgres
+#   password: tree
+
  
 development:
   adapter: mysql
