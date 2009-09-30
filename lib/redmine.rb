@@ -43,6 +43,8 @@ Redmine::AccessControl.map do |map|
     map.permission :edit_own_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :move_issues, {:issues => :move}, :require => :loggedin
     map.permission :delete_issues, {:issues => :destroy}, :require => :member
+    map.permission :push_commitment, {:issues => [:assign]} #Can send request for someone to comitt to a task
+    map.permission :pull_commitment, {:issues => [:assign]} #Can pull request. i.e. ask to be the person that the task is commited to.
     # Queries
     map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
     map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
