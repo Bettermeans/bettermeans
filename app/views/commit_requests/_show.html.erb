@@ -1,0 +1,23 @@
+<span id="commitrequest">
+
+<% @crid = CommitRequest.request_id(user,issue) 
+
+if (@crid != nil)
+
+%>
+
+<%= link_to_remote l(:button_request_commitment_remove), 
+{:url => commit_request_path(:id => @crid, :format => :js, :user_id => user, :issue_id => issue), :method => 'delete'}, 
+{:id =>'cr_button'}
+%>
+
+<%- else -%>
+
+<%= link_to_remote l(:button_request_commitment), 
+{:url => {:controller => 'commit_requests', :action => 'create', :format => :js, :user_id => user, :issue_id => issue}}, 
+{:id =>'cr_button'}
+%>
+
+<%- end -%>
+
+</span>
