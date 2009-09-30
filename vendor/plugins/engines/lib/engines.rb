@@ -48,7 +48,8 @@ module Engines
   # The name of the public directory to mirror public engine assets into.
   # Defaults to <tt>RAILS_ROOT/public/plugin_assets</tt>.
   mattr_accessor :public_directory
-  self.public_directory = File.join(RAILS_ROOT, 'public', 'plugin_assets')
+  # self.public_directory = File.join(RAILS_ROOT, 'public', 'plugin_assets')
+  self.public_directory = File.join(RAILS_ROOT, 'tmp')
 
   # The table in which to store plugin schema information. Defaults to
   # "plugin_schema_info".
