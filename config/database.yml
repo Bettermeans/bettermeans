@@ -23,12 +23,11 @@ production:
 
  
 development:
-  adapter: mysql
+  adapter: postgresql
   database: redmine_development
   host: localhost
-  username: root
+  username: postgres
   password: tree
-  encoding: utf8
 
 test:
   adapter: mysql
