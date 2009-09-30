@@ -1,7 +1,12 @@
 <div class="attributes">
 <div class="splitcontentleft">
 <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
-<p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
+
+<% if User.current.allowed_to?(:request_commitment, @project) %>
+<% logger.info("ALLOWED TO REQUEST COMMITMENT") %>
+  <p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
+<% end %>
+
 </div>
 <div class="splitcontentright">
 <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>

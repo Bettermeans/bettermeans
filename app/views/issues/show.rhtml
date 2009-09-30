@@ -1,4 +1,7 @@
 <div class="contextual">
+<%- if User.current.allowed_to?(:pull_commitment, @project) -%>
+  <span id="commit_request">  <%= render :partial => "commit_requests/show", :locals => {:issue => @issue, :user => User.current} %> </span>
+<%- end -%>
 <%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time-add' %>
 <%= watcher_tag(@issue, User.current) %>
@@ -45,6 +48,7 @@
     <th class="due-date"><%=l(:field_due_date)%>:</th><td class="due-date"><%= format_date(@issue.due_date) %></td>
 </tr>
 <tr>
+
     <th class="assigned-to"><%=l(:field_assigned_to)%>:</th><td><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
     <th class="progress"><%=l(:field_done_ratio)%>:</th><td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
 </tr>
