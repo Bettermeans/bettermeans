@@ -10,3 +10,12 @@ production:
     user_name: ac43663
     password: ctvw9zfra
   
+development:
+  delivery_method: :smtp
+  smtp_settings:
+    address: NOEMAILSENTOUT
+    port: 26
+    domain: heroku.com
+    authentication: :login
+    user_name: ac43663
+    password: ctvw9zfra

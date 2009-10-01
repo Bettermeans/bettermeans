@@ -1,0 +1,13 @@
+= Exceptional plugin for Ruby on Rails
+
+This plugin posts exception data to Exceptional (http://getexceptional.com). Data about the request, session, environment and a backtrace of the exception is transmitted.
+
+= Exceptional
+
+Exceptional (http://getexceptional.com) is a web-based exception tracking and managing system for Ruby on Rails folks and their apps.
+
+= Installation
+
+For installation instructions, follow the steps displayed after adding a new app to your account. Please send any questions or comments to feedback@getexceptional.com.
+
+Copyright © 2008, 2009 Contrast.

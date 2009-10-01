@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+begin
+  require 'ginger'
+rescue LoadError
+  puts <<-INSTALL_GINGER
+Install ginger to test plugin against multiple environments:
+
+sudo gem install freelancing-god-ginger --source=http://gems.github.com
+
+More details: http://github.com/freelancing-god/ginger
+  INSTALL_GINGER
+  exit 0
+end
+
+require 'rake'
+
+if ARGV.length == 0
+  puts <<-USAGE
+ginger #{Ginger::Version::String}
+Use ginger to run specs for each scenario defined. Scenarios must be set out in
+a file called ginger_scenarios.rb wherever this tool is run. Once they're
+defined, then you can run this tool and provide the rake task that would
+normally be called.
+
+Examples:
+  ginger spec
+  ginger test
+  ginger spec:models
+  USAGE
+  exit 0
+end
+
+file_path = File.join Dir.pwd, ".ginger"
+
+File.delete(file_path) if File.exists?(file_path)
+
+scenarios = Ginger::Configuration.instance.scenarios
+puts "No Ginger Scenarios defined" if scenarios.empty?
+
+scenarios.each_with_index do |scenario, index|
+  puts <<-SCENARIO
+
+-------------------
+Ginger Scenario: #{scenario.name || index+1}
+-------------------
+  SCENARIO
+
+  File.open('.ginger', 'w') { |f| f.write index.to_s }
+  system("rake #{ARGV.join(" ")}") || system("rake.bat #{ARGV.join(" ")}")
+end
+
+File.delete(file_path) if File.exists?(file_path)
