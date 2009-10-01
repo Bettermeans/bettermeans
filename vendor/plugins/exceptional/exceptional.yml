@@ -1,0 +1,34 @@
+# here are the settings that are common to all environments
+common: &default_settings
+  # You must specify your Exceptional API key here.
+  api-key: 6e2a223d45e17bdeac6914c20665b26524ad6344
+  # Exceptional creates a separate log file from your application's logs
+  # available levels are debug, info, warn, error, fatal
+  log-level: info
+  # The exceptional agent sends data via regular http by default
+  # Setting this value to true will send data over SSL, increasing security
+  # There will be an additional CPU overhead in encrypting the data, however
+  # as long as your deployment environment is not Passenger (mod_rails), this
+  # happens in the background so as not to incur a page wait for your users.
+  ssl: false
+  
+development:
+  <<: *default_settings
+  # Normally no reason to collect exceptions in development
+  # NOTE: for trial purposes you may want to enable exceptional in development
+  enabled: true
+  
+test:
+  <<: *default_settings
+  # No reason to collect exceptions when running tests by default
+  enabled: false
+
+production:
+  <<: *default_settings
+  enabled: true
+
+staging:
+  # It's common development practice to have a staging environment that closely
+  # mirrors production, by default catch errors in this environment too.
+  <<: *default_settings
+  enabled: true
