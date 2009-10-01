@@ -1,0 +1,3 @@
+[submodule "vendor/plugins/redmine_s3"]
+	path = vendor/plugins/redmine_s3
+	url = git://github.com/tigrish/redmine_s3.git
