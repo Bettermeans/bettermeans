@@ -1,0 +1,6 @@
+0.0.6 - Added a better 'safe' to_json method which works more effectively for rails integration avoiding cyclic reference and un-jsonable data
+0.0.5 - Fixed a bug in the plugin where request.env was being modified directly. dup to solve issues.
+0.0.4 - Restructured the plugin to extract all different concerns into self contained modules, will give a better base to extend. Also plays nicer with Rdoc + singleton classes
+0.0.3 - Dropped background queing of exceptions, send them all directly. Fixed issues with session/environment data. Working with rails 2.3 (some hacks needed to get there, need to refactor.)
+0.0.2 - Fix a bug introduced with nil sessions
+0.0.1 - First Version
