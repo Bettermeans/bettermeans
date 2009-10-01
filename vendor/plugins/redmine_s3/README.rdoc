@@ -1,0 +1,20 @@
+= S3 plugin for Redmine
+
+== Description
+This Redmine[http://www.redmine.org] plugin makes file attachments be stored on Amazon S3 rather than on the local filesystem.
+
+== Installation
+1. Make sure Redmine is installed and cd into it's root directory
+2. git clone git://github.com/tigrish/redmine_s3.git vendor/plugins/redmine_s3
+3. cp vendor/plugins/redmine_s3/config/s3.yml.example config/s3.yml
+4. Edit config/s3.yml with your favourite editor
+5. Restart mongrel/upload to production/whatever
+
+== Options
+* The bucket specified in s3.yml will be created automatically when the plugin is loaded (this is generally when the server starts).
+* If you have created a CNAME entry for your bucket set the cname_bucket option to true in s3.yml and your files will be served from that domain. 
+* After files are uploaded they are made public. This seems acceptable as it is also Redmine's policy for file storage.
+
+== Reporting Bugs and Getting Help
+
+Bugs and feature requests may be filed at http://projects.tigrish.com/projects/redmine-s3/issues
