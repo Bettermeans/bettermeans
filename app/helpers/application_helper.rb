@@ -225,6 +225,7 @@ module ApplicationHelper
     author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
     l(options[:label] || :label_added_time_by, :author => author_tag, :age => time_tag(created))
   end
+
   
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)

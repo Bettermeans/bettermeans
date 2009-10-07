@@ -6,14 +6,10 @@ class CommitRequest < ActiveRecord::Base
   def self.committed?(user, issue)
     ! (find(:first, :conditions => ["user_id = ? AND issue_id = ?", user, issue]) == nil)
   end
-  
-  def self.request_id(user, issue)
-    @cr = find(:first, :conditions => ["user_id = ? AND issue_id = ?", user, issue])
-    unless (@cr == nil)
-      @cr.id
-    else
-      nil
-    end    
+
+  #Returns request for current user and issue
+  def self.request(user, issue)
+    @cr = find(:first, :conditions => ["user_id = ? AND issue_id = ?", user, issue], :order => "updated_at DESC")
   end
   
 end

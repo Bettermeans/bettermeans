@@ -19,6 +19,7 @@ require 'csv'
 
 module IssuesHelper
   include ApplicationHelper
+  include CommitRequestsHelper
 
   def render_issue_tooltip(issue)
     @cached_label_start_date ||= l(:field_start_date)
@@ -65,6 +66,8 @@ module IssuesHelper
     end
     @sidebar_queries
   end
+  
+
 
   def show_detail(detail, no_html=false)
     case detail.property
