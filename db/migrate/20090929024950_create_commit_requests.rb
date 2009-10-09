@@ -3,7 +3,8 @@ class CreateCommitRequests < ActiveRecord::Migration
     create_table :commit_requests do |t|
       t.integer :user_id, :default => 0, :null => false
       t.integer :issue_id, :default => 0, :null => false
-      t.integer :response, :default => 0, :null => false
+      t.integer :responder_id, :default => 0, :null => true #Id of user who responded. If same user recinded request, then their id is in the recinding as well
+      t.integer :response, :default => 0, :null => false # 0- Request No response 1-Request recinded 2-Request Declined 3-Request Accepted 4-Offer no response 5-Offer recinded 6-Offer accepted 7-Offer Declined
       
       t.timestamps
     end
