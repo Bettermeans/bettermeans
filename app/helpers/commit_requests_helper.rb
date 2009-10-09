@@ -45,8 +45,8 @@ module CommitRequestsHelper
     case response
       when 0 then 
         if push_allowed
-          content << linebreak << link_to_remote(l(:button_request_commitment_accept), {:url => commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 2, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button'})
-          content << " | " << link_to_remote(l(:button_request_commitment_decline), {:url => commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 3, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button'})
+          content << linebreak << link_to_remote(l(:button_request_commitment_accept), {:url => commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 2, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-accept'})
+          content << " | " << link_to_remote(l(:button_request_commitment_decline), {:url => commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 3, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-decline'})
         end
       when 1 then content << linebreak << l(:label_recinded, :age => time_tag(updated))     
       when 2 then 
@@ -56,10 +56,10 @@ module CommitRequestsHelper
       when 3 then content << linebreak << l(:label_declined_by, :responder => responder_tag, :age => time_tag(updated))     
       when 4 then 
         if User.current.id == responder_id #if this offer is made to me
-          content << linebreak << link_to_remote(l(:button_request_commitment_accept), {:url => commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 6, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button'})
-          content << " | " << link_to_remote(l(:button_request_commitment_decline), {:url => commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 7, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button'})
+          content << linebreak << link_to_remote(l(:button_request_commitment_accept), {:url => commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 6, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-accept'})
+          content << " | " << link_to_remote(l(:button_request_commitment_decline), {:url => commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 7, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-decline'})
         elsif User.current.id == author_id #if this offer is BY me
-          content << linebreak << link_to_remote(l(:button_request_commitment_withdraw), {:url => commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 5, :responder_id => responder_id, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button'})
+          content << linebreak << link_to_remote(l(:button_request_commitment_withdraw), {:url => commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 5, :responder_id => responder_id, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-cancel'})
         end
       when 5 then content << linebreak << l(:label_recinded, :age => time_tag(updated))     
       when 6 then content << linebreak << l(:label_accepted, :age => time_tag(updated))     
@@ -78,6 +78,7 @@ module CommitRequestsHelper
     @label = ''
     @response = ''
     @action = ''
+    @class = ''
     
     logger.info("ISSUE #{issue} USER #{user} ISSUEASSIGNED #{@issue.assigned_to} PUSH ALLOWED #{push_allowed}")
     
@@ -86,23 +87,25 @@ module CommitRequestsHelper
       @label = l(:button_request_commitment_giveup)
       @response = 8
       @action = 'update'
+      @class = 'icon-cr-cancel'
       
       if (@cr == nil) #Used for migration. Some issues have been assigned, but don't have commitment requests (before commitment requests were implemented!)
         #Let's create a commitment request
         @cr = CommitRequest.new({:user_id => User.current.id, :response => 2, :responder_id => User.current.id, :created_at => @issue.created_on, :updated_at => @issue.updated_on, :issue_id => @issue.id})
         @cr.save
       end
-      
     elsif (@cr == nil)
        #No commit requests from this user to this issue, 
-       if push_allowed #they can't just take this, they have to request
+       if push_allowed #they have the authority, they can take owneship
          @label = l(:button_request_commitment_take)
          @response = 2
          @action = 'create'
-       else #they have the authority, they can take owneship
+         @class = 'icon-cr-take'
+       else #they can't just take this, they have to request
          @label = l(:button_request_commitment_request)
          @response = 0
          @action = 'create'         
+         @class = 'icon-cr-request'
        end
     else
       case @cr.response
@@ -110,16 +113,19 @@ module CommitRequestsHelper
         @label = l(:button_request_commitment_remove)
         @response = 1
         @action = 'update'
+        @class = 'icon-cr-cancel'
       when 1..8 then #Requested and recinded before, or requested and denied, or requested and accepted so they can request again
           #No commit requests from this user to this issue, 
           if push_allowed #they can't just take this, they have to request
             @label = l(:button_request_commitment_take) 
             @response = 2
             @action = 'create'
+            @class = 'icon-cr-request'
           else #they have the authority, they can take owneship
             @label = l(:button_request_commitment_request)
             @response = 0
-            @action = 'create'         
+            @action = 'create'
+            @class = 'icon-cr-take'         
           end
       # when 4 then #Offered, without response, I have to take back my offer (before claiming it for myself)
       #         @label = l(:button_request_commitment_remove_offer)
@@ -127,15 +133,17 @@ module CommitRequestsHelper
       #         @action = 'update'
       end
     end    
+    
+    @class = 'icon ' + @class
 
     if @action == 'create'
       link_to_remote @label, 
                 {:url => {:controller => 'commit_requests', :action => 'create', :format => :js, :user_id => User.current.id, :issue_id => issue, :response => @response, :push_allowed => push_allowed}}, 
-                {:id =>'cr_button'}
+                {:id =>'cr_button', :class => @class}
     elsif @action == 'update'    
       link_to_remote @label, 
               {:url => commit_request_path(:id => @cr, :format => :js, :user_id => user, :issue_id => issue, :response => @response, :responder_id => user, :updated_at => @cr.updated_at, :created_at => @cr.created_at, :push_allowed => push_allowed), :method => 'put'}, 
-                {:id =>'cr_button'}      
+                {:id =>'cr_button', :class => @class}      
     end    
   end
   
