@@ -167,7 +167,7 @@ en:
   mail_subject_account_activation_request: "{{value}} account activation request"
   mail_body_account_activation_request: "A new user ({{value}}) has registered. The account is pending your approval:"
   mail_subject_reminder: "{{count}} issue(s) due in the next days"
-  mail_body_reminder: "{{count}} issue(s) that are assigned to you are due in the next {{days}} days:"
+  mail_body_reminder: "{{count}} issue(s) that are owned by you are due in the next {{days}} days:" #updated
   mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
   mail_body_wiki_content_added: "The '{{page}}' wiki page has been added by {{author}}."
   mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
@@ -252,7 +252,7 @@ en:
   field_is_filter: Used as a filter
   field_issue_to: Related issue
   field_delay: Delay
-  field_assignable: Issues can be assigned to this role
+  field_assignable: Issues can be owned by this role
   field_redirect_existing_links: Redirect existing links
   field_estimated_hours: Estimated time
   field_column_names: Columns
@@ -431,7 +431,7 @@ en:
   label_logout: Sign out
   label_help: Help
   label_reported_issues: Reported issues
-  label_assigned_to_me_issues: Issues assigned to me
+  label_assigned_to_me_issues: Issues owned by me
   label_last_login: Last connection
   label_registered_on: Registered on
   label_activity: Activity
@@ -656,7 +656,7 @@ en:
   label_feeds_access_key_created_on: "RSS access key created {{value}} ago"
   label_module_plural: Modules
   label_added_time_by: "Added by {{author}} {{age}} ago"
-  label_added_time_by_by: "Updated by {{author}} {{age}} ago"
+  label_updated_time_by: "Updated by {{author}} {{age}} ago"
   label_updated_time: "Updated {{value}} ago"
   label_jump_to_a_project: Jump to a project...
   label_file_plural: Files
@@ -704,7 +704,7 @@ en:
   label_group_plural: Groups
   label_group_new: New group
   label_time_entry_plural: Spent time
-  label_commit_request_plural: Commitment Requests #new
+  label_commit_request_plural: Ownership #new
   label_requested_by: "Requested by {{author}} {{age}} ago" #new
   label_offered_by: "Offered by {{author}} to {{responder}} {{age}} ago" #new
   label_accepted_by: "Accepted by {{responder}} {{age}} ago" #new
@@ -795,7 +795,7 @@ en:
   text_issue_category_destroy_question: "Some issues ({{count}}) are assigned to this category. What do you want to do ?"
   text_issue_category_destroy_assignments: Remove category assignments
   text_issue_category_reassign_to: Reassign issues to this category
-  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee)."
+  text_user_mail_option: "For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or owner)." #updated
   text_no_configuration_data: "Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Load the default configuration
   text_status_changed_by_changeset: "Applied in changeset {{value}}."
@@ -828,7 +828,7 @@ en:
   default_tracker_feature: Feature
   default_tracker_support: Support
   default_issue_status_new: New
-  default_issue_status_assigned: Assigned
+  default_issue_status_assigned: Owned
   default_issue_status_resolved: Resolved
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Closed

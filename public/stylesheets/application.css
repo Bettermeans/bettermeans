@@ -709,6 +709,13 @@ vertical-align: middle;
 .icon-details  { background-image: url(../images/zoom_in.png); }
 .icon-report  { background-image: url(../images/report.png); }
 .icon-comment  { background-image: url(../images/comment.png); }
+.icon-cr-cancel  { background-image: url(../images/cancel16.png); }
+.icon-cr-request { background-image: url(../images/tag_blue.png); }
+.icon-cr-take { background-image: url(../images/wrench.png); }
+.icon-cr-give { background-image: url(../images/user_go.png); }
+.icon-cr-accept { background-image: url(../images/true.png); }
+.icon-cr-decline { background-image: url(../images/false.png); }
+
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
