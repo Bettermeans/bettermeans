@@ -656,7 +656,7 @@ en:
   label_feeds_access_key_created_on: "RSS access key created {{value}} ago"
   label_module_plural: Modules
   label_added_time_by: "Added by {{author}} {{age}} ago"
-  label_updated_time_by: "Updated by {{author}} {{age}} ago"
+  label_added_time_by_by: "Updated by {{author}} {{age}} ago"
   label_updated_time: "Updated {{value}} ago"
   label_jump_to_a_project: Jump to a project...
   label_file_plural: Files
@@ -704,6 +704,16 @@ en:
   label_group_plural: Groups
   label_group_new: New group
   label_time_entry_plural: Spent time
+  label_commit_request_plural: Commitment Requests #new
+  label_requested_by: "Requested by {{author}} {{age}} ago" #new
+  label_offered_by: "Offered by {{author}} to {{responder}} {{age}} ago" #new
+  label_accepted_by: "Accepted by {{responder}} {{age}} ago" #new
+  label_declined_by: "Declined by {{responder}} {{age}} ago" #new
+  label_taken_by: "Taken by {{responder}} {{age}} ago" #new
+  label_declined: "Declined {{age}} ago" #new
+  label_accepted: "Accepted {{age}} ago" #new
+  label_recinded: "Withdrawn {{age}} ago" #new
+  label_released: "Released {{age}} ago" #new
   
   button_login: Login
   button_submit: Submit
@@ -744,8 +754,15 @@ en:
   button_update: Update
   button_configure: Configure
   button_quote: Quote
-  button_request_commitment: Request Commitment #new
-  button_request_commitment_remove: Recind Commitment Request #new
+  button_request_commitment_request: Request Ownership #new
+  button_request_commitment_take: Take Ownership #new
+  button_request_commitment_remove: Withdraw Ownership Request #new
+  button_request_commitment_withdraw: Withdraw #new
+  button_request_commitment_remove_offer: Withdraw Ownership Offer #new
+  button_request_commitment_giveup: Release Ownership #new  
+  button_request_commitment_transfer: Transfer Ownership #new    
+  button_request_commitment_accept: Accept #new
+  button_request_commitment_decline: Decline #new
   
   status_active: active
   status_registered: registered
