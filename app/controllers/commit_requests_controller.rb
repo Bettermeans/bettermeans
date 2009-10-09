@@ -50,8 +50,21 @@ class CommitRequestsController < ApplicationController
       @commit_request.issue_id = params[:issue_id]
     end
     
-    #TODO: Add logic for updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
+    unless params[:response].blank?
+      @commit_request.response = params[:response]
+    end   
     
+    
+    if @commit_request.response == 2 #somebody is taking this issue
+      #we set the responder id equal to the author id
+      @commit_request.responder_id = @commit_request.user_id
+      #Updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
+      @user = User.find(@commit_request.user_id)
+      @issue = Issue.find(@commit_request.issue_id)
+      @issue.assigned_to = @user
+      @issue.save      
+    end
+
 
     respond_to do |format|
       if @commit_request.save
@@ -71,17 +84,33 @@ class CommitRequestsController < ApplicationController
   # PUT /commit_requests/1
   # PUT /commit_requests/1.xml
   def update
+    ##BUGBUG Should we be checking permissions AGAIN here? Just in case someone is hacking the url to gain access to tasks?
     @commit_request = CommitRequest.find(params[:id])
+    @commit_request.response = params[:response]
+    @commit_request.responder_id = params[:responder_id]
+    logger.info("RESSPONSE: #{@commit_request.inspect}")
+    @commit_request.save
+    logger.info("XXXX: #{@project}")
+    
+    if @commit_request.response == 8 #somebody is releasing this issue
+      @issue = Issue.find(@commit_request.issue_id)
+      @issue.assigned_to = nil
+      @issue.save      
+    end    
+    
+    if @commit_request.response == 6 #somebody is accepting an offer for this issue
+      #Updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
+      @user = User.find(@commit_request.user_id)
+      @issue = Issue.find(@commit_request.issue_id)
+      @issue.assigned_to = @user
+      @issue.save      
+    end
+    
 
     respond_to do |format|
-      if @commit_request.update_attributes(params[:commit_request])
-        flash[:notice] = 'CommitRequest was successfully updated.'
-        format.html { redirect_to(@commit_request) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @commit_request.errors, :status => :unprocessable_entity }
-      end
+      format.js  { render :action => "update", :commit_request => @commit_request, :created_at => @commit_request.created_at, :updated_at => @commit_request.updated_at}        
+      # format.html { redirect_to(commit_requests_url) }
+      # format.xml  { head :ok }
     end
   end
 
@@ -91,10 +120,8 @@ class CommitRequestsController < ApplicationController
     @commit_request = CommitRequest.find(params[:id])
     @commit_request.destroy
 
-    logger.info("XXXXXXXXXXXXX" + String(@commit_request.issue_id))
     respond_to do |format|
       format.js  { render :action => "destroy", :commit_request => @commit_request}        
-      logger.info("should we be here?")
       # format.html { redirect_to(commit_requests_url) }
       # format.xml  { head :ok }
     end
