@@ -21,7 +21,8 @@
                       :created_at => cr.created_at, 
                       :updated_at => cr.updated_at,
                       :commit_request => cr.id,
-                      :push_allowed => @push_allowed
+                      :push_allowed => @push_allowed,
+                      :days => cr.days
                       } %> 
 <%- end -%>
 </div>
