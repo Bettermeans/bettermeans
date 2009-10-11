@@ -207,7 +207,7 @@ en:
   field_tracker: Tracker
   field_subject: Subject
   field_due_date: Due date
-  field_assigned_to: Commitment by #Changed
+  field_assigned_to: Owned by #Changed
   field_priority: Priority
   field_fixed_version: Target version
   field_user: User
@@ -556,6 +556,7 @@ en:
   label_ago: days ago
   label_contains: contains
   label_not_contains: doesn't contain
+  label_day: day
   label_day_plural: days
   label_repository: Repository
   label_repository_plural: Repositories
@@ -714,6 +715,8 @@ en:
   label_accepted: "Accepted {{age}} ago" #new
   label_recinded: "Withdrawn {{age}} ago" #new
   label_released: "Released {{age}} ago" #new
+  label_not_sure: "Not sure"
+  label_commitment: "Commitment"
   
   button_login: Login
   button_submit: Submit
@@ -820,6 +823,7 @@ en:
   text_wiki_page_nullify_children: "Keep child pages as root pages"
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
+  text_create_dialogue_choose_days: "How much time to you need to get this done <br />(from the time you own it)?"
   
   default_role_manager: Manager
   default_role_developper: Developer

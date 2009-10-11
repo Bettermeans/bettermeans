@@ -7,6 +7,11 @@
 <meta name="keywords" content="issue,bug,tracker" />
 <%= stylesheet_link_tag 'application', :media => 'all' %>
 <%= javascript_include_tag :defaults %>
+<%= javascript_include_tag "lightbox.js" %> <!-- for lightbox  TODO is there a better way to do this? -->
+<%= stylesheet_link_tag 'lightbox', :media => 'all' %> <!-- for lightbox TODO is there a better way for this? -->
+
+<!-- <link rel="stylesheet" href="/stylesheets/lightbox.css" type="text/css" />  -->
+
 <%= heads_for_wiki_formatter %>
 <!--[if IE]>
     <style type="text/css">
