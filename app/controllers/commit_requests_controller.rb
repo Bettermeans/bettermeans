@@ -41,19 +41,11 @@ class CommitRequestsController < ApplicationController
   # POST /commit_requests.xml
   def create
     @commit_request = CommitRequest.new(params[:commit_request])
-    
-    unless params[:user_id].blank?
-      @commit_request.user_id = params[:user_id]
-    end
-    
-    unless params[:issue_id].blank?
-      @commit_request.issue_id = params[:issue_id]
-    end
-    
-    unless params[:response].blank?
-      @commit_request.response = params[:response]
-    end   
-    
+    @commit_request.user_id = params[:user_id] unless params[:user_id].blank?
+    @commit_request.issue_id = params[:issue_id] unless params[:issue_id].blank?
+    @commit_request.response = params[:response] unless params[:response].blank?
+    @commit_request.days = params[:days] unless params[:days].blank?
+
     
     if @commit_request.response == 2 #somebody is taking this issue
       #we set the responder id equal to the author id
@@ -79,6 +71,9 @@ class CommitRequestsController < ApplicationController
         format.xml  { render :xml => @commit_request.errors, :status => :unprocessable_entity }
       end
     end
+  end
+  
+  def create_dialogue
   end
 
   # PUT /commit_requests/1
