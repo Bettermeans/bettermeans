@@ -849,7 +849,8 @@
   text_are_you_sure: 確定執行？
   text_journal_changed: "{{label}} 從 {{old}} 變更為 {{new}}"
   text_journal_set_to: "{{label}} 設定為 {{value}}"
-  text_journal_deleted: "{{label}} 已刪除"
+  text_journal_deleted: "{{label}} 已刪除 ({{old}})"
+  text_journal_added: "{{label}} {{value}} 已新增"
   text_tip_task_begin_day: 今天起始的工作
   text_tip_task_end_day: 今天截止的的工作
   text_tip_task_begin_end_day: 今天起始與截止的工作
