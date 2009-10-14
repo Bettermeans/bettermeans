@@ -705,7 +705,7 @@ en:
   label_group_plural: Groups
   label_group_new: New group
   label_time_entry_plural: Spent time
-  label_commit_request_plural: Ownership #new
+  label_commit_request_history: Ownership History#new
   label_requested_by: "Requested by {{author}} {{age}} ago" #new
   label_offered_by: "Offered by {{author}} to {{responder}} {{age}} ago" #new
   label_accepted_by: "Accepted by {{responder}} {{age}} ago" #new
