@@ -28,8 +28,10 @@ case @commit_request.response
   page.replace_html "assigned_to", "-"
 end
 
+flash.now[:error] = "whatever"
+
 page.call 'add_lightbox', 'cr_button' #adding hook to create button for lightbox
 page.call 'add_lightbox', 'cr_push_button' #adding hook to offer button for lightbox
-page.replace "issue_lock_version", hidden_field("issue","lock_version", :value => @lock_version)
+page.replace "issue_lock_version", hidden_field("issue","lock_version", :value => @lock_version) unless (@lock_version == '')
 page.call 'dismiss'
 
