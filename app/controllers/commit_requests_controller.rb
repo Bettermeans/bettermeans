@@ -58,8 +58,9 @@ class CommitRequestsController < ApplicationController
       logger.info("EXISTING ISSUE BEFORE #{@issue.inspect}")
       @issue.save      
       @lock_version = @issue.lock_version
-      logger.info("EXISTING ISSUE AFTER #{@issue.inspect}")
-      
+      logger.info("EXISTING ISSUE AFTER #{@issue.inspect}")      
+    else
+      @commit_request.responder_id = params[:responder_id]      
     end
     
 
@@ -106,16 +107,19 @@ class CommitRequestsController < ApplicationController
     case @commit_request.response
     when 8 #somebody is releasing this issue
       @user = nil
+      @issue.assigned_to = @user
+      @issue.save
     when 6 #somebody is accepting an offer for this issue
       #Updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
       @user = User.find(@commit_request.responder_id)
+      @issue.assigned_to = @user
+      @issue.save
     when 2 #somebody is accepting someone else's request for this issue
       #Updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
       @user = User.find(@commit_request.user_id)
+      @issue.assigned_to = @user
+      @issue.save
     end
-
-    @issue.assigned_to = @user
-    @issue.save      
     
 
     respond_to do |format|
