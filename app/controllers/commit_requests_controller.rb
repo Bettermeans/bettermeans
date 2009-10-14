@@ -46,7 +46,6 @@ class CommitRequestsController < ApplicationController
     @commit_request.response = params[:response] unless params[:response].blank?
     @commit_request.days = params[:days] unless params[:days].blank?
 
-    
     if @commit_request.response == 2 #somebody is taking this issue
       #we set the responder id equal to the author id
       @commit_request.responder_id = @commit_request.user_id
@@ -54,7 +53,9 @@ class CommitRequestsController < ApplicationController
       @user = User.find(@commit_request.user_id)
       @issue = Issue.find(@commit_request.issue_id)
       @issue.assigned_to = @user
+      logger.info("EXISTING ISSUE BEFORE #{@issue.inspect}")
       @issue.save      
+      logger.info("EXISTING ISSUE AFTER #{@issue.inspect}")      
     end
 
 
@@ -62,7 +63,7 @@ class CommitRequestsController < ApplicationController
       if @commit_request.save
         # flash[:notice] = 'Request for commitment was successfully sent.'
         # format.js  { render :action => "create", :commit_request => @commit_request, :user => @commit_request.user_id, :issue => @commit_request.issue_id}        
-        format.js  { render :action => "create", :commit_request => @commit_request}        
+        format.js  { render :action => "create", :commit_request => @commit_request, :lock_version => @issue.lock_version}        
         format.html { redirect_to(@commit_request) }
         format.xml  { render :xml => @commit_request, :status => :created, :location => @commit_request }
       else
@@ -112,7 +113,7 @@ class CommitRequestsController < ApplicationController
     
 
     respond_to do |format|
-      format.js  { render :action => "update", :commit_request => @commit_request, :created_at => @commit_request.created_at, :updated_at => @commit_request.updated_at}        
+      format.js  { render :action => "update", :commit_request => @commit_request, :created_at => @commit_request.created_at, :updated_at => @commit_request.updated_at, :lock_version => @issue.lock_version}        
       format.html { redirect_to(commit_requests_url) }
       format.xml  { head :ok }
     end

@@ -91,6 +91,7 @@ module CommitRequestsHelper
       @response = 8
       @action = 'update'
       @class = 'icon-cr-cancel'
+      @button_id = '_remove'
       
       if (@cr == nil) #Used for migration. Some issues have been assigned, but don't have commitment requests (before commitment requests were implemented!)
         logger.info("No existing commitment request. Creating first one")
@@ -118,6 +119,7 @@ module CommitRequestsHelper
         @response = 1
         @action = 'update'
         @class = 'icon-cr-cancel'
+        @button_id = '_remove'
       when 1..8 then #Requested and recinded before, or requested and denied, or requested and accepted so they can request again
           #No commit requests from this user to this issue, 
           if push_allowed #they have the authority, they can take owneship
@@ -150,7 +152,7 @@ module CommitRequestsHelper
     elsif @action == 'update'    
       @pull_content = link_to_remote @label, 
               {:url => user_commit_request_path(:id => @cr, :format => :js, :user_id => user, :issue_id => issue, :response => @response, :responder_id => user, :updated_at => @cr.updated_at, :created_at => @cr.created_at, :push_allowed => push_allowed), :method => 'put'}, 
-                {:id =>'cr_button', :class => @class}      
+                {:id =>'cr_button' + @button_id, :class => @class}      
     end   
     
     if push_allowed
