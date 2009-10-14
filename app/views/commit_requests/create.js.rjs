@@ -16,7 +16,7 @@ page.insert_html :bottom, "commit_request_list", :partial => "commit_requests/sh
 page["commit_request_side_#{@commit_request.id}"].visual_effect :highlight
 
 #If this request resulted in me owning the task
-if @commit_request.response == 2||@commit_request.response == 4||@commit_request.response == 6
+if @commit_request.response == 2||@commit_request.response == 6
   page.replace_html "assigned_to", avatar(User.current, :size => "14") + " " + link_to_user(User.current)
   page["assigned_to"].visual_effect :highlight
 end
