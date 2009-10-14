@@ -41,19 +41,11 @@ class CommitRequestsController < ApplicationController
   # POST /commit_requests.xml
   def create
     @commit_request = CommitRequest.new(params[:commit_request])
-    
-    unless params[:user_id].blank?
-      @commit_request.user_id = params[:user_id]
-    end
-    
-    unless params[:issue_id].blank?
-      @commit_request.issue_id = params[:issue_id]
-    end
-    
-    unless params[:response].blank?
-      @commit_request.response = params[:response]
-    end   
-    
+    @commit_request.user_id = params[:user_id] unless params[:user_id].blank?
+    @commit_request.issue_id = params[:issue_id] unless params[:issue_id].blank?
+    @commit_request.response = params[:response] unless params[:response].blank?
+    @commit_request.days = params[:days] unless params[:days].blank?
+
     
     if @commit_request.response == 2 #somebody is taking this issue
       #we set the responder id equal to the author id
@@ -80,6 +72,15 @@ class CommitRequestsController < ApplicationController
       end
     end
   end
+  
+  def create_dialogue
+  end
+
+  def select_user_dialogue(options ={})
+    logger.info("Options #{params.inspect}")
+    @issue = Issue.find(params['issue_id'])
+  end
+
 
   # PUT /commit_requests/1
   # PUT /commit_requests/1.xml
@@ -88,29 +89,32 @@ class CommitRequestsController < ApplicationController
     @commit_request = CommitRequest.find(params[:id])
     @commit_request.response = params[:response]
     @commit_request.responder_id = params[:responder_id]
+    @commit_request.days = params[:days] unless params[:days].nil?
     logger.info("RESSPONSE: #{@commit_request.inspect}")
     @commit_request.save
     logger.info("XXXX: #{@project}")
     
-    if @commit_request.response == 8 #somebody is releasing this issue
-      @issue = Issue.find(@commit_request.issue_id)
-      @issue.assigned_to = nil
-      @issue.save      
-    end    
+    @issue = Issue.find(@commit_request.issue_id)    
     
-    if @commit_request.response == 6 #somebody is accepting an offer for this issue
+    case @commit_request.response
+    when 8 #somebody is releasing this issue
+      @user = nil
+    when 6 #somebody is accepting an offer for this issue
+      #Updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
+      @user = User.find(@commit_request.responder_id)
+    when 2 #somebody is accepting someone else's request for this issue
       #Updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
       @user = User.find(@commit_request.user_id)
-      @issue = Issue.find(@commit_request.issue_id)
-      @issue.assigned_to = @user
-      @issue.save      
     end
+
+    @issue.assigned_to = @user
+    @issue.save      
     
 
     respond_to do |format|
       format.js  { render :action => "update", :commit_request => @commit_request, :created_at => @commit_request.created_at, :updated_at => @commit_request.updated_at}        
-      # format.html { redirect_to(commit_requests_url) }
-      # format.xml  { head :ok }
+      format.html { redirect_to(commit_requests_url) }
+      format.xml  { head :ok }
     end
   end
 

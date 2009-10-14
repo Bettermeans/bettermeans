@@ -1,3 +1,4 @@
 <div id="commit_request_side_<%= commit_request %>">
-<%= authoring_from_id created_at, updated_at, user_id, responder_id, response, commit_request, current_user, issue, push_allowed %><br>
+  <%logger.info("SHOW PARAMETERS: #{params.inspect}") %>
+<%= authoring_from_id created_at, updated_at, user_id, responder_id, response, commit_request, current_user, issue, push_allowed, days %><br>
 </div>
