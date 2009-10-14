@@ -21,4 +21,5 @@ if @commit_request.response == 2||@commit_request.response == 4||@commit_request
   page["assigned_to"].visual_effect :highlight
 end
 
-page.call 'dismiss'
+page.call 'add_lightbox', 'cr_button' #adding hook to create button for lightbox
+page.call 'add_lightbox', 'cr_push_button' #adding hook to offer button for lightbox

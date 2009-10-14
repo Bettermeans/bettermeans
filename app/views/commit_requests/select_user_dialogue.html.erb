@@ -1,0 +1,17 @@
+<div id="select_user_dialogue" class="create_request_dialogue">
+<h2><%= l(:label_commitment_offer) %></h2>
+  
+<% form_remote_tag :url => url_for(:controller => 'commit_requests', :action => 'create', :format => :js, :user_id => params['user_id'], :issue_id => params['issue_id'], :response => params['response'], :push_allowed => params['push_allowed']), :method => 'post' do -%>
+
+<%= l(:text_select_user_dialogue_choose_user) %>
+
+<p>
+  <br /> <%= select_tag ( "responder_id" , options_for_select(@issue.addable_watcher_users.collect {|m| [m.name, m.id]}), {:selected => 4})%>
+&nbsp;                                         
+<%= submit_tag params['label'],  {:id =>'cr_button', :class => params['class']} %> <br/> 
+</p>
+  
+<% end -%>
+<div style="vertical-align:bottom, float:right">
+<a href="#" class="lbAction" rel="deactivate">cancel</a>
+</div>
