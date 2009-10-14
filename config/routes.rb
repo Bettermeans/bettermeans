@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :commit_requests
+  
+  # map.connect 'commit_requests/createdialgoue', :action => 'createdialogue', :controller => 'commit_requesets'
+  
 
   # Add your own custom routes here.
   # The priority is based upon order of creation: first created -> highest priority.
@@ -253,6 +255,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # Vote fu mappings
   map.resources :users do |user|
+    user.resources :commit_requests
     user.resources :votes
     user.resources :journal do |mv|
       mv.resources :votes    
