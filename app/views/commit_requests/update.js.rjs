@@ -1,7 +1,8 @@
-page.call 'dismiss'
-page.replace_html "commit_request_actions", :partial => "show_link", :locals => {:issue => params['issue_id'], :user => params['user_id'], :push_allowed => params[:push_allowed]}
+logger.info("PARAMS FOR UPDATE #{params.inspect}")
+logger.info("@commit_request: #{@commit_request.inspect}")
 
-page.insert_html :bottom, "commit_request_list", :partial => "commit_requests/show", :locals => {:issue => params['issue_id'], 
+page.replace_html "commit_request_actions", :partial => "show_link", :locals => {:issue => params['issue_id'], :user => params['user_id'],  :push_allowed => params[:push_allowed]}
+page.replace_html "commit_request_side_#{@commit_request.id}", :partial => "commit_requests/show", :locals => {:issue => params['issue_id'], 
                       :current_user => User.current, 
                       :user_id => @commit_request.user_id, 
                       :response => @commit_request.response, 
@@ -16,10 +17,18 @@ page.insert_html :bottom, "commit_request_list", :partial => "commit_requests/sh
 page["commit_request_side_#{@commit_request.id}"].visual_effect :highlight
 
 #If this request resulted in me owning the task
-if @commit_request.response == 2||@commit_request.response == 4||@commit_request.response == 6
+case @commit_request.response
+  when 4,6 #Current user taking this request
   page.replace_html "assigned_to", avatar(User.current, :size => "14") + " " + link_to_user(User.current)
-  page["assigned_to"].visual_effect :highlight
+  when 2 #Accepting for someone else
+  logger.info("Accepting for someone else")
+  @user = User.find(@commit_request.user_id)
+  page.replace_html "assigned_to", avatar(@user, :size => "14") + " " + link_to_user(@user)
+  when 8 #releasing
+  page.replace_html "assigned_to", "-"
 end
 
 page.call 'add_lightbox', 'cr_button' #adding hook to create button for lightbox
 page.call 'add_lightbox', 'cr_push_button' #adding hook to offer button for lightbox
+page.call 'dismiss'
+

@@ -1,7 +1,4 @@
 <div class="contextual">
-<%- if User.current.allowed_to?(:pull_commitment, @project) -%>
-  <span id="commit_request">  <%= render :partial => "commit_requests/show", :locals => {:issue => @issue, :user => User.current} %> </span>
-<%- end -%>
 <%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time-add' %>
 <%= watcher_tag(@issue, User.current) %>
@@ -49,11 +46,11 @@
 </tr>
 <tr>
 
-    <th class="assigned-to"><%=l(:field_assigned_to)%>:</th><td><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
+    <th class="assigned-to"><%=l(:field_assigned_to)%>:</th><td id="assigned_to"><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
     <th class="progress"><%=l(:field_done_ratio)%>:</th><td class="progress"><%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %></td>
 </tr>
 <tr>
-    <th class="category"><%=l(:field_category)%>:</th><td><%=h @issue.category ? @issue.category.name : "-" %></td>
+    <!-- <th class="category"><%#=l(:field_category)%>:</th><td><%=h @issue.category ? @issue.category.name : "-" %></td> -->
     <% if User.current.allowed_to?(:view_time_entries, @project) %>
     <th class="spent-time"><%=l(:label_spent_time)%>:</th>
     <td class="spent-hours"><%= @issue.spent_hours > 0 ? (link_to l_hours(@issue.spent_hours), {:controller => 'timelog', :action => 'details', :project_id => @project, :issue_id => @issue}) : "-" %></td>
@@ -90,13 +87,13 @@
 </div>
 <% end %>
 
-<% if User.current.allowed_to?(:add_issue_watchers, @project) ||
+<!-- <% #if User.current.allowed_to?(:add_issue_watchers, @project) ||
         (@issue.watchers.any? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
 <hr />
 <div id="watchers">
-<%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
+<%#= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
 </div>
-<% end %>
+<%# end %> -->
 
 </div>
 
