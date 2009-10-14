@@ -146,7 +146,7 @@ en:
   notice_no_issue_selected: "No item is selected! Please, check the items you want to edit."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_default_data_loaded: Default configuration successfully loaded.
-  notice_unable_delete_version: Unable to delete version.
+  notice_unable_delete_version: Unable to delete milestone.
   
   error_can_t_load_default_data: "Default configuration could not be loaded: {{value}}"
   error_scm_not_found: "The entry or revision was not found in the repository."
@@ -209,7 +209,7 @@ en:
   field_due_date: Due date
   field_assigned_to: Owned by #Changed
   field_priority: Priority
-  field_fixed_version: Target version
+  field_fixed_version: Target milestone
   field_user: User
   field_role: Role
   field_homepage: Homepage
@@ -226,7 +226,7 @@ en:
   field_password: Password
   field_new_password: New password
   field_password_confirmation: Confirmation
-  field_version: Version
+  field_version: Milestone
   field_type: Type
   field_host: Host
   field_port: Port
@@ -316,7 +316,7 @@ en:
   permission_edit_project: Edit workstream
   permission_select_project_modules: Select workstream modules
   permission_manage_members: Manage members
-  permission_manage_versions: Manage versions
+  permission_manage_versions: Manage milestones
   permission_manage_categories: Manage item categories
   permission_add_issues: Add items
   permission_edit_issues: Edit items
@@ -477,9 +477,9 @@ en:
   label_change_log: Change log
   label_settings: Settings
   label_overview: Overview
-  label_version: Version
-  label_version_new: New version
-  label_version_plural: Versions
+  label_version: Milestone
+  label_version_new: New milestone
+  label_version_plural: Milestones
   label_confirmation: Confirmation
   label_export_to: 'Also available in:'
   label_read: Read...
@@ -585,7 +585,7 @@ en:
   label_roadmap: Roadmap
   label_roadmap_due_in: "Due in {{value}}"
   label_roadmap_overdue: "{{value}} late"
-  label_roadmap_no_issues: No items for this version
+  label_roadmap_no_issues: No items for this milestone
   label_search: Search
   label_result_plural: Results
   label_all_words: All words
@@ -596,7 +596,7 @@ en:
   label_wiki_page_plural: Wiki pages
   label_index_by_title: Index by title
   label_index_by_date: Index by date
-  label_current_version: Current version
+  label_current_version: Current milestone
   label_preview: Preview
   label_feed_plural: Feeds
   label_changes_details: Details of all changes
@@ -634,7 +634,7 @@ en:
   label_start_to_end: start to end
   label_stay_logged_in: Stay logged in
   label_disabled: disabled
-  label_show_completed_versions: Show completed versions
+  label_show_completed_versions: Show completed milestones
   label_me: me
   label_board: Forum
   label_board_new: New forum
@@ -744,7 +744,7 @@ en:
   button_activate: Activate
   button_sort: Sort
   button_log_time: Log time
-  button_rollback: Rollback to this version
+  button_rollback: Rollback to this milestone
   button_watch: Watch
   button_unwatch: Unwatch
   button_reply: Reply
