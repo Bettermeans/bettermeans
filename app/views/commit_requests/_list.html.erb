@@ -3,11 +3,7 @@
 @push_allowed =  User.current.allowed_to?(:push_commitment, @project)
  -%>
 
-<%- if @push_allowed -%>
-  <%= render :partial => "commit_requests/show_link", :locals => {:issue => @issue, :user => User.current, :push_allowed => User.current.allowed_to?(:push_commitment, @project)} %> 
-<%- elsif User.current.allowed_to?(:pull_commitment, @project) -%>
-  <%= render :partial => "commit_requests/show_link", :locals => {:issue => @issue, :user => User.current, :push_allowed => false} %> 
-<%- end -%>
+<%= render :partial => "commit_requests/show_link", :locals => {:issue => @issue, :user => User.current, :push_allowed => @push_allowed} %>
 
 <h3><%= l(:label_commit_request_plural) %></h3>
 <div id="commit_request_list">

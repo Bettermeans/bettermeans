@@ -1,7 +1,7 @@
 <div id="create_request_dialogue" class="create_request_dialogue">
 <h2><%= l(:label_commitment) %></h2>
   
-<% form_remote_tag :url => {:controller => 'commit_requests', :action => 'create', :format => :js, :user_id => params['user_id'], :issue_id => params['issue_id'], :response => params['response'], :push_allowed => params['push_allowed']} do -%>
+<% form_remote_tag :url => url_for(:controller => 'commit_requests', :action => params['button_action'], :format => :js, :user_id => params['user_id'], :issue_id => params['issue_id'], :response => params['response'], :responder_id => params['responder_id'], :push_allowed => params['push_allowed']), :method => params['method'] do -%>
 
 <%= l(:text_create_dialogue_choose_days) %>
 

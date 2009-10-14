@@ -717,6 +717,7 @@ en:
   label_released: "Released {{age}} ago" #new
   label_not_sure: "Not sure"
   label_commitment: "Commitment"
+  label_commitment_offer: "Ownership Offer"
   
   button_login: Login
   button_submit: Submit
@@ -766,6 +767,7 @@ en:
   button_request_commitment_transfer: Transfer Ownership #new    
   button_request_commitment_accept: Accept #new
   button_request_commitment_decline: Decline #new
+  button_request_commitment_offer: Offer Ownership #new
   
   status_active: active
   status_registered: registered
@@ -824,6 +826,7 @@ en:
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
   text_create_dialogue_choose_days: "How much time to you need to get this done <br />(from the time you own it)?"
+  text_select_user_dialogue_choose_user: "Choose someone to send this request to"
   
   default_role_manager: Manager
   default_role_developper: Developer
