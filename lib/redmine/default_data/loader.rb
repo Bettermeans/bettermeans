@@ -40,71 +40,54 @@ module Redmine
           
           Role.transaction do
             # Roles
-            manager = Role.create! :name => l(:default_role_manager), 
-                                   :position => 1
-            manager.permissions = manager.setable_permissions.collect {|p| p.name}
-            manager.save!
+            administrator = Role.create! :name => l(:default_role_administrator), :position => 1
+            administrator.permissions = administrator.setable_permissions.collect {|p| p.name}
+            administrator.permissions.delete(:edit_time_entries)
             
-            developper = Role.create! :name => l(:default_role_developper), 
-                                      :position => 2, 
-                                      :permissions => [:manage_versions, 
-                                                      :manage_categories,
-                                                      :add_issues,
-                                                      :edit_issues,
-                                                      :manage_issue_relations,
-                                                      :add_issue_notes,
-                                                      :save_queries,
-                                                      :view_gantt,
-                                                      :view_calendar,
-                                                      :log_time,
-                                                      :view_time_entries,
-                                                      :comment_news,
-                                                      :view_documents,
-                                                      :view_wiki_pages,
-                                                      :view_wiki_edits,
-                                                      :edit_wiki_pages,
-                                                      :delete_wiki_pages,
-                                                      :add_messages,
-                                                      :edit_own_messages,
-                                                      :view_files,
-                                                      :manage_files,
-                                                      :browse_repository,
-                                                      :view_changesets,
-                                                      :commit_access]
+            administrator.save!
             
-            reporter = Role.create! :name => l(:default_role_reporter),
-                                    :position => 3,
-                                    :permissions => [:add_issues,
-                                                    :add_issue_notes,
-                                                    :save_queries,
-                                                    :view_gantt,
-                                                    :view_calendar,
-                                                    :log_time,
-                                                    :view_time_entries,
-                                                    :comment_news,
-                                                    :view_documents,
-                                                    :view_wiki_pages,
-                                                    :view_wiki_edits,
-                                                    :add_messages,
-                                                    :edit_own_messages,
-                                                    :view_files,
-                                                    :browse_repository,
-                                                    :view_changesets]
+            citizen = Role.create! :name => l(:default_role_citizen), :position => 2
+            citizen.permissions = citizen.setable_permissions.collect {|p| p.name}
+            citizen.permissions.delete(:add_project)
+            citizen.permissions.delete(:edit_project)
+            citizen.permissions.delete(:select_projected_modules)
+            citizen.permissions.delete(:manage_members)
+            citizen.permissions.delete(:manage_versions)                                              
+            citizen.permissions.delete(:edit_time_entries)
+            citizen.save!
+
+            contributor = Role.create! :name => l(:default_role_contributor), :position => 3
+            contributor.permissions = contributor.setable_permissions.collect {|p| p.name}
+            contributor.permissions.delete(:add_project)
+            contributor.permissions.delete(:edit_project)
+            contributor.permissions.delete(:select_projected_modules)
+            contributor.permissions.delete(:manage_members)
+            contributor.permissions.delete(:manage_versions)
+            contributor.permissions.delete(:manage_boards)
+            contributor.permissions.delete(:edit_messages)
+            contributor.permissions.delete(:delete_messages)
+            contributor.permissions.delete(:delete_own_messages)
+            contributor.permissions.delete(:manage_documents)
+            contributor.permissions.delete(:manage_files)
+            contributor.permissions.delete(:manage_categories)
+            contributor.permissions.delete(:manage_issue_relations)
+            contributor.permissions.delete(:edit_issue_notes)
+            contributor.permissions.delete(:move_issues)
+            contributor.permissions.delete(:delete_issues)
+            contributor.permissions.delete(:push_commitment)
+            contributor.permissions.delete(:manage_public_queries)
+            contributor.permissions.delete(:add_issue_watchers)
+            contributor.permissions.delete(:manage_news)
+            contributor.permissions.delete(:manage_repository)
+            contributor.permissions.delete(:edit_time_entries)
+            contributor.permissions.delete(:manage_wiki)
+            contributor.permissions.delete(:rename_wiki_pages)
+            contributor.permissions.delete(:delete_wiki_pages)
+            contributor.permissions.delete(:delete_wiki_pages_attachments)
+            contributor.permissions.delete(:protect_wiki_pages)
+            contributor.save!            
                         
-            Role.non_member.update_attribute :permissions, [:add_issues,
-                                                            :add_issue_notes,
-                                                            :save_queries,
-                                                            :view_gantt,
-                                                            :view_calendar,
-                                                            :view_time_entries,
-                                                            :comment_news,
-                                                            :view_documents,
-                                                            :view_wiki_pages,
-                                                            :view_wiki_edits,
-                                                            :add_messages,
-                                                            :view_files,
-                                                            :browse_repository,
-                                                            :view_changesets]
+            Role.non_member.update_attribute :permissions, contributor.permissions
           
             Role.anonymous.update_attribute :permissions, [:view_gantt,
                                                            :view_calendar,
@@ -113,60 +96,55 @@ module Redmine
                                                            :view_wiki_pages,
                                                            :view_wiki_edits,
                                                            :view_files,
-                                                           :browse_repository,
                                                            :view_changesets]
                                                              
             # Trackers
-            Tracker.create!(:name => l(:default_tracker_bug),     :is_in_chlog => true,  :is_in_roadmap => false, :position => 1)
-            Tracker.create!(:name => l(:default_tracker_feature), :is_in_chlog => true,  :is_in_roadmap => true,  :position => 2)
-            Tracker.create!(:name => l(:default_tracker_support), :is_in_chlog => false, :is_in_roadmap => false, :position => 3)
+            Tracker.create!(:name => l(:default_tracker_task),     :is_in_chlog => true,  :is_in_roadmap => true, :position => 1)
+            Tracker.create!(:name => l(:default_tracker_subtask), :is_in_chlog => true,  :is_in_roadmap => true,  :position => 2)
             
             # Issue statuses
             new       = IssueStatus.create!(:name => l(:default_issue_status_new), :is_closed => false, :is_default => true, :position => 1)
             assigned  = IssueStatus.create!(:name => l(:default_issue_status_assigned), :is_closed => false, :is_default => false, :position => 2)
-            resolved  = IssueStatus.create!(:name => l(:default_issue_status_resolved), :is_closed => false, :is_default => false, :position => 3)
-            feedback  = IssueStatus.create!(:name => l(:default_issue_status_feedback), :is_closed => false, :is_default => false, :position => 4)
-            closed    = IssueStatus.create!(:name => l(:default_issue_status_closed), :is_closed => true, :is_default => false, :position => 5)
-            rejected  = IssueStatus.create!(:name => l(:default_issue_status_rejected), :is_closed => true, :is_default => false, :position => 6)
+            closed    = IssueStatus.create!(:name => l(:default_issue_status_closed), :is_closed => true, :is_default => false, :position => 3)
+            blocked  = IssueStatus.create!(:name => l(:default_issue_status_blocked), :is_closed => false, :is_default => false, :position => 4)
             
             # Workflow
             Tracker.find(:all).each { |t|
               IssueStatus.find(:all).each { |os|
                 IssueStatus.find(:all).each { |ns|
-                  Workflow.create!(:tracker_id => t.id, :role_id => manager.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+                  Workflow.create!(:tracker_id => t.id, :role_id => administrator.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }        
               }      
             }
             
             Tracker.find(:all).each { |t|
-              [new, assigned, resolved, feedback].each { |os|
-                [assigned, resolved, feedback, closed].each { |ns|
-                  Workflow.create!(:tracker_id => t.id, :role_id => developper.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+              IssueStatus.find(:all).each { |os|
+                IssueStatus.find(:all).each { |ns|
+                  Workflow.create!(:tracker_id => t.id, :role_id => citizen.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }        
               }      
             }
             
             Tracker.find(:all).each { |t|
-              [new, assigned, resolved, feedback].each { |os|
-                [closed].each { |ns|
-                  Workflow.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
+              IssueStatus.find(:all).each { |os|
+                IssueStatus.find(:all).each { |ns|
+                  Workflow.create!(:tracker_id => t.id, :role_id => contributor.id, :old_status_id => os.id, :new_status_id => ns.id) unless os == ns
                 }        
-              }
-              Workflow.create!(:tracker_id => t.id, :role_id => reporter.id, :old_status_id => resolved.id, :new_status_id => feedback.id)
+              }      
             }
           
             # Enumerations
-            DocumentCategory.create!(:opt => "DCAT", :name => l(:default_doc_category_user), :position => 1)
-            DocumentCategory.create!(:opt => "DCAT", :name => l(:default_doc_category_tech), :position => 2)
+            DocumentCategory.create!(:opt => "DCAT", :name => l(:default_doc_category_public), :position => 1)
+            DocumentCategory.create!(:opt => "DCAT", :name => l(:default_doc_category_private), :position => 2)
           
             IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_low), :position => 1)
             IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_normal), :position => 2, :is_default => true)
             IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_high), :position => 3)
             IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_urgent), :position => 4)
-            IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_immediate), :position => 5)
           
-            TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_design), :position => 1)
-            TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_development), :position => 2)
+            TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_default), :position => 1)
+            TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_planning), :position => 2)
+            TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_execution), :position => 3)
           end
           true
         end

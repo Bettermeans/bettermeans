@@ -705,7 +705,7 @@ en:
   label_group_plural: Groups
   label_group_new: New group
   label_time_entry_plural: Spent time
-  label_commit_request_plural: Ownership #new
+  label_commit_request_history: Ownership History#new
   label_requested_by: "Requested by {{author}} {{age}} ago" #new
   label_offered_by: "Offered by {{author}} to {{responder}} {{age}} ago" #new
   label_accepted_by: "Accepted by {{responder}} {{age}} ago" #new
@@ -814,7 +814,7 @@ en:
   text_destroy_time_entries: Delete reported hours
   text_assign_time_entries_to_project: Assign reported hours to the workstream
   text_reassign_time_entries: 'Reassign reported hours to this item:'
-  text_user_wrote: "> {{value}} wrote:"
+  text_user_wrote: "{{value}} wrote:"
   text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
@@ -828,27 +828,24 @@ en:
   text_create_dialogue_choose_days: "How much time to you need to get this done <br />(from the time you own it)?"
   text_select_user_dialogue_choose_user: "Choose someone to send this request to"
   
-  default_role_manager: Manager
-  default_role_developper: Developer
-  default_role_reporter: Reporter
-  default_tracker_bug: Bug
-  default_tracker_feature: Feature
-  default_tracker_support: Support
-  default_issue_status_new: New
-  default_issue_status_assigned: Owned
-  default_issue_status_resolved: Resolved
-  default_issue_status_feedback: Feedback
+  default_role_administrator: Administrator
+  default_role_citizen: Citizen
+  default_role_contributor: Contributor
+  default_tracker_task: Task
+  default_tracker_subtask: Subtask
+  default_issue_status_new: Open
+  default_issue_status_assigned: Committed
   default_issue_status_closed: Closed
-  default_issue_status_rejected: Rejected
-  default_doc_category_user: User documentation
-  default_doc_category_tech: Technical documentation
+  default_issue_status_blocked: Blocked
+  default_doc_category_public: Public documentation
+  default_doc_category_private: Private documentation
   default_priority_low: Low
   default_priority_normal: Normal
   default_priority_high: High
   default_priority_urgent: Urgent
-  default_priority_immediate: Immediate
-  default_activity_design: Design
-  default_activity_development: Development
+  default_activity_default: Misc
+  default_activity_planning: Planning
+  default_activity_execution: Execution
   
   enumeration_issue_priorities: Item priorities
   enumeration_doc_categories: Document categories
