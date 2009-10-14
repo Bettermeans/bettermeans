@@ -1,3 +1,8 @@
+<%- if @issue -%>
+<%= render :partial => "commit_requests/list", :locals => {:issue => @issue, :user => User.current} %> 
+<%- end -%>
+
+
 <h3><%= l(:label_issue_plural) %></h3>
 <%= link_to l(:label_issue_view_all), { :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 } %><br />
 <% if @project %>
