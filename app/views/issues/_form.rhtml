@@ -24,10 +24,7 @@
 <% end %>
 
 <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), :required => true %></p>
-<% if User.current.allowed_to?(:push_commitment, @project) %>
-<% logger.info("ALLOWED TO REQUEST COMMITMENT") %>
-<p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
-<% end %>
+<!-- <p><%#= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p> -->
 <% unless @project.issue_categories.empty? %>
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
 <%= prompt_to_remote(l(:label_issue_category_new),
@@ -55,13 +52,13 @@
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 <% end %>
 
-<% if @issue.new_record? && User.current.allowed_to?(:add_issue_watchers, @project) -%>
-<p><label><%= l(:label_issue_watchers) %></label>
-<% @issue.project.users.sort.each do |user| -%>
-<label class="floating"><%= check_box_tag 'issue[watcher_user_ids][]', user.id, @issue.watcher_user_ids.include?(user.id) %> <%=h user %></label>
-<% end -%>
-</p>
-<% end %>
+<!-- <%# if @issue.new_record? && User.current.allowed_to?(:add_issue_watchers, @project) -%>
+<p><label><%#= l(:label_issue_watchers) %></label>
+<%# @issue.project.users.sort.each do |user| -%>
+<label class="floating"><%#= check_box_tag 'issue[watcher_user_ids][]', user.id, @issue.watcher_user_ids.include?(user.id) %> <%#=h user %></label>
+<%# end -%>-->
+<!-- </p> -->
+ <%# end %> 
 
 <%= call_hook(:view_issues_form_details_bottom, { :issue => @issue, :form => f }) %>
 
