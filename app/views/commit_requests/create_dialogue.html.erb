@@ -1,0 +1,33 @@
+<div id="create_request_dialogue" class="create_request_dialogue">
+<h2><%= l(:label_commitment) %></h2>
+  
+<% form_remote_tag :url => url_for(:controller => 'commit_requests', :action => params['button_action'], :format => :js, :user_id => params['user_id'], :issue_id => params['issue_id'], :response => params['response'], :responder_id => params['responder_id'], :push_allowed => params['push_allowed']), :method => params['method'] do -%>
+
+<%= l(:text_create_dialogue_choose_days) %>
+
+<p>
+  <br /> <%= select_tag ( "days" , options_for_select([ [l(:label_not_sure) , 0],                                              
+                                              ["1 "+ l(:label_day) , 1 ],
+                                              ["2 "+ l(:label_day_plural) , 2], 
+                                              ["3 "+ l(:label_day_plural) , 3],
+                                              ["4 "+ l(:label_day_plural) , 4],
+                                              ["5 "+ l(:label_day_plural) , 5],
+                                              ["6 "+ l(:label_day_plural) , 6],
+                                              ["7 "+ l(:label_day_plural) , 7],
+                                              ["8 "+ l(:label_day_plural) , 8],
+                                              ["9 "+ l(:label_day_plural) , 9],
+                                              ["10 "+ l(:label_day_plural) , 10],
+                                              ["12 "+ l(:label_day_plural) , 12],
+                                              ["15 "+ l(:label_day_plural) , 15],
+                                              ["20 "+ l(:label_day_plural) , 20],
+                                              ["25 "+ l(:label_day_plural) , 25],
+                                              ["30 "+ l(:label_day_plural) , 30],
+                                              ]), {:selected => 4})%>
+&nbsp;                                         
+<%= submit_tag params['label'],  {:id =>'cr_button', :class => params['class']} %> <br/> 
+</p>
+  
+<% end -%>
+<div style="vertical-align:bottom, float:right">
+<a href="#" class="lbAction" rel="deactivate">cancel</a>
+</div>

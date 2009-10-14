@@ -709,6 +709,13 @@ vertical-align: middle;
 .icon-details  { background-image: url(../images/zoom_in.png); }
 .icon-report  { background-image: url(../images/report.png); }
 .icon-comment  { background-image: url(../images/comment.png); }
+.icon-cr-cancel  { background-image: url(../images/cancel16.png); }
+.icon-cr-request { background-image: url(../images/tag_blue.png); }
+.icon-cr-take { background-image: url(../images/wrench.png); }
+.icon-cr-offer { background-image: url(../images/user_go.png); }
+.icon-cr-accept { background-image: url(../images/true.png); }
+.icon-cr-decline { background-image: url(../images/false.png); }
+
 
 .icon-file { background-image: url(../images/files/default.png); }
 .icon-file.text-plain { background-image: url(../images/files/text.png); }
@@ -782,7 +789,7 @@ td.username img.gravatar {
 }
 
 .gravatar-margin {
-  margin-left: 40px;
+  margin-left: 60px;
 }
 
 h2 img { vertical-align:middle; }
@@ -794,4 +801,114 @@ h2 img { vertical-align:middle; }
   #main { background: #fff; }
   #content { width: 99%; margin: 0; padding: 0; border: 0; background: #fff; overflow: visible !important;}
 	#wiki_add_attachment { display:none; }
+}
+
+
+/*Voting*/
+
+.issuevote { 
+/*	float: left;*/
+	margin: 2px 0px 1px; 
+	padding: 1px; 
+	font-size: 12px;
+	font-weight: bold;
+	font-family: baskerville, Times, Times New Roman, serif;
+	color:#484848;
+	text-align:center;
+	width:20px;
+	
+}
+
+.issuevote table{
+	padding: 0px;
+	margin: 0px;
+}
+
+.issuevote tr{
+	padding: 0px;
+	margin: 0px;
+	height: 14px;
+	width: 15px;
+}
+
+.issuevote td{
+	padding: 0px;
+	margin: 0px;
+}
+
+.messagevote {
+	-moz-border-radius-bottomleft:3px;
+	-moz-border-radius-bottomright:3px;
+	-moz-border-radius-topleft:3px;
+	-moz-border-radius-topright:3px;
+	background-color:#CDE9A7;
+	border:1px solid #ADDE6B;
+	color:#455138;
+	font-family:baskerville,Times,Times New Roman,serif;
+	font-size:21px;
+	font-weight:normal;
+	margin:2px 0 10px;
+	padding:0px 0px 0px 10px;
+	flaot: left;
+}
+
+.messagevote table{
+	padding: 0px;
+	margin: 0px;
+	font-size:12px;
+}
+
+.messagevote tr{
+	padding: 0px;
+	margin: 0px;
+/*	width: 15px;*/
+}
+
+.messagevote td{
+	padding: 0px 2px 0px 0px;
+	margin: 0px;
+	text-align: center;
+}
+
+.messagevote td#topic{
+	font-size: 21px;
+	vertical-align: top;
+}
+
+.journalvote {
+	float:right; 
+	white-space: nowrap; 
+	line-height:1.4em;
+	padding-left: 10px; 
+	font-size:0.9em;
+	margin-top: 1.4em; 
+	margin-right: 1em; f
+	padding: 1px; 
+	font-weight: bold;
+	font-family: baskerville, Times, Times New Roman, serif;
+	color:#484848;
+	text-align:center;
+/*	float: right;*/
+}
+
+.replyvote {
+	float:right; 
+	white-space: nowrap; 
+	line-height:1.4em;
+	padding-left: 10px; 
+	font-size:0.9em;
+	margin-top: 1.4em; 
+	margin-right: 1em; f
+	padding: 1px; 
+	font-weight: bold;
+	font-family: baskerville, Times, Times New Roman, serif;
+	color:#484848;
+	text-align:center;
+/*	float: right;*/
+}
+
+/*create_request_dialogue*/
+.create_request_dialogue {
+	margin: -13px 10px 0px 10px;
+	text-align: center;
 }

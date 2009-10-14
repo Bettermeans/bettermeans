@@ -1,23 +1,4 @@
-<span id="commitrequest">
-
-<% @crid = CommitRequest.request_id(user,issue) 
-
-if (@crid != nil)
-
-%>
-
-<%= link_to_remote l(:button_request_commitment_remove), 
-{:url => commit_request_path(:id => @crid, :format => :js, :user_id => user, :issue_id => issue), :method => 'delete'}, 
-{:id =>'cr_button'}
-%>
-
-<%- else -%>
-
-<%= link_to_remote l(:button_request_commitment), 
-{:url => {:controller => 'commit_requests', :action => 'create', :format => :js, :user_id => user, :issue_id => issue}}, 
-{:id =>'cr_button'}
-%>
-
-<%- end -%>
-
-</span>
+<div id="commit_request_side_<%= commit_request %>">
+  <%logger.info("SHOW PARAMETERS: #{params.inspect}") %>
+<%= authoring_from_id created_at, updated_at, user_id, responder_id, response, commit_request, current_user, issue, push_allowed, days %><br>
+</div>
