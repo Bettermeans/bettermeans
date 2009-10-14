@@ -205,13 +205,19 @@ function addLightboxMarkup() {
 
 function add_lightbox(id) {		
   // dismiss();
+  try{
   value = new lightbox($(id));
+	}
+	catch(err){}
 }
 
 function dismiss() {
+	try{
   lightbox.prototype.deactivate();
   if(browser == 'Internet Explorer') {
     // this is here because lightbox doesn't scroll IE after dismissing after we post forms
     window.scrollTo(0, lightbox.prototype.getYPos());
   }		
+}
+catch(err){}
 }
