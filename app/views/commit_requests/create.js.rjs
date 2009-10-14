@@ -1,3 +1,4 @@
+page.call 'dismiss'
 page.replace_html "commit_request_actions", :partial => "show_link", :locals => {:issue => params['issue_id'], :user => params['user_id'], :push_allowed => params[:push_allowed]}
 
 page.insert_html :bottom, "commit_request_list", :partial => "commit_requests/show", :locals => {:issue => params['issue_id'], 
@@ -8,7 +9,8 @@ page.insert_html :bottom, "commit_request_list", :partial => "commit_requests/sh
                       :created_at => @commit_request.created_at, 
                       :updated_at => @commit_request.updated_at,
                       :commit_request => @commit_request.id,
-                      :push_allowed => params[:push_allowed]
+                      :push_allowed => params[:push_allowed],
+                      :days => @commit_request.days
                       }
                       
 page["commit_request_side_#{@commit_request.id}"].visual_effect :highlight
@@ -18,3 +20,6 @@ if @commit_request.response == 2||@commit_request.response == 4||@commit_request
   page.replace_html "assigned_to", avatar(User.current, :size => "14") + " " + link_to_user(User.current)
   page["assigned_to"].visual_effect :highlight
 end
+
+page.call 'add_lightbox', 'cr_button' #adding hook to create button for lightbox
+page.call 'add_lightbox', 'cr_push_button' #adding hook to offer button for lightbox
