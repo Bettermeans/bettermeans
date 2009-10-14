@@ -46,7 +46,7 @@ class CommitRequestsController < ApplicationController
     @commit_request.response = params[:response] unless params[:response].blank?
     @commit_request.days = params[:days] unless params[:days].blank?
     
-
+    @lock_version = ''
     
     if @commit_request.response == 2 #somebody is taking this issue
       #we set the responder id equal to the author id
@@ -57,16 +57,19 @@ class CommitRequestsController < ApplicationController
       @issue.assigned_to = @user
       logger.info("EXISTING ISSUE BEFORE #{@issue.inspect}")
       @issue.save      
+      @lock_version = @issue.lock_version
       logger.info("EXISTING ISSUE AFTER #{@issue.inspect}")
       
     end
+    
+
 
 
     respond_to do |format|
       if @commit_request.save
         # flash[:notice] = 'Request for commitment was successfully sent.'
         # format.js  { render :action => "create", :commit_request => @commit_request, :user => @commit_request.user_id, :issue => @commit_request.issue_id}        
-        format.js  { render :action => "create", :commit_request => @commit_request, :lock_version => @issue.lock_version}        
+        format.js  { render :action => "create", :commit_request => @commit_request, :lock_version => @lock_version}        
         format.html { redirect_to(@commit_request) }
         format.xml  { render :xml => @commit_request, :status => :created, :location => @commit_request }
       else
