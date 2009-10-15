@@ -122,7 +122,7 @@ class CommitRequestsController < ApplicationController
     
 
     respond_to do |format|
-      format.js  { render :action => "update", :commit_request => @commit_request, :created_at => @commit_request.created_at, :updated_at => @commit_request.updated_at, :lock_version => @issue.lock_version}        
+      format.js  { render :action => "update", :commit_request => @commit_request, :created_on => @commit_request.created_on, :updated_on => @commit_request.updated_on, :lock_version => @issue.lock_version}        
       format.html { redirect_to(commit_requests_url) }
       format.xml  { head :ok }
     end

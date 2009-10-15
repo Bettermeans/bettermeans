@@ -40,7 +40,7 @@ class ApplicationTest < ActionController::IntegrationTest
     # not a supported language: default language should be used
     get 'projects', { }, 'Accept-Language' => 'zz'
     assert_response :success
-    assert_tag :tag => 'h2', :content => 'Projects'
+    assert_tag :tag => 'h2', :content => 'Workstreams'
   end
   
   def test_token_based_access_should_not_start_session
