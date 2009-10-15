@@ -251,6 +251,7 @@ en:
   field_identifier: Identifier
   field_is_filter: Used as a filter
   field_issue_to: Related item
+  field_issue: Related item
   field_delay: Delay
   field_assignable: Items can be owned by this role
   field_redirect_existing_links: Redirect existing links
@@ -705,7 +706,7 @@ en:
   label_group_plural: Groups
   label_group_new: New group
   label_time_entry_plural: Spent time
-  label_commit_request_history: Ownership History#new
+  label_commit_request_history: Ownership History #new
   label_requested_by: "Requested by {{author}} {{age}} ago" #new
   label_offered_by: "Offered by {{author}} to {{responder}} {{age}} ago" #new
   label_accepted_by: "Accepted by {{responder}} {{age}} ago" #new
