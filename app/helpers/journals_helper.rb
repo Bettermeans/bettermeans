@@ -70,12 +70,12 @@ module JournalsHelper
     unless journal.user_id == User.current.id ||
       !User.current.logged? ||
       User.current.voted_on?(journal)
-      votingcontent << link_to_remote (image_tag('/images/aupgray.gif', :size => "15x14", :border => 0), 
+      votingcontent << link_to_remote(image_tag('/images/aupgray.gif', :size => "15x14", :border => 0), 
         {
     	  :url => user_journal_votes_path(User.current, journal, :vote => :true, :format => :js, :voteable_type => "journal"), 
     	  :method => :post
     	  })
-      votingcontent << link_to_remote (image_tag('/images/adowngray.gif', :size => "15x14", :border => 0), 
+      votingcontent << link_to_remote(image_tag('/images/adowngray.gif', :size => "15x14", :border => 0), 
         {
   		  :url => user_journal_votes_path(User.current, journal, :vote => :false, :format => :js, :voteable_type => "journal"), 
   		  :method => :post

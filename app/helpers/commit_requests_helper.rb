@@ -3,7 +3,7 @@ module CommitRequestsHelper
     unless @active_requests
       active = ARCondition.new(["response != ? AND issue_id = ?",999,issue_id]) #TODO: In the future we might want to hide recinded requests by setting 999 to 1
       @active_requests = CommitRequest.find(:all, 
-                                    :order => "created_at ASC",
+                                    :order => "created_on ASC",
                                     :conditions => active.conditions)
     end
     @active_requests
@@ -96,7 +96,7 @@ module CommitRequestsHelper
       if (@cr == nil) #Used for migration. Some issues have been assigned, but don't have commitment requests (before commitment requests were implemented!)
         logger.info("No existing commitment request. Creating first one")
         #Let's create a commitment request
-        @cr = CommitRequest.new({:user_id => User.current.id, :response => 2, :responder_id => User.current.id, :created_at => @issue.created_on, :updated_at => @issue.updated_on, :issue_id => @issue.id})
+        @cr = CommitRequest.new({:user_id => User.current.id, :response => 2, :responder_id => User.current.id, :created_on => @issue.created_on, :updated_on => @issue.updated_on, :issue_id => @issue.id})
         @cr.save
       end
     elsif (@cr == nil)
@@ -151,7 +151,7 @@ module CommitRequestsHelper
                  {:id =>'cr_button', :class => @class + ' lbOn'}
     elsif @action == 'update'    
       @pull_content = link_to_remote @label, 
-              {:url => user_commit_request_path(:id => @cr, :format => :js, :user_id => user, :issue_id => issue, :response => @response, :responder_id => user, :updated_at => @cr.updated_at, :created_at => @cr.created_at, :push_allowed => push_allowed), :method => 'put'}, 
+              {:url => user_commit_request_path(:id => @cr, :format => :js, :user_id => user, :issue_id => issue, :response => @response, :responder_id => user, :updated_on => @cr.updated_on, :created_on => @cr.created_on, :push_allowed => push_allowed), :method => 'put'}, 
                 {:id =>'cr_button' + @button_id, :class => @class}      
     end   
     

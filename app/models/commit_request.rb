@@ -9,7 +9,7 @@ class CommitRequest < ActiveRecord::Base
 
   #Returns request for current user and issue
   def self.request(user, issue)
-    @cr = find(:first, :conditions => ["user_id = ? AND issue_id = ?", user, issue], :order => "updated_at DESC")
+    @cr = find(:first, :conditions => ["user_id = ? AND issue_id = ?", user, issue], :order => "updated_on DESC")
   end
   
 end
