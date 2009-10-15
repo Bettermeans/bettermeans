@@ -142,7 +142,7 @@ module Redmine
             IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_high), :position => 3)
             IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_urgent), :position => 4)
           
-            TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_default), :position => 1)
+            TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_default), :position => 1, :is_default => true)
             TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_planning), :position => 2)
             TimeEntryActivity.create!(:opt => "ACTI", :name => l(:default_activity_execution), :position => 3)
           end
