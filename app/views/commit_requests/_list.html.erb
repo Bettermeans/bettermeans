@@ -5,7 +5,7 @@
 
 <%= render :partial => "commit_requests/show_link", :locals => {:issue => @issue, :user => User.current, :push_allowed => @push_allowed} %>
 
-<h3><%= l(:label_commit_request_plural) %></h3>
+<h3><%= l(:label_commit_request_history) %></h3>
 <div id="commit_request_list">
 <%- active_requests(issue).each do |cr| -%>
 <%= render :partial => "commit_requests/show", 
