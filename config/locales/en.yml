@@ -719,6 +719,7 @@ en:
   label_not_sure: "Not sure"
   label_commitment: "Commitment"
   label_commitment_offer: "Ownership Offer"
+  label_total_karma: "Total Karma"
   
   button_login: Login
   button_submit: Submit
