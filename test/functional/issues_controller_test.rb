@@ -73,7 +73,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_no_tag :tag => 'a', :content => /Issue of a private subproject/
     assert_no_tag :tag => 'a', :content => /Issue on project 2/
     # project column
-    assert_tag :tag => 'th', :content => /Project/
+    assert_tag :tag => 'th', :content => /Workstream/
   end
   
   def test_index_should_not_list_issues_when_module_disabled
@@ -426,7 +426,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response 500
     assert_not_nil flash[:error]
     assert_tag :tag => 'div', :attributes => { :class => /error/ },
-                              :content => /No default issue/
+                              :content => /No default item/
   end
   
   def test_get_new_with_no_tracker_should_display_an_error
