@@ -61,16 +61,16 @@ module PeteOnRails
           case String(object.table_name)
           when "issues"
             logger.info "EXCEPTION FOR ISSUE TABLE ACTIVATED"
-            conditions = ["u.id = ? AND vote = ? AND v.voteable_type = ?" , self[:id] , true, "issue"] #TODO this could be DRYER
+            conditions = ["u.id = ? AND vote = ? AND v.voteable_type = ?" , self[:id] , true, "Issue"] #TODO this could be DRYER
             joins = ["inner join votes v on #{object.table_name}.id = v.voteable_id", "inner join #{self.class.table_name} u on u.id = issues.author_id"]
           when "messages"
-            conditions = ["u.id = ? AND vote = ? AND v.voteable_type = ?" , self[:id] , true, "message"] #TODO this could be DRYER
+            conditions = ["u.id = ? AND vote = ? AND v.voteable_type = ?" , self[:id] , true, "Message"] #TODO this could be DRYER
             joins = ["inner join votes v on #{object.table_name}.id = v.voteable_id", "inner join #{self.class.table_name} u on u.id = messages.author_id"]
           when "journals"
-            conditions = ["u.id = ? AND vote = ? AND v.voteable_type = ?" , self[:id] , true, "journal"] #TODO this could be DRYER
+            conditions = ["u.id = ? AND vote = ? AND v.voteable_type = ?" , self[:id] , true, "Journal"] #TODO this could be DRYER
             joins = ["inner join votes v on #{object.table_name}.id = v.voteable_id", "inner join #{self.class.table_name} u on u.id = #{object.name.tableize}.#{self.class.name.foreign_key}"]
           when "reply"
-            conditions = ["u.id = ? AND vote = ? AND v.voteable_type = ?" , self[:id] , true, "reply"] #TODO this could be DRYER
+            conditions = ["u.id = ? AND vote = ? AND v.voteable_type = ?" , self[:id] , true, "Reply"] #TODO this could be DRYER
             joins = ["inner join votes v on #{object.table_name}.id = v.voteable_id", "inner join #{self.class.table_name} u on u.id = messages.author_id"]
           end  
             { :joins => joins.join(" "), :conditions => conditions }.update(options)          
