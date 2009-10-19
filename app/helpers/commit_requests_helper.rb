@@ -1,5 +1,6 @@
 module CommitRequestsHelper
   def active_requests(issue_id)
+    
     unless @active_requests
       active = ARCondition.new(["response != ? AND issue_id = ?",999,issue_id]) #TODO: In the future we might want to hide recinded requests by setting 999 to 1
       @active_requests = CommitRequest.find(:all, 
