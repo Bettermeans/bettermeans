@@ -73,8 +73,8 @@ class AdminControllerTest < ActionController::TestCase
   
   def test_load_default_configuration_data
     delete_configuration_data
-    post :default_configuration, :lang => 'fr'
-    assert IssueStatus.find_by_name('Nouveau')
+    post :default_configuration, :lang => 'en'
+    assert IssueStatus.find_by_name('Open')
   end
   
   def test_test_email
