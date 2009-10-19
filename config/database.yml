@@ -30,12 +30,11 @@ development:
   password: tree
 
 test:
-  adapter: mysql
-  database: redmine_test
-  host: localhost
-  username: root
-  password: tree
-  encoding: utf8
+    adapter: postgresql
+    database: redmine_test
+    host: localhost
+    username: postgres
+    password: tree
 
 test_pgsql:
   adapter: postgresql

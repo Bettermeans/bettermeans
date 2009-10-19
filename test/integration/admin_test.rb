@@ -22,10 +22,10 @@ class AdminTest < ActionController::IntegrationTest
 
   def test_add_user
     log_user("admin", "admin")
-    get "/users/add"
+    get "/users/new"
     assert_response :success
     assert_template "users/add"
-    post "/users/add", :user => { :login => "psmith", :firstname => "Paul", :lastname => "Smith", :mail => "psmith@somenet.foo", :language => "en" }, :password => "psmith09", :password_confirmation => "psmith09"
+    post "/users/add", :user => { :login => "psmith", :firstname => "Paul", :lastname => "Smith", :mail => "psmith@somenet.food", :language => "en" }, :password => "psmith09", :password_confirmation => "psmith09"
     
     user = User.find_by_login("psmith")
     assert_kind_of User, user

@@ -21,6 +21,7 @@ begin
   require 'mocha'
 rescue
   # Won't run some tests
+  puts 'Mocha is missing. Skipping tests.'  
 end
 
 class AccountTest < ActionController::IntegrationTest
