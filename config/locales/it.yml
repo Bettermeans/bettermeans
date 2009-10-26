@@ -592,7 +592,7 @@ it:
   default_tracker_feature: Funzione
   default_tracker_support: Supporto
   default_issue_status_new: Nuovo
-  default_issue_status_assigned: Assegnato
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Risolto
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Chiuso
@@ -837,3 +837,6 @@ it:
   label_group_new: New group
   label_time_entry_plural: Spent time
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers

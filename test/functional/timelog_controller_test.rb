@@ -58,6 +58,28 @@ class TimelogControllerTest < ActionController::TestCase
     assert_tag :tag => 'form', :attributes => { :action => '/projects/ecookbook/timelog/edit/2' }
   end
   
+  def test_get_edit_should_only_show_active_time_entry_activities
+    @request.session[:user_id] = 3
+    get :edit, :project_id => 1
+    assert_response :success
+    assert_template 'edit'
+    assert_no_tag :tag => 'option', :content => 'Inactive Activity'
+                                    
+  end
+
+  def test_get_edit_with_an_existing_time_entry_with_inactive_activity
+    te = TimeEntry.find(1)
+    te.activity = TimeEntryActivity.find_by_name("Inactive Activity")
+    te.save!
+
+    @request.session[:user_id] = 1
+    get :edit, :project_id => 1, :id => 1
+    assert_response :success
+    assert_template 'edit'
+    # Blank option since nothing is pre-selected
+    assert_tag :tag => 'option', :content => '--- Please select ---'
+  end
+  
   def test_post_edit
     # TODO: should POST to issues’ time log instead of project. change form
     # and routing
@@ -202,12 +224,12 @@ class TimelogControllerTest < ActionController::TestCase
   end
   
   def test_report_custom_field_criteria
-    get :report, :project_id => 1, :criterias => ['project', 'cf_1']
+    get :report, :project_id => 1, :criterias => ['project', 'cf_1', 'cf_7']
     assert_response :success
     assert_template 'report'
     assert_not_nil assigns(:total_hours)
     assert_not_nil assigns(:criterias)
-    assert_equal 2, assigns(:criterias).size
+    assert_equal 3, assigns(:criterias).size
     assert_equal "162.90", "%.2f" % assigns(:total_hours)
     # Custom field column
     assert_tag :tag => 'th', :content => 'Database'
@@ -216,6 +238,8 @@ class TimelogControllerTest < ActionController::TestCase
                              :sibling => { :tag => 'td', :attributes => { :class => 'hours' },
                                                          :child => { :tag => 'span', :attributes => { :class => 'hours hours-int' },
                                                                                      :content => '1' }}
+    # Second custom field column
+    assert_tag :tag => 'th', :content => 'Billable'
   end
   
   def test_report_one_criteria_no_result

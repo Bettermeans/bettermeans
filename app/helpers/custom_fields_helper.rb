@@ -9,7 +9,10 @@ module CustomFieldsHelper
             {:name => 'TimeEntryCustomField', :partial => 'custom_fields/index', :label => :label_spent_time},
             {:name => 'ProjectCustomField', :partial => 'custom_fields/index', :label => :label_project_plural},
             {:name => 'UserCustomField', :partial => 'custom_fields/index', :label => :label_user_plural},
-            {:name => 'GroupCustomField', :partial => 'custom_fields/index', :label => :label_group_plural}
+            {:name => 'GroupCustomField', :partial => 'custom_fields/index', :label => :label_group_plural},
+            {:name => 'TimeEntryActivityCustomField', :partial => 'custom_fields/index', :label => TimeEntryActivity::OptionName},
+            {:name => 'IssuePriorityCustomField', :partial => 'custom_fields/index', :label => IssuePriority::OptionName},
+            {:name => 'DocumentCategoryCustomField', :partial => 'custom_fields/index', :label => DocumentCategory::OptionName}
             ]
   end
   
@@ -26,7 +29,7 @@ module CustomFieldsHelper
     when "text"
       text_area_tag(field_name, custom_value.value, :id => field_id, :rows => 3, :style => 'width:90%')
     when "bool"
-      check_box_tag(field_name, '1', custom_value.true?, :id => field_id) + hidden_field_tag(field_name, '0')
+      hidden_field_tag(field_name, '0') + check_box_tag(field_name, '1', custom_value.true?, :id => field_id)
     when "list"
       blank_option = custom_field.is_required? ?
                        (custom_field.default_value.blank? ? "<option value=\"\">--- #{l(:actionview_instancetag_blank_option)} ---</option>" : '') : 

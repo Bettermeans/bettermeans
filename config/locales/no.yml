@@ -690,7 +690,7 @@
   default_tracker_feature: Funksjon
   default_tracker_support: Support
   default_issue_status_new: Ny
-  default_issue_status_assigned: Tildelt
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Avklart
   default_issue_status_feedback: Tilbakemelding
   default_issue_status_closed: Lukket
@@ -825,3 +825,6 @@
   label_group_new: New group
   label_time_entry_plural: Spent time
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers
