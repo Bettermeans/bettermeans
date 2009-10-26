@@ -3,6 +3,7 @@
 #
 
 class DocumentsController < ApplicationController
+  default_search_scope :documents
   before_filter :find_project, :only => [:index, :new]
   before_filter :find_document, :except => [:index, :new]
   before_filter :authorize

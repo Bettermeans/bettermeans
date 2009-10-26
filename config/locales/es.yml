@@ -212,7 +212,7 @@ es:
   default_activity_development: Desarrollo
   default_doc_category_tech: Documentación técnica
   default_doc_category_user: Documentación de usuario
-  default_issue_status_assigned: Asignada
+  default_issue_status_in_progress: In Progress
   default_issue_status_closed: Cerrada
   default_issue_status_feedback: Comentarios
   default_issue_status_new: Nueva
@@ -871,3 +871,6 @@ es:
   label_group_new: Nuevo grupo
   label_time_entry_plural: Tiempo dedicado
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers

@@ -788,7 +788,7 @@ de:
   default_tracker_feature: Feature
   default_tracker_support: Unterstützung
   default_issue_status_new: Neu
-  default_issue_status_assigned: Zugewiesen
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Gelöst
   default_issue_status_feedback: Feedback
   default_issue_status_closed: Erledigt
@@ -850,3 +850,6 @@ de:
   label_group_new: New group
   label_time_entry_plural: Spent time
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers

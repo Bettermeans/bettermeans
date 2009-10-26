@@ -834,7 +834,7 @@ zh:
   default_tracker_feature: 功能
   default_tracker_support: 支持
   default_issue_status_new: 新建
-  default_issue_status_assigned: 已指派
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: 已解决
   default_issue_status_feedback: 反馈
   default_issue_status_closed: 已关闭
@@ -852,3 +852,6 @@ zh:
   enumeration_issue_priorities: 问题优先级
   enumeration_doc_categories: 文档类别
   enumeration_activities: 活动（时间跟踪）
+  field_active: Active
+  enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers

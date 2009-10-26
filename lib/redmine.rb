@@ -54,6 +54,7 @@ Redmine::AccessControl.map do |map|
     # Watchers
     map.permission :view_issue_watchers, {}
     map.permission :add_issue_watchers, {:watchers => :new}
+    map.permission :delete_issue_watchers, {:watchers => :destroy}
   end
   
   map.project_module :time_tracking do |map|
@@ -61,6 +62,7 @@ Redmine::AccessControl.map do |map|
     map.permission :view_time_entries, :timelog => [:details, :report]
     map.permission :edit_time_entries, {:timelog => [:edit, :destroy]}, :require => :member
     map.permission :edit_own_time_entries, {:timelog => [:edit, :destroy]}, :require => :loggedin
+    map.permission :manage_project_activities, {:projects => [:save_activities, :reset_activities]}, :require => :member
   end
   
   map.project_module :news do |map|
