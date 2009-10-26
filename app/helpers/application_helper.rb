@@ -1,5 +1,5 @@
-# redMine - project management software
-# Copyright (C) 2006-2007  Jean-Philippe Lang
+# BetterMeans - Work 2.0
+# Copyright (C) 2009  Shereef Bishay
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
