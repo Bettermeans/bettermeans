@@ -76,9 +76,9 @@ module CommitRequestsHelper
   
   #Generates a link for pulling the request, depending on the response of the commit request
   def pull_link(user,issue,push_allowed)
-    @cr = CommitRequest.request(user,issue)     
     @issue = Issue.find(issue)
-    @user = User.find(user)    
+    @user = User.find(user)  
+    @cr = CommitRequest.request(user,issue, @issue.assigned_to == @user)     
     @label = ''
     @response = ''
     @action = ''
