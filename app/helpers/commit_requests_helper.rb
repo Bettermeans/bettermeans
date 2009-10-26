@@ -63,7 +63,7 @@ module CommitRequestsHelper
           content << " | " << link_to_remote(l(:button_request_commitment_decline), {:url => user_commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 7, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-decline'})
           
         elsif User.current.id == author_id #if this offer is BY me
-          content << linebreak << link_to_remote(l(:button_request_commitment_withdraw), {:url => user_commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 5, :responder_id => responder_id, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-cancel'})
+          content << linebreak << link_to_remote(l(:button_request_commitment_withdraw), {:url => user_commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 5, :responder_id => responder_id, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button_withdraw', :class => 'icon icon-cr-cancel'})
         end
       when 5 then content << linebreak << l(:label_recinded, :age => time_tag(updated))     
       when 6 then content << linebreak << l(:label_accepted, :age => time_tag(updated))     
