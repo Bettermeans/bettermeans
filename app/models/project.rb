@@ -7,6 +7,12 @@ class Project < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
   
+  # Specific overidden Activities
+  has_many :time_entry_activities do
+    def active
+      find(:all, :conditions => {:active => true})
+    end
+  end
   has_many :members, :include => :user, :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
   has_many :member_principals, :class_name => 'Member', 
                                :include => :principal,
@@ -62,7 +68,7 @@ class Project < ActiveRecord::Base
 
   named_scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
-  named_scope :public, { :conditions => { :is_public => true } }
+  named_scope :all_public, { :conditions => { :is_public => true } }
   named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
   
   def identifier=(identifier)
@@ -140,6 +146,51 @@ class Project < ActiveRecord::Base
       end
     end
     statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
+  end
+
+  # Returns the Systemwide and project specific activities
+  def activities(include_inactive=false)
+    if include_inactive
+      return all_activities
+    else
+      return active_activities
+    end
+  end
+
+  # Will create a new Project specific Activity or update an existing one
+  #
+  # This will raise a ActiveRecord::Rollback if the TimeEntryActivity
+  # does not successfully save.
+  def update_or_create_time_entry_activity(id, activity_hash)
+    if activity_hash.respond_to?(:has_key?) && activity_hash.has_key?('parent_id')
+      self.create_time_entry_activity_if_needed(activity_hash)
+    else
+      activity = project.time_entry_activities.find_by_id(id.to_i)
+      activity.update_attributes(activity_hash) if activity
+    end
+  end
+  
+  # Create a new TimeEntryActivity if it overrides a system TimeEntryActivity
+  #
+  # This will raise a ActiveRecord::Rollback if the TimeEntryActivity
+  # does not successfully save.
+  def create_time_entry_activity_if_needed(activity)
+    if activity['parent_id']
+    
+      parent_activity = TimeEntryActivity.find(activity['parent_id'])
+      activity['name'] = parent_activity.name
+      activity['position'] = parent_activity.position
+
+      if Enumeration.overridding_change?(activity, parent_activity)
+        project_activity = self.time_entry_activities.create(activity)
+
+        if project_activity.new_record?
+          raise ActiveRecord::Rollback, "Overridding TimeEntryActivity was not successfully saved"
+        else
+          self.time_entries.update_all("activity_id = #{project_activity.id}", ["activity_id = ?", parent_activity.id])
+        end
+      end
+    end
   end
 
   # Returns a :conditions SQL string that can be used to find the issues associated with this project.
@@ -327,75 +378,35 @@ class Project < ActiveRecord::Base
   end
 
   # Copies and saves the Project instance based on the +project+.
-  # Will duplicate the source project's:
+  # Duplicates the source project's:
+  # * Wiki
+  # * Versions
+  # * Categories
   # * Issues
   # * Members
   # * Queries
-  def copy(project)
+  #
+  # Accepts an +options+ argument to specify what to copy
+  #
+  # Examples:
+  #   project.copy(1)                                    # => copies everything
+  #   project.copy(1, :only => 'members')                # => copies members only
+  #   project.copy(1, :only => ['members', 'versions'])  # => copies members and versions
+  def copy(project, options={})
     project = project.is_a?(Project) ? project : Project.find(project)
-
-    Project.transaction do
-      # Wikis
-      self.wiki = Wiki.new(project.wiki.attributes.dup.except("project_id"))
-      project.wiki.pages.each do |page|
-        new_wiki_content = WikiContent.new(page.content.attributes.dup.except("page_id"))
-        new_wiki_page = WikiPage.new(page.attributes.dup.except("wiki_id"))
-        new_wiki_page.content = new_wiki_content
-
-        self.wiki.pages << new_wiki_page
-      end
-      
-      # Versions
-      project.versions.each do |version|
-        new_version = Version.new
-        new_version.attributes = version.attributes.dup.except("project_id")
-        self.versions << new_version
-      end
-
-      project.issue_categories.each do |issue_category|
-        new_issue_category = IssueCategory.new
-        new_issue_category.attributes = issue_category.attributes.dup.except("project_id")
-        self.issue_categories << new_issue_category
-      end
-      
-      # Issues
-      project.issues.each do |issue|
-        new_issue = Issue.new
-        new_issue.copy_from(issue)
-        # Reassign fixed_versions by name, since names are unique per
-        # project and the versions for self are not yet saved
-        if issue.fixed_version
-          new_issue.fixed_version = self.versions.select {|v| v.name == issue.fixed_version.name}.first
-        end
-        # Reassign the category by name, since names are unique per
-        # project and the categories for self are not yet saved
-        if issue.category
-          new_issue.category = self.issue_categories.select {|c| c.name == issue.category.name}.first
-        end
-        
-        self.issues << new_issue
-      end
     
-      # Members
-      project.members.each do |member|
-        new_member = Member.new
-        new_member.attributes = member.attributes.dup.except("project_id")
-        new_member.role_ids = member.role_ids.dup
-        new_member.project = self
-        self.members << new_member
+    to_be_copied = %w(wiki versions issue_categories issues members queries boards)
+    to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
+    
+    Project.transaction do
+      if save
+        reload
+        to_be_copied.each do |name|
+          send "copy_#{name}", project
+        end
+        Redmine::Hook.call_hook(:model_project_copy_before_save, :source_project => project, :destination_project => self)
+        save
       end
-      
-      # Queries
-      project.queries.each do |query|
-        new_query = Query.new
-        new_query.attributes = query.attributes.dup.except("project_id", "sort_criteria")
-        new_query.sort_criteria = query.sort_criteria if query.sort_criteria
-        new_query.project = self
-        self.queries << new_query
-      end
-
-      Redmine::Hook.call_hook(:model_project_copy_before_save, :source_project => project, :destination_project => self)
-      self.save
     end
   end
 
@@ -407,7 +418,7 @@ class Project < ActiveRecord::Base
       project = project.is_a?(Project) ? project : Project.find(project)
       if project
         # clear unique attributes
-        attributes = project.attributes.dup.except('name', 'identifier', 'id', 'status')
+        attributes = project.attributes.dup.except('id', 'name', 'identifier', 'status', 'parent_id', 'lft', 'rgt')
         copy = Project.new(attributes)
         copy.enabled_modules = project.enabled_modules
         copy.trackers = project.trackers
@@ -422,7 +433,92 @@ class Project < ActiveRecord::Base
     end
   end
   
-private
+  private
+  
+  # Copies wiki from +project+
+  def copy_wiki(project)
+    # Check that the source project has a wiki first
+    unless project.wiki.nil?
+      self.wiki ||= Wiki.new
+      wiki.attributes = project.wiki.attributes.dup.except("id", "project_id")
+      project.wiki.pages.each do |page|
+        new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id", "updated_on"))
+        new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_on", "parent_id"))
+        new_wiki_page.content = new_wiki_content
+        wiki.pages << new_wiki_page
+      end
+    end
+  end
+
+  # Copies versions from +project+
+  def copy_versions(project)
+    project.versions.each do |version|
+      new_version = Version.new
+      new_version.attributes = version.attributes.dup.except("id", "project_id", "created_on", "updated_on")
+      self.versions << new_version
+    end
+  end
+
+  # Copies issue categories from +project+
+  def copy_issue_categories(project)
+    project.issue_categories.each do |issue_category|
+      new_issue_category = IssueCategory.new
+      new_issue_category.attributes = issue_category.attributes.dup.except("id", "project_id")
+      self.issue_categories << new_issue_category
+    end
+  end
+  
+  # Copies issues from +project+
+  def copy_issues(project)
+    project.issues.each do |issue|
+      new_issue = Issue.new
+      new_issue.copy_from(issue)
+      # Reassign fixed_versions by name, since names are unique per
+      # project and the versions for self are not yet saved
+      if issue.fixed_version
+        new_issue.fixed_version = self.versions.select {|v| v.name == issue.fixed_version.name}.first
+      end
+      # Reassign the category by name, since names are unique per
+      # project and the categories for self are not yet saved
+      if issue.category
+        new_issue.category = self.issue_categories.select {|c| c.name == issue.category.name}.first
+      end
+      self.issues << new_issue
+    end
+  end
+
+  # Copies members from +project+
+  def copy_members(project)
+    project.members.each do |member|
+      new_member = Member.new
+      new_member.attributes = member.attributes.dup.except("id", "project_id", "created_on")
+      new_member.role_ids = member.role_ids.dup
+      new_member.project = self
+      self.members << new_member
+    end
+  end
+
+  # Copies queries from +project+
+  def copy_queries(project)
+    project.queries.each do |query|
+      new_query = Query.new
+      new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria")
+      new_query.sort_criteria = query.sort_criteria if query.sort_criteria
+      new_query.project = self
+      self.queries << new_query
+    end
+  end
+
+  # Copies boards from +project+
+  def copy_boards(project)
+    project.boards.each do |board|
+      new_board = Board.new
+      new_board.attributes = board.attributes.dup.except("id", "project_id", "topics_count", "messages_count", "last_message_id")
+      new_board.project = self
+      self.boards << new_board
+    end
+  end
+  
   def allowed_permissions
     @allowed_permissions ||= begin
       module_names = enabled_modules.collect {|m| m.name}
@@ -432,5 +528,43 @@ private
 
   def allowed_actions
     @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
+  end
+
+  # Returns all the active Systemwide and project specific activities
+  def active_activities
+    overridden_activity_ids = self.time_entry_activities.active.collect(&:parent_id)
+
+    if overridden_activity_ids.empty?
+      return TimeEntryActivity.active
+    else
+      return system_activities_and_project_overrides
+    end
+  end
+
+  # Returns all the Systemwide and project specific activities
+  # (inactive and active)
+  def all_activities
+    overridden_activity_ids = self.time_entry_activities.collect(&:parent_id)
+
+    if overridden_activity_ids.empty?
+      return TimeEntryActivity.all
+    else
+      return system_activities_and_project_overrides(true)
+    end
+  end
+
+  # Returns the systemwide active activities merged with the project specific overrides
+  def system_activities_and_project_overrides(include_inactive=false)
+    if include_inactive
+      return TimeEntryActivity.all.
+        find(:all,
+             :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
+        self.time_entry_activities
+    else
+      return TimeEntryActivity.active.
+        find(:all,
+             :conditions => ["id NOT IN (?)", self.time_entry_activities.active.collect(&:parent_id)]) +
+        self.time_entry_activities.active
+    end
   end
 end

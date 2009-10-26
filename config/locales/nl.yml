@@ -153,7 +153,7 @@ nl:
   default_activity_development: Ontwikkeling
   default_doc_category_tech: Technische documentatie
   default_doc_category_user: Gebruikersdocumentatie
-  default_issue_status_assigned: Toegewezen
+  default_issue_status_in_progress: In Progress
   default_issue_status_closed: Gesloten
   default_issue_status_feedback: Terugkoppeling
   default_issue_status_new: Nieuw
@@ -812,3 +812,6 @@ nl:
   label_group_new: New group
   label_time_entry_plural: Spent time
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers

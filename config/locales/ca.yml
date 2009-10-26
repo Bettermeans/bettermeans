@@ -780,7 +780,7 @@ ca:
   default_tracker_feature: Característica
   default_tracker_support: Suport
   default_issue_status_new: Nou
-  default_issue_status_assigned: Assignat
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Resolt
   default_issue_status_feedback: Comentaris
   default_issue_status_closed: Tancat
@@ -827,3 +827,6 @@ ca:
   label_group_new: New group
   label_time_entry_plural: Spent time
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers

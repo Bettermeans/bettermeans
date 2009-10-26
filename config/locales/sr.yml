@@ -623,7 +623,7 @@
   default_tracker_feature: Nova osobina
   default_tracker_support: Podrška
   default_issue_status_new: Novo
-  default_issue_status_assigned: Dodeljeno
+  default_issue_status_in_progress: In Progress
   default_issue_status_resolved: Rešeno
   default_issue_status_feedback: Povratna informacija
   default_issue_status_closed: Zatvoreno
@@ -845,3 +845,6 @@
   label_group_new: New group
   label_time_entry_plural: Spent time
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers

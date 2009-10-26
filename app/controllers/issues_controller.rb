@@ -4,6 +4,7 @@
 
 class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
+  default_search_scope :issues
   
   before_filter :find_issue, :only => [:show, :edit, :reply]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
@@ -30,6 +31,10 @@ class IssuesController < ApplicationController
   helper :timelog
   include Redmine::Export::PDF
 
+  verify :method => :post,
+         :only => :destroy,
+         :render => { :nothing => true, :status => :method_not_allowed }
+           
   def index
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)

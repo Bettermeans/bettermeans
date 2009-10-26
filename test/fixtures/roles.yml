@@ -18,6 +18,7 @@ roles_001:
     - :delete_issues
     - :view_issue_watchers
     - :add_issue_watchers
+    - :delete_issue_watchers
     - :manage_public_queries
     - :save_queries
     - :view_gantt
@@ -46,6 +47,7 @@ roles_001:
     - :browse_repository
     - :manage_repository
     - :view_changesets
+    - :manage_project_activities
 
   position: 1
 roles_002: 
@@ -174,4 +176,4 @@ roles_005:
     - :view_changesets
 
   position: 5
-  
+

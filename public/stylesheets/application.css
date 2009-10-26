@@ -159,6 +159,8 @@ table.attributes { width: 100% }
 table.attributes th { vertical-align: top; text-align: left; }
 table.attributes td { vertical-align: top; }
 
+td.center {text-align:center;}
+
 .highlight { background-color: #FCFD8D;}
 .highlight.token-1 { background-color: #faa;}
 .highlight.token-2 { background-color: #afa;}
@@ -317,6 +319,15 @@ font-weight: normal;
 margin-left: 0px;
 text-align: left;
 width: 270px;
+}
+
+.tabular label.block{
+font-weight: normal;
+margin-left: 0px;
+text-align: left;
+float: none;
+display: block;
+width: auto;
 }
 
 input#time_entry_comments { width: 90%;}

@@ -249,7 +249,7 @@ ru:
   default_activity_development: Разработка
   default_doc_category_tech: Техническая документация
   default_doc_category_user: Документация пользователя
-  default_issue_status_assigned: Назначен
+  default_issue_status_in_progress: In Progress
   default_issue_status_closed: Закрыт
   default_issue_status_feedback: Обратная связь
   default_issue_status_new: Новый
@@ -938,3 +938,6 @@ ru:
   label_group_new: Новая группа
   label_time_entry_plural: Затраченное время
   text_journal_added: "{{label}} {{value}} added"
+  field_active: Active
+  enumeration_system_activity: System Activity
+  permission_delete_issue_watchers: Delete watchers

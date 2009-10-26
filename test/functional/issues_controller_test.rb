@@ -362,7 +362,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'changes.rxml'
     # Inline image
-    assert @response.body.include?("&lt;img src=&quot;http://test.host/attachments/download/10&quot; alt=&quot;&quot; /&gt;")
+    assert @response.body.include?("&lt;img src=\"http://test.host/attachments/download/10\" alt=\"\" /&gt;")
   end
   
   def test_new_routing
@@ -1079,5 +1079,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
     assert_equal 2, TimeEntry.find(1).issue_id
     assert_equal 2, TimeEntry.find(2).issue_id
+  end
+  
+  def test_default_search_scope
+    get :index
+    assert_tag :div, :attributes => {:id => 'quick-search'},
+                     :child => {:tag => 'form',
+                                :child => {:tag => 'input', :attributes => {:name => 'issues', :type => 'hidden', :value => '1'}}}
   end
 end

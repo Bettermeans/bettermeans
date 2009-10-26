@@ -333,6 +333,7 @@ en:
   permission_view_calendar: View calender
   permission_view_issue_watchers: View watchers list
   permission_add_issue_watchers: Add watchers
+  permission_delete_issue_watchers: Delete watchers
   permission_log_time: Log spent time
   permission_view_time_entries: View spent time
   permission_edit_time_entries: Edit time logs
@@ -774,6 +775,8 @@ en:
   status_active: active
   status_registered: registered
   status_locked: locked
+
+  field_active: Active
   
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$
@@ -853,3 +856,4 @@ en:
   enumeration_issue_priorities: Item priorities
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)
+  enumeration_system_activity: System Activity

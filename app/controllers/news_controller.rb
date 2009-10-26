@@ -3,6 +3,7 @@
 #
 
 class NewsController < ApplicationController
+  default_search_scope :news
   before_filter :find_news, :except => [:new, :index, :preview]
   before_filter :find_project, :only => [:new, :preview]
   before_filter :authorize, :except => [:index, :preview]

@@ -300,6 +300,68 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 1, copied_project.status
   end
 
+  def test_activities_should_use_the_system_activities
+    project = Project.find(1)
+    assert_equal project.activities, TimeEntryActivity.find(:all, :conditions => {:active => true} )
+  end
+
+
+  def test_activities_should_use_the_project_specific_activities
+    project = Project.find(1)
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project})
+    assert overridden_activity.save!
+
+    assert project.activities.include?(overridden_activity), "Project specific Activity not found"
+  end
+
+  def test_activities_should_not_include_the_inactive_project_specific_activities
+    project = Project.find(1)
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.find(:first), :active => false})
+    assert overridden_activity.save!
+
+    assert !project.activities.include?(overridden_activity), "Inactive Project specific Activity found"
+  end
+
+  def test_activities_should_not_include_project_specific_activities_from_other_projects
+    project = Project.find(1)
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(2)})
+    assert overridden_activity.save!
+
+    assert !project.activities.include?(overridden_activity), "Project specific Activity found on a different project"
+  end
+
+  def test_activities_should_handle_nils
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(1), :parent => TimeEntryActivity.find(:first)})
+    TimeEntryActivity.delete_all
+
+    # No activities
+    project = Project.find(1)
+    assert project.activities.empty?
+
+    # No system, one overridden
+    assert overridden_activity.save!
+    project.reload
+    assert_equal [overridden_activity], project.activities
+  end
+
+  def test_activities_should_override_system_activities_with_project_activities
+    project = Project.find(1)
+    parent_activity = TimeEntryActivity.find(:first)
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => parent_activity})
+    assert overridden_activity.save!
+
+    assert project.activities.include?(overridden_activity), "Project specific Activity not found"
+    assert !project.activities.include?(parent_activity), "System Activity found when it should have been overridden"
+  end
+
+  def test_activities_should_include_inactive_activities_if_specified
+    project = Project.find(1)
+    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.find(:first), :active => false})
+    assert overridden_activity.save!
+
+    assert project.activities(true).include?(overridden_activity), "Inactive Project specific Activity not found"
+  end
+
   context "Project#copy" do
     setup do
       ProjectCustomField.destroy_all # Custom values are a mess to isolate in tests
@@ -307,7 +369,7 @@ class ProjectTest < ActiveSupport::TestCase
       @source_project = Project.find(2)
       @project = Project.new(:name => 'Copy Test', :identifier => 'copy-test')
       @project.trackers = @source_project.trackers
-      @project.enabled_modules = @source_project.enabled_modules
+      @project.enabled_module_names = @source_project.enabled_modules.collect(&:name)
     end
 
     should "copy issues" do
@@ -381,7 +443,9 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     should "copy wiki" do
-      assert @project.copy(@source_project)
+      assert_difference 'Wiki.count' do
+        assert @project.copy(@source_project)
+      end
 
       assert @project.wiki
       assert_not_equal @source_project.wiki, @project.wiki
@@ -411,6 +475,15 @@ class ProjectTest < ActiveSupport::TestCase
       end
     end
 
+    should "copy boards" do
+      assert @project.copy(@source_project)
+
+      assert_equal 1, @project.boards.size
+      @project.boards.each do |board|
+        assert !@source_project.boards.include?(board)
+      end
+    end
+
     should "change the new issues to use the copied issue categories" do
       issue = Issue.find(4)
       issue.update_attribute(:category_id, 3)
@@ -422,6 +495,18 @@ class ProjectTest < ActiveSupport::TestCase
         assert_equal "Stock management", issue.category.name # Same name
         assert_not_equal IssueCategory.find(3), issue.category # Different record
       end
+    end
+    
+    should "limit copy with :only option" do
+      assert @project.members.empty?
+      assert @project.issue_categories.empty?
+      assert @source_project.issues.any?
+    
+      assert @project.copy(@source_project, :only => ['members', 'issue_categories'])
+
+      assert @project.members.any?
+      assert @project.issue_categories.any?
+      assert @project.issues.empty?
     end
     
     should "copy issue relations"
