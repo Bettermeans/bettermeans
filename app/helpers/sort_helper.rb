@@ -1,7 +1,7 @@
 # Helpers to sort tables using clickable column headers.
 #
 # Author:  Stuart Rackham <srackham@methods.co.nz>, March 2005.
-#          Jean-Philippe Lang, 2009
+#          Shereef Bishay, 2009
 # License: This source code is released under the MIT license.
 #
 # - Consecutive clicks toggle the column's sort order.
