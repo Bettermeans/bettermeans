@@ -1,5 +1,5 @@
-/* redMine - project management software
-   Copyright (C) 2006-2008  Jean-Philippe Lang */
+/* BetterMeans - Work 2.0
+   Copyright (C) 2006-2008  Shereef Bishay */
 
 var observingContextMenuClick;
 
