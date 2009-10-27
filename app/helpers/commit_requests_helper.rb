@@ -24,9 +24,11 @@ module CommitRequestsHelper
     author = User.find(author_id)
     author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
     
-    responder = User.find(responder_id) unless (responder_id == 0)
-    responder_tag = (responder.is_a?(User) && !author.anonymous?) ? link_to(h(responder), :controller => 'account', :action => 'show', :id => responder) : h(responder || 'Anonymous')
     response = Integer(response)
+    
+    responder = User.find(responder_id) unless (response == 0)
+    responder_tag = (responder.is_a?(User) && !author.anonymous?) ? link_to(h(responder), :controller => 'account', :action => 'show', :id => responder) : h(responder || 'Anonymous')
+
     
     commitment_tag = l(:label_commitment) + ": " + day_label(days)
     if (author_id == responder_id) #User is the responder. This is someone taking this 
