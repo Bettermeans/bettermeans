@@ -19,7 +19,8 @@
 # rake backup remote=true # this will pull the db locally first
 # * or add this to your cron.rake for hourly or nightly backups:
 # Rake::Task['backup'].invoke
- 
+require 'aws/s3'
+
 desc "backup db from heroku and send to S3"
 task :backup => :environment do
  
