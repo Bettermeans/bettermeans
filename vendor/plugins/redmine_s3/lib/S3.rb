@@ -154,7 +154,11 @@ module S3
     end
 
     def create_bucket(bucket, headers={})
-      return Response.new(make_request('PUT', bucket, '', {}, headers))
+      begin
+        return Response.new(make_request('PUT', bucket, '', {}, headers))
+      rescue
+        puts("Failed to create bucket #{bucket}")
+      end
     end
 
     def create_located_bucket(bucket, location=BucketLocation::DEFAULT, headers={})
