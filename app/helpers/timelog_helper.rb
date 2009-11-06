@@ -68,8 +68,7 @@ module TimelogHelper
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
     decimal_separator = l(:general_csv_decimal_separator)
     custom_fields = TimeEntryCustomField.find(:all)
-    export = StringIO.new
-    CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
+    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [l(:field_spent_on),
                  l(:field_user),
@@ -102,7 +101,6 @@ module TimelogHelper
         csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       end
     end
-    export.rewind
     export
   end
   
@@ -111,8 +109,7 @@ module TimelogHelper
   end
   
   def report_to_csv(criterias, periods, hours)
-    export = StringIO.new
-    CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
+    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # Column headers
       headers = criterias.collect {|criteria| l(@available_criterias[criteria][:label]) }
       headers += periods
@@ -131,7 +128,6 @@ module TimelogHelper
       row << "%.2f" %total
       csv << row
     end
-    export.rewind
     export
   end
   

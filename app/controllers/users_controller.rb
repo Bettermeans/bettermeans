@@ -3,7 +3,7 @@
 #
 
 class UsersController < ApplicationController
-  before_filter :require_admin
+  before_filter :require_admin, :except => :show
 
   helper :sort
   include SortHelper
@@ -11,11 +11,6 @@ class UsersController < ApplicationController
   include CustomFieldsHelper   
 
   def index
-    list
-    render :action => 'list' unless request.xhr?
-  end
-
-  def list
     sort_init 'login', 'asc'
     sort_update %w(login firstname lastname mail admin created_on last_login_on)
     
@@ -36,7 +31,27 @@ class UsersController < ApplicationController
 						:limit  =>  @user_pages.items_per_page,
 						:offset =>  @user_pages.current.offset
 
-    render :action => "list", :layout => false if request.xhr?	
+    render :layout => !request.xhr?	
+  end
+  
+  def show
+    @user = User.active.find(params[:id])
+    @custom_values = @user.custom_values
+    
+    # show only public projects and private projects that the logged in user is also a member of
+    @memberships = @user.memberships.select do |membership|
+      membership.project.is_public? || (User.current.member_of?(membership.project))
+    end
+    
+    events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
+    @events_by_day = events.group_by(&:event_date)
+    
+    if @user != User.current && !User.current.admin? && @memberships.empty? && events.empty?
+      render_404 and return
+    end
+    
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def add
