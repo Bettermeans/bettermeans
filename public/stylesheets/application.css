@@ -887,7 +887,7 @@ h2 img { vertical-align:middle; }
 }
 
 .journalvote {
-	float:right; 
+/*	float:right; */
 	white-space: nowrap; 
 	line-height:1.4em;
 	padding-left: 10px; 
