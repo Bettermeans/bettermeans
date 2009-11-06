@@ -2,8 +2,6 @@
 # Copyright (C) 2006  Shereef Bishay
 #
 
-require 'csv'
-
 module IssuesHelper
   include ApplicationHelper
   include CommitRequestsHelper
@@ -136,8 +134,7 @@ module IssuesHelper
   def issues_to_csv(issues, project = nil)
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
     decimal_separator = l(:general_csv_decimal_separator)
-    export = StringIO.new
-    CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
+    export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [ "#",
                   l(:field_status), 
@@ -187,7 +184,6 @@ module IssuesHelper
         csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       end
     end
-    export.rewind
     export
   end
 end

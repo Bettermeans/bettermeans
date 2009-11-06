@@ -9,7 +9,7 @@ require 'groups_controller'
 class GroupsController; def rescue_action(e) raise e end; end
 
 class GroupsControllerTest < ActionController::TestCase
-  fixtures :projects, :users, :members, :member_roles
+  fixtures :projects, :users, :members, :member_roles, :groups_users
   
   def setup
     @controller = GroupsController.new
