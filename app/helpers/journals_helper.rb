@@ -10,13 +10,16 @@ module JournalsHelper
     links = []
     if !journal.notes.blank?
       
-      links << link_to_remote(image_tag('comment.png'),
+      links << link_to_remote(l(:button_quote),
                               { :url => {:controller => 'issues', :action => 'reply', :id => journal.journalized, :journal_id => journal} },
-                              :title => l(:button_quote)) if options[:reply_links]
+                              :title => l(:button_quote),
+                              :class => 'icon icon-comment') if options[:reply_links]
+
                               
-      links << link_to_in_place_notes_editor(image_tag('edit.png'), "journal-#{journal.id}-notes", 
+      links << link_to_in_place_notes_editor(l(:button_edit), "journal-#{journal.id}-notes", 
                                              { :controller => 'journals', :action => 'edit', :id => journal },
-                                                :title => l(:button_edit)) if editable
+                                                :title => l(:button_edit),
+                                                :class => 'icon icon-edit') if editable
       
     	
     		
@@ -53,6 +56,9 @@ module JournalsHelper
   
   def render_votes(journal, options={})
     votingcontent = ''
+    #We show total votes regardless 
+    votingcontent << " " + String(journal.votes_for - journal.votes_against) + " points"
+    
     # Voting on journal items
     unless journal.user_id == User.current.id ||
       !User.current.logged? ||
@@ -69,9 +75,7 @@ module JournalsHelper
   	    })
     end
     
-    #We show total votes regardless 
-    votingcontent << " " + String(journal.votes_for - journal.votes_against) + " points"
-  	content_tag('span', votingcontent, :id => "votes_" + String(journal.id), :class => 'journalvote')        
+    content_tag('span', votingcontent, :id => "votes_" + String(journal.id), :class => 'journalvote')        
     
   end
   
