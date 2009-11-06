@@ -55,6 +55,8 @@ class CommitRequestsController < ApplicationController
       @issue = Issue.find(@commit_request.issue_id)
       @issue.assigned_to = @user
       logger.info("EXISTING ISSUE BEFORE #{@issue.inspect}")
+      @issue.expected_date = Time.new() + 3600*24*@commit_request.days unless @commit_request.days < 0
+      @issue.status = IssueStatus.assigned
       @issue.save      
       @lock_version = @issue.lock_version
       logger.info("EXISTING ISSUE AFTER #{@issue.inspect}")      
@@ -97,9 +99,7 @@ class CommitRequestsController < ApplicationController
     @commit_request.response = params[:response]
     @commit_request.responder_id = params[:responder_id]
     @commit_request.days = params[:days] unless params[:days].nil?
-    logger.info("RESSPONSE: #{@commit_request.inspect}")
     @commit_request.save
-    logger.info("XXXX: #{@project}")
     
     @issue = Issue.find(@commit_request.issue_id)    
     
@@ -107,17 +107,24 @@ class CommitRequestsController < ApplicationController
     when 8 #somebody is releasing this issue
       @user = nil
       @issue.assigned_to = @user
+      @issue.expected_date = nil
+      @issue.status = IssueStatus.default
       @issue.save
     when 6 #somebody is accepting an offer for this issue
       #Updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
       @user = User.find(@commit_request.responder_id)
       @issue.assigned_to = @user
+      @issue.expected_date = Time.new() + 3600*24*@commit_request.days unless @commit_request.days < 0
+      @issue.status = IssueStatus.assigned
       @issue.save
     when 2 #somebody is accepting someone else's request for this issue
       #Updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
       @user = User.find(@commit_request.user_id)
       @issue.assigned_to = @user
+      @issue.expected_date = Time.new() + 3600*24*@commit_request.days unless @commit_request.days < 0
+      @issue.status = IssueStatus.assigned
       @issue.save
+      logger.info("Inspecting issue: #{@issue.inspect}")
     end
     
 

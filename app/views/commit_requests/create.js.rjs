@@ -17,8 +17,12 @@ page["commit_request_side_#{@commit_request.id}"].visual_effect :highlight
 
 #If this request resulted in me owning the task
 if @commit_request.response == 2||@commit_request.response == 6
-  page.replace_html "assigned_to", avatar(User.current, :size => "14") + " " + link_to_user(User.current)
+  page.replace_html "assigned_to", link_to_user(User.current)
+  page.replace_html "issue_status", l(:default_issue_status_assigned)
+  page.replace_html "expected_date", format_date(Time.new() + 3600*24*@commit_request.days) unless @commit_request.days < 0
+  page.replace_html "main_gravatar", avatar(User.current, :size => "64")
   page["assigned_to"].visual_effect :highlight
+  page["expected_date"].visual_effect :highlight
 end
 
 page.replace "issue_lock_version", hidden_field("issue","lock_version", :value => @lock_version) unless (@lock_version == '')

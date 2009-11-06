@@ -1,6 +1,6 @@
 <%- 
 @pull_allowed =  User.current.allowed_to?(:pull_commitment, @project) #TODO: We're not using this
-@push_allowed =  User.current.allowed_to?(:push_commitment, @project)
+@push_allowed = is_push_allowed(User.current,@issue,@project)
  -%>
 
 <%= render :partial => "commit_requests/show_link", :locals => {:issue => @issue, :user => User.current, :push_allowed => @push_allowed} %>
