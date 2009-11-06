@@ -20,6 +20,10 @@ class IssueStatus < ActiveRecord::Base
   def self.default
     find(:first, :conditions =>["is_default=?", true])
   end
+  
+  def self.assigned
+    find(:first, :conditions =>["name=?", l(:default_issue_status_assigned)])
+  end
 
   # Returns an array of all statuses the given role can switch to
   # Uses association cache when called more than one time
