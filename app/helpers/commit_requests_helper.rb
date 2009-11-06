@@ -16,8 +16,11 @@ module CommitRequestsHelper
   
   #returns true if this user is allowed to take (and/or offer) ownership for this particular issue
   def is_push_allowed(user,issue,project)
-    logger.info("Expected Date: #{issue.expected_date}  Now: #{Time.new.to_date}  Over?: #{issue.expected_date < Time.new.to_date}")
-    User.current.allowed_to?(:push_commitment, project) && (issue.expected_date.nil? || issue.expected_date < Time.new.to_date)
+    # logger.info("Expected Date: #{issue.expected_date}  Now: #{Time.new.to_date}  Over?: #{issue.expected_date < Time.new.to_date}")
+    if (user.nil? || issue.nil? || project.nil?) 
+              return false
+            end
+    user.allowed_to?(:push_commitment, project) && (issue.expected_date.nil? || issue.expected_date < Time.new.to_date)
   end
   
   def authoring_from_id(created, updated, author_id, responder_id, response, commit_request_id, user, issue, push_allowed, days, options={})
