@@ -44,7 +44,7 @@ class IssuesController < ApplicationController
       limit = per_page_option
       respond_to do |format|
         format.html { }
-        format.atom { }
+        format.atom { limit = Setting.feeds_limit.to_i }
         format.csv  { limit = Setting.issues_export_limit.to_i }
         format.pdf  { limit = Setting.issues_export_limit.to_i }
       end
@@ -69,7 +69,7 @@ class IssuesController < ApplicationController
           render :template => 'issues/index.rhtml', :layout => !request.xhr?
         }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
-        format.csv  { send_data(issues_to_csv(@issues, @project).read, :type => 'text/csv; header=present', :filename => 'export.csv') }
+        format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
       end
     else
