@@ -6,7 +6,8 @@
 <%= l(:text_create_dialogue_choose_days) %>
 
 <p>
-  <br /> <%= select_tag ( "days" , options_for_select([ [l(:label_not_sure) , 0],                                              
+  <br /> <%= select_tag ( "days" , options_for_select([ [l(:label_not_sure) , -1],                                              
+                                              [l(:label_Today) , 0 ],
                                               ["1 "+ l(:label_day) , 1 ],
                                               ["2 "+ l(:label_day_plural) , 2], 
                                               ["3 "+ l(:label_day_plural) , 3],

@@ -40,7 +40,11 @@ module RedmineS3
     end
 
     def self.create_bucket
-      conn.create_bucket(bucket).http_response.message
+      begin
+        conn.create_bucket(bucket).http_response.message
+      rescue
+        puts("Failed to created bucket #{bucket}")
+      end
     end
 
     def self.put(filename, data)
