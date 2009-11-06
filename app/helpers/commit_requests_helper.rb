@@ -14,11 +14,17 @@ module CommitRequestsHelper
     content_tag(:div, "#{request.user_id} | #{request.issue_id}", :class => "commit_request_side", :id => "commit_request_side_#{request.id}")
   end  
   
-  def authoring_from_id(created, updated, author_id, responder_id, response, commit_request_id, user, issue, push_allowed, days, options={})    
+  #returns true if this user is allowed to take (and/or offer) ownership for this particular issue
+  def is_push_allowed(user,issue,project)
+    logger.info("Expected Date: #{issue.expected_date}  Now: #{Time.new.to_date}  Over?: #{issue.expected_date < Time.new.to_date}")
+    User.current.allowed_to?(:push_commitment, project) && (issue.expected_date.nil? || issue.expected_date < Time.new.to_date)
+  end
+  
+  def authoring_from_id(created, updated, author_id, responder_id, response, commit_request_id, user, issue, push_allowed, days, options={})
     linebreak = "<br>==> "
     content = ''
     if (push_allowed == nil)
-      push_allowed = User.current.allowed_to?(:push_commitment, @project)
+      push_allowed = is_push_allowed :user=>user, :issue=>issue, :project=>Project.find(issue.project_id)
     end
     
     author = User.find(author_id)
@@ -72,7 +78,7 @@ module CommitRequestsHelper
       when 7 then content << linebreak << l(:label_declined, :age => time_tag(updated))     
       when 8 then content << linebreak << l(:label_released, :age => time_tag(updated))     
     end
-    logger.info("Authoring from id content #{content}")
+    # logger.info("Authoring from id content #{content}")
     content << "<br>"
   end
   
@@ -174,7 +180,8 @@ module CommitRequestsHelper
   # Generates a label from number of days of a commitment
   def day_label(days)
     case days
-      when 0 then l(:label_not_sure)
+      when -1 then l(:label_not_sure)
+      when 0 then l(:label_same_day)
       when 1 then "1 " + l(:label_day)
       when 2..100 then String(days) + " " + l(:label_day_plural)
     end
