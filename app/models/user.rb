@@ -29,6 +29,7 @@ class User < Principal
   belongs_to :auth_source
   
   has_many :commit_requests, :dependent => :delete_all
+  has_many :notifications, :foreign_key => 'recipient_id', :dependent => :delete_all
   
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"

@@ -31,6 +31,8 @@
     </div>
     <%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}", :id => 'loggedas') if User.current.logged? %>
     <%= render_menu :top_menu -%>
+    <%= render :partial => "notifications/unresponded" %>
+    
 </div>
       
 <div id="header">

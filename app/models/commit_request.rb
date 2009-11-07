@@ -15,7 +15,7 @@ class CommitRequest < ActiveRecord::Base
     if (userowned) #user owns this issue, we're looking for the commit request that he took this issue with (either accepting an offer, taking one)
       @cr = find(:first, :conditions => ["responder_id = ? AND issue_id = ? AND (response = 2 or response = 6) ", user, issue], :order => "updated_on DESC")
     else
-      @cr = find(:first, :conditions => ["user_id = ? AND issue_id = ?", user, issue], :order => "updated_on DESC")
+      @cr = find(:first, :conditions => ["user_id = ? AND issue_id = ? AND response > -1", user, issue], :order => "updated_on DESC")
     end
   end
   
