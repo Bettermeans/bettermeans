@@ -164,7 +164,7 @@ class Issue < ActiveRecord::Base
         duplicate.init_journal(@current_journal.user, @current_journal.notes)
         duplicate.update_attribute :status, self.status
       end
-    end
+    end    
   end
   
   def init_journal(user, notes = "")
@@ -275,6 +275,16 @@ class Issue < ActiveRecord::Base
     s
   end
   
+  
+  #returns true if this user is allowed to take (and/or offer) ownership for this particular issue
+  def push_allowed?(user)
+    logger.info("Entered push allowed: user#{user.inspect}")
+    # logger.info("PUSH ALLOWED: Expected Date: #{issue.expected_date}  Now: #{Time.new.to_date}  Over?: #{issue.expected_date < Time.new.to_date} Issue: #{issue.inspect}")
+    return false if user.nil?
+    
+    user.allowed_to?(:push_commitment, self.project) && (self.expected_date.nil? || self.expected_date < Time.new.to_date) && (self.assigned_to.nil? || self.assigned_to == user)
+  end
+  
   private
   
   # Callback on attachment deletion
@@ -309,4 +319,6 @@ class Issue < ActiveRecord::Base
       @current_journal.save
     end
   end
+  
+  
 end
