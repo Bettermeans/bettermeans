@@ -158,6 +158,10 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.connect 'projects/:id/members/new', :controller => 'members', :action => 'new'
+    
+    map.resources :users do |users|
+      users.resources :mails, :collection => { :delete_selected => :post }
+    end
   
   map.with_options :controller => 'users' do |users|
     users.with_options :conditions => {:method => :get} do |user_views|

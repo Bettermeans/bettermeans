@@ -1,0 +1,13 @@
+<p><strong>From:</strong> <%= @mail.sender == @user ? link_to("You", user_path(@user)) : link_to(h(@mail.sender.login), user_path(@user)) %></p>
+<p><strong>Received:</strong> <%= @mail.created_at.to_s(:long) %></p>
+<p><strong>To:</strong> <%= @mail.recipient == @user ? link_to("You", user_path(@user)) : link_to(h(@mail.recipient.login), user_path(@user)) %></p>
+<p>
+  <strong>Message</strong><br />
+  <%=h @mail.body %>
+</p>
+<p>
+  <% if @mail.recipient == @user %>
+	  <%= link_to "Reply", new_user_mail_path(@user, :reply_to => @mail) %> |
+  <% end %>
+  <%= link_to "Inbox", user_mails_path(@user)%>
+</p>
