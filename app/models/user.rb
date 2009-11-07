@@ -41,6 +41,8 @@ class User < Principal
   
   acts_as_customizable
   
+  has_private_messages :class_name => "Mail"
+  
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
   # Prevents unauthorized assignments
