@@ -52,10 +52,18 @@ module ApplicationHelper
       user.to_s
     end
   end
+  
+  def link_to_user_from_id(user_id, options={})
+    link_to_user(User.find(user_id))
+  end
 
   def link_to_issue(issue, options={})
     options[:class] ||= issue.css_classes
     link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
+  end
+  
+  def link_to_issue_from_id(issue_id, issue_subject, options={})
+    link_to "##{issue_id} - #{issue_subject}", {:controller => "issues", :action => "show", :id => issue_id}, options
   end
 
   # Generates a link to an attachment.
