@@ -70,25 +70,34 @@ class CommitRequestsController < ApplicationController
         #We successfully added the request, let's notify whoever needs the notification if this was an offer
         if @commit_request.response == 4 #offering this issue to someone
           @issue = Issue.find(@commit_request.issue_id)
-          @notification = Notification.new
-          @notification.recipient_id = params[:responder_id]
-          @notification.variation = 'commit_request_offer'
-          @notification.params = ":issue_subject => '#{@issue.subject}', :sender_id => #{@commit_request.user_id}, :issue_id => #{@issue.id}, :cr_id => #{@commit_request.id}, :cr_days => #{@commit_request.days}"
-          @notification.source_id = @commit_request.issue_id
-          @notification.save
+          Notification.create params[:responder_id],
+                              'commit_request_offer',
+                              ":issue_subject => '#{@issue.subject}', :sender_id => #{@commit_request.user_id}, :issue_id => #{@issue.id}, :cr_id => #{@commit_request.id}, :cr_days => #{@commit_request.days}",
+                              @commit_request.issue_id
+                              
+          # @notification = Notification.new
+          #           @notification.recipient_id = params[:responder_id]
+          #           @notification.variation = 'commit_request_offer'
+          #           @notification.params = ":issue_subject => '#{@issue.subject}', :sender_id => #{@commit_request.user_id}, :issue_id => #{@issue.id}, :cr_id => #{@commit_request.id}, :cr_days => #{@commit_request.days}"
+          #           @notification.source_id = @commit_request.issue_id
+          #           @notification.save
         elsif @commit_request.response == 0 #someone is requesting this issue
           logger.info("response is 0, we're creating a notification")
           @issue = Issue.find(@commit_request.issue_id)
           @recipient = @issue.assigned_to.nil? ? @issue.author : @issue.assigned_to #send notification to owner, if no owner then send to author
-          
+          logger.info("Recipient #{@recipient}:  is owner: #{@issue.assigned_to.nil?.to_s}")
           if @issue.push_allowed?(@recipient)
             logger.info("#{@recipient} is allowed, we're creating notification")
-            @notification = Notification.new
-            @notification.recipient_id = @recipient.id
-            @notification.variation = 'commit_request'
-            @notification.params = ":issue_subject => '#{@issue.subject}', :sender_id => #{@commit_request.user_id}, :issue_id => #{@issue.id}, :cr_id => #{@commit_request.id}, :cr_days => #{@commit_request.days}, :is_recipient_owner => #{@issue.assigned_to.nil?.to_s}"
-            @notification.source_id = @commit_request.issue_id
-            @notification.save
+            Notification.create @recipient.id,
+                                'commit_request',
+                                ":issue_subject => '#{@issue.subject}', :sender_id => #{@commit_request.user_id}, :issue_id => #{@issue.id}, :cr_id => #{@commit_request.id}, :cr_days => #{@commit_request.days}, :is_recipient_owner => #{(!@issue.assigned_to.nil?).to_s}",
+                                @commit_request.issue_id
+            # @notification = Notification.new
+            # @notification.recipient_id = @recipient.id
+            # @notification.variation = 'commit_request'
+            # @notification.params = ":issue_subject => '#{@issue.subject}', :sender_id => #{@commit_request.user_id}, :issue_id => #{@issue.id}, :cr_id => #{@commit_request.id}, :cr_days => #{@commit_request.days}, :is_recipient_owner => #{(!@issue.assigned_to.nil?).to_s}"
+            # @notification.source_id = @commit_request.issue_id
+            # @notification.save
           end
         end
         
@@ -141,7 +150,7 @@ class CommitRequestsController < ApplicationController
       @issue.expected_date = Time.new() + 3600*24*@commit_request.days unless @commit_request.days < 0
       @issue.status = IssueStatus.assigned
       @issue.save
-      update_notifications_and_commit_requests(User.current,@issue,true,false)
+      update_notifications_and_commit_requests(@user,@issue,true,false)
     when 2 #somebody is accepting someone else's request for this issue
       #Updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
       @user = User.find(@commit_request.user_id)
@@ -149,27 +158,25 @@ class CommitRequestsController < ApplicationController
       @issue.expected_date = Time.new() + 3600*24*@commit_request.days unless @commit_request.days < 0
       @issue.status = IssueStatus.assigned
       @issue.save
-      update_notifications_and_commit_requests(User.current,@issue,true,false)
+      update_notifications_and_commit_requests(@user,@issue,true,false)
       logger.info("Inspecting issue: #{@issue.inspect}")
     when 7 #declining an offer
       #TODO: notify person that their offer is declined
       update_notifications_and_commit_requests(User.current,@issue,false,false)
       #TODO: notify when my request is accepted, and declined
-    end
-    
-    
-    
+    end 
 
     respond_to do |format|
-      logger.info("Enetering response in commit request controller formate #{format.to_s}")
-      if (!params[:notification_id.nil?])
-        logger.info("inside no")
-          render :template => "notifications/hide", :layout => false
+      logger.info("Entering response in commit request controller formate #{format.to_s}")
+      if (!params[:notification_id].nil?)
+        logger.info("This request came from a notification")
+        render :template => "notifications/hide", :layout => false
         return
-      end      
-      format.js  { render :action => "update", :commit_request => @commit_request, :created_on => @commit_request.created_on, :updated_on => @commit_request.updated_on, :lock_version => @issue.lock_version}        
-      format.html { redirect_to(commit_requests_url) }
-      format.xml  { head :ok }
+      else      
+        format.js  { render :action => "update", :commit_request => @commit_request, :created_on => @commit_request.created_on, :updated_on => @commit_request.updated_on, :lock_version => @issue.lock_version}        
+        format.html { redirect_to(commit_requests_url) }
+        format.xml  { head :ok }
+      end
     end
   end
 
@@ -188,32 +195,36 @@ class CommitRequestsController < ApplicationController
   
   private
   
+  # 0- Request No response 1-Request recinded 2-Request Accepted 3-Request Declined 4-Offer no response 5-Offer recinded 6-Offer accepted 7-Offer Declined 8-Ownership Released
   def update_notifications_and_commit_requests(user,issue,accepted,released)
     issue.commit_requests.each do |cr|
-      # Update all offers to this user for this issue (i.e. if I accept one offer, then I've accepted them all, if I decline one offer, then I've declined them all) 
-      if cr.responder_id == user.id 
-        case cr.response
-        when 4,0
+      
+      #Deal with duplicate offers/requests made to/by same user that was just accepted/declined
+      if cr.responder_id == user.id && cr.response == 4 # Update all offers to this user for this issue (i.e. if I accept one offer, then I've accepted them all, if I decline one offer, then I've declined them all) 
         cr.response = accepted ? 6 : 7
         cr.save
-        end
-      elsif accepted #commit request is not intended for current user, and issue has been accepted, we disable all other outstanding offers for this issue, # Update all open commit_request offers for this issue to disabled (if I've accepted or taken this issue, than all offers to other people for this issue are disabled)  
-        case cr.response
-        when 4 #all outstanding offers are disabled by subtracting 20 from their value, this allows us to re-enable them again by adding twenty
-          cr.response = -16
-          cr.save
-        when 0 #all outstanding requests are disabled 
-          cr.response = -20
-          cr.save
-        end
-      elsif released   #just released, we reactivate all commitment requests
-        if cr.response < 0
-          cr.response = cr.response + 20
-          cr.save
-        end
+      elsif cr.user_id == user.id && cr.response == 0 #Update all requests from this user for this issue (i.e. if I requested it multiple times)
+        cr.response = accepted ? 2 : 3
+        cr.responder_id = User.current.id
+        cr.save
+      end  
+      
+      #Deal with offers and requests made on this issue by other users
+      case cr.response
+        when 0,4 then
+          if accepted #all oustanding requests and offers are disabled, since another request has just been accepted
+            cr.response = cr.response - 20
+            cr.save
+          end
       end
-    end  
-    
+      
+      #just released, we reactivate all open requests and offers
+      if released && cr.response < 0
+        cr.response = cr.response + 20
+        cr.save
+      end
+    end            
+      
     # Update all notifications to this user about this issue (all notifications to me, regarding this issue being offered to me are archived)
     user.notifications.allactive.each do |n|
       logger.info("iterating through users notifications object #{n.source_id} issue #{issue.id}")
@@ -225,10 +236,10 @@ class CommitRequestsController < ApplicationController
     end
   
     # Update all notifications (disable all notifications about offers for this issue for other users)
-    Notification.deactivate_all('commit_request_offer', issue.id) unless !accepted
+    Notification.deactivate_all('commit_request', issue.id) unless !accepted
     
     # If this is an issue that's being released we activate all notifications for it
-    Notification.activate_all('commit_request_offer', issue.id) unless !released
+    Notification.activate_all('commit_request', issue.id) unless !released
     
   end
 end

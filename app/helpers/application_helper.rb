@@ -1,19 +1,7 @@
 # BetterMeans - Work 2.0
 # Copyright (C) 2009  Shereef Bishay
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 
 require 'coderay'
 require 'coderay/helpers/file_type'
@@ -666,6 +654,20 @@ module ApplicationHelper
       return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
     end
   end
+  
+  def avatar_from_id(user_id, options = { })
+    avatar(User.find(user_id), options)
+  end
+  
+  # Generates a label from number of days of a commitment
+  def day_label(days)
+    case days
+      when -1 then l(:label_not_sure)
+      when 0 then l(:label_same_day)
+      when 1 then "1 " + l(:label_day)
+      when 2..100 then String(days) + " " + l(:label_day_plural)
+    end
+  end      
 
   private
 
