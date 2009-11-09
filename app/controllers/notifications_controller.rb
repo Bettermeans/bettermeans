@@ -61,7 +61,6 @@ class NotificationsController < ApplicationController
 
     respond_to do |format|
       if @notification.update_attributes(params[:notification])
-        flash[:notice] = 'Notification was successfully updated.'
         format.html { redirect_to(@notification) }
         format.xml  { head :ok }
       else
@@ -72,10 +71,18 @@ class NotificationsController < ApplicationController
   end
   
   def hide
-    logger.info("entered hide #{params}")
+    @notification = Notification.find(params[:notification_id])
+    @notification.state = 1 #ignored
+    
     respond_to do |format|
-      format.js {render :action => "hide"}
-      format.xml  { head :ok }
+      if @notification.save
+        format.js {render :action => "hide"}
+        format.xml  { head :ok }
+      else
+        flash[:notice] = 'Error ignoring notification'
+        format.js {render :action => "error"}
+        format.xml  { render :xml => @notification.errors, :status => :unprocessable_entity }
+      end
     end
   end
 

@@ -723,10 +723,13 @@ en:
   label_not_sure: "Not sure"
   label_commitment: "Commitment"
   label_commitment_offer: "Ownership Offer"
+  label_commitment_request: "Ownership Request"
   label_total_karma: "Total Karma"
   label_notification : "Notification"
   label_notifications : "Notifications"
   label_new_notifications : "new notification(s)"
+  label_response_sent : "Response sent"
+  label_response_ignored : "Request ignored"
   
   button_login: Login
   button_submit: Submit
@@ -777,6 +780,7 @@ en:
   button_request_commitment_accept: Accept #new
   button_request_commitment_decline: Decline #new
   button_request_commitment_offer: Offer Ownership #new
+  button_ignore: Ignore
   
   status_active: active
   status_registered: registered
