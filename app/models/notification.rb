@@ -30,12 +30,22 @@ class Notification < ActiveRecord::Base
     update_all(variation,source_id,-1,0)
   end
   
+  # Creates a notification (isolating this method so that we can add delayed job in the future)
+  def self.create(recipient_id, variation, params, source_id)
+    @notification = Notification.new
+    @notification.recipient_id = recipient_id
+    @notification.variation = variation
+    @notification.params = params
+    @notification.source_id = source_id
+    @notification.save    
+  end
+  
   # -1 is deactivated
   # 0 is active and no response yet
   # 1 it has been responded to
   # 2 it has been archived
   def self.update_all(variation,source_id,initial_status,final_status)
-    @notifications = self.find(:all, :conditions => ["source_id =? AND variation =? AND state =?", source_id, variation, initial_status])
+    @notifications = self.find(:all, :conditions => ["source_id =? AND variation like '%#{variation}%' AND state =?", source_id, initial_status])
     @notifications.each do |@n|
       @n.state = final_status
       @n.save
