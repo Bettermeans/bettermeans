@@ -278,10 +278,11 @@ class Issue < ActiveRecord::Base
   
   #returns true if this user is allowed to take (and/or offer) ownership for this particular issue
   def push_allowed?(user)
-    logger.info("Entered push allowed: user#{user.inspect}")
-    # logger.info("PUSH ALLOWED: Expected Date: #{issue.expected_date}  Now: #{Time.new.to_date}  Over?: #{issue.expected_date < Time.new.to_date} Issue: #{issue.inspect}")
     return false if user.nil?
     
+    return true if self.assigned_to == user #Any user who owns an issue can offer for people to take it, or can accept offers
+    
+    #True if user has push commitment, AND expected date has passed or doesn't exist AND it's assigned to nobody or assigned to same user
     user.allowed_to?(:push_commitment, self.project) && (self.expected_date.nil? || self.expected_date < Time.new.to_date) && (self.assigned_to.nil? || self.assigned_to == user)
   end
   
