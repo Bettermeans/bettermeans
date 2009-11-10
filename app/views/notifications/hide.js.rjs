@@ -1,0 +1,8 @@
+# page.alert("we're in")
+logger.info("Enetering hide #{params.inspect}")
+
+#Checking if this update is being called through the notification page
+if (!params[:notification_id].nil?)
+  page.replace "notification_" + params[:notification_id], content_tag(:div, l(params[:message] || :label_response_sent), :class => "notification_response", :id => "notification_" + params[:notification_id]) 
+  page["notification_" + params[:notification_id]].visual_effect :highlight  
+end
