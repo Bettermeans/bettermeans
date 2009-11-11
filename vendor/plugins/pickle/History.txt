@@ -1,0 +1,196 @@
+== master
+
+* 1 minor improvement
+  * docs: more links
+  
+
+== 0.1.22 - 7 Nov 2009
+
+* 2 minor enhancements
+  * Improved docs to include instructions for FactoryGirl users, and links/resources for pickle users
+  * Ruby 1.9.1 compatibility changes
+
+
+== 0.1.21
+
+* 1 minor enhancement
+  * Added 'should not' steps corresponding to model existence, and association exitsence [schlick]
+
+
+== 0.1.20
+
+* 1 minor enhancement
+  * Pickle now matches numeric field values preceded with a positive and negative sign eg +1.5 and -1 [schlick]
+
+
+== 0.1.19
+
+* 1 minor enhancement
+  * Add support for Cucumber tables [Tobi Knaup]
+  
+
+== 0.1.16, 0.1.17, 0.1.18 - 13 Oct 2009
+
+* 1 minor enhancement
+  * release gem on gemcutter and code on github
+
+
+== 0.1.15 - 28 Aug 2009
+
+* 1 minor enhancement
+  * avoid namespace collision on replace by renaming mapping#replace -> mapping#replacement [nruth]
+
+
+== 0.1.14 - 9 July 2009
+
+* 1 minor enhancement
+  * update specs and features for latest cucumber and machinist changes
+
+
+== 0.1.13 - 16 June 2009    
+
+* 2 minor enhancements
+  * model! and created_model! raise an error if pickle name can't be found
+  * path_to_pickle uses the above to give back a better error message
+
+
+== 0.1.12 - 7 Apr 2009
+
+* 2 minor enhancements
+  * rationalised Rakefile
+  * update World extensions for latest cucumber changes
+
+
+== 0.1.11 - 22 Feb 2009
+
+* 2 minor enhancements
+  * Pickle now supports multiple machinist blueprints
+  * Fix confusing adapter/adaptor comment generator comment 
+
+
+== 0.1.10 - 13 Feb 2009
+
+* 2 minor enhancements
+  * Made pickle paths generator compatible with latest cucumber
+  * Simplified and Rakefile, including auto push api docs to gh-pages on ci build
+
+
+== 0.1.9 - 29 Jan 2009
+
+* 1 minor enhancement
+  * Pickle::Adapter.model_classes excludes those without tables
+
+
+== 0.1.8 - 29 Jan 2009
+
+* API change
+  * pickle_path becomes path_to_pickle, to avoid named route clashes
+
+* 2 minor enhancements
+  * Updated features for cucumber 0.2 compat
+  * Made paths allow for optional possesives
+
+
+== 0,1,7
+
+* 2 API changes
+  * script/generate pickle path[s] now amends the features/support/paths.rb file
+    instead of creating pge_to_path and path_steps.
+    
+  * pickle_email_steps is renamed email_steps
+
+
+== 0.1.6
+
+* 1 API change
+  * to use pickle env.rb should contain "require 'pickle/world'".  You should remove all trace of
+    pickle from features/support/env.rb and re run script/generate pickle
+
+* 2 major enhancements
+
+  * generate email steps with `script/generate pickle email`
+    email steps allow you to do things like this:
+    
+      Then 2 emails should be delivered
+      And the first email should be delivered to fred@gmail.com
+      And the 2nd email should be delivered to the user: "ethel"
+      
+      Then 1 email should be delivered with subject: "Activate your account"
+      And the email should link to the user's page
+    
+    take a look at features/step_definitions/pickle_email_steps.rb
+      
+  * generate path steps with `script/generate pickle path`
+    path steps allow you to do things like this
+    
+      When I go to the comment's page
+      Then I should be at the user's new comment page
+    
+    take a look at features/step_definitions/pickle_path_steps.rb, and modify page_to_path to suit your needs
+
+* 4 minor enhancements
+  * Improved documentation
+  * abstract models no longer kill pickle
+  * Actually test that the generators work
+  * Made Pickle::Session a plain ole mixin, as a separate class was unnecessary
+  * Pickle uses the cucumber World API
+
+
+== 0.1.5
+
+* API change
+  * CaptureModel, etc are now 'capture_model' methods
+
+* 3 major enhancements
+  * Steps for asserting that <n> models exist, matching certain criteria
+  * Steps for asserting associations added to generated pickle steps
+      'Then the user should be in the post's commenters'
+      'Then the forum: "awesome" should be the 2nd post's forum'
+  * configuration can now occur any time before a step is defined, which makes
+    for much more intuitive env.rb
+
+* 2 minor enhancement
+  * predicate matching is less prone to step conflicts because we preload a 
+    big list of all the predicate and column methods
+  * field values now handle booleans and numerics
+
+
+== 0.1.4
+
+* 1 major enhancement
+  * You can create multiple models with ease, for eg.
+      'Given 10 users exist with role: "admin"'
+
+* 1 minor enhancement
+  * You can do Pickle.configure (just like Webrat.configure)
+
+
+== 0.1.3 - Bugfix release
+
+* 1 minor enhancement
+  * make generated steps compatible with Rails 2.1
+
+
+== 0.1.2
+
+* 2 major enhancements
+  * create your pickle steps with script/generate pickle
+  * Adapter based architecture, supports Machinist, FactoryGirl, and vanilla ActiveRecord
+  
+* 1 minor enhancement
+  * model_names now defaults to subclasses of AR::Base
+  * #original_model => #created_model
+
+
+== 0.1.1
+
+* 1 major enhancement:
+  * made pickle a github gem
+
+* 1 minor enhancement:
+  * Added intentions for pickle in README.textile
+
+
+== Prior to gems
+
+* Initial release: everything is subject to sweeping change
