@@ -23,6 +23,7 @@ test:
   # No reason to collect exceptions when running tests by default
   enabled: false
 
+
 production:
   <<: *default_settings
   enabled: true
@@ -32,3 +33,8 @@ staging:
   # mirrors production, by default catch errors in this environment too.
   <<: *default_settings
   enabled: true
+
+cucumber:
+    <<: *default_settings
+    # No reason to collect exceptions when running cucmber tests by default
+    enabled: false
