@@ -2,14 +2,14 @@
 
 one:
   recipient_id: 1
-  partial_name: MyString
+  variation: MyString
   params: MyString
-  response: 1
+  state: 0
   expiration_date: 2009-11-06
 
 two:
   recipient_id: 1
-  partial_name: MyString
+  variation: MyString
   params: MyString
-  response: 1
+  state: 0
   expiration_date: 2009-11-06
