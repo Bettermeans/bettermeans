@@ -47,7 +47,11 @@ module ApplicationHelper
 
   def link_to_issue(issue, options={})
     options[:class] ||= issue.css_classes
-    link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
+    if options[:include_subject] == true 
+       link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options 
+    else
+       link_to "#{issue.tracker.name} ##{issue.id} - #{issue.subject}", {:controller => "issues", :action => "show", :id => issue}, options
+    end
   end
   
   def link_to_issue_from_id(issue_id, issue_subject, options={})

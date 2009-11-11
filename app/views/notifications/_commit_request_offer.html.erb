@@ -1,17 +1,37 @@
 <!-- Notification partial for a commit request offer -->
-<div class="Notification Notification-commit-request-offer" id="Notification_<%= notification_id %>">
-  <%= avatar_from_id(sender_id) %>
-  <h4><%= l(:label_commitment_request) %></h4>
-  <%= link_to_user_from_id(sender_id) %> is asking for ownership of an issue you <%= is_recipient_owner ? 'own' : 'added'%>:<br>   <!-- TODO: change these words to labels in yml -->
-  <%= link_to_issue_from_id(issue_id,issue_subject) %> <br>
-  <%= l(:label_commitment) + ": " + day_label(cr_days) %> <br>
-  <%= 
-  link_to_remote(l(:button_request_commitment_accept), {:url => user_commit_request_path(:id => cr_id, :format => :js, :user_id => sender_id, :issue_id => issue_id, :response => 2, :responder_id => User.current.id, :notification_id => notification_id), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-accept'})
-  %>
-  <%=
-  link_to_remote(l(:button_request_commitment_decline), {:url => user_commit_request_path(:id => cr_id, :format => :js, :user_id => sender_id, :issue_id => issue_id, :response => 3, :responder_id => User.current.id, :notification_id => notification_id), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-decline'})
-  %>
-  <%=
-  link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => notification_id}, :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})
-  %>
-</div>
+<div class="notification notification-commit-request-offer" id="notification_<%= notification_id %>">
+  <table>
+    <tr>
+      <td style="vertical-align: top; padding: 23px 10px 0px 0px">
+      <%= avatar_from_id(sender_id) %>
+      </td>
+      <td>
+  <h4><%= l(:label_commitment_offer) %> : <%= link_to_issue_from_id(issue_id,issue_subject) %> </h4>
+  <h5><%= l(:label_offered_by, :author => link_to_user_from_id(sender_id), :responder => l(:label_you), :age => time_tag(notification_created_at)) %></h5>
+  <%= link_to_user_from_id(sender_id) %> <%= l(:text_is_offering_ownership_for) %><br><br>   <!-- TODO: change these words to labels in yml -->
+  <%= link_to(l(:button_request_commitment_accept), {:controller => 'commit_requests', 
+                                                    :action => 'create_dialogue', 
+                                                    :id => cr_id, 
+                                                    :format => :js, 
+                                                    :user_id => sender_id, 
+                                                    :issue_id => issue_id, 
+                                                    :response => 6, 
+                                                    :responder_id => User.current.id, 
+                                                    :notification_id => notification_id, 
+                                                    :method => 'put', 
+                                                    :button_action => 'update',
+                                                    :class => 'icon icon-cr-accept', 
+                                                    :label => l(:button_request_commitment_accept)
+                                                    }, 
+                                                        {:id =>'cr_button', :class => 'lbOn icon icon-cr-accept'})%>
+  <%= link_to_remote(l(:button_request_commitment_decline), {:url => user_commit_request_path(:id => cr_id, :format => :js, :user_id => sender_id, :issue_id => issue_id, :response => 3, :responder_id => User.current.id, :notification_id => notification_id), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-decline'})%>
+  <%= link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => notification_id, :message => :label_response_ignored}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
+      </td>
+      </tr>
+      </table>
+  </div>
+  
+  
+   <!-- link_to(l(:button_request_commitment_accept), {:controller => 'commit_requests', :action => 'create_dialogue', :id => @cr.id, :format => :js, :user_id => @cr.user_id, :issue_id => issue, :response => 6, :responder_id => @user, :push_allowed => push_allowed, :button_action => 'update', :method => 'put', :class => 'icon icon-cr-accept', :label => l(:button_request_commitment_accept)}, {:id =>'cr_button', :class => 'lbOn icon icon-cr-accept'})
+  content << " | " << link_to_remote(l(:button_request_commitment_decline), {:url => user_commit_request_path(:id => @cr.id, :format => :js, :user_id => @cr.user_id, :issue_id => issue, :response => 7, :responder_id => @user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-decline'})
+   -->
