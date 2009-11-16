@@ -1,0 +1,5 @@
+<% if Notification.unresponded? %>
+<div id="notification">
+<%=link_to(Notification.unresponded_count.to_s + " " + l(:label_new_notifications), {:controller => 'notifications', :action => 'index'}) %>
+</div>
+<% end %>

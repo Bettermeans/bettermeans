@@ -1,19 +1,7 @@
 # BetterMeans - Work 2.0
 # Copyright (C) 2009  Shereef Bishay
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
 
 require 'coderay'
 require 'coderay/helpers/file_type'
@@ -52,10 +40,22 @@ module ApplicationHelper
       user.to_s
     end
   end
+  
+  def link_to_user_from_id(user_id, options={})
+    link_to_user(User.find(user_id))
+  end
 
   def link_to_issue(issue, options={})
     options[:class] ||= issue.css_classes
-    link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
+    if options[:include_subject] == true 
+       link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options 
+    else
+       link_to "#{issue.tracker.name} ##{issue.id} - #{issue.subject}", {:controller => "issues", :action => "show", :id => issue}, options
+    end
+  end
+  
+  def link_to_issue_from_id(issue_id, issue_subject, options={})
+    link_to "##{issue_id} - #{issue_subject}", {:controller => "issues", :action => "show", :id => issue_id}, options
   end
 
   # Generates a link to an attachment.
@@ -657,6 +657,20 @@ module ApplicationHelper
       return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
     end
   end
+  
+  def avatar_from_id(user_id, options = { })
+    avatar(User.find(user_id), options)
+  end
+  
+  # Generates a label from number of days of a commitment
+  def day_label(days)
+    case days
+      when -1 then l(:label_not_sure)
+      when 0 then l(:label_same_day)
+      when 1 then "1 " + l(:label_day)
+      when 2..100 then String(days) + " " + l(:label_day_plural)
+    end
+  end      
 
   private
 

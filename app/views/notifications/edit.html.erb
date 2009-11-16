@@ -1,0 +1,32 @@
+<h1>Editing notification</h1>
+
+<% form_for(@notification) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :recipient_id %><br />
+    <%= f.text_field :recipient_id %>
+  </p>
+  <p>
+    <%= f.label :partial_name %><br />
+    <%= f.text_field :partial_name %>
+  </p>
+  <p>
+    <%= f.label :params %><br />
+    <%= f.text_field :params %>
+  </p>
+  <p>
+    <%= f.label :response %><br />
+    <%= f.text_field :response %>
+  </p>
+  <p>
+    <%= f.label :expiration_date %><br />
+    <%= f.date_select :expiration_date %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @notification %> |
+<%= link_to 'Back', notifications_path %>

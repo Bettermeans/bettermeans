@@ -29,6 +29,7 @@ class User < Principal
   belongs_to :auth_source
   
   has_many :commit_requests, :dependent => :delete_all
+  has_many :notifications, :foreign_key => 'recipient_id', :dependent => :delete_all
   
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
@@ -40,6 +41,8 @@ class User < Principal
   acts_as_voter #for vote_fu plugin
   
   acts_as_customizable
+  
+  has_private_messages :class_name => "Mail"
   
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
