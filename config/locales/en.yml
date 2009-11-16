@@ -313,12 +313,8 @@ en:
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
   setting_openid: Allow OpenID login and registration
   setting_password_min_length: Minimum password length
-<<<<<<< HEAD
   setting_new_project_user_role_id: Role given to a non-admin user who creates a workstream
-=======
-  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
-  setting_default_projects_modules: Default enabled modules for new projects
->>>>>>> dfd0b8bcdf2aa039b67a3a2f06dbbe8153972140
+  setting_default_projects_modules: Default enabled modules for new workstreams
   
   permission_add_project: Create workstream
   permission_edit_project: Edit workstream
@@ -383,16 +379,10 @@ en:
   label_user: User
   label_user_plural: Users
   label_user_new: New user
-<<<<<<< HEAD
+  label_user_anonymous: Anonymous
   label_project: Workstream
   label_project_new: New workstream
   label_project_plural: Workstreams
-=======
-  label_user_anonymous: Anonymous
-  label_project: Project
-  label_project_new: New project
-  label_project_plural: Projects
->>>>>>> dfd0b8bcdf2aa039b67a3a2f06dbbe8153972140
   label_x_projects:
     zero:  no workstreams
     one:   1 workstream
