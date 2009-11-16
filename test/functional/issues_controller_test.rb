@@ -158,12 +158,26 @@ class IssuesControllerTest < ActionController::TestCase
     assert_nil assigns(:issue_count_by_group)
   end
   
-  def test_index_with_grouped_query
+  def test_index_with_query_grouped_by_tracker
     get :index, :project_id => 1, :query_id => 6
     assert_response :success
     assert_template 'index.rhtml'
     assert_not_nil assigns(:issues)
-    assert_not_nil assigns(:issue_count_by_group)
+    count_by_group = assigns(:issue_count_by_group)
+    assert_kind_of Hash, count_by_group
+    assert_kind_of Tracker, count_by_group.keys.first
+    assert_not_nil count_by_group[Tracker.find(1)]
+  end
+  
+  def test_index_with_query_grouped_by_list_custom_field
+    get :index, :project_id => 1, :query_id => 9
+    assert_response :success
+    assert_template 'index.rhtml'
+    assert_not_nil assigns(:issues)
+    count_by_group = assigns(:issue_count_by_group)
+    assert_kind_of Hash, count_by_group
+    assert_kind_of String, count_by_group.keys.first
+    assert_not_nil count_by_group['MySQL']
   end
   
   def test_index_csv_with_project
@@ -345,6 +359,26 @@ class IssuesControllerTest < ActionController::TestCase
                                             :content => /Notes/ } }
   end
   
+  def test_show_should_deny_anonymous_access_without_permission
+    Role.anonymous.remove_permission!(:view_issues)
+    get :show, :id => 1
+    assert_response :redirect
+  end
+  
+  def test_show_should_deny_non_member_access_without_permission
+    Role.non_member.remove_permission!(:view_issues)
+    @request.session[:user_id] = 9
+    get :show, :id => 1
+    assert_response 403
+  end
+  
+  def test_show_should_deny_member_access_without_permission
+    Role.find(1).remove_permission!(:view_issues)
+    @request.session[:user_id] = 2
+    get :show, :id => 1
+    assert_response 403
+  end
+  
   def test_show_should_not_disclose_relations_to_invisible_issues
     Setting.cross_project_issue_relations = '1'
     IssueRelation.create!(:issue_from => Issue.find(1), :issue_to => Issue.find(2), :relation_type => 'relates')
@@ -365,7 +399,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'changes.rxml'
     # Inline image
-    assert @response.body.include?("&lt;img src=\"http://test.host/attachments/download/10\" alt=\"\" /&gt;")
+    assert @response.body.include?("&lt;img src=\"http://test.host/attachments/download/10\" alt=\"\" /&gt;"), "Body did not match. Body: #{@response.body}"
   end
   
   def test_new_routing
@@ -935,6 +969,12 @@ class IssuesControllerTest < ActionController::TestCase
     assert_equal 2, Issue.find(1).project_id
   end
 
+  def test_move_one_issue_to_another_project_should_follow_when_needed
+    @request.session[:user_id] = 2
+    post :move, :id => 1, :new_project_id => 2, :follow => '1'
+    assert_redirected_to '/issues/1'
+  end
+
   def test_bulk_move_to_another_project
     @request.session[:user_id] = 2
     post :move, :ids => [1, 2], :new_project_id => 2
@@ -963,6 +1003,13 @@ class IssuesControllerTest < ActionController::TestCase
       end
     end
     assert_redirected_to 'projects/ecookbook/issues'
+  end
+
+  def test_copy_to_another_project_should_follow_when_needed
+    @request.session[:user_id] = 2
+    post :move, :ids => [1], :new_project_id => 2, :copy_options => {:copy => '1'}, :follow => '1'
+    issue = Issue.first(:order => 'id DESC')
+    assert_redirected_to :controller => 'issues', :action => 'show', :id => issue
   end
   
   def test_context_menu_one_issue

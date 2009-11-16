@@ -32,12 +32,17 @@ module ApplicationHelper
     link_to_remote(name, options, html_options) if authorize_for(url[:controller] || params[:controller], url[:action])
   end
 
-  # Display a link to user's account page
+  # Displays a link to user's account page if active
   def link_to_user(user, options={})
     if user.is_a?(User)
-      !user.anonymous? ? link_to(user.name(options[:format]), :controller => 'users', :action => 'show', :id => user) : 'Anonymous'
+      name = h(user.name(options[:format]))
+      if user.active?
+        link_to name, :controller => 'users', :action => 'show', :id => user
+      else
+        name
+      end
     else
-      user.to_s
+      h(user.to_s)
     end
   end
   
@@ -45,13 +50,29 @@ module ApplicationHelper
     link_to_user(User.find(user_id))
   end
 
+  # Displays a link to +issue+ with its subject.
+  # Examples:
+  # 
+  #   link_to_issue(issue)                        # => Defect #6: This is the subject
+  #   link_to_issue(issue, :truncate => 6)        # => Defect #6: This i...
+  #   link_to_issue(issue, :subject => false)     # => Defect #6
+  #
   def link_to_issue(issue, options={})
-    options[:class] ||= issue.css_classes
-    if options[:include_subject] == true 
-       link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options 
+    title = nil
+    subject = nil
+    if options[:subject] == false
+      title = truncate(issue.subject, :length => 60)
     else
-       link_to "#{issue.tracker.name} ##{issue.id} - #{issue.subject}", {:controller => "issues", :action => "show", :id => issue}, options
+      subject = issue.subject
+      if options[:truncate]
+        subject = truncate(subject, :length => options[:truncate])
+      end
     end
+    s = link_to "#{issue.tracker} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, 
+                                                 :class => issue.css_classes,
+                                                 :title => title
+    s << ": #{h subject}" if subject
+    s
   end
   
   def link_to_issue_from_id(issue_id, issue_subject, options={})
@@ -476,11 +497,10 @@ module ApplicationHelper
           oid = oid.to_i
           case prefix
           when nil
-            if issue = Issue.find_by_id(oid, :include => [:project, :status], :conditions => Project.visible_by(User.current))
+            if issue = Issue.visible.find_by_id(oid, :include => :status)
               link = link_to("##{oid}", {:only_path => only_path, :controller => 'issues', :action => 'show', :id => oid},
-                                        :class => (issue.closed? ? 'issue closed' : 'issue'),
+                                        :class => issue.css_classes,
                                         :title => "#{truncate(issue.subject, :length => 100)} (#{issue.status.name})")
-              link = content_tag('del', link) if issue.closed?
             end
           when 'document'
             if document = Document.find_by_id(oid, :include => [:project], :conditions => Project.visible_by(User.current))

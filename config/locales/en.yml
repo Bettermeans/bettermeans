@@ -155,6 +155,7 @@ en:
   error_issue_not_found_in_project: 'The item was not found or does not belong to this workstream'
   error_no_tracker_in_project: 'No tracker is associated to this workstream. Please check the Workstream settings.'
   error_no_default_issue_status: 'No default item status is defined. Please check your configuration (Go to "Administration -> Item statuses").'
+  error_can_not_reopen_issue_on_closed_version: 'An item assigned to a closed milestone can not be reopened'
   
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
   
@@ -312,7 +313,12 @@ en:
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
   setting_openid: Allow OpenID login and registration
   setting_password_min_length: Minimum password length
+<<<<<<< HEAD
   setting_new_project_user_role_id: Role given to a non-admin user who creates a workstream
+=======
+  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  setting_default_projects_modules: Default enabled modules for new projects
+>>>>>>> dfd0b8bcdf2aa039b67a3a2f06dbbe8153972140
   
   permission_add_project: Create workstream
   permission_edit_project: Edit workstream
@@ -377,9 +383,16 @@ en:
   label_user: User
   label_user_plural: Users
   label_user_new: New user
+<<<<<<< HEAD
   label_project: Workstream
   label_project_new: New workstream
   label_project_plural: Workstreams
+=======
+  label_user_anonymous: Anonymous
+  label_project: Project
+  label_project_new: New project
+  label_project_plural: Projects
+>>>>>>> dfd0b8bcdf2aa039b67a3a2f06dbbe8153972140
   label_x_projects:
     zero:  no workstreams
     one:   1 workstream
@@ -755,6 +768,7 @@ en:
   button_list: List
   button_view: View
   button_move: Move
+  button_move_and_follow: Move and follow
   button_back: Back
   button_cancel: Cancel
   button_activate: Activate
@@ -790,6 +804,10 @@ en:
   status_active: active
   status_registered: registered
   status_locked: locked
+  
+  version_status_open: open
+  version_status_locked: locked
+  version_status_closed: closed
 
   field_active: Active
   

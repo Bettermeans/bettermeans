@@ -30,7 +30,7 @@ module Redmine
             administrator = Role.create! :name => l(:default_role_administrator), :position => 1
             administrator.permissions = administrator.setable_permissions.collect {|p| p.name}
             administrator.permissions.delete(:edit_time_entries)
-            
+
             administrator.save!
             
             citizen = Role.create! :name => l(:default_role_citizen), :position => 2
@@ -85,7 +85,8 @@ module Redmine
                         
             Role.non_member.update_attribute :permissions, contributor.permissions
           
-            Role.anonymous.update_attribute :permissions, [:view_gantt,
+            Role.anonymous.update_attribute :permissions, [:view_issues,
+                                                           :view_gantt,
                                                            :view_calendar,
                                                            :view_time_entries,
                                                            :view_documents,
