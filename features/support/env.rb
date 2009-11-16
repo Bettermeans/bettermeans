@@ -8,6 +8,7 @@ ENV["RAILS_ENV"] ||= "cucumber"
 require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
 require 'cucumber/rails/world'
 
+
 # If you set this to true, each scenario will run in a database transaction.
 # You can still turn off transactions on a per-scenario basis, simply tagging 
 # a feature or scenario with the @no-txn tag. 
@@ -37,6 +38,13 @@ require 'cucumber'
 require 'cucumber/formatter/unicode'
 require 'cucumber/webrat/element_locator' # Lets you do table.diff!(element_at('#my_table_or_dl_or_ul_or_ol').to_table)
 require 'cucumber/rails/rspec'
+require "#{Rails.root}/spec/factories"
+
+#require 'db_cleaner.rb'
+# require 'database_cleaner'
+# require 'database_cleaner/cucumber'
+# DatabaseCleaner.strategy = :transaction
+
 
 require 'webrat'
 require 'webrat/core/matchers' 
@@ -52,3 +60,5 @@ require 'pickle/world'
 #   config.adapters = [:machinist]
 #   config.map 'I', 'myself', 'me', 'my', :to => 'user: "me"'
 # end
+require 'pickle/path/world'
+require 'pickle/email/world'

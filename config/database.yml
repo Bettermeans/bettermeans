@@ -54,3 +54,7 @@ demo:
 
 cucumber:
   <<: *TEST
+  
+selenium:
+  <<: *TEST
+ 
