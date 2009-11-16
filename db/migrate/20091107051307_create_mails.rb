@@ -11,6 +11,6 @@ class CreateMails < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table mails
+    drop_table :mails
   end
 end

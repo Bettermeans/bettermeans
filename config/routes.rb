@@ -1,6 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :notifications
-
   
   # map.connect 'commit_requests/createdialgoue', :action => 'createdialogue', :controller => 'commit_requesets'
   
@@ -281,6 +279,10 @@ ActionController::Routing::Routes.draw do |map|
       mv.resources :votes
     end
   end
+  
+  map.resources :notifications
+  map.resources :projects
+  map.resources :issues
  
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
