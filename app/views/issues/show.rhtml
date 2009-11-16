@@ -61,7 +61,7 @@
 </tr>
 <tr>
     <% if @issue.estimated_hours %>
-    <th class="estimated-hours"><%=l(:field_estimated_hours)%>:</th><td><%= l_hours(@issue.estimated_hours) %></td>
+    <th class="estimated-hours"><%=l(:field_estimated_hours)%>:</th><td class="estimated-hours"><%= l_hours(@issue.estimated_hours) %></td>
     <% end %>
 </tr>
 <tr>

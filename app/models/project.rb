@@ -78,21 +78,6 @@ class Project < ActiveRecord::Base
   def identifier_frozen?
     errors[:identifier].nil? && !(new_record? || identifier.blank?)
   end
-  
-  def issues_with_subprojects(include_subprojects=false)
-    conditions = nil
-    if include_subprojects
-      ids = [id] + descendants.collect(&:id)
-      conditions = ["#{Project.table_name}.id IN (#{ids.join(',')}) AND #{Project.visible_by}"]
-    end
-    conditions ||= ["#{Project.table_name}.id = ?", id]
-    # Quick and dirty fix for Rails 2 compatibility
-    Issue.send(:with_scope, :find => { :conditions => conditions }) do 
-      Version.send(:with_scope, :find => { :conditions => conditions }) do
-        yield
-      end
-    end 
-  end
 
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
@@ -135,14 +120,16 @@ class Project < ActiveRecord::Base
     else
       statements << "1=0"
       if user.logged?
-        statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.non_member.allowed_to?(permission)
+        if Role.non_member.allowed_to?(permission) && !options[:member]
+          statements << "#{Project.table_name}.is_public = #{connection.quoted_true}"
+        end
         allowed_project_ids = user.memberships.select {|m| m.roles.detect {|role| role.allowed_to?(permission)}}.collect {|m| m.project_id}
         statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})" if allowed_project_ids.any?
-      elsif Role.anonymous.allowed_to?(permission)
-        # anonymous user allowed on public project
-        statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" 
       else
-        # anonymous user is not authorized
+        if Role.anonymous.allowed_to?(permission) && !options[:member]
+          # anonymous user allowed on public project
+          statements << "#{Project.table_name}.is_public = #{connection.quoted_true}"
+        end 
       end
     end
     statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
@@ -240,8 +227,34 @@ class Project < ActiveRecord::Base
   end
   
   # Returns an array of projects the project can be moved to
-  def possible_parents
-    @possible_parents ||= (Project.active.find(:all) - self_and_descendants)
+  # by the current user
+  def allowed_parents
+    return @allowed_parents if @allowed_parents
+    @allowed_parents = (Project.find(:all, :conditions => Project.allowed_to_condition(User.current, :add_project, :member => true)) - self_and_descendants)
+    unless parent.nil? || @allowed_parents.empty? || @allowed_parents.include?(parent)
+      @allowed_parents << parent
+    end
+    @allowed_parents
+  end
+  
+  # Sets the parent of the project with authorization check
+  def set_allowed_parent!(p)
+    unless p.nil? || p.is_a?(Project)
+      if p.to_s.blank?
+        p = nil
+      else
+        p = Project.find_by_id(p)
+        return false unless p
+      end
+    end
+    if p.nil?
+      if !new_record? && allowed_parents.empty?
+        return false
+      end
+    elsif !allowed_parents.include?(p)
+      return false
+    end
+    set_parent!(p)
   end
   
   # Sets the parent of the project
@@ -289,6 +302,17 @@ class Project < ActiveRecord::Base
                          :select => "DISTINCT #{Tracker.table_name}.*",
                          :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
                          :order => "#{Tracker.table_name}.position")
+  end
+  
+  # Closes open and locked project versions that are completed
+  def close_completed_versions
+    Version.transaction do
+      versions.find(:all, :conditions => {:status => %w(open locked)}).each do |version|
+        if version.completed?
+          version.update_attribute(:status, 'closed')
+        end
+      end
+    end
   end
   
   # Returns a hash of project users grouped by role
@@ -365,7 +389,7 @@ class Project < ActiveRecord::Base
       # remove disabled modules
       enabled_modules.each {|mod| mod.destroy unless module_names.include?(mod.name)}
       # add new modules
-      module_names.each {|name| enabled_modules << EnabledModule.new(:name => name)}
+      module_names.reject {|name| module_enabled?(name)}.each {|name| enabled_modules << EnabledModule.new(:name => name)}
     else
       enabled_modules.clear
     end
