@@ -1,9 +1,11 @@
 class CommitRequest < ActiveRecord::Base
   belongs_to :user
   belongs_to :issue  
-    
-  acts_as_activity_provider :find_options => {:include => [:project, :issue]},
-                            :author_key => :user_id
+  
+  acts_as_activity_provider :type => 'requests',
+                            # :permission => :view_documents,
+                            :author_key => :user_id,
+                            :find_options => {:include => [:project, :issue]}
   
   #True if user has requested commitment to this ussue
   def self.committed?(user, issue)
