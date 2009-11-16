@@ -38,3 +38,8 @@ cucumber:
     <<: *default_settings
     # No reason to collect exceptions when running cucmber tests by default
     enabled: false
+    
+selenium: 
+    <<: *default_settings
+    # No reason to collect exceptions when running cucmber tests by default
+    enabled: false

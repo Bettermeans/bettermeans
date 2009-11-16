@@ -18,3 +18,7 @@ test: &TEST
   
 cucumber: 
   <<: *TEST
+  
+selenium:
+  <<: *TEST
+    

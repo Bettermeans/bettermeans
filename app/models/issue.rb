@@ -36,7 +36,7 @@ class Issue < ActiveRecord::Base
   acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
                             :author_key => :author_id
   
-  validates_presence_of :subject, :priority, :project, :tracker, :author, :status
+  validates_presence_of :subject, :project, :tracker, :author, :status #,:priority,
   validates_length_of :subject, :maximum => 255
   validates_inclusion_of :done_ratio, :in => 0..100
   validates_numericality_of :estimated_hours, :allow_nil => true
@@ -57,7 +57,7 @@ class Issue < ActiveRecord::Base
     if new_record?
       # set default values for new records only
       self.status ||= IssueStatus.default
-      self.priority ||= IssuePriority.default
+      # self.priority ||= IssuePriority.default
     end
   end
   
@@ -134,10 +134,11 @@ class Issue < ActiveRecord::Base
       errors.add :start_date, :invalid
     end
   end
-  
-  def validate_on_create
-    errors.add :tracker_id, :invalid unless project.trackers.include?(tracker)
-  end
+
+# Commenting this since on bettermeans all projects will have same trackers  
+  # def validate_on_create
+  #   errors.add :tracker_id, :invalid unless project.trackers.include?(tracker)
+  # end
   
   def before_create
     # default assignment based on category
