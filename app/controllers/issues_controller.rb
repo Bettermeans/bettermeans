@@ -132,6 +132,8 @@ class IssuesController < ApplicationController
     end
     @issue.author = User.current
     
+    @issue.priority = IssuePriority.default
+
     default_status = IssueStatus.default
     unless default_status
       render_error l(:error_no_default_issue_status)
@@ -156,6 +158,7 @@ class IssuesController < ApplicationController
       end		
     end	
     @priorities = IssuePriority.all
+
     render :layout => !request.xhr?
   end
   
