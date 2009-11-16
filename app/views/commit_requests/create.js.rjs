@@ -2,15 +2,8 @@ page.call 'dismiss'
 page.replace_html "commit_request_actions", :partial => "show_link", :locals => {:issue => params['issue_id'], :user => params['user_id'], :push_allowed => params[:push_allowed]}
 
 page.insert_html :bottom, "commit_request_list", :partial => "commit_requests/show", :locals => {:issue => params['issue_id'], 
-                      :current_user => User.current, 
-                      :user_id => @commit_request.user_id, 
-                      :response => @commit_request.response, 
-                      :responder_id => @commit_request.responder_id, 
-                      :created_on => @commit_request.created_on, 
-                      :updated_on => @commit_request.updated_on,
-                      :commit_request => @commit_request.id,
-                      :push_allowed => params[:push_allowed],
-                      :days => @commit_request.days
+                      :cr => @commit_request,
+                      :push_allowed => params[:push_allowed]
                       }
                       
 page["commit_request_side_#{@commit_request.id}"].visual_effect :highlight

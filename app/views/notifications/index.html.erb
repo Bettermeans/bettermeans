@@ -1,0 +1,10 @@
+<h2><%=l(:label_notifications)%></h2>
+<%#= link_to 'New notification', new_notification_path %>
+<% @notifications.each do |notification| %>
+<% logger.info("{" + notification.params + ", :notification_id => #{notification.id.to_s}, :notification_created_at => '#{notification.created_at.to_s}'}") %>
+
+    <%= render :partial => notification.variation, 
+              :locals => eval("{" + notification.params + ", :notification_id => #{notification.id.to_s}, :notification_created_at => '#{notification.created_at.to_s}'}") %>
+<% end %>
+<br />
+

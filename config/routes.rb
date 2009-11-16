@@ -158,6 +158,10 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.connect 'projects/:id/members/new', :controller => 'members', :action => 'new'
+    
+    map.resources :users do |users|
+      users.resources :mails, :collection => { :delete_selected => :post }
+    end
   
   map.with_options :controller => 'users' do |users|
     users.with_options :conditions => {:method => :get} do |user_views|
@@ -275,6 +279,10 @@ ActionController::Routing::Routes.draw do |map|
       mv.resources :votes
     end
   end
+  
+  map.resources :notifications
+  map.resources :projects
+  map.resources :issues
  
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
