@@ -2,7 +2,7 @@ module CommitRequestsHelper
   def active_requests(issue_id)
     
     unless @active_requests
-      active = ARCondition.new(["response != ? AND issue_id = ?",999,issue_id]) #TODO: In the future we might want to hide recinded requests by setting 999 to 1
+      active = ARCondition.new(["response != ? AND response > -1 AND issue_id = ?",999,issue_id]) #TODO: In the future we might want to hide recinded requests by setting 999 to 1
       @active_requests = CommitRequest.find(:all, 
                                     :order => "created_on ASC",
                                     :conditions => active.conditions)
@@ -14,40 +14,36 @@ module CommitRequestsHelper
     content_tag(:div, "#{request.user_id} | #{request.issue_id}", :class => "commit_request_side", :id => "commit_request_side_#{request.id}")
   end  
   
-  #returns true if this user is allowed to take (and/or offer) ownership for this particular issue
-  def is_push_allowed(user,issue,project)
-    # logger.info("Expected Date: #{issue.expected_date}  Now: #{Time.new.to_date}  Over?: #{issue.expected_date < Time.new.to_date}")
-    if (user.nil? || issue.nil? || project.nil?) 
-              return false
-            end
-    user.allowed_to?(:push_commitment, project) && (issue.expected_date.nil? || issue.expected_date < Time.new.to_date)
-  end
   
-  def authoring_from_id(created, updated, author_id, responder_id, response, commit_request_id, user, issue, push_allowed, days, options={})
+  def authoring_from_id(issue, push_allowed, cr, options ={})
+    @user = User.current
+    @cr = cr
+    
+    logger.info(@cr.inspect)
     linebreak = "<br>==> "
     content = ''
     if (push_allowed == nil)
-      push_allowed = is_push_allowed :user=>user, :issue=>issue, :project=>Project.find(issue.project_id)
+      push_allowed = @issue.push_allowed?(@user)
     end
     
-    author = User.find(author_id)
+    author = User.find(@cr.user_id)
     author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
     
-    response = Integer(response)
+    response = @cr.response
     
-    responder = User.find(responder_id) unless (response == 0)
+    responder = User.find(@cr.responder_id) unless (response == 0)
     responder_tag = (responder.is_a?(User) && !author.anonymous?) ? link_to(h(responder), :controller => 'account', :action => 'show', :id => responder) : h(responder || 'Anonymous')
 
     
-    commitment_tag = l(:label_commitment) + ": " + day_label(days)
-    if (author_id == responder_id) #User is the responder. This is someone taking this 
-      content = l(options[:label] || :label_taken_by, :responder => responder_tag, :age => time_tag(created))                  
+    commitment_tag = l(:label_commitment) + ": " + day_label(@cr.days)
+    if (@cr.user_id == @cr.responder_id) #User is the responder. This is someone taking this 
+      content = l(options[:label] || :label_taken_by, :responder => responder_tag, :age => time_tag(@cr.created_on))                  
     elsif response > 3 #This was an offered request, pushed not pulled      
       #Add "offered by X to Y, Z hours ago"
-      content = l(options[:label] || :label_offered_by, :author => author_tag, :age => time_tag(created), :responder => responder_tag)            
+      content = l(options[:label] || :label_offered_by, :author => author_tag, :age => time_tag(@cr.created_on), :responder => responder_tag)            
     else
       #Add "requested by X, Z hours ago"
-      content = l(options[:label] || :label_requested_by, :author => author_tag, :age => time_tag(created))            
+      content = l(options[:label] || :label_requested_by, :author => author_tag, :age => time_tag(@cr.created_on))            
     end
     
     #We add the number of days, unless this was an offer that hasn't been accepted, or has been declined or recinded
@@ -58,28 +54,28 @@ module CommitRequestsHelper
     case response
       when 0 then 
         if push_allowed
-          content << linebreak << link_to_remote(l(:button_request_commitment_accept), {:url => user_commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 2, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-accept'})
-          content << " | " << link_to_remote(l(:button_request_commitment_decline), {:url => user_commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 3, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-decline'})
+          content << linebreak << link_to_remote(l(:button_request_commitment_accept), {:url => user_commit_request_path(:id => @cr.id, :format => :js, :user_id => @cr.user_id, :issue_id => issue, :response => 2, :responder_id => @user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-accept'})
+          content << " | " << link_to_remote(l(:button_request_commitment_decline), {:url => user_commit_request_path(:id => @cr.id, :format => :js, :user_id => @cr.user_id, :issue_id => issue, :response => 3, :responder_id => @user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-decline'})
         end
-      when 1 then content << linebreak << l(:label_recinded, :age => time_tag(updated))     
+      when 1 then content << linebreak << l(:label_recinded, :age => time_tag(@cr.updated_on))     
       when 2 then 
-        unless (author_id == responder_id) #Unless someone taking this 
-          content << linebreak << l(:label_accepted_by, :responder => responder_tag, :age => time_tag(updated))    
+        unless (@cr.user_id == @cr.responder_id) #Unless someone taking this 
+          content << linebreak << l(:label_accepted_by, :responder => responder_tag, :age => time_tag(@cr.updated_on))    
         end
       when 3 then 
-        content << linebreak << l(:label_declined_by, :responder => responder_tag, :age => time_tag(updated))     
+        content << linebreak << l(:label_declined_by, :responder => responder_tag, :age => time_tag(@cr.updated_on))     
       when 4 then 
-        if User.current.id == responder_id #if this offer is made to me
-          content << linebreak << link_to(l(:button_request_commitment_accept), {:controller => 'commit_requests', :action => 'create_dialogue', :id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 6, :responder_id => user, :push_allowed => push_allowed, :button_action => 'update', :method => 'put', :class => 'icon icon-cr-accept', :label => l(:button_request_commitment_accept)}, {:id =>'cr_button', :class => 'lbOn icon icon-cr-accept'})
-          content << " | " << link_to_remote(l(:button_request_commitment_decline), {:url => user_commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 7, :responder_id => user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-decline'})
+        if User.current.id == @cr.responder_id #if this offer is made to me
+          content << linebreak << link_to(l(:button_request_commitment_accept), {:controller => 'commit_requests', :action => 'create_dialogue', :id => @cr.id, :format => :js, :user_id => @cr.user_id, :issue_id => issue, :response => 6, :responder_id => @user, :push_allowed => push_allowed, :button_action => 'update', :method => 'put', :class => 'icon icon-cr-accept', :label => l(:button_request_commitment_accept)}, {:id =>'cr_button', :class => 'lbOn icon icon-cr-accept'})
+          content << " | " << link_to_remote(l(:button_request_commitment_decline), {:url => user_commit_request_path(:id => @cr.id, :format => :js, :user_id => @cr.user_id, :issue_id => issue, :response => 7, :responder_id => @user, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-decline'})
           
-        elsif User.current.id == author_id #if this offer is BY me
-          content << linebreak << link_to_remote(l(:button_request_commitment_withdraw), {:url => user_commit_request_path(:id => commit_request_id, :format => :js, :user_id => author_id, :issue_id => issue, :response => 5, :responder_id => responder_id, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button_withdraw', :class => 'icon icon-cr-cancel'})
+        elsif User.current.id == @cr.user_id #if this offer is BY me
+          content << linebreak << link_to_remote(l(:button_request_commitment_withdraw), {:url => user_commit_request_path(:id => @cr.id, :format => :js, :user_id => @cr.user_id, :issue_id => issue, :response => 5, :responder_id => @cr.responder_id, :push_allowed => push_allowed), :method => 'put'}, {:id =>'cr_button_withdraw', :class => 'icon icon-cr-cancel'})
         end
-      when 5 then content << linebreak << l(:label_recinded, :age => time_tag(updated))     
-      when 6 then content << linebreak << l(:label_accepted, :age => time_tag(updated))     
-      when 7 then content << linebreak << l(:label_declined, :age => time_tag(updated))     
-      when 8 then content << linebreak << l(:label_released, :age => time_tag(updated))     
+      when 5 then content << linebreak << l(:label_recinded, :age => time_tag(@cr.updated_on))     
+      when 6 then content << linebreak << l(:label_accepted, :age => time_tag(@cr.updated_on))     
+      when 7 then content << linebreak << l(:label_declined, :age => time_tag(@cr.updated_on))     
+      when 8 then content << linebreak << l(:label_released, :age => time_tag(@cr.updated_on))     
     end
     # logger.info("Authoring from id content #{content}")
     content << "<br>"
@@ -95,7 +91,7 @@ module CommitRequestsHelper
     @action = ''
     @class = ''
     
-    logger.info("Generating pull link: ISSUE #{issue} USER #{user} ISSUEASSIGNED #{@issue.assigned_to} PUSH ALLOWED #{push_allowed}")
+    logger.info("Generating pull link: ISSUE #{issue} USER #{user} ISSUEASSIGNED #{@issue.assigned_to} PUSH ALLOWED #{push_allowed} @CR: #{@cr.inspect unless @cr.nil?}")
     
     if (@issue.assigned_to == User.current) #If I own an issue, and I give it up it's marked as released      
       logger.info("Current user owns this issue")
@@ -145,10 +141,6 @@ module CommitRequestsHelper
             @action = 'create'
             @class = 'icon-cr-take'         
           end
-      # when 4 then #Offered, without response, I have to take back my offer (before claiming it for myself)
-      #         @label = l(:button_request_commitment_remove_offer)
-      #         @response = 5
-      #         @action = 'update'
       end
     end    
     
@@ -156,6 +148,8 @@ module CommitRequestsHelper
 
     @pull_content = ''
     @push_content = ''
+    
+    logger.info("READY TO MAKE BUTTONS #{@label}, #{@action}")
 
     if @action == 'create'
       @pull_content = link_to @label, 
@@ -178,17 +172,5 @@ module CommitRequestsHelper
     
     @pull_content + " " + @push_content
     
-  end
-  
-  # Generates a label from number of days of a commitment
-  def day_label(days)
-    case days
-      when -1 then l(:label_not_sure)
-      when 0 then l(:label_same_day)
-      when 1 then "1 " + l(:label_day)
-      when 2..100 then String(days) + " " + l(:label_day_plural)
-    end
-  end
-  
-  
+  end  
 end

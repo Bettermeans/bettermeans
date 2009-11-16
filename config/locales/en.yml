@@ -559,6 +559,7 @@ en:
   label_less_than_ago: less than days ago
   label_more_than_ago: more than days ago
   label_ago: days ago
+  label_ago_simple: ago
   label_contains: contains
   label_not_contains: doesn't contain
   label_day: day
@@ -711,6 +712,7 @@ en:
   label_group_new: New group
   label_time_entry_plural: Spent time
   label_commit_request_history: Ownership History #new
+  label_by: "by {{author}} {{age}} ago" #new
   label_requested_by: "Requested by {{author}} {{age}} ago" #new
   label_offered_by: "Offered by {{author}} to {{responder}} {{age}} ago" #new
   label_accepted_by: "Accepted by {{responder}} {{age}} ago" #new
@@ -723,7 +725,15 @@ en:
   label_not_sure: "Not sure"
   label_commitment: "Commitment"
   label_commitment_offer: "Ownership Offer"
+  label_commitment_request: "Ownership Request"
   label_total_karma: "Total Karma"
+  label_notification : "Notification"
+  label_notifications : "Notifications"
+  label_new_notifications : "new notification(s)"
+  label_response_sent : "Response sent"
+  label_response_ignored : "Request ignored"
+  label_you : "you"
+  label_marked_as_read : "Marked as read"
   
   button_login: Login
   button_submit: Submit
@@ -774,6 +784,8 @@ en:
   button_request_commitment_accept: Accept #new
   button_request_commitment_decline: Decline #new
   button_request_commitment_offer: Offer Ownership #new
+  button_ignore: Ignore
+  button_mark_as_read: Mark as read
   
   status_active: active
   status_registered: registered
@@ -836,6 +848,17 @@ en:
   text_wiki_page_reassign_children: "Reassign child pages to this parent page"
   text_create_dialogue_choose_days: "How much time to you need to get this done <br />(from the time you own it)?"
   text_select_user_dialogue_choose_user: "Choose someone to send this request to"
+  text_you_are_the_new_owner_of : "You are the new proud owner of"
+  text_is_asking_ownership_for : "is asking for ownership of a task you"
+  text_is_offering_ownership_for : "is offering you ownership of a task"
+  text_ownership_request_declined : "Ownership request declined"
+  text_ownership_request_accepted : "Ownership request accepted"
+  text_your_ownsership_request_declined_for : "You request for ownership has been declined for "
+  text_ownership_offer_accepted : "Ownership offer accepted"
+  text_your_offer_was_accepted_for : "Your offer was accepted for "
+  text_ownership_offer_declined : "Ownership offer declined"
+  text_your_offer_was_declined_for : "Your offer was declined for "
+  
   
   default_role_administrator: Administrator
   default_role_citizen: Core Member

@@ -72,7 +72,16 @@ module Redmine
             contributor.permissions.delete(:delete_wiki_pages)
             contributor.permissions.delete(:delete_wiki_pages_attachments)
             contributor.permissions.delete(:protect_wiki_pages)
-            contributor.save!            
+            contributor.save!   
+            
+            #TODO: Check that built in role aren't in there before creating them
+            @nonmember = Role.new(:name => 'Non member', :position => 0)
+            @nonmember.builtin = Role::BUILTIN_NON_MEMBER
+            @nonmember.save
+
+            @anonymous = Role.new(:name => 'Anonymous', :position => 0)
+            @anonymous.builtin = Role::BUILTIN_ANONYMOUS
+            @anonymous.save         
                         
             Role.non_member.update_attribute :permissions, contributor.permissions
           
