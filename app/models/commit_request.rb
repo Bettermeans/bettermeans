@@ -2,6 +2,7 @@ class CommitRequest < ActiveRecord::Base
   belongs_to :user
   belongs_to :issue  
   
+  
   acts_as_activity_provider :type => 'requests',
                             # :permission => :view_documents,
                             :author_key => :user_id,
