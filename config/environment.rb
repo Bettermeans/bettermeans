@@ -52,4 +52,11 @@ Rails::Initializer.run do |config|
   
   #Added this to bypass error
   config.action_controller.session = { :key => "_bettermeans_session", :secret => "95fd75499b43ada8cfbc538558d74312asdf" }
+  
+  # Load any local configuration that is kept out of source control
+  # (e.g. gems, patches).
+  if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
+    instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
+  end
+  
 end

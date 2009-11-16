@@ -80,7 +80,7 @@ module Redmine
                                        :path => (path.nil? or path.empty? ? e.first : "#{with_trailling_slash(path)}#{e.first}"),
                                        :kind => (e.size > 1 ? 'dir' : 'file'),
                                        :lastrev => Revision.new
-                                     }) unless entries.detect{|entry| entry.name == e.first}
+                                     }) unless e.empty? || entries.detect{|entry| entry.name == e.first}
               end
             end
           end

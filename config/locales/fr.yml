@@ -177,6 +177,7 @@ fr:
   error_scm_command_failed: "Une erreur s'est produite lors de l'accès au dépôt: {{value}}"
   error_scm_annotate: "L'entrée n'existe pas ou ne peut pas être annotée."
   error_issue_not_found_in_project: "La demande n'existe pas ou n'appartient pas à ce projet"
+  error_can_not_reopen_issue_on_closed_version: 'Une demande assignée à une version fermée ne peut pas être réouverte'
   
   warning_attachments_not_saved: "{{count}} fichier(s) n'ont pas pu être sauvegardés."
   
@@ -333,6 +334,7 @@ fr:
   setting_openid: "Autoriser l'authentification et l'enregistrement OpenID"
   setting_password_min_length: Longueur minimum des mots de passe
   setting_new_project_user_role_id: Rôle donné à un utilisateur non-administrateur qui crée un projet
+  setting_default_projects_modules: Modules activés par défaut pour les nouveaux projets
   
   permission_add_project: Créer un projet
   permission_edit_project: Modifier le projet
@@ -397,6 +399,7 @@ fr:
   label_user: Utilisateur
   label_user_plural: Utilisateurs
   label_user_new: Nouvel utilisateur
+  label_user_anonymous: Anonyme
   label_project: Projet
   label_project_new: Nouveau projet
   label_project_plural: Projets
@@ -743,6 +746,7 @@ fr:
   button_list: Lister
   button_view: Voir
   button_move: Déplacer
+  button_move_and_follow: Déplacer et suivre
   button_back: Retour
   button_cancel: Annuler
   button_activate: Activer
@@ -766,6 +770,10 @@ fr:
   status_active: actif
   status_registered: enregistré
   status_locked: vérouillé
+  
+  version_status_open: ouvert
+  version_status_locked: vérouillé
+  version_status_closed: fermé
   
   text_select_mail_notifications: Actions pour lesquelles une notification par e-mail est envoyée
   text_regexp_info: ex. ^[A-Z0-9]+$

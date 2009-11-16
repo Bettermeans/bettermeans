@@ -13,6 +13,7 @@ class ProjectTest < ActiveSupport::TestCase
   def setup
     @ecookbook = Project.find(1)
     @ecookbook_sub1 = Project.find(3)
+    User.current = nil
   end
   
   should_validate_presence_of :name
@@ -223,6 +224,14 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [5, 6, 3, 4], d.collect(&:id)
   end
   
+  def test_allowed_parents_should_be_empty_for_non_member_user
+    Role.non_member.add_permission!(:add_project)
+    user = User.find(9)
+    assert user.memberships.empty?
+    User.current = user
+    assert Project.new.allowed_parents.empty?
+  end
+  
   def test_users_by_role
     users_by_role = Project.find(1).users_by_role
     assert_kind_of Hash, users_by_role
@@ -360,6 +369,17 @@ class ProjectTest < ActiveSupport::TestCase
     assert overridden_activity.save!
 
     assert project.activities(true).include?(overridden_activity), "Inactive Project specific Activity not found"
+  end
+  
+  def test_close_completed_versions
+    Version.update_all("status = 'open'")
+    project = Project.find(1)
+    assert_not_nil project.versions.detect {|v| v.completed? && v.status == 'open'}
+    assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
+    project.close_completed_versions
+    project.reload
+    assert_nil project.versions.detect {|v| v.completed? && v.status != 'closed'}
+    assert_not_nil project.versions.detect {|v| !v.completed? && v.status == 'open'}
   end
 
   context "Project#copy" do
