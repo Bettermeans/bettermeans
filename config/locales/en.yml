@@ -749,9 +749,9 @@ en:
   label_ownership_requested : "Ownership requested"
   label_ownership_request_accepted : "Ownership request accepted"
   label_ownership_request_declined : "Ownership request declined"
-  label_ownership_request_accepted : "Ownership request accepted"
+  label_ownership_request_accepted_from : "{{user}}'s ownership request accepted"
   label_ownership_request_declined_from : "{{user}}'s ownership request declined"
-  label_ownership_request_recinded_from : "{{user}}'s ownership request recinded"
+  label_ownership_request_recinded : "Ownership request recinded"
   label_ownership_released : "Ownership released"
   label_ownership_taken : "Ownership taken"
   
