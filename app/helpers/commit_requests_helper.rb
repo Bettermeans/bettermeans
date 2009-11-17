@@ -35,7 +35,7 @@ module CommitRequestsHelper
     responder_tag = (responder.is_a?(User) && !author.anonymous?) ? link_to(h(responder), :controller => 'account', :action => 'show', :id => responder) : h(responder || 'Anonymous')
 
     
-    commitment_tag = l(:label_commitment) + ": " + day_label(@cr.days)
+    commitment_tag = l(:label_commitment) + ": " + @cr.day_label
     if (@cr.user_id == @cr.responder_id) #User is the responder. This is someone taking this 
       content = l(options[:label] || :label_taken_by, :responder => responder_tag, :age => time_tag(@cr.created_on))                  
     elsif response > 3 #This was an offered request, pushed not pulled      
