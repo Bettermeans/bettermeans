@@ -132,6 +132,8 @@ class IssuesController < ApplicationController
     end
     @issue.author = User.current
     
+    logger.info("SO GOOD SO FAR")
+    
     @issue.priority = IssuePriority.default
 
     default_status = IssueStatus.default
