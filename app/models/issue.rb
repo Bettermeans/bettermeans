@@ -293,7 +293,7 @@ class Issue < ActiveRecord::Base
   
   # Returns a string of css classes that apply to the issue
   def css_classes
-    s = "issue status-#{status.position} priority-#{priority.position ||= 2}"
+    s = "issue status-#{status.position} priority-#{priority.nil? ? 2 : priority.position}" #BUGBUG 2 is hardcoded
     s << ' closed' if closed?
     s << ' overdue' if overdue?
     s << ' created-by-me' if User.current.logged? && author_id == User.current.id
