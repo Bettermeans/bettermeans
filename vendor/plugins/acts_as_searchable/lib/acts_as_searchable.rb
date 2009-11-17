@@ -18,7 +18,7 @@ module Redmine
         # * :permission - permission required to search the model (default to :view_"objects")
         def acts_as_searchable(options = {})
           return if self.included_modules.include?(Redmine::Acts::Searchable::InstanceMethods)
-  
+                    
           cattr_accessor :searchable_options
           self.searchable_options = options
 
