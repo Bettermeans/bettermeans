@@ -720,7 +720,7 @@ en:
   label_offered_by: "Offered by {{author}} to {{responder}} {{age}} ago" #new
   label_accepted_by: "Accepted by {{responder}} {{age}} ago" #new
   label_declined_by: "Declined by {{responder}} {{age}} ago" #new
-  label_taken_by: "Taken by {{responder}} {{age}} ago" #new
+  label_taken_by: "Taken by {{responder}} {{age}} ago" #news
   label_declined: "Declined {{age}} ago" #new
   label_accepted: "Accepted {{age}} ago" #new
   label_recinded: "Withdrawn {{age}} ago" #new
