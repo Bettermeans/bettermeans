@@ -77,9 +77,9 @@ module IssuesHelper
       when 'priority_id'
         e = IssuePriority.find_by_id(detail.value) and value = e.name if detail.value
         e = IssuePriority.find_by_id(detail.old_value) and old_value = e.name if detail.old_value
-      when 'category_id'
-        c = IssueCategory.find_by_id(detail.value) and value = c.name if detail.value
-        c = IssueCategory.find_by_id(detail.old_value) and old_value = c.name if detail.old_value
+      # when 'category_id'
+      #   c = IssueCategory.find_by_id(detail.value) and value = c.name if detail.value
+      #   c = IssueCategory.find_by_id(detail.old_value) and old_value = c.name if detail.old_value
       when 'fixed_version_id'
         v = Version.find_by_id(detail.value) and value = v.name if detail.value
         v = Version.find_by_id(detail.old_value) and old_value = v.name if detail.old_value
@@ -143,7 +143,7 @@ module IssuesHelper
                   l(:field_priority),
                   l(:field_subject),
                   l(:field_assigned_to),
-                  l(:field_category),
+                  # l(:field_category),
                   l(:field_fixed_version),
                   l(:field_author),
                   l(:field_start_date),
@@ -169,7 +169,7 @@ module IssuesHelper
                   issue.priority.name,
                   issue.subject,
                   issue.assigned_to,
-                  issue.category,
+                  # issue.category,
                   issue.fixed_version,
                   issue.author.name,
                   format_date(issue.start_date),
