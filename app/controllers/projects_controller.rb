@@ -9,6 +9,7 @@ class ProjectsController < ApplicationController
   menu_item :files, :only => [:list_files, :add_file]
   menu_item :settings, :only => :settings
   menu_item :issues, :only => [:changelog]
+  menu_item :team, :only => :team
   
   before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity ]
   before_filter :find_optional_project, :only => :activity
@@ -266,6 +267,11 @@ class ProjectsController < ApplicationController
     @versions = @project.versions.sort
     @versions = @versions.select {|v| !v.completed? } unless params[:completed]
   end
+  
+  def team
+      @days = Setting.activity_days_default.to_i    
+  end
+  
   
   def activity
     @days = Setting.activity_days_default.to_i
