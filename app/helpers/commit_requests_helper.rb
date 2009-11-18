@@ -31,7 +31,7 @@ module CommitRequestsHelper
     
     response = @cr.response
     
-    responder = User.find(@cr.responder_id) unless (response == 0) || (responder_id == 0)
+    responder = User.find(@cr.responder_id) unless (response == 0) || (@cr.responder_id == 0)
     responder_tag = (responder.is_a?(User) && !author.anonymous?) ? link_to(h(responder), :controller => 'account', :action => 'show', :id => responder) : h(responder || 'Anonymous')
 
     
