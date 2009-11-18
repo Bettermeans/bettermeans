@@ -25,7 +25,7 @@ REDMINE_SUPPORTED_SCM = %w( Subversion Darcs Mercurial Cvs Bazaar Git Filesystem
 
 # Permissions
 Redmine::AccessControl.map do |map|
-  map.permission :view_project, {:projects => [:show, :activity]}, :public => true
+  map.permission :view_project, {:projects => [:show, :activity,:team]}, :public => true
   map.permission :search_project, {:search => :index}, :public => true
   map.permission :add_project, {:projects => :add}, :require => :loggedin
   map.permission :edit_project, {:projects => [:settings, :edit]}, :require => :member
@@ -143,6 +143,7 @@ end
 
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
+  menu.push :team, { :controller => 'projects', :action => 'team' }
   menu.push :activity, { :controller => 'projects', :action => 'activity' }
   menu.push :roadmap, { :controller => 'projects', :action => 'roadmap' }, 
               :if => Proc.new { |p| p.versions.any? }
@@ -170,7 +171,7 @@ Redmine::Activity.map do |activity|
   activity.register :wiki_edits, :class_name => 'WikiContent::Version', :default => true
   activity.register :messages, :default => true
   activity.register :time_entries, :default => true
-  activity.register :commit_requests#, :default => true  
+  activity.register :commit_requests, :default => true  
 end
 
 Redmine::WikiFormatting.map do |format|
