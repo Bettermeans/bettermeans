@@ -25,8 +25,9 @@ module Redmine
         return @event_types unless @event_types.nil?
         
         @event_types = Redmine::Activity.available_event_types
-        puts("EVENT TYPES #{@event_types.inspect}")
+        puts("EVENT TYPES #{@event_types.inspect}")        
         @event_types = @event_types.select {|o| @user.allowed_to?("view_#{o}".to_sym, @project)} if @project
+        puts("EVENT TYPES AFTER #{@event_types.inspect}")        
         @event_types
       end
       
