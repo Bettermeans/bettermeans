@@ -25,7 +25,6 @@ class CommitRequest < ActiveRecord::Base
   
   #Returns person who last took an action on this cr
   def actor
-    logger.info("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX #{response.inspect}")
     case response
       when 0 then user
       when 1 then user
