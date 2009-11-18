@@ -102,12 +102,13 @@ class MailHandler < ActionMailer::Base
   def receive_issue
     project = target_project
     tracker = (get_keyword(:tracker) && project.trackers.find_by_name(get_keyword(:tracker))) || project.trackers.find(:first)
-    category = (get_keyword(:category) && project.issue_categories.find_by_name(get_keyword(:category)))
+    # category = (get_keyword(:category) && project.issue_categories.find_by_name(get_keyword(:category)))
     priority = (get_keyword(:priority) && IssuePriority.find_by_name(get_keyword(:priority)))
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
 
     # check permission
     raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
+    # issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority)
     issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority)
     # check workflow
     if status && issue.new_statuses_allowed_to(user).include?(status)
