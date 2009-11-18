@@ -103,7 +103,7 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true, :include => :assigned_to),
     QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
-    QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true, :include => :category),
+    # QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name", :groupable => true, :include => :category),
     QueryColumn.new(:fixed_version, :sortable => ["#{Version.table_name}.effective_date", "#{Version.table_name}.name"], :default_order => 'desc', :groupable => true, :include => :fixed_version),
     QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
@@ -174,9 +174,9 @@ class Query < ActiveRecord::Base
   
     if project
       # project specific filters
-      unless @project.issue_categories.empty?
-        @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
-      end
+      # unless @project.issue_categories.empty?
+      #   @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
+      # end
       unless @project.versions.empty?
         @available_filters["fixed_version_id"] = { :type => :list_optional, :order => 7, :values => @project.versions.sort.collect{|s| [s.name, s.id.to_s] } }
       end

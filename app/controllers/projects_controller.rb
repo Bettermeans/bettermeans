@@ -133,7 +133,7 @@ class ProjectsController < ApplicationController
 
   def settings
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @issue_category ||= IssueCategory.new
+    # @issue_category ||= IssueCategory.new
     @member ||= @project.members.new
     @trackers = Tracker.all
     @repository ||= @project.repository
@@ -182,23 +182,23 @@ class ProjectsController < ApplicationController
   end
 	
   # Add a new issue category to @project
-  def add_issue_category
-    @category = @project.issue_categories.build(params[:category])
-    if request.post? and @category.save
-  	  respond_to do |format|
-        format.html do
-          flash[:notice] = l(:notice_successful_create)
-          redirect_to :action => 'settings', :tab => 'categories', :id => @project
-        end
-        format.js do
-          # IE doesn't support the replace_html rjs method for select box options
-          render(:update) {|page| page.replace "issue_category_id",
-            content_tag('select', '<option></option>' + options_from_collection_for_select(@project.issue_categories, 'id', 'name', @category.id), :id => 'issue_category_id', :name => 'issue[category_id]')
-          }
-        end
-      end
-    end
-  end
+  # def add_issue_category
+  #   @category = @project.issue_categories.build(params[:category])
+  #   if request.post? and @category.save
+  #     respond_to do |format|
+  #       format.html do
+  #         flash[:notice] = l(:notice_successful_create)
+  #         redirect_to :action => 'settings', :tab => 'categories', :id => @project
+  #       end
+  #       format.js do
+  #         # IE doesn't support the replace_html rjs method for select box options
+  #         render(:update) {|page| page.replace "issue_category_id",
+  #           content_tag('select', '<option></option>' + options_from_collection_for_select(@project.issue_categories, 'id', 'name', @category.id), :id => 'issue_category_id', :name => 'issue[category_id]')
+  #         }
+  #       end
+  #     end
+  #   end
+  # end
 	
   # Add a new version to @project
   def add_version

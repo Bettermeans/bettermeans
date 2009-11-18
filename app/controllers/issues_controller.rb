@@ -239,7 +239,7 @@ class IssuesController < ApplicationController
       status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
       priority = params[:priority_id].blank? ? nil : IssuePriority.find_by_id(params[:priority_id])
       assigned_to = (params[:assigned_to_id].blank? || params[:assigned_to_id] == 'none') ? nil : User.find_by_id(params[:assigned_to_id])
-      category = (params[:category_id].blank? || params[:category_id] == 'none') ? nil : @project.issue_categories.find_by_id(params[:category_id])
+      # category = (params[:category_id].blank? || params[:category_id] == 'none') ? nil : @project.issue_categories.find_by_id(params[:category_id])
       fixed_version = (params[:fixed_version_id].blank? || params[:fixed_version_id] == 'none') ? nil : @project.versions.find_by_id(params[:fixed_version_id])
       custom_field_values = params[:custom_field_values] ? params[:custom_field_values].reject {|k,v| v.blank?} : nil
       
@@ -248,7 +248,7 @@ class IssuesController < ApplicationController
         journal = issue.init_journal(User.current, params[:notes])
         issue.priority = priority if priority
         issue.assigned_to = assigned_to if assigned_to || params[:assigned_to_id] == 'none'
-        issue.category = category if category || params[:category_id] == 'none'
+        # issue.category = category if category || params[:category_id] == 'none'
         issue.fixed_version = fixed_version if fixed_version || params[:fixed_version_id] == 'none'
         issue.start_date = params[:start_date] unless params[:start_date].blank?
         issue.due_date = params[:due_date] unless params[:due_date].blank?
@@ -449,7 +449,7 @@ class IssuesController < ApplicationController
   
 private
   def find_issue
-    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
+    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority])
     @project = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404
