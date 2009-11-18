@@ -10,7 +10,7 @@ class Issue < ActiveRecord::Base
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
   belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
-  belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
+  # belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
     
   has_many :journals, :as => :journalized, :dependent => :destroy
   has_many :time_entries, :dependent => :delete_all
@@ -87,8 +87,8 @@ class Issue < ActiveRecord::Base
         end
         # issue is moved to another project
         # reassign to the category with same name if any
-        new_category = issue.category.nil? ? nil : new_project.issue_categories.find_by_name(issue.category.name)
-        issue.category = new_category
+        # new_category = issue.category.nil? ? nil : new_project.issue_categories.find_by_name(issue.category.name)
+        # issue.category = new_category
         issue.fixed_version = nil
         issue.project = new_project
       end
@@ -150,9 +150,9 @@ class Issue < ActiveRecord::Base
   
   def before_create
     # default assignment based on category
-    if assigned_to.nil? && category && category.assigned_to
-      self.assigned_to = category.assigned_to
-    end
+    # if assigned_to.nil? && category && category.assigned_to
+    #   self.assigned_to = category.assigned_to
+    # end
   end
   
   def after_save
