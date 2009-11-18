@@ -754,6 +754,7 @@ en:
   label_ownership_request_recinded : "Ownership request recinded"
   label_ownership_released : "Ownership released"
   label_ownership_taken : "Ownership taken"
+  label_commit_request_plural : "Ownership Requests"
   
   button_login: Login
   button_submit: Submit
