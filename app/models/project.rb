@@ -3,6 +3,22 @@
 #
 
 class Project < ActiveRecord::Base
+  
+  fields do
+    name :string, :limit => 30, :default => "",   :null => false
+    description :text
+    homepage :string,                  :default => ""
+    is_public :boolean,                 :default => true, :null => false
+    parent_id :integer
+    identifier :string,  :limit => 20
+    status :integer,  :default => 1,    :null => false
+    enterprise_id :integer
+    created_on :datetime
+    updated_on :datetime    
+    lft :integer
+    rgt :integer    
+  end
+  
   # Project statuses
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
@@ -40,7 +56,7 @@ class Project < ActiveRecord::Base
                           :order => "#{CustomField.table_name}.position",
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
-                          
+  belongs_to :enterprise                        
   acts_as_nested_set :order => 'name', :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
