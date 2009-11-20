@@ -5,6 +5,8 @@
 
 class CommitRequest < ActiveRecord::Base
   belongs_to :user
+  # belongs_to :responder, :class_name => 'User', :foreign_key => 'responder_id'
+  
   belongs_to :issue  
   
   acts_as_event :title => Proc.new {|o| "#{o.short_description} #{l(:label_for)} #{o.issue.tracker} ##{o.issue.id}: #{o.issue.subject}" },
