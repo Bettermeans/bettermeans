@@ -1,0 +1,11 @@
+<h1>New enterprise</h1>
+
+<% form_for(@enterprise) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', enterprises_path %>
