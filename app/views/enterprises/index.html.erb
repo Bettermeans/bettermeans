@@ -1,0 +1,18 @@
+<h1>Listing enterprises</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @enterprises.each do |enterprise| %>
+  <tr>
+    <td><%= link_to 'Show', enterprise %></td>
+    <td><%= link_to 'Edit', edit_enterprise_path(enterprise) %></td>
+    <td><%= link_to 'Destroy', enterprise, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New enterprise', new_enterprise_path %>
