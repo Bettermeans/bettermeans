@@ -23,6 +23,8 @@ class Project < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
   
+  belongs_to :enterprise                        
+  
   # Specific overidden Activities
   has_many :time_entry_activities do
     def active
@@ -56,7 +58,6 @@ class Project < ActiveRecord::Base
                           :order => "#{CustomField.table_name}.position",
                           :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
                           :association_foreign_key => 'custom_field_id'
-  belongs_to :enterprise                        
   acts_as_nested_set :order => 'name', :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
