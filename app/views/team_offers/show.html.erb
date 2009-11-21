@@ -1,0 +1,28 @@
+<p>
+  <b>Workstream:</b>
+  <%=h @team_offer.project_id %>
+</p>
+
+<p>
+  <b>Author:</b>
+  <%=h @team_offer.author_id %>
+</p>
+
+<p>
+  <b>translation missing: en, field_recipient:</b>
+  <%=h @team_offer.recipient_id %>
+</p>
+
+<p>
+  <b>translation missing: en, field_response:</b>
+  <%=h @team_offer.response %>
+</p>
+
+<p>
+  <b>translation missing: en, field_variation:</b>
+  <%=h @team_offer.variation %>
+</p>
+
+
+<%= link_to 'Edit', edit_team_offer_path(@team_offer) %> |
+<%= link_to 'Back', team_offers_path %>

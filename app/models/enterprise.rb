@@ -3,7 +3,6 @@ class Enterprise < ActiveRecord::Base
       name  :string
       description  :text
       homepage :string , :default => ""
-      # creator_id :integer
       timestamps
     end
     
