@@ -121,7 +121,7 @@ class CommitRequestsController < ApplicationController
     @commit_request.save
     
     @issue = Issue.find(@commit_request.issue_id)    
-    
+    #TODO: move all this logic to the model
     # 0- Request No response 1-Request recinded 2-Request Accepted 3-Request Declined 4-Offer no response 5-Offer recinded 6-Offer accepted 7-Offer Declined 8-Ownership Released
     case @commit_request.response
     when 1 #request recinded
