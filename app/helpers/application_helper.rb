@@ -363,6 +363,7 @@ module ApplicationHelper
   def accesskey(s)
     Redmine::AccessKeys.key_for s
   end
+  
 
   # Formats text according to system settings.
   # 2 ways to call this method:

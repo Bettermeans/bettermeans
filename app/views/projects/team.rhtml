@@ -43,4 +43,8 @@
 <% end %>
 </div>
 
+<% content_for :sidebar do %>
+    <%= render :partial => 'team_offers/sidebar', :locals => {:project => @project}%>
+<% end %>
 
+<% html_title(l(:label_team)) %>
