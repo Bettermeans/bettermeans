@@ -252,6 +252,7 @@ dt.document { background-image: url(../images/document.png); }
 dt.project { background-image: url(../images/projects.png); }
 dt.time-entry { background-image: url(../images/time.png); }
 dt.cr-note { background-image: url(../images/users.png); }  
+dt.team-offer { background-image: url(../images/user_new.png); }  
 
 #search-results dt.issue.closed { background-image: url(../images/ticket_checked.png); }
 
