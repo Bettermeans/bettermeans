@@ -52,6 +52,8 @@ class Project < ActiveRecord::Base
   has_one :repository, :dependent => :destroy
   has_many :changesets, :through => :repository
   has_one :wiki, :dependent => :destroy
+  has_many :team_offers, :dependent => :delete_all
+  has_many :team_points, :dependent => :delete_all
   # Custom field for the project issues
   has_and_belongs_to_many :issue_custom_fields, 
                           :class_name => 'IssueCustomField',

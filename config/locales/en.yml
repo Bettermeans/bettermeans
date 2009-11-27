@@ -778,6 +778,8 @@ en:
   label_note_from : "Note from {{author}}"
   label_sending_team_request : "{{author}} wants to join the Core Team for the {{project}} workstream"
   label_sending_team_request : "{{author}} wants you to join the Core Team for the {{project}} workstream"
+  label_team_view_all : "View team details"
+  
   
   button_login: Login
   button_submit: Submit
