@@ -40,6 +40,9 @@ class TeamOffer < ActiveRecord::Base
                             :permission => :view_project,
                             :find_options => {:include => [:project, :author, :recipient]}
   
+  named_scope :active, :conditions => "#{TeamOffer.table_name}.expires <= '#{Time.now}'"
+  
+  
   def offer?
     variation == VARIATION_INVITATION
   end
@@ -146,33 +149,33 @@ class TeamOffer < ActiveRecord::Base
         content << ":" << a[0].to_s << " => nil, "
       end
     end
-    content.chop.chop #removing last 2 characters
+    content.chop.chop #removing last 2 characters ", "
   end
   
   def before_create
-    #If this is a request, then find out who the administrator for this project is, and set them as the recipient of this request
   end
   
-  #Send notification of request or invitation to recipient
   def after_create
+    #Send notification of request or invitation to recipient
      Notification.create! :recipient_id => recipient_id,
                           :variation => "team_offer",                        
                           :params => "#{hash_to_param_string(self.attributes)}, :sender_id => #{author_id}, :variation_description => '#{variation_description.downcase!}', :project => '#{self.project.name}', :body => '#{sending_description}.<br>#{author_note_description}'",  
                           :source_id => id
-                          
-    #TODO: If this is a request, send notifications to all core team members for that project
   end
   
-  #send notification message to author with recipient's response
   def after_update
+    #send notification message to author with recipient's response
     Notification.create! :recipient_id => author_id,
                         :variation => 'message',                        
                         :params => ":subject => '#{short_description}', :message => '#{response_description}. #{recipient_note_description}', :sender_id => #{recipient_id}",  
                         :source_id => id     unless withdrawn? || disabled? #don't send if the update is about withdrawing
-                        
-    #TODO: If this is a request, we delete all notifications sent around this request (or disable them)
-    #TODO: If this is an offer that was accepted, we delete all other offers to this person for that team
+    
+    #If accepted we add a team point for this user
+    if accepted?
+      TeamPoint.create! :recipient_id => recipient_id,
+                          :author_id => author_id,
+                          :project_id => project
+    end    
   end
-  
-  
+    
 end
