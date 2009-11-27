@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :team_points
+
   map.resources :team_offers
 
 

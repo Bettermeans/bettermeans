@@ -6,6 +6,9 @@ class Role < ActiveRecord::Base
   # Built-in roles
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
+  BUILTIN_ADMINISTRATOR = 3
+  BUILTIN_CORE_MEMBER = 4
+  BUILTIN_CONTRIBUTOR = 5
 
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
   named_scope :builtin, lambda { |*args|
@@ -121,6 +124,24 @@ class Role < ActiveRecord::Base
   # Return the builtin 'anonymous' role 
   def self.anonymous
     find(:first, :conditions => {:builtin => BUILTIN_ANONYMOUS}) || raise('Missing anonymous builtin role.')
+  end
+  
+
+  # Return the builtin 'administrator' role 
+  def self.administrator
+    find(:first, :conditions => {:builtin => BUILTIN_ADMINISTRATOR}) || raise('Missing Administrator builtin role.')
+  end
+
+
+  # Return the builtin 'contributor' role 
+  def self.contributor
+    find(:first, :conditions => {:builtin => BUILTIN_CONTRIBUTOR}) || raise('Missing contributor builtin role.')
+  end
+
+
+  # Return the builtin 'core member' role 
+  def self.core_member
+    find(:first, :conditions => {:builtin => BUILTIN_CORE_MEMBER}) || raise('Missing core member builtin role.')
   end
 
   
