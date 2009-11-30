@@ -32,6 +32,8 @@ class Project < ActiveRecord::Base
     end
   end
   has_many :members, :include => :user, :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :core_members, :class_name => 'Member', :include => [:user,:roles], :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}"
+  
   has_many :member_principals, :class_name => 'Member', 
                                :include => :principal,
                                :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
@@ -475,6 +477,11 @@ class Project < ActiveRecord::Base
       return nil
     end
   end
+  
+  def team_points_for(user, options={})
+    user.team_points_for(project)
+  end
+  
   
   private
   

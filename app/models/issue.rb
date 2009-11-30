@@ -305,7 +305,6 @@ class Issue < ActiveRecord::Base
   #returns true if this user is allowed to take (and/or offer) ownership for this particular issue
   def push_allowed?(user)
     return false if user.nil?
-    
     return true if self.assigned_to == user #Any user who owns an issue can offer for people to take it, or can accept offers
     
     #True if user has push commitment, AND expected date has passed or doesn't exist AND it's assigned to nobody or assigned to same user

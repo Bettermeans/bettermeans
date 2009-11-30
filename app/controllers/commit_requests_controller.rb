@@ -134,6 +134,9 @@ class CommitRequestsController < ApplicationController
       @issue.status = IssueStatus.assigned
       @issue.save
       
+      #Add requester as a contributor to that project
+      @commit_request.user.add_to_project(@commit_request.issue.project, Role::BUILTIN_CONTRIBUTOR) unless @commit_request.responder.core_member_of?(@commit_request.issue.project)
+      
       #Notify requester that his notification has been accepted
       Notification.create @commit_request.user_id,
                           'message',
@@ -157,6 +160,10 @@ class CommitRequestsController < ApplicationController
       @issue.expected_date = Time.new() + 3600*24*@commit_request.days unless @commit_request.days < 0
       @issue.status = IssueStatus.assigned
       @issue.save
+      
+      
+      #Add responder as a contributor to that project
+      @commit_request.responder.add_to_project(@commit_request.issue.project, Role::BUILTIN_CONTRIBUTOR) unless @commit_request.responder.core_member_of?(@commit_request.issue.project)
       
       #Notify offerer that their offer has been accepted
       Notification.create @commit_request.user_id,

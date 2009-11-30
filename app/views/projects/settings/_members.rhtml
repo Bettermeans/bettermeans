@@ -49,7 +49,6 @@
 <% end %>
 </div>
 
-
 <% principals = Principal.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @project.principals %>
 
 <div class="splitcontentright">

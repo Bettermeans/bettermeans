@@ -55,6 +55,7 @@ class ProjectsController < ApplicationController
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @project = Project.new(params[:project])
+    @project.enterprise_id = params[:enterprise]
     if request.get?
       @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
       @project.trackers = Tracker.all
@@ -64,12 +65,13 @@ class ProjectsController < ApplicationController
       @project.enabled_module_names = params[:enabled_modules]
       if @project.save
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-        # Add current user as a project member if he is not admin
-        unless User.current.admin?
-          r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
-          m = Member.new(:user => User.current, :roles => [r])
+        # Add current user as a admin and core team member
+        # unless User.current.admin?
+          r = Role.find(Role::BUILTIN_CORE_MEMBER)
+          r2 = Role.find(Role::BUILTIN_ADMINISTRATOR)
+          m = Member.new(:user => User.current, :roles => [r,r2])
           @project.members << m
-        end
+        # end
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'projects', :action => 'settings', :id => @project
       end

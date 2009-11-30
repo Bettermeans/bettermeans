@@ -88,7 +88,17 @@ class Role < ActiveRecord::Base
   
   # Return true if the role is a project member role
   def member?
-    !self.builtin?
+    builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_CORE_MEMBER || builtin = BUILTIN_CONTRIBUTOR
+  end
+  
+  # Return true if the role is a project core team member
+  def core_member?
+    builtin == BUILTIN_CORE_MEMBER
+  end
+  
+  # Return true if the role is a project contributor
+  def core_member?
+    builtin == BUILTIN_CONTRIBUTOR
   end
   
   # Return true if role is allowed to do the specified action
@@ -113,7 +123,8 @@ class Role < ActiveRecord::Base
 
   # Find all the roles that can be given to a project member
   def self.find_all_givable
-    find(:all, :conditions => {:builtin => 0}, :order => 'position')
+    #find(:all, :conditions => {:builtin => 0}, :order => 'position') #TODO: Change this back to 0
+    find(:all, :order => 'position') #TODO: Change this back to 0
   end
 
   # Return the builtin 'non member' role

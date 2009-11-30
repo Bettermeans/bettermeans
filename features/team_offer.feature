@@ -1,8 +1,8 @@
 # @no-txn
 Feature: Ownership offer
-  In order to ask others to work with me
+  In order to invite others to be core team members with me
   As a core team member
-  I want to offer ownership of an issue to someone else
+  I want to offer core memberships on a team to someone else
   
   Background: 
     Given the following users exist
@@ -12,11 +12,11 @@ Feature: Ownership offer
 
 
     Given an enterprise "myenterprise" exists with name: "Enterprise"
-    Given a project "myproject" exists with name: "Workstream1", enterprise: that enterprise
-    And an issue exists with subject: "My issue", project: project "myproject"
+    And a project "myproject" exists with name: "Workstream1", enterprise: that enterprise
+    And kraim is a Core Member of project "Workstream1"
   
   # @selenium
-  Scenario: Make an offer for ownership
+  Scenario: Invite a contributor to be a core member
     Given I am logged in as shereef
     When I go to the show page for that project
     Then I should see "Workstream1" within "h1"

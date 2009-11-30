@@ -21,7 +21,6 @@ class Member < ActiveRecord::Base
     ids = (arg || []).collect(&:to_i) - [0]
     # Keep inherited roles
     ids += member_roles.select {|mr| !mr.inherited_from.nil?}.collect(&:role_id)
-    
     new_role_ids = ids - role_ids
     # Add new roles
     new_role_ids.each {|id| member_roles << MemberRole.new(:role_id => id) }
@@ -36,13 +35,13 @@ class Member < ActiveRecord::Base
   
   def deletable?
     member_roles.detect {|mr| mr.inherited_from}.nil?
-  end
+  end  
   
   def before_destroy
-    if user
-      # remove category based auto assignments for this member
-      # IssueCategory.update_all "assigned_to_id = NULL", ["project_id = ? AND assigned_to_id = ?", project.id, user.id]
-    end
+    # if user
+    #       # remove category based auto assignments for this member
+    #       # IssueCategory.update_all "assigned_to_id = NULL", ["project_id = ? AND assigned_to_id = ?", project.id, user.id]
+    #     end
   end
   
   protected
