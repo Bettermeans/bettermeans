@@ -6,7 +6,7 @@
 <%= l(:text_select_user_dialogue_choose_user) %>
 
 <p>
-  <br /> <%= select_tag ( "responder_id" , options_for_select(@issue.addable_watcher_users.collect {|m| [m.name, m.id]}), {:selected => 4})%>
+  <br /> <%= select_tag("responder_id" , options_for_select(@issue.addable_watcher_users.collect {|m| [m.name, m.id]}), {:selected => 4})%>
 &nbsp;                                         
 <%= submit_tag params['label'],  {:id =>'cr_button', :class => params['class']} %> <br/> 
 </p>

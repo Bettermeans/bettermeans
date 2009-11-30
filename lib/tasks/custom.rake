@@ -4,6 +4,7 @@ namespace :custom do
       # Rake::Task["db:test:prepare"]
       system 'rake db:test:prepare'
       system 'rake environment RAILS_ENV=test redmine:load_default_data'
+      # system 'rake environment RAILS_ENV=test db:migrate'
       # Rake::Task["redmine:load_default_data"].invoke
       #Rake::Task["cucumber"].invoke
       # Redmine::DefaultData::Loader.load('en')
