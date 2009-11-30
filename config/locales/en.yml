@@ -760,7 +760,7 @@ en:
   label_ownership_taken : "Ownership taken"
   label_commit_request_plural : "Task ownership"
   label_team_offer : "Core Team Invitation"
-  label_team_offer_plural : "Core Team"
+  label_team_offer_plural : "Core team"
   label_team_invitation : "Core Team Invitation"
   label_team_request : "Core Team Request"
   label_team_request_plural : "Core Team requests"
@@ -922,7 +922,7 @@ en:
   
   
   default_role_administrator: Administrator
-  default_role_citizen: Core Team
+  default_role_citizen: Core Member
   default_role_contributor: Contributor
   default_tracker_task: Task
   default_tracker_subtask: Subtask

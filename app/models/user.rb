@@ -34,7 +34,7 @@ class User < Principal
   has_many :outgoing_team_offers, :class_name => 'TeamOffer', :foreign_key => 'author_id', :dependent => :delete_all
   has_many :incoming_team_offers, :class_name => 'TeamOffer', :foreign_key => 'recipient_id', :dependent => :delete_all
   
-  has_many :outgoing_team_points, :class_name => 'TeamPoint', :foreign_key => 'author_id', :dependent => :delete_all
+  has_many :outgoing_team_points, :class_name => 'TeamPoint', :foreign_key => 'author_id', :dependent => :nullify
   has_many :incoming_team_points, :class_name => 'TeamPoint', :foreign_key => 'recipient_id', :dependent => :delete_all
   
   # Active non-anonymous users scope
@@ -271,6 +271,17 @@ class User < Principal
     !roles_for_project(project).detect {|role| role.member?}.nil?
   end
   
+  # Return true if the user is a core member of project
+   def core_member_of?(project)
+     !roles_for_project(project).detect {|role| role.core_member?}.nil?
+   end
+  
+  
+   # Return true if the user is a core member of project
+    def contributor_of?(project)
+      !roles_for_project(project).detect {|role| role.contributor?}.nil?
+    end
+    
   # Return true if the user is allowed to do the specified action on project
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
@@ -298,6 +309,46 @@ class User < Principal
     else
       false
     end
+  end
+  
+  #Total team points for this user for this project
+  def team_points_for(project, options={})
+    TeamPoint.total(self,project)
+  end
+  
+  #Adds current user to core team of project
+  def add_to_core(project, options={})
+    add_to_project project, Role::BUILTIN_CORE_MEMBER
+  end
+  
+  #Adds user to that project as that role
+  def add_to_project(project, role_id, options={})
+    m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
+    if m.nil? 
+      #User isn't a member let's create a membership
+      core_member_role = Role.find(:first, :conditions => {:id => role_id})
+      m = Member.new(:user => self, :roles => [core_member_role])
+      p = Project.find(project)
+      result = p.members << m
+    else
+      #TODO: Check that role doesn't already exist
+      #User is already a member, we just add a role
+      MemberRole.create! :member_id => m.id, :role_id => role_id
+    end
+  end
+  
+  #Drops user from role of that project
+  def drop_from_project(project, role_id, options={})
+    m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
+    m.member_roles.each {|r|
+      puts r.inspect
+      r.destroy if r.role_id == role_id
+    } unless m.nil?
+  end
+  
+  #Drops current user from core team of project
+  def drop_from_core(project, options={})
+    drop_from_project (Role::BUILTIN_CORE_MEMBER)
   end
   
   def self.current=(user)

@@ -7,5 +7,8 @@ Given /([^\"]*) is a ([^\"]*) of project "([^\"]*)"$/ do |user,role, project|
   @project = Project.find(:first, :conditions => {:name => project})
   @role = Role.find(:first, :conditions => {:name => role})
   m = Member.new(:user => User.find(:first, :conditions => {:login => user}), :roles => [@role])
+  puts m.inspect
+  puts m.member_roles.inspect
+  puts m.roles.inspect
   @project.members << m  
 end

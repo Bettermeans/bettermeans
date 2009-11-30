@@ -4,8 +4,8 @@
 
 
 class CommitRequest < ActiveRecord::Base
-  belongs_to :user
-  # belongs_to :responder, :class_name => 'User', :foreign_key => 'responder_id'
+  belongs_to :user #author of the request/offer
+  belongs_to :responder, :class_name => 'User', :foreign_key => 'responder_id'
   
   belongs_to :issue  
   

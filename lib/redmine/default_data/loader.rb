@@ -27,13 +27,13 @@ module Redmine
           
           Role.transaction do
             # Roles
-            administrator = Role.create! :name => l(:default_role_administrator), :position => 1
+            administrator = Role.create! :name => l(:default_role_administrator), :position => 1, :builtin => Role::BUILTIN_ADMINISTRATOR
             administrator.permissions = administrator.setable_permissions.collect {|p| p.name}
             administrator.permissions.delete(:edit_time_entries)
 
             administrator.save!
             
-            citizen = Role.create! :name => l(:default_role_citizen), :position => 2
+            citizen = Role.create! :name => l(:default_role_citizen), :position => 2, :builtin => Role::BUILTIN_CORE_MEMBER
             citizen.permissions = citizen.setable_permissions.collect {|p| p.name}
             citizen.permissions.delete(:add_project)
             citizen.permissions.delete(:edit_project)
@@ -43,7 +43,7 @@ module Redmine
             citizen.permissions.delete(:edit_time_entries)
             citizen.save!
 
-            contributor = Role.create! :name => l(:default_role_contributor), :position => 3
+            contributor = Role.create! :name => l(:default_role_contributor), :position => 3, :builtin => Role::BUILTIN_CONTRIBUTOR
             contributor.permissions = contributor.setable_permissions.collect {|p| p.name}
             contributor.permissions.delete(:add_project)
             contributor.permissions.delete(:edit_project)
