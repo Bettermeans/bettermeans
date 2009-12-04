@@ -17,6 +17,7 @@ class CommitRequest < ActiveRecord::Base
   acts_as_activity_provider :type => 'commit_requests',
                             :author_key => :user_id, #BUGBUG: activity won't show for responder here. somehow we need both user_id and responder_id
                             :permission => :view_issues,
+                            :timestamp => "#{table_name}.updated_on",
                             :find_options => {:include => [{:issue => :project}, :user]}                            
   
   #True if user has requested commitment to this ussue
