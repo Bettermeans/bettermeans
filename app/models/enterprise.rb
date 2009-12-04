@@ -5,7 +5,7 @@ class Enterprise < ActiveRecord::Base
       homepage :string , :default => ""
       timestamps
     end
-    
+    has_one :root_project, :class_name => 'Project', :conditions => "parent_id is null"
     has_many :projects
     has_many :issues, :through => :projects
     has_many :members, :through => :projects
