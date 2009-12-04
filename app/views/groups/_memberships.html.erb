@@ -1,4 +1,4 @@
-<% roles = Role.find_all_givable(Role::SCOPE_PROJECT) %>
+<% roles = Role.find_all_givable(Role::LEVEL_PROJECT) %>
 <% projects = Project.active.find(:all, :order => 'lft') %>
 
 <div class="splitcontentleft">
