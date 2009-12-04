@@ -57,9 +57,10 @@ module Redmine
             end
             cond.add(Project.allowed_to_condition(user, provider_options[:permission], options)) if provider_options[:permission]
             scope_options[:conditions] = cond.conditions
+            
             if options[:limit]
               # id and creation time should be in same order in most cases
-              scope_options[:order] = "#{table_name}.id DESC"
+              scope_options[:order] = "#{table_name}.updated_on DESC"
               scope_options[:limit] = options[:limit]
             end
             

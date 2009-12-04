@@ -66,13 +66,16 @@ module Redmine
             e += provider.find_events(event_type, @user, from, to, @options)
           end
         end
+
+        puts("EVENTS BEFORE SORT: #{e.inspect}")
         
-        e.sort! {|a,b| b.event_datetime <=> a.event_datetime}
+        # e.sort! {|a,b| b.event_datetime <=> a.event_datetime}
+        e.sort! {|a,b| b.updated_on <=> a.updated_on}
         
         if options[:limit]
           e = e.slice(0, options[:limit])
         end
-        puts("EVENTS: #{e.inspect}")
+        puts("EVENTS AFTER SORT: #{e.inspect}")
         e
       end
       
