@@ -1,7 +1,7 @@
 <h2><%=l(:label_team) %></h2>
 
 <%= error_messages_for 'member' %>
-<% roles = Role.find_all_givable(Role::SCOPE_PROJECT)
+<% roles = Role.find_all_givable(Role::LEVEL_PROJECT)
    members = @project.member_principals.find(:all, :include => [:roles, :principal]).sort %>
 
 <div class="splitcontentleft">
