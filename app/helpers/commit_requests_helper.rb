@@ -26,11 +26,13 @@ module CommitRequestsHelper
       push_allowed = @issue.push_allowed?(@user)
     end
     
+    #TODO: this is too expensive. Author should be preloaded for function from the sql statement that is calling it, or do we need anything other than the id?
     author = User.find(@cr.user_id)
     author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
     
     response = @cr.response
     
+    #TODO: same as above, this is too expensive. We should pre-load the responder information. Or do we even need anything other than the id?
     responder = User.find(@cr.responder_id) unless (response == 0) || (@cr.responder_id == 0)
     responder_tag = (responder.is_a?(User) && !author.anonymous?) ? link_to(h(responder), :controller => 'account', :action => 'show', :id => responder) : h(responder || 'Anonymous')
 

@@ -6,7 +6,6 @@
 class CommitRequest < ActiveRecord::Base
   belongs_to :user #author of the request/offer
   belongs_to :responder, :class_name => 'User', :foreign_key => 'responder_id'
-  
   belongs_to :issue  
   
   acts_as_event :title => Proc.new {|o| "#{o.short_description} #{l(:label_for)} #{o.issue.tracker} ##{o.issue.id}: #{o.issue.subject}" },
@@ -16,7 +15,7 @@ class CommitRequest < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id}}
     
   acts_as_activity_provider :type => 'commit_requests',
-                            :author_key => :user_id,
+                            :author_key => :user_id, #BUGBUG: activity won't show for responder here. somehow we need both user_id and responder_id
                             :permission => :view_issues,
                             :find_options => {:include => [{:issue => :project}, :user]}                            
   
