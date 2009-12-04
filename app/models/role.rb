@@ -9,13 +9,13 @@ class Role < ActiveRecord::Base
     assignable :boolean, :default => true
     builtin :integer, :default => 0, :null => false
     permissions :text
-    scope :integer, :default => 3
+    level :integer, :default => 3
   end
   
   # Scopes
-  SCOPE_PLATFORM = 0
-  SCOPE_ENTERPRISE = 1
-  SCOPE_PROJECT = 2
+  LEVEL_PLATFORM = 0
+  LEVEL_ENTERPRISE = 1
+  LEVEL_PROJECT = 2
   
   # Built-in roles
   BUILTIN_NON_MEMBER = 1 #scope platform
@@ -23,8 +23,8 @@ class Role < ActiveRecord::Base
   BUILTIN_ADMINISTRATOR = 3 #scope team
   BUILTIN_CORE_MEMBER = 4 #scope project
   BUILTIN_CONTRIBUTOR = 5 #scope project
-  BUILTIN_FOUNDER = 103 #scope enterprise
-  BUILTIN_CORE_CITIZEN = 104 #scope enterprise
+  BUILTIN_FOUNDER = 6 #scope enterprise
+  BUILTIN_CITIZEN = 7 #scope enterprise
 
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
   named_scope :builtin, lambda { |*args|
@@ -138,8 +138,8 @@ class Role < ActiveRecord::Base
   end
 
   # Find all the roles that can be given to a project member
-  def self.find_all_givable(scope)
-    find(:all, :conditions => {:scope => scope}, :order => 'position') 
+  def self.find_all_givable(level)
+    find(:all, :conditions => {:level => level}, :order => 'position') 
   end
 
   # Return the builtin 'non member' role
