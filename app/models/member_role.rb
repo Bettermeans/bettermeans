@@ -4,8 +4,8 @@
 
 class MemberRole < ActiveRecord::Base
   fields do
-    member_id :integer
-    role_id :integer
+    member_id :integer, :null => false
+    role_id :integer, :null => false
     inherited_from :integer
     created_on :datetime
     updated_on :datetime

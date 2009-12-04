@@ -38,6 +38,7 @@ class TeamOffer < ActiveRecord::Base
   acts_as_activity_provider :type => 'team_offers',
                             :author_key => :author_id,
                             :permission => :view_project,
+                            :timestamp => "#{table_name}.updated_on",
                             :find_options => {:include => [:project, :author, :recipient]}
   
   named_scope :active, :conditions => "#{TeamOffer.table_name}.expires <= '#{Time.now}'"
