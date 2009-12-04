@@ -3,8 +3,18 @@
 #
 
 class MemberRole < ActiveRecord::Base
+  fields do
+    member_id :integer
+    role_id :integer
+    inherited_from :integer
+    created_on :datetime
+    updated_on :datetime
+  end
+  
   belongs_to :member
   belongs_to :role
+  # has_one :user, :through => :member
+  # has_one :project, :through => :member
   
   after_create :add_role_to_group_users
   after_create :remove_contributor_role_if_core
@@ -15,8 +25,41 @@ class MemberRole < ActiveRecord::Base
   
   validates_presence_of :role
   
+  acts_as_event :title => :event_title,
+                :description => :long_description,
+                :author =>  :user,
+                :type => 'member-role',
+                :url => Proc.new {|o| {:controller => 'projects', :action => 'team', :id => o.member.project_id}}
+    
+  acts_as_activity_provider :type => 'team_offers',
+                            :author_key => "#{Member.table_name}.user_id",
+                            :permission => :view_project,
+                            :find_options => {:include => [{:member => [:project,:user]}]}
+  
+  
   def validate
     errors.add :role_id, :invalid if role && !role.member?
+  end
+  
+  def project
+    member.respond_to?(:project) ? member.project : nil
+  end
+  
+  def user_id
+    member.user.id
+  end
+  
+  def user
+    member.user
+  end
+  
+  def long_description
+    "#{user.name} is now: #{role.name}"
+  end
+  
+  def event_title
+    "Team change"
+     #{l(:label_to_join_core_team_of, :project => o.project.name)} #{o.response_type_description}
   end
   
   private
@@ -55,6 +98,8 @@ class MemberRole < ActiveRecord::Base
       m.save
     end
   end
+  
+
   
   
 end

@@ -292,6 +292,7 @@ class User < Principal
       return false unless project.active?
       # No action allowed on disabled modules
       return false unless project.allows_to?(action)
+      logger.info("project allows actions")
       # Admin users are authorized for anything else
       return true if admin?
       
@@ -348,7 +349,7 @@ class User < Principal
   
   #Drops current user from core team of project
   def drop_from_core(project, options={})
-    drop_from_project (Role::BUILTIN_CORE_MEMBER)
+    drop_from_project project, Role::BUILTIN_CORE_MEMBER
   end
   
   def self.current=(user)

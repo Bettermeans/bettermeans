@@ -174,7 +174,7 @@ class TeamOffer < ActiveRecord::Base
     if accepted?
       TeamPoint.create! :recipient_id => recipient_id,
                           :author_id => author_id,
-                          :project_id => project
+                          :project_id => project_id
     end    
   end
     

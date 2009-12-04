@@ -67,7 +67,7 @@ class TeamOffersController < ApplicationController
     respond_to do |format|
       if @team_offer.save
         if (!params[:notification_id].nil?)
-          logger.info("This request came from a notification")
+          Notification.find(params[:notification_id]).mark_as_responded
           render :template => "notifications/hide", :layout => false
           return
         else

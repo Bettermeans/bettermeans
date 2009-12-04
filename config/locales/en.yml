@@ -316,6 +316,7 @@ en:
   setting_new_project_user_role_id: Role given to a non-admin user who creates a workstream
   setting_default_projects_modules: Default enabled modules for new workstreams
   
+  permission_view_project : View workstream
   permission_add_project: Create workstream
   permission_edit_project: Edit workstream
   permission_select_project_modules: Select workstream modules
@@ -760,11 +761,12 @@ en:
   label_ownership_taken : "Ownership taken"
   label_commit_request_plural : "Task ownership"
   label_team_offer : "Core Team Invitation"
-  label_team_offer_plural : "Core team"
+  label_team_offer_plural : "Team members"
+  label_team_plural : "Team"
   label_team_invitation : "Core Team Invitation"
   label_team_request : "Core Team Request"
   label_team_request_plural : "Core Team requests"
-  label_team_offers_and_requests : "Core Invitations & Requests"
+  label_team_offers_and_requests : "Team Invitations & Requests"
   label_accepted : "accepted"
   label_sent : "sent"
   label_withdrawn : "withdrawn"
@@ -779,6 +781,7 @@ en:
   label_sending_team_request : "{{author}} wants to join the Core Team for the {{project}} workstream"
   label_sending_team_request : "{{author}} wants you to join the Core Team for the {{project}} workstream"
   label_team_view_all : "View team details"
+  label_member_role_plural : "Team Changes" 
   
   
   button_login: Login
