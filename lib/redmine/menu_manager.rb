@@ -86,7 +86,6 @@ module Redmine
               item.url
             end
             caption = item.caption(project)
-            logger.info("Curren: #{current_menu_item}  name: #{item.name}")
             if block_given?
               yield item, caption, url, (current_menu_item == item.name)
             else
