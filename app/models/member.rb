@@ -3,6 +3,13 @@
 #
 
 class Member < ActiveRecord::Base
+  fields do
+      user_id :integer,           :default => 0,     :null => false
+      project_id :integer,        :default => 0,     :null => false
+      created_on :datetime
+      mail_notification :boolean, :default => false, :null => false
+  end
+  
   belongs_to :user
   belongs_to :principal, :foreign_key => 'user_id'
   has_many :member_roles, :dependent => :destroy
