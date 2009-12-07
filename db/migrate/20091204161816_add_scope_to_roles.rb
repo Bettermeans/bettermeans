@@ -23,14 +23,12 @@ class AddScopeToRoles < ActiveRecord::Migration
     r.save
     
     citizen = Role.create! :name => "Citizen", :builtin => Role::BUILTIN_CITIZEN, :level => Role::LEVEL_ENTERPRISE
-    # citizen.permissions = citizen.setable_permissions.collect {|p| p.name}
-    # 
-    # citizen.save!
+    citizen.permissions = citizen.setable_permissions.collect {|p| p.name}
+    citizen.save!
 
     founder = Role.create! :name => "Founder", :builtin => Role::BUILTIN_FOUNDER, :level => Role::LEVEL_ENTERPRISE
-    # founder.permissions = founder.setable_permissions.collect {|p| p.name}
-    # 
-    # founder.save!
+    founder.permissions = founder.setable_permissions.collect {|p| p.name}
+    founder.save!
     
     
   end

@@ -50,7 +50,7 @@ class Role < ActiveRecord::Base
   acts_as_list
   
   serialize :permissions, Array
-  attr_protected :builtin
+  # attr_protected :builtin #TODO: should we uncomment this again?
 
   validates_presence_of :name
   validates_uniqueness_of :name

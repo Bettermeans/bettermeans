@@ -60,7 +60,8 @@ module Redmine
             
             if options[:limit]
               # id and creation time should be in same order in most cases
-              scope_options[:order] = "#{table_name}.updated_on DESC"
+              provider_options[:timestamp] ||= "#{table_name}.updated_on"
+              scope_options[:order] = "#{provider_options[:timestamp]} DESC"
               scope_options[:limit] = options[:limit]
             end
             

@@ -91,6 +91,8 @@ class Project < ActiveRecord::Base
   named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
   named_scope :all_public, { :conditions => { :is_public => true } }
   named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
+  named_scope :all_roots, {:conditions => "parent_id is null"}
+  named_scope :all_children, {:conditions => "parent_id is not null"}
   
   def identifier=(identifier)
     super unless identifier_frozen?
@@ -102,8 +104,12 @@ class Project < ActiveRecord::Base
 
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
-  def self.latest(user=nil, count=5)
-    find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
+  def self.latest(user=nil, count=10, root=false)
+    if root
+      all_roots.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
+    else
+      all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
+    end
   end	
 
   # Returns a SQL :conditions string used to find all active projects for the specified user.
@@ -382,6 +388,23 @@ class Project < ActiveRecord::Base
     name
   end
   
+  def name_with_ancestors
+    b = []
+
+    ancestors = (project.root? ? [] : project.ancestors.visible)
+    if ancestors.any?
+      root = ancestors.shift
+      b << root.name
+      if ancestors.size > 2
+        b << '...'
+        ancestors = ancestors[-2, 2]
+      end
+      b += ancestors.collect {|p| p.name }
+    end
+    b << project.name
+    b.join( ' » ')
+  end
+  
   # Returns a short description of the projects (first lines)
   def short_description(length = 255)
     description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip if description
@@ -481,6 +504,16 @@ class Project < ActiveRecord::Base
   def team_points_for(user, options={})
     user.team_points_for(project)
   end
+  
+  #Setup default forum for workstream
+  def after_create
+    logger.info("creating board")
+    #Send notification of request or invitation to recipient
+     Board.create! :project_id => id,
+                  :name => Setting.forum_name,                        
+                  :description => Setting.forum_description + name
+  end
+  
   
   
   private
@@ -617,4 +650,5 @@ class Project < ActiveRecord::Base
         self.time_entry_activities.active
     end
   end
+    
 end
