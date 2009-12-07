@@ -52,28 +52,32 @@ class ProjectsController < ApplicationController
   
   # Add a new project
   def add
+    logger.info(params.inspect)
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @trackers = Tracker.all
     @project = Project.new(params[:project])
-    @project.enterprise_id = params[:enterprise]
+    @parent = Project.find(params[:parent_id]) unless params[:parent_id].nil?
+    logger.info("PARENT BEFORE #{@parent.inspect}")
+    
     if request.get?
+      @project.enabled_module_names = Setting.default_projects_modules
+    else
+      logger.info("PROJECT BEFORE SAVE #{@project.inspect}")
+      @project.enabled_module_names = params[:enabled_modules]
+      @project.enterprise_id = @parent.enterprise_id unless @parent.nil?
       @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
       @project.trackers = Tracker.all
       @project.is_public = Setting.default_projects_public?
-      @project.enabled_module_names = Setting.default_projects_modules
-    else
-      @project.enabled_module_names = params[:enabled_modules]
+      
       if @project.save
-        @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+        logger.info("PARENT #{@parent.inspect}")
+        @project.set_allowed_parent!(@parent.id) unless @parent.nil?
         # Add current user as a admin and core team member
-        # unless User.current.admin?
-          r = Role.find(Role::BUILTIN_CORE_MEMBER)
-          r2 = Role.find(Role::BUILTIN_ADMINISTRATOR)
-          m = Member.new(:user => User.current, :roles => [r,r2])
-          @project.members << m
-        # end
+        r = Role.find(Role::BUILTIN_CORE_MEMBER)
+        r2 = Role.find(Role::BUILTIN_ADMINISTRATOR)
+        m = Member.new(:user => User.current, :roles => [r,r2])
+        @project.members << m
         flash[:notice] = l(:notice_successful_create)
-        redirect_to :controller => 'projects', :action => 'settings', :id => @project
+        redirect_to :controller => 'projects', :action => 'show', :id => @project
       end
     end	
   end
@@ -147,12 +151,15 @@ class ProjectsController < ApplicationController
   def edit
     if request.post?
       @project.attributes = params[:project]
+      logger.info("XXXXXXXXXXXXXXXXXXX")
       if @project.save
+        logger.info("project SAVED")
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
       else
         settings
+        logger.info("project not saved")
         render :action => 'settings'
       end
     end
