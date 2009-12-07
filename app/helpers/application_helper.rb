@@ -326,7 +326,7 @@ module ApplicationHelper
   end
   
   def page_header_title
-    if @project.nil? || @project.new_record?
+    if @project.nil? || @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
       h(Setting.app_title)
     else
       b = []

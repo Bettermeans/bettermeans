@@ -23,8 +23,8 @@ module ProjectsHelper
   end
   
   def parent_project_select_tag(project)
-    options = '<option></option>' + project_tree_options_for_select(project.allowed_parents, :selected => project.parent)
-    content_tag('select', options, :name => 'project[parent_id]')
+      options = '<option></option>' + project_tree_options_for_select(project.allowed_parents, :selected => project.parent)
+      content_tag('select', options, :name => 'project[parent_id]')
   end
   
   # Renders a tree of projects as a nested set of unordered lists

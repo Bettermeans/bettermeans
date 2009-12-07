@@ -69,8 +69,8 @@ module Redmine
 
         puts("EVENTS BEFORE SORT: #{e.inspect}")
         
-        # e.sort! {|a,b| b.event_datetime <=> a.event_datetime}
-        e.sort! {|a,b| b.updated_on <=> a.updated_on}
+        e.sort! {|a,b| b.event_datetime <=> a.event_datetime}
+        #e.sort! {|a,b| b.updated_on <=> a.updated_on}
         
         if options[:limit]
           e = e.slice(0, options[:limit])

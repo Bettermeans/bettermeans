@@ -266,6 +266,12 @@ class User < Principal
     roles
   end
   
+  # Return true if the user is a core team member of the root project for the passed project
+  def citizen_of?(project)
+    root_project = project.root
+    core_member_of?(root_project)
+  end
+  
   # Return true if the user is a member of project
   def member_of?(project)
     !roles_for_project(project).detect {|role| role.member?}.nil?
@@ -292,9 +298,12 @@ class User < Principal
       return false unless project.active?
       # No action allowed on disabled modules
       return false unless project.allows_to?(action)
-      logger.info("project allows actions")
       # Admin users are authorized for anything else
       return true if admin?
+      
+      #Check if user is a citizen of the enterprise, and the citizen role is allowed to take that action
+      return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
+      
       
       roles = roles_for_project(project)
       return false unless roles
