@@ -135,7 +135,7 @@ class CommitRequestsController < ApplicationController
       @issue.save
       
       #Add requester as a contributor to that project
-      @commit_request.user.add_to_project(@commit_request.issue.project, Role::BUILTIN_CONTRIBUTOR) unless @commit_request.responder.core_member_of?(@commit_request.issue.project)
+      @commit_request.user.add_to_project(@commit_request.issue.project, Role::BUILTIN_CONTRIBUTOR) unless @commit_request.user.core_member_of?(@commit_request.issue.project)
       
       #Notify requester that his notification has been accepted
       Notification.create @commit_request.user_id,

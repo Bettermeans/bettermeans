@@ -109,13 +109,17 @@ class CommitRequest < ActiveRecord::Base
   
   # Generates a label from number of days of a commitment
   def day_label
+    CommitRequest.day_label days
+  end 
+  
+  def self.day_label(days)
     case days
       when -1 then l(:label_not_sure)
       when 0 then l(:label_same_day)
       when 1 then "1 " + l(:label_day)
       when 2..100 then String(days) + " " + l(:label_day_plural)
     end
-  end      
+  end
   
   
 end
