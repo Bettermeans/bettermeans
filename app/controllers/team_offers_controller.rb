@@ -58,12 +58,21 @@ class TeamOffersController < ApplicationController
   # PUT /team_offers/1.xml
   def update
     @team_offer = TeamOffer.find(params[:id])
-
+    @team_offer.response = params[:response]
+    # @team_offer.save
+    logger.info(params.inspect)
+    
     respond_to do |format|
-      if @team_offer.update_attributes(params[:team_offer])
-        flash[:notice] = 'TeamOffer was successfully updated.'
-        format.html { redirect_to(@team_offer) }
-        format.xml  { head :ok }
+      if @team_offer.save
+        if (!params[:notification_id].nil?)
+          Notification.find(params[:notification_id]).mark_as_responded
+          render :template => "notifications/hide", :layout => false
+          return
+        else
+          # flash[:notice] = 'TeamOffer was successfully updated.'
+          format.html { redirect_to(@team_offer) }
+          format.xml  { head :ok }
+        end
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @team_offer.errors, :status => :unprocessable_entity }

@@ -1,0 +1,18 @@
+<p>
+  <b>Workstream:</b>
+  <%=h @team_point.project_id %>
+</p>
+
+<p>
+  <b>Author:</b>
+  <%=h @team_point.author_id %>
+</p>
+
+<p>
+  <b>translation missing: en, field_recipient:</b>
+  <%=h @team_point.recipient_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_team_point_path(@team_point) %> |
+<%= link_to 'Back', team_points_path %>

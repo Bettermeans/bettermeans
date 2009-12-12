@@ -8,17 +8,18 @@ Feature: Ownership offer
     Given the following users exist
     | login   | password | firstname | lastname | admin |
     | shereef | shereef  | shereef   | bishay   | true  |
-    | karim   | shereef  | karim     | bishay   | false |
+    | karim   | karim    | karim     | bishay   | false |
 
 
-    Given a project "myproject" exists with name: "Workstream1"
+    Given an enterprise "myenterprise" exists with name: "Enterprise"
+    Given a project "myproject" exists with name: "Workstream1", enterprise: that enterprise
     And an issue exists with subject: "My issue", project: project "myproject"
   
-  @selenium
+  # @selenium
   Scenario: Make an offer for ownership
     Given I am logged in as shereef
     When I go to the show page for that project
-    Then I should see "Workstream1" in "h1"
+    Then I should see "Workstream1" within "h1"
     When I follow "Items"
     Then I should see "My issue"
     Given karim is a Core Member of project "Workstream1"
@@ -29,7 +30,11 @@ Feature: Ownership offer
     Then I should see "Choose someone"
     When I select "karim bishay" from "responder_id"
     And I press "Offer Ownership"
-    Then I should see "Recind ownership"
+    And I am logged in as karim
+    Then I should see "new notification(s)"
+    When I follow "new notifications(s)"
+    Then I should see "Offer"
+    # Then I should see "Recind ownership"
     
 
     # And I add an issue called "First issue" to the project called "Workstream1"    

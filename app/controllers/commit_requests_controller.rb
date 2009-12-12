@@ -121,7 +121,7 @@ class CommitRequestsController < ApplicationController
     @commit_request.save
     
     @issue = Issue.find(@commit_request.issue_id)    
-    
+    #TODO: move all this logic to the model
     # 0- Request No response 1-Request recinded 2-Request Accepted 3-Request Declined 4-Offer no response 5-Offer recinded 6-Offer accepted 7-Offer Declined 8-Ownership Released
     case @commit_request.response
     when 1 #request recinded
@@ -133,6 +133,9 @@ class CommitRequestsController < ApplicationController
       @issue.expected_date = Time.new() + 3600*24*@commit_request.days unless @commit_request.days < 0
       @issue.status = IssueStatus.assigned
       @issue.save
+      
+      #Add requester as a contributor to that project
+      @commit_request.user.add_to_project(@commit_request.issue.project, Role::BUILTIN_CONTRIBUTOR) unless @commit_request.user.core_member_of?(@commit_request.issue.project)
       
       #Notify requester that his notification has been accepted
       Notification.create @commit_request.user_id,
@@ -157,6 +160,10 @@ class CommitRequestsController < ApplicationController
       @issue.expected_date = Time.new() + 3600*24*@commit_request.days unless @commit_request.days < 0
       @issue.status = IssueStatus.assigned
       @issue.save
+      
+      
+      #Add responder as a contributor to that project
+      @commit_request.responder.add_to_project(@commit_request.issue.project, Role::BUILTIN_CONTRIBUTOR) unless @commit_request.responder.core_member_of?(@commit_request.issue.project)
       
       #Notify offerer that their offer has been accepted
       Notification.create @commit_request.user_id,

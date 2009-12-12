@@ -20,7 +20,9 @@ class MembersController < ApplicationController
       else
         members << Member.new(attrs)
       end
-      @project.members << members
+      logger.info("MEMBERS #{members}")
+      result = @project.members << members
+      logger.info("RESULT #{result}")
     end
     respond_to do |format|
       format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }

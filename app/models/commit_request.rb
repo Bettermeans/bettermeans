@@ -4,9 +4,8 @@
 
 
 class CommitRequest < ActiveRecord::Base
-  belongs_to :user
-  # belongs_to :responder, :class_name => 'User', :foreign_key => 'responder_id'
-  
+  belongs_to :user #author of the request/offer
+  belongs_to :responder, :class_name => 'User', :foreign_key => 'responder_id'
   belongs_to :issue  
   
   acts_as_event :title => Proc.new {|o| "#{o.short_description} #{l(:label_for)} #{o.issue.tracker} ##{o.issue.id}: #{o.issue.subject}" },
@@ -16,8 +15,9 @@ class CommitRequest < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id}}
     
   acts_as_activity_provider :type => 'commit_requests',
-                            :author_key => :user_id,
+                            :author_key => :user_id, #BUGBUG: activity won't show for responder here. somehow we need both user_id and responder_id
                             :permission => :view_issues,
+                            :timestamp => "#{table_name}.updated_on",
                             :find_options => {:include => [{:issue => :project}, :user]}                            
   
   #True if user has requested commitment to this ussue
@@ -109,13 +109,17 @@ class CommitRequest < ActiveRecord::Base
   
   # Generates a label from number of days of a commitment
   def day_label
+    CommitRequest.day_label days
+  end 
+  
+  def self.day_label(days)
     case days
       when -1 then l(:label_not_sure)
       when 0 then l(:label_same_day)
       when 1 then "1 " + l(:label_day)
       when 2..100 then String(days) + " " + l(:label_day_plural)
     end
-  end      
+  end
   
   
 end

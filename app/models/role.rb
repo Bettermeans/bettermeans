@@ -3,9 +3,28 @@
 #
 
 class Role < ActiveRecord::Base
+  fields do
+    name :string, :limit => 30, :default => "", :null => false
+    position :integer, :default => 1
+    assignable :boolean, :default => true
+    builtin :integer, :default => 0, :null => false
+    permissions :text
+    level :integer, :default => 3
+  end
+  
+  # Scopes
+  LEVEL_PLATFORM = 0
+  LEVEL_ENTERPRISE = 1
+  LEVEL_PROJECT = 2
+  
   # Built-in roles
-  BUILTIN_NON_MEMBER = 1
-  BUILTIN_ANONYMOUS  = 2
+  BUILTIN_NON_MEMBER = 1 #scope platform
+  BUILTIN_ANONYMOUS  = 2 #scope platform
+  BUILTIN_ADMINISTRATOR = 3 #scope team
+  BUILTIN_CORE_MEMBER = 4 #scope project
+  BUILTIN_CONTRIBUTOR = 5 #scope project
+  BUILTIN_FOUNDER = 6 #scope enterprise
+  BUILTIN_CITIZEN = 7 #scope enterprise
 
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
   named_scope :builtin, lambda { |*args|
@@ -31,7 +50,7 @@ class Role < ActiveRecord::Base
   acts_as_list
   
   serialize :permissions, Array
-  attr_protected :builtin
+  # attr_protected :builtin #TODO: should we uncomment this again?
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -85,7 +104,18 @@ class Role < ActiveRecord::Base
   
   # Return true if the role is a project member role
   def member?
-    !self.builtin?
+    # builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_CORE_MEMBER || builtin = BUILTIN_CONTRIBUTOR
+    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_ADMINISTRATOR
+  end
+  
+  # Return true if the role is a project core team member
+  def core_member?
+    builtin == BUILTIN_CORE_MEMBER
+  end
+  
+  # Return true if the role is a project contributor
+  def contributor?
+    builtin == BUILTIN_CONTRIBUTOR
   end
   
   # Return true if role is allowed to do the specified action
@@ -109,8 +139,8 @@ class Role < ActiveRecord::Base
   end
 
   # Find all the roles that can be given to a project member
-  def self.find_all_givable
-    find(:all, :conditions => {:builtin => 0}, :order => 'position')
+  def self.find_all_givable(level)
+    find(:all, :conditions => {:level => level}, :order => 'position') 
   end
 
   # Return the builtin 'non member' role
@@ -121,6 +151,34 @@ class Role < ActiveRecord::Base
   # Return the builtin 'anonymous' role 
   def self.anonymous
     find(:first, :conditions => {:builtin => BUILTIN_ANONYMOUS}) || raise('Missing anonymous builtin role.')
+  end
+  
+
+  # Return the builtin 'administrator' role 
+  def self.administrator
+    find(:first, :conditions => {:builtin => BUILTIN_ADMINISTRATOR}) || raise('Missing Administrator builtin role.')
+  end
+
+
+  # Return the builtin 'contributor' role 
+  def self.contributor
+    find(:first, :conditions => {:builtin => BUILTIN_CONTRIBUTOR}) || raise('Missing contributor builtin role.')
+  end
+
+
+  # Return the builtin 'core member' role 
+  def self.core_member
+    find(:first, :conditions => {:builtin => BUILTIN_CORE_MEMBER}) || raise('Missing core member builtin role.')
+  end
+
+  # Return the builtin 'citizen' role 
+  def self.citizen
+    find(:first, :conditions => {:builtin => BUILTIN_CITIZEN}) || raise('Missing citizen builtin role.')
+  end
+
+  # Return the builtin 'founder' role 
+  def self.founder
+    find(:first, :conditions => {:builtin => BUILTIN_FOUNDER}) || raise('Missing founder builtin role.')
   end
 
   
