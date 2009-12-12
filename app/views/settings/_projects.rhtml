@@ -22,7 +22,7 @@
 </p>
 
 <p><label><%= l(:setting_new_project_user_role_id) %></label>
-<%= select_tag('settings[new_project_user_role_id]', options_for_select([["--- #{l(:actionview_instancetag_blank_option)} ---", '']] + Role.find_all_givable.collect {|r| [r.name, r.id]}, Setting.new_project_user_role_id.to_i)) %></p>
+<%= select_tag('settings[new_project_user_role_id]', options_for_select([["--- #{l(:actionview_instancetag_blank_option)} ---", '']] + Role.find_all_givable(Role::LEVEL_PROJECT).collect {|r| [r.name, r.id]}, Setting.new_project_user_role_id.to_i)) %></p>
 </div>
 
 <%= submit_tag l(:button_save) %>

@@ -1,5 +1,5 @@
 <%= error_messages_for 'member' %>
-<% roles = Role.find_all_givable
+<% roles = Role.find_all_givable(Role::LEVEL_PROJECT)
    members = @project.member_principals.find(:all, :include => [:roles, :principal]).sort %>
 
 <div class="splitcontentleft">
@@ -48,7 +48,6 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 </div>
-
 
 <% principals = Principal.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @project.principals %>
 

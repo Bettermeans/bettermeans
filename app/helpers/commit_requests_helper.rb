@@ -5,6 +5,7 @@ module CommitRequestsHelper
       active = ARCondition.new(["response != ? AND response > -1 AND issue_id = ?",999,issue_id]) #TODO: In the future we might want to hide recinded requests by setting 999 to 1
       @active_requests = CommitRequest.find(:all, 
                                     :order => "created_on ASC",
+                                    :include => [:user, :responder],
                                     :conditions => active.conditions)
     end
     @active_requests
@@ -26,12 +27,14 @@ module CommitRequestsHelper
       push_allowed = @issue.push_allowed?(@user)
     end
     
-    author = User.find(@cr.user_id)
+    #TODO: this is too expensive. Author should be preloaded for function from the sql statement that is calling it, or do we need anything other than the id?
+    author = @cr.user
     author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
     
     response = @cr.response
     
-    responder = User.find(@cr.responder_id) unless (response == 0) || (@cr.responder_id == 0)
+    #TODO: same as above, this is too expensive. We should pre-load the responder information. Or do we even need anything other than the id?
+    responder = @cr.responder unless (response == 0) || (@cr.responder_id == 0)
     responder_tag = (responder.is_a?(User) && !author.anonymous?) ? link_to(h(responder), :controller => 'account', :action => 'show', :id => responder) : h(responder || 'Anonymous')
 
     
@@ -105,7 +108,7 @@ module CommitRequestsHelper
         logger.info("No existing commitment request. Creating first one")
         #Let's create a commitment request
         @cr = CommitRequest.new({:user_id => User.current.id, :response => 2, :responder_id => User.current.id, :created_on => @issue.created_on, :updated_on => @issue.updated_on, :issue_id => @issue.id})
-        @cr.save
+        @cr.save!
       end
     elsif (@cr == nil)
        #No commit requests from this user to this issue, 

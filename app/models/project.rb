@@ -32,6 +32,8 @@ class Project < ActiveRecord::Base
     end
   end
   has_many :members, :include => :user, :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :core_members, :class_name => 'Member', :include => [:user,:roles], :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}"
+  
   has_many :member_principals, :class_name => 'Member', 
                                :include => :principal,
                                :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
@@ -52,6 +54,8 @@ class Project < ActiveRecord::Base
   has_one :repository, :dependent => :destroy
   has_many :changesets, :through => :repository
   has_one :wiki, :dependent => :destroy
+  has_many :team_offers, :dependent => :delete_all
+  has_many :team_points, :dependent => :delete_all
   # Custom field for the project issues
   has_and_belongs_to_many :issue_custom_fields, 
                           :class_name => 'IssueCustomField',
@@ -87,6 +91,8 @@ class Project < ActiveRecord::Base
   named_scope :active, { :conditions => "#{Project.table_name}.status = #{STATUS_ACTIVE}"}
   named_scope :all_public, { :conditions => { :is_public => true } }
   named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
+  named_scope :all_roots, {:conditions => "parent_id is null"}
+  named_scope :all_children, {:conditions => "parent_id is not null"}
   
   def identifier=(identifier)
     super unless identifier_frozen?
@@ -98,8 +104,12 @@ class Project < ActiveRecord::Base
 
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
-  def self.latest(user=nil, count=5)
-    find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
+  def self.latest(user=nil, count=10, root=false)
+    if root
+      all_roots.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
+    else
+      all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
+    end
   end	
 
   # Returns a SQL :conditions string used to find all active projects for the specified user.
@@ -378,6 +388,23 @@ class Project < ActiveRecord::Base
     name
   end
   
+  def name_with_ancestors
+    b = []
+
+    ancestors = (project.root? ? [] : project.ancestors.visible)
+    if ancestors.any?
+      root = ancestors.shift
+      b << root.name
+      if ancestors.size > 2
+        b << '...'
+        ancestors = ancestors[-2, 2]
+      end
+      b += ancestors.collect {|p| p.name }
+    end
+    b << project.name
+    b.join( ' » ')
+  end
+  
   # Returns a short description of the projects (first lines)
   def short_description(length = 255)
     description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip if description
@@ -473,6 +500,28 @@ class Project < ActiveRecord::Base
       return nil
     end
   end
+  
+  def team_points_for(user, options={})
+    user.team_points_for(project)
+  end
+  
+  #Setup default forum for workstream
+  def after_create
+    logger.info("creating board")
+    #Send notification of request or invitation to recipient
+     Board.create! :project_id => id,
+                  :name => Setting.forum_name,                        
+                  :description => Setting.forum_description + name
+  end
+  
+  #Returns true if user is eligible to be on the core team of this project
+  def eligible_for_core?(user,options={})
+    options[:total_points] ||= TeamPoint.total(user, self)
+    total_points = options[:total_points]
+    total_points = total_points + 1 if user.core_member_of?(self.parent)
+    eligible = (total_points > TeamPoint::CORE_MEMBERSHIP_THRESHOLD) || (total_points > TeamPoint::CORE_MEMBERSHIP_LOSS_THRESHOLD && user.core_member_of?(self)) #More than zero to initiate, but if user is already a member they stay if their total is 0
+  end
+  
   
   private
   
@@ -608,4 +657,5 @@ class Project < ActiveRecord::Base
         self.time_entry_activities.active
     end
   end
+    
 end

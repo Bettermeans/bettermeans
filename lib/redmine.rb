@@ -53,6 +53,8 @@ Redmine::AccessControl.map do |map|
     map.permission :push_commitment, {:issues => [:assign]} #Can send request for someone to comitt to a task
     map.permission :pull_commitment, {:issues => [:assign]} #Can pull request. i.e. ask to be the person that the task is commited to.
     map.permission :view_commit_requests, {:commit_requests => [:edit, :show]} #Can view ownereship requests
+    map.permission :view_team_offers, {:team_offers => [:show]} #Can view core team offers
+    map.permission :view_member_roles, {:member_roles => [:show]} #Can view member roles
     # Queries
     map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
     map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
@@ -171,6 +173,9 @@ Redmine::Activity.map do |activity|
   activity.register :wiki_edits, :class_name => 'WikiContent::Version', :default => true
   activity.register :messages, :default => true
   activity.register :time_entries, :default => true
+  activity.register :team_offers, :class_name => %w(TeamOffer MemberRole), :default => true  
+  # activity.register :team_offers, :class_name => 'MemberRoles', :default => true
+  # activity.register :member_roles, :default => true  
   activity.register :commit_requests, :default => true  
 end
 

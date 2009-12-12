@@ -1,7 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :team_offers
-
-
+  map.resources :team_points
   map.resources :team_offers
   map.resources :enterprises
   
@@ -21,7 +19,8 @@ ActionController::Routing::Routes.draw do |map|
   map.signout 'logout', :controller => 'account', :action => 'logout'
   
   map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
-  map.connect 'help/:ctrl/:page', :controller => 'help'
+  map.connect 'help/:ctrl/:page', :controller => 'help' #What's this?
+  map.connect 'help/:id', :controller => 'help', :action => 'show'
   
   map.connect 'time_entries/:id/edit', :action => 'edit', :controller => 'timelog'
   map.connect 'projects/:project_id/time_entries/new', :action => 'edit', :controller => 'timelog'
@@ -191,7 +190,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects.:format', :action => 'index'
       project_views.connect 'projects/new', :action => 'add'
       project_views.connect 'projects/:id', :action => 'show'
-      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings/
+      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/versions/new', :action => 'add_version'
@@ -210,6 +209,10 @@ ActionController::Routing::Routes.draw do |map|
       project_actions.connect 'projects/new', :action => 'add'
       project_actions.connect 'projects', :action => 'add'
       project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive/
+      project_actions.connect 'projects/:id/join_core_team', :action => 'join_core_team'
+      project_actions.connect 'projects/:id/leave_core_team', :action => 'leave_core_team'
+      project_actions.connect 'projects/:id/core_vote', :action => 'core_vote'
+      project_actions.connect 'projects/:id/wiki', :action => 'wiki'
       project_actions.connect 'projects/:id/files/new', :action => 'add_file'
       project_actions.connect 'projects/:id/versions/new', :action => 'add_version'
       project_actions.connect 'projects/:id/categories/new', :action => 'add_issue_category'
