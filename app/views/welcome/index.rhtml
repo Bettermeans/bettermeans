@@ -13,13 +13,27 @@
 </div>
 
 <div class="splitcontentright">
+    <% if @enterprises.any? %>
+	<div class="box">
+	<h3 class="icon22 icon22-projects"><%=l(:label_enterprise_latest)%></h3>
+		<ul>
+		<% for project in @enterprises %>
+			<li>
+			<%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %> (<%= format_time(project.created_on) %>)
+			<%= textilizable project.short_description, :project => project %>
+			</li>
+		<% end %>
+		</ul>
+	</div>
+	<% end %>
+  
     <% if @projects.any? %>
 	<div class="box">
 	<h3 class="icon22 icon22-projects"><%=l(:label_project_latest)%></h3>
 		<ul>
 		<% for project in @projects %>
 			<li>
-			<%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %> (<%= format_time(project.created_on) %>)
+			<%= link_to h(project.name_with_ancestors), :controller => 'projects', :action => 'show', :id => project %> (<%= format_time(project.created_on) %>)
 			<%= textilizable project.short_description, :project => project %>
 			</li>
 		<% end %>

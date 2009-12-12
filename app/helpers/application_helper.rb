@@ -326,11 +326,11 @@ module ApplicationHelper
   end
   
   def page_header_title
-    if @project.nil? || @project.new_record?
+    if @project.nil? || @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
       h(Setting.app_title)
     else
       b = []
-      b << link_to(h(@project.enterprise.name), {:controller => 'enterprises', :action => 'show', :id => @project.enterprise.id, :jump => current_menu_item}, :class => 'root')
+      # b << link_to(h(@project.enterprise.name), {:controller => 'enterprises', :action => 'show', :id => @project.enterprise.id, :jump => current_menu_item}, :class => 'root')
 
       ancestors = (@project.root? ? [] : @project.ancestors.visible)
       if ancestors.any?
@@ -363,6 +363,7 @@ module ApplicationHelper
   def accesskey(s)
     Redmine::AccessKeys.key_for s
   end
+  
 
   # Formats text according to system settings.
   # 2 ways to call this method:
@@ -635,6 +636,11 @@ module ApplicationHelper
       url = '#'
     end
     link_to name, url, options
+  end
+  
+  def help_link(name, options={})
+    options[:show_name] ||= false #When true, we show the text of the help key next to the link
+    link_to(options[:show_name] ? l('help_' + name.to_s) : '', {:controller => 'help', :action => 'show', :key => name}, {:id =>'help_button_' + name.to_s, :class => 'lbOn icon icon-help'})
   end
 
   def calendar_for(field_id)

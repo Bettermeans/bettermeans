@@ -13,7 +13,7 @@ class ProjectsController < ApplicationController
   
   before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity ]
   before_filter :find_optional_project, :only => :activity
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity ]
+  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote ]
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
@@ -52,26 +52,33 @@ class ProjectsController < ApplicationController
   
   # Add a new project
   def add
+    logger.info(params.inspect)
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    @trackers = Tracker.all
     @project = Project.new(params[:project])
+    @parent = Project.find(params[:parent_id]) unless params[:parent_id].nil?
+    logger.info("PARENT BEFORE #{@parent.inspect}")
+    
     if request.get?
-      @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
-      @project.trackers = Tracker.all
-      @project.is_public = Setting.default_projects_public?
       @project.enabled_module_names = Setting.default_projects_modules
     else
+      logger.info("PROJECT BEFORE SAVE #{@project.inspect}")
       @project.enabled_module_names = params[:enabled_modules]
+      @project.enterprise_id = @parent.enterprise_id unless @parent.nil?
+      @project.identifier = Project.next_identifier # if Setting.sequential_project_identifiers?
+      @project.trackers = Tracker.all
+      @project.is_public = Setting.default_projects_public?
+      @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
+      logger.info("INSPECTING PROJECT #{@project}")
       if @project.save
-        @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-        # Add current user as a project member if he is not admin
-        unless User.current.admin?
-          r = Role.givable.find_by_id(Setting.new_project_user_role_id.to_i) || Role.givable.first
-          m = Member.new(:user => User.current, :roles => [r])
-          @project.members << m
-        end
+        logger.info("PARENT #{@parent.inspect}")
+        @project.set_allowed_parent!(@parent.id) unless @parent.nil?
+        # Add current user as a admin and core team member
+        r = Role.find(Role::BUILTIN_CORE_MEMBER)
+        r2 = Role.find(Role::BUILTIN_ADMINISTRATOR)
+        m = Member.new(:user => User.current, :roles => [r,r2])
+        @project.members << m
         flash[:notice] = l(:notice_successful_create)
-        redirect_to :controller => 'projects', :action => 'settings', :id => @project
+        redirect_to :controller => 'projects', :action => 'show', :id => @project
       end
     end	
   end
@@ -131,6 +138,42 @@ class ProjectsController < ApplicationController
     end
     @key = User.current.rss_key
   end
+  
+  #Current user decides to join core team
+  def join_core_team
+    User.current.add_to_core(@project)
+    # TeamPoint.create :project => @project, :author => User.current, :recipient => User.current, :value => 1
+    
+    respond_to do |format|
+      format.js  { render :action => "team_update"}        
+      format.html { redirect_to :action => 'team', :id => @project }
+      format.xml  { head :ok }
+    end
+    
+  end
+
+  def leave_core_team
+    TeamPoint.delete_all :project_id => @project.id, :recipient_id => User.current.id, :author_id => User.current.id
+    User.current.drop_from_core(@project)
+    
+    respond_to do |format|
+      format.js  { render :action => "team_update"}        
+      format.html { redirect_to :action => 'team', :id => @project }
+      format.xml  { head :ok }
+    end
+  end
+  
+  #Current user voting someone else up or down
+  def core_vote
+    @value = params[:value]
+    @member = Member.find(params[:member_id])
+
+    TeamPoint.create :project => @project, :author => User.current, :recipient => @member.user, :value => @value
+    
+    respond_to do |format|
+      format.js  { render :action => "core_vote"}        
+    end
+  end
 
   def settings
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
@@ -145,12 +188,15 @@ class ProjectsController < ApplicationController
   def edit
     if request.post?
       @project.attributes = params[:project]
+      logger.info("XXXXXXXXXXXXXXXXXXX")
       if @project.save
+        logger.info("project SAVED")
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
       else
         settings
+        logger.info("project not saved")
         render :action => 'settings'
       end
     end
