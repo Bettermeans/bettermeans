@@ -1,0 +1,26 @@
+<% roles = Role.find_all_givable(Role::LEVEL_PROJECT)
+   members = project.member_principals.find(:all, :include => [:roles, :user, {:user => :incoming_team_points}]).sort 
+   #TODO: is there way to include incoming_team_points here, so we're not calling it once for every team member below?
+   %>
+
+<div id="team_list">
+<% if members.any? %>
+<table class="list members">
+	<thead>
+	  <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
+	  <th><%= l(:label_role_plural) %></th>
+	  <th><%= l(:label_team_points) %>&nbsp;&nbsp;<%= help_link(:core_points,:show_name => false) %></th>
+	  <th style="width:15%"></th>
+          <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
+	</thead>
+	<tbody>
+	<% members.each do |member| %>
+	<% next if member.new_record? %>
+	<%= render :partial => 'team_list_member', :locals => {:member => member} %>
+	</tbody>
+<% end; reset_cycle %>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+</div>
