@@ -104,7 +104,8 @@ class Role < ActiveRecord::Base
   
   # Return true if the role is a project member role
   def member?
-    builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_CORE_MEMBER || builtin = BUILTIN_CONTRIBUTOR
+    # builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_CORE_MEMBER || builtin = BUILTIN_CONTRIBUTOR
+    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_ADMINISTRATOR
   end
   
   # Return true if the role is a project core team member

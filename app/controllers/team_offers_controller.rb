@@ -62,8 +62,6 @@ class TeamOffersController < ApplicationController
     # @team_offer.save
     logger.info(params.inspect)
     
-    #TODO: if this is an acceptance, add a team point
-
     respond_to do |format|
       if @team_offer.save
         if (!params[:notification_id].nil?)

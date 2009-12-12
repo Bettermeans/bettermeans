@@ -283,7 +283,7 @@ class User < Principal
    end
   
   
-   # Return true if the user is a core member of project
+   # Return true if the user is a contributor of project
     def contributor_of?(project)
       !roles_for_project(project).detect {|role| role.contributor?}.nil?
     end
@@ -301,8 +301,8 @@ class User < Principal
       # Admin users are authorized for anything else
       return true if admin?
       
-      #Check if user is a citizen of the enterprise, and the citizen role is allowed to take that action
-      return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
+      # #Check if user is a citizen of the enterprise, and the citizen role is allowed to take that action
+      # return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
       
       
       roles = roles_for_project(project)
@@ -328,7 +328,12 @@ class User < Principal
   
   #Adds current user to core team of project
   def add_to_core(project, options={})
-    add_to_project project, Role::BUILTIN_CORE_MEMBER
+    if project.eligible_for_core?(self)
+      #Add as core member of current project
+      add_to_project project, Role::BUILTIN_CORE_MEMBER       
+      #Add as contributor to parent project, unless they're already core
+      add_to_project project.parent, Role::BUILTIN_CONTRIBUTOR unless project.parent.nil? || self.core_member_of?(project.parent)
+    end
   end
   
   #Adds user to that project as that role
@@ -351,7 +356,6 @@ class User < Principal
   def drop_from_project(project, role_id, options={})
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     m.member_roles.each {|r|
-      puts r.inspect
       r.destroy if r.role_id == role_id
     } unless m.nil?
   end
