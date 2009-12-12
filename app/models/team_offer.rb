@@ -173,9 +173,7 @@ class TeamOffer < ActiveRecord::Base
     
     #If accepted we add a team point for this user
     if accepted?
-      TeamPoint.create! :recipient_id => recipient_id,
-                          :author_id => author_id,
-                          :project_id => project_id
+      recipient.add_to_core(project)
     end    
   end
     

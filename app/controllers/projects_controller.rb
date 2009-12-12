@@ -13,7 +13,7 @@ class ProjectsController < ApplicationController
   
   before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity ]
   before_filter :find_optional_project, :only => :activity
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity ]
+  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote ]
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
@@ -64,10 +64,11 @@ class ProjectsController < ApplicationController
       logger.info("PROJECT BEFORE SAVE #{@project.inspect}")
       @project.enabled_module_names = params[:enabled_modules]
       @project.enterprise_id = @parent.enterprise_id unless @parent.nil?
-      @project.identifier = Project.next_identifier if Setting.sequential_project_identifiers?
+      @project.identifier = Project.next_identifier # if Setting.sequential_project_identifiers?
       @project.trackers = Tracker.all
       @project.is_public = Setting.default_projects_public?
-      
+      @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
+      logger.info("INSPECTING PROJECT #{@project}")
       if @project.save
         logger.info("PARENT #{@parent.inspect}")
         @project.set_allowed_parent!(@parent.id) unless @parent.nil?
@@ -136,6 +137,42 @@ class ProjectsController < ApplicationController
                                    :conditions => cond).to_f
     end
     @key = User.current.rss_key
+  end
+  
+  #Current user decides to join core team
+  def join_core_team
+    User.current.add_to_core(@project)
+    # TeamPoint.create :project => @project, :author => User.current, :recipient => User.current, :value => 1
+    
+    respond_to do |format|
+      format.js  { render :action => "team_update"}        
+      format.html { redirect_to :action => 'team', :id => @project }
+      format.xml  { head :ok }
+    end
+    
+  end
+
+  def leave_core_team
+    TeamPoint.delete_all :project_id => @project.id, :recipient_id => User.current.id, :author_id => User.current.id
+    User.current.drop_from_core(@project)
+    
+    respond_to do |format|
+      format.js  { render :action => "team_update"}        
+      format.html { redirect_to :action => 'team', :id => @project }
+      format.xml  { head :ok }
+    end
+  end
+  
+  #Current user voting someone else up or down
+  def core_vote
+    @value = params[:value]
+    @member = Member.find(params[:member_id])
+
+    TeamPoint.create :project => @project, :author => User.current, :recipient => @member.user, :value => @value
+    
+    respond_to do |format|
+      format.js  { render :action => "core_vote"}        
+    end
   end
 
   def settings

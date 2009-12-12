@@ -1,0 +1,9 @@
+<tr id="<%= member.principal.login %>" class="<%= cycle 'odd', 'even' %> member <%= member.principal.name %>">
+<td class="<%= member.principal.class.name.downcase %>"><%= link_to_user member.principal %></td>
+<td class="roles">
+  <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
+</td>
+<td class="points">
+  <%= endorsement_links(member) %>
+</td>
+</tr>
