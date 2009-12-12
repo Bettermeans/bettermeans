@@ -1,13 +1,14 @@
 <div class="contextual">
-    <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project}, :class => 'icon icon-add') if User.current.allowed_to?(:add_project, @project, :global => false) %>
+    <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project}, :class => 'icon icon-add') if User.current.allowed_to?(:add_project, @project, :global => false)%>
 </div>
 
 <h2><%=l(:label_overview)%></h2> 
 	
 <div class="splitcontentleft">
 	<%= textilizable @project.description %>	
+	<% unless @project.homepage.blank? %><%=l(:field_homepage)%>: <%= link_to(h(@project.homepage), @project.homepage) %><% end %>
+	
 	<ul>
-	<% unless @project.homepage.blank? %><li><%=l(:field_homepage)%>: <%= link_to(h(@project.homepage), @project.homepage) %></li><% end %>
 	<% @project.custom_values.each do |custom_value| %>
 	<% if !custom_value.value.blank? %>
 	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>

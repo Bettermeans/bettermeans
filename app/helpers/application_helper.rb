@@ -637,6 +637,11 @@ module ApplicationHelper
     end
     link_to name, url, options
   end
+  
+  def help_link(name, options={})
+    options[:show_name] ||= false #When true, we show the text of the help key next to the link
+    link_to(options[:show_name] ? l('help_' + name.to_s) : '', {:controller => 'help', :action => 'show', :key => name}, {:id =>'help_button_' + name.to_s, :class => 'lbOn icon icon-help'})
+  end
 
   def calendar_for(field_id)
     include_calendar_headers_tags
