@@ -86,7 +86,7 @@ a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: #999; text-
 
 /***** Tables *****/
 table.list { border: 1px solid #e4e4e4;  border-collapse: collapse; width: 100%; margin-bottom: 4px; }
-table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; }
+table.list th {  background-color:#EEEEEE; padding: 4px; white-space:nowrap; text-align: left; }
 table.list td { vertical-align: top; }
 table.list td.id { width: 2%; text-align: center;}
 table.list td.checkbox { width: 15px; padding: 0px;}
@@ -251,8 +251,9 @@ dt.attachment { background-image: url(../images/attachment.png); }
 dt.document { background-image: url(../images/document.png); }
 dt.project { background-image: url(../images/projects.png); }
 dt.time-entry { background-image: url(../images/time.png); }
-dt.cr-note { background-image: url(../images/users.png); }  
+dt.cr-note { background-image: url(../images/tag_blue.png); }  
 dt.team-offer { background-image: url(../images/user_new.png); }  
+dt.member-role { background-image: url(../images/users.png); }
 
 #search-results dt.issue.closed { background-image: url(../images/ticket_checked.png); }
 
@@ -696,6 +697,8 @@ vertical-align: middle;
 }
 
 .icon-add { background-image: url(../images/add.png); }
+.icon-bullet-add { background-image: url(../images/bullet_add.png); }
+.icon-bullet-delete { background-image: url(../images/bullet_delete.png); }
 .icon-edit { background-image: url(../images/edit.png); }
 .icon-copy { background-image: url(../images/copy.png); }
 .icon-del { background-image: url(../images/delete.png); }
@@ -928,6 +931,11 @@ h2 img { vertical-align:middle; }
 
 /*create_request_dialogue*/
 .create_request_dialogue {
+	margin: -13px 10px 0px 10px;
+	text-align: center;
+}
+
+.help_dialogue {
 	margin: -13px 10px 0px 10px;
 	text-align: center;
 }

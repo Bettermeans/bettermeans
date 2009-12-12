@@ -108,7 +108,7 @@ module CommitRequestsHelper
         logger.info("No existing commitment request. Creating first one")
         #Let's create a commitment request
         @cr = CommitRequest.new({:user_id => User.current.id, :response => 2, :responder_id => User.current.id, :created_on => @issue.created_on, :updated_on => @issue.updated_on, :issue_id => @issue.id})
-        @cr.save
+        @cr.save!
       end
     elsif (@cr == nil)
        #No commit requests from this user to this issue, 

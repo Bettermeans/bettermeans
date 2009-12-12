@@ -16,18 +16,22 @@ class TeamPoint < ActiveRecord::Base
   belongs_to :recipient, :class_name => 'User', :foreign_key => 'recipient_id'
   belongs_to :project
   
+  before_create :check_existing_points
   after_create :recalculate_core_membership
   after_update :recalculate_core_membership
   after_destroy :recalculate_core_membership
   
   #Re-assesses wether or not recipient is a core member of the team depending on total points
   def recalculate_core_membership
-    total_points = project.team_points_for(recipient)
-    puts ("total points: #{total_points}")
-    earned_core_membership = (total_points > CORE_MEMBERSHIP_THRESHOLD) || (total_points > CORE_MEMBERSHIP_LOSS_THRESHOLD && recipient.core_member_of?(project)) #More than zero to initiate, but if user is already a member they stay if their total is 0
-    if earned_core_membership 
-      #Add user as core member (add core member role, and remove contributor role for this member)
-      recipient.add_to_core(project) unless recipient.core_member_of?(project)
+    total_points = TeamPoint.total(recipient, project)
+    earned_core_membership = project.eligible_for_core?(recipient, :total_points => total_points)
+    puts ("earned membership : #{earned_core_membership}  #{total_points}")
+    if earned_core_membership &&  !recipient.core_member_of?(project)
+      #Send out an invitation if that person just earned their membersnip
+      if total_points == CORE_MEMBERSHIP_THRESHOLD + 1 && value == 1 #only invite if total points is 1 more than threshold, and current value is one (i.e. we're not falling from 2 to 1). We don't want them getting an invitation everytime their total changes
+        TeamOffer.create! :project_id => project_id, :recipient_id => recipient_id, :author_id => author_id, :variation => TeamOffer::VARIATION_INVITATION
+        #TODO: Create notification and send it to author letting them know that an invitation has been sent on their behalf
+      end
     else
       #Remove user from core membership  
       recipient.drop_from_core(project)
@@ -35,13 +39,42 @@ class TeamPoint < ActiveRecord::Base
   end
   
   #Total team points for this user for this project
+  #NOTE: this code is repected in projects_helper.endorse_links for performance sake!
   def self.total(user, project, options={})
     sum = 0
     TeamPoint.find(:all, :include => [:author, {:author => [:core_memberships]}], :conditions => {:project_id => project, :recipient_id => user}).each do |t|
       t.author.core_memberships.each do |m|
-        sum = sum + t.value if m.project_id == project.id #only calculate points given by other core members on this team!
+        if m.project_id == project.id || m.project_id == project.parent_id #only calculate points given by other core members on this team, or the parent team
+          sum = sum + t.value 
+          break #we break because we don't want to double count if author is both a core member of current project AND parent project
+        end
       end
     end
     sum
   end
+  
+  def check_existing_points
+    #First we check that no other votes exist from this user, to that user for the same project
+    existing_vote = TeamPoint.find(:first, :conditions => {:author_id => self.author_id, :recipient_id => self.recipient_id, :project_id => self.project_id})
+    logger.info(existing_vote.inspect)
+    return true if existing_vote.nil? #If no other team point exists we let this one get created
+    
+    
+    delete_team_point(existing_vote.id)  if existing_vote.value != self.value #If another vote exists of a different value, we delete it (as both votes cancel each other),
+
+   #If another vote exists, and it's of the same value, we don't do anything (this is a forbidden action)
+   false
+    
+  end
+  
+  private
+  
+  def delete_team_point(team_point_id)
+    dbconn = self.class.connection_pool.checkout
+    dbconn.transaction do
+      dbconn.execute("delete from team_points where id = '#{team_point_id}'")
+    end
+    self.class.connection_pool.checkin(dbconn)
+  end
+  
 end
