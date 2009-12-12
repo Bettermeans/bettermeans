@@ -955,7 +955,7 @@ en:
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
   
-  help_how_do_i_join_a_team : How do I join this Team?
+  help_how_do_i_join_a_team : How do I join this team?
   help_how_do_i_join_a_team_title : Joining a Team
   help_how_do_i_join_a_team_description : "There are two levels of team membership: Contributor, and Core Team. <br /><br /><strong>Becoming a contributor</strong><br />Before getting on a core team you must first contribute to the team. </br>You become a contributor for a workstream by requesting and getting ownership of an existing tasks. <br /> Another way to become a contributor, is to be a core team member of any sub workstream.<br /><br /><strong>Become a core team member</strong><br />Once you are a contributor, you may request (or be invited) to join the Core Team by an existing Core Team member. <br /><br /> You can also join a workstream's core team directly if your a core team member of its parent workstream."
   help_core_points_title : Core Points
