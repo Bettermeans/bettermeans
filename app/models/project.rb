@@ -661,3 +661,24 @@ class Project < ActiveRecord::Base
   end
     
 end
+
+
+# == Schema Information
+#
+# Table name: projects
+#
+#  id            :integer         not null, primary key
+#  name          :string(30)      default(""), not null
+#  description   :text
+#  homepage      :string(255)     default("")
+#  is_public     :boolean         default(TRUE), not null
+#  parent_id     :integer
+#  created_on    :datetime
+#  updated_on    :datetime
+#  identifier    :string(20)
+#  status        :integer         default(1), not null
+#  lft           :integer
+#  rgt           :integer
+#  enterprise_id :integer
+#
+

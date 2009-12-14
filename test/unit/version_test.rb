@@ -106,3 +106,20 @@ class VersionTest < ActiveSupport::TestCase
     assert_in_delta(expected_float, actual_float, 0.000001, message="")
   end
 end
+
+
+# == Schema Information
+#
+# Table name: versions
+#
+#  id              :integer         not null, primary key
+#  project_id      :integer         default(0), not null
+#  name            :string(255)     default(""), not null
+#  description     :string(255)     default("")
+#  effective_date  :date
+#  created_on      :datetime
+#  updated_on      :datetime
+#  wiki_page_title :string(255)
+#  status          :string(255)     default("open")
+#
+

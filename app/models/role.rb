@@ -4,7 +4,7 @@
 
 class Role < ActiveRecord::Base
   fields do
-    name :string, :limit => 30, :default => "", :null => false
+    name :string, :limit => 30, :null => false, :default => ""
     position :integer, :default => 1
     assignable :boolean, :default => true
     builtin :integer, :default => 0, :null => false
@@ -196,3 +196,18 @@ private
     raise "Can't delete builtin role" if builtin?
   end
 end
+
+
+# == Schema Information
+#
+# Table name: roles
+#
+#  id          :integer         not null, primary key
+#  name        :string(30)      default(""), not null
+#  position    :integer         default(1)
+#  assignable  :boolean         default(TRUE)
+#  builtin     :integer         default(0), not null
+#  permissions :text
+#  level       :integer         default(3)
+#
+

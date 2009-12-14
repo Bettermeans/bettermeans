@@ -33,3 +33,23 @@ class AttachmentTest < ActiveSupport::TestCase
     assert_equal 'cbb5b0f30978ba03731d61f9f6d10011', Attachment.disk_filename("test_accentué.ça")[13..-1]
   end
 end
+
+
+# == Schema Information
+#
+# Table name: attachments
+#
+#  id             :integer         not null, primary key
+#  container_id   :integer         default(0), not null
+#  container_type :string(30)      default(""), not null
+#  filename       :string(255)     default(""), not null
+#  disk_filename  :string(255)     default(""), not null
+#  filesize       :integer         default(0), not null
+#  content_type   :string(255)     default("")
+#  digest         :string(40)      default(""), not null
+#  downloads      :integer         default(0), not null
+#  author_id      :integer         default(0), not null
+#  created_on     :datetime
+#  description    :string(255)
+#
+

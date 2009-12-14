@@ -153,3 +153,15 @@ private
     setting ||= new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
   end
 end
+
+
+# == Schema Information
+#
+# Table name: settings
+#
+#  id         :integer         not null, primary key
+#  name       :string(255)     default(""), not null
+#  value      :text
+#  updated_on :datetime
+#
+
