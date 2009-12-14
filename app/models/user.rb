@@ -37,6 +37,9 @@ class User < Principal
   has_many :outgoing_team_points, :class_name => 'TeamPoint', :foreign_key => 'author_id', :dependent => :nullify
   has_many :incoming_team_points, :class_name => 'TeamPoint', :foreign_key => 'recipient_id', :dependent => :delete_all
   
+  has_many :shares, :dependent => :nullify
+  has_many :credits, :dependent => :delete_all
+  
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
   
