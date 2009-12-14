@@ -4,21 +4,6 @@
 
 class Project < ActiveRecord::Base
   
-  fields do
-    name :string, :limit => 30, :default => "",   :null => false
-    description :text
-    homepage :string,                  :default => ""
-    is_public :boolean,                 :default => true, :null => false
-    parent_id :integer
-    identifier :string,  :limit => 20
-    status :integer,  :default => 1,    :null => false
-    enterprise_id :integer
-    created_on :datetime
-    updated_on :datetime    
-    lft :integer
-    rgt :integer    
-  end
-  
   # Project statuses
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9

@@ -1,10 +1,4 @@
 class Enterprise < ActiveRecord::Base  
-  fields do
-      name  :string
-      description  :text
-      homepage :string , :default => ""
-      timestamps
-    end
     has_one :root_project, :class_name => 'Project', :conditions => "parent_id is null"
     has_many :projects
     has_many :issues, :through => :projects

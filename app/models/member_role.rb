@@ -3,13 +3,6 @@
 #
 
 class MemberRole < ActiveRecord::Base
-  fields do
-    member_id :integer, :null => false
-    role_id :integer, :null => false
-    inherited_from :integer
-    created_on :datetime
-    updated_on :datetime
-  end
   
   belongs_to :member
   belongs_to :role

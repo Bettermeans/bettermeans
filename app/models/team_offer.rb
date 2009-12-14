@@ -22,6 +22,9 @@ class TeamOffer < ActiveRecord::Base
   belongs_to :recipient, :class_name => 'User', :foreign_key => 'recipient_id'
   belongs_to :project
   
+  after_create :send_notification_of_creation
+  after_update :send_notification_of_update
+  
   acts_as_event :title => Proc.new {|o| "#{o.variation_description} #{l(:label_to_join_core_team_of, :project => o.project.name)} #{o.response_type_description}" },
                 :description => :long_description,
                 :author => :author,
@@ -149,7 +152,7 @@ class TeamOffer < ActiveRecord::Base
   def before_create
   end
   
-  def after_create
+  def send_notification_of_creation
     #Send notification of request or invitation to recipient
      Notification.create! :recipient_id => recipient_id,
                           :variation => "team_offer",                        
@@ -157,7 +160,7 @@ class TeamOffer < ActiveRecord::Base
                           :source_id => id
   end
   
-  def after_update
+  def send_notification_of_update
     #send notification message to author with recipient's response
     Notification.create! :recipient_id => author_id,
                         :variation => 'message',                        
