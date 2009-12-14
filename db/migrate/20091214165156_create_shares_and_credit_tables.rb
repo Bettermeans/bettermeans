@@ -1,4 +1,4 @@
-class AddSharesAndCreditTables < ActiveRecord::Migration
+class CreateSharesAndCreditTables < ActiveRecord::Migration
   def self.up
     create_table :shares do |t|
       t.float    :amount, :null => false
