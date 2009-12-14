@@ -1,12 +1,12 @@
 class TeamPoint < ActiveRecord::Base
-  fields do
-    project_id :integer 
-    author_id :integer 
-    recipient_id :integer
-    value :integer, :default => 1 #Value is -1 if this is a flag (or block or no confidence vote) should never really be 0
-    created_on :datetime
-    updated_on :datetime
-  end
+  # fields do
+  #   project_id :integer 
+  #   author_id :integer 
+  #   recipient_id :integer
+  #   value :integer, :default => 1 #Value is -1 if this is a flag (or block or no confidence vote) should never really be 0
+  #   created_on :datetime
+  #   updated_on :datetime
+  # end
   
   #Constants
   CORE_MEMBERSHIP_THRESHOLD = 0 #Threshold needed to be exceeded for someone to become a core member
@@ -57,8 +57,7 @@ class TeamPoint < ActiveRecord::Base
     #First we check that no other votes exist from this user, to that user for the same project
     existing_vote = TeamPoint.find(:first, :conditions => {:author_id => self.author_id, :recipient_id => self.recipient_id, :project_id => self.project_id})
     logger.info(existing_vote.inspect)
-    return true if existing_vote.nil? #If no other team point exists we let this one get created
-    
+    return true if existing_vote.nil? #If no other team point exists we let this one get created    
     
     delete_team_point(existing_vote.id)  if existing_vote.value != self.value #If another vote exists of a different value, we delete it (as both votes cancel each other),
 

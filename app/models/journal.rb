@@ -3,14 +3,6 @@
 #
 
 class Journal < ActiveRecord::Base
-  # fields do
-  #   journalized_id :integer, :default => 0,  :null => false
-  #   journalized_type :string, :limit => 30, :default => "", :null => false
-  #   user_id :integer, :default => 0, :null => false
-  #   notes :text
-  #   created_on :datetime, :null => false
-  #   updated_on :datetime, :null => false
-  # end
   
   belongs_to :journalized, :polymorphic => true
   # added as a quick fix to allow eager loading of the polymorphic association
