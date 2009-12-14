@@ -3,14 +3,14 @@
 #
 
 class Role < ActiveRecord::Base
-  fields do
-    name :string, :limit => 30, :null => false, :default => ""
-    position :integer, :default => 1
-    assignable :boolean, :default => true
-    builtin :integer, :default => 0, :null => false
-    permissions :text
-    level :integer, :default => 3
-  end
+  # fields do
+  #   name :string, :limit => 30, :null => false, :default => ""
+  #   position :integer, :default => 1
+  #   assignable :boolean, :default => true
+  #   builtin :integer, :default => 0, :null => false
+  #   permissions :text
+  #   level :integer, :default => 3
+  # end
   
   # Scopes
   LEVEL_PLATFORM = 0

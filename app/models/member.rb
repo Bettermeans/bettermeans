@@ -3,12 +3,6 @@
 #
 
 class Member < ActiveRecord::Base
-  fields do
-      user_id :integer, :null => false
-      project_id :integer, :null => false
-      created_on :datetime
-      mail_notification :boolean, :default => false, :null => false
-  end
   
   belongs_to :user
   belongs_to :principal, :foreign_key => 'user_id'
