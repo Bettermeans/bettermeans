@@ -2,9 +2,9 @@ class CreateSharesAndCreditTables < ActiveRecord::Migration
   def self.up
     create_table :shares do |t|
       t.float    :amount, :null => false
-      t.datetime :expires, :default => :null
+      t.datetime :expires
       t.integer  :variation, :default => 2, :null => false
-      t.datetime :issued_on, :default => Mon Dec 14 08:50:48 -0800 2009
+      t.datetime :issued_on, :default => Time.now
       t.datetime :created_on
       t.datetime :updated_on
       t.integer  :project_id
@@ -15,7 +15,7 @@ class CreateSharesAndCreditTables < ActiveRecord::Migration
     
     create_table :credits do |t|
       t.float    :amount, :null => false
-      t.datetime :issued_on, :default => Mon Dec 14 08:50:48 -0800 2009
+      t.datetime :issued_on, :default => Time.now
       t.datetime :created_on
       t.datetime :updated_on
       t.integer  :owner_id

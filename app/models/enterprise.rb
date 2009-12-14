@@ -20,3 +20,17 @@ class Enterprise < ActiveRecord::Base
     # belongs_to :creator, :class_name => 'User', :foreign_key => 'creator_id'
     
 end
+
+
+# == Schema Information
+#
+# Table name: enterprises
+#
+#  id          :integer         not null, primary key
+#  name        :string(255)
+#  description :text
+#  homepage    :string(255)     default("")
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+

@@ -79,3 +79,20 @@ recipient_id :integer
   end
   
 end
+
+
+# == Schema Information
+#
+# Table name: notifications
+#
+#  id           :integer         not null, primary key
+#  recipient_id :integer
+#  variation    :string(255)
+#  params       :text
+#  state        :integer         default(0)
+#  source_id    :integer
+#  expiration   :datetime
+#  created_on   :datetime
+#  updated_on   :datetime
+#
+
