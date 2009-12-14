@@ -21,3 +21,19 @@ class News < ActiveRecord::Base
     find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")	
   end
 end
+
+
+# == Schema Information
+#
+# Table name: news
+#
+#  id             :integer         not null, primary key
+#  project_id     :integer
+#  title          :string(60)      default(""), not null
+#  summary        :string(255)     default("")
+#  description    :text
+#  author_id      :integer         default(0), not null
+#  created_on     :datetime
+#  comments_count :integer         default(0), not null
+#
+

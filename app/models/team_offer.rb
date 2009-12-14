@@ -1,16 +1,9 @@
 class TeamOffer < ActiveRecord::Base
-  fields do
-    project_id :integer 
-    author_id :integer #author of offer/request
-    recipient_id :integer #recipient of offer/request
-    response :integer, :default => 0 #-1 disabled #0 no response #1 recinded/withdrawn #2 accepted #3 declined
-    variation :integer #0 offer #1 request
-    expires :datetime, :default =>  Time.now.advance(:months => 1)
-    author_note :text #note sent by author
-    recipient_note :text #note sent by recipient
-    created_on :datetime
-    updated_on :datetime    
+  
+  default_value_for :expires do
+    1.months.from_now
   end
+  
   
   # Team offer response
   RESPONSE_DISABLED = -1
@@ -178,3 +171,22 @@ class TeamOffer < ActiveRecord::Base
   end
     
 end
+
+
+# == Schema Information
+#
+# Table name: team_offers
+#
+#  id             :integer         not null, primary key
+#  response       :integer         default(0)
+#  variation      :integer
+#  expires        :datetime
+#  recipient_id   :integer
+#  project_id     :integer
+#  author_id      :integer
+#  author_note    :text
+#  recipient_note :text
+#  created_on     :datetime
+#  updated_on     :datetime
+#
+
