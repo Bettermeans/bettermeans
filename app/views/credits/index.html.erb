@@ -1,0 +1,18 @@
+<h2><%=l(:label_credit_plural) %></h2>
+
+<table>
+  <tr>
+  </tr>
+
+<% @credits.each do |credit| %>
+  <tr>
+    <td><%= link_to 'Show', credit %></td>
+    <td><%= link_to 'Edit', edit_credit_path(credit) %></td>
+    <td><%= link_to 'Destroy', credit, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New credit', new_credit_path %>

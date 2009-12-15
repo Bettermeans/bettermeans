@@ -118,6 +118,19 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_messages, {:messages => :destroy}, :require => :member
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
   end
+  
+  map.project_module :shares do |map|
+    map.permission :view_shares, {:shares => [:index,:show]}, :require => :loggedin
+    map.permission :add_shares, {:shares => :new}
+    map.permission :manage_shares, {:shares => [:destroy, :edit]}
+  end
+  
+  map.project_module :credits do |map|
+    map.permission :view_credits, {:credits => [:index,:show]}, :require => :loggedin
+    map.permission :add_credits, {:credits => :new}
+    map.permission :manage_credits, {:credits => [:destroy, :edit]}
+  end
+  
 end
 
 Redmine::MenuManager.map :top_menu do |menu|
@@ -146,6 +159,8 @@ end
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
   menu.push :team, { :controller => 'projects', :action => 'team' }
+  menu.push :shares, { :controller => 'shares', :action => 'index' }, :param => :project_id, :caption => :label_share_plural
+  menu.push :credits, { :controller => 'credits', :action => 'index' }, :param => :project_id, :caption => :label_credit_plural
   menu.push :activity, { :controller => 'projects', :action => 'activity' }
   menu.push :roadmap, { :controller => 'projects', :action => 'roadmap' }, 
               :if => Proc.new { |p| p.versions.any? }

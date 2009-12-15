@@ -1,0 +1,2 @@
+module CreditsHelper
+end
