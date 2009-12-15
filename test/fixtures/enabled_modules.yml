@@ -59,3 +59,14 @@ enabled_modules_015:
   name: wiki
   project_id: 2
   id: 15
+
+
+# == Schema Information
+#
+# Table name: enabled_modules
+#
+#  id         :integer         not null, primary key
+#  project_id :integer
+#  name       :string(255)     not null
+#
+

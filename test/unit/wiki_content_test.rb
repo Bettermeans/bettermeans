@@ -65,3 +65,18 @@ class WikiContentTest < ActiveSupport::TestCase
     end
   end
 end
+
+
+# == Schema Information
+#
+# Table name: wiki_contents
+#
+#  id         :integer         not null, primary key
+#  page_id    :integer         not null
+#  author_id  :integer
+#  text       :text
+#  comments   :string(255)     default("")
+#  updated_on :datetime        not null
+#  version    :integer         not null
+#
+

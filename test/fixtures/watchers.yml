@@ -12,3 +12,15 @@ watchers_003:
   watchable_id: 2
   user_id: 1
   
+
+
+# == Schema Information
+#
+# Table name: watchers
+#
+#  id             :integer         not null, primary key
+#  watchable_type :string(255)     default(""), not null
+#  watchable_id   :integer         default(0), not null
+#  user_id        :integer
+#
+

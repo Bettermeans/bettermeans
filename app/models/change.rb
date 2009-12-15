@@ -11,3 +11,19 @@ class Change < ActiveRecord::Base
     changeset.repository.relative_path(path)
   end
 end
+
+
+# == Schema Information
+#
+# Table name: changes
+#
+#  id            :integer         not null, primary key
+#  changeset_id  :integer         not null
+#  action        :string(1)       default(""), not null
+#  path          :string(255)     default(""), not null
+#  from_path     :string(255)
+#  from_revision :string(255)
+#  revision      :string(255)
+#  branch        :string(255)
+#
+

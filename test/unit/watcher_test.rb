@@ -54,3 +54,15 @@ class WatcherTest < ActiveSupport::TestCase
     assert_equal 1, @issue.remove_watcher(@user)  
   end
 end
+
+
+# == Schema Information
+#
+# Table name: watchers
+#
+#  id             :integer         not null, primary key
+#  watchable_type :string(255)     default(""), not null
+#  watchable_id   :integer         default(0), not null
+#  user_id        :integer
+#
+

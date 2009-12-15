@@ -60,3 +60,15 @@ class Wiki < ActiveRecord::Base
     title
   end  
 end
+
+
+# == Schema Information
+#
+# Table name: wikis
+#
+#  id         :integer         not null, primary key
+#  project_id :integer         not null
+#  start_page :string(255)     not null
+#  status     :integer         default(1), not null
+#
+
