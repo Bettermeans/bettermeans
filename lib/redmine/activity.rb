@@ -30,5 +30,6 @@ module Redmine
         # puts("#{@@available_event_types}")
       end
     end
+    
   end
 end

@@ -1613,3 +1613,16 @@ workflows_188:
   old_status_id: 2
   id: 188
   tracker_id: 3
+
+
+# == Schema Information
+#
+# Table name: workflows
+#
+#  id            :integer         not null, primary key
+#  tracker_id    :integer         default(0), not null
+#  old_status_id :integer         default(0), not null
+#  new_status_id :integer         default(0), not null
+#  role_id       :integer         default(0), not null
+#
+

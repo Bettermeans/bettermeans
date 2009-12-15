@@ -3,12 +3,6 @@
 #
 
 class Member < ActiveRecord::Base
-  fields do
-      user_id :integer,           :default => 0,     :null => false
-      project_id :integer,        :default => 0,     :null => false
-      created_on :datetime
-      mail_notification :boolean, :default => false, :null => false
-  end
   
   belongs_to :user
   belongs_to :principal, :foreign_key => 'user_id'
@@ -57,3 +51,16 @@ class Member < ActiveRecord::Base
     errors.add_to_base "Role can't be blank" if member_roles.empty? && roles.empty?
   end
 end
+
+
+# == Schema Information
+#
+# Table name: members
+#
+#  id                :integer         not null, primary key
+#  user_id           :integer         default(0), not null
+#  project_id        :integer         default(0), not null
+#  created_on        :datetime
+#  mail_notification :boolean         default(FALSE), not null
+#
+

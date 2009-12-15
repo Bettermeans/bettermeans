@@ -32,3 +32,18 @@ class CommentTest < ActiveSupport::TestCase
     assert_equal 0, @news.comments_count
   end
 end
+
+
+# == Schema Information
+#
+# Table name: comments
+#
+#  id             :integer         not null, primary key
+#  commented_type :string(30)      default(""), not null
+#  commented_id   :integer         default(0), not null
+#  author_id      :integer         default(0), not null
+#  comments       :text
+#  created_on     :datetime        not null
+#  updated_on     :datetime        not null
+#
+

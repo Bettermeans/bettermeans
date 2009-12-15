@@ -1,10 +1,4 @@
 class Enterprise < ActiveRecord::Base  
-  fields do
-      name  :string
-      description  :text
-      homepage :string , :default => ""
-      timestamps
-    end
     has_one :root_project, :class_name => 'Project', :conditions => "parent_id is null"
     has_many :projects
     has_many :issues, :through => :projects
@@ -20,3 +14,17 @@ class Enterprise < ActiveRecord::Base
     # belongs_to :creator, :class_name => 'User', :foreign_key => 'creator_id'
     
 end
+
+
+# == Schema Information
+#
+# Table name: enterprises
+#
+#  id          :integer         not null, primary key
+#  name        :string(255)
+#  description :text
+#  homepage    :string(255)     default("")
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+

@@ -30,3 +30,15 @@ class SettingTest < ActiveSupport::TestCase
     assert_equal ['issue_added', 'issue_updated', 'news_added'], Setting.find_by_name('notified_events').value
   end
 end
+
+
+# == Schema Information
+#
+# Table name: settings
+#
+#  id         :integer         not null, primary key
+#  name       :string(255)     default(""), not null
+#  value      :text
+#  updated_on :datetime
+#
+

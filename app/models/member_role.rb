@@ -3,13 +3,6 @@
 #
 
 class MemberRole < ActiveRecord::Base
-  fields do
-    member_id :integer, :null => false
-    role_id :integer, :null => false
-    inherited_from :integer
-    created_on :datetime
-    updated_on :datetime
-  end
   
   belongs_to :member
   belongs_to :role
@@ -103,3 +96,17 @@ class MemberRole < ActiveRecord::Base
   
   
 end
+
+
+# == Schema Information
+#
+# Table name: member_roles
+#
+#  id             :integer         not null, primary key
+#  member_id      :integer
+#  role_id        :integer
+#  inherited_from :integer
+#  created_on     :datetime
+#  updated_on     :datetime
+#
+

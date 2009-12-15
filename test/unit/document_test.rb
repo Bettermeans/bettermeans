@@ -31,3 +31,17 @@ class DocumentTest < ActiveSupport::TestCase
     assert doc.save
   end
 end
+
+
+# == Schema Information
+#
+# Table name: documents
+#
+#  id          :integer         not null, primary key
+#  project_id  :integer         default(0), not null
+#  category_id :integer         default(0), not null
+#  title       :string(60)      default(""), not null
+#  description :text
+#  created_on  :datetime
+#
+

@@ -3,14 +3,6 @@
 #
 
 class Journal < ActiveRecord::Base
-  # fields do
-  #   journalized_id :integer, :default => 0,  :null => false
-  #   journalized_type :string, :limit => 30, :default => "", :null => false
-  #   user_id :integer, :default => 0, :null => false
-  #   notes :text
-  #   created_on :datetime, :null => false
-  #   updated_on :datetime, :null => false
-  # end
   
   belongs_to :journalized, :polymorphic => true
   # added as a quick fix to allow eager loading of the polymorphic association
@@ -64,3 +56,18 @@ class Journal < ActiveRecord::Base
     journalized.respond_to?(:attachments) ? journalized.attachments : nil
   end
 end
+
+
+# == Schema Information
+#
+# Table name: journals
+#
+#  id               :integer         not null, primary key
+#  journalized_id   :integer         default(0), not null
+#  journalized_type :string(30)      default(""), not null
+#  user_id          :integer         default(0), not null
+#  notes            :text
+#  created_on       :datetime        not null
+#  updated_on       :datetime
+#
+

@@ -81,3 +81,23 @@ class Message < ActiveRecord::Base
     Watcher.create(:watchable => self.root, :user => author)
   end
 end
+
+
+# == Schema Information
+#
+# Table name: messages
+#
+#  id            :integer         not null, primary key
+#  board_id      :integer         not null
+#  parent_id     :integer
+#  subject       :string(255)     default(""), not null
+#  content       :text
+#  author_id     :integer
+#  replies_count :integer         default(0), not null
+#  last_reply_id :integer
+#  created_on    :datetime        not null
+#  updated_on    :datetime        not null
+#  locked        :boolean         default(FALSE)
+#  sticky        :integer         default(0)
+#
+
