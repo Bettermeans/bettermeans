@@ -1,16 +1,9 @@
 class TeamOffer < ActiveRecord::Base
-  fields do
-    project_id :integer 
-    author_id :integer #author of offer/request
-    recipient_id :integer #recipient of offer/request
-    response :integer, :default => 0 #-1 disabled #0 no response #1 recinded/withdrawn #2 accepted #3 declined
-    variation :integer #0 offer #1 request
-    expires :datetime, :default =>  Time.now.advance(:months => 1)
-    author_note :text #note sent by author
-    recipient_note :text #note sent by recipient
-    created_on :datetime
-    updated_on :datetime    
+  
+  default_value_for :expires do
+    1.months.from_now
   end
+  
   
   # Team offer response
   RESPONSE_DISABLED = -1
@@ -28,6 +21,9 @@ class TeamOffer < ActiveRecord::Base
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :recipient, :class_name => 'User', :foreign_key => 'recipient_id'
   belongs_to :project
+  
+  after_create :send_notification_of_creation
+  after_update :send_notification_of_update
   
   acts_as_event :title => Proc.new {|o| "#{o.variation_description} #{l(:label_to_join_core_team_of, :project => o.project.name)} #{o.response_type_description}" },
                 :description => :long_description,
@@ -156,7 +152,7 @@ class TeamOffer < ActiveRecord::Base
   def before_create
   end
   
-  def after_create
+  def send_notification_of_creation
     #Send notification of request or invitation to recipient
      Notification.create! :recipient_id => recipient_id,
                           :variation => "team_offer",                        
@@ -164,7 +160,7 @@ class TeamOffer < ActiveRecord::Base
                           :source_id => id
   end
   
-  def after_update
+  def send_notification_of_update
     #send notification message to author with recipient's response
     Notification.create! :recipient_id => author_id,
                         :variation => 'message',                        
@@ -178,3 +174,22 @@ class TeamOffer < ActiveRecord::Base
   end
     
 end
+
+
+# == Schema Information
+#
+# Table name: team_offers
+#
+#  id             :integer         not null, primary key
+#  response       :integer         default(0)
+#  variation      :integer
+#  expires        :datetime
+#  recipient_id   :integer
+#  project_id     :integer
+#  author_id      :integer
+#  author_note    :text
+#  recipient_note :text
+#  created_on     :datetime
+#  updated_on     :datetime
+#
+

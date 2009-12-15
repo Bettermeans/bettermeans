@@ -189,3 +189,18 @@ class Repository < ActiveRecord::Base
     connection.delete("DELETE FROM #{cs} WHERE #{cs}.repository_id = #{id}")
   end
 end
+
+
+# == Schema Information
+#
+# Table name: repositories
+#
+#  id         :integer         not null, primary key
+#  project_id :integer         default(0), not null
+#  url        :string(255)     default(""), not null
+#  login      :string(60)      default("")
+#  password   :string(60)      default("")
+#  root_url   :string(255)     default("")
+#  type       :string(255)
+#
+

@@ -4,21 +4,6 @@
 
 class Project < ActiveRecord::Base
   
-  fields do
-    name :string, :limit => 30, :default => "",   :null => false
-    description :text
-    homepage :string,                  :default => ""
-    is_public :boolean,                 :default => true, :null => false
-    parent_id :integer
-    identifier :string,  :limit => 20
-    status :integer,  :default => 1,    :null => false
-    enterprise_id :integer
-    created_on :datetime
-    updated_on :datetime    
-    lft :integer
-    rgt :integer    
-  end
-  
   # Project statuses
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
@@ -56,6 +41,8 @@ class Project < ActiveRecord::Base
   has_one :wiki, :dependent => :destroy
   has_many :team_offers, :dependent => :delete_all
   has_many :team_points, :dependent => :delete_all
+  has_many :shares, :dependent => :delete_all
+  has_many :credits, :dependent => :delete_all
   # Custom field for the project issues
   has_and_belongs_to_many :issue_custom_fields, 
                           :class_name => 'IssueCustomField',
@@ -659,3 +646,24 @@ class Project < ActiveRecord::Base
   end
     
 end
+
+
+# == Schema Information
+#
+# Table name: projects
+#
+#  id            :integer         not null, primary key
+#  name          :string(30)      default(""), not null
+#  description   :text
+#  homepage      :string(255)     default("")
+#  is_public     :boolean         default(TRUE), not null
+#  parent_id     :integer
+#  created_on    :datetime
+#  updated_on    :datetime
+#  identifier    :string(20)
+#  status        :integer         default(1), not null
+#  lft           :integer
+#  rgt           :integer
+#  enterprise_id :integer
+#
+

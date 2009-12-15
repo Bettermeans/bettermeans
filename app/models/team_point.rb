@@ -1,12 +1,12 @@
 class TeamPoint < ActiveRecord::Base
-  fields do
-    project_id :integer 
-    author_id :integer 
-    recipient_id :integer
-    value :integer, :default => 1 #Value is -1 if this is a flag (or block or no confidence vote) should never really be 0
-    created_on :datetime
-    updated_on :datetime
-  end
+  # fields do
+  #   project_id :integer 
+  #   author_id :integer 
+  #   recipient_id :integer
+  #   value :integer, :default => 1 #Value is -1 if this is a flag (or block or no confidence vote) should never really be 0
+  #   created_on :datetime
+  #   updated_on :datetime
+  # end
   
   #Constants
   CORE_MEMBERSHIP_THRESHOLD = 0 #Threshold needed to be exceeded for someone to become a core member
@@ -25,13 +25,13 @@ class TeamPoint < ActiveRecord::Base
   def recalculate_core_membership
     total_points = TeamPoint.total(recipient, project)
     earned_core_membership = project.eligible_for_core?(recipient, :total_points => total_points)
-    puts ("earned membership : #{earned_core_membership}  #{total_points}")
-    if earned_core_membership &&  !recipient.core_member_of?(project)
+    logger.info("earned membership : #{earned_core_membership}  #{total_points}")
+    if earned_core_membership 
       #Send out an invitation if that person just earned their membersnip
       if total_points == CORE_MEMBERSHIP_THRESHOLD + 1 && value == 1 #only invite if total points is 1 more than threshold, and current value is one (i.e. we're not falling from 2 to 1). We don't want them getting an invitation everytime their total changes
         TeamOffer.create! :project_id => project_id, :recipient_id => recipient_id, :author_id => author_id, :variation => TeamOffer::VARIATION_INVITATION
         #TODO: Create notification and send it to author letting them know that an invitation has been sent on their behalf
-      end
+      end unless recipient.core_member_of?(project)      
     else
       #Remove user from core membership  
       recipient.drop_from_core(project)
@@ -57,8 +57,7 @@ class TeamPoint < ActiveRecord::Base
     #First we check that no other votes exist from this user, to that user for the same project
     existing_vote = TeamPoint.find(:first, :conditions => {:author_id => self.author_id, :recipient_id => self.recipient_id, :project_id => self.project_id})
     logger.info(existing_vote.inspect)
-    return true if existing_vote.nil? #If no other team point exists we let this one get created
-    
+    return true if existing_vote.nil? #If no other team point exists we let this one get created    
     
     delete_team_point(existing_vote.id)  if existing_vote.value != self.value #If another vote exists of a different value, we delete it (as both votes cancel each other),
 
@@ -78,3 +77,18 @@ class TeamPoint < ActiveRecord::Base
   end
   
 end
+
+
+# == Schema Information
+#
+# Table name: team_points
+#
+#  id           :integer         not null, primary key
+#  project_id   :integer
+#  author_id    :integer
+#  recipient_id :integer
+#  created_on   :datetime
+#  updated_on   :datetime
+#  value        :integer         default(1)
+#
+

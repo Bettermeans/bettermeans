@@ -1,14 +1,5 @@
 class Notification < ActiveRecord::Base
-  fields do
-recipient_id :integer
-    variation :string
-    params :text
-    state :integer,           :default => 0
-    source_id :integer
-    expiration :datetime
-    created_on :datetime
-    updated_on :datetime
-  end
+
   belongs_to :recipient, :class_name => 'User', :foreign_key => 'recipient_id'  
   
   # Returns all active, non responded, non-expired notifications for current user
@@ -79,3 +70,20 @@ recipient_id :integer
   end
   
 end
+
+
+# == Schema Information
+#
+# Table name: notifications
+#
+#  id           :integer         not null, primary key
+#  recipient_id :integer
+#  variation    :string(255)
+#  params       :text
+#  state        :integer         default(0)
+#  source_id    :integer
+#  expiration   :datetime
+#  created_on   :datetime
+#  updated_on   :datetime
+#
+

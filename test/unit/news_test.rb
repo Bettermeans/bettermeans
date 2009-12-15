@@ -62,3 +62,19 @@ class NewsTest < ActiveSupport::TestCase
     assert_equal 5, News.latest(users(:users_004)).size
   end
 end
+
+
+# == Schema Information
+#
+# Table name: news
+#
+#  id             :integer         not null, primary key
+#  project_id     :integer
+#  title          :string(60)      default(""), not null
+#  summary        :string(255)     default("")
+#  description    :text
+#  author_id      :integer         default(0), not null
+#  created_on     :datetime
+#  comments_count :integer         default(0), not null
+#
+
