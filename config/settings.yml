@@ -9,7 +9,7 @@
 app_title:
   default: BetterMeans
 app_subtitle:
-  default: Project management
+  default: Work re-invented
 welcome_text:
   default:
 login_required:
@@ -33,7 +33,7 @@ activity_days_default:
 per_page_options:
   default: '25,50,100'
 mail_from:
-  default: redmine@bettermeans.com
+  default: admin@bettermeans.com
 bcc_recipients:
   default: 1
 plain_text_mail:

@@ -1,0 +1,12 @@
+<h1>Editing credit</h1>
+
+<% form_for(@credit) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @credit %> |
+<%= link_to 'Back', credits_path %>
