@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+
+
+  map.resources :credits
+  map.resources :shares
   map.resources :team_points
   map.resources :team_offers
   map.resources :enterprises
@@ -133,6 +137,37 @@ ActionController::Routing::Routes.draw do |map|
     end
     issues_routes.connect 'issues/:action'
   end
+
+  map.with_options :controller => 'shares' do |shares_routes|
+    shares_routes.with_options :conditions => {:method => :get} do |shares_views|
+      shares_views.connect 'shares', :action => 'index'
+      shares_views.connect 'shares.:format', :action => 'index'
+      shares_views.connect 'projects/:project_id/shares', :action => 'index'
+      shares_views.connect 'projects/:project_id/shares.:format', :action => 'index'
+      shares_views.connect 'shares/:id', :action => 'show', :id => /\d+/
+      shares_views.connect 'shares/:id.:format', :action => 'show', :id => /\d+/
+    end
+    shares_routes.with_options :conditions => {:method => :post} do |shares_actions|
+      shares_actions.connect 'projects/:project_id/shares', :action => 'new'
+    end
+    shares_routes.connect 'shares/:action'
+  end
+
+  map.with_options :controller => 'credits' do |credits_routes|
+    credits_routes.with_options :conditions => {:method => :get} do |credits_views|
+      credits_views.connect 'credits', :action => 'index'
+      credits_views.connect 'credits.:format', :action => 'index'
+      credits_views.connect 'projects/:project_id/credits', :action => 'index'
+      credits_views.connect 'projects/:project_id/credits.:format', :action => 'index'
+      credits_views.connect 'credits/:id', :action => 'show', :id => /\d+/
+      credits_views.connect 'credits/:id.:format', :action => 'show', :id => /\d+/
+    end
+    credits_routes.with_options :conditions => {:method => :post} do |credits_actions|
+      credits_actions.connect 'projects/:project_id/credits', :action => 'new'
+    end
+    credits_routes.connect 'credits/:action'
+  end
+
   
   map.with_options  :controller => 'issue_relations', :conditions => {:method => :post} do |relations|
     relations.connect 'issues/:issue_id/relations/:id', :action => 'new'

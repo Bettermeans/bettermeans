@@ -788,6 +788,10 @@ en:
   label_request_to_join_core_team : "Request to join Core Team"
   label_invitation_to_join_core_team : "Invite to Core Team"
   label_team_points : "Core Points"
+  label_share : "Share"
+  label_share_plural : "Shares"
+  label_credit_plural : "Credits"
+  label_credit : "Credit"
   
   
   button_login: Login

@@ -1,0 +1,19 @@
+<h2><%=l(:label_team) %></h2>
+
+
+<table>
+  <tr>
+  </tr>
+
+<% @shares.each do |share| %>
+  <tr>
+    <td><%= link_to 'Show', share %></td>
+    <td><%= link_to 'Edit', edit_share_path(share) %></td>
+    <td><%= link_to 'Destroy', share, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New share', new_share_path %>
