@@ -35,7 +35,7 @@ Redmine::AccessControl.map do |map|
   
   map.project_module :issue_tracking do |map|
     # Issue categories
-    map.permission :manage_categories, {:projects => [:settings, :add_issue_category], :issue_categories => [:edit, :destroy]}, :require => :member
+    # map.permission :manage_categories, {:projects => [:settings, :add_issue_category], :issue_categories => [:edit, :destroy]}, :require => :member
     # Issues
     map.permission :view_issues, {:projects => [:changelog, :roadmap], 
                                   :issues => [:index, :changes, :show, :context_menu],

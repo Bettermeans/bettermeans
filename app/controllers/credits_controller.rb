@@ -3,7 +3,7 @@ class CreditsController < ApplicationController
   # GET /credits.xml
   def index
     @credits = Credit.all
-    @project = Project.find(params[:project_id])
+    @project = Project.find(params[:project_id]) unless params[:project_id].nil?
     
 
     respond_to do |format|
