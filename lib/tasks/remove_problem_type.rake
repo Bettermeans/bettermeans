@@ -9,6 +9,6 @@ task :remove_problem_type => :environment do
   Issue.find(:all, :conditions => {:tracker_id => problem.id }).each do |issue|
     issue.tracker = task
     issue.save
-    puts "#{issue.name}"
+    puts "#{issue.subject}"
   end
 end
