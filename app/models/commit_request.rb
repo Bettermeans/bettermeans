@@ -2,11 +2,15 @@
 # Copyright (C) 2006  Shereef Bishay
 #
 
+# 0- Request No response 1-Request recinded 2-Request Accepted 3-Request Declined 4-Offer no response 5-Offer recinded 6-Offer accepted 7-Offer Declined 8-Ownership Released
+
 
 class CommitRequest < ActiveRecord::Base
   belongs_to :user #author of the request/offer
   belongs_to :responder, :class_name => 'User', :foreign_key => 'responder_id'
   belongs_to :issue  
+  
+  after_update :update_issue
   
   acts_as_event :title => Proc.new {|o| "#{o.short_description} #{l(:label_for)} #{o.issue.tracker} ##{o.issue.id}: #{o.issue.subject}" },
                 :description => :long_description,
@@ -120,6 +124,108 @@ class CommitRequest < ActiveRecord::Base
       when 2..100 then String(days) + " " + l(:label_day_plural)
     end
   end
+  
+  def update_issue
+
+    case response
+    when 1 #request recinded
+      Notification.recind('commit_request', issue.id, user_id)
+    when 2 #somebody is accepting someone else's request for this issue
+      #Updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
+      @user = User.find(user_id)
+      issue.assigned_to = @user
+      issue.expected_date = Time.new() + 3600*24*days unless days < 0
+      issue.status = IssueStatus.assigned
+      issue.save
+      
+      #Add requester as a contributor to that project
+      user.add_to_project(issue.project, Role::BUILTIN_CONTRIBUTOR) unless user.core_member_of?(issue.project)
+      
+      update_notifications_and_commit_requests(user_id,issue,true,false)
+      logger.info("Inspecting issue: #{issue.inspect}")
+    when 3 #somebody is declining someone else's request for this issue      
+      #Notify requester that their notification has been declined
+      Notification.create user_id,
+                          'message',
+                          ":subject => '#{l(:text_ownership_request_declined)}', :message => '#{l(:text_your_ownsership_request_declined_for)} #{@template.link_to_issue(issue, {:include_subject => :true})}', :sender_id => #{User.current.id}",
+                          issue_id            
+    when 5 #offer recinded
+      Notification.recind('commit_request', issue.id, responder_id)
+    when 6 #somebody is accepting an offer for this issue
+      #Updating issue status to committed if user_id is current user_id (and change response type to 1 for accepted)
+      @user = User.find(responder_id)
+      issue.assigned_to = @user
+      issue.expected_date = Time.new() + 3600*24*days unless days < 0
+      issue.status = IssueStatus.assigned
+      issue.save
+      
+      
+      #Add responder as a contributor to that project
+      responder.add_to_project(issue.project, Role::BUILTIN_CONTRIBUTOR) unless responder.core_member_of?(issue.project)
+      
+      update_notifications_and_commit_requests(responder_id,issue,true,false)
+    when 7 #declining an offer
+      #Notify offerer that their offer has been declined
+      update_notifications_and_commit_requests(User.current.id,issue,false,false)
+
+    when 8 #somebody is releasing this issue
+      issue.assigned_to = nil
+      issue.expected_date = nil
+      issue.status = IssueStatus.default
+      issue.save
+      update_notifications_and_commit_requests(User.current.id,issue,false,true)
+    end 
+    
+  end
+  
+  # 0- Request No response 1-Request recinded 2-Request Accepted 3-Request Declined 4-Offer no response 5-Offer recinded 6-Offer accepted 7-Offer Declined 8-Ownership Released
+  def update_notifications_and_commit_requests(user_id,issue,accepted,released)
+    @user = User.find(user_id)
+    issue.commit_requests.each do |cr|
+      
+      #Deal with duplicate offers/requests made to/by same user that was just accepted/declined
+      if cr.responder_id == @user.id && cr.response == 4 # Update all offers to this user for this issue (i.e. if I accept one offer, then I've accepted them all, if I decline one offer, then I've declined them all) 
+        cr.response = accepted ? 6 : 7
+        cr.save
+      elsif cr.user_id == @user.id && cr.response == 0 #Update all requests from this user for this issue (i.e. if I requested it multiple times)
+        cr.response = accepted ? 2 : 3
+        cr.responder_id = User.current.id
+        cr.save
+      end  
+      
+      #Deal with offers and requests made on this issue by other users
+      case cr.response
+        when 0,4 then
+          if accepted #all oustanding requests and offers are disabled, since another request has just been accepted
+            cr.response = cr.response - 20
+            cr.save
+          end
+      end
+      
+      #just released, we reactivate all open requests and offers
+      if released && cr.response < 0
+        cr.response = cr.response + 20
+        cr.save
+      end
+    end            
+      
+    # Update all notifications to this user about this issue (all notifications to me, regarding this issue being offered to me are archived)
+    @user.notifications.allactive.each do |n|
+      logger.info("iterating through users notifications object #{n.source_id} issue #{issue.id}")
+      if n.source_id == issue.id && n.variation.match(/^commit_request/) #TODO: create a better query so I'm not iterating through records I don't need here
+        n.state = 1
+        n.save
+      end
+    end
+  
+    # Update all notifications (disable all notifications about offers for this issue for other users)
+    Notification.deactivate_all('commit_request', issue.id) if accepted
+    
+    # If this is an issue that's being released we activate all notifications for it
+    Notification.activate_all('commit_request', issue.id) if released
+    
+  end
+  
   
   
 end

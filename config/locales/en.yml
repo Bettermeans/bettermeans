@@ -211,7 +211,7 @@ en:
   field_expected_date: Expected by
   field_assigned_to: Owned by #Changed
   field_priority: Priority
-  field_fixed_version: Target deliverable
+  field_fixed_version: Deliverable
   field_user: User
   field_role: Role
   field_homepage: Homepage
@@ -737,7 +737,8 @@ en:
   label_total_karma: "Total Karma"
   label_notification : "Notification"
   label_notifications : "Notifications"
-  label_new_notifications : "new notification(s)"
+  label_new_notification : "notification"
+  label_new_notifications : "notifications"
   label_response_sent : "Response sent"
   label_response_ignored : "Request ignored"
   label_you : "you"
@@ -754,6 +755,7 @@ en:
   label_ownership_offer_withdrawn_to : "Ownership offer to {{user}} was withdrawn"
   label_ownership_requested : "Ownership requested"
   label_ownership_request_accepted : "Ownership request accepted"
+  label_ownership_request_auto_accepted : "Ownership request auto accepted"
   label_ownership_request_declined : "Ownership request declined"
   label_ownership_request_accepted_from : "{{user}}'s ownership request accepted"
   label_ownership_request_declined_from : "{{user}}'s ownership request declined"
