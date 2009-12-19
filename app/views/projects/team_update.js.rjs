@@ -1,6 +1,5 @@
-page.replace 'team_link' , :partial => 'team_link' , :locals => {:project => @project}
 page.replace 'team_list' , :partial => 'team_list', :locals => {:project => @project}
-
+page.replace 'team_link' , :partial => 'team_link' , :locals => {:project => @project}
 page.call 'add_lightbox', 'help_button_core_points' #adding hook to create button for lightbox
 
 page[User.current.login].visual_effect :highlight
