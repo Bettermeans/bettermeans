@@ -6,8 +6,6 @@ class MemberRole < ActiveRecord::Base
   
   belongs_to :member
   belongs_to :role
-  # has_one :user, :through => :member
-  # has_one :project, :through => :member
   
   after_create :add_role_to_group_users
   after_create :remove_contributor_role_if_core
@@ -79,14 +77,14 @@ class MemberRole < ActiveRecord::Base
   
   #Removes all contributor roles for this member if the current role being added is core
   def remove_contributor_role_if_core
-    logger.info("removing contributor role : #{role_id}")
+    logger.info("removing contributor role for member_id : #{member_id}")  if role_id == Role::BUILTIN_CORE_MEMBER
     MemberRole.find(:all, :conditions => {:member_id => member_id, :role_id => Role::BUILTIN_CONTRIBUTOR}).each(&:destroy) if role_id == Role::BUILTIN_CORE_MEMBER
   end
   
   #Adds contributor roles for this member if the current role being destroyed is core
   def add_contributor_role_if_core
-    logger.info("Adding contributor role : #{role_id}")
     if role_id == Role::BUILTIN_CORE_MEMBER
+      logger.info("Adding contributor role for member_id: #{member_id}")
       m = MemberRole.new :member_id => member_id, :role_id => Role::BUILTIN_CONTRIBUTOR 
       m.save
     end

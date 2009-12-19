@@ -65,6 +65,7 @@ class ProjectsController < ApplicationController
       @project.enabled_module_names = params[:enabled_modules]
       @project.enterprise_id = @parent.enterprise_id unless @parent.nil?
       @project.identifier = Project.next_identifier # if Setting.sequential_project_identifiers?
+      logger.info("Project is #{@project.identifier}")
       @project.trackers = Tracker.all
       @project.is_public = Setting.default_projects_public?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
@@ -142,7 +143,6 @@ class ProjectsController < ApplicationController
   #Current user decides to join core team
   def join_core_team
     User.current.add_to_core(@project)
-    # TeamPoint.create :project => @project, :author => User.current, :recipient => User.current, :value => 1
     
     respond_to do |format|
       format.js  { render :action => "team_update"}        
@@ -188,7 +188,6 @@ class ProjectsController < ApplicationController
   def edit
     if request.post?
       @project.attributes = params[:project]
-      logger.info("XXXXXXXXXXXXXXXXXXX")
       if @project.save
         logger.info("project SAVED")
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')

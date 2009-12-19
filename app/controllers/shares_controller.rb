@@ -3,7 +3,7 @@ class SharesController < ApplicationController
   # GET /shares.xml
   def index
     @shares = Share.all
-    @project = Project.find(params[:project_id])
+    @project = Project.find(params[:project_id]) unless params[:project_id].nil?
 
     respond_to do |format|
       format.html # index.html.erb

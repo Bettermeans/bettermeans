@@ -429,7 +429,16 @@ class Project < ActiveRecord::Base
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
     p = Project.find(:first, :order => 'created_on DESC')
-    p.nil? ? nil : p.identifier.to_s.succ
+    return 'A' if p.nil?
+    
+    next_id = p.identifier.to_s.succ
+    
+    while Project.exists?(:identifier => next_id)
+      next_id = next_id.succ
+    end
+    
+    next_id
+    
   end
 
   # Copies and saves the Project instance based on the +project+.

@@ -282,6 +282,7 @@ class User < Principal
   
   # Return true if the user is a core member of project
    def core_member_of?(project)
+     logger.info("ROLES FOR PROJECT: #{project.id} : #{roles_for_project(project).inspect}")
      !roles_for_project(project).detect {|role| role.core_member?}.nil?
    end
   
@@ -334,6 +335,7 @@ class User < Principal
     if project.eligible_for_core?(self)
       #Add as core member of current project
       add_to_project project, Role::BUILTIN_CORE_MEMBER       
+      puts "core member: #{self.core_member_of?(project)}"
       #Add as contributor to parent project, unless they're already core
       add_to_project project.parent, Role::BUILTIN_CONTRIBUTOR unless project.parent.nil? || self.core_member_of?(project.parent)
     end

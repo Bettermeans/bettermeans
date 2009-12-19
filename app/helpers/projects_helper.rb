@@ -24,6 +24,8 @@ module ProjectsHelper
   def team_action_links(project)
     content = ''
     
+    logger.info("Eligible: #{@project.eligible_for_core?(User.current)} Member: #{User.current.core_member_of?(@project)}")
+    
     #Link to join core if user is a core member of the parent workstream and isn't already on core, or if user has enough points
     content << link_to_remote(l(:label_join_core_team), {:url => {:controller => 'projects', :action => 'join_core_team', :id => project}, :method => :post}, 
                                            :class => 'icon icon-add') << '  ' if  @project.eligible_for_core?(User.current) unless User.current.core_member_of?(@project)
