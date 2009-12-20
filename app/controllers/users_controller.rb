@@ -3,7 +3,7 @@
 #
 
 class UsersController < ApplicationController
-  active_scaffold
+  
   before_filter :require_admin, :except => :show
 
   helper :sort
