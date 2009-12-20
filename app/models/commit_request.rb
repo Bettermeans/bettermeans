@@ -143,12 +143,6 @@ class CommitRequest < ActiveRecord::Base
       
       update_notifications_and_commit_requests(user_id,issue,true,false)
       logger.info("Inspecting issue: #{issue.inspect}")
-    when 3 #somebody is declining someone else's request for this issue      
-      #Notify requester that their notification has been declined
-      Notification.create user_id,
-                          'message',
-                          ":subject => '#{l(:text_ownership_request_declined)}', :message => '#{l(:text_your_ownsership_request_declined_for)} #{@template.link_to_issue(issue, {:include_subject => :true})}', :sender_id => #{User.current.id}",
-                          issue_id            
     when 5 #offer recinded
       Notification.recind('commit_request', issue.id, responder_id)
     when 6 #somebody is accepting an offer for this issue
