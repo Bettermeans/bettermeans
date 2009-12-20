@@ -28,6 +28,10 @@ class Notification < ActiveRecord::Base
   def self.unresponded_count
     self.count(:conditions => ["recipient_id=? AND (expiration is null or expiration >=?) AND state = 0", User.current, Time.new.to_date])
   end
+  
+  def self.unresponded
+    self.find(:all, :conditions => ["recipient_id=? AND (expiration is null or expiration >=?) AND state = 0", User.current, Time.new.to_date])
+  end
     
   # -1 is deactivated
   # 0 is active and no response yet
