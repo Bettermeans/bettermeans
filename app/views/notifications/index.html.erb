@@ -4,5 +4,6 @@
     <%= render :partial => notification.variation, 
               :locals => eval("{" + notification.params + ", :source_id => #{notification.source_id.to_s}, :notification_id => #{notification.id.to_s}, :notification_created_on => '#{notification.created_on.to_s}'}") %>
 <% end %>
+.
 <br />
 
