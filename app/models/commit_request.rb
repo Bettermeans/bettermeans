@@ -141,10 +141,10 @@ class CommitRequest < ActiveRecord::Base
       #Add requester as a contributor to that project
       user.add_to_project(issue.project, Role::BUILTIN_CONTRIBUTOR) unless user.core_member_of?(issue.project)
       
-      update_notifications_and_commit_requests(user_id,issue,true,false)
+      CommitRequest.update_notifications_and_commit_requests(user_id,issue,true,false)
       logger.info("Inspecting issue: #{issue.inspect}")
     when 3 #request declined
-      update_notifications_and_commit_requests(responder_id,issue,false,false)
+      CommitRequest.update_notifications_and_commit_requests(responder_id,issue,false,false)
     when 5 #offer recinded
       Notification.recind('commit_request', issue.id, responder_id)
     when 6 #somebody is accepting an offer for this issue
@@ -159,23 +159,23 @@ class CommitRequest < ActiveRecord::Base
       #Add responder as a contributor to that project
       responder.add_to_project(issue.project, Role::BUILTIN_CONTRIBUTOR) unless responder.core_member_of?(issue.project)
       
-      update_notifications_and_commit_requests(responder_id,issue,true,false)
+      CommitRequest.update_notifications_and_commit_requests(responder_id,issue,true,false)
     when 7 #declining an offer
       #Notify offerer that their offer has been declined
-      update_notifications_and_commit_requests(User.current.id,issue,false,false)
+      CommitRequest.update_notifications_and_commit_requests(User.current.id,issue,false,false)
 
     when 8 #somebody is releasing this issue
       issue.assigned_to = nil
       issue.expected_date = nil
       issue.status = IssueStatus.default
       issue.save
-      update_notifications_and_commit_requests(User.current.id,issue,false,true)
+      CommitRequest.update_notifications_and_commit_requests(User.current.id,issue,false,true)
     end 
     
   end
   
   # 0- Request No response 1-Request recinded 2-Request Accepted 3-Request Declined 4-Offer no response 5-Offer recinded 6-Offer accepted 7-Offer Declined 8-Ownership Released
-  def update_notifications_and_commit_requests(user_id,issue,accepted,released)
+  def self.update_notifications_and_commit_requests(user_id,issue,accepted,released)
     @user = User.find(user_id)
     issue.commit_requests.each do |cr|
       
