@@ -143,6 +143,8 @@ class CommitRequest < ActiveRecord::Base
       
       update_notifications_and_commit_requests(user_id,issue,true,false)
       logger.info("Inspecting issue: #{issue.inspect}")
+    when 3 #request declined
+      update_notifications_and_commit_requests(responder_id,issue,false,false)
     when 5 #offer recinded
       Notification.recind('commit_request', issue.id, responder_id)
     when 6 #somebody is accepting an offer for this issue
@@ -205,10 +207,11 @@ class CommitRequest < ActiveRecord::Base
       
     # Update all notifications to this user about this issue (all notifications to me, regarding this issue being offered to me are archived)
     @user.notifications.allactive.each do |n|
-      logger.info("iterating through users notifications object #{n.source_id} issue #{issue.id}")
+      logger.info("iterating through users notifications object #{n.id} #{n.source_id} issue #{issue.id}")
       if n.source_id == issue.id && n.variation.match(/^commit_request/) #TODO: create a better query so I'm not iterating through records I don't need here
         n.state = 1
         n.save
+        logger.info("Deactivated")
       end
     end
   
