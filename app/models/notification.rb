@@ -24,7 +24,7 @@ class Notification < ActiveRecord::Base
   
   # Returns the number of unresponded notifications for this user
   def self.unresponded_count
-    self.unresponded.count
+    self.count(:conditions => ["recipient_id=? AND (expiration is null or expiration >=?) AND state = 0", User.current, Time.new.to_date])
   end
   
   def self.unresponded
