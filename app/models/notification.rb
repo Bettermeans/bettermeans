@@ -4,7 +4,7 @@ class Notification < ActiveRecord::Base
   
   # Returns all active, non responded, non-expired notifications for current user
   # named_scope :active, :conditions => ["recipient_id=? AND (expiration is null or expiration >=?) AND state = 0", User.current.id, Time.new.to_date]
-  named_scope :active, :conditions => ["recipient_id=?", User.current.id]
+  named_scope :active, :conditions => ["state = 0"]
   # Returns all active, non responded, non-expired notifications
   named_scope :allactive, :conditions => ["state = 0 AND (expiration is null or expiration >=?)", Time.new.to_date]
   
