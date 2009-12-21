@@ -282,7 +282,6 @@ class User < Principal
   
   # Return true if the user is a core member of project
    def core_member_of?(project)
-     logger.info("ROLES FOR PROJECT: #{project.id} : #{roles_for_project(project).inspect}")
      !roles_for_project(project).detect {|role| role.core_member?}.nil?
    end
   
