@@ -56,6 +56,7 @@ module ApplicationHelper
   #   link_to_issue(issue)                        # => Defect #6: This is the subject
   #   link_to_issue(issue, :truncate => 6)        # => Defect #6: This i...
   #   link_to_issue(issue, :subject => false)     # => Defect #6
+  #   link_to_issue(issue, :project => true)      # => Foo - Defect #6
   #
   def link_to_issue(issue, options={})
     title = nil
@@ -72,6 +73,7 @@ module ApplicationHelper
                                                  :class => issue.css_classes,
                                                  :title => title
     s << ": #{h subject}" if subject
+    s = "#{h issue.project} - " + s if options[:project]
     s
   end
   
@@ -88,6 +90,15 @@ module ApplicationHelper
     action = options.delete(:download) ? 'download' : 'show'
 
     link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
+  end
+
+  # Generates a link to a SCM revision
+  # Options:
+  # * :text - Link text (default to the formatted revision)
+  def link_to_revision(revision, project, options={})
+    text = options.delete(:text) || format_revision(revision)
+
+    link_to(text, {:controller => 'repositories', :action => 'revision', :id => project, :rev => revision}, :title => l(:label_revision_id, revision))
   end
 
   def toggle_link(name, id, options={})
@@ -122,6 +133,14 @@ module ApplicationHelper
     h(truncate(text.to_s, :length => 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />")
   end
 
+  def format_version_name(version)
+    if version.project == @project
+    	h(version)
+    else
+      h("#{version.project} - #{version}")
+    end
+  end
+  
   def due_date_distance_in_words(date)
     if date
       l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
@@ -609,15 +628,16 @@ module ApplicationHelper
 
   def progress_bar(pcts, options={})
     pcts = [pcts, pcts] unless pcts.is_a?(Array)
+    pcts = pcts.collect(&:round)
     pcts[1] = pcts[1] - pcts[0]
     pcts << (100 - pcts[1] - pcts[0])
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
     content_tag('table',
       content_tag('tr',
-        (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0].floor}%;", :class => 'closed') : '') +
-        (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1].floor}%;", :class => 'done') : '') +
-        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2].floor}%;", :class => 'todo') : '')
+        (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0]}%;", :class => 'closed') : '') +
+        (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1]}%;", :class => 'done') : '') +
+        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2]}%;", :class => 'todo') : '')
       ), :class => 'progress', :style => "width: #{width};") +
       content_tag('p', legend, :class => 'pourcent')
   end
@@ -653,8 +673,18 @@ module ApplicationHelper
     unless @calendar_headers_tags_included
       @calendar_headers_tags_included = true
       content_for :header_tags do
+        start_of_week = case Setting.start_of_week.to_i
+        when 1
+          'Calendar._FD = 1;' # Monday
+        when 7
+          'Calendar._FD = 0;' # Sunday
+        else
+          '' # use language
+        end
+        
         javascript_include_tag('calendar/calendar') +
         javascript_include_tag("calendar/lang/calendar-#{current_language.to_s.downcase}.js") +
+        javascript_tag(start_of_week) +  
         javascript_include_tag('calendar/calendar-setup') +
         stylesheet_link_tag('calendar')
       end
@@ -675,7 +705,7 @@ module ApplicationHelper
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
     if Setting.gravatar_enabled?
-      options.merge!({:ssl => Setting.protocol == 'https'})
+      options.merge!({:ssl => Setting.protocol == 'https', :default => Setting.gravatar_default})
       email = nil
       if user.respond_to?(:mail)
         email = user.mail

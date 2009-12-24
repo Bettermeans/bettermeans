@@ -14,6 +14,8 @@ General options:
                            ignore: email is ignored (default)
                            accept: accept as anonymous user
                            create: create a user account
+  no_permission_check=1    disable permission checking when receiving
+                           the email
   
 Issue attributes control options:
   project=PROJECT          identifier of the target project
@@ -42,6 +44,7 @@ END_DESC
       %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
+      options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
       
       MailHandler.receive(STDIN.read, options)
     end
@@ -55,6 +58,8 @@ General options:
                            ignore: email is ignored (default)
                            accept: accept as anonymous user
                            create: create a user account
+  no_permission_check=1    disable permission checking when receiving
+                           the email
   
 Available IMAP options:
   host=HOST                IMAP server host (default: 127.0.0.1)
@@ -110,6 +115,7 @@ END_DESC
       %w(project status tracker category priority).each { |a| options[:issue][a.to_sym] = ENV[a] if ENV[a] }
       options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
       options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']
+      options[:no_permission_check] = ENV['no_permission_check'] if ENV['no_permission_check']
 
       Redmine::IMAP.check(imap_options, options)
     end

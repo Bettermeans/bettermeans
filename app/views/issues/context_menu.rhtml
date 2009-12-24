@@ -18,6 +18,17 @@
 	        :class => 'icon-edit', :disabled => !@can[:edit] %></li>
 <% end %>
 
+	<% unless @trackers.nil? %>
+	<li class="folder">			
+		<a href="#" class="submenu"><%= l(:field_tracker) %></a>
+		<ul>
+		<% @trackers.each do |t| -%>
+		    <li><%= context_menu_link t.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'tracker_id' => t, :back_to => @back}, :method => :post,
+		                              :selected => (@issue && t == @issue.tracker), :disabled => !@can[:edit] %></li>
+		<% end -%>
+		</ul>
+	</li>
+	<% end %>
 	<li class="folder">			
 		<a href="#" class="submenu"><%= l(:field_priority) %></a>
 		<ul>
@@ -27,12 +38,12 @@
 		<% end -%>
 		</ul>
 	</li>
-	<% unless @project.nil? || @project.versions.open.empty? -%>
+	<% unless @project.nil? || @project.shared_versions.open.empty? -%>
 	<li class="folder">			
 		<a href="#" class="submenu"><%= l(:field_fixed_version) %></a>
 		<ul>
-		<% @project.versions.open.sort.each do |v| -%>
-		    <li><%= context_menu_link v.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'fixed_version_id' => v, :back_to => @back}, :method => :post,
+		<% @project.shared_versions.open.sort.each do |v| -%>
+		    <li><%= context_menu_link format_version_name(v), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'fixed_version_id' => v, :back_to => @back}, :method => :post,
 		                              :selected => (@issue && v == @issue.fixed_version), :disabled => !@can[:update] %></li>
 		<% end -%>
 		    <li><%= context_menu_link l(:label_none), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'fixed_version_id' => 'none', :back_to => @back}, :method => :post,
@@ -53,6 +64,20 @@
 		</ul>
 	</li>
 	<% end %>
+	<% unless @project.nil? || @project.issue_categories.empty? -%>
+	<li class="folder">			
+		<a href="#" class="submenu"><%= l(:field_category) %></a>
+		<ul>
+		<% @project.issue_categories.each do |u| -%>
+		    <li><%= context_menu_link u.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'category_id' => u, :back_to => @back}, :method => :post,
+		                              :selected => (@issue && u == @issue.category), :disabled => !@can[:update] %></li>
+		<% end -%>
+		    <li><%= context_menu_link l(:label_none), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'category_id' => 'none', :back_to => @back}, :method => :post,
+		                              :selected => (@issue && @issue.category.nil?), :disabled => !@can[:update] %></li>
+		</ul>
+	</li>
+	<% end -%>
+  <% if Issue.use_field_for_done_ratio? %>
 	<li class="folder">
 		<a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
 		<ul>
@@ -62,10 +87,8 @@
 		<% end -%>
 		</ul>
 	</li>
-	
+  <% end %>
 <% if !@issue.nil? %>
-	<li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue},
-	        :class => 'icon-copy', :disabled => !@can[:copy] %></li>
 	<% if @can[:log_time] -%>
 	<li><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue},
 	        :class => 'icon-time-add' %></li>
@@ -75,6 +98,12 @@
 	<% end %>
 <% end %>
 
+<% if @issue.present? %>
+  <li><%= context_menu_link l(:button_duplicate), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue},
+	        :class => 'icon-duplicate', :disabled => !@can[:copy] %></li>
+<% end %>
+  <li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'move', :ids => @issues.collect(&:id), :copy_options => {:copy => 't'}},
+	                        :class => 'icon-copy', :disabled => !@can[:move]  %></li>
   <li><%= context_menu_link l(:button_move), {:controller => 'issues', :action => 'move', :ids => @issues.collect(&:id)},
 	                        :class => 'icon-move', :disabled => !@can[:move]  %></li>
   <li><%= context_menu_link l(:button_delete), {:controller => 'issues', :action => 'destroy', :ids => @issues.collect(&:id)},

@@ -18,7 +18,7 @@ class Repository::Subversion < Repository
   end
 
   def latest_changesets(path, rev, limit=10)
-    revisions = scm.revisions(path, nil, nil, :limit => limit)
+    revisions = scm.revisions(path, rev, nil, :limit => limit)
     revisions ? changesets.find_all_by_revision(revisions.collect(&:identifier), :order => "committed_on DESC", :include => :user) : []
   end
   
@@ -71,7 +71,7 @@ class Repository::Subversion < Repository
   #     url      = file:///var/svn/foo/bar
   #     => returns /bar
   def relative_url
-    @relative_url ||= url.gsub(Regexp.new("^#{Regexp.escape(root_url)}"), '')
+    @relative_url ||= url.gsub(Regexp.new("^#{Regexp.escape(root_url || scm.root_url)}", Regexp::IGNORECASE), '')
   end
 end
 

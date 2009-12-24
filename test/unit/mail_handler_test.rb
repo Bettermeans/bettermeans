@@ -29,6 +29,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
   
   def test_add_issue
+    ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
     issue = submit_email('ticket_on_given_project.eml')
     assert issue.is_a?(Issue)
@@ -42,6 +43,10 @@ class MailHandlerTest < ActiveSupport::TestCase
     # keywords should be removed from the email body
     assert !issue.description.match(/^Project:/i)
     assert !issue.description.match(/^Status:/i)
+    # Email notification should be sent
+    mail = ActionMailer::Base.deliveries.last
+    assert_not_nil mail
+    assert mail.subject.include?('New ticket on a given project')
   end
 
   def test_add_issue_with_status
@@ -147,6 +152,26 @@ class MailHandlerTest < ActiveSupport::TestCase
     end
   end
   
+  def test_add_issue_by_anonymous_user_on_private_project
+    Role.anonymous.add_permission!(:add_issues)
+    assert_no_difference 'User.count' do
+      assert_no_difference 'Issue.count' do
+        assert_equal false, submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'onlinestore'}, :unknown_user => 'accept')
+      end
+    end
+  end
+  
+  def test_add_issue_by_anonymous_user_on_private_project_without_permission_check
+    assert_no_difference 'User.count' do
+      assert_difference 'Issue.count' do
+        issue = submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'onlinestore'}, :no_permission_check => '1', :unknown_user => 'accept')
+        assert issue.is_a?(Issue)
+        assert issue.author.anonymous?
+        assert !issue.project.is_public?
+      end
+    end
+  end
+  
   def test_add_issue_by_created_user
     Setting.default_language = 'en'
     assert_difference 'User.count' do
@@ -241,10 +266,62 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'This is a html-only email.', issue.description
   end
 
+  context "truncate emails based on the Setting" do
+    context "with no setting" do
+      setup do
+        Setting.mail_handler_body_delimiters = ''
+      end
+
+      should "add the entire email into the issue" do
+        issue = submit_email('ticket_on_given_project.eml')
+        assert_issue_created(issue)
+        assert issue.description.include?('---')
+        assert issue.description.include?('This paragraph is after the delimiter')
+      end
+    end
+
+    context "with a single string" do
+      setup do
+        Setting.mail_handler_body_delimiters = '---'
+      end
+
+      should "truncate the email at the delimiter for the issue" do
+        issue = submit_email('ticket_on_given_project.eml')
+        assert_issue_created(issue)
+        assert issue.description.include?('This paragraph is before delimiters')
+        assert issue.description.include?('--- This line starts with a delimiter')
+        assert !issue.description.match(/^---$/)
+        assert !issue.description.include?('This paragraph is after the delimiter')
+      end
+    end
+
+    context "with multiple strings" do
+      setup do
+        Setting.mail_handler_body_delimiters = "---\nBREAK"
+      end
+
+      should "truncate the email at the first delimiter found (BREAK)" do
+        issue = submit_email('ticket_on_given_project.eml')
+        assert_issue_created(issue)
+        assert issue.description.include?('This paragraph is before delimiters')
+        assert !issue.description.include?('BREAK')
+        assert !issue.description.include?('This paragraph is between delimiters')
+        assert !issue.description.match(/^---$/)
+        assert !issue.description.include?('This paragraph is after the delimiter')
+      end
+    end
+  end
+
   private
   
   def submit_email(filename, options={})
     raw = IO.read(File.join(FIXTURES_PATH, filename))
     MailHandler.receive(raw, options)
+  end
+
+  def assert_issue_created(issue)
+    assert issue.is_a?(Issue)
+    assert !issue.new_record?
+    issue.reload
   end
 end

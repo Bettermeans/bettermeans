@@ -70,7 +70,7 @@ class ProjectsController < ApplicationController
       @project.is_public = Setting.default_projects_public?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
       logger.info("INSPECTING PROJECT #{@project}")
-      if @project.save
+      if validate_parent_id && @project.save
         logger.info("PARENT #{@parent.inspect}")
         @project.set_allowed_parent!(@parent.id) unless @parent.nil?
         # Add current user as a admin and core team member
@@ -101,7 +101,7 @@ class ProjectsController < ApplicationController
     else
       @project = Project.new(params[:project])
       @project.enabled_module_names = params[:enabled_modules]
-      if @project.copy(@source_project, :only => params[:only])
+      if validate_parent_id && @project.copy(@source_project, :only => params[:only])
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
@@ -188,7 +188,7 @@ class ProjectsController < ApplicationController
   def edit
     if request.post?
       @project.attributes = params[:project]
-      if @project.save
+      if validate_parent_id && @project.save
         logger.info("project SAVED")
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_update)
@@ -207,7 +207,11 @@ class ProjectsController < ApplicationController
   end
 
   def archive
-    @project.archive if request.post? && @project.active?
+    if request.post?
+      unless @project.archive
+        flash[:error] = l(:error_can_not_archive_project)
+      end
+    end
     redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
   end
   
@@ -230,17 +234,26 @@ class ProjectsController < ApplicationController
   # Add a new issue category to @project
   # def add_issue_category
   #   @category = @project.issue_categories.build(params[:category])
-  #   if request.post? and @category.save
-  #     respond_to do |format|
-  #       format.html do
-  #         flash[:notice] = l(:notice_successful_create)
-  #         redirect_to :action => 'settings', :tab => 'categories', :id => @project
+  #   if request.post?
+  #     if @category.save
+  #       respond_to do |format|
+  #         format.html do
+  #           flash[:notice] = l(:notice_successful_create)
+  #           redirect_to :action => 'settings', :tab => 'categories', :id => @project
+  #         end
+  #         format.js do
+  #           # IE doesn't support the replace_html rjs method for select box options
+  #           render(:update) {|page| page.replace "issue_category_id",
+  #             content_tag('select', '<option></option>' + options_from_collection_for_select(@project.issue_categories, 'id', 'name', @category.id), :id => 'issue_category_id', :name => 'issue[category_id]')
+  #           }
+  #         end
   #       end
-  #       format.js do
-  #         # IE doesn't support the replace_html rjs method for select box options
-  #         render(:update) {|page| page.replace "issue_category_id",
-  #           content_tag('select', '<option></option>' + options_from_collection_for_select(@project.issue_categories, 'id', 'name', @category.id), :id => 'issue_category_id', :name => 'issue[category_id]')
-  #         }
+  #     else
+  #       respond_to do |format|
+  #         format.html
+  #         format.js do
+  #           render(:update) {|page| page.alert(@category.errors.full_messages.join('\n')) }
+  #         end
   #       end
   #     end
   #   end
@@ -248,10 +261,34 @@ class ProjectsController < ApplicationController
 	
   # Add a new version to @project
   def add_version
-  	@version = @project.versions.build(params[:version])
-  	if request.post? and @version.save
-  	  flash[:notice] = l(:notice_successful_create)
-      redirect_to :action => 'settings', :tab => 'versions', :id => @project
+    @version = @project.versions.build
+    if params[:version]
+      attributes = params[:version].dup
+      attributes.delete('sharing') unless attributes.nil? || @version.allowed_sharings.include?(attributes['sharing'])
+      @version.attributes = attributes
+    end
+  	if request.post?
+  	  if @version.save
+        respond_to do |format|
+          format.html do
+            flash[:notice] = l(:notice_successful_create)
+            redirect_to :action => 'settings', :tab => 'versions', :id => @project
+          end
+          format.js do
+            # IE doesn't support the replace_html rjs method for select box options
+            render(:update) {|page| page.replace "issue_fixed_version_id",
+              content_tag('select', '<option></option>' + version_options_for_select(@project.shared_versions.open, @version), :id => 'issue_fixed_version_id', :name => 'issue[fixed_version_id]')
+            }
+          end
+        end
+      else
+        respond_to do |format|
+          format.html
+          format.js do
+            render(:update) {|page| page.alert(@version.errors.full_messages.join('\n')) }
+          end
+        end
+  	  end
   	end
   end
 
@@ -298,19 +335,31 @@ class ProjectsController < ApplicationController
     @containers += @project.versions.find(:all, :include => :attachments, :order => sort_clause).sort.reverse
     render :layout => !request.xhr?
   end
-  
-  # Show changelog for @project
-  def changelog
-    @trackers = @project.trackers.find(:all, :conditions => ["is_in_chlog=?", true], :order => 'position')
-    retrieve_selected_tracker_ids(@trackers)    
-    @versions = @project.versions.sort
-  end
 
   def roadmap
-    @trackers = @project.trackers.find(:all, :conditions => ["is_in_roadmap=?", true])
-    retrieve_selected_tracker_ids(@trackers)
-    @versions = @project.versions.sort
-    @versions = @versions.select {|v| !v.completed? } unless params[:completed]
+    @trackers = @project.trackers.find(:all, :order => 'position')
+    retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
+    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
+    project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
+    
+    @versions = @project.shared_versions.sort
+    @versions.reject! {|version| version.closed? || version.completed? } unless params[:completed]
+    
+    @issues_by_version = {}
+    unless @selected_tracker_ids.empty?
+      @versions.each do |version|
+        conditions = {:tracker_id => @selected_tracker_ids}
+        if !@project.versions.include?(version)
+          conditions.merge!(:project_id => project_ids)
+        end
+        issues = version.fixed_issues.visible.find(:all,
+                                                   :include => [:project, :status, :tracker, :priority],
+                                                   :conditions => conditions,
+                                                   :order => "#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id")
+        @issues_by_version[version] = issues
+      end
+    end
+    @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].empty?}
   end
   
   def team
@@ -378,11 +427,26 @@ private
     render_404
   end
 
-  def retrieve_selected_tracker_ids(selectable_trackers)
+  def retrieve_selected_tracker_ids(selectable_trackers, default_trackers=nil)
     if ids = params[:tracker_ids]
       @selected_tracker_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
     else
-      @selected_tracker_ids = selectable_trackers.collect {|t| t.id.to_s }
+      @selected_tracker_ids = (default_trackers || selectable_trackers).collect {|t| t.id.to_s }
     end
+  end
+  
+  # Validates parent_id param according to user's permissions
+  # TODO: move it to Project model in a validation that depends on User.current
+  def validate_parent_id
+    return true if User.current.admin?
+    parent_id = params[:project] && params[:project][:parent_id]
+    if parent_id || @project.new_record?
+      parent = parent_id.blank? ? nil : Project.find_by_id(parent_id.to_i)
+      unless @project.allowed_parents.include?(parent)
+        @project.errors.add :parent_id, :invalid
+        return false
+      end
+    end
+    true
   end
 end

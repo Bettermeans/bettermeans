@@ -185,34 +185,21 @@ issues_012:
   description:
   tracker_id: 1
   assigned_to_id: 
-  author_id: 2
+  author_id: 3
   status_id: 5
   start_date: <%= 1.day.ago.to_date.to_s(:db) %>
   due_date:
-
-
-# == Schema Information
-#
-# Table name: issues
-#
-#  id               :integer         not null, primary key
-#  tracker_id       :integer         default(0), not null
-#  project_id       :integer         default(0), not null
-#  subject          :string(255)     default(""), not null
-#  description      :text
-#  due_date         :date
-#  category_id      :integer
-#  status_id        :integer         default(0), not null
-#  assigned_to_id   :integer
-#  priority_id      :integer         default(0), not null
-#  fixed_version_id :integer
-#  author_id        :integer         default(0), not null
-#  lock_version     :integer         default(0), not null
-#  created_on       :datetime
-#  updated_on       :datetime
-#  start_date       :date
-#  done_ratio       :integer         default(0), not null
-#  estimated_hours  :float
-#  expected_date    :date
-#
-
+issues_013:
+  created_on: <%= 5.days.ago.to_date.to_s(:db) %>
+  project_id: 3
+  updated_on: <%= 2.days.ago.to_date.to_s(:db) %>
+  priority_id: 4
+  subject: Subproject issue two
+  id: 13
+  fixed_version_id: 
+  category_id: 
+  description: This is a second issue on a cookbook subproject
+  tracker_id: 1
+  assigned_to_id: 
+  author_id: 2
+  status_id: 1

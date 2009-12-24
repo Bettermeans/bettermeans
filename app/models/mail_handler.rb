@@ -21,6 +21,8 @@ class MailHandler < ActionMailer::Base
     @@handler_options[:allow_override] << 'project' unless @@handler_options[:issue].has_key?(:project)
     # Status overridable by default
     @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)    
+    
+    @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
     super email
   end
   
@@ -107,8 +109,10 @@ class MailHandler < ActionMailer::Base
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
 
     # check permission
-    raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
-    # issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority)
+    unless @@handler_options[:no_permission_check]
+      raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
+    end
+    
     issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority)
     # check workflow
     if status && issue.new_statuses_allowed_to(user).include?(status)
@@ -119,7 +123,6 @@ class MailHandler < ActionMailer::Base
     if issue.subject.blank?
       issue.subject = '(no subject)'
     end
-    issue.description = plain_text_body
     # custom fields
     issue.custom_field_values = issue.available_custom_fields.inject({}) do |h, c|
       if value = get_keyword(c.name, :override => true)
@@ -127,6 +130,7 @@ class MailHandler < ActionMailer::Base
       end
       h
     end
+    issue.description = cleaned_up_text_body
     # add To and Cc as watchers before saving so the watchers can reply to Redmine
     add_watchers(issue)
     issue.save!
@@ -151,11 +155,13 @@ class MailHandler < ActionMailer::Base
     issue = Issue.find_by_id(issue_id)
     return unless issue
     # check permission
-    raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
-    raise UnauthorizedAction unless status.nil? || user.allowed_to?(:edit_issues, issue.project)
+    unless @@handler_options[:no_permission_check]
+      raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
+      raise UnauthorizedAction unless status.nil? || user.allowed_to?(:edit_issues, issue.project)
+    end
 
     # add the note
-    journal = issue.init_journal(user, plain_text_body)
+    journal = issue.init_journal(user, cleaned_up_text_body)
     add_attachments(issue)
     # check workflow
     if status && issue.new_statuses_allowed_to(user).include?(status)
@@ -179,16 +185,21 @@ class MailHandler < ActionMailer::Base
     message = Message.find_by_id(message_id)
     if message
       message = message.root
-      if user.allowed_to?(:add_messages, message.project) && !message.locked?
+      
+      unless @@handler_options[:no_permission_check]
+        raise UnauthorizedAction unless user.allowed_to?(:add_messages, message.project)
+      end
+      
+      if !message.locked?
         reply = Message.new(:subject => email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
-                            :content => plain_text_body)
+                            :content => cleaned_up_text_body)
         reply.author = user
         reply.board = message.board
         message.children << reply
         add_attachments(reply)
         reply
       else
-        raise UnauthorizedAction
+        logger.info "MailHandler: ignoring reply from [#{sender_email}] to a locked topic" if logger && logger.info
       end
     end
   end
@@ -252,6 +263,9 @@ class MailHandler < ActionMailer::Base
     @plain_text_body
   end
   
+  def cleaned_up_text_body
+    cleanup_body(plain_text_body)
+  end
 
   def self.full_sanitizer
     @full_sanitizer ||= HTML::FullSanitizer.new
@@ -274,5 +288,17 @@ class MailHandler < ActionMailer::Base
       user.language = Setting.default_language
       user.save ? user : nil
     end
+  end
+
+  private
+  
+  # Removes the email body of text after the truncation configurations.
+  def cleanup_body(body)
+    delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map {|s| Regexp.escape(s)}
+    unless delimiters.empty?
+      regex = Regexp.new("^(#{ delimiters.join('|') })\s*[\r\n].*", Regexp::MULTILINE)
+      body = body.gsub(regex, '')
+    end
+    body.strip
   end
 end

@@ -72,6 +72,8 @@ autofetch_changesets:
   default: 1
 sys_api_enabled:
   default: 0
+sys_api_key:
+  default: ''
 commit_ref_keywords:
   default: 'refs,references,IssueID'
 commit_fix_keywords:
@@ -101,6 +103,8 @@ notified_events:
   default: 
   - issue_added
   - issue_updated
+mail_handler_body_delimiters:
+  default: ''
 mail_handler_api_enabled:
   default: 0
 mail_handler_api_key:
@@ -116,6 +120,8 @@ issue_list_default_columns:
   - updated_on
 display_subprojects_issues:
   default: 1
+issue_done_ratio:
+  default: 'issue_field'
 default_projects_public:
   default: 1
 default_projects_modules:
@@ -171,3 +177,9 @@ forum_name:
 forum_description:
   default: |-
     General Discussion for Workstream : 
+gravatar_default:
+  default: ''
+start_of_week:
+  default: ''
+rest_api_enabled:
+  default: 0

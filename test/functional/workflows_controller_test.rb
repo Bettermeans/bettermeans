@@ -9,7 +9,7 @@ require 'workflows_controller'
 class WorkflowsController; def rescue_action(e) raise e end; end
 
 class WorkflowsControllerTest < ActionController::TestCase
-  fixtures :roles, :trackers, :workflows
+  fixtures :roles, :trackers, :workflows, :users, :issue_statuses
   
   def setup
     @controller = WorkflowsController.new
@@ -38,18 +38,46 @@ class WorkflowsControllerTest < ActionController::TestCase
   end
   
   def test_get_edit_with_role_and_tracker
+    Workflow.delete_all
+    Workflow.create!(:role_id => 1, :tracker_id => 1, :old_status_id => 2, :new_status_id => 3)
+    Workflow.create!(:role_id => 2, :tracker_id => 1, :old_status_id => 3, :new_status_id => 5)
+    
     get :edit, :role_id => 2, :tracker_id => 1
     assert_response :success
     assert_template 'edit'
+    
+    # used status only
+    assert_not_nil assigns(:statuses)
+    assert_equal [2, 3, 5], assigns(:statuses).collect(&:id)
+    
     # allowed transitions
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[2][]',
-                                                 :value => '1',
+                                                 :name => 'issue_status[3][]',
+                                                 :value => '5',
                                                  :checked => 'checked' }
     # not allowed
     assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
-                                                 :name => 'issue_status[2][]',
-                                                 :value => '3',
+                                                 :name => 'issue_status[3][]',
+                                                 :value => '2',
+                                                 :checked => nil }
+    # unused
+    assert_no_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                    :name => 'issue_status[4][]' }
+  end
+  
+  def test_get_edit_with_role_and_tracker_and_all_statuses
+    Workflow.delete_all
+    
+    get :edit, :role_id => 2, :tracker_id => 1, :used_statuses_only => '0'
+    assert_response :success
+    assert_template 'edit'
+    
+    assert_not_nil assigns(:statuses)
+    assert_equal IssueStatus.count, assigns(:statuses).size
+    
+    assert_tag :tag => 'input', :attributes => { :type => 'checkbox',
+                                                 :name => 'issue_status[1][]',
+                                                 :value => '1',
                                                  :checked => nil }
   end
   
@@ -67,5 +95,51 @@ class WorkflowsControllerTest < ActionController::TestCase
 
     post :edit, :role_id => 2, :tracker_id => 1
     assert_equal 0, Workflow.count(:conditions => {:tracker_id => 1, :role_id => 2})
+  end
+  
+  def test_get_copy
+    get :copy
+    assert_response :success
+    assert_template 'copy'
+  end
+  
+  def test_post_copy_one_to_one
+    source_transitions = status_transitions(:tracker_id => 1, :role_id => 2)
+    
+    post :copy, :source_tracker_id => '1', :source_role_id => '2',
+                :target_tracker_ids => ['3'], :target_role_ids => ['1']
+    assert_response 302
+    assert_equal source_transitions, status_transitions(:tracker_id => 3, :role_id => 1)
+  end
+  
+  def test_post_copy_one_to_many
+    source_transitions = status_transitions(:tracker_id => 1, :role_id => 2)
+    
+    post :copy, :source_tracker_id => '1', :source_role_id => '2',
+                :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
+    assert_response 302
+    assert_equal source_transitions, status_transitions(:tracker_id => 2, :role_id => 1)
+    assert_equal source_transitions, status_transitions(:tracker_id => 3, :role_id => 1)
+    assert_equal source_transitions, status_transitions(:tracker_id => 2, :role_id => 3)
+    assert_equal source_transitions, status_transitions(:tracker_id => 3, :role_id => 3)
+  end
+  
+  def test_post_copy_many_to_many
+    source_t2 = status_transitions(:tracker_id => 2, :role_id => 2)
+    source_t3 = status_transitions(:tracker_id => 3, :role_id => 2)
+    
+    post :copy, :source_tracker_id => 'any', :source_role_id => '2',
+                :target_tracker_ids => ['2', '3'], :target_role_ids => ['1', '3']
+    assert_response 302
+    assert_equal source_t2, status_transitions(:tracker_id => 2, :role_id => 1)
+    assert_equal source_t3, status_transitions(:tracker_id => 3, :role_id => 1)
+    assert_equal source_t2, status_transitions(:tracker_id => 2, :role_id => 3)
+    assert_equal source_t3, status_transitions(:tracker_id => 3, :role_id => 3)
+  end
+  
+  # Returns an array of status transitions that can be compared
+  def status_transitions(conditions)
+    Workflow.find(:all, :conditions => conditions,
+                        :order => 'tracker_id, role_id, old_status_id, new_status_id').collect {|w| [w.old_status, w.new_status_id]}
   end
 end

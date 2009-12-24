@@ -5,10 +5,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ProjectTest < ActiveSupport::TestCase
-  fixtures :projects, :enabled_modules, 
-           :issues, :issue_statuses, :journals, :journal_details,
-           :users, :members, :member_roles, :roles, :projects_trackers, :trackers, :boards,
-           :queries
+  fixtures :all
 
   def setup
     @ecookbook = Project.find(1)
@@ -96,6 +93,17 @@ class ProjectTest < ActiveSupport::TestCase
     # Subproject are also archived
     assert !@ecookbook.children.empty?
     assert @ecookbook.descendants.active.empty?
+  end
+  
+  def test_archive_should_fail_if_versions_are_used_by_non_descendant_projects
+    # Assign an issue of a project to a version of a child project
+    Issue.find(4).update_attribute :fixed_version_id, 4
+    
+    assert_no_difference "Project.count(:all, :conditions => 'status = #{Project::STATUS_ARCHIVED}')" do
+      assert_equal false, @ecookbook.archive
+    end
+    @ecookbook.reload
+    assert @ecookbook.active?
   end
   
   def test_unarchive
@@ -193,6 +201,38 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 4, parent.children.size
     assert_equal parent.children.sort_by(&:name), parent.children
   end
+
+
+  def test_set_parent_should_update_issue_fixed_version_associations_when_a_fixed_version_is_moved_out_of_the_hierarchy
+    # Parent issue with a hierarchy project's fixed version
+    parent_issue = Issue.find(1)
+    parent_issue.update_attribute(:fixed_version_id, 4)
+    parent_issue.reload
+    assert_equal 4, parent_issue.fixed_version_id
+
+    # Should keep fixed versions for the issues
+    issue_with_local_fixed_version = Issue.find(5)
+    issue_with_local_fixed_version.update_attribute(:fixed_version_id, 4)
+    issue_with_local_fixed_version.reload
+    assert_equal 4, issue_with_local_fixed_version.fixed_version_id
+
+    # Local issue with hierarchy fixed_version
+    issue_with_hierarchy_fixed_version = Issue.find(13)
+    issue_with_hierarchy_fixed_version.update_attribute(:fixed_version_id, 6)
+    issue_with_hierarchy_fixed_version.reload
+    assert_equal 6, issue_with_hierarchy_fixed_version.fixed_version_id
+    
+    # Move project out of the issue's hierarchy
+    moved_project = Project.find(3)
+    moved_project.set_parent!(Project.find(2))
+    parent_issue.reload
+    issue_with_local_fixed_version.reload
+    issue_with_hierarchy_fixed_version.reload
+    
+    assert_equal 4, issue_with_local_fixed_version.fixed_version_id, "Fixed version was not keep on an issue local to the moved project"
+    assert_equal nil, issue_with_hierarchy_fixed_version.fixed_version_id, "Fixed version is still set after moving the Project out of the hierarchy where the version is defined in"
+    assert_equal nil, parent_issue.fixed_version_id, "Fixed version is still set after moving the Version out of the hierarchy for the issue."
+  end
   
   def test_parent
     p = Project.find(6).parent
@@ -229,7 +269,7 @@ class ProjectTest < ActiveSupport::TestCase
     user = User.find(9)
     assert user.memberships.empty?
     User.current = user
-    assert Project.new.allowed_parents.empty?
+    assert Project.new.allowed_parents.compact.empty?
   end
   
   def test_users_by_role
@@ -265,12 +305,110 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal [1,2], parent.rolled_up_trackers.collect(&:id)
   end
   
+  def test_shared_versions_none_sharing
+    p = Project.find(5)
+    v = Version.create!(:name => 'none_sharing', :project => p, :sharing => 'none')
+    assert p.shared_versions.include?(v)
+    assert !p.children.first.shared_versions.include?(v)
+    assert !p.root.shared_versions.include?(v)
+    assert !p.siblings.first.shared_versions.include?(v)
+    assert !p.root.siblings.first.shared_versions.include?(v)
+  end
+
+  def test_shared_versions_descendants_sharing
+    p = Project.find(5)
+    v = Version.create!(:name => 'descendants_sharing', :project => p, :sharing => 'descendants')
+    assert p.shared_versions.include?(v)
+    assert p.children.first.shared_versions.include?(v)
+    assert !p.root.shared_versions.include?(v)
+    assert !p.siblings.first.shared_versions.include?(v)
+    assert !p.root.siblings.first.shared_versions.include?(v)
+  end
+  
+  def test_shared_versions_hierarchy_sharing
+    p = Project.find(5)
+    v = Version.create!(:name => 'hierarchy_sharing', :project => p, :sharing => 'hierarchy')
+    assert p.shared_versions.include?(v)
+    assert p.children.first.shared_versions.include?(v)
+    assert p.root.shared_versions.include?(v)
+    assert !p.siblings.first.shared_versions.include?(v)
+    assert !p.root.siblings.first.shared_versions.include?(v)
+  end
+
+  def test_shared_versions_tree_sharing
+    p = Project.find(5)
+    v = Version.create!(:name => 'tree_sharing', :project => p, :sharing => 'tree')
+    assert p.shared_versions.include?(v)
+    assert p.children.first.shared_versions.include?(v)
+    assert p.root.shared_versions.include?(v)
+    assert p.siblings.first.shared_versions.include?(v)
+    assert !p.root.siblings.first.shared_versions.include?(v)
+  end
+
+  def test_shared_versions_system_sharing
+    p = Project.find(5)
+    v = Version.create!(:name => 'system_sharing', :project => p, :sharing => 'system')
+    assert p.shared_versions.include?(v)
+    assert p.children.first.shared_versions.include?(v)
+    assert p.root.shared_versions.include?(v)
+    assert p.siblings.first.shared_versions.include?(v)
+    assert p.root.siblings.first.shared_versions.include?(v)
+  end
+
+  def test_shared_versions
+    parent = Project.find(1)
+    child = parent.children.find(3)
+    private_child = parent.children.find(5)
+    
+    assert_equal [1,2,3], parent.version_ids.sort
+    assert_equal [4], child.version_ids
+    assert_equal [6], private_child.version_ids
+    assert_equal [7], Version.find_all_by_sharing('system').collect(&:id)
+
+    assert_equal 6, parent.shared_versions.size
+    parent.shared_versions.each do |version|
+      assert_kind_of Version, version
+    end
+
+    assert_equal [1,2,3,4,6,7], parent.shared_versions.collect(&:id).sort
+  end
+
+  def test_shared_versions_should_ignore_archived_subprojects
+    parent = Project.find(1)
+    child = parent.children.find(3)
+    child.archive
+    parent.reload
+    
+    assert_equal [1,2,3], parent.version_ids.sort
+    assert_equal [4], child.version_ids
+    assert !parent.shared_versions.collect(&:id).include?(4)
+  end
+
+  def test_shared_versions_visible_to_user
+    user = User.find(3)
+    parent = Project.find(1)
+    child = parent.children.find(5)
+    
+    assert_equal [1,2,3], parent.version_ids.sort
+    assert_equal [6], child.version_ids
+
+    versions = parent.shared_versions.visible(user)
+    
+    assert_equal 4, versions.size
+    versions.each do |version|
+      assert_kind_of Version, version
+    end
+
+    assert !versions.collect(&:id).include?(6)
+  end
+
+  
   def test_next_identifier
     ProjectCustomField.delete_all
     Project.create!(:name => 'last', :identifier => 'p2008040')
     assert_equal 'p2008041', Project.next_identifier
   end
-  
+
   def test_next_identifier_first_project
     Project.delete_all
     assert_nil Project.next_identifier
@@ -370,6 +508,17 @@ class ProjectTest < ActiveSupport::TestCase
 
     assert project.activities(true).include?(overridden_activity), "Inactive Project specific Activity not found"
   end
+
+  test 'activities should not include active System activities if the project has an override that is inactive' do
+    project = Project.find(1)
+    system_activity = TimeEntryActivity.find_by_name('Design')
+    assert system_activity.active?
+    overridden_activity = TimeEntryActivity.generate!(:project => project, :parent => system_activity, :active => false)
+    assert overridden_activity.save!
+    
+    assert !project.activities.include?(overridden_activity), "Inactive Project specific Activity not found"
+    assert !project.activities.include?(system_activity), "System activity found when the project has an inactive override"
+  end
   
   def test_close_completed_versions
     Version.update_all("status = 'open'")
@@ -393,6 +542,11 @@ class ProjectTest < ActiveSupport::TestCase
     end
 
     should "copy issues" do
+      @source_project.issues << Issue.generate!(:status_id => 5,
+                                                :subject => "copy issue status",
+                                                :tracker_id => 1,
+                                                :assigned_to_id => 2,
+                                                :project_id => @source_project.id)
       assert @project.valid?
       assert @project.issues.empty?
       assert @project.copy(@source_project)
@@ -403,16 +557,23 @@ class ProjectTest < ActiveSupport::TestCase
         assert ! issue.assigned_to.blank?
         assert_equal @project, issue.project
       end
+      
+      copied_issue = @project.issues.first(:conditions => {:subject => "copy issue status"})
+      assert copied_issue
+      assert copied_issue.status
+      assert_equal "Closed", copied_issue.status.name
     end
 
     should "change the new issues to use the copied version" do
-      assigned_version = Version.generate!(:name => "Assigned Issues")
+      User.current = User.find(1)
+      assigned_version = Version.generate!(:name => "Assigned Issues", :status => 'open')
       @source_project.versions << assigned_version
-      assert_equal 1, @source_project.versions.size
-      @source_project.issues << Issue.generate!(:fixed_version_id => assigned_version.id,
-                                                :subject => "change the new issues to use the copied version",
-                                                :tracker_id => 1,
-                                                :project_id => @source_project.id)
+      assert_equal 3, @source_project.versions.size
+      Issue.generate_for_project!(@source_project,
+                                  :fixed_version_id => assigned_version.id,
+                                  :subject => "change the new issues to use the copied version",
+                                  :tracker_id => 1,
+                                  :project_id => @source_project.id)
       
       assert @project.copy(@source_project)
       @project.reload
@@ -422,6 +583,41 @@ class ProjectTest < ActiveSupport::TestCase
       assert copied_issue.fixed_version
       assert_equal "Assigned Issues", copied_issue.fixed_version.name # Same name
       assert_not_equal assigned_version.id, copied_issue.fixed_version.id # Different record
+    end
+
+    should "copy issue relations" do
+      Setting.cross_project_issue_relations = '1'
+
+      second_issue = Issue.generate!(:status_id => 5,
+                                     :subject => "copy issue relation",
+                                     :tracker_id => 1,
+                                     :assigned_to_id => 2,
+                                     :project_id => @source_project.id)
+      source_relation = IssueRelation.generate!(:issue_from => Issue.find(4),
+                                                :issue_to => second_issue,
+                                                :relation_type => "relates")
+      source_relation_cross_project = IssueRelation.generate!(:issue_from => Issue.find(1),
+                                                              :issue_to => second_issue,
+                                                              :relation_type => "duplicates")
+
+      assert @project.copy(@source_project)
+      assert_equal @source_project.issues.count, @project.issues.count
+      copied_issue = @project.issues.find_by_subject("Issue on project 2") # Was #4
+      copied_second_issue = @project.issues.find_by_subject("copy issue relation")
+
+      # First issue with a relation on project
+      assert_equal 1, copied_issue.relations.size, "Relation not copied"
+      copied_relation = copied_issue.relations.first
+      assert_equal "relates", copied_relation.relation_type
+      assert_equal copied_second_issue.id, copied_relation.issue_to_id
+      assert_not_equal source_relation.id, copied_relation.id
+
+      # Second issue with a cross project relation
+      assert_equal 2, copied_second_issue.relations.size, "Relation not copied"
+      copied_relation = copied_second_issue.relations.select {|r| r.relation_type == 'duplicates'}.first
+      assert_equal "duplicates", copied_relation.relation_type
+      assert_equal 1, copied_relation.issue_from_id, "Cross project relation not kept"
+      assert_not_equal source_relation_cross_project.id, copied_relation.id
     end
 
     should "copy members" do
@@ -484,8 +680,6 @@ class ProjectTest < ActiveSupport::TestCase
       end
     end
 
-    should "copy custom fields"
-
     should "copy issue categories" do
       assert @project.copy(@source_project)
 
@@ -529,9 +723,6 @@ class ProjectTest < ActiveSupport::TestCase
       assert @project.issues.empty?
     end
     
-    should "copy issue relations"
-    should "link issue relations if cross project issue relations are valid"
-
   end
 
 end
