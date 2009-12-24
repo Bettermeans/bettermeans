@@ -11,6 +11,7 @@ class IssueStatus < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
+  validates_inclusion_of :default_done_ratio, :in => 0..100, :allow_nil => true
 
   def after_save
     IssueStatus.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id]) if self.is_default?
@@ -23,6 +24,18 @@ class IssueStatus < ActiveRecord::Base
   
   def self.assigned
     find(:first, :conditions =>["name=?", l(:default_issue_status_assigned)])
+  end
+
+  # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
+  def self.update_issue_done_ratios
+    if Issue.use_status_for_done_ratio?
+      IssueStatus.find(:all, :conditions => ["default_done_ratio >= 0"]).each do |status|
+        Issue.update_all(["done_ratio = ?", status.default_done_ratio],
+                         ["status_id = ?", status.id])
+      end
+    end
+
+    return Issue.use_status_for_done_ratio?
   end
 
   # Returns an array of all statuses the given role can switch to

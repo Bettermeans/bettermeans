@@ -147,6 +147,7 @@ en:
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_default_data_loaded: Default configuration successfully loaded.
   notice_unable_delete_version: Unable to delete deliverable.
+  notice_issue_done_ratios_updated: Issue done ratios updated.
   
   error_can_t_load_default_data: "Default configuration could not be loaded: {{value}}"
   error_scm_not_found: "The entry or revision was not found in the repository."
@@ -156,6 +157,10 @@ en:
   error_no_tracker_in_project: 'No issue type is associated to this workstream. Please check the Workstream settings.'
   error_no_default_issue_status: 'No default item status is defined. Please check your configuration (Go to "Administration -> Item statuses").'
   error_can_not_reopen_issue_on_closed_version: 'An item assigned to a closed deliverable can not be reopened'
+  error_can_not_archive_project: This project can not be archived
+  error_issue_done_ratios_not_updated: "Issue done ratios not updated."
+  error_workflow_copy_source: 'Please select a source tracker or role'
+  error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
   
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
   
@@ -217,7 +222,6 @@ en:
   field_homepage: Homepage
   field_is_public: Public
   field_parent: Sub workstream of
-  field_is_in_chlog: Items displayed in changelog
   field_is_in_roadmap: Items displayed in roadmap
   field_login: Login
   field_mail_notification: Email notifications
@@ -269,6 +273,7 @@ en:
   field_identity_url: OpenID URL
   field_content: Content
   field_group_by: Group results by
+  field_sharing: Sharing
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -304,10 +309,12 @@ en:
   setting_activity_days_default: Days displayed on workstream activity
   setting_display_subprojects_issues: Display sub workstreams items on main workstreams by default
   setting_enabled_scm: Enabled SCM
+  setting_mail_handler_body_delimiters: "Truncate emails after one of these lines"
   setting_mail_handler_api_enabled: Enable WS for incoming emails
   setting_mail_handler_api_key: API key
   setting_sequential_project_identifiers: Generate sequential workstream identifiers
   setting_gravatar_enabled: Use Gravatar user icons
+  setting_gravatar_default: Default Gravatar image
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_file_max_size_displayed: Max size of text files displayed inline
   setting_repository_log_display_limit: Maximum number of revisions displayed on file log
@@ -315,9 +322,15 @@ en:
   setting_password_min_length: Minimum password length
   setting_new_project_user_role_id: Role given to a non-admin user who creates a workstream
   setting_default_projects_modules: Default enabled modules for new workstreams
+  setting_issue_done_ratio: Calculate the item done ratio with
+  setting_issue_done_ratio_issue_field: Use the item field
+  setting_issue_done_ratio_issue_status: Use the item status
+  setting_start_of_week: Start calendars on
+  setting_rest_api_enabled: Enable REST web service
   
   permission_view_project : View workstream
   permission_add_project: Create workstream
+  permission_add_subprojects: Create subworkstreams
   permission_edit_project: Edit workstream
   permission_select_project_modules: Select workstream modules
   permission_manage_members: Manage members
@@ -455,6 +468,7 @@ en:
   label_auth_source_new: New authentication mode
   label_auth_source_plural: Authentication modes
   label_subproject_plural: Sub workstreams
+  label_subproject_new: New subworkstream
   label_and_its_subprojects: "{{value}} and its sub workstreams"
   label_min_max_length: Min - Max length
   label_list: List
@@ -484,7 +498,6 @@ en:
   label_news_latest: Latest news
   label_news_view_all: View all news
   label_news_added: News added
-  label_change_log: Change log
   label_settings: Settings
   label_overview: Overview
   label_version: Deliverable
@@ -580,6 +593,7 @@ en:
   label_tag: Tag 
   label_revision: Revision
   label_revision_plural: Revisions
+  label_revision_id: "Revision {{value}}"
   label_associated_revisions: Associated revisions
   label_added: added
   label_modified: modified
@@ -667,6 +681,8 @@ en:
   label_language_based: Based on user's language
   label_sort_by: "Sort by {{value}}"
   label_send_test_email: Send a test email
+  label_feeds_access_key: RSS access key
+  label_missing_feeds_access_key: Missing a RSS access key
   label_feeds_access_key_created_on: "RSS access key created {{value}} ago"
   label_module_plural: Modules
   label_added_time_by: "Added by {{author}} {{age}} ago"
@@ -795,6 +811,19 @@ en:
   label_credit_plural : "Credits"
   label_credit : "Credit"
   
+  label_version_sharing_none: Not shared
+  label_version_sharing_descendants: With subworkstreams
+  label_version_sharing_hierarchy: With workstream hierarchy
+  label_version_sharing_tree: With workstream tree
+  label_version_sharing_system: With all workstreams
+  label_update_issue_done_ratios: Update item done ratios
+  label_copy_source: Source
+  label_copy_target: Target
+  label_copy_same_as_target: Same as target
+  label_display_used_statuses_only: Only display statuses that are used by this tracker
+  label_api_access_key: API access key
+  label_missing_api_access_key: Missing an API access key
+  label_api_access_key_created_on: "API access key created {{value}} ago"
   
   button_login: Login
   button_submit: Submit
@@ -833,6 +862,7 @@ en:
   button_rename: Rename
   button_change_password: Change password
   button_copy: Copy
+  button_copy_and_follow: Copy and follow
   button_annotate: Annotate
   button_update: Update
   button_configure: Configure
@@ -859,6 +889,8 @@ en:
   
   button_ignore: Ignore
   button_mark_as_read: Mark as read
+  button_duplicate: Duplicate
+  button_show: Show
   
   status_active: active
   status_registered: registered
@@ -894,6 +926,7 @@ en:
   text_issues_ref_in_commit_messages: Referencing and fixing items in commit messages
   text_issue_added: "Item {{id}} has been reported by {{author}}."
   text_issue_updated: "Item {{id}} has been updated by {{author}}."
+  text_line_separated: Multiple values allowed (one line for each value).
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all its content ?
   text_issue_category_destroy_question: "Some items ({{count}}) are assigned to this category. What do you want to do ?"
   text_issue_category_destroy_assignments: Remove category assignments

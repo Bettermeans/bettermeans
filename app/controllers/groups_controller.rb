@@ -3,7 +3,8 @@
 #
 
 class GroupsController < ApplicationController
-  layout 'base'
+  layout 'admin'
+  
   before_filter :require_admin
   
   helper :custom_fields

@@ -9,10 +9,12 @@ class IssuesController < ApplicationController
   before_filter :find_issue, :only => [:show, :edit, :reply]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
-  before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :update_form, :context_menu]
+  before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
   before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
   accept_key_auth :index, :show, :changes
 
+  rescue_from Query::StatementInvalid, :with => :query_statement_invalid
+  
   helper :journals
   helper :projects
   include ProjectsHelper   
@@ -48,26 +50,17 @@ class IssuesController < ApplicationController
         format.csv  { limit = Setting.issues_export_limit.to_i }
         format.pdf  { limit = Setting.issues_export_limit.to_i }
       end
-      @issue_count = Issue.count(:include => [:status, :project], :conditions => @query.statement)
+      
+      @issue_count = @query.issue_count
       @issue_pages = Paginator.new self, @issue_count, limit, params['page']
-      @issues = Issue.find :all, :order => [@query.group_by_sort_order, sort_clause].compact.join(','),
-                           :include => ([:status, :project, :priority] + @query.include_options),
-                           :conditions => @query.statement,
-                           :limit  =>  limit,
-                           :offset =>  @issue_pages.current.offset
+      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
+                              :order => sort_clause, 
+                              :offset => @issue_pages.current.offset, 
+                              :limit => limit)
+      @issue_count_by_group = @query.issue_count_by_group
+      
       respond_to do |format|
-        format.html { 
-          if @query.grouped?
-            # Retrieve the issue count by group
-            @issue_count_by_group = begin
-              Issue.count(:group => @query.group_by_statement, :include => [:status, :project], :conditions => @query.statement)
-            # Rails will raise an (unexpected) error if there's only a nil group value
-            rescue ActiveRecord::RecordNotFound
-              {nil => @issue_count}
-            end
-          end
-          render :template => 'issues/index.rhtml', :layout => !request.xhr?
-        }
+        format.html { render :template => 'issues/index.rhtml', :layout => !request.xhr? }
         format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
@@ -86,10 +79,8 @@ class IssuesController < ApplicationController
     sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
     
     if @query.valid?
-      @journals = Journal.find :all, :include => [ :details, :user, {:issue => [:project, :author, :tracker, :status]} ],
-                                     :conditions => @query.statement,
-                                     :limit => 25,
-                                     :order => "#{Journal.table_name}.created_on DESC"
+      @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC", 
+                                  :limit => 25)
     end
     @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
     render :layout => false, :content_type => 'application/atom+xml'
@@ -236,16 +227,18 @@ class IssuesController < ApplicationController
   # Bulk edit a set of issues
   def bulk_edit
     if request.post?
+      tracker = params[:tracker_id].blank? ? nil : @project.trackers.find_by_id(params[:tracker_id])
       status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
       priority = params[:priority_id].blank? ? nil : IssuePriority.find_by_id(params[:priority_id])
       assigned_to = (params[:assigned_to_id].blank? || params[:assigned_to_id] == 'none') ? nil : User.find_by_id(params[:assigned_to_id])
       # category = (params[:category_id].blank? || params[:category_id] == 'none') ? nil : @project.issue_categories.find_by_id(params[:category_id])
-      fixed_version = (params[:fixed_version_id].blank? || params[:fixed_version_id] == 'none') ? nil : @project.versions.find_by_id(params[:fixed_version_id])
+      fixed_version = (params[:fixed_version_id].blank? || params[:fixed_version_id] == 'none') ? nil : @project.shared_versions.find_by_id(params[:fixed_version_id])
       custom_field_values = params[:custom_field_values] ? params[:custom_field_values].reject {|k,v| v.blank?} : nil
       
       unsaved_issue_ids = []      
       @issues.each do |issue|
         journal = issue.init_journal(User.current, params[:notes])
+        issue.tracker = tracker if tracker
         issue.priority = priority if priority
         issue.assigned_to = assigned_to if assigned_to || params[:assigned_to_id] == 'none'
         # issue.category = category if category || params[:category_id] == 'none'
@@ -271,13 +264,12 @@ class IssuesController < ApplicationController
       redirect_to(params[:back_to] || {:controller => 'issues', :action => 'index', :project_id => @project})
       return
     end
-    # Find potential statuses the user could be allowed to switch issues to
-    @available_statuses = Workflow.find(:all, :include => :new_status,
-                                              :conditions => {:role_id => User.current.roles_for_project(@project).collect(&:id)}).collect(&:new_status).compact.uniq.sort
+    @available_statuses = Workflow.available_statuses(@project)
     @custom_fields = @project.issue_custom_fields.select {|f| f.field_format == 'list'}
   end
 
   def move
+    @copy = params[:copy_options] && params[:copy_options][:copy]
     @allowed_projects = []
     # find projects to which the user is allowed to move the issue
     if User.current.admin?
@@ -289,13 +281,20 @@ class IssuesController < ApplicationController
     @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
     @target_project ||= @project    
     @trackers = @target_project.trackers
+    @available_statuses = Workflow.available_statuses(@project)
     if request.post?
       new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
       unsaved_issue_ids = []
       moved_issues = []
       @issues.each do |issue|
+        changed_attributes = {}
+        [:assigned_to_id, :status_id, :start_date, :due_date].each do |valid_attribute|
+          unless params[valid_attribute].blank?
+            changed_attributes[valid_attribute] = (params[valid_attribute] == 'none' ? nil : params[valid_attribute])
+          end 
+        end
         issue.init_journal(User.current)
-        if r = issue.move_to(@target_project, new_tracker, params[:copy_options])
+        if r = issue.move_to(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
           moved_issues << r
         else
           unsaved_issue_ids << issue.id
@@ -353,20 +352,17 @@ class IssuesController < ApplicationController
     if @query.valid?
       events = []
       # Issues that have start and due dates
-      events += Issue.find(:all, 
-                           :order => "start_date, due_date",
-                           :include => [:tracker, :status, :assigned_to, :priority, :project], 
-                           :conditions => ["(#{@query.statement}) AND (((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
-                           )
+      events += @query.issues(:include => [:tracker, :assigned_to, :priority],
+                              :order => "start_date, due_date",
+                              :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
+                              )
       # Issues that don't have a due date but that are assigned to a version with a date
-      events += Issue.find(:all, 
-                           :order => "start_date, effective_date",
-                           :include => [:tracker, :status, :assigned_to, :priority, :project, :fixed_version], 
-                           :conditions => ["(#{@query.statement}) AND (((start_date>=? and start_date<=?) or (effective_date>=? and effective_date<=?) or (start_date<? and effective_date>?)) and start_date is not null and due_date is null and effective_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
-                           )
+      events += @query.issues(:include => [:tracker, :assigned_to, :priority, :fixed_version],
+                              :order => "start_date, effective_date",
+                              :conditions => ["(((start_date>=? and start_date<=?) or (effective_date>=? and effective_date<=?) or (start_date<? and effective_date>?)) and start_date is not null and due_date is null and effective_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
+                              )
       # Versions
-      events += Version.find(:all, :include => :project,
-                                   :conditions => ["(#{@query.project_statement}) AND effective_date BETWEEN ? AND ?", @gantt.date_from, @gantt.date_to])
+      events += @query.versions(:conditions => ["effective_date BETWEEN ? AND ?", @gantt.date_from, @gantt.date_to])
                                    
       @gantt.events = events
     end
@@ -394,12 +390,10 @@ class IssuesController < ApplicationController
     retrieve_query
     if @query.valid?
       events = []
-      events += Issue.find(:all, 
-                           :include => [:tracker, :status, :assigned_to, :priority, :project], 
-                           :conditions => ["(#{@query.statement}) AND ((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
-                           )
-      events += Version.find(:all, :include => :project,
-                                   :conditions => ["(#{@query.project_statement}) AND effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
+      events += @query.issues(:include => [:tracker, :assigned_to, :priority],
+                              :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
+                              )
+      events += @query.versions(:conditions => ["effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
                                      
       @calendar.events = events
     end
@@ -426,6 +420,7 @@ class IssuesController < ApplicationController
     if @project
       @assignables = @project.assignable_users
       @assignables << @issue.assigned_to if @issue && @issue.assigned_to && !@assignables.include?(@issue.assigned_to)
+      @trackers = @project.trackers
     end
     
     @priorities = IssuePriority.all.reverse
@@ -436,8 +431,17 @@ class IssuesController < ApplicationController
   end
 
   def update_form
-    @issue = Issue.new(params[:issue])
-    render :action => :new, :layout => false
+    if params[:id].blank?
+      @issue = Issue.new
+      @issue.project = @project
+    else
+      @issue = @project.issues.visible.find(params[:id])
+    end
+    @issue.attributes = params[:issue]
+    @allowed_statuses = ([@issue.status] + @issue.status.find_new_statuses_allowed_to(User.current.roles_for_project(@project), @issue.tracker)).uniq
+    @priorities = IssuePriority.all
+    
+    render :partial => 'attributes'
   end
   
   def preview
@@ -464,7 +468,8 @@ private
       @project = projects.first
     else
       # TODO: let users bulk edit/move/destroy issues from different projects
-      render_error 'Can not bulk edit/move/destroy issues from different projects' and return false
+      render_error 'Can not bulk edit/move/destroy issues from different projects'
+      return false
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -508,12 +513,21 @@ private
           end
         end
         @query.group_by = params[:group_by]
-        session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by}
+        @query.column_names = params[:query] && params[:query][:column_names]
+        session[:query] = {:project_id => @query.project_id, :filters => @query.filters, :group_by => @query.group_by, :column_names => @query.column_names}
       else
         @query = Query.find_by_id(session[:query][:id]) if session[:query][:id]
-        @query ||= Query.new(:name => "_", :project => @project, :filters => session[:query][:filters], :group_by => session[:query][:group_by])
+        @query ||= Query.new(:name => "_", :project => @project, :filters => session[:query][:filters], :group_by => session[:query][:group_by], :column_names => session[:query][:column_names])
         @query.project = @project
       end
     end
+  end
+  
+  # Rescues an invalid query statement. Just in case...
+  def query_statement_invalid(exception)
+    logger.error "Query::StatementInvalid: #{exception.message}" if logger
+    session.delete(:query)
+    sort_clear
+    render_error "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
   end
 end

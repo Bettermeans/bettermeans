@@ -12,7 +12,7 @@ attachments_001:
   filename: error281.txt
   author_id: 2
 attachments_002: 
-  created_on: 2006-07-19 21:07:27 +02:00
+  created_on: 2007-01-27 15:08:27 +01:00
   downloads: 0
   content_type: text/plain
   disk_filename: 060719210727_document.txt
@@ -121,24 +121,27 @@ attachments_010:
   filename: picture.jpg
   author_id: 2
   content_type: image/jpeg
-  
-
-
-# == Schema Information
-#
-# Table name: attachments
-#
-#  id             :integer         not null, primary key
-#  container_id   :integer         default(0), not null
-#  container_type :string(30)      default(""), not null
-#  filename       :string(255)     default(""), not null
-#  disk_filename  :string(255)     default(""), not null
-#  filesize       :integer         default(0), not null
-#  content_type   :string(255)     default("")
-#  digest         :string(40)      default(""), not null
-#  downloads      :integer         default(0), not null
-#  author_id      :integer         default(0), not null
-#  created_on     :datetime
-#  description    :string(255)
-#
-
+attachments_011: 
+  created_on: 2007-02-12 15:08:27 +01:00
+  container_type: Document
+  container_id: 1
+  downloads: 0
+  disk_filename: 060719210727_picture.jpg
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 11
+  filesize: 452
+  filename: picture.jpg
+  author_id: 2
+  content_type: image/jpeg
+attachments_012:
+  created_on: 2006-07-19 21:07:27 +02:00
+  container_type: Version
+  container_id: 1
+  downloads: 0
+  disk_filename: 060719210727_version_file.zip
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 12
+  filesize: 452
+  filename: version_file.zip
+  author_id: 2
+  content_type: application/octet-stream

@@ -3,6 +3,8 @@
 #
 
 class CustomFieldsController < ApplicationController
+  layout 'admin'
+  
   before_filter :require_admin
 
   def index
@@ -17,7 +19,7 @@ class CustomFieldsController < ApplicationController
       end
     rescue
     end
-    redirect_to(:action => 'index') and return unless @custom_field.is_a?(CustomField)
+    (redirect_to(:action => 'index'); return) unless @custom_field.is_a?(CustomField)
     
     if request.post? and @custom_field.save
       flash[:notice] = l(:notice_successful_create)
