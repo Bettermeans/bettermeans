@@ -6,6 +6,7 @@
 <%= link_to_if_authorized l(:button_move), {:controller => 'issues', :action => 'move', :id => @issue }, :class => 'icon icon-move' %>
 <%#= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 </div>
+<%= render :partial => 'action_menu' %>
 
 
 
@@ -119,6 +120,9 @@
 <%= render :partial => 'history', :locals => { :journals => @journals } %>
 </div>
 <% end %>
+
+<%= render :partial => 'action_menu', :locals => {:replace_watcher => 'watcher2' } %>
+
 <div style="clear: both;"></div>
 
 <% if authorize_for('issues', 'edit') %>

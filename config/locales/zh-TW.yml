@@ -232,13 +232,15 @@
   notice_not_authorized: 你未被授權存取此頁面。
   notice_email_sent: "郵件已經成功寄送至以下收件者： {{value}}"
   notice_email_error: "寄送郵件的過程中發生錯誤 ({{value}})"
-  notice_feeds_access_key_reseted: 您的 RSS 存取鍵已被重新設定。
-  notice_failed_to_save_issues: " {{count}} 個項目儲存失敗 (總共選取 {{total}} 個項目): {{ids}}."
+  notice_feeds_access_key_reseted: 您的 RSS 存取金鑰已被重新設定。
+  notice_api_access_key_reseted: 您的 API 存取金鑰已被重新設定。
+  notice_failed_to_save_issues: " {{count}} 個項目儲存失敗（總共選取 {{total}} 個項目）： {{ids}} 。"
   notice_no_issue_selected: "未選擇任何項目！請勾選您想要編輯的項目。"
   notice_account_pending: "您的帳號已經建立，正在等待管理員的審核。"
   notice_default_data_loaded: 預設組態已載入成功。
   notice_unable_delete_version: 無法刪除版本。
-  
+  notice_issue_done_ratios_updated: 項目完成百分比已更新。
+
   error_can_t_load_default_data: "無法載入預設組態： {{value}}"
   error_scm_not_found: SCM 儲存庫中找不到這個專案或版本。
   error_scm_command_failed: "嘗試存取儲存庫時發生錯誤： {{value}}"
@@ -247,7 +249,11 @@
   error_no_tracker_in_project: '此專案尚未指定追蹤標籤。請檢查專案的設定資訊。'
   error_no_default_issue_status: '尚未定義項目狀態的預設值。請您前往「網站管理」->「項目狀態清單」頁面，檢查相關組態設定。'
   error_can_not_reopen_issue_on_closed_version: '指派給「已結束」版本的項目，無法再將其狀態變更為「進行中」'
-  
+  error_can_not_archive_project: 此專案無法被歸檔
+  error_issue_done_ratios_not_updated: "項目完成百分比未更新。"
+  error_workflow_copy_source: '請選擇一個項目追蹤器或角色'
+  error_workflow_copy_target: '請選擇項目追蹤器或角色'
+
   warning_attachments_not_saved: "{{count}} 個附加檔案無法儲存。"
   
   mail_subject_lost_password: 您的 Redmine 網站密碼
@@ -358,6 +364,7 @@
   field_identity_url: OpenID 網址
   field_content: 內容
   field_group_by: 結果分組方式
+  field_sharing: 共用
   
   setting_app_title: 標題
   setting_app_subtitle: 副標題
@@ -393,23 +400,32 @@
   setting_activity_days_default: 專案活動顯示天數
   setting_display_subprojects_issues: 預設於父專案中顯示子專案的項目
   setting_enabled_scm: 啟用的 SCM
+  setting_mail_handler_body_delimiters: "截去郵件中包含下列值之後的內容"
   setting_mail_handler_api_enabled: 啟用處理傳入電子郵件的服務
   setting_mail_handler_api_key: API 金鑰
   setting_sequential_project_identifiers: 循序產生專案識別碼
   setting_gravatar_enabled: 啟用 Gravatar 全球認證大頭像
+  setting_gravatar_default: 預設全球認證大頭像圖片
   setting_diff_max_lines_displayed: 差異顯示行數之最大值
   setting_file_max_size_displayed: 檔案內容顯示大小之最大值
   setting_repository_log_display_limit: 版次顯示數目之最大值
   setting_openid: 允許使用 OpenID 登入與註冊
   setting_password_min_length: 密碼最小長度
   setting_new_project_user_role_id: 管理者以外之用戶建立新專案時，將被指派的角色
-  
+  setting_default_projects_modules: 新專案預設啟用的模組
+  setting_issue_done_ratio: 計算項目完成百分比之方式
+  setting_issue_done_ratio_issue_field: 依據項目完成百分比欄位
+  setting_issue_done_ratio_issue_status: 依據項目狀態
+  setting_start_of_week: 週的第一天
+  setting_rest_api_enabled: 啟用 REST 網路服務技術（Web Service）
+
   permission_add_project: 建立專案
   permission_edit_project: 編輯專案
   permission_select_project_modules: 選擇專案模組
   permission_manage_members: 管理成員
   permission_manage_versions: 管理版本
   permission_manage_categories: 管理項目分類
+  permission_view_issues: 檢視項目
   permission_add_issues: 新增項目
   permission_edit_issues: 編輯項目
   permission_manage_issue_relations: 管理項目關聯
@@ -660,6 +676,7 @@
   label_tag: 標籤 
   label_revision: 版次
   label_revision_plural: 版次清單
+  label_revision_id: "版次 {{value}}"
   label_associated_revisions: 相關版次
   label_added: 已新增
   label_modified: 已修改
@@ -747,6 +764,8 @@
   label_language_based: 依用戶之語系決定
   label_sort_by: "按 {{value}} 排序"
   label_send_test_email: 寄送測試郵件
+  label_feeds_access_key: RSS 存取金鑰
+  label_missing_feeds_access_key: 找不到 RSS 存取金鑰
   label_feeds_access_key_created_on: "RSS 存取鍵建立於 {{value}} 之前"
   label_module_plural: 模組
   label_added_time_by: "是由 {{author}} 於 {{age}} 前加入"
@@ -798,7 +817,20 @@
   label_group_plural: 群組清單
   label_group_new: 建立新群組
   label_time_entry_plural: 耗用工時
-
+  label_version_sharing_none: 不共用
+  label_version_sharing_descendants: 與子專案共用
+  label_version_sharing_hierarchy: 與專案階層架構共用
+  label_version_sharing_tree: 與專案樹共用
+  label_version_sharing_system: 與全部的專案共用
+  label_update_issue_done_ratios: 更新項目完成百分比
+  label_copy_source: 來源
+  label_copy_target: 目的地
+  label_copy_same_as_target: 與目的地相同
+  label_display_used_statuses_only: 僅顯示此追蹤器所使用之狀態
+  label_api_access_key: API 存取金鑰
+  label_missing_api_access_key: 找不到 API 存取金鑰
+  label_api_access_key_created_on: "API 存取金鑰建立於 {{value}} 之前"
+  
   button_login: 登入
   button_submit: 送出
   button_save: 儲存
@@ -819,6 +851,7 @@
   button_list: 清單
   button_view: 檢視
   button_move: 移動
+  button_move_and_follow: 移動後跟隨
   button_back: 返回
   button_cancel: 取消
   button_activate: 啟用
@@ -834,10 +867,13 @@
   button_rename: 重新命名
   button_change_password: 變更密碼
   button_copy: 複製
+  button_copy_and_follow: 複製後跟隨
   button_annotate: 註解
   button_update: 更新
   button_configure: 設定
   button_quote: 引用
+  button_duplicate: 重製
+  button_show: 顯示
   
   status_active: 活動中
   status_registered: 註冊完成
@@ -869,7 +905,8 @@
   text_length_between: "長度必須介於 {{min}} 至 {{max}} 個字元之間."
   text_tracker_no_workflow: 此追蹤標籤尚未定義工作流程
   text_unallowed_characters: 不允許的字元
-  text_comma_separated: 可輸入多個值 (以逗號分隔).
+  text_comma_separated: 可輸入多個值（須以逗號分隔）。
+  text_line_separated: 可輸入多個值（須以換行符號分隔，即每列只能輸入一個值）。
   text_issues_ref_in_commit_messages: 送交訊息中參照(或修正)項目之關鍵字
   text_issue_added: "項目 {{id}} 已被 {{author}} 通報。"
   text_issue_updated: "項目 {{id}} 已被 {{author}} 更新。"
@@ -929,5 +966,5 @@
   enumeration_doc_categories: 文件分類
   enumeration_activities: 活動 (時間追蹤)
   enumeration_system_activity: 系統活動
-  button_move_and_follow: Move and follow
-  setting_default_projects_modules: Default enabled modules for new projects
+  permission_add_subprojects: Create subprojects
+  label_subproject_new: New subproject

@@ -3,6 +3,7 @@
 #
 
 class UsersController < ApplicationController
+  layout 'admin'
   
   before_filter :require_admin, :except => :show
 
@@ -48,9 +49,11 @@ class UsersController < ApplicationController
     @events_by_day = events.group_by(&:event_date)
     
     if @user != User.current && !User.current.admin? && @memberships.empty? && events.empty?
-      render_404 and return
+      render_404
+      return
     end
-    
+    render :layout => 'base'
+
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -66,7 +69,9 @@ class UsersController < ApplicationController
       if @user.save
         Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
         flash[:notice] = l(:notice_successful_create)
-        redirect_to :controller => 'users', :action => 'edit', :id => @user
+        redirect_to(params[:continue] ? {:controller => 'users', :action => 'add'} : 
+                                        {:controller => 'users', :action => 'edit', :id => @user})
+        return
       end
     end
     @auth_sources = AuthSource.find(:all)

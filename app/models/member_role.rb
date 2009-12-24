@@ -72,7 +72,12 @@ class MemberRole < ActiveRecord::Base
   end
   
   def remove_role_from_group_users
-    MemberRole.find(:all, :conditions => { :inherited_from => id }).each(&:destroy)
+    MemberRole.find(:all, :conditions => { :inherited_from => id }).group_by(&:member).each do |member, member_roles|
+      member_roles.each(&:destroy)
+      if member && member.user
+        Watcher.prune(:user => member.user, :project => member.project)
+      end
+    end
   end
   
   #Removes all contributor roles for this member if the current role being added is core

@@ -3,6 +3,8 @@
 #
 
 class RolesController < ApplicationController
+  layout 'admin'
+  
   before_filter :require_admin
 
   verify :method => :post, :only => [ :destroy, :move ],

@@ -1,5 +1,6 @@
 <div class="contextual">
 <%= link_to(l(:button_change_password), :action => 'password') unless @user.auth_source_id %>
+<%= call_hook(:view_my_account_contextual, :user => @user)%>
 </div>
 <h2><%=l(:label_my_account)%></h2>
 <%= error_messages_for 'user' %>
@@ -50,6 +51,7 @@
 <p><%= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']] %></p>
 <% end %>
 </div>
+
 </div>
 <% end %>
 

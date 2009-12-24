@@ -10,9 +10,23 @@ class ApplicationController < ActionController::Base
 
   layout 'base'
   
+  # Remove broken cookie after upgrade from 0.8.x (#4292)
+  # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
+  # TODO: remove it when Rails is fixed
+  before_filter :delete_broken_cookies
+  def delete_broken_cookies
+    if cookies['_redmine_session'] && cookies['_redmine_session'] !~ /--/
+      cookies.delete '_redmine_session'    
+      redirect_to home_path
+      return false
+    end
+  end
+  
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
   protect_from_forgery
+  
+  rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
   
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
@@ -21,7 +35,7 @@ class ApplicationController < ActionController::Base
   REDMINE_SUPPORTED_SCM.each do |scm|
     require_dependency "repository/#{scm.underscore}"
   end
-  
+
   def user_setup
     # Check the settings cache for each request
     Setting.check_cache
@@ -43,17 +57,27 @@ class ApplicationController < ActionController::Base
     elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
       # RSS key authentication does not start a session
       User.find_by_rss_key(params[:key])
+    elsif Setting.rest_api_enabled? && ['xml', 'json'].include?(params[:format]) && accept_key_auth_actions.include?(params[:action])
+      if params[:key].present?
+        # Use API key
+        User.find_by_api_key(params[:key])
+      else
+        # HTTP Basic, either username/password or API key/random
+        authenticate_with_http_basic do |username, password|
+          User.try_to_login(username, password) || User.find_by_api_key(username)
+        end
+      end
     end
   end
-  
+
   # Sets the logged in user
   def logged_user=(user)
+    reset_session
     if user && user.is_a?(User)
       User.current = user
       session[:user_id] = user.id
     else
       User.current = User.anonymous
-      session[:user_id] = nil
     end
   end
   
@@ -87,7 +111,12 @@ class ApplicationController < ActionController::Base
       else
         url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
       end
-      redirect_to :controller => "account", :action => "login", :back_url => url
+      respond_to do |format|
+        format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
+        format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
+        format.xml { head :unauthorized }
+        format.json { head :unauthorized }
+      end
       return false
     end
     true
@@ -140,7 +169,8 @@ class ApplicationController < ActionController::Base
         uri = URI.parse(back_url)
         # do not redirect user to another host or to the login or register page
         if (uri.relative? || (uri.host == request.host)) && !uri.path.match(%r{/(login|account/register)})
-          redirect_to(back_url) and return
+          redirect_to(back_url)
+          return
         end
       rescue URI::InvalidURIError
         # redirect to default
@@ -151,7 +181,7 @@ class ApplicationController < ActionController::Base
   
   def render_403
     @project = nil
-    render :template => "common/403", :layout => !request.xhr?, :status => 403
+    render :template => "common/403", :layout => (request.xhr? ? false : 'base'), :status => 403
     return false
   end
     
@@ -163,6 +193,10 @@ class ApplicationController < ActionController::Base
   def render_error(msg)
     flash.now[:error] = msg
     render :text => '', :layout => !request.xhr?, :status => 500
+  end
+  
+  def invalid_authenticity_token
+    render_error "Invalid form authenticity token."
   end
   
   def render_feed(items, options={})    

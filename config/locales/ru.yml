@@ -319,7 +319,6 @@ ru:
   field_is_default: Значение по умолчанию
   field_is_filter: Используется в качестве фильтра
   field_is_for_all: Для всех проектов
-  field_is_in_chlog: Задачи, отображаемые в журнале изменений
   field_is_in_roadmap: Задачи, отображаемые в оперативном плане
   field_is_public: Общедоступный
   field_is_required: Обязательное
@@ -420,7 +419,6 @@ ru:
   label_calendar: Календарь
   label_calendar_filter: Включая
   label_calendar_no_assigned: не мои
-  label_change_log: Журнал изменений
   label_change_plural: Правки
   label_change_properties: Изменить свойства
   label_change_status: Изменить статус
@@ -948,3 +946,40 @@ ru:
   label_user_anonymous: Аноним
   button_move_and_follow: Переместить и перейти
   setting_default_projects_modules: Включенные по умолчанию модули для новых проектов
+  setting_gravatar_default: Изображение Gravatar по умолчанию
+  field_sharing: Совместное использование
+  label_version_sharing_hierarchy: С иерархией проектов
+  label_version_sharing_system: Со всеми проектами
+  label_version_sharing_descendants: С подпроектами
+  label_version_sharing_tree: С деревом проектов
+  label_version_sharing_none: Без совместного использования
+  error_can_not_archive_project: Этот проект не может быть архивирован
+  button_duplicate: Дублировать
+  button_copy_and_follow: Копировать и продолжить
+  label_copy_source: Источник
+  setting_issue_done_ratio:  Рассчитывать готовность задачи с помощью поля
+  setting_issue_done_ratio_issue_status: Статус задачи
+  error_issue_done_ratios_not_updated: Параметр готовность задач не обновлен
+  error_workflow_copy_target: Выберите целевые трекеры и роли
+  setting_issue_done_ratio_issue_field: Готовность задачи
+  label_copy_same_as_target: То же, что и у цели
+  label_copy_target: Цель
+  notice_issue_done_ratios_updated: Параметр готовность задач обновлен.
+  error_workflow_copy_source: Выберите исходный трекер или роль
+  label_update_issue_done_ratios: Обновить готовность задач
+  setting_start_of_week: День начала недели
+  label_api_access_key: API access key
+  text_line_separated: Multiple values allowed (one line for each value).
+  label_revision_id: Revision {{value}}
+  permission_view_issues: View Issues
+  label_display_used_statuses_only: Only display statuses that are used by this tracker
+  label_api_access_key_created_on: API access key created {{value}} ago
+  label_feeds_access_key: RSS access key
+  notice_api_access_key_reseted: Your API access key was reset.
+  setting_rest_api_enabled: Enable REST web service
+  button_show: Show
+  label_missing_api_access_key: Missing an API access key
+  label_missing_feeds_access_key: Missing a RSS access key
+  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
+  permission_add_subprojects: Create subprojects
+  label_subproject_new: New subproject

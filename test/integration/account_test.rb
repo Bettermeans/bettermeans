@@ -12,7 +12,7 @@ rescue
 end
 
 class AccountTest < ActionController::IntegrationTest
-  fixtures :users
+  fixtures :users, :roles
 
   # Replace this with your real tests.
   def test_login
@@ -168,6 +168,24 @@ class AccountTest < ActionController::IntegrationTest
     assert user.is_a?(User)
     assert_equal 66, user.auth_source_id
     assert user.hashed_password.blank?
+  end
+  
+  def test_login_and_logout_should_clear_session
+    get '/login'
+    sid = session[:session_id]
+    
+    post '/login', :username => 'admin', :password => 'admin'
+    assert_redirected_to 'my/page'
+    assert_not_equal sid, session[:session_id], "login should reset session"
+    assert_equal 1, session[:user_id]
+    sid = session[:session_id]
+    
+    get '/'
+    assert_equal sid, session[:session_id]
+      
+    get '/logout'
+    assert_not_equal sid, session[:session_id], "logout should reset session"
+    assert_nil session[:user_id]
   end
   
   else

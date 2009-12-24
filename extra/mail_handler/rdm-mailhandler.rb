@@ -20,6 +20,8 @@
 #                                  ignore: email is ignored (default)
 #                                  accept: accept as anonymous user
 #                                  create: create a user account
+#       --no-permission-check      disable permission checking when receiving
+#                                  the email
 #   -h, --help                     show this help
 #   -v, --verbose                  show extra information
 #   -V, --version                  show version information and exit
@@ -69,7 +71,7 @@ end
 class RedmineMailHandler
   VERSION = '0.1'
   
-  attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :url, :key
+  attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :no_permission_check, :url, :key
 
   def initialize
     self.issue_attributes = {}
@@ -86,7 +88,8 @@ class RedmineMailHandler
       [ '--category',             GetoptLong::REQUIRED_ARGUMENT],
       [ '--priority',             GetoptLong::REQUIRED_ARGUMENT],
       [ '--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--unknown-user',         GetoptLong::REQUIRED_ARGUMENT]
+      [ '--unknown-user',         GetoptLong::REQUIRED_ARGUMENT],
+      [ '--no-permission-check',  GetoptLong::NO_ARGUMENT]
     )
 
     opts.each do |opt, arg|
@@ -107,6 +110,8 @@ class RedmineMailHandler
         self.allow_override = arg.dup
       when '--unknown-user'
         self.unknown_user = arg.dup
+      when '--no-permission-check'
+        self.no_permission_check = '1'
       end
     end
     
@@ -118,16 +123,35 @@ class RedmineMailHandler
     
     data = { 'key' => key, 'email' => email, 
                            'allow_override' => allow_override,
-                           'unknown_user' => unknown_user }
+                           'unknown_user' => unknown_user,
+                           'no_permission_check' => no_permission_check}
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
              
     debug "Posting to #{uri}..."
     response = Net::HTTPS.post_form(URI.parse(uri), data)
     debug "Response received: #{response.code}"
     
-    puts "Request was denied by your Redmine server. " + 
-         "Please, make sure that 'WS for incoming emails' is enabled in application settings and that you provided the correct API key." if response.code == '403'
-    response.code == '201' ? 0 : 1
+    case response.code.to_i
+      when 403
+        warn "Request was denied by your Redmine server. " + 
+             "Make sure that 'WS for incoming emails' is enabled in application settings and that you provided the correct API key."
+        return 77
+      when 422
+        warn "Request was denied by your Redmine server. " +
+             "Possible reasons: email is sent from an invalid email address or is missing some information."
+        return 77
+      when 400..499
+        warn "Request was denied by your Redmine server (#{response.code})."
+        return 77
+      when 500..599
+        warn "Failed to contact your Redmine server (#{response.code})."
+        return 75
+      when 201
+        debug "Proccessed successfully"
+        return 0
+      else
+        return 1
+    end
   end
   
   private
@@ -138,4 +162,4 @@ class RedmineMailHandler
 end
 
 handler = RedmineMailHandler.new
-handler.submit(STDIN.read)
+exit(handler.submit(STDIN.read))

@@ -26,6 +26,7 @@ class User < Principal
   has_many :changesets, :dependent => :nullify
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
+  has_one :api_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='api'"
   belongs_to :auth_source
   
   has_many :commit_requests, :dependent => :delete_all
@@ -199,6 +200,12 @@ class User < Principal
     token = self.rss_token || Token.create(:user => self, :action => 'feeds')
     token.value
   end
+
+  # Return user's API key (a 40 chars long string), used to access the API
+  def api_key
+    token = self.api_token || Token.create(:user => self, :action => 'api')
+    token.value
+  end
   
   # Return an array of project ids for which the user has explicitly turned mail notifications on
   def notified_projects_ids
@@ -217,14 +224,14 @@ class User < Principal
     token && token.user.active? ? token.user : nil
   end
   
+  def self.find_by_api_key(key)
+    token = Token.find_by_action_and_value('api', key)
+    token && token.user.active? ? token.user : nil
+  end
+  
   # Makes find_by_mail case-insensitive
   def self.find_by_mail(mail)
     find(:first, :conditions => ["LOWER(mail) = ?", mail.to_s.downcase])
-  end
-
-  # Sort users by their display names
-  def <=>(user)
-    self.to_s.downcase <=> user.to_s.downcase
   end
   
   def to_s
