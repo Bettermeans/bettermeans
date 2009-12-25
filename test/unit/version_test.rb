@@ -143,6 +143,7 @@ class VersionTest < ActiveSupport::TestCase
 end
 
 
+
 # == Schema Information
 #
 # Table name: versions
@@ -156,5 +157,6 @@ end
 #  updated_on      :datetime
 #  wiki_page_title :string(255)
 #  status          :string(255)     default("open")
+#  sharing         :string(255)     default("none"), not null
 #
 
