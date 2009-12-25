@@ -5,10 +5,12 @@ production:
   cname_bucket: false
 
 development:
-  access_key_id: AKIAIIWWFZUEBUMUF74Q
-  secret_access_key: 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
-  bucket: bettermeans_development
-  cname_bucket: false
+  <<: *TEST
+    # 
+    # access_key_id: AKIAIIWWFZUEBUMUF74Q
+    # secret_access_key: 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
+    # bucket: bettermeans_development
+    # cname_bucket: false
   
 # test: &TEST
 #   access_key_id: AKIAIIWWFZUEBUMUF74Q

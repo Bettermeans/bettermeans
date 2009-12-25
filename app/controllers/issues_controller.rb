@@ -53,7 +53,7 @@ class IssuesController < ApplicationController
       
       @issue_count = @query.issue_count
       @issue_pages = Paginator.new self, @issue_count, limit, params['page']
-      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :category, :fixed_version],
+      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :fixed_version],
                               :order => sort_clause, 
                               :offset => @issue_pages.current.offset, 
                               :limit => limit)
