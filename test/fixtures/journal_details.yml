@@ -20,3 +20,16 @@ journal_details_003:
   value: "6"
   prop_key: fixed_version_id
   journal_id: 4
+
+# == Schema Information
+#
+# Table name: journal_details
+#
+#  id         :integer         not null, primary key
+#  journal_id :integer         default(0), not null
+#  property   :string(30)      default(""), not null
+#  prop_key   :string(30)      default(""), not null
+#  old_value  :string(255)
+#  value      :string(255)
+#
+

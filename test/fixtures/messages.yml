@@ -77,3 +77,22 @@ messages_007:
   author_id: 1
   parent_id: 
   board_id: 3
+
+# == Schema Information
+#
+# Table name: messages
+#
+#  id            :integer         not null, primary key
+#  board_id      :integer         not null
+#  parent_id     :integer
+#  subject       :string(255)     default(""), not null
+#  content       :text
+#  author_id     :integer
+#  replies_count :integer         default(0), not null
+#  last_reply_id :integer
+#  created_on    :datetime        not null
+#  updated_on    :datetime        not null
+#  locked        :boolean         default(FALSE)
+#  sticky        :integer         default(0)
+#
+
