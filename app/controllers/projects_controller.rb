@@ -13,7 +13,7 @@ class ProjectsController < ApplicationController
   
   before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity ]
   before_filter :find_optional_project, :only => :activity
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote ]
+  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata ]
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
@@ -161,6 +161,13 @@ class ProjectsController < ApplicationController
       format.html { redirect_to :action => 'team', :id => @project }
       format.xml  { head :ok }
     end
+  end
+  
+  def dashboard
+  end
+  
+  def dashdata
+    render :json => Issue.find(:all, :conditions => {:project_id => @project.id}).to_json(:include => [:author])
   end
   
   #Current user voting someone else up or down
