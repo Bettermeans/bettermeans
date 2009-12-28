@@ -1,0 +1,31 @@
+<%= javascript_include_tag  'dashboard' %>
+<%= stylesheet_link_tag 'dashboard' %>
+
+<div id='loading'>
+  <%= l(:text_loading_dashboard) %>
+</div>
+
+<!-- <a href="" onclick="go();">GO</a> -->
+
+<div id='panels' style="display: none;">
+  <table id='main_table' class='dashboard' style='height: 100%;'>
+    <tr id='main_row'>
+      <td id='panel1_panel' class='panel'>
+        <div class="panelHeaderRight"></div>
+        <div class="panelHeaderLeft"></div>
+        <div class='panelHeader'>
+          <a href="javascript:void(0);" class="closePanel panelLink" id="panel1_close" title="Close panel"></a>
+          <span class='panelTitle'>Hello</span>
+        </div>
+        <div id='panel1_list' class='list'>
+          <div id='pane1_items' class='items'>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<script>
+  var projectID = '<%= @project.identifier %>';
+</script>
