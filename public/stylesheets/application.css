@@ -1000,3 +1000,12 @@ line-height:15px;
 margin:0 0 -1px;
 padding:1px 20px 1px 20px;
 }
+
+/*Dashboard*/
+
+#loading {
+	padding-left: 26px;
+	background-position: 0% 40%;
+	background-repeat: no-repeat;
+	background-image: url(../images/loading.gif);
+}

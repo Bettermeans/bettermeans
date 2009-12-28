@@ -1,0 +1,133 @@
+table, tr, td {
+border-collapse:collapse;
+margin:0;
+padding:0;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+margin:0;
+padding:0;
+}
+
+#main {
+	font-size:0.8em;
+	line-height:20px;
+	margin:2px 0px 0px 0px;
+}
+
+.panel {
+	border:medium none;
+	min-width:225px;
+	vertical-align:top;
+}
+
+.panelTitle {
+font-size:1.1em;
+line-height:22px;
+vertical-aling:center;
+}
+
+.list {
+	background-color:#B5BDC1;
+	border-color:-moz-use-text-color #6E6E6E #6E6E6E;
+	border-style:none solid solid;
+	border-width:medium 1px 1px;
+	min-height:225px;
+	height:100%;
+}
+
+.items {
+	height:100%;
+	overflow-x:hidden;
+	overflow-y:auto;
+	position:relative;
+	color:#000000;
+}
+
+.layout {
+border-collapse:separate;
+border-spacing:16px 0;
+}
+
+.panelHeader {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:transparent url(/images/panel_header_bg.png) repeat-x scroll center top;
+	color:#333333;
+	overflow:hidden;
+}
+
+.panelHeaderLeft {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:transparent url(/images/panel_header.png) no-repeat scroll left top;
+	float:left;
+}
+
+.panelHeaderRight {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:transparent url(/images/panel_header.png) no-repeat scroll right top;
+	float:right;
+}
+
+.panelHeaderLeft, .panelHeaderRight {
+	width:6px;
+}
+
+.panelHeader, .panelHeaderLeft, .panelHeaderRight {
+	height:1.85em;
+}
+
+#content a.panelLink {
+	color:#333333;
+	vertical-align:middle;
+}
+
+#content a, #content a:visited, #content a:hover {
+	color:#0957A4;
+	font-weight:normal;
+	text-decoration:none;
+	min-height:300px;
+}
+
+#content {
+	font-family:Arial,Verdana,sans-serif;
+	margin: 0px 0px 0px 0px;
+	padding: 6px 10px 0px 6px;
+	border: none;
+/*	overflow-y: none;*/
+}
+
+html>body #content { min-height: 200px; overflow: auto; height: 600px; } 
+
+#footer {
+	background-color:#FFFFFF;
+	border:0 none;
+	clear:left;
+	color:#666666;
+	font-size:9px;
+	margin:0px 0px 0px 0px;
+	padding-bottom:3px;
+	text-align:center;
+}
+
+.panelLink.closePanel {
+	-moz-background-clip:border;
+	-moz-background-inline-policy:continuous;
+	-moz-background-origin:padding;
+	background:transparent url(/images/close_panel.png) no-repeat scroll 0 0px;
+	height: 20px;
+	margin-right: 0px;
+	width: 14px;
+}
+
+.panelLink {
+	float:right;
+	font-size:0.8em;
+	margin-right:8px;
+	margin-top:2px;
+}
