@@ -14,6 +14,7 @@ class Issue < ActiveRecord::Base
 
 end
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -37,5 +38,6 @@ end
 #  done_ratio       :integer         default(0), not null
 #  estimated_hours  :float
 #  expected_date    :date
+#  points           :integer
 #
 
