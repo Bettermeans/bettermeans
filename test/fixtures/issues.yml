@@ -204,6 +204,7 @@ issues_013:
   author_id: 2
   status_id: 1
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -227,5 +228,6 @@ issues_013:
 #  done_ratio       :integer         default(0), not null
 #  estimated_hours  :float
 #  expected_date    :date
+#  points           :integer
 #
 
