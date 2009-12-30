@@ -10,9 +10,14 @@ padding:0;
 }
 
 #main {
-	font-size:0.8em;
+	font-size:1em;
 	line-height:20px;
 	margin:2px 0px 0px 0px;
+}
+
+#main_table td {
+/*	margin: 10px 10px 10px 10px;*/
+	padding: 6px 7px;
 }
 
 .panel {
@@ -131,3 +136,113 @@ html>body #content { min-height: 200px; overflow: auto; height: 600px; }
 	margin-right:8px;
 	margin-top:2px;
 }
+
+.endOfList {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:#B5BDC1 url(/images/dropzone_repeating_pattern.png) repeat-x scroll center top;
+border-top:1px solid #6E6E6E;
+color:#666666;
+height:17em;
+}
+
+.item {
+	border-top:1px solid #6E6E6E;
+}
+
+.hoverable:hover {
+background-image:url(/images/hover_gradient.gif);
+background-repeat:repeat-y;
+}
+
+.storyPreviewHeader {
+	padding:1px 4px;
+}
+
+.storyPreviewButtons {
+	float:right;
+	padding-bottom:1px;
+	padding-top:2px;
+	text-align:right;
+}
+
+.storyPreviewHeader .icons, .storyPreviewHeader .storyPreviewText {
+	padding-bottom:1px;
+	padding-top:1px;
+}
+
+.storyPreviewText, .storyPreviewInput {
+	padding-left:80px;
+}
+
+.storyPreviewText, .storyLabels {
+	-moz-user-select:none;
+}
+
+
+.underEdit .storyPreviewHeader {
+	background-color:#FFEDA1;
+}
+
+
+.unstarted, .newStory {
+	background-color:white;
+}
+.unestimatedText .storyPreviewHeader {
+	font-style:italic;
+}
+.new {
+	background-color:white;
+}
+
+.deployed .storyPreviewHeader {
+	font-weight:bold;
+}
+
+.committed {
+	background-color:#D8EECE;
+}
+
+.open {
+	background-color:#E7F3FA;
+}
+
+.canceled {
+	background-color:#777777;
+}
+
+.done, .finished, .delivered {
+	background-color:#FFF8DC;
+}
+
+
+.stateChangeButton, .disabledStateChangeButton {
+	margin-left:4px;
+	vertical-align:bottom;
+}
+.disabledStateChangeButton {
+	opacity:0.6;
+}
+.stateChangeButton {
+	cursor:pointer;
+	width:auto;
+}
+
+.toggleExpandedButton {
+	cursor:pointer;
+	float:left;
+	margin-right:4px;
+	padding-top:2px;
+	vertical-align:middle;
+}
+
+.storyTypeIcon, .flyoverIcon, .storyPoints {
+	vertical-align:middle;
+	padding: 0px 0px 0px 2px;
+}
+
+.left {
+	float:left;
+}
+

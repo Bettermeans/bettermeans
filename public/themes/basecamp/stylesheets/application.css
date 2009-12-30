@@ -28,7 +28,7 @@ a:hover, a:active { color: #2A5685; }
 
 /* Headers */
 h1, h2, h3, h4 { font-family: "Lucida Grande",arial,sans-serif; }
-h1 { font-size: 24px; font-weight: normal; margin:0pt 0pt 0pt 0.25em; padding:0pt 0pt 10px; text-align:left; }
+h1 { font-size: 20px; font-weight: normal; margin:0pt 0pt 0pt 0.25em; padding:0pt 0pt 10px; text-align:left; }
 h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { border-bottom: 0px;}
 
 h2, .wiki h1 { background-color: #edf3fe; margin: -6px -10px 10px; padding: 10px 20px; font-size: 14px; color: #000; }
