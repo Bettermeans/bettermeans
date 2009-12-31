@@ -1,7 +1,11 @@
 table, tr, td {
 border-collapse:collapse;
-margin:0;
-padding:0;
+margin:0px;
+padding:0px;
+}
+
+table td {
+padding:0px;
 }
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
@@ -18,6 +22,7 @@ padding:0;
 #main_table td {
 /*	margin: 10px 10px 10px 10px;*/
 	padding: 6px 7px;
+	margin: 0p;
 }
 
 .panel {
@@ -246,3 +251,82 @@ background-repeat:repeat-y;
 	float:left;
 }
 
+.right {
+	float:right;
+}
+
+.clear {
+	clear:both;
+}
+
+.bold {
+	font-weight:bold;
+}
+
+
+/*flyover*/
+.storyDetails {padding: 6px 4px 1px 4px; background-color: #fff8d7}
+.storyDetails .elementResizerHandle {display: block}
+.storyDetailsTable {padding-top: 10px; border-spacing: 0px 0; border-collapse: separate}
+.storyDetailsTable td.letContentExpand {width: 1px}
+.storyDetailsButton {padding: 0px}
+.storyDetails .section {color:#333; font-weight:normal; font-size:0.95em; line-height: 14px; margin-top: 15px}
+.storyDetails .section .header {font-weight:bold; color:#3F3D35; font-size: 115%; margin-bottom: 0}
+.storyDetails .section textArea, .storyDetails .section input[type=text].tasksTextArea {width: 95%; overflow:auto; color: #CCCCCC; padding: 3px; font-weight:bold; margin-top: 5px; font-size: 104%}
+.storyDetails .storyDescriptionTable textArea {margin-top: 3px}
+.storyDetails .section textArea.textAreaFocus, .storyDetails .section input[type=text].textAreaFocus {color: black; font-weight:normal; width: 95%}
+.storyDetails .section .italic {font-style:italic; color:#7C7B76; font-size:0.85em}
+.storyDetails .section .highlight {color: #333; font-weight:bold; font-size: 103%}
+.storyDetails .section input[type='submit'] {margin-top: 4px; display: block}
+.storyDetails .section .storyDescriptionTable .descriptionHeaderEdit {font-size: 8pt; width:1px; padding-right: 4px}
+.storyDetails .section .storyDescriptionTable .lastCell {padding-left: 4px}
+.storyDetails .section .notesTable {width: 100% }
+.storyDetails .section .notesTable .italic {margin-left:8px }
+.storyDetails .section tr.noteTextRow + tr.noteInfoRow > td.noteInfo {padding-top:7px }
+.storyDetails .section .notesTable tr:first-child td, .storyDetails .section .tasksTable tr:first-child td {padding-top: 4px}
+.storyDetails .section .tasksTable tr:hover td {background-color:#EBE29C}
+.storyDetails .section .tasksTable td {padding:3px 5px 0px 0px}
+.storyDetails .section .taskDescription input {width:100%}
+.storyDetails .section .taskDescription:hover {cursor: pointer}
+.storyDetails .section .task_editing {margin-left: 8px}
+.storyDetails .section .task_editing + .task_editing {margin-left: 5px}
+.storyDetails .section .tasksTable .completed {color: #999}
+.storyDetails .section table td.resource_details_cell {vertical-align: top; padding-left: 15px}
+.storyDetails .section table td.imageCell {text-align: center; width: 75px}
+.storyDetails .section .resource_image {cursor:pointer}
+.storyDetails .section table span.resource_row_span{ padding-right: 0.5em}
+.storyDetails .section .attachments a.cancelLink {padding-left: 1em}
+.storyDetails .section .attachments .attachmentHint {font-size: 90%; color: #ff6600; font-weight: bold}
+.storyDetails .section.storyIdTable {border-spacing: 0px 0; border-collapse: separate; width: 100%}
+.storyDetails .section.storyIdTable .storyId {font-size: 110%; padding-left: 4px}
+.help.flyover {background:url(/images/bg_gradient_comments_hover.gif) #FFF repeat-x scroll left top; border:1px solid #5593D8; -moz-border-radius: 8px; -webkit-border-radius: 8px; padding: 8px}
+.help.flyover .storyTitle {font-size: 1em; font-weight: bold; margin: 3px 0}
+.overlayContentWrapper.storyFlyover.flyover {padding: 0}
+.storyFlyover.flyover {-moz-border-radius: 8px; -webkit-border-radius: 8px; border: 1px solid #5593D8; background: url('/images/flyover_gray_gradient.png') #FDFDFD top left repeat-x}
+.storyFlyover.flyover .storyTitle {font-size: 1.15em; font-weight: bold; margin: 0.5em 0.75em}
+.storyFlyover.flyover .flyoverContent {font-size: 0.9em; background: #fff; padding: 0; -moz-border-radius-bottomleft: 8px; -webkit-border-bottom-left-radius: 8px; -moz-border-radius-bottomright: 8px; -webkit-border-bottom-right-radius: 8px}
+.storyFlyover.flyover .flyoverContent.storyDetails .section {margin-bottom: 12px; margin-top: 0px}
+.storyFlyover.flyover .flyoverContent.storyDetails .section + .section {margin-top: 13px; margin-bottom: 4px}
+.storyFlyover.flyover .flyoverContent.storyDetails .section .header{ background: url('/images/flyover_blue_gradient.png') #FFF top left repeat-x; padding-left: 1em; line-height: 1.7em; font-size: 106%; color: #333; font-weight: bold; letter-spacing: 0.01em; margin-bottom:5px}
+.storyFlyover.flyover .storyDetails .section .notesTable tr:first-child td, .storyFlyover.flyover .storyDetails .section .tasksTable tr:first-child td {padding-top: auto}
+.storyFlyover.flyover .flyoverContent.storyDetails table, .storyFlyover.flyover .flyoverContent.storyDetails .descriptionText {margin: 0 1.9em 0 1.9em}
+.storyFlyover.flyover .flyoverContent.storyDetails .tasksTable td {width: auto; padding: 2px 0px}
+.storyFlyover.flyover .flyoverContent.storyDetails .tasksTable td.taskPosition {width: 4%}
+.storyFlyover.flyover .flyoverContent.storyDetails .tasksTable tr:hover td {background-color: inherit}
+.storyFlyover.flyover .flyoverContent.storyDetails .tasksTable .taskDescription:hover {cursor: auto}
+.storyFlyover.flyover .flyoverContent.storyDetails .section table td.resource_details_cell {padding-top: 8px}
+.storyFlyover.flyover .storyId, .storyFlyover.flyover .metaInfo {color:#888888; font-size:0.85em}
+.storyFlyover.flyover .storyId {font-weight: normal; margin-right: 12px}
+.storyFlyover.flyover .metaInfo {margin: -0.8em 1.1em 0.5em}
+.storyFlyover.flyover .metaInfo .infoSection {color: #666666; font-weight: bold}
+.storyFlyover.flyover .metaInfo .infoSection img {display: block; padding-top: 1px; padding-right: 3px}
+.storyFlyover.flyover .metaInfo .infoSection img.estimateIcon {margin-top: 4px; margin-right: 3px}
+.storyFlyover.flyover .metaInfo .infoSection .text {vertical-align: middle}
+.storyFlyover.flyover .metaInfo .infoSection + .infoSection {margin-right: 6px}
+.storyFlyover.flyover .flyoverContent.storyDetails .section .notesTable {width: auto}
+.storyDetails .section .highlight {background-color:#ffffff; font-weight:bold; font-size: 103%}
+
+.noteText {line-height: 10px;}
+
+.overlay {overflow: hidden; font-size: 0.9em}
+.overlayContentWrapper {padding: 0 1em}
