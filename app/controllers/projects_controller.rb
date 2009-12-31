@@ -167,7 +167,7 @@ class ProjectsController < ApplicationController
   end
   
   def dashdata
-    render :json => Issue.find(:all, :conditions => {:project_id => @project.id}).to_json(:include => [:author,:status,:journals])
+    render :json => Issue.find(:all, :conditions => {:project_id => @project.id}).to_json(:include => {:journals => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname]}})
   end
   
   #Current user voting someone else up or down
