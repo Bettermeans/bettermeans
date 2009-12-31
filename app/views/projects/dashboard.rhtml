@@ -1,6 +1,8 @@
 <%= javascript_include_tag  'dashboard' %>
 <%= stylesheet_link_tag 'dashboard' %>
 
+<script src="http://jquery-ui.googlecode.com/svn/branches/dev/ui/jquery.ui.position.js"></script>
+
 <div id='loading'>
   <%= l(:text_loading_dashboard) %>
 </div>
@@ -19,12 +21,80 @@
   var projectID = '<%= @project.identifier %>';
 </script>
 
+<div id='flyovers'></div>
+
+
+<div id="flyover" class="overlay" style="position: absolute; top: 160px; left: 526px; display:none;">
+  <div style="border: 0pt none ; margin: 0pt;">
+    <div class="overlayContentWrapper storyFlyover flyover" style="width: 475px;">
+      <div class="storyTitle">
+        Users should have pivotal tracker quality ui
+      </div>
+      <div class="sectionDivider">
+      <div style="height: auto;">
+        <div class="metaInfo">
+          <div class="left">
+            Requested by Shereef Bishay on 25 Dec 2009, 2:21pm
+          </div>
+          <div class="right infoSection">
+            <img class="estimateIcon left" width="18" src="/images/dice_6.png" alt="Estimate: 2 points" title="Estimate: 2 points">
+            <div class="left text">
+              2 pts
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="right infoSection">
+            <img class="left" src="/images/feature_icon.png" alt="Feature">
+            <div class="left text">
+              Feature
+            </div>
+            <div class="clear"></div>
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="flyoverContent storyDetails">
+          <div class="storyId right">
+            <span>Story ID:</span> <span>2043591</span>
+          </div>
+          <div class="section">
+            <div class="header">
+              Comments <span class="commentCount">(2)</span>
+            </div>
+            <table class="notesTable">
+              <tbody>
+                <tr class="noteInfoRow">
+                  <td class="noteInfo">
+                    <span class="highlight">Shereef Bishay</span> <span class="italic">25 Dec 2009, 2:23pm</span>
+                  </td>
+                </tr>
+                <tr class="noteTextRow">
+                  <td class="noteText">
+                    this is the reason<br>adsfasdf
+                  </td>
+                </tr>
+                <tr class="noteInfoRow">
+                  <td class="noteInfo">
+                    <span class="highlight">Shereef Bishay</span> <span class="italic">25 Dec 2009, 2:23pm</span>
+                  </td>
+                </tr>
+                <tr class="noteTextRow">
+                  <td class="noteText">
+                    my comment
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
-
-
-
+<!-- 
 <table>
   <tr>
     <td id='panel1_panel' class='panelXXX'>
@@ -60,4 +130,4 @@
       </div>
     </td>
   </tr>
-</table>
+</table> -->
