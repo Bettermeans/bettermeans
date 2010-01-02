@@ -19,7 +19,7 @@ padding:0;
 	margin:2px 0px 0px 0px;
 }
 
-#main_table td {
+.panel {
 /*	margin: 10px 10px 10px 10px;*/
 	padding: 6px 7px;
 	margin: 0p;
@@ -152,10 +152,6 @@ color:#666666;
 height:17em;
 }
 
-.item {
-	border-top:1px solid #6E6E6E;
-}
-
 .hoverable:hover {
 background-image:url(/images/hover_gradient.gif);
 background-repeat:repeat-y;
@@ -177,10 +173,13 @@ background-repeat:repeat-y;
 	padding-top:1px;
 }
 
-.storyPreviewText, .storyPreviewInput {
+.storyPreviewText {
 	padding-left:80px;
 }
 
+.storyPreviewInput {
+	padding-left:20px;
+}
 .storyPreviewText, .storyLabels {
 	-moz-user-select:none;
 }
@@ -269,10 +268,10 @@ background-repeat:repeat-y;
 .storyDetails .elementResizerHandle {display: block}
 .storyDetailsTable {padding-top: 10px; border-spacing: 0px 0; border-collapse: separate}
 .storyDetailsTable td.letContentExpand {width: 1px}
-.storyDetailsButton {padding: 0px}
+.storyDetailsButton {padding: 0px;}
 .storyDetails .section {color:#333; font-weight:normal; font-size:0.95em; line-height: 14px; margin-top: 15px}
 .storyDetails .section .header {font-weight:bold; color:#3F3D35; font-size: 115%; margin-bottom: 0}
-.storyDetails .section textArea, .storyDetails .section input[type=text].tasksTextArea {width: 95%; overflow:auto; color: #CCCCCC; padding: 3px; font-weight:bold; margin-top: 5px; font-size: 104%}
+.storyDetails .section textArea, .storyDetails .section input[type=text].tasksTextArea {width: 95%; overflow:auto; color: #CCCCCC; padding: 3px; font-weight:bold; margin-top: 5px; font-size: 104%; max-width:500px;}
 .storyDetails .storyDescriptionTable textArea {margin-top: 3px}
 .storyDetails .section textArea.textAreaFocus, .storyDetails .section input[type=text].textAreaFocus {color: black; font-weight:normal; width: 95%}
 .storyDetails .section .italic {font-style:italic; color:#7C7B76; font-size:0.85em}
@@ -330,3 +329,35 @@ background-repeat:repeat-y;
 
 .overlay {overflow: hidden; font-size: 0.9em}
 .overlayContentWrapper {padding: 0 1em}
+
+.storyDetailsRow .fieldLabel {margin-left: 5px}
+.storyDetailsDiv div {display: block; float: left}
+.storyButtonsRow, .storyDetailsRow {clear: both; width: 400px}
+.storyButtonsRow {margin-top: 10px; margin-bottom: 10px}
+.storyButtonsRow div {margin-right: 10px}
+.storyDeadlineField {font: normal 12px verdana, sans-serif; line-height: 20px}
+.spacerCell {width:99%}
+.emphasizedFieldLabel {display:inline;}
+.fieldLabel {display:inline; color:gray}
+.storyDetailsField, .storyDeadlineField, .storyDetailsTextField {width: 150px; margin-top: 1px; margin-bottom: 1px; margin-right: 8px;}
+.storyDetailsTextField{ width: 146px}
+.storyDetailsStoryLink {width: 95%; margin-top: 1px; margin-bottom: 1px; margin-right: 10px; padding: 5px}
+.storyDetails .storyLabels {padding-left: 5px}
+.dateChangeLink {margin-left: 3px}
+.inlinePopup {background-color: #ffffff; border: green 2px solid; overflow: auto; width: 20em; margin: 5px; text-align: center; z-index: 3000}
+.stateChangeButton, .disabledStateChangeButton {margin-left: 4px; vertical-align: bottom}
+.disabledStateChangeButton {opacity: 0.6; -moz-opacity: 0.6; filter: alpha(opacity=60)}
+.stateChangeButton {cursor: pointer; width: auto}
+.estimateButton {border-bottom: 1px solid #888; margin-left: 4px; padding-bottom: 2px; vertical-align: bottom; cursor: pointer}
+.toggleExpandedButton, .iterationHeaderToggleExpandedButton {vertical-align: middle; cursor: pointer; margin-right: 4px; padding-top: 2px; float: left}
+.iterationHeaderToggleExpandedButton {display: inline; width:11px; height:16px}
+.iterationHeaderInfo {margin-left: 19px}
+
+.lastCell {width:95%}
+.item {border-top: 1px solid #6E6E6E}
+.item.proxy {font-size: 0.8em}
+.items, .search {height: 100%; overflow-y: auto; overflow-x: hidden; position: relative}
+.no_xscroll {overflow-x: hidden; padding-bottom: 15px}
+.no_yscroll {overflow-y: hidden; padding-right: 15px}
+.helpIcon {padding: 2px;}
+.titleInputField {width: 94%; font-size: 11pt; max-width:480px;}

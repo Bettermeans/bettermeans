@@ -11,13 +11,13 @@ a:hover { text-decoration: underline; }
 a:hover, a:active { color: #2A5685; }
 
 #header, #top-menu { margin: 0; }
-#header { background-color: #507AAA; padding: 8px 8px 0 8px; height: 5.5em; }
+#header { background-color: #99d3f6; padding: 8px 4px 0px 8px; height: 4.5em; }
 #header h1 { margin: 0 24px; }
 #header #quick-search { margin: 0 24px; }
 #top-menu { background-color: #000; font-size: 10px; position: relative; padding: 0; height: 21px }
-#top-menu ul { padding: 0 21px; }
+#top-menu ul { padding: 0 32px; }
 #top-menu li, #top-menu #loggedas { color: #ddd; line-height: 21px; margin-right: 4px; }
-#top-menu li a { color: #999; font-weight: normal; padding:4px 5px; }
+#top-menu li a { color: #999; font-weight: normal;}
 #top-menu li a:hover { color: #fff; text-decoration: none; }
 #main { background: #EEEEEE; margin: 8px 24px 0px 24px; }
 #content { background: #fff; border-right: 1px solid #bbb; border-bottom: 1px solid #bbb; width: 70%; overflow: auto; }
@@ -28,10 +28,10 @@ a:hover, a:active { color: #2A5685; }
 
 /* Headers */
 h1, h2, h3, h4 { font-family: "Lucida Grande",arial,sans-serif; }
-h1 { font-size: 20px; font-weight: normal; margin:0pt 0pt 0pt 0.25em; padding:0pt 0pt 10px; text-align:left; }
+h1 { font-size: 20px; font-weight: normal; margin:0pt 0pt 0pt 0.25em; padding:0pt 0pt 10px; text-align:left; color: #000; }
 h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { border-bottom: 0px;}
 
-h2, .wiki h1 { background-color: #edf3fe; margin: -6px -10px 10px; padding: 10px 20px; font-size: 14px; color: #000; }
+h2, .wiki h1 { background-color: #fff; margin: -6px -19px 10px; padding: 10px 20px; font-size: 14px; color: #000; }
 .wiki h1 { font-family:"Trebuchet MS",Verdana,sans-serif; font-weight: bold;}
 .wiki h2 { background-color: #fff; }
 
@@ -45,7 +45,7 @@ h3, h4 { font-weight: normal; }
 
 /* Menu */
 #main-menu { margin: 0 24px; }
-#main-menu li a { background-color: #666; font-weight: normal; padding:4px 8px 6px; }
+#main-menu li a { background-color: #666; font-weight: normal; padding:4px 8px 6px; font-size:0.9em; }
 #main-menu li a:hover { background: #999; text-decoration: none; }
 #main-menu li a.selected, #main-menu li a.selected:hover { background-color:#EEEEEE; color: #111; font-weight:bold; }
 

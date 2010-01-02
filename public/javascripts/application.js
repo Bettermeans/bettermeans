@@ -194,16 +194,24 @@ function randomKey(size) {
 	return key;
 }
 
-/* shows and hides ajax indicator */
-Ajax.Responders.register({
-    onCreate: function(){
-        if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
-            Element.show('ajax-indicator');
-        }
-    },
-    onComplete: function(){
-        if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
-            Element.hide('ajax-indicator');
-        }
-    }
+//TODO: replace this with jquery alternative
+// /* shows and hides ajax indicator */
+// Ajax.Responders.register({
+//     onCreate: function(){
+//         if ($('ajax-indicator') && Ajax.activeRequestCount > 0) {
+//             Element.show('ajax-indicator');
+//         }
+//     },
+//     onComplete: function(){
+//         if ($('ajax-indicator') && Ajax.activeRequestCount == 0) {
+//             Element.hide('ajax-indicator');
+//         }
+//     }
+// });
+
+$(document).ajaxSend(function(event, request, settings) {
+  if (typeof(AUTH_TOKEN) == "undefined") return;
+  // settings.data is a serialized string like "foo=bar&baz=boink" (or null)
+  settings.data = settings.data || "";
+  settings.data += (settings.data ? "&" : "") + "authenticity_token=" + encodeURIComponent(AUTH_TOKEN);
 });

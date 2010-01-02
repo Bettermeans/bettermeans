@@ -135,20 +135,36 @@ class IssuesController < ApplicationController
     @issue.status = default_status
     @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(@project), @issue.tracker)).uniq
     
-    if request.get? || request.xhr?
+    if request.get? #|| request.xhr?
       @issue.start_date ||= Date.today
     else
-      requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
+      if params[:issue].nil? || params[:issue][:status_id].nil? 
+        requested_status = default_status 
+      else
+        requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
+      end
+      
       # Check that the user is allowed to apply the requested status
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
+      logger.info("before save: status #{@issue.inspect}")
       if @issue.save
         attach_files(@issue, params[:attachments])
-        flash[:notice] = l(:notice_successful_create)
+        # flash[:notice] = l(:notice_successful_create)
         call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
-        redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
-                                        { :action => 'show', :id => @issue })
+        logger.info("saved issue")
+        respond_to do |format|
+          format.js {render :json => @issue.to_json(:include => {:journals => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname]}})}
+          format.html {redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
+                                        { :action => 'show', :id => @issue })}
+        end
         return
-      end		
+      else
+        respond_to do |format|
+          format.js {render :text => nil}
+          format.html { render :action => "new" }
+        end
+        return
+      end	
     end	
     @priorities = IssuePriority.all
 
