@@ -3,13 +3,15 @@
 //cleaner times/dates in flyover
 //flyover should stay open if I hover over it
 //max height for flyover
-//toggle buttons to turn panels on and off
 //help hover overs (question marks)
 //order items by priority? or updated?
 //little hover over question marks for each panel describing whay they are
 //"my work" panel
 //somewhere in the "new item" tool tip, let them know that pressing the 'n' key activates the new item (should also be a tooltip for the new request button)
 //what are the types of requests? feature? chore? or do we hide this functionality for now? keep it simple!
+//keyboard shortcut for each panel
+//better mgmt of keyboard shortcuts being on or off: turn them off when a text area gets focus, and on when it loses focus
+//BUGBUG: keyboard shortcuts will be activated if i'm doing a search!
 
 
 
@@ -445,9 +447,9 @@ function insert_panel(position, name, title, visible){
 
 function close_panel(name){
 	$('#' + name + '_panel').hide();
-	$('#' + name + '_panel_toggle').show();
-	
+	$('#' + name + '_panel_toggle').show();	
 	recalculate_widths();
+	if (name == "new"){keyboard_shortcuts = true;} //If we're closing the new panel, then we want keyboard shortcuts to be on again, in case they were off
 }
 
 function show_panel(name){
