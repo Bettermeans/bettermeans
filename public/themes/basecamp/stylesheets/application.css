@@ -5,7 +5,7 @@
 
 @import url(../../../stylesheets/application.css);
 
-body, #wrapper { background-color:#eee; font-family:"Lucida Grande", verdana, arial, helvetica, sans-serif; }
+body, #wrapper { background-color:#F7F7F7; font-family:"Lucida Grande", verdana, arial, helvetica, sans-serif; }
 
 a:hover { text-decoration: underline; }
 a:hover, a:active { color: #2A5685; }
@@ -19,10 +19,10 @@ a:hover, a:active { color: #2A5685; }
 #top-menu li, #top-menu #loggedas { color: #ddd; line-height: 21px; margin-right: 4px; }
 #top-menu li a { color: #999; font-weight: normal;}
 #top-menu li a:hover { color: #fff; text-decoration: none; }
-#main { background: #EEEEEE; margin: 8px 24px 0px 24px; }
+#main { background: #F7F7F7; margin: 8px 24px 0px 24px; }
 #content { background: #fff; border-right: 1px solid #bbb; border-bottom: 1px solid #bbb; width: 70%; overflow: auto; }
 #sidebar { width: 26%; }
-#footer { background-color:#EEEEEE; border: 0px; clear: left; color:#666666; font-size:9px; margin:4px 0 20px 20px; padding-bottom:15px; text-align:left; }
+#footer { background-color:#F7F7F7; border: 0px; clear: left; color:#666666; font-size:9px; margin:4px 0 20px 20px; padding-bottom:15px; text-align:left; }
 #footer a:hover { background:#666666 none repeat scroll 0 0; color:#FFFFFF !important;}
 #footer a:link, #footer a:visited { color:#666666; }
 
@@ -47,7 +47,7 @@ h3, h4 { font-weight: normal; }
 #main-menu { margin: 0 24px; }
 #main-menu li a { background-color: #666; font-weight: normal; padding:4px 8px 6px; font-size:0.9em; }
 #main-menu li a:hover { background: #999; text-decoration: none; }
-#main-menu li a.selected, #main-menu li a.selected:hover { background-color:#EEEEEE; color: #111; font-weight:bold; }
+#main-menu li a.selected, #main-menu li a.selected:hover { background-color:#F7F7F7; color: #111; font-weight:bold; }
 
 /* Tables */
 table.list { border: none; }
@@ -97,7 +97,7 @@ tr.priority-1 a { color: #559; }
 tr.odd.priority-1 td, tr.even.priority-1 td { border-color: #add7f3; }
 
 p.breadcrumb {
-	background-color:#EEEEEE;
+	background-color:#F7F7F7;
 	border-bottom:1px solid white;
 	font-size:0.9em;
 	margin:-6px -10px 6px;
@@ -119,7 +119,7 @@ textarea.wiki-edit { font-family: Cambria, Verdana, Serif; font-size: larger; }
 
 .contextual { font-size: 0.9em; font-family:verdana; }
 
-hr { background:#eee none repeat scroll 0% 0%; }
+hr { background:#F7F7F7 none repeat scroll 0% 0%; }
 
 
 /*Voting*/
