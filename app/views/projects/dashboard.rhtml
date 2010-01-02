@@ -2,7 +2,7 @@
 <%= stylesheet_link_tag 'dashboard' %>
 
 <script src="http://jquery-ui.googlecode.com/svn/branches/dev/ui/jquery.ui.position.js"></script>
-
+<!-- <input id="new_request" value="New Request" type="submit" onclick="new_item();"/> -->
 <div id='loading'>
   <%= l(:text_loading_dashboard) %>
 </div>
@@ -21,10 +21,16 @@
   var projectID = '<%= @project.identifier %>';
 </script>
 
+
+
+
+
+
+
 <div id='flyovers'></div>
 
 
-<div id="flyover" class="overlay" style="position: absolute; top: 160px; left: 526px; display:none;">
+<!-- <div id="flyover" class="overlay" style="position: absolute; top: 160px; left: 526px; display:none;">
   <div style="border: 0pt none ; margin: 0pt;">
     <div class="overlayContentWrapper storyFlyover flyover" style="width: 475px;">
       <div class="storyTitle">
@@ -90,8 +96,234 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
+<!-- <div class="item" id="icebox_itemList_storynewStory">
+  <div class="storyItem unscheduled unestimatedText underEdit" id="icebox_itemList_storynewStory_content">
+    <div class="storyPreviewHeader">
+      <div class="storyPreviewInput">
+        <input id="new_title_input" class="titleInputField" name="title_input" value="" type="text">
+      </div>
+    </div>
+    <div>
+      <div id="story_newStory_details" class="storyDetails">
+          <table class="storyDetailsTable">
+            <tbody>
+              <tr>
+                <td>
+                  <div class="storyDetailsButton">
+                    <input id="[save_button]" value="Save" type="submit" onclick="save_new_item();">
+                  </div>
+                </td>
+                <td>
+                  <div class="storyDetailsButton">
+                    <input id="[cancel_button]" value="Cancel" type="submit">
+                  </div>
+                </td>
+                <td>
+                  <div class="storyDetailsButton">
+                    <input disabled="disabled" id="[delete_button]" value="Delete" type="submit">
+                  </div>
+                </td>
+                <td>
+                  <div class="storyDetailsButton">
+                    <input disabled="disabled" id="[view_history_button]" value="View history" type="submit">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="storyDetailsTable">
+            <tbody>
+              <tr>
+                <td class="letContentExpand" colspan="1">
+                  <div>
+                    <select id="[story_type]" class="storyDetailsField" name="story[story_type]">
+                      <option selected="true" value="feature">
+                        Feature
+                      </option>
+                      <option value="bug">
+                        Bug
+                      </option>
+                      <option value="chore">
+                        Chore
+                      </option>
+                      <option value="release">
+                        Release
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td class="storyDetailsLabelIcon" colspan="1">
+                  <div class="storyDetailsLabelIcon">
+                    <img src="/images/feature_icon.png" id="[story_type]_image" name="[story_type]_image">
+                  </div>
+                </td>
+                <td class="helpIcon lastCell" colspan="1">
+                  <div class="helpIcon" id="story_newStory_details_help_story_types">
+                    <img src="/images/question_mark.gif">
+                  </div>
+                </td>
+              </tr>
+              <tr style="display: none;">
+                <td>
+                  <div>
+                    <div class="deadlineLabel">
+                      <label for="story[deadline]" id="story[deadline]_label">Deadline:</label>
+                    </div>
+                    <div class="dateEditField">
+                      <input class="valid" size="11" id="icebox_deadline_newStory_story[deadline]" name="story[deadline]" value="NONE" type="text">
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="storyDetailsLabelIcon">
+                    <img id="icebox_deadline_newStory_icon" src="/images/calendar.png" name="icebox_deadline_newStory_icon">
+                  </div>
+                </td>
+                <td>
+                  <div class="helpIcon" id="icebox_deadline_newStory_help_deadlines">
+                    <img src="/images/question_mark.gif">
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <a style="display: none;" id="icebox_deadline_newStory_dateClear" href="javascript:void(0);" name="icebox_deadline_newStory_dateClear">[clear]</a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="1">
+                  <div>
+                    <select id="[estimate]" class="storyDetailsField" name="story[estimate]">
+                      <option selected="true" value="-1">
+                        Unestimated
+                      </option>
+                      <option value="0">
+                        0 points
+                      </option>
+                      <option value="1">
+                        1 point
+                      </option>
+                      <option value="2">
+                        2 points
+                      </option>
+                      <option value="3">
+                        3 points
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td class="storyDetailsLabelIcon" colspan="1">
+                  <div class="storyDetailsLabelIcon">
+                    <img src="/images/dice_6.png" id="[estimate]_image" name="[estimate]_image">
+                  </div>
+                </td>
+                <td class="helpIcon" colspan="1">
+                  <div class="helpIcon" id="story_newStory_details_help_estimates">
+                    <img src="/images/question_mark.gif">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input id="[current_state]" name="story[current_state]" value="unscheduled" type="hidden">
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div>
+                    <select id="[requested_by_id]" class="storyDetailsField" name="story[requested_by_id]">
+                      <option value="-1">
+                        none
+                      </option>
+                      <option selected="true" value="58750">
+                        Shereef Bishay
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td colspan="3">
+                  <label for="[requested_by_id]" id="[requested_by_id]_label"></label>
+                  <div>
+                    <label for="[requested_by_id]" id="[requested_by_id]_label"></label>
+                    <div class="emphasizedFieldLabel">
+                      <label for="[requested_by_id]" id="[requested_by_id]_label">requested</label>
+                    </div><label for="[requested_by_id]" id="[requested_by_id]_label"></label>
+                    <div id="[created_at_date]" class="fieldLabel">
+                      <label for="[requested_by_id]" id="[requested_by_id]_label">this story</label>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="1">
+                  <div>
+                    <select id="[owned_by_id]" class="storyDetailsField" name="story[owned_by_id]">
+                      <option selected="true" value="-1">
+                        none
+                      </option>
+                      <option value="58750">
+                        Shereef Bishay
+                      </option>
+                    </select>
+                  </div>
+                </td>
+                <td colspan="3">
+                  <label for="[owned_by_id]" id="[owned_by_id]_label"></label>
+                  <div>
+                    <label for="[owned_by_id]" id="[owned_by_id]_label"></label>
+                    <div class="emphasizedFieldLabel">
+                      <label for="[owned_by_id]" id="[owned_by_id]_label">owns</label>
+                    </div><label for="[owned_by_id]" id="[owned_by_id]_label"></label>
+                    <div class="fieldLabel">
+                      <label for="[owned_by_id]" id="[owned_by_id]_label">this story</label>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="section">
+            <table class="storyDescriptionTable">
+              <tbody>
+                <tr>
+                  <td class="header">
+                    <div>
+                      Description
+                    </div>
+                  </td>
+                  <td class="lastCell">
+                    <div class="helpIcon">
+                      <img src="/images/question_mark.gif">
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td colspan="5">
+                    <div>
+                      <textarea class = "textAreaFocus" id="new_description" rows="3" cols="20" name="story[description]"></textarea>     
+                    <div>
+                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="heaer" colspan="5">
+                    <div style="display: none;" id="_readonly_description"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+    </div>
+  </div>
+</div> -->
 
 
 <!-- 
@@ -114,9 +346,9 @@
                   <img id="current_itemList_story2043014_content_buttons_deliverButton" class="stateChangeButton notDblclickable" src="/images/v3/buttons/stories_view/deliver.png" onmouseover="this.src='/images/v3/buttons/stories_view/deliver_hover.png'" onmouseout="this.src='/images/v3/buttons/stories_view/deliver.png'" name="current_itemList_story2043014_content_buttons_deliverButton">
                 </div>
                 <div class="icons">
-                  <img id="current_itemList_story2043014_content_icons_editButton" class="toggleExpandedButton" src="/images/v3/icons/stories_view/story_collapsed.png" title="Expand" alt="Expand" name="current_itemList_story2043014_content_icons_editButton">
+                  <img id="current_itemList_story2043014_content_icons_editButton" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" name="current_itemList_story2043014_content_icons_editButton">
                   <div class="left">
-                    <img class="storyTypeIcon" src="/images/v3/icons/stories_view/feature_icon.png" alt="Feature"> <img class="estimateIcon" width="6" src="/images/v3/icons/stories_view/estimate_3pt_linear.gif" alt="Estimate: 3 points" title="Estimate: 3 points">
+                    <img class="storyTypeIcon" src="/images/feature_icon.png" alt="Feature"> <img class="estimateIcon" width="6" src="/images/estimate_3pt_linear.gif" alt="Estimate: 3 points" title="Estimate: 3 points">
                   </div>
                 </div>
                 <div id="current_itemList_story2043014_content_details" class="storyPreviewText" style="cursor: move;"></div>
