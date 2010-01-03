@@ -13,7 +13,16 @@
 //Scroll form to top of panel when editing
 //Handle errors in javascript
 //Order comments chronologically
-
+//Animate panels
+//BUGBUG: flyovers don't work in safari
+//TODO: test in IE
+//empty dice for null estimates
+//detect and insert bold and italic text (time to learn regular expresssion :)
+//auto-expanding boxes for description and comments
+//minifiy this file will be over 50k!
+//watermark is not grey, still black
+//test for javascript and warn if user has it off
+//error handling for poor connectivity (couldn't load page! couldn't update item! couldn't save new item! couldn't save post!)
 
 var D; //all data
 var keyboard_shortcuts = false;
@@ -71,12 +80,10 @@ $.fn.watermark = function(css, text) {
 
 $.fn.keyboard_sensitive = function() {
 		$(this).focus(function() {
-			console.log("keyboards off");
 			keyboard_shortcuts = false;	
 		});
 
 		$(this).blur(function() {
-			console.log("keyboards on");
 			keyboard_shortcuts = true;	
 		});
 };
@@ -231,7 +238,10 @@ function add_item(dataId,position){
 }
 
 function generate_flyover(dataId){
-	item = D[dataId];
+	var item = D[dataId];
+	
+	var points;
+	item.points == null ? points = 'No' : points = item.points;
 	
 	var html = '';
 	
@@ -248,9 +258,9 @@ function generate_flyover(dataId){
 	html = html + 'Requested by ' + item.author.firstname + ' ' + item.author.lastname + ' on ' + item.created_on;
 	html = html + '	          </div>';
 	html = html + '<div class="right infoSection">';
-	html = html + '	            <img class="estimateIcon left" width="18" src="/images/dice_' + item.points + '.png" alt="Estimate: ' + item.points + ' points" title="Estimate: ' + item.points + ' points">';
+	html = html + '	            <img class="estimateIcon left" width="18" src="/images/dice_' + points + '.png" alt="Estimate: ' + points + ' points" title="Estimate: ' + points + ' points">';
 	html = html + '	            <div class="left text">';
-	html = html + '	              ' + item.points + ' pts';
+	html = html + '	              ' + points + ' pts';
 	html = html + '	            </div>';
 	html = html + '	            <div class="clear"></div>';
 	html = html + '	          </div>';
@@ -294,7 +304,7 @@ function generate_flyover_description(item){
 	html = html + '	    <tbody>';
 	html = html + '<tr class="noteInfoRow">';
 	html = html + '<td class="noteInfo">';
-	html = html + '<span class="highlight">' + item.description + '</span>';
+	html = html + '<span class="specialhighlight">' + item.description + '</span>';
  	html = html + '</td>';
   	html = html + '</tr>';
 	html = html + '	    </tbody>';
@@ -352,7 +362,7 @@ function generate_comment(author,note,created_on){
 	var html = '';
 	html = html + '<tr class="noteInfoRow">';
 	html = html + '<td class="noteInfo">';
-	html = html + '<span class="highlight">' + author + '</span> <span class="italic">' + created_on + '</span>';
+	html = html + '<span class="specialhighlight">' + author + '</span> <span class="italic">' + created_on + '</span>';
 	html = html + '</td>';
 	html = html + '</tr>';
     html = html + '<tr class="noteTextRow">';
@@ -368,6 +378,9 @@ function generate_comment(author,note,created_on){
 function generate_item(dataId){
 	var item = D[dataId];
 	var html = '';
+	var points;
+	item.points == null ? points = 'No' : points = item.points;
+	
 	html = html + '<div id="item_' + dataId + '" class="item">';
 	html = html + '<div id="item_content_' + dataId + '" class="' + item.status.name.replace(" ","-").toLowerCase() + ' hoverable" style="">';
 	html = html + '<div class="storyPreviewHeader">';
@@ -379,9 +392,7 @@ function generate_item(dataId){
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
 	html = html + '<img id="featureicon_' + dataId + '"  class="storyTypeIcon hoverIcon" src="/images/feature_icon.png" alt="Feature">';
-	if (item.points != null){
-	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverIcon" src="/images/dice_' + item.points + '.png" alt="' + item.points + ' points">';
-	}
+	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverIcon" src="/images/dice_' + points + '.png" alt="' + points + ' points">';
 	
 	if (show_comment(item)){
 	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverIcon" src="/images/story_flyover_icon.png"/>';
@@ -511,7 +522,6 @@ function show_panel(name){
 
 function recalculate_widths(){
 	new_width = $('#content').width() / $('.panel:visible').length;
-	// $('.panel:visible').animate({width: new_width},1500);
 	$('.panel:visible').width(new_width);
 }
 
@@ -527,7 +537,6 @@ function collapse_item(dataId){
 }
 
 function save_new_item(){
-	// console.log( $('#[description]').val() );
 	if (($('#new_title_input').val() == default_new_title) || ($('#new_title_input').val() == ''))
 	{
 		alert('Please enter a title');
@@ -553,14 +562,11 @@ function save_new_item(){
 }
 
 function save_edit_item(dataId){
-	// console.log( $('#[description]').val() );
 	if (($('#edit_title_input_' + dataId).val() == default_new_title) || ($('#edit_title_input_' + dataId).val() == ''))
 	{
 		alert('Please enter a title');
 		return false;
-	}
-	console.log('description' + $('#edit_description_' + dataId).val());
-	
+	}	
 	var data = "commit=Submit&project_id=" + projectID + "&id=" + D[dataId].id + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
 
     var url = url_for({ controller: 'issues',
@@ -609,7 +615,13 @@ function item_updated(item, dataId){
 	$("#edit_item_" + dataId).html(generate_item(dataId));
 	add_hover_icon_events();
 	keyboard_shortcuts = true;
+	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	return false;
+}
+
+function comment_added(item, dataId){
+	D[dataId] = item; 
+	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 }
 
 function new_item(){
@@ -864,9 +876,23 @@ try{
 	}
 	else
 	{
-		$("#notesTable_" + D[dataId].id).append(generate_comment("You",text.replace(/\n/g,"<br>"),Date())); //TODO: properly format this date
+		var item = D[dataId];
+		$("#notesTable_" + item.id).append(generate_comment("You",text.replace(/\n/g,"<br>"),Date())); //TODO: properly format this date
 		$('#new_comment_' + dataId).val('');
-		//TODO: post comment
+		
+		var data = "commit=Create&issue_id=" + item.id + "&comment=" + text;
+		
+		var url = url_for({ controller: 'comments',
+	                           action    : 'create'
+	                          });
+	
+		$.post(url, 
+			   data, 
+			   	function(html){
+					comment_added(html,dataId);
+				}, //TODO: handle errors here
+				"json" //BUGBUG: is this a security risk?
+		);
 		return false;
 	}
 	}
@@ -896,7 +922,7 @@ function url_for(options){
   // keys.each(function(key, index){
   //   url += key + "=" + options[key];
   //   if(index<keys.length-1) url += "&";
-  // });
+  // });da
   
   return url;
 }
