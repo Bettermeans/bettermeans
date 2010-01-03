@@ -274,7 +274,7 @@ background-repeat:repeat-y;
 .storyDetails .storyDescriptionTable textArea {margin-top: 3px}
 .storyDetails .section textArea.textAreaFocus, .storyDetails .section input[type=text].textAreaFocus {color: black; font-weight:normal; width: 95%}
 .storyDetails .section .italic {font-style:italic; color:#7C7B76; font-size:0.85em}
-.storyDetails .section .highlight {color: #333; font-weight:bold; font-size: 103%; background-color: #FFF8D7;}
+.storyDetails .section .specialhighlight {color: #333; font-weight:bold; font-size: 103%;}
 .storyDetails .section input[type='submit'] {margin-top: 4px; display: block}
 .storyDetails .section .storyDescriptionTable .descriptionHeaderEdit {font-size: 8pt; width:1px; padding-right: 4px}
 .storyDetails .section .storyDescriptionTable .lastCell {padding-left: 4px}
