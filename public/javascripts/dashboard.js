@@ -10,18 +10,76 @@
 //somewhere in the "new item" tool tip, let them know that pressing the 'n' key activates the new item (should also be a tooltip for the new request button)
 //what are the types of requests? feature? chore? or do we hide this functionality for now? keep it simple!
 //keyboard shortcut for each panel
-//better mgmt of keyboard shortcuts being on or off: turn them off when a text area gets focus, and on when it loses focus
-//BUGBUG: keyboard shortcuts will be activated if i'm doing a search!
-
+//Scroll form to top of panel when editing
+//Handle errors in javascript
+//Order comments chronologically
 
 
 var D; //all data
 var keyboard_shortcuts = false;
 var default_new_title = 'Enter Title Here';
+var new_comment_text = 'Add new comment';
 
 $(window).bind('resize', function() {
 	resize();
 });
+
+$.fn.makeAbsolute = function(rebase) {
+
+    return this.each(function() {
+
+        var el = $(this);
+
+        var pos = el.position();
+
+        el.css({ position: "absolute",
+
+            marginLeft: 0, marginTop: 0,
+
+            top: pos.top, left: pos.left });
+
+        if (rebase)
+
+            el.remove().appendTo("body");
+
+    });
+
+};
+
+$.fn.watermark = function(css, text) {
+		$(this).focus(function() {
+			$(this).filter(function() {
+				return $(this).val() == "" || $(this).val() == text;
+			}).removeClass(css).val("");
+		});
+
+		$(this).blur(function() {
+			$(this).filter(function() {
+				return $(this).val() == "";
+			}).addClass(css).val(text);
+		});
+		
+		var input = $(this);
+		$(this).closest("form").submit(function() {
+			input.filter(function() {
+				return $(this).val() == text;
+			}).val("");
+		});
+		
+		$(this).addClass(css).val(text);
+};
+
+$.fn.keyboard_sensitive = function() {
+		$(this).focus(function() {
+			console.log("keyboards off");
+			keyboard_shortcuts = false;	
+		});
+
+		$(this).blur(function() {
+			console.log("keyboards on");
+			keyboard_shortcuts = true;	
+		});
+};
 
 
 $('document').ready(function(){
@@ -54,38 +112,25 @@ $(document).keypress(function(e)
 	}
 });
 
-
-function load_buttons(){
-	$('#main-menu').append('<input id="new_request" value="New Request" type="submit" onclick="new_item();" class="dashboard-button" style="margin-left: 20px;"/>');
+//makes all text boxes sensitive to keyboard shortcuts
+function make_text_boxes_toggle_keyboard_shortcuts(){
+	$("input").keyboard_sensitive();
+	$("textarea").keyboard_sensitive();
 }
 
-$.fn.makeAbsolute = function(rebase) {
 
-    return this.each(function() {
+function load_buttons(){
+	$('#main-menu').append('<input id="new_request" value="New Request" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;"/>');
+}
 
-        var el = $(this);
 
-        var pos = el.position();
-
-        el.css({ position: "absolute",
-
-            marginLeft: 0, marginTop: 0,
-
-            top: pos.top, left: pos.left });
-
-        if (rebase)
-
-            el.remove().appendTo("body");
-
-    });
-
-};
 
 function prepare_page(){
 	load_ui();
 	resize();
 	recalculate_widths();
 	keyboard_shortcuts = true;	
+	make_text_boxes_toggle_keyboard_shortcuts();
 }
 
 // Loads all items in their perspective panels, and sets up panels
@@ -101,7 +146,7 @@ function load_ui(){
 		add_item(i,"bottom");	
 	}
 
-	$("#fresh_items").append("<div class='endOfList></div>");
+	$("#new_items").append("<div class='endOfList></div>");
 	$("#open_items").append("<div class='endOfList></div>");
 	$("#inprogress_items").append("<div class='endOfList></div>");
 	$("#done_items").append("<div class='endOfList></div>");
@@ -224,7 +269,7 @@ function generate_flyover(dataId){
 	html = html + '	          </div>';
 	html = html + '	<div class="section">';
 	html = html + generate_flyover_description(item);
-	html = html + generate_flyover_comments(item);
+	html = html + generate_comments(item,true);
 	html = html + '&nbsp;</div>';
 	html = html + '	        </div>';
 	html = html + '	      </div>';
@@ -259,49 +304,41 @@ function generate_flyover_description(item){
 	
 }
 
-function generate_flyover_comments(item){
+//blank_if_no_comments: when true, nothing is returned if there aren't any comments, when false the header is returned
+function generate_comments(item,blank_if_no_comments){
 
 	var count = 0;
 	for(var k = 0; k < item.journals.length; k++ ){
-			if (item.journals[k].notes != ''){
+			if (item.journals[k].notes != '' && item.journals[k].notes != null){
 				count++;
 			}
 	}
 	
-	if (count==0){return '';};
+	if (count==0 && blank_if_no_comments){return '';};
 	
 	var html = '';
 	html = html + '	  <div class="header">';
 	html = html + '	    Comments <span class="commentCount">(' + count + ')</span>';
 	html = html + '	  </div>';
-	html = html + '	  <table class="notesTable">';
+	html = html + '	  <table class="notesTable" id="notesTable_' + item.id + '">';
 	html = html + '	    <tbody>';
 	
 	for(var i = 0; i < item.journals.length; i++ ){
 			if (item.journals[i].notes != '' && item.journals[i].notes != null){
-						var author = item.journals[i].user.firstname + ' ' + item.journals[i].user.lastname;
-						var note = '';
-						if (item.journals[i].notes.indexOf('wrote:') > -1)
-						{
-							var note_array = item.journals[i].notes.split('\n');
-							for(var j = 1; j < note_array.length; j++ ){
-								if (note_array[j][0]!='>'){note = note + note_array[j] + '\n';};
-							}
-						}
-						else
-						{
-							note = item.journals[i].notes.replace(/\r\n/g,"<br>");
-						}
-						html = html + '<tr class="noteInfoRow">';
-				        html = html + '<td class="noteInfo">';
-				        html = html + '<span class="highlight">' + author + '</span> <span class="italic">' + item.journals[i].created_on + '</span>';
-				        html = html + '</td>';
-				        html = html + '</tr>';
-				        html = html + '<tr class="noteTextRow">';
-				        html = html + '<td class="noteText">';
-				        html = html + note;
-				        html = html + '</td>';
-				        html = html + '</tr>';
+				var author = item.journals[i].user.firstname + ' ' + item.journals[i].user.lastname;
+				var note = '';
+				if (item.journals[i].notes.indexOf('wrote:') > -1)
+				{
+					var note_array = item.journals[i].notes.split('\n');
+					for(var j = 1; j < note_array.length; j++ ){
+						if (note_array[j][0]!='>'){note = note + note_array[j] + '\n';};
+					}
+				}
+				else
+				{
+					note = item.journals[i].notes.replace(/\r\n/g,"<br>");
+				}
+				html = html + generate_comment(author,note,item.journals[i].created_on);
 			}
 	}
 	html = html + '	    </tbody>';
@@ -311,7 +348,21 @@ function generate_flyover_comments(item){
 	
 }
 
-
+function generate_comment(author,note,created_on){
+	var html = '';
+	html = html + '<tr class="noteInfoRow">';
+	html = html + '<td class="noteInfo">';
+	html = html + '<span class="highlight">' + author + '</span> <span class="italic">' + created_on + '</span>';
+	html = html + '</td>';
+	html = html + '</tr>';
+    html = html + '<tr class="noteTextRow">';
+	html = html + '<td class="noteText">';
+	html = html + note;
+	html = html + '</td>';
+	html = html + '</tr>';
+	return html;
+	
+}
 
 //Generates html for collapsed item
 function generate_item(dataId){
@@ -324,16 +375,16 @@ function generate_item(dataId){
 	html = html + buttons_for(dataId);
 	html = html + '</div>';
 
-	html = html + '<div id=icons_"' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
-	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');">';
-	html = html + '<div class="left">';
-	html = html + '<img id=featureicon_"' + dataId + '"  class="storyTypeIcon hoverIcon" src="/images/feature_icon.png" alt="Feature">';
+	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
+	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
+	html = html + '<div id="icon_set_' + dataId + '" class="left">';
+	html = html + '<img id="featureicon_' + dataId + '"  class="storyTypeIcon hoverIcon" src="/images/feature_icon.png" alt="Feature">';
 	if (item.points != null){
-	html = html + '<img id=diceicon_"' + dataId + '"  class="storyPoints hoverIcon" src="/images/dice_' + item.points + '.png" alt="' + item.points + ' points">';
+	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverIcon" src="/images/dice_' + item.points + '.png" alt="' + item.points + ' points">';
 	}
 	
 	if (show_comment(item)){
-	html = html + '<img id=flyovericon_"' + dataId + '"  class="flyoverIcon hoverIcon" src="/images/story_flyover_icon.png"/>';
+	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverIcon" src="/images/story_flyover_icon.png"/>';
 	}
 	
 	html = html + '</div>';
@@ -375,7 +426,7 @@ function buttons_for(dataId){
 
 //Generates a button type for item id
 function button(type,dataId){
-	return '<img id="item_content_buttons_' + type + '_button_' + dataId + '" class="stateChangeButton notDblclickable" src="/images/' + type + '.png" onmouseover="this.src=\'/images/' + type + '_hover.png\'" onclick="click_' + type + '(' + dataId + ');" onmouseout="this.src=\'/images/' + type + '.png\'">';
+	return '<img id="item_content_buttons_' + type + '_button_' + dataId + '" class="stateChangeButton notDblclickable" src="/images/' + type + '.png" onmouseover="this.src=\'/images/' + type + '_hover.png\'" onclick="click_' + type + '(' + dataId + ');return false;" onmouseout="this.src=\'/images/' + type + '.png\'">';
 }
 
 function click_start(dataId){
@@ -405,7 +456,7 @@ function show_comment(item){
 	// }
 	
 	for(var i = 0; i < item.journals.length; i++ ){
-			if (item.journals[i].notes != ''){
+			if (item.journals[i].notes != '' && item.journals[i].notes != null){
 				return true;
 			}
 		}
@@ -433,7 +484,7 @@ function insert_panel(position, name, title, visible){
 	panelHtml = panelHtml + "<div class='panelHeaderRight'></div>";
 	panelHtml = panelHtml + "<div class='panelHeaderLeft'></div>";
 	panelHtml = panelHtml + "<div class='panelHeader'>";
-	panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanel panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\")'></a>";
+	panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanel panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\");return false;'></a>";
 	panelHtml = panelHtml + "  <span class='panelTitle'>" + title + "</span>";
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "<div id='" + name + "_list' class='list'>";
@@ -441,7 +492,7 @@ function insert_panel(position, name, title, visible){
 	panelHtml = panelHtml + "  </div>";
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "</td>";
-	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + '" type="submit" onclick="show_panel(\'' + name + '\');" class="dashboard-button" ' + button_style + '/>');
+	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + '" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button" ' + button_style + '/>');
 	$("#main_row").append(panelHtml);
 }
 
@@ -465,7 +516,9 @@ function recalculate_widths(){
 }
 
 function expand_item(dataId){
-	$('#item_' + dataId).html('<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_expanded.png" title="Collapse" alt="Collapse" onclick="collapse_item(' + dataId + ');">xxx');
+	$('#item_' + dataId).html(generate_item_edit(dataId));
+	$('#new_comment_' + dataId).watermark('watermark',new_comment_text);
+	make_text_boxes_toggle_keyboard_shortcuts();
 }
 
 function collapse_item(dataId){
@@ -495,13 +548,52 @@ function save_new_item(){
 			}, //TODO: handle errors here
 			"json" //BUGBUG: is this a security risk?
 	);
+	
 	return false;
 }
 
-function cancel_new_item(){
+function save_edit_item(dataId){
+	// console.log( $('#[description]').val() );
+	if (($('#edit_title_input_' + dataId).val() == default_new_title) || ($('#edit_title_input_' + dataId).val() == ''))
+	{
+		alert('Please enter a title');
+		return false;
+	}
+	console.log('description' + $('#edit_description_' + dataId).val());
+	
+	var data = "commit=Submit&project_id=" + projectID + "&id=" + D[dataId].id + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
+
+    var url = url_for({ controller: 'issues',
+                           action    : 'edit'
+                          });
+
+	$("#edit_item_" + dataId).html(generate_item(dataId));
+	$("#item_content_icons_editButton_" + dataId).remove();
+	$("#icon_set_" + dataId).addClass('updating');
+
+	$.post(url, 
+		   data, 
+		   	function(html){
+				item_updated(html, dataId);
+			}, //TODO: handle errors here
+			"json" //BUGBUG: is this a security risk?
+	);
+	
+	return false;
+}
+
+function cancel_new_item(dataId){
 	$("#new_item_wrapper").remove();
 	keyboard_shortcuts = true;
+	return false;
 }
+
+function cancel_edit_item(dataId){
+	$("#edit_item_" + dataId).html(generate_item(dataId));
+	keyboard_shortcuts = true;
+	return false;
+}
+
 
 function item_added(item){
 	$("#new_item_wrapper").remove();
@@ -509,6 +601,15 @@ function item_added(item){
 	add_item(D.length-1,"top");
 	add_hover_icon_events();
 	keyboard_shortcuts = true;
+	return false;
+}
+
+function item_updated(item, dataId){
+	D[dataId] = item; 
+	$("#edit_item_" + dataId).html(generate_item(dataId));
+	add_hover_icon_events();
+	keyboard_shortcuts = true;
+	return false;
 }
 
 function new_item(){
@@ -530,12 +631,12 @@ html = html + '	            <tbody>';
 html = html + '	              <tr>';
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input id="new_save_button" value="Save" type="submit" onclick="save_new_item();">';
+html = html + '	                    <input id="new_save_button" value="Save" type="submit" onclick="save_new_item();return false;">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input id="new_cancel_button" value="Cancel" type="submit" onclick="cancel_new_item();">';
+html = html + '	                    <input id="new_cancel_button" value="Cancel" type="submit" onclick="cancel_new_item();return false;">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
@@ -620,9 +721,167 @@ html = html + '	  </div>';
 html = html + '	</div>';
 
 show_panel('new');
-	$("#new_items").prepend(html);
-	$("#new_title_input").val(default_new_title).select();	
+$("#new_items").prepend(html);
+$("#new_title_input").val(default_new_title).select();	
+make_text_boxes_toggle_keyboard_shortcuts();
 }
+
+function generate_item_edit(dataId){
+html = '';	
+html = html + '	<div class="item" id="edit_item_' + dataId + '">';
+html = html + '	  <div class="storyItem underEdit" id="editItem_content_' + dataId + '">';
+html = html + '	   <form action="#">';
+html = html + '	    <div class="storyPreviewHeader">';
+html = html + ' 		<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_expanded.png" title="Collapse" alt="Collapse" onclick="collapse_item(' + dataId + ');return false;">';
+html = html + '	      <div class="storyPreviewInput">';
+html = html + '	        <input id="edit_title_input_' + dataId + '" class="titleInputField" name="title_input" value="' + D[dataId].subject + '" type="text">';
+html = html + '	      </div>';
+html = html + '	    </div>';
+html = html + '	    <div>';
+html = html + '	      <div id="edit_details_' + dataId + '" class="storyDetails">';
+html = html + '	          <table class="storyDetailsTable">';
+html = html + '	            <tbody>';
+html = html + '	              <tr>';
+html = html + '	                <td>';
+html = html + '	                  <div class="storyDetailsButton">';
+html = html + '	                    <input id="edit_save_button' + dataId + '" value="Save" type="submit" onclick="save_edit_item(' + dataId + ');return false;">';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	                <td>';
+html = html + '	                  <div class="storyDetailsButton">';
+html = html + '	                    <input id="edit_cancel_button' + dataId + '" value="Cancel" type="submit" onclick="cancel_edit_item(' + dataId + ');return false;">';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	                <td>';
+html = html + '	                  <div class="storyDetailsButton">';
+html = html + '	                    <input id="edit_view_history_button" value="View history" type="submit" onclick="view_history(' + dataId + ');return false;">';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	              </tr>';
+html = html + '	            </tbody>';
+html = html + '	          </table>';
+html = html + '	          <table class="storyDetailsTable">';
+html = html + '	            <tbody>';
+html = html + '	              <tr>';
+html = html + '	                <td class="letContentExpand" colspan="1">';
+html = html + '	                  <div>';
+html = html + '	                    <select id="edit_story_type_' + dataId + '" class="storyDetailsField" name="edit_story_type">';
+html = html + '	                      <option selected="true" value="feature">';
+html = html + '	                        Feature';
+html = html + '	                      </option>';
+html = html + '	                      <option value="bug">';
+html = html + '	                        Bug';
+html = html + '	                      </option>';
+html = html + '	                      <option value="chore">';
+html = html + '	                        Chore';
+html = html + '	                      </option>';
+html = html + '	                      <option value="release">';
+html = html + '	                        Release';
+html = html + '	                      </option>';
+html = html + '	                    </select>';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	                <td class="storyDetailsLabelIcon" colspan="1">';
+html = html + '	                  <div class="storyDetailsLabelIcon">';
+html = html + '	                    <img src="/images/feature_icon.png" id="edit_story_type_image" name="edit_story_type_image">';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	                <td class="helpIcon lastCell" colspan="1">';
+html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types' + dataId + '">';
+html = html + '	                    <img src="/images/question_mark.gif">';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	              </tr>';
+html = html + '	            </tbody>';
+html = html + '	          </table>';
+
+html = html + '	          <div class="section">';
+html = html + '	            <table class="storyDescriptionTable">';
+html = html + '	              <tbody>';
+html = html + '	                <tr>';
+html = html + '	                  <td class="header">';
+html = html + '	                    <div>';
+html = html + '	                      Description';
+html = html + '	                    </div>';
+html = html + '	                  </td>';
+html = html + '	                  <td class="lastCell">';
+html = html + '	                    <div class="helpIcon">';
+html = html + '	                      <img src="/images/question_mark.gif">';
+html = html + '	                    </div>';
+html = html + '	                  </td>';
+html = html + '	                </tr>';
+html = html + '	                <tr>';
+html = html + '	                  <td colspan="5">';
+html = html + '	                    <div>';
+html = html + '	                      <textarea class = "textAreaFocus" id="edit_description_' + dataId + '" rows="3" cols="20" name="story[description]">' + D[dataId].description + '</textarea>     ';
+html = html + '	                    <div>';
+html = html + '	                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
+html = html + '	                      </div>';
+html = html + '	                    </div>';
+html = html + '	                  </td>';
+html = html + '	                </tr>';
+html = html + '	              </tbody>';
+html = html + '	            </table>';
+html = html + '	          </div>';
+
+//comments
+
+html = html + '	          <div class="section">';
+html = html + '	            <table class="storyDescriptionTable">';
+html = html + '	              <tbody>';
+html = html + '	                <tr>';
+html = html + generate_comments(D[dataId],false);
+html = html + '	                </tr>';
+html = html + '	                <tr>';
+html = html + '	                  <td colspan="5">';
+html = html + '	                    <div>';
+html = html + '	                      <textarea class = "textAreaFocus" id="new_comment_' + dataId + '" rows="3" cols="20" name="story[comment]"></textarea>     ';
+html = html + '	                    <div>';
+html = html + '	                    <input value="Post Comment" type="submit" onclick="post_comment(' + dataId + '); return false;">';
+html = html + '	                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
+html = html + '	                      </div>';
+html = html + '	                    </div>';
+html = html + '	                  </td>';
+html = html + '	                </tr>';
+html = html + '	              </tbody>';
+html = html + '	            </table>';
+html = html + '	          </div>';
+
+
+html = html + '	      </div>';
+html = html + '	    </div>';
+html = html + '    </form>';
+html = html + '	  </div>';
+html = html + '	</div>';
+return html;
+}
+
+function post_comment(dataId){
+try{
+	var text = $("#new_comment_" + dataId).val();
+	if ((text == null) || (text.length < 2)|| (text == new_comment_text)){
+		return false;
+	}
+	else
+	{
+		$("#notesTable_" + D[dataId].id).append(generate_comment("You",text.replace(/\n/g,"<br>"),Date())); //TODO: properly format this date
+		$('#new_comment_' + dataId).val('');
+		//TODO: post comment
+		return false;
+	}
+	}
+catch(err){
+	console.log(err);
+	return false;
+}
+}
+
+//View item history
+function view_history(dataId){
+	return false;
+	
+}
+
 
 ///HELPERS
 function url_for(options){
@@ -641,8 +900,3 @@ function url_for(options){
   
   return url;
 }
-
-// 
-// function go(){
-// 	alert(D[2].subject);
-// }
