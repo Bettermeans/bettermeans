@@ -189,7 +189,6 @@ background-repeat:repeat-y;
 	background-color:#FFEDA1;
 }
 
-
 .unstarted, .newStory {
 	background-color:white;
 }
@@ -264,7 +263,7 @@ background-repeat:repeat-y;
 
 
 /*flyover*/
-.storyDetails {padding: 6px 4px 1px 4px; background-color: #fff8d7}
+.storyDetails {padding: 6px 17px 7px; background-color: #fff8d7}
 .storyDetails .elementResizerHandle {display: block}
 .storyDetailsTable {padding-top: 10px; border-spacing: 0px 0; border-collapse: separate}
 .storyDetailsTable td.letContentExpand {width: 1px}
@@ -275,7 +274,7 @@ background-repeat:repeat-y;
 .storyDetails .storyDescriptionTable textArea {margin-top: 3px}
 .storyDetails .section textArea.textAreaFocus, .storyDetails .section input[type=text].textAreaFocus {color: black; font-weight:normal; width: 95%}
 .storyDetails .section .italic {font-style:italic; color:#7C7B76; font-size:0.85em}
-.storyDetails .section .highlight {color: #333; font-weight:bold; font-size: 103%}
+.storyDetails .section .highlight {color: #333; font-weight:bold; font-size: 103%; background-color: #FFF8D7;}
 .storyDetails .section input[type='submit'] {margin-top: 4px; display: block}
 .storyDetails .section .storyDescriptionTable .descriptionHeaderEdit {font-size: 8pt; width:1px; padding-right: 4px}
 .storyDetails .section .storyDescriptionTable .lastCell {padding-left: 4px}
@@ -323,9 +322,8 @@ background-repeat:repeat-y;
 .storyFlyover.flyover .metaInfo .infoSection .text {vertical-align: middle}
 .storyFlyover.flyover .metaInfo .infoSection + .infoSection {margin-right: 6px}
 .storyFlyover.flyover .flyoverContent.storyDetails .section .notesTable {width: auto}
-.storyDetails .section .highlight {background-color:#ffffff; font-weight:bold; font-size: 103%}
 
-.noteText {line-height: 10px;}
+.noteText {line-height: 11px;}
 
 .overlay {overflow: hidden; font-size: 0.9em}
 .overlayContentWrapper {padding: 0 1em}
@@ -361,3 +359,32 @@ background-repeat:repeat-y;
 .no_yscroll {overflow-y: hidden; padding-right: 15px}
 .helpIcon {padding: 2px;}
 .titleInputField {width: 94%; font-size: 11pt; max-width:480px;}
+
+
+
+/*Dashboard*/
+
+#loading {
+	padding-left: 26px;
+	background-position: 0% 40%;
+	background-repeat: no-repeat;
+	background-image: url(../images/loading.gif);
+	font-style: italic;
+}
+
+.updating {
+	padding-left: 17px;
+	background-position: 0% 40%;
+	background-repeat: no-repeat;
+	background-image: url(../images/loading.gif);
+}
+
+.dashboard-button{
+	float: left;
+	margin-left: 3px;
+}
+
+.watermark{
+	color: #7C7B76;
+	font-style: italic;
+}

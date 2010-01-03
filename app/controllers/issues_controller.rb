@@ -207,10 +207,14 @@ class IssuesController < ApplicationController
         end
         if !journal.new_record?
           # Only send notification if something was actually changed
-          flash[:notice] = l(:notice_successful_update)
+          # flash[:notice] = l(:notice_successful_update)
         end
         call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
-        redirect_to(params[:back_to] || {:action => 'show', :id => @issue})
+        
+        respond_to do |format|
+          format.js {render :json => @issue.to_json(:include => {:journals => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname]}})}
+          format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+        end
       end
     end
   rescue ActiveRecord::StaleObjectError
