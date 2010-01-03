@@ -13,7 +13,7 @@ Dispatcher.to_prepare :redmine_s3 do
     AttachmentsController.send(:include, RedmineS3::AttachmentsControllerPatch)
   end
 
-  RedmineS3::Connection.create_bucket
+  # RedmineS3::Connection.create_bucket
 end
 
 Redmine::Plugin.register :redmine_s3_attachments do
