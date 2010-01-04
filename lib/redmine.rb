@@ -25,7 +25,7 @@ REDMINE_SUPPORTED_SCM = %w( Subversion Darcs Mercurial Cvs Bazaar Git Filesystem
 
 # Permissions
 Redmine::AccessControl.map do |map|
-  map.permission :view_project, {:projects => [:show, :activity,:team]}, :public => true
+  map.permission :view_project, {:projects => [:show, :activity,:team, :dashboard]}, :public => true
   map.permission :search_project, {:search => :index}, :public => true
   map.permission :add_project, {:projects => :add}, :require => :loggedin
   map.permission :edit_project, {:projects => [:settings, :edit]}, :require => :member
@@ -134,6 +134,11 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_credits, {:credits => [:destroy, :edit]}
   end
   
+  map.project_module :dashboard do |map|
+    map.permission :view_dashboard, {:project => :dashboard}
+  end
+  
+  
 end
 
 Redmine::MenuManager.map :top_menu do |menu|
@@ -161,15 +166,16 @@ end
 
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
+  menu.push :dashboard, { :controller => 'projects', :action => 'dashboard' }, :caption => :label_dashboard
   menu.push :team, { :controller => 'projects', :action => 'team' }
   menu.push :shares, { :controller => 'shares', :action => 'index' }, :param => :project_id, :caption => :label_share_plural
   menu.push :credits, { :controller => 'credits', :action => 'index' }, :param => :project_id, :caption => :label_credit_plural
   menu.push :activity, { :controller => 'projects', :action => 'activity' }
-  menu.push :roadmap, { :controller => 'projects', :action => 'roadmap' }, 
-              :if => Proc.new { |p| p.shared_versions.any? }
-  menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
-  menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new,
-              :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
+  # menu.push :roadmap, { :controller => 'projects', :action => 'roadmap' }, 
+  #             :if => Proc.new { |p| p.shared_versions.any? }
+  # menu.push :issues, { :controller => 'issues', :action => 'index' }, :param => :project_id, :caption => :label_issue_plural
+  # menu.push :new_issue, { :controller => 'issues', :action => 'new' }, :param => :project_id, :caption => :label_issue_new,
+              # :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
   menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
   menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }, 

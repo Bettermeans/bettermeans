@@ -16,13 +16,13 @@
 //Animate panels
 //BUGBUG: flyovers don't work in safari
 //TODO: test in IE
-//empty dice for null estimates
 //detect and insert bold and italic text (time to learn regular expresssion :)
 //auto-expanding boxes for description and comments
 //minifiy this file will be over 50k!
 //watermark is not grey, still black
 //test for javascript and warn if user has it off
 //error handling for poor connectivity (couldn't load page! couldn't update item! couldn't save new item! couldn't save post!)
+
 
 var D; //all data
 var keyboard_shortcuts = false;
@@ -877,7 +877,7 @@ try{
 	else
 	{
 		var item = D[dataId];
-		$("#notesTable_" + item.id).append(generate_comment("You",text.replace(/\n/g,"<br>"),Date())); //TODO: properly format this date
+		$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),Date())); //TODO: properly format this date
 		$('#new_comment_' + dataId).val('');
 		
 		var data = "commit=Create&issue_id=" + item.id + "&comment=" + text;

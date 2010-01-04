@@ -118,6 +118,8 @@ module Redmine
       
       # Returns the menu item name according to the current action
       def current_menu_item
+        logger.info("controller_name #{controller_name}  #{menu_items.inspect}")
+        logger.info("current menu item #{menu_items[controller_name.to_sym][:actions]}")
         @current_menu_item ||= menu_items[controller_name.to_sym][:actions][action_name.to_sym] ||
                                  menu_items[controller_name.to_sym][:default]
       end
@@ -245,6 +247,7 @@ module Redmine
           item.url
         end
         caption = item.caption(project)
+        logger.info("item name: #{item.name}  current_menu_item: #{current_menu_item}")
         return [caption, url, (current_menu_item == item.name)]
       end
 
