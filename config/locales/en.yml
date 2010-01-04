@@ -424,6 +424,7 @@ en:
   label_member_plural: Members
   label_team : Team
   label_team_plural : Teams
+  label_dashboard : Dashboard
   label_tracker: Type
   label_tracker_plural: Types
   label_tracker_new: New type
