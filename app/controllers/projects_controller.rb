@@ -6,6 +6,7 @@ class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :activity, :only => :activity
   menu_item :roadmap, :only => :roadmap
+  menu_item :dashboard, :only => :dashboard
   menu_item :files, :only => [:list_files, :add_file]
   menu_item :settings, :only => :settings
   menu_item :issues, :only => [:changelog]
