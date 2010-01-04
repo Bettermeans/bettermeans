@@ -33,6 +33,57 @@ $(window).bind('resize', function() {
 	resize();
 });
 
+/*
+* Auto-growing textareas; technique ripped from Facebook
+*/
+    $.fn.autogrow = function(options) {
+        
+        this.filter('textarea').each(function() {
+            
+            var $this = $(this),
+                minHeight = $this.height(),
+                lineHeight = $this.css('lineHeight');
+            
+            var shadow = $('<div></div>').css({
+                position: 'absolute',
+                top: -10000,
+                left: -10000,
+                width: $(this).width() - parseInt($this.css('paddingLeft'),10) - parseInt($this.css('paddingRight'),10),
+                fontSize: $this.css('fontSize'),
+                fontFamily: $this.css('fontFamily'),
+                lineHeight: $this.css('lineHeight'),
+                resize: 'none'
+            }).appendTo(document.body);
+            
+            var update = function() {
+    
+                var times = function(string, number) {
+                    for (var i = 0, r = ''; i < number; i ++) r += string;
+                    return r;
+                };
+                
+                var val = this.value.replace(/</g, '&lt;')
+                                    .replace(/>/g, '&gt;')
+                                    .replace(/&/g, '&amp;')
+                                    .replace(/\n$/, '<br/>&nbsp;')
+                                    .replace(/\n/g, '<br/>')
+                                    .replace(/ {2,}/g, function(space) { return times('&nbsp;', space.length -1) + ' ' ;});
+                
+                shadow.html(val);
+                $(this).css('height', Math.max(shadow.height() + 20, minHeight));
+            
+            };
+            
+            $(this).change(update).keyup(update).keydown(update);
+            
+            update.apply(this);
+            
+        });
+        
+        return this;
+        
+    };
+
 $.fn.makeAbsolute = function(rebase) {
 
     return this.each(function() {
@@ -304,7 +355,7 @@ function generate_flyover_description(item){
 	html = html + '	    <tbody>';
 	html = html + '<tr class="noteInfoRow">';
 	html = html + '<td class="noteInfo">';
-	html = html + '<span class="specialhighlight">' + item.description + '</span>';
+	html = html + '<span class="specialhighlight">' + item.description.replace(/\n/g,"<br>") + '</span>';
  	html = html + '</td>';
   	html = html + '</tr>';
 	html = html + '	    </tbody>';
@@ -528,6 +579,8 @@ function recalculate_widths(){
 function expand_item(dataId){
 	$('#item_' + dataId).html(generate_item_edit(dataId));
 	$('#new_comment_' + dataId).watermark('watermark',new_comment_text);
+	$('#new_comment_' + dataId).autogrow();
+	$('#edit_description_' + dataId).autogrow();
 	make_text_boxes_toggle_keyboard_shortcuts();
 }
 
@@ -716,7 +769,7 @@ html = html + '	                </tr>';
 html = html + '	                <tr>';
 html = html + '	                  <td colspan="5">';
 html = html + '	                    <div>';
-html = html + '	                      <textarea class = "textAreaFocus" id="new_description" rows="3" cols="20" name="story[description]"></textarea>     ';
+html = html + '	                      <textarea class = "textAreaFocus" id="new_description" rows="2" cols="20" name="story[description]"></textarea>     ';
 html = html + '	                    <div>';
 html = html + '	                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
 html = html + '	                      </div>';
@@ -735,6 +788,7 @@ html = html + '	</div>';
 show_panel('new');
 $("#new_items").prepend(html);
 $("#new_title_input").val(default_new_title).select();	
+$("#new_description").autogrow();
 make_text_boxes_toggle_keyboard_shortcuts();
 }
 
@@ -825,7 +879,7 @@ html = html + '	                </tr>';
 html = html + '	                <tr>';
 html = html + '	                  <td colspan="5">';
 html = html + '	                    <div>';
-html = html + '	                      <textarea class = "textAreaFocus" id="edit_description_' + dataId + '" rows="3" cols="20" name="story[description]">' + D[dataId].description + '</textarea>     ';
+html = html + '	                      <textarea class = "textAreaFocus" id="edit_description_' + dataId + '" rows="1" cols="20" name="story[description]">' + D[dataId].description + '</textarea>     ';
 html = html + '	                    <div>';
 html = html + '	                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
 html = html + '	                      </div>';
@@ -847,7 +901,7 @@ html = html + '	                </tr>';
 html = html + '	                <tr>';
 html = html + '	                  <td colspan="5">';
 html = html + '	                    <div>';
-html = html + '	                      <textarea class = "textAreaFocus" id="new_comment_' + dataId + '" rows="3" cols="20" name="story[comment]"></textarea>     ';
+html = html + '	                      <textarea class = "textAreaFocus" id="new_comment_' + dataId + '" rows="1" cols="20" name="story[comment]"></textarea>     ';
 html = html + '	                    <div>';
 html = html + '	                    <input value="Post Comment" type="submit" onclick="post_comment(' + dataId + '); return false;">';
 html = html + '	                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
@@ -879,6 +933,7 @@ try{
 		var item = D[dataId];
 		$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),Date())); //TODO: properly format this date
 		$('#new_comment_' + dataId).val('');
+		
 		
 		var data = "commit=Create&issue_id=" + item.id + "&comment=" + text;
 		
