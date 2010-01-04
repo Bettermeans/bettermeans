@@ -11,7 +11,7 @@ class DocumentsController < ApplicationController
   helper :attachments
   
   def index
-    @sort_by = %w(category date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
+    @sort_by = %w(catego»ry date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
     documents = @project.documents.find :all, :include => [:attachments, :category]
     case @sort_by
     when 'date'
