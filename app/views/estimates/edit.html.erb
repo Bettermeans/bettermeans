@@ -1,0 +1,12 @@
+<h1>Editing estimate</h1>
+
+<% form_for(@estimate) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @estimate %> |
+<%= link_to 'Back', estimates_path %>
