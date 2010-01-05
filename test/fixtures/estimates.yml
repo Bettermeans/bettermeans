@@ -5,3 +5,16 @@
 #
 # two:
 #   column: value
+
+# == Schema Information
+#
+# Table name: estimates
+#
+#  id         :integer         not null, primary key
+#  points     :integer         not null
+#  user_id    :integer         not null
+#  issue_id   :integer         not null
+#  created_on :datetime
+#  updated_on :datetime
+#
+

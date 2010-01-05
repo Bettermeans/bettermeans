@@ -1,4 +1,6 @@
 class EstimatesController < ApplicationController
+  before_filter :authorize, :only => [:index, :create, :update, :destroy ]
+  
   # GET /estimates
   # GET /estimates.xml
   def index
@@ -47,6 +49,7 @@ class EstimatesController < ApplicationController
         flash[:notice] = 'Estimate was successfully created.'
         format.html { redirect_to(@estimate) }
         format.xml  { render :xml => @estimate, :status => :created, :location => @estimate }
+        format.js {render :json => @estimate.to_json(:include => :user)}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @estimate.errors, :status => :unprocessable_entity }
@@ -82,4 +85,5 @@ class EstimatesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
 end
