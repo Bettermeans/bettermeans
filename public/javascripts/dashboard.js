@@ -8,7 +8,6 @@
 //little hover over question marks for each panel describing whay they are
 //"my work" panel
 //somewhere in the "new item" tool tip, let them know that pressing the 'n' key activates the new item (should also be a tooltip for the new request button)
-//what are the types of requests? feature? chore? or do we hide this functionality for now? keep it simple!
 //keyboard shortcut for each panel
 //Scroll form to top of panel when editing
 //Handle errors in javascript
@@ -17,12 +16,12 @@
 //BUGBUG: flyovers don't work in safari
 //TODO: test in IE
 //detect and insert bold and italic text (time to learn regular expresssion :)
-//auto-expanding boxes for description and comments
 //minifiy this file will be over 50k!
 //watermark is not grey, still black
 //test for javascript and warn if user has it off
 //error handling for poor connectivity (couldn't load page! couldn't update item! couldn't save new item! couldn't save post!)
-
+//save request type (feature, chore, bug)
+//view history panel
 
 var D; //all data
 var keyboard_shortcuts = false;
@@ -127,6 +126,15 @@ $.fn.watermark = function(css, text) {
 		});
 		
 		$(this).addClass(css).val(text);
+};
+
+$.fn.mybubbletip = function(tip, options) {
+		$(this).mouseover(function() {
+			$(this).bubbletip(tip,options);
+		});
+		// $(this).mouseout(function() {
+		// 	$(this).removeBubbletip(tip);
+		// });
 };
 
 $.fn.keyboard_sensitive = function() {
@@ -292,7 +300,7 @@ function generate_flyover(dataId){
 	var item = D[dataId];
 	
 	var points;
-	item.points == null ? points = 'No' : points = item.points;
+	item.points == null ? points = 'No' : points = Math.round(item.points);
 	
 	var html = '';
 	
@@ -430,7 +438,7 @@ function generate_item(dataId){
 	var item = D[dataId];
 	var html = '';
 	var points;
-	item.points == null ? points = 'No' : points = item.points;
+	item.points == null ? points = 'No' : points = Math.round(item.points);
 	
 	html = html + '<div id="item_' + dataId + '" class="item">';
 	html = html + '<div id="item_content_' + dataId + '" class="' + item.status.name.replace(" ","-").toLowerCase() + ' hoverable" style="">';
@@ -581,6 +589,18 @@ function expand_item(dataId){
 	$('#new_comment_' + dataId).watermark('watermark',new_comment_text);
 	$('#new_comment_' + dataId).autogrow();
 	$('#edit_description_' + dataId).autogrow();
+	$('#help_image_description_' + dataId).mybubbletip($('#help_description'), {
+		deltaDirection: 'right',
+		delayShow: 300,
+		delayHide: 300,
+		offsetLeft: 0
+	});
+	$('#help_image_feature_' + dataId).mybubbletip($('#help_feature'), {
+		deltaDirection: 'up',
+		delayShow: 300,
+		delayHide: 300,
+		offsetTop: 0
+	});
 	make_text_boxes_toggle_keyboard_shortcuts();
 }
 
@@ -841,9 +861,6 @@ html = html + '	                      </option>';
 html = html + '	                      <option value="chore">';
 html = html + '	                        Chore';
 html = html + '	                      </option>';
-html = html + '	                      <option value="release">';
-html = html + '	                        Release';
-html = html + '	                      </option>';
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
@@ -854,7 +871,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types' + dataId + '">';
-html = html + '	                    <img src="/images/question_mark.gif">';
+html = html + '	                    <img id="help_image_feature_' + dataId + '" src="/images/question_mark.gif">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -871,8 +888,8 @@ html = html + '	                      Description';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                  <td class="lastCell">';
-html = html + '	                    <div class="helpIcon">';
-html = html + '	                      <img src="/images/question_mark.gif">';
+html = html + '	                    <div class="helpIcon_Description">';
+html = html + '	                      <img id="help_image_description_' + dataId + '" src="/images/question_mark.gif">';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
@@ -981,3 +998,378 @@ function url_for(options){
   
   return url;
 }
+
+
+/*
+ * bubbletip
+ *
+ * Copyright (c) 2009, UhLeeKa
+ * Version: 
+ *      1.0.4
+ * Licensed under the GPL license:
+ *     http://www.gnu.org/licenses/gpl.html
+ * Author Website: 
+ *     http://www.uhleeka.com
+ * Description: 
+ *     A bubble-styled tooltip extension
+ *      - multiple tips on a page
+ *      - multiple tips per jQuery element 
+ *      - tips open outward in four directions:
+ *         - up
+ *         - down
+ *         - left
+ *         - right
+ *      - tips can be: 
+ *         - anchored to the triggering jQuery element
+ *         - absolutely positioned
+ *         - opened at the current mouse coordinates
+ *         - anchored to a specified jQuery element
+ *      - IE png transparency is handled via filters
+ */
+	var bindIndex = 0;
+	var mouse_over_wrapper = false;
+	$.fn.extend({
+		bubbletip: function(tip, options) {
+			console.log(tip);
+			// check to see if the tip is a descendant of 
+			// a table.bubbletip element and therefore
+			// has already been instantiated as a bubbletip
+			if ($('table.bubbletip #' + $(tip).id).length > 0) {
+				return this;
+			}
+
+			var _this, _tip, _options, _calc, _timeoutAnimate, _timeoutRefresh, _isActive, _isHiding, _wrapper, _bindIndex;
+
+			_this = $(this);
+			_tip = $(tip);
+			_bindIndex = bindIndex++;  // for window.resize namespace binding
+			_options = {
+				positionAt: 'element', // element | body | mouse
+				positionAtElement: _this,
+				offsetTop: 0,
+				offsetLeft: 0,
+				deltaPosition: 0,
+				deltaDirection: 'up', // direction: up | down | left | right
+				animationDuration: 250,
+				animationEasing: 'swing', // linear | swing
+				bindShow: 'mouseover', // mouseover | focus | click | etc.
+				bindHide: 'mouseout', // mouseout | blur | etc.
+				delayShow: 0,
+				delayHide: 500
+			};
+			if (options) {
+				_options = $.extend(_options, options);
+			}
+			// calculated values
+			_calc = {
+				top: 0,
+				left: 0,
+				delta: 0,
+				mouseTop: 0,
+				mouseLeft: 0,
+				tipHeight: 0,
+				bindShow: (_options.bindShow + ' ').replace(/ +/g, '.bubbletip' + _bindIndex),
+				bindHide: (_options.bindHide + ' ').replace(/ +/g, '.bubbletip' + _bindIndex)
+			};
+			_timeoutAnimate = null;
+			_timeoutRefresh = null;
+			_isActive = false;
+			_isHiding = false;
+
+			// store the tip id for removeBubbletip
+			if (!_this.data('bubbletip_tips')) {
+				_this.data('bubbletip_tips', [[_tip.get(0).id, _calc.bindShow, _calc.bindHide, _bindIndex]]);
+			} else {
+				_this.data('bubbletip_tips', $.merge(_this.data('bubbletip_tips'), [[_tip.get(0).id, _calc.bindShow, _calc.bindHide, _bindIndex]]));
+			}
+
+
+			// validate _options
+			if (!_options.positionAt.match(/^element|body|mouse$/i)) {
+				_options.positionAt = 'element';
+			}
+			if (!_options.deltaDirection.match(/^up|down|left|right$/i)) {
+				_options.deltaDirection = 'up';
+			}
+
+			// create the wrapper table element
+			if (_options.deltaDirection.match(/^up$/i)) {
+				_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td><table class="bt-bottom" cellspacing="0" cellpadding="0"><tr><th></th><td><div></div></td><th></th></tr></table></td><td class="bt-bottomright"></td></tr></tbody></table>');
+			} else if (_options.deltaDirection.match(/^down$/i)) {
+				_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td><table class="bt-top" cellspacing="0" cellpadding="0"><tr><th></th><td><div></div></td><th></th></tr></table></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
+			} else if (_options.deltaDirection.match(/^left$/i)) {
+				_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right-tail"><div class="bt-right"></div><div class="bt-right-tail"></div><div class="bt-right"></div></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
+			} else if (_options.deltaDirection.match(/^right$/i)) {
+				_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left-tail"><div class="bt-left"></div><div class="bt-left-tail"></div><div class="bt-left"></div></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
+			}
+
+			// append the wrapper to the document body
+			_wrapper.appendTo('body');
+
+			// apply IE filters to _wrapper elements
+			if ((/msie/.test(navigator.userAgent.toLowerCase())) && (!/opera/.test(navigator.userAgent.toLowerCase()))) {
+				$('*', _wrapper).each(function() {
+					var image = $(this).css('background-image');
+					if (image.match(/^url\(["']?(.*\.png)["']?\)$/i)) {
+						image = RegExp.$1;
+						$(this).css({
+							'backgroundImage': 'none',
+							'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=' + ($(this).css('backgroundRepeat') == 'no-repeat' ? 'crop' : 'scale') + ', src=\'' + image + '\')'
+						}).each(function() {
+							var position = $(this).css('position');
+							if (position != 'absolute' && position != 'relative')
+								$(this).css('position', 'relative');
+						});
+					}
+				});
+			}
+
+			// move the tip element into the content section of the wrapper
+			$('.bt-content', _wrapper).append(_tip);
+			// show the tip (in case it is hidden) so that we can calculate its dimensions
+			_tip.show();
+			// handle left|right delta
+			if (_options.deltaDirection.match(/^left|right$/i)) {
+				// tail is 40px, so divide height by two and subtract 20px;
+				_calc.tipHeight = parseInt(_tip.height() / 2,10);
+				// handle odd integer height
+				if ((_tip.height() % 2) == 1) {
+					_calc.tipHeight++;
+				}
+				_calc.tipHeight = (_calc.tipHeight < 20) ? 1 : _calc.tipHeight - 20;
+				if (_options.deltaDirection.match(/^left$/i)) {
+					$('div.bt-right', _wrapper).css('height', _calc.tipHeight + 'px');
+				} else {
+					$('div.bt-left', _wrapper).css('height', _calc.tipHeight + 'px');
+				}
+			}
+			// set the opacity of the wrapper to 0
+			_wrapper.css('opacity', 0);
+			// execute initial calculations
+			_Calculate();
+
+			// handle window.resize
+			$(window).bind('resize.bubbletip' + _bindIndex, function() {
+				if (_timeoutRefresh) {
+					clearTimeout(_timeoutRefresh);
+				} else {
+					_wrapper.hide();
+				}
+				_timeoutRefresh = setTimeout(function() {
+					_Calculate();
+				}, 250);
+			});
+
+			// handle mouseover and mouseout events
+			// $([_wrapper.get(0), this.get(0)]).bind(_calc.bindShow, function(e) {
+				if (_timeoutAnimate) {
+					clearTimeout(_timeoutAnimate);
+				}
+				_timeoutAnimate = setTimeout(function() {
+					if (_isActive) {
+						return;
+					}
+					_isActive = true;
+					if (_isHiding) {
+						_wrapper.stop(true, false);
+					}
+
+					var animation;
+
+					if (_options.positionAt.match(/^element|body$/i)) {
+						if (_options.deltaDirection.match(/^up|down$/i)) {
+							if (!_isHiding) {
+								_wrapper.css('top', parseInt(_calc.top + _calc.delta,10) + 'px');
+							}
+							animation = { 'opacity': 1, 'top': _calc.top + 'px' };
+						} else {
+							if (!_isHiding) {
+								_wrapper.css('left', parseInt(_calc.left + _calc.delta,10) + 'px');
+							}
+							animation = { 'opacity': 1, 'left': _calc.left + 'px' };
+						}
+					} else {
+						if (_options.deltaDirection.match(/^up|down$/i)) {
+							if (!_isHiding) {
+								_calc.mouseTop = e.pageY + _calc.top;
+								_wrapper.css({ 'top': parseInt(_calc.mouseTop + _calc.delta,10) + 'px', 'left': parseInt(e.pageX - (_wrapper.width() / 2),10) + 'px' });
+							}
+							animation = { 'opacity': 1, 'top': _calc.mouseTop + 'px' };
+						} else {
+							if (!_isHiding) {
+								_calc.mouseLeft = e.pageX + _calc.left;
+								_wrapper.css({ 'left': parseInt(_calc.mouseLeft + _calc.delta,10) + 'px', 'top': parseInt(e.pageY - (_wrapper.height() / 2),10) + 'px' });
+							}
+							animation = { 'opacity': 1, 'left': _calc.left + 'px' };
+						}
+					}
+					_isHiding = false;
+					_wrapper.show();
+					_wrapper.animate(animation, _options.animationDuration, _options.animationEasing, function() {
+						_wrapper.css('opacity', '');
+						_isActive = true;
+					});
+				}, _options.delayShow);
+
+		//		return false;
+			$('.bubbletip').bind('mouseover',function(){
+				mouse_over_bubble = true;
+				console.log("mouse over bubble:" + mouse_over_bubble);
+			});
+			
+			$('.bubbletip').bind('mouseout', function() {
+							mouse_over_bubble = false;
+							console.log("mouse over bubble:" + mouse_over_bubble);
+			//				_HideWrapper();
+			});
+				
+			$([_wrapper.get(0), this.get(0)]).bind(_calc.bindHide, function() {
+							if (_timeoutAnimate) {
+								clearTimeout(_timeoutAnimate);
+							}
+							_timeoutAnimate = setTimeout(function() {
+								console.log("hiding: mouse over bubble:" + mouse_over_bubble);
+								if (!mouse_over_bubble)
+								{
+									_HideWrapper();
+								}
+			
+							}, _options.delayHide);
+			
+							return false;
+						});
+						
+			function _HideWrapper() {
+				var animation;
+
+				_isActive = false;
+				_isHiding = true;
+				if (_options.positionAt.match(/^element|body$/i)) {
+					if (_options.deltaDirection.match(/^up|down$/i)) {
+						animation = { 'opacity': 0, 'top': parseInt(_calc.top - _calc.delta,10) + 'px' };
+					} else {
+						animation = { 'opacity': 0, 'left': parseInt(_calc.left - _calc.delta,10) + 'px' };
+					}
+				} else {
+					if (_options.deltaDirection.match(/^up|down$/i)) {
+						animation = { 'opacity': 0, 'top': parseInt(_calc.mouseTop - _calc.delta,10) + 'px' };
+					} else {
+						animation = { 'opacity': 0, 'left': parseInt(_calc.mouseLeft - _calc.delta,10) + 'px' };
+					}
+				}
+				_wrapper.animate(animation, _options.animationDuration, _options.animationEasing, function() {
+					_wrapper.hide();
+					_isHiding = false;
+				});
+			};
+
+			function _Calculate() {
+				// calculate values
+				if (_options.positionAt.match(/^element$/i)) {
+					var offset = _options.positionAtElement.offset();
+					if (_options.deltaDirection.match(/^up$/i)) {
+						_calc.top = offset.top + _options.offsetTop - _wrapper.height();
+						_calc.left = offset.left + _options.offsetLeft + ((_options.positionAtElement.width() - _wrapper.width()) / 2);
+						_calc.delta = _options.deltaPosition;
+					} else if (_options.deltaDirection.match(/^down$/i)) {
+						_calc.top = offset.top + _options.positionAtElement.height() + _options.offsetTop;
+						_calc.left = offset.left + _options.offsetLeft + ((_options.positionAtElement.width() - _wrapper.width()) / 2);
+						_calc.delta = -_options.deltaPosition;
+					} else if (_options.deltaDirection.match(/^left$/i)) {
+						_calc.top = offset.top + _options.offsetTop + ((_options.positionAtElement.height() - _wrapper.height()) / 2);
+						_calc.left = offset.left + _options.offsetLeft - _wrapper.width();
+						_calc.delta = _options.deltaPosition;
+					} else if (_options.deltaDirection.match(/^right$/i)) {
+						_calc.top = offset.top + _options.offsetTop + ((_options.positionAtElement.height() - _wrapper.height()) / 2);
+						_calc.left = offset.left + _options.positionAtElement.width() + _options.offsetLeft;
+						_calc.delta = -_options.deltaPosition;
+					}
+				} else if (_options.positionAt.match(/^body$/i)) {
+					if (_options.deltaDirection.match(/^up|left$/i)) {
+						_calc.top = _options.offsetTop;
+						_calc.left = _options.offsetLeft;
+						// up or left
+						_calc.delta = _options.deltaPosition;
+					} else {
+						if (_options.deltaDirection.match(/^down$/i)) {
+							_calc.top = parseInt(_options.offsetTop + _wrapper.height(),10);
+							_calc.left = _options.offsetLeft;
+						} else {
+							_calc.top = _options.offsetTop;
+							_calc.left = parseInt(_options.offsetLeft + _wrapper.width(),10);
+						}
+						// down or right
+						_calc.delta = -_options.deltaPosition;
+					}
+				} else if (_options.positionAt.match(/^mouse$/i)) {
+					if (_options.deltaDirection.match(/^up|left$/i)) {
+						if (_options.deltaDirection.match(/^up$/i)) {
+							_calc.top = -(_options.offsetTop + _wrapper.height());
+							_calc.left = _options.offsetLeft;
+						} else if (_options.deltaDirection.match(/^left$/i)) {
+							_calc.top = _options.offsetTop;
+							_calc.left = -(_options.offsetLeft + _wrapper.width());
+						}
+						// up or left
+						_calc.delta = _options.deltaPosition;
+					} else {
+						_calc.top = _options.offsetTop;
+						_calc.left = _options.offsetLeft;
+						// down or right
+						_calc.delta = -_options.deltaPosition;
+					}
+				}
+				// hide
+				_wrapper.hide();
+				// handle the wrapper (element|body) positioning
+				if (_options.positionAt.match(/^element|body$/i)) {
+					_wrapper.css({
+						'position': 'absolute',
+						'top': _calc.top + 'px',
+						'left': _calc.left + 'px'
+					});
+				}
+			};
+			return this;
+		},
+		removeBubbletip: function(tips) {
+			var tipsActive;
+			var tipsToRemove = new Array();
+			var arr, i, ix;
+			var elem;
+
+			tipsActive = $.makeArray($(this).data('bubbletip_tips'));
+
+			// convert the parameter array of tip id's or elements to id's
+			arr = $.makeArray(tips);
+			for (i = 0; i < arr.length; i++) {
+				tipsToRemove.push($(arr[i]).get(0).id);
+			}
+
+			for (i = 0; i < tipsActive.length; i++) {
+				ix = null;
+				if ((tipsToRemove.length == 0) || ((ix = $.inArray(tipsActive[i][0], tipsToRemove)) >= 0)) {
+					// remove all tips if there are none specified
+					// otherwise, remove only specified tips
+
+					// find the surrounding table.bubbletip
+					elem = $('#' + tipsActive[i][0]).get(0).parentNode;
+					while (elem.tagName.toLowerCase() != 'table') {
+						elem = elem.parentNode;
+					}
+					// attach the tip element to body and hide
+					$(tipsActive[i][0]).appendTo('body').hide();
+					// remove the surrounding table.bubbletip
+					$(elem).remove();
+
+					// unbind show/hide events
+					$(this).unbind(tipsActive[i][1]).unbind([i][2]);
+
+					// unbind window.resize event
+					$(window).unbind('resize.bubbletip' + tipsActive[i][3]);
+				}
+			}
+
+			return this;
+		}
+	});
