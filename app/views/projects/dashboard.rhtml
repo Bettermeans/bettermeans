@@ -4,7 +4,6 @@
 <![endif]-->
 
 <%= javascript_include_tag  'dashboard' %>
-<%#= javascript_include_tag  'jQuery.bubbletip-1.0.4' %>
 <%= stylesheet_link_tag 'dashboard' %>
 
 
@@ -28,6 +27,7 @@
 <script>
   var projectID = '<%= @project.identifier %>';
   var currentUser = '<%= User.current.name %>';
+  var currentUserLogin = '<%= User.current.login %>';
 </script>
 
 
@@ -35,7 +35,7 @@
 
 
 
-<div id='flyovers'></div>
+<div id='flyovers' style="display:none;">
 
 <div id="help_description" style="display:none;">
   <div class="tip" style="width:180px">
@@ -61,6 +61,64 @@
   </div>
 </div>
 
+</div>
+
+
+<div id="flyover_estimate_demo" class="overlay">
+  <div style="border: 0pt none ; margin: 0pt;">
+    <div class="overlayContentWrapper storyFlyover flyover" style="width: 300px;">
+      <div class="storyTitle">
+        Estimate: 4 points (3 people)
+      </div>
+      <div class="sectionDivider">
+      <div style="height: auto;">
+        <div class="metaInfo">
+          <div class="left">
+            You estimated 6 points on 25 Dec 2009, 2:21pm
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="flyoverContent storyDetails">
+            <div class="section">
+              <div class="header">
+                Change your estimate below
+              </div>
+              <table class="notesTable">
+                <tbody>
+                  <tr class="noteInfoRow">
+                    <td class="noteInfo">
+                      Shereef Bishay - 2pts<br>
+                      Adelle Burns - 4pts<br>
+                      Mohsen Basha - 6pts
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              <div class="section">
+                <div class="header">
+                  Your estimate
+                </div>
+                <table class="notesTable">
+                  <tbody>
+                    <tr class="noteTextRow">
+                      <td class="noteText">
+                        <img src="/images/dice_0.png" width="18" height="18" alt="0 Points">
+                        <img src="/images/dice_1.png" width="18" height="18" alt="1 Points">
+                        <img src="/images/dice_2.png" width="18" height="18" alt="2 Points">
+                        <img src="/images/dice_4.png" width="18" height="18" alt="4 Points">
+                        <img src="/images/dice_6.png" width="18" height="18" alt="6 Points">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          <div class="clear"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- <div id="flyover" class="overlay" style="position: absolute; top: 160px; left: 526px; display:none;">
   <div style="border: 0pt none ; margin: 0pt;">
