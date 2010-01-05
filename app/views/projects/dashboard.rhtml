@@ -1,6 +1,14 @@
+<link href="/stylesheets/bubbletip.css" rel="stylesheet" type="text/css" />
+<!--[if IE]>
+<link href="/stylesheets/bubbletip-IE.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+
 <%= javascript_include_tag  'dashboard' %>
+<%#= javascript_include_tag  'jQuery.bubbletip-1.0.4' %>
 <%= stylesheet_link_tag 'dashboard' %>
 
+
+<!-- todo: do we need this link? -->
 <script src="http://jquery-ui.googlecode.com/svn/branches/dev/ui/jquery.ui.position.js"></script>
 <!-- <input id="new_request" value="New Request" type="submit" onclick="new_item();"/> -->
 <div id='loading'>
@@ -27,8 +35,31 @@
 
 
 
-
 <div id='flyovers'></div>
+
+<div id="help_description" style="display:none;">
+  <div class="tip" style="width:180px">
+    <strong>Description</strong><br>
+    A request's description should contain the criteria for the acceptance of the request.<br>
+    It should clearly answer the question: <strong>How exactly will we measure that this request is done?</strong> This may take the form of user requirements, acceptance tests, a link to an external document, etc.
+  </div>
+</div>
+
+<div id="help_feature" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>There are 3 types of requests:</strong><br>
+    A <strong>Feature</strong> is a request that provides verifiable value to the team's customer. Usually it is requested by the customer. The customer can be an internal customer to the enterprise.<br> 
+    A <strong>Chore</strong> is a request that does not provide verifiable value to the team's customer but is deemed necessary by the team in order to keep moving forward. Usually it is not requested by the customer, but internally by the team.<br>
+    A <strong>Bug</strong> is a request that describes a problem in some previously accepted request. <!-- * A Release marker is a request that marks the end of some group of stories that constitutes a release. -->
+  </div>
+</div>
+
+<div id="help_estimate" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Estimates</strong><br>
+    Requests are estimated in Points. A Point is a team-specific measurement of the effort required to get the request done. Estimates are used to calculate the budget for the request.
+  </div>
+</div>
 
 
 <!-- <div id="flyover" class="overlay" style="position: absolute; top: 160px; left: 526px; display:none;">

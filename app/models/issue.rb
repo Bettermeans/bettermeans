@@ -20,6 +20,7 @@ class Issue < ActiveRecord::Base
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   
   has_many :commit_requests, :dependent => :delete_all
+  has_many :estimates, :dependent => :delete_all
   
   acts_as_voteable #for vote_fu plugin
   acts_as_attachable :after_remove => :attachment_removed
@@ -393,6 +394,11 @@ class Issue < ActiveRecord::Base
     # Update issues of the moved projects and issues assigned to a version of a moved project
     Issue.update_versions(["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
   end
+  
+  def update_point_average
+    self.points =   Estimate.average(:points, :conditions => {:issue_id => self.id})
+    self.save
+  end
 
   private
   
@@ -450,7 +456,10 @@ class Issue < ActiveRecord::Base
   end
   
   
+  
+  
 end
+
 
 
 
@@ -477,6 +486,6 @@ end
 #  done_ratio       :integer         default(0), not null
 #  estimated_hours  :float
 #  expected_date    :date
-#  points           :integer
+#  points           :float
 #
 

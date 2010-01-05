@@ -43,7 +43,8 @@ Redmine::AccessControl.map do |map|
                                   :versions => [:show, :status_by],
                                   :queries => :index,
                                   :reports => :issue_report,
-                                  :comments => :index
+                                  :comments => :index,
+                                  :estimates => :index
                                   }
     map.permission :add_issues, {:issues => [:new, :update_form]}
     map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form]}
@@ -58,6 +59,7 @@ Redmine::AccessControl.map do |map|
     map.permission :view_commit_requests, {:commit_requests => [:edit, :show]} #Can view ownereship requests
     map.permission :view_team_offers, {:team_offers => [:show]} #Can view core team offers
     map.permission :view_member_roles, {:member_roles => [:show]} #Can view member roles
+    map.permission :estimate_issues, {:estimates => [:create, :update, :destroy ]} #Can estimate issue
     # Queries
     map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
     map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
