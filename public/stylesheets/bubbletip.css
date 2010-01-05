@@ -3,8 +3,6 @@
 /*******************************/
 .bubbletip
 {
-	background:url(/images/bg_gradient_comments_hover.gif) #FFF repeat-x scroll left top;
-	
 	position: absolute;
 	z-index: 50;
 	border-collapse: collapse;
@@ -17,6 +15,7 @@
 }
 .bubbletip td.bt-top
 {
+/*	background:url(/images/bg_gradient_comments_hover.gif) #FFF repeat-x scroll 10px 0px;	*/
 	background: transparent url(/images/bubbletip/bubbletip-T-B.png) repeat-x scroll 0px 0px;
 	height: 33px;
 }
