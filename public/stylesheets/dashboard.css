@@ -240,6 +240,10 @@ background-repeat:repeat-y;
 	vertical-align:middle;
 }
 
+.clickable{
+	cursor:pointer;
+}
+
 .storyTypeIcon, .flyoverIcon, .storyPoints {
 	vertical-align:middle;
 	padding: 0px 0px 0px 2px;
@@ -300,8 +304,8 @@ background-repeat:repeat-y;
 .help.flyover {background:url(/images/bg_gradient_comments_hover.gif) #FFF repeat-x scroll left top; border:1px solid #5593D8; -moz-border-radius: 8px; -webkit-border-radius: 8px; padding: 8px}
 .help.flyover .storyTitle {font-size: 1em; font-weight: bold; margin: 3px 0}
 .overlayContentWrapper.storyFlyover.flyover {padding: 0}
-.storyFlyover.flyover {-moz-border-radius: 8px; -webkit-border-radius: 8px; border: 1px solid #5593D8; background: url('/images/flyover_gray_gradient.png') #FDFDFD top left repeat-x}
-.storyFlyover.flyover .storyTitle {font-size: 1.15em; font-weight: bold; margin: 0.5em 0.75em}
+/*.storyFlyover.flyover {background: url('/images/flyover_gray_gradient.png') #FDFDFD top left repeat-x; padding: -15px;}*/
+.storyFlyover.flyover .storyTitle {background: url('/images/flyover_blue_gradient.png') #FFF top left repeat-x; font-size: 1.15em; font-weight: bold; margin-top:0.3em; padding-bottom:0.75em; padding-left:0.5em; padding-top:0.2em;}
 .storyFlyover.flyover .flyoverContent {font-size: 0.9em; background: #fff; padding: 0; -moz-border-radius-bottomleft: 8px; -webkit-border-bottom-left-radius: 8px; -moz-border-radius-bottomright: 8px; -webkit-border-bottom-right-radius: 8px}
 .storyFlyover.flyover .flyoverContent.storyDetails .section {margin-bottom: 12px; margin-top: 0px}
 .storyFlyover.flyover .flyoverContent.storyDetails .section + .section {margin-top: 13px; margin-bottom: 4px}
@@ -325,7 +329,7 @@ background-repeat:repeat-y;
 
 .noteText {line-height: 11px;}
 
-.overlay {overflow: hidden; font-size: 0.9em}
+.overlay {overflow: hidden; font-size: 0.9em;margin-left: -12px; margin-top: -12px;}
 .overlayContentWrapper {padding: 0 1em}
 
 .storyDetailsRow .fieldLabel {margin-left: 5px}

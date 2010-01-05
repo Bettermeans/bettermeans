@@ -22,6 +22,8 @@
 //error handling for poor connectivity (couldn't load page! couldn't update item! couldn't save new item! couldn't save post!)
 //save request type (feature, chore, bug)
 //view history panel
+//integrate this gradient to the top of bubble tip: background:url(/images/bg_gradient_comments_hover.gif) #FFF repeat-x scroll left top;	
+//remove side scroll bar from dashboard
 
 var D; //all data
 var keyboard_shortcuts = false;
@@ -240,45 +242,104 @@ function load_ui(){
 	add_hover_icon_events();	
 }
 
+// function add_hover_icon_events(){
+// 	$(".hoverIcon").hover(
+// 	      function () {
+// 			show_flyover(Number(this.id.split('_')[1].replace(/"/g,'')));
+// 	      }, 
+// 	      function () {
+// 			hide_flyover(Number(this.id.split('_')[1].replace(/"/g,'')));
+//      	  }
+// 	    );
+// }
+// 
+// function show_flyover(dataId){
+// 	$('.overlay').hide();
+// 	
+// 	//If flyover hasn't already been generated, then generate it!
+// 	if ($('#flyover_' + dataId).length == 0){
+// 		generate_flyover(dataId);		
+// 		$('#flyover_' + dataId).makeAbsolute(); //re-basing off of main window
+// 	}
+// 	
+//  	$('#flyover_' + dataId).show();
+// 
+// 	var target_id = '#item_content_details_' + dataId;
+// 
+// 	$('#flyover_' + dataId).position({
+// 	    	my: "left top",
+// 			at: "left top",
+// 	    	of: target_id,
+// 			offset: "80 9",
+// 		    // offset: $('#item_' + dataId).position().left + ' ' + $('#item_' + dataId).position().top
+// 		    collision: "fit flip"
+// 		  	});
+// 	
+// 	
+// }
+// 
+// function hide_flyover(dataId){
+// 	$('#flyover_' + dataId).hide();
+// }
+
 function add_hover_icon_events(){
-	$(".hoverIcon").hover(
+	$(".hoverDetailsIcon").click(
 	      function () {
-			show_flyover(Number(this.id.split('_')[1].replace(/"/g,'')));
-	      }, 
-	      function () {
-			hide_flyover(Number(this.id.split('_')[1].replace(/"/g,'')));
-     	  }
+			show_details_flyover(Number(this.id.split('_')[1].replace(/"/g,''),0),this.id);
+	      }
 	    );
+	$(".hoverDiceIcon").click(
+	      function () {
+			show_estimate_flyover(Number(this.id.split('_')[1].replace(/"/g,'')),this.id);
+	      }
+	    );
+	$(".hoverCommentsIcon").hover(
+	      function () {
+			show_details_flyover(Number(this.id.split('_')[1].replace(/"/g,''),500),this.id);
+	      }
+	    );
+
 }
 
-function show_flyover(dataId){
-	$('.overlay').hide();
-	
+function show_details_flyover(dataId,callingElement,delayshow){
+//	$('.overlay').hide();
+
 	//If flyover hasn't already been generated, then generate it!
 	if ($('#flyover_' + dataId).length == 0){
-		generate_flyover(dataId);		
-		$('#flyover_' + dataId).makeAbsolute(); //re-basing off of main window
+		generate_details_flyover(dataId);		
+		// $('#flyover_' + dataId).makeAbsolute(); //re-basing off of main window
 	}
 	
- 	$('#flyover_' + dataId).show();
-
-	var target_id = '#item_content_details_' + dataId;
-	// target_id = "#wrapper";
-
-	$('#flyover_' + dataId).position({
-	    	my: "left top",
-			at: "left top",
-	    	of: target_id,
-			offset: "80 9",
-		    // offset: $('#item_' + dataId).position().left + ' ' + $('#item_' + dataId).position().top
-		    collision: "fit flip"
-		  	});
-	
-	
+	$('#' + callingElement).bubbletip($('#flyover_' + dataId), {
+		deltaDirection: 'right',
+		delayShow: delayshow,
+		delayHide: 100,
+		offsetLeft: 0
+	});	
 }
 
-function hide_flyover(dataId){
-	$('#flyover_' + dataId).hide();
+function show_estimate_flyover(dataId,callingElement){
+//	$('.overlay').hide();
+
+	//If flyover hasn't already been generated, then generate it!
+	if ($('#flyover_estimate_' + dataId).length == 0){
+		generate_estimate_flyover(dataId);		
+		// $('#flyover_' + dataId).makeAbsolute(); //re-basing off of main window
+	}
+		
+	$('#' + callingElement).bubbletip($('#flyover_estimate_' + dataId), {
+		deltaDirection: 'top',
+		delayShow: 0,
+		delayHide: 100,
+		offsetLeft: 0
+	});	
+	// $('#' + callingElement).bubbletip($('#flyover_estimate_demo'), {
+	// 	deltaDirection: 'top',
+	// 	delayShow: 0,
+	// 	delayHide: 100,
+	// 	offsetLeft: 0
+	// });	
+	
 }
 
 function add_item(dataId,position){
@@ -314,7 +375,7 @@ function add_item(dataId,position){
 	}
 }
 
-function generate_flyover(dataId){
+function generate_details_flyover(dataId){
 	var item = D[dataId];
 	
 	var points;
@@ -324,7 +385,7 @@ function generate_flyover(dataId){
 	
 	html = html + '<div id="flyover_' + dataId + '" class="overlay" style="display:none;">';
 	html = html + '<div style="border: 0pt none ; margin: 0pt;">';
-	html = html + '<div class="overlayContentWrapper storyFlyover flyover" style="width: 475px;">';
+	html = html + '<div class="overlayContentWrapper storyFlyover flyover" style="width: 475px; max-height:600px">';
 	html = html + '<div class="storyTitle">';
 	html = html + item.subject;
 	html = html + '</div>';
@@ -355,9 +416,9 @@ function generate_flyover(dataId){
 	html = html + '	            <span>ID:</span> <span>' + item.id + '</span>';
 	html = html + '	          </div>';
 	html = html + '	<div class="section">';
-	html = html + generate_flyover_description(item);
+	html = html + generate_details_flyover_description(item);
 	html = html + generate_comments(item,true);
-	html = html + '&nbsp;</div>';
+	html = html + '</div>';
 	html = html + '	        </div>';
 	html = html + '	      </div>';
 	html = html + '	    </div>';
@@ -369,7 +430,111 @@ function generate_flyover(dataId){
 	return html;
 }
 
-function generate_flyover_description(item){
+function generate_estimate_flyover(dataId){
+	var item = D[dataId];
+	
+	var points;
+	item.points == null ? points = 'No' : points = Math.round(item.points);
+	
+	var you_voted = '';
+	var user_voted = false;
+	
+	for(var i=0; i < item.estimates.length; i++){
+		if (currentUserLogin == item.estimates[i].user.login){
+			you_voted = "You estimated " + item.estimates[i].points + " on " + item.estimates[i].updated_on;
+			user_voted = true;
+		}
+	}
+	
+	if (you_voted == ''){
+		you_voted = "You haven't voted yet"
+	};
+	
+	var html = '';
+	
+	html = html + '<div id="flyover_estimate_' + dataId + '" class="overlay" style="display:none;">';
+	html = html + '	  <div style="border: 0pt none ; margin: 0pt;">';
+	html = html + '	    <div class="overlayContentWrapper storyFlyover flyover" style="width: 300px;">';
+	html = html + '	      <div class="storyTitle">';
+	html = html + 'Average ' + points + ' points (' + item.estimates.length + ' people)';
+	html = html + '	      </div>';
+	html = html + '	      <div class="sectionDivider">';
+	html = html + '	      <div style="height: auto;">';
+	html = html + '	        <div class="metaInfo">';
+	html = html + '	          <div class="left">';
+	html = html + you_voted;
+	html = html + '	          </div>';
+	html = html + '	          <div class="clear"></div>';
+	html = html + '	        </div>';
+	html = html + '	        <div class="flyoverContent storyDetails">';
+	html = html + '	            <div class="section">';
+	html = html + 					generate_estimate_flyover_history(item);
+	html = html + 					generate_estimate_flyover_yourestimate(item,user_voted);
+	html = html + '	              </div>';
+	html = html + '	        </div>';
+	html = html + '	      </div>';
+	html = html + '	    </div>';
+	html = html + '	  </div>';
+	html = html + '	</div>';
+		
+	$('#flyovers').append(html);
+	
+	return html;
+}
+
+function generate_estimate_flyover_history(item){
+	if (item.estimates == null || item.estimates.length < 1){return '';};
+	
+	var html = '';
+	html = html + '	  <div class="header">';
+	html = html + '	    History';
+	html = html + '	  </div>';
+	html = html + '	  <table class="notesTable">';
+	html = html + '	    <tbody>';
+	html = html + '<tr class="noteInfoRow">';
+	html = html + '<td class="noteInfo">';
+	
+	for(var i = 0; i < item.estimates.length; i++ ){
+		html = html + item.estimates[i].points + ' pts - ' + item.estimates[i].user.firstname + ' ' + item.estimates[i].user.lastname + '<br>';
+	}
+	
+
+ 	html = html + '</td>';
+  	html = html + '</tr>';
+	html = html + '	    </tbody>';
+	html = html + '	  </table>';
+	html = html + '	<div class="clear"></div>';
+	return html;
+	
+}
+
+function generate_estimate_flyover_yourestimate(item,user_voted){
+	//TODO: check that I have permission to estimate!	
+	var header_text = '';
+	user_voted ? header_text = 'Change your estimate' : header_text = 'Make an estimate';
+	var html = '';
+	html = html + '	                <div class="header">';
+	html = html + header_text;
+	html = html + '	                </div>';
+	html = html + '	                <table class="notesTable">';
+	html = html + '	                  <tbody>';
+	html = html + '	                    <tr class="noteTextRow">';
+	html = html + '	                      <td class="noteText">';
+	html = html + '	                        <img src="/images/dice_0.png" width="18" height="18" alt="0 Points">';
+	html = html + '	                        <img src="/images/dice_1.png" width="18" height="18" alt="1 Points">';
+	html = html + '	                        <img src="/images/dice_2.png" width="18" height="18" alt="2 Points">';
+	html = html + '	                        <img src="/images/dice_4.png" width="18" height="18" alt="4 Points">';
+	html = html + '	                        <img src="/images/dice_6.png" width="18" height="18" alt="6 Points">';
+	html = html + '	                      </td>';
+	html = html + '	                    </tr>';
+	html = html + '	                  </tbody>';
+	html = html + '	                </table>';
+	return html;
+	
+}
+
+
+function generate_details_flyover_description(item){
 
 	if (item.description == null || item.description.length < 3){return '';};
 	
@@ -468,11 +633,11 @@ function generate_item(dataId){
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
-	html = html + '<img id="featureicon_' + dataId + '"  class="storyTypeIcon hoverIcon" src="/images/feature_icon.png" alt="Feature">';
-	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverIcon" src="/images/dice_' + points + '.png" alt="' + points + ' points">';
+	html = html + '<img id="featureicon_' + dataId + '"  class="storyTypeIcon hoverDetailsIcon clickable" src="/images/feature_icon.png" alt="Feature">';
+	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' points">';
 	
 	if (show_comment(item)){
-	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverIcon" src="/images/story_flyover_icon.png"/>';
+	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon" src="/images/story_flyover_icon.png"/>';
 	}
 	
 	html = html + '</div>';
@@ -1048,7 +1213,7 @@ function url_for(options){
 	var mouse_over_bubble = false;
 	$.fn.extend({
 		bubbletip: function(tip, options) {
-			console.log(tip);
+			// console.log(tip);
 			// check to see if the tip is a descendant of 
 			// a table.bubbletip element and therefore
 			// has already been instantiated as a bubbletip
@@ -1079,7 +1244,7 @@ function url_for(options){
 			if (options) {
 				_options = $.extend(_options, options);
 			}
-			
+						
 
 			// calculated values
 			_calc = {
@@ -1114,9 +1279,9 @@ function url_for(options){
 			}
 
 			// create the wrapper table element
-			create_wrapper();
+			create_wrapper(false);
 
-			_Calculate();
+			_Calculate(true);
 
 			// handle window.resize
 			$(window).bind('resize.bubbletip' + _bindIndex, function() {
@@ -1126,12 +1291,55 @@ function url_for(options){
 					_wrapper.hide();
 				}
 				_timeoutRefresh = setTimeout(function() {
-					_Calculate();
+					_Calculate(true);
 				}, 250);
 			});
+			
+			show_tip();
 
-			// handle mouseover and mouseout events
-			// $([_wrapper.get(0), this.get(0)]).bind(_calc.bindShow, function(e) {
+			// // handle mouseover and mouseout events
+			// if (_options.bindShow == "mouseover")
+			// {
+			// 	show_tip();
+			// }
+			// else
+			// {
+			// 	$([_wrapper.get(0), this.get(0)]).bind(_calc.bindShow, function(e) {
+			// 		show_tip();
+			// 	});
+			// }
+
+		//		return false;
+			$('.bubbletip').bind('mouseover',function(){
+				mouse_over_bubble = true;
+				// console.log("mouse over bubble:" + mouse_over_bubble);
+			});
+			
+			$('.bubbletip').bind('mouseout', function() {
+							mouse_over_bubble = false;
+							// console.log("mouse over bubble:" + mouse_over_bubble);
+			});
+				
+			$([_wrapper.get(0), this.get(0)]).bind(_calc.bindHide, function() {
+							if (_timeoutAnimate) {
+								clearTimeout(_timeoutAnimate);
+							}
+							_timeoutAnimate = setTimeout(function() {
+								console.log("hiding: mouse over bubble:" + mouse_over_bubble);
+								if (!mouse_over_bubble)
+								{
+									_HideWrapper();
+									// _tip.appendTo('body');
+									 // $('.bubbletip').remove();
+									//removeBubbletip(tip);
+								}
+			
+							}, _options.delayHide);
+			
+							return false;
+						});
+						
+			function show_tip(){
 				if (_timeoutAnimate) {
 					clearTimeout(_timeoutAnimate);
 				}
@@ -1178,50 +1386,33 @@ function url_for(options){
 					_wrapper.animate(animation, _options.animationDuration, _options.animationEasing, function() {
 						_wrapper.css('opacity', '');
 						_isActive = true;
+						// $('.oldbubble').remove();
+						
 					});
 				}, _options.delayShow);
-
-		//		return false;
-			$('.bubbletip').bind('mouseover',function(){
-				mouse_over_bubble = true;
-				console.log("mouse over bubble:" + mouse_over_bubble);
-			});
-			
-			$('.bubbletip').bind('mouseout', function() {
-							mouse_over_bubble = false;
-							console.log("mouse over bubble:" + mouse_over_bubble);
-			//				_HideWrapper();
-			});
 				
-			$([_wrapper.get(0), this.get(0)]).bind(_calc.bindHide, function() {
-							if (_timeoutAnimate) {
-								clearTimeout(_timeoutAnimate);
-							}
-							_timeoutAnimate = setTimeout(function() {
-								console.log("hiding: mouse over bubble:" + mouse_over_bubble);
-								if (!mouse_over_bubble)
-								{
-									_HideWrapper();
-									//$('.bubbletip').remove();
-									//removeBubbletip(tip);
-								}
-			
-							}, _options.delayHide);
-			
-							return false;
-						});
+			}
 						
-			function create_wrapper(){
-				console.log("createing wrapper: " + _options.deltaDirection);
-				if (_options.deltaDirection.match(/^up$/i)) {
-					_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td><table class="bt-bottom" cellspacing="0" cellpadding="0"><tr><th></th><td><div></div></td><th></th></tr></table></td><td class="bt-bottomright"></td></tr></tbody></table>');
-				} else if (_options.deltaDirection.match(/^down$/i)) {
-					_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td><table class="bt-top" cellspacing="0" cellpadding="0"><tr><th></th><td><div></div></td><th></th></tr></table></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
-				} else if (_options.deltaDirection.match(/^left$/i)) {
-					_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right-tail"><div class="bt-right"></div><div class="bt-right-tail"></div><div class="bt-right"></div></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
-				} else if (_options.deltaDirection.match(/^right$/i)) {
-					_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left-tail"><div class="bt-left"></div><div class="bt-left-tail"></div><div class="bt-left"></div></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
+			function create_wrapper(noTip){
+				// console.log("createing wrapper: " + _options.deltaDirection);
+				if (noTip)
+				{
+					_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
+					
 				}
+				else
+				{
+					if (_options.deltaDirection.match(/^up$/i)) {
+						_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td><table class="bt-bottom" cellspacing="0" cellpadding="0"><tr><th></th><td><div></div></td><th></th></tr></table></td><td class="bt-bottomright"></td></tr></tbody></table>');
+					} else if (_options.deltaDirection.match(/^down$/i)) {
+						_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td><table class="bt-top" cellspacing="0" cellpadding="0"><tr><th></th><td><div></div></td><th></th></tr></table></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
+					} else if (_options.deltaDirection.match(/^left$/i)) {
+						_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right-tail"><div class="bt-right"></div><div class="bt-right-tail"></div><div class="bt-right"></div></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
+					} else if (_options.deltaDirection.match(/^right$/i)) {
+						_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left-tail"><div class="bt-left"></div><div class="bt-left-tail"></div><div class="bt-left"></div></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
+					}
+				}
+				
 				
 				// append the wrapper to the document body
 				_wrapper.appendTo('body');
@@ -1291,10 +1482,12 @@ function url_for(options){
 				_wrapper.animate(animation, _options.animationDuration, _options.animationEasing, function() {
 					_wrapper.hide();
 					_isHiding = false;
+					_tip.appendTo('body');					
+					_wrapper.addClass('oldbubble');
 				});
 			};
 
-			function _Calculate() {
+			function _Calculate(firstTime) {
 				// calculate values
 				if (_options.positionAt.match(/^element$/i)) {
 					var offset = _options.positionAtElement.offset();
@@ -1350,33 +1543,101 @@ function url_for(options){
 						_calc.delta = -_options.deltaPosition;
 					}
 				}
-				console.log("top " + _calc.top + "left:" + _calc.left + " width:" + _wrapper.width() + " height:" + _wrapper.height() + "window: height and width" + $(window).height() + " " + $(window).width() + "crossed: " + _calc.left + _wrapper.width());
+				// console.log("top " + _calc.top + "left:" + _calc.left + " width:" + _wrapper.width() + " height:" + _wrapper.height() + "window: height and width" + $(window).height() + " " + $(window).width() + "crossed: " + _calc.left + _wrapper.width());
 				
 				//Flip
+				//first handle corners
+				
+				// //bottom right
+				// if (((_calc.left + _wrapper.width()) > $(window).width())&&((_calc.top + _wrapper.height()) > $(window).height())){
+				// 	create_wrapper(true);
+				//  	_calc.top = $(window).height() - _wrapper.height();
+				// 	_calc.left = $(window).width() - _wrapper.width();
+				// }
+				// 
+				// //bottom left
+				// if ((_calc.left < 0)&&((_calc.top + _wrapper.height()) > $(window).height())){
+				// 	create_wrapper(true);
+				//  	_calc.top = $(window).height() - _wrapper.height();
+				// 	_calc.left = 0;
+				// }
+				// 
+				// //top right
+				// if (((_calc.left + _wrapper.width()) > $(window).width())&&((_calc.top < 0))){
+				// 	create_wrapper(true);
+				//  	_calc.top = 0;
+				// 	_calc.left = $(window).width() - _wrapper.width();
+				// }
+				// 
+				// //top left
+				// if ((_calc.left < 0)&&(_calc.top < 0 )){
+				// 	create_wrapper(true);
+				//  	_calc.top = 0;
+				// 	_calc.left = 0;
+				// }
+				
+				
+				
 				if (_calc.top < 0){
 					_options.deltaDirection = "down";
-					create_wrapper();
-					_Calculate();
-					return false;
+					if (firstTime)
+					{
+						create_wrapper(false);
+						_Calculate(false);
+						return false;
+					}
 				}
 
 				if (_calc.left < 0){
 					_options.deltaDirection = "right";
-					create_wrapper();
-					_Calculate();
+					if (firstTime)
+					{
+						create_wrapper(false);
+						_Calculate(false);
+						return false;
+					}
 				}
 				
 				if ((_calc.left + _wrapper.width()) > $(window).width()){
-					console.log('crossed right border');
+					// console.log('crossed right border');
 					_options.deltaDirection = "left";
-					create_wrapper();
-					_Calculate();
+					if (firstTime)
+					{
+						create_wrapper(false);
+						_Calculate(false);
+						return false;
+					}
 				}
 
 				if ((_calc.top + _wrapper.height()) > $(window).height()){
 					_options.deltaDirection = "up";
-					create_wrapper();
-					_Calculate();
+					if (firstTime)
+					{
+						create_wrapper(false);
+						_Calculate(false);
+						return false;
+					}
+				}
+				
+				//Nudge edges
+				if ((_calc.left + _wrapper.width()) > $(window).width()){
+				 	create_wrapper(true);
+				 	_calc.left = $(window).width() - _wrapper.width();
+				}
+				
+				if ((_calc.top + _wrapper.height()) > $(window).height()){
+				 	create_wrapper(true);
+				  	_calc.top = $(window).height() - _wrapper.height();
+				}
+
+				if (_calc.left < 0){
+				 	create_wrapper(true);
+				  	_calc.left = 0;
+				}
+
+				if (_calc.top < 0){
+				 	create_wrapper(true);
+				  	_calc.top = 0;
 				}
 				
 
