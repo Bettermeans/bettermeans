@@ -129,12 +129,30 @@ $.fn.watermark = function(css, text) {
 };
 
 $.fn.mybubbletip = function(tip, options) {
-		$(this).mouseover(function() {
-			$(this).bubbletip(tip,options);
+	
+		var _this = $(this);
+	
+		var _options = {
+			positionAt: 'element', // element | body | mouse
+			positionAtElement: _this,
+			offsetTop: 0,
+			offsetLeft: 0,
+			deltaPosition: 0,
+			deltaDirection: 'up', // direction: up | down | left | right
+			animationDuration: 250,
+			animationEasing: 'swing', // linear | swing
+			bindShow: 'mouseover', // mouseover | focus | click | etc.
+			bindHide: 'mouseout', // mouseout | blur | etc.
+			delayShow: 0,
+			delayHide: 500
+		};
+		if (options) {
+			_options = $.extend(_options, options);
+		}
+		
+		$(this).bind(_options.bindShow,function() {
+			$(this).bubbletip(tip,_options);
 		});
-		// $(this).mouseout(function() {
-		// 	$(this).removeBubbletip(tip);
-		// });
 };
 
 $.fn.keyboard_sensitive = function() {
@@ -592,13 +610,13 @@ function expand_item(dataId){
 	$('#help_image_description_' + dataId).mybubbletip($('#help_description'), {
 		deltaDirection: 'right',
 		delayShow: 300,
-		delayHide: 300,
+		delayHide: 100,
 		offsetLeft: 0
 	});
 	$('#help_image_feature_' + dataId).mybubbletip($('#help_feature'), {
 		deltaDirection: 'up',
 		delayShow: 300,
-		delayHide: 300,
+		delayHide: 100,
 		offsetTop: 0
 	});
 	make_text_boxes_toggle_keyboard_shortcuts();
@@ -1027,7 +1045,7 @@ function url_for(options){
  *      - IE png transparency is handled via filters
  */
 	var bindIndex = 0;
-	var mouse_over_wrapper = false;
+	var mouse_over_bubble = false;
 	$.fn.extend({
 		bubbletip: function(tip, options) {
 			console.log(tip);
@@ -1038,12 +1056,13 @@ function url_for(options){
 				return this;
 			}
 
-			var _this, _tip, _options, _calc, _timeoutAnimate, _timeoutRefresh, _isActive, _isHiding, _wrapper, _bindIndex;
+			var _this, _tip, _calc, _timeoutAnimate, _timeoutRefresh, _isActive, _isHiding, _wrapper, _bindIndex;
 
 			_this = $(this);
 			_tip = $(tip);
 			_bindIndex = bindIndex++;  // for window.resize namespace binding
-			_options = {
+			
+			var _options = {
 				positionAt: 'element', // element | body | mouse
 				positionAtElement: _this,
 				offsetTop: 0,
@@ -1060,6 +1079,8 @@ function url_for(options){
 			if (options) {
 				_options = $.extend(_options, options);
 			}
+			
+
 			// calculated values
 			_calc = {
 				top: 0,
@@ -1093,59 +1114,8 @@ function url_for(options){
 			}
 
 			// create the wrapper table element
-			if (_options.deltaDirection.match(/^up$/i)) {
-				_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td><table class="bt-bottom" cellspacing="0" cellpadding="0"><tr><th></th><td><div></div></td><th></th></tr></table></td><td class="bt-bottomright"></td></tr></tbody></table>');
-			} else if (_options.deltaDirection.match(/^down$/i)) {
-				_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td><table class="bt-top" cellspacing="0" cellpadding="0"><tr><th></th><td><div></div></td><th></th></tr></table></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
-			} else if (_options.deltaDirection.match(/^left$/i)) {
-				_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right-tail"><div class="bt-right"></div><div class="bt-right-tail"></div><div class="bt-right"></div></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
-			} else if (_options.deltaDirection.match(/^right$/i)) {
-				_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left-tail"><div class="bt-left"></div><div class="bt-left-tail"></div><div class="bt-left"></div></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
-			}
+			create_wrapper();
 
-			// append the wrapper to the document body
-			_wrapper.appendTo('body');
-
-			// apply IE filters to _wrapper elements
-			if ((/msie/.test(navigator.userAgent.toLowerCase())) && (!/opera/.test(navigator.userAgent.toLowerCase()))) {
-				$('*', _wrapper).each(function() {
-					var image = $(this).css('background-image');
-					if (image.match(/^url\(["']?(.*\.png)["']?\)$/i)) {
-						image = RegExp.$1;
-						$(this).css({
-							'backgroundImage': 'none',
-							'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=' + ($(this).css('backgroundRepeat') == 'no-repeat' ? 'crop' : 'scale') + ', src=\'' + image + '\')'
-						}).each(function() {
-							var position = $(this).css('position');
-							if (position != 'absolute' && position != 'relative')
-								$(this).css('position', 'relative');
-						});
-					}
-				});
-			}
-
-			// move the tip element into the content section of the wrapper
-			$('.bt-content', _wrapper).append(_tip);
-			// show the tip (in case it is hidden) so that we can calculate its dimensions
-			_tip.show();
-			// handle left|right delta
-			if (_options.deltaDirection.match(/^left|right$/i)) {
-				// tail is 40px, so divide height by two and subtract 20px;
-				_calc.tipHeight = parseInt(_tip.height() / 2,10);
-				// handle odd integer height
-				if ((_tip.height() % 2) == 1) {
-					_calc.tipHeight++;
-				}
-				_calc.tipHeight = (_calc.tipHeight < 20) ? 1 : _calc.tipHeight - 20;
-				if (_options.deltaDirection.match(/^left$/i)) {
-					$('div.bt-right', _wrapper).css('height', _calc.tipHeight + 'px');
-				} else {
-					$('div.bt-left', _wrapper).css('height', _calc.tipHeight + 'px');
-				}
-			}
-			// set the opacity of the wrapper to 0
-			_wrapper.css('opacity', 0);
-			// execute initial calculations
 			_Calculate();
 
 			// handle window.resize
@@ -1232,12 +1202,73 @@ function url_for(options){
 								if (!mouse_over_bubble)
 								{
 									_HideWrapper();
+									//$('.bubbletip').remove();
+									//removeBubbletip(tip);
 								}
 			
 							}, _options.delayHide);
 			
 							return false;
 						});
+						
+			function create_wrapper(){
+				console.log("createing wrapper: " + _options.deltaDirection);
+				if (_options.deltaDirection.match(/^up$/i)) {
+					_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td><table class="bt-bottom" cellspacing="0" cellpadding="0"><tr><th></th><td><div></div></td><th></th></tr></table></td><td class="bt-bottomright"></td></tr></tbody></table>');
+				} else if (_options.deltaDirection.match(/^down$/i)) {
+					_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td><table class="bt-top" cellspacing="0" cellpadding="0"><tr><th></th><td><div></div></td><th></th></tr></table></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
+				} else if (_options.deltaDirection.match(/^left$/i)) {
+					_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right-tail"><div class="bt-right"></div><div class="bt-right-tail"></div><div class="bt-right"></div></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
+				} else if (_options.deltaDirection.match(/^right$/i)) {
+					_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left-tail"><div class="bt-left"></div><div class="bt-left-tail"></div><div class="bt-left"></div></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
+				}
+				
+				// append the wrapper to the document body
+				_wrapper.appendTo('body');
+				
+				// apply IE filters to _wrapper elements
+				if ((/msie/.test(navigator.userAgent.toLowerCase())) && (!/opera/.test(navigator.userAgent.toLowerCase()))) {
+					$('*', _wrapper).each(function() {
+						var image = $(this).css('background-image');
+						if (image.match(/^url\(["']?(.*\.png)["']?\)$/i)) {
+							image = RegExp.$1;
+							$(this).css({
+								'backgroundImage': 'none',
+								'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true, sizingMethod=' + ($(this).css('backgroundRepeat') == 'no-repeat' ? 'crop' : 'scale') + ', src=\'' + image + '\')'
+							}).each(function() {
+								var position = $(this).css('position');
+								if (position != 'absolute' && position != 'relative')
+									$(this).css('position', 'relative');
+							});
+						}
+					});
+				}
+
+				// move the tip element into the content section of the wrapper
+				$('.bt-content', _wrapper).append(_tip);
+				// show the tip (in case it is hidden) so that we can calculate its dimensions
+				_tip.show();
+				// handle left|right delta
+				if (_options.deltaDirection.match(/^left|right$/i)) {
+					// tail is 40px, so divide height by two and subtract 20px;
+					_calc.tipHeight = parseInt(_tip.height() / 2,10);
+					// handle odd integer height
+					if ((_tip.height() % 2) == 1) {
+						_calc.tipHeight++;
+					}
+					_calc.tipHeight = (_calc.tipHeight < 20) ? 1 : _calc.tipHeight - 20;
+					if (_options.deltaDirection.match(/^left$/i)) {
+						$('div.bt-right', _wrapper).css('height', _calc.tipHeight + 'px');
+					} else {
+						$('div.bt-left', _wrapper).css('height', _calc.tipHeight + 'px');
+					}
+				}
+				// set the opacity of the wrapper to 0
+				_wrapper.css('opacity', 0);
+				// execute initial calculations
+				
+				
+			}
 						
 			function _HideWrapper() {
 				var animation;
@@ -1319,6 +1350,38 @@ function url_for(options){
 						_calc.delta = -_options.deltaPosition;
 					}
 				}
+				console.log("top " + _calc.top + "left:" + _calc.left + " width:" + _wrapper.width() + " height:" + _wrapper.height() + "window: height and width" + $(window).height() + " " + $(window).width() + "crossed: " + _calc.left + _wrapper.width());
+				
+				//Flip
+				if (_calc.top < 0){
+					_options.deltaDirection = "down";
+					create_wrapper();
+					_Calculate();
+					return false;
+				}
+
+				if (_calc.left < 0){
+					_options.deltaDirection = "right";
+					create_wrapper();
+					_Calculate();
+				}
+				
+				if ((_calc.left + _wrapper.width()) > $(window).width()){
+					console.log('crossed right border');
+					_options.deltaDirection = "left";
+					create_wrapper();
+					_Calculate();
+				}
+
+				if ((_calc.top + _wrapper.height()) > $(window).height()){
+					_options.deltaDirection = "up";
+					create_wrapper();
+					_Calculate();
+				}
+				
+
+
+				
 				// hide
 				_wrapper.hide();
 				// handle the wrapper (element|body) positioning
@@ -1329,47 +1392,51 @@ function url_for(options){
 						'left': _calc.left + 'px'
 					});
 				}
+				
+				return true;
 			};
 			return this;
-		},
-		removeBubbletip: function(tips) {
-			var tipsActive;
-			var tipsToRemove = new Array();
-			var arr, i, ix;
-			var elem;
-
-			tipsActive = $.makeArray($(this).data('bubbletip_tips'));
-
-			// convert the parameter array of tip id's or elements to id's
-			arr = $.makeArray(tips);
-			for (i = 0; i < arr.length; i++) {
-				tipsToRemove.push($(arr[i]).get(0).id);
-			}
-
-			for (i = 0; i < tipsActive.length; i++) {
-				ix = null;
-				if ((tipsToRemove.length == 0) || ((ix = $.inArray(tipsActive[i][0], tipsToRemove)) >= 0)) {
-					// remove all tips if there are none specified
-					// otherwise, remove only specified tips
-
-					// find the surrounding table.bubbletip
-					elem = $('#' + tipsActive[i][0]).get(0).parentNode;
-					while (elem.tagName.toLowerCase() != 'table') {
-						elem = elem.parentNode;
-					}
-					// attach the tip element to body and hide
-					$(tipsActive[i][0]).appendTo('body').hide();
-					// remove the surrounding table.bubbletip
-					$(elem).remove();
-
-					// unbind show/hide events
-					$(this).unbind(tipsActive[i][1]).unbind([i][2]);
-
-					// unbind window.resize event
-					$(window).unbind('resize.bubbletip' + tipsActive[i][3]);
-				}
-			}
-
-			return this;
-		}
+		}// ,
+		// 		removeBubbletip: function(tips) {
+		// 				$('.bubbletip').remove();
+		// 				console.log('removed');
+		// 				var tipsActive;
+		// 				var tipsToRemove = new Array();
+		// 				var arr, i, ix;
+		// 				var elem;
+		// 			
+		// 				tipsActive = $.makeArray($(this).data('bubbletip_tips'));
+		// 			
+		// 				// convert the parameter array of tip id's or elements to id's
+		// 				arr = $.makeArray(tips);
+		// 				for (i = 0; i < arr.length; i++) {
+		// 					tipsToRemove.push($(arr[i]).get(0).id);
+		// 				}
+		// 			
+		// 				for (i = 0; i < tipsActive.length; i++) {
+		// 					ix = null;
+		// 					if ((tipsToRemove.length == 0) || ((ix = $.inArray(tipsActive[i][0], tipsToRemove)) >= 0)) {
+		// 						// remove all tips if there are none specified
+		// 						// otherwise, remove only specified tips
+		// 			
+		// 						// find the surrounding table.bubbletip
+		// 						elem = $('#' + tipsActive[i][0]).get(0).parentNode;
+		// 						while (elem.tagName.toLowerCase() != 'table') {
+		// 							elem = elem.parentNode;
+		// 						}
+		// 						// attach the tip element to body and hide
+		// 						$(tipsActive[i][0]).appendTo('body').hide();
+		// 						// remove the surrounding table.bubbletip
+		// 						$(elem).remove();
+		// 			
+		// 						// unbind show/hide events
+		// 						$(this).unbind(tipsActive[i][1]).unbind([i][2]);
+		// 			
+		// 						// unbind window.resize event
+		// 						$(window).unbind('resize.bubbletip' + tipsActive[i][3]);
+		// 					}
+		// 				}
+		// 			
+		// 				return this;
+		// 			}
 	});
