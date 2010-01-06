@@ -153,7 +153,7 @@ class IssuesController < ApplicationController
         call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
         logger.info("saved issue")
         respond_to do |format|
-          format.js {render :json => @issue.to_json(:include => {:journals => {:include => :user}, :estimates => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname]}})
+          format.js {render :json => @issue.to_json(:include => {:journals => {:include => :user}, :estimates => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname]}})}
           format.html {redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
                                         { :action => 'show', :id => @issue })}
         end
@@ -212,7 +212,7 @@ class IssuesController < ApplicationController
         call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
         
         respond_to do |format|
-          format.js {render :json => @issue.to_json(:include => {:journals => {:include => :user}, :estimates => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname]}})
+          format.js {render :json => @issue.to_json(:include => {:journals => {:include => :user}, :estimates => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname]}})}
           format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
         end
       end

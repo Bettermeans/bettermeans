@@ -1,15 +1,11 @@
 //Todos
-//scroll bary for flyover
 //cleaner times/dates in flyover
 //flyover should stay open if I hover over it
-//max height for flyover
-//help hover overs (question marks)
 //order items by priority? or updated?
 //little hover over question marks for each panel describing whay they are
 //"my work" panel
 //somewhere in the "new item" tool tip, let them know that pressing the 'n' key activates the new item (should also be a tooltip for the new request button)
 //keyboard shortcut for each panel
-//Scroll form to top of panel when editing
 //Handle errors in javascript
 //Order comments chronologically
 //Animate panels
@@ -17,7 +13,6 @@
 //TODO: test in IE
 //detect and insert bold and italic text (time to learn regular expresssion :)
 //minifiy this file will be over 50k!
-//watermark is not grey, still black
 //test for javascript and warn if user has it off
 //error handling for poor connectivity (couldn't load page! couldn't update item! couldn't save new item! couldn't save post!)
 //save request type (feature, chore, bug)
@@ -176,6 +171,7 @@ $('document').ready(function(){
 	   $.get('dashdata', {project_id: projectID},
 	            function(data){
 				$("#loading").hide();
+				$("#quote").hide();
 				D = data;
 				prepare_page();
 	    }, 'json');
@@ -222,10 +218,11 @@ function prepare_page(){
 // Loads all items in their perspective panels, and sets up panels
 function load_ui(){
 	insert_panel(0,'new','New',true);
+	insert_panel(0,'estimating','In Estimation',true);
 	insert_panel(0,'open','Open',true);
 	insert_panel(0,'inprogress','In Progress',true);
 	insert_panel(0,'done','Done',true);
-	insert_panel(0,'canceled','Cancelled',false);
+	insert_panel(0,'canceled','Canceled',false);
 	insert_panel(0,'unknown','Unsorted',false);
 	
 	for(var i = 0; i < D.length; i++ ){
@@ -233,6 +230,7 @@ function load_ui(){
 	}
 
 	$("#new_items").append("<div class='endOfList></div>");
+	$("#estimating_items").append("<div class='endOfList></div>");
 	$("#open_items").append("<div class='endOfList></div>");
 	$("#inprogress_items").append("<div class='endOfList></div>");
 	$("#done_items").append("<div class='endOfList></div>");
@@ -240,47 +238,9 @@ function load_ui(){
 	$("#unknown_items").append("<div class='endOfList></div>");
 	
 	add_hover_icon_events();	
+	update_panel_counts();
 }
 
-// function add_hover_icon_events(){
-// 	$(".hoverIcon").hover(
-// 	      function () {
-// 			show_flyover(Number(this.id.split('_')[1].replace(/"/g,'')));
-// 	      }, 
-// 	      function () {
-// 			hide_flyover(Number(this.id.split('_')[1].replace(/"/g,'')));
-//      	  }
-// 	    );
-// }
-// 
-// function show_flyover(dataId){
-// 	$('.overlay').hide();
-// 	
-// 	//If flyover hasn't already been generated, then generate it!
-// 	if ($('#flyover_' + dataId).length == 0){
-// 		generate_flyover(dataId);		
-// 		$('#flyover_' + dataId).makeAbsolute(); //re-basing off of main window
-// 	}
-// 	
-//  	$('#flyover_' + dataId).show();
-// 
-// 	var target_id = '#item_content_details_' + dataId;
-// 
-// 	$('#flyover_' + dataId).position({
-// 	    	my: "left top",
-// 			at: "left top",
-// 	    	of: target_id,
-// 			offset: "80 9",
-// 		    // offset: $('#item_' + dataId).position().left + ' ' + $('#item_' + dataId).position().top
-// 		    collision: "fit flip"
-// 		  	});
-// 	
-// 	
-// }
-// 
-// function hide_flyover(dataId){
-// 	$('#flyover_' + dataId).hide();
-// }
 
 function add_hover_icon_events(){
 	$(".hoverDetailsIcon").click(
@@ -447,8 +407,8 @@ function generate_estimate_flyover(dataId){
 	}
 	
 	if (you_voted == ''){
-		you_voted = "You haven't voted yet"
-	};
+		you_voted = "You haven't voted yet";
+	}
 	
 	var html = '';
 	
@@ -456,7 +416,7 @@ function generate_estimate_flyover(dataId){
 	html = html + '	  <div style="border: 0pt none ; margin: 0pt;">';
 	html = html + '	    <div class="overlayContentWrapper storyFlyover flyover" style="width: 300px;">';
 	html = html + '	      <div class="storyTitle">';
-	html = html + 'Average ' + points + ' points (' + item.estimates.length + ' people)';
+	html = html + 'Average: ' + points + ' points (' + item.estimates.length + ' people)';
 	html = html + '	      </div>';
 	html = html + '	      <div class="sectionDivider">';
 	html = html + '	      <div style="height: auto;">';
@@ -736,9 +696,10 @@ function insert_panel(position, name, title, visible){
 	panelHtml = panelHtml + "	<td id='" + name + "_panel' class='panel' " + panel_style + "'>";
 	panelHtml = panelHtml + "<div class='panelHeaderRight'></div>";
 	panelHtml = panelHtml + "<div class='panelHeaderLeft'></div>";
-	panelHtml = panelHtml + "<div class='panelHeader'>";
+	panelHtml = panelHtml + "<div id='panel_header_" + name +"'class='panelHeader'>";
 	panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanel panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\");return false;'></a>";
-	panelHtml = panelHtml + "  <span class='panelTitle'>" + title + "</span>";
+	panelHtml = panelHtml + "  <span id='panel_title_" + name +"' class='panelTitle'>" + title + "</span>";
+	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question_mark.gif">';
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "<div id='" + name + "_list' class='list'>";
 	panelHtml = panelHtml + "  <div id='" + name + "_items' class='items'>";
@@ -747,6 +708,23 @@ function insert_panel(position, name, title, visible){
 	panelHtml = panelHtml + "</td>";
 	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + '" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button" ' + button_style + '/>');
 	$("#main_row").append(panelHtml);
+	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name);
+
+}
+
+function update_panel_counts(){
+	update_panel_count('new');
+}
+
+function update_panel_count(name){
+	update_toggle_count(name);
+}
+
+function update_toggle_count(name){
+	count = $(name + "_panel").children().length;
+	console.log("count" + count + $(name + "_panel").children() + " " + name);
+	console.log($(name + '_panel_toggle'));
+	$(name + '_panel_toggle').val($(name + '_panel_toggle').val().replace(/\n/,"(" + count + ")"));
 }
 
 function close_panel(name){
@@ -785,6 +763,8 @@ function expand_item(dataId){
 		offsetTop: 0
 	});
 	make_text_boxes_toggle_keyboard_shortcuts();
+	$('#item_' + dataId).parent().scrollTo('#item_' + dataId, 500);
+	
 }
 
 function collapse_item(dataId){
@@ -993,6 +973,7 @@ $("#new_items").prepend(html);
 $("#new_title_input").val(default_new_title).select();	
 $("#new_description").autogrow();
 make_text_boxes_toggle_keyboard_shortcuts();
+$("#new_items").scrollTo( '#new_item_wrapper', 800);
 }
 
 function generate_item_edit(dataId){
@@ -1325,7 +1306,7 @@ function url_for(options){
 								clearTimeout(_timeoutAnimate);
 							}
 							_timeoutAnimate = setTimeout(function() {
-								console.log("hiding: mouse over bubble:" + mouse_over_bubble);
+								// console.log("hiding: mouse over bubble:" + mouse_over_bubble);
 								if (!mouse_over_bubble)
 								{
 									_HideWrapper();
