@@ -4,6 +4,7 @@
 <![endif]-->
 
 <%= javascript_include_tag  'dashboard' %>
+<%= javascript_include_tag  'jquery.scrollTo-min' %>
 <%= stylesheet_link_tag 'dashboard' %>
 
 
@@ -12,6 +13,13 @@
 <!-- <input id="new_request" value="New Request" type="submit" onclick="new_item();"/> -->
 <div id='loading'>
   <%= l(:text_loading_dashboard) %>
+</div>
+<div id='quote'>
+  <table  style='height: 300px; width: 100%'><tr vertical-align="middle"><td align="center">
+  <% @quote = Quote.random  %>
+  <%= @quote.body  %><br>
+  ~<%= @quote.author  %>
+  </td></tr></table>
 </div>
 
 <!-- <a href="" onclick="go();">GO</a> -->
@@ -61,10 +69,60 @@
   </div>
 </div>
 
+<div id="help_panel_new" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>New Requests</strong><br>
+      New requests are fresh off of somebody's brain. They are ripe for discussion and consideration. <br>
+      At this stage, it's too early to try to estimate the size of the request, or prioritize it. You should mainly focus on giving a new request your thumbs up (or down) indicating wether or not you think it would be useful to get it done. And make sure that it is a concise, measurable and realistic request. This is also a good time to ensure that acceptance criteria is clear for this requests i.e. there's an indication of how the team will know that the request is done.
+  </div>
+</div>
+
+<div id="help_panel_estimating" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Requests In Estimation</strong><br>
+      In Estimation requests are ideas that people have agreed need to get implemented. Now it's a matter of sizing them up.<br>
+  </div>
+</div>
+
+<div id="help_panel_inprogress" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Requests In Progress</strong><br>
+      Requests
+  </div>
+</div>
+
+<div id="help_panel_open" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Open Requests</strong><br>
+      Requests
+  </div>
+</div>
+
+<div id="help_panel_done" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Done Requests</strong><br>
+      Requests
+  </div>
+</div>
+
+<div id="help_panel_canceled" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Canceled Requests</strong><br>
+      Requests
+  </div>
+</div>
+
+<div id="help_panel_unsorted" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Unsorted Requests</strong><br>
+      Requests
+  </div>
+</div>
+
 </div>
 
 
-<div id="flyover_estimate_demo" class="overlay">
+<!-- <div id="flyover_estimate_demo" class="overlay">
   <div style="border: 0pt none ; margin: 0pt;">
     <div class="overlayContentWrapper storyFlyover flyover" style="width: 300px;">
       <div class="storyTitle">
@@ -118,7 +176,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- <div id="flyover" class="overlay" style="position: absolute; top: 160px; left: 526px; display:none;">
   <div style="border: 0pt none ; margin: 0pt;">
