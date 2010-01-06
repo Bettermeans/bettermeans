@@ -1,4 +1,8 @@
 class Quote < ActiveRecord::Base
+  def self.random
+    rand_id = rand(Quote.count)
+    rand_record = Quote.first(:conditions => [ "id >= ?", rand_id]) # don't use OFFSET on MySQL; it's very slow
+  end
 end
 
 # == Schema Information
