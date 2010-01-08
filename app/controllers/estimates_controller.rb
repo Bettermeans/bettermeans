@@ -1,5 +1,5 @@
 class EstimatesController < ApplicationController
-  before_filter :authorize, :only => [:index, :create, :update, :destroy ]
+  before_filter :find_project, :authorize, :only => [:index, :create, :update, :destroy ]
   
   # GET /estimates
   # GET /estimates.xml
@@ -43,13 +43,14 @@ class EstimatesController < ApplicationController
   # POST /estimates.xml
   def create
     @estimate = Estimate.new(params[:estimate])
+    @estimate.user_id = User.current.id
 
     respond_to do |format|
       if @estimate.save
-        flash[:notice] = 'Estimate was successfully created.'
+        # flash[:notice] = 'Estimate was successfully created.'
         format.html { redirect_to(@estimate) }
         format.xml  { render :xml => @estimate, :status => :created, :location => @estimate }
-        format.js {render :json => @estimate.to_json(:include => :user)}
+        format.js {render :json => @estimate.issue.to_dashboard}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @estimate.errors, :status => :unprocessable_entity }
@@ -64,9 +65,10 @@ class EstimatesController < ApplicationController
 
     respond_to do |format|
       if @estimate.update_attributes(params[:estimate])
-        flash[:notice] = 'Estimate was successfully updated.'
+        # flash[:notice] = 'Estimate was successfully updated.'
         format.html { redirect_to(@estimate) }
         format.xml  { head :ok }
+        format.js {render :json => @estimate.issue.to_dashboard}
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @estimate.errors, :status => :unprocessable_entity }
@@ -85,5 +87,14 @@ class EstimatesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def find_project
+    logger.info(params.inspect)
+    logger.info(params[:estimate].inspect)
+    
+    @issue = Issue.find(:first, :conditions => {:id => params[:estimate][:issue_id]})
+    @project = @issue.project
+  end
+  
   
 end

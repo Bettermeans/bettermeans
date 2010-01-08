@@ -44,12 +44,12 @@ Redmine::AccessControl.map do |map|
                                   :queries => :index,
                                   :reports => :issue_report,
                                   :comments => :index,
-                                  :estimates => :index
+                                  :estimates => [:index,:create]
                                   }
     map.permission :add_issues, {:issues => [:new, :update_form]}
     map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
-    map.permission :add_issue_notes, {:issues => [:edit, :reply], :comments => :create}
+    map.permission :add_issue_notes, {:issues => [:edit, :reply], :comments => :create, :estimates => :create}
     map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :edit_own_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :move_issues, {:issues => :move}, :require => :loggedin
