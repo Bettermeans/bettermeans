@@ -19,6 +19,7 @@
 //view history panel
 //integrate this gradient to the top of bubble tip: background:url(/images/bg_gradient_comments_hover.gif) #FFF repeat-x scroll left top;	
 //remove side scroll bar from dashboard
+//growl error system
 
 var D; //all data
 var keyboard_shortcuts = false;
@@ -226,7 +227,7 @@ function load_ui(){
 	insert_panel(0,'unknown','Unsorted',false);
 	
 	for(var i = 0; i < D.length; i++ ){
-		add_item(i,"bottom");	
+		add_item(i,"bottom",false);	
 	}
 
 	$("#new_items").append("<div class='endOfList></div>");
@@ -288,7 +289,7 @@ function show_estimate_flyover(dataId,callingElement){
 	}
 		
 	$('#' + callingElement).bubbletip($('#flyover_estimate_' + dataId), {
-		deltaDirection: 'top',
+		deltaDirection: 'right',
 		delayShow: 0,
 		delayHide: 100,
 		offsetLeft: 0
@@ -302,7 +303,7 @@ function show_estimate_flyover(dataId,callingElement){
 	
 }
 
-function add_item(dataId,position){
+function add_item(dataId,position,scroll){
 	var panelid = '';
 	//Deciding on wich panel for this item?
 	switch (D[dataId].status.name){
@@ -333,6 +334,12 @@ function add_item(dataId,position){
 	{
 		$("#" + panelid).prepend(html);
 	}
+	
+	if (scroll)
+	{
+		$("#" + panelid).scrollTo('#item_' + dataId, 500);
+	}
+	
 }
 
 function generate_details_flyover(dataId){
@@ -496,7 +503,6 @@ function generate_estimate_flyover_yourestimate(item,user_estimate_id,dataId){
 function generate_estimate_button(points, itemId, user_estimate_id, dataId){
 	html = '';
 	html = html + '<img src="/images/dice_' + points + '.png" width="18" height="18" alt="' + points + ' Points" class="dice" onclick="send_estimate(' + itemId + ',' + points + ',' + user_estimate_id + ',' + dataId + ')">';	
-	console.log(html);
 	return html;
 }
 
@@ -667,28 +673,62 @@ function buttons_for(dataId){
 
 //Generates a button type for item id
 function button(type,dataId){
-	return '<img id="item_content_buttons_' + type + '_button_' + dataId + '" class="stateChangeButton notDblclickable" src="/images/' + type + '.png" onmouseover="this.src=\'/images/' + type + '_hover.png\'" onclick="click_' + type + '(' + dataId + ');return false;" onmouseout="this.src=\'/images/' + type + '.png\'">';
+	html = '';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '">';
+	html = html + '<a href="/" id="item_action_link_' + type + dataId + '" class="action_link clickable" onclick="click_' + type + '(' + dataId + ',this);return false;">' + type + '</a>';
+	html = html + '</div>';
+	return html;
+	// return '<img id="item_content_buttons_' + type + '_button_' + dataId + '" class="stateChangeButton notDblclickable" src="/images/' + type + '.png" onmouseover="this.src=\'/images/' + type + '_hover.png\'" onclick="click_' + type + '(' + dataId + ',this);return false;" onmouseout="this.src=\'/images/' + type + '.png\'">';
 }
 
-function click_start(dataId){
-	alert('clicked start for id:' + dataId);
+function click_start(dataId,source){
+	console.log(source.id);
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'start');
 }
 
-function click_accept(dataId){
-	alert('clicked accept for id:' + dataId);
+function click_accept(dataId,source){
+	$('#' + source.id).hide();
+	send_item_action(dataId,'accept');
 }
 
-function click_reject(dataId){
-	alert('clicked reject for id:' + dataId);
+function click_reject(dataId,source){
+	$('#' + source.id).hide();
+	send_item_action(dataId,'reject');
 }
 
-function click_finish(dataId){
-	alert('clicked finish for id:' + dataId);
+function click_finish(dataId,source){
+	$('#' + source.id).hide();
+	send_item_action(dataId,'finish');
 }
 
-function click_restart(dataId){
+function click_restart(dataId,source){
+	$('#' + source.id).hide();
 	alert('clicked restart for id:' + dataId);
 }
+
+function send_item_action(dataId,action){
+	var data = "commit=Create&lock_version=" + D[dataId].lock_version;
+
+    var url = url_for({ controller: 'issues',
+                           action    : action,
+							id		: D[dataId].id
+                          });
+
+	$("#item_content_icons_editButton_" + dataId).remove();
+	$("#icon_set_" + dataId).addClass('updating');
+
+	$.post(url, 
+		   data, 
+		   	function(html){
+				item_actioned(html,dataId);
+			}, //TODO: handle errors here
+			"json" //BUGBUG: is this a security risk?
+	);
+	
+	$('.bubbletip').hide();
+}
+
 
 //returns true if item has a description or any journals that have notes
 function show_comment(item){
@@ -870,9 +910,19 @@ function cancel_edit_item(dataId){
 function item_added(item){
 	$("#new_item_wrapper").remove();
 	D.push(item); 
-	add_item(D.length-1,"top");
+	add_item(D.length-1,"top",false);
 	add_hover_icon_events();
 	keyboard_shortcuts = true;
+	return false;
+}
+
+function item_actioned(item, dataId,action){
+	D[dataId] = item; 
+	$("#item_" + dataId).remove();
+	add_item(dataId,"top",true);
+	add_hover_icon_events();
+	keyboard_shortcuts = true;
+	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	return false;
 }
 
@@ -1189,8 +1239,8 @@ function view_history(dataId){
 function url_for(options){
   // THINKABOUTTHIS: Is it worth using Rails' routes for this instead?
   var url = '/' + options['controller'] ;
-  if(options['action']!=null && options['action'].match(/index/)==null) url += '/' + options['action'];
   if(options['id']!=null) url += "/" + options['id'];
+	if(options['action']!=null && options['action'].match(/index/)==null) url += '/' + options['action'];
   
   // var keys = Object.keys(options).select(function(key){ return (key!="controller" && key!="action" && key!="id"); });    
   // if(keys.length>0) url += "?";

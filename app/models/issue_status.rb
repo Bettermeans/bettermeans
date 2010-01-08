@@ -26,6 +26,31 @@ class IssueStatus < ActiveRecord::Base
     find(:first, :conditions =>["name=?", l(:default_issue_status_assigned)])
   end
 
+  def self.done
+    find(:first, :conditions =>["name=?", l(:default_issue_status_done)])
+  end
+
+  def self.inprogress
+    find(:first, :conditions =>["name=?", l(:default_issue_status_inprogress)])
+  end
+
+  def self.new
+    find(:first, :conditions =>["name=?", l(:default_issue_status_new)])
+  end
+
+  def self.open
+    find(:first, :conditions =>["name=?", l(:default_issue_status_open)])
+  end
+
+  def self.canceled
+    find(:first, :conditions =>["name=?", l(:default_issue_status_canceled)])
+  end
+
+  def self.estimate
+    find(:first, :conditions =>["name=?", l(:default_issue_status_estimate)])
+  end
+
+
   # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
   def self.update_issue_done_ratios
     if Issue.use_status_for_done_ratio?
