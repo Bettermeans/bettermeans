@@ -399,6 +399,11 @@ class Issue < ActiveRecord::Base
     self.points =   Estimate.average(:points, :conditions => {:issue_id => self.id})
     self.save
   end
+  
+  #returns json object for consumption from dashboard
+  def to_dashboard
+    self.to_json(:include => {:journals => {:include => :user}, :estimates => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname]}})
+  end
 
   private
   

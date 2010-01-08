@@ -397,16 +397,16 @@ function generate_estimate_flyover(dataId){
 	item.points == null ? points = 'No' : points = Math.round(item.points);
 	
 	var you_voted = '';
-	var user_voted = false;
+	var user_estimate_id = 0;
 	
 	for(var i=0; i < item.estimates.length; i++){
 		if (currentUserLogin == item.estimates[i].user.login){
 			you_voted = "You estimated " + item.estimates[i].points + " on " + item.estimates[i].updated_on;
-			user_voted = true;
+			user_estimate_id = item.estimates[i].id;
 		}
 	}
 	
-	if (you_voted == ''){
+	if (user_estimate_id == 0){
 		you_voted = "You haven't voted yet";
 	}
 	
@@ -414,9 +414,9 @@ function generate_estimate_flyover(dataId){
 	
 	html = html + '<div id="flyover_estimate_' + dataId + '" class="overlay" style="display:none;">';
 	html = html + '	  <div style="border: 0pt none ; margin: 0pt;">';
-	html = html + '	    <div class="overlayContentWrapper storyFlyover flyover" style="width: 300px;">';
+	html = html + '	    <div class="overlayContentWrapper storyFlyover flyover" style="width: 200px;">';
 	html = html + '	      <div class="storyTitle">';
-	html = html + 'Average: ' + points + ' points (' + item.estimates.length + ' people)';
+	html = html + 'Avg ' + points + ' points (' + item.estimates.length + ' people)';
 	html = html + '	      </div>';
 	html = html + '	      <div class="sectionDivider">';
 	html = html + '	      <div style="height: auto;">';
@@ -429,7 +429,7 @@ function generate_estimate_flyover(dataId){
 	html = html + '	        <div class="flyoverContent storyDetails">';
 	html = html + '	            <div class="section">';
 	html = html + 					generate_estimate_flyover_history(item);
-	html = html + 					generate_estimate_flyover_yourestimate(item,user_voted);
+	html = html + 					generate_estimate_flyover_yourestimate(item,user_estimate_id,dataId);
 	html = html + '	              </div>';
 	html = html + '	        </div>';
 	html = html + '	      </div>';
@@ -468,10 +468,10 @@ function generate_estimate_flyover_history(item){
 	
 }
 
-function generate_estimate_flyover_yourestimate(item,user_voted){
+function generate_estimate_flyover_yourestimate(item,user_estimate_id,dataId){
 	//TODO: check that I have permission to estimate!	
 	var header_text = '';
-	user_voted ? header_text = 'Change your estimate' : header_text = 'Make an estimate';
+	user_estimate_id == 0 ? header_text = 'Change your estimate' : header_text = 'Make an estimate';
 	var html = '';
 	html = html + '	                <div class="header">';
 	html = html + header_text;
@@ -480,11 +480,11 @@ function generate_estimate_flyover_yourestimate(item,user_voted){
 	html = html + '	                  <tbody>';
 	html = html + '	                    <tr class="noteTextRow">';
 	html = html + '	                      <td class="noteText">';
-	html = html + '	                        <img src="/images/dice_0.png" width="18" height="18" alt="0 Points">';
-	html = html + '	                        <img src="/images/dice_1.png" width="18" height="18" alt="1 Points">';
-	html = html + '	                        <img src="/images/dice_2.png" width="18" height="18" alt="2 Points">';
-	html = html + '	                        <img src="/images/dice_4.png" width="18" height="18" alt="4 Points">';
-	html = html + '	                        <img src="/images/dice_6.png" width="18" height="18" alt="6 Points">';
+	html = html + generate_estimate_button(0, item.id, user_estimate_id,dataId);
+	html = html + generate_estimate_button(1, item.id, user_estimate_id,dataId);
+	html = html + generate_estimate_button(2, item.id, user_estimate_id,dataId);
+	html = html + generate_estimate_button(4, item.id, user_estimate_id,dataId);
+	html = html + generate_estimate_button(6, item.id, user_estimate_id,dataId);
 	html = html + '	                      </td>';
 	html = html + '	                    </tr>';
 	html = html + '	                  </tbody>';
@@ -493,6 +493,34 @@ function generate_estimate_flyover_yourestimate(item,user_voted){
 	
 }
 
+function generate_estimate_button(points, itemId, user_estimate_id, dataId){
+	html = '';
+	html = html + '<img src="/images/dice_' + points + '.png" width="18" height="18" alt="' + points + ' Points" class="dice" onclick="send_estimate(' + itemId + ',' + points + ',' + user_estimate_id + ',' + dataId + ')">';	
+	console.log(html);
+	return html;
+}
+
+function send_estimate(itemId, points, user_estimate_id,dataId){
+	var data = "commit=Create&estimate[issue_id]=" + itemId + "&estimate[points]=" + points;
+
+    var url = url_for({ controller: 'estimates',
+                           action    : 'create'
+                          });
+
+	$("#item_content_icons_editButton_" + dataId).remove();
+	$("#icon_set_" + dataId).addClass('updating');
+
+	$.post(url, 
+		   data, 
+		   	function(html){
+				item_estimated(html,dataId);
+			}, //TODO: handle errors here
+			"json" //BUGBUG: is this a security risk?
+	);
+	
+	$('.bubbletip').hide();
+	
+}
 
 function generate_details_flyover_description(item){
 
@@ -698,7 +726,7 @@ function insert_panel(position, name, title, visible){
 	panelHtml = panelHtml + "<div class='panelHeaderLeft'></div>";
 	panelHtml = panelHtml + "<div id='panel_header_" + name +"'class='panelHeader'>";
 	panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanel panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\");return false;'></a>";
-	panelHtml = panelHtml + "  <span id='panel_title_" + name +"' class='panelTitle'>" + title + "</span>";
+	panelHtml = panelHtml + "  <span id='" + name +"_panel_title' class='panelTitle'>" + title + " (.)</span>";
 	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question_mark.gif">';
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "<div id='" + name + "_list' class='list'>";
@@ -706,25 +734,27 @@ function insert_panel(position, name, title, visible){
 	panelHtml = panelHtml + "  </div>";
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "</td>";
-	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + '" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button" ' + button_style + '/>');
+	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + ' (.)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button" ' + button_style + '/>');
 	$("#main_row").append(panelHtml);
-	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name);
+	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right'});
 
 }
 
 function update_panel_counts(){
 	update_panel_count('new');
+	update_panel_count('estimating');
+	update_panel_count('open');
+	update_panel_count('inprogress');
+	update_panel_count('done');
+	update_panel_count('canceled');
+	update_panel_count('unknown');
+	
 }
 
 function update_panel_count(name){
-	update_toggle_count(name);
-}
-
-function update_toggle_count(name){
-	count = $(name + "_panel").children().length;
-	console.log("count" + count + $(name + "_panel").children() + " " + name);
-	console.log($(name + '_panel_toggle'));
-	$(name + '_panel_toggle').val($(name + '_panel_toggle').val().replace(/\n/,"(" + count + ")"));
+	count = $("#" + name + "_items").children().length - 1;
+	$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\(.\)/,"(" + count + ")"));
+	$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\(.\)/,"(" + count + ")"));
 }
 
 function close_panel(name){
@@ -843,6 +873,16 @@ function item_added(item){
 	add_item(D.length-1,"top");
 	add_hover_icon_events();
 	keyboard_shortcuts = true;
+	return false;
+}
+
+function item_estimated(item, dataId){
+	D[dataId] = item; 
+	$("#item_" + dataId).html(generate_item(dataId));
+	add_hover_icon_events();
+	keyboard_shortcuts = true;
+	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
+	$('#flyover_estimate_' + dataId).remove();
 	return false;
 }
 
@@ -1264,17 +1304,17 @@ function url_for(options){
 
 			_Calculate(true);
 
-			// handle window.resize
-			$(window).bind('resize.bubbletip' + _bindIndex, function() {
-				if (_timeoutRefresh) {
-					clearTimeout(_timeoutRefresh);
-				} else {
-					_wrapper.hide();
-				}
-				_timeoutRefresh = setTimeout(function() {
-					_Calculate(true);
-				}, 250);
-			});
+			// // handle window.resize
+			// $(window).bind('resize.bubbletip' + _bindIndex, function() {
+			// 	if (_timeoutRefresh) {
+			// 		clearTimeout(_timeoutRefresh);
+			// 	} else {
+			// 		_wrapper.hide();
+			// 	}
+			// 	_timeoutRefresh = setTimeout(function() {
+			// 		_Calculate(true);
+			// 	}, 250);
+			// });
 			
 			show_tip();
 
@@ -1367,7 +1407,7 @@ function url_for(options){
 					_wrapper.animate(animation, _options.animationDuration, _options.animationEasing, function() {
 						_wrapper.css('opacity', '');
 						_isActive = true;
-						// $('.oldbubble').remove();
+						// $('.bubbletip').remove();
 						
 					});
 				}, _options.delayShow);
@@ -1465,6 +1505,7 @@ function url_for(options){
 					_isHiding = false;
 					_tip.appendTo('body');					
 					_wrapper.addClass('oldbubble');
+					$('.oldbubble').hide();
 				});
 			};
 
@@ -1626,6 +1667,9 @@ function url_for(options){
 				
 				// hide
 				_wrapper.hide();
+				_wrapper.addClass('oldbubble');
+				$('.oldbubble').hide();
+				
 				// handle the wrapper (element|body) positioning
 				if (_options.positionAt.match(/^element|body$/i)) {
 					_wrapper.css({
