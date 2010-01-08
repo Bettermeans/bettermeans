@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   default_search_scope :issues
   
-  before_filter :find_issue, :only => [:show, :edit, :reply]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
@@ -205,10 +205,10 @@ class IssuesController < ApplicationController
         if User.current.allowed_to?(:log_time, @project)
           @time_entry.save
         end
-        if !journal.new_record?
-          # Only send notification if something was actually changed
-          # flash[:notice] = l(:notice_successful_update)
-        end
+        # if !journal.new_record?
+        #   # Only send notification if something was actually changed
+        #   # flash[:notice] = l(:notice_successful_update)
+        # end
         call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
         
         respond_to do |format|
@@ -222,6 +222,47 @@ class IssuesController < ApplicationController
     flash.now[:error] = l(:notice_locking_conflict)
     # Remove the previously added attachments if issue was not updated
     attachments.each(&:destroy)
+  end
+  
+  def start
+    #TODO: enforce maximum in progress per person per project
+    @issue.reload
+    logger.info("before start" + @issue.inspect)
+    params[:issue] = {:status_id => IssueStatus.assigned.id}
+    change_status
+  end
+  
+  def finish
+    params[:issue] = {:status_id => IssueStatus.done.id}
+    change_status
+  end
+  
+  def change_status
+    logger.info("PARAMS BABY" + params.inspect)
+      @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
+      @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
+      logger.info("edit allowed #{@edit_allowed} allowed statuses #{@allowed_statuses}")
+
+      @notes = params[:notes]
+      journal = @issue.init_journal(User.current, @notes)
+      # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
+      if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
+        attrs = params[:issue].dup
+        attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
+        attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
+        @issue.attributes = attrs
+        logger.info(@issue.attributes.inspect)
+      end
+
+      if @issue.save
+        respond_to do |format|
+          format.js {render :json => @issue.to_dashboard}
+          format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+        end
+      end
+    rescue ActiveRecord::StaleObjectError
+      # Optimistic locking exception
+      flash.now[:error] = l(:notice_locking_conflict)
   end
 
   def reply
@@ -475,6 +516,7 @@ private
   def find_issue
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority])
     @project = @issue.project
+    logger.info(@issue.inspect)
   rescue ActiveRecord::RecordNotFound
     render_404
   end

@@ -105,7 +105,10 @@ border-spacing:16px 0;
 	height:1.85em;
 }
 
-#content a.panelLink {
+
+/*Content*/
+
+/*#content a.panelLink {
 	color:#333333;
 	vertical-align:middle;
 }
@@ -115,7 +118,7 @@ border-spacing:16px 0;
 	font-weight:normal;
 	text-decoration:none;
 	min-height:300px;
-}
+}*/
 
 #content {
 	font-family:Arial,Verdana,sans-serif;
@@ -409,3 +412,31 @@ background-repeat:repeat-y;
 	padding-right: 2px;
 	cursor: pointer;
 }
+
+/*Buttons*/
+.action_button{
+	width:60px;
+	height:21px;
+	text-align:center;
+}
+
+.action_button_start{
+	background: url(/images/bb_green.png) no-repeat; 
+}
+
+.action_button_finish{
+	
+}
+
+.action_button a, .action_button a:hover, .action_button a:visited {
+	font-size: 13px;
+	font-weight:bold;
+	color: #ffffff;
+}
+
+.action_button a:hover {
+	text-decoration:underline;
+}
+
+
+/*return '<img id="item_content_buttons_' + type + '_button_' + dataId + '" class="stateChangeButton notDblclickable" src="/images/' + type + '.png" onmouseover="this.src=\'/images/' + type + '_hover.png\'" onclick="click_' + type + '(' + dataId + ',this);return false;" onmouseout="this.src=\'/images/' + type + '.png\'">';*/
