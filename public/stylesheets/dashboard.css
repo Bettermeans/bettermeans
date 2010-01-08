@@ -297,7 +297,7 @@ background-repeat:repeat-y;
 .storyDetails .section .notesTable {width: 100% }
 .storyDetails .section .notesTable .italic {margin-left:8px }
 .storyDetails .section tr.noteTextRow + tr.noteInfoRow > td.noteInfo {padding-top:7px }
-.storyDetails .section .notesTable tr:first-child td, .storyDetails .section .tasksTable tr:first-child td {padding-top: 4px}
+.storyDetails .section .notesTable tr:first-child td, .storyDetails .section .tasksTable tr:first-child td {padding-top: 4px; padding-bottom:4px;}
 .storyDetails .section .tasksTable tr:hover td {background-color:#EBE29C}
 .storyDetails .section .tasksTable td {padding:3px 5px 0px 0px}
 .storyDetails .section .taskDescription input {width:100%}
@@ -329,9 +329,9 @@ background-repeat:repeat-y;
 .storyFlyover.flyover .flyoverContent.storyDetails .tasksTable tr:hover td {background-color: inherit}
 .storyFlyover.flyover .flyoverContent.storyDetails .tasksTable .taskDescription:hover {cursor: auto}
 .storyFlyover.flyover .flyoverContent.storyDetails .section table td.resource_details_cell {padding-top: 8px}
-.storyFlyover.flyover .storyId, .storyFlyover.flyover .metaInfo {color:#888888; font-size:0.85em}
+.storyFlyover.flyover .storyId, .storyFlyover.flyover .metaInfo {color:#888888; font-size:0.85em;}
 .storyFlyover.flyover .storyId {font-weight: normal; margin-right: 12px}
-.storyFlyover.flyover .metaInfo {margin: -0.8em 1.1em 0.5em}
+.storyFlyover.flyover .metaInfo {margin: -0.6em 1.1em 0.5em; padding:2px;}
 .storyFlyover.flyover .metaInfo .infoSection {color: #666666; font-weight: bold}
 .storyFlyover.flyover .metaInfo .infoSection img {display: block; padding-top: 1px; padding-right: 3px}
 .storyFlyover.flyover .metaInfo .infoSection img.estimateIcon {margin-top: 4px; margin-right: 3px}
@@ -403,4 +403,9 @@ background-repeat:repeat-y;
 .watermark{
 	color: #7C7B76;
 	font-style: italic;
+}
+
+.dice{
+	padding-right: 2px;
+	cursor: pointer;
 }
