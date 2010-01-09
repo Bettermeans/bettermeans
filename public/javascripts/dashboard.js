@@ -1,15 +1,10 @@
 //Todos
 //cleaner times/dates in flyover
-//flyover should stay open if I hover over it
 //order items by priority? or updated?
-//little hover over question marks for each panel describing whay they are
 //"my work" panel
 //somewhere in the "new item" tool tip, let them know that pressing the 'n' key activates the new item (should also be a tooltip for the new request button)
-//keyboard shortcut for each panel
 //Handle errors in javascript
 //Order comments chronologically
-//Animate panels
-//BUGBUG: flyovers don't work in safari
 //TODO: test in IE
 //detect and insert bold and italic text (time to learn regular expresssion :)
 //minifiy this file will be over 50k!
@@ -17,8 +12,6 @@
 //error handling for poor connectivity (couldn't load page! couldn't update item! couldn't save new item! couldn't save post!)
 //save request type (feature, chore, bug)
 //view history panel
-//integrate this gradient to the top of bubble tip: background:url(/images/bg_gradient_comments_hover.gif) #FFF repeat-x scroll left top;	
-//remove side scroll bar from dashboard
 //growl error system
 
 var D; //all data
@@ -230,14 +223,6 @@ function load_ui(){
 		add_item(i,"bottom",false);	
 	}
 
-	$("#new_items").append("<div class='endOfList></div>");
-	$("#estimating_items").append("<div class='endOfList></div>");
-	$("#open_items").append("<div class='endOfList></div>");
-	$("#inprogress_items").append("<div class='endOfList></div>");
-	$("#done_items").append("<div class='endOfList></div>");
-	$("#canceled_items").append("<div class='endOfList></div>");
-	$("#unknown_items").append("<div class='endOfList></div>");
-	
 	add_hover_icon_events();	
 	update_panel_counts();
 }
@@ -308,36 +293,41 @@ function add_item(dataId,position,scroll){
 	//Deciding on wich panel for this item?
 	switch (D[dataId].status.name){
 	case 'New':
-	panelid= 'new_items';
+	panelid= 'new';
+	break;
+	case 'Estimate':
+	panelid= 'estimate';
 	break;
 	case 'Open':
-	panelid= 'open_items';
+	panelid= 'open';
 	break;
 	case 'Committed':
-	panelid = 'inprogress_items';
+	panelid = 'inprogress';
 	break;
 	case 'Done':
-	panelid = 'done_items';
+	panelid = 'done';
 	break;
 	case 'Canceled':
-	panelid = 'canceled_items';
+	panelid = 'canceled';
 	break;
 	default : panelid = 'unknown_items';
 	}
 	
+	panelid = panelid ;
+	
 	var html = generate_item(dataId);
 	if (position=="bottom")
 	{
-		$("#" + panelid).append(html);
+		$("#" + panelid + '_start_of_list').append(html);
 	}
-	else
+	else if (position=="top")
 	{
-		$("#" + panelid).prepend(html);
+		$("#" + panelid+ '_start_of_list').prepend(html);
 	}
 	
 	if (scroll)
 	{
-		$("#" + panelid).scrollTo('#item_' + dataId, 500);
+		$("#" + panelid + "_items").scrollTo('#item_' + dataId, 100);
 	}
 	
 }
@@ -639,7 +629,7 @@ function generate_item(dataId){
 	html = html + '</div>';
 
 
-	html = html + '<div id="item_content_details_' + dataId + '" class="storyPreviewText" style="cursor: move;">';
+	html = html + '<div id="item_content_details_' + dataId + '" class="storyPreviewText" onDblclick="expand_item(' + dataId + ');return false;" style="cursor: default;">'; 
 	
 	html = html + item.subject;
 	html = html + '</div>';
@@ -650,10 +640,12 @@ function generate_item(dataId){
 }
 
 function buttons_for(dataId){
+	item = D[dataId];
 	html = '';
-	switch (D[dataId].status.name){
+	
+	switch (item.status.name){
 	case 'New':
-		html = html + button('disagree',dataId);
+		html = html + button('against',dataId);
 		html = html + button('agree',dataId);
 	break;
 	case 'Estimate':
@@ -661,8 +653,21 @@ function buttons_for(dataId){
 	break;
 	case 'Open':
 		html = html + button('start',dataId);
+		
+		var today = new Date();
+		var one_day=1000*60*60*24;
+		var updated = new Date(item.updated_on).getTime();
+		var days = (today.getTime() - updated)/one_day;
+		if (days > 30){
+		html = html + button('cancel',dataId);
+			
+		}
+
+		
+
 	break;
 	case 'Committed':
+		html = html + button('release',dataId);
 		html = html + button('finish',dataId);
 	break;
 	case 'Done':
@@ -681,8 +686,8 @@ function buttons_for(dataId){
 //Generates a button type for item id
 function button(type,dataId){
 	html = '';
-	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '">';
-	html = html + '<a href="/" id="item_action_link_' + type + dataId + '" class="action_link clickable" onclick="click_' + type + '(' + dataId + ',this);return false;">' + type + '</a>';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '" onclick="click_' + type + '(' + dataId + ',this);return false;">';
+	html = html + '<a href="/" id="item_action_link_' + type + dataId + '" class="action_link clickable">' + type + '</a>';
 	html = html + '</div>';
 	return html;
 	// return '<img id="item_content_buttons_' + type + '_button_' + dataId + '" class="stateChangeButton notDblclickable" src="/images/' + type + '.png" onmouseover="this.src=\'/images/' + type + '_hover.png\'" onclick="click_' + type + '(' + dataId + ',this);return false;" onmouseout="this.src=\'/images/' + type + '.png\'">';
@@ -711,7 +716,7 @@ function click_finish(dataId,source){
 
 function click_restart(dataId,source){
 	$('#' + source.id).parent().hide();
-	alert('clicked restart for id:' + dataId);
+	send_item_action(dataId,'restart');
 }
 
 function click_estimate(dataId,source){
@@ -722,9 +727,20 @@ function click_agree(dataId,source){
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'agree');
 }
-function click_disagree(dataId,source){
+
+function click_against(dataId,source){
 	$('#' + source.id).parent().hide();
-	send_item_action(dataId,'disagree');
+	send_item_action(dataId,'against');
+}
+
+function click_release(dataId,source){
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'release');
+}
+
+function click_cancel(dataId,source){
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'cancel');
 }
 
 
@@ -787,15 +803,17 @@ function insert_panel(position, name, title, visible){
 	panelHtml = panelHtml + "<div class='panelHeaderLeft'></div>";
 	panelHtml = panelHtml + "<div id='panel_header_" + name +"'class='panelHeader'>";
 	panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanel panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\");return false;'></a>";
-	panelHtml = panelHtml + "  <span id='" + name +"_panel_title' class='panelTitle'>" + title + " (.)</span>";
+	panelHtml = panelHtml + "  <span id='" + name +"_panel_title' class='panelTitle'>" + title + " (0)</span>";
 	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question_mark.gif">';
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "<div id='" + name + "_list' class='list'>";
 	panelHtml = panelHtml + "  <div id='" + name + "_items' class='items'>";
+	panelHtml = panelHtml + "	<div id='" + name + "_start_of_list' class='startOfList'></div>";
+	panelHtml = panelHtml + "	<div id='" + name + "_end_of_list' class='endOfList'></div>";
 	panelHtml = panelHtml + "  </div>";
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "</td>";
-	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + ' (.)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button" ' + button_style + '/>');
+	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button" ' + button_style + '/>');
 	$("#main_row").append(panelHtml);
 	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right'});
 
@@ -813,9 +831,9 @@ function update_panel_counts(){
 }
 
 function update_panel_count(name){
-	count = $("#" + name + "_items").children().length - 1;
-	$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\(.\)/,"(" + count + ")"));
-	$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\(.\)/,"(" + count + ")"));
+	count = $("#" + name + "_start_of_list > *").length;
+	$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\([0-9]*\)/,"(" + count + ")"));
+	$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\([0-9]*\)/,"(" + count + ")"));
 }
 
 function close_panel(name){
@@ -853,8 +871,14 @@ function expand_item(dataId){
 		delayHide: 100,
 		offsetTop: 0
 	});
+	$('#help_image_requestid_' + dataId).mybubbletip($('#help_requestid'), {
+		deltaDirection: 'right',
+		delayShow: 300,
+		delayHide: 100,
+		offsetLeft: 0
+	});
 	make_text_boxes_toggle_keyboard_shortcuts();
-	$('#item_' + dataId).parent().scrollTo('#item_' + dataId, 500);
+	$('#item_' + dataId).parent().parent().scrollTo('#item_' + dataId, 500);
 	
 }
 
@@ -934,16 +958,19 @@ function item_added(item){
 	add_item(D.length-1,"top",false);
 	add_hover_icon_events();
 	keyboard_shortcuts = true;
+	update_panel_counts();
 	return false;
 }
 
 function item_actioned(item, dataId,action){
 	D[dataId] = item; 
 	$("#item_" + dataId).remove();
-	add_item(dataId,"top",true);
+	add_item(dataId,"bottom",true);
 	add_hover_icon_events();
 	keyboard_shortcuts = true;
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
+	update_panel_counts();
+	$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
 	return false;
 }
 
@@ -1201,16 +1228,27 @@ html = html + '	                      </div>';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
+
+// request id
+html = html + '	                <tr><td>&nbsp;</td></tr>';
+html = html + '	                <tr><td>';
+html = html + '	  <div class="header">';
+html = html + '	    Request ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
+html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif">';
+html = html + '	  </div>';
+html = html + '	                  </td>';
+html = html + '	                </tr>';
+html = html + '	                <tr>';
+html = html + '	                  <td colspan="5">';
+html = html + '	                    <div>';
+html = html + '	                      <input class="textAreaFocus" type="text" id="request_id_' + dataId + '" value="http://' + window.location.hostname + '/issues/' +  D[dataId].id + '" readonly>&nbsp;</input>     ';
+html = html + '	                    </div>';
+html = html + '	                  </td>';
+html = html + '	                </tr>';
 html = html + '	              </tbody>';
 html = html + '	            </table>';
 html = html + '	          </div>';
 
-
-html = html + '	      </div>';
-html = html + '	    </div>';
-html = html + '    </form>';
-html = html + '	  </div>';
-html = html + '	</div>';
 return html;
 }
 

@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   default_search_scope :issues
   
-  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
@@ -226,14 +226,27 @@ class IssuesController < ApplicationController
   
   def start
     #TODO: enforce maximum in progress per person per project
-    @issue.reload
-    logger.info("before start" + @issue.inspect)
     params[:issue] = {:status_id => IssueStatus.assigned.id}
     change_status
   end
   
   def finish
     params[:issue] = {:status_id => IssueStatus.done.id}
+    change_status
+  end
+  
+  def release
+    params[:issue] = {:status_id => IssueStatus.open.id}
+    change_status
+  end
+  
+  def cancel
+    params[:issue] = {:status_id => IssueStatus.canceled.id}
+    change_status
+  end
+  
+  def restart
+    params[:issue] = {:status_id => IssueStatus.new.id}
     change_status
   end
   

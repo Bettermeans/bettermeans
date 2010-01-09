@@ -443,17 +443,24 @@ background-repeat:repeat-y;
 }
 
 .action_button_estimate{
-	background: url(/images/bb_sky.png) no-repeat; 
+	background: url(/images/bb_blue.png) no-repeat; 
 }
 
 .action_button_agree{
 	background: url(/images/bb_green.png) no-repeat; 
 }
 
-.action_button_disagree{
+.action_button_against{
 	background: url(/images/bb_red.png) no-repeat; 
 }
 
+.action_button_release{
+	background: url(/images/bb_sky.png) no-repeat; 
+}
+
+.action_button_cancel{
+	background: url(/images/bb_ocean.png) no-repeat; 
+}
 
 
 
