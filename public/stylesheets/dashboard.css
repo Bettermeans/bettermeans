@@ -180,6 +180,7 @@ background-repeat:repeat-y;
 	float:right;
 	padding-bottom:1px;
 	padding-top:2px;
+	padding-left:2px;
 	text-align:right;
 }
 
@@ -409,7 +410,7 @@ background-repeat:repeat-y;
 }
 
 .dice{
-	padding-right: 2px;
+	padding-right: 2px;	
 	cursor: pointer;
 }
 
@@ -418,15 +419,43 @@ background-repeat:repeat-y;
 	width:60px;
 	height:21px;
 	text-align:center;
+	float:right;
 }
 
 .action_button_start{
-	background: url(/images/bb_green.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat; 
 }
 
 .action_button_finish{
-	
+	background: url(/images/bb_brown.png) no-repeat; 
 }
+
+.action_button_accept{
+	background: url(/images/bb_green.png) no-repeat; 
+}
+
+.action_button_reject{
+	background: url(/images/bb_red.png) no-repeat; 
+}
+
+.action_button_restart{
+	background: url(/images/bb_purple.png) no-repeat; 
+}
+
+.action_button_estimate{
+	background: url(/images/bb_sky.png) no-repeat; 
+}
+
+.action_button_agree{
+	background: url(/images/bb_green.png) no-repeat; 
+}
+
+.action_button_disagree{
+	background: url(/images/bb_red.png) no-repeat; 
+}
+
+
+
 
 .action_button a, .action_button a:hover, .action_button a:visited {
 	font-size: 13px;
