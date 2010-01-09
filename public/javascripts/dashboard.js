@@ -652,6 +652,13 @@ function generate_item(dataId){
 function buttons_for(dataId){
 	html = '';
 	switch (D[dataId].status.name){
+	case 'New':
+		html = html + button('disagree',dataId);
+		html = html + button('agree',dataId);
+	break;
+	case 'Estimate':
+		html = html + button('estimate',dataId);
+	break;
 	case 'Open':
 		html = html + button('start',dataId);
 	break;
@@ -659,8 +666,8 @@ function buttons_for(dataId){
 		html = html + button('finish',dataId);
 	break;
 	case 'Done':
-		html = html + button('accept',dataId);
 		html = html + button('reject',dataId);
+		html = html + button('accept',dataId);
 	break;
 	case 'Canceled':
 		html = html + button('restart',dataId);
@@ -688,24 +695,38 @@ function click_start(dataId,source){
 }
 
 function click_accept(dataId,source){
-	$('#' + source.id).hide();
+	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'accept');
 }
 
 function click_reject(dataId,source){
-	$('#' + source.id).hide();
+	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'reject');
 }
 
 function click_finish(dataId,source){
-	$('#' + source.id).hide();
+	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'finish');
 }
 
 function click_restart(dataId,source){
-	$('#' + source.id).hide();
+	$('#' + source.id).parent().hide();
 	alert('clicked restart for id:' + dataId);
 }
+
+function click_estimate(dataId,source){
+	$('#' + source.id).parent().hide();
+}
+
+function click_agree(dataId,source){
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'agree');
+}
+function click_disagree(dataId,source){
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'disagree');
+}
+
 
 function send_item_action(dataId,action){
 	var data = "commit=Create&lock_version=" + D[dataId].lock_version;
