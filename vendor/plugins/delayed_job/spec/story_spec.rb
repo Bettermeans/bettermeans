@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/database'
+require 'spec_helper'
 
 describe "A story" do
 
