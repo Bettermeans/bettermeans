@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/database'
+require 'spec_helper'
 
 class SimpleJob
   cattr_accessor :runs; self.runs = 0
@@ -73,15 +73,8 @@ describe 'random ruby objects' do
   end
 
   it "should ignore ActiveRecord::RecordNotFound errors because they are permanent" do
-
-    ErrorObject.new.send_later(:throw)
-
-    Delayed::Job.count.should == 1
-
-    Delayed::Job.reserve_and_run_one_job
-
-    Delayed::Job.count.should == 0
-
+    job = ErrorObject.new.send_later(:throw)
+    lambda { job.invoke_job }.should_not raise_error
   end
 
   it "should store the object as string if its an active record" do
@@ -123,6 +116,28 @@ describe 'random ruby objects' do
     job.payload_object.method.should  == :whatever_without_send_later
     job.payload_object.args.should    == [1, 5]
     job.payload_object.perform.should == 'Once upon...'
+  end
+
+  context "send_at" do
+    it "should queue a new job" do
+      lambda do
+        "string".send_at(1.hour.from_now, :length)
+      end.should change { Delayed::Job.count }.by(1)
+    end
+    
+    it "should schedule the job in the future" do
+      time = 1.hour.from_now
+      job = "string".send_at(time, :length)
+      job.run_at.should == time
+    end
+    
+    it "should store payload as PerformableMethod" do
+      job = "string".send_at(1.hour.from_now, :count, 'r')
+      job.payload_object.class.should   == Delayed::PerformableMethod
+      job.payload_object.method.should  == :count
+      job.payload_object.args.should    == ['r']
+      job.payload_object.perform.should == 1
+    end
   end
 
 end

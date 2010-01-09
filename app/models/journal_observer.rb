@@ -4,6 +4,6 @@
 
 class JournalObserver < ActiveRecord::Observer
   def after_create(journal)
-    Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
+    Mailer.send_later(:deliver_issue_edit,journal) if Setting.notified_events.include?('issue_updated')
   end
 end
