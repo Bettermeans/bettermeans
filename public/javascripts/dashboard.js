@@ -667,8 +667,10 @@ function buttons_for(dataId){
 
 	break;
 	case 'Committed':
-		html = html + button('release',dataId);
-		html = html + button('finish',dataId);
+		if (item.assigned_to_id == currentUserId){
+			html = html + button('release',dataId);
+			html = html + button('finish',dataId);
+		}
 	break;
 	case 'Done':
 		html = html + button('reject',dataId);
@@ -685,9 +687,11 @@ function buttons_for(dataId){
 
 //Generates a button type for item id
 function button(type,dataId){
+	var label = type;
+	if (type == 'release') label = 'giveup';
 	html = '';
 	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '" onclick="click_' + type + '(' + dataId + ',this);return false;">';
-	html = html + '<a href="/" id="item_action_link_' + type + dataId + '" class="action_link clickable">' + type + '</a>';
+	html = html + '<a href="/" id="item_action_link_' + type + dataId + '" class="action_link clickable">' + label + '</a>';
 	html = html + '</div>';
 	return html;
 	// return '<img id="item_content_buttons_' + type + '_button_' + dataId + '" class="stateChangeButton notDblclickable" src="/images/' + type + '.png" onmouseover="this.src=\'/images/' + type + '_hover.png\'" onclick="click_' + type + '(' + dataId + ',this);return false;" onmouseout="this.src=\'/images/' + type + '.png\'">';
