@@ -402,7 +402,7 @@ class Issue < ActiveRecord::Base
   
   #returns json object for consumption from dashboard
   def to_dashboard
-    self.to_json(:include => {:journals => {:include => :user}, :estimates => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname]}})
+    self.to_json(:include => {:journals => {:include => :user}, :estimates => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname, :login]}})
   end
 
   private
