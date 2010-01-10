@@ -700,11 +700,15 @@ function click_start(dataId,source){
 }
 
 function click_accept(dataId,source){
+	alert('sorry. not implemented yet!');
+	return false;
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'accept');
 }
 
 function click_reject(dataId,source){
+	alert('sorry. not implemented yet!');
+	return false;
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'reject');
 }
@@ -724,11 +728,15 @@ function click_estimate(dataId,source){
 }
 
 function click_agree(dataId,source){
+	alert('sorry. not implemented yet!');
+	return false;
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'agree');
 }
 
 function click_against(dataId,source){
+	alert('sorry. not implemented yet!');
+	return false;
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'against');
 }
@@ -1053,9 +1061,6 @@ html = html + '	                      </option>';
 html = html + '	                      <option value="chore">';
 html = html + '	                        Chore';
 html = html + '	                      </option>';
-html = html + '	                      <option value="release">';
-html = html + '	                        Release';
-html = html + '	                      </option>';
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
@@ -1066,7 +1071,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
-html = html + '	                    <img src="/images/question_mark.gif">';
+html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -1083,7 +1088,7 @@ html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                  <td class="lastCell">';
 html = html + '	                    <div class="helpIcon">';
-html = html + '	                      <img src="/images/question_mark.gif">';
+html = html + '	                      <img id="help_image_description_new" src="/images/question_mark.gif">';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
@@ -1111,6 +1116,20 @@ $("#new_items").prepend(html);
 $("#new_title_input").val(default_new_title).select();	
 $("#new_description").autogrow();
 make_text_boxes_toggle_keyboard_shortcuts();
+
+$('#help_image_description_new').mybubbletip($('#help_description'), {
+	deltaDirection: 'right',
+	delayShow: 300,
+	delayHide: 100,
+	offsetLeft: 0
+});
+$('#help_image_feature_new').mybubbletip($('#help_feature'), {
+	deltaDirection: 'up',
+	delayShow: 300,
+	delayHide: 100,
+	offsetTop: 0
+});
+
 $("#new_items").scrollTo( '#new_item_wrapper', 800);
 }
 
