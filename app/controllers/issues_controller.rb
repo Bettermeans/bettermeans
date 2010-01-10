@@ -226,7 +226,7 @@ class IssuesController < ApplicationController
   
   def start
     #TODO: enforce maximum in progress per person per project
-    params[:issue] = {:status_id => IssueStatus.assigned.id}
+    params[:issue] = {:status_id => IssueStatus.assigned.id, :assigned_to_id => User.current.id}
     change_status
   end
   
@@ -236,7 +236,7 @@ class IssuesController < ApplicationController
   end
   
   def release
-    params[:issue] = {:status_id => IssueStatus.open.id}
+    params[:issue] = {:status_id => IssueStatus.open.id, :assigned_to_id => ''}
     change_status
   end
   
