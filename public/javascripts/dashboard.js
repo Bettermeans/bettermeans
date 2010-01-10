@@ -159,6 +159,7 @@ $.fn.keyboard_sensitive = function() {
 
 $('document').ready(function(){
 	
+		console.log(currentUserIsCitizen);
 		keyboard_shortcuts = false;
 		
 	
@@ -653,26 +654,31 @@ function buttons_for(dataId){
 	break;
 	case 'Open':
 		html = html + button('start',dataId);
-		
-		var today = new Date();
-		var one_day=1000*60*60*24;
-		var updated = new Date(item.updated_on).getTime();
-		var days = (today.getTime() - updated)/one_day;
-		if (days > 30){
-		html = html + button('cancel',dataId);
-			
+
+		if (currentUserIsCitizen == 'true'){
+			var today = new Date();
+			var one_day=1000*60*60*24;
+			var updated = new Date(item.updated_on).getTime();
+			var days = (today.getTime() - updated)/one_day;
+			if (days > 30){
+				html = html + button('cancel',dataId);
+			}
 		}
 
 		
 
 	break;
 	case 'Committed':
-		html = html + button('release',dataId);
-		html = html + button('finish',dataId);
+		if (item.assigned_to_id == currentUserId){
+			html = html + button('release',dataId);
+			html = html + button('finish',dataId);
+		}
 	break;
 	case 'Done':
-		html = html + button('reject',dataId);
-		html = html + button('accept',dataId);
+		if (currentUserIsCitizen == 'true'){
+			html = html + button('reject',dataId);
+			html = html + button('accept',dataId);
+		}
 	break;
 	case 'Canceled':
 		html = html + button('restart',dataId);
@@ -685,9 +691,11 @@ function buttons_for(dataId){
 
 //Generates a button type for item id
 function button(type,dataId){
+	var label = type;
+	if (type == 'release') label = 'giveup';
 	html = '';
 	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '" onclick="click_' + type + '(' + dataId + ',this);return false;">';
-	html = html + '<a href="/" id="item_action_link_' + type + dataId + '" class="action_link clickable">' + type + '</a>';
+	html = html + '<a href="/" id="item_action_link_' + type + dataId + '" class="action_link clickable">' + label + '</a>';
 	html = html + '</div>';
 	return html;
 	// return '<img id="item_content_buttons_' + type + '_button_' + dataId + '" class="stateChangeButton notDblclickable" src="/images/' + type + '.png" onmouseover="this.src=\'/images/' + type + '_hover.png\'" onclick="click_' + type + '(' + dataId + ',this);return false;" onmouseout="this.src=\'/images/' + type + '.png\'">';
