@@ -169,7 +169,7 @@ class ProjectsController < ApplicationController
   
   #TODO: optimize this query, it's WAY too heavy, and we need fewer columns, and it's executing hundreds of queries!
   def dashdata
-    render :json => Issue.find(:all, :conditions => {:project_id => @project.id}).to_json(:include => {:journals => {:include => :user}, :estimates => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname]}})
+    render :json => Issue.find(:all, :conditions => {:project_id => @project.id}).to_json(:include => {:journals => {:include => :user}, :estimates => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname, :login]}})
   end
   
   #Current user voting someone else up or down

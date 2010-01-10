@@ -36,6 +36,9 @@
   var projectID = '<%= @project.identifier %>';
   var currentUser = '<%= User.current.name %>';
   var currentUserLogin = '<%= User.current.login %>';
+  var currentUserId = '<%= User.current.id %>';
+  var currentUserIsCitizen = '<%= User.current.citizen_of?(@project) %>';
+  
 </script>
 
 
