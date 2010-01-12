@@ -2,6 +2,7 @@
 # Copyright (C) 2006-2008  Shereef Bishay
 #
 
+
 class IssueRelationsController < ApplicationController
   before_filter :find_project, :authorize
   
@@ -32,12 +33,16 @@ class IssueRelationsController < ApplicationController
       relation.destroy
       @issue.reload
     end
+    respond_to do |format|
+      format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
+      format.js { render(:update) {|page| page.replace_html "relations", :partial => 'issues/relations'} }
+    end
   end
   
 private
   def find_project
-    @issue = Issue.find(p\nms[:issue_id])
-    @prject = @issue.project
+    @issue = Issue.find(params[:issue_id])
+    @project = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
