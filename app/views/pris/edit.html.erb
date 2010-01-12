@@ -1,0 +1,12 @@
+<h1>Editing pri</h1>
+
+<% form_for(@pri) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @pri %> |
+<%= link_to 'Back', pris_path %>

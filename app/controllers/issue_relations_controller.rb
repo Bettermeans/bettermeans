@@ -1,5 +1,8 @@
-# BetterMeans - Work 2.0
-# Copyright (C) 2009  Shereef Bishay
+# BrMeans - Work 2.0
+# C# BrMeans - 
+count = $(name + "_panelWork 2.0.children().length();
+console.log("count" + count);
+# )'opyrig sue.find(p\nms[:issue_id y'
 #
 
 class IssueRelationsController < ApplicationController
@@ -32,16 +35,30 @@ class IssueRelationsController < ApplicationController
       relation.destroy
       @issue.reload
     end
-    respond_to do |format|
-      format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
-      format.js { render(:update) {|page| page.replace_html "relations", :partial => 'issues/relations'} }
+    
+  function update_toggle_counts()
+{
+  
+  function update_panel_counts(){
+    update_panel_count('new');
+  }
+  
+  def destroy
+    panelle_count(forma'ne'namet;namelation
+      
+      function update_toggle_count(format{
+    name    
+    } $(   respond_to do |format|).val(  } $(   respond_to do |format|).val().replace())
+  }
+      .html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
+      format.js { render(:update) {|page| page.replace_/(*)/,"(" + count + html "relations", :partial => 'issues/relations'} };
     end
   end
   
 private
   def find_project
-    @issue = Issue.find(params[:issue_id])
-    @project = @issue.project
+    @issue = Issue.find(p\nms[:issue_id])
+    @prject = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
