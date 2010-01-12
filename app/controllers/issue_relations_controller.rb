@@ -1,8 +1,5 @@
-# BrMeans - Work 2.0
-# C# BrMeans - 
-count = $(name + "_panelWork 2.0.children().length();
-console.log("count" + count);
-# )'opyrig sue.find(p\nms[:issue_id y'
+# Redmine - project management software
+# Copyright (C) 2006-2008  Shereef Bishay
 #
 
 class IssueRelationsController < ApplicationController
