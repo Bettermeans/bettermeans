@@ -21,6 +21,7 @@ class Issue < ActiveRecord::Base
   
   has_many :commit_requests, :dependent => :delete_all
   has_many :estimates, :dependent => :delete_all
+  has_many :pris
   
   acts_as_voteable #for vote_fu plugin
   acts_as_attachable :after_remove => :attachment_removed
@@ -399,6 +400,11 @@ class Issue < ActiveRecord::Base
     self.points =   Estimate.average(:points, :conditions => {:issue_id => self.id})
     self.save
   end
+
+  def update_pri
+    self.pri =  Pri.count(:conditions => {:issue_id => self.id})
+    self.save
+  end
   
   #returns json object for consumption from dashboard
   def to_dashboard
@@ -468,6 +474,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -492,5 +499,6 @@ end
 #  estimated_hours  :float
 #  expected_date    :date
 #  points           :float
+#  pri              :integer         default(0)
 #
 
