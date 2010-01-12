@@ -242,13 +242,14 @@ function load_ui(){
 		add_item(i,"bottom",false);	
 	}
 
-	add_hover_icon_events();	
 	update_panel_counts();
 	toggle_pris();
 	sort_panel('open');
 	sort_panel('estimating');
 	sort_panel('new');
 	sort_panel('inprogress');
+	add_hover_icon_events();	
+	
 }
 
 
@@ -1106,8 +1107,9 @@ function item_prioritized(item, dataId,action){
 	//sort_panel(item.status.name);
 	//TODO: put item in correct order on this list
 	D[dataId] = item; 
-	//console.logsort_panel(item.status.name.toLowerCase());
+	sort_panel(item.status.name.toLowerCase());
 	$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
+	add_hover_icon_events();
 	
 	// $("#item_" + dataId).remove();
 	// add_item(dataId,"bottom",true);
