@@ -15,6 +15,10 @@
 //growl error system
 
 var D; //all data
+var PRIS; //all loaded priorities
+var ITEMHASH = new Array(); //mapping between item IDs and their id in the D array
+var PRIS_LOADED = false; //when true then PRIS have been loaded
+var DATA_LOADED = false; //when true the D has been loaded
 var keyboard_shortcuts = false;
 var default_new_title = 'Enter Title Here';
 var new_comment_text = 'Add new comment';
@@ -159,9 +163,14 @@ $.fn.keyboard_sensitive = function() {
 
 $('document').ready(function(){
 	
-		console.log(currentUserIsCitizen);
 		keyboard_shortcuts = false;
 		
+		$.get('mypris', {project_id: projectID},
+	            function(data){
+				PRIS = data;
+				PRIS_LOADED = true;
+				toggle_pris();
+	    }, 'json');
 	
 	   $.get('dashdata', {project_id: projectID},
 	            function(data){
@@ -169,6 +178,8 @@ $('document').ready(function(){
 				$("#quote").hide();
 				D = data;
 				prepare_page();
+				DATA_LOADED = true;
+				toggle_pris();
 	    }, 'json');
 	
 		load_buttons();
@@ -210,6 +221,13 @@ function prepare_page(){
 	make_text_boxes_toggle_keyboard_shortcuts();
 }
 
+function prepare_item_lookup_array(){
+	for (var i=0; i<D.length;i++){
+		ITEMHASH[D[i].id] = i;
+	}
+}
+
+
 // Loads all items in their perspective panels, and sets up panels
 function load_ui(){
 	insert_panel(0,'new','New',true);
@@ -226,6 +244,7 @@ function load_ui(){
 
 	add_hover_icon_events();	
 	update_panel_counts();
+	toggle_pris();
 }
 
 
@@ -311,10 +330,9 @@ function add_item(dataId,position,scroll){
 	case 'Canceled':
 	panelid = 'canceled';
 	break;
-	default : panelid = 'unknown_items';
+	default : panelid = 'unknown';
 	}
 	
-	panelid = panelid ;
 	
 	var html = generate_item(dataId);
 	if (position=="bottom")
@@ -325,6 +343,9 @@ function add_item(dataId,position,scroll){
 	{
 		$("#" + panelid+ '_start_of_list').prepend(html);
 	}
+	// else if (position=="pri"){
+	// 	$("#" + panelid + "_items").children.each()
+	// }
 	
 	if (scroll)
 	{
@@ -646,13 +667,16 @@ function buttons_for(dataId){
 	
 	switch (item.status.name){
 	case 'New':
+		html = html + pri_button(dataId);
 		html = html + button('against',dataId);
 		html = html + button('agree',dataId);
 	break;
 	case 'Estimate':
+		html = html + pri_button(dataId);
 		html = html + button('estimate',dataId);
 	break;
 	case 'Open':
+		html = html + pri_button(dataId);
 		html = html + button('start',dataId);
 
 		if (currentUserIsCitizen == 'true'){
@@ -663,9 +687,7 @@ function buttons_for(dataId){
 			if (days > 30){
 				html = html + button('cancel',dataId);
 			}
-		}
-
-		
+		}		
 
 	break;
 	case 'Committed':
@@ -689,6 +711,18 @@ function buttons_for(dataId){
 	
 }
 
+function pri_button(dataId){
+	item = D[dataId];
+	return generate_pri_button(dataId,'up');
+}
+
+function generate_pri_button(dataId,direction){
+	html = '<div id="pri_container_' + D[dataId].id + '" style="float:right;">';
+	html = html + '<img src="/images/' + direction + '_arrow.png" id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button" onclick="click_pri(' + dataId + ',\'' + direction + '\',this);return false;"/>';	
+	html = html + '</div>';
+	return html
+}
+
 //Generates a button type for item id
 function button(type,dataId){
 	var label = type;
@@ -702,7 +736,6 @@ function button(type,dataId){
 }
 
 function click_start(dataId,source){
-	console.log(source.id);
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'start');
 }
@@ -757,6 +790,37 @@ function click_release(dataId,source){
 function click_cancel(dataId,source){
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'cancel');
+}
+
+function click_pri(dataId,direction,source){
+	if (direction == 'up'){
+		$('#' + source.id).parent().html(generate_pri_button(dataId,'down'));
+		send_item_pri_action(dataId,'prioritize');
+	}
+	else{
+		$('#' + source.id).parent().html(generate_pri_button(dataId,'up'));
+		send_item_pri_action(dataId,'deprioritize');
+	}
+}
+
+
+function send_item_pri_action(dataId,action){
+	var data = "commit=Create&lock_version=" + D[dataId].lock_version;
+
+    var url = url_for({ controller: 'issues',
+                           action    : action,
+							id		: D[dataId].id
+                          });
+
+	$.post(url, 
+		   data, 
+		   	function(html){
+				item_prioritized(html,dataId);
+			}, //TODO: handle errors here
+			"json" //BUGBUG: is this a security risk?
+	);
+	
+	$('.bubbletip').hide();
 }
 
 
@@ -863,6 +927,40 @@ function show_panel(name){
 	$('#' + name + '_panel').show();
 	$('#' + name + '_panel_toggle').hide();
 	recalculate_widths();
+}
+
+// Sorts items in a plane by priority (higherst first) followed by date (oldest first)
+function sort_panel(name){
+	var listitems = $('#open_start_of_list').children().get();
+
+		listitems.sort(function(a, b) {
+		   var compA = a.id.replace(/item_/g,'');
+		   var compB = b.id.replace(/item_/g,'');
+		   return (D[compA].pri < D[compB].pri) ? -1 : 1;
+		})
+
+
+	$('#open_start_of_list').children().remove();
+
+	$.each(listitems, function() {
+	    $('#open_start_of_list').append(this);
+	    });
+}
+
+//Toggles all up arrows to down arrows for items that I've already prioritized
+function toggle_pris(){
+	//TODO: handle problem of PRIS not being loaded yet
+	
+	if (PRIS_LOADED&&DATA_LOADED){
+		prepare_item_lookup_array();
+		for (var i=0;i < PRIS.length; i++){
+		    console.log(PRIS[i].id);
+		    $('#pri_container_' + PRIS[i].id).html(generate_pri_button(ITEMHASH[PRIS[i].id],'down'));
+		}
+	}
+	else{
+		return false;
+	}
 }
 
 function recalculate_widths(){
@@ -989,6 +1087,21 @@ function item_actioned(item, dataId,action){
 	$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
 	return false;
 }
+
+function item_prioritized(item, dataId,action){
+	//sort_panel(item.status.name);
+	//TODO: put item in correct order on this list
+	D[dataId] = item; 
+	// $("#item_" + dataId).remove();
+	// add_item(dataId,"bottom",true);
+	// add_hover_icon_events();
+	// keyboard_shortcuts = true;
+	// $('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
+	// update_panel_counts();
+	// $("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
+	return false;
+}
+
 
 function item_estimated(item, dataId){
 	D[dataId] = item; 
@@ -1370,7 +1483,6 @@ function url_for(options){
 	var mouse_over_bubble = false;
 	$.fn.extend({
 		bubbletip: function(tip, options) {
-			// console.log(tip);
 			// check to see if the tip is a descendant of 
 			// a table.bubbletip element and therefore
 			// has already been instantiated as a bubbletip
@@ -1469,12 +1581,10 @@ function url_for(options){
 		//		return false;
 			$('.bubbletip').bind('mouseover',function(){
 				mouse_over_bubble = true;
-				// console.log("mouse over bubble:" + mouse_over_bubble);
 			});
 			
 			$('.bubbletip').bind('mouseout', function() {
 							mouse_over_bubble = false;
-							// console.log("mouse over bubble:" + mouse_over_bubble);
 			});
 				
 			$([_wrapper.get(0), this.get(0)]).bind(_calc.bindHide, function() {
@@ -1482,7 +1592,6 @@ function url_for(options){
 								clearTimeout(_timeoutAnimate);
 							}
 							_timeoutAnimate = setTimeout(function() {
-								// console.log("hiding: mouse over bubble:" + mouse_over_bubble);
 								if (!mouse_over_bubble)
 								{
 									_HideWrapper();
@@ -1551,7 +1660,6 @@ function url_for(options){
 			}
 						
 			function create_wrapper(noTip){
-				// console.log("createing wrapper: " + _options.deltaDirection);
 				if (noTip)
 				{
 					_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
@@ -1701,7 +1809,6 @@ function url_for(options){
 						_calc.delta = -_options.deltaPosition;
 					}
 				}
-				// console.log("top " + _calc.top + "left:" + _calc.left + " width:" + _wrapper.width() + " height:" + _wrapper.height() + "window: height and width" + $(window).height() + " " + $(window).width() + "crossed: " + _calc.left + _wrapper.width());
 				
 				//Flip
 				//first handle corners
@@ -1757,7 +1864,6 @@ function url_for(options){
 				}
 				
 				if ((_calc.left + _wrapper.width()) > $(window).width()){
-					// console.log('crossed right border');
 					_options.deltaDirection = "left";
 					if (firstTime)
 					{
@@ -1821,7 +1927,6 @@ function url_for(options){
 		}// ,
 		// 		removeBubbletip: function(tips) {
 		// 				$('.bubbletip').remove();
-		// 				console.log('removed');
 		// 				var tipsActive;
 		// 				var tipsToRemove = new Array();
 		// 				var arr, i, ix;
