@@ -32,24 +32,6 @@ class IssueRelationsController < ApplicationController
       relation.destroy
       @issue.reload
     end
-    
-  function update_toggle_counts()
-{
-  
-  function update_panel_counts(){
-    update_panel_count('new');
-  }
-  
-  def destroy
-    panelle_count(forma'ne'namet;namelation
-      
-      function update_toggle_count(format{
-    name    
-    } $(   respond_to do |format|).val(  } $(   respond_to do |format|).val().replace())
-  }
-      .html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
-      format.js { render(:update) {|page| page.replace_/(*)/,"(" + count + html "relations", :partial => 'issues/relations'} };
-    end
   end
   
 private
