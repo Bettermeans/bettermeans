@@ -581,6 +581,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -605,5 +606,6 @@ end
 #  estimated_hours  :float
 #  expected_date    :date
 #  points           :float
+#  pri              :integer         default(0)
 #
 
