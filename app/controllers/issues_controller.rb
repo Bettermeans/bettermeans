@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   default_search_scope :issues
   
-  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
@@ -276,6 +276,22 @@ class IssuesController < ApplicationController
     rescue ActiveRecord::StaleObjectError
       # Optimistic locking exception
       flash.now[:error] = l(:notice_locking_conflict)
+  end
+  
+  def prioritize
+    Pri.create :user_id => User.current.id, :issue_id => params[:id]
+    respond_to do |format|
+      format.js {render :json => @issue.to_dashboard}
+      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+    end
+  end
+
+  def deprioritize
+    Pri.delete_all(:user_id => User.current.id, :issue_id => params[:id])
+    respond_to do |format|
+      format.js {render :json => @issue.to_dashboard}
+      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+    end
   end
 
   def reply
