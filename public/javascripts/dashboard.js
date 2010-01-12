@@ -245,6 +245,10 @@ function load_ui(){
 	add_hover_icon_events();	
 	update_panel_counts();
 	toggle_pris();
+	sort_panel('open');
+	sort_panel('estimating');
+	sort_panel('new');
+	sort_panel('inprogress');
 }
 
 
@@ -929,22 +933,31 @@ function show_panel(name){
 	recalculate_widths();
 }
 
-// Sorts items in a plane by priority (higherst first) followed by date (oldest first)
+// Sorts items in a plane by priority (highest first) followed by created date (oldest first)
 function sort_panel(name){
-	var listitems = $('#open_start_of_list').children().get();
+		//console.log("Called with " + name);
+		var listitems = $('#' + name + '_start_of_list').children().get();
 
-		listitems.sort(function(a, b) {
-		   var compA = a.id.replace(/item_/g,'');
-		   var compB = b.id.replace(/item_/g,'');
-		   return (D[compA].pri < D[compB].pri) ? -1 : 1;
-		})
+			listitems.sort(function(a, b) {
+			   var compA = a.id.replace(/item_/g,'');
+			   var compB = b.id.replace(/item_/g,'');
+			   if (D[compA].pri > D[compB].pri) {
+				return -1;
+				} else if (D[compA].pri < D[compB].pri) {
+					return 1;
+				} else if (new Date(D[compA].updated_on) < new Date(D[compB].updated_on)) {
+					return 1;
+				} else {
+					return -1;
+				}
+			})
 
 
-	$('#open_start_of_list').children().remove();
+		$('#' + name + '_start_of_list').children().remove();
 
-	$.each(listitems, function() {
-	    $('#open_start_of_list').append(this);
-	    });
+		$.each(listitems, function() {
+		    $('#' + name + '_start_of_list').append(this);
+		    });
 }
 
 //Toggles all up arrows to down arrows for items that I've already prioritized
@@ -954,7 +967,7 @@ function toggle_pris(){
 	if (PRIS_LOADED&&DATA_LOADED){
 		prepare_item_lookup_array();
 		for (var i=0;i < PRIS.length; i++){
-		    console.log(PRIS[i].id);
+		    //console.log(PRIS[i].id);
 		    $('#pri_container_' + PRIS[i].id).html(generate_pri_button(ITEMHASH[PRIS[i].id],'down'));
 		}
 	}
@@ -1085,6 +1098,7 @@ function item_actioned(item, dataId,action){
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	update_panel_counts();
 	$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
+	toggle_pris();
 	return false;
 }
 
@@ -1092,6 +1106,9 @@ function item_prioritized(item, dataId,action){
 	//sort_panel(item.status.name);
 	//TODO: put item in correct order on this list
 	D[dataId] = item; 
+	//console.logsort_panel(item.status.name.toLowerCase());
+	$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
+	
 	// $("#item_" + dataId).remove();
 	// add_item(dataId,"bottom",true);
 	// add_hover_icon_events();

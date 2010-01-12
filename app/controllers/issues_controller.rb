@@ -280,6 +280,7 @@ class IssuesController < ApplicationController
   
   def prioritize
     Pri.create :user_id => User.current.id, :issue_id => params[:id]
+    @issue.update_pri
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -288,6 +289,7 @@ class IssuesController < ApplicationController
 
   def deprioritize
     Pri.delete_all(:user_id => User.current.id, :issue_id => params[:id])
+    @issue.update_pri
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}

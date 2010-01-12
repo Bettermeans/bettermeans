@@ -3,9 +3,9 @@ class Pri < ActiveRecord::Base
   belongs_to :issue
   
   before_create :remove_similar_pris
-  after_create :update_issue_pri
-  after_update :update_issue_pri
-  after_destroy :update_issue_pri
+  # after_create :update_issue_pri
+  # after_update :update_issue_pri
+  # before_destroy :update_issue_pri  ##TODO: figure out why this isn't working, and replace hack in issue_controller:deprioritize
 
   #user is only allowed one pri per issue
   def remove_similar_pris
