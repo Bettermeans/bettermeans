@@ -15,10 +15,7 @@
 //growl error system
 
 var D; //all data
-var PRIS; //all loaded priorities
 var ITEMHASH = new Array(); //mapping between item IDs and their id in the D array
-var PRIS_LOADED = false; //when true then PRIS have been loaded
-var DATA_LOADED = false; //when true the D has been loaded
 var keyboard_shortcuts = false;
 var default_new_title = 'Enter Title Here';
 var new_comment_text = 'Add new comment';
@@ -164,13 +161,6 @@ $.fn.keyboard_sensitive = function() {
 $('document').ready(function(){
 	
 		keyboard_shortcuts = false;
-		
-		$.get('mypris', {project_id: projectID},
-	            function(data){
-				PRIS = data;
-				PRIS_LOADED = true;
-				toggle_pris();
-	    }, 'json');
 	
 	   $.get('dashdata', {project_id: projectID},
 	            function(data){
@@ -178,8 +168,6 @@ $('document').ready(function(){
 				$("#quote").hide();
 				D = data;
 				prepare_page();
-				DATA_LOADED = true;
-				toggle_pris();
 	    }, 'json');
 	
 		load_buttons();
@@ -243,7 +231,6 @@ function load_ui(){
 	}
 
 	update_panel_counts();
-	toggle_pris();
 	sort_panel('open');
 	sort_panel('estimating');
 	sort_panel('new');
@@ -304,13 +291,6 @@ function show_estimate_flyover(dataId,callingElement){
 		delayHide: 100,
 		offsetLeft: 0
 	});	
-	// $('#' + callingElement).bubbletip($('#flyover_estimate_demo'), {
-	// 	deltaDirection: 'top',
-	// 	delayShow: 0,
-	// 	delayHide: 100,
-	// 	offsetLeft: 0
-	// });	
-	
 }
 
 function add_item(dataId,position,scroll){
@@ -422,11 +402,14 @@ function generate_estimate_flyover(dataId){
 	
 	var you_voted = '';
 	var user_estimate_id = 0;
+	var total_people_estimating = 0;
 	
-	for(var i=0; i < item.estimates.length; i++){
-		if (currentUserLogin == item.estimates[i].user.login){
-			you_voted = "You estimated " + item.estimates[i].points + " on " + item.estimates[i].updated_on;
-			user_estimate_id = item.estimates[i].id;
+	for(var i=0; i < item.issue_votes.length; i++){
+		if (currentUserLogin == item.issue_votes[i].user.login){
+			if (item.issue_votes[i].vote_type != 4) next;
+			total_people_estimating++ ;
+			you_voted = "You estimated " + item.issue_votes[i].points + " on " + item.issue_votes[i].updated_on;
+			user_estimate_id = item.issue_votes[i].id;
 		}
 	}
 	
@@ -440,7 +423,7 @@ function generate_estimate_flyover(dataId){
 	html = html + '	  <div style="border: 0pt none ; margin: 0pt;">';
 	html = html + '	    <div class="overlayContentWrapper storyFlyover flyover" style="width: 200px;">';
 	html = html + '	      <div class="storyTitle">';
-	html = html + 'Avg ' + points + ' points (' + item.estimates.length + ' people)';
+	html = html + 'Avg ' + points + ' points (' + total_people_estimating + ' people)';
 	html = html + '	      </div>';
 	html = html + '	      <div class="sectionDivider">';
 	html = html + '	      <div style="height: auto;">';
@@ -467,21 +450,25 @@ function generate_estimate_flyover(dataId){
 }
 
 function generate_estimate_flyover_history(item){
-	if (item.estimates == null || item.estimates.length < 1){return '';};
+	if (item.issue_votes == null || item.issue_votes.length < 1){return '';};
 	
 	var html = '';
-	html = html + '	  <div class="header">';
-	html = html + '	    History';
-	html = html + '	  </div>';
-	html = html + '	  <table class="notesTable">';
-	html = html + '	    <tbody>';
-	html = html + '<tr class="noteInfoRow">';
-	html = html + '<td class="noteInfo">';
+	var header = '';
+	header = header + '	  <div class="header">';
+	header = header + '	    History';
+	header = header + '	  </div>';
+	header = header + '	  <table class="notesTable">';
+	header = header + '	    <tbody>';
+	header = header + '<tr class="noteInfoRow">';
+	header = header + '<td class="noteInfo">';
 	
-	for(var i = 0; i < item.estimates.length; i++ ){
-		html = html + item.estimates[i].points + ' pts - ' + item.estimates[i].user.firstname + ' ' + item.estimates[i].user.lastname + '<br>';
-	}
+	for(var i = 0; i < item.issue_votes.length; i++ ){
+		if (item.issue_votes[i].vote_type != 4) next;
+		html = html + item.issue_votes[i].points + ' pts - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname + '<br>';
+	}	
+	if (html=='') return '';
 	
+	html = header + html;
 
  	html = html + '</td>';
   	html = html + '</tr>';
@@ -495,7 +482,7 @@ function generate_estimate_flyover_history(item){
 function generate_estimate_flyover_yourestimate(item,user_estimate_id,dataId){
 	//TODO: check that I have permission to estimate!	
 	var header_text = '';
-	user_estimate_id == 0 ? header_text = 'Change your estimate' : header_text = 'Make an estimate';
+	user_estimate_id == 0 ? header_text = 'Make an estimate' : header_text = 'Change your estimate';
 	var html = '';
 	html = html + '	                <div class="header">';
 	html = html + header_text;
@@ -521,28 +508,6 @@ function generate_estimate_button(points, itemId, user_estimate_id, dataId){
 	html = '';
 	html = html + '<img src="/images/dice_' + points + '.png" width="18" height="18" alt="' + points + ' Points" class="dice" onclick="send_estimate(' + itemId + ',' + points + ',' + user_estimate_id + ',' + dataId + ')">';	
 	return html;
-}
-
-function send_estimate(itemId, points, user_estimate_id,dataId){
-	var data = "commit=Create&estimate[issue_id]=" + itemId + "&estimate[points]=" + points;
-
-    var url = url_for({ controller: 'estimates',
-                           action    : 'create'
-                          });
-
-	$("#item_content_icons_editButton_" + dataId).remove();
-	$("#icon_set_" + dataId).addClass('updating');
-
-	$.post(url, 
-		   data, 
-		   	function(html){
-				item_estimated(html,dataId);
-			}, //TODO: handle errors here
-			"json" //BUGBUG: is this a security risk?
-	);
-	
-	$('.bubbletip').hide();
-	
 }
 
 function generate_details_flyover_description(item){
@@ -718,6 +683,11 @@ function buttons_for(dataId){
 
 function pri_button(dataId){
 	item = D[dataId];
+	for(var i=0; i < item.issue_votes.length; i++){
+		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 3)){
+			return generate_pri_button(dataId,'down');
+		}
+	}
 	return generate_pri_button(dataId,'up');
 }
 
@@ -809,6 +779,7 @@ function click_pri(dataId,direction,source){
 }
 
 
+//TODO: make all these three functions the same
 function send_item_pri_action(dataId,action){
 	var data = "commit=Create&lock_version=" + D[dataId].lock_version;
 
@@ -821,6 +792,28 @@ function send_item_pri_action(dataId,action){
 		   data, 
 		   	function(html){
 				item_prioritized(html,dataId);
+			}, //TODO: handle errors here
+			"json" //BUGBUG: is this a security risk?
+	);
+	
+	$('.bubbletip').hide();
+}
+
+function send_estimate(itemId, points, user_estimate_id,dataId){
+	var data = "commit=Create&lock_version=" + D[dataId].lock_version + "&points=" + points;
+
+    var url = url_for({ controller: 'issues',
+                           action    : 'estimate',
+							id		: D[dataId].id
+                          });
+
+	$("#item_content_icons_editButton_" + dataId).remove();
+	$("#icon_set_" + dataId).addClass('updating');
+
+	$.post(url, 
+		   data, 
+		   	function(html){
+				item_estimated(html,dataId);
 			}, //TODO: handle errors here
 			"json" //BUGBUG: is this a security risk?
 	);
@@ -961,21 +954,6 @@ function sort_panel(name){
 		    });
 }
 
-//Toggles all up arrows to down arrows for items that I've already prioritized
-function toggle_pris(){
-	//TODO: handle problem of PRIS not being loaded yet
-	
-	if (PRIS_LOADED&&DATA_LOADED){
-		prepare_item_lookup_array();
-		for (var i=0;i < PRIS.length; i++){
-		    //console.log(PRIS[i].id);
-		    $('#pri_container_' + PRIS[i].id).html(generate_pri_button(ITEMHASH[PRIS[i].id],'down'));
-		}
-	}
-	else{
-		return false;
-	}
-}
 
 function recalculate_widths(){
 	new_width = $('#content').width() / $('.panel:visible').length;
@@ -1099,7 +1077,6 @@ function item_actioned(item, dataId,action){
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	update_panel_counts();
 	$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
-	toggle_pris();
 	return false;
 }
 
