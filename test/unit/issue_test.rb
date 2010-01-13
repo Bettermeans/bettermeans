@@ -582,6 +582,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -607,5 +608,11 @@ end
 #  expected_date    :date
 #  points           :float
 #  pri              :integer         default(0)
+#  accept           :integer         default(0)
+#  reject           :integer         default(0)
+#  accept_total     :integer         default(0)
+#  agree            :integer         default(0)
+#  disagree         :integer         default(0)
+#  agree_total      :integer         default(0)
 #
 
