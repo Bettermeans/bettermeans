@@ -469,6 +469,12 @@ background-repeat:repeat-y;
 	background: url(/images/bb_ocean.png) no-repeat; 
 }
 
+.action_button_tally{
+	font-weight:bold;
+	background: url(/images/bb_blank.png) no-repeat; 
+	
+}
+
 
 
 .action_button a, .action_button a:hover, .action_button a:visited {
