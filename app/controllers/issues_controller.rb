@@ -304,6 +304,44 @@ class IssuesController < ApplicationController
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
     end
   end
+  
+  def agree
+    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1
+    @issue.update_agree_total
+    respond_to do |format|
+      format.js {render :json => @issue.to_dashboard}
+      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+    end
+  end
+
+  def disagree
+    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1
+    @issue.update_agree_total
+    respond_to do |format|
+      format.js {render :json => @issue.to_dashboard}
+      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+    end
+  end
+
+  def accept
+    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1
+    @issue.update_accept_total
+    respond_to do |format|
+      format.js {render :json => @issue.to_dashboard}
+      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+    end
+  end
+
+  def reject
+    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1
+    @issue.update_accept_total
+    respond_to do |format|
+      format.js {render :json => @issue.to_dashboard}
+      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+    end
+  end
+
+
 
   def reply
     journal = Journal.find(params[:journal_id]) if params[:journal_id]
