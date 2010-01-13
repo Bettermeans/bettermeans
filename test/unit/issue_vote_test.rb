@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PriTest < ActiveSupport::TestCase
+class IssueVoteTest < ActiveSupport::TestCase
   # Replace this with your real tests.
   test "the truth" do
     assert true
@@ -9,11 +9,13 @@ end
 
 # == Schema Information
 #
-# Table name: pris
+# Table name: issue_votes
 #
 #  id         :integer         not null, primary key
-#  user_id    :integer
-#  issue_id   :integer
+#  points     :integer         not null
+#  user_id    :integer         not null
+#  issue_id   :integer         not null
+#  vote_type  :integer         not null
 #  created_on :datetime
 #  updated_on :datetime
 #

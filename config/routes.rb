@@ -1,11 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :pris
+  map.resources :issue_votes
 
   map.resources :quotes
-
-  map.resources :estimates
-
-
 
   map.resources :credits
   map.resources :shares
@@ -140,7 +136,7 @@ ActionController::Routing::Routes.draw do |map|
     issues_routes.with_options :conditions => {:method => :post} do |issues_actions|
       issues_actions.connect 'projects/:project_id/issues', :action => 'new'
       issues_actions.connect 'issues/:id/quoted', :action => 'reply', :id => /\d+/
-      issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy|start|finish|release|cancel|restart|prioritize|deprioritize/, :id => /\d+/
+      issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy|start|finish|release|cancel|restart|prioritize|deprioritize|agree|disagree|estimate|accept|reject/, :id => /\d+/
     end
     issues_routes.connect 'issues/:action'
   end
@@ -232,7 +228,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects.:format', :action => 'index'
       project_views.connect 'projects/new', :action => 'add'
       project_views.connect 'projects/:id', :action => 'show'
-      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|dashboard|mypris/
+      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|dashboard|mypris|agree|disagree|accept|reject/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/versions/new', :action => 'add_version'

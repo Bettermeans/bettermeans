@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   default_search_scope :issues
   
-  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize, :agree, :disagree, :accept, :reject, :estimate]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
@@ -279,8 +279,8 @@ class IssuesController < ApplicationController
   end
   
   def prioritize
-    Pri.create :user_id => User.current.id, :issue_id => params[:id]
-    @issue.update_pri
+    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::PRI_VOTE_TYPE, :points => 1
+    @issue.update_pri_total
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -288,8 +288,17 @@ class IssuesController < ApplicationController
   end
 
   def deprioritize
-    Pri.delete_all(:user_id => User.current.id, :issue_id => params[:id])
-    @issue.update_pri
+    IssueVote.delete_all :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::PRI_VOTE_TYPE
+    @issue.update_pri_total
+    respond_to do |format|
+      format.js {render :json => @issue.to_dashboard}
+      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+    end
+  end
+  
+  def estimate
+    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :points => params[:points]
+    @issue.update_estimate_total
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
