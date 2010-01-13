@@ -1,0 +1,18 @@
+<h1>Listing issue_votes</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @issue_votes.each do |issue_vote| %>
+  <tr>
+    <td><%= link_to 'Show', issue_vote %></td>
+    <td><%= link_to 'Edit', edit_issue_vote_path(issue_vote) %></td>
+    <td><%= link_to 'Destroy', issue_vote, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New issue_vote', new_issue_vote_path %>

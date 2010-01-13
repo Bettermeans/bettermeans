@@ -1,0 +1,12 @@
+<h1>Editing issue_vote</h1>
+
+<% form_for(@issue_vote) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @issue_vote %> |
+<%= link_to 'Back', issue_votes_path %>

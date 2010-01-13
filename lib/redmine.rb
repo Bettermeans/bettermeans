@@ -44,12 +44,11 @@ Redmine::AccessControl.map do |map|
                                   :queries => :index,
                                   :reports => :issue_report,
                                   :comments => :index,
-                                  :estimates => [:index,:create]
                                   }
     map.permission :add_issues, {:issues => [:new, :update_form]}
-    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize]}
+    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize, :agree, :disagree, :estimate]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
-    map.permission :add_issue_notes, {:issues => [:edit, :reply], :comments => :create, :estimates => :create}
+    map.permission :add_issue_notes, {:issues => [:edit, :reply], :comments => :create}
     map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :edit_own_issue_notes, {:journals => :edit}, :require => :loggedin
     map.permission :move_issues, {:issues => :move}, :require => :loggedin
@@ -59,7 +58,8 @@ Redmine::AccessControl.map do |map|
     map.permission :view_commit_requests, {:commit_requests => [:edit, :show]} #Can view ownereship requests
     map.permission :view_team_offers, {:team_offers => [:show]} #Can view core team offers
     map.permission :view_member_roles, {:member_roles => [:show]} #Can view member roles
-    map.permission :estimate_issues, {:estimates => [:create, :update, :destroy ]} #Can estimate issue
+    map.permission :estimate_issues, {:issues => :estimate} #Can estimate issue
+    map.permission :accept_issues, {:issues => [:accept, :reject]} #can accept or reject issues
     # Queries
     map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
     map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
