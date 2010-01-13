@@ -642,6 +642,7 @@ function buttons_for(dataId){
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
+		html = html + agree_buttons(dataId);
 		html = html + button('estimate',dataId);
 	break;
 	case 'Open':
@@ -686,7 +687,7 @@ function agree_buttons(dataId){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
 			tally = '';
 			tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally">';
-			tally = tally + item.agree + ' / ' + item.disagree;
+			tally = tally + item.agree + ' - ' + item.disagree;
 			tally = tally + '</div>';
 			
 			if (item.issue_votes[i].points==1) {
@@ -710,7 +711,7 @@ function accept_buttons(dataId){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 2)){
 			tally = '';
 			tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button action_button_tally">';
-			tally = tally + item.accept + ' / ' + item.reject;
+			tally = tally + item.accept + ' - ' + item.reject;
 			tally = tally + '</div>';
 			
 			if (item.issue_votes[i].points==1) {
@@ -742,7 +743,7 @@ function generate_pri_button(dataId,direction){
 	html = '<div id="pri_container_' + D[dataId].id + '" style="float:right;">';
 	html = html + '<img src="/images/' + direction + '_arrow.png" id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button" onclick="click_pri(' + dataId + ',\'' + direction + '\',this);return false;"/>';	
 	html = html + '</div>';
-	return html
+	return html;
 }
 
 //Generates a button type for item id
@@ -983,7 +984,7 @@ function sort_panel(name){
 				} else {
 					return -1;
 				}
-			})
+			});
 
 
 		$('#' + name + '_start_of_list').children().remove();
@@ -1110,7 +1111,7 @@ function item_added(item){
 function item_actioned(item, dataId,action){
 	D[dataId] = item; 
 	console.log(action);
-	if ((action == 'accept')||(action == 'reject')||(action == 'agree')||(action == 'disagree'))
+	if ((action == 'accept')||(action == 'reject')||((action == 'agree')&&(item.status.name == 'New'))||((action == 'disagree')&&(item.status.name == 'New')))
 	{
 		$('#item_' + dataId).html(generate_item(dataId));
 		add_hover_icon_events();	

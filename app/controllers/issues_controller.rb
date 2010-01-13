@@ -246,7 +246,7 @@ class IssuesController < ApplicationController
   end
   
   def restart
-    params[:issue] = {:status_id => IssueStatus.new.id}
+    params[:issue] = {:status_id => IssueStatus.newstatus.id}
     change_status
   end
   
@@ -281,6 +281,7 @@ class IssuesController < ApplicationController
   def prioritize
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::PRI_VOTE_TYPE, :points => 1
     @issue.update_pri_total
+    @issue.save
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -290,6 +291,8 @@ class IssuesController < ApplicationController
   def deprioritize
     IssueVote.delete_all :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::PRI_VOTE_TYPE
     @issue.update_pri_total
+    @issue.save
+    
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -299,6 +302,8 @@ class IssuesController < ApplicationController
   def estimate
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :points => params[:points]
     @issue.update_estimate_total
+    @issue.save
+    
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -308,6 +313,9 @@ class IssuesController < ApplicationController
   def agree
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1
     @issue.update_agree_total
+    @issue.status = IssueStatus.estimate if @issue.agree_total > 0 #Temporary hack for how an item moves into estimation    
+    @issue.save
+    
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -317,6 +325,9 @@ class IssuesController < ApplicationController
   def disagree
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1
     @issue.update_agree_total
+    @issue.status = IssueStatus.newstatus if @issue.agree_total < 1 #Temporary hack for how an item moves back from estimation    
+    @issue.save
+    
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -326,6 +337,8 @@ class IssuesController < ApplicationController
   def accept
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1
     @issue.update_accept_total
+    @issue.save
+    
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -335,6 +348,8 @@ class IssuesController < ApplicationController
   def reject
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1
     @issue.update_accept_total
+    @issue.save
+    
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
