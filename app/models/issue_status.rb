@@ -25,27 +25,27 @@ class IssueStatus < ActiveRecord::Base
   def self.assigned
     find(:first, :conditions =>["name=?", l(:default_issue_status_assigned)])
   end
-
+  
   def self.done
     find(:first, :conditions =>["name=?", l(:default_issue_status_done)])
   end
-
+  
   def self.inprogress
     find(:first, :conditions =>["name=?", l(:default_issue_status_inprogress)])
   end
 
-  def self.new
+  def self.newstatus
     find(:first, :conditions =>["name=?", l(:default_issue_status_new)])
   end
-
+  
   def self.open
     find(:first, :conditions =>["name=?", l(:default_issue_status_open)])
   end
-
+  
   def self.canceled
     find(:first, :conditions =>["name=?", l(:default_issue_status_canceled)])
   end
-
+  
   def self.estimate
     find(:first, :conditions =>["name=?", l(:default_issue_status_estimate)])
   end

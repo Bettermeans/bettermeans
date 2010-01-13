@@ -397,26 +397,22 @@ class Issue < ActiveRecord::Base
   
   def update_estimate_total
     self.points =   IssueVote.average(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::ESTIMATE_VOTE_TYPE})
-    self.save
   end
 
   def update_pri_total
     self.pri = IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::PRI_VOTE_TYPE})
-    self.save
   end
 
   def update_agree_total
     self.agree =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1})
     self.disagree =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1})
     self.agree_total = self.agree - self.disagree
-    self.save
   end
 
   def update_accept_total
     self.accept =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1})
     self.reject =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1})
     self.accept_total = self.accept - self.reject
-    self.save
   end
   
   #returns json object for consumption from dashboard
