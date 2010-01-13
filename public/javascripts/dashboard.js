@@ -638,8 +638,7 @@ function buttons_for(dataId){
 	switch (item.status.name){
 	case 'New':
 		html = html + pri_button(dataId);
-		html = html + button('against',dataId);
-		html = html + button('agree',dataId);
+		html = html + agree_buttons(dataId);
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
@@ -668,8 +667,7 @@ function buttons_for(dataId){
 	break;
 	case 'Done':
 		if (currentUserIsCitizen == 'true'){
-			html = html + button('reject',dataId);
-			html = html + button('accept',dataId);
+			html = html + accept_buttons(dataId);
 		}
 	break;
 	case 'Canceled':
@@ -680,6 +678,55 @@ function buttons_for(dataId){
 	return html;
 	
 }
+
+function agree_buttons(dataId){
+	html = '';
+	item = D[dataId];
+	for(var i=0; i < item.issue_votes.length; i++){
+		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
+			tally = '';
+			tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally">';
+			tally = tally + item.agree + ' / ' + item.disagree;
+			tally = tally + '</div>';
+			
+			if (item.issue_votes[i].points==1) {
+				return tally + button('against',dataId);
+			} else {
+				return tally + button('agree',dataId);
+			}
+		}
+	}	
+	html = html + button('against',dataId);
+	html = html + button('agree',dataId);
+	
+	return html;
+}
+
+function accept_buttons(dataId){
+	html = '';
+	item = D[dataId];
+
+	for(var i=0; i < item.issue_votes.length; i++){
+		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 2)){
+			tally = '';
+			tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button action_button_tally">';
+			tally = tally + item.accept + ' / ' + item.reject;
+			tally = tally + '</div>';
+			
+			if (item.issue_votes[i].points==1) {
+				return tally + button('reject',dataId);
+			} else {
+				return tally + button('accept',dataId);
+			}
+		}
+	}
+	
+	html = html + button('reject',dataId);
+	html = html + button('accept',dataId);
+	
+	return html;
+}
+
 
 function pri_button(dataId){
 	item = D[dataId];
@@ -716,15 +763,11 @@ function click_start(dataId,source){
 }
 
 function click_accept(dataId,source){
-	alert('sorry. not implemented yet!');
-	return false;
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'accept');
 }
 
 function click_reject(dataId,source){
-	alert('sorry. not implemented yet!');
-	return false;
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'reject');
 }
@@ -744,17 +787,13 @@ function click_estimate(dataId,source){
 }
 
 function click_agree(dataId,source){
-	alert('sorry. not implemented yet!');
-	return false;
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'agree');
 }
 
 function click_against(dataId,source){
-	alert('sorry. not implemented yet!');
-	return false;
 	$('#' + source.id).parent().hide();
-	send_item_action(dataId,'against');
+	send_item_action(dataId,'disagree');
 }
 
 function click_release(dataId,source){
@@ -836,7 +875,7 @@ function send_item_action(dataId,action){
 	$.post(url, 
 		   data, 
 		   	function(html){
-				item_actioned(html,dataId);
+				item_actioned(html,dataId,action);
 			}, //TODO: handle errors here
 			"json" //BUGBUG: is this a security risk?
 	);
@@ -1070,13 +1109,22 @@ function item_added(item){
 
 function item_actioned(item, dataId,action){
 	D[dataId] = item; 
-	$("#item_" + dataId).remove();
-	add_item(dataId,"bottom",true);
-	add_hover_icon_events();
-	keyboard_shortcuts = true;
-	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
-	update_panel_counts();
-	$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
+	console.log(action);
+	if ((action == 'accept')||(action == 'reject')||(action == 'agree')||(action == 'disagree'))
+	{
+		$('#item_' + dataId).html(generate_item(dataId));
+		add_hover_icon_events();	
+	}
+	else
+	{
+		$("#item_" + dataId).remove();
+		add_item(dataId,"bottom",true);
+		add_hover_icon_events();
+		keyboard_shortcuts = true;
+		$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
+		update_panel_counts();
+		$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
+	}
 	return false;
 }
 

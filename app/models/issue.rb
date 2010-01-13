@@ -406,15 +406,15 @@ class Issue < ActiveRecord::Base
   end
 
   def update_agree_total
-    self.agree =   IssueVote.count(:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1)
-    self.disagree =   IssueVote.count(:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1)
+    self.agree =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1})
+    self.disagree =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1})
     self.agree_total = self.agree - self.disagree
     self.save
   end
 
   def update_accept_total
-    self.accept =   IssueVote.count(:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1)
-    self.reject =   IssueVote.count(:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1)
+    self.accept =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1})
+    self.reject =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1})
     self.accept_total = self.accept - self.reject
     self.save
   end
