@@ -40,9 +40,8 @@ class User < Principal
   
   has_many :shares, :dependent => :nullify
   has_many :credits, :dependent => :delete_all
-  has_many :estimates, :dependent => :delete_all
-  has_many :pris
-  
+  has_many :issue_votes, :dependent => :delete_all
+    
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
   
