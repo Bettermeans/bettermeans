@@ -160,14 +160,35 @@ $.fn.keyboard_sensitive = function() {
 $('document').ready(function(){
 	
 		keyboard_shortcuts = false;
-	
-	   $.get('dashdata', {project_id: projectID},
-	            function(data){
+		
+		$.ajax({
+		   type: "GET",
+		   dataType: "json",
+		   url: 'dashdata',
+		   success:  	function(html){
 				$("#loading").hide();
 				$("#quote").hide();
-				D = data;
+				D = html;
 				prepare_page();
-	    }, 'json');
+			},
+		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			// typically only one of textStatus or errorThrown will have info
+			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+			$("#loading").hide();
+			$("#quote").hide();
+			$("#loading_error").show();
+			},
+			timeout: 30000 //30 seconds
+		 });
+		
+	
+	   // $.get('dashdata', {project_id: projectID},
+	   //          function(data){
+	   // 				$("#loading").hide();
+	   // 				$("#quote").hide();
+	   // 				D = data;
+	   // 				prepare_page();
+	   //  }, 'json');
 	
 		load_buttons();
     
@@ -1511,13 +1532,17 @@ function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) 
 		$('#item_' + dataId).html(generate_item(dataId));
 		sort_panel('open');
 		$('#featureicon_' + dataId).attr("src", "/images/error.png");
+		$.jGrowl("Sorry, couldn't " + action + " request:<br>" + D[dataId].subject , { header: 'Error', position: 'bottom-right' });
+		
 	}
 	else{
 		$("#new_item_wrapper").remove();
+		$.jGrowl("Sorry, couldn't " + action + "<br>" + XMLHttpRequest, { header: 'Error', position: 'bottom-right' });
 	}
 	keyboard_shortcuts = true;
 	add_hover_icon_events();	
-	alert("Error: Couldn't " + action);
+	
+	// alert("Error: Couldn't " + action);
 }
 
 
@@ -2035,3 +2060,4 @@ function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) 
 		// 				return this;
 		// 			}
 	});
+	
