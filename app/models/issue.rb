@@ -194,11 +194,11 @@ class Issue < ActiveRecord::Base
     end
     
     # Checks that the issue can not be added/moved to a disabled tracker
-    if project && (tracker_id_changed? || project_id_changed?)
-      unless project.trackers.include?(tracker)
-        errors.add :tracker_id, :inclusion
-      end
-    end
+    # if project && (tracker_id_changed? || project_id_changed?)
+    #   unless project.trackers.include?(tracker)
+    #     errors.add :tracker_id, :inclusion
+    #   end
+    # end
     
   end
 
@@ -417,7 +417,7 @@ class Issue < ActiveRecord::Base
   
   #returns json object for consumption from dashboard
   def to_dashboard
-    self.to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname, :login]}})
+    self.to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}})
   end
 
   private
