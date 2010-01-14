@@ -610,7 +610,6 @@ class IssuesController < ApplicationController
   
 private
   def find_issue
-    lkjlkjlkj
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority])
     @project = @issue.project
     logger.info(@issue.inspect)
@@ -635,7 +634,6 @@ private
   end
   
   def find_project
-    asdfas
     @project = Project.find(params[:project_id])
   rescue ActiveRecord::RecordNotFound
     render_404
