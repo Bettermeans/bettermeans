@@ -1,6 +1,5 @@
 //Todos
 //cleaner times/dates in flyover
-//order items by priority? or updated?
 //"my work" panel
 //somewhere in the "new item" tool tip, let them know that pressing the 'n' key activates the new item (should also be a tooltip for the new request button)
 //Handle errors in javascript
@@ -367,9 +366,9 @@ function generate_details_flyover(dataId){
 	html = html + '	            <div class="clear"></div>';
 	html = html + '	          </div>';
 	html = html + '	          <div class="right infoSection">';
-	html = html + '	            <img class="left" src="/images/feature_icon.png" alt="Feature">';
+	html = html + '	            <img class="left" src="/images/' + item.tracker.name + '_icon.png" alt="' + item.tracker.name + '">';
 	html = html + '	            <div class="left text">';
-	html = html + '	              Feature';
+	html = html + 	              item.tracker.name ;
 	html = html + '	            </div>';
 	html = html + '	            <div class="clear"></div>';
 	html = html + '	          </div>';
@@ -609,7 +608,7 @@ function generate_item(dataId){
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
-	html = html + '<img id="featureicon_' + dataId + '"  class="storyTypeIcon hoverDetailsIcon clickable" src="/images/feature_icon.png" alt="Feature">';
+	html = html + '<img id="featureicon_' + dataId + '"  class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name + '_icon.png" alt="' + item.tracker.name + '">';
 	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' points">';
 	
 	if (show_comment(item)){
@@ -643,8 +642,7 @@ function buttons_for(dataId){
 	case 'Estimate':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons(dataId);
-		console.log("estimate");
-		html = html + button('estimate',dataId);
+		// html = html + button('estimate',dataId);
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
@@ -879,14 +877,11 @@ function send_item_action(dataId,action,extradata){
 	$("#icon_set_" + dataId).addClass('updating');
 	
 	pre_status = D[dataId].status.name;
-	console.log("pre status " + pre_status);
 
 	$.post(url, 
 		   data, 
 		   	function(html){
-				console.log("post status " + html.status.name);
 				status_changed = (pre_status != html.status.name);
-				console.log("status changed" + status_changed);
 				item_actioned(html,dataId,action,status_changed);
 			}, //TODO: handle errors here
 			"json" //BUGBUG: is this a security risk?
@@ -1004,7 +999,6 @@ function sort_panel(name){
 		    });
 		
 		if (name == "open"){
-			console.log("we're in");
 			$(".action_button_start:lt(5)").show();
 			$(".action_button_start:gt(4)").hide();
 		}
@@ -1018,6 +1012,7 @@ function recalculate_widths(){
 
 function expand_item(dataId){
 	$('#item_' + dataId).html(generate_item_edit(dataId));
+	$('#edit_story_type_' + dataId).val(D[dataId].tracker.id);
 	$('#new_comment_' + dataId).watermark('watermark',new_comment_text);
 	$('#new_comment_' + dataId).autogrow();
 	$('#edit_description_' + dataId).autogrow();
@@ -1055,7 +1050,7 @@ function save_new_item(){
 		alert('Please enter a title');
 		return false;
 	}
-	var data = "commit=Create&project_id=" + projectID + "&issue[subject]=" + $('#new_title_input').val() + "&issue[description]=" + $('#new_description').val();
+	var data = "commit=Create&project_id=" + projectID + "&issue[tracker_id]=" + $('#new_story_type').val() + "&issue[subject]=" + $('#new_title_input').val() + "&issue[description]=" + $('#new_description').val();
 
     var url = url_for({ controller: 'issues',
                            action    : 'new'
@@ -1080,7 +1075,7 @@ function save_edit_item(dataId){
 		alert('Please enter a title');
 		return false;
 	}	
-	var data = "commit=Submit&project_id=" + projectID + "&id=" + D[dataId].id + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
+	var data = "commit=Submit&project_id=" + projectID + "&id=" + D[dataId].id + "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
 
     var url = url_for({ controller: 'issues',
                            action    : 'edit'
@@ -1126,7 +1121,6 @@ function item_added(item){
 
 function item_actioned(item, dataId,action, status_changed){
 	D[dataId] = item; 
-	console.log(action);
 	if (!status_changed)
 	{
 		$('#item_' + dataId).html(generate_item(dataId));
@@ -1238,21 +1232,21 @@ html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
 html = html + '	                    <select id="new_story_type" class="storyDetailsField" name="new_story_type">';
-html = html + '	                      <option selected="true" value="feature">';
+html = html + '	                      <option selected="true" value="4">';
 html = html + '	                        Feature';
 html = html + '	                      </option>';
-html = html + '	                      <option value="bug">';
-html = html + '	                        Bug';
-html = html + '	                      </option>';
-html = html + '	                      <option value="chore">';
+html = html + '	                      <option value="7">';
 html = html + '	                        Chore';
+html = html + '	                      </option>';
+html = html + '	                      <option value="8">';
+html = html + '	                        Bug';
 html = html + '	                      </option>';
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="storyDetailsLabelIcon" colspan="1">';
 html = html + '	                  <div class="storyDetailsLabelIcon">';
-html = html + '	                    <img src="/images/feature_icon.png" id="new_story_type_image" name="new_story_type_image">';
+// html = html + '	                    <img src="/images/feature_icon.png" id="new_story_type_image" name="new_story_type_image">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';
@@ -1359,21 +1353,21 @@ html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
 html = html + '	                    <select id="edit_story_type_' + dataId + '" class="storyDetailsField" name="edit_story_type">';
-html = html + '	                      <option selected="true" value="feature">';
+html = html + '	                      <option selected="true" value="4">';
 html = html + '	                        Feature';
 html = html + '	                      </option>';
-html = html + '	                      <option value="bug">';
-html = html + '	                        Bug';
-html = html + '	                      </option>';
-html = html + '	                      <option value="chore">';
+html = html + '	                      <option value="7">';
 html = html + '	                        Chore';
+html = html + '	                      </option>';
+html = html + '	                      <option value="8">';
+html = html + '	                        Bug';
 html = html + '	                      </option>';
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="storyDetailsLabelIcon" colspan="1">';
 html = html + '	                  <div class="storyDetailsLabelIcon">';
-html = html + '	                    <img src="/images/feature_icon.png" id="edit_story_type_image" name="edit_story_type_image">';
+// html = html + '	                    <img src="/images/feature_icon.png" id="edit_story_type_image" name="edit_story_type_image">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';

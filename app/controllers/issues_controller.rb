@@ -112,7 +112,8 @@ class IssuesController < ApplicationController
     @issue.copy_from(params[:copy_from]) if params[:copy_from]
     @issue.project = @project
     # Tracker must be set before custom field values
-    @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
+    # @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
+    @issue.tracker ||= Tracker.find(params[:tracker_id] || :first || params[:issue][:tracker_id])
     if @issue.tracker.nil?
       render_error l(:error_no_tracker_in_project)
       return
