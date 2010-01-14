@@ -822,48 +822,6 @@ function click_pri(dataId,direction,source){
 }
 
 
-//TODO: make all these three functions the same
-function send_item_pri_action(dataId,action){
-	var data = "commit=Create&lock_version=" + D[dataId].lock_version;
-
-    var url = url_for({ controller: 'issues',
-                           action    : action,
-							id		: D[dataId].id
-                          });
-
-	$.post(url, 
-		   data, 
-		   	function(html){
-				item_prioritized(html,dataId);
-			}, //TODO: handle errors here
-			"json" //BUGBUG: is this a security risk?
-	);
-	
-	$('.bubbletip').hide();
-}
-
-function send_estimate(itemId, points, user_estimate_id,dataId){
-	var data = "commit=Create&lock_version=" + D[dataId].lock_version + "&points=" + points;
-
-    var url = url_for({ controller: 'issues',
-                           action    : 'estimate',
-							id		: D[dataId].id
-                          });
-
-	$("#item_content_icons_editButton_" + dataId).remove();
-	$("#icon_set_" + dataId).addClass('updating');
-
-	$.post(url, 
-		   data, 
-		   	function(html){
-				item_estimated(html,dataId);
-			}, //TODO: handle errors here
-			"json" //BUGBUG: is this a security risk?
-	);
-	
-	$('.bubbletip').hide();
-}
-
 
 function send_item_action(dataId,action,extradata){
 	var data = "commit=Create&lock_version=" + D[dataId].lock_version + extradata;
@@ -877,15 +835,23 @@ function send_item_action(dataId,action,extradata){
 	$("#icon_set_" + dataId).addClass('updating');
 	
 	pre_status = D[dataId].status.name;
-
-	$.post(url, 
-		   data, 
-		   	function(html){
-				status_changed = (pre_status != html.status.name);
-				item_actioned(html,dataId,action,status_changed);
-			}, //TODO: handle errors here
-			"json" //BUGBUG: is this a security risk?
-	);
+	
+	$.ajax({
+	   type: "POST",
+	   dataType: "json",
+	   url: url,
+	   data: data,
+	   success:  	function(html){
+			status_changed = (pre_status != html.status.name);
+			item_actioned(html,dataId,action,status_changed);
+		},
+	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+		// typically only one of textStatus or errorThrown will have info
+		// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+		handle_error(XMLHttpRequest, textStatus, errorThrown, dataId,action);
+		},
+		timeout: 30000 //30 seconds
+	 });
 	
 	$('.bubbletip').hide();
 }
@@ -1057,15 +1023,24 @@ function save_new_item(){
                           });
 
 	$("#new_item_wrapper").html('<div id="loading"> Adding...</div>');
-
-	$.post(url, 
-		   data, 
-		   	function(html){
-				item_added(html);
-			}, //TODO: handle errors here
-			"json" //BUGBUG: is this a security risk?
-	);
 	
+	$.ajax({
+	   type: "POST",
+	   dataType: "json",
+	   url: url,
+	   data: data,
+	   success:  	function(html){
+					item_added(html);
+		},
+	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+		// typically only one of textStatus or errorThrown will have info
+		// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+		handle_error(XMLHttpRequest, textStatus, errorThrown, false, "add");
+		},
+		timeout: 30000 //30 seconds
+	 });
+	
+
 	return false;
 }
 
@@ -1085,13 +1060,21 @@ function save_edit_item(dataId){
 	$("#item_content_icons_editButton_" + dataId).remove();
 	$("#icon_set_" + dataId).addClass('updating');
 
-	$.post(url, 
-		   data, 
-		   	function(html){
-				item_updated(html, dataId);
-			}, //TODO: handle errors here
-			"json" //BUGBUG: is this a security risk?
-	);
+	$.ajax({
+	   type: "POST",
+	   dataType: "json",
+	   url: url,
+	   data: data,
+	   success:  	function(html){
+			item_updated(html, dataId);
+		},
+	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+		// typically only one of textStatus or errorThrown will have info
+		// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+		handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "edit");
+		},
+		timeout: 30000 //30 seconds
+	 });
 	
 	return false;
 }
@@ -1470,13 +1453,23 @@ try{
 	                           action    : 'create'
 	                          });
 	
-		$.post(url, 
-			   data, 
-			   	function(html){
-					comment_added(html,dataId);
-				}, //TODO: handle errors here
-				"json" //BUGBUG: is this a security risk?
-		);
+		$.ajax({
+		   type: "POST",
+		   dataType: "json",
+		   url: url,
+		   data: data,
+		   success: 	function(html){
+				comment_added(html,dataId);
+			},
+		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			  // typically only one of textStatus or errorThrown 
+			  // will have info
+			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+			handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
+			},
+			timeout: 30000 //30 seconds
+		 });
+
 		return false;
 	}
 	}
@@ -1492,6 +1485,7 @@ function view_history(dataId){
 	return false;
 	
 }
+
 
 
 ///HELPERS
@@ -1510,6 +1504,20 @@ function url_for(options){
   // });da
   
   return url;
+}
+
+function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) {
+	if (dataId){
+		$('#item_' + dataId).html(generate_item(dataId));
+		sort_panel('open');
+		$('#featureicon_' + dataId).attr("src", "/images/error.png");
+	}
+	else{
+		$("#new_item_wrapper").remove();
+	}
+	keyboard_shortcuts = true;
+	add_hover_icon_events();	
+	alert("Error: Couldn't " + action);
 }
 
 
