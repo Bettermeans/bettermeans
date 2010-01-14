@@ -303,6 +303,7 @@ class IssuesController < ApplicationController
   def estimate
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :points => params[:points]
     @issue.update_estimate_total
+    @issue.status = IssueStatus.open if @issue.status == IssueStatus.estimate #Temporary hack for how an item moves into open after estimation
     @issue.save
     
     respond_to do |format|
