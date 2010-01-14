@@ -263,6 +263,7 @@ class IssuesController < ApplicationController
         attrs = params[:issue].dup
         attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
         attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
+        logger.info("status changed was blocked") unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
         @issue.attributes = attrs
         logger.info(@issue.attributes.inspect)
       end

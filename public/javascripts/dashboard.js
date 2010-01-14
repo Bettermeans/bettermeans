@@ -219,7 +219,7 @@ function prepare_item_lookup_array(){
 // Loads all items in their perspective panels, and sets up panels
 function load_ui(){
 	insert_panel(0,'new','New',true);
-	insert_panel(0,'estimating','In Estimation',true);
+	insert_panel(0,'estimate','In Estimation',true);
 	insert_panel(0,'open','Open',true);
 	insert_panel(0,'inprogress','In Progress',true);
 	insert_panel(0,'done','Done',true);
@@ -232,7 +232,7 @@ function load_ui(){
 
 	update_panel_counts();
 	sort_panel('open');
-	sort_panel('estimating');
+	sort_panel('estimate');
 	sort_panel('new');
 	sort_panel('inprogress');
 	add_hover_icon_events();	
@@ -643,6 +643,7 @@ function buttons_for(dataId){
 	case 'Estimate':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons(dataId);
+		console.log("estimate");
 		html = html + button('estimate',dataId);
 	break;
 	case 'Open':
@@ -939,7 +940,7 @@ function insert_panel(position, name, title, visible){
 
 function update_panel_counts(){
 	update_panel_count('new');
-	update_panel_count('estimating');
+	update_panel_count('estimate');
 	update_panel_count('open');
 	update_panel_count('inprogress');
 	update_panel_count('done');
@@ -1111,7 +1112,7 @@ function item_added(item){
 function item_actioned(item, dataId,action){
 	D[dataId] = item; 
 	console.log(action);
-	if ((action == 'accept')||(action == 'reject')||((action == 'agree')&&(item.status.name == 'New'))||((action == 'disagree')&&(item.status.name == 'New')))
+	if ((action == 'accept')||(action == 'reject'))
 	{
 		$('#item_' + dataId).html(generate_item(dataId));
 		add_hover_icon_events();	
