@@ -406,7 +406,7 @@ function generate_estimate_flyover(dataId){
 	
 	for(var i=0; i < item.issue_votes.length; i++){
 		if (currentUserLogin == item.issue_votes[i].user.login){
-			if (item.issue_votes[i].vote_type != 4) next;
+			if (item.issue_votes[i].vote_type != 4) continue;
 			total_people_estimating++ ;
 			you_voted = "You estimated " + item.issue_votes[i].points + " on " + item.issue_votes[i].updated_on;
 			user_estimate_id = item.issue_votes[i].id;
@@ -463,7 +463,7 @@ function generate_estimate_flyover_history(item){
 	header = header + '<td class="noteInfo">';
 	
 	for(var i = 0; i < item.issue_votes.length; i++ ){
-		if (item.issue_votes[i].vote_type != 4) next;
+		if (item.issue_votes[i].vote_type != 4) continue;
 		html = html + item.issue_votes[i].points + ' pts - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname + '<br>';
 	}	
 	if (html=='') return '';
@@ -506,7 +506,7 @@ function generate_estimate_flyover_yourestimate(item,user_estimate_id,dataId){
 
 function generate_estimate_button(points, itemId, user_estimate_id, dataId){
 	html = '';
-	html = html + '<img src="/images/dice_' + points + '.png" width="18" height="18" alt="' + points + ' Points" class="dice" onclick="send_estimate(' + itemId + ',' + points + ',' + user_estimate_id + ',' + dataId + ')">';	
+	html = html + '<img src="/images/dice_' + points + '.png" width="18" height="18" alt="' + points + ' Points" class="dice" onclick="send_item_action(' + dataId + ',\'estimate\',\'&points=' + points + '\')">';	
 	return html;
 }
 
@@ -648,7 +648,7 @@ function buttons_for(dataId){
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
-		html = html + button('start',dataId);
+		html = html + button('start',dataId,true);
 
 		if (currentUserIsCitizen == 'true'){
 			var today = new Date();
@@ -748,11 +748,15 @@ function generate_pri_button(dataId,direction){
 }
 
 //Generates a button type for item id
-function button(type,dataId){
+function button(type,dataId,hide){
 	var label = type;
+	var hide_style = '';
+	if (hide == true){
+		hide_style = "style=display:none;";
+	}
 	if (type == 'release') label = 'giveup';
 	html = '';
-	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '" onclick="click_' + type + '(' + dataId + ',this);return false;">';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '" ' + hide_style + ' onclick="click_' + type + '(' + dataId + ',this);return false;">';
 	html = html + '<a href="/" id="item_action_link_' + type + dataId + '" class="action_link clickable">' + label + '</a>';
 	html = html + '</div>';
 	return html;
@@ -811,11 +815,11 @@ function click_cancel(dataId,source){
 function click_pri(dataId,direction,source){
 	if (direction == 'up'){
 		$('#' + source.id).parent().html(generate_pri_button(dataId,'down'));
-		send_item_pri_action(dataId,'prioritize');
+		send_item_action(dataId,'prioritize');
 	}
 	else{
 		$('#' + source.id).parent().html(generate_pri_button(dataId,'up'));
-		send_item_pri_action(dataId,'deprioritize');
+		send_item_action(dataId,'deprioritize');
 	}
 }
 
@@ -863,8 +867,8 @@ function send_estimate(itemId, points, user_estimate_id,dataId){
 }
 
 
-function send_item_action(dataId,action){
-	var data = "commit=Create&lock_version=" + D[dataId].lock_version;
+function send_item_action(dataId,action,extradata){
+	var data = "commit=Create&lock_version=" + D[dataId].lock_version + extradata;
 
     var url = url_for({ controller: 'issues',
                            action    : action,
@@ -873,11 +877,17 @@ function send_item_action(dataId,action){
 
 	$("#item_content_icons_editButton_" + dataId).remove();
 	$("#icon_set_" + dataId).addClass('updating');
+	
+	pre_status = D[dataId].status.name;
+	console.log("pre status " + pre_status);
 
 	$.post(url, 
 		   data, 
 		   	function(html){
-				item_actioned(html,dataId,action);
+				console.log("post status " + html.status.name);
+				status_changed = (pre_status != html.status.name);
+				console.log("status changed" + status_changed);
+				item_actioned(html,dataId,action,status_changed);
 			}, //TODO: handle errors here
 			"json" //BUGBUG: is this a security risk?
 	);
@@ -970,7 +980,6 @@ function show_panel(name){
 
 // Sorts items in a plane by priority (highest first) followed by created date (oldest first)
 function sort_panel(name){
-		//console.log("Called with " + name);
 		var listitems = $('#' + name + '_start_of_list').children().get();
 
 			listitems.sort(function(a, b) {
@@ -980,7 +989,7 @@ function sort_panel(name){
 				return -1;
 				} else if (D[compA].pri < D[compB].pri) {
 					return 1;
-				} else if (new Date(D[compA].updated_on) < new Date(D[compB].updated_on)) {
+				} else if (new Date(D[compA].created_on) > new Date(D[compB].created_on)) {
 					return 1;
 				} else {
 					return -1;
@@ -993,6 +1002,12 @@ function sort_panel(name){
 		$.each(listitems, function() {
 		    $('#' + name + '_start_of_list').append(this);
 		    });
+		
+		if (name == "open"){
+			console.log("we're in");
+			$(".action_button_start:lt(5)").show();
+			$(".action_button_start:gt(4)").hide();
+		}
 }
 
 
@@ -1109,24 +1124,31 @@ function item_added(item){
 	return false;
 }
 
-function item_actioned(item, dataId,action){
+function item_actioned(item, dataId,action, status_changed){
 	D[dataId] = item; 
 	console.log(action);
-	if ((action == 'accept')||(action == 'reject'))
+	if (!status_changed)
 	{
 		$('#item_' + dataId).html(generate_item(dataId));
-		add_hover_icon_events();	
 	}
 	else
 	{
 		$("#item_" + dataId).remove();
 		add_item(dataId,"bottom",true);
-		add_hover_icon_events();
-		keyboard_shortcuts = true;
-		$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 		update_panel_counts();
 		$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
 	}
+
+	keyboard_shortcuts = true;
+	add_hover_icon_events();	
+	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
+	if (action == "estimate") {$('#flyover_estimate_' + dataId).remove();}
+	if ((action == "deprioritize")||(action == "prioritize")) {	
+		sort_panel(item.status.name.toLowerCase());
+		$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
+		add_hover_icon_events();	
+	}
+	
 	return false;
 }
 
@@ -1134,8 +1156,6 @@ function item_prioritized(item, dataId,action){
 	//sort_panel(item.status.name);
 	//TODO: put item in correct order on this list
 	D[dataId] = item; 
-	sort_panel(item.status.name.toLowerCase());
-	$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
 	add_hover_icon_events();
 	
 	// $("#item_" + dataId).remove();
@@ -1155,7 +1175,6 @@ function item_estimated(item, dataId){
 	add_hover_icon_events();
 	keyboard_shortcuts = true;
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
-	$('#flyover_estimate_' + dataId).remove();
 	return false;
 }
 
@@ -1207,7 +1226,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input disabled="disabled" id="new_view_history_button" value="View history" type="submit">';
+html = html + '	                    <input disabled="disabled" id="new_view_history_button" value="View history" type="submit" >';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -1475,6 +1494,7 @@ catch(err){
 
 //View item history
 function view_history(dataId){
+	alert("not yet implemented. sorry!");
 	return false;
 	
 }
