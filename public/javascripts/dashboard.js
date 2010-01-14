@@ -1,17 +1,4 @@
 //Todos
-//cleaner times/dates in flyover
-//"my work" panel
-//somewhere in the "new item" tool tip, let them know that pressing the 'n' key activates the new item (should also be a tooltip for the new request button)
-//Handle errors in javascript
-//Order comments chronologically
-//TODO: test in IE
-//detect and insert bold and italic text (time to learn regular expresssion :)
-//minifiy this file will be over 50k!
-//test for javascript and warn if user has it off
-//error handling for poor connectivity (couldn't load page! couldn't update item! couldn't save new item! couldn't save post!)
-//save request type (feature, chore, bug)
-//view history panel
-//growl error system
 
 var D; //all data
 var ITEMHASH = new Array(); //mapping between item IDs and their id in the D array
@@ -387,9 +374,9 @@ function generate_details_flyover(dataId){
 	html = html + '	            <div class="clear"></div>';
 	html = html + '	          </div>';
 	html = html + '	          <div class="right infoSection">';
-	html = html + '	            <img class="left" src="/images/' + item.tracker.name + '_icon.png" alt="' + item.tracker.name + '">';
+	html = html + '	            <img class="left" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '">';
 	html = html + '	            <div class="left text">';
-	html = html + 	              item.tracker.name ;
+	html = html + 	              item.tracker.name;
 	html = html + '	            </div>';
 	html = html + '	            <div class="clear"></div>';
 	html = html + '	          </div>';
@@ -629,7 +616,7 @@ function generate_item(dataId){
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
-	html = html + '<img id="featureicon_' + dataId + '"  class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name + '_icon.png" alt="' + item.tracker.name + '">';
+	html = html + '<img id="featureicon_' + dataId + '"  class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '">';
 	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' points">';
 	
 	if (show_comment(item)){
