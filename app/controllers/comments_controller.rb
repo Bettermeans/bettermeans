@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
     journal.save!
     journal.reload
     @issue.reload
-    render :json => @issue.to_json(:include => {:journals => {:include => :user}, :status => {:only => :name}, :author => {:only => [:firstname, :lastname]}})
+    render :json => @issue.to_dashboard
   end
   
   private
