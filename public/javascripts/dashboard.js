@@ -1,6 +1,5 @@
-//Todos
-
 var D; //all data
+var MAX_REQUESTS_PER_PERSON = 2;
 var ITEMHASH = new Array(); //mapping between item IDs and their id in the D array
 var keyboard_shortcuts = false;
 var default_new_title = 'Enter Title Here';
@@ -488,6 +487,8 @@ function generate_estimate_flyover_history(item){
 
 function generate_estimate_flyover_yourestimate(item,user_estimate_id,dataId){
 	//TODO: check that I have permission to estimate!	
+	
+	if ((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) return '';
 	var header_text = '';
 	user_estimate_id == 0 ? header_text = 'Make an estimate' : header_text = 'Change your estimate';
 	var html = '';
@@ -672,6 +673,9 @@ function buttons_for(dataId){
 			html = html + button('release',dataId);
 			html = html + button('finish',dataId);
 		}
+		else if (item.assigned_to != null){
+			html = html + '<div id="committed_tally_' + dataId + '" class="action_button action_button_tally">' + item.assigned_to.login + '</div>';
+		}
 	break;
 	case 'Done':
 		if (currentUserIsCitizen == 'true'){
@@ -770,8 +774,14 @@ function button(type,dataId,hide){
 }
 
 function click_start(dataId,source){
-	$('#' + source.id).parent().hide();
-	send_item_action(dataId,'start');
+	if ($(".action_button_finish").get().length >= MAX_REQUESTS_PER_PERSON){
+		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " requests at a time");
+	}
+	else{
+		$('#' + source.id).parent().hide();
+		send_item_action(dataId,'start');
+	}
+	return false;
 }
 
 function click_accept(dataId,source){
@@ -1058,7 +1068,7 @@ function save_edit_item(dataId){
 		alert('Please enter a title');
 		return false;
 	}	
-	var data = "commit=Submit&project_id=" + projectID + "&id=" + D[dataId].id + "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
+	var data = "commit=Submit&lock_version=" + D[dataId].lock_version + "&project_id=" + projectID + "&id=" + D[dataId].id + "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
 
     var url = url_for({ controller: 'issues',
                            action    : 'edit'
@@ -1122,13 +1132,14 @@ function item_actioned(item, dataId,action, status_changed){
 		add_item(dataId,"bottom",true);
 		update_panel_counts();
 		$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
+		$('#flyover_estimate_' + dataId).remove(); 
 	}
 
 	keyboard_shortcuts = true;
 	add_hover_icon_events();	
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	if (action == "estimate") {$('#flyover_estimate_' + dataId).remove();}
-	if ((action == "deprioritize")||(action == "prioritize")) {	
+	if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
 		sort_panel(item.status.name.toLowerCase());
 		$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
 		add_hover_icon_events();	
