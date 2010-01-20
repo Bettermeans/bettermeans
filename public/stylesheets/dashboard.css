@@ -228,11 +228,15 @@ background-repeat:repeat-y;
 }
 
 .canceled {
-	background-color:#777777;
+	background-color:#999999;
+}
+
+.estimate {
+	background-color:#FFF8DC;
 }
 
 .done, .finished, .delivered {
-	background-color:#FFF8DC;
+	background-color:#CCCCCC;
 }
 
 
