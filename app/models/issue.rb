@@ -57,6 +57,28 @@ class Issue < ActiveRecord::Base
     (usr || User.current).allowed_to?(:view_issues, self.project)
   end
   
+  # Returns true if there are enough agreements in relation to the estimated points of the request
+  def ready_for_open?
+    return false if points.nil? || agree_total < 1
+    return true if agree_total >= points
+    return true if agree_total > (project.root.core_members.count / 2)
+    return false
+  end
+
+  def ready_for_accepted?
+    return false if points.nil? || accept_total < 1
+    return true if accept_total >= points
+    return true if accept_total > (project.root.core_members.count / 2)
+    return false
+  end
+  
+  def updated_status
+    return IssueStatus.newstatus if agree_total < 1
+    return IssueStatus.open if ready_for_open?
+    return IssueStatus.estimate if agree_total > 0 
+    return IssueStatus.newstatus #default
+  end
+  
   def after_initialize
     if new_record?
       # set default values for new records only
@@ -417,7 +439,7 @@ class Issue < ActiveRecord::Base
   
   #returns json object for consumption from dashboard
   def to_dashboard
-    self.to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}})
+    self.to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
   end
 
   private

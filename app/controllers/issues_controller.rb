@@ -226,7 +226,11 @@ class IssuesController < ApplicationController
   end
   
   def start
-    #TODO: enforce maximum in progress per person per project
+    @in_progress = Issue.count(:conditions => {:assigned_to_id => User.current.id, :status_id => IssueStatus.assigned.id, :project_id => @issue.project_id})
+    if @in_progress > 2 #TODO: this should be in the settings somewhere
+      render_error "Maximum issues owned by this user already" 
+      return false;
+    end
     params[:issue] = {:status_id => IssueStatus.assigned.id, :assigned_to_id => User.current.id}
     change_status
   end
@@ -302,9 +306,13 @@ class IssuesController < ApplicationController
   end
   
   def estimate
+    if (@issue.status != IssueStatus.open) && (@issue.status != IssueStatus.newstatus) && (@issue.status != IssueStatus.estimate)  
+          render_error 'Can not estimate request unless it is new, open, or in estimation' 
+          return false;
+    end
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :points => params[:points]
     @issue.update_estimate_total
-    @issue.status = IssueStatus.open if @issue.status == IssueStatus.estimate #Temporary hack for how an item moves into open after estimation
+    @issue.status = @issue.updated_status
     @issue.save
     
     respond_to do |format|
@@ -316,7 +324,7 @@ class IssuesController < ApplicationController
   def agree
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1
     @issue.update_agree_total
-    @issue.status = IssueStatus.estimate if @issue.agree_total > 0 #Temporary hack for how an item moves into estimation    
+    @issue.status = @issue.updated_status
     @issue.save
     
     respond_to do |format|
@@ -328,7 +336,7 @@ class IssuesController < ApplicationController
   def disagree
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1
     @issue.update_agree_total
-    @issue.status = IssueStatus.newstatus if @issue.agree_total < 1 #Temporary hack for how an item moves back from estimation    
+    @issue.status = @issue.updated_status
     @issue.save
     
     respond_to do |format|
