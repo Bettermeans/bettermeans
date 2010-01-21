@@ -3,7 +3,7 @@
 function add_filter() {
     select = $('add_filter_select');
     field = select.value
-    Element.show('tr_' +  field);
+    $('#tr_' +  field).show();
     check_box = $('cb_' + field);
     check_box.checked = true;
     toggle_filter(field);
@@ -20,11 +20,11 @@ function toggle_filter(field) {
     check_box = $('cb_' + field);
     
     if (check_box.checked) {
-        Element.show("operators_" + field);
+        $("#operators_" + field).show();
         toggle_operator(field);
     } else {
-        Element.hide("operators_" + field);
-        Element.hide("div_values_" + field);
+        $("#operators_" + field).hide();
+        $("#div_values_" + field).hide();
   }
 }
 
@@ -37,10 +37,10 @@ function toggle_operator(field) {
     case "w":
     case "o":
     case "c":
-      Element.hide("div_values_" + field);
+      $("#div_values_" + field).hide();
       break;
     default:
-      Element.show("div_values_" + field);
+      $("#div_values_" + field).show();
       break;
   }
 }
