@@ -13,7 +13,7 @@
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 </div>
 <%= submit_tag l(:button_create) %>
-<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-document")' %>
+<%= link_to l(:button_cancel), "#", :onclick => '$("#add-document").hide();' %>
 <% end %>
 </div>
 

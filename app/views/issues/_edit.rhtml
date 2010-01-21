@@ -48,7 +48,7 @@
                          :method => 'post',
                          :update => 'preview',
                          :with => 'Form.serialize("issue-form")',
-                         :complete => "Element.scrollTo('preview')"
+                         :complete => "$('body').scrollTo('#preview')"
                        }, :accesskey => accesskey(:preview) %>
 <% end %>
 
