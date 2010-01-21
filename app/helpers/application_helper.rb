@@ -102,8 +102,8 @@ module ApplicationHelper
   end
 
   def toggle_link(name, id, options={})
-    onclick = "Element.toggle('#{id}'); "
-    onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
+    onclick = "$('##{id}').toggle(); "
+    onclick << (options[:focus] ? "$('##{options[:focus]}').focus(); " : "this.blur(); ")
     onclick << "return false;"
     link_to(name, "#", :onclick => onclick)
   end

@@ -88,9 +88,9 @@ class MessagesController < ApplicationController
       page << "$('reply_subject').value = \"#{subject}\";"
       page.<< "$('message_content').value = \"#{content}\";"
       page.show 'reply'
-      page << "Form.Element.focus('message_content');"
-      page << "Element.scrollTo('reply');"
-      page << "$('message_content').scrollTop = $('message_content').scrollHeight - $('message_content').clientHeight;"
+      page << "$('#message_content').focus();"
+      page << "$('body').scrollTo('#reply');"
+      # page << "$('message_content').scrollTop = $('message_content').scrollHeight - $('message_content').clientHeight;"
     }
   end
   
