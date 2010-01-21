@@ -19,7 +19,7 @@ function toggleCheckboxesBySelector(selector) {
 
 function showAndScrollTo(id, focus) {
 	Element.show(id);
-	if (focus!=null) { Form.Element.focus(focus); }
+	if (focus!=null) { $('#' + focus).focus(); }
 	Element.scrollTo(id);
 }
 

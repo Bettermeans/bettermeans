@@ -383,9 +383,9 @@ class IssuesController < ApplicationController
     render(:update) { |page|
       page.<< "$('notes').value = \"#{content}\";"
       page.show 'update'
-      page << "Form.Element.focus('notes');"
-      page << "Element.scrollTo('update');"
-      page << "$('notes').scrollTop = $('notes').scrollHeight - $('notes').clientHeight;"
+      page << "$('#notes').focus();"
+      page << "$('body').scrollTo('#update');"
+      # page << "$('notes').scrollTop = $('notes').scrollHeight - $('notes').clientHeight;"
     }
   end
   

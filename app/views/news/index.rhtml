@@ -2,7 +2,7 @@
 <%= link_to_if_authorized(l(:label_news_new),
                           {:controller => 'news', :action => 'new', :project_id => @project},
                           :class => 'icon icon-add',
-                          :onclick => 'Element.show("add-news"); Form.Element.focus("news_title"); return false;') if @project %>
+                          :onclick => '$("#add-news").show(); $("#news_title").focus(); return false;') if @project %>
 </div>
 
 <div id="add-news" style="display:none;">
@@ -17,7 +17,7 @@
                      :update => 'preview',
                      :with => "Form.serialize('news-form')"
                    }, :accesskey => accesskey(:preview) %> |
-<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("add-news")' %>
+<%= link_to l(:button_cancel), "#", :onclick => '$("#add-news").hide()' %>
 <% end if @project %>
 <div id="preview" class="wiki"></div>
 </div>
