@@ -1,0 +1,23 @@
+<p>
+  <b>Subject:</b>
+  <%=h @todo.subject %>
+</p>
+
+<p>
+  <b>Author:</b>
+  <%=h @todo.author_id %>
+</p>
+
+<p>
+  <b>translation missing: en, field_owner:</b>
+  <%=h @todo.owner_id %>
+</p>
+
+<p>
+  <b>translation missing: en, field_completed_on:</b>
+  <%=h @todo.completed_on %>
+</p>
+
+
+<%= link_to 'Edit', edit_todo_path(@todo) %> |
+<%= link_to 'Back', todos_path %>

@@ -1,0 +1,28 @@
+<h1>Editing todo</h1>
+
+<% form_for(@todo) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :subject %><br />
+    <%= f.text_field :subject %>
+  </p>
+  <p>
+    <%= f.label :author_id %><br />
+    <%= f.text_field :author_id %>
+  </p>
+  <p>
+    <%= f.label :owner_id %><br />
+    <%= f.text_field :owner_id %>
+  </p>
+  <p>
+    <%= f.label :completed_on %><br />
+    <%= f.datetime_select :completed_on %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @todo %> |
+<%= link_to 'Back', todos_path %>

@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :todos
+
   map.resources :issue_votes
 
   map.resources :quotes

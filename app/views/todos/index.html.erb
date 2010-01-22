@@ -1,0 +1,26 @@
+<h1>Listing todos</h1>
+
+<table>
+  <tr>
+    <th>Subject</th>
+    <th>Author</th>
+    <th>translation missing: en, field_owner</th>
+    <th>translation missing: en, field_completed_on</th>
+  </tr>
+
+<% @todos.each do |todo| %>
+  <tr>
+    <td><%=h todo.subject %></td>
+    <td><%=h todo.author_id %></td>
+    <td><%=h todo.owner_id %></td>
+    <td><%=h todo.completed_on %></td>
+    <td><%= link_to 'Show', todo %></td>
+    <td><%= link_to 'Edit', edit_todo_path(todo) %></td>
+    <td><%= link_to 'Destroy', todo, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New todo', new_todo_path %>

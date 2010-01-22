@@ -169,9 +169,10 @@ class ProjectsController < ApplicationController
   
   #TODO: optimize this query, it's WAY too heavy, and we need fewer columns, and it's executing hundreds of queries!
   def dashdata
-    render :json => Issue.find(:all, :conditions => {:project_id => @project.id}).to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
+    render :json => Issue.find(:all, :conditions => {:project_id => @project.id}).to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:subject, :completed_date]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
   end
-  
+
+  #TODO: remove this function, we're no longer using it??
   #Returns my priorities for issues belonging to this project
   def mypris
     render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND id IN (SELECT DISTINCT issue_id FROM #{Pri.table_name} where user_id = #{User.current.id})", :select => "id").to_json
