@@ -41,6 +41,8 @@ class User < Principal
   has_many :shares, :dependent => :nullify
   has_many :credits, :dependent => :delete_all
   has_many :issue_votes, :dependent => :delete_all
+  has_many :authored_todos, :class_name => 'Todo', :foreign_key => 'author_id', :dependent => :nullify
+  has_many :owned_todos, :class_name => 'Todo', :foreign_key => 'owner_id', :dependent => :nullify
     
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
