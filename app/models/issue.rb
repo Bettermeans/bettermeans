@@ -21,6 +21,7 @@ class Issue < ActiveRecord::Base
   
   has_many :commit_requests, :dependent => :delete_all
   has_many :issue_votes, :dependent => :delete_all
+  has_many :todos, :dependent => :delete_all
   
   acts_as_voteable #for vote_fu plugin
   acts_as_attachable :after_remove => :attachment_removed
@@ -439,7 +440,7 @@ class Issue < ActiveRecord::Base
   
   #returns json object for consumption from dashboard
   def to_dashboard
-    self.to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
+    self.to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:subject, :completed_date]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
   end
 
   private
