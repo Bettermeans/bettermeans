@@ -607,7 +607,7 @@ function generate_item(dataId){
 	var points;
 	item.points == null ? points = 'No' : points = Math.round(item.points);
 	
-	html = html + '<div id="item_' + dataId + '" class="item">';
+	html = html + '<div id="item_' + dataId + '" class="item points_' + points + '">';
 	html = html + '<div id="item_content_' + dataId + '" class="' + item.status.name.replace(" ","-").toLowerCase() + ' hoverable" style="">';
 	html = html + '<div class="storyPreviewHeader">';
 	html = html + '<div id="item_content_buttons_' + dataId + '" class="storyPreviewButtons">';
@@ -655,7 +655,8 @@ function buttons_for(dataId){
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
-		html = html + button('start',dataId,true);
+		console.log(item.points);
+		item.points == 0 ? html = html + button('start',dataId,false) : html = html + button('start',dataId,true);
 
 		if (currentUserIsCitizen == 'true'){
 			var today = new Date();
@@ -761,9 +762,7 @@ function generate_pri_button(dataId,direction){
 function button(type,dataId,hide){
 	var label = type;
 	var hide_style = '';
-	if (hide == true){
-		hide_style = "style=display:none;";
-	}
+	if (hide){ hide_style = "style=display:none;"; }
 	if (type == 'release') label = 'giveup';
 	html = '';
 	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '" ' + hide_style + ' onclick="click_' + type + '(' + dataId + ',this);return false;">';
@@ -985,6 +984,7 @@ function sort_panel(name){
 		if (name == "open"){
 			$(".action_button_start:lt(5)").show();
 			$(".action_button_start:gt(4)").hide();
+			$(".points_0").find(".action_button_start").show();
 		}
 }
 
