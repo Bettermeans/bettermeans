@@ -11,7 +11,7 @@ a:hover { text-decoration: underline; }
 a:hover, a:active { color: #2A5685; }
 
 #header, #top-menu { margin: 0; }
-#header { background-color: #99d3f6; padding: 8px 4px 0px 8px; height: 4.5em; }
+#header { background-color: #3E88B8; padding: 8px 4px 0px 8px; height: 4.5em; }
 #header h1 { margin: 0 24px; }
 #header #quick-search { margin: 0 24px; }
 #top-menu { background-color: #000; font-size: 10px; position: relative; padding: 0; height: 21px }
@@ -28,7 +28,7 @@ a:hover, a:active { color: #2A5685; }
 
 /* Headers */
 h1, h2, h3, h4 { font-family: "Lucida Grande",arial,sans-serif; }
-h1 { font-size: 20px; font-weight: normal; margin:0pt 0pt 0pt 0.25em; padding:0pt 0pt 10px; text-align:left; color: #000; }
+h1 { font-size: 20px; font-weight: normal; margin:0pt 0pt 0pt 0.25em; padding:0pt 0pt 10px; text-align:left; color: #FFF; }
 h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { border-bottom: 0px;}
 
 h2, .wiki h1 { background-color: #fff; margin: -6px -19px 10px; padding: 10px 20px; font-size: 14px; color: #000; }

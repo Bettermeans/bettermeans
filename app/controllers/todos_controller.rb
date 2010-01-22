@@ -1,4 +1,8 @@
 class TodosController < ApplicationController
+  
+  before_filter :find_issue, :only => [:index, :create, :update, :destroy ]
+  before_filter :find_project, :authorize
+  
   # GET /todos
   # GET /todos.xml
   def index
@@ -44,7 +48,7 @@ class TodosController < ApplicationController
 
     respond_to do |format|
       if @todo.save
-        flash[:notice] = 'Todo was successfully created.'
+        format.js {render :json => @issue.to_dashboard}
         format.html { redirect_to(@todo) }
         format.xml  { render :xml => @todo, :status => :created, :location => @todo }
       else
@@ -61,7 +65,7 @@ class TodosController < ApplicationController
 
     respond_to do |format|
       if @todo.update_attributes(params[:todo])
-        flash[:notice] = 'Todo was successfully updated.'
+        format.js {render :json => @issue.to_dashboard}
         format.html { redirect_to(@todo) }
         format.xml  { head :ok }
       else
@@ -82,4 +86,13 @@ class TodosController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  def find_issue
+    @issue = Issue.find(params[:issue_id])
+  end  
+  
+  def find_project
+    @project = @issue.project
+  end
+  
 end
