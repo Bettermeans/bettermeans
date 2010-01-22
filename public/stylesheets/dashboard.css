@@ -33,14 +33,11 @@ body  {
 }
 
 .panel {
-/*	margin: 10px 10px 10px 10px;*/
 	padding: 6px 7px;
 	margin: 0p;
-}
-
-.panel {
 	border:medium none;
 	min-width:225px;
+	max-width:800px;
 	vertical-align:top;
 }
 
@@ -164,7 +161,7 @@ border-spacing:16px 0;
 background:#B5BDC1 url(/images/dropzone_repeating_pattern.png) repeat-x scroll center top;
 border-top:1px solid #6E6E6E;
 color:#666666;
-height:17em;
+height:7em;
 }
 
 .hoverable:hover {
@@ -232,7 +229,7 @@ background-repeat:repeat-y;
 }
 
 .estimate {
-	background-color:#FFF8DC;
+	background-color:#F6EABB; /*e1d6ad D5CA9F FFF8DC;*/
 }
 
 .done, .finished, .delivered {

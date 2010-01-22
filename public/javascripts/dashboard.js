@@ -257,7 +257,7 @@ function add_hover_icon_events(){
 			show_estimate_flyover(Number(this.id.split('_')[1].replace(/"/g,'')),this.id);
 	      }
 	    );
-	$(".hoverCommentsIcon").hover(
+	$(".hoverCommentsIcon").click(
 	      function () {
 			show_details_flyover(Number(this.id.split('_')[1].replace(/"/g,''),500),this.id);
 	      }
@@ -621,7 +621,7 @@ function generate_item(dataId){
 	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' points">';
 	
 	if (show_comment(item)){
-	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon" src="/images/story_flyover_icon.png"/>';
+	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png"/>';
 	}
 	
 	html = html + '</div>';
@@ -655,7 +655,7 @@ function buttons_for(dataId){
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
-		console.log(item.points);
+		// console.log(item.points);
 		item.points == 0 ? html = html + button('start',dataId,false) : html = html + button('start',dataId,true);
 
 		if (currentUserIsCitizen == 'true'){
@@ -911,7 +911,7 @@ function insert_panel(position, name, title, visible){
 	panelHtml = panelHtml + "<div id='panel_header_" + name +"'class='panelHeader'>";
 	panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanel panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\");return false;'></a>";
 	panelHtml = panelHtml + "  <span id='" + name +"_panel_title' class='panelTitle'>" + title + " (0)</span>";
-	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question_mark.gif">';
+	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="clickable">';
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "<div id='" + name + "_list' class='list'>";
 	panelHtml = panelHtml + "  <div id='" + name + "_items' class='items'>";
@@ -922,7 +922,8 @@ function insert_panel(position, name, title, visible){
 	panelHtml = panelHtml + "</td>";
 	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button" ' + button_style + '/>');
 	$("#main_row").append(panelHtml);
-	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right'});
+	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right', bindShow: 'click'});
+	
 
 }
 
@@ -1004,19 +1005,22 @@ function expand_item(dataId){
 		deltaDirection: 'right',
 		delayShow: 300,
 		delayHide: 100,
-		offsetLeft: 0
+		offsetLeft: 0,
+		bindShow: 'click'
 	});
 	$('#help_image_feature_' + dataId).mybubbletip($('#help_feature'), {
 		deltaDirection: 'up',
 		delayShow: 300,
 		delayHide: 100,
-		offsetTop: 0
+		offsetTop: 0,
+		bindShow: 'click'
 	});
 	$('#help_image_requestid_' + dataId).mybubbletip($('#help_requestid'), {
 		deltaDirection: 'right',
 		delayShow: 300,
 		delayHide: 100,
-		offsetLeft: 0
+		offsetLeft: 0,
+		bindShow: 'click'
 	});
 	make_text_boxes_toggle_keyboard_shortcuts();
 	$('#item_' + dataId).parent().parent().scrollTo('#item_' + dataId, 500);
@@ -1253,7 +1257,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
-html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif">';
+html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif"  class="clickable">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -1270,7 +1274,7 @@ html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                  <td class="lastCell">';
 html = html + '	                    <div class="helpIcon">';
-html = html + '	                      <img id="help_image_description_new" src="/images/question_mark.gif">';
+html = html + '	                      <img id="help_image_description_new" src="/images/question_mark.gif"  class="clickable">';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
@@ -1303,13 +1307,15 @@ $('#help_image_description_new').mybubbletip($('#help_description'), {
 	deltaDirection: 'right',
 	delayShow: 300,
 	delayHide: 100,
-	offsetLeft: 0
+	offsetLeft: 0,
+	bindShow: 'click'
 });
 $('#help_image_feature_new').mybubbletip($('#help_feature'), {
 	deltaDirection: 'up',
 	delayShow: 300,
 	delayHide: 100,
-	offsetTop: 0
+	offsetTop: 0,
+	bindShow: 'click'
 });
 
 $("#new_items").scrollTo( '#new_item_wrapper', 800);
@@ -1374,7 +1380,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types' + dataId + '">';
-html = html + '	                    <img id="help_image_feature_' + dataId + '" src="/images/question_mark.gif">';
+html = html + '	                    <img id="help_image_feature_' + dataId + '" src="/images/question_mark.gif" class="clickable">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -1392,7 +1398,7 @@ html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                  <td class="lastCell">';
 html = html + '	                    <div class="helpIcon_Description">';
-html = html + '	                      <img id="help_image_description_' + dataId + '" src="/images/question_mark.gif">';
+html = html + '	                      <img id="help_image_description_' + dataId + '" src="/images/question_mark.gif"  class="clickable">';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
@@ -1435,7 +1441,7 @@ html = html + '	                <tr><td>&nbsp;</td></tr>';
 html = html + '	                <tr><td>';
 html = html + '	  <div class="header">';
 html = html + '	    Request ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
-html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif">';
+html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif"  class="clickable">';
 html = html + '	  </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
