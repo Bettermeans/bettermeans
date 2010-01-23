@@ -45,6 +45,7 @@ class TodosController < ApplicationController
   # POST /todos.xml
   def create
     @todo = Todo.new(params[:todo])
+    @todo.issue_id = @issue.id
 
     respond_to do |format|
       if @todo.save
@@ -82,6 +83,7 @@ class TodosController < ApplicationController
     @todo.destroy
 
     respond_to do |format|
+      format.js {render :json => @issue.to_dashboard}
       format.html { redirect_to(todos_url) }
       format.xml  { head :ok }
     end

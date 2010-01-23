@@ -4,6 +4,7 @@ var ITEMHASH = new Array(); //mapping between item IDs and their id in the D arr
 var keyboard_shortcuts = false;
 var default_new_title = 'Enter Title Here';
 var new_comment_text = 'Add new comment';
+var new_todo_text = 'Add todo';
 
 $(window).bind('resize', function() {
 	resize();
@@ -600,6 +601,76 @@ function generate_comment(author,note,created_on){
 	
 }
 
+//blank_if_no_todos: when true, nothing is returned if there aren't any todos, when false the header is returned
+function generate_todos(dataId,blank_if_no_todos){
+	item = D[dataId];
+
+	var count = item.todos.length;
+	
+	if (count==0 && blank_if_no_todos){return '';};
+	
+	var html = '';
+	html = html + '<div  id="todo_container_' + item.id + '">';
+	html = html + '	  <div class="header">';
+	html = html + '	    Todos <span class="todoCount">(' + count + ')</span>';
+	html = html + '	  </div>';
+	html = html + '	  <table class="tasksTable" id="notesTable_todos_' + item.id + '">';
+	html = html + '	    <tbody>';
+	
+	for(var i = 0; i < item.todos.length; i++ ){
+		html = html + generate_todo(item.todos[i].subject,item.todos[i].completed_on, item.todos[i].id,dataId);
+	}
+	html = html + '	    </tbody>';
+	html = html + '	  </table>';
+	html = html + '	<div class="clear"></div>';
+	html = html + '	  </div>';
+	return html;
+	
+}
+
+function generate_todo(subject,completed_on,todoId,dataId){
+	var completed = '';
+	var checked = '';
+	if (completed_on != null){
+		completed = 'completed';
+		checked = 'checked="true"';
+		}
+		
+	var html = '';
+	html = html + '<tr id="task_' + todoId  + '"  onmouseover="update_todo_buttons(' + todoId + ',true)"  onmouseout="update_todo_buttons(' + todoId + ',false)">';
+	html = html + '	<td>';
+	html = html + '	<input type="checkbox" value="" id="task_' + todoId  + '_complete" onclick="update_todo(' + todoId + ',' + dataId + ')" ' + checked + '/>';
+	html = html + '	</td>';
+	html = html + '<td  id="task_' + todoId  + '_subject" class="taskDescription ' + completed + '">';
+	html = html + subject;
+	html = html + '</td>';
+	html = html + '	<td>';
+	html = html + '	<a id="task_' + todoId  + '_edit" href="javascript:void(0);" style="opacity: 0;">';
+	html = html + '	<img src="/images/task_edit.png"/>';
+	html = html + '	</a>';
+	html = html + '	</td>';
+	html = html + '	<td>';
+	html = html + '	<a id="task_' + todoId  + '_delete" href="javascript:void(0);" style="opacity: 0;" onclick="delete_todo('+ todoId +',' + dataId + ')">';
+	html = html + '	<img src="/images/task_delete.png"/>';
+	html = html + '	</a>';
+	html = html + '	</td>';
+	html = html + '</tr>';
+	return html;
+	
+}
+
+function update_todo_buttons(todoId,show){
+	if (show){
+		$('#task_' + todoId + '_edit').attr("style","opacity: 100");
+		$('#task_' + todoId + '_delete').attr("style","opacity: 100");
+	}
+	else{
+		$('#task_' + todoId + '_edit').attr("style","opacity: 0");
+		$('#task_' + todoId + '_delete').attr("style","opacity: 0");
+	}
+}
+
+
 //Generates html for collapsed item
 function generate_item(dataId){
 	var item = D[dataId];
@@ -1000,6 +1071,7 @@ function expand_item(dataId){
 	$('#edit_story_type_' + dataId).val(D[dataId].tracker.id);
 	$('#new_comment_' + dataId).watermark('watermark',new_comment_text);
 	$('#new_comment_' + dataId).autogrow();
+	$('#new_todo_' + dataId).watermark('watermark',new_todo_text);
 	$('#edit_description_' + dataId).autogrow();
 	$('#help_image_description_' + dataId).mybubbletip($('#help_description'), {
 		deltaDirection: 'right',
@@ -1192,6 +1264,18 @@ function comment_added(item, dataId){
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 }
 
+function todo_added(item, dataId){
+	D[dataId] = item; 
+	$('#todo_container_' + item.id).html(generate_todos(dataId,false,null));
+	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
+}
+
+function todo_updated(item, dataId){
+	D[dataId] = item; 
+	// $('#todo_container_' + item.id).html(generate_todos(item,false));
+	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
+}
+
 function new_item(){
 keyboard_shortcuts = false;
 $("#new_item_wrapper").remove();
@@ -1325,7 +1409,7 @@ function generate_item_edit(dataId){
 html = '';	
 html = html + '	<div class="item" id="edit_item_' + dataId + '">';
 html = html + '	  <div class="storyItem underEdit" id="editItem_content_' + dataId + '">';
-html = html + '	   <form action="#">';
+// html = html + '	   <form action="#">';
 html = html + '	    <div class="storyPreviewHeader">';
 html = html + ' 		<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_expanded.png" title="Collapse" alt="Collapse" onclick="collapse_item(' + dataId + ');return false;">';
 html = html + '	      <div class="storyPreviewInput">';
@@ -1416,6 +1500,8 @@ html = html + '	              </tbody>';
 html = html + '	            </table>';
 html = html + '	          </div>';
 
+//todos
+html = html + generate_todo_section(dataId);
 //comments
 
 html = html + '	          <div class="section">';
@@ -1435,6 +1521,9 @@ html = html + '	                      </div>';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
+html = html + '	              </tbody>';
+html = html + '	            </table>';
+html = html + '	          </div>';
 
 // request id
 html = html + '	                <tr><td>&nbsp;</td></tr>';
@@ -1457,6 +1546,33 @@ html = html + '	            </table>';
 html = html + '	          </div>';
 
 return html;
+}
+
+function generate_todo_section(dataId){
+	var html = '';
+	html = html + '	          <div id="todo_section_' + dataId + '" class="section">';
+	html = html + '	   <form action="#">';
+	html = html + '	            <table class="storyDescriptionTable">';
+	html = html + '	              <tbody>';
+	html = html + '	                <tr><td colspan="5">';
+	html = html + generate_todos(dataId,false);
+	html = html + '	                </td></tr>';
+	html = html + '	                <tr>';
+	html = html + '	                  <td colspan="5">';
+	html = html + '	                    <div>';
+	html = html + '	                      <input class= "tasksTextArea" id="new_todo_' + dataId + '"></input>     ';
+	html = html + '	                      <div>';
+	html = html + '	                         <input value="Add" type="submit" onclick="post_todo(' + dataId + '); return false;">';
+	html = html + '	                      </div>';
+	html = html + '	                    </div>';
+	html = html + '	                  </td>';
+	html = html + '	                </tr>';
+	html = html + '	              </tbody>';
+	html = html + '	            </table>';
+	html = html + '	   </form>';
+	html = html + '	          </div>';
+	return html;
+	
 }
 
 function post_comment(dataId){
@@ -1497,6 +1613,123 @@ try{
 
 		return false;
 	}
+	}
+catch(err){
+	console.log(err);
+	return false;
+}
+}
+
+function post_todo(dataId){
+try{
+	var text = $("#new_todo_" + dataId).val();
+	if ((text == null) || (text.length < 2)|| (text == new_todo_text)){
+		return false;
+	}
+	else
+	{
+		var item = D[dataId];
+		$("#notesTable_todos_" + item.id).append(generate_todo(text,null,null));
+		$('#new_todo_' + dataId).val('');
+		
+		
+		var data = "commit=Create&issue_id=" + item.id + "&todo[subject]=" + text;
+		
+		var url = url_for({ controller: 'todos',
+	                           action    : 'create'
+	                          });
+	
+		$.ajax({
+		   type: "POST",
+		   dataType: "json",
+		   url: url,
+		   data: data,
+		   success: 	function(html){
+				todo_added(html,dataId);
+			},
+		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
+			},
+			timeout: 30000 //30 seconds
+		 });
+
+		return false;
+	}
+	}
+catch(err){
+	console.log(err);
+	return false;
+}
+}
+
+
+function update_todo(todoId, dataId){
+try{
+		var item = D[dataId];	
+		var data = "commit=Update&id=" + todoId + "&issue_id=" + item.id; // + "&todo[subject]=" + text;
+		
+		if ($('#task_' + todoId + '_complete').attr("checked") == true){
+			$('#task_' + todoId  + '_subject').addClass('completed');
+			data = data + '&todo[completed_on]=' + Date();
+		}
+		else
+		{
+			$('#task_' + todoId  + '_subject').removeClass('completed');
+			data = data + '&todo[completed_on]=';
+		}
+		
+		var url = url_for({ controller: 'todos',
+	                           action    : 'update'
+	                          });
+	
+		$.ajax({
+		   type: "POST",
+		   dataType: "json",
+		   url: url,
+		   data: data,
+		   success: 	function(html){
+				todo_updated(html,dataId);
+			},
+		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
+			},
+			timeout: 30000 //30 seconds
+		 });
+
+		return false;
+	}
+catch(err){
+	console.log(err);
+	return false;
+}
+}
+
+function delete_todo(todoId, dataId){
+try{
+		var item = D[dataId];	
+		var data = "commit=Destroy&id=" + todoId + "&issue_id=" + item.id; // + "&todo[subject]=" + text;
+		
+		$('#task_' + todoId).remove();
+		
+		var url = url_for({ controller: 'todos',
+	                           action    : 'destroy'
+	                          });
+	
+		$.ajax({
+		   type: "POST",
+		   dataType: "json",
+		   url: url,
+		   data: data,
+		   success: 	function(html){
+				todo_updated(html,dataId);
+			},
+		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
+			},
+			timeout: 30000 //30 seconds
+		 });
+
+		return false;
 	}
 catch(err){
 	console.log(err);
