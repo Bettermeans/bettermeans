@@ -1,3 +1,7 @@
+# BetterMeans - Work 2.0
+# Copyright (C) 2009  Shereef Bishay
+#
+
 class Retro < ActiveRecord::Base
   
   #Constants
@@ -8,6 +12,7 @@ class Retro < ActiveRecord::Base
   
   belongs_to :project
   has_many :issues
+  has_many :retro_ratings
 end
 
 

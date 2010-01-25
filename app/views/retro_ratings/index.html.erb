@@ -1,0 +1,18 @@
+<h1>Listing retro_ratings</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @retro_ratings.each do |retro_rating| %>
+  <tr>
+    <td><%= link_to 'Show', retro_rating %></td>
+    <td><%= link_to 'Edit', edit_retro_rating_path(retro_rating) %></td>
+    <td><%= link_to 'Destroy', retro_rating, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New retro_rating', new_retro_rating_path %>
