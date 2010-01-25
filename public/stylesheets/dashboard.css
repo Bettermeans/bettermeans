@@ -291,12 +291,12 @@ background-repeat:repeat-y;
 .storyDetailsButton {padding: 0px;}
 .storyDetails .section {color:#333; font-weight:normal; font-size:0.95em; line-height: 14px; margin-top: 15px}
 .storyDetails .section .header {font-weight:bold; color:#3F3D35; font-size: 115%; margin-bottom: 0}
-.storyDetails .section textArea, .storyDetails .section input[type=text].tasksTextArea {width: 95%; overflow:auto; color: #CCCCCC; padding: 3px; font-weight:bold; margin-top: 5px; font-size: 104%; max-width:500px;}
+.storyDetails .section textArea, .storyDetails .section input[type=text].tasksTextArea {width: 95%; overflow:auto; padding: 3px; font-weight:bold; margin-top: 5px; font-size: 104%; max-width:500px;}
 .storyDetails .storyDescriptionTable textArea {margin-top: 3px}
 .storyDetails .storyDescriptionTable {width: 100%}
 .storyDetails .tasksTable {width: 100%}
 .tasksTextArea {margin-top: 3px; width: 95%; overflow:auto; max-width:500px;}
-.storyDetails .section textArea.textAreaFocus, .storyDetails .section input[type=text].textAreaFocus {color: black; font-weight:normal; width: 95%}
+.storyDetails .section textArea.textAreaFocus, .storyDetails .section input[type=text].textAreaFocus {font-weight:normal; width: 95%}
 .storyDetails .section .italic {font-style:italic; color:#7C7B76; font-size:0.85em}
 .storyDetails .section .specialhighlight {color: #333; font-weight:bold; font-size: 103%;}
 .storyDetails .section input[type='submit'] {margin-top: 4px; display: block}
@@ -412,6 +412,7 @@ background-repeat:repeat-y;
 .watermark{
 	color: #7C7B76;
 	font-style: italic;
+	font-family: 'Lucida Grande';
 }
 
 .dice{

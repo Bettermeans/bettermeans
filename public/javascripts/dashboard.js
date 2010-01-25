@@ -203,7 +203,7 @@ function make_text_boxes_toggle_keyboard_shortcuts(){
 
 
 function load_buttons(){
-	$('#main-menu').append('<input id="new_request" value="New Request" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;"/>');
+	$('#main-menu').append('<input id="new_request" value="New Request" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
 }
 
 
@@ -555,7 +555,7 @@ function generate_comments(item,blank_if_no_comments){
 	
 	var html = '';
 	html = html + '	  <div class="header">';
-	html = html + '	    Comments <span class="commentCount">(' + count + ')</span>';
+	html = html + '	    Comments <span id="comment_' + item.id  + '_count" class="commentCount">(' + count + ')</span>';
 	html = html + '	  </div>';
 	html = html + '	  <table class="notesTable" id="notesTable_' + item.id + '">';
 	html = html + '	    <tbody>';
@@ -575,7 +575,7 @@ function generate_comments(item,blank_if_no_comments){
 				{
 					note = item.journals[i].notes.replace(/\r\n/g,"<br>");
 				}
-				html = html + generate_comment(author,note,item.journals[i].created_on);
+				html = html + generate_comment(author,note,item.journals[i].created_on,item.id);
 			}
 	}
 	html = html + '	    </tbody>';
@@ -585,10 +585,10 @@ function generate_comments(item,blank_if_no_comments){
 	
 }
 
-function generate_comment(author,note,created_on){
+function generate_comment(author,note,created_on,itemId){
 	var html = '';
 	html = html + '<tr class="noteInfoRow">';
-	html = html + '<td class="noteInfo">';
+	html = html + '<td class="noteInfo  noteInfo_' + itemId + '">';
 	html = html + '<span class="specialhighlight">' + author + '</span> <span class="italic">' + created_on + '</span>';
 	html = html + '</td>';
 	html = html + '</tr>';
@@ -612,15 +612,15 @@ function generate_todos(dataId,blank_if_no_todos){
 	var html = '';
 	html = html + '<div  id="todo_container_' + item.id + '">';
 	html = html + '	  <div class="header">';
-	html = html + '	    Todos <span class="todoCount">(' + count + ')</span>';
+	html = html + '	    Todos <span id="task_' + dataId  + '_count" class="todoCount">(' + count + ')</span>';
 	html = html + '	  </div>';
 	html = html + '	  <table class="tasksTable" id="notesTable_todos_' + item.id + '">';
-	html = html + '	    <tbody>';
+	// html = html + '	    <tbody>';
 	
 	for(var i = 0; i < item.todos.length; i++ ){
 		html = html + generate_todo(item.todos[i].subject,item.todos[i].completed_on, item.todos[i].id,dataId);
 	}
-	html = html + '	    </tbody>';
+	// html = html + '	    </tbody>';
 	html = html + '	  </table>';
 	html = html + '	<div class="clear"></div>';
 	html = html + '	  </div>';
@@ -637,15 +637,19 @@ function generate_todo(subject,completed_on,todoId,dataId){
 		}
 		
 	var html = '';
-	html = html + '<tr id="task_' + todoId  + '"  onmouseover="update_todo_buttons(' + todoId + ',true)"  onmouseout="update_todo_buttons(' + todoId + ',false)">';
+	html = html + '<tr class="task_row" id="task_' + todoId  + '"  onmouseover="update_todo_buttons(' + todoId + ',true)"  onmouseout="update_todo_buttons(' + todoId + ',false)">';
 	html = html + '	<td>';
 	html = html + '	<input type="checkbox" value="" id="task_' + todoId  + '_complete" onclick="update_todo(' + todoId + ',' + dataId + ')" ' + checked + '/>';
 	html = html + '	</td>';
 	html = html + '<td  id="task_' + todoId  + '_subject" class="taskDescription ' + completed + '">';
+	html = html + '	<span id="task_' + todoId + '_subject_text">';
 	html = html + subject;
+	html = html + '	</span>';
+	html = html + '	<input id="task_' + todoId + '_subject_input" style="display:none;" value="' + subject + '" onblur="edit_todo_post('+ todoId +',' + dataId + ')">';
+	html = html + '	<span id="task_' + todoId + '_subject_submit_container"></span>';
 	html = html + '</td>';
 	html = html + '	<td>';
-	html = html + '	<a id="task_' + todoId  + '_edit" href="javascript:void(0);" style="opacity: 0;">';
+	html = html + '	<a id="task_' + todoId  + '_edit" href="javascript:void(0);" style="opacity: 0;" onclick="edit_todo('+ todoId +',' + dataId + ')">';
 	html = html + '	<img src="/images/task_edit.png"/>';
 	html = html + '	</a>';
 	html = html + '	</td>';
@@ -658,6 +662,77 @@ function generate_todo(subject,completed_on,todoId,dataId){
 	return html;
 	
 }
+
+function edit_todo(todoId, dataId){
+try{
+		
+		var button = ' <input id="task_' + todoId + '_subject_submit" style="display:none;" type="submit" onclick="edit_todo_post(' + todoId + ',' + dataId + ');return false;">	</input>';
+		$('#task_' + todoId + '_edit').attr("style","opacity: 0");
+		$('#task_' + todoId + '_subject_text').hide();
+		$('#task_' + todoId + '_subject_submit_container').html(button);
+		$('#task_' + todoId + '_subject_input').show().focus();
+		
+		keyboard_shortcuts = false;
+		
+		return false;
+	}
+catch(err){
+	console.log(err);
+	return false;
+}
+}
+
+
+function edit_todo_post(todoId, dataId){
+try{
+	
+	keyboard_shortcuts = true;
+	
+	
+	$('#task_' + todoId + '_subject_text').html($('#task_' + todoId + '_subject_input').val()).show();
+	$('#task_' + todoId + '_subject_input').hide();
+	$('#task_' + todoId + '_subject_submit_container').html('');
+	
+	var item = D[dataId];	
+	var data = "commit=Update&id=" + todoId + "&issue_id=" + item.id + "&todo[subject]=" + $('#task_' + todoId + '_subject_input').val() ;
+	
+	if ($('#task_' + todoId + '_complete').attr("checked") == true){
+		$('#task_' + todoId  + '_subject').addClass('completed');
+		data = data + '&todo[completed_on]=' + Date();
+	}
+	else
+	{
+		$('#task_' + todoId  + '_subject').removeClass('completed');
+		data = data + '&todo[completed_on]=';
+	}
+	
+	var url = url_for({ controller: 'todos',
+                           action    : 'update'
+                          });
+
+	$.ajax({
+	   type: "POST",
+	   dataType: "json",
+	   url: url,
+	   data: data,
+	   success: 	function(html){
+			todo_updated(html,dataId);
+		},
+	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+		handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
+		},
+		timeout: 30000 //30 seconds
+	 });
+
+	return false;
+	}
+catch(err){
+	console.log(err);
+	return false;
+}
+}
+
+
 
 function update_todo_buttons(todoId,show){
 	if (show){
@@ -1584,7 +1659,7 @@ try{
 	else
 	{
 		var item = D[dataId];
-		$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),Date())); //TODO: properly format this date
+		$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),Date(),D[dataId].id)); //TODO: properly format this date
 		$('#new_comment_' + dataId).val('');
 		
 		
@@ -1601,6 +1676,7 @@ try{
 		   data: data,
 		   success: 	function(html){
 				comment_added(html,dataId);
+				update_comment_count(dataId);
 			},
 		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 			  // typically only one of textStatus or errorThrown 
@@ -1689,6 +1765,7 @@ try{
 		   data: data,
 		   success: 	function(html){
 				todo_updated(html,dataId);
+				update_todo_count(dataId);
 			},
 		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 			handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
@@ -1722,6 +1799,7 @@ try{
 		   data: data,
 		   success: 	function(html){
 				todo_updated(html,dataId);
+				update_todo_count(dataId);
 			},
 		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 			handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
@@ -1736,6 +1814,15 @@ catch(err){
 	return false;
 }
 }
+
+function update_todo_count(dataId){
+	$('#task_' + dataId  + '_count').html('(' + D[dataId].todos.length + ')');
+}
+
+function update_comment_count(dataId){
+	$('#comment_' + D[dataId].id  + '_count').html('(' + $('.noteInfo_' + D[dataId].id).length + ')');	
+}
+
 
 //View item history
 function view_history(dataId){
