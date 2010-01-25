@@ -38,6 +38,7 @@ class Project < ActiveRecord::Base
   has_many :team_points, :dependent => :delete_all
   has_many :shares, :dependent => :delete_all
   has_many :credits, :dependent => :delete_all
+  has_many :retros, :dependent => :delete_all
   # Custom field for the project issues
   has_and_belongs_to_many :issue_custom_fields, 
                           :class_name => 'IssueCustomField',
