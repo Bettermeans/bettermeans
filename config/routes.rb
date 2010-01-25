@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :retro_ratings
+
   map.resources :retros
 
   map.resources :todos
