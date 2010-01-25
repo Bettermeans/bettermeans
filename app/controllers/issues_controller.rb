@@ -1,5 +1,5 @@
-# Redmine - project management software
-# Copyright (C) 2006-2008  Shereef Bishay
+# BetterMeans - Work 2.0
+# Copyright (C) 2009  Shereef Bishay
 #
 
 class IssuesController < ApplicationController
