@@ -1,10 +1,12 @@
 var D; //all data
+var R; //all retrospectives
 var MAX_REQUESTS_PER_PERSON = 2;
 var ITEMHASH = new Array(); //mapping between item IDs and their id in the D array
 var keyboard_shortcuts = false;
 var default_new_title = 'Enter Title Here';
 var new_comment_text = 'Add new comment';
 var new_todo_text = 'Add todo';
+var panel_height = $(window).height() - 200;
 
 $(window).bind('resize', function() {
 	resize();
@@ -153,10 +155,7 @@ $('document').ready(function(){
 		   dataType: "json",
 		   url: 'dashdata',
 		   success:  	function(html){
-				$("#loading").hide();
-				$("#quote").hide();
-				D = html;
-				prepare_page();
+				data_ready(html);
 			},
 		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 			// typically only one of textStatus or errorThrown will have info
@@ -194,6 +193,63 @@ $(document).keypress(function(e)
 					
 	}
 });
+
+
+function data_ready(html){
+	$("#loading").hide();
+	$("#quote").hide();
+	D = html;
+	prepare_page();
+	load_retros();
+}
+
+function load_retros(){
+		$.ajax({
+		   type: "GET",
+		   dataType: "json",
+		   url: 'retros/index_json',
+		   success:  	function(html){
+				retros_ready(html);
+			},
+		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			// typically only one of textStatus or errorThrown will have info
+			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+			$("#loading").hide();
+			$("#quote").hide();
+			$("#loading_error").show();
+			},
+			timeout: 30000 //30 seconds
+		 });
+}
+
+function retros_ready(html){
+	R = html;
+	insert_retros();	
+}
+
+function insert_retros(){
+	for(var i = 0; i < R.length; i++ ){
+		add_retro(i,"bottom",false);	
+	}
+}
+
+function add_retro(rdataId,position,scroll){
+	var html = generate_retro(rdataId);
+	var panelid = 'done';
+	if (position=="bottom")
+	{
+		$("#" + panelid + '_start_of_list').append(html);
+	}
+	else if (position=="top")
+	{
+		$("#" + panelid+ '_start_of_list').prepend(html);
+	}
+	
+	if (scroll)
+	{
+		$("#" + panelid + "_items").scrollTo('#item_' + dataId, 100);
+	}	
+}
 
 //makes all text boxes sensitive to keyboard shortcuts
 function make_text_boxes_toggle_keyboard_shortcuts(){
@@ -364,7 +420,7 @@ function generate_details_flyover(dataId){
 	html = html + '	      <div style="height: auto;">';
 	html = html + '	        <div class="metaInfo">';
 	html = html + '	          <div class="left">';
-	html = html + 'Requested by ' + item.author.firstname + ' ' + item.author.lastname + ' on ' + item.created_on;
+	html = html + 'Requested by ' + item.author.firstname + ' ' + item.author.lastname + ' ' + humane_date(item.created_on);
 	html = html + '	          </div>';
 	html = html + '<div class="right infoSection">';
 	html = html + '	            <img class="estimateIcon left" width="18" src="/images/dice_' + points + '.png" alt="Estimate: ' + points + ' points" title="Estimate: ' + points + ' points">';
@@ -589,7 +645,7 @@ function generate_comment(author,note,created_on,itemId){
 	var html = '';
 	html = html + '<tr class="noteInfoRow">';
 	html = html + '<td class="noteInfo  noteInfo_' + itemId + '">';
-	html = html + '<span class="specialhighlight">' + author + '</span> <span class="italic">' + created_on + '</span>';
+	html = html + '<span class="specialhighlight">' + author + '</span> <span class="italic">' + humane_date(created_on) + '</span>';
 	html = html + '</td>';
 	html = html + '</tr>';
     html = html + '<tr class="noteTextRow">';
@@ -785,6 +841,50 @@ function generate_item(dataId){
 	return html;
 }
 
+function generate_retro(rdataId){
+	retro = R[rdataId];
+	var html = '';
+	html = html + '	<div id="retro_' + rdataId + '" class="item">';
+	html = html + '	<div id="retro_' + rdataId + '_content" class="iterationHeader">';
+	html = html + '	<table>';
+	html = html + '	<tbody>';
+	html = html + '	<tr>';
+	html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0pt 1px 4px; color: rgb(255, 255, 255); background-color: rgb(69, 71, 72);">';
+	html = html + '		<img id="done_itemList_' + rdataId + '_toggle_expanded_button" class="iterationHeaderToggleExpandedButton" src="/images/iteration_expander_closed.png" title="Expand" alt="Expand" style="height: 12px; width: 12px;"/>';
+	html = html + '	</td>';
+	html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0.5em 1px 0pt; color: white; background-color: rgb(69, 71, 72);">';
+	html = html + '		<div id="done_itemList_' + rdataId + '_iteration_label" title="Retrospective ' + retro.id + '" style="width: 2em; text-align: right;">' + retro.id + '</div>';
+	html = html + '	</td>';
+	html = html + '	<td id="done_' + rdataId + '_date_label" style="white-space: nowrap; width: 99%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
+	html = html + '	<span>';
+	html = html + '	<a class="date_label" title="' + dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy') + '" onclick="display_retro(' + retro.id + ');return false;">' + dateFormat(retro.from_date,'dd mmm\'yy') + ' - ' + dateFormat(retro.to_date,'dd mmm\'yy') + '</a>';
+	html = html + '	</span>';
+	html = html + '	</td>';
+	// html = html + '	<td id="done_' + rdataId + '_details_points" style="white-space: nowrap; width: 1%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
+	// html = html + '		<span title="Points completed: 2">Pts: 2</span>';
+	// html = html + '	</td>';
+	// html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 4px 1px 0.5em; color: rgb(153, 204, 255); cursor: pointer;">';
+	// html = html + '		<span>';
+	// html = html + '		<a class="teamStrengthIcon" title="Team strength for this iteration is at 100%. Click to change.">﻿</a>';
+	// html = html + '		</span>';
+	// html = html + '	</td>';
+	html = html + '	</tr>';
+	html = html + '	</tbody>';
+	html = html + '	</table>';
+	html = html + '	</div>';
+	html = html + '	</div>';
+	return html;	
+}
+
+function display_retro(retroId){
+	$('#retro_' + retroId + '_panel').remove();
+	generate_and_append_panel(0,'retro_' + retroId,dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy'),true);
+	var html = '	<div class="item" id="new_retro_wrapper_' + retroId + '"><div id="loading"> Loading...</div></div>';
+	$('#retro_' + retroId + '_start_of_list').append(html);
+	
+	
+}
+
 function buttons_for(dataId){
 	item = D[dataId];
 	html = '';
@@ -825,7 +925,10 @@ function buttons_for(dataId){
 		}
 	break;
 	case 'Done':
-		if (currentUserIsCitizen == 'true'){
+		if (item.retro_id == -1){
+			html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
+		}
+		else if (currentUserIsCitizen == 'true'){
 			html = html + accept_buttons(dataId);
 		}
 	break;
@@ -1037,18 +1140,24 @@ function show_comment(item){
 
 //resize heights of container and panels
 function resize(){
-	var newheight = $(window).height() - $('#header').height() - $('#top-menu').height();
-	$("#content").height(newheight - 35);
-	$(".list").height(newheight - 75);
+	panel_height = $(window).height() - $('#header').height() - $('#top-menu').height();
+	$("#content").height(panel_height - 35);
+	$(".list").height(panel_height - 75);
 	$("#panels").show();
 }
 
 function insert_panel(position, name, title, visible){
-	var panel_style = "";
 	var button_style = "";
-	if (!visible){panel_style = 'style="display:none;"';}
 	if (visible){button_style = 'style="display:none;"';}
-	// visible ? panel_style = 'block' : panel_style = 'none';
+	generate_and_append_panel(position,name,title, visible);
+	
+	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button" ' + button_style + '/>');
+	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right', bindShow: 'click'});
+}
+
+function generate_and_append_panel(position,name,title, visible){
+	var panel_style = "";
+	if (!visible){panel_style = 'style="display:none;"';}
 
 	var panelHtml = '';
 	panelHtml = panelHtml + "	<td id='" + name + "_panel' class='panel' " + panel_style + "'>";
@@ -1066,11 +1175,9 @@ function insert_panel(position, name, title, visible){
 	panelHtml = panelHtml + "  </div>";
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "</td>";
-	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button" ' + button_style + '/>');
-	$("#main_row").append(panelHtml);
-	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right', bindShow: 'click'});
-	
-
+	$("#main_row").append(panelHtml);	
+	$("#content").height(panel_height - 35);
+	$(".list").height(panel_height - 75);
 }
 
 function update_panel_counts(){
@@ -1659,7 +1766,7 @@ try{
 	else
 	{
 		var item = D[dataId];
-		$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),Date(),D[dataId].id)); //TODO: properly format this date
+		$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),'1 second ago',D[dataId].id));
 		$('#new_comment_' + dataId).val('');
 		
 		
@@ -1868,6 +1975,59 @@ function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) 
 	
 	// alert("Error: Couldn't " + action);
 }
+
+
+function humane_date(date_str){
+		
+	date_str = date_str.split('-')[0];
+      var time_formats = [
+              [60, 'Just Now'],
+              [90, '1 Minute'], // 60*1.5
+              [3600, 'Minutes', 60], // 60*60, 60
+              [5400, '1 Hour'], // 60*60*1.5
+              [86400, 'Hours', 3600], // 60*60*24, 60*60
+              [129600, '1 Day'], // 60*60*24*1.5
+              [604800, 'Days', 86400], // 60*60*24*7, 60*60*24
+              [907200, '1 Week'], // 60*60*24*7*1.5
+              [2628000, 'Weeks', 604800], // 60*60*24*(365/12), 60*60*24*7
+              [3942000, '1 Month'], // 60*60*24*(365/12)*1.5
+              [31536000, 'Months', 2628000], // 60*60*24*365, 60*60*24*(365/12)
+              [47304000, '1 Year'], // 60*60*24*365*1.5
+              [3153600000, 'Years', 31536000], // 60*60*24*365*100, 60*60*24*365
+              [4730400000, '1 Century'] // 60*60*24*365*100*1.5
+      ];
+
+      var time = ('' + date_str).replace(/-/g,"/").replace(/[TZ]/g," "),
+              dt = new Date,
+              seconds = ((dt - new Date(time) + (dt.getTimezoneOffset() * 60000)) / 1000),
+              token = ' Ago',
+          prepend = '',
+              i = 0,
+              format;
+
+      if (seconds < 0) {
+              seconds = Math.abs(seconds);
+              token = '';
+          prepend = 'In ';
+      }
+
+      while (format = time_formats[i++]) {
+              if (seconds < format[0]) {
+                      if (format.length == 2) {
+                              return (i>1?prepend:'') + format[1] + (i > 1 ? token : ''); // Conditional so we don't return Just Now Ago
+                      } else {
+                              return prepend + Math.round(seconds / format[2]) + ' ' + format[1] + (i > 1 ? token : '');
+                      }
+              }
+      }
+
+      // overflow for centuries
+      if(seconds > 4730400000)
+              return Math.round(seconds / 4730400000) + ' Centuries' + token;
+
+      return date_str;
+  };
+
 
 
 /*
@@ -2384,4 +2544,125 @@ function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) 
 		// 				return this;
 		// 			}
 	});
-	
+
+
+	/*
+	 * Date Format 1.2.3
+	 * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
+	 * MIT license
+	 *
+	 * Includes enhancements by Scott Trenda <scott.trenda.net>
+	 * and Kris Kowal <cixar.com/~kris.kowal/>
+	 *
+	 * Accepts a date, a mask, or a date and a mask.
+	 * Returns a formatted version of the given date.
+	 * The date defaults to the current date/time.
+	 * The mask defaults to dateFormat.masks.default.
+	 */
+
+	var dateFormat = function () {
+		var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+			timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+			timezoneClip = /[^-+\dA-Z]/g,
+			pad = function (val, len) {
+				val = String(val);
+				len = len || 2;
+				while (val.length < len) val = "0" + val;
+				return val;
+			};
+
+		// Regexes and supporting functions are cached through closure
+		return function (date, mask, utc) {
+			var dF = dateFormat;
+
+			// You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+			if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+				mask = date;
+				date = undefined;
+			}
+
+			// Passing date through Date applies Date.parse, if necessary
+			date = date ? new Date(date) : new Date;
+			if (isNaN(date)) throw SyntaxError("invalid date");
+
+			mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+			// Allow setting the utc argument via the mask
+			if (mask.slice(0, 4) == "UTC:") {
+				mask = mask.slice(4);
+				utc = true;
+			}
+
+			var	_ = utc ? "getUTC" : "get",
+				d = date[_ + "Date"](),
+				D = date[_ + "Day"](),
+				m = date[_ + "Month"](),
+				y = date[_ + "FullYear"](),
+				H = date[_ + "Hours"](),
+				M = date[_ + "Minutes"](),
+				s = date[_ + "Seconds"](),
+				L = date[_ + "Milliseconds"](),
+				o = utc ? 0 : date.getTimezoneOffset(),
+				flags = {
+					d:    d,
+					dd:   pad(d),
+					ddd:  dF.i18n.dayNames[D],
+					dddd: dF.i18n.dayNames[D + 7],
+					m:    m + 1,
+					mm:   pad(m + 1),
+					mmm:  dF.i18n.monthNames[m],
+					mmmm: dF.i18n.monthNames[m + 12],
+					yy:   String(y).slice(2),
+					yyyy: y,
+					h:    H % 12 || 12,
+					hh:   pad(H % 12 || 12),
+					H:    H,
+					HH:   pad(H),
+					M:    M,
+					MM:   pad(M),
+					s:    s,
+					ss:   pad(s),
+					l:    pad(L, 3),
+					L:    pad(L > 99 ? Math.round(L / 10) : L),
+					t:    H < 12 ? "a"  : "p",
+					tt:   H < 12 ? "am" : "pm",
+					T:    H < 12 ? "A"  : "P",
+					TT:   H < 12 ? "AM" : "PM",
+					Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+					o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+					S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+				};
+
+			return mask.replace(token, function ($0) {
+				return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+			});
+		};
+	}();
+
+	// Some common format strings
+	dateFormat.masks = {
+		"default":      "ddd mmm dd yyyy HH:MM:ss",
+		shortDate:      "m/d/yy",
+		mediumDate:     "mmm d, yyyy",
+		longDate:       "mmmm d, yyyy",
+		fullDate:       "dddd, mmmm d, yyyy",
+		shortTime:      "h:MM TT",
+		mediumTime:     "h:MM:ss TT",
+		longTime:       "h:MM:ss TT Z",
+		isoDate:        "yyyy-mm-dd",
+		isoTime:        "HH:MM:ss",
+		isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+		isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+	};
+
+	// Internationalization strings
+	dateFormat.i18n = {
+		dayNames: [
+			"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+			"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+		],
+		monthNames: [
+			"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+			"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+		]
+	};
