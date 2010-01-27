@@ -1,4 +1,6 @@
 class RetrosController < ApplicationController
+  before_filter :find_project, :authorize
+
   # GET /retros
   # GET /retros.xml
   def index
@@ -8,6 +10,10 @@ class RetrosController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @retros }
     end
+  end
+  
+  def index_json
+    render :json => Retro.find(:all, :conditions => {:project_id => @project.id}).to_json
   end
 
   # GET /retros/1
@@ -81,5 +87,9 @@ class RetrosController < ApplicationController
       format.html { redirect_to(retros_url) }
       format.xml  { head :ok }
     end
+  end
+  
+  def find_project
+    @project = Project.find(params[:project_id])
   end
 end

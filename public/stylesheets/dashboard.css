@@ -18,7 +18,8 @@ padding:0;
 
 html > body #content {
 	min-height: 200px;
-	overflow: hidden;
+	overflow-y: hidden;
+	overflow-x: visible;
 }
 
 body  {
@@ -40,6 +41,7 @@ body  {
 	max-width:800px;
 	vertical-align:top;
 }
+
 
 .panelTitle {
 font-size:1.1em;
@@ -376,6 +378,28 @@ background-repeat:repeat-y;
 .iterationHeaderToggleExpandedButton {display: inline; width:11px; height:16px}
 .iterationHeaderInfo {margin-left: 19px}
 
+.iterationHeader {
+background:url("/images/bg_iteration.png") repeat-x scroll center top #747474;
+color:white;
+cursor:default;
+padding-left:0;
+padding-right:0;
+}
+.iterationHeader a.date_label {
+color:#FFFFFF !important;
+cursor:pointer;
+}
+.iterationHeader a.date_label.overridden {
+color:#FFCC44 !important;
+}
+.iterationHeader a.date_label:hover {
+text-decoration:underline !important;
+}
+.iterationHeaderInfo {
+-moz-user-select:none;
+}
+
+
 .lastCell {width:95%}
 .item {border-top: 1px solid #6E6E6E}
 .item.proxy {font-size: 0.8em}
@@ -479,6 +503,10 @@ background-repeat:repeat-y;
 	font-weight:bold;
 	background: url(/images/bb_blank.png) no-repeat; 
 	
+}
+
+.action_button_accepted{
+	font-weight:bold;	
 }
 
 

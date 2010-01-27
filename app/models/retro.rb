@@ -3,16 +3,22 @@
 #
 
 class Retro < ActiveRecord::Base
-  
+    
   #Constants
-  STATUS_NOTSTARTED = 0
   STATUS_INPROGRESS = 1
   STATUS_COMPLETE = 2
   STATUS_INDISPUTE = 3
+  NOT_STARTED_ID = -1 #fake is for issues that haven't been started yet
   
   belongs_to :project
   has_many :issues
   has_many :retro_ratings
+  
+  #Sets the from_date according to earliest updated issue in retrospective
+  def set_from_date
+    from_date = issues.first(:order => "updated_on ASC").updated_on
+    save! #BUGBUG: doesn't work
+  end
 end
 
 

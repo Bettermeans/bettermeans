@@ -348,6 +348,10 @@ class IssuesController < ApplicationController
   def accept
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1
     @issue.update_accept_total
+    if @issue.ready_for_accepted?
+      @issue.retro_id = Retro::NOT_STARTED_ID
+      @issue.project.start_retro_if_ready
+    end
     @issue.save
     
     respond_to do |format|

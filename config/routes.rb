@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :retro_ratings
-
-  map.resources :retros
+  # map.resources :retro_ratings
+  # 
+  # map.resources :retros
 
   map.resources :todos
 
@@ -294,6 +294,22 @@ ActionController::Routing::Routes.draw do |map|
     
     repositories.connect 'projects/:id/repository/:action', :conditions => {:method => :post}
   end
+  
+  map.with_options :controller => 'retros' do |retro_routes|
+    retro_routes.with_options :conditions => {:method => :get} do |retro_views|
+      retro_views.connect 'projects/:project_id/retros', :action => 'index'
+      retro_views.connect 'projects/:project_id/retros/new', :action => 'new'
+      retro_views.connect 'projects/:project_id/retros/index_json', :action => 'index_json'
+      retro_views.connect 'projects/:project_id/retros/:id', :action => 'show'
+      retro_views.connect 'projects/:project_id/retros/:id.:format', :action => 'show'
+      retro_views.connect 'projects/:project_id/retros/:id/edit', :action => 'edit'
+    end
+    retro_routes.with_options :conditions => {:method => :post} do |retro_actions|
+      retro_actions.connect 'projects/:project_id/retros', :action => 'new'
+      retro_actions.connect 'projects/:project_id/retros/:id/:action', :action => /edit|destroy/
+    end
+  end
+  
   
   map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
   map.connect 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/
