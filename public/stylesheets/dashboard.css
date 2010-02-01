@@ -521,5 +521,28 @@ text-decoration:underline !important;
 	text-decoration:underline;
 }
 
+.searchField  {
+float:right;
+margin-right:23px;
+margin-top:2px;
+}
 
-/*return '<img id="item_content_buttons_' + type + '_button_' + dataId + '" class="stateChangeButton notDblclickable" src="/images/' + type + '.png" onmouseover="this.src=\'/images/' + type + '_hover.png\'" onclick="click_' + type + '(' + dataId + ',this);return false;" onmouseout="this.src=\'/images/' + type + '.png\'">';*/
+.searchField input {
+	padding: 0px;
+}
+
+.searchField img {
+	height:1.5em;
+}
+
+.searchField td.field {
+	background: url(/images/search_middle.png) repeat-x scroll center top transparent;
+}
+
+.searchField #searchString {
+border:0 none;
+}
+
+.searchField td {
+vertical-align:top;
+}
