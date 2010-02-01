@@ -299,8 +299,9 @@ ActionController::Routing::Routes.draw do |map|
     retro_routes.with_options :conditions => {:method => :get} do |retro_views|
       retro_views.connect 'projects/:project_id/retros', :action => 'index'
       retro_views.connect 'projects/:project_id/retros/new', :action => 'new'
-      retro_views.connect 'projects/:project_id/retros/index_json', :action => 'index_json'
+      retro_views.connect 'projects/:project_id/retros/:action', :action => /index_json/
       retro_views.connect 'projects/:project_id/retros/:id', :action => 'show'
+      retro_views.connect 'projects/:project_id/retros/:id/:action', :action => /show|dashdata/
       retro_views.connect 'projects/:project_id/retros/:id.:format', :action => 'show'
       retro_views.connect 'projects/:project_id/retros/:id/edit', :action => 'edit'
     end

@@ -15,6 +15,11 @@ class RetrosController < ApplicationController
   def index_json
     render :json => Retro.find(:all, :conditions => {:project_id => @project.id}).to_json
   end
+  
+  def dashdata
+    render :json => Issue.find(:all, :conditions => {:retro_id => params[:id]}).to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
+  end
+  
 
   # GET /retros/1
   # GET /retros/1.xml

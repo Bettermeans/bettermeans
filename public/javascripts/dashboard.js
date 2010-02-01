@@ -1,3 +1,22 @@
+// Add following code to any rhtml page using this code
+// <%= javascript_include_tag  'dashboard' %>
+// <%= stylesheet_link_tag 'dashboard' %>
+// 
+// 
+// <script>
+//   var projectID = '<%= @project.identifier %>';
+//   var currentUser = '<%= User.current.name %>';
+//   var currentUserLogin = '<%= User.current.login %>';
+//   var currentUserId = '<%= User.current.id %>';
+//   var currentUserIsCitizen = '<%= User.current.citizen_of?(@project) %>';
+// 
+// 	$('document').ready(function(){
+// 	  load_dashboard();
+// 	});
+
+// </script>
+
+
 var D; //all data
 var R; //all retrospectives
 var MAX_REQUESTS_PER_PERSON = 2;
@@ -146,39 +165,30 @@ $.fn.keyboard_sensitive = function() {
 };
 
 
-$('document').ready(function(){
+function load_dashboard(){
+	keyboard_shortcuts = false;
 	
-		keyboard_shortcuts = false;
-		
-		$.ajax({
-		   type: "GET",
-		   dataType: "json",
-		   url: 'dashdata',
-		   success:  	function(html){
-				data_ready(html);
-			},
-		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
-			// typically only one of textStatus or errorThrown will have info
-			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
-			$("#loading").hide();
-			$("#quote").hide();
-			$("#loading_error").show();
-			},
-			timeout: 30000 //30 seconds
-		 });
-		
+	$.ajax({
+	   type: "GET",
+	   dataType: "json",
+	   url: 'dashdata',
+	   success:  	function(html){
+			data_ready(html);
+		},
+	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+		// typically only one of textStatus or errorThrown will have info
+		// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+		$("#loading").hide();
+		$("#quote").hide();
+		$("#loading_error").show();
+		},
+		timeout: 30000 //30 seconds
+	 });
 	
-	   // $.get('dashdata', {project_id: projectID},
-	   //          function(data){
-	   // 				$("#loading").hide();
-	   // 				$("#quote").hide();
-	   // 				D = data;
-	   // 				prepare_page();
-	   //  }, 'json');
-	
-		load_buttons();
-    
-});
+
+   	load_buttons();
+	// load_search();
+}
 
 // listens for any navigation keypress activity
 $(document).keypress(function(e)
@@ -259,9 +269,32 @@ function make_text_boxes_toggle_keyboard_shortcuts(){
 
 
 function load_buttons(){
-	$('#main-menu').append('<input id="new_request" value="New Request" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
+	$('#main-menu').append('<input id="new_request" value="New Idea" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
 }
 
+function load_search(){
+	html = '';
+
+	html = html + '	<table class="searchField">';
+	html = html + '	<tbody>';
+	html = html + '	<tr>';
+	html = html + '	<td>';
+	html = html + '	<a onclick="$(\'searchString\').focus(); return false;" href="#">';
+	html = html + '	<img src="/images/search_left.png" alt="Search" title=""/>';
+	html = html + '	</a>';
+	html = html + '	</td>';
+	html = html + '	<td class="field">';
+	html = html + '	<input id="searchString" type="text" autocomplete="off" size="20" name="searchString" value=""/>';
+	html = html + '	</td>';
+	html = html + '	<td style="vertical-align:top;">';
+	html = html + '	<img src="/images/search_right.png"/>';
+	html = html + '	</td>';
+	html = html + '	</tr>';
+	html = html + '	</tbody>';
+	html = html + '	</table>';
+	
+	$('#header').append(html);
+}
 
 
 function prepare_page(){
@@ -302,6 +335,19 @@ function load_ui(){
 	
 }
 
+//Called after data is ready for a retrospective
+function rdata_ready(html,retroId){
+	var panelid = 'retro_' + retroId;
+	var i = D.length;
+	D = D.concat(html);
+	if (R[retroId].status_id == 1){
+		var notice = generate_notice('<a class="date_label" title="Retrospective is now open" href="retros/' + retroId + '" target="_new">Retrospective is now open</a>');
+		$("#" + panelid + '_start_of_list').append(notice);
+	}
+	for(; i < D.length; i++ ){
+		add_item(i,"bottom",false,panelid);	
+	}
+}
 
 function add_hover_icon_events(){
 	$(".hoverDetailsIcon").click(
@@ -356,29 +402,30 @@ function show_estimate_flyover(dataId,callingElement){
 	});	
 }
 
-function add_item(dataId,position,scroll){
-	var panelid = '';
-	//Deciding on wich panel for this item?
-	switch (D[dataId].status.name){
-	case 'New':
-	panelid= 'new';
-	break;
-	case 'Estimate':
-	panelid= 'estimate';
-	break;
-	case 'Open':
-	panelid= 'open';
-	break;
-	case 'Committed':
-	panelid = 'inprogress';
-	break;
-	case 'Done':
-	panelid = 'done';
-	break;
-	case 'Canceled':
-	panelid = 'canceled';
-	break;
-	default : panelid = 'unknown';
+function add_item(dataId,position,scroll,panelid){
+	if (!panelid){
+		//Deciding on wich panel for this item?
+		switch (D[dataId].status.name){
+		case 'New':
+		panelid= 'new';
+		break;
+		case 'Estimate':
+		panelid= 'estimate';
+		break;
+		case 'Open':
+		panelid= 'open';
+		break;
+		case 'Committed':
+		panelid = 'inprogress';
+		break;
+		case 'Done':
+		panelid = 'done';
+		break;
+		case 'Canceled':
+		panelid = 'canceled';
+		break;
+		default : panelid = 'unknown';
+		}
 	}
 	
 	
@@ -420,7 +467,7 @@ function generate_details_flyover(dataId){
 	html = html + '	      <div style="height: auto;">';
 	html = html + '	        <div class="metaInfo">';
 	html = html + '	          <div class="left">';
-	html = html + 'Requested by ' + item.author.firstname + ' ' + item.author.lastname + ' ' + humane_date(item.created_on);
+	html = html + 'Added by ' + item.author.firstname + ' ' + item.author.lastname + ' ' + humane_date(item.created_on);
 	html = html + '	          </div>';
 	html = html + '<div class="right infoSection">';
 	html = html + '	            <img class="estimateIcon left" width="18" src="/images/dice_' + points + '.png" alt="Estimate: ' + points + ' points" title="Estimate: ' + points + ' points">';
@@ -842,7 +889,7 @@ function generate_item(dataId){
 }
 
 function generate_retro(rdataId){
-	retro = R[rdataId];
+	var retro = R[rdataId];
 	var html = '';
 	html = html + '	<div id="retro_' + rdataId + '" class="item">';
 	html = html + '	<div id="retro_' + rdataId + '_content" class="iterationHeader">';
@@ -877,13 +924,58 @@ function generate_retro(rdataId){
 }
 
 function display_retro(retroId){
+	$.ajax({
+	   type: "GET",
+	   dataType: "json",
+	   url: 'retros/' + retroId + '/dashdata',
+	   success:  	function(html){
+			$('#new_retro_wrapper_' + retroId).hide();
+			rdata_ready(html,retroId);
+		},
+	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			handle_error(XMLHttpRequest, textStatus, errorThrown, null,'load data');
+		},
+		timeout: 30000 //30 seconds
+	 });
+	
+	
 	$('#retro_' + retroId + '_panel').remove();
+	retro = R[retroId];
 	generate_and_append_panel(0,'retro_' + retroId,dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy'),true);
+	recalculate_widths();
 	var html = '	<div class="item" id="new_retro_wrapper_' + retroId + '"><div id="loading"> Loading...</div></div>';
 	$('#retro_' + retroId + '_start_of_list').append(html);
 	
 	
 }
+
+
+function generate_notice(noticeHtml, noticeId){
+	var html = '';
+	html = html + '	<div id="notice_' + noticeId + '" class="item">';
+	html = html + '	<div id="notice_' + noticeId + '_content" class="iterationHeader">';
+	html = html + '	<table>';
+	html = html + '	<tbody>';
+	html = html + '	<tr>';
+	// html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0pt 1px 4px; color: rgb(255, 255, 255); background-color: rgb(69, 71, 72);">';
+	// html = html + '		<img id="done_itemList_' + noticeId + '_toggle_expanded_button" class="iterationHeaderToggleExpandedButton" src="/images/iteration_expander_closed.png" title="Expand" alt="Expand" style="height: 12px; width: 12px;"/>';
+	// html = html + '	</td>';
+	// html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0.5em 1px 0pt; color: white; background-color: rgb(69, 71, 72);">';
+	// html = html + '		<div id="done_itemList_' + noticeId + '_iteration_label" title="Retrospective ' + retro.id + '" style="width: 2em; text-align: right;">' + retro.id + '</div>';
+	// html = html + '	</td>';
+	html = html + '	<td id="done_' + noticeId + '_date_label" style="white-space: nowrap; width: 99%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
+	html = html + '	<span>';
+	html = html + noticeHtml;
+	html = html + '	</span>';
+	html = html + '	</td>';
+	html = html + '	</tr>';
+	html = html + '	</tbody>';
+	html = html + '	</table>';
+	html = html + '	</div>';
+	html = html + '	</div>';
+	return html;	
+}
+
 
 function buttons_for(dataId){
 	item = D[dataId];
@@ -925,7 +1017,7 @@ function buttons_for(dataId){
 		}
 	break;
 	case 'Done':
-		if (item.retro_id == -1){
+		if (item.retro_id){
 			html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
 		}
 		else if (currentUserIsCitizen == 'true'){
@@ -1023,7 +1115,7 @@ function button(type,dataId,hide){
 
 function click_start(dataId,source){
 	if ($(".action_button_finish").get().length >= MAX_REQUESTS_PER_PERSON){
-		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " requests at a time");
+		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " ideas at a time");
 	}
 	else{
 		$('#' + source.id).parent().hide();
@@ -1144,6 +1236,7 @@ function resize(){
 	$("#content").height(panel_height - 35);
 	$(".list").height(panel_height - 75);
 	$("#panels").show();
+	recalculate_widths();
 }
 
 function insert_panel(position, name, title, visible){
@@ -1711,7 +1804,7 @@ html = html + '	          </div>';
 html = html + '	                <tr><td>&nbsp;</td></tr>';
 html = html + '	                <tr><td>';
 html = html + '	  <div class="header">';
-html = html + '	    Request ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
+html = html + '	    Idea ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
 html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif"  class="clickable">';
 html = html + '	  </div>';
 html = html + '	                  </td>';
@@ -1963,7 +2056,7 @@ function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) 
 		$('#item_' + dataId).html(generate_item(dataId));
 		sort_panel('open');
 		$('#featureicon_' + dataId).attr("src", "/images/error.png");
-		$.jGrowl("Sorry, couldn't " + action + " request:<br>" + D[dataId].subject , { header: 'Error', position: 'bottom-right' });
+		$.jGrowl("Sorry, couldn't " + action + " idea:<br>" + D[dataId].subject , { header: 'Error', position: 'bottom-right' });
 		
 	}
 	else{

@@ -45,7 +45,7 @@ Redmine::AccessControl.map do |map|
                                   :reports => :issue_report,
                                   :comments => :index,
                                   :todos => :index,
-                                  :retros => [:index,:index_json]
+                                  :retros => [:index, :index_json, :dashdata, :show]
                                   }
     map.permission :add_issues, {:issues => [:new, :update_form]}
     map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize, :agree, :disagree, :estimate, :accept, :reject]}
