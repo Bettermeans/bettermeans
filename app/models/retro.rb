@@ -12,6 +12,8 @@ class Retro < ActiveRecord::Base
   
   belongs_to :project
   has_many :issues
+  has_many :journals, :through => :issues
+  has_many :issue_votes, :through => :issues
   has_many :retro_ratings
   
   #Sets the from_date according to earliest updated issue in retrospective
