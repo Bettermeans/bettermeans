@@ -1,1 +1,23 @@
+<h2>Retrospective #<%= @retro.id %> : <%= @total_points %> Points (<%= format_date(@retro.from_date) %> to <%= format_date(@retro.to_date) %>)</h2>
+<% 
+  @user_retro_hash.keys.each do |user_id|
+    user_retro = @user_retro_hash[user_id]
+%>
+  <div class="user_retrospective">
+    <h4><%= link_to_user_from_id(user_id) %> <br>
+    <%= user_retro["total_points"] %> points (<%= user_retro["percentage_points"] %>%) <br>
+    <%= user_retro["total_journals"] %> journals <br>      
+    <%= user_retro["total_votes"] %> votes <br>      
+      </h4>    
+    <% user_retro["issues"].each do |issue| %>
+    <%= link_to_issue(issue) %>  -<%= issue.points %> pts  <br>
+    <% end %>    
+    <!-- <br> -->
+    <%# user_retro["journals"].each do |journal| %>
+    <%#= journal.inspect %> pts  <br>
+    <%# end %>    
+    <br>
+  </div>
+<% end %>
+
 
