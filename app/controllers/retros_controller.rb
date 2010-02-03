@@ -13,7 +13,8 @@ class RetrosController < ApplicationController
   end
   
   def index_json
-    render :json => Retro.find(:all, :conditions => {:project_id => @project.id}).to_json
+    # render :json => Retro.find(:all, :conditions => {:project_id => @project.id}).to_json
+    render :json => Retro.all.to_json
   end
   
   def dashdata
@@ -25,6 +26,43 @@ class RetrosController < ApplicationController
   # GET /retros/1.xml
   def show
     @retro = Retro.find(params[:id])
+    @user_retro_hash = {}
+    new_user_retro = {"issues" => [], "total_points" => 0, "percentage_points" => 0, "journals" => [], "total_journals" => 0, "votes" => [], "total_votes" => 0}
+    
+    # @issue_group = Issue.find(:all,:include => :assigned_to, :conditions => {:retro_id => @retro.id}).group_by{|issue| issue.assigned_to_id}
+    issue_group = @retro.issues.group_by{|issue| issue.assigned_to_id}
+    
+    #Calculating oustanding points for entire retrospective
+    @total_points = 0
+    issue_group.each_value {|issues| @total_points += issues.collect(&:points).sum }
+    
+    #Adding users that have issues assigned to them and calculating total points for each user
+    issue_group.keys.sort.each do |assigned_to_id|
+      @user_retro_hash.store assigned_to_id, new_user_retro.dup unless @user_retro_hash.has_key? assigned_to_id
+      @user_retro_hash[assigned_to_id].store "issues", issue_group[assigned_to_id]
+      @user_retro_hash[assigned_to_id].store "total_points", issue_group[assigned_to_id].collect(&:points).sum 
+      @user_retro_hash[assigned_to_id].store "percentage_points", (@user_retro_hash[assigned_to_id]["total_points"] / @total_points * 100).round_to(1)
+    end
+    
+    #Total journals
+    journals_group = @retro.journals.group_by{|journal| journal.user_id}
+    journals_group.keys.sort.each do |user_id|
+      @user_retro_hash.store user_id, new_user_retro.dup unless @user_retro_hash.has_key? user_id
+      @user_retro_hash[user_id].store "journals", journals_group[user_id]
+      @user_retro_hash[user_id].store "total_journals", journals_group[user_id].length
+    end
+    
+    
+    #Total voting activity
+    votes_group = @retro.issue_votes.group_by{|issue_vote| issue_vote.user_id}
+    votes_group.keys.sort.each do |user_id|
+      @user_retro_hash.store user_id, new_user_retro.dup unless @user_retro_hash.has_key? user_id
+      @user_retro_hash[user_id].store "votes", votes_group[user_id]
+      @user_retro_hash[user_id].store "total_votes", votes_group[user_id].length
+    end
+
+    #Average time taken to complete a point?
+        
 
     respond_to do |format|
       format.html # show.html.erb

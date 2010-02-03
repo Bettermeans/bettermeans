@@ -336,12 +336,13 @@ function load_ui(){
 }
 
 //Called after data is ready for a retrospective
-function rdata_ready(html,retroId){
-	var panelid = 'retro_' + retroId;
+function rdata_ready(html,rdataId){
+	retro = R[rdataId];
+	var panelid = 'retro_' + retro.id;
 	var i = D.length;
 	D = D.concat(html);
-	if (R[retroId].status_id == 1){
-		var notice = generate_notice('<a class="date_label" title="Retrospective is now open" href="retros/' + retroId + '" target="_new">Retrospective is now open</a>');
+	if (retro.status_id == 1){
+		var notice = generate_notice('<a class="date_label" title="Retrospective is now open" href="retros/' + retro.id + '" target="_new">Retrospective is now open</a>');
 		$("#" + panelid + '_start_of_list').append(notice);
 	}
 	for(; i < D.length; i++ ){
@@ -904,7 +905,7 @@ function generate_retro(rdataId){
 	html = html + '	</td>';
 	html = html + '	<td id="done_' + rdataId + '_date_label" style="white-space: nowrap; width: 99%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
 	html = html + '	<span>';
-	html = html + '	<a class="date_label" title="' + dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy') + '" onclick="display_retro(' + retro.id + ');return false;">' + dateFormat(retro.from_date,'dd mmm\'yy') + ' - ' + dateFormat(retro.to_date,'dd mmm\'yy') + '</a>';
+	html = html + '	<a class="date_label" title="' + dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy') + '" onclick="display_retro(' + rdataId + ');return false;">' + dateFormat(retro.from_date,'dd mmm\'yy') + ' - ' + dateFormat(retro.to_date,'dd mmm\'yy') + '</a>';
 	html = html + '	</span>';
 	html = html + '	</td>';
 	// html = html + '	<td id="done_' + rdataId + '_details_points" style="white-space: nowrap; width: 1%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
@@ -923,14 +924,17 @@ function generate_retro(rdataId){
 	return html;	
 }
 
-function display_retro(retroId){
+function display_retro(rdataId){
+	
+	var retro = R[rdataId];
+	
 	$.ajax({
 	   type: "GET",
 	   dataType: "json",
-	   url: 'retros/' + retroId + '/dashdata',
+	   url: 'retros/' + retro.id + '/dashdata',
 	   success:  	function(html){
-			$('#new_retro_wrapper_' + retroId).hide();
-			rdata_ready(html,retroId);
+			$('#new_retro_wrapper_' + rdataId).hide();
+			rdata_ready(html,rdataId);
 		},
 	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 			handle_error(XMLHttpRequest, textStatus, errorThrown, null,'load data');
@@ -939,12 +943,11 @@ function display_retro(retroId){
 	 });
 	
 	
-	$('#retro_' + retroId + '_panel').remove();
-	retro = R[retroId];
-	generate_and_append_panel(0,'retro_' + retroId,dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy'),true);
+	$('#retro_' + retro.id + '_panel').remove();
+	generate_and_append_panel(0,'retro_' + retro.id,dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy'),true);
 	recalculate_widths();
-	var html = '	<div class="item" id="new_retro_wrapper_' + retroId + '"><div id="loading"> Loading...</div></div>';
-	$('#retro_' + retroId + '_start_of_list').append(html);
+	var html = '	<div class="item" id="new_retro_wrapper_' + rdataId + '"><div id="loading"> Loading...</div></div>';
+	$('#retro_' + retro.id + '_start_of_list').append(html);
 	
 	
 }
