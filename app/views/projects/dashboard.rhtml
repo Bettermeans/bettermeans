@@ -15,8 +15,13 @@
 <div id='loading_error' style='display:none;text-weight:bold;'>
   <%= l(:text_loading_dashboard_error) %>
 </div>
-<div id='quote'>
-  <table  style='height: 300px; width: 100%'><tr vertical-align="middle"><td align="center">
+<div id='load_dashboard' style="display:none;text-align:center;width:100%">
+  <table class="centeredTable"><tr><td>
+    <a href="#" onclick="load_dashboard();return false;">Load Dashboard</a>
+  </td></tr></table>
+</div>
+<div id='quote' style="display:none;text-align:center;width:100%">
+  <table class="centeredTable"><tr><td>
   <% @quote = Quote.random  %>
   <%= @quote.body  %><br>
   ~<%= @quote.author  %>
@@ -39,7 +44,7 @@
   var show_issue_id = '<%= @show_issue_id %>';
   
   $('document').ready(function(){
-      load_dashboard();
+      start();
   });
   
 </script>

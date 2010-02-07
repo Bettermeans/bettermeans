@@ -110,6 +110,97 @@ class RetrosController < ApplicationController
         
 
     respond_to do |format|
+      format.html { render :layout => 'blank'}# show.html.erb
+      format.xml  { render :xml => @retro }
+    end
+  end
+
+  def show_multiple
+    @retro = Retro.find(params[:id])
+    @user_retro_hash = {}
+    
+    new_user_retro = {"issues" => [], "total_points" => 0, "percentage_points" => 0, "journals" => [], "total_journals" => 0, "votes" => [], "total_votes" => 0}
+    
+    # @issue_group = Issue.find(:all,:include => :assigned_to, :conditions => {:retro_id => @retro.id}).group_by{|issue| issue.assigned_to_id}
+    issue_group = @retro.issues.group_by{|issue| issue.assigned_to_id}
+    
+    #Calculating oustanding points for entire retrospective
+    @total_points = 0
+    issue_group.each_value {|issues| @total_points += issues.collect(&:points).sum }
+
+    @max_range = 0
+    @pie_data_points = []
+    @pie_labels_points = []
+    @max_points = 0
+    #Adding users that have issues assigned to them and calculating total points for each user
+    issue_group.keys.sort.each do |assigned_to_id|
+      @user_retro_hash.store assigned_to_id, new_user_retro.dup unless @user_retro_hash.has_key? assigned_to_id
+      @user_retro_hash[assigned_to_id].store "issues", issue_group[assigned_to_id]
+      @user_retro_hash[assigned_to_id].store "total_points", issue_group[assigned_to_id].collect(&:points).sum 
+      @user_retro_hash[assigned_to_id].store "percentage_points", (@user_retro_hash[assigned_to_id]["total_points"].to_f / @total_points * 100).round_to(1).to_i
+      @max_points = @user_retro_hash[assigned_to_id]["total_points"] if @user_retro_hash[assigned_to_id]["total_points"] > @max_points
+      @pie_data_points << @user_retro_hash[assigned_to_id]["percentage_points"]
+      @pie_labels_points << User.find(assigned_to_id).login + " #{@user_retro_hash[assigned_to_id]["percentage_points"].to_s}%"
+    end
+    
+    @max_range = @max_points if @max_points > @max_range
+            
+    #Total journals
+    @total_journals = @retro.journals.count
+    @pie_data_journals = []
+    @pie_labels_journals = []
+    @max_journals = 0
+    journals_group = @retro.journals.group_by{|journal| journal.user_id}
+    journals_group.keys.sort.each do |user_id|
+      @user_retro_hash.store user_id, new_user_retro.dup unless @user_retro_hash.has_key? user_id
+      @user_retro_hash[user_id].store "journals", journals_group[user_id]
+      @user_retro_hash[user_id].store "total_journals", journals_group[user_id].length
+      @user_retro_hash[user_id].store "percentage_journals", (@user_retro_hash[user_id]["total_journals"].to_f / @total_journals * 100).round_to(1).to_i
+      @max_journals = @user_retro_hash[user_id]["total_journals"] if @user_retro_hash[user_id]["total_journals"] > @max_journals
+      @pie_data_journals << @user_retro_hash[user_id]["percentage_journals"]
+      @pie_labels_journals << User.find(user_id).login + " #{@user_retro_hash[user_id]["percentage_journals"].to_s}%"
+    end
+    
+    @max_range = @max_journals if @max_journals > @max_range
+    
+    
+    #Total voting activity
+    @total_votes = @retro.issue_votes.count
+    @pie_data_votes = []
+    @pie_labels_votes = []
+    @max_votes = 0
+    votes_group = @retro.issue_votes.group_by{|issue_vote| issue_vote.user_id}
+    votes_group.keys.sort.each do |user_id|
+      @user_retro_hash.store user_id, new_user_retro.dup unless @user_retro_hash.has_key? user_id
+      @user_retro_hash[user_id].store "votes", votes_group[user_id]
+      @user_retro_hash[user_id].store "total_votes", votes_group[user_id].length
+      @user_retro_hash[user_id].store "percentage_votes", (@user_retro_hash[user_id]["total_votes"].to_f / @total_votes * 100).round_to(1).to_i
+      @max_votes = @user_retro_hash[user_id]["total_votes"] if @user_retro_hash[user_id]["total_votes"] > @max_votes
+      @pie_data_votes << @user_retro_hash[user_id]["percentage_votes"]
+      @pie_labels_votes << User.find(user_id).login + " #{@user_retro_hash[user_id]["percentage_votes"].to_s}%"
+    end
+    
+    @max_range = @max_votes if @max_votes > @max_range
+    
+    #Build Chart
+    @point_totals = []
+    @vote_totals = []
+    @journal_totals = []
+    @axis_labels = []
+    x_axis = ''
+
+    @user_retro_hash.keys.sort.each do |user_id|
+      @point_totals << @user_retro_hash[user_id]["total_points"]
+      @vote_totals << @user_retro_hash[user_id]["total_votes"]
+      @journal_totals << @user_retro_hash[user_id]["total_journals"]
+      x_axis = x_axis + User.find(user_id).login + '|'
+    end
+    @axis_labels << x_axis
+
+    #Average time taken to complete a point?
+        
+
+    respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @retro }
     end
