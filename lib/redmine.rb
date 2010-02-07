@@ -7,6 +7,7 @@ require 'redmine/themes'
 require 'redmine/hook'
 require 'redmine/plugin'
 require 'redmine/wiki_formatting'
+require 'float' #todo: there's a more appropriate place for this
 
 begin
   require_library_or_gem 'RMagick' unless Object.const_defined?(:Magick)
@@ -44,10 +45,11 @@ Redmine::AccessControl.map do |map|
                                   :queries => :index,
                                   :reports => :issue_report,
                                   :comments => :index,
-                                  :todos => :index
+                                  :todos => :index,
+                                  :retros => [:index, :index_json, :dashdata, :show]
                                   }
     map.permission :add_issues, {:issues => [:new, :update_form]}
-    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize, :agree, :disagree, :estimate, :accept, :reject]}
+    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize, :agree, :disagree, :estimate, :accept, :reject, :join, :leave]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
     map.permission :add_issue_notes, {:issues => [:edit, :reply], :comments => :create, :todos => [:create,:update,:destroy]}
     map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin

@@ -208,6 +208,7 @@ issues_013:
 
 
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -239,5 +240,6 @@ issues_013:
 #  agree            :integer         default(0)
 #  disagree         :integer         default(0)
 #  agree_total      :integer         default(0)
+#  retro_id         :integer
 #
 

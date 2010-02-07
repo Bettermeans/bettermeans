@@ -6,9 +6,12 @@
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
 <%= stylesheet_link_tag 'application', :media => 'all' %>
+<%= stylesheet_link_tag 'jquery.fancybox-1.3.0' %>
+
 <%= javascript_include_tag :defaults %>
 <%= javascript_include_tag  'jquery.jgrowl_minimized.js' %> <!-- TODO: include this in defaults -->
 <%= javascript_include_tag  'jquery.scrollTo-min' %>
+<%= javascript_include_tag  'jquery.fancybox-1.3.0.pack' %>
 
 
 <%= heads_for_wiki_formatter %>

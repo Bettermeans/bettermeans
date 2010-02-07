@@ -1,3 +1,7 @@
+# BetterMeans - Work 2.0
+# Copyright (C) 2009  Shereef Bishay
+#
+
 class TeamPoint < ActiveRecord::Base
   # fields do
   #   project_id :integer 

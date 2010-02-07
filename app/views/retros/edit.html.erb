@@ -1,0 +1,12 @@
+<h1>Editing retro</h1>
+
+<% form_for(@retro) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @retro %> |
+<%= link_to 'Back', retros_path %>
