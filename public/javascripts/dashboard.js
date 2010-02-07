@@ -164,12 +164,24 @@ $.fn.keyboard_sensitive = function() {
 		});
 };
 
-
-function load_dashboard(){
+function start(){
 	//Checking for single issue display
 	if (show_issue_id){
 		show_issue_full(show_issue_id);
+		$("#load_dashboard").show();
+		$("#loading").hide();
+		$("#quote").hide();
 	}
+	else{
+		load_dashboard();
+	}
+	
+}
+
+function load_dashboard(){
+	$("#load_dashboard").hide();	
+	$("#quote").show();
+	$("#loading").show();
 	
 	keyboard_shortcuts = false;
 	// $("#myfancy").fancybox({
@@ -1248,8 +1260,16 @@ function click_pri(dataId,direction,source){
 	}
 }
 
-function click_retro(dataId,source,options){
-	alert(options);
+function click_retro(dataId,source){
+	// var url = url_for({ controller: 'retros',
+	//                            action    : 'show',
+	// 							id		: D[dataId].retroId
+	//                           });
+	
+	url = '/projects/' + projectId + '/retros/' + D[dataId].retro_id;
+	
+	show_fancybox(url,'loading retrospective...');
+	return false;
 }
 
 
@@ -2115,15 +2135,16 @@ function show_issue_full(itemId){
 								id		: itemId
 	                          });
 	console.log(url);
-	show_fancybox(url,'loading item...')
+	show_fancybox(url,'loading data...')
 
 	return false;
 }
 
 function show_fancybox(url,message){
+	console.log("Fancybox for: " + url);
 	$.fancybox({
-				'width'				: '80%',
-				'height'			: '80%',
+				'width'				: '90%',
+				'height'			: '95%',
 		        'autoScale'     	: false,
 		        'transitionIn'		: 'none',
 				'transitionOut'		: 'none',
