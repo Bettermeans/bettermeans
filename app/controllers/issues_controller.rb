@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   default_search_scope :issues
   
-  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize, :agree, :disagree, :accept, :reject, :estimate]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
@@ -349,8 +349,12 @@ class IssuesController < ApplicationController
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1
     @issue.update_accept_total
     if @issue.ready_for_accepted?
-      @issue.retro_id = Retro::NOT_STARTED_ID
-      @issue.project.start_retro_if_ready
+      if @issue.has_team?
+        @issue.retro_id = Retro::NOT_STARTED_ID
+        @issue.project.start_retro_if_ready
+      else
+        @issue.retro_id = Retro::NOT_NEEDED_ID
+      end
     end
     @issue.save
     
@@ -371,7 +375,25 @@ class IssuesController < ApplicationController
     end
   end
 
+  def join
+    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1
+    @issue.save
+    
+    respond_to do |format|
+      format.js {render :json => @issue.to_dashboard}
+      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+    end
+  end
 
+  def leave
+    IssueVote.delete_all(["user_id = ? AND issue_id = ? AND vote_type = ?", User.current.id, params[:id], IssueVote::JOIN_VOTE_TYPE])
+    @issue.save
+    
+    respond_to do |format|
+      format.js {render :json => @issue.to_dashboard}
+      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+    end
+  end
 
   def reply
     journal = Journal.find(params[:journal_id]) if params[:journal_id]

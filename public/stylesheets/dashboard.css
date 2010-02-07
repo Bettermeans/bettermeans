@@ -467,6 +467,10 @@ text-decoration:underline !important;
 	background: url(/images/bb_brown.png) no-repeat; 
 }
 
+.action_button_join{
+	background: url(/images/bb_brown.png) no-repeat; 
+}
+
 .action_button_accept{
 	background: url(/images/bb_green.png) no-repeat; 
 }
@@ -495,6 +499,10 @@ text-decoration:underline !important;
 	background: url(/images/bb_sky.png) no-repeat; 
 }
 
+.action_button_leave{
+	background: url(/images/bb_sky.png) no-repeat; 
+}
+
 .action_button_cancel{
 	background: url(/images/bb_ocean.png) no-repeat; 
 }
@@ -504,6 +512,11 @@ text-decoration:underline !important;
 	background: url(/images/bb_blank.png) no-repeat; 
 	
 }
+
+.action_button_retro{
+	background: url(/images/bb_purple.png) no-repeat; 
+}
+
 
 .action_button_accepted{
 	font-weight:bold;	
@@ -545,4 +558,16 @@ border:0 none;
 
 .searchField td {
 vertical-align:top;
+}
+
+.notice {
+background-color: crimson;	
+}
+
+.notice .iterationHeader {
+background:none;
+color:white;
+cursor:default;
+padding-left:0;
+padding-right:0;
 }

@@ -9,16 +9,18 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: retros
 #
-#  id         :integer         not null, primary key
-#  status_id  :integer
-#  project_id :integer
-#  from_date  :datetime
-#  to_date    :datetime
-#  created_on :datetime
-#  updated_on :datetime
+#  id           :integer         not null, primary key
+#  status_id    :integer
+#  project_id   :integer
+#  from_date    :datetime
+#  to_date      :datetime
+#  created_on   :datetime
+#  updated_on   :datetime
+#  total_points :integer
 #
 
