@@ -169,7 +169,8 @@ class ProjectsController < ApplicationController
   
   #TODO: optimize this query, it's WAY too heavy, and we need fewer columns, and it's executing hundreds of queries!
   def dashdata
-    render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND (retro_id is null OR retro_id = #{Retro::NOT_STARTED_ID})").to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
+    #TODO: could optimize by hardcoding archived issue status id to 12
+    render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND (status_id <> #{IssueStatus.archived.id})").to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
   end
 
   #TODO: remove this function, we're no longer using it??

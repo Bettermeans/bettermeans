@@ -138,6 +138,7 @@ ActionController::Routing::Routes.draw do |map|
       issues_views.connect 'issues/:id.:format', :action => 'show', :id => /\d+/
       issues_views.connect 'issues/:id/edit', :action => 'edit', :id => /\d+/
       issues_views.connect 'issues/:id/move', :action => 'move', :id => /\d+/
+      issues_views.connect 'issues/:id/show', :action => 'show', :id => /\d+/
     end
     issues_routes.with_options :conditions => {:method => :post} do |issues_actions|
       issues_actions.connect 'projects/:project_id/issues', :action => 'new'

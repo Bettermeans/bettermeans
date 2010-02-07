@@ -167,6 +167,25 @@ $.fn.keyboard_sensitive = function() {
 
 function load_dashboard(){
 	keyboard_shortcuts = false;
+	// $("#myfancy").fancybox({
+	// 			'width'				: '75%',
+	// 			'height'			: '75%',
+	// 	        'autoScale'     	: false,
+	// 	        'transitionIn'		: 'none',
+	// 			'transitionOut'		: 'none',
+	// 			'type'				: 'iframe'
+	// 	});
+	
+	// $.fancybox({
+	// 			'width'				: '75%',
+	// 			'height'			: '75%',
+	// 	        'autoScale'     	: false,
+	// 	        'transitionIn'		: 'none',
+	// 			'transitionOut'		: 'none',
+	// 			'type'				: 'iframe',
+	// 			'href'				: 'http://yahoo.com'
+	// 	});
+	
 	
 	$.ajax({
 	   type: "GET",
@@ -210,7 +229,7 @@ function data_ready(html){
 	$("#quote").hide();
 	D = html;
 	prepare_page();
-	load_retros();
+	// load_retros(); #No longer needed since retros are now 1 item per retro
 }
 
 function load_retros(){
@@ -1033,8 +1052,8 @@ function buttons_for(dataId){
 	case 'Done':
 		if (item.retro_id){
 			html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
-			if ((is_part_of_team(item) || (item.assigned_to_id == currentUserId)) && (item.retro_id != -2)){
-				html = html + button('retro',dataId);
+			if (item.retro_id > 0){
+				html = html + button('retro',dataId,false,item.retro_id);
 			}
 		}
 		else if (currentUserIsCitizen == 'true'){
@@ -1130,13 +1149,13 @@ function generate_pri_button(dataId,direction){
 }
 
 //Generates a button type for item id
-function button(type,dataId,hide){
+function button(type,dataId,hide,options){
 	var label = type;
 	var hide_style = '';
 	if (hide){ hide_style = "style=display:none;"; }
 	if (type == 'release') label = 'giveup';
 	html = '';
-	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '" ' + hide_style + ' onclick="click_' + type + '(' + dataId + ',this);return false;">';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '" ' + hide_style + ' onclick="click_' + type + '(' + dataId + ',this, ' + options + ');return false;">';
 	html = html + '<a href="/" id="item_action_link_' + type + dataId + '" class="action_link clickable">' + label + '</a>';
 	html = html + '</div>';
 	return html;
@@ -1217,6 +1236,10 @@ function click_pri(dataId,direction,source){
 		$('#' + source.id).parent().html(generate_pri_button(dataId,'up'));
 		send_item_action(dataId,'deprioritize');
 	}
+}
+
+function click_retro(dataId,source,options){
+	alert(options);
 }
 
 
@@ -1631,7 +1654,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input disabled="disabled" id="new_view_history_button" value="View history" type="submit" >';
+html = html + '	                    <input disabled="disabled" id="new_full_screen_button" value="Full Screen" type="submit" >';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -1754,7 +1777,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input id="edit_view_history_button" value="View history" type="submit" onclick="view_history(' + dataId + ');return false;">';
+html = html + '	                    <input id="edit_full_screen_button" value="Full Screen" type="submit" onclick="full_screen(' + dataId + ');return false;">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -2071,8 +2094,22 @@ function update_comment_count(dataId){
 
 
 //View item history
-function view_history(dataId){
-	alert("not yet implemented. sorry!");
+function full_screen(dataId){
+	var url = url_for({ controller: 'issues',
+                           action    : 'show',
+							id		: D[dataId].id
+                          });
+console.log(url);
+	
+	$.fancybox({
+				'width'				: '75%',
+				'height'			: '75%',
+		        'autoScale'     	: false,
+		        'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				'type'				: 'iframe',
+				'href'				: url
+		});
 	return false;
 	
 }
