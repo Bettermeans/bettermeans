@@ -4,7 +4,7 @@
 // 
 // 
 // <script>
-//   var projectID = '<%= @project.identifier %>';
+//   var projectId = '<%= @project.identifier %>';
 //   var currentUser = '<%= User.current.name %>';
 //   var currentUserLogin = '<%= User.current.login %>';
 //   var currentUserId = '<%= User.current.id %>';
@@ -166,6 +166,11 @@ $.fn.keyboard_sensitive = function() {
 
 
 function load_dashboard(){
+	//Checking for single issue display
+	if (show_issue_id){
+		show_issue_full(show_issue_id);
+	}
+	
 	keyboard_shortcuts = false;
 	// $("#myfancy").fancybox({
 	// 			'width'				: '75%',
@@ -186,11 +191,16 @@ function load_dashboard(){
 	// 			'href'				: 'http://yahoo.com'
 	// 	});
 	
+	var url = url_for({ controller: 'projects',
+                           action    : 'dashdata',
+							id		: projectId
+                          });
 	
 	$.ajax({
 	   type: "GET",
 	   dataType: "json",
-	   url: 'dashdata',
+	
+	   url: url,
 	   success:  	function(html){
 			data_ready(html);
 		},
@@ -1454,7 +1464,7 @@ function save_new_item(){
 		alert('Please enter a title');
 		return false;
 	}
-	var data = "commit=Create&project_id=" + projectID + "&issue[tracker_id]=" + $('#new_story_type').val() + "&issue[subject]=" + $('#new_title_input').val() + "&issue[description]=" + $('#new_description').val();
+	var data = "commit=Create&project_id=" + projectId + "&issue[tracker_id]=" + $('#new_story_type').val() + "&issue[subject]=" + $('#new_title_input').val() + "&issue[description]=" + $('#new_description').val();
 
     var url = url_for({ controller: 'issues',
                            action    : 'new'
@@ -1488,7 +1498,7 @@ function save_edit_item(dataId){
 		alert('Please enter a title');
 		return false;
 	}	
-	var data = "commit=Submit&lock_version=" + D[dataId].lock_version + "&project_id=" + projectID + "&id=" + D[dataId].id + "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
+	var data = "commit=Submit&lock_version=" + D[dataId].lock_version + "&project_id=" + projectId + "&id=" + D[dataId].id + "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
 
     var url = url_for({ controller: 'issues',
                            action    : 'edit'
@@ -2095,26 +2105,37 @@ function update_comment_count(dataId){
 
 //View item history
 function full_screen(dataId){
+	show_issue_full(D[dataId].id);
+}
+
+//Full page view in fancy box of a single issue
+function show_issue_full(itemId){
 	var url = url_for({ controller: 'issues',
-                           action    : 'show',
-							id		: D[dataId].id
-                          });
-console.log(url);
-	
+	                           action    : 'show',
+								id		: itemId
+	                          });
+	console.log(url);
+	show_fancybox(url,'loading item...')
+
+	return false;
+}
+
+function show_fancybox(url,message){
 	$.fancybox({
-				'width'				: '75%',
-				'height'			: '75%',
+				'width'				: '80%',
+				'height'			: '80%',
 		        'autoScale'     	: false,
 		        'transitionIn'		: 'none',
 				'transitionOut'		: 'none',
 				'type'				: 'iframe',
-				'href'				: url
+				'href'				: url,
 		});
-	return false;
-	
+		
+	$('#fancybox-frame').load(function(){
+		 	$('#fancy-loading').hide();
+		});
+	$('#fancybox-inner').prepend("<div id='fancy-loading'>" + message + "</div>");
 }
-
-
 
 ///HELPERS
 function url_for(options){
