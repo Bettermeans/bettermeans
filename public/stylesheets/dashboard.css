@@ -284,6 +284,9 @@ background-repeat:repeat-y;
 	font-weight:bold;
 }
 
+.centeredTable {height: 300px; width: 100%;}
+.centeredTable td {vertical-align:middle; width:100%; height:200px;}
+.centeredTable tr {text-align:center; width:100%; height:100%;}
 
 /*flyover*/
 .storyDetails {padding: 6px 17px 7px; background-color: #fff8d7}
