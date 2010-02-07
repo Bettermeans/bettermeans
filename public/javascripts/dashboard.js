@@ -342,12 +342,13 @@ function rdata_ready(html,rdataId){
 	var i = D.length;
 	D = D.concat(html);
 	if (retro.status_id == 1){
-		var notice = generate_notice('<a class="date_label" title="Retrospective is now open" href="retros/' + retro.id + '" target="_new">Retrospective is now open</a>');
+		var notice = generate_notice('<a class="date_label" title="Retrospective is now open" href="retros/' + retro.id + '" target="_new">Retrospective is open &rArr;</a>');
 		$("#" + panelid + '_start_of_list').append(notice);
 	}
 	for(; i < D.length; i++ ){
 		add_item(i,"bottom",false,panelid);	
 	}
+	update_panel_count(panelid,true);
 }
 
 function add_hover_icon_events(){
@@ -898,7 +899,7 @@ function generate_retro(rdataId){
 	html = html + '	<tbody>';
 	html = html + '	<tr>';
 	html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0pt 1px 4px; color: rgb(255, 255, 255); background-color: rgb(69, 71, 72);">';
-	html = html + '		<img id="done_itemList_' + rdataId + '_toggle_expanded_button" class="iterationHeaderToggleExpandedButton" src="/images/iteration_expander_closed.png" title="Expand" alt="Expand" style="height: 12px; width: 12px;"/>';
+	html = html + '		<img id="done_itemList_' + retro.id + '_toggle_expanded_button" class="iterationHeaderToggleExpandedButton" src="/images/iteration_expander_closed.png" title="Expand" alt="Expand" style="height: 12px; width: 12px;" onclick="display_retro(' + rdataId + ');return false;"/>';
 	html = html + '	</td>';
 	html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0.5em 1px 0pt; color: white; background-color: rgb(69, 71, 72);">';
 	html = html + '		<div id="done_itemList_' + rdataId + '_iteration_label" title="Retrospective ' + retro.id + '" style="width: 2em; text-align: right;">' + retro.id + '</div>';
@@ -908,9 +909,9 @@ function generate_retro(rdataId){
 	html = html + '	<a class="date_label" title="' + dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy') + '" onclick="display_retro(' + rdataId + ');return false;">' + dateFormat(retro.from_date,'dd mmm\'yy') + ' - ' + dateFormat(retro.to_date,'dd mmm\'yy') + '</a>';
 	html = html + '	</span>';
 	html = html + '	</td>';
-	// html = html + '	<td id="done_' + rdataId + '_details_points" style="white-space: nowrap; width: 1%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
-	// html = html + '		<span title="Points completed: 2">Pts: 2</span>';
-	// html = html + '	</td>';
+	html = html + '	<td id="done_' + rdataId + '_details_points" style="white-space: nowrap; width: 1%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
+	html = html + '		<span title="Points completed: 2">Pts: ' + retro.total_points + '</span>';
+	html = html + '	</td>';
 	// html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 4px 1px 0.5em; color: rgb(153, 204, 255); cursor: pointer;">';
 	// html = html + '		<span>';
 	// html = html + '		<a class="teamStrengthIcon" title="Team strength for this iteration is at 100%. Click to change.">﻿</a>';
@@ -926,7 +927,10 @@ function generate_retro(rdataId){
 
 function display_retro(rdataId){
 	
+	
 	var retro = R[rdataId];
+	
+	$('#done_itemList_' + retro.id + '_toggle_expanded_button').attr('src','/images/iteration_expander_open.png')
 	
 	$.ajax({
 	   type: "GET",
@@ -955,7 +959,7 @@ function display_retro(rdataId){
 
 function generate_notice(noticeHtml, noticeId){
 	var html = '';
-	html = html + '	<div id="notice_' + noticeId + '" class="item">';
+	html = html + '	<div id="notice_' + noticeId + '" class="item notice">';
 	html = html + '	<div id="notice_' + noticeId + '_content" class="iterationHeader">';
 	html = html + '	<table>';
 	html = html + '	<tbody>';
@@ -1017,11 +1021,21 @@ function buttons_for(dataId){
 		}
 		else if (item.assigned_to != null){
 			html = html + '<div id="committed_tally_' + dataId + '" class="action_button action_button_tally">' + item.assigned_to.login + '</div>';
+		
+			if (is_part_of_team(item)){
+				html = html + button('leave',dataId);
+			}
+			else{
+				html = html + button('join',dataId);
+			}
 		}
 	break;
 	case 'Done':
 		if (item.retro_id){
 			html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
+			if ((is_part_of_team(item) || (item.assigned_to_id == currentUserId)) && (item.retro_id != -2)){
+				html = html + button('retro',dataId);
+			}
 		}
 		else if (currentUserIsCitizen == 'true'){
 			html = html + accept_buttons(dataId);
@@ -1034,6 +1048,19 @@ function buttons_for(dataId){
 	
 	return html;
 	
+}
+
+//returns true if current user is on the team for this item
+function is_part_of_team(item){
+	//Determining wether or not user is already part of the team for this task
+	var part_of_team = false;
+	for(var i=0; i < item.issue_votes.length; i++){
+		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 5)){
+			part_of_team = true;
+			break;
+		}
+	}	
+	return part_of_team;
 }
 
 function agree_buttons(dataId){
@@ -1171,6 +1198,16 @@ function click_cancel(dataId,source){
 	send_item_action(dataId,'cancel');
 }
 
+function click_leave(dataId,source){
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'leave');
+}
+
+function click_join(dataId,source){
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'join');
+}
+
 function click_pri(dataId,direction,source){
 	if (direction == 'up'){
 		$('#' + source.id).parent().html(generate_pri_button(dataId,'down'));
@@ -1287,10 +1324,12 @@ function update_panel_counts(){
 	
 }
 
-function update_panel_count(name){
+function update_panel_count(name, skip_button){
 	count = $("#" + name + "_start_of_list > *").length;
-	$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\([0-9]*\)/,"(" + count + ")"));
 	$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\([0-9]*\)/,"(" + count + ")"));
+	if (!skip_button){
+		$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\([0-9]*\)/,"(" + count + ")"));
+	}
 }
 
 function close_panel(name){
@@ -1298,6 +1337,10 @@ function close_panel(name){
 	$('#' + name + '_panel_toggle').show();	
 	recalculate_widths();
 	if (name == "new"){keyboard_shortcuts = true;} //If we're closing the new panel, then we want keyboard shortcuts to be on again, in case they were off
+	if (name.indexOf("retro") == 0){ //If we're closing a retrospective panel, we untoggle the expander button
+		retroId = name.split('_')[1];
+		$('#done_itemList_' + retroId + '_toggle_expanded_button').attr('src','/images/iteration_expander_closed.png');		
+	}
 }
 
 function show_panel(name){
