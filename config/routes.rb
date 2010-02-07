@@ -127,6 +127,7 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'issues' do |issues_routes|
     issues_routes.with_options :conditions => {:method => :get} do |issues_views|
       issues_views.connect 'issues', :action => 'index'
+      # issues_views.connect 'issues/:id/dashdata', :action => 'dashdata'
       issues_views.connect 'issues.:format', :action => 'index'
       issues_views.connect 'projects/:project_id/issues', :action => 'index'
       issues_views.connect 'projects/:project_id/issues.:format', :action => 'index'
@@ -134,8 +135,8 @@ ActionController::Routing::Routes.draw do |map|
       issues_views.connect 'projects/:project_id/issues/gantt', :action => 'gantt'
       issues_views.connect 'projects/:project_id/issues/calendar', :action => 'calendar'
       issues_views.connect 'projects/:project_id/issues/:copy_from/copy', :action => 'new'
-      issues_views.connect 'issues/:id', :action => 'show', :id => /\d+/
-      issues_views.connect 'issues/:id.:format', :action => 'show', :id => /\d+/
+      # issues_views.connect 'issues/:id', :controller => :action => 'show', :id => /\d+/
+      # issues_views.connect 'issues/:id.:format', :action => 'show', :id => /\d+/
       issues_views.connect 'issues/:id/edit', :action => 'edit', :id => /\d+/
       issues_views.connect 'issues/:id/move', :action => 'move', :id => /\d+/
       issues_views.connect 'issues/:id/show', :action => 'show', :id => /\d+/
@@ -145,7 +146,7 @@ ActionController::Routing::Routes.draw do |map|
       issues_actions.connect 'issues/:id/quoted', :action => 'reply', :id => /\d+/
       issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy|start|finish|release|cancel|restart|prioritize|deprioritize|agree|disagree|estimate|accept|reject|join|leave/, :id => /\d+/
     end
-    issues_routes.connect 'issues/:action'
+    # issues_routes.connect 'issues/:action'
   end
 
   map.with_options :controller => 'shares' do |shares_routes|
@@ -241,6 +242,8 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id/versions/new', :action => 'add_version'
       project_views.connect 'projects/:id/categories/new', :action => 'add_issue_category'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
+      project_views.connect 'issues/:show_issue_id', :action => 'dashboard'
+      project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
     end
 
     projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|
