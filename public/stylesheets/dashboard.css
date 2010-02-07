@@ -413,7 +413,7 @@ text-decoration:underline !important;
 
 /*Dashboard*/
 
-#loading {
+#loading, #fancy-loading{
 	padding-left: 26px;
 	background-position: 0% 40%;
 	background-repeat: no-repeat;

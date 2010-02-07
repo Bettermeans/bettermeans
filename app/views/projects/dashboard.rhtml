@@ -31,11 +31,12 @@
 </div>
 
 <script>
-  var projectID = '<%= @project.identifier %>';
+  var projectId = '<%= @project.identifier %>';
   var currentUser = '<%= User.current.name %>';
   var currentUserLogin = '<%= User.current.login %>';
   var currentUserId = '<%= User.current.id %>';
   var currentUserIsCitizen = '<%= User.current.citizen_of?(@project) %>';
+  var show_issue_id = '<%= @show_issue_id %>';
   
   $('document').ready(function(){
       load_dashboard();
