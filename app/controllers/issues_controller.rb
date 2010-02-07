@@ -99,7 +99,7 @@ class IssuesController < ApplicationController
     @priorities = IssuePriority.all
     @time_entry = TimeEntry.new
     respond_to do |format|
-      format.html { render :template => 'issues/show.rhtml' }
+      format.html { render :template => 'issues/show.rhtml', :layout => 'blank' }
       format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
@@ -348,15 +348,21 @@ class IssuesController < ApplicationController
   def accept
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1
     @issue.update_accept_total
+
     if @issue.ready_for_accepted?
       if @issue.has_team?
-        @issue.retro_id = Retro::NOT_STARTED_ID
-        @issue.project.start_retro_if_ready
+        @retro = Retro.create :project_id => @project.id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now, :from_date => DateTime.now, :total_points => @issue.points
+        @issue.retro_id = @retro.id
+        #No longer used, since we have only 1 retro per item
+        # @issue.retro_id = Retro::NOT_STARTED_ID
+        #     @issue.project.start_retro_if_ready
       else
         @issue.retro_id = Retro::NOT_NEEDED_ID
       end
     end
+    
     @issue.save
+    
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}

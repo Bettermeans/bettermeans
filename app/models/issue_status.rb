@@ -50,6 +50,10 @@ class IssueStatus < ActiveRecord::Base
     find(:first, :conditions =>["name=?", l(:default_issue_status_estimate)])
   end
 
+  def self.archived
+    find(:first, :conditions =>["name=?", l(:default_issue_status_archived)])
+  end
+
 
   # Update all the +Issues+ setting their done_ratio to the value of their +IssueStatus+
   def self.update_issue_done_ratios
