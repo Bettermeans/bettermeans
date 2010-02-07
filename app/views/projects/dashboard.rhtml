@@ -9,23 +9,24 @@
 
 <!-- todo: do we need this link? -->
 <script src="http://jquery-ui.googlecode.com/svn/branches/dev/ui/jquery.ui.position.js"></script>
-<!-- <input id="new_request" value="New Request" type="submit" onclick="new_item();"/> -->
 <div id='loading'>
   <%= l(:text_loading_dashboard) %>
 </div>
 <div id='loading_error' style='display:none;text-weight:bold;'>
   <%= l(:text_loading_dashboard_error) %>
 </div>
-<div id='quote'>
-  <table  style='height: 300px; width: 100%'><tr vertical-align="middle"><td align="center">
+<div id='load_dashboard' style="display:none;text-align:center;width:100%">
+  <table class="centeredTable"><tr><td>
+    <a href="#" onclick="load_dashboard();return false;">Load Dashboard</a>
+  </td></tr></table>
+</div>
+<div id='quote' style="display:none;text-align:center;width:100%">
+  <table class="centeredTable"><tr><td>
   <% @quote = Quote.random  %>
   <%= @quote.body  %><br>
   ~<%= @quote.author  %>
   </td></tr></table>
 </div>
-
-<!-- <a href="" onclick="go();">GO</a> -->
-
 <div id='panels' style="display: none;">
   <table id='main_table' class='dashboard' style='height: 100%;'>
     <tr id='main_row'>
@@ -35,11 +36,17 @@
 </div>
 
 <script>
-  var projectID = '<%= @project.identifier %>';
+  var projectId = '<%= @project.identifier %>';
   var currentUser = '<%= User.current.name %>';
   var currentUserLogin = '<%= User.current.login %>';
   var currentUserId = '<%= User.current.id %>';
   var currentUserIsCitizen = '<%= User.current.citizen_of?(@project) %>';
+  var show_issue_id = '<%= @show_issue_id %>';
+  
+  $('document').ready(function(){
+      start();
+  });
+  
 </script>
 
 
@@ -76,21 +83,21 @@
 <div id="help_estimate" style="display:none;">
   <div class="tip" style="width:300px">
     <strong>Estimates</strong><br>
-    Requests are estimated in Points. A Point is a team-specific measurement of the effort required to get the request done. Estimates are used to calculate the budget for the request.
+    Ideas are estimated in Points. A Point is a team-specific measurement of the effort required to get the request done. Estimates are used to calculate the budget for the request.
   </div>
 </div>
 
 <div id="help_panel_new" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>New Requests</strong><br>
+    <strong>New Ideas</strong><br>
       New requests are fresh off of somebody's brain. They are ripe for discussion and consideration. <br>
       At this stage, it's too early to try to estimate the size of the request, or prioritize it. You should mainly focus on giving a new request your thumbs up (or down) indicating wether or not you think it would be useful to get it done. And make sure that it is a concise, measurable and realistic request. This is also a good time to ensure that acceptance criteria is clear for this requests i.e. there's an indication of how the team will know that the request is done.
   </div>
 </div>
 
-<div id="help_panel_estimating" style="display:none;">
+<div id="help_panel_estimate" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Requests In Estimation</strong><br>
+    <strong>Ideas In Estimation</strong><br>
       In Estimation requests are ideas that people have agreed need to get implemented. Now it's a matter of sizing them up.<br>
       Once 3 days have passed since the last estimation (or all members of the workstream team have weighed in) the request is moved to the open Queue.
   </div>
@@ -98,14 +105,14 @@
 
 <div id="help_panel_inprogress" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Requests In Progress</strong><br>
+    <strong>Ideas In Progress</strong><br>
       In Progress requests are owned by someone who is actively working on them. All in progress requests have a maximum delivery time of 30 days. <br> Any request that has been in progress for more than 30 days is assumed abandoned and gets automatically pulled back into the "open" queue.
   </div>
 </div>
 
 <div id="help_panel_open" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Open Requests</strong><br>
+    <strong>Open Ideas</strong><br>
       These requests are ready to be prioritized, started or canceled. <br>
       To prioritize a request click the up button. Every time a user prioritizes a request, it climbs higher up the queue.
       Only the highest 5 requests (ranked by priority) can be started. <br>
@@ -115,14 +122,14 @@
 
 <div id="help_panel_done" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Done Requests</strong><br>
+    <strong>Done Ideas</strong><br>
       Once a request is finished its marked Done. Citizens now vote on wether or not the request has met its acceptance criteria.<br> Each citizen gets one vote to accept or reject a finished request. Once 3 days have passed after the last vote the request is either permanently accepted or rejected based on a tally of the votes. <br>If there's an equal number of accepts and rejects the request is considered rejected.
   </div>
 </div>
 
 <div id="help_panel_canceled" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Canceled Requests</strong><br>
+    <strong>Canceled Ideas</strong><br>
       If a request hasn't been prioritized by anyone and has been sitting in the queue for more than a month, anyone team member can cancel it.<br>
       Once a request has been canceled, anyone can re-open it, effectively pushing it back as a new item for reconsideration.
   </div>
@@ -130,400 +137,9 @@
 
 <div id="help_panel_unknown" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Unsorted Requests</strong><br>
+    <strong>Unsorted Ideas</strong><br>
     Legacy requests that don't belong in the system anymore. Think of them as bugs in the matrix!
   </div>
 </div>
 
 </div>
-
-
-<!-- <div id="flyover_estimate_demo" class="overlay">
-  <div style="border: 0pt none ; margin: 0pt;">
-    <div class="overlayContentWrapper storyFlyover flyover" style="width: 300px;">
-      <div class="storyTitle">
-        Estimate: 4 points (3 people)
-      </div>
-      <div class="sectionDivider">
-      <div style="height: auto;">
-        <div class="metaInfo">
-          <div class="left">
-            You estimated 6 points on 25 Dec 2009, 2:21pm
-          </div>
-          <div class="clear"></div>
-        </div>
-        <div class="flyoverContent storyDetails">
-            <div class="section">
-              <div class="header">
-                Change your estimate below
-              </div>
-              <table class="notesTable">
-                <tbody>
-                  <tr class="noteInfoRow">
-                    <td class="noteInfo">
-                      Shereef Bishay - 2pts<br>
-                      Adelle Burns - 4pts<br>
-                      Mohsen Basha - 6pts
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-              <div class="section">
-                <div class="header">
-                  Your estimate
-                </div>
-                <table class="notesTable">
-                  <tbody>
-                    <tr class="noteTextRow">
-                      <td class="noteText">
-                        <img src="/images/dice_0.png" width="18" height="18" alt="0 Points">
-                        <img src="/images/dice_1.png" width="18" height="18" alt="1 Points">
-                        <img src="/images/dice_2.png" width="18" height="18" alt="2 Points">
-                        <img src="/images/dice_4.png" width="18" height="18" alt="4 Points">
-                        <img src="/images/dice_6.png" width="18" height="18" alt="6 Points">
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-          <div class="clear"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- <div id="flyover" class="overlay" style="position: absolute; top: 160px; left: 526px; display:none;">
-  <div style="border: 0pt none ; margin: 0pt;">
-    <div class="overlayContentWrapper storyFlyover flyover" style="width: 475px;">
-      <div class="storyTitle">
-        Users should have pivotal tracker quality ui
-      </div>
-      <div class="sectionDivider">
-      <div style="height: auto;">
-        <div class="metaInfo">
-          <div class="left">
-            Requested by Shereef Bishay on 25 Dec 2009, 2:21pm
-          </div>
-          <div class="right infoSection">
-            <img class="estimateIcon left" width="18" src="/images/dice_6.png" alt="Estimate: 2 points" title="Estimate: 2 points">
-            <div class="left text">
-              2 pts
-            </div>
-            <div class="clear"></div>
-          </div>
-          <div class="right infoSection">
-            <img class="left" src="/images/feature_icon.png" alt="Feature">
-            <div class="left text">
-              Feature
-            </div>
-            <div class="clear"></div>
-          </div>
-          <div class="clear"></div>
-        </div>
-        <div class="flyoverContent storyDetails">
-          <div class="storyId right">
-            <span>Story ID:</span> <span>2043591</span>
-          </div>
-          <div class="section">
-            <div class="header">
-              Comments <span class="commentCount">(2)</span>
-            </div>
-            <table class="notesTable">
-              <tbody>
-                <tr class="noteInfoRow">
-                  <td class="noteInfo">
-                    <span class="highlight">Shereef Bishay</span> <span class="italic">25 Dec 2009, 2:23pm</span>
-                  </td>
-                </tr>
-                <tr class="noteTextRow">
-                  <td class="noteText">
-                    this is the reason<br>adsfasdf
-                  </td>
-                </tr>
-                <tr class="noteInfoRow">
-                  <td class="noteInfo">
-                    <span class="highlight">Shereef Bishay</span> <span class="italic">25 Dec 2009, 2:23pm</span>
-                  </td>
-                </tr>
-                <tr class="noteTextRow">
-                  <td class="noteText">
-                    my comment
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="clear"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-<!-- <div class="item" id="icebox_itemList_storynewStory">
-  <div class="storyItem unscheduled unestimatedText underEdit" id="icebox_itemList_storynewStory_content">
-    <div class="storyPreviewHeader">
-      <div class="storyPreviewInput">
-        <input id="new_title_input" class="titleInputField" name="title_input" value="" type="text">
-      </div>
-    </div>
-    <div>
-      <div id="story_newStory_details" class="storyDetails">
-          <table class="storyDetailsTable">
-            <tbody>
-              <tr>
-                <td>
-                  <div class="storyDetailsButton">
-                    <input id="[save_button]" value="Save" type="submit" onclick="save_new_item();">
-                  </div>
-                </td>
-                <td>
-                  <div class="storyDetailsButton">
-                    <input id="[cancel_button]" value="Cancel" type="submit">
-                  </div>
-                </td>
-                <td>
-                  <div class="storyDetailsButton">
-                    <input disabled="disabled" id="[delete_button]" value="Delete" type="submit">
-                  </div>
-                </td>
-                <td>
-                  <div class="storyDetailsButton">
-                    <input disabled="disabled" id="[view_history_button]" value="View history" type="submit">
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <table class="storyDetailsTable">
-            <tbody>
-              <tr>
-                <td class="letContentExpand" colspan="1">
-                  <div>
-                    <select id="[story_type]" class="storyDetailsField" name="story[story_type]">
-                      <option selected="true" value="feature">
-                        Feature
-                      </option>
-                      <option value="bug">
-                        Bug
-                      </option>
-                      <option value="chore">
-                        Chore
-                      </option>
-                      <option value="release">
-                        Release
-                      </option>
-                    </select>
-                  </div>
-                </td>
-                <td class="storyDetailsLabelIcon" colspan="1">
-                  <div class="storyDetailsLabelIcon">
-                    <img src="/images/feature_icon.png" id="[story_type]_image" name="[story_type]_image">
-                  </div>
-                </td>
-                <td class="helpIcon lastCell" colspan="1">
-                  <div class="helpIcon" id="story_newStory_details_help_story_types">
-                    <img src="/images/question_mark.gif">
-                  </div>
-                </td>
-              </tr>
-              <tr style="display: none;">
-                <td>
-                  <div>
-                    <div class="deadlineLabel">
-                      <label for="story[deadline]" id="story[deadline]_label">Deadline:</label>
-                    </div>
-                    <div class="dateEditField">
-                      <input class="valid" size="11" id="icebox_deadline_newStory_story[deadline]" name="story[deadline]" value="NONE" type="text">
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <div class="storyDetailsLabelIcon">
-                    <img id="icebox_deadline_newStory_icon" src="/images/calendar.png" name="icebox_deadline_newStory_icon">
-                  </div>
-                </td>
-                <td>
-                  <div class="helpIcon" id="icebox_deadline_newStory_help_deadlines">
-                    <img src="/images/question_mark.gif">
-                  </div>
-                </td>
-                <td>
-                  <div>
-                    <a style="display: none;" id="icebox_deadline_newStory_dateClear" href="javascript:void(0);" name="icebox_deadline_newStory_dateClear">[clear]</a>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1">
-                  <div>
-                    <select id="[estimate]" class="storyDetailsField" name="story[estimate]">
-                      <option selected="true" value="-1">
-                        Unestimated
-                      </option>
-                      <option value="0">
-                        0 points
-                      </option>
-                      <option value="1">
-                        1 point
-                      </option>
-                      <option value="2">
-                        2 points
-                      </option>
-                      <option value="3">
-                        3 points
-                      </option>
-                    </select>
-                  </div>
-                </td>
-                <td class="storyDetailsLabelIcon" colspan="1">
-                  <div class="storyDetailsLabelIcon">
-                    <img src="/images/dice_6.png" id="[estimate]_image" name="[estimate]_image">
-                  </div>
-                </td>
-                <td class="helpIcon" colspan="1">
-                  <div class="helpIcon" id="story_newStory_details_help_estimates">
-                    <img src="/images/question_mark.gif">
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input id="[current_state]" name="story[current_state]" value="unscheduled" type="hidden">
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div>
-                    <select id="[requested_by_id]" class="storyDetailsField" name="story[requested_by_id]">
-                      <option value="-1">
-                        none
-                      </option>
-                      <option selected="true" value="58750">
-                        Shereef Bishay
-                      </option>
-                    </select>
-                  </div>
-                </td>
-                <td colspan="3">
-                  <label for="[requested_by_id]" id="[requested_by_id]_label"></label>
-                  <div>
-                    <label for="[requested_by_id]" id="[requested_by_id]_label"></label>
-                    <div class="emphasizedFieldLabel">
-                      <label for="[requested_by_id]" id="[requested_by_id]_label">requested</label>
-                    </div><label for="[requested_by_id]" id="[requested_by_id]_label"></label>
-                    <div id="[created_at_date]" class="fieldLabel">
-                      <label for="[requested_by_id]" id="[requested_by_id]_label">this story</label>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="1">
-                  <div>
-                    <select id="[owned_by_id]" class="storyDetailsField" name="story[owned_by_id]">
-                      <option selected="true" value="-1">
-                        none
-                      </option>
-                      <option value="58750">
-                        Shereef Bishay
-                      </option>
-                    </select>
-                  </div>
-                </td>
-                <td colspan="3">
-                  <label for="[owned_by_id]" id="[owned_by_id]_label"></label>
-                  <div>
-                    <label for="[owned_by_id]" id="[owned_by_id]_label"></label>
-                    <div class="emphasizedFieldLabel">
-                      <label for="[owned_by_id]" id="[owned_by_id]_label">owns</label>
-                    </div><label for="[owned_by_id]" id="[owned_by_id]_label"></label>
-                    <div class="fieldLabel">
-                      <label for="[owned_by_id]" id="[owned_by_id]_label">this story</label>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="section">
-            <table class="storyDescriptionTable">
-              <tbody>
-                <tr>
-                  <td class="header">
-                    <div>
-                      Description
-                    </div>
-                  </td>
-                  <td class="lastCell">
-                    <div class="helpIcon">
-                      <img src="/images/question_mark.gif">
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td colspan="5">
-                    <div>
-                      <textarea class = "textAreaFocus" id="new_description" rows="3" cols="20" name="story[description]"></textarea>     
-                    <div>
-                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)
-                      </div>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="heaer" colspan="5">
-                    <div style="display: none;" id="_readonly_description"></div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-
-<!-- 
-<table>
-  <tr>
-    <td id='panel1_panel' class='panelXXX'>
-      <div class="panelHeaderRight"></div>
-      <div class="panelHeaderLeft"></div>
-      <div class='panelHeader'>
-        <a href="javascript:void(0);" class="closePanel panelLink" id="panel1_close" title="Close panel" name="panel1_close"></a> <span class='panelTitle'>Hello</span>
-      </div>
-      <div id='panel1_list' class='list'>
-        <div id='pane1_items' class='items'>
-          
-          
-          <div id="current_itemList_story2043014" class="item">
-            <div id="current_itemList_story2043014_content" class="storyItem finished notUnderEdit hoverable" style="">
-              <div class="storyPreviewHeader">
-                <div id="current_itemList_story2043014_content_buttons" class="storyPreviewButtons">
-                  <img id="current_itemList_story2043014_content_buttons_deliverButton" class="stateChangeButton notDblclickable" src="/images/v3/buttons/stories_view/deliver.png" onmouseover="this.src='/images/v3/buttons/stories_view/deliver_hover.png'" onmouseout="this.src='/images/v3/buttons/stories_view/deliver.png'" name="current_itemList_story2043014_content_buttons_deliverButton">
-                </div>
-                <div class="icons">
-                  <img id="current_itemList_story2043014_content_icons_editButton" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" name="current_itemList_story2043014_content_icons_editButton">
-                  <div class="left">
-                    <img class="storyTypeIcon" src="/images/feature_icon.png" alt="Feature"> <img class="estimateIcon" width="6" src="/images/estimate_3pt_linear.gif" alt="Estimate: 3 points" title="Estimate: 3 points">
-                  </div>
-                </div>
-                <div id="current_itemList_story2043014_content_details" class="storyPreviewText" style="cursor: move;"></div>
-              </div>
-            </div>
-          </div>
-          
-          
-          
-        </div>
-      </div>
-    </td>
-  </tr>
-</table> -->

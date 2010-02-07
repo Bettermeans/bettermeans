@@ -18,7 +18,8 @@ padding:0;
 
 html > body #content {
 	min-height: 200px;
-	overflow: hidden;
+	overflow-y: hidden;
+	overflow-x: visible;
 }
 
 body  {
@@ -40,6 +41,7 @@ body  {
 	max-width:800px;
 	vertical-align:top;
 }
+
 
 .panelTitle {
 font-size:1.1em;
@@ -282,6 +284,9 @@ background-repeat:repeat-y;
 	font-weight:bold;
 }
 
+.centeredTable {height: 300px; width: 100%;}
+.centeredTable td {vertical-align:middle; width:100%; height:200px;}
+.centeredTable tr {text-align:center; width:100%; height:100%;}
 
 /*flyover*/
 .storyDetails {padding: 6px 17px 7px; background-color: #fff8d7}
@@ -376,6 +381,28 @@ background-repeat:repeat-y;
 .iterationHeaderToggleExpandedButton {display: inline; width:11px; height:16px}
 .iterationHeaderInfo {margin-left: 19px}
 
+.iterationHeader {
+background:url("/images/bg_iteration.png") repeat-x scroll center top #747474;
+color:white;
+cursor:default;
+padding-left:0;
+padding-right:0;
+}
+.iterationHeader a.date_label {
+color:#FFFFFF !important;
+cursor:pointer;
+}
+.iterationHeader a.date_label.overridden {
+color:#FFCC44 !important;
+}
+.iterationHeader a.date_label:hover {
+text-decoration:underline !important;
+}
+.iterationHeaderInfo {
+-moz-user-select:none;
+}
+
+
 .lastCell {width:95%}
 .item {border-top: 1px solid #6E6E6E}
 .item.proxy {font-size: 0.8em}
@@ -389,7 +416,7 @@ background-repeat:repeat-y;
 
 /*Dashboard*/
 
-#loading {
+#loading, #fancy-loading{
 	padding-left: 26px;
 	background-position: 0% 40%;
 	background-repeat: no-repeat;
@@ -443,6 +470,10 @@ background-repeat:repeat-y;
 	background: url(/images/bb_brown.png) no-repeat; 
 }
 
+.action_button_join{
+	background: url(/images/bb_brown.png) no-repeat; 
+}
+
 .action_button_accept{
 	background: url(/images/bb_green.png) no-repeat; 
 }
@@ -471,6 +502,10 @@ background-repeat:repeat-y;
 	background: url(/images/bb_sky.png) no-repeat; 
 }
 
+.action_button_leave{
+	background: url(/images/bb_sky.png) no-repeat; 
+}
+
 .action_button_cancel{
 	background: url(/images/bb_ocean.png) no-repeat; 
 }
@@ -479,6 +514,15 @@ background-repeat:repeat-y;
 	font-weight:bold;
 	background: url(/images/bb_blank.png) no-repeat; 
 	
+}
+
+.action_button_retro{
+	background: url(/images/bb_purple.png) no-repeat; 
+}
+
+
+.action_button_accepted{
+	font-weight:bold;	
 }
 
 
@@ -493,5 +537,40 @@ background-repeat:repeat-y;
 	text-decoration:underline;
 }
 
+.searchField  {
+float:right;
+margin-right:23px;
+margin-top:2px;
+}
 
-/*return '<img id="item_content_buttons_' + type + '_button_' + dataId + '" class="stateChangeButton notDblclickable" src="/images/' + type + '.png" onmouseover="this.src=\'/images/' + type + '_hover.png\'" onclick="click_' + type + '(' + dataId + ',this);return false;" onmouseout="this.src=\'/images/' + type + '.png\'">';*/
+.searchField input {
+	padding: 0px;
+}
+
+.searchField img {
+	height:1.5em;
+}
+
+.searchField td.field {
+	background: url(/images/search_middle.png) repeat-x scroll center top transparent;
+}
+
+.searchField #searchString {
+border:0 none;
+}
+
+.searchField td {
+vertical-align:top;
+}
+
+.notice {
+background-color: crimson;	
+}
+
+.notice .iterationHeader {
+background:none;
+color:white;
+cursor:default;
+padding-left:0;
+padding-right:0;
+}

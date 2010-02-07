@@ -1,10 +1,31 @@
+// Add following code to any rhtml page using this code
+// <%= javascript_include_tag  'dashboard' %>
+// <%= stylesheet_link_tag 'dashboard' %>
+// 
+// 
+// <script>
+//   var projectId = '<%= @project.identifier %>';
+//   var currentUser = '<%= User.current.name %>';
+//   var currentUserLogin = '<%= User.current.login %>';
+//   var currentUserId = '<%= User.current.id %>';
+//   var currentUserIsCitizen = '<%= User.current.citizen_of?(@project) %>';
+// 
+// 	$('document').ready(function(){
+// 	  load_dashboard();
+// 	});
+
+// </script>
+
+
 var D; //all data
+var R; //all retrospectives
 var MAX_REQUESTS_PER_PERSON = 2;
 var ITEMHASH = new Array(); //mapping between item IDs and their id in the D array
 var keyboard_shortcuts = false;
 var default_new_title = 'Enter Title Here';
 var new_comment_text = 'Add new comment';
 var new_todo_text = 'Add todo';
+var panel_height = $(window).height() - 200;
 
 $(window).bind('resize', function() {
 	resize();
@@ -143,43 +164,72 @@ $.fn.keyboard_sensitive = function() {
 		});
 };
 
+function start(){
+	//Checking for single issue display
+	if (show_issue_id){
+		show_issue_full(show_issue_id);
+		$("#load_dashboard").show();
+		$("#loading").hide();
+		$("#quote").hide();
+	}
+	else{
+		load_dashboard();
+	}
+	
+}
 
-$('document').ready(function(){
+function load_dashboard(){
+	$("#load_dashboard").hide();	
+	$("#quote").show();
+	$("#loading").show();
 	
-		keyboard_shortcuts = false;
-		
-		$.ajax({
-		   type: "GET",
-		   dataType: "json",
-		   url: 'dashdata',
-		   success:  	function(html){
-				$("#loading").hide();
-				$("#quote").hide();
-				D = html;
-				prepare_page();
-			},
-		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
-			// typically only one of textStatus or errorThrown will have info
-			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
-			$("#loading").hide();
-			$("#quote").hide();
-			$("#loading_error").show();
-			},
-			timeout: 30000 //30 seconds
-		 });
-		
+	keyboard_shortcuts = false;
+	// $("#myfancy").fancybox({
+	// 			'width'				: '75%',
+	// 			'height'			: '75%',
+	// 	        'autoScale'     	: false,
+	// 	        'transitionIn'		: 'none',
+	// 			'transitionOut'		: 'none',
+	// 			'type'				: 'iframe'
+	// 	});
 	
-	   // $.get('dashdata', {project_id: projectID},
-	   //          function(data){
-	   // 				$("#loading").hide();
-	   // 				$("#quote").hide();
-	   // 				D = data;
-	   // 				prepare_page();
-	   //  }, 'json');
+	// $.fancybox({
+	// 			'width'				: '75%',
+	// 			'height'			: '75%',
+	// 	        'autoScale'     	: false,
+	// 	        'transitionIn'		: 'none',
+	// 			'transitionOut'		: 'none',
+	// 			'type'				: 'iframe',
+	// 			'href'				: 'http://yahoo.com'
+	// 	});
 	
-		load_buttons();
-    
-});
+	var url = url_for({ controller: 'projects',
+                           action    : 'dashdata',
+							id		: projectId
+                          });
+	
+	$.ajax({
+	   type: "GET",
+	   dataType: "json",
+	
+	   url: url,
+	   success:  	function(html){
+			data_ready(html);
+		},
+	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+		// typically only one of textStatus or errorThrown will have info
+		// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+		$("#loading").hide();
+		$("#quote").hide();
+		$("#loading_error").show();
+		},
+		timeout: 30000 //30 seconds
+	 });
+	
+
+   	load_buttons();
+	// load_search();
+}
 
 // listens for any navigation keypress activity
 $(document).keypress(function(e)
@@ -195,6 +245,63 @@ $(document).keypress(function(e)
 	}
 });
 
+
+function data_ready(html){
+	$("#loading").hide();
+	$("#quote").hide();
+	D = html;
+	prepare_page();
+	// load_retros(); #No longer needed since retros are now 1 item per retro
+}
+
+function load_retros(){
+		$.ajax({
+		   type: "GET",
+		   dataType: "json",
+		   url: 'retros/index_json',
+		   success:  	function(html){
+				retros_ready(html);
+			},
+		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			// typically only one of textStatus or errorThrown will have info
+			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+			$("#loading").hide();
+			$("#quote").hide();
+			$("#loading_error").show();
+			},
+			timeout: 30000 //30 seconds
+		 });
+}
+
+function retros_ready(html){
+	R = html;
+	insert_retros();	
+}
+
+function insert_retros(){
+	for(var i = 0; i < R.length; i++ ){
+		add_retro(i,"bottom",false);	
+	}
+}
+
+function add_retro(rdataId,position,scroll){
+	var html = generate_retro(rdataId);
+	var panelid = 'done';
+	if (position=="bottom")
+	{
+		$("#" + panelid + '_start_of_list').append(html);
+	}
+	else if (position=="top")
+	{
+		$("#" + panelid+ '_start_of_list').prepend(html);
+	}
+	
+	if (scroll)
+	{
+		$("#" + panelid + "_items").scrollTo('#item_' + dataId, 100);
+	}	
+}
+
 //makes all text boxes sensitive to keyboard shortcuts
 function make_text_boxes_toggle_keyboard_shortcuts(){
 	$("input").keyboard_sensitive();
@@ -203,9 +310,32 @@ function make_text_boxes_toggle_keyboard_shortcuts(){
 
 
 function load_buttons(){
-	$('#main-menu').append('<input id="new_request" value="New Request" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
+	$('#main-menu').append('<input id="new_request" value="New Idea" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
 }
 
+function load_search(){
+	html = '';
+
+	html = html + '	<table class="searchField">';
+	html = html + '	<tbody>';
+	html = html + '	<tr>';
+	html = html + '	<td>';
+	html = html + '	<a onclick="$(\'searchString\').focus(); return false;" href="#">';
+	html = html + '	<img src="/images/search_left.png" alt="Search" title=""/>';
+	html = html + '	</a>';
+	html = html + '	</td>';
+	html = html + '	<td class="field">';
+	html = html + '	<input id="searchString" type="text" autocomplete="off" size="20" name="searchString" value=""/>';
+	html = html + '	</td>';
+	html = html + '	<td style="vertical-align:top;">';
+	html = html + '	<img src="/images/search_right.png"/>';
+	html = html + '	</td>';
+	html = html + '	</tr>';
+	html = html + '	</tbody>';
+	html = html + '	</table>';
+	
+	$('#header').append(html);
+}
 
 
 function prepare_page(){
@@ -246,6 +376,21 @@ function load_ui(){
 	
 }
 
+//Called after data is ready for a retrospective
+function rdata_ready(html,rdataId){
+	retro = R[rdataId];
+	var panelid = 'retro_' + retro.id;
+	var i = D.length;
+	D = D.concat(html);
+	if (retro.status_id == 1){
+		var notice = generate_notice('<a class="date_label" title="Retrospective is now open" href="retros/' + retro.id + '" target="_new">Retrospective is open &rArr;</a>');
+		$("#" + panelid + '_start_of_list').append(notice);
+	}
+	for(; i < D.length; i++ ){
+		add_item(i,"bottom",false,panelid);	
+	}
+	update_panel_count(panelid,true);
+}
 
 function add_hover_icon_events(){
 	$(".hoverDetailsIcon").click(
@@ -300,29 +445,30 @@ function show_estimate_flyover(dataId,callingElement){
 	});	
 }
 
-function add_item(dataId,position,scroll){
-	var panelid = '';
-	//Deciding on wich panel for this item?
-	switch (D[dataId].status.name){
-	case 'New':
-	panelid= 'new';
-	break;
-	case 'Estimate':
-	panelid= 'estimate';
-	break;
-	case 'Open':
-	panelid= 'open';
-	break;
-	case 'Committed':
-	panelid = 'inprogress';
-	break;
-	case 'Done':
-	panelid = 'done';
-	break;
-	case 'Canceled':
-	panelid = 'canceled';
-	break;
-	default : panelid = 'unknown';
+function add_item(dataId,position,scroll,panelid){
+	if (!panelid){
+		//Deciding on wich panel for this item?
+		switch (D[dataId].status.name){
+		case 'New':
+		panelid= 'new';
+		break;
+		case 'Estimate':
+		panelid= 'estimate';
+		break;
+		case 'Open':
+		panelid= 'open';
+		break;
+		case 'Committed':
+		panelid = 'inprogress';
+		break;
+		case 'Done':
+		panelid = 'done';
+		break;
+		case 'Canceled':
+		panelid = 'canceled';
+		break;
+		default : panelid = 'unknown';
+		}
 	}
 	
 	
@@ -364,7 +510,7 @@ function generate_details_flyover(dataId){
 	html = html + '	      <div style="height: auto;">';
 	html = html + '	        <div class="metaInfo">';
 	html = html + '	          <div class="left">';
-	html = html + 'Requested by ' + item.author.firstname + ' ' + item.author.lastname + ' on ' + item.created_on;
+	html = html + 'Added by ' + item.author.firstname + ' ' + item.author.lastname + ' ' + humane_date(item.created_on);
 	html = html + '	          </div>';
 	html = html + '<div class="right infoSection">';
 	html = html + '	            <img class="estimateIcon left" width="18" src="/images/dice_' + points + '.png" alt="Estimate: ' + points + ' points" title="Estimate: ' + points + ' points">';
@@ -589,7 +735,7 @@ function generate_comment(author,note,created_on,itemId){
 	var html = '';
 	html = html + '<tr class="noteInfoRow">';
 	html = html + '<td class="noteInfo  noteInfo_' + itemId + '">';
-	html = html + '<span class="specialhighlight">' + author + '</span> <span class="italic">' + created_on + '</span>';
+	html = html + '<span class="specialhighlight">' + author + '</span> <span class="italic">' + humane_date(created_on) + '</span>';
 	html = html + '</td>';
 	html = html + '</tr>';
     html = html + '<tr class="noteTextRow">';
@@ -785,6 +931,100 @@ function generate_item(dataId){
 	return html;
 }
 
+function generate_retro(rdataId){
+	var retro = R[rdataId];
+	var html = '';
+	html = html + '	<div id="retro_' + rdataId + '" class="item">';
+	html = html + '	<div id="retro_' + rdataId + '_content" class="iterationHeader">';
+	html = html + '	<table>';
+	html = html + '	<tbody>';
+	html = html + '	<tr>';
+	html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0pt 1px 4px; color: rgb(255, 255, 255); background-color: rgb(69, 71, 72);">';
+	html = html + '		<img id="done_itemList_' + retro.id + '_toggle_expanded_button" class="iterationHeaderToggleExpandedButton" src="/images/iteration_expander_closed.png" title="Expand" alt="Expand" style="height: 12px; width: 12px;" onclick="display_retro(' + rdataId + ');return false;"/>';
+	html = html + '	</td>';
+	html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0.5em 1px 0pt; color: white; background-color: rgb(69, 71, 72);">';
+	html = html + '		<div id="done_itemList_' + rdataId + '_iteration_label" title="Retrospective ' + retro.id + '" style="width: 2em; text-align: right;">' + retro.id + '</div>';
+	html = html + '	</td>';
+	html = html + '	<td id="done_' + rdataId + '_date_label" style="white-space: nowrap; width: 99%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
+	html = html + '	<span>';
+	html = html + '	<a class="date_label" title="' + dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy') + '" onclick="display_retro(' + rdataId + ');return false;">' + dateFormat(retro.from_date,'dd mmm\'yy') + ' - ' + dateFormat(retro.to_date,'dd mmm\'yy') + '</a>';
+	html = html + '	</span>';
+	html = html + '	</td>';
+	html = html + '	<td id="done_' + rdataId + '_details_points" style="white-space: nowrap; width: 1%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
+	html = html + '		<span title="Points completed: 2">Pts: ' + retro.total_points + '</span>';
+	html = html + '	</td>';
+	// html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 4px 1px 0.5em; color: rgb(153, 204, 255); cursor: pointer;">';
+	// html = html + '		<span>';
+	// html = html + '		<a class="teamStrengthIcon" title="Team strength for this iteration is at 100%. Click to change.">﻿</a>';
+	// html = html + '		</span>';
+	// html = html + '	</td>';
+	html = html + '	</tr>';
+	html = html + '	</tbody>';
+	html = html + '	</table>';
+	html = html + '	</div>';
+	html = html + '	</div>';
+	return html;	
+}
+
+function display_retro(rdataId){
+	
+	
+	var retro = R[rdataId];
+	
+	$('#done_itemList_' + retro.id + '_toggle_expanded_button').attr('src','/images/iteration_expander_open.png')
+	
+	$.ajax({
+	   type: "GET",
+	   dataType: "json",
+	   url: 'retros/' + retro.id + '/dashdata',
+	   success:  	function(html){
+			$('#new_retro_wrapper_' + rdataId).hide();
+			rdata_ready(html,rdataId);
+		},
+	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			handle_error(XMLHttpRequest, textStatus, errorThrown, null,'load data');
+		},
+		timeout: 30000 //30 seconds
+	 });
+	
+	
+	$('#retro_' + retro.id + '_panel').remove();
+	generate_and_append_panel(0,'retro_' + retro.id,dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy'),true);
+	recalculate_widths();
+	var html = '	<div class="item" id="new_retro_wrapper_' + rdataId + '"><div id="loading"> Loading...</div></div>';
+	$('#retro_' + retro.id + '_start_of_list').append(html);
+	
+	
+}
+
+
+function generate_notice(noticeHtml, noticeId){
+	var html = '';
+	html = html + '	<div id="notice_' + noticeId + '" class="item notice">';
+	html = html + '	<div id="notice_' + noticeId + '_content" class="iterationHeader">';
+	html = html + '	<table>';
+	html = html + '	<tbody>';
+	html = html + '	<tr>';
+	// html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0pt 1px 4px; color: rgb(255, 255, 255); background-color: rgb(69, 71, 72);">';
+	// html = html + '		<img id="done_itemList_' + noticeId + '_toggle_expanded_button" class="iterationHeaderToggleExpandedButton" src="/images/iteration_expander_closed.png" title="Expand" alt="Expand" style="height: 12px; width: 12px;"/>';
+	// html = html + '	</td>';
+	// html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0.5em 1px 0pt; color: white; background-color: rgb(69, 71, 72);">';
+	// html = html + '		<div id="done_itemList_' + noticeId + '_iteration_label" title="Retrospective ' + retro.id + '" style="width: 2em; text-align: right;">' + retro.id + '</div>';
+	// html = html + '	</td>';
+	html = html + '	<td id="done_' + noticeId + '_date_label" style="white-space: nowrap; width: 99%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
+	html = html + '	<span>';
+	html = html + noticeHtml;
+	html = html + '	</span>';
+	html = html + '	</td>';
+	html = html + '	</tr>';
+	html = html + '	</tbody>';
+	html = html + '	</table>';
+	html = html + '	</div>';
+	html = html + '	</div>';
+	return html;	
+}
+
+
 function buttons_for(dataId){
 	item = D[dataId];
 	html = '';
@@ -822,10 +1062,23 @@ function buttons_for(dataId){
 		}
 		else if (item.assigned_to != null){
 			html = html + '<div id="committed_tally_' + dataId + '" class="action_button action_button_tally">' + item.assigned_to.login + '</div>';
+		
+			if (is_part_of_team(item)){
+				html = html + button('leave',dataId);
+			}
+			else{
+				html = html + button('join',dataId);
+			}
 		}
 	break;
 	case 'Done':
-		if (currentUserIsCitizen == 'true'){
+		if (item.retro_id){
+			html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
+			if (item.retro_id > 0){
+				html = html + button('retro',dataId,false,item.retro_id);
+			}
+		}
+		else if (currentUserIsCitizen == 'true'){
 			html = html + accept_buttons(dataId);
 		}
 	break;
@@ -836,6 +1089,19 @@ function buttons_for(dataId){
 	
 	return html;
 	
+}
+
+//returns true if current user is on the team for this item
+function is_part_of_team(item){
+	//Determining wether or not user is already part of the team for this task
+	var part_of_team = false;
+	for(var i=0; i < item.issue_votes.length; i++){
+		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 5)){
+			part_of_team = true;
+			break;
+		}
+	}	
+	return part_of_team;
 }
 
 function agree_buttons(dataId){
@@ -905,13 +1171,13 @@ function generate_pri_button(dataId,direction){
 }
 
 //Generates a button type for item id
-function button(type,dataId,hide){
+function button(type,dataId,hide,options){
 	var label = type;
 	var hide_style = '';
 	if (hide){ hide_style = "style=display:none;"; }
 	if (type == 'release') label = 'giveup';
 	html = '';
-	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '" ' + hide_style + ' onclick="click_' + type + '(' + dataId + ',this);return false;">';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '" ' + hide_style + ' onclick="click_' + type + '(' + dataId + ',this, ' + options + ');return false;">';
 	html = html + '<a href="/" id="item_action_link_' + type + dataId + '" class="action_link clickable">' + label + '</a>';
 	html = html + '</div>';
 	return html;
@@ -920,7 +1186,7 @@ function button(type,dataId,hide){
 
 function click_start(dataId,source){
 	if ($(".action_button_finish").get().length >= MAX_REQUESTS_PER_PERSON){
-		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " requests at a time");
+		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " ideas at a time");
 	}
 	else{
 		$('#' + source.id).parent().hide();
@@ -973,6 +1239,16 @@ function click_cancel(dataId,source){
 	send_item_action(dataId,'cancel');
 }
 
+function click_leave(dataId,source){
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'leave');
+}
+
+function click_join(dataId,source){
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'join');
+}
+
 function click_pri(dataId,direction,source){
 	if (direction == 'up'){
 		$('#' + source.id).parent().html(generate_pri_button(dataId,'down'));
@@ -982,6 +1258,18 @@ function click_pri(dataId,direction,source){
 		$('#' + source.id).parent().html(generate_pri_button(dataId,'up'));
 		send_item_action(dataId,'deprioritize');
 	}
+}
+
+function click_retro(dataId,source){
+	// var url = url_for({ controller: 'retros',
+	//                            action    : 'show',
+	// 							id		: D[dataId].retroId
+	//                           });
+	
+	url = '/projects/' + projectId + '/retros/' + D[dataId].retro_id;
+	
+	show_fancybox(url,'loading retrospective...');
+	return false;
 }
 
 
@@ -1037,18 +1325,25 @@ function show_comment(item){
 
 //resize heights of container and panels
 function resize(){
-	var newheight = $(window).height() - $('#header').height() - $('#top-menu').height();
-	$("#content").height(newheight - 35);
-	$(".list").height(newheight - 75);
+	panel_height = $(window).height() - $('#header').height() - $('#top-menu').height();
+	$("#content").height(panel_height - 35);
+	$(".list").height(panel_height - 75);
 	$("#panels").show();
+	recalculate_widths();
 }
 
 function insert_panel(position, name, title, visible){
-	var panel_style = "";
 	var button_style = "";
-	if (!visible){panel_style = 'style="display:none;"';}
 	if (visible){button_style = 'style="display:none;"';}
-	// visible ? panel_style = 'block' : panel_style = 'none';
+	generate_and_append_panel(position,name,title, visible);
+	
+	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button" ' + button_style + '/>');
+	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right', bindShow: 'click'});
+}
+
+function generate_and_append_panel(position,name,title, visible){
+	var panel_style = "";
+	if (!visible){panel_style = 'style="display:none;"';}
 
 	var panelHtml = '';
 	panelHtml = panelHtml + "	<td id='" + name + "_panel' class='panel' " + panel_style + "'>";
@@ -1066,11 +1361,9 @@ function insert_panel(position, name, title, visible){
 	panelHtml = panelHtml + "  </div>";
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "</td>";
-	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button" ' + button_style + '/>');
-	$("#main_row").append(panelHtml);
-	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right', bindShow: 'click'});
-	
-
+	$("#main_row").append(panelHtml);	
+	$("#content").height(panel_height - 35);
+	$(".list").height(panel_height - 75);
 }
 
 function update_panel_counts(){
@@ -1084,10 +1377,12 @@ function update_panel_counts(){
 	
 }
 
-function update_panel_count(name){
+function update_panel_count(name, skip_button){
 	count = $("#" + name + "_start_of_list > *").length;
-	$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\([0-9]*\)/,"(" + count + ")"));
 	$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\([0-9]*\)/,"(" + count + ")"));
+	if (!skip_button){
+		$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\([0-9]*\)/,"(" + count + ")"));
+	}
 }
 
 function close_panel(name){
@@ -1095,6 +1390,10 @@ function close_panel(name){
 	$('#' + name + '_panel_toggle').show();	
 	recalculate_widths();
 	if (name == "new"){keyboard_shortcuts = true;} //If we're closing the new panel, then we want keyboard shortcuts to be on again, in case they were off
+	if (name.indexOf("retro") == 0){ //If we're closing a retrospective panel, we untoggle the expander button
+		retroId = name.split('_')[1];
+		$('#done_itemList_' + retroId + '_toggle_expanded_button').attr('src','/images/iteration_expander_closed.png');		
+	}
 }
 
 function show_panel(name){
@@ -1185,7 +1484,7 @@ function save_new_item(){
 		alert('Please enter a title');
 		return false;
 	}
-	var data = "commit=Create&project_id=" + projectID + "&issue[tracker_id]=" + $('#new_story_type').val() + "&issue[subject]=" + $('#new_title_input').val() + "&issue[description]=" + $('#new_description').val();
+	var data = "commit=Create&project_id=" + projectId + "&issue[tracker_id]=" + $('#new_story_type').val() + "&issue[subject]=" + $('#new_title_input').val() + "&issue[description]=" + $('#new_description').val();
 
     var url = url_for({ controller: 'issues',
                            action    : 'new'
@@ -1219,7 +1518,7 @@ function save_edit_item(dataId){
 		alert('Please enter a title');
 		return false;
 	}	
-	var data = "commit=Submit&lock_version=" + D[dataId].lock_version + "&project_id=" + projectID + "&id=" + D[dataId].id + "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
+	var data = "commit=Submit&lock_version=" + D[dataId].lock_version + "&project_id=" + projectId + "&id=" + D[dataId].id + "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
 
     var url = url_for({ controller: 'issues',
                            action    : 'edit'
@@ -1385,7 +1684,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input disabled="disabled" id="new_view_history_button" value="View history" type="submit" >';
+html = html + '	                    <input disabled="disabled" id="new_full_screen_button" value="Full Screen" type="submit" >';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -1508,7 +1807,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input id="edit_view_history_button" value="View history" type="submit" onclick="view_history(' + dataId + ');return false;">';
+html = html + '	                    <input id="edit_full_screen_button" value="Full Screen" type="submit" onclick="full_screen(' + dataId + ');return false;">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -1604,7 +1903,7 @@ html = html + '	          </div>';
 html = html + '	                <tr><td>&nbsp;</td></tr>';
 html = html + '	                <tr><td>';
 html = html + '	  <div class="header">';
-html = html + '	    Request ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
+html = html + '	    Idea ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
 html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif"  class="clickable">';
 html = html + '	  </div>';
 html = html + '	                  </td>';
@@ -1659,7 +1958,7 @@ try{
 	else
 	{
 		var item = D[dataId];
-		$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),Date(),D[dataId].id)); //TODO: properly format this date
+		$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),'1 second ago',D[dataId].id));
 		$('#new_comment_' + dataId).val('');
 		
 		
@@ -1825,13 +2124,39 @@ function update_comment_count(dataId){
 
 
 //View item history
-function view_history(dataId){
-	alert("not yet implemented. sorry!");
-	return false;
-	
+function full_screen(dataId){
+	show_issue_full(D[dataId].id);
 }
 
+//Full page view in fancy box of a single issue
+function show_issue_full(itemId){
+	var url = url_for({ controller: 'issues',
+	                           action    : 'show',
+								id		: itemId
+	                          });
+	console.log(url);
+	show_fancybox(url,'loading data...')
 
+	return false;
+}
+
+function show_fancybox(url,message){
+	console.log("Fancybox for: " + url);
+	$.fancybox({
+				'width'				: '90%',
+				'height'			: '95%',
+		        'autoScale'     	: false,
+		        'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				'type'				: 'iframe',
+				'href'				: url,
+		});
+		
+	$('#fancybox-frame').load(function(){
+		 	$('#fancy-loading').hide();
+		});
+	$('#fancybox-inner').prepend("<div id='fancy-loading'>" + message + "</div>");
+}
 
 ///HELPERS
 function url_for(options){
@@ -1856,7 +2181,7 @@ function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) 
 		$('#item_' + dataId).html(generate_item(dataId));
 		sort_panel('open');
 		$('#featureicon_' + dataId).attr("src", "/images/error.png");
-		$.jGrowl("Sorry, couldn't " + action + " request:<br>" + D[dataId].subject , { header: 'Error', position: 'bottom-right' });
+		$.jGrowl("Sorry, couldn't " + action + " idea:<br>" + D[dataId].subject , { header: 'Error', position: 'bottom-right' });
 		
 	}
 	else{
@@ -1868,6 +2193,59 @@ function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) 
 	
 	// alert("Error: Couldn't " + action);
 }
+
+
+function humane_date(date_str){
+		
+	date_str = date_str.split('-')[0];
+      var time_formats = [
+              [60, 'Just Now'],
+              [90, '1 Minute'], // 60*1.5
+              [3600, 'Minutes', 60], // 60*60, 60
+              [5400, '1 Hour'], // 60*60*1.5
+              [86400, 'Hours', 3600], // 60*60*24, 60*60
+              [129600, '1 Day'], // 60*60*24*1.5
+              [604800, 'Days', 86400], // 60*60*24*7, 60*60*24
+              [907200, '1 Week'], // 60*60*24*7*1.5
+              [2628000, 'Weeks', 604800], // 60*60*24*(365/12), 60*60*24*7
+              [3942000, '1 Month'], // 60*60*24*(365/12)*1.5
+              [31536000, 'Months', 2628000], // 60*60*24*365, 60*60*24*(365/12)
+              [47304000, '1 Year'], // 60*60*24*365*1.5
+              [3153600000, 'Years', 31536000], // 60*60*24*365*100, 60*60*24*365
+              [4730400000, '1 Century'] // 60*60*24*365*100*1.5
+      ];
+
+      var time = ('' + date_str).replace(/-/g,"/").replace(/[TZ]/g," "),
+              dt = new Date,
+              seconds = ((dt - new Date(time) + (dt.getTimezoneOffset() * 60000)) / 1000),
+              token = ' Ago',
+          prepend = '',
+              i = 0,
+              format;
+
+      if (seconds < 0) {
+              seconds = Math.abs(seconds);
+              token = '';
+          prepend = 'In ';
+      }
+
+      while (format = time_formats[i++]) {
+              if (seconds < format[0]) {
+                      if (format.length == 2) {
+                              return (i>1?prepend:'') + format[1] + (i > 1 ? token : ''); // Conditional so we don't return Just Now Ago
+                      } else {
+                              return prepend + Math.round(seconds / format[2]) + ' ' + format[1] + (i > 1 ? token : '');
+                      }
+              }
+      }
+
+      // overflow for centuries
+      if(seconds > 4730400000)
+              return Math.round(seconds / 4730400000) + ' Centuries' + token;
+
+      return date_str;
+  };
+
 
 
 /*
@@ -2384,4 +2762,125 @@ function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) 
 		// 				return this;
 		// 			}
 	});
-	
+
+
+	/*
+	 * Date Format 1.2.3
+	 * (c) 2007-2009 Steven Levithan <stevenlevithan.com>
+	 * MIT license
+	 *
+	 * Includes enhancements by Scott Trenda <scott.trenda.net>
+	 * and Kris Kowal <cixar.com/~kris.kowal/>
+	 *
+	 * Accepts a date, a mask, or a date and a mask.
+	 * Returns a formatted version of the given date.
+	 * The date defaults to the current date/time.
+	 * The mask defaults to dateFormat.masks.default.
+	 */
+
+	var dateFormat = function () {
+		var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
+			timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g,
+			timezoneClip = /[^-+\dA-Z]/g,
+			pad = function (val, len) {
+				val = String(val);
+				len = len || 2;
+				while (val.length < len) val = "0" + val;
+				return val;
+			};
+
+		// Regexes and supporting functions are cached through closure
+		return function (date, mask, utc) {
+			var dF = dateFormat;
+
+			// You can't provide utc if you skip other args (use the "UTC:" mask prefix)
+			if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+				mask = date;
+				date = undefined;
+			}
+
+			// Passing date through Date applies Date.parse, if necessary
+			date = date ? new Date(date) : new Date;
+			if (isNaN(date)) throw SyntaxError("invalid date");
+
+			mask = String(dF.masks[mask] || mask || dF.masks["default"]);
+
+			// Allow setting the utc argument via the mask
+			if (mask.slice(0, 4) == "UTC:") {
+				mask = mask.slice(4);
+				utc = true;
+			}
+
+			var	_ = utc ? "getUTC" : "get",
+				d = date[_ + "Date"](),
+				D = date[_ + "Day"](),
+				m = date[_ + "Month"](),
+				y = date[_ + "FullYear"](),
+				H = date[_ + "Hours"](),
+				M = date[_ + "Minutes"](),
+				s = date[_ + "Seconds"](),
+				L = date[_ + "Milliseconds"](),
+				o = utc ? 0 : date.getTimezoneOffset(),
+				flags = {
+					d:    d,
+					dd:   pad(d),
+					ddd:  dF.i18n.dayNames[D],
+					dddd: dF.i18n.dayNames[D + 7],
+					m:    m + 1,
+					mm:   pad(m + 1),
+					mmm:  dF.i18n.monthNames[m],
+					mmmm: dF.i18n.monthNames[m + 12],
+					yy:   String(y).slice(2),
+					yyyy: y,
+					h:    H % 12 || 12,
+					hh:   pad(H % 12 || 12),
+					H:    H,
+					HH:   pad(H),
+					M:    M,
+					MM:   pad(M),
+					s:    s,
+					ss:   pad(s),
+					l:    pad(L, 3),
+					L:    pad(L > 99 ? Math.round(L / 10) : L),
+					t:    H < 12 ? "a"  : "p",
+					tt:   H < 12 ? "am" : "pm",
+					T:    H < 12 ? "A"  : "P",
+					TT:   H < 12 ? "AM" : "PM",
+					Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+					o:    (o > 0 ? "-" : "+") + pad(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+					S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+				};
+
+			return mask.replace(token, function ($0) {
+				return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1);
+			});
+		};
+	}();
+
+	// Some common format strings
+	dateFormat.masks = {
+		"default":      "ddd mmm dd yyyy HH:MM:ss",
+		shortDate:      "m/d/yy",
+		mediumDate:     "mmm d, yyyy",
+		longDate:       "mmmm d, yyyy",
+		fullDate:       "dddd, mmmm d, yyyy",
+		shortTime:      "h:MM TT",
+		mediumTime:     "h:MM:ss TT",
+		longTime:       "h:MM:ss TT Z",
+		isoDate:        "yyyy-mm-dd",
+		isoTime:        "HH:MM:ss",
+		isoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+		isoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+	};
+
+	// Internationalization strings
+	dateFormat.i18n = {
+		dayNames: [
+			"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
+			"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+		],
+		monthNames: [
+			"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+			"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
+		]
+	};

@@ -1,6 +1,7 @@
-# Redmine - project management software
-# Copyright (C) 2006-2009  Shereef Bishay
+# BetterMeans - Work 2.0
+# Copyright (C) 2009  Shereef Bishay
 #
+
 
 require "digest/sha1"
 
@@ -43,6 +44,9 @@ class User < Principal
   has_many :issue_votes, :dependent => :delete_all
   has_many :authored_todos, :class_name => 'Todo', :foreign_key => 'author_id', :dependent => :nullify
   has_many :owned_todos, :class_name => 'Todo', :foreign_key => 'owner_id', :dependent => :nullify
+  
+  has_many :outgoing_ratings, :class_name => 'RetroRating', :foreign_key => 'rater_id'
+  has_many :incoming_ratings, :class_name => 'RetroRating', :foreign_key => 'ratee_id'
     
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
