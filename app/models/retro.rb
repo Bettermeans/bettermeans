@@ -8,7 +8,8 @@ class Retro < ActiveRecord::Base
   STATUS_INPROGRESS = 1
   STATUS_COMPLETE = 2
   STATUS_INDISPUTE = 3
-  NOT_STARTED_ID = -1 #fake is for issues that haven't been started yet
+  NOT_STARTED_ID = -1 #is for issues that haven't been started yet
+  NOT_NEEDED_ID = -1 #is for issues that don't need a retrospective b/c only one person worked on them
   
   belongs_to :project
   has_many :issues
@@ -25,16 +26,18 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: retros
 #
-#  id         :integer         not null, primary key
-#  status_id  :integer
-#  project_id :integer
-#  from_date  :datetime
-#  to_date    :datetime
-#  created_on :datetime
-#  updated_on :datetime
+#  id           :integer         not null, primary key
+#  status_id    :integer
+#  project_id   :integer
+#  from_date    :datetime
+#  to_date      :datetime
+#  created_on   :datetime
+#  updated_on   :datetime
+#  total_points :integer
 #
 

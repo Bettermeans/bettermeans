@@ -9,7 +9,7 @@ class Project < ActiveRecord::Base
   STATUS_ARCHIVED   = 9
   
   # Point threshold for  retrospective
-  RETRO_POINT_THRESHOLD = 7
+  RETRO_POINT_THRESHOLD = 1
   
   belongs_to :enterprise                        
   
@@ -556,7 +556,8 @@ class Project < ActiveRecord::Base
   #Starts a new retrospective for this project
   def start_new_retro
     from_date = issues.first(:conditions => {:retro_id => Retro::NOT_STARTED_ID}, :order => "updated_on ASC").updated_on
-    @retro = Retro.create :project_id => id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now, :from_date => from_date
+    total_points = issues.sum(:points, :conditions => {:retro_id => Retro::NOT_STARTED_ID})
+    @retro = Retro.create :project_id => id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now, :from_date => from_date, :total_points => total_points
     Issue.update_all("retro_id = #{@retro.id}" , "project_id = #{id} AND retro_id = #{Retro::NOT_STARTED_ID}")
   end
   

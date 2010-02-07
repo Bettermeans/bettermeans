@@ -89,6 +89,17 @@ class Issue < ActiveRecord::Base
     end
   end
   
+  # Returns true if one or more people joined this issue
+  def has_team?
+    if issue_votes.sum(:points, :conditions => {:vote_type => IssueVote::JOIN_VOTE_TYPE}) > 0
+      return true
+    else 
+      return false
+    end
+  end
+
+  
+  
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
     (project && tracker) ? project.all_issue_custom_fields.select {|c| tracker.custom_fields.include? c } : []
