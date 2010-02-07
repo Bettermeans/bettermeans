@@ -1131,3 +1131,8 @@ div.jGrowl div.jGrowl-closer {
 		display: 			none;
 	}
 }
+
+
+table.retrospective th { vertical-align: top; text-align: left; }
+table.retrospective td.stats { vertical-align: top; padding-right: 5px; width:11em;}
+table.retrospective td.issues { vertical-align: top; border-left-width: 1px; border-left-style:solid; padding-left: 10px;}

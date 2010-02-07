@@ -10,6 +10,7 @@ class IssueVote < ActiveRecord::Base
   ACCEPT_VOTE_TYPE = 2
   PRI_VOTE_TYPE = 3
   ESTIMATE_VOTE_TYPE = 4
+  JOIN_VOTE_TYPE = 5 # Not exactly a vote, but used to join the team that's working on an issue
   
   def update_issue_totals
     case vote_type

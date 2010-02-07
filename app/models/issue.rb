@@ -10,6 +10,7 @@ class Issue < ActiveRecord::Base
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
   belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
+  belongs_to :retro
   # belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
     
   has_many :journals, :as => :journalized, :dependent => :destroy
@@ -87,6 +88,17 @@ class Issue < ActiveRecord::Base
       # self.priority ||= IssuePriority.default
     end
   end
+  
+  # Returns true if one or more people joined this issue
+  def has_team?
+    if issue_votes.sum(:points, :conditions => {:vote_type => IssueVote::JOIN_VOTE_TYPE}) > 0
+      return true
+    else 
+      return false
+    end
+  end
+
+  
   
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
@@ -508,6 +520,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -539,5 +552,6 @@ end
 #  agree            :integer         default(0)
 #  disagree         :integer         default(0)
 #  agree_total      :integer         default(0)
+#  retro_id         :integer
 #
 

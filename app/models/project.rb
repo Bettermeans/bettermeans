@@ -8,6 +8,9 @@ class Project < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_ARCHIVED   = 9
   
+  # Point threshold for  retrospective
+  RETRO_POINT_THRESHOLD = 1
+  
   belongs_to :enterprise                        
   
   # Specific overidden Activities
@@ -38,6 +41,7 @@ class Project < ActiveRecord::Base
   has_many :team_points, :dependent => :delete_all
   has_many :shares, :dependent => :delete_all
   has_many :credits, :dependent => :delete_all
+  has_many :retros, :dependent => :delete_all
   # Custom field for the project issues
   has_and_belongs_to_many :issue_custom_fields, 
                           :class_name => 'IssueCustomField',
@@ -543,6 +547,24 @@ class Project < ActiveRecord::Base
     eligible = (total_points > TeamPoint::CORE_MEMBERSHIP_THRESHOLD) || (total_points > TeamPoint::CORE_MEMBERSHIP_LOSS_THRESHOLD && user.core_member_of?(self)) #More than zero to initiate, but if user is already a member they stay if their total is 0
   end
   
+  #Returns true if threshold of points that haven't been included in a retrospective have been created
+  def ready_for_retro?
+    total_unretroed = Issue.sum(:points, :conditions => {:status_id => IssueStatus.done.id,:retro_id => Retro::NOT_STARTED_ID, :project_id => id})
+    return total_unretroed >= RETRO_POINT_THRESHOLD
+  end
+  
+  #Starts a new retrospective for this project
+  def start_new_retro
+    from_date = issues.first(:conditions => {:retro_id => Retro::NOT_STARTED_ID}, :order => "updated_on ASC").updated_on
+    total_points = issues.sum(:points, :conditions => {:retro_id => Retro::NOT_STARTED_ID})
+    @retro = Retro.create :project_id => id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now, :from_date => from_date, :total_points => total_points
+    Issue.update_all("retro_id = #{@retro.id}" , "project_id = #{id} AND retro_id = #{Retro::NOT_STARTED_ID}")
+  end
+  
+  #Starts a new retrospective if it's ready
+  def start_retro_if_ready
+    start_new_retro if ready_for_retro?
+  end
   
   private
   
