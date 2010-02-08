@@ -91,7 +91,7 @@ class Issue < ActiveRecord::Base
   
   # Returns true if one or more people joined this issue
   def has_team?
-    if issue_votes.sum(:points, :conditions => {:vote_type => IssueVote::JOIN_VOTE_TYPE}) > 0
+    if issue_votes.sum(:points, :conditions => {:vote_type => IssueVote::JOIN_VOTE_TYPE}) > 1 #It's always going to be at least one, since the onwer is the first person on there
       return true
     else 
       return false

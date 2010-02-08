@@ -40,13 +40,16 @@ class RetroRatingsController < ApplicationController
   # POST /retro_ratings
   # POST /retro_ratings.xml
   def create
-    @retro_rating = RetroRating.new(params[:retro_rating])
-
+    logger.info params.inspect
+    
+    @retro_ratings = params[:retro_ratings].values.collect { |retro_rating| RetroRating.new(retro_rating) }
     respond_to do |format|
-      if @retro_rating.save
-        flash[:notice] = 'RetroRating was successfully created.'
+      if @retro_ratings.all?(&:valid?)
+        RetroRating.delete_all(:rater_id => @retro_ratings[0].rater_id , :retro_id => @retro_ratings[0].retro_id)
+        @retro_ratings.each(&:save!)
         format.html { redirect_to(@retro_rating) }
         format.xml  { render :xml => @retro_rating, :status => :created, :location => @retro_rating }
+        format.js  { render :json => @retro_ratings.to_json}
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @retro_rating.errors, :status => :unprocessable_entity }

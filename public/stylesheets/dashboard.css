@@ -259,10 +259,6 @@ background-repeat:repeat-y;
 	vertical-align:middle;
 }
 
-.clickable{
-	cursor:pointer;
-}
-
 .storyTypeIcon, .flyoverIcon, .storyPoints {
 	vertical-align:middle;
 	padding: 0px 0px 0px 2px;
@@ -416,13 +412,14 @@ text-decoration:underline !important;
 
 /*Dashboard*/
 
-#loading, #fancy-loading{
+/*#loading, #fancy-loading{
 	padding-left: 26px;
 	background-position: 0% 40%;
 	background-repeat: no-repeat;
 	background-image: url(../images/loading.gif);
 	font-style: italic;
 }
+*/
 
 .updating {
 	padding-left: 17px;
@@ -448,12 +445,6 @@ text-decoration:underline !important;
 }
 
 /*Buttons*/
-.action_button{
-	width:60px;
-	height:21px;
-	text-align:center;
-	float:right;
-}
 
 .pri_button{
 	width:13px;

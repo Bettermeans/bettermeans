@@ -61,6 +61,7 @@ module ApplicationHelper
   def link_to_issue(issue, options={})
     title = nil
     subject = nil
+    css_class = nil
     if options[:subject] == false
       title = truncate(issue.subject, :length => 60)
     else
@@ -69,8 +70,14 @@ module ApplicationHelper
         subject = truncate(subject, :length => options[:truncate])
       end
     end
+    if options[:css_class]
+      css_class = options[:css_class]
+    else
+      css_class = issue.css_classes
+    end
+    
     s = link_to "#{issue.tracker} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, 
-                                                 :class => issue.css_classes,
+                                                 :class => css_class,
                                                  :title => title
     s << ": #{h subject}" if subject
     s = "#{h issue.project} - " + s if options[:project]

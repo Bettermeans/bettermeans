@@ -11,6 +11,8 @@ class Retro < ActiveRecord::Base
   NOT_STARTED_ID = -1 #is for issues that haven't been started yet
   NOT_NEEDED_ID = -1 #is for issues that don't need a retrospective b/c only one person worked on them
   
+  DEFAULT_RETROSPECTIVE_LENGTH = 3 #Length in days for which a retrospective is open
+  
   belongs_to :project
   has_many :issues
   has_many :journals, :through => :issues
@@ -21,6 +23,28 @@ class Retro < ActiveRecord::Base
   def set_from_date
     from_date = issues.first(:order => "updated_on ASC").updated_on
     save! #BUGBUG: doesn't work
+  end
+  
+  def close
+    @H = Hash.new
+    
+    retro_ratings.group_by{|retro_rating| retro_rating.rater_id}.keys.each do |user_id|
+      next if user_id = -1;
+      H[user_id] = []
+    end
+    
+    retro_ratings.each do |rr|
+      next if rr.rater_id = -1;
+      H[rr.ratee_id].push rr.score unless rr.ratee_id == rr.rater_id
+    end
+    
+    RetroRating.delete_all :rater_id => -1, :retro_id => self.id
+    H.keys.each do |user_id|
+      RetroRating.create :rater_id => -1, :ratee_id => user_id, :score => H[user_id].sum.to_f / H[user_id].length, :retro_id => self.id
+    end
+    
+    self.status_id = STATUS_COMPLETE
+    self.save
   end
 end
 
