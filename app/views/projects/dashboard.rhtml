@@ -1,15 +1,10 @@
-<link href="/stylesheets/bubbletip.css" rel="stylesheet" type="text/css" />
-<!--[if IE]>
-<link href="/stylesheets/bubbletip-IE.css" rel="stylesheet" type="text/css" />
-<![endif]-->
-
 <%= javascript_include_tag  'dashboard' %>
 <%= stylesheet_link_tag 'dashboard' %>
 
 
 <!-- todo: do we need this link? -->
 <script src="http://jquery-ui.googlecode.com/svn/branches/dev/ui/jquery.ui.position.js"></script>
-<div id='loading'>
+<div id='loading' class='loading'>
   <%= l(:text_loading_dashboard) %>
 </div>
 <div id='loading_error' style='display:none;text-weight:bold;'>
@@ -42,6 +37,7 @@
   var currentUserId = '<%= User.current.id %>';
   var currentUserIsCitizen = '<%= User.current.citizen_of?(@project) %>';
   var show_issue_id = '<%= @show_issue_id %>';
+  var show_retro_id = '<%= @show_retro_id %>';
   
   $('document').ready(function(){
       start();

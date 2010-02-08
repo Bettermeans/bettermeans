@@ -166,6 +166,7 @@ class ProjectsController < ApplicationController
   
   def dashboard
     @show_issue_id = params[:show_issue_id] #Optional parameter to start the dashboard off showing an issue
+    @show_retro_id = params[:show_retro_id] #Optional parameter to start the dashboard off showing a retrospective
   end
   
   #TODO: optimize this query, it's WAY too heavy, and we need fewer columns, and it's executing hundreds of queries!

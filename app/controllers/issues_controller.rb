@@ -230,9 +230,11 @@ class IssuesController < ApplicationController
     if @in_progress > 2 #TODO: this should be in the settings somewhere
       render_error "Maximum issues owned by this user already" 
       return false;
+    else
+      IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1 #Joins as first person on the team
+      params[:issue] = {:status_id => IssueStatus.assigned.id, :assigned_to_id => User.current.id}
+      change_status
     end
-    params[:issue] = {:status_id => IssueStatus.assigned.id, :assigned_to_id => User.current.id}
-    change_status
   end
   
   def finish
@@ -256,7 +258,6 @@ class IssuesController < ApplicationController
   end
   
   def change_status
-    logger.info("PARAMS BABY" + params.inspect)
       @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
       @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
       logger.info("edit allowed #{@edit_allowed} allowed statuses #{@allowed_statuses}")
@@ -351,7 +352,7 @@ class IssuesController < ApplicationController
 
     if @issue.ready_for_accepted?
       if @issue.has_team?
-        @retro = Retro.create :project_id => @project.id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now, :from_date => DateTime.now, :total_points => @issue.points
+        @retro = Retro.create :project_id => @project.id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now + Retro::DEFAULT_RETROSPECTIVE_LENGTH, :from_date => DateTime.now, :total_points => @issue.points
         @issue.retro_id = @retro.id
         #No longer used, since we have only 1 retro per item
         # @issue.retro_id = Retro::NOT_STARTED_ID
@@ -383,7 +384,7 @@ class IssuesController < ApplicationController
 
   def join
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1
-    @issue.save
+    # @issue.save
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
@@ -393,7 +394,7 @@ class IssuesController < ApplicationController
 
   def leave
     IssueVote.delete_all(["user_id = ? AND issue_id = ? AND vote_type = ?", User.current.id, params[:id], IssueVote::JOIN_VOTE_TYPE])
-    @issue.save
+    # @issue.save
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}

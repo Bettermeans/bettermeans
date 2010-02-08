@@ -1,78 +1,75 @@
-<h2>Retrospective #<%= @retro.id %> : <%= @total_points %> Points (<%= format_date(@retro.from_date) %> to <%= format_date(@retro.to_date) %>)</h2>
-
-
-<% 
-  @user_retro_hash.keys.each do |user_id|
-    user_retro = @user_retro_hash[user_id]
-%>
-  <div class="user_retrospective">
-    <h4><%= link_to_user_from_id(user_id) %></h4>
-    <table class="retrospective"><tr><td class="stats">
-    <%= user_retro["total_points"] %> points (<%= user_retro["percentage_points"] %>%) <br>
-    <%= user_retro["total_journals"] %> journals <br>      
-    <%= user_retro["total_votes"] %> votes <br>      
-    </td>
-    <% if user_retro["issues"].length > 0 %>
-    <td class="issues">
-    <% user_retro["issues"].each do |issue| %>
-    <%= link_to_issue(issue) %>  - <%= issue.points %> pts  <br>
-    <% end %>    
-    </td>
-    <% end %>
-    </tr></table>
-    <!-- <br> -->
-    <%# user_retro["journals"].each do |journal| %>
-    <%#= journal.inspect %>
-    <%# end %>    
-    <br>
-  </div>
-<% end %>
-
-
-<% content_for :sidebar do %>
-<!-- <h3><%#= l(:label_activity) %></h3> -->
-<br><br>
-<div style="overflow-x:auto;" align="center">
-  <% @chart_width = @point_totals.length*70 + 50
-   @chart_width = 1000 if @chart_width > 1000
-   %>
-  
-  <img src="<%= Gchart.bar(
-              :data => [@point_totals, @vote_totals, @journal_totals], 
-              :bar_colors => 'EA7235,757668,E3A34D',
-              #:horizontal => 'true',
-              :stacked => false,
-              :orientation => 'vertical', 
-              :size => "#{@chart_width}x200",
-              :axis_with_labels => 'x',
-              :axis_labels => @axis_labels,
-              :bar_width_and_spacing => '15,2,10',
-              :legend => ['Points','Votes','Journals'],
-              :custom => "chm=N*f0*,000000,0,-1,11|N*f0*,000000,1,-1,11|N*f0*,000000,2,-1,11&chds=0,#{@max_range}"
-              # :custom => 'chma=50,50,50,50|200,200'
-              )
-    %>"/>
-</div>
-<br>
-<br>
+<%= javascript_include_tag  'retro' %>
 <div align="center">
-  <img src="<%=  Gchart.pie(:title => 'Points', 
-                 :size => '400x200',
-                 :data => @pie_data_points, :labels => @pie_labels_points )
-   %>"/> 
-   <br>
-   <br>
-   <img src="<%=  Gchart.pie(:title => 'Journals', 
-                  :size => '400x200',
-                  :data => @pie_data_journals, :labels => @pie_labels_journals )
-    %>"/> 
-    <br>
-    <br>
-    <img src="<%=  Gchart.pie(:title => 'Votes', 
-                   :size => '400x200',
-                   :data => @pie_data_votes, :labels => @pie_labels_votes )
-     %>"/> 
-     <br>
-     <br>
-</div>
+<h2>Retrospective #<%= @retro.id %> <%= render_title_date @retro.to_date %>)</h2>
+<h2><%= link_to_issue(@issue, :css_class => '') %>  - <%= @issue.points %> points <%= image_tag "dice_#{@issue.points.round}.png", :alt => "#{@issue.points} points" %></h2>
+
+<div class="user_retrospective">
+  <table class="retrospective">
+    <tr><td class="avatar">
+      </td><td class="name">
+    </td><td class="stats1">
+    </td><td class="title">&nbsp;&nbsp;&nbsp;&nbsp;Your <img id="help_image_panel_your_assessment" src="/images/question_mark.gif" class="clickable"><br>assessment
+    </td><td class="title closed">&nbsp;&nbsp;&nbsp;&nbsp;Team's <img id="help_image_panel_team_assessment" src="/images/question_mark.gif" class="clickable"><br>assessment
+    </td><td class="button">
+    </td></tr>  
+    
+<% 
+  @issue.issue_votes.each do |issue_vote|
+    next if issue_vote.vote_type != IssueVote::JOIN_VOTE_TYPE
+
+%>
+  <tr><td class="avatar">
+    <%= avatar_from_id(issue_vote.user_id) %>
+    </td><td class="name">
+  <%= link_to_user_from_id(issue_vote.user_id) %>   
+  </td><td class="stats">
+    <%= issue_vote.user_id == @issue.assigned_to_id ? "Started" : "Joined"%> <%= format_date issue_vote.updated_on %>
+  </td><td class="percentage">
+    <label id="user_<%= issue_vote.user_id%>_percentage" class="percentage_label"><%= @user_hash[issue_vote.user_id] %>%</label>
+  <br>
+  <% if (@retro.status_id == Retro::STATUS_INPROGRESS) %>
+  <div id="slider_<%= issue_vote.user_id%>" class="slider" user_id="<%= issue_vote.user_id%>" per="<%= @user_hash[issue_vote.user_id] %>"></div>
+  <% end %>
+  </td><td class="percentage closed">
+    <label id="user_<%= issue_vote.user_id%>_percentage"><%= @system_hash[issue_vote.user_id] %>%</label>
+  </td><td class="button">
+  </td></tr>  
 <% end %>
+<tr class="open"><td class="avatar">
+</td><td class="name">
+</td><td class="total" style="text-align:right;">
+  Total&nbsp;
+</td><td id="total" class="total">
+  0%
+</td><td class="button">
+  <a id="change_retro_link_save" href="#" onclick="save_retro(<%= @retro.id  %>)" class="action_button action_button_save" style="color:#fff;text-decoration:none;display:none;">Save</a>
+  <label id="success" style="display:none;">Done!</label>
+  <div id='saving' class='loading'>saving...</div>
+  
+</td></tr>  
+</table>
+</div>
+</div>
+
+<div id="help_panel_your_assessment" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Your assessment</strong><br>
+    Your view of how much you and your team mates contributed to the execution of this item. What percentage of the work did you accomplish, compared to your team mates.
+    During the retrospective, every team member is asked to assess everyone's contribution. Once the retrospective is complete, the assessments will be averaged out and displayed here.
+  </div>
+</div>
+
+<div id="help_panel_team_assessment" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Team assessment</strong><br>
+    This is the average percentage contribution the work item as assessed by your peers. Each person's self-assessment is taken out of the average and only their team mates' assessment counts towards this number.
+  </div>
+</div>
+
+
+<script>
+  var currentUserId = '<%= User.current.id %>';  
+  var retroStatus = '<%= @retro.status_id %>';
+</script>
+
+
