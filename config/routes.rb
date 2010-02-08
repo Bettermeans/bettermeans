@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :team_offers
   map.resources :enterprises
   map.resources :comments
+  map.resources :retro_ratings
   
   # map.connect 'commit_requests/createdialgoue', :action => 'createdialogue', :controller => 'commit_requesets'
   
@@ -244,6 +245,8 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
       project_views.connect 'issues/:show_issue_id', :action => 'dashboard'
       project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
+      project_views.connect 'projects/:id/retros/:show_retro_id', :action => 'dashboard'
+      
     end
 
     projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|
@@ -304,7 +307,7 @@ ActionController::Routing::Routes.draw do |map|
       retro_views.connect 'projects/:project_id/retros', :action => 'index'
       retro_views.connect 'projects/:project_id/retros/new', :action => 'new'
       retro_views.connect 'projects/:project_id/retros/:action', :action => /index_json/
-      retro_views.connect 'projects/:project_id/retros/:id', :action => 'show'
+      # retro_views.connect 'projects/:project_id/retros/:id', :action => 'show'
       retro_views.connect 'projects/:project_id/retros/:id/:action', :action => /show|dashdata/
       retro_views.connect 'projects/:project_id/retros/:id.:format', :action => 'show'
       retro_views.connect 'projects/:project_id/retros/:id/edit', :action => 'edit'
