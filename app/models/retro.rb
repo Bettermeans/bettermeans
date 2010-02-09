@@ -29,21 +29,28 @@ class Retro < ActiveRecord::Base
   end
   
   def close
-    @H = Hash.new
+    @user_hash = Hash.new
     
     retro_ratings.group_by{|retro_rating| retro_rating.rater_id}.keys.each do |user_id|
-      next if user_id = -1;
-      @H[user_id] = []
+      puts("userid:#{user_id}")
+      next if user_id == -1;
+      @user_hash[user_id] = []
     end
+
+    puts("H: " + @user_hash.inspect)
     
     retro_ratings.each do |rr|
-      next if rr.rater_id = -1;
-      @H[rr.ratee_id].push rr.score unless rr.ratee_id == rr.rater_id
+      puts("rr:#{rr.inspect}")
+      next if rr.rater_id == -1;
+      @user_hash[rr.ratee_id].push rr.score unless rr.ratee_id == rr.rater_id
     end
     
+    puts("H: " + @user_hash.inspect)
+    
     RetroRating.delete_all :rater_id => -1, :retro_id => self.id
-    @H.keys.each do |user_id|
-      RetroRating.create :rater_id => -1, :ratee_id => user_id, :score => @H[user_id].sum.to_f / @H[user_id].length, :retro_id => self.id
+    @user_hash.keys.each do |user_id|
+      puts("creating for:#{user_id}")
+      RetroRating.create :rater_id => -1, :ratee_id => user_id, :score => @user_hash[user_id].sum.to_f / @user_hash[user_id].length, :retro_id => self.id
     end
     
     self.status_id = STATUS_COMPLETE
