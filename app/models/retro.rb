@@ -54,6 +54,7 @@ class Retro < ActiveRecord::Base
     end
     
     self.status_id = STATUS_COMPLETE
+    self.to_date = DateTime.now
     self.save
   end
   
