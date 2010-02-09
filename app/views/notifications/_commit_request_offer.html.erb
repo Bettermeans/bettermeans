@@ -24,7 +24,6 @@
                                                     :label => l(:button_request_commitment_accept)
                                                     }, 
                                                         {:id =>'cr_button', :class => 'lbOn icon icon-cr-accept'})%>
-  <%= link_to_remote(l(:button_request_commitment_decline), {:url => user_commit_request_path(:id => cr_id, :format => :js, :user_id => sender_id, :issue_id => issue_id, :response => 3, :responder_id => User.current.id, :notification_id => notification_id), :method => 'put'}, {:id =>'cr_button', :class => 'icon icon-cr-decline'})%>
   &nbsp;
   <%= link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => notification_id, :message => :label_response_ignored}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
       </td>

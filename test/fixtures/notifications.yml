@@ -15,6 +15,7 @@ two:
   expiration_date: 2009-11-06
 
 
+
 # == Schema Information
 #
 # Table name: notifications
@@ -28,5 +29,6 @@ two:
 #  expiration   :datetime
 #  created_on   :datetime
 #  updated_on   :datetime
+#  sender_id    :integer
 #
 

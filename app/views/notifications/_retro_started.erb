@@ -1,0 +1,20 @@
+<!-- Notification sent to users by admin when a retrospective is started -->
+<div class="notification notification-retro-started" id="notification_<%= @notification.id %>">
+<table>
+  <tr>
+    <td style="vertical-align: top; padding: 23px 10px 0px 0px">
+    <%= avatar_from_id(@notification.sender_id) %>
+    </td>
+    <td>
+<h4><%= l("label_retro_started") %> : <%= link_to(l("label_retro"), {:controller => 'retros', :action => 'show', :id => @notification.source_id}) %> </h4>
+<h5><%= l("label_from_ago" , :author => link_to_user_from_id(@notification.sender_id), :age => time_tag(@notification.created_on)) %></h5>
+"body"
+<br><br>
+<%#= link_to_remote(l(:button_team_offer_accept), {:url => {:controller => :team_offers, :action => 'update', :id => source_id, :format => :js, :notification_id => notification_id, :response => TeamOffer::RESPONSE_ACCEPTED}, :method => :put}, {:class => 'icon icon-cr-accept'})%>
+&nbsp;
+<%= link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_response_ignored}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
+    </td>
+    </tr>
+    </table>
+
+</div>
