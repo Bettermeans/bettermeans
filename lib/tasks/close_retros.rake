@@ -14,6 +14,7 @@ task :close_retros => :environment do
       puts "Auto closing retro: #{retro.id}"
       retro.close
     elsif retro.all_in?
+      puts "Closing retro: #{retro.id} becuase all is in"
       retro.close
     end
       
