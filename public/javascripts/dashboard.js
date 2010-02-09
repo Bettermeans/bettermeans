@@ -1167,10 +1167,9 @@ function button(type,dataId,hide,options){
 	if (type == 'release') label = 'giveup';
 	html = '';
 	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + type + '" ' + hide_style + ' onclick="click_' + type + '(' + dataId + ',this, ' + options + ');return false;">';
-	html = html + '<a href="/" id="item_action_link_' + type + dataId + '" class="action_link clickable">' + label + '</a>';
+	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable">' + label + '</a>';
 	html = html + '</div>';
 	return html;
-	// return '<img id="item_content_buttons_' + type + '_button_' + dataId + '" class="stateChangeButton notDblclickable" src="/images/' + type + '.png" onmouseover="this.src=\'/images/' + type + '_hover.png\'" onclick="click_' + type + '(' + dataId + ',this);return false;" onmouseout="this.src=\'/images/' + type + '.png\'">';
 }
 
 function click_start(dataId,source){
