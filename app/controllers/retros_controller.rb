@@ -30,7 +30,8 @@ class RetrosController < ApplicationController
     @retro = Retro.find(params[:id])
     @issue = @retro.issues.first
     @user_hash = {}
-    @system_hash = {}
+    @team_hash = {}
+    @final_hash = {}
     @issue.issue_votes.each do |issue_vote|
       next if issue_vote.vote_type != IssueVote::JOIN_VOTE_TYPE
       if issue_vote.user_id == @issue.assigned_to_id
@@ -42,9 +43,9 @@ class RetrosController < ApplicationController
     logger.info(@user_hash.inspect)
     @retro.retro_ratings.each do |retro_rating|
       @user_hash[retro_rating.ratee_id] = retro_rating.score.round if retro_rating.rater_id == User.current.id
-      @system_hash[retro_rating.ratee_id] = retro_rating.score.round if retro_rating.rater_id == -1
+      @team_hash[retro_rating.ratee_id] = retro_rating.score.round if retro_rating.rater_id == -1
+      @final_hash[retro_rating.ratee_id] = retro_rating.score.round if retro_rating.rater_id == -2
     end
-    logger.info(@user_hash.inspect)
     
     # @user_retro_hash = {}
     # 

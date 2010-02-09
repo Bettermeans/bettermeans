@@ -10,6 +10,7 @@
     </td><td class="stats1">
     </td><td class="title">&nbsp;&nbsp;&nbsp;&nbsp;Your <img id="help_image_panel_your_assessment" src="/images/question_mark.gif" class="clickable"><br>assessment
     </td><td class="title closed">&nbsp;&nbsp;&nbsp;&nbsp;Team's <img id="help_image_panel_team_assessment" src="/images/question_mark.gif" class="clickable"><br>assessment
+    </td><td class="title closed">&nbsp;&nbsp;&nbsp;&nbsp;Final <img id="help_image_panel_final_assessment" src="/images/question_mark.gif" class="clickable"><br>distribution
     </td><td class="button">
     </td></tr>  
     
@@ -31,7 +32,9 @@
   <div id="slider_<%= issue_vote.user_id%>" class="slider" user_id="<%= issue_vote.user_id%>" per="<%= @user_hash[issue_vote.user_id] %>"></div>
   <% end %>
   </td><td class="percentage closed">
-    <label id="user_<%= issue_vote.user_id%>_percentage"><%= @system_hash[issue_vote.user_id] %>%</label>
+    <label id="user_<%= issue_vote.user_id%>_percentage"><%= @team_hash[issue_vote.user_id] %>%</label>
+  </td><td class="percentage closed">
+    <label id="user_<%= issue_vote.user_id%>_percentage"><%= @final_hash[issue_vote.user_id] %>%</label>
   </td><td class="button">
   </td></tr>  
 <% end %>
@@ -63,6 +66,13 @@
   <div class="tip" style="width:300px">
     <strong>Team assessment</strong><br>
     This is the average percentage contribution the work item as assessed by your peers. Each person's self-assessment is taken out of the average and only their team mates' assessment counts towards this number.
+  </div>
+</div>
+
+<div id="help_panel_final_assessment" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Final assessment</strong><br>
+    All the Team averages are used to proportionally distribute over 100%
   </div>
 </div>
 
