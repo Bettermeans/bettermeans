@@ -33,7 +33,7 @@ class Retro < ActiveRecord::Base
     
     retro_ratings.group_by{|retro_rating| retro_rating.rater_id}.keys.each do |user_id|
       puts("userid:#{user_id}")
-      next if user_id == -1;
+      next if user_id < 0;
       @user_hash[user_id] = []
     end
 
@@ -41,16 +41,26 @@ class Retro < ActiveRecord::Base
     
     retro_ratings.each do |rr|
       puts("rr:#{rr.inspect}")
-      next if rr.rater_id == -1;
+      next if rr.rater_id < 0;
       @user_hash[rr.ratee_id].push rr.score unless rr.ratee_id == rr.rater_id
     end
     
     puts("H: " + @user_hash.inspect)
-    
+
+    team_average_total = 0
+    #rater_id -1 reserved for team average
     RetroRating.delete_all :rater_id => -1, :retro_id => self.id
     @user_hash.keys.each do |user_id|
       puts("creating for:#{user_id}")
       RetroRating.create :rater_id => -1, :ratee_id => user_id, :score => @user_hash[user_id].sum.to_f / @user_hash[user_id].length, :retro_id => self.id
+      team_average_total = team_average_total + (@user_hash[user_id].sum.to_f / @user_hash[user_id].length)
+    end
+
+    #rater_id -2 reserved for final distribution
+    RetroRating.delete_all :rater_id => -2, :retro_id => self.id
+    @user_hash.keys.each do |user_id|
+      puts("creating for:#{user_id}")
+      RetroRating.create :rater_id => -2, :ratee_id => user_id, :score => @user_hash[user_id].sum.to_f / @user_hash[user_id].length * 100 / team_average_total, :retro_id => self.id
     end
     
     self.status_id = STATUS_COMPLETE
