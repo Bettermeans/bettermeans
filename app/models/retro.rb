@@ -3,7 +3,10 @@
 #
 
 class Retro < ActiveRecord::Base
-    
+  
+  include ActionController::UrlWriter
+  include ActionView::Helpers
+  
   #Constants
   STATUS_INPROGRESS = 1
   STATUS_COMPLETE = 2
@@ -45,6 +48,24 @@ class Retro < ActiveRecord::Base
     
     self.status_id = STATUS_COMPLETE
     self.save
+  end
+  
+  #Sends notification to everyone in the retrospective that it's starting
+  def announce
+    @users = Hash.new
+    issue_votes.each do |issue_vote|
+      @users[issue_vote.user_id] = 1 if issue_vote.vote_type == IssueVote::JOIN_VOTE_TYPE
+    end
+    
+    admin = User.find(:first,:conditions => {:login => "admin"})
+    
+    @users.keys.each do |user_id|
+      Notification.create :recipient_id => user_id,
+                          :variation => 'retro_started',
+                          :params => {}, 
+                          :sender_id => admin.id,
+                          :source_id => self.id    
+    end
   end
 end
 

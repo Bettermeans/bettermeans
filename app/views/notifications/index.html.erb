@@ -1,8 +1,8 @@
 <h2><%=l(:label_notifications)%></h2>
 <%#= link_to 'New notification', new_notification_path %>
-<% @notifications.each do |notification| %>
-    <%= render :partial => notification.variation, 
-              :locals => eval("{" + notification.params + ", :source_id => #{notification.source_id.to_s}, :notification_id => #{notification.id.to_s}, :notification_created_on => '#{notification.created_on.to_s}'}") %>
+<% @notifications.each do |@notification| %>
+    <%= render :partial => @notification.variation, 
+              :locals => @notification.params %>
 <% end %>
 <br />
 
