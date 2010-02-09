@@ -67,6 +67,13 @@ class Retro < ActiveRecord::Base
                           :source_id => self.id    
     end
   end
+  
+  #True when all team members in a retrospective have participated
+  def all_in?
+    retro_group = retro_ratings.group_by {|retro_rating| retro_rating.rater_id}
+    team_group = issue_votes.select{|issue_vote| issue_vote.vote_type == IssueVote::JOIN_VOTE_TYPE}
+    return team_group.length <= retro_group.length
+  end
 end
 
 

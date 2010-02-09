@@ -13,6 +13,8 @@ task :close_retros => :environment do
     if (Time.now > retro.to_date)
       puts "Auto closing retro: #{retro.id}"
       retro.close
+    elsif retro.all_in?
+      retro.close
     end
       
     # Notification.create cr.user_id,
