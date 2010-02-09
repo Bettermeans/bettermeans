@@ -8,6 +8,7 @@ class NotificationTest < ActiveSupport::TestCase
 end
 
 
+
 # == Schema Information
 #
 # Table name: notifications
@@ -21,5 +22,6 @@ end
 #  expiration   :datetime
 #  created_on   :datetime
 #  updated_on   :datetime
+#  sender_id    :integer
 #
 

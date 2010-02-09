@@ -1,5 +1,7 @@
 class RetrosController < ApplicationController
-  before_filter :find_project, :authorize
+  before_filter :find_retro, :only => [:show]
+  before_filter :find_project, :only => [:index, :index_json, :dashdata, :new, :edit, :create, :update, :destroy, :show_multiple]  
+  before_filter :authorize
 
   # GET /retros
   # GET /retros.xml
@@ -286,7 +288,13 @@ class RetrosController < ApplicationController
     end
   end
   
+  def find_retro
+    @retro = Retro.find(params[:id])
+    @project = @retro.project
+  end
+  
+  
   def find_project
-    @project = Project.find(params[:project_id])
+      @project = Project.find(params[:project_id])
   end
 end

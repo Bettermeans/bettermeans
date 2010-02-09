@@ -156,7 +156,7 @@ class TeamOffer < ActiveRecord::Base
     #Send notification of request or invitation to recipient
      Notification.create! :recipient_id => recipient_id,
                           :variation => "team_offer",                        
-                          :params => "#{hash_to_param_string(self.attributes)}, :sender_id => #{author_id}, :variation_description => '#{variation_description.downcase!}', :project => '#{self.project.name}', :body => '#{sending_description}.<br>#{author_note_description}'",  
+                          :params => {self.attributes, :sender_id => author_id, :variation_description => variation_description.downcase, :project => self.project.name, :body => '#{sending_description}.<br>#{author_note_description}'},  
                           :source_id => id
   end
   
@@ -164,7 +164,7 @@ class TeamOffer < ActiveRecord::Base
     #send notification message to author with recipient's response
     Notification.create! :recipient_id => author_id,
                         :variation => 'message',                        
-                        :params => ":subject => '#{short_description}', :message => '#{response_description}. #{recipient_note_description}', :sender_id => #{recipient_id}",  
+                        :params => {:subject => short_description, :message => '#{response_description}. #{recipient_note_description}', :sender_id => recipient_id},  
                         :source_id => id     unless withdrawn? || disabled? #don't send if the update is about withdrawing
     
     #If accepted we add a team point for this user

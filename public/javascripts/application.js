@@ -608,7 +608,9 @@ $.fn.mybubbletip = function(tip, options) {
 				_wrapper.animate(animation, _options.animationDuration, _options.animationEasing, function() {
 					_wrapper.hide();
 					_isHiding = false;
-					_tip.appendTo('body');					
+					_tip.appendTo('body');	
+					_tip.hide();	
+					_wrapper.hide();			
 					_wrapper.addClass('oldbubble');
 					$('.oldbubble').hide();
 				});

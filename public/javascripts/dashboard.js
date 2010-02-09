@@ -446,6 +446,7 @@ function add_item(dataId,position,scroll,panelid){
 		break;
 		case 'Canceled':
 		panelid = 'canceled';
+		break;
 		case 'Archived':
 		panelid = 'archived';
 		break;
