@@ -33,17 +33,17 @@ class Retro < ActiveRecord::Base
     
     retro_ratings.group_by{|retro_rating| retro_rating.rater_id}.keys.each do |user_id|
       next if user_id = -1;
-      H[user_id] = []
+      @H[user_id] = []
     end
     
     retro_ratings.each do |rr|
       next if rr.rater_id = -1;
-      H[rr.ratee_id].push rr.score unless rr.ratee_id == rr.rater_id
+      @H[rr.ratee_id].push rr.score unless rr.ratee_id == rr.rater_id
     end
     
     RetroRating.delete_all :rater_id => -1, :retro_id => self.id
-    H.keys.each do |user_id|
-      RetroRating.create :rater_id => -1, :ratee_id => user_id, :score => H[user_id].sum.to_f / H[user_id].length, :retro_id => self.id
+    @H.keys.each do |user_id|
+      RetroRating.create :rater_id => -1, :ratee_id => user_id, :score => @H[user_id].sum.to_f / @H[user_id].length, :retro_id => self.id
     end
     
     self.status_id = STATUS_COMPLETE
