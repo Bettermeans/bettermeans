@@ -154,10 +154,10 @@ class TeamOffer < ActiveRecord::Base
   
   def send_notification_of_creation
     #Send notification of request or invitation to recipient
-     Notification.create! :recipient_id => recipient_id,
-                          :variation => "team_offer",                        
-                          :params => {self.attributes, :sender_id => author_id, :variation_description => variation_description.downcase, :project => self.project.name, :body => '#{sending_description}.<br>#{author_note_description}'},  
-                          :source_id => id
+     # Notification.create! :recipient_id => recipient_id,
+     #                      :variation => "team_offer",                        
+     #                      :params => {self.attributes, :sender_id => author_id, :variation_description => variation_description.downcase, :project => self.project.name, :body => '#{sending_description}.<br>#{author_note_description}'},  
+     #                      :source_id => id
   end
   
   def send_notification_of_update
