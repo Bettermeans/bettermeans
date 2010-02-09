@@ -1057,7 +1057,7 @@ function buttons_for(dataId){
 	case 'Done':
 		if (item.retro_id){
 			html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
-			if (item.retro_id > 0){
+			if (item.retro_id > 0 && is_part_of_team(item)){
 				html = html + button('retro',dataId,false,item.retro_id);
 			}
 		}
