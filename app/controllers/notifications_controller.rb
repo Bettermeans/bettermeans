@@ -2,8 +2,7 @@ class NotificationsController < ApplicationController
   # GET /notifications
   # GET /notifications.xml
   def index
-    @notifications = Notification.unresponded
-    
+    @notifications = Notification.unresponded    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @notifications }

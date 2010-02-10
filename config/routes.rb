@@ -16,6 +16,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :enterprises
   map.resources :comments
   map.resources :retro_ratings
+  map.resources :retros
+  map.resources :projects
   
   # map.connect 'commit_requests/createdialgoue', :action => 'createdialogue', :controller => 'commit_requesets'
   
@@ -246,6 +248,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'issues/:show_issue_id', :action => 'dashboard'
       project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
       project_views.connect 'projects/:id/retros/:show_retro_id', :action => 'dashboard'
+      # project_views.connect 'retros/:show_retro_id', :action => 'dashboard'
       
     end
 

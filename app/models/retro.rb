@@ -21,6 +21,7 @@ class Retro < ActiveRecord::Base
   has_many :journals, :through => :issues
   has_many :issue_votes, :through => :issues
   has_many :retro_ratings
+
   
   #Sets the from_date according to earliest updated issue in retrospective
   def set_from_date
@@ -66,10 +67,31 @@ class Retro < ActiveRecord::Base
     self.status_id = STATUS_COMPLETE
     self.to_date = DateTime.now
     self.save
+    
+    announce_close
+    
   end
   
   #Sends notification to everyone in the retrospective that it's starting
-  def announce
+  def announce_start
+    @users = Hash.new
+    issue_votes.each do |issue_vote|
+      @users[issue_vote.user_id] = 1 if issue_vote.vote_type == IssueVote::JOIN_VOTE_TYPE
+    end
+    
+    admin = User.find(:first,:conditions => {:login => "admin"})
+    logger.info("users: #{@users}")
+    @users.keys.each do |user_id|
+      Notification.create :recipient_id => user_id,
+                          :variation => 'retro_started',
+                          :params => {:issue => issues.first}, 
+                          :sender_id => admin.id,
+                          :source_id => self.id    
+    end
+  end
+
+  #Sends notification to everyone in the retrospective that it's ended
+  def announce_close
     @users = Hash.new
     issue_votes.each do |issue_vote|
       @users[issue_vote.user_id] = 1 if issue_vote.vote_type == IssueVote::JOIN_VOTE_TYPE
@@ -79,8 +101,8 @@ class Retro < ActiveRecord::Base
     
     @users.keys.each do |user_id|
       Notification.create :recipient_id => user_id,
-                          :variation => 'retro_started',
-                          :params => {}, 
+                          :variation => 'retro_ended',
+                          :params => {:issue => issues.first}, 
                           :sender_id => admin.id,
                           :source_id => self.id    
     end
