@@ -1,4 +1,5 @@
 class RetroRatingsController < ApplicationController
+  before_filter :authorize
   # GET /retro_ratings
   # GET /retro_ratings.xml
   def index
@@ -43,6 +44,7 @@ class RetroRatingsController < ApplicationController
     logger.info params.inspect
     
     @retro_ratings = params[:retro_ratings].values.collect { |retro_rating| RetroRating.new(retro_rating) }
+    #TODO: security: make sure to only create ratings if current user is same as rater_id (and user is actually on those teams!)
     respond_to do |format|
       if @retro_ratings.all?(&:valid?)
         RetroRating.delete_all(:rater_id => @retro_ratings[0].rater_id , :retro_id => @retro_ratings[0].retro_id)
@@ -85,4 +87,5 @@ class RetroRatingsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
 end
