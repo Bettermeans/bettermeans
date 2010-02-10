@@ -353,17 +353,19 @@ class IssuesController < ApplicationController
     if @issue.ready_for_accepted?
       if @issue.has_team?
         @retro = Retro.create :project_id => @project.id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now + Retro::DEFAULT_RETROSPECTIVE_LENGTH, :from_date => DateTime.now, :total_points => @issue.points
-        @retro.announce
+        logger.info("announcing start")
         @issue.retro_id = @retro.id
+        @issue.save
+        @retro.announce_start
         #No longer used, since we have only 1 retro per item
         # @issue.retro_id = Retro::NOT_STARTED_ID
         #     @issue.project.start_retro_if_ready
       else
         @issue.retro_id = Retro::NOT_NEEDED_ID
+        @issue.save
       end
     end
     
-    @issue.save
     
     
     respond_to do |format|
