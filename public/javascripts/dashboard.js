@@ -806,7 +806,7 @@ try{
 		return false;
 	}
 catch(err){
-	console.log(err);
+	////console.log(err);
 	return false;
 }
 }
@@ -856,7 +856,7 @@ try{
 	return false;
 	}
 catch(err){
-	console.log(err);
+	////console.log(err);
 	return false;
 }
 }
@@ -1024,7 +1024,7 @@ function buttons_for(dataId){
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
-		// console.log(item.points);
+		// ////console.log(item.points);
 		item.points == 0 ? html = html + button('start',dataId,false) : html = html + button('start',dataId,true);
 
 		if (currentUserIsCitizen == 'true'){
@@ -1978,7 +1978,6 @@ try{
 	}
 	}
 catch(err){
-	console.log(err);
 	return false;
 }
 }
@@ -2020,7 +2019,6 @@ try{
 	}
 	}
 catch(err){
-	console.log(err);
 	return false;
 }
 }
@@ -2063,7 +2061,6 @@ try{
 		return false;
 	}
 catch(err){
-	console.log(err);
 	return false;
 }
 }
@@ -2097,7 +2094,6 @@ try{
 		return false;
 	}
 catch(err){
-	console.log(err);
 	return false;
 }
 }
@@ -2122,7 +2118,7 @@ function show_issue_full(itemId){
 	                           action    : 'show',
 								id		: itemId
 	                          });
-	console.log(url);
+	//////console.log(url);
 	show_fancybox(url,'loading data...');
 
 	return false;
@@ -2138,7 +2134,7 @@ function show_retro_full(retroId){
 
 
 function show_fancybox(url,message){
-	console.log("Fancybox for: " + url);
+	////console.log("Fancybox for: " + url);
 	$.fancybox({
 				'width'				: '90%',
 				'height'			: '95%',
