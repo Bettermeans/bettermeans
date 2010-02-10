@@ -291,6 +291,7 @@ function make_text_boxes_toggle_keyboard_shortcuts(){
 
 function load_buttons(){
 	$('#main-menu').append('<input id="new_request" value="New Idea" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
+	$('#main-menu').append('<select id="filter_select" style="margin-left:20px;" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="1">Last 24 hours</option><option value="2">Last two days</option><option value="3">Last three days</option><option value="7">Last week</option><option value="14">Last two weeks</option><option value="30">Last month</option><option value="60">Last two months</option></select>');
 }
 
 function load_search(){
@@ -1260,6 +1261,52 @@ function click_retro(dataId,source){
 	return false;
 }
 
+
+function filter_select(){
+	var selection = $("#filter_select").val();
+	
+	switch(selection)
+	{
+		case "1":	hide_inactive(1);
+					break;	
+		case "2":	hide_inactive(2);
+					break;	
+		case "3":	hide_inactive(3);
+					break;	
+		case "7":	hide_inactive(7);
+					break;	
+		case "14":	hide_inactive(14);
+					break;	
+		case "21":	hide_inactive(21);
+					break;	
+		case "30":	hide_inactive(30);
+					break;	
+		case "60":	hide_inactive(60);
+					break;	
+		case "90":	hide_inactive(90);
+					break;	
+		case "120":	hide_inactive(120);
+					break;	
+		case "150":	hide_inactive(150);
+					break;	
+		case "all":	hide_inactive(99999);
+					break;						
+	}	
+}
+
+//Hides all items not active in the last *days*
+function hide_inactive(days){
+	var today = new Date();
+	
+	for(var i = 0; i < D.length; i++ ){
+		if (new Date(D[i].updated_on) < new Date().setDate(today.getDate()-days)){
+			$("#item_" + i).hide();
+		}
+		else{
+			$("#item_" + i).show();
+		}
+	}	
+}
 
 
 function send_item_action(dataId,action,extradata){
