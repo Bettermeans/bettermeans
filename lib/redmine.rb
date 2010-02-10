@@ -49,7 +49,7 @@ Redmine::AccessControl.map do |map|
                                   :retros => [:index, :index_json, :dashdata, :show]
                                   }
     map.permission :add_issues, {:issues => [:new, :update_form]}
-    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize, :agree, :disagree, :estimate, :accept, :reject, :join, :leave]}
+    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :cancel, :restart, :prioritize, :deprioritize, :agree, :disagree, :estimate, :join, :leave]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
     map.permission :add_issue_notes, {:issues => [:edit, :reply], :comments => :create, :todos => [:create,:update,:destroy]}
     map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
@@ -63,6 +63,7 @@ Redmine::AccessControl.map do |map|
     map.permission :view_member_roles, {:member_roles => [:show]} #Can view member roles
     map.permission :estimate_issues, {:issues => :estimate} #Can estimate issue
     map.permission :accept_issues, {:issues => [:accept, :reject]} #can accept or reject issues
+    map.permission :start_issues, {:issues => [:start,:finish,:release], :retro_ratings => [:create]} #can start issues
     # Queries
     map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member
     map.permission :save_queries, {:queries => [:new, :edit, :destroy]}, :require => :loggedin
