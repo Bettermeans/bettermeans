@@ -6,13 +6,16 @@
     <%= avatar_from_id(@notification.sender_id) %>
     </td>
     <td>
-<h4><%= l("label_retro_started") %> : <%= link_to(l("label_retro"), {:controller => 'retros', :action => 'show', :id => @notification.source_id}) %> </h4>
+<h4><%= link_to "#{l("label_retro_started")} ##{@notification.source_id}", {:controller => "projects", :action => "dashboard", :show_retro_id => @notification.source_id, :id => issue.project_id} %> </h4>
 <h5><%= l("label_from_ago" , :author => link_to_user_from_id(@notification.sender_id), :age => time_tag(@notification.created_on)) %></h5>
-"body"
+<%= l(:text_retro_started_for) %>
+<%= link_to_issue issue, :css_class => ''%>
+<%= l(:text_retro_started) %>
 <br><br>
 <%#= link_to_remote(l(:button_team_offer_accept), {:url => {:controller => :team_offers, :action => 'update', :id => source_id, :format => :js, :notification_id => notification_id, :response => TeamOffer::RESPONSE_ACCEPTED}, :method => :put}, {:class => 'icon icon-cr-accept'})%>
+<%= link_to(l(:button_participate), {:controller => "projects", :action => "dashboard", :show_retro_id => @notification.source_id, :id => issue.project_id}, {:id =>'cr_button', :class => 'icon icon-cr-offer', :target => "_blank"})%>
 &nbsp;
-<%= link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_response_ignored}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
+<%= link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_ignored}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
     </td>
     </tr>
     </table>
