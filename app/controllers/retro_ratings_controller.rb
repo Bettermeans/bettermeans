@@ -1,5 +1,5 @@
 class RetroRatingsController < ApplicationController
-  before_filter :authorize
+  # before_filter :authorize
   # GET /retro_ratings
   # GET /retro_ratings.xml
   def index
