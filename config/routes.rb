@@ -260,10 +260,10 @@ ActionController::Routing::Routes.draw do |map|
     projects.with_options :conditions => {:method => :post} do |project_actions|
       project_actions.connect 'projects/new', :action => 'add'
       project_actions.connect 'projects', :action => 'add'
-      project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive/
-      project_actions.connect 'projects/:id/join_core_team', :action => 'join_core_team'
-      project_actions.connect 'projects/:id/leave_core_team', :action => 'leave_core_team'
-      project_actions.connect 'projects/:id/core_vote', :action => 'core_vote'
+      project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive|edit|join_core_team|leave_core_team|core_vote/
+      # project_actions.connect 'projects/:id/join_core_team', :action => 'join_core_team'
+      # project_actions.connect 'projects/:id/leave_core_team', :action => 'leave_core_team'
+      # project_actions.connect 'projects/:id/core_vote', :action => 'core_vote'
       project_actions.connect 'projects/:id/wiki', :action => 'wiki'
       project_actions.connect 'projects/:id/files/new', :action => 'add_file'
       project_actions.connect 'projects/:id/versions/new', :action => 'add_version'
