@@ -18,9 +18,9 @@ class TimeEntry < ActiveRecord::Base
                 :author => :user,
                 :description => :comments
 
-  acts_as_activity_provider :timestamp => "#{table_name}.created_on",
-                            :author_key => :user_id,
-                            :find_options => {:include => :project} 
+  # acts_as_activity_provider :timestamp => "#{table_name}.created_on",
+  #                           :author_key => :user_id,
+  #                           :find_options => {:include => :project} 
 
   validates_presence_of :user_id, :activity_id, :project_id, :hours, :spent_on
   validates_numericality_of :hours, :allow_nil => true, :message => :invalid
