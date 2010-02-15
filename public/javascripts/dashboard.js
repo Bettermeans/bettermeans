@@ -377,7 +377,13 @@ function rdata_ready(html,rdataId){
 function add_hover_icon_events(){
 	$(".hoverDetailsIcon").click(
 	      function () {
-			show_details_flyover(Number(this.id.split('_')[1].replace(/"/g,''),0),this.id);
+			var url = url_for({ controller: 'issues',
+			                           action    : 'show',
+										id		: Number(this.id.split('_')[1].replace(/"/g,''),0)
+			                          });
+			
+			show_fancybox(url,'loading data...');
+			
 	      }
 	    );
 	$(".hoverDiceIcon").click(
@@ -387,7 +393,7 @@ function add_hover_icon_events(){
 	    );
 	$(".hoverCommentsIcon").click(
 	      function () {
-			show_details_flyover(Number(this.id.split('_')[1].replace(/"/g,''),500),this.id);
+			show_details_flyover(Number(this.id.split('_')[1].replace(/"/g,''),0),this.id);
 	      }
 	    );
 
@@ -1605,9 +1611,11 @@ function item_added(item){
 }
 
 function item_actioned(item, dataId,action, status_changed){
+	console.log("what!");
 	D[dataId] = item; 
 	if (!status_changed)
 	{
+		console.log("chaning");
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
 	}
 	else
@@ -1664,7 +1672,7 @@ function item_estimated(item, dataId){
 
 function item_updated(item, dataId){
 	D[dataId] = item; 
-	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
+	$("#item_" + dataId).replaceWith(generate_item(dataId));
 	add_hover_icon_events();
 	keyboard_shortcuts = true;
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
