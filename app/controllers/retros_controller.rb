@@ -44,7 +44,7 @@ class RetrosController < ApplicationController
     @retro.retro_ratings.each do |retro_rating|
       @user_hash[retro_rating.ratee_id] = retro_rating.score.round if retro_rating.rater_id == User.current.id
       @team_hash[retro_rating.ratee_id] = retro_rating.score.round if retro_rating.rater_id == -1
-      @final_hash[retro_rating.ratee_id] = retro_rating.score.round if retro_rating.rater_id == -2
+      @final_hash[retro_rating.ratee_id] = retro_rating.score.round_to(1) if retro_rating.rater_id == -2
     end
     
     # @user_retro_hash = {}
