@@ -10,17 +10,17 @@ module JournalsHelper
     links = []
     if !journal.notes.blank?
       
-      links << link_to_remote(l(:button_quote),
-                              { :url => {:controller => 'issues', :action => 'reply', :id => journal.journalized, :journal_id => journal} },
-                              :title => l(:button_quote),
-                              :class => 'icon icon-comment') if options[:reply_links]
+      # links << link_to_remote(l(:button_quote),
+      #                         { :url => {:controller => 'issues', :action => 'reply', :id => journal.journalized, :journal_id => journal} },
+      #                         :title => l(:button_quote),
+      #                         :class => 'icon icon-comment') if options[:reply_links]
 
                               
-      links << link_to_in_place_notes_editor(l(:button_edit), "journal-#{journal.id}-notes", 
-                                             { :controller => 'journals', :action => 'edit', :id => journal },
-                                                :title => l(:button_edit),
-                                                :class => 'icon icon-edit') if editable
-      
+      # links << link_to_in_place_notes_editor(l(:button_edit), "journal-#{journal.id}-notes", 
+      #                                            { :controller => 'journals', :action => 'edit', :id => journal },
+      #                                               :title => l(:button_edit),
+      #                                               :class => 'icon icon-edit') if editable
+      #     
     	
     		
     end
