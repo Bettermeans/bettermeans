@@ -25,9 +25,7 @@ module Redmine
         return @event_types unless @event_types.nil?
         
         @event_types = Redmine::Activity.available_event_types
-        puts("EVENT TYPES #{@event_types.inspect}")        
         @event_types = @event_types.select {|o| @user.allowed_to?("view_#{o}".to_sym, @project)} if @project
-        puts("EVENT TYPES AFTER #{@event_types.inspect}")        
         @event_types
       end
       
@@ -62,7 +60,6 @@ module Redmine
         
         @scope.each do |event_type|
           constantized_providers(event_type).each do |provider|
-            #puts("Provider #{provider.inspect}  Event Type #{event_type}")
             e += provider.find_events(event_type, @user, from, to, @options)
           end
         end
