@@ -196,17 +196,17 @@ end
 
 Redmine::Activity.map do |activity|
   activity.register :issues, :class_name => %w(Issue Journal)
-  activity.register :changesets
+  # activity.register :changesets
   activity.register :news
   activity.register :documents, :class_name => %w(Document Attachment)
-  activity.register :files, :class_name => 'Attachment'
+  # activity.register :files, :class_name => 'Attachment'
   activity.register :wiki_edits, :class_name => 'WikiContent::Version', :default => true
   activity.register :messages, :default => true
-  activity.register :time_entries, :default => true
-  activity.register :team_offers, :class_name => %w(TeamOffer MemberRole), :default => true  
+  # activity.register :time_entries, :default => true
+  # activity.register :team_offers, :class_name => %w(TeamOffer MemberRole), :default => true  
   # activity.register :team_offers, :class_name => 'MemberRoles', :default => true
   # activity.register :member_roles, :default => true  
-  activity.register :commit_requests, :default => true  
+  # activity.register :commit_requests, :default => true  
 end
 
 Redmine::WikiFormatting.map do |format|

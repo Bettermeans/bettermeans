@@ -31,11 +31,11 @@ class TeamOffer < ActiveRecord::Base
                 :type => 'team-offer',
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'team', :id => o.project}}
     
-  acts_as_activity_provider :type => 'team_offers',
-                            :author_key => :author_id,
-                            :permission => :view_project,
-                            :timestamp => "#{table_name}.updated_on",
-                            :find_options => {:include => [:project, :author, :recipient]}
+  # acts_as_activity_provider :type => 'team_offers',
+  #                           :author_key => :author_id,
+  #                           :permission => :view_project,
+  #                           :timestamp => "#{table_name}.updated_on",
+  #                           :find_options => {:include => [:project, :author, :recipient]}
   
   named_scope :active, :conditions => "#{TeamOffer.table_name}.expires <= '#{Time.now}'"
   

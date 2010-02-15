@@ -22,10 +22,10 @@ class MemberRole < ActiveRecord::Base
                 :type => 'member-role',
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'team', :id => o.member.project_id}}
     
-  acts_as_activity_provider :type => 'team_offers',
-                            :author_key => "#{Member.table_name}.user_id",
-                            :permission => :view_project,
-                            :find_options => {:include => [{:member => [:project,:user]}]}
+  # acts_as_activity_provider :type => 'team_offers',
+  #                           :author_key => "#{Member.table_name}.user_id",
+  #                           :permission => :view_project,
+  #                           :find_options => {:include => [{:member => [:project,:user]}]}
   
   
   def validate
