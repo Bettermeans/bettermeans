@@ -1,6 +1,39 @@
 /* BetterMeans - Work 2.0
    Copyright (C) 2006-2008  Shereef Bishay */
 
+
+function initialize(){
+	$("a.fancyframe").fancybox({
+			'speedIn'		:	600, 
+			'speedOut'		:	200, 
+			'overlayShow'	:	false,
+			'width'				: '90%',
+			'height'			: '95%',
+	        'autoScale'     	: false,
+			// 	        'transitionIn'		: 'none',
+			// 'transitionOut'		: 'none',
+			'type'				: 'iframe'
+		});
+}
+
+function show_fancybox(url,message){
+	////console.log("Fancybox for: " + url);
+	$.fancybox({
+				'width'				: '90%',
+				'height'			: '95%',
+		        'autoScale'     	: false,
+		        'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				'type'				: 'iframe',
+				'href'				: url
+		});
+		
+	$('#fancybox-frame').load(function(){
+		 	$('#fancy-loading').hide();
+		});
+	$('#fancybox-inner').prepend("<div id='fancy-loading' class='loading'>" + message + "</div>");
+}
+
 function checkAll (id, checked) {
 	var els = Element.descendants(id);
 	for (var i = 0; i < els.length; i++) {
@@ -42,7 +75,7 @@ function toggleFieldset(el) {
 var fileFieldCount = 1;
 
 function addFileField() {
-    if (fileFieldCount >= 10) return false
+    if (fileFieldCount >= 10) return false;
     fileFieldCount++;
     var f = document.createElement("input");
     f.type = "file";

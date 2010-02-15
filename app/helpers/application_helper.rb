@@ -75,7 +75,7 @@ module ApplicationHelper
     else
       css_class = issue.css_classes
     end
-    
+    css_class = css_class + " fancyframe" #loads fancybox
     s = link_to "#{issue.tracker} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, 
                                                  :class => css_class,
                                                  :title => title

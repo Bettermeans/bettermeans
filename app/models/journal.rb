@@ -19,7 +19,8 @@ class Journal < ActiveRecord::Base
                 :description => :notes,
                 :author => :user,
                 :type => Proc.new {|o| (s = o.new_status) ? (s.is_closed? ? 'issue-closed' : 'issue-edit') : 'issue-note' },
-                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id, :anchor => "change-#{o.id}"}}
+                # :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id, :anchor => "change-#{o.id}"}}
+                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.issue.id}}
 
   acts_as_activity_provider :type => 'issues',
                             :permission => :view_issues,
