@@ -9,27 +9,11 @@
     <% if @edit_allowed || !@allowed_statuses.empty? %>
         <fieldset class="tabular"><legend><%= l(:label_change_properties) %>
         <% if !@issue.new_record? && !@issue.errors.any? && @edit_allowed %>
-        <small>(<%= link_to l(:label_more), {}, :onclick => 'Effect.toggle("issue_descr_fields", "appear", {duration:0.3}); return false;' %>)</small>
+        <small>(<%= link_to l(:label_more), {}, :onclick => '$("#issue_descr_fields").show(); return false;' %>)</small>
         <% end %>
         </legend>
         <%= render :partial => (@edit_allowed ? 'form' : 'form_update'), :locals => {:f => f} %>
         </fieldset>
-    <% end %>
-    <% if authorize_for('timelog', 'edit') %>
-        <fieldset class="tabular"><legend><%= l(:button_log_time) %></legend>
-        <% fields_for :time_entry, @time_entry, { :builder => TabularFormBuilder, :lang => current_language} do |time_entry| %>
-        <div class="splitcontentleft">
-        <p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
-        </div>
-        <div class="splitcontentright">
-        <p><%= time_entry.select :activity_id, activity_collection_for_select_options %></p>
-        </div>
-        <p><%= time_entry.text_field :comments, :size => 60 %></p>
-        <% @time_entry.custom_field_values.each do |value| %>
-        	<p><%= custom_field_tag_with_label :time_entry, value %></p>
-        <% end %>
-        <% end %>
-    </fieldset>
     <% end %>
     
     <fieldset><legend><%= l(:field_notes) %></legend>
@@ -37,7 +21,7 @@
     <%= wikitoolbar_for 'notes' %>
     <%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
     
-    <p><%=l(:label_attachment_plural)%><br /><%= render :partial => 'attachments/form' %></p>
+    <!-- <p><%#=l(:label_attachment_plural)%><br /><%#= render :partial => 'attachments/form' %></p> -->
     </fieldset>
     </div>
     
