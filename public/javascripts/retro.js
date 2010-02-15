@@ -65,7 +65,7 @@ function save_retro(retroId){
 		data = data + '&retro_ratings['+i+'][score]=' + score;
 		data = data + '&retro_ratings['+i+'][retro_id]=' + retroId;
 		i++;
-		console.log("ratee:" + ratee_id + " score:" + score);
+		// console.log("ratee:" + ratee_id + " score:" + score);
 	});
 	
 
