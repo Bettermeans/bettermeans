@@ -51,9 +51,9 @@ function toggleCheckboxesBySelector(selector) {
 }
 
 function showAndScrollTo(id, focus) {
-	Element.show(id);
+	$('#' + id).show();
 	if (focus!=null) { $('#' + focus).focus(); }
-	Element.scrollTo(id);
+	$('#' + focus).parent().scrollTo('#' + focus);
 }
 
 function toggleRowGroup(el) {
