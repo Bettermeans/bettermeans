@@ -2180,24 +2180,6 @@ function show_retro_full(retroId){
 }
 
 
-function show_fancybox(url,message){
-	////console.log("Fancybox for: " + url);
-	$.fancybox({
-				'width'				: '90%',
-				'height'			: '95%',
-		        'autoScale'     	: false,
-		        'transitionIn'		: 'none',
-				'transitionOut'		: 'none',
-				'type'				: 'iframe',
-				'href'				: url,
-		});
-		
-	$('#fancybox-frame').load(function(){
-		 	$('#fancy-loading').hide();
-		});
-	$('#fancybox-inner').prepend("<div id='fancy-loading' class='loading'>" + message + "</div>");
-}
-
 
 function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) {
 	if (dataId){
