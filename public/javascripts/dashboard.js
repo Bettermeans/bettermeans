@@ -291,7 +291,8 @@ function make_text_boxes_toggle_keyboard_shortcuts(){
 
 function load_buttons(){
 	$('#main-menu').append('<input id="new_request" value="New Idea" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
-	$('#main-menu').append('<select id="filter_select" style="margin-left:20px;" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="agree">Need my agreement</option><option value="estimate">Need my estimation</option><option value="accept">Need my acceptance</option><option value="pri">Prioritized by me</option><option value="all">Updated in last...</option><option value="1">... 24 hours</option><option value="2">... two days</option><option value="3">... three days</option><option value="7">... week</option><option value="14">... two weeks</option><option value="30">... month</option><option value="60">... two months</option></select>');
+	// $('#main-menu').append('<select id="filter_select" style="margin-left:20px;" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="agree">Need my agreement</option><option value="estimate">Need my estimation</option><option value="accept">Need my acceptance</option><option value="pri">Prioritized by me</option><option value="all">Updated in last...</option><option value="1">... 24 hours</option><option value="2">... two days</option><option value="3">... three days</option><option value="7">... week</option><option value="14">... two weeks</option><option value="30">... month</option><option value="60">... two months</option></select>');
+	$('#main-menu').append('<select id="filter_select" style="margin-left:20px;" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="all">Updated in last...</option><option value="1">... 24 hours</option><option value="2">... two days</option><option value="3">... three days</option><option value="7">... week</option><option value="14">... two weeks</option><option value="30">... month</option><option value="60">... two months</option></select>');
 }
 
 function load_search(){
@@ -883,7 +884,7 @@ function generate_item(dataId){
 	var points;
 	item.points == null ? points = 'No' : points = Math.round(item.points);
 	
-	html = html + '<div id="item_' + dataId + '" class="item points_' + points + '">';
+	html = html + '<div id="item_' + dataId + '" class="item points_' + points + ' pri_' + item.pri + '">';
 	html = html + '<div id="item_content_' + dataId + '" class="' + item.status.name.replace(" ","-").toLowerCase() + ' hoverable" style="">';
 	html = html + '<div class="storyPreviewHeader">';
 	html = html + '<div id="item_content_buttons_' + dataId + '" class="storyPreviewButtons">';
@@ -1440,10 +1441,15 @@ function show_panel(name){
 // Sorts items in a plane by priority (highest first) followed by created date (oldest first)
 function sort_panel(name){
 		var listitems = $('#' + name + '_start_of_list').children().get();
+		var highest_pri = 0;
+
 
 			listitems.sort(function(a, b) {
 			   var compA = a.id.replace(/item_/g,'');
 			   var compB = b.id.replace(/item_/g,'');
+			
+			   if (D[compA].pri > highest_pri) { highest_pri = D[compA].pri;}
+			
 			   if (D[compA].pri > D[compB].pri) {
 				return -1;
 				} else if (D[compA].pri < D[compB].pri) {
@@ -1462,9 +1468,11 @@ function sort_panel(name){
 		    $('#' + name + '_start_of_list').append(this);
 		    });
 		
+		
 		if (name == "open"){
-			$(".action_button_start:lt(5)").show();
-			$(".action_button_start:gt(4)").hide();
+			// $(".action_button_start:lt(5)").show();
+			// $(".action_button_start:gt(4)").hide();
+			$(".pri_" + highest_pri).find(".action_button_start").show();
 			$(".points_0").find(".action_button_start").show();
 		}
 }
