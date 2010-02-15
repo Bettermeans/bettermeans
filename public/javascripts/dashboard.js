@@ -808,7 +808,6 @@ try{
 		return false;
 	}
 catch(err){
-	////console.log(err);
 	return false;
 }
 }
@@ -858,7 +857,6 @@ try{
 	return false;
 	}
 catch(err){
-	////console.log(err);
 	return false;
 }
 }
@@ -1026,7 +1024,6 @@ function buttons_for(dataId){
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
-		// ////console.log(item.points);
 		item.points == 0 ? html = html + button('start',dataId,false) : html = html + button('start',dataId,true);
 
 		if (currentUserIsCitizen == 'true'){
@@ -1449,6 +1446,7 @@ function sort_panel(name){
 			   var compB = b.id.replace(/item_/g,'');
 			
 			   if (D[compA].pri > highest_pri) { highest_pri = D[compA].pri;}
+			   if (D[compB].pri > highest_pri) { highest_pri = D[compB].pri;}
 			
 			   if (D[compA].pri > D[compB].pri) {
 				return -1;
@@ -1468,10 +1466,8 @@ function sort_panel(name){
 		    $('#' + name + '_start_of_list').append(this);
 		    });
 		
-		
 		if (name == "open"){
-			// $(".action_button_start:lt(5)").show();
-			// $(".action_button_start:gt(4)").hide();
+			$(".action_button_start").hide();
 			$(".pri_" + highest_pri).find(".action_button_start").show();
 			$(".points_0").find(".action_button_start").show();
 		}
@@ -1484,7 +1480,7 @@ function recalculate_widths(){
 }
 
 function expand_item(dataId){
-	$('#item_' + dataId).html(generate_item_edit(dataId));
+	$('#item_' + dataId).replaceWith(generate_item_edit(dataId));
 	$('#edit_story_type_' + dataId).val(D[dataId].tracker.id);
 	$('#new_comment_' + dataId).watermark('watermark',new_comment_text);
 	$('#new_comment_' + dataId).autogrow();
@@ -1517,7 +1513,7 @@ function expand_item(dataId){
 }
 
 function collapse_item(dataId){
-	$('#item_' + dataId).html(generate_item(dataId));
+	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
 	keyboard_shortcuts = true;
 	add_hover_icon_events();	
 	return false;
@@ -1569,7 +1565,7 @@ function save_edit_item(dataId){
                            action    : 'edit'
                           });
 
-	$("#edit_item_" + dataId).html(generate_item(dataId));
+	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
 	$("#item_content_icons_editButton_" + dataId).remove();
 	$("#icon_set_" + dataId).addClass('updating');
 
@@ -1612,7 +1608,7 @@ function item_actioned(item, dataId,action, status_changed){
 	D[dataId] = item; 
 	if (!status_changed)
 	{
-		$('#item_' + dataId).html(generate_item(dataId));
+		$('#item_' + dataId).replaceWith(generate_item(dataId));
 	}
 	else
 	{
@@ -1642,6 +1638,9 @@ function item_prioritized(item, dataId,action){
 	//TODO: put item in correct order on this list
 	D[dataId] = item; 
 	add_hover_icon_events();
+	$('#' + item.id).addClass('pri_' + item.pri);
+	$('#' + item.id).removeClass('pri_' + item.pri - 1);
+	$('#' + item.id).removeClass('pri_' + item.pri + 1);
 	
 	// $("#item_" + dataId).remove();
 	// add_item(dataId,"bottom",true);
@@ -1656,7 +1655,7 @@ function item_prioritized(item, dataId,action){
 
 function item_estimated(item, dataId){
 	D[dataId] = item; 
-	$("#item_" + dataId).html(generate_item(dataId));
+	$("#item_" + dataId).replaceWith(generate_item(dataId));
 	add_hover_icon_events();
 	keyboard_shortcuts = true;
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
@@ -1665,7 +1664,7 @@ function item_estimated(item, dataId){
 
 function item_updated(item, dataId){
 	D[dataId] = item; 
-	$("#edit_item_" + dataId).html(generate_item(dataId));
+	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
 	add_hover_icon_events();
 	keyboard_shortcuts = true;
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
@@ -2169,7 +2168,6 @@ function show_issue_full(itemId){
 	                           action    : 'show',
 								id		: itemId
 	                          });
-	//////console.log(url);
 	show_fancybox(url,'loading data...');
 
 	return false;
@@ -2187,7 +2185,7 @@ function show_retro_full(retroId){
 
 function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) {
 	if (dataId){
-		$('#item_' + dataId).html(generate_item(dataId));
+		$('#item_' + dataId).replaceWith(generate_item(dataId));
 		sort_panel('open');
 		$('#featureicon_' + dataId).attr("src", "/images/error.png");
 		$.jGrowl("Sorry, couldn't " + action + " idea:<br>" + D[dataId].subject , { header: 'Error', position: 'bottom-right' });
