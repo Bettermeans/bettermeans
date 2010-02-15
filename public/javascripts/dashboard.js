@@ -1510,7 +1510,9 @@ function expand_item(dataId){
 
 function collapse_item(dataId){
 	$('#item_' + dataId).html(generate_item(dataId));
+	keyboard_shortcuts = true;
 	add_hover_icon_events();	
+	return false;
 }
 
 function save_new_item(){
@@ -1587,13 +1589,6 @@ function cancel_new_item(dataId){
 	keyboard_shortcuts = true;
 	return false;
 }
-
-function cancel_edit_item(dataId){
-	$("#edit_item_" + dataId).html(generate_item(dataId));
-	keyboard_shortcuts = true;
-	return false;
-}
-
 
 function item_added(item){
 	$("#new_item_wrapper").remove();
@@ -1837,7 +1832,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input id="edit_cancel_button' + dataId + '" value="Cancel" type="submit" onclick="cancel_edit_item(' + dataId + ');return false;">';
+html = html + '	                    <input id="edit_cancel_button' + dataId + '" value="Cancel" type="submit" onclick="collapse_item(' + dataId + ');return false;">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
