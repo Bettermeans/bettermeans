@@ -1627,6 +1627,7 @@ function item_actioned(item, dataId,action, status_changed){
 	add_hover_icon_events();	
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	if (action == "estimate") {$('#flyover_estimate_' + dataId).remove();}
+	if (action == "open") {sort_panel("open");}
 	if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
 		sort_panel(item.status.name.toLowerCase());
 		$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
