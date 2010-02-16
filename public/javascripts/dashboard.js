@@ -361,7 +361,7 @@ function prepare_item_lookup_array(){
 // Loads all items in their perspective panels, and sets up panels
 function load_ui(){
 	insert_panel(0,'new','New',true);
-	insert_panel(0,'estimate','In Estimation',true);
+	// insert_panel(0,'estimate','In Estimation',true);
 	insert_panel(0,'open','Open',true);
 	insert_panel(0,'inprogress','In Progress',true);
 	insert_panel(0,'done','Done',true);
@@ -374,7 +374,7 @@ function load_ui(){
 
 	update_panel_counts();
 	sort_panel('open');
-	sort_panel('estimate');
+	// sort_panel('estimate');
 	sort_panel('new');
 	sort_panel('inprogress');
 	add_hover_icon_events();	
@@ -464,7 +464,7 @@ function add_item(dataId,position,scroll,panelid){
 		panelid= 'new';
 		break;
 		case 'Estimate':
-		panelid= 'estimate';
+		panelid= 'new';
 		break;
 		case 'Open':
 		panelid= 'open';
@@ -1401,6 +1401,11 @@ function send_item_action(dataId,action,extradata){
 	   data: data,
 	   success:  	function(html){
 			status_changed = (pre_status != html.status.name);
+			//New and estimate status are the same as far as the dashboard is concerned
+			if ((html.status.name == 'Estimate' && pre_status == 'New')||(html.status.name == 'New' && pre_status == 'Estimate'))
+			{
+				status_changed = false;
+			}
 			item_actioned(html,dataId,action,status_changed);
 		},
 	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
@@ -1475,7 +1480,7 @@ function generate_and_append_panel(position,name,title, visible){
 
 function update_panel_counts(){
 	update_panel_count('new');
-	update_panel_count('estimate');
+	// update_panel_count('estimate');
 	update_panel_count('open');
 	update_panel_count('inprogress');
 	update_panel_count('done');
