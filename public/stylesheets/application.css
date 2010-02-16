@@ -198,6 +198,7 @@ div.projects h3 { background: url(../images/projects.png) no-repeat 0% 50%; padd
 .highlight.token-1 { background-color: #faa;}
 .highlight.token-2 { background-color: #afa;}
 .highlight.token-3 { background-color: #aaf;}
+.search-highlight { background-color: #FCFD8D;font-weight:bold;}
 
 .box{
 padding:6px;

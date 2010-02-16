@@ -22,6 +22,7 @@ var R; //all retrospectives
 var MAX_REQUESTS_PER_PERSON = 2;
 var ITEMHASH = new Array(); //mapping between item IDs and their id in the D array
 var keyboard_shortcuts = false;
+var searching = false; //true when user is entering text in search box
 var default_new_title = 'Enter Title Here';
 var new_comment_text = 'Add new comment';
 var new_todo_text = 'Add todo';
@@ -211,6 +212,18 @@ function load_dashboard(){
 	// load_search();
 }
 
+//Binds events to search box
+function bind_search_events(){
+	$('#fast_search').blur(function(e){
+		searching = false;
+	});
+	$('#fast_search').focus(function(e){
+		searching = true;
+	});
+	
+	$('#fast_search').watermark('watermark','Fast Search');
+}
+
 // listens for any navigation keypress activity
 $(document).keypress(function(e)
 {
@@ -221,7 +234,15 @@ $(document).keypress(function(e)
 		// user presses the "a"
 		case 110:	new_item();
 					break;	
-					
+				
+	}
+});
+
+$(document).keyup(function(e)
+{
+	if (searching){
+		var text = $('#fast_search').val();
+		search_for(text);
 	}
 });
 
@@ -291,8 +312,9 @@ function make_text_boxes_toggle_keyboard_shortcuts(){
 
 function load_buttons(){
 	$('#main-menu').append('<input id="new_request" value="New Idea" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
-	// $('#main-menu').append('<select id="filter_select" style="margin-left:20px;" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="agree">Need my agreement</option><option value="estimate">Need my estimation</option><option value="accept">Need my acceptance</option><option value="pri">Prioritized by me</option><option value="all">Updated in last...</option><option value="1">... 24 hours</option><option value="2">... two days</option><option value="3">... three days</option><option value="7">... week</option><option value="14">... two weeks</option><option value="30">... month</option><option value="60">... two months</option></select>');
-	$('#main-menu').append('<select id="filter_select" style="margin-left:20px;" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="all">Updated in last...</option><option value="1">... 24 hours</option><option value="2">... two days</option><option value="3">... three days</option><option value="7">... week</option><option value="14">... two weeks</option><option value="30">... month</option><option value="60">... two months</option></select>');
+	// $('#main-menu').append('<select id="filter_select" style="margin-left:20px;" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="agree">Need my agreement</option><option value="estimate">Need my estimation</option><option value="accept">Need my acceptance</option><option value="pri">Prioritized by me</option><option value="all">Updated in last&nbsp;&nbsp;&#187;</option><option value="1">&nbsp;&nbsp;&#187; 24 hours</option><option value="2">&nbsp;&nbsp;&#187; two days</option><option value="3">&nbsp;&nbsp;&#187; three days</option><option value="7">&nbsp;&nbsp;&#187; week</option><option value="14">&nbsp;&nbsp;&#187; two weeks</option><option value="30">&nbsp;&nbsp;&#187; month</option><option value="60">&nbsp;&nbsp;&#187; two months</option></select>');
+	$('#main-menu').append('<select id="filter_select" class="filter-search" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="all">Updated in last&nbsp;&nbsp;&#187;</option><option value="1">&nbsp;&nbsp;&#187; 24 hours</option><option value="2">&nbsp;&nbsp;&#187; two days</option><option value="3">&nbsp;&nbsp;&#187; three days</option><option value="7">&nbsp;&nbsp;&#187; week</option><option value="14">&nbsp;&nbsp;&#187; two weeks</option><option value="30">&nbsp;&nbsp;&#187; month</option><option value="60">&nbsp;&nbsp;&#187; two months</option></select>');
+	$('#main-menu').append('<input id="fast_search" class="fast-search" type="text"></input>');
 }
 
 function load_search(){
@@ -325,6 +347,7 @@ function prepare_page(){
 	resize();
 	recalculate_widths();
 	keyboard_shortcuts = true;	
+	bind_search_events();
 	make_text_boxes_toggle_keyboard_shortcuts();
 }
 
@@ -1268,6 +1291,7 @@ function click_retro(dataId,source){
 
 function filter_select(){
 	var selection = $("#filter_select").val();
+	$('#fast_search').val(''); //clearing fast search
 	
 	switch(selection)
 	{
@@ -1296,6 +1320,15 @@ function filter_select(){
 		case "all":	hide_inactive(99999);
 					break;						
 	}	
+	
+	if (selection != "all"){
+		$('#filtered_message').show();
+		$('#filter_detail').html($("#filter_select :selected").text())
+	}
+	else
+	{
+		$('#filtered_message').hide();
+	}
 }
 
 //Hides all items not active in the last *days*
@@ -1312,7 +1345,42 @@ function hide_inactive(days){
 	}	
 }
 
+function search_for(text){
+	text = text.toLowerCase();
+	for(var i = 0; i < D.length; i++ )
+	{
+		var subject = D[i].subject.toLowerCase();
+		if ((text.length == 0) || (subject.indexOf(text) > -1))
+		{
+			$("#item_" + i).show().removeHighlight();
+			if (text.length > 0){
+				$("#item_content_details_" + i).highlight(text);
+			}
+			// $("#item_" + i).highlight(text);
+		}
+		else 
+		{
+			$("#item_" + i).hide().removeHighlight();
+		  	// $("#item_" + i).
+		}
+	}
+	
+	if (text.length > 0){
+		$('#filtered_message').show();
+		$('#filter_detail').html('  "' + text + '"');
+	}
+	else{
+		filter_select();
+	}
 
+}
+
+function clear_filters(){
+	$('#filtered_message').hide();
+	$('#fast_search').val('');
+	$('#filter_select').val('Filter (show all)');
+	filter_select();
+}
 function send_item_action(dataId,action,extradata){
 	var data = "commit=Create&lock_version=" + D[dataId].lock_version + extradata;
 
@@ -1611,11 +1679,9 @@ function item_added(item){
 }
 
 function item_actioned(item, dataId,action, status_changed){
-	console.log("what!");
 	D[dataId] = item; 
 	if (!status_changed)
 	{
-		console.log("chaning");
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
 	}
 	else
