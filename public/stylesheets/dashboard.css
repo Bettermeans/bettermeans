@@ -565,3 +565,21 @@ cursor:default;
 padding-left:0;
 padding-right:0;
 }
+
+.filter-search{
+margin-right:58px;
+float:right;
+font-size: 0.8em;
+}
+
+.fast-search{
+margin-right:5px;
+float:right;
+font-size: 0.8em;
+}
+
+.filtered-message{
+text-align:center;
+width:100%;
+align:center;
+}

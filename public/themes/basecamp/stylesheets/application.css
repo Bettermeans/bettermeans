@@ -44,7 +44,7 @@ h3, h4 { font-weight: normal; }
 #sidebar a:hover { background-color:#003399; color:#FFFFFF; text-decoration: none;}
 
 /* Menu */
-#main-menu { margin: 0 24px; }
+#main-menu { margin: 0 24px; width:100%; }
 #main-menu li a { background-color: #666; font-weight: normal; padding:4px 8px 6px; font-size:0.9em; }
 #main-menu li a:hover { background: #999; text-decoration: none; }
 #main-menu li a.selected, #main-menu li a.selected:hover { background-color:#FFFFFE; color: #111; font-weight:bold; }
