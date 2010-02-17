@@ -276,6 +276,7 @@ class IssuesController < ApplicationController
 
       if @issue.save
         respond_to do |format|
+          @issue.reload
           format.js {render :json => @issue.to_dashboard}
           format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
         end

@@ -211,7 +211,8 @@ background-repeat:repeat-y;
 	font-style:italic;
 }
 .new {
-	background-color:white;
+/*	background-color:white;*/
+	background-color:#F6EABB; /*e1d6ad D5CA9F FFF8DC;*/
 }
 
 .deployed .storyPreviewHeader {
