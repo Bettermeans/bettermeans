@@ -224,11 +224,12 @@ background-repeat:repeat-y;
 }
 
 .open {
-	background-color:#E7F3FA;
+	background-color:white;
 }
 
 .canceled {
-	background-color:#999999;
+	background-color:#CCCCCC;
+/*	background-color:#999999;	*/
 }
 
 .estimate {
@@ -236,7 +237,7 @@ background-repeat:repeat-y;
 }
 
 .done, .finished, .delivered {
-	background-color:#CCCCCC;
+	background-color:#E7F3FA;
 }
 
 
