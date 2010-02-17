@@ -20,6 +20,9 @@
 var D; //all data
 var R; //all retrospectives
 var MAX_REQUESTS_PER_PERSON = 2;
+var TIMER_INTERVAL = 7000; //7 seconds
+var INACTIVITY_THRESHOLD = 300000; //5 minutes
+var timer_active = false;
 var ITEMHASH = new Array(); //mapping between item IDs and their id in the D array
 var keyboard_shortcuts = false;
 var searching = false; //true when user is entering text in search box
@@ -27,6 +30,8 @@ var default_new_title = 'Enter Title Here';
 var new_comment_text = 'Add new comment';
 var new_todo_text = 'Add todo';
 var panel_height = $(window).height() - 200;
+var last_activity = new Date(); //tracks last activity of mouse or keyboard click. Used to turn off server polling
+var last_data_pull = new Date(); //tracks last data recieved from server
 
 $(window).bind('resize', function() {
 	resize();
@@ -240,20 +245,31 @@ $(document).keypress(function(e)
 
 $(document).keyup(function(e)
 {
+	last_activity = new Date();
+	start_timer();
 	if (searching){
 		var text = $('#fast_search').val();
 		search_for(text);
 	}
 });
 
+$(document).click(function(e)
+{
+	start_timer();
+	last_activity = new Date();
+});
+
 
 function data_ready(html){
+	last_data_pull = new Date();
 	$("#loading").hide();
 	$("#quote").hide();
 	D = html;
+	prepare_item_lookup_array();
 	prepare_page();
 	// load_retros(); #No longer needed since retros are now 1 item per retro
 }
+
 
 function load_retros(){
 		$.ajax({
@@ -349,11 +365,29 @@ function prepare_page(){
 	keyboard_shortcuts = true;	
 	bind_search_events();
 	make_text_boxes_toggle_keyboard_shortcuts();
+	start_timer();
+	
+}
+
+function start_timer(){
+	if (timer_active == true){
+		return;
+	}
+	
+	timer_active = true;
+	$.timer(TIMER_INTERVAL, function (timer) {
+		timer_beat(timer);
+	});
+}
+
+function stop_timer(timer){
+	timer_active = false;
+	timer.stop();
 }
 
 function prepare_item_lookup_array(){
 	for (var i=0; i<D.length;i++){
-		ITEMHASH[D[i].id] = i;
+		ITEMHASH["item" + String(D[i].id)] = i;
 	}
 }
 
@@ -1381,6 +1415,7 @@ function clear_filters(){
 	$('#filter_select').val('Filter (show all)');
 	filter_select();
 }
+
 function send_item_action(dataId,action,extradata){
 	var data = "commit=Create&lock_version=" + D[dataId].lock_version + extradata;
 
@@ -1392,7 +1427,6 @@ function send_item_action(dataId,action,extradata){
 	$("#item_content_icons_editButton_" + dataId).remove();
 	$("#icon_set_" + dataId).addClass('updating');
 	
-	pre_status = D[dataId].status.name;
 	
 	$.ajax({
 	   type: "POST",
@@ -1400,13 +1434,7 @@ function send_item_action(dataId,action,extradata){
 	   url: url,
 	   data: data,
 	   success:  	function(html){
-			status_changed = (pre_status != html.status.name);
-			//New and estimate status are the same as far as the dashboard is concerned
-			if ((html.status.name == 'Estimate' && pre_status == 'New')||(html.status.name == 'New' && pre_status == 'Estimate'))
-			{
-				status_changed = false;
-			}
-			item_actioned(html,dataId,action,status_changed);
+			item_actioned(html,dataId,action);
 		},
 	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 		// typically only one of textStatus or errorThrown will have info
@@ -1676,6 +1704,7 @@ function cancel_new_item(dataId){
 function item_added(item){
 	$("#new_item_wrapper").remove();
 	D.push(item); 
+	ITEMHASH["item" + item.id] = D.length - 1;
 	add_item(D.length-1,"top",false);
 	add_hover_icon_events();
 	keyboard_shortcuts = true;
@@ -1683,20 +1712,31 @@ function item_added(item){
 	return false;
 }
 
-function item_actioned(item, dataId,action, status_changed){
+function item_actioned(item, dataId,action, pre_status){
+	pre_status = D[dataId].status.name;
+	
+	status_changed = (pre_status != item.status.name);
+	// New and estimate status are the same as far as the dashboard is concerned
+	if ((item.status.name == 'Estimate' && pre_status == 'New')||(item.status.name == 'New' && pre_status == 'Estimate'))
+	{
+		status_changed = false;
+	}
+	
 	D[dataId] = item; 
 	if (!status_changed)
 	{
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
+		$("#item_" + dataId).effect("highlight", {}, 3000);
 	}
 	else
 	{
 		$("#item_" + dataId).remove();
 		add_item(dataId,"bottom",true);
 		update_panel_counts();
-		$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
+		$("#item_" + dataId).effect("highlight", {}, 3000);
 		$('#flyover_estimate_' + dataId).remove(); 
-	}
+	}	
+	
 
 	keyboard_shortcuts = true;
 	add_hover_icon_events();	
@@ -1705,7 +1745,7 @@ function item_actioned(item, dataId,action, status_changed){
 	if (action == "open") {sort_panel("open");}
 	if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
 		sort_panel(item.status.name.toLowerCase());
-		$("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
+		$("#item_" + dataId).effect("highlight", {}, 3000);
 		add_hover_icon_events();	
 	}
 	
@@ -2260,6 +2300,73 @@ function show_retro_full(retroId){
 	return false;
 }
 
+function timer_beat(timer){
+	//check that I haven't been inactive for too long
+	if (((new Date).getTime() - last_activity.getTime()) > INACTIVITY_THRESHOLD){
+		stop_timer(timer);
+	}
+	else{
+		poll_server(timer);		
+	}
+}
+
+//Polls server for new data
+function poll_server(timer){
+	stop_timer(timer);
+	var data = "seconds=" + (((new Date).getTime() - last_data_pull.getTime())/1000);
+
+	var url = url_for({ controller: 'projects',
+                           action    : 'new_dashdata',
+							id		: projectId
+                          });
+	
+	$.ajax({
+	   type: "GET",
+	   dataType: "json",	
+	   url: url,
+	   data: data,
+	   success:  	function(html){
+			start_timer();
+			poll_server_response(html);
+		},
+	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			start_timer();
+		},
+		timeout: 30000 //30 seconds
+	 });
+}
+
+function poll_server_response(data){
+	last_data_pull = new Date();
+	for(var i = 0; i < data.length; i++ ){
+		
+		item = data[i];
+		dataId = ITEMHASH["item" + String(item.id)];
+		
+		if (dataId == null){
+			console.log("new item " + item.id);
+			if (item.author_id == currentUserId){
+				console.log("skipping since I added this");
+				continue;
+			}
+			else{
+				console.log(item.author_id);
+				console.log(currentUserId);
+			}
+			D.push(data[i]);
+			ITEMHASH["item" + item.id] = D.length - 1;
+			add_item(D.length-1,"bottom",false);	
+		}
+		else{
+			console.log("updating item " + item.id);
+			if (D[dataId].updated_on == item.updated_on){
+				continue;
+			}
+			
+			item_actioned(item, dataId,'data_refresh')
+		}
+	}
+}
 
 
 function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) {
