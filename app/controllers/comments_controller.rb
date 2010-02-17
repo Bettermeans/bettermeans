@@ -15,6 +15,7 @@ class CommentsController < ApplicationController
     journal = @issue.init_journal(User.current, params[:comment])
     journal.save!
     journal.reload
+    @issue.save!
     @issue.reload
     render :json => @issue.to_dashboard
   end

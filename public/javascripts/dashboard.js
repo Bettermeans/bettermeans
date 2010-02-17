@@ -259,6 +259,12 @@ $(document).click(function(e)
 	last_activity = new Date();
 });
 
+$(document).focus(function(e)
+{
+	start_timer();
+	last_activity = new Date();
+});
+
 
 function data_ready(html){
 	last_data_pull = new Date();
@@ -1726,7 +1732,8 @@ function item_actioned(item, dataId,action, pre_status){
 	if (!status_changed)
 	{
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
-		$("#item_" + dataId).effect("highlight", {}, 3000);
+		//tODO: highlight the right item here
+		$("#item_content_details_" + dataId).effect("highlight", {}, 3000);
 	}
 	else
 	{
@@ -2344,25 +2351,17 @@ function poll_server_response(data){
 		dataId = ITEMHASH["item" + String(item.id)];
 		
 		if (dataId == null){
-			console.log("new item " + item.id);
 			if (item.author_id == currentUserId){
-				console.log("skipping since I added this");
 				continue;
-			}
-			else{
-				console.log(item.author_id);
-				console.log(currentUserId);
 			}
 			D.push(data[i]);
 			ITEMHASH["item" + item.id] = D.length - 1;
 			add_item(D.length-1,"bottom",false);	
 		}
 		else{
-			console.log("updating item " + item.id);
 			if (D[dataId].updated_on == item.updated_on){
 				continue;
 			}
-			
 			item_actioned(item, dataId,'data_refresh')
 		}
 	}
