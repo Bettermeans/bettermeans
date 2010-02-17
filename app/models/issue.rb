@@ -52,7 +52,7 @@ class Issue < ActiveRecord::Base
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
   before_save :update_done_ratio_from_issue_status
-  after_save :create_journal
+  after_save :after_save
   
   # Returns true if usr or current user is allowed to view the issue
   def visible?(usr=nil)
@@ -484,6 +484,16 @@ class Issue < ActiveRecord::Base
                                          :prop_key => obj.id,
                                          :old_value => obj.filename)
     journal.save
+  end
+  
+  def after_save
+    update_last_item_stamp
+    create_journal
+  end
+  
+  def update_last_item_stamp
+    project.last_item_updated_on = DateTime.now
+    project.save!
   end
   
   # Saves the changes in a Journal

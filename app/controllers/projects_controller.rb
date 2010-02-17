@@ -14,7 +14,7 @@ class ProjectsController < ApplicationController
   
   before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity ]
   before_filter :find_optional_project, :only => :activity
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :mypris ]
+  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris ]
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
@@ -174,6 +174,24 @@ class ProjectsController < ApplicationController
     #TODO: could optimize by hardcoding archived issue status id to 12
     # render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND (status_id <> #{IssueStatus.archived.id})").to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
     render :json => Issue.find(:all, :conditions => "project_id = #{@project.id}").to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
+  end
+  
+  #Checks to see if any items have changed in this project (in the last params[:seconds]). If it has, returns only items that have changed
+  def new_dashdata
+    if @project.last_item_updated_on.nil?
+      @project.last_item_updated_on = DateTime.now
+      @project.save
+    end
+    time_delta = params[:seconds].to_f.round
+    if @project.last_item_updated_on.advance(:seconds => time_delta) > DateTime.now
+        logger.info("fresh data!")
+        logger.info("last updated: #{@project.last_item_updated_on}")
+        logger.info("date now: #{DateTime.now}")
+        render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND updated_on >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'").to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
+    else
+        logger.info("no data")
+        render :text => 'no'
+    end
   end
 
   #TODO: remove this function, we're no longer using it??
