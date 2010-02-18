@@ -1855,7 +1855,6 @@ function item_actioned(item, dataId,action, pre_status){
 		update_panel_counts();
 	}	
 	
-	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 3000);
 	
 
 	keyboard_shortcuts = true;
@@ -1867,8 +1866,9 @@ function item_actioned(item, dataId,action, pre_status){
 	if (action == "open") {sort_panel("open");}
 	if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
 		sort_panel(item.status.name.toLowerCase());
-		$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 3000);
 	}
+	
+	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 5000);
 	
 	return false;
 }
