@@ -705,7 +705,7 @@ function generate_estimate_button(points, itemId, user_estimate_id, dataId){
 }
 
 function generate_pri_action(points, itemId, dataId){
-	var html = '<div id="item_flyover_pri_button_' + dataId + '" class="clickable pri_button pri_button_' + pri_text(points).toLowerCase() + '" onclick="click_pri(' + dataId + ',this.id,' + points + ');return false;">&nbsp;' + pri_text(points) + '</div>';	
+	var html = '<div id="item_flyover_pri_button_' + dataId + '" class="clickable pri_button pri_button_action pri_button_' + pri_text(points).toLowerCase() + '" onclick="click_pri(' + dataId + ',this,' + points + ');return false;">' + pri_text(points) + '</div>';	
 	return html;
 }
 
@@ -1428,7 +1428,7 @@ function click_join(dataId,source){
 }
 
 function click_pri(dataId,source,points){
-	$('#' + source.id).parent().hide();
+	// $('#pri_container_' + D[dataId].id).hide();
 	send_item_action(dataId,'prioritize','&points=' + points);
 }
 
@@ -1847,15 +1847,15 @@ function item_actioned(item, dataId,action, pre_status){
 	{
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
 		//tODO: highlight the right item here
-		$("#item_content_details_" + dataId).effect("highlight", {}, 3000);
 	}
 	else
 	{
 		$("#item_" + dataId).remove();
 		add_item(dataId,"bottom",true);
 		update_panel_counts();
-		$("#item_" + dataId).effect("highlight", {}, 3000);
 	}	
+	
+	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 3000);
 	
 
 	keyboard_shortcuts = true;
@@ -1867,7 +1867,7 @@ function item_actioned(item, dataId,action, pre_status){
 	if (action == "open") {sort_panel("open");}
 	if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
 		sort_panel(item.status.name.toLowerCase());
-		$("#item_" + dataId).effect("highlight", {}, 3000);
+		$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 3000);
 	}
 	
 	return false;
@@ -1881,12 +1881,6 @@ function item_prioritized(item, dataId,action){
 	$('#' + item.id).removeClass('pri_' + item.pri - 1);
 	$('#' + item.id).removeClass('pri_' + item.pri + 1);
 	
-	// $("#item_" + dataId).remove();
-	// add_item(dataId,"bottom",true);
-	// keyboard_shortcuts = true;
-	// $('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
-	// update_panel_counts();
-	// $("#item_content_details_" + dataId).effect("highlight", {mode:'show'}, 2000);
 	return false;
 }
 

@@ -210,9 +210,9 @@ background-repeat:repeat-y;
 .unestimatedText .storyPreviewHeader {
 	font-style:italic;
 }
+
 .new {
-/*	background-color:white;*/
-	background-color:#F6EABB; /*e1d6ad D5CA9F FFF8DC;*/
+	background-color:#F6EABB;
 }
 
 .deployed .storyPreviewHeader {
@@ -351,7 +351,7 @@ background-repeat:repeat-y;
 .storyFlyover.flyover .metaInfo .infoSection + .infoSection {margin-right: 6px}
 .storyFlyover.flyover .flyoverContent.storyDetails .section .notesTable {width: auto}
 
-.noteText {line-height: 11px;}
+/*.noteText {line-height: 11px;}*/
 
 .overlay {overflow: hidden; font-size: 0.9em;margin-left: -12px; margin-top: -12px;}
 .overlayContentWrapper {padding: 0 1em}
@@ -457,6 +457,10 @@ text-decoration:underline !important;
 /*	color: white;*/
 	padding-left:12px;
 	vertical-align:middle;
+}
+
+.pri_button_action{
+	padding-left:20px;
 }
 
 .pri_button_up{
