@@ -344,6 +344,7 @@ class IssuesController < ApplicationController
   def accept
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1
     @issue.update_accept_total
+    @issue.save
 
     if @issue.ready_for_accepted?
       if @issue.has_team?
