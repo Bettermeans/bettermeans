@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   default_search_scope :issues
   
-  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :deprioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
