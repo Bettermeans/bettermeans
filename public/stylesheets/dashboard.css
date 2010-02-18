@@ -453,6 +453,23 @@ text-decoration:underline !important;
 	height:21px;
 	text-align:center;
 	float:right;
+	font-weight: bold;
+/*	color: white;*/
+	padding-left:12px;
+	vertical-align:middle;
+}
+
+.pri_button_up{
+	background: url(/images/up_arrow.png) no-repeat;
+	
+}
+
+.pri_button_down{
+	background: url(/images/down_arrow.png) no-repeat;
+}
+
+.pri_button_neutral{
+	background: url(/images/neutral_arrow.png) no-repeat;
 }
 
 .action_button_start{

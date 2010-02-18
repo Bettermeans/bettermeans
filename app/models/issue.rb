@@ -435,7 +435,7 @@ class Issue < ActiveRecord::Base
   end
 
   def update_pri_total
-    self.pri = IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::PRI_VOTE_TYPE})
+    self.pri = IssueVote.sum(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::PRI_VOTE_TYPE})
   end
 
   def update_agree_total
