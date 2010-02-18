@@ -402,7 +402,6 @@ function load_ui(){
 	// sort_panel('estimate');
 	sort_panel('new');
 	sort_panel('inprogress');
-	add_hover_icon_events();	
 	
 }
 
@@ -422,29 +421,14 @@ function rdata_ready(html,rdataId){
 	update_panel_count(panelid,true);
 }
 
-function add_hover_icon_events(){
-	$(".hoverDetailsIcon").click(
-	      function () {
-			var url = url_for({ controller: 'issues',
-			                           action    : 'show',
-										id		: $('#' + this.id).attr('itemid')
-			                          });
-			
-			show_fancybox(url,'loading data...');
-			
-	      }
-	    );
-	$(".hoverDiceIcon").click(
-	      function () {
-			show_estimate_flyover(Number(this.id.split('_')[1].replace(/"/g,'')),this.id);
-	      }
-	    );
-	$(".hoverCommentsIcon").click(
-	      function () {
-			show_details_flyover(Number(this.id.split('_')[1].replace(/"/g,''),0),this.id);
-	      }
-	    );
 
+function show_item_fancybox(itemId){
+	var url = url_for({ controller: 'issues',
+	                           action    : 'show',
+								id		: itemId
+	                          });
+	
+	show_fancybox(url,'loading data...');
 }
 
 function show_details_flyover(dataId,callingElement,delayshow){
@@ -474,6 +458,21 @@ function show_estimate_flyover(dataId,callingElement){
 	}
 		
 	$('#' + callingElement).bubbletip($('#flyover_estimate_' + dataId), {
+		deltaDirection: 'right',
+		delayShow: 0,
+		delayHide: 100,
+		offsetLeft: 0
+	});	
+}
+
+function show_pri_flyover(dataId,callingElement){
+
+	//If flyover hasn't already been generated, then generate it!
+	if ($('#flyover_pri_' + dataId).length == 0){
+		generate_pri_flyover(dataId);		
+	}
+		
+	$('#' + callingElement).bubbletip($('#flyover_pri_' + dataId), {
 		deltaDirection: 'right',
 		delayShow: 0,
 		delayHide: 100,
@@ -600,7 +599,8 @@ function generate_estimate_flyover(dataId){
 		if (currentUserLogin == item.issue_votes[i].user.login){
 			if (item.issue_votes[i].vote_type != 4) continue;
 			total_people_estimating++ ;
-			you_voted = "You estimated " + item.issue_votes[i].points + " on " + item.issue_votes[i].updated_on;
+			you_voted = "You estimated " + item.issue_votes[i].points + " - " + humane_date(item.issue_votes[i].updated_on);
+			console.log(item.issue_votes[i].updated_on);
 			user_estimate_id = item.issue_votes[i].id;
 		}
 	}
@@ -699,9 +699,138 @@ function generate_estimate_flyover_yourestimate(item,user_estimate_id,dataId){
 }
 
 function generate_estimate_button(points, itemId, user_estimate_id, dataId){
-	html = '';
+	var html = '';
 	html = html + '<img src="/images/dice_' + points + '.png" width="18" height="18" alt="' + points + ' Points" class="dice" onclick="send_item_action(' + dataId + ',\'estimate\',\'&points=' + points + '\')">';	
 	return html;
+}
+
+function generate_pri_action(points, itemId, dataId){
+	var html = '<div id="item_flyover_pri_button_' + dataId + '" class="clickable pri_button pri_button_' + pri_text(points).toLowerCase() + '" onclick="click_pri(' + dataId + ',this.id,' + points + ');return false;">' + pri_text(points) + '</div>';	
+	return html;
+}
+
+function pri_text(points){
+	switch (points){
+	case 0:
+		return "NEUTRAL";
+		break;
+	case 1:
+		return "UP";
+		break;
+	case -1:
+		return "DOWN";
+		break;
+	}
+}
+
+function generate_pri_flyover(dataId){
+	var item = D[dataId];
+	
+	var points;
+	item.pri == null ? points = 0 : points = item.pri;
+	
+	var you_voted = '';
+	var user_pri_id = 0;
+	var total_people_prioritizing = 0;
+	
+	for(var i=0; i < item.issue_votes.length; i++){
+		if (currentUserLogin == item.issue_votes[i].user.login){
+			if (item.issue_votes[i].vote_type != 3) continue;
+			total_people_prioritizing++ ;
+			you_voted = "You prioritized " + pri_text(item.issue_votes[i].points) + " - " + humane_date(item.issue_votes[i].updated_on);
+			user_pri_id = item.issue_votes[i].id;
+		}
+	}
+	
+	if (user_pri_id == 0){
+		you_voted = "You haven't prioritized this item";
+	}
+	
+	var html = '';
+	
+	html = html + '<div id="flyover_pri_' + dataId + '" class="overlay" style="display:none;">';
+	html = html + '	  <div style="border: 0pt none ; margin: 0pt;">';
+	html = html + '	    <div class="overlayContentWrapper storyFlyover flyover" style="width: 200px;">';
+	html = html + '	      <div class="storyTitle">';
+	html = html + 'Total ' + points + ' points (' + total_people_prioritizing + ' people)';
+	html = html + '	      </div>';
+	html = html + '	      <div class="sectionDivider">';
+	html = html + '	      <div style="height: auto;">';
+	html = html + '	        <div class="metaInfo">';
+	html = html + '	          <div class="left">';
+	html = html + you_voted;
+	html = html + '	          </div>';
+	html = html + '	          <div class="clear"></div>';
+	html = html + '	        </div>';
+	html = html + '	        <div class="flyoverContent storyDetails">';
+	html = html + '	            <div class="section">';
+	html = html + 					generate_pri_flyover_history(item);
+	html = html + 					generate_pri_flyover_yourpri(item,user_pri_id,dataId);
+	html = html + '	              </div>';
+	html = html + '	        </div>';
+	html = html + '	      </div>';
+	html = html + '	    </div>';
+	html = html + '	  </div>';
+	html = html + '	</div>';
+		
+	$('#flyovers').append(html);
+	
+	return html;
+}
+
+function generate_pri_flyover_history(item){
+	if (item.issue_votes == null || item.issue_votes.length < 1){return '';};
+	
+	var html = '';
+	var header = '';
+	header = header + '	  <div class="header">';
+	header = header + '	    History';
+	header = header + '	  </div>';
+	header = header + '	  <table class="notesTable">';
+	header = header + '	    <tbody>';
+	header = header + '<tr class="noteInfoRow">';
+	header = header + '<td class="noteInfo">';
+	
+	for(var i = 0; i < item.issue_votes.length; i++ ){
+		if (item.issue_votes[i].vote_type != 3) continue;
+		html = html + pri_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname + '<br>';
+	}	
+	if (html=='') return '';
+	
+	html = header + html;
+
+ 	html = html + '</td>';
+  	html = html + '</tr>';
+	html = html + '	    </tbody>';
+	html = html + '	  </table>';
+	html = html + '	<div class="clear"></div>';
+	return html;
+	
+}
+
+function generate_pri_flyover_yourpri(item,user_pri_id,dataId){
+	//TODO: check that I have permission to pri!	
+	
+	if ((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) return '';
+	var header_text = '';
+	user_pri_id == 0 ? header_text = 'Prioritize' : header_text = 'Change your prioritization:';
+	var html = '';
+	html = html + '	                <div class="header">';
+	html = html + header_text;
+	html = html + '	                </div>';
+	html = html + '	                <table class="notesTable">';
+	html = html + '	                  <tbody>';
+	html = html + '	                    <tr class="noteTextRow">';
+	html = html + '	                      <td class="noteText">';
+	html = html + generate_pri_action(1, item.id, dataId) + '<br>';
+	html = html + generate_pri_action(0, item.id, dataId) + '<br>';
+	html = html + generate_pri_action(-1, item.id, dataId);
+	html = html + '	                      </td>';
+	html = html + '	                    </tr>';
+	html = html + '	                  </tbody>';
+	html = html + '	                </table>';
+	return html;
+	
 }
 
 function generate_details_flyover_description(item){
@@ -946,11 +1075,11 @@ function generate_item(dataId){
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
-	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '">';
-	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' points">';
+	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ item.id +');return false;">'; 
+	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' points" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
 	
 	if (show_comment(item)){
-	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png"/>';
+	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png" onclick="show_details_flyover('+ dataId +',this.id);return false;">'; 
 	}
 	
 	html = html + '</div>';
@@ -1147,7 +1276,7 @@ function is_part_of_team(item){
 }
 
 function agree_buttons(dataId){
-	html = '';
+	var html = '';
 	item = D[dataId];
 	for(var i=0; i < item.issue_votes.length; i++){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
@@ -1170,7 +1299,7 @@ function agree_buttons(dataId){
 }
 
 function accept_buttons(dataId){
-	html = '';
+	var html = '';
 	item = D[dataId];
 
 	for(var i=0; i < item.issue_votes.length; i++){
@@ -1196,21 +1325,29 @@ function accept_buttons(dataId){
 
 
 function pri_button(dataId){
+	console.log("entering pre button");
 	item = D[dataId];
 	for(var i=0; i < item.issue_votes.length; i++){
+		console.log(item.issue_votes[i].user.login + ' ' + item.issue_votes[i].vote_type);
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 3)){
-			return generate_pri_button(dataId,'down');
+			if (item.issue_votes[i].points == 1){
+				return generate_pri_button(dataId,'up',item.pri);
+			}
+			else if (item.issue_votes[i].points == -1){
+				return generate_pri_button(dataId,'down',item.pri);
+			}
 		}
 	}
-	return generate_pri_button(dataId,'up');
+	return generate_pri_button(dataId,'neutral',item.pri);
 }
 
-function generate_pri_button(dataId,direction){
-	html = '<div id="pri_container_' + D[dataId].id + '" style="float:right;">';
-	html = html + '<img src="/images/' + direction + '_arrow.png" id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button" onclick="click_pri(' + dataId + ',\'' + direction + '\',this);return false;">4</a>';	
+function generate_pri_button(dataId,direction,pri){
+	var html = '<div id="pri_container_' + D[dataId].id + '" style="float:right;">';
+	html = html + '<div id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button pri_button_' + direction + '" onclick="show_pri_flyover(' + dataId + ',this.id);return false;">' + pri + '</div>';	
 	html = html + '</div>';
 	return html;
 }
+
 
 //Generates a button type for item id
 function button(type,dataId,hide,options){
@@ -1256,9 +1393,9 @@ function click_restart(dataId,source){
 	send_item_action(dataId,'restart');
 }
 
-function click_estimate(dataId,source){
-	$('#' + source.id).parent().hide();
-}
+// function click_estimate(dataId,source){
+// 	$('#' + source.id).parent().hide();
+// }
 
 function click_agree(dataId,source){
 	$('#' + source.id).parent().hide();
@@ -1290,15 +1427,9 @@ function click_join(dataId,source){
 	send_item_action(dataId,'join');
 }
 
-function click_pri(dataId,direction,source){
-	if (direction == 'up'){
-		$('#' + source.id).parent().html(generate_pri_button(dataId,'down'));
-		send_item_action(dataId,'prioritize');
-	}
-	else{
-		$('#' + source.id).parent().html(generate_pri_button(dataId,'up'));
-		send_item_action(dataId,'deprioritize');
-	}
+function click_pri(dataId,source,points){
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'prioritize','&points=' + points);
 }
 
 function click_retro(dataId,source){
@@ -1307,7 +1438,7 @@ function click_retro(dataId,source){
 	// 							id		: D[dataId].retroId
 	//                           });
 	
-	url = '/projects/' + projectId + '/retros/' + D[dataId].retro_id + '/show';
+	var url = '/projects/' + projectId + '/retros/' + D[dataId].retro_id + '/show';
 	
 	show_fancybox(url,'loading retrospective...');
 	return false;
@@ -1613,7 +1744,6 @@ function expand_item(dataId){
 function collapse_item(dataId){
 	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
 	keyboard_shortcuts = true;
-	add_hover_icon_events();	
 	return false;
 }
 
@@ -1697,7 +1827,6 @@ function item_added(item){
 	D.push(item); 
 	ITEMHASH["item" + item.id] = D.length - 1;
 	add_item(D.length-1,"top",false);
-	add_hover_icon_events();
 	keyboard_shortcuts = true;
 	update_panel_counts();
 	return false;
@@ -1726,19 +1855,19 @@ function item_actioned(item, dataId,action, pre_status){
 		add_item(dataId,"bottom",true);
 		update_panel_counts();
 		$("#item_" + dataId).effect("highlight", {}, 3000);
-		$('#flyover_estimate_' + dataId).remove(); 
 	}	
 	
 
 	keyboard_shortcuts = true;
-	add_hover_icon_events();	
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
+	$('#flyover_estimate_' + dataId).remove(); 
+	$('#flyover_pri_' + dataId).remove(); 
+	
 	if (action == "estimate") {$('#flyover_estimate_' + dataId).remove();}
 	if (action == "open") {sort_panel("open");}
 	if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
 		sort_panel(item.status.name.toLowerCase());
 		$("#item_" + dataId).effect("highlight", {}, 3000);
-		add_hover_icon_events();	
 	}
 	
 	return false;
@@ -1748,14 +1877,12 @@ function item_prioritized(item, dataId,action){
 	//sort_panel(item.status.name);
 	//TODO: put item in correct order on this list
 	D[dataId] = item; 
-	add_hover_icon_events();
 	$('#' + item.id).addClass('pri_' + item.pri);
 	$('#' + item.id).removeClass('pri_' + item.pri - 1);
 	$('#' + item.id).removeClass('pri_' + item.pri + 1);
 	
 	// $("#item_" + dataId).remove();
 	// add_item(dataId,"bottom",true);
-	// add_hover_icon_events();
 	// keyboard_shortcuts = true;
 	// $('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	// update_panel_counts();
@@ -1767,7 +1894,6 @@ function item_prioritized(item, dataId,action){
 function item_estimated(item, dataId){
 	D[dataId] = item; 
 	$("#item_" + dataId).replaceWith(generate_item(dataId));
-	add_hover_icon_events();
 	keyboard_shortcuts = true;
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	return false;
@@ -1776,7 +1902,6 @@ function item_estimated(item, dataId){
 function item_updated(item, dataId){
 	D[dataId] = item; 
 	$("#item_" + dataId).replaceWith(generate_item(dataId));
-	add_hover_icon_events();
 	keyboard_shortcuts = true;
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	return false;
@@ -2366,7 +2491,6 @@ function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) 
 		$.jGrowl("Sorry, couldn't " + action + "<br>" + XMLHttpRequest, { header: 'Error', position: 'bottom-right' });
 	}
 	keyboard_shortcuts = true;
-	add_hover_icon_events();	
 	
 	// alert("Error: Couldn't " + action);
 }
