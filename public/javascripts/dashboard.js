@@ -145,6 +145,7 @@ $.fn.keyboard_sensitive = function() {
 };
 
 function start(){
+	timer_active = true; //stop timer from starting until data loads
 	//Checking for single issue display
 	if (show_issue_id){
 		show_issue_full(show_issue_id);
@@ -170,24 +171,7 @@ function load_dashboard(){
 	$("#loading").show();
 	
 	keyboard_shortcuts = false;
-	// $("#myfancy").fancybox({
-	// 			'width'				: '75%',
-	// 			'height'			: '75%',
-	// 	        'autoScale'     	: false,
-	// 	        'transitionIn'		: 'none',
-	// 			'transitionOut'		: 'none',
-	// 			'type'				: 'iframe'
-	// 	});
-	
-	// $.fancybox({
-	// 			'width'				: '75%',
-	// 			'height'			: '75%',
-	// 	        'autoScale'     	: false,
-	// 	        'transitionIn'		: 'none',
-	// 			'transitionOut'		: 'none',
-	// 			'type'				: 'iframe',
-	// 			'href'				: 'http://yahoo.com'
-	// 	});
+
 	
 	var url = url_for({ controller: 'projects',
                            action    : 'dashdata',
@@ -371,6 +355,7 @@ function prepare_page(){
 	keyboard_shortcuts = true;	
 	bind_search_events();
 	make_text_boxes_toggle_keyboard_shortcuts();
+	timer_active = false; //now that data is loaded, we can start timer
 	start_timer();
 	
 }
@@ -1222,7 +1207,7 @@ function pri_button(dataId){
 
 function generate_pri_button(dataId,direction){
 	html = '<div id="pri_container_' + D[dataId].id + '" style="float:right;">';
-	html = html + '<img src="/images/' + direction + '_arrow.png" id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button" onclick="click_pri(' + dataId + ',\'' + direction + '\',this);return false;"/>';	
+	html = html + '<img src="/images/' + direction + '_arrow.png" id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button" onclick="click_pri(' + dataId + ',\'' + direction + '\',this);return false;">4</a>';	
 	html = html + '</div>';
 	return html;
 }
