@@ -476,6 +476,10 @@ text-decoration:underline !important;
 	background: url(/images/neutral_arrow.png) no-repeat;
 }
 
+.pri_button_none{
+	background: url(/images/none_arrow.png) no-repeat;
+}
+
 .action_button_start{
 	background: url(/images/bb_grey.png) no-repeat; 
 }

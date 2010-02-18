@@ -1336,9 +1336,12 @@ function pri_button(dataId){
 			else if (item.issue_votes[i].points == -1){
 				return generate_pri_button(dataId,'down',item.pri);
 			}
+			else if (item.issue_votes[i].points == 0){
+				return generate_pri_button(dataId,'neutral',item.pri);
+			}
 		}
 	}
-	return generate_pri_button(dataId,'neutral',item.pri);
+	return generate_pri_button(dataId,'none',item.pri);
 }
 
 function generate_pri_button(dataId,direction,pri){
@@ -1743,6 +1746,7 @@ function expand_item(dataId){
 
 function collapse_item(dataId){
 	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
+	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 5000);
 	keyboard_shortcuts = true;
 	return false;
 }
