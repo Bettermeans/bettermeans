@@ -152,7 +152,8 @@ class IssuesController < ApplicationController
         attach_files(@issue, params[:attachments])
         # flash[:notice] = l(:notice_successful_create)
         call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
-        logger.info("saved issue")
+        @issue.reload
+        
         respond_to do |format|
           format.js {render :json => @issue.to_dashboard}
           format.html {redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
@@ -211,7 +212,7 @@ class IssuesController < ApplicationController
         #   # flash[:notice] = l(:notice_successful_update)
         # end
         call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
-        
+        @issue.reload
         respond_to do |format|
           format.js {render :json => @issue.to_dashboard}
           format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -287,20 +288,10 @@ class IssuesController < ApplicationController
   end
   
   def prioritize
-    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::PRI_VOTE_TYPE, :points => 1
+    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::PRI_VOTE_TYPE, :points => params[:points]
     @issue.update_pri_total
     @issue.save
-    respond_to do |format|
-      format.js {render :json => @issue.to_dashboard}
-      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
-    end
-  end
-
-  def deprioritize
-    IssueVote.delete_all :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::PRI_VOTE_TYPE
-    @issue.update_pri_total
-    @issue.save
-    
+    @issue.reload
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -316,6 +307,7 @@ class IssuesController < ApplicationController
     @issue.update_estimate_total
     @issue.status = @issue.updated_status
     @issue.save
+    @issue.reload
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
@@ -328,6 +320,7 @@ class IssuesController < ApplicationController
     @issue.update_agree_total
     @issue.status = @issue.updated_status
     @issue.save
+    @issue.reload
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
@@ -340,6 +333,7 @@ class IssuesController < ApplicationController
     @issue.update_agree_total
     @issue.status = @issue.updated_status
     @issue.save
+    @issue.reload
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
@@ -367,7 +361,7 @@ class IssuesController < ApplicationController
       end
     end
     
-    
+    @issue.reload
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
@@ -379,6 +373,7 @@ class IssuesController < ApplicationController
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1
     @issue.update_accept_total
     @issue.save
+    @issue.reload
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
@@ -388,7 +383,8 @@ class IssuesController < ApplicationController
 
   def join
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1
-    # @issue.save
+    @issue.save
+    @issue.reload
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
@@ -398,7 +394,8 @@ class IssuesController < ApplicationController
 
   def leave
     IssueVote.delete_all(["user_id = ? AND issue_id = ? AND vote_type = ?", User.current.id, params[:id], IssueVote::JOIN_VOTE_TYPE])
-    # @issue.save
+    @issue.save
+    @issue.reload
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
