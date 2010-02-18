@@ -600,7 +600,7 @@ function generate_estimate_flyover(dataId){
 			if (item.issue_votes[i].vote_type != 4) continue;
 			total_people_estimating++ ;
 			you_voted = "You estimated " + item.issue_votes[i].points + " - " + humane_date(item.issue_votes[i].updated_on);
-			console.log(item.issue_votes[i].updated_on);
+			//console.log(item.issue_votes[i].updated_on);
 			user_estimate_id = item.issue_votes[i].id;
 		}
 	}
@@ -705,7 +705,7 @@ function generate_estimate_button(points, itemId, user_estimate_id, dataId){
 }
 
 function generate_pri_action(points, itemId, dataId){
-	var html = '<div id="item_flyover_pri_button_' + dataId + '" class="clickable pri_button pri_button_' + pri_text(points).toLowerCase() + '" onclick="click_pri(' + dataId + ',this.id,' + points + ');return false;">' + pri_text(points) + '</div>';	
+	var html = '<div id="item_flyover_pri_button_' + dataId + '" class="clickable pri_button pri_button_' + pri_text(points).toLowerCase() + '" onclick="click_pri(' + dataId + ',this.id,' + points + ');return false;">&nbsp;' + pri_text(points) + '</div>';	
 	return html;
 }
 
@@ -1325,10 +1325,10 @@ function accept_buttons(dataId){
 
 
 function pri_button(dataId){
-	console.log("entering pre button");
+	//console.log("entering pre button");
 	item = D[dataId];
 	for(var i=0; i < item.issue_votes.length; i++){
-		console.log(item.issue_votes[i].user.login + ' ' + item.issue_votes[i].vote_type);
+		//console.log(item.issue_votes[i].user.login + ' ' + item.issue_votes[i].vote_type);
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 3)){
 			if (item.issue_votes[i].points == 1){
 				return generate_pri_button(dataId,'up',item.pri);
