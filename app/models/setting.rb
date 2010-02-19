@@ -5,6 +5,7 @@
 class Setting < ActiveRecord::Base
 
   PAY_SCALES = {'Scale 1' => 100, 'Scale 2' => 50, 'Scale 3' => 20, 'Volunteer' => 0}
+  PAY_SCALES_DEFAULT = 100
 
 
   #Factor by which dollars per point is multiplies e.g. a 5 point issue is worth $(POINT_FACTOR[5] * dpp)
