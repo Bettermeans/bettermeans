@@ -80,7 +80,7 @@
 
 <% content_for :sidebar do %>
     <h3><%= l(:label_dpp_scale) %><%= help_bubble :help_dpp %></h3>
-    <p><%= render :partial => 'point_scale', :locals => { :dpp => Setting::PAY_SCALES[0][:value] } %></p>
+    <p><%= render :partial => 'point_scale', :locals => { :dpp => @project.dpp.round } unless @project.dpp.nil? %></p>
     <% if @total_hours && User.current.allowed_to?(:view_time_entries, @project) %>
     <h3><%= l(:label_spent_time) %></h3>
     <p><span class="icon icon-time"><%= l_hours(@total_hours) %></span></p>
