@@ -743,6 +743,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: projects
@@ -761,5 +762,6 @@ end
 #  rgt                  :integer
 #  enterprise_id        :integer
 #  last_item_updated_on :datetime
+#  dpp                  :float
 #
 

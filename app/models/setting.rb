@@ -4,6 +4,12 @@
 
 class Setting < ActiveRecord::Base
 
+  PAY_SCALES = {'Scale 1' => 100, 'Scale 2' => 50, 'Scale 3' => 20, 'Volunteer' => 0}
+
+
+  #Factor by which dollars per point is multiplies e.g. a 5 point issue is worth $(POINT_FACTOR[5] * dpp)
+  POINT_FACTOR = [0.2,1,2,4,6,9,12]
+  
   DATE_FORMATS = [
 	'%Y-%m-%d',
 	'%d/%m/%Y',

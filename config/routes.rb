@@ -1,22 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
+
   # map.resources :retro_ratings
   # 
   # map.resources :retros
 
-  map.resources :todos
-
-  map.resources :issue_votes
-
-  map.resources :quotes
-
-  map.resources :credits
-  map.resources :shares
-  map.resources :team_points
-  map.resources :team_offers
-  map.resources :enterprises
-  map.resources :comments
-  map.resources :retro_ratings
-  map.resources :retros
+  
   # map.resources :projects
   
   # map.connect 'commit_requests/createdialgoue', :action => 'createdialogue', :controller => 'commit_requesets'
@@ -238,6 +226,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects', :action => 'index'
       project_views.connect 'projects.:format', :action => 'index'
       project_views.connect 'projects/new', :action => 'add'
+      project_views.connect 'projects/update_scale', :action => 'update_scale'
       project_views.connect 'projects/:id', :action => 'show'
       project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject/
       project_views.connect 'projects/:id/files', :action => 'list_files'
@@ -367,13 +356,27 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   
-  map.resources :notifications
-  map.resources :projects
-  map.resources :issues
  
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
   map.connect 'robots.txt', :controller => 'welcome', :action => 'robots'
   # Used for OpenID
   map.root :controller => 'account', :action => 'login'
+  
+  map.resources :todos
+  map.resources :issue_votes
+  map.resources :quotes
+
+  map.resources :credits
+  map.resources :shares
+  map.resources :team_points
+  map.resources :team_offers
+  map.resources :enterprises
+  map.resources :comments
+  map.resources :retro_ratings
+  map.resources :retros
+  map.resources :notifications
+  map.resources :projects
+  map.resources :issues
+  
 end
