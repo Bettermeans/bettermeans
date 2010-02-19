@@ -15,13 +15,13 @@
 <!-- <p><%#= f.text_field :homepage, :size => 60 %></p> -->
 <!-- <p><%#= f.check_box :is_public %></p> -->
 <p><%= wikitoolbar_for 'project_description' %></p>
-<p><%=  f.select( :dpp, Setting::PAY_SCALES,
+<p><%=  f.select(:dpp, options_for_select(Setting::PAY_SCALES, :selected => @project.dpp.nil? ? Setting::PAY_SCALES_DEFAULT : @project.dpp.round),
                                                       { :include_blank => false}, 
                                                       {  :class => 'left',
                                                         :onchange => "#{remote_function(:url  => {:action => "update_scale"},
                                                                                                             :with => "'dpp='+value")}"})%>
 <span class="left"><%= help_bubble :help_select_scale %></span>
-<%= render :partial => 'point_scale', :locals => { :dpp => @project.dpp.nil? ? Setting::PAY_SCALES[0][:value] : @project.dpp.round } %>                                                                                                            </p>
+<%= render :partial => 'point_scale', :locals => { :dpp => @project.dpp.nil? ? Setting::PAY_SCALES_DEFAULT : @project.dpp.round } %>                                                                                                            </p>
 
 <%# @project.custom_field_values.each do |value| %>
   <!-- <p><%#= custom_field_tag_with_label :project, value %></p> -->

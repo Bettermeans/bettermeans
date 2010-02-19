@@ -61,6 +61,8 @@ class ProjectsController < ApplicationController
     
     if request.get?
       @project.enabled_module_names = Setting.default_projects_modules
+      @project.dpp = 100
+      
     else
       logger.info("PROJECT BEFORE SAVE #{@project.inspect}")
       @project.enabled_module_names = params[:enabled_modules]
