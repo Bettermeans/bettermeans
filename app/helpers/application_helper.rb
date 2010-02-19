@@ -669,6 +669,20 @@ module ApplicationHelper
     options[:show_name] ||= false #When true, we show the text of the help key next to the link
     link_to(options[:show_name] ? l('help_' + name.to_s) : '', {:controller => 'help', :action => 'show', :key => name}, {:id =>'help_button_' + name.to_s, :class => 'lbOn icon icon-help'})
   end
+  
+  def help_bubble(name, options={})
+    html = content_tag(:div, l(name), :class => 'tip hidden', :id=>"tip_#{name}")
+    html << link_to(image_tag("question_mark.gif", :class=> "clickable", :id=>"help_image_#{name}"), {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
+    
+    # <img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="clickable">
+    # <div id="help_panel_canceled" style="display:none;">
+    #   <div class="tip" style="width:300px">
+    #     <strong>Canceled Ideas</strong><br>
+    #       If a request hasn't been prioritized by anyone and has been sitting in the queue for more than a month, anyone team member can cancel it.<br><br>
+    #       Once a request has been canceled, anyone can re-open it, effectively pushing it back as a new item for reconsideration.
+    #   </div>
+    # </div>
+  end
 
   def calendar_for(field_id)
     include_calendar_headers_tags

@@ -97,3 +97,12 @@
 }
 /*******************************/
 
+.bubbletip tr, td {
+border-collapse:collapse;
+margin:0px;
+padding:0px;
+}
+
+.bubbletip td {
+padding:0px;
+}
