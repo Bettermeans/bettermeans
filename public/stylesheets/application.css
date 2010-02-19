@@ -1181,3 +1181,24 @@ table.retrospective td.title { vertical-align: top; border-left-width: 0px;  fon
 .clickable{
 	cursor:pointer;
 }
+
+.point-scale{
+	float:left;
+	padding-left:15px;
+}
+
+.left{
+	float:left;
+}
+
+.right{
+	float:right;
+}
+
+.hidden{
+	display:none;
+}
+
+.tip{
+	width:300px;
+}

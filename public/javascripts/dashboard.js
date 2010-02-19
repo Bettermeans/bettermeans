@@ -1513,7 +1513,7 @@ function search_for(text){
 		{
 			$("#item_" + i).show().removeHighlight();
 			if (text.length > 0){
-				$("#item_content_details_" + i).highlight(text);
+				$("#item_content_details_" + i).texthighlight(text);
 			}
 			// $("#item_" + i).highlight(text);
 		}

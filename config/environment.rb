@@ -62,5 +62,7 @@ Rails::Initializer.run do |config|
   end
   
   config.gem 'hobofields'  
-  
+    
 end
+
+

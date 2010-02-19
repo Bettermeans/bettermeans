@@ -986,7 +986,7 @@ $.fn.mybubbletip = function(tip, options) {
 		]
 	};
 
-	jQuery.fn.highlight = function(pat) {
+	jQuery.fn.texthighlight = function(pat) {
 	 function innerHighlight(node, pat) {
 	  var skip = 0;
 	  if (node.nodeType == 3) {

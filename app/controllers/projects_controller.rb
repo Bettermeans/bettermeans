@@ -12,9 +12,9 @@ class ProjectsController < ApplicationController
   menu_item :issues, :only => [:changelog]
   menu_item :team, :only => :team
   
-  before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity ]
+  before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity, :update_scale ]
   before_filter :find_optional_project, :only => :activity
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris ]
+  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale ]
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
@@ -191,6 +191,13 @@ class ProjectsController < ApplicationController
     else
         logger.info("no data")
         render :text => 'no'
+    end
+  end
+  
+  def update_scale
+    render :update do |page|
+      page.replace 'point_scale', :partial => 'point_scale', :locals => { :dpp => params[:dpp] }
+      page["point_scale"].visual_effect :highlight
     end
   end
 

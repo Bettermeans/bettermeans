@@ -328,6 +328,7 @@ class IssuesController < ApplicationController
     end
   end
 
+#TODO: merge this w/disagree. Not DRY enough (only one line is different)
   def disagree
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1
     @issue.update_agree_total
