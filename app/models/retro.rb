@@ -12,9 +12,8 @@ class Retro < ActiveRecord::Base
   STATUS_COMPLETE = 2
   STATUS_INDISPUTE = 3
   NOT_STARTED_ID = -1 #is for issues that haven't been started yet
-  NOT_NEEDED_ID = -1 #is for issues that don't need a retrospective b/c only one person worked on them
+  NOT_NEEDED_ID = -2 #is for issues that don't need a retrospective b/c only one person worked on them
   
-  DEFAULT_RETROSPECTIVE_LENGTH = 3 #Length in days for which a retrospective is open
   
   belongs_to :project
   has_many :issues
@@ -26,46 +25,56 @@ class Retro < ActiveRecord::Base
   #Sets the from_date according to earliest updated issue in retrospective
   def set_from_date
     from_date = issues.first(:order => "updated_on ASC").updated_on
-    save! #BUGBUG: doesn't work
+    self.save
+  end
+  
+  def ended?
+    return status_id == STATUS_COMPLETE
   end
   
   def close
     @user_hash = Hash.new
+    RetroRating.delete_all :rater_id => -1, :retro_id => self.id
+    RetroRating.delete_all :rater_id => -2, :retro_id => self.id
     
-    retro_ratings.group_by{|retro_rating| retro_rating.rater_id}.keys.each do |user_id|
+    return if retro_ratinngs.length == 0
+    
+    total_raters = retro_ratings.group_by{|retro_rating| retro_rating.rater_id}.length
+    
+    
+    retro_ratings.group_by{|retro_rating| retro_rating.ratee_id}.keys.each do |user_id|
       puts("userid:#{user_id}")
       next if user_id < 0;
       @user_hash[user_id] = []
     end
 
     puts("H: " + @user_hash.inspect)
+    puts("total raters #{total_raters}")
     
     retro_ratings.each do |rr|
       puts("rr:#{rr.inspect}")
       next if rr.rater_id < 0;
-      @user_hash[rr.ratee_id].push rr.score unless rr.ratee_id == rr.rater_id
+      @user_hash[rr.ratee_id].push rr.score unless ((rr.ratee_id == rr.rater_id) && (total_raters > 1))
     end
     
     puts("H: " + @user_hash.inspect)
 
     team_average_total = 0
     #rater_id -1 reserved for team average
-    RetroRating.delete_all :rater_id => -1, :retro_id => self.id
     @user_hash.keys.each do |user_id|
-      puts("creating for:#{user_id}")
-      RetroRating.create :rater_id => -1, :ratee_id => user_id, :score => @user_hash[user_id].sum.to_f / @user_hash[user_id].length, :retro_id => self.id
-      team_average_total = team_average_total + (@user_hash[user_id].sum.to_f / @user_hash[user_id].length)
+      score = @user_hash[user_id].length == 0 ? 0 : @user_hash[user_id].sum.to_f / @user_hash[user_id].length
+      RetroRating.create :rater_id => -1, :ratee_id => user_id, :score => score, :retro_id => self.id
+      team_average_total = team_average_total + score
     end
 
     #rater_id -2 reserved for final distribution
-    RetroRating.delete_all :rater_id => -2, :retro_id => self.id
     @user_hash.keys.each do |user_id|
       puts("creating for:#{user_id}")
-      RetroRating.create :rater_id => -2, :ratee_id => user_id, :score => @user_hash[user_id].sum.to_f / @user_hash[user_id].length * 100 / team_average_total, :retro_id => self.id
+      score = @user_hash[user_id].length == 0 ? 0 : @user_hash[user_id].sum.to_f / @user_hash[user_id].length
+      RetroRating.create :rater_id => -2, :ratee_id => user_id, :score => score * 100 / team_average_total, :retro_id => self.id
     end
     
     self.status_id = STATUS_COMPLETE
-    self.to_date = DateTime.now
     self.save
     
     announce_close
@@ -84,7 +93,7 @@ class Retro < ActiveRecord::Base
     @users.keys.each do |user_id|
       Notification.create :recipient_id => user_id,
                           :variation => 'retro_started',
-                          :params => {:issue => issues.first}, 
+                          :params => {:project => project}, 
                           :sender_id => admin.id,
                           :source_id => self.id    
     end
@@ -110,9 +119,9 @@ class Retro < ActiveRecord::Base
   
   #True when all team members in a retrospective have participated
   def all_in?
-    retro_group = retro_ratings.group_by {|retro_rating| retro_rating.rater_id}
-    team_group = issue_votes.select{|issue_vote| issue_vote.vote_type == IssueVote::JOIN_VOTE_TYPE}
-    return team_group.length <= retro_group.length
+    rater_group = retro_ratings.group_by {|retro_rating| retro_rating.rater_id}
+    ratee_group = retro_ratings.group_by {|retro_rating| retro_rating.ratee_id}
+    return ratee_group.length <= rater_group.length
   end
 end
 

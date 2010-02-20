@@ -6,6 +6,11 @@ class Setting < ActiveRecord::Base
 
   PAY_SCALES = {'Scale 1' => 100, 'Scale 2' => 50, 'Scale 3' => 20, 'Volunteer' => 0}
   PAY_SCALES_DEFAULT = 100
+  
+  DEFAULT_RETROSPECTIVE_LENGTH = 0 #Length in days for which a retrospective is open
+  RETRO_POINT_THRESHOLD = 20 # Point threshold for  retrospective
+  
+  
 
 
   #Factor by which dollars per point is multiplies e.g. a 5 point issue is worth $(POINT_FACTOR[5] * dpp)
