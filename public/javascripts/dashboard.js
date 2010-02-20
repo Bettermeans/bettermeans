@@ -1158,7 +1158,7 @@ function display_retro(rdataId){
 	
 	
 	$('#retro_' + retro.id + '_panel').remove();
-	generate_and_append_panel(0,'retro_' + retro.id,dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy'),true);
+	generate_and_append_panel(0,'retro_' + retro.id,'Retro ' + retro.id + ': ' + dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy'),true);
 	recalculate_widths();
 	var html = '	<div class="item" id="new_retro_wrapper_' + rdataId + '"><div id="loading" class="loading"> Loading...</div></div>';
 	$('#retro_' + retro.id + '_items').prepend(html);
