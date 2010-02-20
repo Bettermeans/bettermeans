@@ -20,8 +20,8 @@ a:hover, a:active { color: #2A5685; }
 #top-menu li a { color: #999; font-weight: normal;}
 #top-menu li a:hover { color: #fff; text-decoration: none; }
 #main { background: #FFFFFE; margin: 8px 24px 0px 24px; }
-#content { background: #fff; border-right: 1px solid #bbb; border-bottom: 1px solid #bbb; width: 70%; overflow: auto; }
-#sidebar { width: 26%; }
+#content { background: #fff; border-bottom: 1px solid #bbb; /*width: 70%;*/ overflow: auto; }
+#sidebar { width: 30%; border-left: 1px solid #bbb; }
 #footer { background-color:#FFFFFE; border: 0px; clear: left; color:#666666; font-size:9px; margin:4px 0 20px 20px; padding-bottom:15px; text-align:center; }
 #footer a:hover { background:#666666 none repeat scroll 0 0; color:#FFFFFF !important;}
 #footer a:link, #footer a:visited { color:#666666; }

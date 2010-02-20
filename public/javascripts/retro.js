@@ -12,6 +12,13 @@ $('document').ready(function(){
 		$(".open").hide();		
 	}
 	
+	if (belongs){
+		$(".private").show();
+	}
+	else{
+		$(".private").hide();
+	}
+	
 	calculate_sum();
 	
 	$(".slider").slider({
@@ -40,7 +47,7 @@ function calculate_sum(){
 		total = total + parseInt($("#" + this.id).html().replace('%',''));
 	});
 	$('#total').html(total + '%');
-	if (total == 100){
+	if ((total > 94)&&(total < 106)){
 		$('#change_retro_link_save').show();
 	}
 	else{

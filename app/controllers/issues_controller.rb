@@ -345,22 +345,27 @@ class IssuesController < ApplicationController
   def accept
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1
     @issue.update_accept_total
-    @issue.save
+
+    #Used to be 1 retro per item
+    # if @issue.ready_for_accepted?
+    #   if @issue.has_team?
+    #     @retro = Retro.create :project_id => @project.id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now + Retro::DEFAULT_RETROSPECTIVE_LENGTH, :from_date => DateTime.now, :total_points => @issue.points
+    #     logger.info("announcing start")
+    #     @issue.retro_id = @retro.id
+    #     @issue.save
+    #     @retro.announce_start
+    #   else
+    #     @issue.retro_id = Retro::NOT_NEEDED_ID
+    #     @issue.save
+    #   end
+    # end
 
     if @issue.ready_for_accepted?
-      if @issue.has_team?
-        @retro = Retro.create :project_id => @project.id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now + Retro::DEFAULT_RETROSPECTIVE_LENGTH, :from_date => DateTime.now, :total_points => @issue.points
-        logger.info("announcing start")
-        @issue.retro_id = @retro.id
+        @issue.retro_id = Retro::NOT_STARTED_ID
         @issue.save
-        @retro.announce_start
-        #No longer used, since we have only 1 retro per item
-        # @issue.retro_id = Retro::NOT_STARTED_ID
-        #     @issue.project.start_retro_if_ready
-      else
-        @issue.retro_id = Retro::NOT_NEEDED_ID
-        @issue.save
-      end
+        @issue.project.start_retro_if_ready
+    else
+      @issue.save
     end
     
     @issue.reload

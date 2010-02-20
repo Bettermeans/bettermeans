@@ -162,7 +162,6 @@ function start(){
 	else{
 		load_dashboard();
 	}
-	
 }
 
 function load_dashboard(){
@@ -257,7 +256,7 @@ function data_ready(html){
 	D = html;
 	prepare_item_lookup_array();
 	prepare_page();
-	// load_retros(); #No longer needed since retros are now 1 item per retro
+	load_retros(); 
 }
 
 
@@ -361,9 +360,10 @@ function prepare_page(){
 }
 
 function start_timer(){
-	if (timer_active == true){
+	if (timer_active){
 		return;
 	}
+	
 	
 	timer_active = true;
 	$.timer(TIMER_INTERVAL, function (timer) {
@@ -412,8 +412,8 @@ function rdata_ready(html,rdataId){
 	var i = D.length;
 	D = D.concat(html);
 	if (retro.status_id == 1){
-		var notice = generate_notice('<a class="date_label" title="Retrospective is now open" href="retros/' + retro.id + '" target="_new">Retrospective is open &rArr;</a>');
-		$("#" + panelid + '_start_of_list').append(notice);
+		var notice = generate_notice('<a class="date_label" title="Retrospective is now open" href="#" onclick="click_retro(' + i +',this.id);return false;">Retrospective is open &rArr;</a>', rdataId);
+		$('#retro_' + retro.id + '_items').prepend(notice);
 	}
 	for(; i < D.length; i++ ){
 		add_item(i,"bottom",false,panelid);	
@@ -600,7 +600,6 @@ function generate_estimate_flyover(dataId){
 			if (item.issue_votes[i].vote_type != 4) continue;
 			total_people_estimating++ ;
 			you_voted = "You estimated " + item.issue_votes[i].points + " - " + humane_date(item.issue_votes[i].updated_on);
-			//console.log(item.issue_votes[i].updated_on);
 			user_estimate_id = item.issue_votes[i].id;
 		}
 	}
@@ -685,7 +684,7 @@ function generate_estimate_flyover_yourestimate(item,user_estimate_id,dataId){
 	html = html + '	                  <tbody>';
 	html = html + '	                    <tr class="noteTextRow">';
 	html = html + '	                      <td class="noteText">';
-	html = html + generate_estimate_button(0, item.id, user_estimate_id,dataId);
+	html = html + generate_estimate_button(0.2, item.id, user_estimate_id,dataId);
 	html = html + generate_estimate_button(1, item.id, user_estimate_id,dataId);
 	html = html + generate_estimate_button(2, item.id, user_estimate_id,dataId);
 	html = html + generate_estimate_button(4, item.id, user_estimate_id,dataId);
@@ -700,7 +699,7 @@ function generate_estimate_flyover_yourestimate(item,user_estimate_id,dataId){
 
 function generate_estimate_button(points, itemId, user_estimate_id, dataId){
 	var html = '';
-	html = html + '<img src="/images/dice_' + points + '.png" width="18" height="18" alt="' + points + ' Points" class="dice" onclick="send_item_action(' + dataId + ',\'estimate\',\'&points=' + points + '\')">';	
+	html = html + '<img src="/images/dice_' + Math.round(points) + '.png" width="18" height="18" alt="' + points + ' Points" class="dice" onclick="send_item_action(' + dataId + ',\'estimate\',\'&points=' + points + '\')">';	
 	return html;
 }
 
@@ -1113,23 +1112,27 @@ function generate_retro(rdataId){
 	html = html + '	</td>';
 	html = html + '	<td id="done_' + rdataId + '_date_label" style="white-space: nowrap; width: 99%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
 	html = html + '	<span>';
-	html = html + '	<a class="date_label" title="' + dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy') + '" onclick="display_retro(' + rdataId + ');return false;">' + dateFormat(retro.from_date,'dd mmm\'yy') + ' - ' + dateFormat(retro.to_date,'dd mmm\'yy') + '</a>';
+	html = html + '	<a class="date_label" title="Retro: ' + dateFormat(retro.from_date,'dd mmm yyyy') + '-' + dateFormat(retro.to_date,'dd mmm yyyy') + ' (' + retro_status(retro) + ')" onclick="display_retro(' + rdataId + ');return false;">Retro ' + retro.id + ': ' + dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy') + ' (' + retro_status(retro) + ')</a>';
 	html = html + '	</span>';
 	html = html + '	</td>';
 	html = html + '	<td id="done_' + rdataId + '_details_points" style="white-space: nowrap; width: 1%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
 	html = html + '		<span title="Points completed: 2">Pts: ' + retro.total_points + '</span>';
 	html = html + '	</td>';
-	// html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 4px 1px 0.5em; color: rgb(153, 204, 255); cursor: pointer;">';
-	// html = html + '		<span>';
-	// html = html + '		<a class="teamStrengthIcon" title="Team strength for this iteration is at 100%. Click to change.">﻿</a>';
-	// html = html + '		</span>';
-	// html = html + '	</td>';
 	html = html + '	</tr>';
 	html = html + '	</tbody>';
 	html = html + '	</table>';
 	html = html + '	</div>';
 	html = html + '	</div>';
 	return html;	
+}
+
+function retro_status(retro){
+	if (retro.status_id == 1){
+		return "open";
+	}
+	else{
+		return "done";
+	}
 }
 
 function display_retro(rdataId){
@@ -1158,25 +1161,20 @@ function display_retro(rdataId){
 	generate_and_append_panel(0,'retro_' + retro.id,dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy'),true);
 	recalculate_widths();
 	var html = '	<div class="item" id="new_retro_wrapper_' + rdataId + '"><div id="loading" class="loading"> Loading...</div></div>';
-	$('#retro_' + retro.id + '_start_of_list').append(html);
+	$('#retro_' + retro.id + '_items').prepend(html);
 	
 	
 }
 
 
 function generate_notice(noticeHtml, noticeId){
-	var html = '';
+	$('#notice_' + noticeId).remove();
+	var html =  '';
 	html = html + '	<div id="notice_' + noticeId + '" class="item notice">';
 	html = html + '	<div id="notice_' + noticeId + '_content" class="iterationHeader">';
 	html = html + '	<table>';
 	html = html + '	<tbody>';
 	html = html + '	<tr>';
-	// html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0pt 1px 4px; color: rgb(255, 255, 255); background-color: rgb(69, 71, 72);">';
-	// html = html + '		<img id="done_itemList_' + noticeId + '_toggle_expanded_button" class="iterationHeaderToggleExpandedButton" src="/images/iteration_expander_closed.png" title="Expand" alt="Expand" style="height: 12px; width: 12px;"/>';
-	// html = html + '	</td>';
-	// html = html + '	<td style="white-space: nowrap; width: 1%; padding: 1px 0.5em 1px 0pt; color: white; background-color: rgb(69, 71, 72);">';
-	// html = html + '		<div id="done_itemList_' + noticeId + '_iteration_label" title="Retrospective ' + retro.id + '" style="width: 2em; text-align: right;">' + retro.id + '</div>';
-	// html = html + '	</td>';
 	html = html + '	<td id="done_' + noticeId + '_date_label" style="white-space: nowrap; width: 99%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
 	html = html + '	<span>';
 	html = html + noticeHtml;
@@ -1239,7 +1237,8 @@ function buttons_for(dataId){
 	case 'Done':
 		if (item.retro_id){
 			html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
-			if (item.retro_id > 0 && is_part_of_team(item)){
+			// if (item.retro_id > 0 && is_part_of_team(item)){
+			if (item.retro_id > 0){
 				html = html + button('retro',dataId,false,item.retro_id);
 			}
 		}
@@ -1325,10 +1324,8 @@ function accept_buttons(dataId){
 
 
 function pri_button(dataId){
-	//console.log("entering pre button");
 	item = D[dataId];
 	for(var i=0; i < item.issue_votes.length; i++){
-		//console.log(item.issue_votes[i].user.login + ' ' + item.issue_votes[i].vote_type);
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 3)){
 			if (item.issue_votes[i].points == 1){
 				return generate_pri_button(dataId,'up',item.pri);
@@ -1443,7 +1440,7 @@ function click_retro(dataId,source){
 	
 	var url = '/projects/' + projectId + '/retros/' + D[dataId].retro_id + '/show';
 	
-	show_fancybox(url,'loading retrospective...');
+	show_fancybox(url,'generating retrospective data...');
 	return false;
 }
 
@@ -2410,7 +2407,7 @@ function show_issue_full(itemId){
 //Full page view in fancy box of a single retro
 function show_retro_full(retroId){
 	url = '/projects/' + projectId + '/retros/' + retroId + '/show';
-	show_fancybox(url,'loading retrospective data...');
+	show_fancybox(url,'generating retrospective data...');
 
 	return false;
 }

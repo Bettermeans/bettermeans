@@ -31,12 +31,13 @@ class IssueVote < ActiveRecord::Base
   
 end
 
+
 # == Schema Information
 #
 # Table name: issue_votes
 #
 #  id         :integer         not null, primary key
-#  points     :integer         not null
+#  points     :float           not null
 #  user_id    :integer         not null
 #  issue_id   :integer         not null
 #  vote_type  :integer         not null
