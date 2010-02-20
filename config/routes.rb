@@ -221,6 +221,23 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   
+  map.with_options :controller => 'retros' do |retro_routes|
+    retro_routes.with_options :conditions => {:method => :get} do |retro_views|
+      retro_views.connect 'projects/:project_id/retros', :action => 'index'
+      retro_views.connect 'projects/:project_id/retros/new', :action => 'new'
+      retro_views.connect 'projects/:project_id/retros/:action', :action => /index_json/
+      # retro_views.connect 'projects/:project_id/retros/:id', :action => 'show'
+      retro_views.connect 'projects/:project_id/retros/:id/:action', :action => /show|dashdata/
+      retro_views.connect 'projects/:project_id/retros/:id.:format', :action => 'show'
+      retro_views.connect 'projects/:project_id/retros/:id/edit', :action => 'edit'
+    end
+    retro_routes.with_options :conditions => {:method => :post} do |retro_actions|
+      retro_actions.connect 'projects/:project_id/retros', :action => 'new'
+      retro_actions.connect 'projects/:project_id/retros/:id/:action', :action => /edit|destroy/
+    end
+  end
+  
+  
   map.with_options :controller => 'projects' do |projects|
     projects.with_options :conditions => {:method => :get} do |project_views|
       project_views.connect 'projects', :action => 'index'
@@ -236,7 +253,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
       project_views.connect 'issues/:show_issue_id', :action => 'dashboard'
       project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
-      project_views.connect 'projects/:id/retros/:show_retro_id', :action => 'dashboard'
+      # project_views.connect 'projects/:id/retros/:show_retro_id', :action => 'dashboard'
     end
 
     projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|
@@ -290,24 +307,7 @@ ActionController::Routing::Routes.draw do |map|
     end
     
     repositories.connect 'projects/:id/repository/:action', :conditions => {:method => :post}
-  end
-  
-  map.with_options :controller => 'retros' do |retro_routes|
-    retro_routes.with_options :conditions => {:method => :get} do |retro_views|
-      retro_views.connect 'projects/:project_id/retros', :action => 'index'
-      retro_views.connect 'projects/:project_id/retros/new', :action => 'new'
-      retro_views.connect 'projects/:project_id/retros/:action', :action => /index_json/
-      # retro_views.connect 'projects/:project_id/retros/:id', :action => 'show'
-      retro_views.connect 'projects/:project_id/retros/:id/:action', :action => /show|dashdata/
-      retro_views.connect 'projects/:project_id/retros/:id.:format', :action => 'show'
-      retro_views.connect 'projects/:project_id/retros/:id/edit', :action => 'edit'
-    end
-    retro_routes.with_options :conditions => {:method => :post} do |retro_actions|
-      retro_actions.connect 'projects/:project_id/retros', :action => 'new'
-      retro_actions.connect 'projects/:project_id/retros/:id/:action', :action => /edit|destroy/
-    end
-  end
-  
+  end  
   
   map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
   map.connect 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/
