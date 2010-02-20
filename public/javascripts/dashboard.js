@@ -356,6 +356,7 @@ function prepare_page(){
 	make_text_boxes_toggle_keyboard_shortcuts();
 	timer_active = false; //now that data is loaded, we can start timer
 	start_timer();
+	update_panel_counts();
 	
 }
 
@@ -397,9 +398,7 @@ function load_ui(){
 		add_item(i,"bottom",false);	
 	}
 
-	update_panel_counts();
 	sort_panel('open');
-	// sort_panel('estimate');
 	sort_panel('new');
 	sort_panel('inprogress');
 	
@@ -1485,6 +1484,7 @@ function filter_select(){
 	{
 		$('#filtered_message').hide();
 	}
+	update_panel_counts();
 }
 
 //Hides all items not active in the last *days*
@@ -1524,6 +1524,7 @@ function search_for(text){
 	if (text.length > 0){
 		$('#filtered_message').show();
 		$('#filter_detail').html('  "' + text + '"');
+		update_panel_counts();
 	}
 	else{
 		filter_select();
@@ -1630,7 +1631,6 @@ function generate_and_append_panel(position,name,title, visible){
 
 function update_panel_counts(){
 	update_panel_count('new');
-	// update_panel_count('estimate');
 	update_panel_count('open');
 	update_panel_count('inprogress');
 	update_panel_count('done');
@@ -1640,7 +1640,7 @@ function update_panel_counts(){
 }
 
 function update_panel_count(name, skip_button){
-	count = $("#" + name + "_start_of_list > *").length;
+	count = $("#" + name + "_start_of_list > *:visible").length;
 	$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\([0-9]*\)/,"(" + count + ")"));
 	if (!skip_button){
 		$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\([0-9]*\)/,"(" + count + ")"));
