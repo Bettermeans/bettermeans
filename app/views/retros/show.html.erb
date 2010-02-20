@@ -31,15 +31,15 @@
     <%= user_retro["total_journals"] %> journals <br>      
     <%= user_retro["total_votes"] %> votes <br>      
   </td><td class="percentage private hidden">
-    <label id="user_<%= user_id%>_percentage" class="percentage_label"><%= user_retro["given_percentage"] %>%</label>
+    <label id="user_<%= user_id%>_percentage" class="percentage_label"><%= user_retro["given_percentage"] ||=0 %>%</label>
   <br>
   <% if (@retro.status_id == Retro::STATUS_INPROGRESS) %>
   <div id="slider_<%= user_id%>" class="slider" user_id="<%= user_id%>" per="<%= user_retro["given_percentage"] %>"></div>
   <% end %>
   </td><td class="percentage closed">
-    <label id="user_<%= user_id%>_percentage"><%= @team_hash[user_id] %>%</label>
+    <label id="user_<%= user_id%>_percentage"><%= @team_hash[user_id] ||=0 %>%</label>
   </td><td class="percentage closed">
-    <label id="user_<%= user_id%>_percentage"><%= @final_hash[user_id] %>%</label>
+    <label id="user_<%= user_id%>_percentage"><%= @final_hash[user_id] ||=0 %>%</label>
   </td><td class="button">
   </td></tr>  
   <% end %>

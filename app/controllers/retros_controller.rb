@@ -173,7 +173,7 @@ class RetrosController < ApplicationController
         @user_retro_hash[author_id].store "total_points", 0
         @user_retro_hash[author_id].store "percentage_points", 0
       end
-      @user_retro_hash[author_id].store "total_ideas", author_group[author_id].collect(&:points).count
+      @user_retro_hash[author_id].store "total_ideas", author_group[author_id].collect(&:points).length
     end
     
     #Adding users that have authored journals
@@ -195,7 +195,7 @@ class RetrosController < ApplicationController
     @max_range = @max_points if @max_points > @max_range
             
     #Total journals
-    @total_journals = @retro.journals.count
+    @total_journals = @retro.journals.length
     @pie_data_journals = []
     @pie_labels_journals = []
     @max_journals = 0
@@ -213,7 +213,7 @@ class RetrosController < ApplicationController
     @max_range = @max_journals if @max_journals > @max_range
     
     #Total voting activity
-    @total_votes = @retro.issue_votes.count
+    @total_votes = @retro.issue_votes.length
     @pie_data_votes = []
     @pie_labels_votes = []
     @max_votes = 0
