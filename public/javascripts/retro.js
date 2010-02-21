@@ -47,7 +47,7 @@ function calculate_sum(){
 		total = total + parseInt($("#" + this.id).html().replace('%',''));
 	});
 	$('#total').html(total + '%');
-	if ((total > 94)&&(total < 106)){
+	if ((total > 95)&&(total < 105)){
 		$('#change_retro_link_save').show();
 	}
 	else{

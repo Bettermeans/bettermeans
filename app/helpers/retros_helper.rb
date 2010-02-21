@@ -9,11 +9,6 @@ module RetrosHelper
   end
   
   def team_from_issue(issue)
-    html = ''
-    issue.team.each do |issue_vote| 
-      html = html + link_to_user_from_id(issue_vote.user_id) + ", "
-    end 
-    html = truncate html, html.length-1
-    
+    issue.team.collect{|iv| link_to_user_from_id iv.user_id }.join(", ")
   end
 end
