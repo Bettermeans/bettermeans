@@ -292,6 +292,7 @@ background-repeat:repeat-y;
 .storyDetailsTable {padding-top: 10px; border-spacing: 0px 0; border-collapse: separate}
 .storyDetailsTable td.letContentExpand {width: 1px}
 .storyDetailsButton {padding: 0px;}
+.storyDetailsActionButton {text-align: right; padding: 0px;}
 .storyDetails .section {color:#333; font-weight:normal; font-size:0.95em; line-height: 14px; margin-top: 15px}
 .storyDetails .section .header {font-weight:bold; color:#3F3D35; font-size: 115%; margin-bottom: 0}
 .storyDetails .section textArea, .storyDetails .section input[type=text].tasksTextArea {width: 95%; overflow:auto; padding: 3px; font-weight:bold; margin-top: 5px; font-size: 104%; max-width:500px;}
