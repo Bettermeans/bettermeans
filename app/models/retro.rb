@@ -83,9 +83,17 @@ class Retro < ActiveRecord::Base
   
   #Sends notification to everyone in the retrospective that it's starting
   def announce_start
-    @users = Hash.new
-    issue_votes.each do |issue_vote|
-      @users[issue_vote.user_id] = 1 if issue_vote.vote_type == IssueVote::JOIN_VOTE_TYPE
+    @users = {}
+    
+    issues.each do |issue|
+      @users.store issue.author_id, 1 unless @users.has_key? issue.author_id
+      @users.store issue.assigned_to_id, 1 unless @users.has_key? issue.assigned_to_id
+      issue.journals.each do |journal|
+        @users.store journal.user_id, 1 unless @users.has_key? journal.user_id
+      end
+      issue.issue_votes.each do |iv|
+        @users.store iv.user_id, 1 unless @users.has_key? iv.user_id
+      end
     end
     
     admin = User.find(:first,:conditions => {:login => "admin"})
