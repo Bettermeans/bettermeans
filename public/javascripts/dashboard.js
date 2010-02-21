@@ -32,6 +32,7 @@ var new_todo_text = 'Add todo';
 var panel_height = $(window).height() - 200;
 var last_activity = new Date(); //tracks last activity of mouse or keyboard click. Used to turn off server polling
 var last_data_pull = new Date(); //tracks last data recieved from server
+var highest_pri = -9999;
 
 $(window).bind('resize', function() {
 	resize();
@@ -1188,23 +1189,23 @@ function generate_notice(noticeHtml, noticeId){
 }
 
 
-function buttons_for(dataId){
+function buttons_for(dataId,expanded){
 	item = D[dataId];
 	html = '';
 	
 	switch (item.status.name){
 	case 'New':
 		html = html + pri_button(dataId);
-		html = html + agree_buttons(dataId);
+		html = html + agree_buttons(dataId,false,expanded);
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
-		html = html + agree_buttons(dataId);
+		html = html + agree_buttons(dataId,false,expanded);
 		// html = html + button('estimate',dataId);
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
-		item.points == 0 ? html = html + button('start',dataId,false) : html = html + button('start',dataId,true);
+		html = html + agree_buttons(dataId,true,expanded);
 
 		if (currentUserIsCitizen == 'true'){
 			var today = new Date();
@@ -1273,23 +1274,31 @@ function is_part_of_team(item){
 	return part_of_team;
 }
 
-function agree_buttons(dataId){
+function agree_buttons(dataId,include_start_button,expanded){
 	var html = '';
 	item = D[dataId];
+	
+	if (include_start_button){
+		html = html + button('start',dataId,true);
+	}
+	
 	for(var i=0; i < item.issue_votes.length; i++){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
 			tally = '';
-			tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally">';
-			tally = tally + item.agree + ' - ' + item.disagree;
-			tally = tally + '</div>';
+			if (!include_start_button || expanded){
+				tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally">';
+				tally = tally + item.agree + ' - ' + item.disagree;
+				tally = tally + '</div>';
+			}
 			
 			if (item.issue_votes[i].points==1) {
-				return tally + button('against',dataId);
+				return html + tally + button('against',dataId);
 			} else {
-				return tally + button('agree',dataId);
+				return html + tally + button('agree',dataId);
 			}
 		}
 	}	
+	html = ''; //removing start button if pereson hasn't voted yet
 	html = html + button('against',dataId);
 	html = html + button('agree',dataId);
 	
@@ -1667,26 +1676,29 @@ function show_panel(name){
 // Sorts items in a plane by priority (highest first) followed by created date (oldest first)
 function sort_panel(name){
 		var listitems = $('#' + name + '_start_of_list').children().get();
-		var highest_pri = 0;
 
-
-			listitems.sort(function(a, b) {
-			   var compA = a.id.replace(/item_/g,'');
-			   var compB = b.id.replace(/item_/g,'');
+ 		//Setting highest_pri to priority of first item in open panel
+		if ((name == "open") && (listitems.length > 0)){highest_pri = D[listitems[0].id.replace(/item_/g,'')].pri;}
+		
+		listitems.sort(function(a, b) {
+		   var compA = a.id.replace(/item_/g,'');
+		   var compB = b.id.replace(/item_/g,'');
 			
-			   if (D[compA].pri > highest_pri) { highest_pri = D[compA].pri;}
-			   if (D[compB].pri > highest_pri) { highest_pri = D[compB].pri;}
-			
-			   if (D[compA].pri > D[compB].pri) {
+		   if (name == "open"){
+				if (D[compA].pri > highest_pri) { highest_pri = D[compA].pri;}
+		   		if (D[compB].pri > highest_pri) { highest_pri = D[compB].pri;}
+		   }
+		
+		   if (D[compA].pri > D[compB].pri) {
+			return -1;
+			} else if (D[compA].pri < D[compB].pri) {
+				return 1;
+			} else if (new Date(D[compA].created_on) > new Date(D[compB].created_on)) {
+				return 1;
+			} else {
 				return -1;
-				} else if (D[compA].pri < D[compB].pri) {
-					return 1;
-				} else if (new Date(D[compA].created_on) > new Date(D[compB].created_on)) {
-					return 1;
-				} else {
-					return -1;
-				}
-			});
+			}
+		});
 
 
 		$('#' + name + '_start_of_list').children().remove();
@@ -1696,10 +1708,14 @@ function sort_panel(name){
 		    });
 		
 		if (name == "open"){
-			$(".action_button_start").hide();
-			$(".pri_" + highest_pri).find(".action_button_start").show();
-			$(".points_0").find(".action_button_start").show();
+			show_start_buttons();
 		}
+}
+
+function show_start_buttons(){
+	$(".action_button_start").hide();
+	$(".pri_" + highest_pri).find(".action_button_start").show();
+	$(".points_0").find(".action_button_start").show();
 }
 
 
@@ -1745,6 +1761,7 @@ function collapse_item(dataId){
 	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
 	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 5000);
 	keyboard_shortcuts = true;
+	show_start_buttons();
 	return false;
 }
 
@@ -1833,7 +1850,8 @@ function item_added(item){
 	return false;
 }
 
-function item_actioned(item, dataId,action, pre_status){
+function item_actioned(item, dataId,action){
+	collapse_item(dataId);
 	pre_status = D[dataId].status.name;
 	
 	status_changed = (pre_status != item.status.name);
@@ -1847,12 +1865,14 @@ function item_actioned(item, dataId,action, pre_status){
 	if (!status_changed)
 	{
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
+		show_start_buttons();
 		//tODO: highlight the right item here
 	}
 	else
 	{
 		$("#item_" + dataId).remove();
 		add_item(dataId,"bottom",true);
+		// show_start_buttons();
 		update_panel_counts();
 	}	
 	
@@ -1864,7 +1884,7 @@ function item_actioned(item, dataId,action, pre_status){
 	$('#flyover_pri_' + dataId).remove(); 
 	
 	if (action == "estimate") {$('#flyover_estimate_' + dataId).remove();}
-	if (action == "open") {sort_panel("open");}
+	if (action == "open" || item.status.name == "Open" || pre_status == "Open") {sort_panel("open");}
 	if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
 		sort_panel(item.status.name.toLowerCase());
 	}
@@ -2055,6 +2075,7 @@ html = html + '	  <div class="storyItem underEdit" id="editItem_content_' + data
 // html = html + '	   <form action="#">';
 html = html + '	    <div class="storyPreviewHeader">';
 html = html + ' 		<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_expanded.png" title="Collapse" alt="Collapse" onclick="collapse_item(' + dataId + ');return false;">';
+html = html + '<div id="icon_set_' + dataId + '" class="left">&nbsp;</div>';
 html = html + '	      <div class="storyPreviewInput">';
 html = html + '	        <input id="edit_title_input_' + dataId + '" class="titleInputField" name="title_input" value="' + D[dataId].subject + '" type="text">';
 html = html + '	      </div>';
@@ -2077,6 +2098,11 @@ html = html + '	                </td>';
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
 html = html + '	                    <input id="edit_full_screen_button" value="Full Screen" type="submit" onclick="full_screen(' + dataId + ');return false;">';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	                <td style="width:100%;">';
+html = html + '	                  <div class="storyDetailsActionButton">';
+html = html + buttons_for(dataId,true);
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
