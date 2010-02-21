@@ -296,11 +296,11 @@ function add_retro(rdataId,position,scroll){
 	var panelid = 'done';
 	if (position=="bottom")
 	{
-		$("#" + panelid + '_start_of_list').append(html);
+		$("#" + panelid + '_end_of_list').append(html);
 	}
 	else if (position=="top")
 	{
-		$("#" + panelid+ '_start_of_list').prepend(html);
+		$("#" + panelid+ '_end_of_list').prepend(html);
 	}
 	
 	if (scroll)
