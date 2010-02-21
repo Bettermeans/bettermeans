@@ -556,8 +556,8 @@ class Project < ActiveRecord::Base
     from_date = issues.first(:conditions => {:retro_id => Retro::NOT_STARTED_ID}, :order => "updated_on ASC").updated_on
     total_points = issues.sum(:points, :conditions => {:retro_id => Retro::NOT_STARTED_ID})
     @retro = Retro.create :project_id => id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now, :from_date => from_date, :total_points => total_points
-    @retro.announce_start
     Issue.update_all("retro_id = #{@retro.id}" , "project_id = #{id} AND retro_id = #{Retro::NOT_STARTED_ID}")
+    @retro.announce_start
   end
   
   #Starts a new retrospective if it's ready
