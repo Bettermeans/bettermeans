@@ -232,10 +232,12 @@ class RetrosController < ApplicationController
     @total_ideas = @retro.issues.length
     @pie_data_ideas = []
     @pie_labels_ideas = []
-    @retro.issues.each do |issue|
-      percentage = (@user_retro_hash[issue.author_id]["total_ideas"].to_f / @total_ideas * 100).round_to(1).to_i
+    
+    
+    author_group.keys.sort.each do |author_id|
+      percentage = (@user_retro_hash[author_id]["total_ideas"].to_f / @total_ideas * 100).round_to(1).to_i
       @pie_data_ideas << percentage
-      @pie_labels_ideas << User.find(issue.author_id).login + " #{percentage.to_s}%"
+      @pie_labels_ideas << User.find(author_id).login + " #{percentage.to_s}%"
     end
     
     
