@@ -405,6 +405,7 @@ en:
   label_project_all: All Workstreams
   label_project_latest: Latest Workstreams
   label_enterprise_latest: Latest Open Enterprises
+  label_enterprise_plural: Open enterprises
   label_issue: Item
   label_issue_new: New item
   label_issue_plural: Items
