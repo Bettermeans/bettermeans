@@ -2198,7 +2198,7 @@ html = html + '	          </div>';
 html = html + '	                <tr><td>&nbsp;</td></tr>';
 html = html + '	                <tr><td>';
 html = html + '	  <div class="header">';
-html = html + '	    Idea ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
+html = html + '	    Item ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
 html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif"  class="clickable">';
 html = html + '	  </div>';
 html = html + '	                  </td>';
