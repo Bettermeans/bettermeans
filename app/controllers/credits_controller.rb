@@ -2,8 +2,11 @@ class CreditsController < ApplicationController
   # GET /credits
   # GET /credits.xml
   def index
-    @credits = Credit.all
     @project = Project.find(params[:project_id]) unless params[:project_id].nil?
+    @credits = @project.credits
+    
+    @active_credits = @credits.find_all{|credit| credit.enabled == true }.group_by{|credit| credit.owner_id}
+    
     
 
     respond_to do |format|
@@ -16,6 +19,8 @@ class CreditsController < ApplicationController
   # GET /credits/1.xml
   def show
     @credit = Credit.find(params[:id])
+    
+    
 
     respond_to do |format|
       format.html # show.html.erb
@@ -47,7 +52,7 @@ class CreditsController < ApplicationController
     respond_to do |format|
       if @credit.save
         flash[:notice] = 'Credit was successfully created.'
-        format.html { redirect_to(@credit) }
+        format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
         format.xml  { render :xml => @credit, :status => :created, :location => @credit }
       else
         format.html { render :action => "new" }
@@ -64,7 +69,7 @@ class CreditsController < ApplicationController
     respond_to do |format|
       if @credit.update_attributes(params[:credit])
         flash[:notice] = 'Credit was successfully updated.'
-        format.html { redirect_to(@credit) }
+        format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -80,7 +85,7 @@ class CreditsController < ApplicationController
     @credit.destroy
 
     respond_to do |format|
-      format.html { redirect_to(credits_url) }
+      format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
       format.xml  { head :ok }
     end
   end

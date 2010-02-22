@@ -1,5 +1,4 @@
 ActionController::Routing::Routes.draw do |map|
-
   map.resources :quotes
 
   # map.resources :retro_ratings
@@ -157,20 +156,6 @@ ActionController::Routing::Routes.draw do |map|
     shares_routes.connect 'shares/:action'
   end
 
-  map.with_options :controller => 'credits' do |credits_routes|
-    credits_routes.with_options :conditions => {:method => :get} do |credits_views|
-      credits_views.connect 'credits', :action => 'index'
-      credits_views.connect 'credits.:format', :action => 'index'
-      credits_views.connect 'projects/:project_id/credits', :action => 'index'
-      credits_views.connect 'projects/:project_id/credits.:format', :action => 'index'
-      credits_views.connect 'credits/:id', :action => 'show', :id => /\d+/
-      credits_views.connect 'credits/:id.:format', :action => 'show', :id => /\d+/
-    end
-    credits_routes.with_options :conditions => {:method => :post} do |credits_actions|
-      credits_actions.connect 'projects/:project_id/credits', :action => 'new'
-    end
-    credits_routes.connect 'credits/:action'
-  end
 
   
   map.with_options  :controller => 'issue_relations', :conditions => {:method => :post} do |relations|
@@ -247,7 +232,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/new', :action => 'add'
       project_views.connect 'projects/update_scale', :action => 'update_scale'
       project_views.connect 'projects/:id', :action => 'show'
-      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject/
+      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/versions/new', :action => 'add_version'
@@ -256,6 +241,23 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'issues/:show_issue_id', :action => 'dashboard'
       project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
       # project_views.connect 'projects/:id/retros/:show_retro_id', :action => 'dashboard'
+    end
+
+    map.with_options :controller => 'credits' do |credits_routes|
+      credits_routes.with_options :conditions => {:method => :get} do |credits_views|
+        # credits_views.connect 'credits', :action => 'index'
+        # credits_views.connect 'credits.:format', :action => 'index'
+        # credits_views.connect 'projects/:project_id/credits', :action => 'index'
+        credits_views.connect 'projects/:project_id/credits/new', :action => 'new'
+        credits_views.connect 'projects/:project_id/credits.:format', :action => 'index'
+        credits_views.connect 'projects/:project_id/credits/:id', :action => 'show', :id => /\d+/
+        credits_views.connect 'projects/:project_id/credits/:id.:format', :action => 'show', :id => /\d+/
+      end
+      credits_routes.with_options :conditions => {:method => :post} do |credits_actions|
+        credits_actions.connect 'projects/:project_id/credits/', :action => 'create'
+        credits_actions.connect 'projects/:project_id/credits/:id/:action', :action => /edit|destroy/
+      end
+      # credits_routes.connect 'credits/:action'
     end
 
     projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|

@@ -11,6 +11,8 @@ class ProjectsController < ApplicationController
   menu_item :settings, :only => :settings
   menu_item :issues, :only => [:changelog]
   menu_item :team, :only => :team
+  menu_item :credits, :only => :credits
+  menu_item :shares, :only => :shares
   
   before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity, :update_scale ]
   before_filter :find_optional_project, :only => :activity
@@ -410,6 +412,14 @@ class ProjectsController < ApplicationController
   
   def team
       @days = Setting.activity_days_default.to_i    
+  end
+
+  def credits
+    @credits = @project.credits
+    @active_credits = @credits.find_all{|credit| credit.enabled == true && credit.settled_on.nil? == true }.group_by{|credit| credit.owner_id}
+    @oustanding_credits = @credits.find_all{|credit| credit.settled_on.nil? == true }.group_by{|credit| credit.owner_id}
+    @total_credits = @credits.find_all.group_by{|credit| credit.owner_id}
+    
   end
   
   

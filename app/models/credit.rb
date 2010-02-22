@@ -19,7 +19,10 @@ class Credit < ActiveRecord::Base
   #For every credit that is issue, a corresponding share is issued
   def issue_shares
     Share.create! :amount => amount, :owner => owner, :project => project, :issued_on => issued_on unless issued_on.to_s != created_on.to_s #We don't create shares if we're creating credit for a past issue date (i.e. in case of an incomplete payoff)
-    puts "#{issued_on}  #{created_on}"
+  end
+  
+  def settled?
+    return !self.settled.nil?
   end
   
   def pay_out(pay_amount)

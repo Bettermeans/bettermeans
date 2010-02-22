@@ -1,0 +1,18 @@
+<h3><%=l(:label_my_credits) %></h3>
+  <table class="list <%= cycle 'odd', 'even' %>">
+    <tr>
+      <th>Amount</th>
+      <th>Issued</th>
+      <th>Status</th>
+    </tr>
+<%  credits.sort! { |a,b| b.created_on <=> a.created_on } %>
+<%     credits.each do |credit|
+    next if credit.owner_id != User.current.id
+   %>
+   <tr class="<%= cycle 'odd', 'even' %>">
+     <td><%=h number_to_currency credit.amount.round.to_i, :unit => '$', :separator => ".", :delimiter => ",", :precision => 0 %></td>
+      <td><%=h format_date credit.created_on %></td>
+      <td><%=h credit.settled_on.nil? ? credit.enabled ? "Active" : "Inactive" : "Settled" %></td>
+    </tr>
+  <% end %>
+  </table>

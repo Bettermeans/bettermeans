@@ -1,3 +1,39 @@
+<div class="contextual">
+  <%#= render :partial => 'team_link', :locals => {:project => @project}%>
+</div>
 
-<%= link_to 'Edit', edit_credit_path(@credit) %> |
-<%= link_to 'Back', credits_path %>
+<h2><%=l(:label_team) %></h2>
+
+<%= error_messages_for 'member' %>
+
+<div class="splitcontentleft">
+  <p>
+    <b>Amount:</b>
+    <%=h @credit.amount %>
+  </p>
+
+  <p>
+    <b>Owner:</b>
+    <%=h @credit.owner_id %>
+  </p>
+
+  <p>
+    <b>Workstream:</b>
+    <%=h @credit.project_id %>
+  </p>
+
+  <p>
+    <b>Enabled:</b>
+    <%=h @credit.enabled %>
+  </p>
+
+
+  <%= link_to 'Edit', edit_credit_path(@credit) %> |
+  <%= link_to 'Back', credits_path %>
+</div>
+
+<%# content_for :sidebar do %>
+    <%#= render :partial => 'team_offers/sidebar', :locals => {:project => @project}%>
+<%# end %>
+
+<% html_title(l(:label_team)) %>
