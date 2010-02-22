@@ -26,7 +26,7 @@ REDMINE_SUPPORTED_SCM = %w( Subversion Darcs Mercurial Cvs Bazaar Git Filesystem
 
 # Permissions
 Redmine::AccessControl.map do |map|
-  map.permission :view_project, {:projects => [:show, :activity,:team, :dashboard]}, :public => true
+  map.permission :view_project, {:projects => [:show, :activity, :team, :shares, :credits, :dashboard]}, :public => true
   map.permission :search_project, {:search => :index}, :public => true
   map.permission :add_project, {:projects => :add}, :require => :member
   map.permission :edit_project, {:projects => [:settings, :edit]}, :require => :member
@@ -59,7 +59,7 @@ Redmine::AccessControl.map do |map|
     map.permission :push_commitment, {:issues => [:assign]} #Can send request for someone to comitt to a task
     map.permission :pull_commitment, {:issues => [:assign]} #Can pull request. i.e. ask to be the person that the task is commited to.
     map.permission :view_commit_requests, {:commit_requests => [:edit, :show]} #Can view ownereship requests
-    map.permission :view_team_offers, {:team_offers => [:show]} #Can view core team offers
+    # map.permission :view_team_offers, {:team_offers => [:show]} #Can view core team offers
     map.permission :view_member_roles, {:member_roles => [:show]} #Can view member roles
     map.permission :estimate_issues, {:issues => :estimate} #Can estimate issue
     map.permission :accept_issues, {:issues => [:accept, :reject]} #can accept or reject issues
@@ -128,17 +128,17 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
   end
   
-  map.project_module :shares do |map|
-    map.permission :view_shares, {:shares => [:index,:show]}, :require => :loggedin
-    map.permission :add_shares, {:shares => :new}
-    map.permission :manage_shares, {:shares => [:destroy, :edit]}
-  end
-  
-  map.project_module :credits do |map|
-    map.permission :view_credits, {:credits => [:index,:show]}, :require => :loggedin
-    map.permission :add_credits, {:credits => :new}
-    map.permission :manage_credits, {:credits => [:destroy, :edit]}
-  end
+  # map.project_module :shares do |map|
+  #   map.permission :view_shares, {:projects => :shares, :shares => [:index,:show]}, :require => :loggedin
+  #   map.permission :add_shares, {:shares => :new}
+  #   map.permission :manage_shares, {:shares => [:destroy, :edit]}
+  # end
+  # 
+  # map.project_module :credits do |map|
+  #   map.permission :view_credits, {:projects => :credits, :credits => [:index,:show]}, :require => :loggedin
+  #   map.permission :add_credits, {:credits => :new}
+  #   map.permission :manage_credits, {:credits => [:destroy, :edit]}
+  # end
   
   map.project_module :dashboard do |map|
     map.permission :view_dashboard, {:project => :dashboard}
@@ -175,8 +175,8 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
   menu.push :dashboard, { :controller => 'projects', :action => 'dashboard' }, :caption => :label_dashboard
   menu.push :team, { :controller => 'projects', :action => 'team' }
-  menu.push :shares, { :controller => 'shares', :action => 'index' }, :param => :project_id, :caption => :label_share_plural
-  menu.push :credits, { :controller => 'credits', :action => 'index' }, :param => :project_id, :caption => :label_credit_plural
+  # menu.push :shares, { :controller => 'projects', :action => 'shares' }#, :caption => :label_share_plural
+  menu.push :credits, { :controller => 'projects', :action => 'credits' }#, :caption => :label_credit_plural
   menu.push :activity, { :controller => 'projects', :action => 'activity' }
   # menu.push :roadmap, { :controller => 'projects', :action => 'roadmap' }, 
   #             :if => Proc.new { |p| p.shared_versions.any? }
@@ -185,13 +185,13 @@ Redmine::MenuManager.map :project_menu do |menu|
               # :html => { :accesskey => Redmine::AccessKeys.key_for(:new_issue) }
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
   menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
-  menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }, 
-              :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
-  menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id,
-              :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
+  menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }#, 
+              # :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
+  menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id#,
+              # :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
   menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_attachment_plural
-  menu.push :repository, { :controller => 'repositories', :action => 'show' },
-              :if => Proc.new { |p| p.repository && !p.repository.new_record? }
+  menu.push :repository, { :controller => 'repositories', :action => 'show' }#,
+              # :if => Proc.new { |p| p.repository && !p.repository.new_record? }
   menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
 end
 
