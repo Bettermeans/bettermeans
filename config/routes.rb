@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
+  map.resources :quotes
+
   # map.resources :retro_ratings
   # 
   # map.resources :retros
@@ -365,7 +367,6 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :todos
   map.resources :issue_votes
-  map.resources :quotes
 
   map.resources :credits
   map.resources :shares
