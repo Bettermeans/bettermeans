@@ -1,12 +1,26 @@
 <h1>Editing credit</h1>
 
-<% form_for(@credit) do |f| %>
+<% form_for @credit, :url => {:action => 'update', :id => @credit} do |f| %>
   <%= f.error_messages %>
 
+  <p>
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </p>
+  <p>
+    <%= f.label :owner_id %><br />
+    <%= f.text_field :owner_id %>
+  </p>
+  <p>
+    <%= f.label :project_id %><br />
+    <%= f.text_field :project_id %>
+  </p>
+  <p>
+    <%= f.label :enabled %><br />
+    <%= f.check_box :enabled %>
+  </p>
   <p>
     <%= f.submit 'Update' %>
   </p>
 <% end %>
 
-<%= link_to 'Show', @credit %> |
-<%= link_to 'Back', credits_path %>

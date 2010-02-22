@@ -1,0 +1,18 @@
+<h3><%=l(:label_credit_queue) %></h3>
+<table class="list <%= cycle 'odd', 'even' %>">
+  <tr>
+    <th>Amount</th>
+    <th>Owner</th>
+    <th>Activated</th>
+  </tr>
+<%  @credits.sort! { |a,b| a.issued_on <=> b.issued_on }
+    @credits.each do |credit| 
+      next if !credit.enabled || !credit.settled_on.nil?
+  %>
+  <tr class="<%= cycle 'odd', 'even' %>">
+    <td><%=h number_to_currency credit.amount.round.to_i, :unit => '$', :separator => ".", :delimiter => ",", :precision => 0 %></td>
+    <td><%=link_to_user_from_id credit.owner_id %></td>
+    <td><%=h format_date credit.issued_on %></td>
+  </tr>
+<% end %>
+</table>

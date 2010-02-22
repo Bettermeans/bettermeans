@@ -226,6 +226,7 @@ module Redmine
         items = []
         Redmine::MenuManager.items(menu).root.children.each do |node|
           if allowed_node?(node, User.current, project)
+            # logger.info("allowed")
             if block_given?
               yield node
             else
@@ -309,6 +310,7 @@ module Redmine
       # * last: menu item will stay at the end (eg. :last => true)
       # * html_options: a hash of html options that are passed to link_to
       def push(name, url, options={})
+        # puts ("adding #{name}")
         options = options.dup
 
         if options[:parent]
@@ -347,6 +349,7 @@ module Redmine
         else
           target_root.add(MenuItem.new(name, url, options))
         end
+        # puts "target root #{target_root.inspect}"
       end
       
       # Removes a menu item

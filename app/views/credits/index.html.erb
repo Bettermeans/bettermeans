@@ -1,11 +1,19 @@
-<h2><%=l(:label_credit_plural) %></h2>
+<h1>Listing credits</h1>
 
 <table>
   <tr>
+    <th>Amount</th>
+    <th>Owner</th>
+    <th>Workstream</th>
+    <th>Enabled</th>
   </tr>
 
 <% @credits.each do |credit| %>
   <tr>
+    <td><%=h credit.amount %></td>
+    <td><%=h credit.owner_id %></td>
+    <td><%=h credit.project_id %></td>
+    <td><%=h credit.enabled %></td>
     <td><%= link_to 'Show', credit %></td>
     <td><%= link_to 'Edit', edit_credit_path(credit) %></td>
     <td><%= link_to 'Destroy', credit, :confirm => 'Are you sure?', :method => :delete %></td>
