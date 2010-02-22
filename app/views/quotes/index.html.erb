@@ -2,10 +2,16 @@
 
 <table>
   <tr>
+    <th>Author</th>
+    <th>Body</th>
+    <th>User</th>
   </tr>
 
 <% @quotes.each do |quote| %>
   <tr>
+    <td><%=h quote.author %></td>
+    <td><%=h quote.body %></td>
+    <td><%=link_to_user_from_id quote.user_id %></td>
     <td><%= link_to 'Show', quote %></td>
     <td><%= link_to 'Edit', edit_quote_path(quote) %></td>
     <td><%= link_to 'Destroy', quote, :confirm => 'Are you sure?', :method => :delete %></td>
