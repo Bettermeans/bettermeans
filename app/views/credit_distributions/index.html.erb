@@ -1,0 +1,26 @@
+<h1>Listing credit_distributions</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Workstream</th>
+    <th>translation missing: en, field_retro</th>
+    <th>translation missing: en, field_amount</th>
+  </tr>
+
+<% @credit_distributions.each do |credit_distribution| %>
+  <tr>
+    <td><%=h credit_distribution.user_id %></td>
+    <td><%=h credit_distribution.project_id %></td>
+    <td><%=h credit_distribution.retro_id %></td>
+    <td><%=h credit_distribution.amount %></td>
+    <td><%= link_to 'Show', credit_distribution %></td>
+    <td><%= link_to 'Edit', edit_credit_distribution_path(credit_distribution) %></td>
+    <td><%= link_to 'Destroy', credit_distribution, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New credit_distribution', new_credit_distribution_path %>

@@ -8,5 +8,13 @@ task :cron => :environment do
     Rake::Task['backup'].invoke
     Rake::Task['autoaccept_commitrequests'].invoke
     Rake::Task['close_retros'].invoke
+    
+    if Time.now.hour == 0
+      last_distribution = CreditDistribution.first(:order => "updated_on DESC")
+      last_distribution = last_distribution.updated_on unless last_distribution.nil?
+      if (last_distribution.nil? || Time.now.advance(:days => Setting::TIME_BETWEEN_CREDIT_DISTRIBUTIONS * -1) > last_distribution)
+        Rake::Task['distribute_retros'].invoke
+      end
+    end
     puts "done."
 end
