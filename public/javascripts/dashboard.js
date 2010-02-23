@@ -1308,14 +1308,19 @@ function agree_buttons(dataId,include_start_button,expanded){
 function accept_buttons(dataId){
 	var html = '';
 	item = D[dataId];
+	
+	tally = '';
+	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button action_button_tally">';
+	tally = tally + item.accept + ' - ' + item.reject;
+	tally = tally + '</div>';
+	
+	
+	if (item.assigned_to_id == currentUserId){
+		return tally;
+	}
 
 	for(var i=0; i < item.issue_votes.length; i++){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 2)){
-			tally = '';
-			tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button action_button_tally">';
-			tally = tally + item.accept + ' - ' + item.reject;
-			tally = tally + '</div>';
-			
 			if (item.issue_votes[i].points==1) {
 				return tally + button('reject',dataId);
 			} else {
