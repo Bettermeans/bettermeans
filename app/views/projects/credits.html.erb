@@ -7,7 +7,11 @@
   <%= render :partial => 'credits/credit_queue', :locals => {:credits => @credits}%>
   <br />
   <%= render :partial => 'credits/credit_history', :locals => {:credits => @credits}%>
+  <% if authorize_for(:credits, :create) %>
   <%= link_to 'New credit', new_credit_path %>
+  <% end %>
+  
+  
 </div>
 
 <% content_for :sidebar do %>
