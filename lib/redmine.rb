@@ -134,11 +134,11 @@ Redmine::AccessControl.map do |map|
   #   map.permission :manage_shares, {:shares => [:destroy, :edit]}
   # end
   # 
-  # map.project_module :credits do |map|
-  #   map.permission :view_credits, {:projects => :credits, :credits => [:index,:show]}, :require => :loggedin
-  #   map.permission :add_credits, {:credits => :new}
-  #   map.permission :manage_credits, {:credits => [:destroy, :edit]}
-  # end
+  map.project_module :credits do |map|
+    map.permission :view_credits, {:projects => :credits, :credits => [:index,:show]}, :require => :loggedin
+    map.permission :add_credits, {:credits => [:new, :create]}
+    map.permission :manage_credits, {:credits => [:destroy, :edit]}
+  end
   
   map.project_module :dashboard do |map|
     map.permission :view_dashboard, {:project => :dashboard}
