@@ -6,7 +6,7 @@
       <th>Issued</th>
       <th>Status</th>
     </tr>
-<%  credits.sort! { |a,b| a.created_on <=> b.created_on } %>
+<%  credits.sort! { |a,b| b.created_on <=> a.created_on } %>
 <%     credits.each do |credit| %>
     <tr class="<%= cycle 'odd', 'even' %>">
       <td><%=h number_to_currency credit.amount.round.to_i, :unit => '$', :separator => ".", :delimiter => ",", :precision => 0 %></td>
