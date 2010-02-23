@@ -47,6 +47,7 @@ class User < Principal
   
   has_many :outgoing_ratings, :class_name => 'RetroRating', :foreign_key => 'rater_id'
   has_many :incoming_ratings, :class_name => 'RetroRating', :foreign_key => 'ratee_id'
+  has_many :credit_disributions
     
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"

@@ -1,0 +1,23 @@
+<p>
+  <b>User:</b>
+  <%=h @credit_distribution.user_id %>
+</p>
+
+<p>
+  <b>Workstream:</b>
+  <%=h @credit_distribution.project_id %>
+</p>
+
+<p>
+  <b>translation missing: en, field_retro:</b>
+  <%=h @credit_distribution.retro_id %>
+</p>
+
+<p>
+  <b>translation missing: en, field_amount:</b>
+  <%=h @credit_distribution.amount %>
+</p>
+
+
+<%= link_to 'Edit', edit_credit_distribution_path(@credit_distribution) %> |
+<%= link_to 'Back', credit_distributions_path %>

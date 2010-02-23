@@ -454,6 +454,20 @@ class Issue < ActiveRecord::Base
   def to_dashboard
     self.to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
   end
+  
+  #returns dollar amount based on points for this issue
+  def dollar_amount
+    floor = self.points.floor
+    floor = 0.2 if floor == 0
+    bottom = project.dpp * Setting::POINT_FACTOR[floor] #base dollar value
+    remainder = self.points - floor
+    puts "bottm: #{bottom} remainder: #{remainder}"
+    if remainder > 0
+      top = project.dpp * Setting::POINT_FACTOR[floor + 1]
+      bottom+= (top - bottom) * remainder
+    end
+    return bottom
+  end
 
   private
   
@@ -519,9 +533,6 @@ class Issue < ActiveRecord::Base
       @current_journal.save
     end
   end
-  
-  
-  
   
 end
 

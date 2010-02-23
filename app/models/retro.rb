@@ -9,8 +9,9 @@ class Retro < ActiveRecord::Base
   
   #Constants
   STATUS_INPROGRESS = 1
-  STATUS_COMPLETE = 2
-  STATUS_INDISPUTE = 3
+  STATUS_COMPLETE = 2 #is closed, but credits haven't been distributed yet
+  STATUS_DISTRIBUTED = 3 #credits have been distributed
+  STATUS_DISPUTED = 9
   NOT_STARTED_ID = -1 #is for issues that haven't been started yet
   NOT_NEEDED_ID = -2 #is for issues that don't need a retrospective b/c only one person worked on them
   
@@ -20,6 +21,8 @@ class Retro < ActiveRecord::Base
   has_many :journals, :through => :issues
   has_many :issue_votes, :through => :issues
   has_many :retro_ratings
+  has_many :credit_disributions
+  
 
   
   #Sets the from_date according to earliest updated issue in retrospective
@@ -32,7 +35,26 @@ class Retro < ActiveRecord::Base
     return status_id == STATUS_COMPLETE
   end
   
+  #For closed retrospectives
+  def distribute_credits
+    return unless status_id == STATUS_COMPLETE
+    return if retro_ratings.length == 0
+    total_dollars = 0 #Total dollar amount for retrospsective
+    issues.each do |issue|
+      total_dollars+= issue.dollar_amount
+    end
+
+    retro_ratings.find_all{|retro_rating| retro_rating.rater_id == -2}.each do |rr|
+      amount = rr.score * total_dollars / 100
+      CreditDistribution.create :user_id => rr.ratee_id, :project_id => project_id, :retro_id => rr.retro_id, :amount => amount unless amount == 0
+    end
+    
+    self.status_id = STATUS_DISTRIBUTED
+    self.save
+  end
+  
   def close
+    return unless status_id == STATUS_INPROGRESS
     @user_hash = Hash.new
     RetroRating.delete_all :rater_id => -1, :retro_id => self.id
     RetroRating.delete_all :rater_id => -2, :retro_id => self.id
@@ -78,7 +100,6 @@ class Retro < ActiveRecord::Base
     self.save
     
     announce_close
-    
   end
   
   #Sends notification to everyone in the retrospective that it's starting
@@ -119,7 +140,7 @@ class Retro < ActiveRecord::Base
     @users.keys.each do |user_id|
       Notification.create :recipient_id => user_id,
                           :variation => 'retro_ended',
-                          :params => {:issue => issues.first}, 
+                          :params => {:project => project}, 
                           :sender_id => admin.id,
                           :source_id => self.id    
     end

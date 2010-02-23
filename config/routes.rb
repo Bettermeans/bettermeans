@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :credit_distributions
+
   map.resources :quotes
 
   # map.resources :retro_ratings
