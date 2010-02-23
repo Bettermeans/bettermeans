@@ -1,7 +1,6 @@
 <h2><%=l(:label_notifications)%></h2>
 <%#= link_to 'New notification', new_notification_path %>
 <% @notifications.each do |@notification| %>
-<%=debug @notification.params %>
     <%= render :partial => @notification.variation, 
               :locals => @notification.params %>
 <% end %>
