@@ -418,7 +418,7 @@ class ProjectsController < ApplicationController
     @credits = @project.credits
     @active_credits = @credits.find_all{|credit| credit.enabled == true && credit.settled_on.nil? == true }.group_by{|credit| credit.owner_id}
     @oustanding_credits = @credits.find_all{|credit| credit.settled_on.nil? == true }.group_by{|credit| credit.owner_id}
-    @total_credits = @credits.find_all.group_by{|credit| credit.owner_id}
+    @total_credits = @credits.group_by{|credit| credit.owner_id}
     
   end
   
