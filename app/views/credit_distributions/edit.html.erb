@@ -1,0 +1,28 @@
+<h1>Editing credit_distribution</h1>
+
+<% form_for(@credit_distribution) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :project_id %><br />
+    <%= f.text_field :project_id %>
+  </p>
+  <p>
+    <%= f.label :retro_id %><br />
+    <%= f.text_field :retro_id %>
+  </p>
+  <p>
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @credit_distribution %> |
+<%= link_to 'Back', credit_distributions_path %>

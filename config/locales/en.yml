@@ -825,6 +825,7 @@ en:
   label_active_credits : Active Credits
   label_outstanding_credits : Oustanding Credits
   label_total_credits_issued : Total Issued
+  label_youve_got_credits : "You've got credits!"
   
   
   label_version_sharing_none: Not shared
@@ -992,6 +993,7 @@ en:
   text_retro_started : " workstream has started. <br/>You have 3 days to give your team feedback on their contribution"
   text_retro_ended_for : "A retrospective for the"
   text_retro_ended : " workstream has ended. <br/>Click below to see your team's feedback, and your final contribution"
+  text_credits_distributed_for : "You earned {{amount}} credits for your work on <strong>{{workstream}}</strong>. Congrats!"
   
   default_role_administrator: Administrator
   default_role_citizen: Core Member
