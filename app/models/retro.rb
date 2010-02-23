@@ -59,7 +59,7 @@ class Retro < ActiveRecord::Base
     RetroRating.delete_all :rater_id => -1, :retro_id => self.id
     RetroRating.delete_all :rater_id => -2, :retro_id => self.id
     
-    return if retro_ratinngs.length == 0
+    return if retro_ratings.length == 0
     
     total_raters = retro_ratings.group_by{|retro_rating| retro_rating.rater_id}.length
     
