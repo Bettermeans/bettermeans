@@ -1641,8 +1641,8 @@ table .odd {
 #header #main-menu li a:hover { background: #f7f7f7; color:#000; text-decoration: none; }
 #header #main-menu li a.selected, #header #main-menu li a.selected:hover { background-color:#f7f7f7; color: #111; font-weight:bold; }
 
-#login-form table {margin-top:5em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; }
-#login-form table td {padding: 6px;}
+#login-form table {margin-top:5em; padding:1em; margin-left: auto; margin-right: auto; border: 2px solid #FDBF3B; background-color:#FFEBC1; width:auto; }
+#login-form table td {padding: 6px; border:none;}
 #login-form label {font-weight: bold;}
 #login-form input#username, #login-form input#password { width: 300px; }
 
