@@ -13,7 +13,7 @@
 <%= l(:text_retro_ended) %>
 <br>
 <br>
-<%= link_to(l(:button_view), {:controller => "projects", :action => "dashboard", :show_retro_id => @notification.source_id, :id => issue.project_id}, {:id =>'cr_button', :class => 'icon icon-cr-offer',  :target => "_blank"})%>
+<%= link_to(l(:button_view), {:controller => "projects", :action => "dashboard", :show_retro_id => @notification.source_id, :id => project.id}, {:id =>'cr_button', :class => 'icon icon-cr-offer',  :target => "_blank"})%>
 &nbsp;
 <%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
     </td>
