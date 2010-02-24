@@ -8,7 +8,7 @@ class Setting < ActiveRecord::Base
   PAY_SCALES_DEFAULT = 100
   
   DEFAULT_RETROSPECTIVE_LENGTH = 3 #Length in days for which a retrospective is open
-  RETRO_POINT_THRESHOLD = 2 # Point threshold for  retrospective
+  RETRO_POINT_THRESHOLD = 20 # Point threshold for  retrospective
   TIME_BETWEEN_CREDIT_DISTRIBUTIONS = 7 #Days between credit distributions
   DAY_FOR_CREDIT_DISTRIBUTION = "Saturday"
   
