@@ -295,7 +295,8 @@ background-repeat:repeat-y;
 .storyDetails {padding: 6px 17px 7px; background-color: #fff8d7}
 .storyDetails .elementResizerHandle {display: block}
 .storyDetailsTable {padding-top: 10px; border-spacing: 0px 0; border-collapse: separate}
-.storyDetailsTable td.letContentExpand {width: 1px}
+.storyDetailsTable td.letContentExpand {width: 1px;border-bottom:none;}
+.storyDetailsTable td {border-bottom:none;}
 .storyDetailsButton {padding: 0px;}
 .storyDetailsActionButton {text-align: right; padding: 0px;}
 .storyDetails .section {color:#333; font-weight:normal; font-size:0.95em; line-height: 14px; margin-top: 15px}
@@ -342,8 +343,8 @@ background-repeat:repeat-y;
 .storyFlyover.flyover .flyoverContent.storyDetails .section + .section {margin-top: 13px; margin-bottom: 4px}
 .storyFlyover.flyover .flyoverContent.storyDetails .section .header{ background: url('/images/flyover_blue_gradient.png') #FFF top left repeat-x; padding-left: 1em; line-height: 1.7em; font-size: 106%; color: #333; font-weight: bold; letter-spacing: 0.01em; margin-bottom:5px}
 .storyFlyover.flyover .storyDetails .section .notesTable tr:first-child td, .storyFlyover.flyover .storyDetails .section .tasksTable tr:first-child td {padding-top: auto}
-.storyFlyover.flyover .flyoverContent.storyDetails table, .storyFlyover.flyover .flyoverContent.storyDetails .descriptionText {margin: 0 1.9em 0 1.9em}
-.storyFlyover.flyover .flyoverContent.storyDetails .tasksTable td {width: auto; padding: 2px 0px}
+.storyFlyover.flyover .flyoverContent.storyDetails table, .storyFlyover.flyover .flyoverContent.storyDetails .descriptionText {margin: 0 1.9em 0 1.9em; border-bottom:none;}
+.storyFlyover.flyover .flyoverContent.storyDetails .tasksTable td {width: auto; padding: 2px 0px; border-bottom:none;}
 .storyFlyover.flyover .flyoverContent.storyDetails .tasksTable td.taskPosition {width: 4%}
 .storyFlyover.flyover .flyoverContent.storyDetails .tasksTable tr:hover td {background-color: inherit}
 .storyFlyover.flyover .flyoverContent.storyDetails .tasksTable .taskDescription:hover {cursor: auto}
