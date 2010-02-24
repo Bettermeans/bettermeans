@@ -1659,3 +1659,7 @@ div.projects h3 { background: url(/images/projects.png) no-repeat 0% 50%; paddin
 #search-label{
 	color:#fff;
 }
+
+#quote{
+	width:30%;
+}
