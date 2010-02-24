@@ -112,7 +112,7 @@
 </STYLE>
 <div id="container">
 	<div class="logo">
-		<a href=""><img src="/images/logo.png" alt=""></a>
+		<a href="<%= home_url %>"><img src="/images/logo.png" alt=""></a>
 	</div>
 	<div id="box">
 	  <% form_tag({:action=> "login"}) do %>
@@ -147,6 +147,9 @@
       <%# if Setting.lost_password? %>
       <%# end %>
 		</p>
+
+		<%= link_to l(:label_register), { :controller => 'account', :action => 'register' }, :class => "lost" %>
+		<span class="lost">&nbsp;|&nbsp; </span>
 		<%= link_to l(:label_password_lost), {:controller => 'account', :action => 'lost_password'}, :class => "lost" %>
     <% end %>
     
