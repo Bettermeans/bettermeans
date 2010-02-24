@@ -52,8 +52,8 @@
         <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
         <%= link_to "#{l(:label_search)}:", {:controller => 'search', :action => 'index', :id => @project}, :accesskey => accesskey(:search) %>
         <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
-        <% end %>
         <%= render_project_jump_box %>
+        <% end %>
     </div>
     
     <h1><%= page_header_title %></h1>
@@ -78,10 +78,13 @@
 </div>
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
-	
+
+<div id="center" style="align:center" align="center">
 <div id="footer">
     Powered by <a href="http://BetterMeans.com" target="new">BetterMeans.com</a> <%= Date.today.year %>  <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="new">[cc] CreativeCommons Attribution-Share Alike</a>
 </div>
+</div>
+
 </div>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>

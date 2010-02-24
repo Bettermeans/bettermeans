@@ -1,4 +1,4 @@
-#main-menu { margin: 0 24px; width:100%; }
+#main-menu { margin: 0 24px; width:100%;}
 
 
 table, tr, td {
@@ -34,6 +34,8 @@ body  {
 	line-height:20px;
 	margin:2px 0px 0px 0px;
 	overflow: hidden;
+	max-width:none;
+	padding-top: 0px;
 }
 
 .panel {
@@ -598,7 +600,7 @@ padding-right:0;
 }
 
 .filter-search{
-margin-right:58px;
+/*margin-right:58px;*/
 float:right;
 font-size: 0.8em;
 }
