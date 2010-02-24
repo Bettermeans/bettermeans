@@ -223,7 +223,7 @@ en:
   field_is_public: Public
   field_parent: Sub workstream of
   field_is_in_roadmap: Items displayed in roadmap
-  field_login: Login
+  field_login: Username
   field_mail_notification: Email notifications
   field_admin: Administrator
   field_last_login_on: Last connection
