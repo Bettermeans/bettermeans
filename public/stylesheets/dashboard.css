@@ -323,6 +323,7 @@ background-repeat:repeat-y;
 .storyDetails .section .task_editing {margin-left: 8px}
 .storyDetails .section .task_editing + .task_editing {margin-left: 5px}
 .storyDetails .section .tasksTable .completed {color: #999}
+.storyDetails .section table td {border-bottom:none;}
 .storyDetails .section table td.resource_details_cell {vertical-align: top; padding-left: 15px}
 .storyDetails .section table td.imageCell {text-align: center; width: 75px}
 .storyDetails .section .resource_image {cursor:pointer}
