@@ -1,12 +1,20 @@
 /*******************************/
 /********* bubbletip ***********/
 /*******************************/
+
 .bubbletip
 {
 	position: absolute;
 	z-index: 50;
 	border-collapse: collapse;
+	width:auto;
+	height:auto;
 }
+
+.bubbletip td{
+	border:none;
+}
+
 .bubbletip td.bt-topleft
 {
 	background: transparent url(/images/bubbletip/bubbletip.png) no-repeat scroll 0px 0px;
