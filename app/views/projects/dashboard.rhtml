@@ -39,7 +39,7 @@
   var currentUser = '<%= User.current.name %>';
   var currentUserLogin = '<%= User.current.login %>';
   var currentUserId = '<%= User.current.id %>';
-  var currentUserIsCitizen = '<%= User.current.citizen_of?(@project) %>';
+  var currentUserIsCitizen = '<%= User.current.core_member_of?(@project) %>';
   var show_issue_id = '<%= @show_issue_id %>';
   var show_retro_id = '<%= @show_retro_id %>';
   

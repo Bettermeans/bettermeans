@@ -8,6 +8,7 @@ task :cron => :environment do
     Rake::Task['backup'].invoke
     Rake::Task['autoaccept_commitrequests'].invoke
     Rake::Task['close_retros'].invoke
+    Rake::Task['custom:refresh_active_members'].invoke
     
     if Time.now.hour == 0
       last_distribution = CreditDistribution.first(:order => "updated_on DESC")

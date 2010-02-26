@@ -33,13 +33,14 @@ body  {
 	font-size:1em;
 	line-height:20px;
 	margin:2px 0px 0px 0px;
-	overflow: hidden;
 	max-width:none;
 	padding-top: 0px;
+	float:left;
+	width:100%;
 }
 
 .panel {
-	padding: 6px 7px;
+	padding: 0px 7px;
 	margin: 0p;
 	border:medium none;
 	min-width:225px;

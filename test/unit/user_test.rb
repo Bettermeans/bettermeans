@@ -180,7 +180,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "Manager", roles.first.name
     
     # user with no role
-    assert_nil @dlopper.roles_for_project(Project.find(2)).detect {|role| role.member?}
+    assert_nil @dlopper.roles_for_project(Project.find(2)).detect {|role| role.community_member?}
   end
   
   def test_mail_notification_all

@@ -33,6 +33,7 @@ class Member < ActiveRecord::Base
       member_roles_to_destroy.each(&:destroy)
       unwatch_from_permission_change
     end
+    # logger.info("Member roles #{member_roles.inspect}")
   end
   
   def <=>(member)
