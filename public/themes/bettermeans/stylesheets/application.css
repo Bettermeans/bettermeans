@@ -1267,7 +1267,7 @@ li { margin-left: 20px;}
 
 #header h1 {
 	color: #fff;
-	font: bold 20px Helvetica, Arial, sans-serif;
+	font: 20px Helvetica, Arial, sans-serif;
 }
 
 #header h1 a {
@@ -1586,7 +1586,7 @@ table .odd {
 
 /* Header */
 
-#top-menu { position: relative; padding: 2px 2px 0px 6px; height: 2em; margin: 0 auto; max-width: 1280px; min-width: 760px;}
+#top-menu { position: relative; padding: 2px 2px 0px 6px; height: 2em; margin: 0 auto; max-width: 1280px; min-width: 760px; font-size:0.9em;}
 
 #top-menu a {
 	color: #fff;
