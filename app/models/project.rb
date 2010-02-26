@@ -222,6 +222,10 @@ class Project < ActiveRecord::Base
     self.status == STATUS_ACTIVE
   end
   
+  def enterprise?
+    self.parent_id.nil?
+  end
+  
   # Archives the project and its descendants
   def archive
     # Check that there is no issue of a non descendant project that is assigned
@@ -362,6 +366,36 @@ class Project < ActiveRecord::Base
       h
     end
   end
+
+  # Returns a hash of active project users grouped by role
+  def active_members
+    members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}",:include => [:user, :roles])
+  end
+  
+  # Retrieves a list of all active users for the past (x days) and refreshes their roles
+  def refresh_active_members
+    return if self.enterprise?
+    
+    u = {}
+    Member.delete_all :project_id => self.id
+    
+    issues.each do |issue|
+      next if (issue.updated_on.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) < Time.now 
+      issue.issue_votes.each do |iv|
+        u[iv.user_id] ||= iv.user_id
+      end
+      
+      u[issue.author_id] ||= issue.author_id
+      u[issue.assigned_to_id] ||= issue.assigned_to_id
+    end
+    
+    u.delete nil
+    
+    u.keys.each do |user_id|
+      User.find(user_id).add_to_project(self, Role::BUILTIN_ACTIVE)
+    end
+  end
+  
   
   # Deletes all project's members
   def delete_all_members
@@ -531,7 +565,6 @@ class Project < ActiveRecord::Base
   
   #Setup default forum for workstream
   def after_create
-    logger.info("creating board")
     #Send notification of request or invitation to recipient
      Board.create! :project_id => id,
                   :name => Setting.forum_name,                        

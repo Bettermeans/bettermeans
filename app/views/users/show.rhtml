@@ -26,7 +26,7 @@
 <ul>
 <% for membership in @memberships %>
 	<li><%= link_to(h(membership.project.name_with_ancestors), :controller => 'projects', :action => 'show', :id => membership.project) %>
-    (<%=h membership.roles.sort.collect(&:to_s).join(', ') %>, <%= format_date(membership.created_on) %>)</li>
+   <%=h membership.roles.sort.collect(&:to_s).join(', ') %><%#= format_date(membership.created_on) %></li>
 <% end %>
 </ul>
 <% end %>
@@ -50,7 +50,7 @@
   <dt class="<%= e.event_type %>">
   <span class="time"><%= format_time(e.event_datetime, false) %></span>
   <%= content_tag('span', h(e.project), :class => 'project') %>
-  <%= link_to format_activity_title(e.event_title), e.event_url %></dt>
+  <%= link_to format_activity_title(e.event_title), e.event_url, :class => (e.event_type.match(/^issue/)) ? "fancyframe" : "noframe" %></dt>
   <dd><span class="description"><%= format_activity_description(e.event_description) %></span></dd>
 <% end -%>
 </dl>

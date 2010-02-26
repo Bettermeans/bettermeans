@@ -12,6 +12,7 @@ class Setting < ActiveRecord::Base
   TIME_BETWEEN_CREDIT_DISTRIBUTIONS = 7 #Days between credit distributions
   DAY_FOR_CREDIT_DISTRIBUTION = "Saturday"
   
+  DAYS_FOR_ACTIVE_MEMBERSHIP = 30 #If a member does any activity on a project in the last X days, they're considered active
 
 
   #Factor by which dollars per point is multiplies e.g. a 5 point issue is worth $(POINT_FACTOR[5] * dpp)

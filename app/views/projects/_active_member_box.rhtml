@@ -1,0 +1,13 @@
+<!-- Shows active members -->
+<% 
+@members_active = @project.active_members
+if @members_active.any? 
+  %>
+<div class="members box">
+	<h3 class="icon22 icon22-users"><%=l(:label_active_team)%></h3>	
+	<p><% @members_active.each do |member| %>
+	<%= link_to_user member.user %> <br />
+	<% end %></p>
+	<p><%= link_to l(:label_team_view_all_enterprise), :controller => 'projects', :action => 'team', :id => @project.root %></p>    
+</div>
+<% end %>

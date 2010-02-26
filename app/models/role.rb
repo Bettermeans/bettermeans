@@ -20,11 +20,11 @@ class Role < ActiveRecord::Base
   # Built-in roles
   BUILTIN_NON_MEMBER = 1 #scope platform
   BUILTIN_ANONYMOUS  = 2 #scope platform
-  BUILTIN_ADMINISTRATOR = 3 #scope team
-  BUILTIN_CORE_MEMBER = 4 #scope project
-  BUILTIN_CONTRIBUTOR = 5 #scope project
-  BUILTIN_FOUNDER = 6 #scope enterprise
-  BUILTIN_CITIZEN = 7 #scope enterprise
+  BUILTIN_ADMINISTRATOR = 3 #scope enterprise
+  BUILTIN_CORE_MEMBER = 4 #scope enterprise
+  BUILTIN_CONTRIBUTOR = 5 #scope enterprise
+  BUILTIN_ACTIVE = 7 #scope project
+  BUILTIN_MEMBER = 8 #scope enterprise
 
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
   named_scope :builtin, lambda { |*args|
@@ -96,10 +96,14 @@ class Role < ActiveRecord::Base
     self.builtin != 0
   end
   
-  # Return true if the role is a project member role
-  def member?
-    # builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_CORE_MEMBER || builtin = BUILTIN_CONTRIBUTOR
-    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_ADMINISTRATOR
+  # Return true if the role belongs to the community in any way
+  def community_member?
+    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_ACTIVE
+  end
+
+  # Return true if the role is a binding member role
+  def binding_member?
+    builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR
   end
   
   # Return true if the role is a project core team member
@@ -110,6 +114,11 @@ class Role < ActiveRecord::Base
   # Return true if the role is a project contributor
   def contributor?
     builtin == BUILTIN_CONTRIBUTOR
+  end
+
+  # Return true if the role is a project contributor
+  def member?
+    builtin == BUILTIN_MEMBER
   end
   
   # Return true if role is allowed to do the specified action
@@ -166,9 +175,9 @@ class Role < ActiveRecord::Base
     find(:first, :conditions => {:builtin => BUILTIN_CORE_MEMBER}) || raise('Missing core member builtin role.')
   end
 
-  # Return the builtin 'citizen' role 
-  def self.citizen
-    find(:first, :conditions => {:builtin => BUILTIN_CITIZEN}) || raise('Missing citizen builtin role.')
+  # Return the builtin 'member' role 
+  def self.member
+    find(:first, :conditions => {:builtin => BUILTIN_MEMBER}) || raise('Missing member builtin role.')
   end
 
   # Return the builtin 'founder' role 

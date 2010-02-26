@@ -29,7 +29,7 @@ class MemberRole < ActiveRecord::Base
   
   
   def validate
-    errors.add :role_id, :invalid if role && !role.member?
+    errors.add :role_id, :invalid if role && !role.community_member?
   end
   
   def project
@@ -82,7 +82,7 @@ class MemberRole < ActiveRecord::Base
   
   #Removes all contributor roles for this member if the current role being added is core
   def remove_contributor_role_if_core
-    logger.info("removing contributor role for member_id : #{member_id}")  if role_id == Role::BUILTIN_CORE_MEMBER
+    # logger.info("removing contributor role for member_id : #{member_id}")  if role_id == Role::BUILTIN_CORE_MEMBER
     MemberRole.find(:all, :conditions => {:member_id => member_id, :role_id => Role::BUILTIN_CONTRIBUTOR}).each(&:destroy) if role_id == Role::BUILTIN_CORE_MEMBER
   end
   

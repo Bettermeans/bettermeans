@@ -40,7 +40,7 @@ class User < Principal
   has_many :incoming_team_points, :class_name => 'TeamPoint', :foreign_key => 'recipient_id', :dependent => :delete_all
   
   has_many :shares, :dependent => :nullify
-  has_many :credits, :dependent => :delete_all
+  has_many :credits, :foreign_key => :owner_id, :dependent => :delete_all
   has_many :issue_votes, :dependent => :delete_all
   has_many :authored_todos, :class_name => 'Todo', :foreign_key => 'author_id', :dependent => :nullify
   has_many :owned_todos, :class_name => 'Todo', :foreign_key => 'owner_id', :dependent => :nullify
@@ -264,10 +264,11 @@ class User < Principal
   end
   
   # Return user's roles for project
-  def roles_for_project(project)
+  def roles_for_project(child_project)
+    project = child_project.root
     roles = []
     # No role on archived projects
-    return roles unless project && project.active?
+    return roles unless child_project && child_project.active?
     if logged?
       # Find project membership
       membership = memberships.detect {|m| m.project_id == project.id}
@@ -285,25 +286,25 @@ class User < Principal
   end
   
   # Return true if the user is a core team member of the root project for the passed project
-  def citizen_of?(project)
+  def core_team__of?(project)
     root_project = project.root
     core_member_of?(root_project)
   end
   
   # Return true if the user is a member of project
   def member_of?(project)
-    !roles_for_project(project).detect {|role| role.member?}.nil?
+    !roles_for_project(project.root).detect {|role| role.member?}.nil?
   end
   
   # Return true if the user is a core member of project
    def core_member_of?(project)
-     !roles_for_project(project).detect {|role| role.core_member?}.nil?
+     !roles_for_project(project.root).detect {|role| role.core_member?}.nil?
    end
   
   
    # Return true if the user is a contributor of project
     def contributor_of?(project)
-      !roles_for_project(project).detect {|role| role.contributor?}.nil?
+      !roles_for_project(project.root).detect {|role| role.contributor?}.nil?
     end
     
   # Return true if the user is allowed to do the specified action on project
@@ -325,7 +326,7 @@ class User < Principal
       
       roles = roles_for_project(project)
       return false unless roles
-      roles.detect {|role| (project.is_public? || role.member?) && role.allowed_to?(action)}
+      roles.detect {|role| (project.is_public? || role.community_member?) && role.allowed_to?(action)}
       
     elsif options[:global]
       # Admin users are always authorized
