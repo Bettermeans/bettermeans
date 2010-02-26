@@ -556,7 +556,7 @@ text-decoration:underline !important;
 
 .action_button a, .action_button a:hover, .action_button a:visited {
 	font-size: 13px;
-	font-weight:bold;
+/*	font-weight:bold;*/
 	color: #ffffff;
 }
 
