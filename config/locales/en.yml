@@ -426,6 +426,7 @@ en:
   label_member_plural: Members
   label_team : Team
   label_team_plural : Teams
+  label_active_team : Active Team (for this workstream)
   label_dashboard : Dashboard
   label_tracker: Type
   label_tracker_plural: Types
@@ -804,6 +805,7 @@ en:
   label_sending_team_invitation : "{{author}} wants you to join the Core Team for the {{project}} workstream"
   label_sending_team_request : "{{author}} wants to join the Core Team for the {{project}} workstream"
   label_team_view_all : "View team details"
+  label_team_view_all_enterprise : "View entire enterprise team"
   label_member_role_plural : "Team Changes" 
   label_join_core_team : "Join Core Team"
   label_leave_core_team : "Leave Core Team"

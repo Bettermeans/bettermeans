@@ -58,15 +58,11 @@
 </div>
 
 <div class="splitcontentright">
-  <% if @users_by_role.any? %>
-	<div class="members box">
-		<h3 class="icon22 icon22-users"><%=l(:label_team)%></h3>	
-		<p><% @users_by_role.keys.sort.each do |role| %>
-		<%=h role %>: <%= @users_by_role[role].sort.collect{|u| link_to_user u}.join(", ") %><br />
-		<% end %></p>
-		<p><%= link_to l(:label_team_view_all), :controller => 'projects', :action => 'team', :id => @project %></p>    
-	</div>
-	<% end %>
+  <% if @project.enterprise? %>
+    <%= render :partial => "member_box" %>
+  <% else %>
+    <%= render :partial => "active_member_box" %>
+  <% end %>
     
   <% if @news.any? && authorize_for('news', 'index') %>
   <div class="news box">

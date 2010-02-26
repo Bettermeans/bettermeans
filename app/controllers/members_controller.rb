@@ -8,11 +8,9 @@ class MembersController < ApplicationController
   before_filter :authorize
 
   def new
-    logger.info(params.inspect)
     members = []
     if params[:member] && request.post?
       attrs = params[:member].dup
-      logger.info("Attrs: #{attrs.inspect}")
       if (user_ids = attrs.delete(:user_ids))
         user_ids.each do |user_id|
           members << Member.new(attrs.merge(:user_id => user_id))
@@ -20,9 +18,7 @@ class MembersController < ApplicationController
       else
         members << Member.new(attrs)
       end
-      logger.info("MEMBERS #{members}")
       result = @project.members << members
-      logger.info("RESULT #{result}")
     end
     respond_to do |format|
       format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }

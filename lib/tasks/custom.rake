@@ -10,4 +10,11 @@ namespace :custom do
       # Redmine::DefaultData::Loader.load('en')
       
   end
+
+  task :refresh_active_members => :environment do
+    Project.all.each do |project|
+      project.refresh_active_members
+    end
+      
+  end
 end

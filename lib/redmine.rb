@@ -174,7 +174,8 @@ end
 Redmine::MenuManager.map :project_menu do |menu|
   menu.push :overview, { :controller => 'projects', :action => 'show' }
   menu.push :dashboard, { :controller => 'projects', :action => 'dashboard' }, :caption => :label_dashboard
-  menu.push :team, { :controller => 'projects', :action => 'team' }
+  menu.push :team, { :controller => 'projects', :action => 'team' },
+      :if => Proc.new { |p| p.root? }
   # menu.push :shares, { :controller => 'projects', :action => 'shares' }#, :caption => :label_share_plural
   menu.push :credits, { :controller => 'projects', :action => 'credits' }, 
       :if => Proc.new { |p| p.root? }

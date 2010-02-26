@@ -1559,7 +1559,7 @@ table {
 
 table thead,
 table tfoot {
-	background: url(/images/background-table.gif) repeat-x;
+/*	background: url(/images/background-table.gif) repeat-x;*/
 }
 
 table th {
