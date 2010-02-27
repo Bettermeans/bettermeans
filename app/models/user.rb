@@ -285,12 +285,6 @@ class User < Principal
     roles
   end
   
-  # Return true if the user is a core team member of the root project for the passed project
-  def core_team__of?(project)
-    root_project = project.root
-    core_member_of?(root_project)
-  end
-  
   # Return true if the user is a member of project
   def member_of?(project)
     !roles_for_project(project.root).detect {|role| role.member?}.nil?
@@ -301,11 +295,16 @@ class User < Principal
      !roles_for_project(project.root).detect {|role| role.core_member?}.nil?
    end
   
-  
    # Return true if the user is a contributor of project
-    def contributor_of?(project)
-      !roles_for_project(project.root).detect {|role| role.contributor?}.nil?
-    end
+  def contributor_of?(project)
+     !roles_for_project(project.root).detect {|role| role.contributor?}.nil?
+  end
+  
+  # Return true if the user's votes are binding
+  def binding_voter_of?(project)
+    !roles_for_project(project.root).detect {|role| role.binding_member?}.nil?
+  end
+  
     
   # Return true if the user is allowed to do the specified action on project
   # action can be:

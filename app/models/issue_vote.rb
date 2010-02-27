@@ -2,6 +2,7 @@ class IssueVote < ActiveRecord::Base
   belongs_to :user
   belongs_to :issue
   before_create :remove_similar_estimates
+  before_save :set_binding
   # after_create :update_issue_totals
   # after_update :update_issue_totals
   # after_destroy :update_issue_totals
@@ -15,13 +16,14 @@ class IssueVote < ActiveRecord::Base
   def update_issue_totals
     case vote_type
       when AGREE_VOTE_TYPE
-        issue.update_agree_total
+        logger.info(self.isbinding)
+        issue.update_agree_total self.isbinding
       when ACCEPT_VOTE_TYPE
-        issue.update_accept_total
+        issue.update_accept_total self.isbinding
       when PRI_VOTE_TYPE
-        issue.update_pri_total
+        issue.update_pri_total self.isbinding
       when ESTIMATE_VOTE_TYPE
-        issue.update_estimate_total
+        issue.update_estimate_total self.isbinding
       end
   end
   
@@ -29,7 +31,19 @@ class IssueVote < ActiveRecord::Base
     IssueVote.delete_all(:issue_id => issue_id, :user_id => user_id, :vote_type => vote_type)
   end
   
+  def set_binding
+    # self.isbinding = user.binding_voter_of?(issue.project)
+    logger.info("self: #{issue}")
+    logger.info("the truth #{self.user.binding_voter_of?(self.issue.project)}")
+    result = self.user.binding_voter_of?(self.issue.project)
+    self.isbinding = result
+    return true
+  end
+  
 end
+
+
+
 
 
 # == Schema Information
@@ -43,5 +57,6 @@ end
 #  vote_type  :integer         not null
 #  created_on :datetime
 #  updated_on :datetime
+#  isbinding  :boolean         default(FALSE)
 #
 

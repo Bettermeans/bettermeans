@@ -288,8 +288,8 @@ class IssuesController < ApplicationController
   end
   
   def prioritize
-    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::PRI_VOTE_TYPE, :points => params[:points]
-    @issue.update_pri_total
+    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::PRI_VOTE_TYPE, :points => params[:points]
+    @issue.update_pri_total @iv.isbinding
     @issue.save
     @issue.reload
     respond_to do |format|
@@ -303,8 +303,8 @@ class IssuesController < ApplicationController
           render_error 'Can not estimate request unless it is new, open, or in estimation' 
           return false;
     end
-    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :points => params[:points]
-    @issue.update_estimate_total
+    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :points => params[:points]
+    @issue.update_estimate_total @iv.isbinding
     @issue.status = @issue.updated_status
     @issue.save
     @issue.reload
@@ -315,9 +315,10 @@ class IssuesController < ApplicationController
     end
   end
   
+  
   def agree
-    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1
-    @issue.update_agree_total
+    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1
+    @issue.update_agree_total @iv.isbinding
     @issue.status = @issue.updated_status
     @issue.save
     @issue.reload
@@ -330,8 +331,8 @@ class IssuesController < ApplicationController
 
 #TODO: merge this w/disagree. Not DRY enough (only one line is different)
   def disagree
-    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1
-    @issue.update_agree_total
+    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1
+    @issue.update_agree_total @iv.isbinding
     @issue.status = @issue.updated_status
     @issue.save
     @issue.reload
@@ -343,8 +344,8 @@ class IssuesController < ApplicationController
   end
 
   def accept
-    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1
-    @issue.update_accept_total
+    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1
+    @issue.update_accept_total  @iv.isbinding
 
     #Used to be 1 retro per item
     # if @issue.ready_for_accepted?
@@ -377,8 +378,8 @@ class IssuesController < ApplicationController
   end
 
   def reject
-    IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1
-    @issue.update_accept_total
+    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1
+    @issue.update_accept_total @iv.isbinding
     @issue.save
     @issue.reload
     
