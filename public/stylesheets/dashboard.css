@@ -493,6 +493,10 @@ text-decoration:underline !important;
 	background: url(/images/bb_grey.png) no-repeat; 
 }
 
+.action_button_root{
+	background: url(/images/bb_grey.png) no-repeat; 
+}
+
 .action_button_finish{
 	background: url(/images/bb_brown.png) no-repeat; 
 }

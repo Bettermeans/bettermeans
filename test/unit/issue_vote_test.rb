@@ -8,6 +8,9 @@ class IssueVoteTest < ActiveSupport::TestCase
 end
 
 
+
+
+
 # == Schema Information
 #
 # Table name: issue_votes
@@ -19,5 +22,6 @@ end
 #  vote_type  :integer         not null
 #  created_on :datetime
 #  updated_on :datetime
+#  isbinding  :boolean         default(FALSE)
 #
 
