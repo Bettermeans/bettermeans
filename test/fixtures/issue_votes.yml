@@ -7,6 +7,9 @@
 #   column: value
 
 
+
+
+
 # == Schema Information
 #
 # Table name: issue_votes
@@ -18,5 +21,6 @@
 #  vote_type  :integer         not null
 #  created_on :datetime
 #  updated_on :datetime
+#  isbinding  :boolean         default(FALSE)
 #
 

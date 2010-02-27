@@ -430,24 +430,44 @@ class Issue < ActiveRecord::Base
     Issue.update_versions(["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
   end
   
-  def update_estimate_total
-    self.points =   IssueVote.average(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::ESTIMATE_VOTE_TYPE})
+  def update_estimate_total(binding)
+    if binding
+      self.points =   IssueVote.average(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :isbinding=> true})
+    else
+      self.points_nonbind =   IssueVote.average(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :isbinding=> false})
+    end
   end
 
-  def update_pri_total
-    self.pri = IssueVote.sum(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::PRI_VOTE_TYPE})
+  def update_pri_total(binding)
+    if binding
+      self.pri = IssueVote.sum(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::PRI_VOTE_TYPE, :isbinding=> true})
+    else
+      self.pri_nonbind = IssueVote.sum(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::PRI_VOTE_TYPE, :isbinding=> false})
+    end
   end
 
-  def update_agree_total
-    self.agree =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1})
-    self.disagree =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1})
-    self.agree_total = self.agree - self.disagree
+  def update_agree_total(binding)
+    if binding
+      self.agree =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1, :isbinding=> true})
+      self.disagree =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1, :isbinding=> true})
+      self.agree_total = self.agree - self.disagree
+    else
+      self.agree_nonbind =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1, :isbinding=> false})
+      self.disagree_nonbind =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1, :isbinding=> false})
+      self.agree_total_nonbind = self.agree_nonbind - self.disagree_nonbind
+    end
   end
 
-  def update_accept_total
-    self.accept =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1})
-    self.reject =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1})
-    self.accept_total = self.accept - self.reject
+  def update_accept_total(binding)
+    if binding
+      self.accept =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1, :isbinding=> true})
+      self.reject =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1, :isbinding=> true})
+      self.accept_total = self.accept - self.reject
+    else
+      self.accept_nonbind =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1, :isbinding=> false})
+      self.reject_nonbind =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1, :isbinding=> false})
+      self.accept_total_nonbind = self.accept_nonbind - self.reject_nonbind
+    end
   end
   
   #returns json object for consumption from dashboard
@@ -542,37 +562,47 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: issues
 #
-#  id               :integer         not null, primary key
-#  tracker_id       :integer         default(0), not null
-#  project_id       :integer         default(0), not null
-#  subject          :string(255)     default(""), not null
-#  description      :text
-#  due_date         :date
-#  category_id      :integer
-#  status_id        :integer         default(0), not null
-#  assigned_to_id   :integer
-#  priority_id      :integer         default(0), not null
-#  fixed_version_id :integer
-#  author_id        :integer         default(0), not null
-#  lock_version     :integer         default(0), not null
-#  created_on       :datetime
-#  updated_on       :datetime
-#  start_date       :date
-#  done_ratio       :integer         default(0), not null
-#  estimated_hours  :float
-#  expected_date    :date
-#  points           :float
-#  pri              :integer         default(0)
-#  accept           :integer         default(0)
-#  reject           :integer         default(0)
-#  accept_total     :integer         default(0)
-#  agree            :integer         default(0)
-#  disagree         :integer         default(0)
-#  agree_total      :integer         default(0)
-#  retro_id         :integer
+#  id                   :integer         not null, primary key
+#  tracker_id           :integer         default(0), not null
+#  project_id           :integer         default(0), not null
+#  subject              :string(255)     default(""), not null
+#  description          :text
+#  due_date             :date
+#  category_id          :integer
+#  status_id            :integer         default(0), not null
+#  assigned_to_id       :integer
+#  priority_id          :integer         default(0), not null
+#  fixed_version_id     :integer
+#  author_id            :integer         default(0), not null
+#  lock_version         :integer         default(0), not null
+#  created_on           :datetime
+#  updated_on           :datetime
+#  start_date           :date
+#  done_ratio           :integer         default(0), not null
+#  estimated_hours      :float
+#  expected_date        :date
+#  points               :float
+#  pri                  :integer         default(0)
+#  accept               :integer         default(0)
+#  reject               :integer         default(0)
+#  accept_total         :integer         default(0)
+#  agree                :integer         default(0)
+#  disagree             :integer         default(0)
+#  agree_total          :integer         default(0)
+#  retro_id             :integer
+#  accept_nonbind       :integer         default(0)
+#  reject_nonbind       :integer         default(0)
+#  accept_total_nonbind :integer         default(0)
+#  agree_nonbind        :integer         default(0)
+#  disagree_nonbind     :integer         default(0)
+#  agree_total_nonbind  :integer         default(0)
+#  points_nonbind       :integer         default(0)
+#  pri_nonbind          :integer         default(0)
 #
 
