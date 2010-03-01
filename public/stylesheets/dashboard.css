@@ -525,7 +525,15 @@ text-decoration:underline !important;
 	background: url(/images/bb_green.png) no-repeat; 
 }
 
+.action_button_neutral{
+	background: url(/images/bb_green.png) no-repeat; 
+}
+
 .action_button_against{
+	background: url(/images/bb_red.png) no-repeat; 
+}
+
+.action_button_block{
 	background: url(/images/bb_red.png) no-repeat; 
 }
 
@@ -559,9 +567,9 @@ text-decoration:underline !important;
 
 
 .action_button a, .action_button a:hover, .action_button a:visited {
-	font-size: 13px;
-/*	font-weight:bold;*/
+	font-size: 11px;
 	color: #ffffff;
+	line-height: 20px;
 }
 
 .action_button a:hover {

@@ -449,7 +449,7 @@ class Issue < ActiveRecord::Base
   def update_agree_total(binding)
     if binding
       self.agree =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1, :isbinding=> true})
-      self.disagree =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1, :isbinding=> true})
+      self.disagree =   IssueVote.sum(:points, :conditions => "issue_id = '#{self.id}' AND vote_type = '#{IssueVote::AGREE_VOTE_TYPE}' AND points < 0 AND isbinding='true'") * -1
       self.agree_total = self.agree - self.disagree
     else
       self.agree_nonbind =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1, :isbinding=> false})
