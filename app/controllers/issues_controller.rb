@@ -317,7 +317,7 @@ class IssuesController < ApplicationController
   
   
   def agree
-    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1
+    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => params[:points]
     @issue.update_agree_total @iv.isbinding
     @issue.status = @issue.updated_status
     @issue.save
@@ -329,19 +329,19 @@ class IssuesController < ApplicationController
     end
   end
 
-#TODO: merge this w/disagree. Not DRY enough (only one line is different)
-  def disagree
-    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1
-    @issue.update_agree_total @iv.isbinding
-    @issue.status = @issue.updated_status
-    @issue.save
-    @issue.reload
-    
-    respond_to do |format|
-      format.js {render :json => @issue.to_dashboard}
-      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
-    end
-  end
+# #TODO: merge this w/disagree. Not DRY enough (only one line is different)
+#   def disagree
+#     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1
+#     @issue.update_agree_total @iv.isbinding
+#     @issue.status = @issue.updated_status
+#     @issue.save
+#     @issue.reload
+#     
+#     respond_to do |format|
+#       format.js {render :json => @issue.to_dashboard}
+#       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+#     end
+#   end
 
   def accept
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1

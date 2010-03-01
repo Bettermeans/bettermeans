@@ -17,7 +17,7 @@ class AddNonbindingColumnsToIssueVote < ActiveRecord::Migration
     remove_column :issues, :agree_nonbind
     remove_column :issues, :disagree_nonbind
     remove_column :issues, :agree_total_nonbind
-    # remove_column :issues, :points_nonbind, :integer
-    # remove_column :issues, :pri_nonbind, :integer
+    remove_column :issues, :points_nonbind, :integer
+    remove_column :issues, :pri_nonbind, :integer
   end
 end

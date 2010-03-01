@@ -374,7 +374,7 @@ function start_timer(){
 }
 
 function stop_timer(timer){
-	timer_active = false;
+	// timer_active = false;
 	timer.stop();
 }
 
@@ -623,98 +623,38 @@ function generate_estimate_flyover(dataId){
 		you_voted = "You haven't voted yet";
 	}
 	
-	var html = '';
+	var title = 'Avg ' + points + ' points (' + total_people_estimating + ' people)';
 	
-	html = html + '<div id="flyover_estimate_' + dataId + '" class="overlay" style="display:none;">';
-	html = html + '	  <div style="border: 0pt none ; margin: 0pt;">';
-	html = html + '	    <div class="overlayContentWrapper storyFlyover flyover" style="width: 200px;">';
-	html = html + '	      <div class="storyTitle">';
-	html = html + 'Avg ' + points + ' points (' + total_people_estimating + ' people)';
-	html = html + '	      </div>';
-	html = html + '	      <div class="sectionDivider">';
-	html = html + '	      <div style="height: auto;">';
-	html = html + '	        <div class="metaInfo">';
-	html = html + '	          <div class="left">';
-	html = html + you_voted;
-	html = html + '	          </div>';
-	html = html + '	          <div class="clear"></div>';
-	html = html + '	        </div>';
-	html = html + '	        <div class="flyoverContent storyDetails">';
-	html = html + '	            <div class="section">';
-	html = html + 					generate_estimate_flyover_yourestimate(item,user_estimate_id,dataId);
-	html = html + 					generate_estimate_flyover_history(item);
-	html = html + '	              </div>';
-	html = html + '	        </div>';
-	html = html + '	      </div>';
-	html = html + '	    </div>';
-	html = html + '	  </div>';
-	html = html + '	</div>';
+	var history = '';
+	//Show history if user estimated, or if item is no longer available for estimation
+	if ((user_estimate_id != 0)||((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))){
+		for(var i = 0; i < item.issue_votes.length; i++ ){
+			if (item.issue_votes[i].vote_type != 4) continue;
+			history = history + item.issue_votes[i].points + ' pts - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
+			if (item.issue_votes[i].isbinding == false){
+				history = history + ' (non-binding)';
+			}
+			history = history + '<br>';
+		}	
 		
-	$('#flyovers').append(html);
+	}
 	
-	return html;
-}
-
-function generate_estimate_flyover_history(item){
-	if (item.issue_votes == null || item.issue_votes.length < 1){return '';};
+	var action_header = '';
+	var buttons = '';
 	
-	var html = '';
-	var header = '';
-	header = header + '	  <div class="header">';
-	header = header + '	    History';
-	header = header + '	  </div>';
-	header = header + '	  <table class="notesTable">';
-	header = header + '	    <tbody>';
-	header = header + '<tr class="noteInfoRow">';
-	header = header + '<td class="noteInfo">';
+	if (!((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {	
+		user_estimate_id == 0 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
+		buttons = buttons + generate_estimate_button(0.2, item.id, user_estimate_id,dataId);
+		buttons = buttons + generate_estimate_button(1, item.id, user_estimate_id,dataId);
+		buttons = buttons + generate_estimate_button(2, item.id, user_estimate_id,dataId);
+		buttons = buttons + generate_estimate_button(4, item.id, user_estimate_id,dataId);
+		buttons = buttons + generate_estimate_button(6, item.id, user_estimate_id,dataId);
+	}
 	
-	for(var i = 0; i < item.issue_votes.length; i++ ){
-		if (item.issue_votes[i].vote_type != 4) continue;
-		html = html + item.issue_votes[i].points + ' pts - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
-		if (item.issue_votes[i].isbinding == false){
-			html = html + ' (non-binding)';
-		}
-		html = html + '<br>';
-	}	
-	if (html=='') return '';
-	
-	html = header + html;
-
- 	html = html + '</td>';
-  	html = html + '</tr>';
-	html = html + '	    </tbody>';
-	html = html + '	  </table>';
-	html = html + '	<div class="clear"></div>';
-	return html;
+	return generate_flyover(dataId,'estimate',title,you_voted,action_header,buttons,history);
 	
 }
 
-function generate_estimate_flyover_yourestimate(item,user_estimate_id,dataId){
-	//TODO: check that I have permission to estimate!	
-	
-	if ((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) return '';
-	var header_text = '';
-	user_estimate_id == 0 ? header_text = 'Make an estimate' : header_text = 'Change your estimate';
-	var html = '';
-	html = html + '	                <div class="header">';
-	html = html + header_text;
-	html = html + '	                </div>';
-	html = html + '	                <table class="notesTable">';
-	html = html + '	                  <tbody>';
-	html = html + '	                    <tr class="noteTextRow">';
-	html = html + '	                      <td class="noteText">';
-	html = html + generate_estimate_button(0.2, item.id, user_estimate_id,dataId);
-	html = html + generate_estimate_button(1, item.id, user_estimate_id,dataId);
-	html = html + generate_estimate_button(2, item.id, user_estimate_id,dataId);
-	html = html + generate_estimate_button(4, item.id, user_estimate_id,dataId);
-	html = html + generate_estimate_button(6, item.id, user_estimate_id,dataId);
-	html = html + '	                      </td>';
-	html = html + '	                    </tr>';
-	html = html + '	                  </tbody>';
-	html = html + '	                </table>';
-	return html;
-	
-}
 
 function generate_estimate_button(points, itemId, user_estimate_id, dataId){
 	var html = '';
@@ -752,11 +692,10 @@ function agree_text(points){
 	case -1:
 		return "DISAGREE";
 		break;
+	case -9999:
+		return "BLOCK";
+		break;
 	}
-	// case -999:
-	// 	return "BLOCK";
-	// 	break;
-	// }
 }
 
 function generate_pri_flyover(dataId){
@@ -782,13 +721,42 @@ function generate_pri_flyover(dataId){
 		you_voted = "You haven't prioritized this item";
 	}
 	
+	var title = 'Total ' + points + ' points (' + total_people_prioritizing + ' people)';
+	var action_header = '';
+	user_pri_id == 0 ? action_header = 'Prioritize' : action_header = 'Change your prioritization:';
+	
+	var buttons = '';
+	buttons = buttons + generate_pri_action(1, item.id, dataId) + '<br>';
+	buttons = buttons + generate_pri_action(0, item.id, dataId) + '<br>';
+	buttons = buttons + generate_pri_action(-1, item.id, dataId);
+	
+	
+	var history = '';
+	if (!(item.issue_votes == null || item.issue_votes.length < 1)){
+		for(var i = 0; i < item.issue_votes.length; i++ ){
+			if (item.issue_votes[i].vote_type != 3) continue;
+			history = history + pri_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
+			if (item.issue_votes[i].isbinding == false){
+				history = history + ' (non-binding)';
+			}
+			history = history + '<br>';
+		}
+	}
+	
+	
+		
+	return generate_flyover(dataId,'pri',title,you_voted,action_header,buttons,history);
+}
+
+
+function generate_flyover(dataId,type,title,you_voted,action_header,buttons,history){
 	var html = '';
 	
-	html = html + '<div id="flyover_pri_' + dataId + '" class="overlay" style="display:none;">';
+	html = html + '<div id="flyover_' + type + '_' + dataId + '" class="overlay" style="display:none;">';
 	html = html + '	  <div style="border: 0pt none ; margin: 0pt;">';
 	html = html + '	    <div class="overlayContentWrapper storyFlyover flyover" style="width: 200px;">';
 	html = html + '	      <div class="storyTitle">';
-	html = html + 'Total ' + points + ' points (' + total_people_prioritizing + ' people)';
+	html = html + title;
 	html = html + '	      </div>';
 	html = html + '	      <div class="sectionDivider">';
 	html = html + '	      <div style="height: auto;">';
@@ -800,9 +768,36 @@ function generate_pri_flyover(dataId){
 	html = html + '	        </div>';
 	html = html + '	        <div class="flyoverContent storyDetails">';
 	html = html + '	            <div class="section">';
-	html = html + 					generate_pri_flyover_yourpri(item,user_pri_id,dataId);
-	html = html + 					generate_pri_flyover_history(item);
-	html = html + '	              </div>';
+	html = html + '	                <div class="header">';
+	html = html + action_header;
+	html = html + '	                </div>';
+	html = html + '	                <table class="buttonsTable">';
+	html = html + '	                  <tbody>';
+	html = html + '	                    <tr class="buttonsTextRow">';
+	html = html + '	                      <td class="buttonsText">';
+	html = html + buttons;
+	html = html + '	                      </td>';
+	html = html + '	                    </tr>';
+	html = html + '	                  </tbody>';
+	html = html + '	                </table>';
+	
+	if (history != ''){
+		html = html + '	  <div class="header">';
+		html = html + '	    History';
+		html = html + '	  </div>';
+		html = html + '	  <table class="notesTable">';
+		html = html + '	    <tbody>';
+		html = html + '<tr class="noteInfoRow">';
+		html = html + '<td class="noteInfo">';
+		html = html + history;
+	 	html = html + '</td>';
+	  	html = html + '</tr>';
+		html = html + '	    </tbody>';
+		html = html + '	  </table>';
+		html = html + '	<div class="clear"></div>';
+		html = html + '	              </div>';
+	}
+	
 	html = html + '	        </div>';
 	html = html + '	      </div>';
 	html = html + '	    </div>';
@@ -812,65 +807,6 @@ function generate_pri_flyover(dataId){
 	$('#flyovers').append(html);
 	
 	return html;
-}
-
-function generate_pri_flyover_history(item){
-	if (item.issue_votes == null || item.issue_votes.length < 1){return '';};
-	
-	var html = '';
-	var header = '';
-	header = header + '	  <div class="header">';
-	header = header + '	    History';
-	header = header + '	  </div>';
-	header = header + '	  <table class="notesTable">';
-	header = header + '	    <tbody>';
-	header = header + '<tr class="noteInfoRow">';
-	header = header + '<td class="noteInfo">';
-	
-	for(var i = 0; i < item.issue_votes.length; i++ ){
-		if (item.issue_votes[i].vote_type != 3) continue;
-		html = html + pri_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
-		if (item.issue_votes[i].isbinding == false){
-			html = html + ' (non-binding)';
-		}
-		html = html + '<br>';
-	}	
-	if (html=='') return '';
-	
-	html = header + html;
-
- 	html = html + '</td>';
-  	html = html + '</tr>';
-	html = html + '	    </tbody>';
-	html = html + '	  </table>';
-	html = html + '	<div class="clear"></div>';
-	return html;
-	
-}
-
-function generate_pri_flyover_yourpri(item,user_pri_id,dataId){
-	//TODO: check that I have permission to pri!	
-	
-	if ((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) return '';
-	var header_text = '';
-	user_pri_id == 0 ? header_text = 'Prioritize' : header_text = 'Change your prioritization:';
-	var html = '';
-	html = html + '	                <div class="header">';
-	html = html + header_text;
-	html = html + '	                </div>';
-	html = html + '	                <table class="notesTable">';
-	html = html + '	                  <tbody>';
-	html = html + '	                    <tr class="noteTextRow">';
-	html = html + '	                      <td class="noteText">';
-	html = html + generate_pri_action(1, item.id, dataId) + '<br>';
-	html = html + generate_pri_action(0, item.id, dataId) + '<br>';
-	html = html + generate_pri_action(-1, item.id, dataId);
-	html = html + '	                      </td>';
-	html = html + '	                    </tr>';
-	html = html + '	                  </tbody>';
-	html = html + '	                </table>';
-	return html;
-	
 }
 
 function generate_agree_flyover(dataId){
@@ -880,122 +816,59 @@ function generate_agree_flyover(dataId){
 	item.agree_total == null ? agree_total = 0 : agree_total = item.agree_total;
 	
 	var you_voted = '';
-	var user_agree_id = 0;
+	var user_agree_id = -1;
 	var total_people_agreeing = 0;
 	
 	for(var i=0; i < item.issue_votes.length; i++){
 		if (currentUserLogin == item.issue_votes[i].user.login){
 			if (item.issue_votes[i].vote_type != 1) continue;
 			total_people_agreeing++ ;
-			you_voted = "You voted: " + agree_text(item.issue_votes[i].points) + " - " + humane_date(item.issue_votes[i].updated_on);
-			user_agree_id = item.issue_votes[i].id;
+			title = "You voted: " + agree_text(item.issue_votes[i].points);// + " - " + humane_date(item.issue_votes[i].updated_on);
+			user_agree_id = i;
 		}
 	}
 	
-	if (user_agree_id == 0){
-		you_voted = "You haven't voted yet";
+	if (user_agree_id == -1){
+		title = "You haven't voted yet";
+		you_voted = "Totals are hidden until you vote";
+	}
+	else {
+		you_voted = item.agree + ' agree / ' + item.disagree + ' disagree (binding)<br>';		
+		you_voted = you_voted + item.agree_nonbind + ' agree / ' + item.disagree_nonbind + ' disagree (non-binding)<br>';		
 	}
 	
-	var html = '';
+	var history = '';
+	var action_header = '';
+	var buttons = '';
+	var points = 999;
 	
-	html = html + '<div id="flyover_agree_' + dataId + '" class="overlay" style="display:none;">';
-	html = html + '	  <div style="border: 0pt none ; margin: 0pt;">';
-	html = html + '	    <div class="overlayContentWrapper storyFlyover flyover" style="width: 200px;">';
-	html = html + '	      <div class="storyTitle">';
-	if (user_agree_id == 0){
-		html = html + 'Total is hidden until you vote';
-	}
-	else{
-		html = html + item.agree + ' agree / ' + item.disagree + ' disagree (binding)';		
-	}
-	html = html + '	      </div>';
-	html = html + '	      <div class="sectionDivider">';
-	html = html + '	      <div style="height: auto;">';
-	html = html + '	        <div class="metaInfo">';
-	html = html + '	          <div class="left">';
-	if (user_agree_id != 0){
-		html = html + item.agree_nonbind + ' agree / ' + item.disagree_nonbind + ' disagree (non-binding)<br>';		
-	}
-	html = html + you_voted;
-	html = html + '	          </div>';
-	html = html + '	          <div class="clear"></div>';
-	html = html + '	        </div>';
-	html = html + '	        <div class="flyoverContent storyDetails">';
-	html = html + '	            <div class="section">';
-	html = html + 					generate_agree_flyover_youragree(item,user_agree_id,dataId);
-	if (user_agree_id != 0){
-		html = html + 					generate_agree_flyover_history(item);
-	}
-	html = html + '	              </div>';
-	html = html + '	        </div>';
-	html = html + '	      </div>';
-	html = html + '	    </div>';
-	html = html + '	  </div>';
-	html = html + '	</div>';
+	
+	if (user_agree_id > -1){
+		points = item.issue_votes[user_agree_id].points
 		
-	$('#flyovers').append(html);
-	
-	return html;
-}
-
-function generate_agree_flyover_history(item){
-	if (item.issue_votes == null || item.issue_votes.length < 1){return '';};
-	
-	var html = '';
-	var header = '';
-	header = header + '	  <div class="header">';
-	header = header + '	    History';
-	header = header + '	  </div>';
-	header = header + '	  <table class="notesTable">';
-	header = header + '	    <tbody>';
-	header = header + '<tr class="noteInfoRow">';
-	header = header + '<td class="noteInfo">';
-	
-	for(var i = 0; i < item.issue_votes.length; i++ ){
-		if (item.issue_votes[i].vote_type != 1) continue;
-		html = html + agree_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
-		if (item.issue_votes[i].isbinding == false){
-			html = html + ' (non-binding)';
+		for(var i = 0; i < item.issue_votes.length; i++ ){
+			if (item.issue_votes[i].vote_type != 1) continue;
+			history = history + agree_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.login; //firstname + ' ' + item.issue_votes[i].user.lastname;
+			if (item.issue_votes[i].isbinding == false){
+				history = history + ' (non-binding)';
+			}
+			history = history + '<br>';
 		}
-		html = html + '<br>';
-	}	
-	if (html=='') return '';
+	}
 	
-	html = header + html;
 
- 	html = html + '</td>';
-  	html = html + '</tr>';
-	html = html + '	    </tbody>';
-	html = html + '	  </table>';
-	html = html + '	<div class="clear"></div>';
-	return html;
+	if (!((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {
+		user_agree_id < 0 ? action_header = 'Vote' : action_header = 'Change your vote:';
+		if (points != 1) {buttons = buttons + button('agree',dataId,points == 1,{action:'agree',data:'&points=1'}) + '<br>';}
+		if (points != 0) {buttons = buttons + button('neutral',dataId,points == 0,{action:'agree',data:'&points=0'}) + '<br>';}
+		if (points != -1) {buttons = buttons + button('against',dataId,points == -1,{action:'agree',data:'&points=-1'}) + '<br>';}
+		if (points != -9999) {buttons = buttons + button('block',dataId,false,{action:'agree',data:'&points=-9999'}) + '<br>';}
+	}
 	
+	return generate_flyover(dataId,'agree',title,you_voted,action_header,buttons,history);
 }
 
-function generate_agree_flyover_youragree(item,user_agree_id,dataId){
-	//TODO: check that I have permission to agree!	
-	
-	if ((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) return '';
-	var header_text = '';
-	user_agree_id == 0 ? header_text = 'Vote' : header_text = 'Change your vote:';
-	var html = '';
-	html = html + '	                <div class="header">';
-	html = html + header_text;
-	html = html + '	                </div>';
-	html = html + '	                <table class="notesTable">';
-	html = html + '	                  <tbody>';
-	html = html + '	                    <tr class="noteTextRow">';
-	html = html + '	                      <td class="noteText">';
-	html = html + generate_pri_action(1, item.id, dataId) + '<br>';
-	html = html + generate_pri_action(0, item.id, dataId) + '<br>';
-	html = html + generate_pri_action(-1, item.id, dataId);
-	html = html + '	                      </td>';
-	html = html + '	                    </tr>';
-	html = html + '	                  </tbody>';
-	html = html + '	                </table>';
-	return html;
-	
-}
+
 
 function generate_details_flyover_description(item){
 
@@ -1434,14 +1307,10 @@ function buttons_for(dataId,expanded){
 	case 'New':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,false,expanded);
-		// html = html + agree_buttons(dataId,false,expanded);
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,false,expanded);
-		
-		// html = html + agree_buttons(dataId,false,expanded);
-		// html = html + button('estimate',dataId);
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
@@ -1514,60 +1383,32 @@ function is_part_of_team(item){
 	return part_of_team;
 }
 
-function agree_buttons(dataId,include_start_button,expanded){
-	var html = '';
-	item = D[dataId];
-	
-	if (include_start_button){
-		html = html + button('start',dataId,true);
-	}
-	
-	for(var i=0; i < item.issue_votes.length; i++){
-		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
-			tally = '';
-			if (!include_start_button || expanded){
-				tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally">';
-				tally = tally + item.agree + ' - ' + item.disagree;
-				tally = tally + '</div>';
-			}
-			
-			if (item.issue_votes[i].points==1) {
-				return html + tally + button('against',dataId);
-			} else {
-				return html + tally + button('agree',dataId);
-			}
-		}
-	}	
-	html = ''; //removing start button if pereson hasn't voted yet
-	html = html + button('against',dataId);
-	html = html + button('agree',dataId);
-	
-	return html;
-}
-
 function agree_buttons_root(dataId,include_start_button,expanded){
 	var html = '';
 	item = D[dataId];
 	
-	if (include_start_button){
-		html = html + button('start',dataId,true);
-	}
-	
 	var tally = '';
 	var label = 'agree?';
 	var cssclass = 'root';
+	var user_voted = false;
+	
 	
 	for(var i=0; i < item.issue_votes.length; i++){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
-			console.log('we are in');
+			user_voted = true;
 			tally = '';
 			if (!include_start_button || expanded){
 				tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally">';
-				tally = tally + item.agree + ' - ' + item.disagree;
+				if (item.disagree > 5000){
+					html = '';//removing start button from blocked item
+					tally = tally + 'BLOCK';
+				}
+				else{
+					tally = tally + item.agree + ' - ' + item.disagree;
+				}
 				tally = tally + '</div>';
 			}
 			
-			console.log(item.issue_votes[i].points);
 			switch(String(item.issue_votes[i].points))
 			{
 				case "1":	label = 'agreed';
@@ -1576,10 +1417,10 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 				case "0":	label = 'neutral';
 							cssclass = 'agree';
 							break;	
-				case "-1":	label = 'against';
+				case "-1":	label = 'disagreed';
 							cssclass = 'against';
 							break;	
-				case "-9999":	label = 'blocked';
+				case "-9999": label = 'blocked';
 							cssclass = 'against';
 							break;	
 			}
@@ -1588,9 +1429,14 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 		}
 	}	
 	
-	if (tally == ''){html = ''};//removing start button if pereson hasn't voted yet
 	
-	html = html + button('agree_root',dataId,false,{label:label,cssclass:cssclass});
+	if (include_start_button){
+		html = html + button('start',dataId,true);
+	}
+	
+	if (!user_voted){html = '';};//removing start button if pereson hasn't voted yet
+	
+	html = html + tally + button('agree_root',dataId,false,{label:label,cssclass:cssclass});
 	
 	return html;
 }
@@ -1664,18 +1510,22 @@ function button(type,dataId,hide,options){
 	  var action = typeof(options['action']) == 'undefined' ? 
 	                                  type : 
 	                                  options['action'];
-	
+	  var data = typeof(options['data']) == 'undefined' ? 
+	                                  '' : 
+	                                  options['data'];
 	var hide_style = '';
+	var onclick = 'click_' + action + '(' + dataId + ',this,\'' + data + '\');return false;';
+	
 	if (hide){ hide_style = "style=display:none;"; }
 	if (type == 'release') label = 'giveup';
 	html = '';
-	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + cssclass + '" ' + hide_style + ' onclick="click_' + action + '(' + dataId + ',this);return false;">';
-	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable">' + label + '</a>';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + cssclass + '" ' + hide_style + ' onclick="' + onclick + '">';
+	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable" onclick="">' + label + '</a>';
 	html = html + '</div>';
 	return html;
 }
 
-function click_start(dataId,source){
+function click_start(dataId,source,data){
 	if ($(".action_button_finish").get().length >= MAX_REQUESTS_PER_PERSON){
 		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " ideas at a time");
 	}
@@ -1686,62 +1536,58 @@ function click_start(dataId,source){
 	return false;
 }
 
-function click_accept(dataId,source){
+function click_accept(dataId,source,data){
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'accept');
 }
 
-function click_reject(dataId,source){
+function click_reject(dataId,source,data){
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'reject');
 }
 
-function click_finish(dataId,source){
+function click_finish(dataId,source,data){
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'finish');
 }
 
-function click_restart(dataId,source){
+function click_restart(dataId,source,data){
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'restart');
 }
 
-// function click_estimate(dataId,source){
+// function click_estimate(dataId,source,data){
 // 	$('#' + source.id).parent().hide();
 // }
 
-function click_agree(dataId,source){
-	$('#' + source.id).parent().hide();
-	send_item_action(dataId,'agree');
+function click_agree(dataId,source,data){
+	$('#item_content_buttons_' + dataId).hide();
+	send_item_action(dataId,'agree',data);
 }
 
-function click_agree_root(dataId,source){
+function click_agree_root(dataId,source,data){
 	show_agree_flyover(dataId,source.id);
 	return false;
 }
 
 
-function click_against(dataId,source){
-	$('#' + source.id).parent().hide();
-	send_item_action(dataId,'disagree');
-}
 
-function click_release(dataId,source){
+function click_release(dataId,source,data){
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'release');
 }
 
-function click_cancel(dataId,source){
+function click_cancel(dataId,source,data){
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'cancel');
 }
 
-function click_leave(dataId,source){
+function click_leave(dataId,source,data){
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'leave');
 }
 
-function click_join(dataId,source){
+function click_join(dataId,source,data){
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'join');
 }
@@ -1751,7 +1597,7 @@ function click_pri(dataId,source,points){
 	send_item_action(dataId,'prioritize','&points=' + points);
 }
 
-function click_retro(dataId,source){
+function click_retro(dataId,source,data){
 	// var url = url_for({ controller: 'retros',
 	//                            action    : 'show',
 	// 							id		: D[dataId].retroId
@@ -1989,7 +1835,12 @@ function sort_panel(name){
 		var listitems = $('#' + name + '_start_of_list').children().get();
 
  		//Setting highest_pri to priority of first item in open panel
-		if ((name == "open") && (listitems.length > 0)){highest_pri = D[listitems[0].id.replace(/item_/g,'')].pri;}
+		if ((name == "open") && (listitems.length > 0)){
+			var first_item_id = listitems[0].id.replace(/item_/g,'');
+			// var first_item_data_id = ITEMHASH["item" + first_item_id];
+			console.log(first_item_id);
+			highest_pri = D[first_item_id].pri;
+			}
 		
 		listitems.sort(function(a, b) {
 		   var compA = a.id.replace(/item_/g,'');
@@ -2162,6 +2013,11 @@ function item_added(item){
 }
 
 function item_actioned(item, dataId,action){
+	
+	if (action == 'agree'){
+		$('#flyover_agree_' + dataId).remove(); 
+	}
+	
 	collapse_item(dataId);
 	pre_status = D[dataId].status.name;
 	
@@ -2193,6 +2049,7 @@ function item_actioned(item, dataId,action){
 	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	$('#flyover_estimate_' + dataId).remove(); 
 	$('#flyover_pri_' + dataId).remove(); 
+	$('#flyover_agree_' + dataId).remove(); 
 	
 	if (action == "estimate") {$('#flyover_estimate_' + dataId).remove();}
 	if (action == "open" || item.status.name == "Open" || pre_status == "Open") {sort_panel("open");}
@@ -2753,6 +2610,7 @@ function timer_beat(timer){
 	//check that I haven't been inactive for too long
 	if (((new Date).getTime() - last_activity.getTime()) > INACTIVITY_THRESHOLD){
 		stop_timer(timer);
+		timer_active = false;
 	}
 	else{
 		poll_server(timer);		
@@ -2762,6 +2620,8 @@ function timer_beat(timer){
 //Polls server for new data
 function poll_server(timer){
 	stop_timer(timer);
+	timer_active = false;
+	
 	var data = "seconds=" + (((new Date).getTime() - last_data_pull.getTime())/1000);
 
 	var url = url_for({ controller: 'projects',
@@ -2801,10 +2661,12 @@ function poll_server_response(data){
 			add_item(D.length-1,"bottom",false);	
 		}
 		else{
+			console.log("item refreshed: dataid:" + dataId);
+			
 			if (D[dataId].updated_on == item.updated_on){
 				continue;
 			}
-			item_actioned(item, dataId,'data_refresh')
+			item_actioned(item, dataId,'data_refresh');
 		}
 	}
 }
