@@ -17,4 +17,25 @@ namespace :custom do
     end
       
   end
+
+  task :one_time_credit_to_point_adjust => :environment do
+    IssueVote.all.each do |iv|
+      next if iv.vote_type != IssueVote::ESTIMATE_VOTE_TYPE
+      next if iv.issue.nil?
+      next if Setting::POINT_FACTOR[iv.points].nil?
+      next if iv.project.dpp.nil?
+      puts (iv.points.to_s + " " + iv.project.dpp.to_s)
+      iv.points = Setting::POINT_FACTOR[iv.points] * iv.project.dpp
+      puts (iv.points.to_s)
+      iv.save
+    end
+    
+    Issue.all.each do |issue|
+      issue.update_estimate_total true
+      issue.update_estimate_total false
+      issue.save
+    end
+      
+  end
+
 end
