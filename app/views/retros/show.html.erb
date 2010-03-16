@@ -1,7 +1,7 @@
 <%= javascript_include_tag  'retro' %>
 
 <div align="center">
-  <h2>Retrospective #<%= @retro.id %> : <%= @total_points %> Points - <%= render_title_date %></h2>
+  <h2>Retrospective #<%= @retro.id %> : <%= @total_points %> Credits - <%= render_title_date %></h2>
 <% if @user_retro_hash.has_key? User.current.id%>
 <%= javascript_tag  'var belongs = true;'%>
 <% end %>
@@ -26,7 +26,7 @@
     </td><td class="name">
   <%= link_to_user_from_id(user_id) %>   
   </td><td class="stats">
-    <strong><%= user_retro["total_points"] %> points (<%= user_retro["percentage_points"] %>%)</strong> <br>
+    <strong><%= user_retro["total_points"] %> credits (<%= user_retro["percentage_points"] %>%)</strong> <br>
     <%= user_retro["total_ideas"] %> ideas <br>      
     <%= user_retro["total_journals"] %> journals <br>      
     <%= user_retro["total_votes"] %> votes <br>      
@@ -67,7 +67,7 @@
       
     <% @retro.issues.each do |issue| %>
       <tr><td class="issue" colspan="3">
-          <%= link_to_issue(issue, :css_class => '') %>  - <%= issue.points %> points <%= image_tag "dice_#{issue.points.round}.png", :alt => "#{issue.points} points"%></td><tr>
+          <%= link_to_issue(issue, :css_class => '') %>  - <%= issue.points %> credits <%#= image_tag "dice_#{issue.points.round}.png", :alt => "#{issue.points} credits"%></td><tr>
       <tr><td class="subtitle">Author:</td><td> <%= link_to_user_from_id(issue.author_id) %></td><tr>
       <tr><td class="subtitle">Owner:</td><td> <%= link_to_user_from_id(issue.assigned_to_id) %></td><tr>
         <% if issue.has_team? %>
@@ -97,7 +97,7 @@
    %>
   
   <img src="<%= Gchart.bar(
-              :data => [@point_totals, @vote_totals, @journal_totals], 
+              :data => [@idea_totals, @vote_totals, @journal_totals], 
               :bar_colors => 'EA7235,757668,E3A34D',
               #:horizontal => 'true',
               :stacked => false,
@@ -106,7 +106,7 @@
               :axis_with_labels => 'x',
               :axis_labels => @axis_labels,
               :bar_width_and_spacing => '15,2,10',
-              :legend => ['Points','Votes','Journals'],
+              :legend => ['Ideas','Votes','Journals'],
               :custom => "chm=N*f0*,000000,0,-1,11|N*f0*,000000,1,-1,11|N*f0*,000000,2,-1,11&chds=0,#{@max_range}"
               # :custom => 'chma=50,50,50,50|200,200'
               )
@@ -115,7 +115,7 @@
 <br>
 <br>
 <div align="center">
-  <img src="<%=  Gchart.pie(:title => 'Points', 
+  <img src="<%=  Gchart.pie(:title => 'Credits', 
                  :size => '400x200',
                  :data => @pie_data_points, :labels => @pie_labels_points )
    %>"/> 

@@ -168,6 +168,7 @@ class ProjectsController < ApplicationController
   end
   
   def dashboard
+    @credit_base = @project.dpp
     @show_issue_id = params[:show_issue_id] #Optional parameter to start the dashboard off showing an issue
     @show_retro_id = params[:show_retro_id] #Optional parameter to start the dashboard off showing a retrospective
   end
