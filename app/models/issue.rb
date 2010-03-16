@@ -477,15 +477,16 @@ class Issue < ActiveRecord::Base
   
   #returns dollar amount based on points for this issue
   def dollar_amount
-    floor = self.points.floor
-    floor = 0.2 if floor == 0
-    bottom = project.dpp * Setting::POINT_FACTOR[floor] #base dollar value
-    remainder = self.points - floor
-    puts "bottm: #{bottom} remainder: #{remainder}"
-    if remainder > 0
-      top = project.dpp * Setting::POINT_FACTOR[floor + 1]
-      bottom+= (top - bottom) * remainder
-    end
+    self.points
+    # floor = self.points.floor
+    # floor = 0.2 if floor == 0
+    # bottom = project.dpp * Setting::POINT_FACTOR[floor] #base dollar value
+    # remainder = self.points - floor
+    # puts "bottm: #{bottom} remainder: #{remainder}"
+    # if remainder > 0
+    #   top = project.dpp * Setting::POINT_FACTOR[floor + 1]
+    #   bottom+= (top - bottom) * remainder
+    # end
     return bottom
   end
 
