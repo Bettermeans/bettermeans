@@ -1,7 +1,7 @@
 <%= javascript_include_tag  'retro' %>
 
 <div align="center">
-  <h2>Retrospective #<%= @retro.id %> : <%= @total_points %> Credits - <%= render_title_date %></h2>
+  <h2>Retrospective #<%= @retro.id %> : <%= @total_points.round %> Credits - <%= render_title_date %></h2>
 <% if @user_retro_hash.has_key? User.current.id%>
 <%= javascript_tag  'var belongs = true;'%>
 <% end %>
@@ -26,7 +26,7 @@
     </td><td class="name">
   <%= link_to_user_from_id(user_id) %>   
   </td><td class="stats">
-    <strong><%= user_retro["total_points"] %> credits (<%= user_retro["percentage_points"] %>%)</strong> <br>
+    <strong><%= user_retro["total_points"].round %> credits (<%= user_retro["percentage_points"] %>%)</strong> <br>
     <%= user_retro["total_ideas"] %> ideas <br>      
     <%= user_retro["total_journals"] %> journals <br>      
     <%= user_retro["total_votes"] %> votes <br>      
@@ -67,7 +67,7 @@
       
     <% @retro.issues.each do |issue| %>
       <tr><td class="issue" colspan="3">
-          <%= link_to_issue(issue, :css_class => '') %>  - <%= issue.points %> credits <%#= image_tag "dice_#{issue.points.round}.png", :alt => "#{issue.points} credits"%></td><tr>
+          <%= link_to_issue(issue, :css_class => '') %>  - <%= issue.points.round %> credits <%#= image_tag "dice_#{issue.points.round}.png", :alt => "#{issue.points} credits"%></td><tr>
       <tr><td class="subtitle">Author:</td><td> <%= link_to_user_from_id(issue.author_id) %></td><tr>
       <tr><td class="subtitle">Owner:</td><td> <%= link_to_user_from_id(issue.assigned_to_id) %></td><tr>
         <% if issue.has_team? %>
