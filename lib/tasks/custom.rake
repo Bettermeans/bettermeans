@@ -18,6 +18,7 @@ namespace :custom do
       
   end
 
+
   task :one_time_credit_to_point_adjust => :environment do
     IssueVote.all.each do |iv|
       next if iv.vote_type != IssueVote::ESTIMATE_VOTE_TYPE
@@ -35,6 +36,14 @@ namespace :custom do
       issue.update_estimate_total false
       issue.save
     end
+    
+    Retro.all.each do |r|
+      puts (r.id.to_s)
+      r.total_points = r.issues.collect(&:points).sum
+      puts (r.total_points.to_s)
+      r.save
+    end
+    
       
   end
 
