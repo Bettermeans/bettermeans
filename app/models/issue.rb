@@ -306,7 +306,6 @@ class Issue < ActiveRecord::Base
   
   def editable?
     return !(status == IssueStatus.assigned   ||
-             status == IssueStatus.inprogress ||
              status == IssueStatus.done       ||
              status == IssueStatus.archived)
   end
