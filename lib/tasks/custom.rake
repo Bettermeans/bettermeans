@@ -18,6 +18,17 @@ namespace :custom do
       
   end
 
+# Rejects/accepts lazy majority items after 3 days from their creation
+  task :lazy_majority => :environment do
+    Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.newstatus.id,DateTime.now - Setting::LAZY_MAJORITY_LENGTH ]).each do |issue|
+      issue.update_status
+    end
+
+    Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.done.id,DateTime.now - Setting::LAZY_MAJORITY_LENGTH ]).each do |issue|
+      issue.update_status
+    end
+      
+  end
 
   task :one_time_credit_to_point_adjust => :environment do
     IssueVote.all.each do |iv|

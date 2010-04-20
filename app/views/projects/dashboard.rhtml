@@ -44,6 +44,7 @@
   var show_retro_id = '<%= @show_retro_id %>';
   var credit_base = '<%= @credit_base %>';
   var point_factor = eval('<%= Setting::POINT_FACTOR.to_json %>');
+  var credits_to_points_array = eval('<%= Setting::CREDITS_TO_POINTS.to_json %>');
   
   $('document').ready(function(){
       start();

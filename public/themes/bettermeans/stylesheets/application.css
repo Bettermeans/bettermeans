@@ -1178,6 +1178,13 @@ table.retrospective td.subtitle { width: 5em; vertical-align: top; border-left-w
 	cursor:pointer;
 }
 
+.help_question_mark{
+ 	cursor:pointer;
+	margin-bottom: 3px;
+	margin-left: 4px;
+}
+
+
 .point-scale{
 	float:left;
 	padding-left:15px;
@@ -1264,7 +1271,7 @@ li { margin-left: 20px;}
 /* Header */
 
 #header {
-	height: 45px;
+	height: 38px;
 	margin: 0 auto;
 	padding: 0 20px;
 	max-width: 1280px;
@@ -1273,7 +1280,7 @@ li { margin-left: 20px;}
 
 #header h1 {
 	color: #fff;
-	font: 20px Helvetica, Arial, sans-serif;
+	font: 15px Helvetica, Arial, sans-serif;
 }
 
 #header h1 a {
@@ -1289,14 +1296,14 @@ li { margin-left: 20px;}
 
 #main {
 	margin: 0 auto;
-	padding-top: 20px;
+	padding-top: 10px;
 	max-width: 1280px;
 	min-width: 760px;
 }
 
 #main h2 {
 	margin: 0 0 10px;
-	font: bold 20px/21px Helvetica, Arial, sans-serif;
+	font: bold 16px/17px Helvetica, Arial, sans-serif;
 	color: #333;
 	padding-top: 10px;
 }
@@ -1592,7 +1599,7 @@ table .odd {
 
 /* Header */
 
-#top-menu { position: relative; padding: 2px 2px 0px 6px; height: 2em; margin: 0 auto; max-width: 1280px; min-width: 760px; font-size:0.9em;}
+#top-menu { position: relative; padding: 2px 2px 0px 6px; height: 2em; margin: 0 auto; max-width: 1280px; min-width: 760px; font-size:11px;}
 
 #top-menu a {
 	color: #fff;
@@ -1643,7 +1650,7 @@ table .odd {
 #header #main-menu li a.selected, #header #main-menu li a.selected:hover {background:#fff; color:#555;}
 
 #header #main-menu { margin: 0; margin-top: 3px;}
-#header #main-menu li a { font-weight: normal; padding:4px 8px 16px;}
+#header #main-menu li a { font-weight: normal; padding:4px 8px 8px;}
 #header #main-menu li a:hover { background: #fff; color:#000; text-decoration: none; }
 #header #main-menu li a.selected, #header #main-menu li a.selected:hover { background-color:#fff; color: #111; font-weight:bold; }
 

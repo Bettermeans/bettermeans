@@ -117,7 +117,6 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
-    QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio", :groupable => true),
     QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
   ]
   cattr_reader :available_columns
@@ -163,8 +162,8 @@ class Query < ActiveRecord::Base
                            "updated_on" => { :type => :date_past, :order => 10 },
                            "start_date" => { :type => :date, :order => 11 },
                            "due_date" => { :type => :date, :order => 12 },
-                           "estimated_hours" => { :type => :integer, :order => 13 },
-                           "done_ratio" =>  { :type => :integer, :order => 14 }}
+                           "estimated_hours" => { :type => :integer, :order => 13 }
+                         }
     
     user_values = []
     user_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?

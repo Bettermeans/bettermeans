@@ -7,7 +7,7 @@ class IssueStatusesController < ApplicationController
   
   before_filter :require_admin
 
-  verify :method => :post, :only => [ :destroy, :create, :update, :move, :update_issue_done_ratio ],
+  verify :method => :post, :only => [ :destroy, :create, :update, :move ],
          :redirect_to => { :action => :list }
          
   def index
@@ -55,13 +55,4 @@ class IssueStatusesController < ApplicationController
     flash[:error] = "Unable to delete issue status"
     redirect_to :action => 'list'
   end  	
-  
-  def update_issue_done_ratio
-    if IssueStatus.update_issue_done_ratios
-      flash[:notice] = l(:notice_issue_done_ratios_updated)
-    else
-      flash[:error] =  l(:error_issue_done_ratios_not_updated)
-    end
-    redirect_to :action => 'list'
-  end
 end

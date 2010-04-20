@@ -33,7 +33,7 @@ var panel_height = $(window).height() - 200;
 var last_activity = new Date(); //tracks last activity of mouse or keyboard click. Used to turn off server polling
 var last_data_pull = new Date(); //tracks last data recieved from server
 var highest_pri = -9999;
-var credits_to_points_array = [0,1,2,3,3,4,4,4,5,5,5,6,6,6];
+// var credits_to_points_array = [0,1,2,3,3,4,4,4,5,5,5,6,6,6];
 
 $(window).bind('resize', function() {
 	resize();
@@ -659,8 +659,6 @@ function generate_estimate_flyover(dataId){
 
 
 function generate_estimate_button(points,credits, itemId, user_estimate_id, dataId){
-	console.log("points:" + points);
-	console.log("credits:" + credits);
 	var html = '<div>';
 	html = html + '<img src="/images/dice_' + Math.round(points) + '.png" width="18" height="18" alt="' + credits + ' Credits" class="dice" onclick="send_item_action(' + dataId + ',\'estimate\',\'&points=' + credits + '\')">';	
 	html = html + ' ' + credits + ' credits';
@@ -1104,7 +1102,6 @@ function update_todo_buttons(todoId,show){
 function credits_to_points(credits,base){
 	normalized = Math.round(credits/base);
 	return credits_to_points_array[normalized]; //TODO: fix this formula credits larger than 12
-	
 }
 
 
@@ -1794,7 +1791,7 @@ function generate_and_append_panel(position,name,title, visible){
 	panelHtml = panelHtml + "<div id='panel_header_" + name +"'class='panelHeader'>";
 	panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanel panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\");return false;'></a>";
 	panelHtml = panelHtml + "  <span id='" + name +"_panel_title' class='panelTitle'>" + title + " (0)</span>";
-	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="clickable">';
+	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="help_question_mark">';
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "<div id='" + name + "_list' class='list'>";
 	panelHtml = panelHtml + "  <div id='" + name + "_items' class='items'>";
@@ -2184,7 +2181,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
-html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif"  class="clickable">';
+html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -2201,7 +2198,7 @@ html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                  <td class="lastCell">';
 html = html + '	                    <div class="helpIcon">';
-html = html + '	                      <img id="help_image_description_new" src="/images/question_mark.gif"  class="clickable">';
+html = html + '	                      <img id="help_image_description_new" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
@@ -2313,7 +2310,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types' + dataId + '">';
-html = html + '	                    <img id="help_image_feature_' + dataId + '" src="/images/question_mark.gif" class="clickable">';
+html = html + '	                    <img id="help_image_feature_' + dataId + '" src="/images/question_mark.gif" class="help_question_mark">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -2331,7 +2328,7 @@ html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                  <td class="lastCell">';
 html = html + '	                    <div class="helpIcon_Description">';
-html = html + '	                      <img id="help_image_description_' + dataId + '" src="/images/question_mark.gif"  class="clickable">';
+html = html + '	                      <img id="help_image_description_' + dataId + '" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
@@ -2379,7 +2376,7 @@ html = html + '	                <tr><td>&nbsp;</td></tr>';
 html = html + '	                <tr><td>';
 html = html + '	  <div class="header">';
 html = html + '	    Item ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
-html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif"  class="clickable">';
+html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	  </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';

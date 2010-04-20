@@ -1,4 +1,4 @@
-#main-menu { margin: 0 24px; width:100%;}
+#main-menu { margin: 0 24px; width: 100%;}
 
 
 table, tr, td {
@@ -71,6 +71,14 @@ vertical-aling:center;
 	position:relative;
 	color:#000000;
 }
+
+.help_question_mark{
+ 	cursor:pointer;
+	margin-bottom: 0px;
+	margin-left: 2px;
+	margin-top: 2px;
+}
+
 
 .layout {
 border-collapse:separate;
