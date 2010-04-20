@@ -95,7 +95,8 @@ class IssuesController < ApplicationController
     @changesets = @issue.changesets
     @changesets.reverse! if User.current.wants_comments_in_reverse_order?
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-    @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
+    @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
+    
     @priorities = IssuePriority.all
     @time_entry = TimeEntry.new
     respond_to do |format|
@@ -181,7 +182,7 @@ class IssuesController < ApplicationController
     logger.info("ENTERING EDIT FOR ISSUE Lock version: #{@issue.lock_version} params: #{params.inspect}")
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @priorities = IssuePriority.all
-    @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
+    @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
     @time_entry = TimeEntry.new
     
     @notes = params[:notes]
@@ -260,7 +261,7 @@ class IssuesController < ApplicationController
   
   def change_status
       @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-      @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
+      @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
       logger.info("edit allowed #{@edit_allowed} allowed statuses #{@allowed_statuses}")
 
       @notes = params[:notes]
