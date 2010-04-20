@@ -2239,6 +2239,7 @@ $("#new_items").scrollTo( '#new_item_wrapper', 800);
 function is_item_editable(dataId) {
   return !(D[dataId].status.name == 'Committed' ||
 	   D[dataId].status.name == 'Done'      ||
+	   D[dataId].status.name == 'Canceled'  ||
 	   D[dataId].status.name == 'Archived');
 
 }
