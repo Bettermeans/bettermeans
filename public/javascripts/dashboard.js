@@ -2236,7 +2236,22 @@ $('#help_image_feature_new').mybubbletip($('#help_feature'), {
 $("#new_items").scrollTo( '#new_item_wrapper', 800);
 }
 
-function generate_item_edit(dataId){
+function is_item_editable(dataId) {
+  return !(D[dataId].status.name == 'Committed' ||
+	   D[dataId].status.name == 'Done'      ||
+	   D[dataId].status.name == 'Archived');
+
+}
+
+function generate_item_edit(dataId){  
+  
+var item_editable = is_item_editable(dataId);
+
+// The subject and description input elements, and the issue type
+// combo box are rendered readonly/disable if the item is not editable
+var readonly = !item_editable ? "readonly" : "";
+var disabled = !item_editable ? "disabled" : "";
+  
 html = '';	
 html = html + '	<div class="item" id="edit_item_' + dataId + '">';
 html = html + '	  <div class="storyItem underEdit" id="editItem_content_' + dataId + '">';
@@ -2245,7 +2260,7 @@ html = html + '	    <div class="storyPreviewHeader">';
 html = html + ' 		<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_expanded.png" title="Collapse" alt="Collapse" onclick="collapse_item(' + dataId + ');return false;">';
 html = html + '<div id="icon_set_' + dataId + '" class="left">&nbsp;</div>';
 html = html + '	      <div class="storyPreviewInput">';
-html = html + '	        <input id="edit_title_input_' + dataId + '" class="titleInputField" name="title_input" value="' + D[dataId].subject + '" type="text">';
+html = html + '	        <input id="edit_title_input_' + dataId + '" class="titleInputField" name="title_input" value="' + D[dataId].subject + '" type="text" ' + readonly + '>';
 html = html + '	      </div>';
 html = html + '	    </div>';
 html = html + '	    <div>';
@@ -2281,7 +2296,7 @@ html = html + '	            <tbody>';
 html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
-html = html + '	                    <select id="edit_story_type_' + dataId + '" class="storyDetailsField" name="edit_story_type">';
+html = html + '	                    <select id="edit_story_type_' + dataId + '" class="storyDetailsField" name="edit_story_type" ' + disabled + '>';
 html = html + '	                      <option selected="true" value="4">';
 html = html + '	                        Feature';
 html = html + '	                      </option>';
@@ -2326,7 +2341,7 @@ html = html + '	                </tr>';
 html = html + '	                <tr>';
 html = html + '	                  <td colspan="5">';
 html = html + '	                    <div>';
-html = html + '	                      <textarea class = "textAreaFocus" id="edit_description_' + dataId + '" rows="1" cols="20" name="story[description]">' + D[dataId].description + '</textarea>     ';
+html = html + '	                      <textarea class = "textAreaFocus" id="edit_description_' + dataId + '" rows="1" cols="20" name="story[description]" ' + readonly + '>' + D[dataId].description + '</textarea>     ';
 html = html + '	                    <div>';
 html = html + '	                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
 html = html + '	                      </div>';
