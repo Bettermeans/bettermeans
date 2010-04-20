@@ -77,14 +77,6 @@
 		</ul>
 	</li>
 	<% end -%>
-  <% if Issue.use_field_for_done_ratio? %>
-	<li class="folder">
-		<a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
-		<ul>
-		<% (0..10).map{|x|x*10}.each do |p| -%>
-		    <li><%= context_menu_link "#{p}%", {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'done_ratio' => p, :back_to => @back}, :method => :post,
-		                                  :selected => (@issue && p == @issue.done_ratio), :disabled => !@can[:edit] %></li>
-		<% end -%>
 		</ul>
 	</li>
   <% end %>

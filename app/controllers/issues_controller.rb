@@ -329,44 +329,21 @@ class IssuesController < ApplicationController
     end
   end
 
-# #TODO: merge this w/disagree. Not DRY enough (only one line is different)
-#   def disagree
-#     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1
-#     @issue.update_agree_total @iv.isbinding
-#     @issue.status = @issue.updated_status
-#     @issue.save
-#     @issue.reload
-#     
-#     respond_to do |format|
-#       format.js {render :json => @issue.to_dashboard}
-#       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
-#     end
-#   end
 
   def accept
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1
+    logger.info("1 #{@issue.inspect}")
     @issue.update_accept_total  @iv.isbinding
-
-    #Used to be 1 retro per item
-    # if @issue.ready_for_accepted?
-    #   if @issue.has_team?
-    #     @retro = Retro.create :project_id => @project.id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now + Retro::DEFAULT_RETROSPECTIVE_LENGTH, :from_date => DateTime.now, :total_points => @issue.points
-    #     logger.info("announcing start")
-    #     @issue.retro_id = @retro.id
-    #     @issue.save
-    #     @retro.announce_start
-    #   else
-    #     @issue.retro_id = Retro::NOT_NEEDED_ID
-    #     @issue.save
-    #   end
-    # end
-
-    if @issue.ready_for_accepted?
-        @issue.retro_id = Retro::NOT_STARTED_ID
-        @issue.save
-        @issue.project.start_retro_if_ready
-    else
+    logger.info("2 #{@issue.updated_status.inspect}")
+    @issue.status = @issue.updated_status
+    logger.info("3 #{@issue.status.inspect}")
+    @issue.save
+    logger.info("4")
+    
+    if @issue.status = IssueStatus.accepted
+      @issue.retro_id = Retro::NOT_STARTED_ID
       @issue.save
+      @issue.project.start_retro_if_ready
     end
     
     @issue.reload
@@ -379,8 +356,11 @@ class IssuesController < ApplicationController
 
   def reject
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1
+    logger.info("1")
     @issue.update_accept_total @iv.isbinding
+    logger.info("2")
     @issue.save
+    logger.info("3")    
     @issue.reload
     
     respond_to do |format|

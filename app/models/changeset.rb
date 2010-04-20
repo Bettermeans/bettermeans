@@ -66,7 +66,6 @@ class Changeset < ActiveRecord::Base
     fix_keywords = Setting.commit_fix_keywords.downcase.split(",").collect(&:strip)
     # status and optional done ratio applied
     fix_status = IssueStatus.find_by_id(Setting.commit_fix_status_id)
-    done_ratio = Setting.commit_fix_done_ratio.blank? ? nil : Setting.commit_fix_done_ratio.to_i
     
     kw_regexp = (ref_keywords + fix_keywords).collect{|kw| Regexp.escape(kw)}.join("|")
     return if kw_regexp.blank?
@@ -98,7 +97,6 @@ class Changeset < ActiveRecord::Base
           end
           journal = issue.init_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, csettext))
           issue.status = fix_status
-          issue.done_ratio = done_ratio if done_ratio
           Redmine::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
                                   { :changeset => self, :issue => issue })
           issue.save

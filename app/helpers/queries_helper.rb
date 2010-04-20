@@ -29,11 +29,7 @@ module QueriesHelper
     when 'Date'
       format_date(value)
     when 'Fixnum', 'Float'
-      if column.name == :done_ratio
-        progress_bar(value, :width => '80px')
-      else
-        value.to_s
-      end
+      value.to_s
     when 'User'
       link_to_user value
     when 'Project'

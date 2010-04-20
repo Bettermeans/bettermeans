@@ -9,6 +9,7 @@ task :cron => :environment do
     Rake::Task['autoaccept_commitrequests'].invoke
     Rake::Task['close_retros'].invoke
     Rake::Task['custom:refresh_active_members'].invoke
+    Rake::Task['custom:lazy_majority'].invoke
     
     if Time.now.hour == 0
       last_distribution = CreditDistribution.first(:order => "updated_on DESC")
