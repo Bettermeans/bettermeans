@@ -304,9 +304,6 @@ class Issue < ActiveRecord::Base
     false
   end
   
-  #
-  # Can the issue's title and description be edited?
-  #
   def editable?
     return !(status == IssueStatus.assigned   ||
              status == IssueStatus.inprogress ||
