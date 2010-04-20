@@ -18,6 +18,12 @@ class Setting < ActiveRecord::Base
   #Factor by which dollars per point is multiplies e.g. a 5 point issue is worth $(POINT_FACTOR[5] * dpp)
   POINT_FACTOR = [0.2,1,2,4,6,9,12]
   
+  #Reverse lookup. Converts credits to points
+  CREDITS_TO_POINTS = [0,1,2,3,3,4,4,4,5,5,5,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11,11,11,11,11,11,12,12,12,12,12,12,13,13,13,13,13,13,13,14];
+  
+
+  LAZY_MAJORITY_LENGTH = 3 #number of days before a lazy majority vote is counted
+  
   DATE_FORMATS = [
 	'%Y-%m-%d',
 	'%d/%m/%Y',
