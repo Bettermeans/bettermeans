@@ -97,8 +97,6 @@ class Issue < ActiveRecord::Base
   def team
     issue_votes.select {|i| i.vote_type == IssueVote::JOIN_VOTE_TYPE}
   end
-
-  
   
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
@@ -304,6 +302,16 @@ class Issue < ActiveRecord::Base
       end
     end
     false
+  end
+  
+  #
+  # Can the issue's title and description be edited?
+  #
+  def editable?
+    return !(status == IssueStatus.assigned   ||
+             status == IssueStatus.inprogress ||
+             status == IssueStatus.done       ||
+             status == IssueStatus.archived)
   end
   
   # Returns true if the issue is overdue
