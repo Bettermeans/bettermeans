@@ -307,7 +307,10 @@ class Issue < ActiveRecord::Base
   def editable?
     return !(status == IssueStatus.assigned   ||
              status == IssueStatus.done       ||
+             status == IssueStatus.canceled   ||
              status == IssueStatus.archived)
+
+
   end
   
   # Returns true if the issue is overdue
