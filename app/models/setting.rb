@@ -22,7 +22,7 @@ class Setting < ActiveRecord::Base
   CREDITS_TO_POINTS = [0,1,2,3,3,4,4,4,5,5,5,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11,11,11,11,11,11,12,12,12,12,12,12,13,13,13,13,13,13,13,14];
   
 
-  LAZY_MAJORITY_LENGTH = 3 #number of days before a lazy majority vote is counted
+  LAZY_MAJORITY_LENGTH = 0 #number of days before a lazy majority vote is counted
   
   DATE_FORMATS = [
 	'%Y-%m-%d',
