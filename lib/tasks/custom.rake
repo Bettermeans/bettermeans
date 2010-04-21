@@ -17,4 +17,45 @@ namespace :custom do
     end
       
   end
+
+# Rejects/accepts lazy majority items after 3 days from their creation
+  task :lazy_majority => :environment do
+    Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.newstatus.id,DateTime.now - Setting::LAZY_MAJORITY_LENGTH ]).each do |issue|
+      issue.update_status
+    end
+
+    Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.done.id,DateTime.now - Setting::LAZY_MAJORITY_LENGTH ]).each do |issue|
+      issue.update_status
+    end
+      
+  end
+
+  task :one_time_credit_to_point_adjust => :environment do
+    IssueVote.all.each do |iv|
+      next if iv.vote_type != IssueVote::ESTIMATE_VOTE_TYPE
+      next if iv.issue.nil?
+      next if Setting::POINT_FACTOR[iv.points].nil?
+      next if iv.project.dpp.nil?
+      puts (iv.points.to_s + " " + iv.project.dpp.to_s)
+      iv.points = Setting::POINT_FACTOR[iv.points] * iv.project.dpp
+      puts (iv.points.to_s)
+      iv.save
+    end
+    
+    Issue.all.each do |issue|
+      issue.update_estimate_total true
+      issue.update_estimate_total false
+      issue.save
+    end
+    
+    Retro.all.each do |r|
+      puts (r.id.to_s)
+      r.total_points = r.issues.collect(&:points).sum
+      puts (r.total_points.to_s)
+      r.save
+    end
+    
+      
+  end
+
 end

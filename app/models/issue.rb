@@ -43,7 +43,6 @@ class Issue < ActiveRecord::Base
   
   validates_presence_of :subject, :project, :tracker, :author, :status #,:priority,
   validates_length_of :subject, :maximum => 255
-  validates_inclusion_of :done_ratio, :in => 0..100
   validates_numericality_of :estimated_hours, :allow_nil => true
 
   named_scope :visible, lambda {|*args| { :include => :project,
@@ -51,7 +50,6 @@ class Issue < ActiveRecord::Base
   
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
-  before_save :update_done_ratio_from_issue_status
   after_save :after_save
   
   # Returns true if usr or current user is allowed to view the issue
@@ -62,22 +60,38 @@ class Issue < ActiveRecord::Base
   # Returns true if there are enough agreements in relation to the estimated points of the request
   def ready_for_open?
     return false if points.nil? || agree_total < 1
-    return true if agree_total >= points
-    return true if agree_total > (project.root.core_members.count / 2)
+    return true if agree + disagree > points_from_credits / 2
+    return true if agree_total > 0 && self.updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
+    return true if agree_total > ((project.root.core_members.count + project.root.members.count) / 2)
+    return true if accept_total < 0 && updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH #rejected
+    return false
+  end
+
+  # Returns true if there are enough disagreements in relation to the estimated points of the request
+  def ready_for_canceled?
+    return false if agree_total > 0
+    return true if agree_total < 0 && updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
+    # return true if agree_total * -1 > ((project.root.core_members.count + project.root.members.count) / 2)
     return false
   end
 
   def ready_for_accepted?
     return false if points.nil? || accept_total < 1
-    return true if accept_total >= points
-    return true if accept_total > (project.root.core_members.count / 2)
+    return true if accept + reject >= points_from_credits / 2
+    return true if accept_total > ((project.root.core_members.count + project.root.members.count) / 2)
     return false
   end
   
   def updated_status
-    return IssueStatus.newstatus if agree_total < 1
+    logger.info("A")
+    return IssueStatus.accepted if ready_for_accepted?
+    logger.info("B")
+    return IssueStatus.done if self.status == IssueStatus.done
+    logger.info("C")
+    return IssueStatus.inprogress if self.status == IssueStatus.inprogress    
+    logger.info("D")
     return IssueStatus.open if ready_for_open?
-    return IssueStatus.estimate if agree_total > 0 
+    return IssueStatus.canceled if ready_for_canceled?
     return IssueStatus.newstatus #default
   end
   
@@ -189,21 +203,6 @@ class Issue < ActiveRecord::Base
     write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
   end
   
-  def done_ratio
-    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio?
-      status.default_done_ratio
-    else
-      read_attribute(:done_ratio)
-    end
-  end
-
-  def self.use_status_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_status'
-  end
-
-  def self.use_field_for_done_ratio?
-    Setting.issue_done_ratio == 'issue_field'
-  end
   
   def validate
     if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
@@ -249,11 +248,11 @@ class Issue < ActiveRecord::Base
   
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
-  def update_done_ratio_from_issue_status
-    if Issue.use_status_for_done_ratio? && status && status.default_done_ratio?
-      self.done_ratio = status.default_done_ratio
-    end
-  end
+  # def update_done_ratio_from_issue_status
+  #   if Issue.use_status_for_done_ratio? && status && status.default_done_ratio?
+  #     self.done_ratio = status.default_done_ratio
+  #   end
+  # end
   
   def after_save
     # Reload is needed in order to get the right status
@@ -477,6 +476,14 @@ class Issue < ActiveRecord::Base
     end
   end
   
+  #forces a majority vote depending on issue status
+  def update_status
+    @updated = self.updated_status
+    puts (@updated)
+    self.status = @updated
+    self.save
+  end
+  
   #returns json object for consumption from dashboard
   def to_dashboard
     self.to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
@@ -484,16 +491,14 @@ class Issue < ActiveRecord::Base
   
   #returns dollar amount based on points for this issue
   def dollar_amount
-    floor = self.points.floor
-    floor = 0.2 if floor == 0
-    bottom = project.dpp * Setting::POINT_FACTOR[floor] #base dollar value
-    remainder = self.points - floor
-    puts "bottm: #{bottom} remainder: #{remainder}"
-    if remainder > 0
-      top = project.dpp * Setting::POINT_FACTOR[floor + 1]
-      bottom+= (top - bottom) * remainder
-    end
-    return bottom
+    return self.points
+  end
+  
+  #returns number of "points" based on scale. used to calculate votes needed in lazy majority
+  def points_from_credits
+    normalized = (points/self.project.dpp).round
+    return Setting::CREDITS_TO_POINTS[Setting::CREDITS_TO_POINTS.length - 1] if normalized > Setting::CREDITS_TO_POINTS.length #returns max if credits are more than max
+  	return Setting::CREDITS_TO_POINTS[normalized]; #TODO: fix this formula credits larger than 12
   end
 
   private
