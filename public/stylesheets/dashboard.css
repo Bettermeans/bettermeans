@@ -506,11 +506,11 @@ text-decoration:underline !important;
 }
 
 .action_button_finish{
-	background: url(/images/bb_brown.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat; 
 }
 
 .action_button_join{
-	background: url(/images/bb_brown.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat; 
 }
 
 .action_button_accept{
@@ -572,6 +572,9 @@ text-decoration:underline !important;
 	font-weight:bold;	
 }
 
+.action_button_rejected{
+	font-weight:bold;	
+}
 
 
 .action_button a, .action_button a:hover, .action_button a:visited {
