@@ -6,7 +6,6 @@
 <% else %>
 <p><label><%= l(:field_status) %></label> <%= @issue.status.name %></p>
 <% end %>
-<p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
 
 <% unless @issue.assignable_versions.empty? %>
 <p><%= f.select :fixed_version_id, version_options_for_select(@issue.assignable_versions, @issue.fixed_version), :include_blank => true %>
@@ -23,8 +22,6 @@
 <div class="splitcontentright">
 <p><%= f.text_field :due_date, :size => 10 %><%= calendar_for('issue_due_date') %></p>
 <p><%= f.text_field :estimated_hours, :size => 3 %> <%= l(:field_hours) %></p>
-<% if Issue.use_field_for_done_ratio? %>
-<% end %>
 </div>
 
 <div style="clear:both;"> </div>

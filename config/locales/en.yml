@@ -274,7 +274,7 @@ en:
   field_content: Content
   field_group_by: Group results by
   field_sharing: Sharing
-  field_dpp: Dollars per Point
+  field_dpp: Estimation Scale
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -843,7 +843,7 @@ en:
   label_api_access_key: API access key
   label_missing_api_access_key: Missing an API access key
   label_api_access_key_created_on: "API access key created {{value}} ago"
-  label_dpp_scale: "Dollars per Point"
+  label_dpp_scale: "Estimation Scale"
   
   button_login: Login
   button_submit: Submit
@@ -1013,6 +1013,7 @@ en:
   default_issue_status_canceled: Canceled
   default_issue_status_estimate: Estimate
   default_issue_status_archived: Archived
+  default_issue_status_accepted: Accepted
   default_doc_category_public: Public documentation
   default_doc_category_private: Private documentation
   default_priority_low: Low
@@ -1033,5 +1034,5 @@ en:
   help_how_do_i_join_a_team_description : "There are two levels of team membership: Contributor, and Core Team. <br /><br /><strong>Becoming a contributor</strong><br />Before getting on a core team you must first contribute to the team. </br>You become a contributor for a workstream by requesting and getting ownership of an existing tasks. <br /> Another way to become a contributor, is to be a core team member of any sub workstream.<br /><br /><strong>Become a core team member</strong><br />Once you are a contributor, you may request (or be invited) to join the Core Team by an existing Core Team member. <br /><br /> You can also join a workstream's core team directly if your a core team member of its parent workstream."
   help_core_points_title : Core Points
   help_core_points_description : "Core points are a way of team members endorsing each other, and signaling confidence in each other's abilities and core values. <br /><br /> When someone on a core team feels that the team is better off with someone on it they can give that person a core point. It also works the other way: If someone feels that someone is hurting the team, they can give them a negative-core point. <br /><br />When a member's total core points exceeds zero, they're invited to be on the core team. If their total falls below zero, they revert back to contributor status. <br /><br />All voting is confidential to minimize internal politics as much as possible.<br />Total core points is calculated by adding up the votes of existing core team members of a workstream and its parent."
-  help_dpp: Items in a workstream are estimated in points.<br/><br/>Each workstream has a different payment per points.
+  help_dpp: Items in a workstream are estimated in dollars.<br/><br/>Each workstream has a different scale for possible estimations. The scale varies based on the complexity/granulatiry of the type of work for that workstream.
   help_select_scale: Items in a workstream are estimated in points.<br/><br/>Each workstream can have a different payment scale.<br/><br/>Select a scale that best covers the range of work item sizes. This changes based on the nature of work for a particular workstream.

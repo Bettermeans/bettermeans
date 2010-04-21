@@ -33,6 +33,7 @@ var panel_height = $(window).height() - 200;
 var last_activity = new Date(); //tracks last activity of mouse or keyboard click. Used to turn off server polling
 var last_data_pull = new Date(); //tracks last data recieved from server
 var highest_pri = -9999;
+// var credits_to_points_array = [0,1,2,3,3,4,4,4,5,5,5,6,6,6];
 
 $(window).bind('resize', function() {
 	resize();
@@ -549,7 +550,7 @@ function generate_details_flyover(dataId){
 	var item = D[dataId];
 	
 	var points;
-	item.points == null ? points = 'No' : points = Math.round(item.points);
+	item.points == null ? points = 'No' : points = credits_to_points(item.points,credit_base);
 	
 	var html = '';
 	
@@ -566,9 +567,9 @@ function generate_details_flyover(dataId){
 	html = html + 'Added by ' + item.author.firstname + ' ' + item.author.lastname + ' ' + humane_date(item.created_on);
 	html = html + '	          </div>';
 	html = html + '<div class="right infoSection">';
-	html = html + '	            <img class="estimateIcon left" width="18" src="/images/dice_' + points + '.png" alt="Estimate: ' + points + ' points" title="Estimate: ' + points + ' points">';
+	html = html + '	            <img class="estimateIcon left" width="18" src="/images/dice_' + points + '.png" alt="Estimate: ' + points + ' credits" title="Estimate: ' + points + ' credits">';
 	html = html + '	            <div class="left text">';
-	html = html + '	              ' + points + ' pts';
+	html = html + '	              ' + points + ' cr';
 	html = html + '	            </div>';
 	html = html + '	            <div class="clear"></div>';
 	html = html + '	          </div>';
@@ -603,34 +604,37 @@ function generate_details_flyover(dataId){
 function generate_estimate_flyover(dataId){
 	var item = D[dataId];
 	
-	var points;
-	item.points == null ? points = 'No' : points = Math.round(item.points);
+	var credits = item.points;
 	
-	var you_voted = '';
-	var user_estimate_id = 0;
+	var you_voted = "You haven't estimated yet";
+	var title = '';
+	var user_estimate_id = -1;
 	var total_people_estimating = 0;
 	
 	for(var i=0; i < item.issue_votes.length; i++){
+		if (item.issue_votes[i].vote_type != 4) continue;
+		total_people_estimating++ ;
+		
 		if (currentUserLogin == item.issue_votes[i].user.login){
-			if (item.issue_votes[i].vote_type != 4) continue;
-			total_people_estimating++ ;
-			you_voted = "You estimated " + item.issue_votes[i].points + " - " + humane_date(item.issue_votes[i].updated_on);
+			you_voted = "Your estimate " + item.issue_votes[i].points + " - " + humane_date(item.issue_votes[i].updated_on);
 			user_estimate_id = item.issue_votes[i].id;
 		}
 	}
 	
-	if (user_estimate_id == 0){
-		you_voted = "You haven't voted yet";
+	//If user estimated, or item is in progress, we can see the average
+	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (user_estimate_id > -1)){
+		title = 'Avg ' + credits + ' credits (' + total_people_estimating + ' people)';
 	}
-	
-	var title = 'Avg ' + points + ' points (' + total_people_estimating + ' people)';
+	else{
+		title = "Vote to see Estimates";
+	}	
 	
 	var history = '';
 	//Show history if user estimated, or if item is no longer available for estimation
-	if ((user_estimate_id != 0)||((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))){
+	if ((user_estimate_id > -1)||((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))){
 		for(var i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 4) continue;
-			history = history + item.issue_votes[i].points + ' pts - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
+			history = history + item.issue_votes[i].points + ' cr - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
 			if (item.issue_votes[i].isbinding == false){
 				history = history + ' (non-binding)';
 			}
@@ -643,12 +647,10 @@ function generate_estimate_flyover(dataId){
 	var buttons = '';
 	
 	if (!((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {	
-		user_estimate_id == 0 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
-		buttons = buttons + generate_estimate_button(0.2, item.id, user_estimate_id,dataId);
-		buttons = buttons + generate_estimate_button(1, item.id, user_estimate_id,dataId);
-		buttons = buttons + generate_estimate_button(2, item.id, user_estimate_id,dataId);
-		buttons = buttons + generate_estimate_button(4, item.id, user_estimate_id,dataId);
-		buttons = buttons + generate_estimate_button(6, item.id, user_estimate_id,dataId);
+		user_estimate_id < 0 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
+		for(var i = 0; i < point_factor.length; i++ ){
+			buttons = buttons + generate_estimate_button(i,point_factor[i] * credit_base, item.id, user_estimate_id,dataId);
+		}
 	}
 	
 	return generate_flyover(dataId,'estimate',title,you_voted,action_header,buttons,history);
@@ -656,9 +658,11 @@ function generate_estimate_flyover(dataId){
 }
 
 
-function generate_estimate_button(points, itemId, user_estimate_id, dataId){
-	var html = '';
-	html = html + '<img src="/images/dice_' + Math.round(points) + '.png" width="18" height="18" alt="' + points + ' Points" class="dice" onclick="send_item_action(' + dataId + ',\'estimate\',\'&points=' + points + '\')">';	
+function generate_estimate_button(points,credits, itemId, user_estimate_id, dataId){
+	var html = '<div>';
+	html = html + '<img src="/images/dice_' + Math.round(points) + '.png" width="18" height="18" alt="' + credits + ' Credits" class="dice" onclick="send_item_action(' + dataId + ',\'estimate\',\'&points=' + credits + '\')">';	
+	html = html + ' ' + credits + ' credits';
+	html = html + '</div>';
 	return html;
 }
 
@@ -1094,13 +1098,19 @@ function update_todo_buttons(todoId,show){
 	}
 }
 
+//Takes credits, and base, and turns them to points for display
+function credits_to_points(credits,base){
+	normalized = Math.round(credits/base);
+	return credits_to_points_array[normalized]; //TODO: fix this formula credits larger than 12
+}
+
 
 //Generates html for collapsed item
 function generate_item(dataId){
 	var item = D[dataId];
 	var html = '';
 	var points;
-	item.points == null ? points = 'No' : points = Math.round(item.points);
+	item.points == null ? points = 'No' : points = credits_to_points(item.points,credit_base);
 	
 	html = html + '<div id="item_' + dataId + '" class="item points_' + points + ' pri_' + item.pri + '">';
 	html = html + '<div id="item_content_' + dataId + '" class="' + item.status.name.replace(" ","-").toLowerCase() + ' hoverable" style="">';
@@ -1113,7 +1123,7 @@ function generate_item(dataId){
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
 	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ item.id +');return false;">'; 
-	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' points" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
+	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
 	
 	if (show_comment(item)){
 	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png" onclick="show_details_flyover('+ dataId +',this.id);return false;">'; 
@@ -1150,11 +1160,11 @@ function generate_retro(rdataId){
 	html = html + '	</td>';
 	html = html + '	<td id="done_' + rdataId + '_date_label" style="white-space: nowrap; width: 99%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
 	html = html + '	<span>';
-	html = html + '	<a class="date_label" title="Retro: ' + dateFormat(retro.from_date,'dd mmm yyyy') + '-' + dateFormat(retro.to_date,'dd mmm yyyy') + ' (' + retro_status(retro) + ')" onclick="display_retro(' + rdataId + ');return false;">Retro ' + retro.id + ': ' + dateFormat(retro.from_date,'dd mmm yyyy') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy') + ' (' + retro_status(retro) + ')</a>';
+	html = html + '	<a class="date_label" title="Retro: ' + dateFormat(retro.from_date,'dd mmm yyyy') + '-' + dateFormat(retro.to_date,'dd mmm yyyy') + ' (' + retro_status(retro) + ')" onclick="display_retro(' + rdataId + ');return false;">Retro: ' + dateFormat(retro.from_date,'dd mmm') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy') + ' (' + retro_status(retro) + ')</a>';
 	html = html + '	</span>';
 	html = html + '	</td>';
 	html = html + '	<td id="done_' + rdataId + '_details_points" style="white-space: nowrap; width: 1%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
-	html = html + '		<span title="Points completed: 2">Pts: ' + retro.total_points + '</span>';
+	html = html + '		<span title="Credits completed: ' + retro.total_points + '">cr ' + retro.total_points + '</span>';
 	html = html + '	</td>';
 	html = html + '	</tr>';
 	html = html + '	</tbody>';
@@ -1781,7 +1791,7 @@ function generate_and_append_panel(position,name,title, visible){
 	panelHtml = panelHtml + "<div id='panel_header_" + name +"'class='panelHeader'>";
 	panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanel panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\");return false;'></a>";
 	panelHtml = panelHtml + "  <span id='" + name +"_panel_title' class='panelTitle'>" + title + " (0)</span>";
-	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="clickable">';
+	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="help_question_mark">';
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "<div id='" + name + "_list' class='list'>";
 	panelHtml = panelHtml + "  <div id='" + name + "_items' class='items'>";
@@ -1838,7 +1848,6 @@ function sort_panel(name){
 		if ((name == "open") && (listitems.length > 0)){
 			var first_item_id = listitems[0].id.replace(/item_/g,'');
 			// var first_item_data_id = ITEMHASH["item" + first_item_id];
-			console.log(first_item_id);
 			highest_pri = D[first_item_id].pri;
 			}
 		
@@ -2172,7 +2181,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
-html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif"  class="clickable">';
+html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -2189,7 +2198,7 @@ html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                  <td class="lastCell">';
 html = html + '	                    <div class="helpIcon">';
-html = html + '	                      <img id="help_image_description_new" src="/images/question_mark.gif"  class="clickable">';
+html = html + '	                      <img id="help_image_description_new" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
@@ -2317,7 +2326,7 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types' + dataId + '">';
-html = html + '	                    <img id="help_image_feature_' + dataId + '" src="/images/question_mark.gif" class="clickable">';
+html = html + '	                    <img id="help_image_feature_' + dataId + '" src="/images/question_mark.gif" class="help_question_mark">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
@@ -2335,7 +2344,7 @@ html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                  <td class="lastCell">';
 html = html + '	                    <div class="helpIcon_Description">';
-html = html + '	                      <img id="help_image_description_' + dataId + '" src="/images/question_mark.gif"  class="clickable">';
+html = html + '	                      <img id="help_image_description_' + dataId + '" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
@@ -2383,7 +2392,7 @@ html = html + '	                <tr><td>&nbsp;</td></tr>';
 html = html + '	                <tr><td>';
 html = html + '	  <div class="header">';
 html = html + '	    Item ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
-html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif"  class="clickable">';
+html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	  </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
@@ -2676,9 +2685,7 @@ function poll_server_response(data){
 			ITEMHASH["item" + item.id] = D.length - 1;
 			add_item(D.length-1,"bottom",false);	
 		}
-		else{
-			console.log("item refreshed: dataid:" + dataId);
-			
+		else{		
 			if (D[dataId].updated_on == item.updated_on){
 				continue;
 			}

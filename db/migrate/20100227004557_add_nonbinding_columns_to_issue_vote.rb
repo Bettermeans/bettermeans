@@ -8,6 +8,9 @@ class AddNonbindingColumnsToIssueVote < ActiveRecord::Migration
     add_column :issues, :agree_total_nonbind, :integer, :default => 0
     add_column :issues, :points_nonbind, :integer, :default => 0
     add_column :issues, :pri_nonbind, :integer, :default => 0
+    
+    Issue.update_all(:accept_nonbind => 0,:reject_nonbind => 0, :accept_total_nonbind => 0, :agree_nonbind => 0, :disagree_nonbind => 0, :agree_total_nonbind => 0, :points_nonbind => 0, :pri_nonbind => 0)
+    
   end
 
   def self.down
@@ -17,7 +20,7 @@ class AddNonbindingColumnsToIssueVote < ActiveRecord::Migration
     remove_column :issues, :agree_nonbind
     remove_column :issues, :disagree_nonbind
     remove_column :issues, :agree_total_nonbind
-    remove_column :issues, :points_nonbind, :integer
-    remove_column :issues, :pri_nonbind, :integer
+    remove_column :issues, :points_nonbind
+    remove_column :issues, :pri_nonbind
   end
 end

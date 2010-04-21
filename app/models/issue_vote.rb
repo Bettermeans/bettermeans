@@ -13,6 +13,10 @@ class IssueVote < ActiveRecord::Base
   ESTIMATE_VOTE_TYPE = 4
   JOIN_VOTE_TYPE = 5 # Not exactly a vote, but used to join the team that's working on an issue
   
+  def project
+    issue.project
+  end
+  
   def update_issue_totals
     case vote_type
       when AGREE_VOTE_TYPE
@@ -32,9 +36,6 @@ class IssueVote < ActiveRecord::Base
   end
   
   def set_binding
-    # self.isbinding = user.binding_voter_of?(issue.project)
-    logger.info("self: #{issue}")
-    logger.info("the truth #{self.user.binding_voter_of?(self.issue.project)}")
     result = self.user.binding_voter_of?(self.issue.project)
     self.isbinding = result
     return true

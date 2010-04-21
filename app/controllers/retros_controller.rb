@@ -48,7 +48,7 @@ class RetrosController < ApplicationController
     #   @user_retro_hash.store assigned_to_id, new_user_retro.dup unless @user_retro_hash.has_key? assigned_to_id
     #   @user_retro_hash[assigned_to_id].store "issues", issue_group[assigned_to_id]
     #   @user_retro_hash[assigned_to_id].store "total_points", issue_group[assigned_to_id].collect(&:points).sum 
-    #   @user_retro_hash[assigned_to_id].store "percentage_points", (@user_retro_hash[assigned_to_id]["total_points"].to_f / @total_points * 100).round_to(1).to_i
+    #   @user_retro_hash[assigned_to_id].store "percentage_points", (@user_retro_hash[assigned_to_id]["total_points"].to_f / @total_points * 100).round_to(0).to_i
     #   @max_points = @user_retro_hash[assigned_to_id]["total_points"] if @user_retro_hash[assigned_to_id]["total_points"] > @max_points
     #   @pie_data_points << @user_retro_hash[assigned_to_id]["percentage_points"]
     #   @pie_labels_points << User.find(assigned_to_id).login + " #{@user_retro_hash[assigned_to_id]["percentage_points"].to_s}%"
@@ -66,7 +66,7 @@ class RetrosController < ApplicationController
     #   @user_retro_hash.store user_id, new_user_retro.dup unless @user_retro_hash.has_key? user_id
     #   @user_retro_hash[user_id].store "journals", journals_group[user_id]
     #   @user_retro_hash[user_id].store "total_journals", journals_group[user_id].length
-    #   @user_retro_hash[user_id].store "percentage_journals", (@user_retro_hash[user_id]["total_journals"].to_f / @total_journals * 100).round_to(1).to_i
+    #   @user_retro_hash[user_id].store "percentage_journals", (@user_retro_hash[user_id]["total_journals"].to_f / @total_journals * 100).round_to(0).to_i
     #   @max_journals = @user_retro_hash[user_id]["total_journals"] if @user_retro_hash[user_id]["total_journals"] > @max_journals
     #   @pie_data_journals << @user_retro_hash[user_id]["percentage_journals"]
     #   @pie_labels_journals << User.find(user_id).login + " #{@user_retro_hash[user_id]["percentage_journals"].to_s}%"
@@ -85,7 +85,7 @@ class RetrosController < ApplicationController
     #   @user_retro_hash.store user_id, new_user_retro.dup unless @user_retro_hash.has_key? user_id
     #   @user_retro_hash[user_id].store "votes", votes_group[user_id]
     #   @user_retro_hash[user_id].store "total_votes", votes_group[user_id].length
-    #   @user_retro_hash[user_id].store "percentage_votes", (@user_retro_hash[user_id]["total_votes"].to_f / @total_votes * 100).round_to(1).to_i
+    #   @user_retro_hash[user_id].store "percentage_votes", (@user_retro_hash[user_id]["total_votes"].to_f / @total_votes * 100).round_to(0).to_i
     #   @max_votes = @user_retro_hash[user_id]["total_votes"] if @user_retro_hash[user_id]["total_votes"] > @max_votes
     #   @pie_data_votes << @user_retro_hash[user_id]["percentage_votes"]
     #   @pie_labels_votes << User.find(user_id).login + " #{@user_retro_hash[user_id]["percentage_votes"].to_s}%"
@@ -146,7 +146,7 @@ class RetrosController < ApplicationController
       @user_retro_hash.store assigned_to_id, new_user_retro.dup
       @user_retro_hash[assigned_to_id].store "issues", issue_group[assigned_to_id]
       @user_retro_hash[assigned_to_id].store "total_points", issue_group[assigned_to_id].collect(&:points).sum 
-      @user_retro_hash[assigned_to_id].store "percentage_points", @total_points == 0 ? 100  : (@user_retro_hash[assigned_to_id]["total_points"].to_f / @total_points * 100).round_to(1).to_i
+      @user_retro_hash[assigned_to_id].store "percentage_points", @total_points == 0 ? 100  : (@user_retro_hash[assigned_to_id]["total_points"].to_f / @total_points * 100).round_to(0).to_i
       @max_points = @user_retro_hash[assigned_to_id]["total_points"] if @user_retro_hash[assigned_to_id]["total_points"] > @max_points
       @pie_data_points << @user_retro_hash[assigned_to_id]["percentage_points"]
       @pie_labels_points << User.find(assigned_to_id).login + " #{@user_retro_hash[assigned_to_id]["percentage_points"].to_s}%"
@@ -163,6 +163,7 @@ class RetrosController < ApplicationController
         @user_retro_hash[issue_vote.user_id].store "percentage_points", 0
     end
     
+    @max_ideas = 0
     
     #Adding users that have authored issues and calculating total ideas generated per user
     author_group = @retro.issues.group_by{|issue| issue.author_id}
@@ -173,8 +174,12 @@ class RetrosController < ApplicationController
         @user_retro_hash[author_id].store "total_points", 0
         @user_retro_hash[author_id].store "percentage_points", 0
       end
-      @user_retro_hash[author_id].store "total_ideas", author_group[author_id].collect(&:points).length
+      @user_retro_hash[author_id].store "total_ideas", author_group[author_id].length
+      @max_ideas = @user_retro_hash[author_id]["total_ideas"] if @user_retro_hash[author_id]["total_ideas"] > @max_ideas
     end
+    
+    @max_range = @max_ideas if @max_ideas > @max_range
+    
     
     #Adding users that have authored journals
     @retro.journals.each do |journal|
@@ -186,13 +191,14 @@ class RetrosController < ApplicationController
     end
     
     @retro.retro_ratings.each do |retro_rating|
+      @user_retro_hash.store retro_rating.ratee_id, new_user_retro.dup unless @user_retro_hash.has_key? retro_rating.ratee_id
       @user_retro_hash[retro_rating.ratee_id].store "given_percentage", retro_rating.score.round if retro_rating.rater_id == User.current.id
       @team_hash[retro_rating.ratee_id] = retro_rating.score.round if retro_rating.rater_id == -1
-      @final_hash[retro_rating.ratee_id] = retro_rating.score.round_to(1) if retro_rating.rater_id == -2
+      @final_hash[retro_rating.ratee_id] = retro_rating.score.round_to(0) if retro_rating.rater_id == -2
     end
     
     
-    @max_range = @max_points if @max_points > @max_range
+    # @max_range = @max_points if @max_points > @max_range
             
     #Total journals
     @total_journals = @retro.journals.length
@@ -204,7 +210,7 @@ class RetrosController < ApplicationController
       @user_retro_hash.store user_id, new_user_retro.dup unless @user_retro_hash.has_key? user_id
       @user_retro_hash[user_id].store "journals", journals_group[user_id]
       @user_retro_hash[user_id].store "total_journals", journals_group[user_id].length
-      @user_retro_hash[user_id].store "percentage_journals", (@user_retro_hash[user_id]["total_journals"].to_f / @total_journals * 100).round_to(1).to_i
+      @user_retro_hash[user_id].store "percentage_journals", (@user_retro_hash[user_id]["total_journals"].to_f / @total_journals * 100).round_to(0).to_i
       @max_journals = @user_retro_hash[user_id]["total_journals"] if @user_retro_hash[user_id]["total_journals"] > @max_journals
       @pie_data_journals << @user_retro_hash[user_id]["percentage_journals"]
       @pie_labels_journals << User.find(user_id).login + " #{@user_retro_hash[user_id]["percentage_journals"].to_s}%"
@@ -222,7 +228,7 @@ class RetrosController < ApplicationController
       @user_retro_hash.store user_id, new_user_retro.dup unless @user_retro_hash.has_key? user_id
       @user_retro_hash[user_id].store "votes", votes_group[user_id]
       @user_retro_hash[user_id].store "total_votes", votes_group[user_id].length
-      @user_retro_hash[user_id].store "percentage_votes", (@user_retro_hash[user_id]["total_votes"].to_f / @total_votes * 100).round_to(1).to_i
+      @user_retro_hash[user_id].store "percentage_votes", (@user_retro_hash[user_id]["total_votes"].to_f / @total_votes * 100).round_to(0).to_i
       @max_votes = @user_retro_hash[user_id]["total_votes"] if @user_retro_hash[user_id]["total_votes"] > @max_votes
       @pie_data_votes << @user_retro_hash[user_id]["percentage_votes"]
       @pie_labels_votes << User.find(user_id).login + " #{@user_retro_hash[user_id]["percentage_votes"].to_s}%"
@@ -235,7 +241,7 @@ class RetrosController < ApplicationController
     
     
     author_group.keys.sort.each do |author_id|
-      percentage = (@user_retro_hash[author_id]["total_ideas"].to_f / @total_ideas * 100).round_to(1).to_i
+      percentage = (@user_retro_hash[author_id]["total_ideas"].to_f / @total_ideas * 100).round_to(0).to_i
       @pie_data_ideas << percentage
       @pie_labels_ideas << User.find(author_id).login + " #{percentage.to_s}%"
     end
@@ -247,6 +253,7 @@ class RetrosController < ApplicationController
     @point_totals = []
     @vote_totals = []
     @journal_totals = []
+    @idea_totals = []
     @axis_labels = []
     x_axis = ''
 
@@ -254,6 +261,7 @@ class RetrosController < ApplicationController
       @point_totals << @user_retro_hash[user_id]["total_points"]
       @vote_totals << @user_retro_hash[user_id]["total_votes"]
       @journal_totals << @user_retro_hash[user_id]["total_journals"]
+      @idea_totals << @user_retro_hash[user_id]["total_ideas"]
       x_axis = x_axis + User.find(user_id).login + '|'
     end
     @axis_labels << x_axis
