@@ -1501,7 +1501,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 					tally = tally + 'BLOCK';
 				}
 				else{
-					tally = tally + item.agree + ' - ' + item.reject;
+					tally = tally + item.agree + ' - ' + item.disagree;
 				}
 				tally = tally + '</div>';
 			}
