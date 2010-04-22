@@ -634,7 +634,12 @@ function generate_estimate_flyover(dataId){
 	
 	//If user estimated, or item is in progress, we can see the average
 	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (user_estimate_id > -1)){
-		title = 'Avg ' + credits + ' credits (' + total_people_estimating + ' people)';
+		if (credits == null){
+			title = 'No binding estimates yet';
+		}
+		else{
+			title = 'Avg ' + credits + ' credits (' + total_people_estimating + ' people)';
+		}
 	}
 	else{
 		title = "Vote to see Estimates";
