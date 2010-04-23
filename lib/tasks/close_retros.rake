@@ -26,3 +26,11 @@ task :distribute_retros => :environment do
     retro.distribute_credits
   end
 end
+
+desc "Start retrospectives that are ready to be started"
+task :start_retros => :environment do
+  Project.all.each do |project|
+    project.start_retro_if_ready
+  end
+end
+
