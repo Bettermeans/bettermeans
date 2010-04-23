@@ -63,10 +63,9 @@ class Issue < ActiveRecord::Base
     return true if agree + disagree > points_from_credits / 2
     return true if agree_total > 0 && self.updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
     return true if agree_total > ((project.root.core_members.count + project.root.members.count) / 2)
-    return true if accept_total < 0 && updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH #rejected
     return false
   end
-
+  
   # Returns true if there are enough disagreements in relation to the estimated points of the request
   def ready_for_canceled?
     return false if agree_total > 0
@@ -77,14 +76,23 @@ class Issue < ActiveRecord::Base
 
   def ready_for_accepted?
     return false if points.nil? || accept_total < 1
-    return true if accept + reject >= points_from_credits / 2
+    return true if accept + reject > points_from_credits / 2
+    return true if accept_total > 0 && self.updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
     return true if accept_total > ((project.root.core_members.count + project.root.members.count) / 2)
     return false
+  end
+  
+  def ready_for_rejected?
+    return false if points.nil? || accept_total > -1
+    return true if accept_total < 0 && updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH #rejected
+    return false
+    # return true if (accept_total * -1) > ((project.root.core_members.count + project.root.members.count) / 2)
   end
   
   def updated_status
     logger.info("A")
     return IssueStatus.accepted if ready_for_accepted?
+    return IssueStatus.rejected if ready_for_rejected?
     logger.info("B")
     return IssueStatus.done if self.status == IssueStatus.done
     logger.info("C")
@@ -459,7 +467,7 @@ class Issue < ActiveRecord::Base
       self.agree_total = self.agree - self.disagree
     else
       self.agree_nonbind =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1, :isbinding=> false})
-      self.disagree_nonbind =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => -1, :isbinding=> false})
+      self.disagree_nonbind =   IssueVote.sum(:points, :conditions => "issue_id = '#{self.id}' AND vote_type = '#{IssueVote::AGREE_VOTE_TYPE}' AND points < 0 AND isbinding='false'") * -1
       self.agree_total_nonbind = self.agree_nonbind - self.disagree_nonbind
     end
   end
@@ -467,21 +475,26 @@ class Issue < ActiveRecord::Base
   def update_accept_total(binding)
     if binding
       self.accept =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1, :isbinding=> true})
-      self.reject =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1, :isbinding=> true})
+      self.reject =   IssueVote.sum(:points, :conditions => "issue_id = '#{self.id}' AND vote_type = '#{IssueVote::ACCEPT_VOTE_TYPE}' AND points < 0 AND isbinding='true'") * -1
       self.accept_total = self.accept - self.reject
     else
       self.accept_nonbind =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1, :isbinding=> false})
-      self.reject_nonbind =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1, :isbinding=> false})
+      self.reject_nonbind =   IssueVote.sum(:points, :conditions => "issue_id = '#{self.id}' AND vote_type = '#{IssueVote::ACCEPT_VOTE_TYPE}' AND points < 0 AND isbinding='false'") * -1
       self.accept_total_nonbind = self.accept_nonbind - self.reject_nonbind
     end
   end
   
-  #forces a majority vote depending on issue status
+  #refreshes issue status
   def update_status
-    @updated = self.updated_status
-    puts (@updated)
-    self.status = @updated
-    self.save
+    original = self.status
+    updated = self.updated_status
+    
+    if (original.id != updated.id)
+      admin = User.find(:first,:conditions => {:login => "admin"})
+      journal = self.init_journal(admin)
+      self.status = updated
+      self.save
+    end
   end
   
   #returns json object for consumption from dashboard
@@ -533,7 +546,7 @@ class Issue < ActiveRecord::Base
   end
   
   def after_save
-    update_last_item_stamp
+    update_last_item_stamp #TODO: should be before save!
     create_journal
   end
   

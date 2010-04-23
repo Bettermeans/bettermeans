@@ -53,6 +53,10 @@ class IssueStatus < ActiveRecord::Base
     find(:first, :conditions =>["name=?", l(:default_issue_status_accepted)])
   end
 
+  def self.rejected
+    find(:first, :conditions =>["name=?", l(:default_issue_status_rejected)])
+  end
+
   def self.archived
     @@archived_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_archived)])
   end

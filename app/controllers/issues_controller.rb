@@ -258,23 +258,33 @@ class IssuesController < ApplicationController
     params[:issue] = {:status_id => IssueStatus.newstatus.id}
     change_status
   end
+
+  def accept
+    params[:issue] = {:status_id => IssueStatus.accepted.id}
+    change_status
+  end
+
+  def reject
+    params[:issue] = {:status_id => IssueStatus.rejected.id}
+    change_status
+  end
   
   def change_status
-      @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-      @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
-      logger.info("edit allowed #{@edit_allowed} allowed statuses #{@allowed_statuses}")
+      # @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
+      # @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
+      # logger.info("edit allowed #{@edit_allowed} allowed statuses #{@allowed_statuses}")
 
       @notes = params[:notes]
       journal = @issue.init_journal(User.current, @notes)
-      # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
-      if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
+      # # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
+      # if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
         attrs = params[:issue].dup
-        attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
-        attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
-        logger.info("status changed was blocked") unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
+        # attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
+        # attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
+        # logger.info("status changed was blocked") unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
         @issue.attributes = attrs
-        logger.info(@issue.attributes.inspect)
-      end
+      #   logger.info(@issue.attributes.inspect)
+      # end
 
       if @issue.save
         respond_to do |format|
@@ -332,19 +342,16 @@ class IssuesController < ApplicationController
 
 
   def accept
-    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1
-    logger.info("1 #{@issue.inspect}")
+    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => params[:points]
     @issue.update_accept_total  @iv.isbinding
-    logger.info("2 #{@issue.updated_status.inspect}")
     @issue.status = @issue.updated_status
-    logger.info("3 #{@issue.status.inspect}")
-    @issue.save
-    logger.info("4")
     
-    if @issue.status = IssueStatus.accepted
+    if @issue.status == IssueStatus.accepted
       @issue.retro_id = Retro::NOT_STARTED_ID
       @issue.save
       @issue.project.start_retro_if_ready
+    else
+      @issue.save
     end
     
     @issue.reload
@@ -355,25 +362,33 @@ class IssuesController < ApplicationController
     end
   end
 
-  def reject
-    @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1
-    logger.info("1")
-    @issue.update_accept_total @iv.isbinding
-    logger.info("2")
-    @issue.save
-    logger.info("3")    
-    @issue.reload
-    
-    respond_to do |format|
-      format.js {render :json => @issue.to_dashboard}
-      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
-    end
-  end
+  # def reject
+  #   @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1
+  #   logger.info("1")
+  #   @issue.update_accept_total @iv.isbinding
+  #   logger.info("2")
+  #   @issue.save
+  #   logger.info("3")    
+  #   @issue.reload
+  #   
+  #   respond_to do |format|
+  #     format.js {render :json => @issue.to_dashboard}
+  #     format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+  #   end
+  # end
 
   def join
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1
     @issue.save
     @issue.reload
+    
+    admin = User.find(:first,:conditions => {:login => "admin"})
+    Notification.create :recipient_id => @issue.assigned_to_id,
+                        :variation => 'issue_joined',
+                        :params => {:issue => @issue, :joiner => User.current}, 
+                        :sender_id => admin.id,
+                        :source_id => @issue.id
+    
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
@@ -385,6 +400,14 @@ class IssuesController < ApplicationController
     IssueVote.delete_all(["user_id = ? AND issue_id = ? AND vote_type = ?", User.current.id, params[:id], IssueVote::JOIN_VOTE_TYPE])
     @issue.save
     @issue.reload
+    
+    admin = User.find(:first,:conditions => {:login => "admin"})
+    Notification.create :recipient_id => @issue.assigned_to_id,
+                        :variation => 'issue_left',
+                        :params => {:issue => @issue, :joiner => User.current}, 
+                        :sender_id => admin.id,
+                        :source_id => @issue.id
+    
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}

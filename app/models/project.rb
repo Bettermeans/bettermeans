@@ -377,7 +377,7 @@ class Project < ActiveRecord::Base
     return if self.enterprise?
     
     u = {}
-    Member.delete_all :project_id => self.id
+    self.members.each(&:destroy)
     
     issues.each do |issue|
       next if (issue.updated_on.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) < Time.now 
@@ -582,11 +582,20 @@ class Project < ActiveRecord::Base
   #Returns true if threshold of points that haven't been included in a retrospective have been created
   def ready_for_retro?
     total_unretroed = Issue.sum(:points, :conditions => {:status_id => IssueStatus.done.id,:retro_id => Retro::NOT_STARTED_ID, :project_id => id})
-    return total_unretroed >= Setting::RETRO_POINT_THRESHOLD
+    return true if total_unretroed >= Setting::RETRO_CREDIT_THRESHOLD
+    
+    #Getting most recent issue that's not part of retrospective
+    first_issue = Issue.first(:conditions => {:project_id => self.id, :status_id => IssueStatus.accepted, :retro_id => Retro::NOT_STARTED_ID}, :order => "updated_on asc")
+    return false if first_issue == nil 
+    return true if (first_issue.updated_on.advance :days => Setting::RETRO_DAY_THRESHOLD) < Time.now
+    
+    return false
+    
   end
   
   #Starts a new retrospective for this project
   def start_new_retro
+    puts "Starting retro for: #{self.name}"
     from_date = issues.first(:conditions => {:retro_id => Retro::NOT_STARTED_ID}, :order => "updated_on ASC").updated_on
     total_points = issues.sum(:points, :conditions => {:retro_id => Retro::NOT_STARTED_ID})
     @retro = Retro.create :project_id => id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now, :from_date => from_date, :total_points => total_points
