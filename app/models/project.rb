@@ -377,7 +377,7 @@ class Project < ActiveRecord::Base
     return if self.enterprise?
     
     u = {}
-    Member.delete_all :project_id => self.id
+    self.members.each(&:destroy)
     
     issues.each do |issue|
       next if (issue.updated_on.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) < Time.now 
