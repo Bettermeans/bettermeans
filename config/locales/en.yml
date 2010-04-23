@@ -828,6 +828,8 @@ en:
   label_outstanding_credits : Oustanding Credits
   label_total_credits_issued : Total Issued
   label_youve_got_credits : "You've got credits!"
+  label_someone_joined_your_issue : "{{joiner}} joined an issue assigned to you"
+  label_someone_left_your_issue : "{{joiner}} left an issue assigned to you"
   
   
   label_version_sharing_none: Not shared
@@ -997,6 +999,8 @@ en:
   text_retro_ended_for : "A retrospective for the"
   text_retro_ended : " workstream has ended. <br/>Click below to see your team's feedback, and your final contribution"
   text_credits_distributed_for : "You earned {{amount}} credits for your work on <strong>{{workstream}}</strong>. Congrats!"
+  text_joiner_is_now_working_with_you : "{{joiner}} is now working with you on<br/>{{issue}}"
+  text_joiner_is_no_longer_working_with_you : "{{joiner}} is no longer working with you on<br/>{{issue}}"
   
   default_role_administrator: Administrator
   default_role_citizen: Core Member
@@ -1014,6 +1018,7 @@ en:
   default_issue_status_estimate: Estimate
   default_issue_status_archived: Archived
   default_issue_status_accepted: Accepted
+  default_issue_status_rejected: Rejected
   default_doc_category_public: Public documentation
   default_doc_category_private: Private documentation
   default_priority_low: Low
