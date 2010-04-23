@@ -270,7 +270,6 @@ function url_for(options){
 
 function humane_date(date_str){
 		
-	date_str = date_str.split('-')[0];
       var time_formats = [
               [60, 'Just Now'],
               [90, '1 Minute'], // 60*1.5
@@ -288,13 +287,12 @@ function humane_date(date_str){
               [4730400000, '1 Century'] // 60*60*24*365*100*1.5
       ];
 
-      var time = ('' + date_str).replace(/-/g,"/").replace(/[TZ]/g," "),
-              dt = new Date,
-              seconds = ((dt - new Date(time) + (dt.getTimezoneOffset() * 60000)) / 1000),
-              token = ' Ago',
+      var dt = new Date,
+          seconds = ((dt - new Date(date_str)) / 1000),
+          token = ' Ago',
           prepend = '',
-              i = 0,
-              format;
+          i = 0,
+          format;
 
       if (seconds < 0) {
               seconds = Math.abs(seconds);
