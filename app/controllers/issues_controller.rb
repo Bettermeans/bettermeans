@@ -382,6 +382,14 @@ class IssuesController < ApplicationController
     @issue.save
     @issue.reload
     
+    admin = User.find(:first,:conditions => {:login => "admin"})
+    Notification.create :recipient_id => @issue.assigned_to_id,
+                        :variation => 'issue_joined',
+                        :params => {:issue => @issue, :joiner => User.current}, 
+                        :sender_id => admin.id,
+                        :source_id => @issue.id
+    
+    
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -392,6 +400,14 @@ class IssuesController < ApplicationController
     IssueVote.delete_all(["user_id = ? AND issue_id = ? AND vote_type = ?", User.current.id, params[:id], IssueVote::JOIN_VOTE_TYPE])
     @issue.save
     @issue.reload
+    
+    admin = User.find(:first,:conditions => {:login => "admin"})
+    Notification.create :recipient_id => @issue.assigned_to_id,
+                        :variation => 'issue_left',
+                        :params => {:issue => @issue, :joiner => User.current}, 
+                        :sender_id => admin.id,
+                        :source_id => @issue.id
+    
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
