@@ -360,14 +360,13 @@ class User < Principal
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     if m.nil? 
       #User isn't a member let's create a membership
-      core_member_role = Role.find(:first, :conditions => {:id => role_id})
-      m = Member.new(:user => self, :roles => [core_member_role])
+      member_role = Role.find(:first, :conditions => {:id => role_id})
+      m = Member.new(:user => self, :roles => [member_role])
       p = Project.find(project)
       result = p.members << m
     else
-      #TODO: Check that role doesn't already exist
-      #User is already a member, we just add a role
-      MemberRole.create! :member_id => m.id, :role_id => role_id
+      #User is already a member, we just add a role (but make sure role doesn't exist already)
+      MemberRole.create! :member_id => m.id, :role_id => role_id if MemberRole.first(:conditions => {:member_id => m.id, :role_id => role_id}) == nil
     end
   end
   
