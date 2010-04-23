@@ -996,6 +996,16 @@ margin:0 0 -1px;
 padding:1px 20px 1px 20px;
 }
 
+.notification table td {
+	border: none;
+	padding: none;
+
+}
+
+.notification h5 {
+	padding-bottom: 5px;
+}
+
 
 /*JGROWL*/
 
@@ -1433,6 +1443,7 @@ li { margin-left: 20px;}
 	border: none;
 }
 
+
 /* Content */
 #content h3 {
 	margin: 0 0 15px;
@@ -1449,6 +1460,18 @@ li { margin-left: 20px;}
 	font-size: 14px;
 	padding-top: 10px;
 }
+
+#content .notification h4 {
+	margin: 0px;
+	color: #222;
+	font-size: 14px;
+	padding-top: 10px;
+}
+
+/*.notification h4 {
+	margin: 0;
+}
+*/
 
 /* Pagination */
 
