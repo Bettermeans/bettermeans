@@ -29,6 +29,7 @@ namespace :custom do
     end
       
   end
+  
 
   task :one_time_credit_to_point_adjust => :environment do
     IssueVote.all.each do |iv|
