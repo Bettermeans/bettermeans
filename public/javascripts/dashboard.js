@@ -319,7 +319,6 @@ function make_text_boxes_toggle_keyboard_shortcuts(){
 
 function load_buttons(){
 	$('#main-menu').append('<input id="new_request" value="New Idea" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
-	// $('#main-menu').append('<select id="filter_select" style="margin-left:20px;" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="agree">Need my agreement</option><option value="estimate">Need my estimation</option><option value="accept">Need my acceptance</option><option value="pri">Prioritized by me</option><option value="all">Updated in last&nbsp;&nbsp;&#187;</option><option value="1">&nbsp;&nbsp;&#187; 24 hours</option><option value="2">&nbsp;&nbsp;&#187; two days</option><option value="3">&nbsp;&nbsp;&#187; three days</option><option value="7">&nbsp;&nbsp;&#187; week</option><option value="14">&nbsp;&nbsp;&#187; two weeks</option><option value="30">&nbsp;&nbsp;&#187; month</option><option value="60">&nbsp;&nbsp;&#187; two months</option></select>');
 	$('#main-menu').append('<select id="filter_select" class="filter-search" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="all">Updated in last&nbsp;&nbsp;&#187;</option><option value="1">&nbsp;&nbsp;&#187; 24 hours</option><option value="2">&nbsp;&nbsp;&#187; two days</option><option value="3">&nbsp;&nbsp;&#187; three days</option><option value="7">&nbsp;&nbsp;&#187; week</option><option value="14">&nbsp;&nbsp;&#187; two weeks</option><option value="30">&nbsp;&nbsp;&#187; month</option><option value="60">&nbsp;&nbsp;&#187; two months</option></select>');
 	$('#main-menu').append('<input id="fast_search" class="fast-search" type="text"></input>');
 }
@@ -433,13 +432,9 @@ function show_item_fancybox(itemId){
 }
 
 function show_details_flyover(dataId,callingElement,delayshow){
-//	$('.overlay').hide();
 
-	//If flyover hasn't already been generated, then generate it!
-	if ($('#flyover_' + dataId).length == 0){
-		generate_details_flyover(dataId);		
-		// $('#flyover_' + dataId).makeAbsolute(); //re-basing off of main window
-	}
+	$('#flyover_' + dataId).remove();
+	generate_details_flyover(dataId);		
 	
 	$('#' + callingElement).bubbletip($('#flyover_' + dataId), {
 		deltaDirection: 'right',
@@ -450,13 +445,9 @@ function show_details_flyover(dataId,callingElement,delayshow){
 }
 
 function show_estimate_flyover(dataId,callingElement){
-//	$('.overlay').hide();
 
-	//If flyover hasn't already been generated, then generate it!
-	if ($('#flyover_estimate_' + dataId).length == 0){
-		generate_estimate_flyover(dataId);		
-		// $('#flyover_' + dataId).makeAbsolute(); //re-basing off of main window
-	}
+	$('#flyover_estimate_' + dataId).remove();
+	generate_estimate_flyover(dataId);		
 		
 	$('#' + callingElement).bubbletip($('#flyover_estimate_' + dataId), {
 		deltaDirection: 'right',
@@ -468,10 +459,8 @@ function show_estimate_flyover(dataId,callingElement){
 
 function show_pri_flyover(dataId,callingElement){
 
-	//If flyover hasn't already been generated, then generate it!
-	if ($('#flyover_pri_' + dataId).length == 0){
-		generate_pri_flyover(dataId);		
-	}
+	$('#flyover_pri_' + dataId).remove();
+	generate_pri_flyover(dataId);		
 		
 	$('#' + callingElement).bubbletip($('#flyover_pri_' + dataId), {
 		deltaDirection: 'right',
@@ -483,12 +472,28 @@ function show_pri_flyover(dataId,callingElement){
 
 function show_agree_flyover(dataId,callingElement){
 
-	//If flyover hasn't already been generated, then generate it!
-	if ($('#flyover_agree_' + dataId).length == 0){
-		generate_agree_flyover(dataId);		
-	}
-		
+	$('#flyover_agree_' + dataId).remove();
+	generate_agree_flyover(dataId);		
+
 	$('#' + callingElement).bubbletip($('#flyover_agree_' + dataId), {
+		deltaDirection: 'right',
+		delayShow: 0,
+		delayHide: 100,
+		offsetLeft: 0
+	});	
+}
+
+function show_accept_flyover(dataId,callingElement){
+
+	$('#flyover_accept_' + dataId).remove();
+	generate_accept_flyover(dataId);		
+	
+	//If flyover hasn't already been generated, then generate it!
+	// if ($('#flyover_accept_' + dataId).length == 0){
+	// 	generate_accept_flyover(dataId);		
+	// }
+		
+	$('#' + callingElement).bubbletip($('#flyover_accept_' + dataId), {
 		deltaDirection: 'right',
 		delayShow: 0,
 		delayHide: 100,
@@ -513,6 +518,12 @@ function add_item(dataId,position,scroll,panelid){
 		panelid = 'inprogress';
 		break;
 		case 'Done':
+		panelid = 'done';
+		break;
+		case 'Accepted':
+		panelid = 'done';
+		break;
+		case 'Rejected':
 		panelid = 'done';
 		break;
 		case 'Canceled':
@@ -623,7 +634,12 @@ function generate_estimate_flyover(dataId){
 	
 	//If user estimated, or item is in progress, we can see the average
 	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (user_estimate_id > -1)){
-		title = 'Avg ' + credits + ' credits (' + total_people_estimating + ' people)';
+		if (credits == null){
+			title = 'No binding estimates yet';
+		}
+		else{
+			title = 'Avg ' + credits + ' credits (' + total_people_estimating + ' people)';
+		}
 	}
 	else{
 		title = "Vote to see Estimates";
@@ -695,6 +711,23 @@ function agree_text(points){
 		break;
 	case -1:
 		return "DISAGREE";
+		break;
+	case -9999:
+		return "BLOCK";
+		break;
+	}
+}
+
+function accept_text(points){
+	switch (points){
+	case 0:
+		return "NEUTRAL";
+		break;
+	case 1:
+		return "ACCEPT";
+		break;
+	case -1:
+		return "REJECT";
 		break;
 	case -9999:
 		return "BLOCK";
@@ -872,6 +905,63 @@ function generate_agree_flyover(dataId){
 	return generate_flyover(dataId,'agree',title,you_voted,action_header,buttons,history);
 }
 
+function generate_accept_flyover(dataId){
+	var item = D[dataId];
+	
+	var accept_total;
+	item.accept_total == null ? accept_total = 0 : accept_total = item.accept_total;
+	
+	var you_voted = '';
+	var user_accept_id = -1;
+	var total_people_accepting = 0;
+	
+	for(var i=0; i < item.issue_votes.length; i++){
+		if (currentUserLogin == item.issue_votes[i].user.login){
+			if (item.issue_votes[i].vote_type != 2) continue;
+			total_people_accepting++ ;
+			title = "You voted: " + accept_text(item.issue_votes[i].points);// + " - " + humane_date(item.issue_votes[i].updated_on);
+			user_accept_id = i;
+		}
+	}
+	
+	if (user_accept_id == -1){
+		title = "You haven't voted yet";
+		you_voted = "Totals are hidden until you vote";
+	}
+	else {
+		you_voted = item.accept + ' accept / ' + item.reject + ' reject (binding)<br>';		
+		you_voted = you_voted + item.accept_nonbind + ' accept / ' + item.reject_nonbind + ' reject (non-binding)<br>';		
+	}
+	
+	var history = '';
+	var action_header = '';
+	var buttons = '';
+	var points = 999;
+	
+	
+	if (user_accept_id > -1){
+		points = item.issue_votes[user_accept_id].points
+		
+		for(var i = 0; i < item.issue_votes.length; i++ ){
+			if (item.issue_votes[i].vote_type != 2) continue;
+			history = history + accept_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.login; //firstname + ' ' + item.issue_votes[i].user.lastname;
+			if (item.issue_votes[i].isbinding == false){
+				history = history + ' (non-binding)';
+			}
+			history = history + '<br>';
+		}
+	}
+
+	if (item.status.name == 'Done') {
+		user_accept_id < 0 ? action_header = 'Vote' : action_header = 'Change your vote:';
+		if (points != 1) {buttons = buttons + button('accept',dataId,points == 1,{action:'accept',data:'&points=1'}) + '<br>';}
+		if (points != 0) {buttons = buttons + button('neutral',dataId,points == 0,{action:'accept',data:'&points=0'}) + '<br>';}
+		if (points != -1) {buttons = buttons + button('reject',dataId,points == -1,{action:'accept',data:'&points=-1'}) + '<br>';}
+		if (points != -9999) {buttons = buttons + button('block',dataId,false,{action:'accept',data:'&points=-9999'}) + '<br>';}
+	}
+		
+	return generate_flyover(dataId,'accept',title,you_voted,action_header,buttons,history);
+}
 
 
 function generate_details_flyover_description(item){
@@ -1164,7 +1254,7 @@ function generate_retro(rdataId){
 	html = html + '	</span>';
 	html = html + '	</td>';
 	html = html + '	<td id="done_' + rdataId + '_details_points" style="white-space: nowrap; width: 1%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
-	html = html + '		<span title="Credits completed: ' + retro.total_points + '">cr ' + retro.total_points + '</span>';
+	html = html + '		<span title="Credits completed: ' + retro.total_points + '">' + retro.total_points + ' credits</span>';
 	html = html + '	</td>';
 	html = html + '	</tr>';
 	html = html + '	</tbody>';
@@ -1354,16 +1444,18 @@ function buttons_for(dataId,expanded){
 		}
 	break;
 	case 'Done':
-		if (item.retro_id){
-			html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
-			// if (item.retro_id > 0 && is_part_of_team(item)){
-			if (item.retro_id > 0){
-				html = html + button('retro',dataId,false,item.retro_id);
-			}
+		html = html + accept_buttons_root(dataId,expanded);
+	break;
+	case 'Accepted':
+		html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
+
+		if (item.retro_id && (item.retro_id > 0)){
+			html = html + button('retro',dataId,false,item.retro_id);
 		}
-		else if (currentUserIsCitizen == 'true'){
-			html = html + accept_buttons(dataId);
-		}
+	break;
+	case 'Rejected':
+		html = html + '<div id="rejected_' + dataId + '" class="action_button action_button_rejected">Rejected</div>';
+		html = html + button('start',dataId);
 	break;
 	case 'Archived':
 		html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
@@ -1427,7 +1519,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 				case "0":	label = 'neutral';
 							cssclass = 'agree';
 							break;	
-				case "-1":	label = 'disagreed';
+				case "-1":	label = 'against';
 							cssclass = 'against';
 							break;	
 				case "-9999": label = 'blocked';
@@ -1451,35 +1543,109 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	return html;
 }
 
-function accept_buttons(dataId){
+function accept_buttons_root(dataId,include_start_button,expanded){
+	
 	var html = '';
 	item = D[dataId];
 	
+	var tally = '';
+	
 	tally = '';
+	
+	
 	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button action_button_tally">';
-	tally = tally + item.accept + ' - ' + item.reject;
+	if (item.reject > 5000){
+		tally = tally + 'BLOCK';
+	}
+	else{
+		tally = tally + item.accept + ' - ' + item.reject;
+	}
 	tally = tally + '</div>';
 	
 	
 	if (item.assigned_to_id == currentUserId){
 		return tally;
 	}
-
+	
+	var label = 'accept?';
+	var cssclass = 'root';
+	var user_voted = false;
+	
+	
 	for(var i=0; i < item.issue_votes.length; i++){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 2)){
-			if (item.issue_votes[i].points==1) {
-				return tally + button('reject',dataId);
-			} else {
-				return tally + button('accept',dataId);
+			user_voted = true;
+			// tally = '';
+			// 	if (!include_start_button || expanded){
+			// 		tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally">';
+			// 		if (item.disagree > 5000){
+			// 			html = '';//removing start button from blocked item
+			// 			tally = tally + 'BLOCK';
+			// 		}
+			// 		else{
+			// 			tally = tally + item.agree + ' - ' + item.disagree;
+			// 		}
+			// 		tally = tally + '</div>';
+			// 	}
+			// 			
+			switch(String(item.issue_votes[i].points))
+			{
+				case "1":	label = 'accepted';
+							cssclass = 'accept';
+							break;	
+				case "0":	label = 'neutral';
+							cssclass = 'accept';
+							break;	
+				case "-1":	label = 'rejected';
+							cssclass = 'reject';
+							break;	
+				case "-9999": label = 'blocked';
+							cssclass = 'reject';
+							break;	
 			}
+			
+			break;
 		}
+	}	
+	
+	if (!user_voted){
+		tally = '';
 	}
 	
-	html = html + button('reject',dataId);
-	html = html + button('accept',dataId);
+	html = html + tally + button('accept_root',dataId,false,{label:label,cssclass:cssclass});
 	
 	return html;
 }
+
+// function accept_buttons(dataId){
+// 	var html = '';
+// 	item = D[dataId];
+// 	
+// 	tally = '';
+// 	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button action_button_tally">';
+// 	tally = tally + item.accept + ' - ' + item.reject;
+// 	tally = tally + '</div>';
+// 	
+// 	
+// 	if (item.assigned_to_id == currentUserId){
+// 		return tally;
+// 	}
+// 
+// 	for(var i=0; i < item.issue_votes.length; i++){
+// 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 2)){
+// 			if (item.issue_votes[i].points==1) {
+// 				return tally + button('reject',dataId);
+// 			} else {
+// 				return tally + button('accept',dataId);
+// 			}
+// 		}
+// 	}
+// 	
+// 	html = html + button('reject',dataId);
+// 	html = html + button('accept',dataId);
+// 	
+// 	return html;
+// }
 
 
 function pri_button(dataId){
@@ -1546,11 +1712,6 @@ function click_start(dataId,source,data){
 	return false;
 }
 
-function click_accept(dataId,source,data){
-	$('#' + source.id).parent().hide();
-	send_item_action(dataId,'accept');
-}
-
 function click_reject(dataId,source,data){
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'reject');
@@ -1580,7 +1741,15 @@ function click_agree_root(dataId,source,data){
 	return false;
 }
 
+function click_accept_root(dataId,source,data){
+	show_accept_flyover(dataId,source.id);
+	return false;
+}
 
+function click_accept(dataId,source,data){
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'accept',data);
+}
 
 function click_release(dataId,source,data){
 	$('#' + source.id).parent().hide();
@@ -1886,6 +2055,7 @@ function sort_panel(name){
 function show_start_buttons(){
 	$(".action_button_start").hide();
 	$(".pri_" + highest_pri).find(".action_button_start").show();
+	$(".pri_" + (highest_pri - 1)).find(".action_button_start").show();
 	$(".points_0").find(".action_button_start").show();
 }
 
@@ -2023,10 +2193,6 @@ function item_added(item){
 
 function item_actioned(item, dataId,action){
 	
-	if (action == 'agree'){
-		$('#flyover_agree_' + dataId).remove(); 
-	}
-	
 	collapse_item(dataId);
 	pre_status = D[dataId].status.name;
 	
@@ -2055,12 +2221,7 @@ function item_actioned(item, dataId,action){
 	
 
 	keyboard_shortcuts = true;
-	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
-	$('#flyover_estimate_' + dataId).remove(); 
-	$('#flyover_pri_' + dataId).remove(); 
-	$('#flyover_agree_' + dataId).remove(); 
 	
-	if (action == "estimate") {$('#flyover_estimate_' + dataId).remove();}
 	if (action == "open" || item.status.name == "Open" || pre_status == "Open") {sort_panel("open");}
 	if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
 		sort_panel(item.status.name.toLowerCase());
@@ -2087,7 +2248,6 @@ function item_estimated(item, dataId){
 	D[dataId] = item; 
 	$("#item_" + dataId).replaceWith(generate_item(dataId));
 	keyboard_shortcuts = true;
-	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	return false;
 }
 
@@ -2095,25 +2255,21 @@ function item_updated(item, dataId){
 	D[dataId] = item; 
 	$("#item_" + dataId).replaceWith(generate_item(dataId));
 	keyboard_shortcuts = true;
-	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 	return false;
 }
 
 function comment_added(item, dataId){
 	D[dataId] = item; 
-	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 }
 
 function todo_added(item, dataId){
 	D[dataId] = item; 
 	$('#todo_container_' + item.id).html(generate_todos(dataId,false,null));
-	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 }
 
 function todo_updated(item, dataId){
 	D[dataId] = item; 
 	// $('#todo_container_' + item.id).html(generate_todos(item,false));
-	$('#flyover_' + dataId).remove(); //removing flyover because data in it is outdated
 }
 
 function new_item(){
