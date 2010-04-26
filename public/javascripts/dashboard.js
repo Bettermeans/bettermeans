@@ -166,6 +166,16 @@ function start(){
 	}
 }
 
+//For IE explorer handling of xml
+function parse_xml(xml){
+	if (jQuery.browser.msie) {  
+	    var xmlDoc = new ActiveXObject("Microsoft.XMLDOM");  
+	    xmlDoc.loadXML(xml);  
+	    xml = xmlDoc;  
+	  }  
+	  return xml;
+}
+
 function load_dashboard(){
 	$("#load_dashboard").hide();	
 	$("#quote").show();
@@ -181,13 +191,16 @@ function load_dashboard(){
 	
 	$.ajax({
 	   type: "GET",
-	   dataType: "json",
-	
+	   // dataType: "json",
+	   contentType: "application/json",
+	   cache:false,
+	   dataType: ($.browser.msie) ? "text" : "json",
 	   url: url,
 	   success:  	function(html){
 			data_ready(html);
 		},
-	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+	   error: 	function (xhr, textStatus, errorThrown) {
+		// alert(xhr.status);
 		// typically only one of textStatus or errorThrown will have info
 		// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
 		$("#loading").hide();
