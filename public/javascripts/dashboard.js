@@ -1283,6 +1283,9 @@ function generate_item_lightbox(dataId){
 	return html;
 }
 
+function update_lightbox_lock_version(dataId){
+	$("#issue_lock_version").attr('value', D[dataId].lock_version)
+}
 
 function generate_retro(rdataId){
 	var retro = R[rdataId];
@@ -2255,6 +2258,7 @@ function item_actioned(item, dataId,action){
 	
 	D[dataId] = item; 
 	$('#item_lightbox_' + dataId).replaceWith(generate_item_lightbox(dataId));
+	update_lightbox_lock_version(dataId);
 	
 	if (!status_changed)
 	{
@@ -2300,6 +2304,8 @@ function item_estimated(item, dataId){
 	D[dataId] = item; 
 	$("#item_" + dataId).replaceWith(generate_item(dataId));
 	$('#item_lightbox_' + dataId).replaceWith(generate_item_lightbox(dataId));
+	update_lightbox_lock_version(dataId);
+	
 	
 	keyboard_shortcuts = true;
 	return false;
@@ -2309,6 +2315,8 @@ function item_updated(item, dataId){
 	D[dataId] = item; 
 	$("#item_" + dataId).replaceWith(generate_item(dataId));
 	$('#item_lightbox_' + dataId).replaceWith(generate_item_lightbox(dataId));
+	update_lightbox_lock_version(dataId);
+	
 	
 	keyboard_shortcuts = true;
 	return false;
@@ -2938,6 +2946,8 @@ function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) 
 	if (dataId){
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
 		$('#item_lightbox_' + dataId).replaceWith(generate_item_lightbox(dataId));
+		update_lightbox_lock_version(dataId);
+		
 		
 		sort_panel('open');
 		$('#featureicon_' + dataId).attr("src", "/images/error.png");
