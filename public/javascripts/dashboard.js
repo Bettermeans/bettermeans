@@ -163,6 +163,31 @@ function start(){
 	}
 	else{
 		load_dashboard();
+		
+		
+		$(document).keyup(function(e)
+		{
+			last_activity = new Date();
+			start_timer();
+			if (searching){
+				var text = $('#fast_search').val();
+				search_for(text);
+			}
+		});
+
+		$(document).click(function(e)
+		{
+			start_timer();
+			last_activity = new Date();
+		});
+
+		$(document).focus(function(e)
+		{
+			start_timer();
+			last_activity = new Date();
+		});
+
+
 	}
 }
 
@@ -228,41 +253,18 @@ function bind_search_events(){
 }
 
 // listens for any navigation keypress activity
-$(document).keypress(function(e)
-{
-	if (!keyboard_shortcuts){return;};
-	
-	switch(e.which)
-	{
-		// user presses the "a"
-		case 110:	new_item();
-					break;	
-				
-	}
-});
-
-$(document).keyup(function(e)
-{
-	last_activity = new Date();
-	start_timer();
-	if (searching){
-		var text = $('#fast_search').val();
-		search_for(text);
-	}
-});
-
-$(document).click(function(e)
-{
-	start_timer();
-	last_activity = new Date();
-});
-
-$(document).focus(function(e)
-{
-	start_timer();
-	last_activity = new Date();
-});
-
+// $(document).keypress(function(e)
+// {
+// 	if (!keyboard_shortcuts){return;};
+// 	
+// 	switch(e.which)
+// 	{
+// 		// user presses the "a"
+// 		case 110:	new_item();
+// 					break;	
+// 				
+// 	}
+// });
 
 function data_ready(html){
 	last_data_pull = new Date();
@@ -651,7 +653,7 @@ function generate_estimate_flyover(dataId){
 			title = 'No binding estimates yet';
 		}
 		else{
-			title = 'Avg ' + credits + ' credits (' + total_people_estimating + ' people)';
+			title = 'Avg ' + Math.round(credits) + ' credits (' + total_people_estimating + ' people)';
 		}
 	}
 	else{
@@ -1246,6 +1248,41 @@ function generate_item(dataId){
 	html = html + '</div>';
 	return html;
 }
+
+//Generates html for item header in lightbox
+function generate_item_lightbox(dataId){
+	var item = D[dataId];
+	var html = '';
+	var points;
+	item.points == null ? points = 'No' : points = credits_to_points(item.points,credit_base);
+	
+	html = html + '<div id="item_lightbox_' + dataId + '" class="item_lightbox points_' + points + ' pri_' + item.pri + '">';
+	html = html + '<div id="item_content_' + dataId + '" class="' + item.status.name.replace(" ","-").toLowerCase() + ' hoverable" style="">';
+	html = html + '<div id="item_content_buttons_' + dataId + '" class="storyPreviewButtons">';
+	html = html + buttons_for(dataId);
+	html = html + '</div>';
+
+	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
+	html = html + '<h3 style="border:none"><img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '">'; 
+	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
+	html = html + '&nbsp;&nbsp;&nbsp;' + item.subject;
+	html = html + '&nbsp;<span id="icon_set_' + dataId + '">&nbsp;';
+	html = html + '</span>';
+	html = html + '</h3>';
+	
+	
+    
+	html = html + '</div>';
+
+	// html = html + '<div class="left">';
+	// html = html + '</div>';
+
+	
+	html = html + '</div>';
+	html = html + '</div>';
+	return html;
+}
+
 
 function generate_retro(rdataId){
 	var retro = R[rdataId];
@@ -2217,6 +2254,8 @@ function item_actioned(item, dataId,action){
 	}
 	
 	D[dataId] = item; 
+	$('#item_lightbox_' + dataId).replaceWith(generate_item_lightbox(dataId));
+	
 	if (!status_changed)
 	{
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
@@ -2260,6 +2299,8 @@ function item_prioritized(item, dataId,action){
 function item_estimated(item, dataId){
 	D[dataId] = item; 
 	$("#item_" + dataId).replaceWith(generate_item(dataId));
+	$('#item_lightbox_' + dataId).replaceWith(generate_item_lightbox(dataId));
+	
 	keyboard_shortcuts = true;
 	return false;
 }
@@ -2267,6 +2308,8 @@ function item_estimated(item, dataId){
 function item_updated(item, dataId){
 	D[dataId] = item; 
 	$("#item_" + dataId).replaceWith(generate_item(dataId));
+	$('#item_lightbox_' + dataId).replaceWith(generate_item_lightbox(dataId));
+	
 	keyboard_shortcuts = true;
 	return false;
 }
@@ -2606,6 +2649,33 @@ function generate_todo_section(dataId){
 	
 }
 
+function generate_todo_section_lightbox(dataId){
+	var html = '';
+	html = html + '	          <div id="todo_section_' + dataId + '" class="section">';
+	html = html + '	   <form action="#">';
+	html = html + '	            <table id="todo_lightbox">';
+	html = html + '	              <tbody>';
+	html = html + '	                <tr><td colspan="5">';
+	html = html + generate_todos(dataId,false);
+	html = html + '	                </td></tr>';
+	html = html + '	                <tr>';
+	html = html + '	                  <td colspan="5">';
+	html = html + '	                    <div>';
+	html = html + '	                      <input class= "tasksTextArea" id="new_todo_' + dataId + '"></input>     ';
+	html = html + '	                      <div>';
+	html = html + '	                         <input value="Add" type="submit" onclick="post_todo(' + dataId + '); return false;">';
+	html = html + '	                      </div>';
+	html = html + '	                    </div>';
+	html = html + '	                  </td>';
+	html = html + '	                </tr>';
+	html = html + '	              </tbody>';
+	html = html + '	            </table>';
+	html = html + '	   </form>';
+	html = html + '	          </div>';
+	return html;
+	
+}
+
 function post_comment(dataId){
 try{
 	var text = $("#new_comment_" + dataId).val();
@@ -2867,6 +2937,8 @@ function poll_server_response(data){
 function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) {
 	if (dataId){
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
+		$('#item_lightbox_' + dataId).replaceWith(generate_item_lightbox(dataId));
+		
 		sort_panel('open');
 		$('#featureicon_' + dataId).attr("src", "/images/error.png");
 		$.jGrowl("Sorry, couldn't " + action + " idea:<br>" + D[dataId].subject , { header: 'Error', position: 'bottom-right' });
