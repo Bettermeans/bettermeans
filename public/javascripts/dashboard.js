@@ -1300,7 +1300,7 @@ function generate_retro(rdataId){
 	html = html + '	</td>';
 	html = html + '	<td id="done_' + rdataId + '_date_label" style="white-space: nowrap; width: 99%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
 	html = html + '	<span>';
-	html = html + '	<a class="date_label" title="Retro: ' + dateFormat(retro.from_date,'dd mmm yyyy') + '-' + dateFormat(retro.to_date,'dd mmm yyyy') + ' (' + retro_status(retro) + ')" onclick="display_retro(' + rdataId + ');return false;">Retro: ' + dateFormat(retro.from_date,'dd mmm') + ' to ' + dateFormat(retro.to_date,'dd mmm yyyy') + ' (' + retro_status(retro) + ')</a>';
+	html = html + '	<a class="date_label" title="Retro: ' + dateFormat(retro.to_date,'dd mm yy') + ' (' + retro_status(retro) + ')" onclick="display_retro(' + rdataId + ');return false;">Retro: ' + dateFormat(retro.to_date,'dd mmm') + ' (' + retro_status(retro) + ')</a>';
 	html = html + '	</span>';
 	html = html + '	</td>';
 	html = html + '	<td id="done_' + rdataId + '_details_points" style="white-space: nowrap; width: 1%; padding: 1px 0.5em; color: rgb(255, 255, 255);">';
