@@ -1,0 +1,26 @@
+<h1>Listing motion_votes</h1>
+
+<table>
+  <tr>
+    <th>translation missing: en, field_motion</th>
+    <th>User</th>
+    <th>translation missing: en, field_points</th>
+    <th>translation missing: en, field_isbinding</th>
+  </tr>
+
+<% @motion_votes.each do |motion_vote| %>
+  <tr>
+    <td><%=h motion_vote.motion_id %></td>
+    <td><%=h motion_vote.user_id %></td>
+    <td><%=h motion_vote.points %></td>
+    <td><%=h motion_vote.isbinding %></td>
+    <td><%= link_to 'Show', motion_vote %></td>
+    <td><%= link_to 'Edit', edit_motion_vote_path(motion_vote) %></td>
+    <td><%= link_to 'Destroy', motion_vote, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New motion_vote', new_motion_vote_path %>
