@@ -1,4 +1,7 @@
 class CreditsController < ApplicationController
+  
+  before_filter :require_admin
+  
   # GET /credits
   # GET /credits.xml
   def index
@@ -20,8 +23,6 @@ class CreditsController < ApplicationController
   def show
     @credit = Credit.find(params[:id])
     
-    
-
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @credit }
