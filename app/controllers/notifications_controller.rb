@@ -3,6 +3,7 @@ class NotificationsController < ApplicationController
   # GET /notifications.xml
   def index
     @notifications = Notification.unresponded    
+    logger.info("XXXXX #{@notifications.length}")
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @notifications }

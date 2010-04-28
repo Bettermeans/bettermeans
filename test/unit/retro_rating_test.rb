@@ -7,6 +7,7 @@ class RetroRatingTest < ActiveSupport::TestCase
   end
 end
 
+
 # == Schema Information
 #
 # Table name: retro_ratings
@@ -18,5 +19,6 @@ end
 #  retro_id   :integer
 #  created_on :datetime
 #  updated_on :datetime
+#  confidence :integer         default(100)
 #
 
