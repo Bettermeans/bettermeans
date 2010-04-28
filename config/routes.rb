@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :motion_votes
+
+  map.resources :motion_votes
+
 
 
   map.resources :credit_distributions
