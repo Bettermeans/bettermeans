@@ -6,6 +6,7 @@
 # two:
 #   column: value
 
+
 # == Schema Information
 #
 # Table name: retro_ratings
@@ -17,5 +18,6 @@
 #  retro_id   :integer
 #  created_on :datetime
 #  updated_on :datetime
+#  confidence :integer         default(100)
 #
 

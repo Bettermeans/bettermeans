@@ -245,6 +245,8 @@ function randomKey(size) {
 $(document).ajaxSend(function(event, request, settings) {
   if (typeof(AUTH_TOKEN) == "undefined") return;
   // settings.data is a serialized string like "foo=bar&baz=boink" (or null)
+  if (settings.type == 'GET') return; // Don't add anything to a get request let IE turn it into a POST.
+
   settings.data = settings.data || "";
   settings.data += (settings.data ? "&" : "") + "authenticity_token=" + encodeURIComponent(AUTH_TOKEN);
 });
@@ -444,31 +446,11 @@ $.fn.mybubbletip = function(tip, options) {
 
 			_Calculate(true);
 
-			// // handle window.resize
-			// $(window).bind('resize.bubbletip' + _bindIndex, function() {
-			// 	if (_timeoutRefresh) {
-			// 		clearTimeout(_timeoutRefresh);
-			// 	} else {
-			// 		_wrapper.hide();
-			// 	}
-			// 	_timeoutRefresh = setTimeout(function() {
-			// 		_Calculate(true);
-			// 	}, 250);
-			// });
+
 			
 			show_tip();
 
-			// // handle mouseover and mouseout events
-			// if (_options.bindShow == "mouseover")
-			// {
-			// 	show_tip();
-			// }
-			// else
-			// {
-			// 	$([_wrapper.get(0), this.get(0)]).bind(_calc.bindShow, function(e) {
-			// 		show_tip();
-			// 	});
-			// }
+
 
 		//		return false;
 			$('.bubbletip').bind('mouseover',function(){

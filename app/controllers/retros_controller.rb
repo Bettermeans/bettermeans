@@ -136,32 +136,64 @@ class RetrosController < ApplicationController
     @pie_data_points = []
     @pie_labels_points = []
     @max_points = 0
+    
+    #Calculating team size for issues (to distribute total points amongst team)
+    issue_team_sizes = Hash.new
+    @retro.issues.each {|issue| issue_team_sizes[issue.id] = 1}
+    
+    @retro.issues.each do |issue|
+      issue.issue_votes.each do |issue_vote|
+          next if issue_vote.vote_type != IssueVote::JOIN_VOTE_TYPE
+          #Incrementing team size for the issue
+          issue_team_sizes[issue_vote.issue_id] += 1 if issue_vote.user_id != issue.assigned_to_id
+      end
+    end
 
     #Adding users that have issues assigned to them and calculating total points for each user
     issue_group = @retro.issues.group_by{|issue| issue.assigned_to_id}
-    logger.info(issue_group.inspect)
     issue_group.each_value {|issues| @total_points += issues.collect(&:points).sum }
     issue_group.keys.sort.each do |assigned_to_id|
       next if @user_retro_hash.has_key? assigned_to_id
       @user_retro_hash.store assigned_to_id, new_user_retro.dup
       @user_retro_hash[assigned_to_id].store "issues", issue_group[assigned_to_id]
-      @user_retro_hash[assigned_to_id].store "total_points", issue_group[assigned_to_id].collect(&:points).sum 
-      @user_retro_hash[assigned_to_id].store "percentage_points", @total_points == 0 ? 100  : (@user_retro_hash[assigned_to_id]["total_points"].to_f / @total_points * 100).round_to(0).to_i
-      @max_points = @user_retro_hash[assigned_to_id]["total_points"] if @user_retro_hash[assigned_to_id]["total_points"] > @max_points
-      @pie_data_points << @user_retro_hash[assigned_to_id]["percentage_points"]
-      @pie_labels_points << User.find(assigned_to_id).login + " #{@user_retro_hash[assigned_to_id]["percentage_points"].to_s}%"
+      @user_retro_hash[assigned_to_id].store "total_points", 0
+      # @user_retro_hash[assigned_to_id].store "total_points", issue_group[assigned_to_id].collect(&:points).sum 
+      # @user_retro_hash[assigned_to_id].store "percentage_points", @total_points == 0 ? 100  : (@user_retro_hash[assigned_to_id]["total_points"].to_f / @total_points * 100).round_to(0).to_i
+      # @pie_data_points << @user_retro_hash[assigned_to_id]["percentage_points"]
+      # @pie_labels_points << User.find(assigned_to_id).login + " #{@user_retro_hash[assigned_to_id]["percentage_points"].to_s}%"
     end
     
-    #Adding users that have joined the issues
-    @retro.issue_votes.each do |issue_vote|
+    
+    #Adding users that have joined the issues and calculating total points for each user
+    @retro.issues.each do |issue|
+      points = issue.points.to_f / (issue_team_sizes[issue.id])
+      logger.info("#{points}  total points: #{@total_points}")
+      @user_retro_hash[issue.assigned_to_id]["total_points"]+=points
+      @max_points = @user_retro_hash[issue.assigned_to_id]["total_points"] if @user_retro_hash[issue.assigned_to_id]["total_points"] > @max_points
+      
+      
+      issue.issue_votes.each do |issue_vote|
         next if issue_vote.vote_type != IssueVote::JOIN_VOTE_TYPE
-        next if @user_retro_hash.has_key? issue_vote.user_id
-
-        @user_retro_hash.store issue_vote.user_id, new_user_retro.dup 
-        @user_retro_hash[issue_vote.user_id].store "issues", []
-        @user_retro_hash[issue_vote.user_id].store "total_points", 0
-        @user_retro_hash[issue_vote.user_id].store "percentage_points", 0
+        if @user_retro_hash.has_key? issue_vote.user_id
+          @user_retro_hash[issue_vote.user_id]["total_points"]+=points if issue_vote.user_id != issue.assigned_to_id
+        else
+          @user_retro_hash.store issue_vote.user_id, new_user_retro.dup 
+          @user_retro_hash[issue_vote.user_id].store "issues", []
+          @user_retro_hash[issue_vote.user_id].store "total_points", points
+        end
+        @max_points = @user_retro_hash[issue_vote.user_id]["total_points"] if @user_retro_hash[issue_vote.user_id]["total_points"] > @max_points
+        
+      end
     end
+    
+    logger.info("user hash so far #{@user_retro_hash.inspect}")
+    
+    @user_retro_hash.keys.each do |key| 
+      @user_retro_hash[key].store "percentage_points", @total_points == 0 ? 100  : (@user_retro_hash[key]["total_points"].to_f / @total_points * 100).round_to(0).to_i
+      @pie_data_points << @user_retro_hash[key]["percentage_points"]
+      @pie_labels_points << User.find(key).login + " #{@user_retro_hash[key]["percentage_points"].to_s}%"
+    end
+    
     
     @max_ideas = 0
     
@@ -190,11 +222,13 @@ class RetrosController < ApplicationController
       @user_retro_hash[journal.user_id].store "percentage_points", 0
     end
     
+    @confidence_percentage = 100
     @retro.retro_ratings.each do |retro_rating|
       @user_retro_hash.store retro_rating.ratee_id, new_user_retro.dup unless @user_retro_hash.has_key? retro_rating.ratee_id
       @user_retro_hash[retro_rating.ratee_id].store "given_percentage", retro_rating.score.round if retro_rating.rater_id == User.current.id
       @team_hash[retro_rating.ratee_id] = retro_rating.score.round if retro_rating.rater_id == -1
       @final_hash[retro_rating.ratee_id] = retro_rating.score.round_to(0) if retro_rating.rater_id == -2
+      @confidence_percentage = retro_rating.confidence
     end
     
     
@@ -233,7 +267,7 @@ class RetrosController < ApplicationController
       @pie_data_votes << @user_retro_hash[user_id]["percentage_votes"]
       @pie_labels_votes << User.find(user_id).login + " #{@user_retro_hash[user_id]["percentage_votes"].to_s}%"
     end
-    
+  
     #Total ideas
     @total_ideas = @retro.issues.length
     @pie_data_ideas = []
