@@ -190,11 +190,13 @@ class RetrosController < ApplicationController
       @user_retro_hash[journal.user_id].store "percentage_points", 0
     end
     
+    @confidence_percentage = 100
     @retro.retro_ratings.each do |retro_rating|
       @user_retro_hash.store retro_rating.ratee_id, new_user_retro.dup unless @user_retro_hash.has_key? retro_rating.ratee_id
       @user_retro_hash[retro_rating.ratee_id].store "given_percentage", retro_rating.score.round if retro_rating.rater_id == User.current.id
       @team_hash[retro_rating.ratee_id] = retro_rating.score.round if retro_rating.rater_id == -1
       @final_hash[retro_rating.ratee_id] = retro_rating.score.round_to(0) if retro_rating.rater_id == -2
+      @confidence_percentage = retro_rating.confidence
     end
     
     
