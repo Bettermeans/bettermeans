@@ -43,6 +43,24 @@
   </td><td class="button">
   </td></tr>  
   <% end %>
+  
+  <tr class="open"><td class="avatar">
+    &nbsp;
+    </td><td class="name">
+    &nbsp;
+    </td><td class="stats">
+    <br><strong>Confidence</strong><img id="help_image_panel_confidence" src="/images/question_mark.gif" class="help_question_mark"> <br><br>
+  </td><td class="percentage private hidden">
+    <label id="confidence_percentage" class="percentage_label_confidence"><%= @confidence_percentage ||=0 %>%</label>
+  <br>
+  <div id="slider_confidence" class="slider" per="<%= @confidence_percentage %>"></div>
+  </td><td class="percentage closed">
+    <label id="confidence_percentage">&nbsp;</label>
+  </td><td class="percentage closed">
+    <label id="confidence_percentage">&nbsp;</label>
+  </td><td class="button">
+  </td></tr>  
+  
 <tr class="open"><td class="avatar">
 </td><td class="name">
 </td><td class="total private hidden" style="text-align:right;">
@@ -52,9 +70,9 @@
 </td><td class="button private hidden">
   <a id="change_retro_link_save" href="#" onclick="save_retro(<%= @retro.id  %>)" class="action_button action_button_save" style="color:#fff;text-decoration:none;display:none;">Save</a>
   <label id="success" style="display:none;">Done!</label>
-  <div id='saving' class='loading'>saving...</div>
-  
+  <div id='saving' class='loading'>saving...</div>  
 </td></tr>  
+
 </table>
 </div>
 </div>
@@ -161,6 +179,13 @@
   <div class="tip" style="width:300px">
     <strong>Final assessment</strong><br>
     All the Team averages are used to proportionally distribute over 100%
+  </div>
+</div>
+
+<div id="help_panel_confidence" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Assessment confidence</strong><br>
+    Adjust this slider depending on how confident you are of your assessment of yourself and your peer.<br>Lower confidence, means your ratings will be given less weight, and your self assessment index will be less impact by team-self discrepancies.
   </div>
 </div>
 
