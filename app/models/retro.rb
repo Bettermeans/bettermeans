@@ -62,37 +62,45 @@ class Retro < ActiveRecord::Base
     return if retro_ratings.length == 0
     
     total_raters = retro_ratings.group_by{|retro_rating| retro_rating.rater_id}.length
-    
+    @confidence_hash = Hash.new
     
     retro_ratings.group_by{|retro_rating| retro_rating.ratee_id}.keys.each do |user_id|
-      puts("userid:#{user_id}")
       next if user_id < 0;
       @user_hash[user_id] = []
+      @confidence_hash[user_id] = 0
     end
 
     puts("H: " + @user_hash.inspect)
     puts("total raters #{total_raters}")
+
     
+    team_confidence_total = 0
     retro_ratings.each do |rr|
       puts("rr:#{rr.inspect}")
       next if rr.rater_id < 0;
-      @user_hash[rr.ratee_id].push rr.score unless ((rr.ratee_id == rr.rater_id) && (total_raters > 1))
+      @user_hash[rr.ratee_id].push(rr.score * rr.confidence) unless ((rr.ratee_id == rr.rater_id) && (total_raters > 1))
+      @confidence_hash[rr.ratee_id] += rr.confidence unless ((rr.ratee_id == rr.rater_id) && (total_raters > 1))
     end
+
+    # @confidence_hash.each_value {|issues| team_confidence_total += issues.collect(&:points).sum }
+    puts("confidence hash #{@confidence_hash.inspect}")
     
-    puts("H: " + @user_hash.inspect)
+    puts("user hash: " + @user_hash.inspect)
 
     team_average_total = 0
     #rater_id -1 reserved for team average
     @user_hash.keys.each do |user_id|
-      score = @user_hash[user_id].length == 0 ? 0 : @user_hash[user_id].sum.to_f / @user_hash[user_id].length
+      score = @user_hash[user_id].length == 0 ? 0 : @user_hash[user_id].sum.to_f / @confidence_hash[user_id]
+# ore / @confidence_hash[user_id]
       RetroRating.create :rater_id => -1, :ratee_id => user_id, :score => score, :retro_id => self.id
       team_average_total = team_average_total + score
     end
 
     #rater_id -2 reserved for final distribution
     @user_hash.keys.each do |user_id|
-      puts("creating for:#{user_id}")
-      score = @user_hash[user_id].length == 0 ? 0 : @user_hash[user_id].sum.to_f / @user_hash[user_id].length
+      # puts("creating for:#{user_id}")
+      score = @user_hash[user_id].length == 0 ? 0 : @user_hash[user_id].sum.to_f / @confidence_hash[user_id]
+      # score = score / @confidence_hash[user_id]
       RetroRating.create :rater_id => -2, :ratee_id => user_id, :score => score * 100 / team_average_total, :retro_id => self.id
     end
     
