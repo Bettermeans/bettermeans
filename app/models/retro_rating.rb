@@ -8,6 +8,7 @@ class RetroRating < ActiveRecord::Base
   belongs_to :ratee, :class_name => 'User', :foreign_key => 'ratee_id'
 end
 
+
 # == Schema Information
 #
 # Table name: retro_ratings
@@ -19,5 +20,6 @@ end
 #  retro_id   :integer
 #  created_on :datetime
 #  updated_on :datetime
+#  confidence :integer         default(100)
 #
 

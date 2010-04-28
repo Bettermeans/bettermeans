@@ -32,18 +32,18 @@ class Notification < ActiveRecord::Base
     self.find(:all, :conditions => ["recipient_id=? AND (expiration is null or expiration >=?) AND state = 0", User.current, Time.new.to_date])
   end
     
-  # -1 is deactivated
-  # 0 is active and no response yet
-  # 1 it has been responded to
-  # 2 it has been archived
-  # 3 it has been recinded
-  def self.update_all(variation,source_id,initial_status,final_status, options = {})
-    @notifications = self.find(:all, :conditions => ["source_id =? AND variation like '%#{variation}%' AND state =?", source_id, initial_status])
-    @notifications.each do |@n|
-      @n.state = final_status
-      @n.save
-    end    
-  end
+  # # -1 is deactivated
+  # # 0 is active and no response yet
+  # # 1 it has been responded to
+  # # 2 it has been archived
+  # # 3 it has been recinded
+  # def self.update_all(variation,source_id,initial_status,final_status, options = {})
+  #   @notifications = self.find(:all, :conditions => ["source_id =? AND variation like '%#{variation}%' AND state =?", source_id, initial_status])
+  #   @notifications.each do |@n|
+  #     @n.state = final_status
+  #     @n.save
+  #   end    
+  # end
   
   # Deactivates all unanswered notifications for a particular variation and source id
   def self.recind(variation, source_id, sender_id)
