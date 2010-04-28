@@ -1500,18 +1500,18 @@ function buttons_for(dataId,expanded){
 		html = html + accept_buttons_root(dataId,expanded);
 	break;
 	case 'Accepted':
-		html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
+		html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">Accepted</div>';
 
 		if (item.retro_id && (item.retro_id > 0)){
 			html = html + button('retro',dataId,false,item.retro_id);
 		}
 	break;
 	case 'Rejected':
-		html = html + '<div id="rejected_' + dataId + '" class="action_button action_button_rejected">Rejected</div>';
+		html = html + '<div id="rejected_' + dataId + '" class="action_button action_button_rejected" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">Rejected</div>';
 		html = html + button('start',dataId);
 	break;
 	case 'Archived':
-		html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
+		html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">Accepted</div>';
 		if (item.retro_id > 0){
 			html = html + button('retro',dataId,false,item.retro_id);
 		}
@@ -1553,7 +1553,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 			user_voted = true;
 			tally = '';
 			if (!include_start_button || expanded){
-				tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally">';
+				tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally" onclick="click_agree_root(' + dataId + ',this,\'false\');return false;">';
 				if (item.disagree > 5000){
 					html = '';//removing start button from blocked item
 					tally = tally + 'BLOCK';
@@ -1606,7 +1606,7 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	tally = '';
 	
 	
-	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button action_button_tally">';
+	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button action_button_tally" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">';
 	if (item.reject > 5000){
 		tally = tally + 'BLOCK';
 	}
