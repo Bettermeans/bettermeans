@@ -1,0 +1,34 @@
+<h1>Listing motions</h1>
+
+<table>
+  <tr>
+    <th>Workstream</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>translation missing: en, field_variation</th>
+    <th>translation missing: en, field_params</th>
+    <th>translation missing: en, field_motion_type</th>
+    <th>translation missing: en, field_state</th>
+  </tr>
+
+<% @motions.each do |motion| %>
+  <tr>
+    <td><%=h motion.project_id %></td>
+    <td><%=h motion.title %></td>
+    <td><%=h motion.description %></td>
+    <td><%=h motion.variation %></td>
+    <td><%=h motion.params %></td>
+    <td><%=h motion.motion_type %></td>
+    <td><%=h motion.state %></td>
+    <td><%= link_to 'Show', {:controller => "motion", :action => "show", :project_id => @project, :id => motion} %></td>
+    <td><%#= link_to 'Edit', edit_motion_path(motion) %></td>
+    <td><%#= link_to 'Destroy', motion, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<!-- {:controller => 'news', :action => 'new', :project_id => @project}, -->
+
+<%= link_to 'New motion', {:controller => "motion", :action => "new", :project_id => @project} %>

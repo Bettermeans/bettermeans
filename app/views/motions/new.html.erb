@@ -1,0 +1,39 @@
+<h1>New motion</h1>
+
+<% form_for :motion, @motion, :url => {:action => "create", :project_id => @project} do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :project_id %><br />
+    <%= f.text_field :project_id %>
+  </p>
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :variation %><br />
+    <%= f.text_field :variation %>
+  </p>
+  <p>
+    <%= f.label :params %><br />
+    <%= f.text_area :params %>
+  </p>
+  <p>
+    <%= f.label :motion_type %><br />
+    <%= f.text_field :motion_type %>
+  </p>
+  <p>
+    <%= f.label :state %><br />
+    <%= f.text_field :state %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', :controller => "motion", :action => "index", :project_id => @project %>
