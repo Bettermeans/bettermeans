@@ -14,27 +14,19 @@
 #   password: tree
 #   encoding: utf8
  
-production:
-  adapter: mysql
-  database: redmine_development
-  host: localhost
-  username: root
-  password: tree
-  encoding: utf8
-
 development:
   adapter: postgresql
   database: redmine_development_18
   host: localhost
   username: postgres
-  password: tree
+  password: postgres
 
 test: &TEST
     adapter: postgresql
     database: redmine_test
     host: localhost
     username: postgres
-    password: tree
+    password: postgres
 
 test_pgsql:
   adapter: postgresql
