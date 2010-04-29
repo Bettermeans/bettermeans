@@ -12,4 +12,6 @@
 - Replace current Attachment class with Paperclip plugin
 - Introduce Squirrel for cleaner find operations on ActiveRecord 
 
-- Introduce Juggernaut for Server-Side Push
+- Introduce Juggernaut for Server-Side Push.  Replace polling mechanism for dashboard
+	- have things like mail messages, notifications, etc immediately pushed to the browser without polling, refreshing, etc
+	- refresh activity feeds, dashboard, etc	
