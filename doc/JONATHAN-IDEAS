@@ -3,3 +3,13 @@
 	- by default, have each open enterprise on a subdomain, e.g. soederpop.bettermeans.com
 	- each open enterprise can configure a unique tld e.g. soederpop.com.  
 	- Determine which "Open Enterprise" by parsing host from Rails Request
+
+- noticed a few places where session state was part of the model (e.g. @user.logged?, @user.roles_for_project )
+	- i do not think this is optimal
+	
+- Replace current User Authentication scheme with Authlogic plugin
+
+- Replace current Attachment class with Paperclip plugin
+- Introduce Squirrel for cleaner find operations on ActiveRecord 
+
+- Introduce Juggernaut for Server-Side Push
