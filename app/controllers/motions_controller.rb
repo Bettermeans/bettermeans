@@ -1,6 +1,9 @@
 class MotionsController < ApplicationController
   
-  before_filter :find_project, :only => [:new,:index, :create]
+  before_filter :find_project, :only => [:new,:index,:create,:show, :edit]
+  before_filter :find_motion, :only => [:show, :edit, :destroy, :update]
+  before_filter :check_visibility_permission, :only => [:show]
+  before_filter :require_admin, :only => [:edit]
   
   # GET /motions
   # GET /motions.xml
@@ -16,7 +19,6 @@ class MotionsController < ApplicationController
   # GET /motions/1
   # GET /motions/1.xml
   def show
-    @motion = Motion.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -37,7 +39,6 @@ class MotionsController < ApplicationController
 
   # GET /motions/1/edit
   def edit
-    @motion = Motion.find(params[:id])
   end
 
   # POST /motions
@@ -45,6 +46,8 @@ class MotionsController < ApplicationController
   def create
     @motion = Motion.new(params[:motion])
     @motion.project_id = @project.id
+    @motion.state = Motion::STATE_ACTIVE
+    @motion.set_values
 
     respond_to do |format|
       if @motion.save
@@ -61,8 +64,7 @@ class MotionsController < ApplicationController
   # PUT /motions/1
   # PUT /motions/1.xml
   def update
-    @motion = Motion.find(params[:id])
-
+    
     respond_to do |format|
       if @motion.update_attributes(params[:motion])
         flash[:notice] = 'Motion was successfully updated.'
@@ -78,7 +80,6 @@ class MotionsController < ApplicationController
   # DELETE /motions/1
   # DELETE /motions/1.xml
   def destroy
-    @motion = Motion.find(params[:id])
     @motion.destroy
 
     respond_to do |format|
@@ -91,6 +92,21 @@ class MotionsController < ApplicationController
     @project = Project.find(params[:project_id]).root
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+  
+  def find_motion
+    @motion = Motion.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
+  
+  def check_visibility_permission
+    if !User.current.allowed_to_see_motion?(@motion)
+       render_403
+       return false
+    end
+    return true
   end
   
 end

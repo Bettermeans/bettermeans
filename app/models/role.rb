@@ -25,6 +25,7 @@ class Role < ActiveRecord::Base
   BUILTIN_CONTRIBUTOR = 5 #scope enterprise
   BUILTIN_ACTIVE = 7 #scope project
   BUILTIN_MEMBER = 8 #scope enterprise
+  BUILTIN_BOARD = 9 #scope enterprise
 
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
   named_scope :builtin, lambda { |*args|

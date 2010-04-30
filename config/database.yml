@@ -24,7 +24,7 @@ production:
 
 development:
   adapter: postgresql
-  database: redmine_development_18
+  database: redmine_development_19
   host: localhost
   username: postgres
   password: tree
