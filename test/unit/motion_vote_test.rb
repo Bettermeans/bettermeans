@@ -7,6 +7,7 @@ class MotionVoteTest < ActiveSupport::TestCase
   end
 end
 
+
 # == Schema Information
 #
 # Table name: motion_votes
@@ -15,7 +16,7 @@ end
 #  motion_id  :integer
 #  user_id    :integer
 #  points     :integer
-#  isbinding  :boolean
+#  isbinding  :boolean         default(FALSE)
 #  created_at :datetime
 #  updated_at :datetime
 #

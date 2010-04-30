@@ -4,10 +4,12 @@ class CreateMotions < ActiveRecord::Migration
       t.integer :project_id
       t.string :title
       t.text :description
-      t.string :variation
       t.text :params
-      t.integer :motion_type
-      t.integer :state
+      t.integer :variation, :default => Motion::VARIATION_GENERAL
+      t.integer :motion_type, :default => Motion::TYPE_MAJORITY
+      t.integer :visibility_level, :default => Motion::VISIBLE_USER
+      t.integer :binding_level, :default => Motion::BINDING_USER
+      t.integer :state, :default => 0
 
       t.timestamps
     end
