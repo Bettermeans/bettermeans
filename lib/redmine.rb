@@ -34,6 +34,7 @@ Redmine::AccessControl.map do |map|
   map.permission :manage_members, {:projects => :settings, :members => [:new, :edit, :destroy, :autocomplete_for_member]}, :require => :member
   map.permission :manage_versions, {:projects => [:settings, :add_version], :versions => [:edit, :close_completed, :destroy]}, :require => :member
   map.permission :add_subprojects, {:projects => :add}, :require => :member
+  map.permission :credits, {:credits => [:add, :edit, :update]}, :require => :admin
   
   map.project_module :issue_tracking do |map|
     # Issue categories
@@ -136,8 +137,8 @@ Redmine::AccessControl.map do |map|
   # 
   map.project_module :credits do |map|
     map.permission :view_credits, {:projects => :credits, :credits => [:index,:show]}, :require => :loggedin
-    map.permission :add_credits, {:credits => [:new, :create]}
-    map.permission :manage_credits, {:credits => [:destroy, :edit]}
+    map.permission :add_credits, {:credits => [:new, :create]}, :require => :admin
+    map.permission :manage_credits, {:credits => [:destroy, :edit]}, :require => :admin
   end
   
   map.project_module :dashboard do |map|

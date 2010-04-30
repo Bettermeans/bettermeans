@@ -1,0 +1,27 @@
+<h1>New motion_vote</h1>
+
+<% form_for(@motion_vote) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :motion_id %><br />
+    <%= f.text_field :motion_id %>
+  </p>
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :points %><br />
+    <%= f.text_field :points %>
+  </p>
+  <p>
+    <%= f.label :isbinding %><br />
+    <%= f.check_box :isbinding %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', motion_votes_path %>
