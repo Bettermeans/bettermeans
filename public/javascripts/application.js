@@ -269,6 +269,20 @@ function url_for(options){
   return url;
 }
 
+//
+// Html encode the strings by escaping the &, <, > and " characters
+// with their equivalent html counter parts
+//
+function h(s) {
+  var escaped = s;  
+  
+  escaped = escaped.replace(/&/g, "&amp;");
+  escaped = escaped.replace(/</g, "&lt;");
+  escaped = escaped.replace(/>/g, "&gt;");
+  escaped = escaped.replace(/\"/g, "&quot;");
+
+  return escaped;
+}
 
 function humane_date(date_str){
 		
