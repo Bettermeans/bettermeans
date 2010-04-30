@@ -584,7 +584,7 @@ function generate_details_flyover(dataId){
 	html = html + '<div style="border: 0pt none ; margin: 0pt;">';
 	html = html + '<div class="overlayContentWrapper storyFlyover flyover" style="width: 475px; max-height:600px">';
 	html = html + '<div class="storyTitle">';
-	html = html + item.subject;
+	html = html + h(item.subject);
 	html = html + '</div>';
 	html = html + '	      <div class="sectionDivider">';
 	html = html + '	      <div style="height: auto;">';
@@ -991,7 +991,7 @@ function generate_details_flyover_description(item){
 	html = html + '	    <tbody>';
 	html = html + '<tr class="noteInfoRow">';
 	html = html + '<td class="noteInfo">';
-	html = html + '<span class="specialhighlight">' + item.description.replace(/\n/g,"<br>") + '</span>';
+	html = html + '<span class="specialhighlight">' + h(item.description).replace(/\n/g,"<br>") + '</span>';
  	html = html + '</td>';
   	html = html + '</tr>';
 	html = html + '	    </tbody>';
@@ -1054,7 +1054,7 @@ function generate_comment(author,note,created_on,itemId){
 	html = html + '</tr>';
     html = html + '<tr class="noteTextRow">';
 	html = html + '<td class="noteText">';
-	html = html + note;
+	html = html + h(note);
 	html = html + '</td>';
 	html = html + '</tr>';
 	return html;
@@ -1103,9 +1103,9 @@ function generate_todo(subject,completed_on,todoId,dataId){
 	html = html + '	</td>';
 	html = html + '<td  id="task_' + todoId  + '_subject" class="taskDescription ' + completed + '">';
 	html = html + '	<span id="task_' + todoId + '_subject_text">';
-	html = html + subject;
+	html = html + h(subject);
 	html = html + '	</span>';
-	html = html + '	<input id="task_' + todoId + '_subject_input" style="display:none;" value="' + subject + '" onblur="edit_todo_post('+ todoId +',' + dataId + ')">';
+	html = html + '	<input id="task_' + todoId + '_subject_input" style="display:none;" value="' + h(subject) + '" onblur="edit_todo_post('+ todoId +',' + dataId + ')">';
 	html = html + '	<span id="task_' + todoId + '_subject_submit_container"></span>';
 	html = html + '</td>';
 	html = html + '	<td>';
@@ -1241,7 +1241,7 @@ function generate_item(dataId){
 
 	html = html + '<div id="item_content_details_' + dataId + '" class="storyPreviewText" onDblclick="expand_item(' + dataId + ');return false;" style="cursor: default;">'; 
 	
-	html = html + item.subject;
+	html = html + h(item.subject);
 	html = html + '</div>';
 	html = html + '</div>';
 	html = html + '</div>';
@@ -1265,7 +1265,7 @@ function generate_item_lightbox(dataId){
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
 	html = html + '<h3 style="border:none"><img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '">'; 
 	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
-	html = html + '&nbsp;&nbsp;&nbsp;' + item.subject;
+	html = html + '&nbsp;&nbsp;&nbsp;' + h(item.subject);
 	html = html + '&nbsp;<span id="icon_set_' + dataId + '">&nbsp;';
 	html = html + '</span>';
 	html = html + '</h3>';
@@ -2490,7 +2490,7 @@ html = html + '	    <div class="storyPreviewHeader">';
 html = html + ' 		<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_expanded.png" title="Collapse" alt="Collapse" onclick="collapse_item(' + dataId + ');return false;">';
 html = html + '<div id="icon_set_' + dataId + '" class="left">&nbsp;</div>';
 html = html + '	      <div class="storyPreviewInput">';
-html = html + '	        <input id="edit_title_input_' + dataId + '" class="titleInputField" name="title_input" value="' + D[dataId].subject + '" type="text" ' + readonly + '>';
+html = html + '	        <input id="edit_title_input_' + dataId + '" class="titleInputField" name="title_input" value="' + h(D[dataId].subject) + '" type="text" ' + readonly + '>';
 html = html + '	      </div>';
 html = html + '	    </div>';
 html = html + '	    <div>';
@@ -2571,7 +2571,7 @@ html = html + '	                </tr>';
 html = html + '	                <tr>';
 html = html + '	                  <td colspan="5">';
 html = html + '	                    <div>';
-html = html + '	                      <textarea class = "textAreaFocus" id="edit_description_' + dataId + '" rows="1" cols="20" name="story[description]" ' + readonly + '>' + D[dataId].description + '</textarea>     ';
+html = html + '	                      <textarea class = "textAreaFocus" id="edit_description_' + dataId + '" rows="1" cols="20" name="story[description]" ' + readonly + '>' + h(D[dataId].description) + '</textarea>     ';
 html = html + '	                    <div>';
 html = html + '	                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
 html = html + '	                      </div>';
@@ -2951,7 +2951,7 @@ function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) 
 		
 		sort_panel('open');
 		$('#featureicon_' + dataId).attr("src", "/images/error.png");
-		$.jGrowl("Sorry, couldn't " + action + " idea:<br>" + D[dataId].subject , { header: 'Error', position: 'bottom-right' });
+		$.jGrowl("Sorry, couldn't " + action + " idea:<br>" + h(D[dataId].subject) , { header: 'Error', position: 'bottom-right' });
 		
 	}
 	else{
