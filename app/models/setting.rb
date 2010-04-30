@@ -22,6 +22,65 @@ class Setting < ActiveRecord::Base
   #Reverse lookup. Converts credits to points
   CREDITS_TO_POINTS = [0,1,2,3,3,4,4,4,5,5,5,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11,11,11,11,11,11,12,12,12,12,12,12,13,13,13,13,13,13,13,14];
   
+  MOTIONS = {
+    Motion::VARIATION_GENERAL => {
+      "Title" => "General Motion",
+      "Binding" => Motion::BINDING_MEMBER,
+      "Visible" => Motion::VISIBLE_USER,
+      "Type" => Motion::TYPE_MAJORITY,
+      "Days" => 3
+    },
+    Motion::VARIATION_EXTRAORDINARY => {
+      "Title" => "Extraordinary Motion",
+      "Binding" => Motion::BINDING_MEMBER,
+      "Visible" => Motion::VISIBLE_USER,
+      "Type" => Motion::TYPE_CREDIT,
+      "Days" => 10
+    },
+    Motion::VARIATION_NEW_MEMBER => {
+      "Title" => "Motion to elect a new Member",
+      "Binding" => Motion::BINDING_CORE,
+      "Visible" => Motion::VISIBLE_CONTRIBUTER,
+      "Type" => Motion::TYPE_CONSENSUS,
+      "Days" => 5
+    },
+    Motion::VARIATION_FIRE_MEMBER => {
+      "Title" => "Motion to remove an existing Member",
+      "Binding" => Motion::BINDING_CORE,
+      "Visible" => Motion::VISIBLE_CONTRIBUTER,
+      "Type" => Motion::TYPE_CONSENSUS,
+      "Days" => 5
+    },
+    Motion::VARIATION_NEW_CORE => {
+      "Title" => "Motion to elect a new Core Team Member",
+      "Binding" => Motion::BINDING_MEMBER,
+      "Visible" => Motion::VISIBLE_CONTRIBUTER,
+      "Type" => Motion::TYPE_CONSENSUS,
+      "Days" => 5
+    },
+    Motion::VARIATION_FIRE_CORE => {
+      "Title" => "Motion to remove an existing Core Team Member",
+      "Binding" => Motion::BINDING_MEMBER,
+      "Visible" => Motion::VISIBLE_CONTRIBUTER,
+      "Type" => Motion::TYPE_CONSENSUS,
+      "Days" => 5
+    },
+    Motion::VARIATION_BOARD_PUBLIC => {
+      "Title" => "Public Board Motion",
+      "Binding" => Motion::BINDING_BOARD,
+      "Visible" => Motion::VISIBLE_USER,
+      "Type" => Motion::TYPE_CONSENSUS,
+      "Days" => 5
+    },
+    Motion::VARIATION_BOARD_PRIVATE => {
+      "Title" => "Closed Board Motion",
+      "Binding" => Motion::BINDING_BOARD,
+      "Visible" => Motion::VISIBLE_BOARD,
+      "Type" => Motion::TYPE_CONSENSUS,
+      "Days" => 5
+    }
+  }
+  
 
   LAZY_MAJORITY_LENGTH = 3 #number of days before a lazy majority vote is counted
   

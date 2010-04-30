@@ -304,7 +304,21 @@ class User < Principal
   def binding_voter_of?(project)
     !roles_for_project(project.root).detect {|role| role.binding_member?}.nil?
   end
+
+  # Return true if the user's votes are binding for this motion
+  def binding_voter_of_motion?(motion)
+    position_for(motion.project) <= motion.binding_level
+  end
   
+  # Return true if the user is allowed to see motion
+  def allowed_to_see_motion?(motion)
+    position_for(motion.project) <= motion.visibility_level
+  end  
+  
+  # Returns position level for user's role in project's enterprise (the lower number, the higher in heirarchy the user)
+  def position_for(project)
+    roles_for_project(project.root).first.position
+  end
     
   # Return true if the user is allowed to do the specified action on project
   # action can be:
