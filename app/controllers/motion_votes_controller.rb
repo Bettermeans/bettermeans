@@ -1,4 +1,5 @@
 class MotionVotesController < ApplicationController
+  before_filter :require_admin
   # GET /motion_votes
   # GET /motion_votes.xml
   def index
@@ -41,10 +42,11 @@ class MotionVotesController < ApplicationController
   # POST /motion_votes.xml
   def create
     @motion_vote = MotionVote.new(params[:motion_vote])
+    @motion_vote.is_binding = User.current.binding_voter_of_motion?(@motion_vote.motion)
 
     respond_to do |format|
       if @motion_vote.save
-        flash[:notice] = 'MotionVote was successfully created.'
+        flash[:notice] = @motion.is_binding ? 'Your binding vote was cast' : 'Your non-binding vote was cast'
         format.html { redirect_to(@motion_vote) }
         format.xml  { render :xml => @motion_vote, :status => :created, :location => @motion_vote }
       else

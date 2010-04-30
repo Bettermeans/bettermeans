@@ -12,6 +12,7 @@ two:
   points: 1
   isbinidng: false
 
+
 # == Schema Information
 #
 # Table name: motion_votes
@@ -20,7 +21,7 @@ two:
 #  motion_id  :integer
 #  user_id    :integer
 #  points     :integer
-#  isbinding  :boolean
+#  isbinding  :boolean         default(FALSE)
 #  created_at :datetime
 #  updated_at :datetime
 #

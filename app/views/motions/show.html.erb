@@ -1,15 +1,6 @@
+<h3>Motion: <%=h @motion.title %></h3>
 <p>
-  <b>Workstream:</b>
-  <%=h @motion.project_id %>
-</p>
-
-<p>
-  <b>Title:</b>
-  <%=h @motion.title %>
-</p>
-
-<p>
-  <b>Description:</b>
+  <b>Overview:</b>
   <%=h @motion.description %>
 </p>
 
@@ -24,11 +15,16 @@
 </p>
 
 <p>
-  <b>translation missing: en, field_motion_type:</b>
-  <%=h @motion.motion_type %>
+  <b>Vote Type</b>
+  <%=l "lable_motion_vote_type#{@motion.motion_type}" %>
 </p>
 
 <p>
-  <b>translation missing: en, field_state:</b>
-  <%=h @motion.state %>
+  <b>State</b>
+  <%=l "label_motion_state#{@motion.state}" %>
 </p>
+
+
+<% content_for :sidebar do %>
+<h3>Vote</h3>
+<% end %>
