@@ -262,21 +262,23 @@ ActionController::Routing::Routes.draw do |map|
       # credits_routes.connect 'credits/:action'
     end
     
+    map.resources :projects, :has_many => :motions
+    
 
-    map.with_options :controller => 'motions' do |motions_routes|
-      motions_routes.with_options :conditions => {:method => :get} do |motions_views|
-        motions_views.connect 'projects/:project_id/motions', :action => 'index'
-        motions_views.connect 'projects/:project_id/motions/new', :action => 'new'
-        motions_views.connect 'projects/:project_id/motions.:format', :action => 'index'
-        motions_views.connect 'projects/:project_id/motions/:id', :action => 'show', :id => /\d+/
-        motions_views.connect 'projects/:project_id/motions/:id.:format', :action => 'show', :id => /\d+/
-      end
-      motions_routes.with_options :conditions => {:method => :post} do |motions_actions|
-        # motions_actions.connect 'projects/:project_id/motions/', :action => 'create'
-        motions_actions.connect 'projects/:project_id/motions/new', :action => 'new'
-        motions_actions.connect 'projects/:project_id/motions/:id/:action', :action => /edit|destroy/
-      end
-    end
+    # map.with_options :controller => 'motions' do |motions_routes|
+    #   motions_routes.with_options :conditions => {:method => :get} do |motions_views|
+    #     motions_views.connect 'projects/:project_id/motions', :action => 'index'
+    #     motions_views.connect 'projects/:project_id/motions/new', :action => 'new'
+    #     motions_views.connect 'projects/:project_id/motions.:format', :action => 'index'
+    #     motions_views.connect 'projects/:project_id/motions/:id', :action => 'show', :id => /\d+/
+    #     motions_views.connect 'projects/:project_id/motions/:id.:format', :action => 'show', :id => /\d+/
+    #   end
+    #   motions_routes.with_options :conditions => {:method => :post} do |motions_actions|
+    #     # motions_actions.connect 'projects/:project_id/motions/', :action => 'create'
+    #     motions_actions.connect 'projects/:project_id/motions/new', :action => 'new'
+    #     motions_actions.connect 'projects/:project_id/motions/:id/:action', :action => /edit|destroy/
+    #   end
+    # end
 
 
     projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|
@@ -346,7 +348,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'wiki/:id/:page/:action', :page => nil, :controller => 'wiki'
   map.connect 'issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
   map.connect 'projects/:project_id/news/:action', :controller => 'news'  
-  map.connect 'projects/:project_id/motions/:action', :controller => 'motions'  
+  # map.connect 'projects/:project_id/motions/:action', :controller => 'motions'  
   map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
   map.with_options :controller => 'repositories' do |omap|
     omap.repositories_show 'repositories/browse/:id/*path', :action => 'browse'
