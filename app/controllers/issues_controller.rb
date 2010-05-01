@@ -383,7 +383,7 @@ class IssuesController < ApplicationController
     @issue.save
     @issue.reload
     
-    admin = User.find(:first,:conditions => {:login => "admin"})
+    admin = User.sysadmin
     Notification.create :recipient_id => @issue.assigned_to_id,
                         :variation => 'issue_joined',
                         :params => {:issue => @issue, :joiner => User.current}, 
@@ -402,7 +402,7 @@ class IssuesController < ApplicationController
     @issue.save
     @issue.reload
     
-    admin = User.find(:first,:conditions => {:login => "admin"})
+    admin = User.sysadmin
     Notification.create :recipient_id => @issue.assigned_to_id,
                         :variation => 'issue_left',
                         :params => {:issue => @issue, :joiner => User.current}, 

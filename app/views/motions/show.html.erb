@@ -24,7 +24,9 @@
   <%=l "label_motion_state#{@motion.state}" %>
 </p>
 
+<%= render :partial => "messages/motion_topic", :locals => {:topic => @motion.topic}
+ %>
 
 <% content_for :sidebar do %>
-<h3>Vote</h3>
+<h3>Voting</h3>
 <% end %>

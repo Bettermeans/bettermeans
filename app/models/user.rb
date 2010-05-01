@@ -33,12 +33,6 @@ class User < Principal
   has_many :commit_requests, :dependent => :delete_all
   has_many :notifications, :foreign_key => 'recipient_id', :dependent => :delete_all
   
-  has_many :outgoing_team_offers, :class_name => 'TeamOffer', :foreign_key => 'author_id', :dependent => :delete_all
-  has_many :incoming_team_offers, :class_name => 'TeamOffer', :foreign_key => 'recipient_id', :dependent => :delete_all
-  
-  has_many :outgoing_team_points, :class_name => 'TeamPoint', :foreign_key => 'author_id', :dependent => :nullify
-  has_many :incoming_team_points, :class_name => 'TeamPoint', :foreign_key => 'recipient_id', :dependent => :delete_all
-  
   has_many :shares, :dependent => :nullify
   has_many :credits, :foreign_key => :owner_id, :dependent => :delete_all
   has_many :issue_votes, :dependent => :delete_all
@@ -414,6 +408,10 @@ class User < Principal
       raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
     end
     anonymous_user
+  end
+  
+  def self.sysadmin
+    User.find(:first,:conditions => {:login => "admin"})
   end
   
   protected

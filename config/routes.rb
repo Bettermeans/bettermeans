@@ -142,21 +142,24 @@ ActionController::Routing::Routes.draw do |map|
     end
     # issues_routes.connect 'issues/:action'
   end
+  
+  map.resources :projects, :has_many => :shares
+  
 
-  map.with_options :controller => 'shares' do |shares_routes|
-    shares_routes.with_options :conditions => {:method => :get} do |shares_views|
-      shares_views.connect 'shares', :action => 'index'
-      shares_views.connect 'shares.:format', :action => 'index'
-      shares_views.connect 'projects/:project_id/shares', :action => 'index'
-      shares_views.connect 'projects/:project_id/shares.:format', :action => 'index'
-      shares_views.connect 'shares/:id', :action => 'show', :id => /\d+/
-      shares_views.connect 'shares/:id.:format', :action => 'show', :id => /\d+/
-    end
-    shares_routes.with_options :conditions => {:method => :post} do |shares_actions|
-      shares_actions.connect 'projects/:project_id/shares', :action => 'new'
-    end
-    shares_routes.connect 'shares/:action'
-  end
+  # map.with_options :controller => 'shares' do |shares_routes|
+  #   shares_routes.with_options :conditions => {:method => :get} do |shares_views|
+  #     shares_views.connect 'shares', :action => 'index'
+  #     shares_views.connect 'shares.:format', :action => 'index'
+  #     shares_views.connect 'projects/:project_id/shares', :action => 'index'
+  #     shares_views.connect 'projects/:project_id/shares.:format', :action => 'index'
+  #     shares_views.connect 'shares/:id', :action => 'show', :id => /\d+/
+  #     shares_views.connect 'shares/:id.:format', :action => 'show', :id => /\d+/
+  #   end
+  #   shares_routes.with_options :conditions => {:method => :post} do |shares_actions|
+  #     shares_actions.connect 'projects/:project_id/shares', :action => 'new'
+  #   end
+  #   shares_routes.connect 'shares/:action'
+  # end
 
 
   
@@ -244,41 +247,13 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
       # project_views.connect 'projects/:id/retros/:show_retro_id', :action => 'dashboard'
     end
-
-    map.with_options :controller => 'credits' do |credits_routes|
-      credits_routes.with_options :conditions => {:method => :get} do |credits_views|
-        # credits_views.connect 'credits', :action => 'index'
-        # credits_views.connect 'credits.:format', :action => 'index'
-        # credits_views.connect 'projects/:project_id/credits', :action => 'index'
-        credits_views.connect 'projects/:project_id/credits/new', :action => 'new'
-        credits_views.connect 'projects/:project_id/credits.:format', :action => 'index'
-        credits_views.connect 'projects/:project_id/credits/:id', :action => 'show', :id => /\d+/
-        credits_views.connect 'projects/:project_id/credits/:id.:format', :action => 'show', :id => /\d+/
-      end
-      credits_routes.with_options :conditions => {:method => :post} do |credits_actions|
-        credits_actions.connect 'projects/:project_id/credits/', :action => 'create'
-        credits_actions.connect 'projects/:project_id/credits/:id/:action', :action => /edit|destroy/
-      end
-      # credits_routes.connect 'credits/:action'
-    end
     
+    map.resources :projects, :has_many => :credits
+    
+
     map.resources :projects, :has_many => :motions
     
 
-    # map.with_options :controller => 'motions' do |motions_routes|
-    #   motions_routes.with_options :conditions => {:method => :get} do |motions_views|
-    #     motions_views.connect 'projects/:project_id/motions', :action => 'index'
-    #     motions_views.connect 'projects/:project_id/motions/new', :action => 'new'
-    #     motions_views.connect 'projects/:project_id/motions.:format', :action => 'index'
-    #     motions_views.connect 'projects/:project_id/motions/:id', :action => 'show', :id => /\d+/
-    #     motions_views.connect 'projects/:project_id/motions/:id.:format', :action => 'show', :id => /\d+/
-    #   end
-    #   motions_routes.with_options :conditions => {:method => :post} do |motions_actions|
-    #     # motions_actions.connect 'projects/:project_id/motions/', :action => 'create'
-    #     motions_actions.connect 'projects/:project_id/motions/new', :action => 'new'
-    #     motions_actions.connect 'projects/:project_id/motions/:id/:action', :action => /edit|destroy/
-    #   end
-    # end
 
 
     projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|
