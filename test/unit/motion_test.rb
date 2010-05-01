@@ -12,6 +12,8 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: motions
@@ -29,5 +31,7 @@ end
 #  created_at       :datetime
 #  updated_at       :datetime
 #  ends_on          :date
+#  topic_id         :integer
+#  author_id        :integer
 #
 

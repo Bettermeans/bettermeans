@@ -19,6 +19,12 @@ class MotionsController < ApplicationController
   # GET /motions/1
   # GET /motions/1.xml
   def show
+    
+    @topic = @motion.topic
+    @replies = @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}])
+    @replies.reverse! if User.current.wants_comments_in_reverse_order?
+    @reply = Message.new(:subject => "RE: #{@topic.subject}")
+    
 
     respond_to do |format|
       format.html # show.html.erb

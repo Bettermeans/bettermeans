@@ -31,8 +31,10 @@ class Motion < ActiveRecord::Base
   
   serialize :params
 
+  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :project
   has_many :motion_votes
+  belongs_to :topic, :class_name => 'Message', :foreign_key => 'topic_id'
   
   # named_scope :active, :conditions => ["state = 0"]
   # Returns all active, non responded, non-expired notifications
@@ -45,8 +47,23 @@ class Motion < ActiveRecord::Base
     self.motion_type = Setting::MOTIONS[self.variation]["Type"]
     self.ends_on = Time.new().advance :days => Setting::MOTIONS[self.variation]["Days"].to_f
   end
+  
+  def before_create
+    self.author = User.sysadmin if self.author.nil? 
+  
+    main_board = Board.first(:conditions => {:project_id => self.project, :name => Setting.forum_name})
+
+    motion_topic = Message.create! :board_id => main_board.id,
+                 :subject => self.title,                      
+                 :content => self.description,
+                 :author_id => self.author_id
+                 
+    self.topic_id = motion_topic.id
+    
+  end
 
 end
+
 
 
 
@@ -70,5 +87,6 @@ end
 #  created_at       :datetime
 #  updated_at       :datetime
 #  ends_on          :date
+#  topic_id         :integer
 #
 
