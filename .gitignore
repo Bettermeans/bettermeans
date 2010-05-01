@@ -17,4 +17,5 @@
 /tmp/sockets/*
 /tmp/test/*
 /vendor/rails
+/config/database.yml
 redmine.tmproj
