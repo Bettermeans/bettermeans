@@ -20,7 +20,7 @@
     <td><%=h motion.params %></td>
     <td><%=h motion.motion_type %></td>
     <td><%=h motion.state %></td>
-    <td><%= link_to 'Show', {:controller => "motion", :action => "show", :project_id => @project, :id => motion} %></td>
+    <td><%= link_to 'Show', project_motion_path(@project,motion) %></td>
     <td><%#= link_to 'Edit', edit_motion_path(motion) %></td>
     <td><%#= link_to 'Destroy', motion, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
@@ -31,4 +31,4 @@
 
 <!-- {:controller => 'news', :action => 'new', :project_id => @project}, -->
 
-<%= link_to 'New motion', {:controller => "motion", :action => "new", :project_id => @project} %>
+<%= link_to 'New motion', new_project_motion_path(@project) %>

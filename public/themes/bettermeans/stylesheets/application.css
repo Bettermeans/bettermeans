@@ -1337,11 +1337,11 @@ li { margin-left: 20px;}
 
 #sidebar h3 {
 	margin: 0 0 15px;
-	padding: 0 0 5px;
+/*	padding: 0 0 5px;*/
 	color: #222;
 	font-size: 16px;
-	border-bottom: 1px dotted #d2d2d2;
-	padding-top: 5px;
+/*	border-bottom: 1px dotted #d2d2d2;*/
+/*	padding-top: 5px;*/
 }
 
 
@@ -1447,11 +1447,11 @@ li { margin-left: 20px;}
 /* Content */
 #content h3 {
 	margin: 0 0 15px;
-	padding: 0 0 5px;
+/*	padding: 5px;*/
 	color: #222;
 	font-size: 16px;
-	border-bottom: 1px dotted #d2d2d2;
-	padding-top: 5px;
+/*	border-bottom: 1px dotted #d2d2d2;*/
+/*	padding-top: 5px;*/
 }
 
 #content h4 {
