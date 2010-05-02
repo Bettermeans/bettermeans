@@ -10,7 +10,8 @@ class AccountController < ApplicationController
   skip_before_filter :check_if_login_required
 
   # Login request and validation
-  #shadi's comment
+  # shadi's comment
+  # shadi another comment
   def login
     if request.get?
       # Logout user
