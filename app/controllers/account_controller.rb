@@ -12,6 +12,7 @@ class AccountController < ApplicationController
   # Login request and validation
   # shadi's comment
   # shadi another comment
+  # shadi yet another comment
   def login
     if request.get?
       # Logout user
