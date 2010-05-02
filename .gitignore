@@ -19,3 +19,5 @@
 /vendor/rails
 /config/database.yml
 redmine.tmproj
+.DS_Store
+/nbproject
