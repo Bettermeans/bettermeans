@@ -1,14 +1,6 @@
-<div class="contextual">
-    <%#= watcher_tag(@topic, User.current) %>
-    <%= link_to_remote_if_authorized l(:button_quote), { :url => {:action => 'quote', :id => @topic} }, :class => 'icon icon-comment' %>
-    <%= link_to(l(:button_edit), {:action => 'edit', :id => @topic}, :class => 'icon icon-edit') if @topic.editable_by?(User.current) %>
-    <%= link_to(l(:button_delete), {:action => 'destroy', :id => @topic}, :method => :post, :confirm => l(:text_are_you_sure), :class => 'icon icon-del') if @topic.destroyable_by?(User.current) %>
-</div>
-
 <h2><%=h @topic.subject %></h2>
 
-<div class="message">
-  
+<div class="message">  
   
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
   
