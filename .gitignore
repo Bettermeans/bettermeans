@@ -18,6 +18,6 @@
 /tmp/test/*
 /vendor/rails
 /config/database.yml
+/nbproject
 redmine.tmproj
 .DS_Store
-/nbproject
