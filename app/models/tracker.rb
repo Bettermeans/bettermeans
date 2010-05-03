@@ -19,6 +19,8 @@ class Tracker < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
+  
+  named_scope :standard_ones, :conditions => ["name='Feature' OR name='Chore' OR name='Bug'"]
 
   def to_s; name end
   
