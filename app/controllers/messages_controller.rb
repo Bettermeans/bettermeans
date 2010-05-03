@@ -6,7 +6,7 @@ class MessagesController < ApplicationController
   menu_item :boards
   default_search_scope :messages
   before_filter :find_board, :only => [:new, :preview]
-  before_filter :find_message, :except => [:new, :preview]
+  before_filter :find_message, :except => [:new, :preview, :motion_reply]
   before_filter :authorize, :except => [:preview, :edit, :destroy]
 
   verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }

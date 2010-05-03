@@ -1,7 +1,7 @@
 class MotionsController < ApplicationController
   
   before_filter :find_project, :only => [:new,:index,:create,:show, :edit]
-  before_filter :find_motion, :only => [:show, :edit, :destroy, :update]
+  before_filter :find_motion, :only => [:show, :edit, :destroy, :update, :reply]
   before_filter :check_visibility_permission, :only => [:show]
   before_filter :require_admin, :only => [:edit]
   
@@ -21,6 +21,7 @@ class MotionsController < ApplicationController
   def show
     
     @topic = @motion.topic
+    @board = @topic.board
     @replies = @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}])
     @replies.reverse! if User.current.wants_comments_in_reverse_order?
     @reply = Message.new(:subject => "RE: #{@topic.subject}")
@@ -66,6 +67,7 @@ class MotionsController < ApplicationController
       end
     end
   end
+  
 
   # PUT /motions/1
   # PUT /motions/1.xml
@@ -93,6 +95,22 @@ class MotionsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  # Reply to a motion discussion
+  def reply
+    @topic = @motion.topic
+    @reply = Message.new(params[:reply])
+    @reply.author = User.current
+    @reply.board = @topic.board
+    @topic.children << @reply
+    if !@reply.new_record?
+      attach_files(@reply, params[:attachments])
+    end
+    redirect_to :action => 'show', :id => @motion, :project_id => @motion.project_id
+  rescue
+    404
+  end
+  
   
   def find_project
     @project = Project.find(params[:project_id]).root
