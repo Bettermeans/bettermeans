@@ -129,6 +129,14 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
   end
   
+  map.project_module :motion do |map|
+    map.permission :manage_motion, {:motions => [:edit, :destroy, :create]}, :require => :loggedin
+    map.permission :browse_motion, {:motions => [:index, :view]}, :require => :loggedin
+    map.permission :create_motion, {:motions => :create}, :require => :loggedin
+    map.permission :vote_motion, {:motions => :reply, :motion_vote => :create}, :require => :loggedin
+  end
+  
+  
   # map.project_module :shares do |map|
   #   map.permission :view_shares, {:projects => :shares, :shares => [:index,:show]}, :require => :loggedin
   #   map.permission :add_shares, {:shares => :new}

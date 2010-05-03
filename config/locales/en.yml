@@ -676,6 +676,7 @@ en:
   label_message_new: New message
   label_message_posted: Message added
   label_reply_plural: Replies
+  label_comments_plural: Comments
   label_send_information: Send account information to the user
   label_year: Year
   label_month: Month
@@ -846,15 +847,26 @@ en:
   label_missing_api_access_key: Missing an API access key
   label_api_access_key_created_on: "API access key created {{value}} ago"
   label_dpp_scale: "Estimation Scale"
+  
+  label_motion: "Motion"
 
   label_motion_state0: "In Progress"
   label_motion_state1: "Passed"
   label_motion_state2: "Defeated"
   label_motion_state3: "Cancelled"
 
-  lable_motion_vote_type1 : "Unanimous Consensus"  
-  lable_motion_vote_type2 : "Lazy Majority"  
-  lable_motion_vote_type3 : "Credit Majority"  
+  label_motion_vote_type1 : "Unanimous Consensus"  
+  label_motion_vote_type2 : "Lazy Majority"  
+  label_motion_vote_type3 : "Credit Majority"  
+
+  label_motion_variation0 : "General motion"  
+  label_motion_variation1 : "Extraordinary motion"  
+  label_motion_variation2 : "New member nomination"  
+  label_motion_variation3 : "New Core Team member nomination"  
+  label_motion_variation4 : "Motion to remove member"  
+  label_motion_variation5 : "Motion to remove Core Team member"  
+  label_motion_variation6 : "Board motion (public)"  
+  label_motion_variation7 : "Board motion (private)"  
   
   button_login: Login
   button_submit: Submit
@@ -887,6 +899,7 @@ en:
   button_watch: Watch
   button_unwatch: Unwatch
   button_reply: Reply
+  button_reply: Comment
   button_archive: Archive
   button_unarchive: Unarchive
   button_reset: Reset

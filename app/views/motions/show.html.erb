@@ -1,6 +1,4 @@
-<h3>Motion: <%=h @motion.title %></h3>
-
-<h2><%=h @topic.subject %></h2>
+<h3><%= l :label_motion %> <%= h @motion.id %> : <%=h @topic.subject %></h3>
 
 <div class="message">  
   
@@ -12,22 +10,17 @@
 </div>
 
 <p>
+  <b>State:</b>
+  <%=l "label_motion_state#{h @motion.state}" %><br>
   <b>Variation:</b>
-  <%=h @motion.variation %>
-</p>
-<p>
-  <b>Vote Type</b>
-  <%=l "lable_motion_vote_type#{@motion.motion_type}" %>
-</p>
-<p>
-  <b>State</b>
-  <%=l "label_motion_state#{@motion.state}" %>
+  <%=l "label_motion_variation#{h @motion.variation}" %><br>
+  <b>Vote Type:</b>
+  <%=l "label_motion_vote_type#{h @motion.motion_type}" %><br>
 </p>
 </div>
-<br />
 
 <% unless @replies.empty? %>
-<h3 class="comments"><%= l(:label_reply_plural) %></h3>
+<h3 class="comments"><%= l(:label_comment_plural) %></h3>
 <% @replies.each do |message| %>
   <div class="message reply" id="<%= "message-#{message.id}" %>">
     <div class="contextual">
@@ -38,20 +31,20 @@
     <!-- <div class="replyvote" id="votes_<%#= message.id %>"><%#= render :partial => "votes/reply_vote", :locals => {:reply => message} %></div>             -->
     
   <h4>
-    <%= link_to h(message.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :anchor => "message-#{message.id}" } %>
+    <%= link_to h(message.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :anchor => "message-#{@topic.id}" } %>
     -
     <%= authoring message.created_on, message.author %>
   </h4>
   <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
-  <%= link_to_attachments message, :author => false %>
+  <%#= link_to_attachments message, :author => false %>
   </div>
 <% end %>
 <% end %>
 
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-<p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
+<p><%= toggle_link l(:button_comment), "reply", :focus => 'message_content' %></p>
 <div id="reply" style="display:none;">
-<% form_for :reply, @reply, :url => {:action => 'reply', :id => @topic}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
+<% form_for :reply, @reply, :url => {:action => 'reply', :id => @motion}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'messages/form', :locals => {:f => f, :replying => true} %>
   <%= submit_tag l(:button_submit) %>
   <%= link_to_remote l(:label_preview), 
@@ -77,5 +70,5 @@
 
 <% content_for :sidebar do %>
 <h3>Voting</h3>
-<%#= render :partial => "_votes" %>
+<%= render :partial => "motion_votes/_votes" %>
 <% end %>
