@@ -1414,7 +1414,7 @@ function buttons_for(dataId,expanded){
 			html = html + dash_button('finish',dataId);
 		}
 		else if (item.assigned_to != null){
-			html = html + '<div id="committed_tally_' + dataId + '" class="action_button action_button_tally">' + item.assigned_to.login + '</div>';
+			html = html + '<div id="committed_tally_' + dataId + '" class="action_button_tally">' + item.assigned_to.login + '</div>';
 		
 			if (is_part_of_team(item)){
 				html = html + dash_button('leave',dataId);
@@ -1481,7 +1481,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 			user_voted = true;
 			tally = '';
 			if (!include_start_button || expanded){
-				tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally" onclick="click_agree_root(' + dataId + ',this,\'false\');return false;">';
+				tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button_tally" onclick="click_agree_root(' + dataId + ',this,\'false\');return false;">';
 				if (item.disagree > 5000){
 					html = '';//removing start button from blocked item
 					tally = tally + 'BLOCK';
@@ -1534,7 +1534,7 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	tally = '';
 	
 	
-	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button action_button_tally" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">';
+	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button_tally" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">';
 	if (item.reject > 5000){
 		tally = tally + 'BLOCK';
 	}
