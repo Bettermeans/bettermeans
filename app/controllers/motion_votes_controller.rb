@@ -1,5 +1,5 @@
 class MotionVotesController < ApplicationController
-  before_filter :require_admin
+  # before_filter :require_admin
   # GET /motion_votes
   # GET /motion_votes.xml
   def index
@@ -42,13 +42,14 @@ class MotionVotesController < ApplicationController
   # POST /motion_votes.xml
   def create
     @motion_vote = MotionVote.new(params[:motion_vote])
-    @motion_vote.is_binding = User.current.binding_voter_of_motion?(@motion_vote.motion)
+    @motion_vote.motion_id = params[:motion_id]
+    @motion_vote.user_id = User.current.id
+    @motion_vote.points = params[:points]
 
     respond_to do |format|
       if @motion_vote.save
-        flash[:notice] = @motion.is_binding ? 'Your binding vote was cast' : 'Your non-binding vote was cast'
-        format.html { redirect_to(@motion_vote) }
-        format.xml  { render :xml => @motion_vote, :status => :created, :location => @motion_vote }
+        flash[:notice] = @motion_vote.isbinding ? 'Your binding vote was cast' : 'Your non-binding vote was cast'
+        format.js  { render :action => "cast_vote", :motion => @motion_vote.motion}        
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @motion_vote.errors, :status => :unprocessable_entity }

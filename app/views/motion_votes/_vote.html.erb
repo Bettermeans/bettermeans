@@ -1,6 +1,21 @@
-All votes are final
-<%= @motion.title %>
+<span id="motion_votes">
+<% user_vote = motion.motion_votes.belong_to_current_user.first %>
 
-<div id="motion_vote_agree" class="clickable action_button action_button_agree" onclick="' + onclick + '">
-<a class="action_link clickable" onclick="">Agree</a>
+<% if user_vote.nil? %>
+<%= l :label_you_havent_voted %>
+<% else %>
+<%= l :label_you_voted, :action => user_vote.action_description %>
+<% end %>
+<br><br>
+<span class="clear"></span>
+
+<%= link_to_remote button(l(:label_agree),:agree) , :url => {:controller => :motion_votes, :action => :create, :points => 1, :motion_id => motion} if user_vote.nil? || user_vote.points != 1%>
+<%= link_to_remote button(l(:label_neutral),:neutral) , :url => {:controller => :motion_votes, :action => :create, :points => 0, :motion_id => motion} if user_vote.nil? || user_vote.points != 0%>
+<%= link_to_remote button(l(:label_disagree),:against) , :url => {:controller => :motion_votes, :action => :create, :points => -1, :motion_id => motion} if user_vote.nil? || user_vote.points != -1%>
+<%= link_to_remote button(l(:label_block),:block) , :url => {:controller => :motion_votes, :action => :create, :points => -9999, :motion_id => motion} if user_vote.nil? || user_vote.points != -9999%>
+<br>
+<span class="clear"></span>
+<div id="motion_votes_history">
+<%= l :label_history %>
 </div>
+</span>

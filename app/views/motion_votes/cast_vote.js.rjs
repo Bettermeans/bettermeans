@@ -1,0 +1,1 @@
+page.replace_html "motion_votes", :partial => "motion_votes/vote", :locals => {:motion => @motion_vote.motion}
