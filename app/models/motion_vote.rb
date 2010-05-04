@@ -3,8 +3,11 @@ class MotionVote < ActiveRecord::Base
   belongs_to :motion
   before_create :remove_similar_votes
   before_save :set_binding
+  after_save :update_agree_total
   
   named_scope :belong_to_current_user, :conditions => {:user_id => User.current}
+  
+  named_scope :history, :order => 'updated_at DESC', :include => :user
   
   
   def project
@@ -24,6 +27,22 @@ class MotionVote < ActiveRecord::Base
   def action_description
     l ("label_motion_vote_action#{self.points + 10000}")
   end
+  
+  def update_agree_total
+    @motion = self.motion
+    if self.isbinding
+      @motion.agree =   MotionVote.count(:conditions => {:motion_id => @motion.id, :points => 1, :isbinding=> true})
+      @motion.disagree =   MotionVote.sum(:points, :conditions => "motion_id = '#{@motion.id}' AND points < 0 AND isbinding='true'") * -1
+      @motion.agree_total = @motion.agree - @motion.disagree
+    else
+      @motion.agree_nonbind =   MotionVote.count(:conditions => {:motion_id => @motion.id, :points => 1, :isbinding=> false})
+      @motion.disagree_nonbind =   MotionVote.sum(:points, :conditions => "motion_id = '#{@motion.id}' AND points < 0 AND isbinding='false'") * -1
+      @motion.agree_total_nonbind = @motion.agree_nonbind - @motion.disagree_nonbind
+    end
+    @motion.save
+  end
+  
+  
 end
 
 

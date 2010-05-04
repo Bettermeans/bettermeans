@@ -32,7 +32,7 @@ class Retro < ActiveRecord::Base
   end
   
   def ended?
-    return status_id == STATUS_COMPLETE
+    return status_id == STATUS_COMPLETE || status_id == STATUS_DISTRIBUTED
   end
   
   #For closed retrospectives

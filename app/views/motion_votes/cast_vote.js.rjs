@@ -1,1 +1,3 @@
 page.replace_html "motion_votes", :partial => "motion_votes/vote", :locals => {:motion => @motion_vote.motion}
+page["your_vote"].visual_effect :highlight
+

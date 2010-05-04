@@ -1,21 +1,45 @@
 <span id="motion_votes">
-<% user_vote = motion.motion_votes.belong_to_current_user.first %>
+  <div id="your_vote">
+    <% user_vote = motion.motion_votes.belong_to_current_user.first %>
 
-<% if user_vote.nil? %>
-<%= l :label_you_havent_voted %>
-<% else %>
-<%= l :label_you_voted, :action => user_vote.action_description %>
-<% end %>
-<br><br>
+    <% if user_vote.nil? %>
+    <%= l :label_you_havent_voted %>
+    <% else %>
+    <%= l :label_you_voted, :action => user_vote.action_description %>  <%= distance_of_time_in_words(Time.now,user_vote.updated_at) %> ago 
+    <% end %>
+  </div>
+<br>
 <span class="clear"></span>
 
 <%= link_to_remote button(l(:label_agree),:agree) , :url => {:controller => :motion_votes, :action => :create, :points => 1, :motion_id => motion} if user_vote.nil? || user_vote.points != 1%>
 <%= link_to_remote button(l(:label_neutral),:neutral) , :url => {:controller => :motion_votes, :action => :create, :points => 0, :motion_id => motion} if user_vote.nil? || user_vote.points != 0%>
 <%= link_to_remote button(l(:label_disagree),:against) , :url => {:controller => :motion_votes, :action => :create, :points => -1, :motion_id => motion} if user_vote.nil? || user_vote.points != -1%>
 <%= link_to_remote button(l(:label_block),:block) , :url => {:controller => :motion_votes, :action => :create, :points => -9999, :motion_id => motion} if user_vote.nil? || user_vote.points != -9999%>
-<br>
 <span class="clear"></span>
-<div id="motion_votes_history">
-<%= l :label_history %>
+<br>
+<br>
+
+<div id="motion_votes_tally">
+  <h3><%= l :label_tally %></h3>
+  <% if user_vote.nil? %>
+    <%= l :text_tally_hidden_until_you_vote %>
+  <% else %>
+    <%= tally_table(motion) %>
+  <% end %>
 </div>
+<br>
+<br>
+
+<div id="motion_votes_history">
+  <h3><%= l :label_history %></h3>
+  <% if user_vote.nil? %>
+    <%= l :text_history_hidden_until_you_vote %>
+  <% else %>
+    <% motion.motion_votes.history.each do |mv| %>
+    <%= !user_vote.isbinding && mv.isbinding ? l(:label_hidden) : mv.user %>: <b><%= mv.action_description %></b> <%= distance_of_time_in_words(Time.now,mv.updated_at) %> ago <%= "(#{l :label_non_binding})" if !mv.isbinding %><br>
+    <% end %>
+  <% end %>
+  
+</div>
+
 </span>
