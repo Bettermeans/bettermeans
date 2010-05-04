@@ -136,12 +136,10 @@ class ProjectsController < ApplicationController
                                             :include => [:project, :status, :tracker],
                                             :conditions => cond)
     
-    TimeEntry.visible_by(User.current) do
-      @total_hours = TimeEntry.sum(:hours, 
-                                   :include => :project,
-                                   :conditions => cond).to_f
-    end
     @key = User.current.rss_key
+    
+    @motions = @project.motions.viewable_by(User.current.position_for(@project)).allactive
+    
   end
   
   #Current user decides to join core team

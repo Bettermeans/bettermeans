@@ -1,31 +1,28 @@
-<h1>New motion</h1>
+<h2>New motion</h2>
 
 <% form_for :motion, @motion, :url => {:action => "create", :project_id => @project} do |f| %>
   <%= f.error_messages %>
 <br>
   <p>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
+    <%= f.label :variation %><br />
+    <%= select(:motion, :variation, Setting::MOTIONS.collect{|m| [ l "label_motion_variation#{m[0]}", m[0] ] }.sort ) %>
+    <%#= f.text_field :variation %>
   </p>
   <p>
     <%= f.label :description %><br />
     <%= f.text_area :description %>
   </p>
-  <p>
-    <%= f.label :variation %><br />
-    <%= f.text_field :variation %>
+  <p class ="hidden" id="select_member">
+    <%= f.label :member %><br />
+    <%= collection_select(:param, :member, @project.member_list, :user_id, :name, :prompt => l(:label_select)) %>
   </p>
-  <p>
-    <%= f.label :params %><br />
-    <%= f.text_area :params %>
+  <p class ="hidden" id="select_core_member">
+    <%= f.label :core_member %><br />
+    <%= collection_select(:param, :core_member, @project.core_member_list, :user_id, :name, :prompt => l(:label_select)) %>
   </p>
-  <p>
-    <%= f.label :motion_type %><br />
-    <%= f.text_field :motion_type %>
-  </p>
-  <p>
-    <%= f.label :state %><br />
-    <%= f.text_field :state %>
+  <p class ="hidden" id="select_contributor">
+    <%= f.label :contributor %><br />
+    <%= collection_select(:param, :contributor, @project.contributor_list, :user_id, :name, :prompt => l(:label_select)) %>
   </p>
   <p>
     <%= f.submit 'Create' %>

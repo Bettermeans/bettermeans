@@ -24,6 +24,9 @@ class Setting < ActiveRecord::Base
   #Reverse lookup. Converts credits to points
   CREDITS_TO_POINTS = [0,1,2,3,3,4,4,4,5,5,5,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11,11,11,11,11,11,12,12,12,12,12,12,13,13,13,13,13,13,13,14];
   
+  #Percentage of share that need to agree on a share-majority motion before it passes
+  SHARE_MAJORIY_MOTION_RATIO = 0.666666666 
+  
   MOTIONS = {
     Motion::VARIATION_GENERAL => {
       "Title" => "General Motion",

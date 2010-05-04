@@ -39,12 +39,15 @@ class Motion < ActiveRecord::Base
   belongs_to :topic, :class_name => 'Message', :foreign_key => 'topic_id'
   
   named_scope :allactive, :conditions => ["state = #{STATE_ACTIVE}", Time.new.to_date]
+  named_scope :viewable_by, lambda { |*level| 
+    {:conditions => "visibility_level >= #{level}", :order => "updated_at DESC"}
+  }
   
   before_create :set_values, :create_forum_topic
   after_create :announce
   
   def active?
-    !(self.state == STATE_ACTIVE)
+    self.state == STATE_ACTIVE
   end
   
   def ended?
@@ -71,7 +74,7 @@ class Motion < ActiveRecord::Base
           self.state = STATE_PASSED
         end
     when TYPE_SHARE
-      if self.agree_total < 0
+      if (self.agree + (self.diagree * -1)) * Setting::SHARE_MAJORIY_MOTION_RATIO < self.agree
           self.state = STATE_DEFEATED
         else
           self.state = STATE_PASSED
@@ -91,6 +94,7 @@ class Motion < ActiveRecord::Base
     self.ends_on = Time.new().advance :days => Setting::MOTIONS[self.variation]["Days"].to_f
     self.state = STATE_ACTIVE
     self.author = User.sysadmin if self.author.nil? 
+    self.description = self.title if self.description == ""
   end
   
   def create_forum_topic
