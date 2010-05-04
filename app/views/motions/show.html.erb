@@ -61,10 +61,7 @@
 
 <% html_title h(@topic.subject) %>
 
-
-<%#= render :partial => "messages/motion_topic", :locals => {:topic => @motion.topic} %>
-
 <% content_for :sidebar do %>
 <h3>Voting</h3>
-<%= render :partial => "motion_votes/vote" %>
+<%= render :partial => "motion_votes/vote", :locals => {:motion => @motion} %>
 <% end %>

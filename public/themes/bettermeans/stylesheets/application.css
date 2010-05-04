@@ -1150,14 +1150,30 @@ table.retrospective td.button { vertical-align: bottom; border-left-width: 0px; 
 table.retrospective td.title { vertical-align: top; border-left-width: 0px;  font-size: 1em; border-left-style:solid; padding-left: 10px; width: 4em;text-align:center;font-weight:bold;}
 table.retrospective td.subtitle { width: 5em; vertical-align: top; border-left-width: 0px;  font-size: 1em; padding-left: 2em; text-align:right;}
 
+.action_link{
+	color: #fff;
+}
 
 .action_button{
 	width:60px;
 	height:21px;
 	text-align:center;
-	float:right;
+	vertical-align:middle;
 	cursor:pointer;
+	color: #fff;
+	float: right;
 }
+
+.action_button_no_float{
+	width:60px;
+	height:21px;
+	text-align:center;
+	vertical-align:middle;
+	cursor:pointer;
+	color: #fff;
+	float: left;
+}
+
 
 .action_button_change{
 	font-color:#000;
