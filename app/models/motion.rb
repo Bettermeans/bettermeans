@@ -6,7 +6,7 @@ class Motion < ActiveRecord::Base
   
   TYPE_CONSENSUS = 1 #Any disagree defeats the motion
   TYPE_MAJORITY = 2 #Any block defeats the motion
-  TYPE_CREDIT = 3 #Majority vote, 1 credit = 1 vote
+  TYPE_SHARE = 3 #Majority vote, 1 share = 1 vote
   
   VISIBLE_BOARD = 1 #Only board can see this motion
   VISIBLE_CORE = 2 #Only core & board
@@ -43,8 +43,44 @@ class Motion < ActiveRecord::Base
   before_create :set_values, :create_forum_topic
   after_create :announce
   
-  def ended?
+  def active?
     !(self.state == STATE_ACTIVE)
+  end
+  
+  def ended?
+    Time.now > self.ends_on
+  end
+  
+  #Checks if motion has reached end date, calculates vote and takes action
+  def close
+    return if !active?
+    return if !ended?
+    return if self.motion_votes.nil?
+    
+    case self.motion_type
+    when TYPE_CONSENSUS
+      if self.disagree > 0
+        self.state = STATE_DEFEATED
+      else
+        self.state = STATE_PASSED
+      end
+    when TYPE_MAJORITY
+      if self.disagree > 500 || self.agree_total < 1
+          self.state = STATE_DEFEATED
+        else
+          self.state = STATE_PASSED
+        end
+    when TYPE_SHARE
+      if self.agree_total < 0
+          self.state = STATE_DEFEATED
+        else
+          self.state = STATE_PASSED
+        end
+    end
+    
+    self.save
+    announce_passed if self.state == STATE_PASSED
+
   end
   
   def set_values
@@ -96,7 +132,7 @@ class Motion < ActiveRecord::Base
     admin = User.sysadmin
     
     News.create :project_id => self.project.id,
-                :title => "New motion passed: #{self.title}",
+                :title => "Passed! #{self.title}",
                 :summary => "#{self.title} has passed",
                 :description => "#{self.description}",
                 :author_id => admin
