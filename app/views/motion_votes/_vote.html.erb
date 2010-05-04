@@ -11,13 +11,13 @@
 <% if motion.motion_type == Motion::TYPE_SHARE && User.current.shares.for_project(motion.project_id).empty? %>
   <%= l(:text_you_dont_have_shares_to_vote) %>
   <span class="clear"></span>
-<% elsif motion.motion_type == Motion::TYPE_SHARE %>
+<% elsif motion.motion_type == Motion::TYPE_SHARE && motion.active? %>
 <br>
   <%= link_to_remote button(l(:label_agree),:agree) , :url => {:controller => :motion_votes, :action => :create, :points => 1, :motion_id => motion} if user_vote.nil? || user_vote.points < 1%>
   <%= link_to_remote button(l(:label_neutral),:neutral) , :url => {:controller => :motion_votes, :action => :create, :points => 0, :motion_id => motion} if user_vote.nil? || user_vote.points != 0%>
   <%= link_to_remote button(l(:label_disagree),:against) , :url => {:controller => :motion_votes, :action => :create, :points => -1, :motion_id => motion} if user_vote.nil? || user_vote.points > -1%>
   <span class="clear"></span>
-<% else %>
+<% elsif motion.active? %>
 <br>
   <%= link_to_remote button(l(:label_agree),:agree) , :url => {:controller => :motion_votes, :action => :create, :points => 1, :motion_id => motion} if user_vote.nil? || user_vote.points != 1%>
   <%= link_to_remote button(l(:label_neutral),:neutral) , :url => {:controller => :motion_votes, :action => :create, :points => 0, :motion_id => motion} if user_vote.nil? || user_vote.points != 0%>
@@ -31,7 +31,7 @@
 
 <div id="motion_votes_tally">
   <h3><%= l :label_tally %></h3>
-  <% if user_vote.nil? %>
+  <% if user_vote.nil? && motion.active? %>
     <%= l :text_tally_hidden_until_you_vote %>
   <% else %>
     <%= tally_table(motion) %>

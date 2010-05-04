@@ -15,11 +15,12 @@
   <b>Variation:</b>
   <%=l "label_motion_variation#{h @motion.variation}" %><br>
   <b>Vote Type:</b>
-  <%=l "label_motion_vote_type#{h @motion.motion_type}" %><br>
+  <%=l "label_motion_vote_type#{h @motion.motion_type}" %> (<%=l "label_motion_vote_type#{h @motion.motion_type}_desc" %>)<br>
   <b>Minimum level needed to view:</b>
   <%="#{h @motion.visibility_level_description}" %><br>
   <b>Minimum level for binding vote:</b>
   <%="#{h @motion.binding_level_description}" %><br>
+  <b>Discussion viewable by:</b>Everyone<br>
 </p>
 </div>
 
@@ -66,6 +67,7 @@
 <% html_title h(@topic.subject) %>
 
 <% content_for :sidebar do %>
+<br>
 <h3><%= render_title_date %></h3>
 <%= render :partial => "motion_votes/vote", :locals => {:motion => @motion} %>
 <% end %>

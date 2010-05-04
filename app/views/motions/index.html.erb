@@ -1,28 +1,33 @@
-<h1>Listing motions</h1>
+<div class="contextual">
+<%= link_to_if_authorized(l(:label_motions_new),
+                          {:controller => 'motions', :action => 'new', :project_id => @project},
+                          :class => 'icon icon-add') %>
+</div>
+
+<h2>Listing motions</h2>
 
 <table>
   <tr>
-    <th>Workstream</th>
+    <th>&nbsp;</th>
     <th>Title</th>
-    <th>Description</th>
-    <th>translation missing: en, field_variation</th>
-    <th>translation missing: en, field_params</th>
-    <th>translation missing: en, field_motion_type</th>
-    <th>translation missing: en, field_state</th>
+    <!-- <th>Variation</th> -->
+    <th>State</th>
+    <th>Vote Type</th>
+    <!-- <th>Binding by</th>
+    <th>Viewable by</th> -->
+    <th>Details</th>
   </tr>
 
 <% @motions.each do |motion| %>
   <tr>
-    <td><%=h motion.project_id %></td>
-    <td><%=h motion.title %></td>
+    <td><%= motion.id %></td>
+    <td><%= link_to h(motion.title), project_motion_path(@project,motion) %></td>
+    <!-- <td><%#=l "label_motion_variation#{h motion.variation}" %></td> -->
+    <td><%=l "label_motion_state#{h motion.state}" %></td>
+    <td><%=l "label_motion_vote_type#{h motion.motion_type}" %></td>
+    <!-- <td><%#="#{h motion.binding_level_description}" %></td>
+    <td><%#="#{h motion.visibility_level_description}" %></td> -->
     <td><%=h motion.description %></td>
-    <td><%=h motion.variation %></td>
-    <td><%=h motion.params %></td>
-    <td><%=h motion.motion_type %></td>
-    <td><%=h motion.state %></td>
-    <td><%= link_to 'Show', project_motion_path(@project,motion) %></td>
-    <td><%#= link_to 'Edit', edit_motion_path(motion) %></td>
-    <td><%#= link_to 'Destroy', motion, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
