@@ -28,6 +28,7 @@ class Motion < ActiveRecord::Base
   VARIATION_FIRE_CORE = 5
   VARIATION_BOARD_PUBLIC = 6
   VARIATION_BOARD_PRIVATE = 7
+  VARIATION_HOURLY_TYPE = 8
   
   serialize :params
 
@@ -36,9 +37,14 @@ class Motion < ActiveRecord::Base
   has_many :motion_votes
   belongs_to :topic, :class_name => 'Message', :foreign_key => 'topic_id'
   
-  # named_scope :active, :conditions => ["state = 0"]
-  # Returns all active, non responded, non-expired notifications
   named_scope :allactive, :conditions => ["state = #{STATE_ACTIVE}", Time.new.to_date]
+  
+  before_create :create_forum_topic
+  after_create :announce
+  
+  def ended?
+    !(self.state == STATE_ACTIVE)
+  end
   
   def set_values
     self.title = Setting::MOTIONS[self.variation]["Title"]
@@ -48,7 +54,7 @@ class Motion < ActiveRecord::Base
     self.ends_on = Time.new().advance :days => Setting::MOTIONS[self.variation]["Days"].to_f
   end
   
-  def before_create
+  def create_forum_topic
     self.author = User.sysadmin if self.author.nil? 
   
     main_board = Board.first(:conditions => {:project_id => self.project, :name => Setting.forum_name})
@@ -61,8 +67,29 @@ class Motion < ActiveRecord::Base
     self.topic_id = motion_topic.id
     
   end
+  
+  def visibility_level_description
+    Role.first(:conditions => {:position => self.visibility_level}).name
+  end
+  
+  def binding_level_description
+    Role.first(:conditions => {:position => self.binding_level}).name
+  end
+  
+  def announce
+    self.project.members.each do |member|
+      user = member.user
+      admin = User.sysadmin
+      Notification.create :recipient_id => user.id,
+                          :variation => 'motion_started',
+                          :params => {:motion_title => self.title, :motion_description => self.description, :enterprise_id => self.project.root.id}, 
+                          :sender_id => admin.id,
+                          :source_id => self.id if user.allowed_to_see_motion?(self)
+    end
+  end
 
 end
+
 
 
 
@@ -75,20 +102,26 @@ end
 #
 # Table name: motions
 #
-#  id               :integer         not null, primary key
-#  project_id       :integer
-#  title            :string(255)
-#  description      :text
-#  params           :text
-#  variation        :integer         default(0)
-#  motion_type      :integer         default(2)
-#  visibility_level :integer         default(5)
-#  binding_level    :integer         default(5)
-#  state            :integer         default(0)
-#  created_at       :datetime
-#  updated_at       :datetime
-#  ends_on          :date
-#  topic_id         :integer
-#  author_id        :integer
+#  id                  :integer         not null, primary key
+#  project_id          :integer
+#  title               :string(255)
+#  description         :text
+#  params              :text
+#  variation           :integer         default(0)
+#  motion_type         :integer         default(2)
+#  visibility_level    :integer         default(5)
+#  binding_level       :integer         default(5)
+#  state               :integer         default(0)
+#  created_at          :datetime
+#  updated_at          :datetime
+#  ends_on             :date
+#  topic_id            :integer
+#  author_id           :integer
+#  agree               :integer         default(0)
+#  disagree            :integer         default(0)
+#  agree_total         :integer         default(0)
+#  agree_nonbind       :integer         default(0)
+#  disagree_nonbind    :integer         default(0)
+#  agree_total_nonbind :integer         default(0)
 #
 
