@@ -19,7 +19,7 @@
 
 var D; //all data
 var R; //all retrospectives
-var MAX_REQUESTS_PER_PERSON = 2;
+var MAX_REQUESTS_PER_PERSON = 4;
 var TIMER_INTERVAL = 7000; //7 seconds
 var INACTIVITY_THRESHOLD = 300000; //5 minutes
 var timer_active = false;
@@ -2007,8 +2007,8 @@ function show_start_buttons(){
 	$(".action_button_start").hide();
 	$(".pri_" + highest_pri).find(".action_button_start").show();
 	$(".pri_" + (highest_pri - 1)).find(".action_button_start").show();
-	$(".pri_" + (highest_pri - 2)).find(".action_button_start").show();
-	$(".pri_" + (highest_pri - 3)).find(".action_button_start").show();
+	// $(".pri_" + (highest_pri - 2)).find(".action_button_start").show();
+	// $(".pri_" + (highest_pri - 3)).find(".action_button_start").show();
 	$(".points_0").find(".action_button_start").show();
 }
 
