@@ -911,10 +911,10 @@ function generate_agree_flyover(dataId){
 
 	if (!((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {
 		user_agree_id < 0 ? action_header = 'Vote' : action_header = 'Change your vote:';
-		if (points != 1) {buttons = buttons + button('agree',dataId,points == 1,{action:'agree',data:'&points=1'}) + '<br>';}
-		if (points != 0) {buttons = buttons + button('neutral',dataId,points == 0,{action:'agree',data:'&points=0'}) + '<br>';}
-		if (points != -1) {buttons = buttons + button('against',dataId,points == -1,{action:'agree',data:'&points=-1'}) + '<br>';}
-		if (points != -9999) {buttons = buttons + button('block',dataId,false,{action:'agree',data:'&points=-9999'}) + '<br>';}
+		if (points != 1) {buttons = buttons + dash_button('agree',dataId,points == 1,{action:'agree',data:'&points=1'}) + '<br>';}
+		if (points != 0) {buttons = buttons + dash_button('neutral',dataId,points == 0,{action:'agree',data:'&points=0'}) + '<br>';}
+		if (points != -1) {buttons = buttons + dash_button('against',dataId,points == -1,{action:'agree',data:'&points=-1'}) + '<br>';}
+		if (points != -9999) {buttons = buttons + dash_button('block',dataId,false,{action:'agree',data:'&points=-9999'}) + '<br>';}
 	}
 	
 	return generate_flyover(dataId,'agree',title,you_voted,action_header,buttons,history);
@@ -969,10 +969,10 @@ function generate_accept_flyover(dataId){
 
 	if (item.status.name == 'Done') {
 		user_accept_id < 0 ? action_header = 'Vote' : action_header = 'Change your vote:';
-		if (points != 1) {buttons = buttons + button('accept',dataId,points == 1,{action:'accept',data:'&points=1'}) + '<br>';}
-		if (points != 0) {buttons = buttons + button('neutral',dataId,points == 0,{action:'accept',data:'&points=0'}) + '<br>';}
-		if (points != -1) {buttons = buttons + button('reject',dataId,points == -1,{action:'accept',data:'&points=-1'}) + '<br>';}
-		if (points != -9999) {buttons = buttons + button('block',dataId,false,{action:'accept',data:'&points=-9999'}) + '<br>';}
+		if (points != 1) {buttons = buttons + dash_button('accept',dataId,points == 1,{action:'accept',data:'&points=1'}) + '<br>';}
+		if (points != 0) {buttons = buttons + dash_button('neutral',dataId,points == 0,{action:'accept',data:'&points=0'}) + '<br>';}
+		if (points != -1) {buttons = buttons + dash_button('reject',dataId,points == -1,{action:'accept',data:'&points=-1'}) + '<br>';}
+		if (points != -9999) {buttons = buttons + dash_button('block',dataId,false,{action:'accept',data:'&points=-9999'}) + '<br>';}
 	}
 		
 	return generate_flyover(dataId,'accept',title,you_voted,action_header,buttons,history);
@@ -1380,78 +1380,6 @@ function generate_notice(noticeHtml, noticeId){
 }
 
 
-// function buttons_for(dataId,expanded){
-// 	item = D[dataId];
-// 	html = '';
-// 	
-// 	switch (item.status.name){
-// 	case 'New':
-// 		html = html + pri_button(dataId);
-// 		html = html + agree_buttons(dataId,false,expanded);
-// 	break;
-// 	case 'Estimate':
-// 		html = html + pri_button(dataId);
-// 		html = html + agree_buttons(dataId,false,expanded);
-// 		// html = html + button('estimate',dataId);
-// 	break;
-// 	case 'Open':
-// 		html = html + pri_button(dataId);
-// 		html = html + agree_buttons(dataId,true,expanded);
-// 
-// 		if (currentUserIsCitizen == 'true'){
-// 			var today = new Date();
-// 			var one_day=1000*60*60*24;
-// 			var updated = new Date(item.updated_on).getTime();
-// 			var days = (today.getTime() - updated)/one_day;
-// 			if (days > 30){
-// 				html = html + button('cancel',dataId);
-// 			}
-// 		}		
-// 
-// 	break;
-// 	case 'Committed':
-// 		if (item.assigned_to_id == currentUserId){
-// 			html = html + button('release',dataId);
-// 			html = html + button('finish',dataId);
-// 		}
-// 		else if (item.assigned_to != null){
-// 			html = html + '<div id="committed_tally_' + dataId + '" class="action_button action_button_tally">' + item.assigned_to.login + '</div>';
-// 		
-// 			if (is_part_of_team(item)){
-// 				html = html + button('leave',dataId);
-// 			}
-// 			else{
-// 				html = html + button('join',dataId);
-// 			}
-// 		}
-// 	break;
-// 	case 'Done':
-// 		if (item.retro_id){
-// 			html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
-// 			// if (item.retro_id > 0 && is_part_of_team(item)){
-// 			if (item.retro_id > 0){
-// 				html = html + button('retro',dataId,false,item.retro_id);
-// 			}
-// 		}
-// 		else if (currentUserIsCitizen == 'true'){
-// 			html = html + accept_buttons(dataId);
-// 		}
-// 	break;
-// 	case 'Archived':
-// 		html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted">Accepted</div>';
-// 		if (item.retro_id > 0){
-// 			html = html + button('retro',dataId,false,item.retro_id);
-// 		}
-// 	break;
-// 	case 'Canceled':
-// 		html = html + button('restart',dataId);
-// 	break;
-// 	}
-// 	
-// 	return html;
-// 	
-// }
-
 function buttons_for(dataId,expanded){
 	item = D[dataId];
 	html = '';
@@ -1475,24 +1403,24 @@ function buttons_for(dataId,expanded){
 			var updated = new Date(item.updated_on).getTime();
 			var days = (today.getTime() - updated)/one_day;
 			if (days > 30){
-				html = html + button('cancel',dataId);
+				html = html + dash_button('cancel',dataId);
 			}
 		}		
 
 	break;
 	case 'Committed':
 		if (item.assigned_to_id == currentUserId){
-			html = html + button('release',dataId);
-			html = html + button('finish',dataId);
+			html = html + dash_button('release',dataId);
+			html = html + dash_button('finish',dataId);
 		}
 		else if (item.assigned_to != null){
 			html = html + '<div id="committed_tally_' + dataId + '" class="action_button action_button_tally">' + item.assigned_to.login + '</div>';
 		
 			if (is_part_of_team(item)){
-				html = html + button('leave',dataId);
+				html = html + dash_button('leave',dataId);
 			}
 			else{
-				html = html + button('join',dataId);
+				html = html + dash_button('join',dataId);
 			}
 		}
 	break;
@@ -1503,21 +1431,21 @@ function buttons_for(dataId,expanded){
 		html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">Accepted</div>';
 
 		if (item.retro_id && (item.retro_id > 0)){
-			html = html + button('retro',dataId,false,item.retro_id);
+			html = html + dash_button('retro',dataId,false,item.retro_id);
 		}
 	break;
 	case 'Rejected':
 		html = html + '<div id="rejected_' + dataId + '" class="action_button action_button_rejected" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">Rejected</div>';
-		html = html + button('start',dataId);
+		html = html + dash_button('start',dataId);
 	break;
 	case 'Archived':
 		html = html + '<div id="accepted_' + dataId + '" class="action_button action_button_accepted" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">Accepted</div>';
 		if (item.retro_id > 0){
-			html = html + button('retro',dataId,false,item.retro_id);
+			html = html + dash_button('retro',dataId,false,item.retro_id);
 		}
 	break;
 	case 'Canceled':
-		html = html + button('restart',dataId);
+		html = html + dash_button('restart',dataId);
 	break;
 	}
 	
@@ -1586,12 +1514,12 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	
 	
 	if (include_start_button){
-		html = html + button('start',dataId,true);
+		html = html + dash_button('start',dataId,true);
 	}
 	
 	if (!user_voted){html = '';};//removing start button if pereson hasn't voted yet
 	
-	html = html + tally + button('agree_root',dataId,false,{label:label,cssclass:cssclass});
+	html = html + tally + dash_button('agree_root',dataId,false,{label:label,cssclass:cssclass});
 	
 	return html;
 }
@@ -1665,40 +1593,10 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 		tally = '';
 	}
 	
-	html = html + tally + button('accept_root',dataId,false,{label:label,cssclass:cssclass});
+	html = html + tally + dash_button('accept_root',dataId,false,{label:label,cssclass:cssclass});
 	
 	return html;
 }
-
-// function accept_buttons(dataId){
-// 	var html = '';
-// 	item = D[dataId];
-// 	
-// 	tally = '';
-// 	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button action_button_tally">';
-// 	tally = tally + item.accept + ' - ' + item.reject;
-// 	tally = tally + '</div>';
-// 	
-// 	
-// 	if (item.assigned_to_id == currentUserId){
-// 		return tally;
-// 	}
-// 
-// 	for(var i=0; i < item.issue_votes.length; i++){
-// 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 2)){
-// 			if (item.issue_votes[i].points==1) {
-// 				return tally + button('reject',dataId);
-// 			} else {
-// 				return tally + button('accept',dataId);
-// 			}
-// 		}
-// 	}
-// 	
-// 	html = html + button('reject',dataId);
-// 	html = html + button('accept',dataId);
-// 	
-// 	return html;
-// }
 
 
 function pri_button(dataId){
@@ -1728,7 +1626,7 @@ function generate_pri_button(dataId,direction,pri){
 
 
 //Generates a button type for item id
-function button(type,dataId,hide,options){
+function dash_button(type,dataId,hide,options){
 	  var options = options || {};
 	  var label = typeof(options['label']) == 'undefined' ? 
 	                                  type : 
@@ -1748,9 +1646,9 @@ function button(type,dataId,hide,options){
 	if (hide){ hide_style = "style=display:none;"; }
 	if (type == 'release') label = 'giveup';
 	html = '';
-	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="clickable action_button action_button_' + cssclass + '" ' + hide_style + ' onclick="' + onclick + '">';
-	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable" onclick="">' + label + '</a>';
-	html = html + '</div>';
+	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable" onclick="' + onclick + '">';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="action_button action_button_' + cssclass + '" ' + hide_style + '>';
+	html = html + label + '</div></a>';
 	return html;
 }
 

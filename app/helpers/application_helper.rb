@@ -741,6 +741,10 @@ module ApplicationHelper
   def avatar_from_id(user_id, options = { })
     avatar(User.find(user_id), options)
   end
+  
+  def button(text, cssclass)
+  	return "<div class='action_button_no_float action_button_#{cssclass}'><span>#{text}</span></div>"
+  end
 
 
   private

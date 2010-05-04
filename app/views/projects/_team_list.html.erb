@@ -1,5 +1,5 @@
 <% roles = Role.find_all_givable(Role::LEVEL_PROJECT)
-   members = project.member_principals.find(:all, :include => [:roles, :user, {:user => :incoming_team_points}]).sort 
+   members = project.member_principals.find(:all, :include => [:roles, :user]).sort 
    #TODO: is there way to include incoming_team_points here, so we're not calling it once for every team member below?
    %>
 
