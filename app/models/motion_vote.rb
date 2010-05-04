@@ -25,17 +25,27 @@ class MotionVote < ActiveRecord::Base
   end
   
   def action_description
-    l ("label_motion_vote_action#{self.points + 10000}")
+    if self.motion.motion_type == Motion::TYPE_SHARE
+      if (self.points < 0)
+        l ("label_motion_vote_action_share_disagree",:points => self.points * -1 )
+      elsif (self.points == 0)
+        l ("label_motion_vote_action_share_neutral",:points => self.points)
+      else
+        l ("label_motion_vote_action_share_agree",:points => self.points)
+      end
+    else
+      l ("label_motion_vote_action#{self.points + 10000}")
+    end
   end
   
   def update_agree_total
     @motion = self.motion
     if self.isbinding
-      @motion.agree =   MotionVote.count(:conditions => {:motion_id => @motion.id, :points => 1, :isbinding=> true})
+      @motion.agree =   MotionVote.sum(:points, :conditions => "motion_id = '#{@motion.id}' AND points > 0 AND isbinding='true'")
       @motion.disagree =   MotionVote.sum(:points, :conditions => "motion_id = '#{@motion.id}' AND points < 0 AND isbinding='true'") * -1
       @motion.agree_total = @motion.agree - @motion.disagree
     else
-      @motion.agree_nonbind =   MotionVote.count(:conditions => {:motion_id => @motion.id, :points => 1, :isbinding=> false})
+      @motion.agree_nonbind =   MotionVote.sum(:points, :conditions => "motion_id = '#{@motion.id}' AND points > 0 AND isbinding='false'")
       @motion.disagree_nonbind =   MotionVote.sum(:points, :conditions => "motion_id = '#{@motion.id}' AND points < 0 AND isbinding='false'") * -1
       @motion.agree_total_nonbind = @motion.agree_nonbind - @motion.disagree_nonbind
     end

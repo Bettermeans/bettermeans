@@ -749,7 +749,7 @@ module ApplicationHelper
   def tally_table(motion)
     content = "<table id='motion_votes_totals'>"
     content << "<thead><tr>"
-    content << "<th>&nbsp;</th><th>#{l :label_binding} #{l :label_total}</th><th>#{l :label_non_binding} #{l :label_total}</th>"
+    content << "<th>&nbsp;</th><th>#{l :label_binding}</th><th>#{l :label_non_binding}</th>"
     content << "</tr></thead>"
     content << "<tr>"
     content << "<th>#{l(:label_agree)}</th><td>#{motion.agree}</td><td>#{motion.agree_nonbind}</td>"

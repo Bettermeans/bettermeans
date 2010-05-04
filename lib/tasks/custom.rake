@@ -27,7 +27,13 @@ namespace :custom do
     Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.done.id,DateTime.now - Setting::LAZY_MAJORITY_LENGTH ]).each do |issue|
       issue.update_status
     end
-      
+  end
+
+# loops through active motions and makes a decision on them
+  task :close_motions => :environment do
+    Motion.allactive.each do |motion|
+      motion.close
+    end
   end
   
 

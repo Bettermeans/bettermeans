@@ -374,7 +374,7 @@ en:
   permission_browse_repository: Browse repository
   permission_view_changesets: View changesets
   permission_commit_access: Commit access
-  permission_manage_boards: Manage boards
+  permission_manage_boards: Manage forums
   permission_view_messages: View messages
   permission_add_messages: Post messages
   permission_edit_messages: Edit messages
@@ -389,7 +389,7 @@ en:
   project_module_files: Files
   project_module_wiki: Wiki
   project_module_repository: Repository
-  project_module_boards: Boards
+  project_module_boards: Forums
   
   label_user: User
   label_user_plural: Users
@@ -860,14 +860,17 @@ en:
   label_motion_state2: "Defeated"
   label_motion_state3: "Cancelled"
 
-  label_motion_vote_type1 : "Unanimous Consensus"  
-  label_motion_vote_type2 : "Lazy Majority"  
-  label_motion_vote_type3 : "Credit Majority"  
+  label_motion_vote_type1 : "Unanimous Consensus (no blocks or disagrees)"  
+  label_motion_vote_type2 : "Lazy Majority (more agrees than disagree, no block)"  
+  label_motion_vote_type3 : "Share Majority (1 share = 1 vote. minimum 2/3 agree)"  
   
   label_motion_vote_action1 : "Block"
   label_motion_vote_action9999 : "Disagree"
   label_motion_vote_action10000 : "Neutral"
   label_motion_vote_action10001 : "Agree"
+  label_motion_vote_action_share_agree : "Agree with {{points}} shares"
+  label_motion_vote_action_share_disagree : "Disagree with {{points}} shares"
+  label_motion_vote_action_share_neutral : "Neutral with {{points}} shares"
   label_you_voted : "You voted: <b>{{action}}</b>"
   label_voted : "voted"
   label_you_havent_voted : "You haven't cast your vote yet"
@@ -1048,7 +1051,7 @@ en:
   text_joiner_is_no_longer_working_with_you : "{{joiner}} is no longer working with you on<br/>{{issue}}"
   text_history_hidden_until_you_vote : "Voting history is hidden until you cast your vote"
   text_tally_hidden_until_you_vote : "Voting tally is hidden until you cast your vote"
-  
+  text_you_dont_have_shares_to_vote : "You need to have shares to weigh in on this motion."
   
   default_role_administrator: Administrator
   default_role_citizen: Core Member
