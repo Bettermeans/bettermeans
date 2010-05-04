@@ -19,6 +19,10 @@ class MotionsController < ApplicationController
   # GET /motions/1
   # GET /motions/1.xml
   def show
+    if @motion.concerned_user_id == User.current.id
+      render_404
+      return false
+    end
     
     @topic = @motion.topic
     @board = @topic.board
@@ -53,8 +57,7 @@ class MotionsController < ApplicationController
   def create
     @motion = Motion.new(params[:motion])
     @motion.project_id = @project.id
-    @motion.state = Motion::STATE_ACTIVE
-    @motion.set_values
+    @motion.author_id = User.current.id
 
     respond_to do |format|
       if @motion.save
@@ -127,7 +130,7 @@ class MotionsController < ApplicationController
   
   def check_visibility_permission
     if !User.current.allowed_to_see_motion?(@motion)
-       render_403
+       render_404 #showing 404 b/c user shouldn't even know there's a motion here that they can't see
        return false
     end
     return true
