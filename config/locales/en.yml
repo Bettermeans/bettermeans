@@ -819,6 +819,7 @@ en:
   label_credit : "Credit"
   label_retro_started : "Retrospective Started"
   label_retro_ended : "Retrospective Ended"
+  label_motion_started : "New motion: {{title}}"
   label_credits : Credits
   label_shares : Shares
   label_credit_queue : Credit Queue (Active Credits)

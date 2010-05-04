@@ -15,6 +15,9 @@ end
 
 
 
+
+
+
 # == Schema Information
 #
 # Table name: motions
@@ -40,5 +43,6 @@ end
 #  agree_nonbind       :integer         default(0)
 #  disagree_nonbind    :integer         default(0)
 #  agree_total_nonbind :integer         default(0)
+#  concerned_user_id   :integer
 #
 
