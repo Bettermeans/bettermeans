@@ -306,7 +306,6 @@ class User < Principal
   
   # Return true if the user is allowed to see motion
   def allowed_to_see_motion?(motion)
-    logger.info("XXXXXXXXXXXXXXXXXXXXXXXXXXX positioni #{position_for(motion.project)} level #{motion.visibility_level}")
     position_for(motion.project) <= motion.visibility_level.to_f
   end  
   
