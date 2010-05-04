@@ -10,6 +10,7 @@ task :cron => :environment do
     Rake::Task['close_retros'].invoke
     Rake::Task['custom:refresh_active_members'].invoke
     Rake::Task['custom:lazy_majority'].invoke
+    Rake::Task['custom:close_motions'].invoke
     
     if Time.now.hour == 0
       

@@ -34,9 +34,9 @@ class Setting < ActiveRecord::Base
     },
     Motion::VARIATION_EXTRAORDINARY => {
       "Title" => "Extraordinary Motion",
-      "Binding" => Motion::BINDING_MEMBER,
+      "Binding" => Motion::BINDING_USER,
       "Visible" => Motion::VISIBLE_USER,
-      "Type" => Motion::TYPE_CREDIT,
+      "Type" => Motion::TYPE_SHARE,
       "Days" => 10
     },
     Motion::VARIATION_NEW_MEMBER => {

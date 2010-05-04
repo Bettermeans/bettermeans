@@ -10,6 +10,12 @@ class Share < ActiveRecord::Base
   
   belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
   belongs_to :project
+  named_scope :for_project, lambda { |*project_id| 
+    {:conditions => {:project_id => project_id}}
+  }
+  
+  
+  
   
   def self.set_expiration(owner,project,amount,expiration_date)
     puts "Expiring #{amount} shares for: #{expiration_date}"
