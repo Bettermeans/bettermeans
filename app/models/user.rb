@@ -301,12 +301,13 @@ class User < Principal
 
   # Return true if the user's votes are binding for this motion
   def binding_voter_of_motion?(motion)
-    position_for(motion.project) <= motion.binding_level
+    position_for(motion.project) <= motion.binding_level.to_f
   end
   
   # Return true if the user is allowed to see motion
   def allowed_to_see_motion?(motion)
-    position_for(motion.project) <= motion.visibility_level
+    logger.info("XXXXXXXXXXXXXXXXXXXXXXXXXXX positioni #{position_for(motion.project)} level #{motion.visibility_level}")
+    position_for(motion.project) <= motion.visibility_level.to_f
   end  
   
   # Returns position level for user's role in project's enterprise (the lower number, the higher in heirarchy the user)

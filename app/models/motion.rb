@@ -33,13 +33,14 @@ class Motion < ActiveRecord::Base
   serialize :params
 
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
+  belongs_to :concerned_user, :class_name => 'User', :foreign_key => 'concerned_user_id'
   belongs_to :project
   has_many :motion_votes
   belongs_to :topic, :class_name => 'Message', :foreign_key => 'topic_id'
   
   named_scope :allactive, :conditions => ["state = #{STATE_ACTIVE}", Time.new.to_date]
   
-  before_create :create_forum_topic
+  before_create :set_values, :create_forum_topic
   after_create :announce
   
   def ended?
@@ -52,10 +53,11 @@ class Motion < ActiveRecord::Base
     self.visibility_level = Setting::MOTIONS[self.variation]["Visible"]
     self.motion_type = Setting::MOTIONS[self.variation]["Type"]
     self.ends_on = Time.new().advance :days => Setting::MOTIONS[self.variation]["Days"].to_f
+    self.state = STATE_ACTIVE
+    self.author = User.sysadmin if self.author.nil? 
   end
   
   def create_forum_topic
-    self.author = User.sysadmin if self.author.nil? 
   
     main_board = Board.first(:conditions => {:project_id => self.project, :name => Setting.forum_name})
 
@@ -77,18 +79,32 @@ class Motion < ActiveRecord::Base
   end
   
   def announce
+    admin = User.sysadmin
+    
     self.project.members.each do |member|
       user = member.user
-      admin = User.sysadmin
       Notification.create :recipient_id => user.id,
                           :variation => 'motion_started',
                           :params => {:motion_title => self.title, :motion_description => self.description, :enterprise_id => self.project.root.id}, 
-                          :sender_id => admin.id,
-                          :source_id => self.id if user.allowed_to_see_motion?(self)
+                          :sender_id => self.author_id,
+                          :source_id => self.id,
+                          :expiration => self.ends_on if user.allowed_to_see_motion?(self)
     end
+  end
+  
+  def announce_passed
+    admin = User.sysadmin
+    
+    News.create :project_id => self.project.id,
+                :title => "New motion passed: #{self.title}",
+                :summary => "#{self.title} has passed",
+                :description => "#{self.description}",
+                :author_id => admin
   end
 
 end
+
+
 
 
 
@@ -106,12 +122,10 @@ end
 #  project_id          :integer
 #  title               :string(255)
 #  description         :text
+#  variation           :string(255)
 #  params              :text
-#  variation           :integer         default(0)
-#  motion_type         :integer         default(2)
-#  visibility_level    :integer         default(5)
-#  binding_level       :integer         default(5)
-#  state               :integer         default(0)
+#  motion_type         :integer
+#  state               :integer
 #  created_at          :datetime
 #  updated_at          :datetime
 #  ends_on             :date
@@ -123,5 +137,6 @@ end
 #  agree_nonbind       :integer         default(0)
 #  disagree_nonbind    :integer         default(0)
 #  agree_total_nonbind :integer         default(0)
+#  concerned_user_id   :integer
 #
 

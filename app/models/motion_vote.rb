@@ -3,7 +3,7 @@ class MotionVote < ActiveRecord::Base
   belongs_to :motion
   before_create :remove_similar_votes
   before_save :set_binding
-  after_save :update_agree_total
+  after_save :update_agree_total, :remove_notifications
   
   named_scope :belong_to_current_user, :conditions => {:user_id => User.current}
   
@@ -40,6 +40,10 @@ class MotionVote < ActiveRecord::Base
       @motion.agree_total_nonbind = @motion.agree_nonbind - @motion.disagree_nonbind
     end
     @motion.save
+  end
+  
+  def remove_notifications
+    Notification.update_all "state = #{Notification::STATE_ARCHIVED}" , ["variation = 'motion_started' AND source_id = ? AND recipient_id = ?", self.motion_id, self.user_id]
   end
   
   
