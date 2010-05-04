@@ -1,0 +1,4 @@
+<p><%= link_to(h(motions.project.name), :controller => 'projects', :action => 'show', :id => motions.project) + ': ' unless @project %>
+<%= link_to h(motions.title), project_motion_path(motions.project,motions) %>
+<br />
+<span class="author"><%= authoring motions.created_at, motions.author %></span></p>

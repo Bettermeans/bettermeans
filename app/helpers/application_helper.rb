@@ -18,6 +18,7 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
+    logger.info("Authorizing: #{controller}  #{action}")
     User.current.allowed_to?({:controller => controller, :action => action}, @project)
   end
 
@@ -743,7 +744,7 @@ module ApplicationHelper
   end
   
   def button(text, cssclass)
-  	return "<div class='action_button_no_float action_button_#{cssclass}'><span>#{text}</span></div>"
+  	return "<div class='action_button_no_float action_button_#{cssclass}' onclick=\"$('.action_button_no_float').hide();\" ><span>#{text}</span></div>"
   end
   
   def tally_table(motion)

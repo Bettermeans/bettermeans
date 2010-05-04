@@ -14,7 +14,10 @@ class Project < ActiveRecord::Base
   # Specific overidden Activities
   has_many :time_entry_activities
   has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
-  has_many :core_members, :class_name => 'Member', :include => [:user,:roles], :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}"
+  has_many :core_members, :class_name => 'Member', 
+                          :include => [:user,:roles], 
+                          :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}",
+                           :order => "firstname ASC"
   has_many :member_principals, :class_name => 'Member', 
                                :include => :principal,
                                :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
@@ -368,9 +371,24 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # Returns a hash of active project users grouped by role
+  # Returns a hash of active project users
   def active_members
-    members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}",:include => [:user, :roles])
+    members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}",:include => [:user, :roles], :order => "firstname ASC")
+  end
+
+  # Returns a hash of contributers
+  def contributor_list
+    members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_CONTRIBUTOR}",:include => [:user, :roles], :order => "firstname ASC")
+  end
+
+  # Returns a hash of active project users grouped by role
+  def member_list
+    members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_MEMBER}",:include => [:user, :roles], :order => "firstname ASC")
+  end
+
+  # Returns a hash of active project users grouped by role
+  def core_member_list
+    self.core_members
   end
   
   # Retrieves a list of all active users for the past (x days) and refreshes their roles

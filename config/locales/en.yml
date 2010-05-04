@@ -331,7 +331,7 @@ en:
   
   permission_view_project : View workstream
   permission_add_project: Create workstream
-  permission_add_subprojects: Create subworkstreams
+  permission_add_subprojects: Create workstreams
   permission_edit_project: Edit workstream
   permission_select_project_modules: Select workstream modules
   permission_manage_members: Manage members
@@ -471,8 +471,8 @@ en:
   label_auth_source: Authentication mode
   label_auth_source_new: New authentication mode
   label_auth_source_plural: Authentication modes
-  label_subproject_plural: Sub workstreams
-  label_subproject_new: New subworkstream
+  label_subproject_plural: Workstreams
+  label_subproject_new: New workstream
   label_and_its_subprojects: "{{value}} and its sub workstreams"
   label_min_max_length: Min - Max length
   label_list: List
@@ -837,9 +837,10 @@ en:
   label_block : "Block"
   label_neutral : "Neutral"
   label_history : "History"
+  label_select : "Select"
   
   label_version_sharing_none: Not shared
-  label_version_sharing_descendants: With subworkstreams
+  label_version_sharing_descendants: With workstreams
   label_version_sharing_hierarchy: With workstream hierarchy
   label_version_sharing_tree: With workstream tree
   label_version_sharing_system: With all workstreams
@@ -854,15 +855,21 @@ en:
   label_dpp_scale: "Estimation Scale"
   
   label_motion: "Motion"
+  label_motions_new: New motion
+  
 
   label_motion_state0: "In Progress"
   label_motion_state1: "Passed"
   label_motion_state2: "Defeated"
   label_motion_state3: "Cancelled"
 
-  label_motion_vote_type1 : "Unanimous Consensus (no blocks or disagrees)"  
-  label_motion_vote_type2 : "Lazy Majority (more agrees than disagree, no block)"  
-  label_motion_vote_type3 : "Share Majority (1 share = 1 vote. minimum 2/3 agree)"  
+  label_motion_vote_type1 : "Unanimous Consensus"
+  label_motion_vote_type2 : "Lazy Majority"  
+  label_motion_vote_type3 : "Share Majority"  
+  
+  label_motion_vote_type1_desc : "no blocks or disagrees" 
+  label_motion_vote_type2_desc : "more agrees than disagree, no blocks" 
+  label_motion_vote_type3_desc : "1 share = 1 vote. minimum 2/3 agree" 
   
   label_motion_vote_action1 : "Block"
   label_motion_vote_action9999 : "Disagree"
@@ -892,6 +899,9 @@ en:
   label_agree_total : "Agree Total"
   label_disagree_total : "Disagree Total"
   label_hidden : "(user hidden)"
+  
+  label_motions_active : "Active Motions"
+  label_motions_view_all : "View all Motions"
   
   button_login: Login
   button_submit: Submit
@@ -1049,7 +1059,7 @@ en:
   text_credits_distributed_for : "You earned {{amount}} credits for your work on <strong>{{workstream}}</strong>. Congrats!"
   text_joiner_is_now_working_with_you : "{{joiner}} is now working with you on<br/>{{issue}}"
   text_joiner_is_no_longer_working_with_you : "{{joiner}} is no longer working with you on<br/>{{issue}}"
-  text_history_hidden_until_you_vote : "Voting history is hidden until you cast your vote"
+  text_history_hidden_until_you_vote : "Voting history is hidden since you haven't cast your vote"
   text_tally_hidden_until_you_vote : "Voting tally is hidden until you cast your vote"
   text_you_dont_have_shares_to_vote : "You need to have shares to weigh in on this motion."
   

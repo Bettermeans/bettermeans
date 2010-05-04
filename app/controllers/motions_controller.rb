@@ -3,12 +3,12 @@ class MotionsController < ApplicationController
   before_filter :find_project, :only => [:new,:index,:create,:show, :edit]
   before_filter :find_motion, :only => [:show, :edit, :destroy, :update, :reply]
   before_filter :check_visibility_permission, :only => [:show]
-  before_filter :require_admin, :only => [:edit]
+  before_filter :require_admin, :only => [:edit, :update, :destroy]
   
   # GET /motions
   # GET /motions.xml
   def index
-    @motions = @project.motions.allactive
+    @motions = @project.motions.viewable_by(User.current.position_for(@project))
 
     respond_to do |format|
       format.html # index.html.erb
@@ -58,6 +58,7 @@ class MotionsController < ApplicationController
     @motion = Motion.new(params[:motion])
     @motion.project_id = @project.id
     @motion.author_id = User.current.id
+    @motion.params = params[:param]
 
     respond_to do |format|
       if @motion.save
