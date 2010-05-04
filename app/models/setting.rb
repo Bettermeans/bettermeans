@@ -4,6 +4,8 @@
 
 class Setting < ActiveRecord::Base
 
+  MAXIMUM_CONCURRENT_REQUESTS = 4 #Maximum issues same pereson can own at the same time per workstream
+  
   PAY_SCALES = {'Scale 1' => 100, 'Scale 2' => 50, 'Scale 3' => 20, 'Volunteer' => 0}
   PAY_SCALES_DEFAULT = 100
   
