@@ -868,15 +868,26 @@ en:
   label_motion_vote_action10000 : "Neutral"
   label_motion_vote_action10001 : "Agree"
   label_you_voted : "You voted: <b>{{action}}</b>"
+  label_voted : "voted"
+  label_you_havent_voted : "You haven't cast your vote yet"
+  label_tally : "Tally"
 
-  label_motion_variation0 : "General motion"  
-  label_motion_variation1 : "Extraordinary motion"  
-  label_motion_variation2 : "New member nomination"  
-  label_motion_variation3 : "New Core Team member nomination"  
-  label_motion_variation4 : "Motion to remove member"  
-  label_motion_variation5 : "Motion to remove Core Team member"  
-  label_motion_variation6 : "Board motion (public)"  
-  label_motion_variation7 : "Board motion (private)"  
+  label_motion_variation0 : "General Motion"  
+  label_motion_variation1 : "Extraordinary Motion"  
+  label_motion_variation2 : "New Member Nomination"  
+  label_motion_variation3 : "New Core Team Member Nomination"  
+  label_motion_variation4 : "Motion to Remove Member"  
+  label_motion_variation5 : "Motion to Remove Core Team Member"  
+  label_motion_variation6 : "Board Motion (public)"  
+  label_motion_variation7 : "Board Motion (private)"  
+  label_motion_variation8 : "Motion to Add Hourly Activity Type"  
+  
+  label_binding : "Binding"
+  label_non_binding : "Non binding"
+  
+  label_agree_total : "Agree Total"
+  label_disagree_total : "Disagree Total"
+  label_hidden : "(user hidden)"
   
   button_login: Login
   button_submit: Submit
@@ -1034,6 +1045,8 @@ en:
   text_credits_distributed_for : "You earned {{amount}} credits for your work on <strong>{{workstream}}</strong>. Congrats!"
   text_joiner_is_now_working_with_you : "{{joiner}} is now working with you on<br/>{{issue}}"
   text_joiner_is_no_longer_working_with_you : "{{joiner}} is no longer working with you on<br/>{{issue}}"
+  text_history_hidden_until_you_vote : "Voting history is hidden until you cast your vote"
+  text_tally_hidden_until_you_vote : "Voting tally is hidden until you cast your vote"
   
   
   default_role_administrator: Administrator

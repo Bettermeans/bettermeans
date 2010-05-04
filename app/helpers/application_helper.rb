@@ -745,6 +745,23 @@ module ApplicationHelper
   def button(text, cssclass)
   	return "<div class='action_button_no_float action_button_#{cssclass}'><span>#{text}</span></div>"
   end
+  
+  def tally_table(motion)
+    content = "<table id='motion_votes_totals'>"
+    content << "<thead><tr>"
+    content << "<th>&nbsp;</th><th>#{l :label_binding} #{l :label_total}</th><th>#{l :label_non_binding} #{l :label_total}</th>"
+    content << "</tr></thead>"
+    content << "<tr>"
+    content << "<th>#{l(:label_agree)}</th><td>#{motion.agree}</td><td>#{motion.agree_nonbind}</td>"
+    content << "</tr>"
+    content << "<tr>"
+    content << "<th>#{l(:label_disagree)}</th><td>#{motion.disagree}</td><td>#{motion.disagree_nonbind}</td>"
+    content << "</tr>"
+    content << "<tr>"
+    content << "<th>#{l(:label_total)}</th><td>#{motion.agree_total}</td><td>#{motion.agree_total_nonbind}</td>"
+    content << "</tr>"
+    content << "</table>"
+  end
 
 
   private
