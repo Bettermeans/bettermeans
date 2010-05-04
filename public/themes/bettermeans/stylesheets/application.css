@@ -1157,6 +1157,7 @@ table.retrospective td.subtitle { width: 5em; vertical-align: top; border-left-w
 .action_button{
 	width:60px;
 	height:21px;
+	line-height:21px;
 	text-align:center;
 	vertical-align:middle;
 	cursor:pointer;
@@ -1167,6 +1168,7 @@ table.retrospective td.subtitle { width: 5em; vertical-align: top; border-left-w
 .action_button_no_float{
 	width:60px;
 	height:21px;
+	line-height:21px;
 	text-align:center;
 	vertical-align:middle;
 	cursor:pointer;
@@ -1982,7 +1984,7 @@ text-decoration:underline !important;
 
 .action_button_tally{
 	font-weight:bold;
-	color: 000;
+	color: #000;
 	background: url(/images/bb_blank.png) no-repeat; 
 	width:60px;
 	height:21px;
@@ -1998,11 +2000,13 @@ text-decoration:underline !important;
 
 
 .action_button_accepted{
-	font-weight:bold;	
+	font-weight:bold;
+	color: #000;	
 }
 
 .action_button_rejected{
 	font-weight:bold;	
+	color: #000;	
 }
 
 
