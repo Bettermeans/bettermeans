@@ -58,6 +58,7 @@ class MotionVotesController < ApplicationController
         # flash[:notice] = @motion_vote.isbinding ? 'Your binding vote was cast' : 'Your non-binding vote was cast'
         format.js  { render :action => "cast_vote", :motion => @motion_vote.motion}        
       else
+        format.js { render :action => "error"}
         format.html { render :action => "new" }
         format.xml  { render :xml => @motion_vote.errors, :status => :unprocessable_entity }
       end
