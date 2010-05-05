@@ -319,18 +319,22 @@ class User < Principal
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project, options={})
+    logger.info(options.inspect)
     if project
       # No action allowed on archived projects
+      logger.info("1")
       return false unless project.active?
       # No action allowed on disabled modules
+      logger.info("2")
       return false unless project.allows_to?(action)
       # Admin users are authorized for anything else
+      logger.info("3")
       return true if admin?
       
       # #Check if user is a citizen of the enterprise, and the citizen role is allowed to take that action
       # return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
       
-      
+      logger.info("4")
       roles = roles_for_project(project)
       return false unless roles
       roles.detect {|role| (project.is_public? || role.community_member?) && role.allowed_to?(action)}
@@ -338,11 +342,13 @@ class User < Principal
     elsif options[:global]
       # Admin users are always authorized
       return true if admin?
+      logger.info("222222222222222222222")
       
       # authorize if user has at least one role that has this permission
       roles = memberships.collect {|m| m.roles}.flatten.uniq
       roles.detect {|r| r.allowed_to?(action)} || (self.logged? ? Role.non_member.allowed_to?(action) : Role.anonymous.allowed_to?(action))
     else
+      logger.info("huh?")
       false
     end
   end

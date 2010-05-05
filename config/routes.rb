@@ -143,7 +143,6 @@ ActionController::Routing::Routes.draw do |map|
     # issues_routes.connect 'issues/:action'
   end
   
-  map.resources :projects, :has_many => :shares
   
 
   # map.with_options :controller => 'shares' do |shares_routes|
@@ -245,17 +244,19 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
       project_views.connect 'issues/:show_issue_id', :action => 'dashboard'
       project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
-      # project_views.connect 'projects/:id/retros/:show_retro_id', :action => 'dashboard'
+    end
+
+    projects.with_options :conditions => {:method => :post} do |project_actions|
+      project_actions.connect 'projects/new', :action => 'add'
+      project_actions.connect 'projects', :action => 'add'
+      project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive|edit|join_core_team|leave_core_team|core_vote/
+      project_actions.connect 'projects/:id/wiki', :action => 'wiki'
+      project_actions.connect 'projects/:id/files/new', :action => 'add_file'
+      project_actions.connect 'projects/:id/versions/new', :action => 'add_version'
+      project_actions.connect 'projects/:id/categories/new', :action => 'add_issue_category'
+      project_actions.connect 'projects/:id/activities/save', :action => 'save_activities'
     end
     
-    map.resources :projects, :has_many => :credits
-    
-
-    map.resources :projects, :has_many => :motions
-    
-
-
-
     projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|
       activity.connect 'projects/:id/activity'
       activity.connect 'projects/:id/activity.:format'
@@ -263,24 +264,11 @@ ActionController::Routing::Routes.draw do |map|
       activity.connect 'activity.:format', :id => nil
     end
     
-    projects.with_options :conditions => {:method => :post} do |project_actions|
-      project_actions.connect 'projects/new', :action => 'add'
-      project_actions.connect 'projects', :action => 'add'
-      project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive|edit|join_core_team|leave_core_team|core_vote/
-      # project_actions.connect 'projects/:id/join_core_team', :action => 'join_core_team'
-      # project_actions.connect 'projects/:id/leave_core_team', :action => 'leave_core_team'
-      # project_actions.connect 'projects/:id/core_vote', :action => 'core_vote'
-      project_actions.connect 'projects/:id/wiki', :action => 'wiki'
-      project_actions.connect 'projects/:id/files/new', :action => 'add_file'
-      project_actions.connect 'projects/:id/versions/new', :action => 'add_version'
-      project_actions.connect 'projects/:id/categories/new', :action => 'add_issue_category'
-      project_actions.connect 'projects/:id/activities/save', :action => 'save_activities'
-    end
 
     projects.with_options :conditions => {:method => :delete} do |project_actions|
       project_actions.conditions 'projects/:id/reset_activities', :action => 'reset_activities'
     end
-  end
+  end  
   
   map.with_options :controller => 'versions' do |versions|
     versions.with_options :conditions => {:method => :post} do |version_actions|
@@ -364,6 +352,11 @@ ActionController::Routing::Routes.draw do |map|
   # Used for OpenID
   map.root :controller => 'account', :action => 'login'
   
+  
+  map.resources :projects, :has_many => :shares
+  map.resources :projects, :has_many => :credits
+  map.resources :projects, :has_many => :motions
+      
   map.resources :todos
   map.resources :issue_votes
 
@@ -376,7 +369,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :retro_ratings
   map.resources :retros
   map.resources :notifications
-  map.resources :projects
   map.resources :issues
   # map.resources :motions
   

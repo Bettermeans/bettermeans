@@ -14,8 +14,8 @@ class ProjectsController < ApplicationController
   menu_item :credits, :only => :credits
   menu_item :shares, :only => :shares
   
-  before_filter :find_project, :except => [ :index, :list, :add, :copy, :activity, :update_scale ]
-  before_filter :find_optional_project, :only => :activity
+  before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add ]
+  before_filter :find_optional_project, :only => [:activity, :add]
   before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale ]
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
