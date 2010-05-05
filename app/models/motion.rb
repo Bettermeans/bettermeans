@@ -154,6 +154,8 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: motions
@@ -162,10 +164,12 @@ end
 #  project_id          :integer
 #  title               :string(255)
 #  description         :text
-#  variation           :string(255)
 #  params              :text
-#  motion_type         :integer
-#  state               :integer
+#  variation           :integer         default(0)
+#  motion_type         :integer         default(2)
+#  visibility_level    :integer         default(5)
+#  binding_level       :integer         default(5)
+#  state               :integer         default(0)
 #  created_at          :datetime
 #  updated_at          :datetime
 #  ends_on             :date
