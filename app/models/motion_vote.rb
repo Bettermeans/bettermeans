@@ -5,7 +5,7 @@ class MotionVote < ActiveRecord::Base
   before_save :set_binding
   after_save :update_agree_total, :remove_notifications
   
-  named_scope :belong_to_current_user, :conditions => {:user_id => User.current}
+  named_scope :belong_to_current_user, :conditions => {:user_id => User.current.id}
   named_scope :history, :order => 'updated_at DESC', :include => :user
   
   def project
