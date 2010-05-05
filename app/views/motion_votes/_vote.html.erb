@@ -1,6 +1,7 @@
 <span id="motion_votes">
   <div id="your_vote">
     <% user_vote = motion.motion_votes.belong_to_current_user.first %>
+    <%= user_vote.inspect %>
 
     <% if user_vote.nil? %>
     <%= l :label_you_havent_voted %>
@@ -25,7 +26,6 @@
   <%= link_to_remote button(l(:label_block),:block) , :url => {:controller => :motion_votes, :action => :create, :points => -9999, :motion_id => motion} if user_vote.nil? || user_vote.points != -9999%>
   <span class="clear"></span>
 <% end %>
-
 <br>
 <br>
 
@@ -48,8 +48,7 @@
     <% motion.motion_votes.history.each do |mv| %>
     <%= !user_vote.isbinding && mv.isbinding ? l(:label_hidden) : link_to_user(mv.user) %>: <b><%= mv.action_description %></b> <%= distance_of_time_in_words(Time.now,mv.updated_at) %> ago <%= "(#{l :label_non_binding})" if !mv.isbinding %><br>
     <% end %>
-  <% end %>
-  
+  <% end %>  
 </div>
 
 </span>
