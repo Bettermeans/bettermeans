@@ -58,7 +58,7 @@ class ProjectsController < ApplicationController
     logger.info(params.inspect)
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @project = Project.new(params[:project])
-    @parent = Project.find(params[:parent_id]) unless params[:parent_id].nil?
+    @parent = Project.find(params[:parent_id]) unless params[:parent_id] == ""
     logger.info("PARENT BEFORE #{@parent.inspect}")
     
     if request.get?
