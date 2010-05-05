@@ -2,6 +2,7 @@
   <div id="your_vote">
     <% user_vote = motion.motion_votes.belong_to_current_user.first %>
     <%= user_vote.inspect %>
+    <%= User.current.id %>
 
     <% if user_vote.nil? %>
     <%= l :label_you_havent_voted %>
