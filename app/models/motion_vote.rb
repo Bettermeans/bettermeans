@@ -1,7 +1,7 @@
 class MotionVote < ActiveRecord::Base
   belongs_to :user
   belongs_to :motion
-  # before_create :remove_similar_votes
+  before_create :remove_similar_votes
   before_save :set_binding
   after_save :update_agree_total, :remove_notifications
   
