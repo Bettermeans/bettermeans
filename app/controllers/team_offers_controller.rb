@@ -60,7 +60,6 @@ class TeamOffersController < ApplicationController
     @team_offer = TeamOffer.find(params[:id])
     @team_offer.response = params[:response]
     # @team_offer.save
-    logger.info(params.inspect)
     
     respond_to do |format|
       if @team_offer.save

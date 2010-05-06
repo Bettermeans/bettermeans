@@ -82,14 +82,12 @@ class MemberRole < ActiveRecord::Base
   
   #Removes all contributor roles for this member if the current role being added is core
   def remove_contributor_role_if_core
-    # logger.info("removing contributor role for member_id : #{member_id}")  if role_id == Role::BUILTIN_CORE_MEMBER
     MemberRole.find(:all, :conditions => {:member_id => member_id, :role_id => Role::BUILTIN_CONTRIBUTOR}).each(&:destroy) if role_id == Role::BUILTIN_CORE_MEMBER
   end
   
   #Adds contributor roles for this member if the current role being destroyed is core
   def add_contributor_role_if_core
     if role_id == Role::BUILTIN_CORE_MEMBER
-      logger.info("Adding contributor role for member_id: #{member_id}")
       m = MemberRole.new :member_id => member_id, :role_id => Role::BUILTIN_CONTRIBUTOR 
       m.save
     end

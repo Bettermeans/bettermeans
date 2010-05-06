@@ -126,7 +126,6 @@ class Retro < ActiveRecord::Base
     end
     
     admin = User.find(:first,:conditions => {:login => "admin"})
-    logger.info("users: #{@users}")
     @users.keys.each do |user_id|
       Notification.create :recipient_id => user_id,
                           :variation => 'retro_started',

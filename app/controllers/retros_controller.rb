@@ -167,7 +167,6 @@ class RetrosController < ApplicationController
     #Adding users that have joined the issues and calculating total points for each user
     @retro.issues.each do |issue|
       points = issue.points.to_f / (issue_team_sizes[issue.id])
-      logger.info("#{points}  total points: #{@total_points}")
       @user_retro_hash[issue.assigned_to_id]["total_points"]+=points
       @max_points = @user_retro_hash[issue.assigned_to_id]["total_points"] if @user_retro_hash[issue.assigned_to_id]["total_points"] > @max_points
       
@@ -185,8 +184,6 @@ class RetrosController < ApplicationController
         
       end
     end
-    
-    logger.info("user hash so far #{@user_retro_hash.inspect}")
     
     @user_retro_hash.keys.each do |key| 
       @user_retro_hash[key].store "percentage_points", @total_points == 0 ? 100  : (@user_retro_hash[key]["total_points"].to_f / @total_points * 100).round_to(0).to_i

@@ -23,7 +23,6 @@ class MotionVote < ActiveRecord::Base
   end
   
   def set_binding
-    logger.info("self motion : #{self.motion}")
     self.isbinding = self.user.binding_voter_of_motion?(self.motion)
     return true
   end

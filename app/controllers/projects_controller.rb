@@ -55,26 +55,21 @@ class ProjectsController < ApplicationController
   
   # Add a new project
   def add
-    logger.info(params.inspect)
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @project = Project.new(params[:project])
     @parent = Project.find(params[:parent_id]) unless params[:parent_id] == ""
-    logger.info("PARENT BEFORE #{@parent.inspect}")
     
     if request.get?
       @project.enabled_module_names = Setting.default_projects_modules
       @project.dpp = 100
       
     else
-      logger.info("PROJECT BEFORE SAVE #{@project.inspect}")
       @project.enabled_module_names = params[:enabled_modules]
       @project.enterprise_id = @parent.enterprise_id unless @parent.nil?
       @project.identifier = Project.next_identifier # if Setting.sequential_project_identifiers?
-      logger.info("Project is #{@project.identifier}")
       @project.trackers = Tracker.all
       @project.is_public = Setting.default_projects_public?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
-      logger.info("INSPECTING PROJECT #{@project}")
       if validate_parent_id && @project.save
         logger.info("PARENT #{@parent.inspect}")
         @project.set_allowed_parent!(@parent.id) unless @parent.nil?
@@ -201,12 +196,8 @@ class ProjectsController < ApplicationController
     end
     time_delta = params[:seconds].to_f.round
     if @project.last_item_updated_on.advance(:seconds => time_delta) > DateTime.now
-        logger.info("fresh data!")
-        logger.info("last updated: #{@project.last_item_updated_on}")
-        logger.info("date now: #{DateTime.now}")
         render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND updated_on >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'").to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
     else
-        logger.info("no data")
         render :text => 'no'
     end
   end
@@ -250,13 +241,11 @@ class ProjectsController < ApplicationController
     if request.post?
       @project.attributes = params[:project]
       if validate_parent_id && @project.save
-        logger.info("project SAVED")
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
       else
         settings
-        logger.info("project not saved")
         render :action => 'settings'
       end
     end

@@ -1,15 +1,3 @@
-logger.info("PARAMS FOR UPDATE #{params.inspect}")
-logger.info("@commit_request: #{@commit_request.inspect}")
-
-# #Checking if this update is being called through the notification page
-# if (!params[:notification_id].nil?)
-#   logger.info("Responding to notification page notification_" + params[:notification_id])
-#   page.alert("notification_" + params[:notification_id])
-#   logger.info("sent alert")
-#   page.replace_html "notification_" + params[:notification_id], "Response sent!"
-#   logger.info("replaced #{page.inspect}")
-#   return
-# end
 
 page.replace_html "commit_request_actions", :partial => "show_link", :locals => {:issue => params['issue_id'], :user => params['user_id'],  :push_allowed => params[:push_allowed]}
 page.replace_html "commit_request_side_#{@commit_request.id}", :partial => "commit_requests/show", :locals => {:issue => params['issue_id'], 
