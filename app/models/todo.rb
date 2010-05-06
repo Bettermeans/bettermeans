@@ -6,6 +6,8 @@ class Todo < ActiveRecord::Base
 end
 
 
+
+
 # == Schema Information
 #
 # Table name: todos
@@ -18,5 +20,6 @@ end
 #  completed_on :datetime
 #  created_on   :datetime
 #  updated_on   :datetime
+#  owner_login  :string(255)
 #
 

@@ -1064,7 +1064,7 @@ function generate_todos(dataId,blank_if_no_todos){
 	// html = html + '	    <tbody>';
 	
 	for(var i = 0; i < item.todos.length; i++ ){
-		html = html + generate_todo(item.todos[i].subject,item.todos[i].completed_on, item.todos[i].id,dataId);
+		html = html + generate_todo(item.todos[i].subject,item.todos[i].completed_on, item.todos[i].id,item.todos[i].owner_login,dataId);
 	}
 	// html = html + '	    </tbody>';
 	html = html + '	  </table>';
@@ -1074,7 +1074,7 @@ function generate_todos(dataId,blank_if_no_todos){
 	
 }
 
-function generate_todo(subject,completed_on,todoId,dataId){
+function generate_todo(subject,completed_on,todoId,owner_login,dataId){
 	var completed = '';
 	var checked = '';
 	if (completed_on != null){
@@ -1090,6 +1090,9 @@ function generate_todo(subject,completed_on,todoId,dataId){
 	html = html + '<td  id="task_' + todoId  + '_subject" class="taskDescription ' + completed + '">';
 	html = html + '	<span id="task_' + todoId + '_subject_text">';
 	html = html + h(subject);
+	if ((owner_login != '') && (owner_login!= null)){
+		html = html + ' (' + owner_login + ')';
+	}
 	html = html + '	</span>';
 	html = html + '	<input id="task_' + todoId + '_subject_input" style="display:none;" value="' + h(subject) + '" onblur="edit_todo_post('+ todoId +',' + dataId + ')">';
 	html = html + '	<span id="task_' + todoId + '_subject_submit_container"></span>';
@@ -1139,10 +1142,12 @@ try{
 	$('#task_' + todoId + '_subject_submit_container').html('');
 	
 	var item = D[dataId];	
-	var data = "commit=Update&id=" + todoId + "&issue_id=" + item.id + "&todo[subject]=" + $('#task_' + todoId + '_subject_input').val() ;
+	var data = "commit=Update&id=" + todoId + "&issue_id=" + item.id + "&todo[subject]=" + $('#task_' + todoId + '_subject_input').val();
 	
 	if ($('#task_' + todoId + '_complete').attr("checked") == true){
 		$('#task_' + todoId  + '_subject').addClass('completed');
+		data = data + '&todo[owner_login]=' + currentUserLogin;
+		data = data + '&todo[owner_id]=' + currentUserId;
 		data = data + '&todo[completed_on]=' + Date();
 	}
 	else
@@ -1787,7 +1792,7 @@ function comment_prompt(dataId,source,data,action,required){
 	$.fancybox(
 		{
 				'content'			: content,
-				'width'				: '300px',
+				'width'				: '330px',
 				'height'			: 'auto',
 				'title'				: title,
 		        'autoScale'     	: false,
@@ -2728,6 +2733,8 @@ try{
 		
 		
 		var data = "commit=Create&issue_id=" + item.id + "&todo[subject]=" + text;
+		data = data + '&todo[author_id]=' + currentUserId;
+		
 		
 		var url = url_for({ controller: 'todos',
 	                           action    : 'create'
@@ -2763,12 +2770,20 @@ try{
 		
 		if ($('#task_' + todoId + '_complete').attr("checked") == true){
 			$('#task_' + todoId  + '_subject').addClass('completed');
+			$('#task_' + todoId  + '_subject_text').html($('#task_' + todoId  + '_subject_text').html() + ' (' + currentUserLogin + ')' );
 			data = data + '&todo[completed_on]=' + Date();
+			data = data + '&todo[owner_login]=' + currentUserLogin;
+			data = data + '&todo[owner_id]=' + currentUserId;
+			
 		}
 		else
 		{
 			$('#task_' + todoId  + '_subject').removeClass('completed');
+			$('#task_' + todoId  + '_subject_text').html($('#task_' + todoId  + '_subject_input').val());
 			data = data + '&todo[completed_on]=';
+			data = data + '&todo[owner_login]=';
+			data = data + '&todo[owner_id]=';
+			
 		}
 		
 		var url = url_for({ controller: 'todos',
