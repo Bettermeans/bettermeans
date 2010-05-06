@@ -41,7 +41,6 @@ class QuotesController < ApplicationController
   # POST /quotes.xml
   def create
     @quote = Quote.new(params[:quote])
-    logger.info("quote" + @quote.inspect)
     @quote.user_id = User.current.id
 
     respond_to do |format|

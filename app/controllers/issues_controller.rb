@@ -269,7 +269,6 @@ class IssuesController < ApplicationController
   def change_status
       # @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
       # @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
-      # logger.info("edit allowed #{@edit_allowed} allowed statuses #{@allowed_statuses}")
 
       @notes = params[:notes]
       journal = @issue.init_journal(User.current, @notes)
@@ -278,9 +277,7 @@ class IssuesController < ApplicationController
         attrs = params[:issue].dup
         # attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
         # attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
-        # logger.info("status changed was blocked") unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
         @issue.attributes = attrs
-      #   logger.info(@issue.attributes.inspect)
       # end
 
       if @issue.save
@@ -358,21 +355,6 @@ class IssuesController < ApplicationController
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
     end
   end
-
-  # def reject
-  #   @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => -1
-  #   logger.info("1")
-  #   @issue.update_accept_total @iv.isbinding
-  #   logger.info("2")
-  #   @issue.save
-  #   logger.info("3")    
-  #   @issue.reload
-  #   
-  #   respond_to do |format|
-  #     format.js {render :json => @issue.to_dashboard}
-  #     format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
-  #   end
-  # end
 
   def join
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1

@@ -125,7 +125,6 @@ class User < Principal
         user.language = Setting.default_language
         if user.save
           user.reload
-          logger.info("User '#{user.login}' created from the LDAP") if logger
         end
       end
     end    
@@ -340,7 +339,6 @@ class User < Principal
       roles = memberships.collect {|m| m.roles}.flatten.uniq
       roles.detect {|r| r.allowed_to?(action)} || (self.logged? ? Role.non_member.allowed_to?(action) : Role.anonymous.allowed_to?(action))
     else
-      logger.info("huh?")
       false
     end
   end

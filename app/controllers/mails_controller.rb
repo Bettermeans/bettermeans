@@ -3,7 +3,6 @@ class MailsController < ApplicationController
   before_filter :set_user
   
   def index
-    logger.info("@user in index: #{@user.inspect}")
     if params[:mailbox] == "sent"
       @mails = @user.sent_messages
     else
@@ -12,9 +11,7 @@ class MailsController < ApplicationController
   end
   
   def show
-    logger.info("Entering show")
     @mail = Mail.read_and_get(params[:id], User.current)
-    logger.info("@mail is: #{@mail}")
   end
   
   def new

@@ -15,7 +15,6 @@ class SysController < ActionController::Base
     if project.repository
       render :nothing => true, :status => 409
     else
-      logger.info "Repository for #{project.name} was reported to be created by #{request.remote_ip}."
       project.repository = Repository.factory(params[:vendor], params[:repository])
       if project.repository && project.repository.save
         render :xml => project.repository, :status => 201

@@ -33,12 +33,10 @@ class MailHandler < ActionMailer::Base
     sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
     if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
-      logger.info  "MailHandler: ignoring email from Redmine emission address [#{sender_email}]" if logger && logger.info
       return false
     end
     @user = User.find_by_mail(sender_email)
     if @user && !@user.active?
-      logger.info  "MailHandler: ignoring email from non-active user [#{@user.login}]" if logger && logger.info
       return false
     end
     if @user.nil?
@@ -49,7 +47,6 @@ class MailHandler < ActionMailer::Base
       when 'create'
         @user = MailHandler.create_user_from_email(email)
         if @user
-          logger.info "MailHandler: [#{@user.login}] account created" if logger && logger.info
           Mailer.deliver_account_information(@user, @user.password)
         else
           logger.error "MailHandler: could not create account for [#{sender_email}]" if logger && logger.error
@@ -57,7 +54,6 @@ class MailHandler < ActionMailer::Base
         end
       else
         # Default behaviour, emails from unknown users are ignored
-        logger.info  "MailHandler: ignoring email from unknown user [#{sender_email}]" if logger && logger.info
         return false
       end
     end
@@ -135,7 +131,6 @@ class MailHandler < ActionMailer::Base
     add_watchers(issue)
     issue.save!
     add_attachments(issue)
-    logger.info "MailHandler: issue ##{issue.id} created by #{user}" if logger && logger.info
     issue
   end
   
@@ -168,7 +163,6 @@ class MailHandler < ActionMailer::Base
       issue.status = status
     end
     issue.save!
-    logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info
     journal
   end
   
@@ -199,7 +193,6 @@ class MailHandler < ActionMailer::Base
         add_attachments(reply)
         reply
       else
-        logger.info "MailHandler: ignoring reply from [#{sender_email}] to a locked topic" if logger && logger.info
       end
     end
   end

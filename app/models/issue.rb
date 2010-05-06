@@ -90,14 +90,10 @@ class Issue < ActiveRecord::Base
   end
   
   def updated_status
-    logger.info("A")
     return IssueStatus.accepted if ready_for_accepted?
     return IssueStatus.rejected if ready_for_rejected?
-    logger.info("B")
     return IssueStatus.done if self.status == IssueStatus.done
-    logger.info("C")
     return IssueStatus.inprogress if self.status == IssueStatus.inprogress    
-    logger.info("D")
     return IssueStatus.open if ready_for_open?
     return IssueStatus.canceled if ready_for_canceled?
     return IssueStatus.newstatus #default

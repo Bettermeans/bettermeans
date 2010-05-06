@@ -29,7 +29,6 @@ class TeamPoint < ActiveRecord::Base
   def recalculate_core_membership
     total_points = TeamPoint.total(recipient, project)
     earned_core_membership = project.eligible_for_core?(recipient, :total_points => total_points)
-    logger.info("earned membership : #{earned_core_membership}  #{total_points}")
     if earned_core_membership 
       #Send out an invitation if that person just earned their membersnip
       if total_points == CORE_MEMBERSHIP_THRESHOLD + 1 && value == 1 #only invite if total points is 1 more than threshold, and current value is one (i.e. we're not falling from 2 to 1). We don't want them getting an invitation everytime their total changes

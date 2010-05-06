@@ -20,7 +20,6 @@ module CommitRequestsHelper
     @user = User.current
     @cr = cr
     
-    logger.info(@cr.inspect)
     linebreak = "<br>==> "
     content = ''
     if (push_allowed == nil)
@@ -80,7 +79,6 @@ module CommitRequestsHelper
       when 7 then content << linebreak << l(:label_declined, :age => time_tag(@cr.updated_on))     
       when 8 then content << linebreak << l(:label_released, :age => time_tag(@cr.updated_on))     
     end
-    # logger.info("Authoring from id content #{content}")
     content << "<br>"
   end
   
@@ -94,10 +92,7 @@ module CommitRequestsHelper
     @action = ''
     @class = ''
     
-    logger.info("Generating pull link: ISSUE #{issue} USER #{user} ISSUEASSIGNED #{@issue.assigned_to} PUSH ALLOWED #{push_allowed} @CR: #{@cr.inspect unless @cr.nil?}")
-    
     if (@issue.assigned_to == User.current) #If I own an issue, and I give it up it's marked as released      
-      logger.info("Current user owns this issue")
       @label = l(:button_request_commitment_giveup)
       @response = 8
       @action = 'update'
@@ -105,7 +100,6 @@ module CommitRequestsHelper
       @button_id = '_remove'
       
       if (@cr == nil) #Used for migration. Some issues have been assigned, but don't have commitment requests (before commitment requests were implemented!)
-        logger.info("No existing commitment request. Creating first one")
         #Let's create a commitment request
         @cr = CommitRequest.new({:user_id => User.current.id, :response => 2, :responder_id => User.current.id, :created_on => @issue.created_on, :updated_on => @issue.updated_on, :issue_id => @issue.id})
         @cr.save!
