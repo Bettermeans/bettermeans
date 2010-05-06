@@ -590,13 +590,6 @@ class Project < ActiveRecord::Base
                   :description => Setting.forum_description + name
   end
   
-  #Returns true if user is eligible to be on the core team of this project
-  def eligible_for_core?(user,options={})
-    options[:total_points] ||= TeamPoint.total(user, self)
-    total_points = options[:total_points]
-    total_points = total_points + 1 if user.core_member_of?(self.parent)
-    eligible = (total_points > TeamPoint::CORE_MEMBERSHIP_THRESHOLD) || (total_points > TeamPoint::CORE_MEMBERSHIP_LOSS_THRESHOLD && user.core_member_of?(self)) #More than zero to initiate, but if user is already a member they stay if their total is 0
-  end
   
   #Returns true if threshold of points that haven't been included in a retrospective have been created
   def ready_for_retro?
