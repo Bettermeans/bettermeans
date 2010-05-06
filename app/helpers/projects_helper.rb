@@ -59,50 +59,7 @@ module ProjectsHelper
     options << "<option value=''></option>" if project.allowed_parents.include?(nil)
     options << project_tree_options_for_select(project.allowed_parents.compact, :selected => selected)
     content_tag('select', options, :name => 'project[parent_id]')
-  end
-  
-  def endorsement_links(member)    
-    content = ''
-    
-    #Finding out total points from core team members for this member, and wether or not current user has voted for this member
-    current_user_vote = 0
-    sum = 0
-    TeamPoint.find(:all, :include => [:author, {:author => [:core_memberships]}], :conditions => {:project_id => member.project_id, :recipient_id => member.user_id}).each do |t|
-      t.author.core_memberships.each do |m|
-        if m.project_id == member.project_id || m.project_id == member.project.parent_id #only calculate points given by other core members on this team, or the parent team
-          sum = sum + t.value 
-          break #we break because we don't want to double count if author is both a core member of current project AND parent project
-        end
-        
-      end
-      current_user_vote = t.value if t.author == User.current
-    end
-    
-    content << sum.to_s
-
-  	return content if User.current == member.user || (!User.current.core_member_of?(member.project) && !User.current.core_member_of?(member.project.parent))    	# You can't vote if it's yourself, or if you're not a core team member of this project
-  	
-  	content << '  '
-
-  	case current_user_vote
-	  when 0 
-	    content << link_to_remote(image_tag("/images/aupgray.gif", :size => "15x14", :border => 0), 
-      		{:url => {:controller => 'projects', :action => 'core_vote', :value => 1, :member_id => member, :format => :js},
-      		:method => :post})
-	    content << link_to_remote(image_tag("/images/adowngray.gif", :size => "15x14", :border => 0), 
-      		{:url => {:controller => 'projects', :action => 'core_vote', :value => -1, :member_id => member, :format => :js},
-      		:method => :post})
-    when 1
-      content << link_to_remote(image_tag("/images/adowngray.gif", :size => "15x14", :border => 0), 
-      		{:url => {:controller => 'projects', :action => 'core_vote', :value => -1, :member_id => member, :format => :js},
-      		:method => :post})
-	  when -1
-	    content << link_to_remote(image_tag("/images/aupgray.gif", :size => "15x14", :border => 0), 
-      		{:url => {:controller => 'projects', :action => 'core_vote', :value => 1, :member_id => member, :format => :js},
-      		:method => :post})
-	  end
-  	
-  end
+  end  
   
   # Renders a tree of projects as a nested set of unordered lists
   # The given collection may be a subset of the whole project tree

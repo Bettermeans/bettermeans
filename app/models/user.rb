@@ -342,12 +342,7 @@ class User < Principal
       false
     end
   end
-  
-  #Total team points for this user for this project
-  def team_points_for(project, options={})
-    TeamPoint.total(self,project)
-  end
-  
+    
   #Adds current user to core team of project
   def add_to_core(project, options={})
     if project.eligible_for_core?(self)
