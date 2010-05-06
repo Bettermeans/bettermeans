@@ -13,6 +13,8 @@ two:
   completed_on: 2010-01-21 23:04:51
 
 
+
+
 # == Schema Information
 #
 # Table name: todos
@@ -25,5 +27,6 @@ two:
 #  completed_on :datetime
 #  created_on   :datetime
 #  updated_on   :datetime
+#  owner_login  :string(255)
 #
 
