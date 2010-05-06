@@ -1741,7 +1741,7 @@ function click_retro(dataId,source,data){
 }
 
 function submit_comment_prompt(dataId,data,action){
-	var text = $("#new_comment_" + dataId).val();
+	var text = $("#prompt_comment_" + dataId).val();
 	if ((text == null) || (text.length < 2)){
 		alert('Comment is too short!');
 	}
