@@ -150,7 +150,6 @@ class ProjectsController < ApplicationController
   end
 
   def leave_core_team
-    TeamPoint.delete_all :project_id => @project.id, :recipient_id => User.current.id, :author_id => User.current.id
     User.current.drop_from_core(@project)
     
     respond_to do |format|
@@ -215,18 +214,6 @@ class ProjectsController < ApplicationController
     render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND id IN (SELECT DISTINCT issue_id FROM #{Pri.table_name} where user_id = #{User.current.id})", :select => "id").to_json
   end
   
-  #Current user voting someone else up or down
-  def core_vote
-    @value = params[:value]
-    @member = Member.find(params[:member_id])
-
-    TeamPoint.create :project => @project, :author => User.current, :recipient => @member.user, :value => @value
-    
-    respond_to do |format|
-      format.js  { render :action => "core_vote"}        
-    end
-  end
-
   def settings
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     # @issue_category ||= IssueCategory.new
