@@ -609,7 +609,7 @@ function generate_details_flyover(dataId){
 
 function generate_estimate_flyover(dataId){
 	var item = D[dataId];
-	
+	var i = 0; //counter
 	var credits = item.points;
 	
 	var you_voted = "You haven't estimated yet";
@@ -617,7 +617,7 @@ function generate_estimate_flyover(dataId){
 	var user_estimate_id = -1;
 	var total_people_estimating = 0;
 	
-	for(var i=0; i < item.issue_votes.length; i++){
+	for(i=0; i < item.issue_votes.length; i++){
 		if (item.issue_votes[i].vote_type != 4) continue;
 		total_people_estimating++ ;
 		
@@ -643,7 +643,7 @@ function generate_estimate_flyover(dataId){
 	var history = '';
 	//Show history if user estimated, or if item is no longer available for estimation
 	if ((user_estimate_id > -1)||((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))){
-		for(var i = 0; i < item.issue_votes.length; i++ ){
+		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 4) continue;
 			history = history + item.issue_votes[i].points + ' cr - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
 			if (item.issue_votes[i].isbinding == false){
@@ -659,7 +659,7 @@ function generate_estimate_flyover(dataId){
 	
 	if (!((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {	
 		user_estimate_id < 0 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
-		for(var i = 0; i < point_factor.length; i++ ){
+		for(i = 0; i < point_factor.length; i++ ){
 			buttons = buttons + generate_estimate_button(i,point_factor[i] * credit_base, item.id, user_estimate_id,dataId);
 		}
 	}
@@ -694,6 +694,7 @@ function pri_text(points){
 		return "DOWN";
 		break;
 	}
+	return "ERROR: OUT OF RANGE";
 }
 
 function agree_text(points){
@@ -711,6 +712,7 @@ function agree_text(points){
 		return "BLOCK";
 		break;
 	}
+	return "ERROR: OUT OF RANGE";
 }
 
 function accept_text(points){
@@ -728,6 +730,7 @@ function accept_text(points){
 		return "BLOCK";
 		break;
 	}
+	return "ERROR: OUT OF RANGE";
 }
 
 function generate_pri_flyover(dataId){
@@ -739,8 +742,9 @@ function generate_pri_flyover(dataId){
 	var you_voted = '';
 	var user_pri_id = 0;
 	var total_people_prioritizing = 0;
+	var i = 0; //counter variable
 	
-	for(var i=0; i < item.issue_votes.length; i++){
+	for(i=0; i < item.issue_votes.length; i++){
 		if (currentUserLogin == item.issue_votes[i].user.login){
 			if (item.issue_votes[i].vote_type != 3) continue;
 			total_people_prioritizing++ ;
@@ -765,7 +769,7 @@ function generate_pri_flyover(dataId){
 	
 	var history = '';
 	if (!(item.issue_votes == null || item.issue_votes.length < 1)){
-		for(var i = 0; i < item.issue_votes.length; i++ ){
+		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 3) continue;
 			history = history + pri_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
 			if (item.issue_votes[i].isbinding == false){
@@ -850,8 +854,9 @@ function generate_agree_flyover(dataId){
 	var you_voted = '';
 	var user_agree_id = -1;
 	var total_people_agreeing = 0;
+	var i = 0; //counter variable
 	
-	for(var i=0; i < item.issue_votes.length; i++){
+	for(i=0; i < item.issue_votes.length; i++){
 		if (currentUserLogin == item.issue_votes[i].user.login){
 			if (item.issue_votes[i].vote_type != 1) continue;
 			total_people_agreeing++ ;
@@ -874,11 +879,11 @@ function generate_agree_flyover(dataId){
 	var buttons = '';
 	var points = 999;
 	
-	
+	http://bettermeans.com/front/?page_id=318
 	if (user_agree_id > -1){
-		points = item.issue_votes[user_agree_id].points
+		points = item.issue_votes[user_agree_id].points;
 		
-		for(var i = 0; i < item.issue_votes.length; i++ ){
+		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 1) continue;
 			history = history + agree_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.login; //firstname + ' ' + item.issue_votes[i].user.lastname;
 			if (item.issue_votes[i].isbinding == false){
@@ -909,8 +914,9 @@ function generate_accept_flyover(dataId){
 	var you_voted = '';
 	var user_accept_id = -1;
 	var total_people_accepting = 0;
+	var i = 0;
 	
-	for(var i=0; i < item.issue_votes.length; i++){
+	for(i=0; i < item.issue_votes.length; i++){
 		if (currentUserLogin == item.issue_votes[i].user.login){
 			if (item.issue_votes[i].vote_type != 2) continue;
 			total_people_accepting++ ;
@@ -935,9 +941,9 @@ function generate_accept_flyover(dataId){
 	
 	
 	if (user_accept_id > -1){
-		points = item.issue_votes[user_accept_id].points
+		points = item.issue_votes[user_accept_id].points;
 		
-		for(var i = 0; i < item.issue_votes.length; i++ ){
+		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 2) continue;
 			history = history + accept_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.login; //firstname + ' ' + item.issue_votes[i].user.lastname;
 			if (item.issue_votes[i].isbinding == false){
@@ -1264,7 +1270,7 @@ function generate_item_lightbox(dataId){
 }
 
 function update_lightbox_lock_version(dataId){
-	$("#issue_lock_version").attr('value', D[dataId].lock_version)
+	$("#issue_lock_version").attr('value', D[dataId].lock_version);
 }
 
 function generate_retro(rdataId){
@@ -1311,7 +1317,7 @@ function display_retro(rdataId){
 	
 	var retro = R[rdataId];
 	
-	$('#done_itemList_' + retro.id + '_toggle_expanded_button').attr('src','/images/iteration_expander_open.png')
+	$('#done_itemList_' + retro.id + '_toggle_expanded_button').attr('src','/images/iteration_expander_open.png');
 	
 	$.ajax({
 	   type: "GET",
@@ -1606,8 +1612,8 @@ function generate_pri_button(dataId,direction,pri){
 
 
 //Generates a button type for item id
-function dash_button(type,dataId,hide,options){
-	  var options = options || {};
+function dash_button(type,dataId,hide,options_param){
+	  var options = options_param || {};
 	  var label = typeof(options['label']) == 'undefined' ? 
 	                                  type : 
 	                                  options['label'];
@@ -1768,13 +1774,13 @@ function comment_prompt(dataId,source,data,action,required){
 	var content = '';
 	content = content + '<div id="comment_prompt"><h2>Comment</h2><br>';
         content = content + '<p><textarea id="prompt_comment_' + dataId + '" rows="10" cols="60" class="xxx"></textarea></p><br>';
-		content = content + '<p>'
+		content = content + '<p>';
         content = content + '<input type="submit" onclick="submit_comment_prompt(' + dataId + ',\'' + data + '\',\'' + action + '\')" value="Submit"></input>';
 		if (!required){
         	content = content + '<input type="submit" onclick="send_item_action(' + dataId + ',\'' + action + '\',\'' + data + '\'); $.fancybox.close();return false;" value="No Comment"></input>';
 		}
         content = content + '<input type="submit" onclick="cancel_comment_prompt(' + dataId + ',\'' + source + '\',\'' + data + '\',\'' + action + '\')" value="Cancel"></input>';
-		content = content + '</p><br><br></div>'
+		content = content + '</p><br><br></div>';
 		$('#comment_prompt').remove();
 		$('body').append(content);
 
@@ -1832,7 +1838,7 @@ function filter_select(){
 	
 	if (selection != "all"){
 		$('#filtered_message').show();
-		$('#filter_detail').html($("#filter_select :selected").text())
+		$('#filter_detail').html($("#filter_select :selected").text());
 	}
 	else
 	{
@@ -1866,12 +1872,10 @@ function search_for(text){
 			if (text.length > 0){
 				$("#item_content_details_" + i).texthighlight(text);
 			}
-			// $("#item_" + i).highlight(text);
 		}
 		else 
 		{
 			$("#item_" + i).hide().removeHighlight();
-		  	// $("#item_" + i).
 		}
 	}
 	
@@ -2000,6 +2004,7 @@ function update_panel_count(name, skip_button){
 		if (!skip_button){
 			$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\([0-9]*\)/,"(" + count + ")"));
 		}
+		return true;
 	}
 	catch(err){
 		return false;
@@ -2656,7 +2661,7 @@ try{
 		
 		//Try capturing comment from inner frame (in case of lightbox comment)
 		if (text == null){
-			$("#fancybox-frame").contents().("#prompt_comment_" + dataId).val();
+			$("#fancybox-frame").contents().find("#prompt_comment_" + dataId).val();
 		}
 	}
 	else{
