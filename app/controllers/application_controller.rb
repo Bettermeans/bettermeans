@@ -137,7 +137,6 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
-    logger.info("entering authorize")
     allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project, :global => global)
     logger.info("allwed: #{allowed}")
     allowed ? true : deny_access
@@ -145,7 +144,6 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested action outside a project
   def authorize_global(ctrl = params[:controller], action = params[:action], global = true)
-    logger.info("entering authorize global")
     authorize(ctrl, action, global)
   end
   

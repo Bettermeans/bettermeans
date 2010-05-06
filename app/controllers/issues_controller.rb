@@ -126,8 +126,6 @@ class IssuesController < ApplicationController
     end
     @issue.author = User.current
     
-    logger.info("SO GOOD SO FAR")
-    
     @issue.priority = IssuePriority.default
 
     default_status = IssueStatus.default
@@ -149,7 +147,6 @@ class IssuesController < ApplicationController
       
       # Check that the user is allowed to apply the requested status
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
-      logger.info("before save: status #{@issue.inspect}")
       if @issue.save
         attach_files(@issue, params[:attachments])
         # flash[:notice] = l(:notice_successful_create)
@@ -180,7 +177,6 @@ class IssuesController < ApplicationController
   UPDATABLE_ATTRS_ON_TRANSITION = %w(status_id assigned_to_id fixed_version_id done_ratio) unless const_defined?(:UPDATABLE_ATTRS_ON_TRANSITION)
   
   def edit
-    logger.info("ENTERING EDIT FOR ISSUE Lock version: #{@issue.lock_version} params: #{params.inspect}")
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @priorities = IssuePriority.all
     @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)

@@ -1,4 +1,3 @@
-console.log("hi");
 function show_item(){
 	timer_active = false;
 	D = [];

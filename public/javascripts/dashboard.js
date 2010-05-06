@@ -1,26 +1,7 @@
-// Add following code to any rhtml page using this code
-// <%= javascript_include_tag  'dashboard' %>
-// <%= stylesheet_link_tag 'dashboard' %>
-// 
-// 
-// <script>
-//   var projectId = '<%= @project.identifier %>';
-//   var currentUser = '<%= User.current.name %>';
-//   var currentUserLogin = '<%= User.current.login %>';
-//   var currentUserId = '<%= User.current.id %>';
-//   var currentUserIsCitizen = '<%= User.current.citizen_of?(@project) %>';
-// 
-// 	$('document').ready(function(){
-// 	  load_dashboard();
-// 	});
-
-// </script>
-
-
 var D; //all data
 var R; //all retrospectives
 var MAX_REQUESTS_PER_PERSON = 4;
-var TIMER_INTERVAL = 7000; //7 seconds
+var TIMER_INTERVAL = 15000; //15 seconds
 var INACTIVITY_THRESHOLD = 300000; //5 minutes
 var timer_active = false;
 var ITEMHASH = new Array(); //mapping between item IDs and their id in the D array
@@ -33,7 +14,6 @@ var panel_height = $(window).height() - 200;
 var last_activity = new Date(); //tracks last activity of mouse or keyboard click. Used to turn off server polling
 var last_data_pull = new Date(); //tracks last data recieved from server
 var highest_pri = -9999;
-// var credits_to_points_array = [0,1,2,3,3,4,4,4,5,5,5,6,6,6];
 
 $(window).bind('resize', function() {
 	resize();
@@ -1665,12 +1645,12 @@ function click_start(dataId,source,data){
 
 function click_reject(dataId,source,data){
 	$('#' + source.id).parent().hide();
-	send_item_action(dataId,'reject');
+	comment_prompt(dataId,source,data,'reject',true);
 }
 
 function click_finish(dataId,source,data){
 	$('#' + source.id).parent().hide();
-	send_item_action(dataId,'finish');
+	comment_prompt(dataId,source,data,'finish',true);
 }
 
 function click_restart(dataId,source,data){
@@ -1684,7 +1664,18 @@ function click_restart(dataId,source,data){
 
 function click_agree(dataId,source,data){
 	$('#item_content_buttons_' + dataId).hide();
-	send_item_action(dataId,'agree',data);
+	
+	switch(data)
+	{
+		case "&points=1":	send_item_action(dataId,'agree',data);
+					break;	
+		case "&points=0":	send_item_action(dataId,'agree',data);
+					break;	
+		case "&points=-1":	comment_prompt(dataId,source,data,'agree',false);
+					break;	
+		case "&points=-9999":	comment_prompt(dataId,source,data,'agree',true);
+					break;	
+	}
 }
 
 function click_agree_root(dataId,source,data){
@@ -1699,7 +1690,17 @@ function click_accept_root(dataId,source,data){
 
 function click_accept(dataId,source,data){
 	$('#' + source.id).parent().hide();
-	send_item_action(dataId,'accept',data);
+	switch(data)
+	{
+		case "&points=1":	send_item_action(dataId,'accept',data);
+					break;	
+		case "&points=0":	send_item_action(dataId,'accept',data);
+					break;	
+		case "&points=-1":	comment_prompt(dataId,source,data,'accept',false);
+					break;	
+		case "&points=-9999":	comment_prompt(dataId,source,data,'accept',true);
+					break;	
+	}
 }
 
 function click_release(dataId,source,data){
@@ -1709,7 +1710,7 @@ function click_release(dataId,source,data){
 
 function click_cancel(dataId,source,data){
 	$('#' + source.id).parent().hide();
-	send_item_action(dataId,'cancel');
+	comment_prompt(dataId,source,data,'cancel',true);
 }
 
 function click_leave(dataId,source,data){
@@ -1738,6 +1739,63 @@ function click_retro(dataId,source,data){
 	show_fancybox(url,'generating retrospective data...');
 	return false;
 }
+
+function submit_comment_prompt(dataId,data,action){
+	var text = $("#new_comment_" + dataId).val();
+	if ((text == null) || (text.length < 2)){
+		alert('Comment is too short!');
+	}
+	else{
+		post_comment(dataId,true);
+		send_item_action(dataId,action,data);
+		$.fancybox.close();
+	}
+	return false;
+}
+
+function cancel_comment_prompt(dataId,source,data,action){
+	$('#item_content_buttons_' + dataId).show();
+	$('#' + source.id).parent().show(); 
+	$.fancybox.close();
+	return false;
+}
+
+
+function comment_prompt(dataId,source,data,action,required){
+	
+	var title = required ? 'required' : 'optional';
+
+	var content = '';
+	content = content + '<div id="comment_prompt"><h2>Comment</h2><br>';
+        content = content + '<p><textarea id="prompt_comment_' + dataId + '" rows="10" cols="60" class="xxx"></textarea></p><br>';
+		content = content + '<p>'
+        content = content + '<input type="submit" onclick="submit_comment_prompt(' + dataId + ',\'' + data + '\',\'' + action + '\')" value="Submit"></input>';
+		if (!required){
+        	content = content + '<input type="submit" onclick="send_item_action(' + dataId + ',\'' + action + '\',\'' + data + '\'); $.fancybox.close();return false;" value="No Comment"></input>';
+		}
+        content = content + '<input type="submit" onclick="cancel_comment_prompt(' + dataId + ',\'' + source + '\',\'' + data + '\',\'' + action + '\')" value="Cancel"></input>';
+		content = content + '</p><br><br></div>'
+		$('#comment_prompt').remove();
+		$('body').append(content);
+
+	$.fancybox(
+		{
+				'content'			: content,
+				'width'				: '300px',
+				'height'			: 'auto',
+				'title'				: title,
+		        'autoScale'     	: false,
+		        'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				// 'type'				: 'inline',
+				'showCloseButton' : false,
+				'modal' : true,
+				'href'	: '#comment_prompt'
+		});	
+	
+	$('#new_comment_' + dataId).focus();
+}
+
 
 
 function filter_select(){
@@ -1936,10 +1994,15 @@ function update_panel_counts(){
 }
 
 function update_panel_count(name, skip_button){
-	count = $("#" + name + "_start_of_list > *:visible").length;
-	$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\([0-9]*\)/,"(" + count + ")"));
-	if (!skip_button){
-		$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\([0-9]*\)/,"(" + count + ")"));
+	try{
+		count = $("#" + name + "_start_of_list > *:visible").length;
+		$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\([0-9]*\)/,"(" + count + ")"));
+		if (!skip_button){
+			$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\([0-9]*\)/,"(" + count + ")"));
+		}
+	}
+	catch(err){
+		return false;
 	}
 }
 
@@ -2584,18 +2647,35 @@ function generate_todo_section_lightbox(dataId){
 	
 }
 
-function post_comment(dataId){
+function post_comment(dataId,from_prompt){
 try{
-	var text = $("#new_comment_" + dataId).val();
-	if ((text == null) || (text.length < 2)|| (text == new_comment_text)){
+	var text = "";
+	
+	if (from_prompt){
+		text = $("#prompt_comment_" + dataId).val();
+		
+		//Try capturing comment from inner frame (in case of lightbox comment)
+		if (text == null){
+			$("#fancybox-frame").contents().("#prompt_comment_" + dataId).val();
+		}
+	}
+	else{
+		text = $("#new_comment_" + dataId).val();
+	}
+	
+	if ((text == null) || (text.length < 2) || (text == new_comment_text)){
 		return false;
 	}
 	else
 	{
 		var item = D[dataId];
-		$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),'1 second ago',D[dataId].id));
-		$('#new_comment_' + dataId).val('');
-		
+		try{
+			$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),'1 second ago',D[dataId].id));
+			$('#new_comment_' + dataId).val('');
+		}
+		catch(err){
+			
+		}
 		
 		var data = "commit=Create&issue_id=" + item.id + "&comment=" + text;
 		
