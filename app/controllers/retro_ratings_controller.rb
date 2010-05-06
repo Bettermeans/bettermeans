@@ -41,13 +41,9 @@ class RetroRatingsController < ApplicationController
   # POST /retro_ratings
   # POST /retro_ratings.xml
   def create
-    logger.info params.inspect
-    
     @retro_ratings = params[:retro_ratings].values.collect { |retro_rating| RetroRating.new(retro_rating) }
     
     #Archive notification for this retrospective
-    logger.info("xxxxx")
-    logger.info (params[:retro_ratings].values[0]["retro_id"])
     @retro_id = params[:retro_ratings].values[0]["retro_id"]
     @rater_id = params[:retro_ratings].values[0]["rater_id"]
     Notification.update_all "state = #{Notification::STATE_ARCHIVED}" , ["variation = 'retro_started' AND source_id = ? AND recipient_id = ?", @retro_id, @rater_id]

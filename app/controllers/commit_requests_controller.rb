@@ -75,12 +75,9 @@ class CommitRequestsController < ApplicationController
                               ":issue_subject => '#{@issue.subject}', :sender_id => #{@commit_request.user_id}, :issue_id => #{@issue.id}, :cr_id => #{@commit_request.id}, :cr_days => #{@commit_request.days}",
                               @commit_request.issue_id
         elsif @commit_request.response == 0 #someone is requesting this issue
-          logger.info("response is 0, we're creating a notification")
           @issue = Issue.find(@commit_request.issue_id)
           @recipient = @issue.assigned_to.nil? ? @issue.author : @issue.assigned_to #send notification to owner, if no owner then send to author
-          logger.info("Recipient #{@recipient}:  is owner: #{@issue.assigned_to.nil?.to_s}")
           if @issue.push_allowed?(@recipient)
-            logger.info("#{@recipient} is allowed, we're creating notification")
             Notification.create @recipient.id,
                                 'commit_request',
                                 ":issue_subject => '#{@issue.subject}', :sender_id => #{@commit_request.user_id}, :issue_id => #{@issue.id}, :cr_id => #{@commit_request.id}, :cr_days => #{@commit_request.days}, :is_recipient_owner => #{(!@issue.assigned_to.nil?).to_s}",
@@ -105,7 +102,6 @@ class CommitRequestsController < ApplicationController
   end
 
   def select_user_dialogue(options ={})
-    logger.info("Options #{params.inspect}")
     @issue = Issue.find(params['issue_id'])
   end
 
@@ -152,9 +148,7 @@ class CommitRequestsController < ApplicationController
     end 
 
     respond_to do |format|
-      logger.info("Entering response in commit request controller formate #{format.to_s}")
       if (!params[:notification_id].nil?)
-        logger.info("This request came from a notification")
         render :template => "notifications/hide", :layout => false
         return
       else      

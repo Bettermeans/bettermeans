@@ -20,7 +20,6 @@ class IssueVote < ActiveRecord::Base
   def update_issue_totals
     case vote_type
       when AGREE_VOTE_TYPE
-        logger.info(self.isbinding)
         issue.update_agree_total self.isbinding
       when ACCEPT_VOTE_TYPE
         issue.update_accept_total self.isbinding

@@ -47,7 +47,6 @@ class MotionVotesController < ApplicationController
     
     if @motion_vote.motion.motion_type == Motion::TYPE_SHARE
       sum = @motion_vote.user.shares.for_project(@motion_vote.motion.project_id).sum(:amount).to_i
-      logger.info ("sum #{sum} points from params #{params[:points]}")
       @motion_vote.points = params[:points].to_i * sum
     else
       @motion_vote.points = params[:points]
