@@ -1762,7 +1762,7 @@ function submit_comment_prompt(dataId,data,action){
 		alert('Comment is too short!');
 	}
 	else{
-		post_comment(dataId,true);
+		post_comment(dataId,true,action);
 		send_item_action(dataId,action,data);
 		$.fancybox.close();
 	}
@@ -1783,7 +1783,7 @@ function comment_prompt(dataId,source,data,action,required){
 
 	var content = '';
 	content = content + '<div id="comment_prompt"><h2>Comment</h2><br>';
-        content = content + '<p><textarea id="prompt_comment_' + dataId + '" rows="10" cols="60" class="xxx"></textarea></p><br>';
+        content = content + '<p><textarea id="prompt_comment_' + dataId + '" rows="10" cols="60" ></textarea></p><br>';
 		content = content + '<p>';
         content = content + '<input type="submit" onclick="submit_comment_prompt(' + dataId + ',\'' + data + '\',\'' + action + '\')" value="Submit"></input>';
 		if (!required){
@@ -1791,8 +1791,6 @@ function comment_prompt(dataId,source,data,action,required){
 		}
         content = content + '<input type="submit" onclick="cancel_comment_prompt(' + dataId + ',\'' + source + '\',\'' + data + '\',\'' + action + '\')" value="Cancel"></input>';
 		content = content + '</p><br><br></div>';
-		$('#comment_prompt').remove();
-		$('body').append(content);
 
 	$.fancybox(
 		{
@@ -1804,7 +1802,6 @@ function comment_prompt(dataId,source,data,action,required){
 		        'transitionIn'		: 'none',
 				'transitionOut'		: 'none',
 				'scrolling'			: 'no',
-				// 'type'				: 'inline',
 				'showCloseButton' : false,
 				'modal' : true,
 				'href'	: '#comment_prompt'
@@ -2663,7 +2660,7 @@ function generate_todo_section_lightbox(dataId){
 	
 }
 
-function post_comment(dataId,from_prompt){
+function post_comment(dataId,from_prompt,action){
 try{
 	var text = "";
 	
@@ -2672,7 +2669,7 @@ try{
 		
 		//Try capturing comment from inner frame (in case of lightbox comment)
 		if (text == null){
-			$("#fancybox-frame").contents().find("#prompt_comment_" + dataId).val();
+			text = $("#fancybox-frame").contents().find("#prompt_comment_" + dataId).val();
 		}
 	}
 	else{
