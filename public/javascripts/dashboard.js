@@ -262,9 +262,7 @@ function load_retros(){
 								id		: projectId
 	                          });
 		url = url + '/retros/index_json';
-	    
-	console.log(url);
-		
+	    		
 		$.ajax({
 		   type: "GET",
 		   dataType: "json",
