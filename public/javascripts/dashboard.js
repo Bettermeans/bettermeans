@@ -258,10 +258,17 @@ function data_ready(html){
 
 
 function load_retros(){
+		var url = url_for({ controller: 'projects',
+								id		: projectId
+	                          });
+		url = url + '/retros/index_json';
+	    
+	console.log(url);
+		
 		$.ajax({
 		   type: "GET",
 		   dataType: "json",
-		   url: 'retros/index_json',
+		   url: url,
 		   success:  	function(html){
 				retros_ready(html);
 			},
