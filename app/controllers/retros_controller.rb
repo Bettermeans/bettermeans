@@ -209,6 +209,8 @@ class RetrosController < ApplicationController
     
     @max_range = @max_ideas if @max_ideas > @max_range
     
+    logger.info("user hash keys no zeros#{@user_retro_hash.keys.inspect}")
+    
     
     #Adding users that have authored journals
     @retro.journals.each do |journal|
@@ -218,6 +220,8 @@ class RetrosController < ApplicationController
       @user_retro_hash[journal.user_id].store "total_points", 0
       @user_retro_hash[journal.user_id].store "percentage_points", 0
     end
+
+    logger.info("user hash keys no zeros 2#{@user_retro_hash.keys.inspect}")
     
     @confidence_percentage = 100
     @retro.retro_ratings.each do |retro_rating|
@@ -227,6 +231,8 @@ class RetrosController < ApplicationController
       @final_hash[retro_rating.ratee_id] = retro_rating.score.round_to(0) if retro_rating.rater_id == -2
       @confidence_percentage = retro_rating.confidence
     end
+
+    logger.info("user hash keys maybe#{@user_retro_hash.keys.inspect}")
     
     
     # @max_range = @max_points if @max_points > @max_range
@@ -246,6 +252,8 @@ class RetrosController < ApplicationController
       @pie_data_journals << @user_retro_hash[user_id]["percentage_journals"]
       @pie_labels_journals << User.find(user_id).login + " #{@user_retro_hash[user_id]["percentage_journals"].to_s}%"
     end
+
+    logger.info("user hash keys maybe2#{@user_retro_hash.keys.inspect}")
     
     @max_range = @max_journals if @max_journals > @max_range
     
@@ -264,6 +272,8 @@ class RetrosController < ApplicationController
       @pie_data_votes << @user_retro_hash[user_id]["percentage_votes"]
       @pie_labels_votes << User.find(user_id).login + " #{@user_retro_hash[user_id]["percentage_votes"].to_s}%"
     end
+  
+    logger.info("user hash keys maybe3#{@user_retro_hash.keys.inspect}")
   
     #Total ideas
     @total_ideas = @retro.issues.length
@@ -287,6 +297,8 @@ class RetrosController < ApplicationController
     @idea_totals = []
     @axis_labels = []
     x_axis = ''
+    
+    logger.info("user hash keys #{@user_retro_hash.keys.inspect}")
 
     @user_retro_hash.keys.sort.each do |user_id|
       @point_totals << @user_retro_hash[user_id]["total_points"]
