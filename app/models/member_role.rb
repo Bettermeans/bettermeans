@@ -8,11 +8,12 @@ class MemberRole < ActiveRecord::Base
   belongs_to :role
   
   after_create :add_role_to_group_users
-  after_create :remove_contributor_role_if_core
+  # after_create :remove_contributor_role_if_core
+  after_create :send_notification
 
   after_destroy :remove_member_if_empty
   after_destroy :remove_role_from_group_users
-  after_destroy :add_contributor_role_if_core
+  # after_destroy :add_contributor_role_if_core
   
   validates_presence_of :role
   
@@ -80,18 +81,27 @@ class MemberRole < ActiveRecord::Base
     end
   end
   
-  #Removes all contributor roles for this member if the current role being added is core
-  def remove_contributor_role_if_core
-    MemberRole.find(:all, :conditions => {:member_id => member_id, :role_id => Role::BUILTIN_CONTRIBUTOR}).each(&:destroy) if role_id == Role::BUILTIN_CORE_MEMBER
+  def send_notification
+    
+    Notification.create :recipient_id => self.member.user_id,
+                              :variation => 'new_role',
+                              :params => {:role_name => self.role.name, :project_name => self.member.project.root.name, :enterprise_id => self.member.project.root.id}, 
+                              :sender_id => User.sysadmin.id,
+                              :source_id => self.id if self.role.level == Role::LEVEL_ENTERPRISE    
   end
   
-  #Adds contributor roles for this member if the current role being destroyed is core
-  def add_contributor_role_if_core
-    if role_id == Role::BUILTIN_CORE_MEMBER
-      m = MemberRole.new :member_id => member_id, :role_id => Role::BUILTIN_CONTRIBUTOR 
-      m.save
-    end
-  end
+  # #Removes all contributor roles for this member if the current role being added is core
+  # def remove_contributor_role_if_core
+  #   MemberRole.find(:all, :conditions => {:member_id => member_id, :role_id => Role::BUILTIN_CONTRIBUTOR}).each(&:destroy) if role_id == Role::BUILTIN_CORE_MEMBER
+  # end
+  # 
+  # #Adds contributor roles for this member if the current role being destroyed is core
+  # def add_contributor_role_if_core
+  #   if role_id == Role::BUILTIN_CORE_MEMBER
+  #     m = MemberRole.new :member_id => member_id, :role_id => Role::BUILTIN_CONTRIBUTOR 
+  #     m.save
+  #   end
+  # end
   
 
   

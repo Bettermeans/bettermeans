@@ -256,16 +256,6 @@ class IssuesController < ApplicationController
     change_status
   end
 
-  def accept
-    params[:issue] = {:status_id => IssueStatus.accepted.id}
-    change_status
-  end
-
-  def reject
-    params[:issue] = {:status_id => IssueStatus.rejected.id}
-    change_status
-  end
-  
   def change_status
       # @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
       # @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
@@ -344,6 +334,7 @@ class IssuesController < ApplicationController
       @issue.retro_id = Retro::NOT_STARTED_ID
       @issue.save
       @issue.project.start_retro_if_ready
+      @issue.assigned_to.add_as_contributor(@issue.project)
     else
       @issue.save
     end
