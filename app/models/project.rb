@@ -605,7 +605,6 @@ class Project < ActiveRecord::Base
   #Returns true if threshold of points that haven't been included in a retrospective have been created
   def ready_for_retro?
     total_unretroed = Issue.sum(:points, :conditions => {:status_id => IssueStatus.accepted.id,:retro_id => Retro::NOT_STARTED_ID, :project_id => id})
-    puts(total_unretroed)
     return true if total_unretroed >= Setting::RETRO_CREDIT_THRESHOLD
     
     #Getting most recent issue that's not part of retrospective
