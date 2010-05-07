@@ -2243,7 +2243,6 @@ function item_actioned(item, dataId,action){
 	{
 		$("#item_" + dataId).remove();
 		add_item(dataId,"bottom",true);
-		// show_start_buttons();
 		update_panel_counts();
 	}	
 	
@@ -2254,6 +2253,7 @@ function item_actioned(item, dataId,action){
 	if (action == "open" || item.status.name == "Open" || pre_status == "Open") {sort_panel("open");}
 	if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
 		sort_panel(item.status.name.toLowerCase());
+		$("#" + item.status.name.toLowerCase() + "_items").scrollTo('#item_' + dataId, 300);
 	}
 	
 	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 5000);
