@@ -1530,7 +1530,8 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	tally = '';
 	
 	
-	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button_tally" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">';
+	// tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button_tally" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">';
+	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button_tally">';
 	if (item.reject > 5000){
 		tally = tally + 'BLOCK';
 	}

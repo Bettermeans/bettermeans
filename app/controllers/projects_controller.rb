@@ -137,28 +137,6 @@ class ProjectsController < ApplicationController
     
   end
   
-  #Current user decides to join core team
-  def join_core_team
-    User.current.add_to_core(@project)
-    
-    respond_to do |format|
-      format.js  { render :action => "team_update"}        
-      format.html { redirect_to :action => 'team', :id => @project }
-      format.xml  { head :ok }
-    end
-    
-  end
-
-  def leave_core_team
-    User.current.drop_from_core(@project)
-    
-    respond_to do |format|
-      format.js  { render :action => "team_update"}        
-      format.html { redirect_to :action => 'team', :id => @project }
-      format.xml  { head :ok }
-    end
-  end
-  
   def dashboard
     @credit_base = @project.dpp
     @show_issue_id = params[:show_issue_id] #Optional parameter to start the dashboard off showing an issue

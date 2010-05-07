@@ -7,6 +7,10 @@ class CreditDistribution < ActiveRecord::Base
   def add_credits
     Credit.create :owner_id => self.user_id, :project_id => self.project.root.id, :amount => self.amount
     
+    #Add as contributor
+    self.user.add_as_contributor(self.project)
+    
+    
     admin = User.find(:first,:conditions => {:login => "admin"})
     Notification.create :recipient_id => self.user_id,
                         :variation => 'credits_distributed',
