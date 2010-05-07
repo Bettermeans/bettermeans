@@ -1803,6 +1803,7 @@ function comment_prompt(dataId,source,data,action,required){
 		        'autoScale'     	: false,
 		        'transitionIn'		: 'none',
 				'transitionOut'		: 'none',
+				'scrolling'			: 'no',
 				// 'type'				: 'inline',
 				'showCloseButton' : false,
 				'modal' : true,
