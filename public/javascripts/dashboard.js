@@ -1406,7 +1406,7 @@ function buttons_for(dataId,expanded){
 	break;
 	case 'Committed':
 		if (item.assigned_to_id == currentUserId){
-			html = html + dash_button('release',dataId);
+			html = html + dash_button('release',dataId,false,{label:'giveup'});
 			html = html + dash_button('finish',dataId);
 		}
 		else if (item.assigned_to != null){
@@ -1541,7 +1541,7 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	
 	
 	if (item.assigned_to_id == currentUserId){
-		return tally;
+		return tally + dash_button('start',dataId,false,{label:'takeback'})
 	}
 	
 	var label = 'accept?';
@@ -1640,7 +1640,6 @@ function dash_button(type,dataId,hide,options_param){
 	var onclick = 'click_' + action + '(' + dataId + ',this,\'' + data + '\');return false;';
 	
 	if (hide){ hide_style = "style=display:none;"; }
-	if (type == 'release') label = 'giveup';
 	html = '';
 	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable" onclick="' + onclick + '">';
 	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="action_button action_button_' + cssclass + '" ' + hide_style + '>';
