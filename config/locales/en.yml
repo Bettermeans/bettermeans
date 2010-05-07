@@ -902,6 +902,7 @@ en:
   
   label_motions_active : "Active Motions"
   label_motions_view_all : "View all Motions"
+  label_new_role : "New role: {{role_name}}"
   
   button_login: Login
   button_submit: Submit
@@ -1063,6 +1064,11 @@ en:
   text_history_hidden_until_you_vote : "Voting history is hidden since you haven't cast your vote"
   text_tally_hidden_until_you_vote : "Voting tally is hidden until you cast your vote"
   text_you_dont_have_shares_to_vote : "You need to have shares to weigh in on this motion."
+  text_you_are_now_a_role : "You are now a <b>{{role_name}}</b> of"
+  text_role_description_Contributor : "As a contributor, you can now earn credits and own a stake in <b>{{enterprise}}.</b><br>Your votes on all matters will be visible to everyone, and will be non-binding."
+  text_role_description_Member : "As a member, all your votes are now binding. <br>In addition you can nominate contributors for membership,<br>and vote on Core Team elections."
+  text_role_description_Core Team : "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
+  text_role_description_Board : "As a board member,all your votes are binding."
   
   default_role_administrator: Administrator
   default_role_citizen: Core Member

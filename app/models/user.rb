@@ -344,14 +344,14 @@ class User < Principal
   end
     
   #Adds current user to core team of project
-  def add_to_core(project, options={})
-    if project.eligible_for_core?(self)
-      #Add as core member of current project
-      add_to_project project, Role::BUILTIN_CORE_MEMBER       
-      puts "core member: #{self.core_member_of?(project)}"
-      #Add as contributor to parent project, unless they're already core
-      add_to_project project.parent, Role::BUILTIN_CONTRIBUTOR unless project.parent.nil? || self.core_member_of?(project.parent)
-    end
+  def add_as_core(project, options={})
+    #Add as core member of current project
+    add_to_project project, Role::BUILTIN_CORE_MEMBER       
+  end
+
+  #Adds current user as contributor of project
+  def add_as_contributor(project, options={})
+      add_to_project project, Role::BUILTIN_CONTRIBUTOR unless self.binding_voter_of?(project)
   end
   
   #Adds user to that project as that role
