@@ -983,6 +983,7 @@ en:
 
   field_active: Active
   field_body: Body
+  field_joined_by: Joined by
   
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$

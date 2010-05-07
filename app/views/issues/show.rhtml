@@ -38,7 +38,15 @@
     <th class="status"><%=l(:field_status)%>:</th><td id="issue_status" class="status"><%= @issue.status.name %></td>
 </tr>
 <tr>
-  <th class="assigned-to"><%=l(:field_assigned_to)%>:</th><td id="assigned_to"><%#= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
+  <th class="assigned-to"><%=l(:field_assigned_to)%>:</th><td id="assigned_to"><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
+</tr>
+<tr>
+  <th class="assigned-to"><%=l(:field_joined_by)%>:</th><td id="joined_by">
+    <% @issue.team.each do |issue_vote| %>
+    <% next if issue_vote.user_id == @issue.assigned_to_id  %>
+      <%= avatar(issue_vote.user, :size => "14") %><%= link_to_user_from_id(issue_vote.user_id) %>&nbsp;&nbsp;
+    <% end %>
+  </td>
 </tr>
 </table>
 <!-- <hr />
