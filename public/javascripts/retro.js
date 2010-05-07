@@ -70,12 +70,14 @@ function save_retro(retroId){
 	
 	$(".slider").each(function() {
 		var ratee_id = $("#" + this.id).attr("user_id");
-		var score = $("#" + this.id).slider('value');
-		data = data + '&retro_ratings['+i+'][rater_id]=' + rater_id;
-		data = data + '&retro_ratings['+i+'][ratee_id]=' + ratee_id;
-		data = data + '&retro_ratings['+i+'][score]=' + score;
-		data = data + '&retro_ratings['+i+'][retro_id]=' + retroId;
-		i++;
+		if (ratee_id != "0"){
+			var score = $("#" + this.id).slider('value');
+			data = data + '&retro_ratings['+i+'][rater_id]=' + rater_id;
+			data = data + '&retro_ratings['+i+'][ratee_id]=' + ratee_id;
+			data = data + '&retro_ratings['+i+'][score]=' + score;
+			data = data + '&retro_ratings['+i+'][retro_id]=' + retroId;
+			i++;
+		}
 	});
 	
 
