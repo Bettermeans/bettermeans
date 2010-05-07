@@ -391,6 +391,17 @@ class Project < ActiveRecord::Base
     self.core_members
   end
   
+  # Number of members who are active and have a binding vote
+  def active_binding_members_count
+    active_members = self.active_members.collect{|member| member.user_id}
+    active_binding_members_count = (self.root.core_member_list.collect{|member| member.user_id} & active_members).length
+    active_binding_members_count += (self.root.member_list.collect{|member| member.user_id} & active_members).length
+  end
+
+  def binding_members_count
+    self.root.core_member_list.count + self.root.member_list.count
+  end
+  
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
   def refresh_active_members
     return if self.enterprise?
