@@ -277,4 +277,6 @@ class ApplicationController < ActionController::Base
   def filename_for_content_disposition(name)
     request.env['HTTP_USER_AGENT'] =~ %r{MSIE} ? ERB::Util.url_encode(name) : name
   end
+  
+  helper :dynamic_scripts
 end
