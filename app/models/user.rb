@@ -347,11 +347,28 @@ class User < Principal
   def add_as_core(project, options={})
     #Add as core member of current project
     add_to_project project, Role::BUILTIN_CORE_MEMBER       
+    drop_from_project(project, Role::BUILTIN_CONTRIBUTOR)
+    drop_from_project(project, Role::BUILTIN_MEMBER)
   end
+  
+  def add_as_member(project, options={})
+    #Add as core member of current project
+    add_to_project project, Role::BUILTIN_MEMBER       
+    drop_from_project(project, Role::BUILTIN_CONTRIBUTOR)
+    drop_from_project(project, Role::BUILTIN_CORE_MEMBER)
+  end
+  
 
   #Adds current user as contributor of project
   def add_as_contributor(project, options={})
-      add_to_project project, Role::BUILTIN_CONTRIBUTOR unless self.binding_voter_of?(project)
+      add_to_project project, Role::BUILTIN_CONTRIBUTOR
+      drop_from_project(project, Role::BUILTIN_CORE_MEMBER)
+      drop_from_project(project, Role::BUILTIN_MEMBER)
+  end
+  
+  #Adds current user as contributor of project if they aren't a binding member
+  def add_as_contributor_if_new(project, options={})
+      add_as_contributor project unless self.binding_voter_of?(project)
   end
   
   #Adds user to that project as that role
@@ -362,7 +379,7 @@ class User < Principal
       member_role = Role.find(:first, :conditions => {:id => role_id})
       m = Member.new(:user => self, :roles => [member_role])
       p = Project.find(project)
-      result = p.members << m
+      result = p.all_members << m
     else
       #User is already a member, we just add a role (but make sure role doesn't exist already)
       MemberRole.create! :member_id => m.id, :role_id => role_id if MemberRole.first(:conditions => {:member_id => m.id, :role_id => role_id}) == nil

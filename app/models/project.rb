@@ -13,11 +13,29 @@ class Project < ActiveRecord::Base
   
   # Specific overidden Activities
   has_many :time_entry_activities
-  has_many :members, :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :all_members,:class_name => 'Member', :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
   has_many :core_members, :class_name => 'Member', 
                           :include => [:user,:roles], 
                           :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}",
                            :order => "firstname ASC"
+
+
+  has_many :members, :class_name => 'Member', 
+                           :include => [:user,:roles], 
+                           :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER}",
+                            :order => "firstname ASC"
+
+  has_many :board_members, :class_name => 'Member', 
+                            :include => [:user,:roles], 
+                            :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_BOARD}",
+                             :order => "firstname ASC"
+
+  has_many :contributors, :class_name => 'Member', 
+                          :include => [:user,:roles], 
+                          :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_CONTRIBUTOR}",
+                           :order => "firstname ASC"
+
+
   has_many :member_principals, :class_name => 'Member', 
                                :include => :principal,
                                :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
@@ -362,7 +380,7 @@ class Project < ActiveRecord::Base
 
   # Returns a hash of project users grouped by role
   def users_by_role
-    members.find(:all, :include => [:user, :roles]).inject({}) do |h, m|
+    all_members.find(:all, :include => [:user, :roles]).inject({}) do |h, m|
       m.roles.each do |r|
         h[r] ||= []
         h[r] << m.user
@@ -373,17 +391,17 @@ class Project < ActiveRecord::Base
 
   # Returns a hash of active project users
   def active_members
-    members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}",:include => [:user, :roles], :order => "firstname ASC")
+    all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}",:include => [:user, :roles], :order => "firstname ASC")
   end
 
   # Returns a hash of contributers
   def contributor_list
-    members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_CONTRIBUTOR}",:include => [:user, :roles], :order => "firstname ASC")
+    self.contributors
   end
 
   # Returns a hash of active project users grouped by role
   def member_list
-    members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_MEMBER}",:include => [:user, :roles], :order => "firstname ASC")
+    self.members
   end
 
   # Returns a hash of active project users grouped by role
@@ -407,7 +425,7 @@ class Project < ActiveRecord::Base
     return if self.enterprise?
     
     u = {}
-    self.members.each(&:destroy)
+    self.all_members.each(&:destroy)
     
     issues.each do |issue|
       next if (issue.updated_on.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) < Time.now 
@@ -436,17 +454,17 @@ class Project < ActiveRecord::Base
   
   # Users issues can be assigned to
   def assignable_users
-    members.select {|m| m.roles.detect {|role| role.assignable?}}.collect {|m| m.user}.sort
+    all_members.select {|m| m.roles.detect {|role| role.assignable?}}.collect {|m| m.user}.sort
   end
   
   # Returns the mail adresses of users that should be always notified on project events
   def recipients
-    members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user.mail}
+    all_members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user.mail}
   end
   
   # Returns the users that should be notified on project events
   def notified_users
-    members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user}
+    all_members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user}
   end
   
   # Returns an array of all custom fields enabled for project issues
@@ -718,12 +736,12 @@ class Project < ActiveRecord::Base
 
   # Copies members from +project+
   def copy_members(project)
-    project.members.each do |member|
+    project.all_members.each do |member|
       new_member = Member.new
       new_member.attributes = member.attributes.dup.except("id", "project_id", "created_on")
       new_member.role_ids = member.role_ids.dup
       new_member.project = self
-      self.members << new_member
+      self.all_members << new_member
     end
   end
 

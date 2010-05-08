@@ -77,7 +77,7 @@ class ProjectsController < ApplicationController
         r = Role.find(Role::BUILTIN_CORE_MEMBER)
         r2 = Role.find(Role::BUILTIN_ADMINISTRATOR)
         m = Member.new(:user => User.current, :roles => [r,r2])
-        @project.members << m
+        @project.all_members << m
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'projects', :action => 'show', :id => @project
       end
@@ -195,7 +195,7 @@ class ProjectsController < ApplicationController
   def settings
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     # @issue_category ||= IssueCategory.new
-    @member ||= @project.members.new
+    @member ||= @project.all_members.new
     @trackers = Tracker.all
     @repository ||= @project.repository
     @wiki ||= @project.wiki

@@ -18,7 +18,7 @@ class MembersController < ApplicationController
       else
         members << Member.new(attrs)
       end
-      result = @project.members << members
+      result = @project.all_members << members
     end
     respond_to do |format|
       format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }

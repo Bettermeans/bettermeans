@@ -1,4 +1,5 @@
 class Motion < ActiveRecord::Base  
+  include ActionController::UrlWriter
   STATE_ACTIVE = 0
   STATE_PASSED = 1
   STATE_DEFEATED = 2
@@ -83,6 +84,7 @@ class Motion < ActiveRecord::Base
     
     self.save
     announce_passed if self.state == STATE_PASSED
+    execute_action if self.state == STATE_PASSED
 
   end
   
@@ -94,7 +96,48 @@ class Motion < ActiveRecord::Base
     self.ends_on = Time.new().advance :days => Setting::MOTIONS[self.variation]["Days"].to_f
     self.state = STATE_ACTIVE
     self.author = User.sysadmin if self.author.nil? 
-    self.description = self.title if self.description == ""
+    self.description = self.generate_description
+  end
+  
+  def generate_description
+    content = ""
+     case self.variation
+       when VARIATION_GENERAL
+         self.description == "" ? self.title : self.description
+       when VARIATION_EXTRAORDINARY
+         self.description == "" ? self.title : self.description
+       when VARIATION_NEW_MEMBER
+         content << l(:text_member_nomination, :user => self.concerned_user.name, :enterprise => self.project.name)
+       when VARIATION_NEW_CORE
+         content << l(:text_core_member_nomination, :user => self.concerned_user.name, :enterprise => self.project.name)
+       when VARIATION_FIRE_MEMBER
+         content << l(:text_member_removal, :user => self.concerned_user.name, :enterprise => self.project.name)
+       when VARIATION_FIRE_CORE
+         content << l(:text_core_member_removal, :user => self.concerned_user.name, :enterprise => self.project.name)
+       when VARIATION_BOARD_PUBLIC
+         self.description == "" ? self.title : self.description
+       when VARIATION_BOARD_PRIVATE
+         self.description == "" ? self.title : self.description
+       when VARIATION_HOURLY_TYPE
+         self.description == "" ? self.title : self.description
+     end
+  end
+  
+  def self.eligible_users(variation,project_id)
+    
+    project = Project.find(project_id)
+    @concerned_user_list = ""
+    case variation
+      when VARIATION_NEW_MEMBER
+        @concerned_user_list = project.contributor_list
+      when VARIATION_NEW_CORE
+        @concerned_user_list = project.member_list
+      when VARIATION_FIRE_MEMBER
+        @concerned_user_list = project.member_list
+      when VARIATION_FIRE_CORE
+        @concerned_user_list = project.core_member_list
+    end
+    @concerned_user_list
   end
   
   def create_forum_topic
@@ -118,10 +161,33 @@ class Motion < ActiveRecord::Base
     Role.first(:conditions => {:position => self.binding_level}).name
   end
   
+  def execute_action
+    return if self.state != STATE_PASSED
+    case self.variation
+      when VARIATION_GENERAL
+      when VARIATION_EXTRAORDINARY
+      when VARIATION_NEW_MEMBER
+        return if !self.concerned_user.contributor_of?(self.project)
+        self.concerned_user.add_as_member(self.project)
+      when VARIATION_NEW_CORE
+        return if !self.concerned_user.member_of?(self.project)
+        self.concerned_user.add_as_core(self.project)
+      when VARIATION_FIRE_MEMBER
+        return if !self.concerned_user.member_of?(self.project)
+        self.concerned_user.add_as_contributor(self.project)
+      when VARIATION_FIRE_CORE
+        return if !self.concerned_user.core_member_of?(self.project)
+        self.concerned_user.add_as_member(self.project)
+      when VARIATION_BOARD_PUBLIC
+      when VARIATION_BOARD_PRIVATE
+      when VARIATION_HOURLY_TYPE
+    end
+  end
+  
   def announce
     admin = User.sysadmin
     
-    self.project.members.each do |member|
+    self.project.all_members.each do |member|
       user = member.user
       Notification.create :recipient_id => user.id,
                           :variation => 'motion_started',

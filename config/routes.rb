@@ -303,6 +303,11 @@ ActionController::Routing::Routes.draw do |map|
    
   map.resources :groups
   
+  map.resources :projects, :has_many => :shares
+  map.resources :projects, :has_many => :credits
+  map.resources :projects, :has_many => :motions
+  
+  
   #left old routes at the bottom for backwards compat
   map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
   map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
@@ -311,7 +316,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'wiki/:id/:page/:action', :page => nil, :controller => 'wiki'
   map.connect 'issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
   map.connect 'projects/:project_id/news/:action', :controller => 'news'  
-  # map.connect 'projects/:project_id/motions/:action', :controller => 'motions'  
+  map.connect 'projects/:project_id/motions/:action', :controller => 'motions'  
   map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
   map.with_options :controller => 'repositories' do |omap|
     omap.repositories_show 'repositories/browse/:id/*path', :action => 'browse'
@@ -352,10 +357,6 @@ ActionController::Routing::Routes.draw do |map|
   # Used for OpenID
   map.root :controller => 'account', :action => 'login'
   
-  
-  map.resources :projects, :has_many => :shares
-  map.resources :projects, :has_many => :credits
-  map.resources :projects, :has_many => :motions
       
   map.resources :todos
   map.resources :issue_votes
