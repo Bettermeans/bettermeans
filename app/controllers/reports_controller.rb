@@ -36,13 +36,13 @@ class ReportsController < ApplicationController
       render :template => "reports/issue_report_details"   
     when "assigned_to"
       @field = "assigned_to_id"
-      @rows = @project.members.collect { |m| m.user }
+      @rows = @project.all_members.collect { |m| m.user }
       @data = issues_by_assigned_to
       @report_title = l(:field_assigned_to)
       render :template => "reports/issue_report_details"
     when "author"
       @field = "author_id"
-      @rows = @project.members.collect { |m| m.user }
+      @rows = @project.all_members.collect { |m| m.user }
       @data = issues_by_author
       @report_title = l(:field_author)
       render :template => "reports/issue_report_details"  
@@ -57,8 +57,8 @@ class ReportsController < ApplicationController
       @versions = @project.shared_versions.sort
       @priorities = IssuePriority.all
       @categories = @project.issue_categories
-      @assignees = @project.members.collect { |m| m.user }
-      @authors = @project.members.collect { |m| m.user }
+      @assignees = @project.all_members.collect { |m| m.user }
+      @authors = @project.all_members.collect { |m| m.user }
       @subprojects = @project.descendants.active
       issues_by_tracker
       issues_by_version

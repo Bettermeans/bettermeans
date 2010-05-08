@@ -1,32 +1,59 @@
 <h2>New motion</h2>
 
-<% form_for :motion, @motion, :url => {:action => "create", :project_id => @project} do |f| %>
+<% form_for @motion, :url => {:action => "create", :project_id => @project.id} do |f| %>
   <%= f.error_messages %>
 <br>
   <p>
-    <%= f.label :variation %><br />
-    <%= select(:motion, :variation, Setting::MOTIONS.collect{|m| [ l "label_motion_variation#{m[0]}", m[0] ] }.sort ) %>
-    <%#= f.text_field :variation %>
+    <%#= f.label :variation %><br />
+    <%= select(:motion, :variation, Setting::MOTIONS.collect{|m| [ m[1]["Title"], m[0] ] }.sort,:prompt => l(:label_select)) %>
   </p>
-  <p>
+  <p id="Description">
     <%= f.label :description %><br />
     <%= f.text_area :description %>
   </p>
-  <p class ="hidden" id="select_member">
-    <%= f.label :member %><br />
-    <%= collection_select(:param, :member, @project.member_list, :user_id, :name, :prompt => l(:label_select)) %>
-  </p>
-  <p class ="hidden" id="select_core_member">
-    <%= f.label :core_member %><br />
-    <%= collection_select(:param, :core_member, @project.core_member_list, :user_id, :name, :prompt => l(:label_select)) %>
-  </p>
-  <p class ="hidden" id="select_contributor">
-    <%= f.label :contributor %><br />
-    <%= collection_select(:param, :contributor, @project.contributor_list, :user_id, :name, :prompt => l(:label_select)) %>
-  </p>
+  <div id="eligible_users_container"></div>
   <p>
     <%= f.submit 'Create' %>
   </p>
+  <%= observe_field :motion_variation, :url => {:controller => :motions, :action => :eligible_users, :only_path => :false }, :update => :eligible_users_container, :with => 'variation' %>
 <% end %>
 
+
+
 <%= link_to 'Back', :controller => "motion", :action => "index", :project_id => @project %>
+
+<script type="text/javascript">
+$('document').ready(function(){
+  hide_show_fields();
+  $("#motion_variation").change(function(){
+    hide_show_fields();
+  });
+  
+});
+
+function hide_show_fields(){
+  switch(parseInt($("#motion_variation").val())){
+    case <%= Motion::VARIATION_NEW_MEMBER %>:
+      $("#select_concerned_user").show();
+      $("#Description").hide();
+      break;
+    case <%= Motion::VARIATION_NEW_CORE %>:
+      $("#select_concerned_user").show();
+      $("#Description").hide();
+      break;
+    case <%= Motion::VARIATION_FIRE_CORE %>:
+      $("#select_concerned_user").show();
+      $("#Description").hide();
+      break;
+    case <%= Motion::VARIATION_FIRE_MEMBER %>:
+      $("#select_concerned_user").show();
+      $("#Description").hide();
+      break;
+    default:
+      $("#select_concerned_user").hide();
+      $("#Description").show();
+      break;
+  }
+}
+
+</script>

@@ -13,7 +13,7 @@
 </fieldset>
 
 <fieldset class="box"><legend><%= l(:button_copy) %></legend>
-  <label class="block"><%= check_box_tag 'only[]', 'members', true %> <%= l(:label_member_plural) %> (<%= @source_project.members.count %>)</label>
+  <label class="block"><%= check_box_tag 'only[]', 'members', true %> <%= l(:label_member_plural) %> (<%= @source_project.all_members.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'versions', true %> <%= l(:label_version_plural) %> (<%= @source_project.versions.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'issue_categories', true %> <%= l(:label_issue_category_plural) %> (<%= @source_project.issue_categories.count %>)</label>
   <label class="block"><%= check_box_tag 'only[]', 'issues', true %> <%= l(:label_issue_plural) %> (<%= @source_project.issues.count %>)</label>

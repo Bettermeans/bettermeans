@@ -4,7 +4,7 @@
 <td class="roles">
   <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
 </td>
-<!-- <td class="points">
-  <%#= endorsement_links(member) %>
-</td> -->
+<td class="points">
+  <%= nomination_links(member,@project) %>
+</td>
 </tr>

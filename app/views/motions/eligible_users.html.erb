@@ -1,0 +1,7 @@
+<% unless @concerned_user_list == "" %>
+
+<p id="select_concerned_user">
+  <%= :Regarding %><br />
+  <%= collection_select(:motion, :concerned_user_id, @concerned_user_list, :user_id, :name, :prompt => l(:label_select)) %>
+</p>
+<% end %>

@@ -5,10 +5,17 @@
 <p><span class="author"><%= authoring @topic.created_on, @topic.author %>. <%= render_title_date %></span></p>
   
   
-<div class="wiki">
-<%= textilizable(@topic.content, :attachments => @topic.attachments) %>
+<% if @motion.concerned_user_id != nil %>
+<div class="concerned_user">
+<%= avatar_from_id(@motion.concerned_user_id) %><br>
+<%= link_to_user_from_id @motion.concerned_user_id %>
 </div>
-
+<div class="motion-description wiki">
+<%= h @motion.description %>
+</div>
+<% end %>
+<div style="clear:both;"> </div>
+<br><br>
 <p>
   <b>State:</b>
   <%=l "label_motion_state#{h @motion.state}" %><br>

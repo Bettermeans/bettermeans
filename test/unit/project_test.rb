@@ -73,7 +73,7 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_members_should_be_active_users
     Project.all.each do |project|
-      assert_nil project.members.detect {|m| !(m.user.is_a?(User) && m.user.active?) }
+      assert_nil project.all_members.detect {|m| !(m.user.is_a?(User) && m.user.active?) }
     end
   end
   
