@@ -10,5 +10,5 @@ Given /([^\"]*) is a ([^\"]*) of project "([^\"]*)"$/ do |user,role, project|
   puts m.inspect
   puts m.member_roles.inspect
   puts m.roles.inspect
-  @project.members << m  
+  @project.all_members << m  
 end

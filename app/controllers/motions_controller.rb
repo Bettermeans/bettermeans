@@ -1,6 +1,6 @@
 class MotionsController < ApplicationController
   
-  before_filter :find_project, :only => [:new,:index,:create,:show, :edit]
+  before_filter :find_project, :only => [:new,:index,:create,:show, :edit, :eligible_users]
   before_filter :find_motion, :only => [:show, :edit, :destroy, :update, :reply]
   before_filter :check_visibility_permission, :only => [:show]
   before_filter :require_admin, :only => [:edit, :update, :destroy]
@@ -40,12 +40,33 @@ class MotionsController < ApplicationController
   # GET /motions/new
   # GET /motions/new.xml
   def new
-    @motion = Motion.new
+    @motion = Motion.new(params[:motion])
+    logger.info(@motion.inspect)
+    
+    @concerned_user_list = Motion.eligible_users(@motion.variation, @project.id)
+    logger.info("concerned #{@concerned_user_list}")
 
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @motion }
     end
+  end
+  
+  def eligible_users
+    @concerned_user_list = ""
+    case params[:variation].to_i
+      when Motion::VARIATION_NEW_MEMBER
+        @concerned_user_list = @project.contributor_list
+        logger.info("new member from #{@concerned_user_list}")
+      when Motion::VARIATION_NEW_CORE
+        @concerned_user_list = @project.member_list
+      when Motion::VARIATION_FIRE_MEMBER
+        @concerned_user_list = @project.member_list
+      when Motion::VARIATION_FIRE_CORE
+        @concerned_user_list = @project.core_member_list
+    end
+    
+    render :layout => false
   end
 
   # GET /motions/1/edit
@@ -61,9 +82,13 @@ class MotionsController < ApplicationController
     @motion.params = params[:param]
 
     respond_to do |format|
-      if @motion.save
+      if @motion.concerned_user == User.current
+        flash[:notice] = 'Cannot create motion for yourself'
+        format.html { render :action => "index" }
+        format.xml  { render :xml => @motion.errors, :status => :unprocessable_entity }
+      elsif @motion.save
         flash[:notice] = 'Motion was successfully created.'
-        format.html { redirect_to :action => "index" }
+        format.html { redirect_to :action => "show", :id => @motion }
         format.xml  { render :xml => @motion, :status => :created, :location => @motion }
       else
         format.html { render :action => "new" }

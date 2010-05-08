@@ -334,7 +334,7 @@ class IssuesController < ApplicationController
       @issue.retro_id = Retro::NOT_STARTED_ID
       @issue.save
       @issue.project.start_retro_if_ready
-      @issue.assigned_to.add_as_contributor(@issue.project)
+      @issue.assigned_to.add_as_contributor_if_new(@issue.project)
     else
       @issue.save
     end

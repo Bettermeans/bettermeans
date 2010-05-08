@@ -150,7 +150,7 @@ class ProjectsControllerTest < ActionController::TestCase
         
         # User should be added as a project member
         assert User.find(9).member_of?(project)
-        assert_equal 1, project.members.size
+        assert_equal 1, project.all_members.size
       end
       
       should "fail with parent_id" do
