@@ -1,4 +1,4 @@
-<%= javascript_include_tag  'dashboard' %>
+<%= dynamic_script_tag 'dashboard', :project_id => @project.id %>
 <%= stylesheet_link_tag 'dashboard' %>
 
 <!--[if lt IE 20]>
