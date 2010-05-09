@@ -6,7 +6,6 @@ task :cron => :environment do
 # 6.  end
     puts "Running cron..."
     Rake::Task['backup'].invoke
-    Rake::Task['autoaccept_commitrequests'].invoke
     Rake::Task['close_retros'].invoke
     Rake::Task['custom:refresh_active_members'].invoke
     Rake::Task['custom:lazy_majority'].invoke
