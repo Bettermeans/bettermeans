@@ -350,7 +350,11 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   
- 
+  #
+  # Dynamically generate the js files located inside dynamic_scripts
+  #
+  map.connect '/javascripts/dynamic_scripts/:action.:format', :controller => 'dynamic_scripts'
+  
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
   map.connect 'robots.txt', :controller => 'welcome', :action => 'robots'
