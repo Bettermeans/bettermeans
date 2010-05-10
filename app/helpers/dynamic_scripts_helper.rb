@@ -6,6 +6,6 @@ module DynamicScriptsHelper
                 :only_path  => true,
               }.merge(options)
 
-    "<script src='#{@controller.url_for(options)}' type='text/javascript'/>"
+    "<script src='#{@controller.url_for(options)}' type='text/javascript'></script>"
   end
 end
