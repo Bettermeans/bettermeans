@@ -65,6 +65,7 @@ function save_retro(retroId){
 	
 	var data = "commit=Create";
 	var rater_id = currentUserId;
+	var confidence = $("#slider_confidence").slider('value');
 	var i=0;
 	$('#change_retro_link_save').hide();
 	
@@ -76,6 +77,7 @@ function save_retro(retroId){
 			data = data + '&retro_ratings['+i+'][ratee_id]=' + ratee_id;
 			data = data + '&retro_ratings['+i+'][score]=' + score;
 			data = data + '&retro_ratings['+i+'][retro_id]=' + retroId;
+			data = data + '&retro_ratings['+i+'][confidence]=' + confidence;
 			i++;
 		}
 	});
