@@ -43,7 +43,7 @@
   </td><td class="percentage closed">
     <label id="user_<%= user_id%>_percentage"><%= @final_hash[user_id] ||=0 %>%</label>
   </td><td class="accuracy closed">
-    <label id="user_<%= user_id%>_accuracy"><br><%=tame_magnitude(user_retro["scale_bias"])%><br><br><%= tame_bias(user_retro["self_bias"])%></label>
+    <label id="user_<%= user_id%>_accuracy"><%= accuracy_display(user_retro["self_bias"],user_retro["scale_bias"]) %></label>
   </td><td class="button">
   </td></tr>  
   <% end %>
@@ -190,6 +190,14 @@
     Adjust this slider depending on how confident you are of your assessment of yourself and your peer.<br>Lower confidence, means your ratings will be given less weight, and your self assessment index will be less impact by team-self discrepancies.
   </div>
 </div>
+
+<div id="help_panel_accuracy" style="display:none;">
+  <div class="tip" style="width:300px">
+    <strong>Accuracy and Bias</strong><br>
+    This column shows the accuracy with which users who participated in this retrospective where able to assess themselves and their peers.
+  </div>
+</div>
+
 
 
 <script>
