@@ -2,8 +2,9 @@ $('document').ready(function(){
 	
 	$("#help_image_panel_your_assessment").mybubbletip('#help_panel_your_assessment', {deltaDirection: 'right', bindShow: 'click'});
 	$("#help_image_panel_team_assessment").mybubbletip('#help_panel_team_assessment', {deltaDirection: 'right', bindShow: 'click'});
-	$("#help_image_panel_final_assessment").mybubbletip('#help_panel_finale_assessment', {deltaDirection: 'right', bindShow: 'click'});
+	$("#help_image_panel_final_assessment").mybubbletip('#help_panel_final_assessment', {deltaDirection: 'right', bindShow: 'click'});
 	$("#help_image_panel_confidence").mybubbletip('#help_panel_confidence', {deltaDirection: 'right', bindShow: 'click'});
+	$("#help_image_panel_accuracy").mybubbletip('#help_panel_accuracy', {deltaDirection: 'right', bindShow: 'click'});
 	
 	if (retroStatus == 1){
 		$(".closed").hide();		
@@ -28,7 +29,7 @@ $('document').ready(function(){
 		value: 0,
 		min: 0,
 		max: 100,
-		step: 5,
+		step: 2,
 		slide: function(event, ui) {
 			var user_id = $("#" + this.id).attr("user_id");
 			$("#user_" + user_id + "_percentage").html(ui.value + '%');

@@ -16,7 +16,8 @@ module RetrosHelper
     if number.nil? 
       return ""
     else
-      number > 0 ? "Self Bias: +#{number.round}%" : number == "None" ? number.round : "Self Bias: -#{number.round}%"
+      number = number.round
+      number > 0 ? "Self:&nbsp&nbsp; +#{number}" : number == 0 ? "Self:&nbsp&nbsp; No Bias" : "Self:&nbsp&nbsp; #{number}"
     end
   end
 
@@ -24,7 +25,14 @@ module RetrosHelper
     if number.nil?
       ""
     else
-      number > 0 ? "Off by: #{number.round} points" : number == "No Bias" ? number.round : "Off by #{number.round} points"
+      number = number.round
+      number == 0 ? "Other: No Bias" : "Other: #{number}"
     end
+  end
+  
+  def accuracy_display(self_bias,magnitude)
+    return "<br><br>Didn't vote" if self_bias.nil? && magnitude.nil?
+    content = ""
+    content << "<br><br>#{tame_bias(self_bias)}<br>#{tame_magnitude(magnitude)}"
   end
 end
