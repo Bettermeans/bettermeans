@@ -66,6 +66,9 @@ class Retro < ActiveRecord::Base
     @user_final = Hash.new #final distribution
     @user_self = Hash.new #self assessment
     @user_total_bias = Hash.new #total bias
+    @confidence_hash = Hash.new
+    @confidence_array = [] #stores confidence that each rater voted with
+    
     RetroRating.delete_all :rater_id => RetroRating::TEAM_AVERAGE , :retro_id => self.id
     RetroRating.delete_all :rater_id => RetroRating::FINAL_AVERAGE , :retro_id => self.id
     RetroRating.delete_all :rater_id => RetroRating::SELF_BIAS , :retro_id => self.id
@@ -74,12 +77,12 @@ class Retro < ActiveRecord::Base
     return if retro_ratings.length == 0
     
     total_raters = retro_ratings.group_by{|retro_rating| retro_rating.rater_id}.length
-    @confidence_hash = Hash.new
     
     retro_ratings.group_by{|retro_rating| retro_rating.ratee_id}.keys.each do |user_id|
       next if user_id < 0;
       @user_hash[user_id] = []
       @confidence_hash[user_id] = 0
+      @confidence_array[user_id] = 0
     end
 
     puts("H: " + @user_hash.inspect)
@@ -91,8 +94,12 @@ class Retro < ActiveRecord::Base
       next if rr.rater_id < 0;
       @user_hash[rr.ratee_id].push(rr.score * rr.confidence) unless ((rr.ratee_id == rr.rater_id) && (total_raters > 1))
       @confidence_hash[rr.ratee_id] += rr.confidence unless ((rr.ratee_id == rr.rater_id) && (total_raters > 1))
-      @user_self[rr.ratee_id] = rr.score if (rr.ratee_id == rr.rater_id)
-      @user_total_bias[rr.rater_id] = 0 #initializing for later
+      
+      if (rr.ratee_id == rr.rater_id)
+        @user_self[rr.ratee_id] = rr.score 
+        @confidence_array[rr.rater_id] = rr.confidence
+        @user_total_bias[rr.rater_id] = 0 #initializing for later
+      end
     end
 
     #team averages
@@ -107,7 +114,9 @@ class Retro < ActiveRecord::Base
     @user_hash.keys.each do |user_id|
       score = @user_hash[user_id].length == 0 ? 0 : @user_hash[user_id].sum.to_f / @confidence_hash[user_id]
       score = score * 100 / team_average_total
-      self_bias = (score - @user_self[user_id]) / (-0.01 * score) unless @user_self[user_id].nil? || @user_self[user_id].nan?
+      # self_bias = (@user_self[user_id] - score) / (0.01 * score) unless @user_self[user_id].nil? || @user_self[user_id].nan? || score == 0
+      self_bias = (@user_self[user_id] - score) * @confidence_array[user_id] / 100 unless @user_self[user_id].nil? || @user_self[user_id].nan?
+      
       puts("user: #{user_id} score: #{score} self assessment: #{@user_self[user_id]} self bias: #{self_bias}")
       @user_final[user_id] = score
       RetroRating.create :rater_id => RetroRating::FINAL_AVERAGE, :ratee_id => user_id, :score => score, :retro_id => self.id
@@ -121,7 +130,7 @@ class Retro < ActiveRecord::Base
     end
     
     @user_total_bias.keys.each do |user_id|
-      RetroRating.create :rater_id => RetroRating::SCALE_BIAS, :ratee_id => user_id, :score => @user_total_bias[user_id], :retro_id => self.id unless @user_total_bias[user_id].nan?
+      RetroRating.create :rater_id => RetroRating::SCALE_BIAS, :ratee_id => user_id, :score => @user_total_bias[user_id] * @confidence_array[user_id] / 100, :retro_id => self.id unless @user_total_bias[user_id].nan?
     end
   end
   
