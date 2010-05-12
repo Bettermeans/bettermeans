@@ -68,7 +68,7 @@ class RetrosController < ApplicationController
     issue_group = @retro.issues.group_by{|issue| issue.assigned_to_id}
     issue_group.each_value {|issues| @total_points += issues.collect(&:points).sum }
     issue_group.keys.sort.each do |assigned_to_id|
-      next if @user_retro_hash.has_key? assigned_to_id
+      next if @user_retro_hash.has_key? assigned_to_id  || assigned_to_id == User.sysadmin.id
       @user_retro_hash.store assigned_to_id, new_user_retro.dup
       @user_retro_hash[assigned_to_id].store "issues", issue_group[assigned_to_id]
       @user_retro_hash[assigned_to_id].store "total_points", 0
@@ -107,7 +107,7 @@ class RetrosController < ApplicationController
     #Adding users that have authored issues and calculating total ideas generated per user
     author_group = @retro.issues.group_by{|issue| issue.author_id}
     author_group.keys.sort.each do |author_id|
-      if !(@user_retro_hash.has_key? author_id)
+      if !(@user_retro_hash.has_key? author_id) || author_id == User.sysadmin.id
         @user_retro_hash.store author_id, new_user_retro.dup 
         @user_retro_hash[author_id].store "issues", []
         @user_retro_hash[author_id].store "total_points", 0
@@ -121,7 +121,8 @@ class RetrosController < ApplicationController
     
     #Adding users that have authored journals
     @retro.journals.each do |journal|
-      next if @user_retro_hash.has_key? journal.user_id
+      next if (@user_retro_hash.has_key? journal.user_id) || journal.user_id == User.sysadmin.id
+      logger.info("adding #{journal.user_id} with sysid #{User.sysadmin.id} and equal: #{journal.user_id == User.sysadmin.id}")
       @user_retro_hash.store journal.user_id, new_user_retro.dup
       @user_retro_hash[journal.user_id].store "issues", []
       @user_retro_hash[journal.user_id].store "total_points", 0
@@ -131,6 +132,7 @@ class RetrosController < ApplicationController
     # logger.info("user hash keys no zeros 2#{@user_retro_hash.keys.inspect}")
     @confidence_percentage = 100
     @retro.retro_ratings.each do |retro_rating|
+      next if retro_rating.ratee_id == User.sysadmin.id || retro_rating.rater_id == User.sysadmin.id
       @user_retro_hash.store retro_rating.ratee_id, new_user_retro.dup unless @user_retro_hash.has_key? retro_rating.ratee_id
       @user_retro_hash[retro_rating.ratee_id].store "given_percentage", retro_rating.score.round if retro_rating.rater_id == User.current.id
       @confidence_percentage = retro_rating.confidence if retro_rating.rater_id == User.current.id
@@ -160,6 +162,7 @@ class RetrosController < ApplicationController
     @max_journals = 0
     journals_group = @retro.journals.group_by{|journal| journal.user_id}
     journals_group.keys.sort.each do |user_id|
+      next if user_id == User.sysadmin.id
       @user_retro_hash.store user_id, new_user_retro.dup unless @user_retro_hash.has_key? user_id
       @user_retro_hash[user_id].store "journals", journals_group[user_id]
       @user_retro_hash[user_id].store "total_journals", journals_group[user_id].length
@@ -180,6 +183,7 @@ class RetrosController < ApplicationController
     @max_votes = 0
     votes_group = @retro.issue_votes.group_by{|issue_vote| issue_vote.user_id}
     votes_group.keys.sort.each do |user_id|
+      next if user_id == User.sysadmin.id
       @user_retro_hash.store user_id, new_user_retro.dup unless @user_retro_hash.has_key? user_id
       @user_retro_hash[user_id].store "votes", votes_group[user_id]
       @user_retro_hash[user_id].store "total_votes", votes_group[user_id].length
@@ -198,6 +202,7 @@ class RetrosController < ApplicationController
     
     
     author_group.keys.sort.each do |author_id|
+      next if author_id == User.sysadmin.id
       percentage = (@user_retro_hash[author_id]["total_ideas"].to_f / @total_ideas * 100).round_to(0).to_i
       @pie_data_ideas << percentage
       @pie_labels_ideas << User.find(author_id).login + " #{percentage.to_s}%"
