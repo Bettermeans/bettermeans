@@ -490,7 +490,7 @@ class Issue < ActiveRecord::Base
       admin = User.find(:first,:conditions => {:login => "admin"})
       journal = self.init_journal(admin)
       self.status = updated
-      self.retro_id = Retro::NOT_STARTED_ID if self.status = IssueStatus.accepted
+      self.status == IssueStatus.accepted ? self.retro_id = Retro::NOT_STARTED_ID : self.retro_id = nil
       self.save
     end
   end

@@ -55,9 +55,21 @@ class Retro < ActiveRecord::Base
   
   def close
     return unless status_id == STATUS_INPROGRESS
+    calculate_ratings
+    announce_close
+    self.status_id = STATUS_COMPLETE
+    self.save
+  end
+  
+  def calculate_ratings
     @user_hash = Hash.new
-    RetroRating.delete_all :rater_id => -1, :retro_id => self.id
-    RetroRating.delete_all :rater_id => -2, :retro_id => self.id
+    @user_final = Hash.new #final distribution
+    @user_self = Hash.new #self assessment
+    @user_total_bias = Hash.new #total bias
+    RetroRating.delete_all :rater_id => RetroRating::TEAM_AVERAGE , :retro_id => self.id
+    RetroRating.delete_all :rater_id => RetroRating::FINAL_AVERAGE , :retro_id => self.id
+    RetroRating.delete_all :rater_id => RetroRating::SELF_BIAS , :retro_id => self.id
+    RetroRating.delete_all :rater_id => RetroRating::SCALE_BIAS , :retro_id => self.id
     
     return if retro_ratings.length == 0
     
@@ -76,38 +88,41 @@ class Retro < ActiveRecord::Base
     
     team_confidence_total = 0
     retro_ratings.each do |rr|
-      puts("rr:#{rr.inspect}")
       next if rr.rater_id < 0;
       @user_hash[rr.ratee_id].push(rr.score * rr.confidence) unless ((rr.ratee_id == rr.rater_id) && (total_raters > 1))
       @confidence_hash[rr.ratee_id] += rr.confidence unless ((rr.ratee_id == rr.rater_id) && (total_raters > 1))
+      @user_self[rr.ratee_id] = rr.score if (rr.ratee_id == rr.rater_id)
+      @user_total_bias[rr.rater_id] = 0 #initializing for later
     end
 
-    # @confidence_hash.each_value {|issues| team_confidence_total += issues.collect(&:points).sum }
-    puts("confidence hash #{@confidence_hash.inspect}")
-    
-    puts("user hash: " + @user_hash.inspect)
-
+    #team averages
     team_average_total = 0
-    #rater_id -1 reserved for team average
     @user_hash.keys.each do |user_id|
       score = @user_hash[user_id].length == 0 ? 0 : @user_hash[user_id].sum.to_f / @confidence_hash[user_id]
-# ore / @confidence_hash[user_id]
-      RetroRating.create :rater_id => -1, :ratee_id => user_id, :score => score, :retro_id => self.id
+      RetroRating.create :rater_id => RetroRating::TEAM_AVERAGE, :ratee_id => user_id, :score => score, :retro_id => self.id
       team_average_total = team_average_total + score
     end
 
-    #rater_id -2 reserved for final distribution
+    #final distribution and self bias
     @user_hash.keys.each do |user_id|
-      # puts("creating for:#{user_id}")
       score = @user_hash[user_id].length == 0 ? 0 : @user_hash[user_id].sum.to_f / @confidence_hash[user_id]
-      # score = score / @confidence_hash[user_id]
-      RetroRating.create :rater_id => -2, :ratee_id => user_id, :score => score * 100 / team_average_total, :retro_id => self.id
+      score = score * 100 / team_average_total
+      self_bias = (score - @user_self[user_id]) / (-0.01 * score) unless @user_self[user_id].nil? || @user_self[user_id].nan?
+      puts("user: #{user_id} score: #{score} self assessment: #{@user_self[user_id]} self bias: #{self_bias}")
+      @user_final[user_id] = score
+      RetroRating.create :rater_id => RetroRating::FINAL_AVERAGE, :ratee_id => user_id, :score => score, :retro_id => self.id
+      RetroRating.create :rater_id => RetroRating::SELF_BIAS, :ratee_id => user_id, :score => self_bias, :retro_id => self.id unless self_bias.nil? || self_bias.nan? 
     end
     
-    self.status_id = STATUS_COMPLETE
-    self.save
+    #total bias points
+    retro_ratings.each do |rr|
+      next if rr.rater_id < 0;
+      @user_total_bias[rr.rater_id] += (rr.score -  @user_final[rr.ratee_id]).abs
+    end
     
-    announce_close
+    @user_total_bias.keys.each do |user_id|
+      RetroRating.create :rater_id => RetroRating::SCALE_BIAS, :ratee_id => user_id, :score => @user_total_bias[user_id], :retro_id => self.id unless @user_total_bias[user_id].nan?
+    end
   end
   
   #Sends notification to everyone in the retrospective that it's starting

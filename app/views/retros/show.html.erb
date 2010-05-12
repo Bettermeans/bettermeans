@@ -9,11 +9,12 @@
 <div class="user_retrospective">
   <table class="retrospective">
     <tr><td class="avatar">
-      </td><td class="name">
+      <!-- </td><td class="name"> -->
     </td><td class="title">
     </td><td class="title private hidden">&nbsp;&nbsp;&nbsp;&nbsp;Your <img id="help_image_panel_your_assessment" src="/images/question_mark.gif" class="help_question_mark"><br>assessment
     </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Team's <img id="help_image_panel_team_assessment" src="/images/question_mark.gif" class="help_question_mark"><br>assessment
     </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Final <img id="help_image_panel_final_assessment" src="/images/question_mark.gif" class="help_question_mark"><br>distribution
+    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Accuracy<img id="help_image_panel_accuracy" src="/images/question_mark.gif" class="help_question_mark"><br>
     </td><td class="button">
     </td></tr>  
     
@@ -22,9 +23,10 @@
     user_retro = @user_retro_hash[user_id]
 %>
   <tr><td class="avatar">
-    <%= avatar_from_id(user_id) %>
-    </td><td class="name">
-  <%= link_to_user_from_id(user_id) %>   
+    <%= avatar_from_id(user_id) %><br>
+    <%= link_to_user_from_id(user_id) %>   
+    
+    <!-- </td><td class="name"> -->
   </td><td class="stats">
     <strong><%= user_retro["total_points"].round %> credits (<%= user_retro["percentage_points"] %>%)</strong> <br>
     <%= user_retro["total_ideas"] %> ideas <br>      
@@ -40,13 +42,13 @@
     <label id="user_<%= user_id%>_percentage"><%= @team_hash[user_id] ||=0 %>%</label>
   </td><td class="percentage closed">
     <label id="user_<%= user_id%>_percentage"><%= @final_hash[user_id] ||=0 %>%</label>
+  </td><td class="accuracy closed">
+    <label id="user_<%= user_id%>_accuracy"><br><%=tame_magnitude(user_retro["scale_bias"])%><br><br><%= tame_bias(user_retro["self_bias"])%></label>
   </td><td class="button">
   </td></tr>  
   <% end %>
   
   <tr class="open"><td class="avatar">
-    &nbsp;
-    </td><td class="name">
     &nbsp;
     </td><td class="stats">
     <br><strong>Confidence</strong><img id="help_image_panel_confidence" src="/images/question_mark.gif" class="help_question_mark"> <br><br>
@@ -163,7 +165,7 @@
 <div id="help_panel_your_assessment" style="display:none;">
   <div class="tip" style="width:300px">
     <strong>Your assessment</strong><br>
-    Your view of how much you and your team mates contributed to the execution of this item. What percentage of the work did you accomplish, compared to your team mates.
+    Your view of how much you and your team mates contributed to the execution of the items completed in this retrospective overall. What percentage of the work did you accomplish, compared to your team mates.
     During the retrospective, every team member is asked to assess everyone's contribution. Once the retrospective is complete, the assessments will be averaged out and displayed here.
   </div>
 </div>

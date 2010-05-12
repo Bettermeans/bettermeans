@@ -1151,9 +1151,10 @@ div.jGrowl div.jGrowl-closer {
 table.retrospective {margin-bottom: 30px;}
 table.retrospective th { vertical-align: top; text-align: left; }
 table.retrospective td {padding: 3px;border-bottom:none;}
-table.retrospective td.avatar { vertical-align: top; padding-right: 5px;}
+table.retrospective td.avatar { vertical-align: top; padding-right: 5px; text-align: center;}
 table.retrospective td.name { vertical-align: top; padding-right: 5px; width:3em}
 table.retrospective td.stats { vertical-align: top; border-left-width: 1px; border-left-style:solid; padding-left: 10px; width: 10em;}
+table.retrospective td.accuracy { vertical-align: top; border-left-width: 1px; border-left-style:solid; padding-left: 10px; width: 10em;}
 table.retrospective td.percentage { vertical-align: middle; border-left-width: 1px;  font-size: 2em; border-left-style:solid; padding-left: 15px; width: 4em;text-align:center;}
 table.retrospective td.percentage div.slider { vertical-align: bottom; border-left-width: 0px;  font-size: 0.5em; padding-left: 10px; width: 10em; margin-top:4px;}
 table.retrospective td.total { vertical-align: top; border-left-width: 0px;  font-size: 2em; border-left-style:solid; padding-left: 10px; width: 4em;text-align:center;}
