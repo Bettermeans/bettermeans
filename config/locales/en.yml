@@ -182,6 +182,7 @@ en:
   gui_validation_error: 1 error
   gui_validation_error_plural: "{{count}} errors"
   
+  field_retro: Retrospective
   field_name: Name
   field_description: Description
   field_summary: Summary
