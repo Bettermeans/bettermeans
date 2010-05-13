@@ -26,7 +26,7 @@ module RetrosHelper
       ""
     else
       number = number.round
-      number == 0 ? "Other: No Bias" : "Other: #{number}"
+      number == 0 ? "Other: No Bias" : "Other: &plusmn;#{number}"
     end
   end
   
