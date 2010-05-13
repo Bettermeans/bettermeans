@@ -472,7 +472,7 @@ $.fn.mybubbletip = function(tip, options) {
 			});
 			
 			$('.bubbletip').bind('mouseout', function() {
-							mouse_over_bubble = true; //BUGBUG: change to false 
+							mouse_over_bubble = false; //BUGBUG: change to false 
 			});
 				
 			$([_wrapper.get(0), this.get(0)]).bind(_calc.bindHide, function() {
