@@ -181,7 +181,7 @@ class Retro < ActiveRecord::Base
   def all_in?
     rater_group = retro_ratings.group_by {|retro_rating| retro_rating.rater_id}
     ratee_group = retro_ratings.group_by {|retro_rating| retro_rating.ratee_id}
-    return ratee_group.length <= rater_group.length
+    return (ratee_group.length <= rater_group.length) && (rater_group.length != 0)
   end
 end
 
