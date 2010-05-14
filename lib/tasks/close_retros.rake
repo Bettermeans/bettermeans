@@ -11,7 +11,9 @@ task :close_retros => :environment do
   Retro.find(:all, :conditions => {:status_id => Retro::STATUS_INPROGRESS}).each do |retro|
     if (Time.now.advance(:days => Setting::DEFAULT_RETROSPECTIVE_LENGTH * -1)  > retro.created_on)
       retro.close
+      puts ("closing retro: #{retro.id} because it expired")
     elsif retro.all_in?
+      puts ("closing retro: #{retro.id} because we're all in expired")
       retro.close
     end
   end
