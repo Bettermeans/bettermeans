@@ -668,9 +668,9 @@ en:
   label_disabled: disabled
   label_show_completed_versions: Show completed deliverables
   label_me: me
-  label_board: Forum
-  label_board_new: New forum
-  label_board_plural: Forums
+  label_board: Discussion
+  label_board_new: New discussion
+  label_board_plural: Discussions
   label_topic_plural: Topics
   label_message_plural: Messages
   label_message_last: Last message
