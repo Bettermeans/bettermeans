@@ -4,6 +4,7 @@
 
 require 'uri'
 require 'cgi'
+require 'ruby-debug'
 
 class ApplicationController < ActionController::Base
   include Redmine::I18n
@@ -277,6 +278,12 @@ class ApplicationController < ActionController::Base
   def filename_for_content_disposition(name)
     request.env['HTTP_USER_AGENT'] =~ %r{MSIE} ? ERB::Util.url_encode(name) : name
   end
+  
+  #breakpoint
+  def bp
+    debugger if ENV['RAILS_ENV'] == 'development'
+  end
+  
   
   helper :dynamic_scripts
 end
