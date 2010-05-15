@@ -74,7 +74,6 @@ class RetrosController < ApplicationController
       @user_retro_hash[assigned_to_id].store "total_points", 0
     end
     
-    
     #Adding users that have joined the issues and calculating total points for each user
     @retro.issues.each do |issue|
       points = issue.points.to_f / (issue_team_sizes[issue.id])
