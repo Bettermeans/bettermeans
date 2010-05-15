@@ -198,7 +198,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
   menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }#, 
               # :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
-  menu.push :forums, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id#,
+  menu.push :discussions, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id#,
               # :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
   menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_attachment_plural
   menu.push :repository, { :controller => 'repositories', :action => 'show' }#,
