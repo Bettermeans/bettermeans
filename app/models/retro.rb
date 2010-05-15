@@ -106,7 +106,7 @@ class Retro < ActiveRecord::Base
     team_average_total = 0
     @user_hash.keys.each do |user_id|
       score = @user_hash[user_id].length == 0 ? 0 : @user_hash[user_id].sum.to_f / @confidence_hash[user_id]
-      RetroRating.create :rater_id => RetroRating::TEAM_AVERAGE, :ratee_id => user_id, :score => score, :retro_id => self.id
+      RetroRating.create :rater_id => RetroRating::TEAM_AVERAGE, :ratee_id => user_id, :score => score, :retro_id => self.id, :confidence => @confidence_array[user_id]
       team_average_total = team_average_total + score
     end
 
@@ -119,8 +119,8 @@ class Retro < ActiveRecord::Base
       
       puts("user: #{user_id} score: #{score} self assessment: #{@user_self[user_id]} self bias: #{self_bias}")
       @user_final[user_id] = score
-      RetroRating.create :rater_id => RetroRating::FINAL_AVERAGE, :ratee_id => user_id, :score => score, :retro_id => self.id
-      RetroRating.create :rater_id => RetroRating::SELF_BIAS, :ratee_id => user_id, :score => self_bias, :retro_id => self.id unless self_bias.nil? || self_bias.nan? 
+      RetroRating.create :rater_id => RetroRating::FINAL_AVERAGE, :ratee_id => user_id, :score => score, :retro_id => self.id, :confidence => @confidence_array[user_id]
+      RetroRating.create :rater_id => RetroRating::SELF_BIAS, :ratee_id => user_id, :score => self_bias, :retro_id => self.id, :confidence => @confidence_array[user_id] unless self_bias.nil? || self_bias.nan? 
     end
     
     #total bias points
@@ -130,7 +130,7 @@ class Retro < ActiveRecord::Base
     end
     
     @user_total_bias.keys.each do |user_id|
-      RetroRating.create :rater_id => RetroRating::SCALE_BIAS, :ratee_id => user_id, :score => @user_total_bias[user_id] * @confidence_array[user_id] / 100, :retro_id => self.id unless @user_total_bias[user_id].nan?
+      RetroRating.create :rater_id => RetroRating::SCALE_BIAS, :ratee_id => user_id, :score => @user_total_bias[user_id] * @confidence_array[user_id] / 100, :retro_id => self.id, :confidence => @confidence_array[user_id] unless @user_total_bias[user_id].nan?
     end
   end
   
