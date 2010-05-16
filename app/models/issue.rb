@@ -167,12 +167,7 @@ class Issue < ActiveRecord::Base
       if options[:attributes]
         issue.attributes = options[:attributes]
       end
-      if issue.save
-        unless options[:copy]
-          # Manually update project_id on related time entries
-          TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
-        end
-      else
+      if !issue.save
         Issue.connection.rollback_db_transaction
         return false
       end
@@ -356,16 +351,7 @@ class Issue < ActiveRecord::Base
     notified.reject! {|user| !visible?(user)}
     notified.collect(&:mail)
   end
-  
-  # Returns the total number of hours spent on this issue.
-  #
-  # Example:
-  #   spent_hours => 0
-  #   spent_hours => 50
-  def spent_hours
-    @spent_hours ||= time_entries.sum(:hours) || 0
-  end
-  
+    
   def relations
     (relations_from + relations_to).sort
   end
