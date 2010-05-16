@@ -1,0 +1,28 @@
+<p>
+  <b>User:</b>
+  <%=h @reputation.user_id %>
+</p>
+
+<p>
+  <b>Workstream:</b>
+  <%=h @reputation.project_id %>
+</p>
+
+<p>
+  <b>translation missing: en, field_reputation_type:</b>
+  <%=h @reputation.reputation_type %>
+</p>
+
+<p>
+  <b>Value:</b>
+  <%=h @reputation.value %>
+</p>
+
+<p>
+  <b>translation missing: en, field_params:</b>
+  <%=h @reputation.params %>
+</p>
+
+
+<%= link_to 'Edit', edit_reputation_path(@reputation) %> |
+<%= link_to 'Back', reputations_path %>

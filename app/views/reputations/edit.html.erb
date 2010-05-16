@@ -1,0 +1,32 @@
+<h1>Editing reputation</h1>
+
+<% form_for(@reputation) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :project_id %><br />
+    <%= f.text_field :project_id %>
+  </p>
+  <p>
+    <%= f.label :reputation_type %><br />
+    <%= f.text_field :reputation_type %>
+  </p>
+  <p>
+    <%= f.label :value %><br />
+    <%= f.text_field :value %>
+  </p>
+  <p>
+    <%= f.label :params %><br />
+    <%= f.text_field :params %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @reputation %> |
+<%= link_to 'Back', reputations_path %>
