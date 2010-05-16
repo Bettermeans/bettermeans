@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :reputations
+
 
   map.resources :credit_distributions
   map.resources :quotes

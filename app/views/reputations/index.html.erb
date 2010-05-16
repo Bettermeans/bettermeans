@@ -1,0 +1,28 @@
+<h1>Listing reputations</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Workstream</th>
+    <th>translation missing: en, field_reputation_type</th>
+    <th>Value</th>
+    <th>translation missing: en, field_params</th>
+  </tr>
+
+<% @reputations.each do |reputation| %>
+  <tr>
+    <td><%=h reputation.user_id %></td>
+    <td><%=h reputation.project_id %></td>
+    <td><%=h reputation.reputation_type %></td>
+    <td><%=h reputation.value %></td>
+    <td><%=h reputation.params %></td>
+    <td><%= link_to 'Show', reputation %></td>
+    <td><%= link_to 'Edit', edit_reputation_path(reputation) %></td>
+    <td><%= link_to 'Destroy', reputation, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New reputation', new_reputation_path %>
