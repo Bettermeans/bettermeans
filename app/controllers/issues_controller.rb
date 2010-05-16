@@ -30,7 +30,6 @@ class IssuesController < ApplicationController
   helper :sort
   include SortHelper
   include IssuesHelper
-  helper :timelog
   include Redmine::Export::PDF
 
   verify :method => :post,
@@ -99,7 +98,6 @@ class IssuesController < ApplicationController
     @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
     
     # @priorities = IssuePriority.all
-    @time_entry = TimeEntry.new
     respond_to do |format|
       format.html { render :template => 'issues/show.rhtml', :layout => 'blank' }
       format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
@@ -180,7 +178,6 @@ class IssuesController < ApplicationController
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @priorities = IssuePriority.all
     @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
-    @time_entry = TimeEntry.new
     
     @notes = params[:notes]
     journal = @issue.init_journal(User.current, @notes)
@@ -193,23 +190,14 @@ class IssuesController < ApplicationController
     end
 
     if request.post?
-      @time_entry = TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
-      @time_entry.attributes = params[:time_entry]
       attachments = attach_files(@issue, params[:attachments])
       attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
       
-      call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
-
-      if (@time_entry.hours.nil? || @time_entry.valid?) && @issue.save
-        # Log spend time
-        if User.current.allowed_to?(:log_time, @project)
-          @time_entry.save
-        end
+      if @issue.save
         # if !journal.new_record?
         #   # Only send notification if something was actually changed
         #   # flash[:notice] = l(:notice_successful_update)
         # end
-        call_hook(:controller_issues_edit_after_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
         @issue.reload
         respond_to do |format|
           format.js {render :json => @issue.to_dashboard}
@@ -503,26 +491,6 @@ class IssuesController < ApplicationController
   end
   
   def destroy
-    @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
-    if @hours > 0
-      case params[:todo]
-      when 'destroy'
-        # nothing to do
-      when 'nullify'
-        TimeEntry.update_all('issue_id = NULL', ['issue_id IN (?)', @issues])
-      when 'reassign'
-        reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
-        if reassign_to.nil?
-          flash.now[:error] = l(:error_issue_not_found_in_project)
-          return
-        else
-          TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
-        end
-      else
-        # display the destroy form
-        return
-      end
-    end
     @issues.each(&:destroy)
     redirect_to :action => 'index', :project_id => @project
   end
@@ -592,7 +560,6 @@ class IssuesController < ApplicationController
     @project = projects.first if projects.size == 1
 
     @can = {:edit => (@project && User.current.allowed_to?(:edit_issues, @project)),
-            :log_time => (@project && User.current.allowed_to?(:log_time, @project)),
             :update => (@project && (User.current.allowed_to?(:edit_issues, @project) || (User.current.allowed_to?(:change_status, @project) && @allowed_statuses && !@allowed_statuses.empty?))),
             :move => (@project && User.current.allowed_to?(:move_issues, @project)),
             :copy => (@issue && @project.trackers.include?(@issue.tracker) && User.current.allowed_to?(:add_issues, @project)),

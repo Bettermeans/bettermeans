@@ -27,7 +27,6 @@ class DefaultDataTest < ActiveSupport::TestCase
     #     assert Redmine::DefaultData::Loader::load(lang)
     #     assert_not_nil DocumentCategory.first
     #     assert_not_nil IssuePriority.first
-    #     assert_not_nil TimeEntryActivity.first
     #   rescue ActiveRecord::RecordInvalid => e
     #     assert false, ":#{lang} default data is invalid (#{e.message})."
     #   end
@@ -39,7 +38,6 @@ class DefaultDataTest < ActiveSupport::TestCase
     assert Redmine::DefaultData::Loader::load('en')
     assert_not_nil DocumentCategory.first
     assert_not_nil IssuePriority.first
-    assert_not_nil TimeEntryActivity.first
   rescue ActiveRecord::RecordInvalid => e
     assert false, ":#{lang} default data is invalid (#{e.message})."
   end

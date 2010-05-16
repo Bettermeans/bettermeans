@@ -42,12 +42,7 @@ class Version < ActiveRecord::Base
   def estimated_hours
     @estimated_hours ||= fixed_issues.sum(:estimated_hours).to_f
   end
-  
-  # Returns the total reported time for this version
-  def spent_hours
-    @spent_hours ||= TimeEntry.sum(:hours, :include => :issue, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
-  end
-  
+    
   def closed?
     status == 'closed'
   end

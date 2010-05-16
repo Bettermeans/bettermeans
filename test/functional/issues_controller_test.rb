@@ -777,31 +777,7 @@ class IssuesControllerTest < ActionController::TestCase
     assert_kind_of TMail::Mail, mail
     assert mail.body.include?("Searchable field changed from 125 to New custom value")
   end
-  
-  def test_post_edit_with_status_and_assignee_change
-    issue = Issue.find(1)
-    assert_equal 1, issue.status_id
-    @request.session[:user_id] = 2
-    assert_difference('TimeEntry.count', 0) do
-      post :edit,
-           :id => 1,
-           :issue => { :status_id => 2, :assigned_to_id => 3 },
-           :notes => 'Assigned to dlopper',
-           :time_entry => { :hours => '', :comments => '', :activity_id => TimeEntryActivity.first }
-    end
-    assert_redirected_to :action => 'show', :id => '1'
-    issue.reload
-    assert_equal 2, issue.status_id
-    j = Journal.find(:first, :order => 'id DESC')
-    assert_equal 'Assigned to dlopper', j.notes
-    assert_equal 2, j.details.size
     
-    mail = ActionMailer::Base.deliveries.last
-    assert mail.body.include?("Status changed from New to Assigned")
-    # subject should contain the new status
-    assert mail.subject.include?("(#{ IssueStatus.find(2).name })")
-  end
-  
   def test_post_edit_with_note_only
     notes = 'Note added by IssuesControllerTest#test_update_with_note_only'
     # anonymous user
@@ -818,28 +794,6 @@ class IssuesControllerTest < ActionController::TestCase
     assert mail.body.include?(notes)
   end
   
-  def test_post_edit_with_note_and_spent_time
-    @request.session[:user_id] = 2
-    spent_hours_before = Issue.find(1).spent_hours
-    assert_difference('TimeEntry.count') do
-      post :edit,
-           :id => 1,
-           :notes => '2.5 hours added',
-           :time_entry => { :hours => '2.5', :comments => '', :activity_id => TimeEntryActivity.first }
-    end
-    assert_redirected_to :action => 'show', :id => '1'
-    
-    issue = Issue.find(1)
-    
-    j = Journal.find(:first, :order => 'id DESC')
-    assert_equal '2.5 hours added', j.notes
-    assert_equal 0, j.details.size
-    
-    t = issue.time_entries.find(:first, :order => 'id DESC')
-    assert_not_nil t
-    assert_equal 2.5, t.hours
-    assert_equal spent_hours_before + 2.5, issue.spent_hours
-  end
   
   def test_post_edit_with_attachment_only
     set_tmp_attachments_directory
@@ -1210,7 +1164,6 @@ class IssuesControllerTest < ActionController::TestCase
   end
   
   def test_destroy_issue_with_no_time_entries
-    assert_nil TimeEntry.find_by_issue_id(2)
     @request.session[:user_id] = 2
     post :destroy, :id => 2
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
@@ -1231,7 +1184,6 @@ class IssuesControllerTest < ActionController::TestCase
     post :destroy, :ids => [1, 3], :todo => 'destroy'
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
-    assert_nil TimeEntry.find_by_id([1, 2])
   end
 
   def test_destroy_issues_and_assign_time_entries_to_project
@@ -1239,8 +1191,6 @@ class IssuesControllerTest < ActionController::TestCase
     post :destroy, :ids => [1, 3], :todo => 'nullify'
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
-    assert_nil TimeEntry.find(1).issue_id
-    assert_nil TimeEntry.find(2).issue_id
   end
   
   def test_destroy_issues_and_reassign_time_entries_to_another_issue
@@ -1248,8 +1198,6 @@ class IssuesControllerTest < ActionController::TestCase
     post :destroy, :ids => [1, 3], :todo => 'reassign', :reassign_to_id => 2
     assert_redirected_to :action => 'index', :project_id => 'ecookbook'
     assert !(Issue.find_by_id(1) || Issue.find_by_id(3))
-    assert_equal 2, TimeEntry.find(1).issue_id
-    assert_equal 2, TimeEntry.find(2).issue_id
   end
   
   def test_default_search_scope
