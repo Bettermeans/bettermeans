@@ -12,7 +12,6 @@ class Project < ActiveRecord::Base
   belongs_to :enterprise                        
   
   # Specific overidden Activities
-  has_many :time_entry_activities
   has_many :all_members,:class_name => 'Member', :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
   has_many :core_members, :class_name => 'Member', 
                           :include => [:user,:roles], 
@@ -47,7 +46,6 @@ class Project < ActiveRecord::Base
   has_many :issues, :dependent => :destroy, :order => "#{Issue.table_name}.created_on DESC", :include => [:status, :tracker]
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
-  has_many :time_entries, :dependent => :delete_all
   has_many :queries, :dependent => :delete_all
   has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :delete_all, :include => :author
@@ -175,42 +173,6 @@ class Project < ActiveRecord::Base
       return all_activities
     else
       return active_activities
-    end
-  end
-
-  # Will create a new Project specific Activity or update an existing one
-  #
-  # This will raise a ActiveRecord::Rollback if the TimeEntryActivity
-  # does not successfully save.
-  def update_or_create_time_entry_activity(id, activity_hash)
-    if activity_hash.respond_to?(:has_key?) && activity_hash.has_key?('parent_id')
-      self.create_time_entry_activity_if_needed(activity_hash)
-    else
-      activity = project.time_entry_activities.find_by_id(id.to_i)
-      activity.update_attributes(activity_hash) if activity
-    end
-  end
-  
-  # Create a new TimeEntryActivity if it overrides a system TimeEntryActivity
-  #
-  # This will raise a ActiveRecord::Rollback if the TimeEntryActivity
-  # does not successfully save.
-  def create_time_entry_activity_if_needed(activity)
-    if activity['parent_id']
-    
-      parent_activity = TimeEntryActivity.find(activity['parent_id'])
-      activity['name'] = parent_activity.name
-      activity['position'] = parent_activity.position
-
-      if Enumeration.overridding_change?(activity, parent_activity)
-        project_activity = self.time_entry_activities.create(activity)
-
-        if project_activity.new_record?
-          raise ActiveRecord::Rollback, "Overridding TimeEntryActivity was not successfully saved"
-        else
-          self.time_entries.update_all("activity_id = #{project_activity.id}", ["activity_id = ?", parent_activity.id])
-        end
-      end
     end
   end
 
@@ -777,43 +739,6 @@ class Project < ActiveRecord::Base
     @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
   end
 
-  # Returns all the active Systemwide and project specific activities
-  def active_activities
-    overridden_activity_ids = self.time_entry_activities.collect(&:parent_id)
-    
-    if overridden_activity_ids.empty?
-      return TimeEntryActivity.shared.active
-    else
-      return system_activities_and_project_overrides
-    end
-  end
-
-  # Returns all the Systemwide and project specific activities
-  # (inactive and active)
-  def all_activities
-    overridden_activity_ids = self.time_entry_activities.collect(&:parent_id)
-
-    if overridden_activity_ids.empty?
-      return TimeEntryActivity.shared
-    else
-      return system_activities_and_project_overrides(true)
-    end
-  end
-
-  # Returns the systemwide active activities merged with the project specific overrides
-  def system_activities_and_project_overrides(include_inactive=false)
-    if include_inactive
-      return TimeEntryActivity.shared.
-        find(:all,
-             :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
-        self.time_entry_activities
-    else
-      return TimeEntryActivity.shared.active.
-        find(:all,
-             :conditions => ["id NOT IN (?)", self.time_entry_activities.collect(&:parent_id)]) +
-        self.time_entry_activities.active
-    end
-  end
   
   # Archives subprojects recursively
   def archive!

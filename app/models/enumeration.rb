@@ -33,12 +33,6 @@ class Enumeration < ActiveRecord::Base
     end
   end
 
-  named_scope :activities, :conditions => { :type => "TimeEntryActivity" }, :order => 'position' do
-    ActiveSupport::Deprecation.warn("Enumeration#activities is deprecated, use the TimeEntryActivity class. (#{Redmine::Info.issue(3007)})")
-    def default
-      find(:first, :conditions => { :is_default => true })
-    end
-  end
   
   named_scope :values, lambda {|type| { :conditions => { :type => type }, :order => 'position' } } do
     def default
@@ -152,7 +146,6 @@ private
 end
 
 # Force load the subclasses in development mode
-require_dependency 'time_entry_activity'
 require_dependency 'document_category'
 require_dependency 'issue_priority'
 

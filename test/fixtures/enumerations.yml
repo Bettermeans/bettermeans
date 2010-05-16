@@ -48,28 +48,6 @@ enumerations_008:
   opt: IPRI
   type: IssuePriority
   active: true
-enumerations_009: 
-  name: Design
-  id: 9
-  opt: ACTI
-  type: TimeEntryActivity
-  position: 1
-  active: true
-enumerations_010: 
-  name: Development
-  id: 10
-  opt: ACTI
-  type: TimeEntryActivity
-  position: 2
-  is_default: true
-  active: true
-enumerations_011: 
-  name: QA
-  id: 11
-  opt: ACTI
-  type: TimeEntryActivity
-  position: 3
-  active: true
 enumerations_012:
   name: Default Enumeration
   id: 12
@@ -83,13 +61,6 @@ enumerations_013:
   opt: ''
   type: Enumeration
   active: true
-enumerations_014: 
-  name: Inactive Activity
-  id: 14
-  opt: ACTI
-  type: TimeEntryActivity
-  position: 4
-  active: false
 
 
 # == Schema Information

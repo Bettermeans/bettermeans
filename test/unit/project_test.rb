@@ -449,77 +449,12 @@ class ProjectTest < ActiveSupport::TestCase
 
   def test_activities_should_use_the_system_activities
     project = Project.find(1)
-    assert_equal project.activities, TimeEntryActivity.find(:all, :conditions => {:active => true} )
   end
 
 
-  def test_activities_should_use_the_project_specific_activities
-    project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project})
-    assert overridden_activity.save!
 
-    assert project.activities.include?(overridden_activity), "Project specific Activity not found"
-  end
 
-  def test_activities_should_not_include_the_inactive_project_specific_activities
-    project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.find(:first), :active => false})
-    assert overridden_activity.save!
 
-    assert !project.activities.include?(overridden_activity), "Inactive Project specific Activity found"
-  end
-
-  def test_activities_should_not_include_project_specific_activities_from_other_projects
-    project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(2)})
-    assert overridden_activity.save!
-
-    assert !project.activities.include?(overridden_activity), "Project specific Activity found on a different project"
-  end
-
-  def test_activities_should_handle_nils
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => Project.find(1), :parent => TimeEntryActivity.find(:first)})
-    TimeEntryActivity.delete_all
-
-    # No activities
-    project = Project.find(1)
-    assert project.activities.empty?
-
-    # No system, one overridden
-    assert overridden_activity.save!
-    project.reload
-    assert_equal [overridden_activity], project.activities
-  end
-
-  def test_activities_should_override_system_activities_with_project_activities
-    project = Project.find(1)
-    parent_activity = TimeEntryActivity.find(:first)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => parent_activity})
-    assert overridden_activity.save!
-
-    assert project.activities.include?(overridden_activity), "Project specific Activity not found"
-    assert !project.activities.include?(parent_activity), "System Activity found when it should have been overridden"
-  end
-
-  def test_activities_should_include_inactive_activities_if_specified
-    project = Project.find(1)
-    overridden_activity = TimeEntryActivity.new({:name => "Project", :project => project, :parent => TimeEntryActivity.find(:first), :active => false})
-    assert overridden_activity.save!
-
-    assert project.activities(true).include?(overridden_activity), "Inactive Project specific Activity not found"
-  end
-
-  test 'activities should not include active System activities if the project has an override that is inactive' do
-    project = Project.find(1)
-    system_activity = TimeEntryActivity.find_by_name('Design')
-    assert system_activity.active?
-    overridden_activity = TimeEntryActivity.generate!(:project => project, :parent => system_activity, :active => false)
-    assert overridden_activity.save!
-    
-    assert !project.activities.include?(overridden_activity), "Inactive Project specific Activity not found"
-    assert !project.activities.include?(system_activity), "System activity found when the project has an inactive override"
-  end
-  
   def test_close_completed_versions
     Version.update_all("status = 'open'")
     project = Project.find(1)
