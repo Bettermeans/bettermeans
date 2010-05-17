@@ -41,4 +41,22 @@ module UsersHelper
     end
     tabs
   end
+  
+  def reputation_value(reputation_type, reputation_value)
+    case reputation_type
+    when Reputation::VARIATION_SELF_BIAS
+      tame_bias(reputation_value)
+    when Reputation::VARIATION_SCALE_BIAS
+      tame_scale(reputation_value)
+    end
+  end
+  
+  def reputation_project(reputation)
+    logger.info(reputation.inspect)
+    if reputation.project_id != 0
+      link_to(h(reputation.project.name_with_ancestors), :controller => 'projects', :action => 'show', :id => reputation.project) 
+    else
+      "Platform Wide"
+    end
+  end
 end

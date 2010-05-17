@@ -42,7 +42,12 @@ class UsersController < ApplicationController
     
     # show only public projects and private projects that the logged in user is also a member of
     @memberships = @user.memberships.select do |membership|
-      membership.project.is_public? || (User.current.member_of?(membership.project))
+      membership.project.is_public? || (User.current.community_member_of?(membership.project))
+    end
+    
+    # show only public projects and private projects that the logged in user is also a member of
+    @reputations = @user.reputations.select do |reputation|
+      reputation.project_id == 0 || reputation.project.is_public? || (User.current.community_member_of?(membership.project))
     end
     
     events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)

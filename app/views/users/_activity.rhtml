@@ -1,0 +1,29 @@
+<% unless @events_by_day.empty? %>
+<h3><%= link_to l(:label_activity), :controller => 'projects', :action => 'activity', :id => nil, :user_id => @user, :from => @events_by_day.keys.first %></h3>
+
+<p>
+<%=l(:label_reported_issues)%>: <%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
+</p>
+
+<div id="activity">
+<% @events_by_day.keys.sort.reverse.each do |day| %>
+<h4><%= format_activity_day(day) %></h4>
+<dl>
+<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
+  <dt class="<%= e.event_type %>">
+  <span class="time"><%= format_time(e.event_datetime, false) %></span>
+  <%= content_tag('span', h(e.project), :class => 'project') %>
+  <%= link_to format_activity_title(e.event_title), e.event_url, :class => (e.event_type.match(/^issue/)) ? "fancyframe" : "noframe" %></dt>
+  <dd><span class="description"><%= format_activity_description(e.event_description) %></span></dd>
+<% end -%>
+</dl>
+<% end -%>
+</div>
+
+<% other_formats_links do |f| %>
+	<%= f.link_to 'Atom', :url => {:controller => 'projects', :action => 'activity', :id => nil, :user_id => @user, :key => User.current.rss_key} %>
+<% end %>
+<% content_for :header_tags do %>
+		<%= auto_discovery_link_tag(:atom, :controller => 'projects', :action => 'activity', :user_id => @user, :format => :atom, :key => User.current.rss_key) %>
+<% end %>
+<% end %>

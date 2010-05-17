@@ -11,10 +11,10 @@
     <tr><td class="avatar">
       <!-- </td><td class="name"> -->
     </td><td class="title">
-    </td><td class="title private hidden">&nbsp;&nbsp;&nbsp;&nbsp;Your <img id="help_image_panel_your_assessment" src="/images/question_mark.gif" class="help_question_mark"><br>assessment
-    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Team's <img id="help_image_panel_team_assessment" src="/images/question_mark.gif" class="help_question_mark"><br>assessment
-    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Final <img id="help_image_panel_final_assessment" src="/images/question_mark.gif" class="help_question_mark"><br>distribution
-    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Accuracy<img id="help_image_panel_accuracy" src="/images/question_mark.gif" class="help_question_mark"><br>
+    </td><td class="title private hidden">&nbsp;&nbsp;&nbsp;&nbsp;Your <%= help_bubble :help_your_assessment %><br>assessment
+    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Team's<%= help_bubble :help_team_assessment %><br>assessment
+    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Final <%= help_bubble :help_final_assessment %><br>distribution
+    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Accuracy<%= help_bubble :help_accuracy %><br>
     </td><td class="button">
     </td></tr>  
     
@@ -51,7 +51,7 @@
   <tr class="open"><td class="avatar">
     &nbsp;
     </td><td class="stats">
-    <br><strong>Confidence</strong><img id="help_image_panel_confidence" src="/images/question_mark.gif" class="help_question_mark"> <br><br>
+    <br><strong>Confidence</strong><%= help_bubble :help_confidence %><br><br>
   </td><td class="percentage private hidden">
     <label id="user_0_percentage" class="percentage_label_confidence"><%= @confidence_percentage ||=0 %>%</label>
   <br>
@@ -161,44 +161,6 @@
      <br>
 </div>
 <% end %>
-
-<div id="help_panel_your_assessment" style="display:none;">
-  <div class="tip" style="width:300px">
-    <strong>Your assessment</strong><br>
-    Your view of how much you and your team mates contributed to the execution of the items completed in this retrospective overall. What percentage of the work did you accomplish, compared to your team mates.
-    During the retrospective, every team member is asked to assess everyone's contribution. Once the retrospective is complete, the assessments will be averaged out and displayed here.
-  </div>
-</div>
-
-<div id="help_panel_team_assessment" style="display:none;">
-  <div class="tip" style="width:300px">
-    <strong>Team assessment</strong><br>
-    This is the average percentage contribution the work item as assessed by your peers. Each person's self-assessment is taken out of the average and only their team mates' assessment counts towards this number.
-  </div>
-</div>
-
-<div id="help_panel_final_assessment" style="display:none;">
-  <div class="tip" style="width:300px">
-    <strong>Final assessment</strong><br>
-    All the Team averages are used to be proportionally distributed over 100%
-  </div>
-</div>
-
-<div id="help_panel_confidence" style="display:none;">
-  <div class="tip" style="width:300px">
-    <strong>Assessment confidence</strong><br>
-    Adjust this slider depending on how confident you are of your assessment of yourself and your peer.<br>Lower confidence, means your ratings will be given less weight, and your self assessment index will be less impact by team-self discrepancies.
-  </div>
-</div>
-
-<div id="help_panel_accuracy" style="display:none;">
-  <div class="tip" style="width:300px">
-    <strong>Accuracy and Bias</strong><br>
-    This column shows the accuracy with which users who participated in this retrospective where able to assess themselves and their peers.
-  </div>
-</div>
-
-
 
 <script>
   var currentUserId = '<%= User.current.id %>';  
