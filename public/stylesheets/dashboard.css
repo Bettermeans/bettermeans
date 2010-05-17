@@ -348,3 +348,11 @@ text-align:center;
 width:100%;
 align:center;
 }
+
+#comment_prompt {
+	width:320px;
+}
+
+.comment_prompt_text {
+	width:280px;
+}
