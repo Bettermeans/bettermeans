@@ -13,6 +13,14 @@ class RetroRating < ActiveRecord::Base
   belongs_to :retro
   belongs_to :rater, :class_name => 'User', :foreign_key => 'rater_id'
   belongs_to :ratee, :class_name => 'User', :foreign_key => 'ratee_id'
+  
+  named_scope :for_project, lambda { |project_id| 
+    { 
+      :joins      => "JOIN retros ON retro_id = retros.id", 
+      :conditions => "retros.project_id = #{project_id}" 
+    } 
+  }
+  
 end
 
 
