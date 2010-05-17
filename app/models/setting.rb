@@ -96,6 +96,12 @@ class Setting < ActiveRecord::Base
 
   LAZY_MAJORITY_LENGTH = 3 #number of days before a lazy majority vote is counted
   
+  #Reputation calculation constants
+  
+  #lenght of window for moving averages for reputation index average calculation. 
+  #example: if this number is 20, the average before last will be weighed at 19/20, the one before that at 18/20, all scores past the 20th most recent scores will be weighed at 1/20 of their value in the totaly average
+  LENGTH_OF_MOVING_AVERAGE = 20 
+  
   DATE_FORMATS = [
 	'%Y-%m-%d',
 	'%d/%m/%Y',
