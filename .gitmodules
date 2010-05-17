@@ -1,6 +1,0 @@
-[submodule "vendor/plugins/redmine_s3"]
-	path = vendor/plugins/redmine_s3
-	url = git://github.com/tigrish/redmine_s3.git
-[submodule "vendor/plugins/tiny_mce"]
-	path = vendor/plugins/tiny_mce
-	url = http://github.com/kete/tiny_mce.git
