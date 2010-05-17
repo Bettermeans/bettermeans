@@ -118,7 +118,8 @@ class ProjectsController < ApplicationController
       redirect_to_project_menu_item(@project, params[:jump]) && return
     end
     
-    @subprojects = @project.children.visible.find(:all, :order => 'name ASC')
+    # @subprojects = @project.children.visible.find(:all, :order => 'name ASC')
+    @subprojects = @project.children.active.find(:all, :order => 'name ASC')
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = @project.rolled_up_trackers
     
