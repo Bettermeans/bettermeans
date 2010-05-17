@@ -1,11 +1,13 @@
 <h3><%=l(:label_reputation)%></h3>
 <h4><%= l(:label_general) %></h4>
 <%= render :partial => "general_info" %>
+<% unless @reputations.empty? %>
 <h4><%= l(:label_assessment_accuracy) %> <%= help_bubble :help_assessment_accuracy %></h4>
 <ul>
 <% for reputation in @reputations %>
 	<li><%= reputation_value(reputation.reputation_type, reputation.value) %>
 	   - <%= reputation_project(reputation) %>
 	  </li>
+<% end %>
 <% end %>
 </ul>
