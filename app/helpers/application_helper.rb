@@ -761,6 +761,25 @@ module ApplicationHelper
     content << "</tr>"
     content << "</table>"
   end
+  
+  def tame_bias(number)
+    if number.nil? 
+      return ""
+    else
+      number = number.round
+      number > 0 ? "Self:&nbsp&nbsp; +#{number}" : number == 0 ? "Self:&nbsp&nbsp; No Bias" : "Self:&nbsp&nbsp; #{number}"
+    end
+  end
+
+  def tame_scale(number)
+    if number.nil?
+      ""
+    else
+      number = number.round
+      number == 0 ? "Other: No Bias" : "Other: &plusmn;#{number}"
+    end
+  end
+  
 
 
   private
