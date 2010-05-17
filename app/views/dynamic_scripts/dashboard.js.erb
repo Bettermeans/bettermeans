@@ -1783,7 +1783,7 @@ function comment_prompt(dataId,source,data,action,required){
 
 	var content = '';
 	content = content + '<div id="comment_prompt"><h2>Comment</h2><br>';
-        content = content + '<p><textarea id="prompt_comment_' + dataId + '" rows="10" cols="60" ></textarea></p><br>';
+        content = content + '<p><textarea id="prompt_comment_' + dataId + '" class="comment_prompt_text" rows="10" ></textarea></p><br>';
 		content = content + '<p>';
         content = content + '<input type="submit" onclick="submit_comment_prompt(' + dataId + ',\'' + data + '\',\'' + action + '\')" value="Submit"></input>';
 		if (!required){
