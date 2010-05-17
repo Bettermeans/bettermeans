@@ -14,6 +14,7 @@ task :cron => :environment do
     if Time.now.hour == 0
       
       Rake::Task['start_retros'].invoke
+      Rake::Task['custom:calculate_reputation'].invoke
       
       # Credit distribution
       last_distribution = CreditDistribution.first(:order => "updated_on DESC")

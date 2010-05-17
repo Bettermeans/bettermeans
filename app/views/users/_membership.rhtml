@@ -1,0 +1,9 @@
+<% unless @memberships.empty? %>
+<h3><%=l(:label_project_plural)%></h3>
+<ul>
+<% for membership in @memberships %>
+	<li><%= link_to(h(membership.project.name_with_ancestors), :controller => 'projects', :action => 'show', :id => membership.project) %>
+   <%=h membership.roles.sort.collect(&:to_s).join(', ') %><%#= format_date(membership.created_on) %></li>
+<% end %>
+</ul>
+<% end %>

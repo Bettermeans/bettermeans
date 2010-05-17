@@ -1,11 +1,5 @@
 $('document').ready(function(){
 	
-	$("#help_image_panel_your_assessment").mybubbletip('#help_panel_your_assessment', {deltaDirection: 'right', bindShow: 'click'});
-	$("#help_image_panel_team_assessment").mybubbletip('#help_panel_team_assessment', {deltaDirection: 'right', bindShow: 'click'});
-	$("#help_image_panel_final_assessment").mybubbletip('#help_panel_final_assessment', {deltaDirection: 'right', bindShow: 'click'});
-	$("#help_image_panel_confidence").mybubbletip('#help_panel_confidence', {deltaDirection: 'right', bindShow: 'click'});
-	$("#help_image_panel_accuracy").mybubbletip('#help_panel_accuracy', {deltaDirection: 'right', bindShow: 'click'});
-	
 	if (retroStatus == 1){
 		$(".closed").hide();		
 		$(".open").show();		

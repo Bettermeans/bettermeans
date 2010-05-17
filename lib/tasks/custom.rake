@@ -35,6 +35,10 @@ namespace :custom do
       motion.close
     end
   end
+
+  task :calculate_reputation => :environment do
+    Reputation.calculate_all
+  end
   
 
   task :one_time_credit_to_point_adjust => :environment do

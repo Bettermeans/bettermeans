@@ -120,7 +120,7 @@ class Role < ActiveRecord::Base
   # Return true if the role is a project contributor
   def member?
     builtin == BUILTIN_MEMBER
-  end
+  end  
   
   # Return true if role is allowed to do the specified action
   # action can be:
