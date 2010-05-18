@@ -65,9 +65,7 @@ Rails::Initializer.run do |config|
   # (e.g. gems, patches).
   if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
-  end
-  
-  # config.gem 'hobofields'  
+  end  
     
 end
 
