@@ -90,10 +90,14 @@ class Issue < ActiveRecord::Base
     # return true if (accept_total * -1) > ((project.root.core_members.count + project.root.members.count) / 2)
   end
   
+  def is_gift?
+    tracker.gift?
+  end
+  
   def updated_status
     return IssueStatus.accepted if ready_for_accepted?
     return IssueStatus.rejected if ready_for_rejected?
-    return IssueStatus.done if self.status == IssueStatus.done
+    return IssueStatus.done if self.status == IssueStatus.done || (ready_for_open? && is_gift?)
     return IssueStatus.inprogress if self.status == IssueStatus.inprogress    
     return IssueStatus.open if ready_for_open?
     return IssueStatus.canceled if ready_for_canceled?
@@ -467,7 +471,7 @@ class Issue < ActiveRecord::Base
     end
   end
   
-  #refreshes issue status
+  #refreshes issue status, returns true if status changed
   def update_status
     original = self.status
     updated = self.updated_status
@@ -476,9 +480,31 @@ class Issue < ActiveRecord::Base
       admin = User.find(:first,:conditions => {:login => "admin"})
       journal = self.init_journal(admin)
       self.status = updated
-      self.status == IssueStatus.accepted ? self.retro_id = Retro::NOT_STARTED_ID : self.retro_id = nil
+      self.retro_id = nil
+            
+      if self.status == IssueStatus.accepted 
+        self.assigned_to.add_as_contributor_if_new(self.project)
+        if self.is_gift?
+          # self.status = IssueStatus.archived
+          self.retro_id = Retro::NOT_NEEDED_ID
+          self.give_credits
+        else #if a non-gift is accepted, set retro id to not started to prep for next retrospective
+          self.retro_id = Retro::NOT_STARTED_ID 
+          self.save
+          self.project.start_retro_if_ready
+        end
+      end
+
       self.save
+      return true
+    else
+      return false
     end
+  end
+  
+  #issues credits for this one issue to person it's assigned to
+  def give_credits
+    CreditDistribution.create :user_id => self.assigned_to_id, :project_id => self.project_id, :retro_id => CreditDistribution::GIFT, :amount => self.points unless self.points == 0 || self.points.nil?
   end
   
   #returns json object for consumption from dashboard

@@ -16,7 +16,7 @@ class ProjectsController < ApplicationController
   
   before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add ]
   before_filter :find_optional_project, :only => [:activity, :add]
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale ]
+  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members ]
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
@@ -138,7 +138,13 @@ class ProjectsController < ApplicationController
     
   end
   
+  def community_members
+    render :json => @project.all_members.to_json(:only => :user_id, :methods => :name).gsub("\"user_id\":","\"").gsub(",\"name\"", "\"").gsub("}","").gsub("{","").gsub("[","{").gsub("]","}")
+    # render :json => @project.all_members.to_json(:only => [:lastname, :id])
+  end
+  
   def dashboard
+    @kufta = "whatever"
     @credit_base = @project.dpp
     @show_issue_id = params[:show_issue_id] #Optional parameter to start the dashboard off showing an issue
     @show_retro_id = params[:show_retro_id] #Optional parameter to start the dashboard off showing a retrospective
@@ -146,6 +152,7 @@ class ProjectsController < ApplicationController
   
   #TODO: optimize this query, it's WAY too heavy, and we need fewer columns, and it's executing hundreds of queries!
   def dashdata
+    
     #TODO: could optimize by hardcoding archived issue status id to 12    
     # render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND (status_id <> #{IssueStatus.archived.id})")  \
     #                      .to_json(:include => { :journals =>    { :include => :user },

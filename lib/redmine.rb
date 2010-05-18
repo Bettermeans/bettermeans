@@ -150,7 +150,7 @@ Redmine::AccessControl.map do |map|
   end
   
   map.project_module :dashboard do |map|
-    map.permission :view_dashboard, {:project => :dashboard}
+    map.permission :view_dashboard, {:project => [:dashboard,:community_members]}
   end
   
   
