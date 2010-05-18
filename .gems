@@ -1,3 +1,4 @@
 mislav-will_paginate --source gems.github.com
 hobofields
 ruby-debug
+tiny-mce
