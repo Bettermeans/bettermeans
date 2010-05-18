@@ -13,7 +13,7 @@ class Retro < ActiveRecord::Base
   STATUS_DISTRIBUTED = 3 #credits have been distributed
   STATUS_DISPUTED = 9
   NOT_STARTED_ID = -1 #is for issues that haven't been started yet
-  NOT_NEEDED_ID = -2 #is for issues that don't need a retrospective b/c only one person worked on them
+  NOT_NEEDED_ID = -2 #is for issues that don't need a retrospective b/c only one person worked on them (e.g gifts)
   
   
   belongs_to :project
