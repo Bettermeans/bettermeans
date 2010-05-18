@@ -501,7 +501,17 @@ function show_accept_flyover(dataId,callingElement){
 	});	
 }
 
+function is_visible(item){
+	if (item.tracker.name == "Gift" && item.assigned_to_id == currentUserId){
+		return false;
+	}
+	
+	return true;
+}
+
 function add_item(dataId,position,scroll,panelid){
+	if (!is_visible(D[dataId])) {return;}
+	
 	if (!panelid){
 		//Deciding on wich panel for this item?
 		switch (D[dataId].status.name){
@@ -2142,6 +2152,10 @@ function save_new_item(){
 		return false;
 	}
 	var data = "commit=Create&project_id=" + projectId + "&issue[tracker_id]=" + $('#new_story_type').val() + "&issue[subject]=" + $('#new_title_input').val() + "&issue[description]=" + $('#new_description').val();
+	
+	if ($('#new_story_type').val() == 9){
+		data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
+	}
 
     var url = url_for({ controller: 'issues',
                            action    : 'new'
@@ -2312,6 +2326,27 @@ function todo_updated(item, dataId){
 	// $('#todo_container_' + item.id).html(generate_todos(item,false));
 }
 
+function story_type_changed(){
+	var selection = $("#new_story_type").val();
+	if (selection == "9"){   //TODO: hardcoded value
+		$("#new_assigned_to").show();
+		$("#assigned_to_select").ajaxAddOption('/projects/20/community_members',{},false,sortoptions);
+	}
+	else{
+		$("#new_assigned_to").hide();
+	}
+}
+
+function sortoptions(sort)
+{
+	var $this = $(this);
+	// sort
+	$this.removeOption("0"); //removing loading
+	$this.removeOption("1"); //removing administrator
+	$this.removeOption(currentUserId); //removing self
+	$this.sortOptions();
+}
+
 function new_item(){
 keyboard_shortcuts = false;
 $("#new_item_wrapper").remove();
@@ -2357,7 +2392,7 @@ html = html + '	            <tbody>';
 html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
-html = html + '	                    <select id="new_story_type" class="storyDetailsField" name="new_story_type">';
+html = html + '	                    <select id="new_story_type" class="storyDetailsField" name="new_story_type"  onChange="story_type_changed();return false;">';
 html = html + '	                      <option selected="true" value="4">';
 html = html + '	                        Feature';
 html = html + '	                      </option>';
@@ -2366,6 +2401,9 @@ html = html + '	                        Chore';
 html = html + '	                      </option>';
 html = html + '	                      <option value="8">';
 html = html + '	                        Bug';
+html = html + '	                      </option>';
+html = html + '	                      <option value="9">';
+html = html + '	                        Gift';
 html = html + '	                      </option>';
 html = html + '	                    </select>';
 html = html + '	                  </div>';
@@ -2379,6 +2417,11 @@ html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
 html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	              </tr>';
+html = html + '	              <tr id="new_assigned_to" class="hidden">';
+html = html + '	                <td class="letContentExpand" colspan="1">';
+html = html + '	                <div><select id="assigned_to_select"><option value="0">loading...</option></select></div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
@@ -2430,6 +2473,7 @@ $('#help_image_description_new').mybubbletip($('#help_description'), {
 	offsetLeft: 0,
 	bindShow: 'click'
 });
+
 $('#help_image_feature_new').mybubbletip($('#help_feature'), {
 	deltaDirection: 'up',
 	delayShow: 300,
@@ -2449,14 +2493,20 @@ function is_item_editable(dataId) {
 
 }
 
+function is_tracker_editable(dataId) {
+  return !(D[dataId].tracker.name == 'Gift');
+
+}
+
 function generate_item_edit(dataId){  
   
 var item_editable = is_item_editable(dataId);
+var tracker_editable = is_tracker_editable(dataId);
 
 // The subject and description input elements, and the issue type
 // combo box are rendered readonly/disable if the item is not editable
 var readonly = !item_editable ? "readonly" : "";
-var disabled = !item_editable ? "disabled" : "";
+var disabled = !item_editable || !tracker_editable  ? "disabled" : "";
   
 html = '';	
 html = html + '	<div class="item" id="edit_item_' + dataId + '">';
@@ -2512,6 +2562,13 @@ html = html + '	                      </option>';
 html = html + '	                      <option value="8">';
 html = html + '	                        Bug';
 html = html + '	                      </option>';
+
+if (D[dataId].assigned_to_id != null && D[dataId].tracker.name == 'Gift' ){
+	html = html + '	                      <option value="9">';
+	html = html + '	                        Gift';
+	html = html + '	                      </option>';
+}
+
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
@@ -2524,6 +2581,17 @@ html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types' + dataId + '">';
 html = html + '	                    <img id="help_image_feature_' + dataId + '" src="/images/question_mark.gif" class="help_question_mark">';
 html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	              </tr>';
+html = html + '	              <tr id="assigned_to_' + dataId + '">';
+html = html + '	                <td class="letContentExpand" colspan="1">';
+html = html + '	                <div id="assigned_to_text_' + dataId + '">';
+
+if (D[dataId].assigned_to_id != null && D[dataId].tracker.name == 'Gift' ){
+	html = html + 'for: ' + D[dataId].assigned_to.firstname + " " + D[dataId].assigned_to.lastname ;
+	};
+	
+html = html + '</div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';

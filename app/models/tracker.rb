@@ -32,6 +32,11 @@ class Tracker < ActiveRecord::Base
     find(:all, :order => 'position')
   end
   
+  def gift?
+    name == l(:default_issue_tracker_gift)
+  end
+  
+  
   # Returns an array of IssueStatus that are used
   # in the tracker's workflows
   def issue_statuses

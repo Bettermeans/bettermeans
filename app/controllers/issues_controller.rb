@@ -288,8 +288,7 @@ class IssuesController < ApplicationController
     end
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :points => params[:points]
     @issue.update_estimate_total @iv.isbinding
-    @issue.status = @issue.updated_status
-    @issue.save
+    @issue.save if !@issue.update_status
     @issue.reload
     
     respond_to do |format|
@@ -302,8 +301,7 @@ class IssuesController < ApplicationController
   def agree
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => params[:points]
     @issue.update_agree_total @iv.isbinding
-    @issue.status = @issue.updated_status
-    @issue.save
+    @issue.save if !@issue.update_status
     @issue.reload
     
     respond_to do |format|
@@ -316,17 +314,25 @@ class IssuesController < ApplicationController
   def accept
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => params[:points]
     @issue.update_accept_total  @iv.isbinding
-    @issue.status = @issue.updated_status
+    @issue.save if !@issue.update_status
     
-    if @issue.status == IssueStatus.accepted
-      @issue.retro_id = Retro::NOT_STARTED_ID
-      @issue.save
-      @issue.project.start_retro_if_ready
-      @issue.assigned_to.add_as_contributor_if_new(@issue.project)
-    else
-      @issue.save
-    end
-    
+    # @issue.status = @issue.updated_status
+    #     
+    #     if @issue.status == IssueStatus.accepted
+    #       @issue.assigned_to.add_as_contributor_if_new(@issue.project)
+    #       if @issue.is_gift?
+    #         @issue.retro_id = Retro::NOT_NEEDED_ID
+    #         @issue.give_credits
+    #         @issue.save
+    #       else #if a non-gift is accepted, set retro id to not started to prep for next retrospective
+    #         @issue.retro_id = Retro::NOT_STARTED_ID
+    #         @issue.save
+    #         @issue.project.start_retro_if_ready
+    #       end
+    #     else
+    #       @issue.save
+    #     end
+    #     
     @issue.reload
     
     respond_to do |format|
@@ -603,7 +609,7 @@ private
   def find_issue
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority])
     @project = @issue.project
-    logger.info(@issue.inspect)
+    render_404 if @issue.is_gift? && @issue.assigned_to_id == User.current.id
   rescue ActiveRecord::RecordNotFound
     render_404
   end
