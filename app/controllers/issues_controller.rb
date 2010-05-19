@@ -148,7 +148,6 @@ class IssuesController < ApplicationController
       if @issue.save
         attach_files(@issue, params[:attachments])
         # flash[:notice] = l(:notice_successful_create)
-        call_hook(:controller_issues_new_after_save, { :params => params, :issue => @issue})
         @issue.reload
         
         respond_to do |format|
@@ -419,7 +418,6 @@ class IssuesController < ApplicationController
         issue.due_date = params[:due_date] unless params[:due_date].blank?
         issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
         issue.custom_field_values = custom_field_values if custom_field_values && !custom_field_values.empty?
-        call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
         # Don't save any change to the issue if the user is not authorized to apply the requested status
         unless (status.nil? || (issue.new_statuses_allowed_to(User.current).include?(status) && issue.status = status)) && issue.save
           # Keep unsaved issue ids to display them in flash error

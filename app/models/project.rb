@@ -506,7 +506,6 @@ class Project < ActiveRecord::Base
         to_be_copied.each do |name|
           send "copy_#{name}", project
         end
-        Redmine::Hook.call_hook(:model_project_copy_before_save, :source_project => project, :destination_project => self)
         save
       end
     end
