@@ -54,7 +54,7 @@ class ProjectsController < ApplicationController
   def add
     @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @project = Project.new(params[:project])
-    @parent = Project.find(params[:parent_id]) unless params[:parent_id] == ""
+    @parent = Project.find(params[:parent_id]) unless params[:parent_id] == "" || params[:parent_id].nil?
     
     if request.get?
       @project.enabled_module_names = Setting.default_projects_modules
