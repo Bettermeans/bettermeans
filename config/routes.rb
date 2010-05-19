@@ -241,8 +241,6 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
-      project_views.connect 'projects/:id/versions/new', :action => 'add_version'
-      project_views.connect 'projects/:id/categories/new', :action => 'add_issue_category'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
       project_views.connect 'issues/:show_issue_id', :action => 'dashboard'
       project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
@@ -254,8 +252,6 @@ ActionController::Routing::Routes.draw do |map|
       project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive|edit|join_core_team|leave_core_team|core_vote/
       project_actions.connect 'projects/:id/wiki', :action => 'wiki'
       project_actions.connect 'projects/:id/files/new', :action => 'add_file'
-      project_actions.connect 'projects/:id/versions/new', :action => 'add_version'
-      project_actions.connect 'projects/:id/categories/new', :action => 'add_issue_category'
       project_actions.connect 'projects/:id/activities/save', :action => 'save_activities'
     end
     
@@ -270,33 +266,6 @@ ActionController::Routing::Routes.draw do |map|
     projects.with_options :conditions => {:method => :delete} do |project_actions|
       project_actions.conditions 'projects/:id/reset_activities', :action => 'reset_activities'
     end
-  end  
-  
-  map.with_options :controller => 'versions' do |versions|
-    versions.with_options :conditions => {:method => :post} do |version_actions|
-      version_actions.connect 'projects/:project_id/versions/close_completed', :action => 'close_completed'
-    end
-  end
-  
-  map.with_options :controller => 'repositories' do |repositories|
-    repositories.with_options :conditions => {:method => :get} do |repository_views|
-      repository_views.connect 'projects/:id/repository', :action => 'show'
-      repository_views.connect 'projects/:id/repository/edit', :action => 'edit'
-      repository_views.connect 'projects/:id/repository/statistics', :action => 'stats'
-      repository_views.connect 'projects/:id/repository/revisions', :action => 'revisions'
-      repository_views.connect 'projects/:id/repository/revisions.:format', :action => 'revisions'
-      repository_views.connect 'projects/:id/repository/revisions/:rev', :action => 'revision'
-      repository_views.connect 'projects/:id/repository/revisions/:rev/diff', :action => 'diff'
-      repository_views.connect 'projects/:id/repository/revisions/:rev/diff.:format', :action => 'diff'
-      repository_views.connect 'projects/:id/repository/revisions/:rev/raw/*path', :action => 'entry', :format => 'raw', :requirements => { :rev => /[a-z0-9\.\-_]+/ }
-      repository_views.connect 'projects/:id/repository/revisions/:rev/:action/*path', :requirements => { :rev => /[a-z0-9\.\-_]+/ }
-      repository_views.connect 'projects/:id/repository/raw/*path', :action => 'entry', :format => 'raw'
-      # TODO: why the following route is required?
-      repository_views.connect 'projects/:id/repository/entry/*path', :action => 'entry'
-      repository_views.connect 'projects/:id/repository/:action/*path'
-    end
-    
-    repositories.connect 'projects/:id/repository/:action', :conditions => {:method => :post}
   end  
   
   map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
@@ -320,19 +289,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'projects/:project_id/news/:action', :controller => 'news'  
   map.connect 'projects/:project_id/motions/:action', :controller => 'motions'  
   map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
-  map.with_options :controller => 'repositories' do |omap|
-    omap.repositories_show 'repositories/browse/:id/*path', :action => 'browse'
-    omap.repositories_changes 'repositories/changes/:id/*path', :action => 'changes'
-    omap.repositories_diff 'repositories/diff/:id/*path', :action => 'diff'
-    omap.repositories_entry 'repositories/entry/:id/*path', :action => 'entry'
-    omap.repositories_entry 'repositories/annotate/:id/*path', :action => 'annotate'
-    omap.connect 'repositories/revision/:id/:rev', :action => 'revision'
-  end
   
-  map.with_options :controller => 'sys' do |sys|
-    sys.connect 'sys/projects.:format', :action => 'projects', :conditions => {:method => :get}
-    sys.connect 'sys/projects/:id/repository.:format', :action => 'create_project_repository', :conditions => {:method => :post}
-  end
   
   # Vote fu mappings
   map.resources :users do |user|

@@ -59,21 +59,6 @@ file_max_size_displayed:
 diff_max_lines_displayed:
   format: int
   default: 1500
-enabled_scm:
-  serialized: true
-  default: 
-  - Subversion
-  - Darcs
-  - Mercurial
-  - Cvs
-  - Bazaar
-  - Git
-autofetch_changesets:
-  default: 1
-sys_api_enabled:
-  default: 0
-sys_api_key:
-  default: ''
 commit_ref_keywords:
   default: 'refs,references,IssueID'
 commit_fix_keywords:
@@ -132,7 +117,6 @@ default_projects_modules:
   - documents
   - files
   - wiki
-  - repository
   - boards
 default_root_projects_modules:
   serialized: true
@@ -151,16 +135,9 @@ new_project_user_role_id:
   default: ''
 sequential_project_identifiers:
   default: 0
-# encodings used to convert repository files content to UTF-8
-# multiple values accepted, comma separated
-repositories_encodings:
-  default: ''
 # encoding used to convert commit logs to UTF-8
 commit_logs_encoding:
   default: 'UTF-8'
-repository_log_display_limit:
-  format: int
-  default: 100
 ui_theme:
   default: ''
 emails_footer:

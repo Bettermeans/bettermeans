@@ -66,7 +66,6 @@ module Redmine
             contributor.permissions.delete(:manage_public_queries)
             contributor.permissions.delete(:add_issue_watchers)
             contributor.permissions.delete(:manage_news)
-            contributor.permissions.delete(:manage_repository)
             contributor.permissions.delete(:edit_time_entries)
             contributor.permissions.delete(:manage_wiki)
             contributor.permissions.delete(:rename_wiki_pages)

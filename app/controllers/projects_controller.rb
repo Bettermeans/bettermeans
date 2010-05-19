@@ -34,8 +34,6 @@ class ProjectsController < ApplicationController
   helper IssuesHelper
   helper :queries
   include QueriesHelper
-  helper :repositories
-  include RepositoriesHelper
   include ProjectsHelper
   
   # Lists visible projects
@@ -204,7 +202,6 @@ class ProjectsController < ApplicationController
     # @issue_category ||= IssueCategory.new
     @member ||= @project.all_members.new
     @trackers = Tracker.all
-    @repository ||= @project.repository
     @wiki ||= @project.wiki
   end
   
