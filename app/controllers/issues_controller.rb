@@ -52,7 +52,7 @@ class IssuesController < ApplicationController
       
       @issue_count = @query.issue_count
       @issue_pages = Paginator.new self, @issue_count, limit, params['page']
-      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority, :fixed_version],
+      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority],
                               :order => sort_clause, 
                               :offset => @issue_pages.current.offset, 
                               :limit => limit)
@@ -172,7 +172,7 @@ class IssuesController < ApplicationController
   
   # Attributes that can be updated on workflow transition (without :edit permission)
   # TODO: make it configurable (at least per role)
-  UPDATABLE_ATTRS_ON_TRANSITION = %w(status_id assigned_to_id fixed_version_id done_ratio) unless const_defined?(:UPDATABLE_ATTRS_ON_TRANSITION)
+  UPDATABLE_ATTRS_ON_TRANSITION = %w(status_id assigned_to_id done_ratio) unless const_defined?(:UPDATABLE_ATTRS_ON_TRANSITION)
   
   def edit
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
@@ -407,7 +407,6 @@ class IssuesController < ApplicationController
       priority = params[:priority_id].blank? ? nil : IssuePriority.find_by_id(params[:priority_id])
       assigned_to = (params[:assigned_to_id].blank? || params[:assigned_to_id] == 'none') ? nil : User.find_by_id(params[:assigned_to_id])
       # category = (params[:category_id].blank? || params[:category_id] == 'none') ? nil : @project.issue_categories.find_by_id(params[:category_id])
-      fixed_version = (params[:fixed_version_id].blank? || params[:fixed_version_id] == 'none') ? nil : @project.shared_versions.find_by_id(params[:fixed_version_id])
       custom_field_values = params[:custom_field_values] ? params[:custom_field_values].reject {|k,v| v.blank?} : nil
       
       unsaved_issue_ids = []      
@@ -416,8 +415,6 @@ class IssuesController < ApplicationController
         issue.tracker = tracker if tracker
         issue.priority = priority if priority
         issue.assigned_to = assigned_to if assigned_to || params[:assigned_to_id] == 'none'
-        # issue.category = category if category || params[:category_id] == 'none'
-        issue.fixed_version = fixed_version if fixed_version || params[:fixed_version_id] == 'none'
         issue.start_date = params[:start_date] unless params[:start_date].blank?
         issue.due_date = params[:due_date] unless params[:due_date].blank?
         issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
@@ -512,12 +509,10 @@ class IssuesController < ApplicationController
                               :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
                               )
       # Issues that don't have a due date but that are assigned to a version with a date
-      events += @query.issues(:include => [:tracker, :assigned_to, :priority, :fixed_version],
+      events += @query.issues(:include => [:tracker, :assigned_to, :priority],
                               :order => "start_date, effective_date",
                               :conditions => ["(((start_date>=? and start_date<=?) or (effective_date>=? and effective_date<=?) or (start_date<? and effective_date>?)) and start_date is not null and due_date is null and effective_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
                               )
-      # Versions
-      events += @query.versions(:conditions => ["effective_date BETWEEN ? AND ?", @gantt.date_from, @gantt.date_to])
                                    
       @gantt.events = events
     end
@@ -548,7 +543,6 @@ class IssuesController < ApplicationController
       events += @query.issues(:include => [:tracker, :assigned_to, :priority],
                               :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
                               )
-      events += @query.versions(:conditions => ["effective_date BETWEEN ? AND ?", @calendar.startdt, @calendar.enddt])
                                      
       @calendar.events = events
     end

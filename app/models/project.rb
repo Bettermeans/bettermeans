@@ -45,7 +45,6 @@ class Project < ActiveRecord::Base
   has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
   has_many :issues, :dependent => :destroy, :order => "#{Issue.table_name}.created_on DESC", :include => [:status, :tracker]
   has_many :issue_changes, :through => :issues, :source => :journals
-  has_many :versions, :dependent => :destroy, :order => "#{Version.table_name}.effective_date DESC, #{Version.table_name}.name DESC"
   has_many :queries, :dependent => :delete_all
   has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :delete_all, :include => :author
@@ -213,14 +212,6 @@ class Project < ActiveRecord::Base
   
   # Archives the project and its descendants
   def archive
-    # Check that there is no issue of a non descendant project that is assigned
-    # to one of the project or descendant versions
-    v_ids = self_and_descendants.collect {|p| p.version_ids}.flatten
-    if v_ids.any? && Issue.find(:first, :include => :project,
-                                        :conditions => ["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
-                                                        " AND #{Issue.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
-      return false
-    end
     Project.transaction do
       archive!
     end
@@ -300,7 +291,6 @@ class Project < ActiveRecord::Base
         # move_to_child_of adds the project in last (ie.right) position
         move_to_child_of(p)
       end
-      Issue.update_versions_from_hierarchy_change(self)
       true
     else
       # Can not move to the given target
@@ -315,30 +305,6 @@ class Project < ActiveRecord::Base
                          :select => "DISTINCT #{Tracker.table_name}.*",
                          :conditions => ["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt],
                          :order => "#{Tracker.table_name}.position")
-  end
-  
-  # Closes open and locked project versions that are completed
-  def close_completed_versions
-    Version.transaction do
-      versions.find(:all, :conditions => {:status => %w(open locked)}).each do |version|
-        if version.completed?
-          version.update_attribute(:status, 'closed')
-        end
-      end
-    end
-  end
-  
-  # Returns a scope of the Versions used by the project
-  def shared_versions
-    @shared_versions ||= 
-      Version.scoped(:include => :project,
-                     :conditions => "#{Project.table_name}.id = #{id}" +
-                                    " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
-                                          " #{Version.table_name}.sharing = 'system'" +
-                                          " OR (#{Project.table_name}.lft >= #{root.lft} AND #{Project.table_name}.rgt <= #{root.rgt} AND #{Version.table_name}.sharing = 'tree')" +
-                                          " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
-                                          " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
-                                          "))")
   end
 
   # Returns a hash of project users grouped by role
@@ -517,7 +483,6 @@ class Project < ActiveRecord::Base
   # Copies and saves the Project instance based on the +project+.
   # Duplicates the source project's:
   # * Wiki
-  # * Versions
   # * Categories
   # * Issues
   # * Members
@@ -532,7 +497,7 @@ class Project < ActiveRecord::Base
   def copy(project, options={})
     project = project.is_a?(Project) ? project : Project.find(project)
     
-    to_be_copied = %w(wiki versions issue_categories issues members queries boards)
+    to_be_copied = %w(wiki issue_categories issues members queries boards)
     to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
     
     Project.transaction do
@@ -629,15 +594,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # Copies versions from +project+
-  def copy_versions(project)
-    project.versions.each do |version|
-      new_version = Version.new
-      new_version.attributes = version.attributes.dup.except("id", "project_id", "created_on", "updated_on")
-      self.versions << new_version
-    end
-  end
-
   # Copies issue categories from +project+
   def copy_issue_categories(project)
     project.issue_categories.each do |issue_category|
@@ -656,16 +612,6 @@ class Project < ActiveRecord::Base
     project.issues.each do |issue|
       new_issue = Issue.new
       new_issue.copy_from(issue)
-      # Reassign fixed_versions by name, since names are unique per
-      # project and the versions for self are not yet saved
-      if issue.fixed_version
-        new_issue.fixed_version = self.versions.select {|v| v.name == issue.fixed_version.name}.first
-      end
-      # Reassign the category by name, since names are unique per
-      # project and the categories for self are not yet saved
-      if issue.category
-        new_issue.category = self.issue_categories.select {|c| c.name == issue.category.name}.first
-      end
       self.issues << new_issue
       issues_map[issue.id] = new_issue
     end
