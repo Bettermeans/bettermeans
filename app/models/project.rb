@@ -50,8 +50,6 @@ class Project < ActiveRecord::Base
   has_many :news, :dependent => :delete_all, :include => :author
   # has_many :issue_categories, :dependent => :delete_all, :order => "#{IssueCategory.table_name}.name"
   has_many :boards, :dependent => :destroy, :order => "position ASC"
-  has_one :repository, :dependent => :destroy
-  has_many :changesets, :through => :repository
   has_one :wiki, :dependent => :destroy
   has_many :team_offers, :dependent => :delete_all
   has_many :team_points, :dependent => :delete_all
@@ -81,7 +79,7 @@ class Project < ActiveRecord::Base
   
   validates_presence_of :name, :identifier
   validates_uniqueness_of :name, :identifier
-  validates_associated :repository, :wiki
+  validates_associated :wiki
   validates_length_of :name, :maximum => 30
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..20

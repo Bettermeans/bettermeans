@@ -99,15 +99,6 @@ module ApplicationHelper
     link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
   end
 
-  # Generates a link to a SCM revision
-  # Options:
-  # * :text - Link text (default to the formatted revision)
-  def link_to_revision(revision, project, options={})
-    text = options.delete(:text) || format_revision(revision)
-
-    link_to(text, {:controller => 'repositories', :action => 'revision', :id => project, :rev => revision}, :title => l(:label_revision_id, revision))
-  end
-
   def toggle_link(name, id, options={})
     onclick = "$('##{id}').toggle(); "
     onclick << (options[:focus] ? "$('##{options[:focus]}').focus(); " : "this.blur(); ")
@@ -483,9 +474,6 @@ module ApplicationHelper
     # Examples:
     #   Issues:
     #     #52 -> Link to issue #52
-    #   Changesets:
-    #     r52 -> Link to revision 52
-    #     commit:a85130f -> Link to scmid starting with a85130f
     #   Documents:
     #     document#17 -> Link to document with id 17
     #     document:Greetings -> Link to the document with title "Greetings"
@@ -508,13 +496,7 @@ module ApplicationHelper
       leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
       link = nil
       if esc.nil?
-        if prefix.nil? && sep == 'r'
-          if project && (changeset = project.changesets.find_by_revision(oid))
-            link = link_to("r#{oid}", {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => oid},
-                                      :class => 'changeset',
-                                      :title => truncate_single_line(changeset.comments, :length => 100))
-          end
-        elsif sep == '#'
+        if sep == '#'
           oid = oid.to_i
           case prefix
           when nil
@@ -547,23 +529,6 @@ module ApplicationHelper
             if project && document = project.documents.find_by_title(name)
               link = link_to h(document.title), {:only_path => only_path, :controller => 'documents', :action => 'show', :id => document},
                                                 :class => 'document'
-            end
-          when 'commit'
-            if project && (changeset = project.changesets.find(:first, :conditions => ["scmid LIKE ?", "#{name}%"]))
-              link = link_to h("#{name}"), {:only_path => only_path, :controller => 'repositories', :action => 'revision', :id => project, :rev => changeset.revision},
-                                           :class => 'changeset',
-                                           :title => truncate_single_line(changeset.comments, :length => 100)
-            end
-          when 'source', 'export'
-            if project && project.repository
-              name =~ %r{^[/\\]*(.*?)(@([0-9a-f]+))?(#(L\d+))?$}
-              path, rev, anchor = $1, $3, $5
-              link = link_to h("#{prefix}:#{name}"), {:controller => 'repositories', :action => 'entry', :id => project,
-                                                      :path => to_path_param(path),
-                                                      :rev => rev,
-                                                      :anchor => anchor,
-                                                      :format => (prefix == 'export' ? 'raw' : nil)},
-                                                     :class => (prefix == 'export' ? 'source download' : 'source')
             end
           when 'attachment'
             if attachments && attachment = attachments.detect {|a| a.filename == name }

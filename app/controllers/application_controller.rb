@@ -33,10 +33,6 @@ class ApplicationController < ActionController::Base
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
   
-  REDMINE_SUPPORTED_SCM.each do |scm|
-    require_dependency "repository/#{scm.underscore}"
-  end
-
   def user_setup
     # Check the settings cache for each request
     Setting.check_cache
