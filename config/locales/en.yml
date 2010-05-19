@@ -150,9 +150,6 @@ en:
   notice_issue_done_ratios_updated: Issue done ratios updated.
   
   error_can_t_load_default_data: "Default configuration could not be loaded: {{value}}"
-  error_scm_not_found: "The entry or revision was not found in the repository."
-  error_scm_command_failed: "An error occurred when trying to access the repository: {{value}}"
-  error_scm_annotate: "The entry does not exist or can not be annotated."
   error_issue_not_found_in_project: 'The item was not found or does not belong to this workstream'
   error_no_tracker_in_project: 'No issue type is associated to this workstream. Please check the Workstream settings.'
   error_no_default_issue_status: 'No default item status is defined. Please check your configuration (Go to "Administration -> Item statuses").'
@@ -294,7 +291,6 @@ en:
   setting_feeds_limit: Feed content limit
   setting_default_projects_public: New workstreams are public by default
   setting_autofetch_changesets: Autofetch commits
-  setting_sys_api_enabled: Enable WS for repository management
   setting_commit_ref_keywords: Referencing keywords
   setting_commit_fix_keywords: Fixing keywords
   setting_autologin: Autologin
@@ -302,7 +298,6 @@ en:
   setting_time_format: Time format
   setting_cross_project_issue_relations: Allow cross-workstream item relations
   setting_issue_list_default_columns: Default columns displayed on the item list
-  setting_repositories_encodings: Repositories encodings
   setting_commit_logs_encoding: Commit messages encoding
   setting_emails_footer: Emails footer
   setting_protocol: Protocol
@@ -319,7 +314,6 @@ en:
   setting_gravatar_default: Default Gravatar image
   setting_diff_max_lines_displayed: Max number of diff lines displayed
   setting_file_max_size_displayed: Max size of text files displayed inline
-  setting_repository_log_display_limit: Maximum number of revisions displayed on file log
   setting_openid: Allow OpenID login and registration
   setting_password_min_length: Minimum password length
   setting_new_project_user_role_id: Role given to a non-admin user who creates a workstream
@@ -371,8 +365,6 @@ en:
   permission_edit_wiki_pages: Edit wiki pages
   permission_delete_wiki_pages_attachments: Delete attachments
   permission_protect_wiki_pages: Protect wiki pages
-  permission_manage_repository: Manage repository
-  permission_browse_repository: Browse repository
   permission_view_changesets: View changesets
   permission_commit_access: Commit access
   permission_manage_boards: Manage discussions
@@ -389,7 +381,6 @@ en:
   project_module_documents: Documents
   project_module_files: Files
   project_module_wiki: Wiki
-  project_module_repository: Repository
   project_module_boards: Discussions
   
   label_user: User
@@ -589,8 +580,6 @@ en:
   label_not_contains: doesn't contain
   label_day: day
   label_day_plural: days
-  label_repository: Repository
-  label_repository_plural: Repositories
   label_browse: Browse
   label_modification: "{{count}} change"
   label_modification_plural: "{{count}} changes"
@@ -1042,7 +1031,6 @@ en:
   text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
-  text_repository_usernames_mapping: "Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped."
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
   text_custom_field_possible_values_info: 'One line for each value'
   text_wiki_page_destroy_question: "This page has {{descendants}} child page(s) and descendant(s). What do you want to do?"

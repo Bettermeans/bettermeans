@@ -3,7 +3,6 @@
 #
 
 require File.dirname(__FILE__) + '/../test_helper'
-require 'sys_controller'
 
 # Re-raise errors caught by the controller.
 class SysController; def rescue_action(e) raise e end; end

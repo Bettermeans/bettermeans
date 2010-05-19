@@ -31,7 +31,6 @@ Redmine::AccessControl.map do |map|
   map.permission :edit_project, {:projects => [:settings, :edit]}, :require => :member
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
   map.permission :manage_members, {:projects => :settings, :members => [:new, :edit, :destroy, :autocomplete_for_member]}, :require => :member
-  map.permission :manage_versions, {:projects => [:settings, :add_version], :versions => [:edit, :close_completed, :destroy]}, :require => :member
   map.permission :add_subprojects, {:projects => :add}, :require => :member
   map.permission :credits, {:credits => [:add, :edit, :update]}, :require => :admin
   
@@ -41,7 +40,6 @@ Redmine::AccessControl.map do |map|
     # Issues
     map.permission :view_issues, {:projects => :roadmap, 
                                   :issues => [:index, :changes, :show, :context_menu],
-                                  :versions => [:show, :status_by],
                                   :queries => :index,
                                   :reports => :issue_report,
                                   :comments => :index,
@@ -97,7 +95,7 @@ Redmine::AccessControl.map do |map|
   
   map.project_module :files do |map|
     map.permission :manage_files, {:projects => :add_file}, :require => :loggedin
-    map.permission :view_files, :projects => :list_files, :versions => :download
+    map.permission :view_files, :projects => :list_files
   end
     
   map.project_module :wiki do |map|
@@ -111,13 +109,6 @@ Redmine::AccessControl.map do |map|
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
   end
     
-  map.project_module :repository do |map|
-    map.permission :manage_repository, {:repositories => [:edit, :committers, :destroy]}, :require => :member
-    map.permission :browse_repository, :repositories => [:show, :browse, :entry, :annotate, :changes, :diff, :stats, :graph]
-    map.permission :view_changesets, :repositories => [:show, :revisions, :revision]
-    map.permission :commit_access, {}
-  end
-
   map.project_module :boards do |map|
     map.permission :manage_boards, {:boards => [:new, :edit, :destroy]}, :require => :member
     map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true
@@ -195,8 +186,6 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :discussions, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id#,
               # :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
   menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_attachment_plural
-  menu.push :repository, { :controller => 'repositories', :action => 'show' }#,
-              # :if => Proc.new { |p| p.repository && !p.repository.new_record? }
   menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
 end
 
