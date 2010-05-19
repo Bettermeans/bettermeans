@@ -4,7 +4,6 @@ require 'redmine/activity'
 require 'redmine/mime_type'
 require 'redmine/core_ext'
 require 'redmine/themes'
-require 'redmine/hook'
 require 'redmine/plugin'
 require 'redmine/wiki_formatting'
 require 'float' #todo: there's a more appropriate place for this

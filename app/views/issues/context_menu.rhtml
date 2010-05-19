@@ -1,5 +1,4 @@
 <ul>
-  <%= call_hook(:view_issues_context_menu_start, {:issues => @issues, :can => @can, :back => @back }) %>
 
 <% if !@issue.nil? -%>
 	<li><%= context_menu_link l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue},
@@ -88,5 +87,4 @@
   <li><%= context_menu_link l(:button_delete), {:controller => 'issues', :action => 'destroy', :ids => @issues.collect(&:id)},
                             :method => :post, :confirm => l(:text_issues_destroy_confirmation), :class => 'icon-del', :disabled => !@can[:delete] %></li>
 
-  <%= call_hook(:view_issues_context_menu_end, {:issues => @issues, :can => @can, :back => @back }) %>
 </ul>

@@ -23,10 +23,6 @@
 <span class="left"><%= help_bubble :help_select_scale %></span>
 <%= render :partial => 'point_scale', :locals => { :dpp => @project.dpp.nil? ? Setting::PAY_SCALES_DEFAULT : @project.dpp.round } %>                                                                                                            </p>
 
-<%# @project.custom_field_values.each do |value| %>
-  <!-- <p><%#= custom_field_tag_with_label :project, value %></p> -->
-<%# end %>
-<%#= call_hook(:view_projects_form, :project => @project, :form => f) %>
 </div>
 
 <% unless @issue_custom_fields.empty? %>

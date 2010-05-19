@@ -9,7 +9,6 @@
 		<%= link_to l(:label_news_view_all), :controller => 'news' %>
   </div>
   <% end %>
-  <%= call_hook(:view_welcome_index_left, :projects => @projects) %>
 </div>
 
 <div class="splitcontentright">
@@ -40,7 +39,6 @@
 		</ul>
 	</div>
 	<% end %>
-    <%= call_hook(:view_welcome_index_right, :projects => @projects) %>
 </div>	
 
 <% content_for :header_tags do %>
