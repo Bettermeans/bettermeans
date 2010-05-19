@@ -1,3 +1,4 @@
+<%= javascript_include_tag  'jquery.ui.position' %>
 <%= stylesheet_link_tag 'dashboard' %>
 <%= dynamic_script_tag 'dashboard', :project_id => @project.id %>
 
@@ -19,7 +20,6 @@
 
 
 <!-- todo: do we need this link? -->
-<script src="http://jquery-ui.googlecode.com/svn/branches/dev/ui/jquery.ui.position.js"></script>
 <div id='loading' class='loading'>
   <%= l(:text_loading_dashboard) %>
 </div>
