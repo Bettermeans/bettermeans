@@ -5,7 +5,6 @@
 class ProjectsController < ApplicationController
   menu_item :overview
   menu_item :activity, :only => :activity
-  menu_item :roadmap, :only => :roadmap
   menu_item :dashboard, :only => :dashboard
   menu_item :files, :only => [:list_files, :add_file]
   menu_item :settings, :only => :settings
@@ -282,42 +281,9 @@ class ProjectsController < ApplicationController
   #   end
   # end
 	
-  # Add a new version to @project
-  def add_version
-    @version = @project.versions.build
-    if params[:version]
-      attributes = params[:version].dup
-      attributes.delete('sharing') unless attributes.nil? || @version.allowed_sharings.include?(attributes['sharing'])
-      @version.attributes = attributes
-    end
-  	if request.post?
-  	  if @version.save
-        respond_to do |format|
-          format.html do
-            flash[:notice] = l(:notice_successful_create)
-            redirect_to :action => 'settings', :tab => 'versions', :id => @project
-          end
-          format.js do
-            # IE doesn't support the replace_html rjs method for select box options
-            render(:update) {|page| page.replace "issue_fixed_version_id",
-              content_tag('select', '<option></option>' + version_options_for_select(@project.shared_versions.open, @version), :id => 'issue_fixed_version_id', :name => 'issue[fixed_version_id]')
-            }
-          end
-        end
-      else
-        respond_to do |format|
-          format.html
-          format.js do
-            render(:update) {|page| page.alert(@version.errors.full_messages.join('\n')) }
-          end
-        end
-  	  end
-  	end
-  end
-
   def add_file
     if request.post?
-      container = (params[:version_id].blank? ? @project : @project.versions.find_by_id(params[:version_id]))
+      container = @project
       attachments = attach_files(container, params[:attachments])
       if !attachments.empty? && Setting.notified_events.include?('file_added')
         Mailer.deliver_attachments_added(attachments)
@@ -325,7 +291,6 @@ class ProjectsController < ApplicationController
       redirect_to :controller => 'projects', :action => 'list_files', :id => @project
       return
     end
-    @versions = @project.versions.sort
   end
   
   def list_files
@@ -336,36 +301,9 @@ class ProjectsController < ApplicationController
                 'downloads' => "#{Attachment.table_name}.downloads"
                 
     @containers = [ Project.find(@project.id, :include => :attachments, :order => sort_clause)]
-    @containers += @project.versions.find(:all, :include => :attachments, :order => sort_clause).sort.reverse
     render :layout => !request.xhr?
   end
 
-  def roadmap
-    @trackers = @project.trackers.find(:all, :order => 'position')
-    retrieve_selected_tracker_ids(@trackers, @trackers.select {|t| t.is_in_roadmap?})
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
-    project_ids = @with_subprojects ? @project.self_and_descendants.collect(&:id) : [@project.id]
-    
-    @versions = @project.shared_versions.sort
-    @versions.reject! {|version| version.closed? || version.completed? } unless params[:completed]
-    
-    @issues_by_version = {}
-    unless @selected_tracker_ids.empty?
-      @versions.each do |version|
-        conditions = {:tracker_id => @selected_tracker_ids}
-        if !@project.versions.include?(version)
-          conditions.merge!(:project_id => project_ids)
-        end
-        issues = version.fixed_issues.visible.find(:all,
-                                                   :include => [:project, :status, :tracker, :priority],
-                                                   :conditions => conditions,
-                                                   :order => "#{Project.table_name}.lft, #{Tracker.table_name}.position, #{Issue.table_name}.id")
-        @issues_by_version[version] = issues
-      end
-    end
-    @versions.reject! {|version| !project_ids.include?(version.project_id) && @issues_by_version[version].empty?}
-  end
-  
   def team
       @days = Setting.activity_days_default.to_i    
   end

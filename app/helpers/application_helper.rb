@@ -140,14 +140,6 @@ module ApplicationHelper
     h(truncate(text.to_s, :length => 120).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />")
   end
 
-  def format_version_name(version)
-    if version.project == @project
-    	h(version)
-    else
-      h("#{version.project} - #{version}")
-    end
-  end
-  
   def due_date_distance_in_words(date)
     if date
       l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
@@ -536,11 +528,6 @@ module ApplicationHelper
               link = link_to h(document.title), {:only_path => only_path, :controller => 'documents', :action => 'show', :id => document},
                                                 :class => 'document'
             end
-          when 'version'
-            if version = Version.find_by_id(oid, :include => [:project], :conditions => Project.visible_by(User.current))
-              link = link_to h(version.name), {:only_path => only_path, :controller => 'versions', :action => 'show', :id => version},
-                                              :class => 'version'
-            end
           when 'message'
             if message = Message.find_by_id(oid, :include => [:parent, {:board => :project}], :conditions => Project.visible_by(User.current))
               link = link_to h(truncate(message.subject, :length => 60)), {:only_path => only_path,
@@ -560,11 +547,6 @@ module ApplicationHelper
             if project && document = project.documents.find_by_title(name)
               link = link_to h(document.title), {:only_path => only_path, :controller => 'documents', :action => 'show', :id => document},
                                                 :class => 'document'
-            end
-          when 'version'
-            if project && version = project.versions.find_by_name(name)
-              link = link_to h(version.name), {:only_path => only_path, :controller => 'versions', :action => 'show', :id => version},
-                                              :class => 'version'
             end
           when 'commit'
             if project && (changeset = project.changesets.find(:first, :conditions => ["scmid LIKE ?", "#{name}%"]))

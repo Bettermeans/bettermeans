@@ -34,8 +34,6 @@ module QueriesHelper
       link_to_user value
     when 'Project'
       link_to(h(value), :controller => 'projects', :action => 'show', :id => value)
-    when 'Version'
-      link_to(h(value), :controller => 'versions', :action => 'show', :id => value)
     when 'TrueClass'
       l(:general_text_Yes)
     when 'FalseClass'

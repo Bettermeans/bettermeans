@@ -22,7 +22,7 @@ class AttachmentsController < ApplicationController
   end
   
   def download
-    if @attachment.container.is_a?(Version) || @attachment.container.is_a?(Project)
+    if @attachment.container.is_a?(Project)
       @attachment.increment_download
     end
     

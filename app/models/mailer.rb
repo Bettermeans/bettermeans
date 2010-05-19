@@ -102,10 +102,6 @@ class Mailer < ActionMailer::Base
       added_to_url = url_for(:controller => 'projects', :action => 'list_files', :id => container)
       added_to = "#{l(:label_project)}: #{container}"
       recipients container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}
-    when 'Version'
-      added_to_url = url_for(:controller => 'projects', :action => 'list_files', :id => container.project_id)
-      added_to = "#{l(:label_version)}: #{container.name}"
-      recipients container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}
     when 'Document'
       added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
       added_to = "#{l(:label_document)}: #{container.title}"

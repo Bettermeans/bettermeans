@@ -587,6 +587,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -601,7 +602,6 @@ end
 #  status_id            :integer         default(0), not null
 #  assigned_to_id       :integer
 #  priority_id          :integer         default(0), not null
-#  fixed_version_id     :integer
 #  author_id            :integer         default(0), not null
 #  lock_version         :integer         default(0), not null
 #  created_on           :datetime

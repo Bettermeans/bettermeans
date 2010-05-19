@@ -8,7 +8,6 @@ class Issue < ActiveRecord::Base
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
-  belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :retro
   # belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
@@ -150,10 +149,6 @@ class Issue < ActiveRecord::Base
         # reassign to the category with same name if any
         # new_category = issue.category.nil? ? nil : new_project.issue_categories.find_by_name(issue.category.name)
         # issue.category = new_category
-        # Keep the fixed_version if it's still valid in the new_project
-        unless new_project.shared_versions.include?(issue.fixed_version)
-          issue.fixed_version = nil
-        end
         issue.project = new_project
       end
       if new_tracker
@@ -219,14 +214,6 @@ class Issue < ActiveRecord::Base
     
     if start_date && soonest_start && start_date < soonest_start
       errors.add :start_date, :invalid
-    end
-    
-    if fixed_version
-      if !assignable_versions.include?(fixed_version)
-        errors.add :fixed_version_id, :inclusion
-      elsif reopened? && fixed_version.closed?
-        errors.add_to_base I18n.t(:error_can_not_reopen_issue_on_closed_version)
-      end
     end
     
     # Checks that the issue can not be added/moved to a disabled tracker
@@ -326,11 +313,6 @@ class Issue < ActiveRecord::Base
     project.assignable_users
   end
   
-  # Versions that the issue can be assigned to
-  def assignable_versions
-    @assignable_versions ||= (project.shared_versions.open + [Version.find_by_id(fixed_version_id_was)]).compact.uniq.sort
-  end
-  
   # Returns true if this issue is blocked by another issue that is still open
   def blocked?
     !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
@@ -377,7 +359,7 @@ class Issue < ActiveRecord::Base
   # Returns the due date or the target due date if any
   # Used on gantt chart
   def due_before
-    due_date || (fixed_version ? fixed_version.effective_date : nil)
+    due_date
   end
   
   # Returns the time scheduled for this issue.
@@ -407,11 +389,6 @@ class Issue < ActiveRecord::Base
     s
   end
 
-  # Unassigns issues from +version+ if it's no longer shared with issue's project
-  def self.update_versions_from_sharing_change(version)
-    # Update issues assigned to the version
-    update_versions(["#{Issue.table_name}.fixed_version_id = ?", version.id])
-  end
   
   
   #returns true if this user is allowed to take (and/or offer) ownership for this particular issue
@@ -421,14 +398,6 @@ class Issue < ActiveRecord::Base
     
     #True if user has push commitment, AND expected date has passed or doesn't exist AND it's assigned to nobody or assigned to same user
     user.allowed_to?(:push_commitment, self.project) && (self.expected_date.nil? || self.expected_date < Time.new.to_date) && (self.assigned_to.nil? || self.assigned_to == user)
-  end
-  
-  # Unassigns issues from versions that are no longer shared
-  # after +project+ was moved
-  def self.update_versions_from_hierarchy_change(project)
-    moved_project_ids = project.self_and_descendants.reload.collect(&:id)
-    # Update issues of the moved projects and issues assigned to a version of a moved project
-    Issue.update_versions(["#{Version.table_name}.project_id IN (?) OR #{Issue.table_name}.project_id IN (?)", moved_project_ids, moved_project_ids])
   end
   
   def update_estimate_total(binding)
@@ -526,26 +495,6 @@ class Issue < ActiveRecord::Base
 
   private
   
-  # Update issues so their versions are not pointing to a
-  # fixed_version that is not shared with the issue's project
-  def self.update_versions(conditions=nil)
-    # Only need to update issues with a fixed_version from
-    # a different project and that is not systemwide shared
-    Issue.all(:conditions => merge_conditions("#{Issue.table_name}.fixed_version_id IS NOT NULL" +
-                                                " AND #{Issue.table_name}.project_id <> #{Version.table_name}.project_id" +
-                                                " AND #{Version.table_name}.sharing <> 'system'",
-                                                conditions),
-              :include => [:project, :fixed_version]
-              ).each do |issue|
-      next if issue.project.nil? || issue.fixed_version.nil?
-      unless issue.project.shared_versions.include?(issue.fixed_version)
-        issue.init_journal(User.current)
-        issue.fixed_version = nil
-        issue.save
-      end
-    end
-  end
-  
   # Callback on attachment deletion
   def attachment_removed(obj)
     journal = init_journal(User.current)
@@ -599,6 +548,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -613,7 +563,6 @@ end
 #  status_id            :integer         default(0), not null
 #  assigned_to_id       :integer
 #  priority_id          :integer         default(0), not null
-#  fixed_version_id     :integer
 #  author_id            :integer         default(0), not null
 #  lock_version         :integer         default(0), not null
 #  created_on           :datetime

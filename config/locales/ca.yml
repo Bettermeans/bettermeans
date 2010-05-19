@@ -466,7 +466,6 @@ ca:
   label_overview: Resum
   label_version: Versió
   label_version_new: Versió nova
-  label_version_plural: Versions
   label_confirmation: Confirmació
   label_export_to: 'També disponible a:'
   label_read: Llegeix...
