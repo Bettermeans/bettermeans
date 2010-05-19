@@ -16,12 +16,6 @@ class ReportsController < ApplicationController
       @data = issues_by_tracker
       @report_title = l(:field_tracker)
       render :template => "reports/issue_report_details"
-    when "version"
-      @field = "fixed_version_id"
-      @rows = @project.shared_versions.sort
-      @data = issues_by_version
-      @report_title = l(:field_version)
-      render :template => "reports/issue_report_details"
     when "priority"
       @field = "priority_id"
       @rows = IssuePriority.all
@@ -54,14 +48,12 @@ class ReportsController < ApplicationController
       render :template => "reports/issue_report_details"  
     else
       @trackers = @project.trackers
-      @versions = @project.shared_versions.sort
       @priorities = IssuePriority.all
       @categories = @project.issue_categories
       @assignees = @project.all_members.collect { |m| m.user }
       @authors = @project.all_members.collect { |m| m.user }
       @subprojects = @project.descendants.active
       issues_by_tracker
-      issues_by_version
       issues_by_priority
       issues_by_category
       issues_by_assigned_to
@@ -93,21 +85,6 @@ private
                                                   and i.tracker_id=t.id
                                                   and i.project_id=#{@project.id}
                                                 group by s.id, s.is_closed, t.id")	
-  end
-
-  def issues_by_version
-    @issues_by_version ||= 
-        ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                  s.is_closed as closed, 
-                                                  v.id as fixed_version_id,
-                                                  count(i.id) as total 
-                                                from 
-                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{Version.table_name} v
-                                                where 
-                                                  i.status_id=s.id 
-                                                  and i.fixed_version_id=v.id
-                                                  and i.project_id=#{@project.id}
-                                                group by s.id, s.is_closed, v.id")	
   end
   	
   def issues_by_priority    

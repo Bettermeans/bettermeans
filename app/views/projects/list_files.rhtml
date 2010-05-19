@@ -18,13 +18,6 @@
   <tbody>
 <% @containers.each do |container| %>	
   <% next if container.attachments.empty? -%>
-	<% if container.is_a?(Version) -%>
-  <tr>
-  	<th colspan="6" align="left">
-  		<%= link_to(h(container), {:controller => 'versions', :action => 'show', :id => container}, :class => "icon icon-package") %>
-		</th>
-	</tr>
-	<% end -%>
   <% container.attachments.each do |file| %>		
   <tr class="file <%= cycle("odd", "even") %>">
     <td class="filename"><%= link_to_attachment file, :download => true, :title => file.description %></td>
