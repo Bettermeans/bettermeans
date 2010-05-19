@@ -2330,7 +2330,7 @@ function story_type_changed(){
 	var selection = $("#new_story_type").val();
 	if (selection == "9"){   //TODO: hardcoded value
 		$("#new_assigned_to").show();
-		$("#assigned_to_select").ajaxAddOption('/projects/20/community_members',{},false,sortoptions);
+		$("#assigned_to_select").ajaxAddOption('/projects/' + projectId + '/community_members',{},false,sortoptions);
 	}
 	else{
 		$("#new_assigned_to").hide();
