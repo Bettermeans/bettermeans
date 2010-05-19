@@ -9,7 +9,6 @@
 	  <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
 	  <th><%= l(:label_role_plural) %></th>
 	  <th style="width:15%"></th>
-          <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
 	</thead>
 	<tbody>
 	<% members.each do |member| %>
@@ -39,7 +38,6 @@
                                             }, :title => l(:button_delete),
                                                :class => 'icon icon-del') if member.deletable? %>
   </td>
-  <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
 	</tr>
 	</tbody>
 <% end; reset_cycle %>

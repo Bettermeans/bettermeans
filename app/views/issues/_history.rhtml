@@ -16,5 +16,4 @@
     <%= render_notes(journal) unless journal.notes.blank? %>
     
   </div>
-  <%= call_hook(:view_issues_history_journal_bottom, { :journal => journal }) %>
 <% end %>

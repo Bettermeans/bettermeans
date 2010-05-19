@@ -31,7 +31,6 @@
       body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
     </style>
 <![endif]-->
-<%= call_hook :view_layouts_base_html_head %>
 <!-- page specific tags -->
 <%= yield :header_tags -%>
 </head>
@@ -42,13 +41,11 @@
 <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %>
     <div id="sidebar" style="min-height:200px;">        
         <%= yield :sidebar %>
-        <%= call_hook :view_layouts_base_sidebar %>
     </div>
     
     <div id="content" style="min-height:200px;">   
 				<%= render_flash_messages %>
         <%= yield %>
-        <%= call_hook :view_layouts_base_content %>
 				<div style="clear:both;"></div>
     </div>
 </div>
@@ -59,6 +56,5 @@
     Powered by <a href="http://BetterMeans.com">BetterMeans.com</a> <%= Date.today.year %>  <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="new">[cc] CreativeCommons Attribution-Share Alike</a> 
 </div>
 </div>
-<%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>
