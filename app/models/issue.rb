@@ -22,7 +22,6 @@ class Issue < ActiveRecord::Base
   has_many :issue_votes, :dependent => :delete_all
   has_many :todos, :dependent => :delete_all
   
-  acts_as_voteable #for vote_fu plugin
   acts_as_attachable :after_remove => :attachment_removed
   acts_as_customizable
   acts_as_watchable

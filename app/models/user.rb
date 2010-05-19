@@ -44,13 +44,7 @@ class User < Principal
     
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
-  
-  has_karma :issues
-  has_karma :journals
-  has_karma :messages
-  
-  acts_as_voter #for vote_fu plugin
-  
+    
   acts_as_customizable
   
   has_private_messages :class_name => "Mail"

@@ -10,5 +10,5 @@
     <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
 	<% unless @user.last_login_on.nil? %>
 		<li><%=l(:field_last_login_on)%>: <%= format_date(@user.last_login_on) %></li>
-	<% end %>  <!-- <li><%#=l(:label_total_karma)%>: <%#= @user.karma %></li> -->
+	<% end %> 
 </ul>
