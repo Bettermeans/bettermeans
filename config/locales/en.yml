@@ -745,7 +745,6 @@ en:
   label_commitment: "Commitment"
   label_commitment_offer: "Ownership Offer"
   label_commitment_request: "Ownership Request"
-  label_total_karma: "Total Karma"
   label_notification : "Notification"
   label_notifications : "Notifications"
   label_new_notification : "notification"
