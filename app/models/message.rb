@@ -23,8 +23,6 @@ class Message < ActiveRecord::Base
                             :author_key => :author_id
   acts_as_watchable
   
-  acts_as_voteable
-    
   attr_protected :locked, :sticky
   validates_presence_of :board, :subject, :content
   validates_length_of :subject, :maximum => 255

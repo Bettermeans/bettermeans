@@ -1,1 +1,0 @@
-require 'vote_fu'
