@@ -54,7 +54,9 @@ class TrackersController < ApplicationController
     redirect_to :action => 'list'
   end  
   
-  def standard_trackers
-    render :json => Tracker.standard_ones.to_json
+  def standard_trackers    
+    render :json => Rails.cache.fetch('standard_trackers_json') {        
+      Tracker.standard_ones.to_json
+    }    
   end
 end
