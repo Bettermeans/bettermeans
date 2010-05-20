@@ -14,17 +14,6 @@ class WikiController < ApplicationController
   helper :attachments
   include AttachmentsHelper   
   helper :watchers
-
-  # uses_tiny_mce :options => {:theme => 'advanced',
-  #   :browsers => %w{msie gecko},
-  #   :theme_advanced_toolbar_location => "top",
-  #   :theme_advanced_toolbar_align => "left",
-  #   :theme_advanced_resizing => true,
-  #   :theme_advanced_resize_horizontal => false,
-  #   :theme_advanced_buttons1 => %w{formatselect fontselect fontsizeselect bold italic underline strikethrough separator justifyleft justifycenter justifyright indent outdent separator bullist numlist forecolor backcolor separator link unlink image undo redo},
-  #   :theme_advanced_buttons2 => [],
-  #   :theme_advanced_buttons3 => []
-  # }, :only => [:edit]
   
   # display a page (in editing mode if it doesn't exist)
   def index
@@ -227,7 +216,7 @@ private
 
   # Returns the default content of a new wiki page
   def initial_page_content(page)
-)
+    helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
     extend helper unless self.instance_of?(helper)
     helper.instance_method(:initial_page_content).bind(self).call(page)
   end

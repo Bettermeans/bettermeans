@@ -14,7 +14,7 @@ module ApplicationHelper
   include GravatarHelper::PublicMethods
 
   extend Forwardable
-  def_delegators :wiki_helper, :wikitoolbar_for, :heads_for_wiki_formatter
+  def_delegators :wiki_helper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)

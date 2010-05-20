@@ -4,7 +4,7 @@
 
 class Setting < ActiveRecord::Base
   
-  TEXT_FORMATTING == "textile"
+  TEXT_FORMATTING = "textile"
 
   MAXIMUM_CONCURRENT_REQUESTS = 4 #Maximum issues same pereson can own at the same time per workstream
   
