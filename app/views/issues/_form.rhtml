@@ -19,5 +19,3 @@
 <% if @issue.new_record? %>
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 <% end %>
-
-<%= wikitoolbar_for 'issue_description' %>
