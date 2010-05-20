@@ -58,7 +58,7 @@
                      { :url => { :controller => 'messages', :action => 'preview', :board_id => @board },
                        :method => 'post',
                        :update => 'preview',
-                       :with => "Form.serialize('message-form')",
+                       :with => "$('#message-form').serialize()",
                        :complete => "$('body').scrollTo('#preview')"
                      }, :accesskey => accesskey(:preview) %>
 <% end %>
