@@ -18,5 +18,6 @@ teButtons.push(new TextileEditorButton('ed_justifyl',		'left.png',          '<',
 teButtons.push(new TextileEditorButton('ed_justifyc',		'center.png',        '=',   '\n', 'e', 'Center Text'));
 teButtons.push(new TextileEditorButton('ed_justifyr',		'right.png',         '>',   '\n', 'r', 'Right Justify'));
 teButtons.push(new TextileEditorButton('ed_justify', 		'justify.png',       '<>',  '\n', 'j', 'Justify'));
+teButtons.push('&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://en.wikipedia.org/wiki/Textile_%28markup_language%29#Textile_syntax_examples" target="_blank">Help</a>');
 
 // teButtons.push(new TextileEditorButton('ed_code','code','@','@','c','Code'));
