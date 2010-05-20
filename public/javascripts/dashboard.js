@@ -1,5 +1,6 @@
 var D; //all data
 var R; //all retrospectives
+var standard_trackers;
 var MAX_REQUESTS_PER_PERSON = 4;
 var TIMER_INTERVAL = 15000; //15 seconds
 var INACTIVITY_THRESHOLD = 300000; //5 minutes
@@ -188,36 +189,53 @@ function load_dashboard(){
 	
 	keyboard_shortcuts = false;
 
-	
-	var url = url_for({ controller: 'projects',
-                           action    : 'dashdata',
-							id		: projectId
-                          });
-	
-	$.ajax({
-	   type: "GET",
-	   // dataType: "json",
-	   contentType: "application/json",
-	   cache:false,
-	   dataType: ($.browser.msie) ? "text" : "json",
-	   url: url,
-	   success:  	function(html){
-			data_ready(html);
+	// load the standard trackers
+    var tracker_url = url_for({ controller: 'trackers',
+				action:     'standard_trackers' });
+    
+    $.ajax({ 
+	type: "GET",
+	url:  tracker_url,
+	success: function(trackers) {
+	    standard_trackers = trackers;
+
+	    var dashboard_url = url_for({ controller: 'projects',
+					  action    : 'dashdata',
+					  id        : projectId
+					});
+	    
+	    $.ajax({
+		type: "GET",
+		// dataType: "json",
+		contentType: "application/json",
+		cache:false,
+		dataType: ($.browser.msie) ? "text" : "json",
+		url: dashboard_url,
+		success:  	function(html){
+		    data_ready(html);
 		},
-	   error: 	function (xhr, textStatus, errorThrown) {
-		// alert(xhr.status);
-		// typically only one of textStatus or errorThrown will have info
-		// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
-		$("#loading").hide();
-		$("#quote").hide();
-		$("#loading_error").show();
+		error: 	function (xhr, textStatus, errorThrown) {
+		    // alert(xhr.status);
+		    // typically only one of textStatus or errorThrown will have info
+		    // possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+		    $("#loading").hide();
+		    $("#quote").hide();
+		    $("#loading_error").show();
 		},
 		timeout: 30000 //30 seconds
-	 });
-	
+	    });
+	},
+	error: function(xhr, textStatus, errorThrown) {
+	    $("#loading").hide();
+	    $("#quote").hide();
+	    $("#loading_error").show();
+	},
+	timeout: 30000
+    });
 
-   	load_buttons();
-	// load_search();
+
+    load_buttons();
+    // load_search();
 }
 
 //Binds events to search box
