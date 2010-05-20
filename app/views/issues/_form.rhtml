@@ -2,10 +2,10 @@
 <p><%= f.select :tracker_id, Tracker.standard_ones.collect {|t| [t.name, t.id]}, :required => true %></p>
 <%= observe_field :issue_tracker_id, :url => { :action => :update_form, :project_id => @project, :id => @issue },
                                      :update => :attributes,
-                                     :with => "Form.serialize('issue-form')" %>
+                                     :with => "$('#issue-form').serialize()" %>
 
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
-<p><%= f.text_area :description,
+<p><%= f.textile_editor :description,
                    :cols => 60,
                    :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
                    :accesskey => accesskey(:edit),
@@ -19,5 +19,3 @@
 <% if @issue.new_record? %>
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 <% end %>
-
-<%= wikitoolbar_for 'issue_description' %>
