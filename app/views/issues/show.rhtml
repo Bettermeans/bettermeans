@@ -124,8 +124,7 @@
   var currentUserId = '<%= User.current.id %>';
   var currentUserIsCitizen = '<%= User.current.core_member_of?(@project) %>';
   var currentUserIsMember = '<%= User.current.member_of?(@project) %>';
-  var point_factor = <%= Setting::POINT_FACTOR.to_json %>;
-  
+  var point_factor = <%= Setting::POINT_FACTOR.to_json %>;  
   
   $('document').ready(function(){
     show_item();
