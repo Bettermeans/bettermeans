@@ -5,8 +5,8 @@
 class TrackersController < ApplicationController
   layout 'admin'
   
-  before_filter :require_admin
-
+  before_filter :require_admin, :except => [ :standard_trackers ]
+  
   def index
     list
     render :action => 'list' unless request.xhr?
@@ -53,4 +53,8 @@ class TrackersController < ApplicationController
     end
     redirect_to :action => 'list'
   end  
+  
+  def standard_trackers
+    render :json => Tracker.standard_ones.to_json
+  end
 end
