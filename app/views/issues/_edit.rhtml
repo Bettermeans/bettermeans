@@ -18,6 +18,7 @@
     
     <fieldset><legend><%= l(:field_notes) %></legend>
     <%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
+    <%#= wikitoolbar_for 'notes' %>
     
     <!-- <p><%#=l(:label_attachment_plural)%><br /><%#= render :partial => 'attachments/form' %></p> -->
     </fieldset>
