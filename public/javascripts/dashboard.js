@@ -189,7 +189,7 @@ function load_dashboard(){
 	
 	keyboard_shortcuts = false;
 
-	// load the standard trackers
+    // load the standard trackers
     var tracker_url = url_for({ controller: 'trackers',
 				action:     'standard_trackers' });
     
@@ -197,7 +197,11 @@ function load_dashboard(){
 	type: "GET",
 	url:  tracker_url,
 	success: function(trackers) {
-	    standard_trackers = trackers;
+	    standard_trackers = {};
+
+	    for(var i=0; i<trackers.length; i++) {
+		standard_trackers[trackers[i].name] = trackers[i];
+	    }
 
 	    var dashboard_url = url_for({ controller: 'projects',
 					  action    : 'dashdata',
@@ -2346,7 +2350,7 @@ function todo_updated(item, dataId){
 
 function story_type_changed(){
 	var selection = $("#new_story_type").val();
-	if (selection == "9"){   //TODO: hardcoded value
+	if (selection == standard_trackers.Gift.id){   //TODO: hardcoded value
 		$("#new_assigned_to").show();
 		$("#assigned_to_select").ajaxAddOption('/projects/' + projectId + '/community_members',{},false,sortoptions);
 	}
@@ -2363,6 +2367,25 @@ function sortoptions(sort)
 	$this.removeOption("1"); //removing administrator
 	$this.removeOption(currentUserId); //removing self
 	$this.sortOptions();
+}
+
+function generate_tracker_dropdown(dont_show_gift) {
+    var html='';
+    for(var name in standard_trackers) {	
+
+	var tracker = standard_trackers[name];
+
+	if(tracker.name == 'Gift' && dont_show_gift) 
+	    continue;
+
+	var selected_text = (tracker.name == 'Feature' ? 'selected="true"' : '');
+
+	html += '<option ' + selected_text + ' value="' +  tracker.id + '">'
+	html += tracker.name;
+	html += '</option>'
+    }   
+
+    return html;
 }
 
 function new_item(){
@@ -2411,18 +2434,7 @@ html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
 html = html + '	                    <select id="new_story_type" class="storyDetailsField" name="new_story_type"  onChange="story_type_changed();return false;">';
-html = html + '	                      <option selected="true" value="4">';
-html = html + '	                        Feature';
-html = html + '	                      </option>';
-html = html + '	                      <option value="7">';
-html = html + '	                        Chore';
-html = html + '	                      </option>';
-html = html + '	                      <option value="8">';
-html = html + '	                        Bug';
-html = html + '	                      </option>';
-html = html + '	                      <option value="9">';
-html = html + '	                        Gift';
-html = html + '	                      </option>';
+html = html +                         generate_tracker_dropdown();
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
@@ -2570,23 +2582,8 @@ html = html + '	            <tbody>';
 html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
-html = html + '	                    <select id="edit_story_type_' + dataId + '" class="storyDetailsField" name="edit_story_type" ' + disabled + '>';
-html = html + '	                      <option selected="true" value="4">';
-html = html + '	                        Feature';
-html = html + '	                      </option>';
-html = html + '	                      <option value="7">';
-html = html + '	                        Chore';
-html = html + '	                      </option>';
-html = html + '	                      <option value="8">';
-html = html + '	                        Bug';
-html = html + '	                      </option>';
-
-if (D[dataId].assigned_to_id != null && D[dataId].tracker.name == 'Gift' ){
-	html = html + '	                      <option value="9">';
-	html = html + '	                        Gift';
-	html = html + '	                      </option>';
-}
-
+html = html + '	                    <select id="edit_story_type_' + dataId + '" class="storyDetailsField" name="edit_story_type" ' + disabled + '>';    
+html = html +                         generate_tracker_dropdown(D[dataId].assigned_to_id == null);
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
