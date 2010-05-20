@@ -10,11 +10,11 @@
     <p><label><%= l(:field_parent) %></label><%= link_to @parent.name, {:controller => 'projects', :action => 'show', :id => @parent} %></p>
 <% end %>
 
-<p><%= f.text_area :description, :rows => 5, :class => 'wiki-edit' %></p>
+<p><%= f.textile_editor :description, :rows => 5, :class => 'wiki-edit' %></p>
+<%= textile_editor_initialize(:framework => :jquery) %>
 
 <!-- <p><%#= f.text_field :homepage, :size => 60 %></p> -->
 <!-- <p><%#= f.check_box :is_public %></p> -->
-<p><%= wikitoolbar_for 'project_description' %></p>
 <p><%=  f.select(:dpp, options_for_select(Setting::PAY_SCALES, :selected => @project.dpp.nil? ? Setting::PAY_SCALES_DEFAULT : @project.dpp.round),
                                                       { :include_blank => false}, 
                                                       {  :class => 'left',

@@ -46,10 +46,10 @@
 </fieldset>
 
 <fieldset><legend><%= l(:field_notes) %></legend>
-<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
-<%= wikitoolbar_for 'notes' %>
+<%= textile_editor_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
 </fieldset>
 </div>
 
 <p><%= submit_tag l(:button_submit) %>
+<%= textile_editor_initialize(:framework => :jquery) %>
 <% end %>

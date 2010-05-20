@@ -5,7 +5,7 @@
                                      :with => "Form.serialize('issue-form')" %>
 
 <p><%= f.text_field :subject, :size => 80, :required => true %></p>
-<p><%= f.text_area :description,
+<p><%= f.textile_editor :description,
                    :cols => 60,
                    :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
                    :accesskey => accesskey(:edit),
