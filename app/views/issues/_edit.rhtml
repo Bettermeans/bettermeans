@@ -28,7 +28,7 @@
                        { :url => { :controller => 'issues', :action => 'preview', :project_id => @project, :id => @issue },
                          :method => 'post',
                          :update => 'preview',
-                         :with => 'Form.serialize("issue-form")',
+                         :with => "$('#issue-form').serialize()",
                          :complete => "$('body').scrollTo('#preview')"
                        }, :accesskey => accesskey(:preview) %>
      <%= textile_editor_initialize(:framework => :jquery) %>

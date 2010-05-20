@@ -11,8 +11,8 @@
                        { :url => { :controller => 'wiki', :action => 'preview', :id => @project, :page => @page.title },
                          :method => 'post',
                          :update => 'preview',
-                         :with => "Form.serialize('wiki_form')",
-                         :complete => "Element.scrollTo('preview')"
+                         :with => "$('#wiki_form').serialize()",
+                         :complete => "$('body').scrollTo('#preview')"
                        }, :accesskey => accesskey(:preview) %></p>
 <%= textile_editor_initialize(:framework => :jquery) %>
 <% end %>
