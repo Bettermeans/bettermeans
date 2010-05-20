@@ -52,12 +52,6 @@ module Redmine
       end
       
       module Helper
-        def wikitoolbar_for(field_id)
-        end
-      
-        def heads_for_wiki_formatter
-        end
-      
         def initial_page_content(page)
           page.pretty_title.to_s
         end
