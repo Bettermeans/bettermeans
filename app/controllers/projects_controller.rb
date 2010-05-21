@@ -70,11 +70,14 @@ class ProjectsController < ApplicationController
       if validate_parent_id && @project.save
         logger.info("PARENT #{@parent.inspect}")
         @project.set_allowed_parent!(@parent.id) unless @parent.nil?
-        # Add current user as a admin and core team member
-        r = Role.find(Role::BUILTIN_CORE_MEMBER)
-        r2 = Role.find(Role::BUILTIN_ADMINISTRATOR)
-        m = Member.new(:user => User.current, :roles => [r,r2])
-        @project.all_members << m
+
+        if @parent.nil?
+          # Add current user as a admin and core team member
+          r = Role.find(Role::BUILTIN_CORE_MEMBER)
+          r2 = Role.find(Role::BUILTIN_ADMINISTRATOR)
+          m = Member.new(:user => User.current, :roles => [r,r2])
+          @project.all_members << m
+        end
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'projects', :action => 'show', :id => @project
       end
