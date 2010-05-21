@@ -971,6 +971,8 @@ en:
   button_duplicate: Duplicate
   button_show: Show
   
+  button_dashboard: Goto Dashboard
+  
   status_active: active
   status_registered: registered
   status_locked: locked
