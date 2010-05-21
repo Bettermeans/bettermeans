@@ -19,7 +19,7 @@ function initialize(){
 function show_fancybox(url,message){
 	////console.log("Fancybox for: " + url);
 	$.fancybox({
-				'width'				: '90%',
+					'width'				: '90%',
 				'height'			: '95%',
 		        'autoScale'     	: false,
 		        'transitionIn'		: 'none',
@@ -30,6 +30,7 @@ function show_fancybox(url,message){
 		
 	$('#fancybox-frame').load(function(){
 		 	$('#fancy-loading').hide();
+			$("#fancybox-frame").contents().find("a").attr('target', '_blank');
 		});
 	$('#fancybox-inner').prepend("<div id='fancy-loading' class='loading'>" + message + "</div>");
 }
