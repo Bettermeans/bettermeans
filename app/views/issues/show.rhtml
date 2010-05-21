@@ -1,9 +1,5 @@
 <%= dynamic_script_tag 'dashboard' %>
 <%= javascript_include_tag 'issue' %>
-<%#= stylesheet_link_tag 'dashboard' %>
-
-
-
 
 <%= render :partial => 'action_menu' %>
 <h2><%= link_to(@issue.project.name, {:controller => 'projects', :action => 'show', :id => @issue.project_id}) %> : <%= @issue.tracker.name %> #<%= @issue.id %></h2>

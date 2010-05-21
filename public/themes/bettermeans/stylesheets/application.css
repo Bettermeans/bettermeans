@@ -321,6 +321,8 @@ padding-bottom: 3px;
 .icon-cr-decline { background-image: url(/images/false.png); }
 .icon-cr-ignore { background-image: url(/images/ignore.gif); }
 .icon-summary  { background-image: url(/images/lightning.png); }
+.icon-dashboard { background-image: url(/images/lightning.png); }
+
 
 .icon-file { background-image: url(/images/files/default.png); }
 .icon-file.text-plain { background-image: url(/images/files/text.png); }
