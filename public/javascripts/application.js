@@ -13,6 +13,12 @@ function initialize(){
 			// 	        'transitionIn'		: 'none',
 			// 'transitionOut'		: 'none',
 			'type'				: 'iframe'
+		}).click(function(){
+			$('#fancybox-frame').load(function(){
+				 	$('#fancy-loading').hide();
+					$("#fancybox-frame").contents().find("a").attr('target', '_blank');
+				});
+			$('#fancybox-inner').prepend("<div id='fancy-loading' class='loading'>loading...</div>");
 		});
 }
 
