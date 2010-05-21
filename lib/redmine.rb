@@ -44,8 +44,10 @@ Redmine::AccessControl.map do |map|
                                   :reports => :issue_report,
                                   :comments => :index,
                                   :todos => :index,
-                                  :retros => [:index, :index_json, :dashdata, :show]
+                                  :retros => [:index, :index_json, :dashdata, :show],
+                                  :project => [:dashboard,:community_members]
                                   }
+                
     map.permission :add_issues, {:issues => [:new, :update_form]}
     map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :cancel, :restart, :prioritize, :agree, :disagree, :estimate, :join, :leave]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
@@ -72,14 +74,6 @@ Redmine::AccessControl.map do |map|
     map.permission :view_issue_watchers, {}
     map.permission :add_issue_watchers, {:watchers => :new}
     map.permission :delete_issue_watchers, {:watchers => :destroy}
-  end
-  
-  map.project_module :time_tracking do |map|
-    map.permission :log_time, {:timelog => :edit}, :require => :loggedin
-    map.permission :view_time_entries, :timelog => [:details, :report]
-    map.permission :edit_time_entries, {:timelog => [:edit, :destroy]}, :require => :member
-    map.permission :edit_own_time_entries, {:timelog => [:edit, :destroy]}, :require => :loggedin
-    map.permission :manage_project_activities, {:projects => [:save_activities, :reset_activities]}, :require => :member
   end
   
   map.project_module :news do |map|
@@ -119,7 +113,7 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
   end
   
-  map.project_module :motion do |map|
+  map.project_module :motions do |map|
     map.permission :manage_motion, {:motions => [:edit, :destroy]}, :require => :admin
     map.permission :browse_motion, {:motions => [:index, :view]}, :require => :loggedin
     map.permission :create_motion, {:motions => [:create, :new]}, :require => :loggedin
@@ -137,10 +131,6 @@ Redmine::AccessControl.map do |map|
     map.permission :view_credits, {:projects => :credits, :credits => [:index,:show]}, :require => :loggedin
     map.permission :add_credits, {:credits => [:new, :create]}, :require => :admin
     map.permission :manage_credits, {:credits => [:destroy, :edit]}, :require => :admin
-  end
-  
-  map.project_module :dashboard do |map|
-    map.permission :view_dashboard, {:project => [:dashboard,:community_members]}
   end
   
   
@@ -191,17 +181,12 @@ end
 
 Redmine::Activity.map do |activity|
   activity.register :issues, :class_name => %w(Issue Journal)
-  # activity.register :changesets
   activity.register :news
   activity.register :documents, :class_name => %w(Document Attachment)
   # activity.register :files, :class_name => 'Attachment'
   activity.register :wiki_edits, :class_name => 'WikiContent::Version', :default => true
   activity.register :messages, :default => true
-  # activity.register :time_entries, :default => true
-  # activity.register :team_offers, :class_name => %w(TeamOffer MemberRole), :default => true  
-  # activity.register :team_offers, :class_name => 'MemberRoles', :default => true
   # activity.register :member_roles, :default => true  
-  # activity.register :commit_requests, :default => true  
 end
 
 Redmine::WikiFormatting.map do |format|
