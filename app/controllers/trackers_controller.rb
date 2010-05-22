@@ -6,7 +6,7 @@ class TrackersController < ApplicationController
   layout 'admin'
   
   before_filter :require_admin
-
+  
   def index
     list
     render :action => 'list' unless request.xhr?
@@ -52,5 +52,6 @@ class TrackersController < ApplicationController
       @tracker.destroy
     end
     redirect_to :action => 'list'
-  end  
+  end
+
 end
