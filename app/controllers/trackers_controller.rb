@@ -5,7 +5,7 @@
 class TrackersController < ApplicationController
   layout 'admin'
   
-  before_filter :require_admin, :except => [ :standard_trackers ]
+  before_filter :require_admin
   
   def index
     list
@@ -52,11 +52,6 @@ class TrackersController < ApplicationController
       @tracker.destroy
     end
     redirect_to :action => 'list'
-  end  
-  
-  def standard_trackers    
-    render :json => Rails.cache.fetch('standard_trackers_json') {        
-      Tracker.standard_ones.to_json
-    }    
   end
+
 end
