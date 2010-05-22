@@ -279,7 +279,5 @@ class ApplicationController < ActionController::Base
   def bp
     debugger if ENV['RAILS_ENV'] == 'development'
   end
-  
-  
-  helper :dynamic_scripts
+
 end
