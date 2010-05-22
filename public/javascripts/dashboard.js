@@ -2583,7 +2583,8 @@ html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
 html = html + '	                    <select id="edit_story_type_' + dataId + '" class="storyDetailsField" name="edit_story_type" ' + disabled + '>';    
-html = html +                         generate_tracker_dropdown(D[dataId].tracker.name != 'Gift'); //Don't show gift, if item isn't already a gift. Disallows features, bugs...etc. to be turned into a gift item
+html = html +                         generate_tracker_dropdown(D[dataId].tracker.name != 'Gift'); // Don't show gift, if item isn't already a gift. 
+                                                                                                   // Disallows features, bugs...etc. to be turned into a gift item
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
