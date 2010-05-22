@@ -139,12 +139,10 @@ class ProjectsController < ApplicationController
   end
   
   def community_members
-    render :json => @project.all_members.to_json(:only => :user_id, :methods => :name) \
-                                        .gsub("\"user_id\":","\"")   \
-                                        .gsub(",\"name\"", "\"")     \
-                                        .gsub("}","").gsub("{","")   \
-                                        .gsub("[","{").gsub("]","}")
-    # render :json => @project.all_members.to_json(:only => [:lastname, :id])
+    render :json => @project.all_members.inject({}) { |hash, member|
+      hash[member.user_id] = member.name
+      hash
+    }.to_json
   end
   
   def dashboard
