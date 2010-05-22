@@ -2152,7 +2152,7 @@ function save_new_item(){
 	}
 	var data = "commit=Create&project_id=" + projectId + "&issue[tracker_id]=" + $('#new_story_type').val() + "&issue[subject]=" + $('#new_title_input').val() + "&issue[description]=" + $('#new_description').val();
 	
-	if ($('#new_story_type').val() == 9){
+	if ($('#new_story_type').val() == standard_trackers.Gift.id){
 		data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
 	}
 
