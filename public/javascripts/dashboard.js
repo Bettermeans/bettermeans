@@ -2145,16 +2145,30 @@ function collapse_item(dataId){
 }
 
 function save_new_item(){
-	if (($('#new_title_input').val() == default_new_title) || ($('#new_title_input').val() == ''))
-	{
-		alert('Please enter a title');
-		return false;
+    if (($('#new_title_input').val() == default_new_title) || ($('#new_title_input').val() == ''))
+    {
+	alert('Please enter a title');
+	return false;
+    }
+    var data = "commit=Create&project_id=" + projectId + 
+        "&issue[tracker_id]=" + $('#new_story_type').val() + 
+        "&issue[subject]=" + $('#new_title_input').val() + 
+        "&issue[description]=" + $('#new_description').val();
+    
+    if ($('#new_story_type').val() == standard_trackers.Gift.id){
+	data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
+    }
+
+    if($("#new_story_type").val() == standard_trackers.Hourly.id) {
+	if($("#new_num_hours").val() == '') {
+	    alert('Please enter the estimated number of hours for this hourly item.');
+	    return false;
 	}
-	var data = "commit=Create&project_id=" + projectId + "&issue[tracker_id]=" + $('#new_story_type').val() + "&issue[subject]=" + $('#new_title_input').val() + "&issue[description]=" + $('#new_description').val();
-	
-	if ($('#new_story_type').val() == 9){
-		data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
-	}
+
+        data = data + 
+	    "&issue[hourly_type_id]=" + $("#new_hourly_type").val() +
+            "&issue[num_hours]=" + $("#new_num_hours").val();
+    }
 
     var url = url_for({ controller: 'issues',
                            action    : 'new'
@@ -2183,38 +2197,55 @@ function save_new_item(){
 }
 
 function save_edit_item(dataId){
-	if (($('#edit_title_input_' + dataId).val() == default_new_title) || ($('#edit_title_input_' + dataId).val() == ''))
-	{
-		alert('Please enter a title');
-		return false;
-	}	
-	var data = "commit=Submit&lock_version=" + D[dataId].lock_version + "&project_id=" + projectId + "&id=" + D[dataId].id + "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
+    if (($('#edit_title_input_' + dataId).val() == default_new_title) || ($('#edit_title_input_' + dataId).val() == ''))
+    {
+	alert('Please enter a title');
+	return false;
+    }	
+
+    var data = "commit=Submit&lock_version=" + D[dataId].lock_version + 
+        "&project_id=" + projectId + 
+        "&id=" + D[dataId].id + 
+        "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + 
+        "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + 
+        "&issue[description]=" + $('#edit_description_' + dataId).val();
+
+    if($("#edit_story_type_" + dataId).val() == standard_trackers.Hourly.id) {
+	if($("#num_hours_" + dataId).val() == '') {
+	    alert('Please enter the estimated number of hours for this hourly item.');
+	    return false;
+	}
+
+        data = data + 
+	    "&issue[hourly_type_id]=" + $("#hourly_type_" + dataId).val() +
+            "&issue[num_hours]=" + $("#num_hours_" + dataId).val();
+    }
 
     var url = url_for({ controller: 'issues',
-                           action    : 'edit'
-                          });
+                        action    : 'edit'
+                      });
 
-	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
-	$("#item_content_icons_editButton_" + dataId).remove();
-	$("#icon_set_" + dataId).addClass('updating');
+    $("#edit_item_" + dataId).replaceWith(generate_item(dataId));
+    $("#item_content_icons_editButton_" + dataId).remove();
+    $("#icon_set_" + dataId).addClass('updating');
 
-	$.ajax({
-	   type: "POST",
-	   dataType: "json",
-	   url: url,
-	   data: data,
-	   success:  	function(html){
-			item_updated(html, dataId);
-		},
-	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
-		// typically only one of textStatus or errorThrown will have info
-		// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
-		handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "edit");
-		},
-		timeout: 30000 //30 seconds
-	 });
-	
-	return false;
+    $.ajax({
+	type: "POST",
+	dataType: "json",
+	url: url,
+	data: data,
+	success:  	function(html){
+	    item_updated(html, dataId);
+	},
+	error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+	    // typically only one of textStatus or errorThrown will have info
+	    // possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+	    handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "edit");
+	},
+	timeout: 30000 //30 seconds
+    });
+    
+    return false;
 }
 
 function cancel_new_item(dataId){
@@ -2325,6 +2356,67 @@ function todo_updated(item, dataId){
 	// $('#todo_container_' + item.id).html(generate_todos(item,false));
 }
 
+function item_type_changed(dropdown, hourly_fields_id, dataId) {
+    if(dropdown.options[dropdown.selectedIndex].value == standard_trackers.Hourly.id)
+	$("#" + hourly_fields_id).replaceWith(generate_hourly_item_fields(hourly_fields_id, dataId));
+    else
+	$("#" + hourly_fields_id).replaceWith('<div id="' + hourly_fields_id + '"/>');
+}
+
+function generate_hourly_item_fields(hourly_fields_id, dataId) {
+
+    var hourly_type_id;
+    var num_hours_id;
+
+    if(dataId === undefined) {
+	hourly_type_id = "new_hourly_type";
+	num_hours_id   = "new_num_hours";
+    }
+    else {
+	hourly_type_id = "hourly_type_" + dataId;
+	num_hours_id   = "num_hours_" + dataId;
+    }
+
+
+    html = "";
+    html = html + '<div id="' + hourly_fields_id + '">';
+    html = html + '  <table class="storyDetailsTable">';
+    html = html + '   <tbody>';
+    html = html + '    <tr>';
+    html = html + '      <td class="letContentExpand" colspan="1">';
+    html = html + '       <div>';
+    html = html + '         <select id="' + hourly_type_id + '" class="storyDetailsField" name="' + hourly_type_id + '">';
+    html = html + '	      <option value="1">';
+    html = html + '	        Model design brainstorming';
+    html = html + '	      </option>';
+    html = html + '	      <option value="2">';
+    html = html + '	        Legal solutions brainstorming';
+    html = html + '	      </option>';
+    html = html + '	      <option value="3">';
+    html = html + '	        New client prospecting';
+    html = html + '	       </option>';
+    html = html + '            <option value="4">';
+    html = html + '              New team member prospecting';
+    html = html + '            </option>';
+    html = html + '	     </select>';
+    html = html + '	   </div>';
+    html = html + '	  </td>';    
+    html = html + '    </tr>';
+    html = html + '    <tr>';
+    html = html + '      <td class="letContentExpand" colspan="1">';
+    html = html + '       <div>';
+    html = html + '         Estimated no. of hours:';
+    html = html + '         <input type="text" id="' + num_hours_id + '" name="' + num_hours_id + '" size="2"/>';
+    html = html + '	  </div>';
+    html = html + '	 </td>';    
+    html = html + '     </tr>';
+    html = html + '   </tbody>';
+    html = html + ' </table>';
+    html = html + '</div>';
+    return html;
+}
+
+
 function story_type_changed(){
 	var selection = $("#new_story_type").val();
 	if (selection == standard_trackers.Gift.id){
@@ -2367,6 +2459,9 @@ function generate_tracker_dropdown(dont_show_gift) {
 
 function new_item(){
 keyboard_shortcuts = false;
+
+const hourly_fields_id = "hourly_item_fields";
+
 $("#new_item_wrapper").remove();
 html = '';	
 html = html + '	<div class="item" id="new_item_wrapper">';
@@ -2433,6 +2528,7 @@ html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
 html = html + '	          </table>';
+html = html + '           <div id="' + hourly_fields_id + '"/>';    
 html = html + '	          <div class="section">';
 html = html + '	            <table class="storyDescriptionTable">';
 html = html + '	              <tbody>';
@@ -2514,6 +2610,8 @@ var tracker_editable = is_tracker_editable(dataId);
 // combo box are rendered readonly/disable if the item is not editable
 var readonly = !item_editable ? "readonly" : "";
 var disabled = !item_editable || !tracker_editable  ? "disabled" : "";
+
+const hourly_fields_id = 'hourly_item_fields_' + dataId;
   
 html = '';	
 html = html + '	<div class="item" id="edit_item_' + dataId + '">';
@@ -2589,7 +2687,7 @@ html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
 html = html + '	          </table>';
-
+html = html + '           <div id="' + hourly_fields_id + '"/>';
 html = html + '	          <div class="section">';
 html = html + '	            <table class="storyDescriptionTable">';
 html = html + '	              <tbody>';
