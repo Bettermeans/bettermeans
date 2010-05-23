@@ -2356,14 +2356,7 @@ function todo_updated(item, dataId){
 	// $('#todo_container_' + item.id).html(generate_todos(item,false));
 }
 
-function item_type_changed(dropdown, hourly_fields_id, dataId) {
-    if(dropdown.options[dropdown.selectedIndex].value == standard_trackers.Hourly.id)
-	$("#" + hourly_fields_id).replaceWith(generate_hourly_item_fields(hourly_fields_id, dataId));
-    else
-	$("#" + hourly_fields_id).replaceWith('<div id="' + hourly_fields_id + '"/>');
-}
-
-function generate_hourly_item_fields(hourly_fields_id, dataId) {
+function generate_hourly_fields(hourly_fields_id, dataId) {
 
     var hourly_type_id;
     var num_hours_id;
@@ -2376,7 +2369,6 @@ function generate_hourly_item_fields(hourly_fields_id, dataId) {
 	hourly_type_id = "hourly_type_" + dataId;
 	num_hours_id   = "num_hours_" + dataId;
     }
-
 
     html = "";
     html = html + '<div id="' + hourly_fields_id + '">';
@@ -2416,16 +2408,44 @@ function generate_hourly_item_fields(hourly_fields_id, dataId) {
     return html;
 }
 
+function hourly_type_selected(dataId) {
+    var hourly_fields_id = "hourly_fields";
 
-function story_type_changed(){
-	var selection = $("#new_story_type").val();
-	if (selection == standard_trackers.Gift.id){
-		$("#new_assigned_to").show();
-		$("#assigned_to_select").ajaxAddOption('/projects/' + projectId + '/community_members',{},false,sortoptions);
-	}
-	else{
-		$("#new_assigned_to").hide();
-	}
+    if(dataId != undefined)
+	hourly_fields_id += "_" + dataId;
+
+    $("#" + hourly_fields_id).show();
+}
+
+function gift_type_selected() {
+    $("#new_assigned_to").show();
+    $("#assigned_to_select").ajaxAddOption('/projects/' + projectId + '/community_members', {}, false, sortoptions);
+}
+
+function new_story_type_changed() {    
+
+    $("#new_assigned_to").hide();
+    $("#hourly_fields").hide(); 
+
+    var selection = $("#new_story_type").val();
+    
+    if(selection == standard_trackers.Hourly.id) {
+	hourly_type_selected();
+    }
+    else if(selection == standard_trackers.Gift.id) {
+	gift_type_selected();
+    }
+}
+
+function edit_story_type_changed(dataId) {
+
+    if($("#edit_story_type_" + dataId).val() == standard_trackers.Hourly.id) {
+	hourly_type_selected(dataId);
+    }
+    else {
+	$("#hourly_fields_" + dataId).hide();
+    }
+
 }
 
 function sortoptions(sort)
@@ -2460,7 +2480,7 @@ function generate_tracker_dropdown(dont_show_gift) {
 function new_item(){
 keyboard_shortcuts = false;
 
-const hourly_fields_id = "hourly_item_fields";
+
 
 $("#new_item_wrapper").remove();
 html = '';	
@@ -2505,7 +2525,7 @@ html = html + '	            <tbody>';
 html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
-html = html + '	                    <select id="new_story_type" class="storyDetailsField" name="new_story_type"  onChange="story_type_changed();return false;">';
+html = html + '	                    <select id="new_story_type" class="storyDetailsField" name="new_story_type"  onChange="new_story_type_changed(); return false;">';
 html = html +                         generate_tracker_dropdown();
 html = html + '	                    </select>';
 html = html + '	                  </div>';
@@ -2528,7 +2548,9 @@ html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
 html = html + '	          </table>';
-html = html + '           <div id="' + hourly_fields_id + '"/>';    
+html = html + '           <div id="hourly_fields" class="hidden">';
+html = html +               generate_hourly_fields("hourly_fields");
+html = html + '           </div>';
 html = html + '	          <div class="section">';
 html = html + '	            <table class="storyDescriptionTable">';
 html = html + '	              <tbody>';
@@ -2610,8 +2632,6 @@ var tracker_editable = is_tracker_editable(dataId);
 // combo box are rendered readonly/disable if the item is not editable
 var readonly = !item_editable ? "readonly" : "";
 var disabled = !item_editable || !tracker_editable  ? "disabled" : "";
-
-const hourly_fields_id = 'hourly_item_fields_' + dataId;
   
 html = '';	
 html = html + '	<div class="item" id="edit_item_' + dataId + '">';
@@ -2657,7 +2677,8 @@ html = html + '	            <tbody>';
 html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
-html = html + '	                    <select id="edit_story_type_' + dataId + '" class="storyDetailsField" name="edit_story_type" ' + disabled + '>';    
+html = html + '	                    <select id="edit_story_type_' + dataId + '" class="storyDetailsField" ';
+html = html + '                             name="edit_story_type" onChange="edit_story_type_changed(' + dataId + '); return false;" ' + disabled + '>';    
 html = html +                         generate_tracker_dropdown(D[dataId].tracker.name != 'Gift'); // Don't show gift, if item isn't already a gift. 
                                                                                                    // Disallows features, bugs...etc. to be turned into a gift item
 html = html + '	                    </select>';
@@ -2687,7 +2708,9 @@ html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
 html = html + '	          </table>';
-html = html + '           <div id="' + hourly_fields_id + '"/>';
+html = html + '           <div id="hourly_fields_' + dataId + '" class="hidden">';
+html = html +               generate_hourly_fields("hourly_fields_" + dataId, dataId);
+html = html + '           </div>';
 html = html + '	          <div class="section">';
 html = html + '	            <table class="storyDescriptionTable">';
 html = html + '	              <tbody>';
