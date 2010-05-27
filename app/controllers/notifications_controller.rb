@@ -71,7 +71,7 @@ class NotificationsController < ApplicationController
   
   def hide
     @notification = Notification.find(params[:notification_id])
-    @notification.state = 1 #ignored
+    @notification.state = Notification::STATE_RESPONDED
     
     respond_to do |format|
       if @notification.save
