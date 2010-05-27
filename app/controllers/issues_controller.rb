@@ -345,7 +345,7 @@ class IssuesController < ApplicationController
     admin = User.sysadmin
     Notification.create :recipient_id => @issue.assigned_to_id,
                         :variation => 'issue_joined',
-                        :params => {:issue => @issue, :joiner => User.current}, 
+                        :params => {:issue_id => @issue.id, :joiner_id => User.current.id}, 
                         :sender_id => admin.id,
                         :source_id => @issue.id
     
