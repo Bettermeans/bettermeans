@@ -59,6 +59,7 @@ class Project < ActiveRecord::Base
   has_many :reputations, :dependent => :delete_all
   has_many :credit_disributions
   has_many :motions
+  has_many :hourly_types
   # Custom field for the project issues
   has_and_belongs_to_many :issue_custom_fields, 
                           :class_name => 'IssueCustomField',
