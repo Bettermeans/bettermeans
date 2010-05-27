@@ -2758,6 +2758,9 @@ try{
 			
 		}
 		
+		$("#new_comment_" + dataId).height(35);
+		
+		
 		var data = "commit=Create&issue_id=" + item.id + "&comment=" + text;
 		
 		var url = url_for({ controller: 'comments',
