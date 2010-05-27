@@ -7,12 +7,14 @@ class HourlyType < ActiveRecord::Base
   validates_length_of :description, :maximum => 1000, :allow_nil => true
 end
 
+
 # == Schema Information
 #
 # Table name: hourly_types
 #
 #  id          :integer         not null, primary key
-#  name        :string(255)     not null
+#  project_id  :integer
+#  name        :string(255)
 #  description :text
 #  created_at  :datetime
 #  updated_at  :datetime
