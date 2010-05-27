@@ -16,7 +16,7 @@ function initialize(){
 		}).click(function(){
 			$('#fancybox-frame').load(function(){
 				 	$('#fancy-loading').hide();
-					$("#fancybox-frame").contents().find("a").attr('target', '_blank');
+					$("#fancybox-frame").contents().find("a[href*=/]").not("a[target*=top]").attr('target', '_blank');
 				});
 			$('#fancybox-inner').prepend("<div id='fancy-loading' class='loading'>loading...</div>");
 		});
@@ -36,7 +36,7 @@ function show_fancybox(url,message){
 		
 	$('#fancybox-frame').load(function(){
 		 	$('#fancy-loading').hide();
-			$("#fancybox-frame").contents().find("a[href*=/]").attr('target', '_blank');
+			$("#fancybox-frame").contents().find("a[href*=/]").not("a[target*=top]").attr('target', '_blank');
 		});
 	$('#fancybox-inner').prepend("<div id='fancy-loading' class='loading'>" + message + "</div>");
 }
