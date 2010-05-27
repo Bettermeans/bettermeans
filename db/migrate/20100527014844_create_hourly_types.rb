@@ -1,8 +1,9 @@
 class CreateHourlyTypes < ActiveRecord::Migration
   def self.up
     create_table :hourly_types do |t|
-      t.project_id
-      t.string :name,       :null => false
+      t.integer :project_id
+      
+      t.string :name
       t.text   :description
       
       t.timestamps
