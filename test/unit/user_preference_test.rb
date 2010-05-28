@@ -30,6 +30,7 @@ class UserPreferenceTest < ActiveSupport::TestCase
 end
 
 
+
 # == Schema Information
 #
 # Table name: user_preferences
@@ -37,7 +38,7 @@ end
 #  id        :integer         not null, primary key
 #  user_id   :integer         default(0), not null
 #  others    :text
-#  hide_mail :boolean         default(FALSE)
+#  hide_mail :boolean         default(TRUE)
 #  time_zone :string(255)
 #
 
