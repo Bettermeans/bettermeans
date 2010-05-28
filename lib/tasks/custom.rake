@@ -24,6 +24,10 @@ namespace :custom do
       issue.update_status
     end
 
+    Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.estimate.id,DateTime.now - Setting::LAZY_MAJORITY_LENGTH ]).each do |issue|
+      issue.update_status
+    end
+
     Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.done.id,DateTime.now - Setting::LAZY_MAJORITY_LENGTH ]).each do |issue|
       issue.update_status
     end
