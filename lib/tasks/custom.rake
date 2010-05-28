@@ -72,5 +72,12 @@ namespace :custom do
     
       
   end
+  
+  task :one_time_user_prefs_adjust => :environment do
+    UserPreference.all.each do |up|
+      up.others = {:no_self_notified=>true, :comments_sorting=>"asc"}
+      up.save
+    end
+  end
 
 end
