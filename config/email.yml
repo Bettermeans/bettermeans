@@ -19,5 +19,5 @@ development:
     port: 26
     domain: heroku.com
     authentication: :login
-    user_name: ac43663
-    password: ctvw9zfra
+    user_name: ac4366312345
+    password: ctvw9zfra12345

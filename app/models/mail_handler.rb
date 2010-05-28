@@ -2,13 +2,31 @@
 # Copyright (C) 2009  Shereef Bishay
 #
 
-class MailHandler < ActionMailer::Base
+class MailHandler < ActiveRecord::Base
   include ActionView::Helpers::SanitizeHelper
 
   class UnauthorizedAction < StandardError; end
   class MissingInformation < StandardError; end
   
   attr_reader :email, :user
+  
+  def initialize(email, user,options = {})
+    @@handler_options = options.dup
+    
+    @@handler_options[:issue] ||= {}
+    
+    @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').collect(&:strip) if @@handler_options[:allow_override].is_a?(String)
+    @@handler_options[:allow_override] ||= []
+    # Project needs to be overridable if not specified
+    @@handler_options[:allow_override] << 'project' unless @@handler_options[:issue].has_key?(:project)
+    # Status overridable by default
+    @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)    
+    
+    @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
+    @user = user
+    @email = email
+    dispatch
+  end
 
   def self.receive(email, options={})
     @@handler_options = options.dup
@@ -60,6 +78,43 @@ class MailHandler < ActionMailer::Base
     User.current = @user
     dispatch
   end
+
+  # Processes incoming emails
+  # Returns the created object (eg. an issue, a message) or false
+  def self.receive_from_api(email)
+    @email = email
+    sender_email = email.from.to_a.first.to_s.strip
+    # Ignore emails received from the application emission address to avoid hell cycles
+    if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
+      return false
+    end
+    logger.info("sender email #{sender_email}")
+    @user = User.find_by_mail(sender_email)
+    if @user && !@user.active?
+      logger.info("no user?")
+      return false
+    end
+    if @user.nil?
+      logger.info("unkown user")
+      # Email was submitted by an unknown user
+      case @@handler_options[:unknown_user]
+      when 'accept'
+        @user = User.anonymous
+      when 'create'
+        @user = MailHandler.create_user_from_email(email)
+        if @user
+          Mailer.deliver_account_information(@user, @user.password)
+        else
+          logger.error "MailHandler: could not create account for [#{sender_email}]" if logger && logger.error
+          return false
+        end
+      else
+        # Default behaviour, emails from unknown users are ignored
+        return false
+      end
+    end
+    mailhandler = MailHandler.new(email, @user)
+  end
   
   private
 
@@ -68,6 +123,7 @@ class MailHandler < ActionMailer::Base
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
   
   def dispatch
+    logger.info("dispatching #{email.in_reply_to}  : #{email.references}")
     headers = [email.in_reply_to, email.references].flatten.compact
     if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
       klass, object_id = $1, $2.to_i
@@ -100,8 +156,6 @@ class MailHandler < ActionMailer::Base
   def receive_issue
     project = target_project
     tracker = (get_keyword(:tracker) && project.trackers.find_by_name(get_keyword(:tracker))) || project.trackers.find(:first)
-    # category = (get_keyword(:category) && project.issue_categories.find_by_name(get_keyword(:category)))
-    priority = (get_keyword(:priority) && IssuePriority.find_by_name(get_keyword(:priority)))
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
 
     # check permission
@@ -109,7 +163,7 @@ class MailHandler < ActionMailer::Base
       raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
     end
     
-    issue = Issue.new(:author => user, :project => project, :tracker => tracker, :category => category, :priority => priority)
+    issue = Issue.new(:author => user, :project => project, :tracker => tracker)
     # check workflow
     if status && issue.new_statuses_allowed_to(user).include?(status)
       issue.status = status
