@@ -2362,8 +2362,8 @@ function generate_hourly_fields(hourly_fields_id, dataId) {
     var num_hours_id;
 
     if(dataId === undefined) {
-	hourly_type_id = "new_hourly_type";
-	num_hours_id   = "new_num_hours";
+	hourly_type_id = "hourly_type";
+	num_hours_id   = "num_hours";
     }
     else {
 	hourly_type_id = "hourly_type_" + dataId;
@@ -2378,18 +2378,7 @@ function generate_hourly_fields(hourly_fields_id, dataId) {
     html = html + '      <td class="letContentExpand" colspan="1">';
     html = html + '       <div>';
     html = html + '         <select id="' + hourly_type_id + '" class="storyDetailsField" name="' + hourly_type_id + '">';
-    html = html + '	      <option value="1">';
-    html = html + '	        Model design brainstorming';
-    html = html + '	      </option>';
-    html = html + '	      <option value="2">';
-    html = html + '	        Legal solutions brainstorming';
-    html = html + '	      </option>';
-    html = html + '	      <option value="3">';
-    html = html + '	        New client prospecting';
-    html = html + '	       </option>';
-    html = html + '            <option value="4">';
-    html = html + '              New team member prospecting';
-    html = html + '            </option>';
+    html = html + '           <option value="loading">loading...</option>';
     html = html + '	     </select>';
     html = html + '	   </div>';
     html = html + '	  </td>';    
@@ -2405,16 +2394,26 @@ function generate_hourly_fields(hourly_fields_id, dataId) {
     html = html + '   </tbody>';
     html = html + ' </table>';
     html = html + '</div>';
+
     return html;
 }
 
 function hourly_type_selected(dataId) {
     var hourly_fields_id = "hourly_fields";
+    var drop_down_id     = "hourly_type";
 
-    if(dataId != undefined)
+    if(dataId != undefined) {
 	hourly_fields_id += "_" + dataId;
+	drop_down_id     += "_" + dataId;
+    }
 
     $("#" + hourly_fields_id).show();
+    $("#" + drop_down_id).ajaxAddOption('/projects/' + projectId + '/hourly_types', 
+					{}, 
+					false,
+                       			function() {
+					    $(this).removeOption("loading");
+					});
 }
 
 function gift_type_selected() {

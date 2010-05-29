@@ -15,7 +15,7 @@ class ProjectsController < ApplicationController
   
   before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add ]
   before_filter :find_optional_project, :only => [:activity, :add]
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members ]
+  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :hourly_types ]
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
@@ -136,6 +136,13 @@ class ProjectsController < ApplicationController
     
     @motions = @project.motions.viewable_by(User.current.position_for(@project)).allactive
     
+  end
+  
+  def hourly_types
+    render :json => @project.hourly_types.inject({}) { |hash, hourly_type|
+      hash[hourly_type.id] = hourly_type.name
+      hash
+    }.to_json
   end
   
   def community_members
