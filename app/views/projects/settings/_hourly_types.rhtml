@@ -1,0 +1,25 @@
+<% if @project.hourly_types.any? %>
+<table class="list">
+  <thead>
+    <th><%= l(:label_hourly_type) %></th>
+    <th/>
+  </thead>	
+  <tbody>
+    <% @project.hourly_types.each do |hourly_type|
+       next if hourly_type.new_record? %>
+    <tr class="<%= cycle 'odd', 'even' %>">
+      <td><%=h hourly_type.name %></td>
+
+      <td class="buttons">
+    	<%= link_to l(:button_edit), {:controller => 'hourly_types', :action => 'edit', :project_id => @project, :id => hourly_type}, :class => 'icon icon-edit' %>
+    	<%= link_to l(:button_delete), {:controller => 'hourly_types', :action => 'destroy', :project_id => @project, :id => hourly_type}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+<% else %>
+<p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>
+
+<p><%= link_to l(:label_hourly_type_new), {:controller => 'hourly_types', :action => 'new', :project_id => @project} %></p>

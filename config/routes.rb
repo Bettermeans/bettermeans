@@ -268,6 +268,17 @@ ActionController::Routing::Routes.draw do |map|
     end
   end  
   
+  map.with_options :controller => 'hourly_types' do |hourly_type_routes|
+    hourly_type_routes.with_options :conditions => {:method => :get} do |hourly_type_views|
+      hourly_type_views.connect 'projects/:project_id/hourly_types/new', :action => 'new'
+      hourly_type_views.connect 'projects/:project_id/hourly_types/:id/edit', :action => 'edit'
+    end
+    hourly_type_routes.with_options :conditions => {:method => :post} do |hourly_type_action|
+      hourly_type_action.connect 'projects/:project_id/hourly_types/new', :action => 'new'
+      hourly_type_action.connect 'projects/:project_id/hourly_types/:id/:action', :action => /new|edit|destroy/
+    end
+  end
+  
   map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
   map.connect 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/
   map.connect 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/
