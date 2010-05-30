@@ -901,6 +901,10 @@ en:
   label_reputation : "Reputation Matrix"
   label_assessment_accuracy : "Assessment Accuracy"
   
+  label_hourly_type: "Hourly type"
+  label_hourly_type_plural: "Hourly types"
+  label_hourly_type_new: "New hourly type"
+  
   button_login: Login
   button_submit: Submit
   button_save: Save
