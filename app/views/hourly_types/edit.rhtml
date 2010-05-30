@@ -1,0 +1,6 @@
+<h2><%= l(:label_hourly_type) %></h2>
+
+<% labelled_tabular_form_for :hourly_type, @hourly_type, :url => {:action => 'edit', :id => @hourly_type} do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+  <%= submit_tag l(:button_save) %>
+<% end %>
