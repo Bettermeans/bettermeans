@@ -2133,7 +2133,11 @@ function expand_item(dataId){
 	});
 	make_text_boxes_toggle_keyboard_shortcuts();
 	$('#item_' + dataId).parent().parent().scrollTo('#item_' + dataId, 500);
-	
+
+    if(D[dataId].tracker.id == standard_trackers.Hourly.id) {
+	$("#hourly_type_" + dataId).val(D[dataId].hourly_type_id);
+	$("#num_hours_" + dataId).val(D[dataId].num_hours);
+    }
 }
 
 function collapse_item(dataId){
@@ -2383,7 +2387,7 @@ function generate_hourly_fields(dataId, should_show) {
     html = html + '       <div>';
     html = html + '         <select id="' + hourly_type_id + '" class="storyDetailsField" name="' + hourly_type_id + '">';    
     for(var i in hourly_types) {
-	html = html + '<option value="' + hourly_types[i] + '">' + hourly_types[i].name + '</option>'
+	html = html + '<option value="' + hourly_types[i].id + '">' + hourly_types[i].name + '</option>'
     }
     html = html + '	     </select>';
     html = html + '	   </div>';
