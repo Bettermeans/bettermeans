@@ -2403,7 +2403,7 @@ function generate_hourly_fields(dataId, should_show, disable_fields) {
     html = html + '       <div>';
     html = html + '         <select id="' + hourly_type_id + '" class="storyDetailsField" name="' + hourly_type_id + '" ' + disabled + '>';    
     for(var i in hourly_types) {
-	html = html + '<option value="' + hourly_types[i].id + '">' + hourly_types[i].name + '</option>'
+	html = html + '<option value="' + hourly_types[i].id + '">' + hourly_types[i].name_with_rates + '</option>'
     }
     html = html + '	     </select>';
     html = html + '	   </div>';
