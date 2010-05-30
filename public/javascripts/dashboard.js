@@ -2360,7 +2360,7 @@ function todo_updated(item, dataId){
 	// $('#todo_container_' + item.id).html(generate_todos(item,false));
 }
 
-function generate_hourly_fields(dataId, should_show) {
+function generate_hourly_fields(dataId, should_show, disable_fields) {
 
     var hourly_fields_id = "hourly_fields";
     var hourly_type_id   = "hourly_type";
@@ -2378,6 +2378,9 @@ function generate_hourly_fields(dataId, should_show) {
     if(!should_show)
 	visible = 'class="hidden"';
 
+    var readonly = disable_fields ? 'readonly' : '';
+    var disabled = disable_fields ? 'disabled' : '';
+
     html = "";
     html = html + '<div id="' + hourly_fields_id + '" ' + visible + '>';
     html = html + '  <table class="storyDetailsTable">';
@@ -2385,7 +2388,7 @@ function generate_hourly_fields(dataId, should_show) {
     html = html + '    <tr>';
     html = html + '      <td class="letContentExpand" colspan="1">';
     html = html + '       <div>';
-    html = html + '         <select id="' + hourly_type_id + '" class="storyDetailsField" name="' + hourly_type_id + '">';    
+    html = html + '         <select id="' + hourly_type_id + '" class="storyDetailsField" name="' + hourly_type_id + '" ' + disabled + '>';    
     for(var i in hourly_types) {
 	html = html + '<option value="' + hourly_types[i].id + '">' + hourly_types[i].name + '</option>'
     }
@@ -2397,7 +2400,7 @@ function generate_hourly_fields(dataId, should_show) {
     html = html + '      <td class="letContentExpand" colspan="1">';
     html = html + '       <div>';
     html = html + '         Estimated no. of hours:';
-    html = html + '         <input type="text" id="' + num_hours_id + '" name="' + num_hours_id + '" size="2"/>';
+    html = html + '         <input type="text" id="' + num_hours_id + '" name="' + num_hours_id + '" size="2"' + readonly +  '/>';
     html = html + '	  </div>';
     html = html + '	 </td>';    
     html = html + '     </tr>';
@@ -2707,7 +2710,7 @@ html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
 html = html + '	          </table>';
-html = html +             generate_hourly_fields(dataId, D[dataId].tracker.id == standard_trackers.Hourly.id);
+html = html +             generate_hourly_fields(dataId, D[dataId].tracker.id == standard_trackers.Hourly.id, !item_editable);
 html = html + '	          <div class="section">';
 html = html + '	            <table class="storyDescriptionTable">';
 html = html + '	              <tbody>';
