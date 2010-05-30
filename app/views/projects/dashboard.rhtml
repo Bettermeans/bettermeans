@@ -76,6 +76,8 @@
 
   }();
 
+  var hourly_types = <%= @project.hourly_types.to_json %>
+
   $('document').ready(function(){
       start();
   });
