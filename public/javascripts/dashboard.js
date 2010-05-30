@@ -2356,29 +2356,35 @@ function todo_updated(item, dataId){
 	// $('#todo_container_' + item.id).html(generate_todos(item,false));
 }
 
-function generate_hourly_fields(hourly_fields_id, dataId) {
+function generate_hourly_fields(dataId, should_show) {
 
-    var hourly_type_id;
-    var num_hours_id;
+    var hourly_fields_id = "hourly_fields";
+    var hourly_type_id   = "hourly_type";
+    var num_hours_id     = "num_hours";
 
-    if(dataId === undefined) {
-	hourly_type_id = "hourly_type";
-	num_hours_id   = "num_hours";
+
+    if(dataId != undefined) {
+	hourly_fields_id += "_" + dataId;
+	hourly_type_id   += "_" + dataId;
+	num_hours_id     += "_" + dataId;
     }
-    else {
-	hourly_type_id = "hourly_type_" + dataId;
-	num_hours_id   = "num_hours_" + dataId;
-    }
+
+    var visible = '';
+    
+    if(!should_show)
+	visible = 'class="hidden"';
 
     html = "";
-    html = html + '<div id="' + hourly_fields_id + '">';
+    html = html + '<div id="' + hourly_fields_id + '" ' + visible + '>';
     html = html + '  <table class="storyDetailsTable">';
     html = html + '   <tbody>';
     html = html + '    <tr>';
     html = html + '      <td class="letContentExpand" colspan="1">';
     html = html + '       <div>';
-    html = html + '         <select id="' + hourly_type_id + '" class="storyDetailsField" name="' + hourly_type_id + '">';
-    html = html + '           <option value="loading">loading...</option>';
+    html = html + '         <select id="' + hourly_type_id + '" class="storyDetailsField" name="' + hourly_type_id + '">';    
+    for(var i in hourly_types) {
+	html = html + '<option value="' + hourly_types[i] + '">' + hourly_types[i].name + '</option>'
+    }
     html = html + '	     </select>';
     html = html + '	   </div>';
     html = html + '	  </td>';    
@@ -2400,20 +2406,12 @@ function generate_hourly_fields(hourly_fields_id, dataId) {
 
 function hourly_type_selected(dataId) {
     var hourly_fields_id = "hourly_fields";
-    var drop_down_id     = "hourly_type";
 
     if(dataId != undefined) {
 	hourly_fields_id += "_" + dataId;
-	drop_down_id     += "_" + dataId;
     }
 
     $("#" + hourly_fields_id).show();
-    $("#" + drop_down_id).ajaxAddOption('/projects/' + projectId + '/hourly_types', 
-					{}, 
-					false,
-                       			function() {
-					    $(this).removeOption("loading");
-					});
 }
 
 function gift_type_selected() {
@@ -2547,9 +2545,7 @@ html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
 html = html + '	          </table>';
-html = html + '           <div id="hourly_fields" class="hidden">';
-html = html +               generate_hourly_fields("hourly_fields");
-html = html + '           </div>';
+html = html +             generate_hourly_fields();
 html = html + '	          <div class="section">';
 html = html + '	            <table class="storyDescriptionTable">';
 html = html + '	              <tbody>';
@@ -2707,9 +2703,7 @@ html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
 html = html + '	          </table>';
-html = html + '           <div id="hourly_fields_' + dataId + '" class="hidden">';
-html = html +               generate_hourly_fields("hourly_fields_" + dataId, dataId);
-html = html + '           </div>';
+html = html +             generate_hourly_fields(dataId, D[dataId].tracker.id == standard_trackers.Hourly.id);
 html = html + '	          <div class="section">';
 html = html + '	            <table class="storyDescriptionTable">';
 html = html + '	              <tbody>';
