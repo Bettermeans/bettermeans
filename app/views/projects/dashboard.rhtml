@@ -76,7 +76,7 @@
 
   }();
 
-  var hourly_types = <%= @project.hourly_types.to_json %>
+  var hourly_types = <%= @project.hourly_types.to_json(:methods => :name_with_rates) %>
 
   $('document').ready(function(){
       start();
