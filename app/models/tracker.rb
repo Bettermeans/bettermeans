@@ -36,6 +36,22 @@ class Tracker < ActiveRecord::Base
     name == l(:default_issue_tracker_gift)
   end
   
+  def hourly?
+    name == l(:default_issue_tracker_hourly)
+  end
+  
+  def feature?
+    name == l(:default_issue_tracker_feature)
+  end
+  
+  def bug?
+    name == l(:default_issue_tracker_bug)
+  end
+  
+  def chore?
+    name == l(:default_issue_tracker_chore)
+  end
+  
   
   # Returns an array of IssueStatus that are used
   # in the tracker's workflows
