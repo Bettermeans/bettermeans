@@ -2164,14 +2164,14 @@ function save_new_item(){
     }
 
     if($("#new_story_type").val() == standard_trackers.Hourly.id) {
-	if($("#new_num_hours").val() == '') {
-	    alert('Please enter the estimated number of hours for this hourly item.');
+	var num_hours = $("#num_hours").val();
+	
+	if(!ensure_numericality_of_num_hours(num_hours))
 	    return false;
-	}
 
         data = data + 
 	    "&issue[hourly_type_id]=" + $("#hourly_type").val() +
-            "&issue[num_hours]=" + $("#num_hours").val();
+            "&issue[num_hours]=" + parseInt(num_hours);
     }
 
     var url = url_for({ controller: 'issues',
@@ -2215,14 +2215,14 @@ function save_edit_item(dataId){
         "&issue[description]=" + $('#edit_description_' + dataId).val();
 
     if($("#edit_story_type_" + dataId).val() == standard_trackers.Hourly.id) {
-	if($("#num_hours_" + dataId).val() == '') {
-	    alert('Please enter the estimated number of hours for this hourly item.');
+	var num_hours = $("#num_hours_" + dataId).val();
+
+	if(!ensure_numericality_of_num_hours(num_hours))
 	    return false;
-	}
 
         data = data + 
 	    "&issue[hourly_type_id]=" + $("#hourly_type_" + dataId).val() +
-            "&issue[num_hours]=" + $("#num_hours_" + dataId).val();
+            "&issue[num_hours]=" + parseInt(num_hours);
     }
 
     var url = url_for({ controller: 'issues',
@@ -2358,6 +2358,19 @@ function todo_added(item, dataId){
 function todo_updated(item, dataId){
 	D[dataId] = item; 
 	// $('#todo_container_' + item.id).html(generate_todos(item,false));
+}
+
+function ensure_numericality_of_num_hours(num_hours) {
+    if(num_hours == '') {
+	alert('Please enter the estimated number of hours for this hourly item.');
+	return false;
+    }
+    else if(isNaN(num_hours)) {
+	alert('Please enter a number for the estimated number of hours');
+	return false;
+    }
+    
+    return true;
 }
 
 function generate_hourly_fields(dataId, should_show, disable_fields) {

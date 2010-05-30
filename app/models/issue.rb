@@ -42,6 +42,7 @@ class Issue < ActiveRecord::Base
   validates_presence_of :subject, :project, :tracker, :author, :status #,:priority,
   validates_length_of :subject, :maximum => 255
   validates_numericality_of :estimated_hours, :allow_nil => true
+  validates_numericality_of :num_hours, :allow_nil => true # refers to the estimated number of hours for an hourly work item
 
   named_scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
