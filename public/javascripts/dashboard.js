@@ -2166,8 +2166,8 @@ function save_new_item(){
 	}
 
         data = data + 
-	    "&issue[hourly_type_id]=" + $("#new_hourly_type").val() +
-            "&issue[num_hours]=" + $("#new_num_hours").val();
+	    "&issue[hourly_type_id]=" + $("#hourly_type").val() +
+            "&issue[num_hours]=" + $("#num_hours").val();
     }
 
     var url = url_for({ controller: 'issues',
