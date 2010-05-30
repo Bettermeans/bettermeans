@@ -10,6 +10,7 @@ class Issue < ActiveRecord::Base
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :retro
+  belongs_to :hourly_type
   # belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
     
   has_many :journals, :as => :journalized, :dependent => :destroy, :order => "#{Journal.table_name}.created_on ASC"  

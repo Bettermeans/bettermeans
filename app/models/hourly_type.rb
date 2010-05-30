@@ -1,5 +1,6 @@
 class HourlyType < ActiveRecord::Base
   belongs_to :project
+  has_many :issues
   
   validates_presence_of :name, :project
   
