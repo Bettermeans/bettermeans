@@ -20,7 +20,12 @@ class Tracker < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
   
-  named_scope :standard_ones, :conditions => ["name='Feature' OR name='Chore' OR name='Bug' OR name='Gift' OR name='Hourly'"]
+  named_scope :standard_ones, :conditions => ["name IN (?)",
+                                              [l(:default_issue_tracker_feature),
+                                               l(:default_issue_tracker_bug),
+                                               l(:default_issue_tracker_chore),
+                                               l(:default_issue_tracker_gift),
+                                               l(:default_issue_tracker_hourly)]]
 
   def to_s; name end
   
