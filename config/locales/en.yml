@@ -1100,7 +1100,11 @@ en:
   default_activity_planning: Planning
   default_activity_execution: Execution
   default_issue_tracker_gift: Gift
-  
+  default_issue_tracker_hourly: Hourly
+  default_issue_tracker_feature: Feature
+  default_issue_tracker_bug: Bug
+  default_issue_tracker_chore: Chore
+
   enumeration_issue_priorities: Item priorities
   enumeration_doc_categories: Document categories
   enumeration_activities: Activities (time tracking)

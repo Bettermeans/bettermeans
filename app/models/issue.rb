@@ -91,6 +91,22 @@ class Issue < ActiveRecord::Base
     tracker.gift?
   end
   
+  def is_hourly?
+    tracker.hourly?
+  end
+  
+  def is_feature
+    tracker.feature?
+  end
+  
+  def is_bug
+    tracker.bug?
+  end
+  
+  def is_chore
+    tracker.chore?
+  end
+  
   def updated_status
     return IssueStatus.accepted if ready_for_accepted?
     return IssueStatus.rejected if ready_for_rejected?
@@ -448,6 +464,16 @@ class Issue < ActiveRecord::Base
       journal = self.init_journal(admin)
       self.status = updated
       self.retro_id = nil
+      
+      if (self.is_hourly? and updated == IssueStatus.open)
+        IssueVote.create(:user_id => User.current.id, 
+                         :issue_id => self.id,
+                         :vote_type => IssueVote::JOIN_VOTE_TYPE, 
+                         :points => 1)
+        
+        self.status = IssueStatus.assigned
+        self.assigned_to = User.current
+      end
             
       if self.status == IssueStatus.accepted 
         self.assigned_to.add_as_contributor_if_new(self.project)
