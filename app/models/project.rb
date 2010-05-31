@@ -350,6 +350,7 @@ class Project < ActiveRecord::Base
   
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
   def refresh_active_members
+    puts self.name
     return if self.enterprise?
     
     u = {}

@@ -1902,7 +1902,7 @@ function search_for(text){
 		update_panel_counts();
 	}
 	else{
-		filter_select();
+		clear_filters();
 	}
 
 }
@@ -1911,7 +1911,9 @@ function clear_filters(){
 	$('#filtered_message').hide();
 	$('#fast_search').val('');
 	$('#filter_select').val('Filter (show all)');
-	filter_select();
+	$('#fast_search').val(''); //clearing fast search
+	hide_inactive(99999);
+	update_panel_counts();
 }
 
 function send_item_action(dataId,action,extradata){
@@ -2164,8 +2166,8 @@ function save_new_item(){
     }
 
     if($("#new_story_type").val() == standard_trackers.Hourly.id) {
-	var num_hours = $("#num_hours").val();
-	
+	var num_hours = $("#num_hours").val();	
+
 	if(!ensure_numericality_of_num_hours(num_hours))
 	    return false;
 
@@ -2884,6 +2886,9 @@ try{
 		catch(err){
 			
 		}
+		
+		$("#new_comment_" + dataId).height(35);
+		
 		
 		var data = "commit=Create&issue_id=" + item.id + "&comment=" + text;
 		

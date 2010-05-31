@@ -10,11 +10,11 @@ class UserPreference < ActiveRecord::Base
   
   def initialize(attributes = nil)
     super
-    self.others ||= {}
+    self.others ||= {:no_self_notified=>true, :comments_sorting=>"asc"}
   end
   
   def before_save
-    self.others ||= {}
+    self.others ||= {:no_self_notified=>true, :comments_sorting=>"asc"}
   end
   
   def [](attr_name)
@@ -29,7 +29,7 @@ class UserPreference < ActiveRecord::Base
     if attribute_present? attr_name
       super
     else
-      h = read_attribute(:others).dup || {}
+      h = read_attribute(:others).dup || {:no_self_notified=>true, :comments_sorting=>"asc"}
       h.update(attr_name => value)
       write_attribute(:others, h)
       value
@@ -41,6 +41,7 @@ class UserPreference < ActiveRecord::Base
 end
 
 
+
 # == Schema Information
 #
 # Table name: user_preferences
@@ -48,7 +49,7 @@ end
 #  id        :integer         not null, primary key
 #  user_id   :integer         default(0), not null
 #  others    :text
-#  hide_mail :boolean         default(FALSE)
+#  hide_mail :boolean         default(TRUE)
 #  time_zone :string(255)
 #
 
