@@ -345,7 +345,7 @@ class IssuesController < ApplicationController
     admin = User.sysadmin
     Notification.create :recipient_id => @issue.assigned_to_id,
                         :variation => 'issue_joined',
-                        :params => {:issue => @issue, :joiner => User.current}, 
+                        :params => {:issue_id => @issue.id, :joiner_id => User.current.id}, 
                         :sender_id => admin.id,
                         :source_id => @issue.id
     
@@ -468,7 +468,7 @@ class IssuesController < ApplicationController
         end
       end
       if unsaved_issue_ids.empty?
-        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
+        # flash[:notice] = l(:notice_successful_update) unless @issues.empty?
       else
         flash[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
                                                          :total => @issues.size,
@@ -476,12 +476,12 @@ class IssuesController < ApplicationController
       end
       if params[:follow]
         if @issues.size == 1 && moved_issues.size == 1
-          redirect_to :controller => 'issues', :action => 'show', :id => moved_issues.first
+          redirect_to :controller => 'projects', :action => 'dashboard', :id => (@target_project || @project), :show_issue_id => moved_issues.first
         else
-          redirect_to :controller => 'issues', :action => 'index', :project_id => (@target_project || @project)
+          redirect_to :controller => 'projects', :action => 'dashboard', :id => (@target_project || @project)
         end
       else
-        redirect_to :controller => 'issues', :action => 'index', :project_id => @project
+        redirect_to :controller => 'projects', :action => 'dashboard', :id => @project
       end
       return
     end

@@ -16,7 +16,7 @@ function initialize(){
 		}).click(function(){
 			$('#fancybox-frame').load(function(){
 				 	$('#fancy-loading').hide();
-					$("#fancybox-frame").contents().find("a").attr('target', '_blank');
+					$("#fancybox-frame").contents().find("a[href*=/]").not("a[target*=top]").attr('target', '_blank');
 				});
 			$('#fancybox-inner').prepend("<div id='fancy-loading' class='loading'>loading...</div>");
 		});
@@ -36,7 +36,7 @@ function show_fancybox(url,message){
 		
 	$('#fancybox-frame').load(function(){
 		 	$('#fancy-loading').hide();
-			$("#fancybox-frame").contents().find("a").attr('target', '_blank');
+			$("#fancybox-frame").contents().find("a[href*=/]").not("a[target*=top]").attr('target', '_blank');
 		});
 	$('#fancybox-inner').prepend("<div id='fancy-loading' class='loading'>" + message + "</div>");
 }
@@ -282,11 +282,12 @@ function url_for(options){
 //
 function h(s) {
   var escaped = s;  
-  
+  escaped = escaped.replace(/<br>/g, "xxxxxx11");
   escaped = escaped.replace(/&/g, "&amp;");
   escaped = escaped.replace(/</g, "&lt;");
   escaped = escaped.replace(/>/g, "&gt;");
   escaped = escaped.replace(/\"/g, "&quot;");
+  escaped = escaped.replace(/xxxxxx11/g, "<br>");
 
   return escaped;
 }
