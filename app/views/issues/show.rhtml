@@ -44,6 +44,10 @@
     <% end %>
   </td>
 </tr>
+<tr>
+    <th class="issue-url"><%=l(:field_item_url)%>: <%= help_bubble :help_item_url %></th>
+    <td id="issue_id" class="issue-id">  <%= url_for(:action => 'dashboard', :controller => 'projects', :show_issue_id => @issue.id, :only_path => false, :protocol => 'http') %></td>
+</tr>
 </table>
 <!-- <hr />
 

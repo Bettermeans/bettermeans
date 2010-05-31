@@ -233,6 +233,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'projects' do |projects|
     projects.with_options :conditions => {:method => :get} do |project_views|
+      project_views.connect 'issues/:show_issue_id', :action => 'dashboard'
+      project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
       project_views.connect 'projects', :action => 'index'
       project_views.connect 'projects.:format', :action => 'index'
       project_views.connect 'projects/new', :action => 'add'
@@ -242,8 +244,6 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
-      project_views.connect 'issues/:show_issue_id', :action => 'dashboard'
-      project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
     end
 
     projects.with_options :conditions => {:method => :post} do |project_actions|

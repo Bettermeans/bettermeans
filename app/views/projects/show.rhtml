@@ -13,38 +13,26 @@
 	<%= textilizable @project.description %>	
 	<% unless @project.homepage.blank? %><%=l(:field_homepage)%>: <%= link_to(h(@project.homepage), @project.homepage) %><% end %>
 	
-	<ul>
-	<% @project.custom_values.each do |custom_value| %>
-	<% if !custom_value.value.blank? %>
-	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
-	<% end %>
-	<% end %>
-	</ul>	
-
-  <% if User.current.allowed_to?(:view_issues, @project) %>
-  <div class="issues box">    
-    <h3><%=l(:label_issue_tracking)%></h3>
-    <ul>
-    <% for tracker in @trackers %>    
-      <li><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
-                                                :set_filter => 1, 
-                                                "tracker_id" => tracker.id %>:
-					<%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
-																										:total => @total_issues_by_tracker[tracker].to_i) %>
-			</li>
-    <% end %>
-    </ul>
-    <p>
-    	<%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'dashboard', :project_id => @project %>
-	    <%# if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-			 <%#= link_to(l(:label_calendar), :controller => 'issues', :action => 'calendar', :project_id => @project) %>
-			<%# end %>
-			<%# if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
-				 <%#= link_to(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project) %>
-			<%# end %>
-		</p>
-  </div>
+  <% if @news.any? && authorize_for('news', 'index') %>
+  <div class="news box">
+    <h3><%=l(:label_news_latest)%></h3>  
+    <%= render :partial => 'news/news', :collection => @news %>
+    <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
+  </div>  
   <% end %>
+  
+</div>
+
+<div class="splitcontentright">
+
+  <% if @motions.any? %>
+  <div class="motions box">
+    <h3><%=l(:label_motions_active)%></h3>  
+    <%= render :partial => 'motions/motions', :collection => @motions %>
+    <p><%= link_to l(:label_motions_view_all), :controller => 'motions', :action => 'index', :project_id => @project %></p>
+  </div>  
+  <% end %>
+  
   <% if @subprojects.any? %>
   <div class="box">    
     <h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%>:</h3>
@@ -55,34 +43,35 @@
     </ul>
   </div>
   <% end %>
-  
-</div>
 
-<div class="splitcontentright">
   <% if @project.enterprise? %>
     <%= render :partial => "member_box" %>
   <% else %>
     <%= render :partial => "active_member_box" %>
   <% end %>
 
-  <% if @motions.any? %>
-  <div class="motions box">
-    <h3><%=l(:label_motions_active)%></h3>  
-    <%= render :partial => 'motions/motions', :collection => @motions %>
-    <p><%= link_to l(:label_motions_view_all), :controller => 'motions', :action => 'index', :project_id => @project %></p>
-  </div>  
-  <% end %>
-    
-  <% if @news.any? && authorize_for('news', 'index') %>
-  <div class="news box">
-    <h3><%=l(:label_news_latest)%></h3>  
-    <%= render :partial => 'news/news', :collection => @news %>
-    <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
-  </div>  
-  <% end %>
+
 </div>
 
 <% content_for :sidebar do %>
+<br><br>
+    <% if User.current.allowed_to?(:view_issues, @project) %>
+      <h3><%=l(:label_issue_tracking)%></h3>
+      <ul>
+      <% for tracker in @trackers %>    
+        <li><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
+                                                  :set_filter => 1, 
+                                                  "tracker_id" => tracker.id %>:
+    				<%= l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
+    																									:total => @total_issues_by_tracker[tracker].to_i) %>
+    		</li>
+      <% end %>
+      </ul>
+      <p>
+      	<%= link_to l(:label_issue_view_all), :controller => 'projects', :action => 'dashboard', :project_id => @project %>
+    	</p>
+    <% end %>
+
     <h3><%= l(:label_dpp_scale) %><%= help_bubble :help_dpp %></h3>
     <p><%= render :partial => 'point_scale', :locals => { :dpp => @project.dpp.round } unless @project.dpp.nil? %></p>
 <% end %>
