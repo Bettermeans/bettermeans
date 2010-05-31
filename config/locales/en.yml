@@ -229,7 +229,7 @@ en:
   field_effective_date: Date
   field_password: Password
   field_new_password: New password
-  field_password_confirmation: Confirmation
+  field_password_confirmation: Retype Password
   field_version: Deliverable
   field_type: Type
   field_host: Host
@@ -984,6 +984,7 @@ en:
   field_active: Active
   field_body: Body
   field_joined_by: Joined by
+  field_item_url: Permalink
   
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$
@@ -1119,3 +1120,4 @@ en:
   help_final_assessment: "All the Team averages are used to be proportionally distributed over 100%"
   help_confidence: "<strong>Assessment confidence</strong><br>Adjust this slider depending on how confident you are of your assessment of yourself and your peer.<br>Lower confidence, means your ratings will be given less weight, and your self assessment index will be less impact by team-self discrepancies."
   help_accuracy: "<strong>Accuracy and Bias</strong><br>This column shows the accuracy with which users who participated in this retrospective where able to assess themselves and their peers."
+  help_item_url: "<strong>Item Permalink</strong><br>You can copy this link and use it to directly link to this item"
