@@ -30,14 +30,14 @@ class MotionVote < ActiveRecord::Base
   def action_description
     if self.motion.motion_type == Motion::TYPE_SHARE
       if (self.points < 0)
-        l ("label_motion_vote_action_share_disagree",:points => self.points * -1 )
+        l("label_motion_vote_action_share_disagree",:points => self.points * -1 )
       elsif (self.points == 0)
-        l ("label_motion_vote_action_share_neutral",:points => self.points)
+        l("label_motion_vote_action_share_neutral",:points => self.points)
       else
-        l ("label_motion_vote_action_share_agree",:points => self.points)
+        l("label_motion_vote_action_share_agree",:points => self.points)
       end
     else
-      l ("label_motion_vote_action#{self.points + 10000}")
+      l("label_motion_vote_action#{self.points + 10000}")
     end
   end
   

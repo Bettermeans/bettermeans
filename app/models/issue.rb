@@ -161,10 +161,6 @@ class Issue < ActiveRecord::Base
           issue.relations_from.clear
           issue.relations_to.clear
         end
-        # issue is moved to another project
-        # reassign to the category with same name if any
-        # new_category = issue.category.nil? ? nil : new_project.issue_categories.find_by_name(issue.category.name)
-        # issue.category = new_category
         issue.project = new_project
       end
       if new_tracker

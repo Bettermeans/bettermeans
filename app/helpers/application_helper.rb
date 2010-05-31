@@ -84,8 +84,8 @@ module ApplicationHelper
     s
   end
   
-  def link_to_issue_from_id(issue_id, issue_subject, options={})
-    link_to "##{issue_id} - #{issue_subject}", {:controller => "issues", :action => "show", :id => issue_id}, options
+  def link_to_issue_from_id(issue_id, options={})
+    link_to_issue(Issue.find(issue_id), options)
   end
 
   # Generates a link to an attachment.

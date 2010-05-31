@@ -1,14 +1,16 @@
 # Outgoing email settings
 
-production:
-  delivery_method: :smtp
-  smtp_settings:
-    address: mail.authsmtp.com
-    port: 26
-    domain: heroku.com
-    authentication: :login
-    user_name: ac43663
-    password: ctvw9zfra
+# production:
+#   delivery_method: :smtp
+#   smtp_settings:
+#     address: smtp.sendgrid.net
+#     port: 25
+#     domain: ENV['SENDGRID_DOMAIN']
+#     authentication: plain
+#     user_name: ENV['SENDGRID_USERNAME']
+#     password: ENV['SENDGRID_PASSWORD']
+#     # enable_starttls_auto: false
+#     # safe_from: true
   
 development:
   delivery_method: :smtp
@@ -17,5 +19,5 @@ development:
     port: 26
     domain: heroku.com
     authentication: :login
-    user_name: ac43663
-    password: ctvw9zfra
+    user_name: ac4366312345
+    password: ctvw9zfra12345
