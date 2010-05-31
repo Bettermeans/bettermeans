@@ -273,6 +273,8 @@ en:
   field_group_by: Group results by
   field_sharing: Sharing
   field_dpp: Estimation Scale
+  field_hourly_rate_per_person: Hourly rate per person
+  field_hourly_cap: Hourly cap
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
@@ -904,6 +906,8 @@ en:
   label_hourly_type: "Hourly type"
   label_hourly_type_plural: "Hourly types"
   label_hourly_type_new: "New hourly type"
+  label_hourly_rate_per_person: "Hourly rate per person"
+  label_hourly_cap: "Hourly cap"
   
   button_login: Login
   button_submit: Submit
