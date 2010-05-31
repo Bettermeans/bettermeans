@@ -15,6 +15,14 @@ class Retro < ActiveRecord::Base
   NOT_STARTED_ID = -1 #is for issues that haven't been started yet
   NOT_NEEDED_ID = -2 #is for issues that don't need a retrospective b/c only one person worked on them (e.g gifts)
   
+  #
+  # The following two statuses are for issues that aren't part of a
+  # retrospective but whose credits are given when credits are
+  # distributed in the next retrospective
+  #
+  NOT_GIVEN_AND_NOT_PART_OF_RETRO = -3 
+  GIVEN_BUT_NOT_PART_OF_RETRO = -4 
+  
   
   belongs_to :project
   has_many :issues
@@ -48,6 +56,20 @@ class Retro < ActiveRecord::Base
       amount = rr.score * total_dollars / 100
       CreditDistribution.create :user_id => rr.ratee_id, :project_id => project_id, :retro_id => rr.retro_id, :amount => amount unless amount == 0
     end
+    
+    #
+    # Distribute the hourly credits
+    # They weren't a part of this retrospective but are distributed w/
+    # the other credits in this retrospective.
+    #
+    hourly_issues = project.issues.find(:all, :conditions => ["retro_id=? AND hourly_type_id IS NOT NULL", Retro::NOT_GIVEN_AND_NOT_PART_OF_RETRO])
+    
+    hourly_issues.each do |hourly|
+      hourly.give_credits
+    end
+    
+    project.issues.update_all("retro_id=#{Retro::GIVEN_BUT_NOT_PART_OF_RETRO}", 
+                              "retro_id=#{Retro::NOT_GIVEN_AND_NOT_PART_OF_RETRO} AND hourly_type_id IS NOT NULL")
     
     self.status_id = STATUS_DISTRIBUTED
     self.save
