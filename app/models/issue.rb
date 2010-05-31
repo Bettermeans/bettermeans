@@ -483,6 +483,8 @@ class Issue < ActiveRecord::Base
           # self.status = IssueStatus.archived
           self.retro_id = Retro::NOT_NEEDED_ID
           self.give_credits
+        elsif self.is_hourly?
+          self.retro_id = Retro::NOT_GIVEN_AND_NOT_PART_OF_RETRO
         else #if a non-gift is accepted, set retro id to not started to prep for next retrospective
           self.retro_id = Retro::NOT_STARTED_ID 
           self.save
@@ -497,9 +499,34 @@ class Issue < ActiveRecord::Base
     end
   end
   
-  #issues credits for this one issue to person it's assigned to
+  # issues credits for this one issue to the people it's assigned to
   def give_credits
-    CreditDistribution.create :user_id => self.assigned_to_id, :project_id => self.project_id, :retro_id => CreditDistribution::GIFT, :amount => self.points unless self.points == 0 || self.points.nil?
+    if self.is_gift?
+      CreditDistribution.create(:user_id => self.assigned_to_id, 
+                                :project_id => self.project_id, 
+                                :retro_id => CreditDistribution::GIFT, 
+                                :amount => self.points) unless self.points == 0 || self.points.nil?
+    elsif self.is_hourly?
+      members = IssueVote.find(:all, :conditions => ["issue_id=? AND vote_type=?", 
+                                                     self.id, IssueVote::JOIN_VOTE_TYPE]).map(&:user)
+      
+      credits_per_person_per_hour = 0
+      
+      if (hourly_type.hourly_rate_per_person * members.length) > hourly_type.hourly_cap
+        credits_per_person_per_hour = hourly_cap / members.length
+      else
+        credits_per_person_per_hour = hourly_type.hourly_rate_per_person
+      end
+      
+      credits_per_person = credits_per_person_per_hour * self.num_hours
+      
+      members.each do |member|
+        CreditDistribution.create(:user_id => member.id,
+                                  :project_id => self.project_id,
+                                  :retro_id => CreditDistribution::HOURLY,
+                                  :amount => credits_per_person) unless credits_per_person == 0 || self.points.nil?
+      end
+    end
   end
   
   #returns json object for consumption from dashboard
