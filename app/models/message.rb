@@ -80,6 +80,7 @@ class Message < ActiveRecord::Base
   # Returns the mail adresses of users that should be notified
   def recipients
     notified = project.notified_users
+    notified << author if author && author.active? && !author.pref[:no_self_notified]
     notified.reject! {|user| !visible?(user)}
     notified.collect(&:mail)
   end
