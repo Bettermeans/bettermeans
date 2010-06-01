@@ -141,7 +141,13 @@ class Mailer < ActionMailer::Base
     message_id message
     references message.parent unless message.parent.nil?
     recipients(message.recipients)
-    cc((message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients)
+    
+    if message.author.pref[:no_self_notified]
+      cc((message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients - message.author)
+    else
+      cc((message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients)
+    end
+    
     subject "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
     body :message => message,
          :message_url => url_for(:controller => 'messages', :action => 'show', :board_id => message.board_id, :id => message.root)
