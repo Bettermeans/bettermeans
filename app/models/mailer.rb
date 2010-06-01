@@ -321,7 +321,7 @@ class Mailer < ActionMailer::Base
     if @author.pref[:no_self_notified]
       recipients.delete(@author.mail) if recipients
       cc.delete(@author.mail) if cc
-      bcc.delete(@author.mail) if cc
+      bcc.delete(@author.mail) if bcc
     end
     # Blind carbon copy recipients
     if Setting.bcc_recipients?
