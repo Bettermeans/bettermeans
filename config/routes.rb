@@ -1,7 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+
   map.resources :reputations
-
-
   map.resources :credit_distributions
   map.resources :quotes
 
@@ -145,25 +144,6 @@ ActionController::Routing::Routes.draw do |map|
     # issues_routes.connect 'issues/:action'
   end
   
-  
-
-  # map.with_options :controller => 'shares' do |shares_routes|
-  #   shares_routes.with_options :conditions => {:method => :get} do |shares_views|
-  #     shares_views.connect 'shares', :action => 'index'
-  #     shares_views.connect 'shares.:format', :action => 'index'
-  #     shares_views.connect 'projects/:project_id/shares', :action => 'index'
-  #     shares_views.connect 'projects/:project_id/shares.:format', :action => 'index'
-  #     shares_views.connect 'shares/:id', :action => 'show', :id => /\d+/
-  #     shares_views.connect 'shares/:id.:format', :action => 'show', :id => /\d+/
-  #   end
-  #   shares_routes.with_options :conditions => {:method => :post} do |shares_actions|
-  #     shares_actions.connect 'projects/:project_id/shares', :action => 'new'
-  #   end
-  #   shares_routes.connect 'shares/:action'
-  # end
-
-
-  
   map.with_options  :controller => 'issue_relations', :conditions => {:method => :post} do |relations|
     relations.connect 'issues/:issue_id/relations/:id', :action => 'new'
     relations.connect 'issues/:issue_id/relations/:id/destroy', :action => 'destroy'
@@ -249,10 +229,15 @@ ActionController::Routing::Routes.draw do |map|
     projects.with_options :conditions => {:method => :post} do |project_actions|
       project_actions.connect 'projects/new', :action => 'add'
       project_actions.connect 'projects', :action => 'add'
-      project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive|edit|join_core_team|leave_core_team|core_vote/
+      project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive|edit/
       project_actions.connect 'projects/:id/wiki', :action => 'wiki'
       project_actions.connect 'projects/:id/files/new', :action => 'add_file'
       project_actions.connect 'projects/:id/activities/save', :action => 'save_activities'
+    end
+
+    projects.with_options :action => 'dashboard', :conditions => {:method => :get} do |dashboard|
+      dashboard.connect 'projects/:id/dashboard'
+      dashboard.connect 'projects/:id/dashboard.:format'
     end
     
     projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|
@@ -260,11 +245,6 @@ ActionController::Routing::Routes.draw do |map|
       activity.connect 'projects/:id/activity.:format'
       activity.connect 'activity', :id => nil
       activity.connect 'activity.:format', :id => nil
-    end
-    
-
-    projects.with_options :conditions => {:method => :delete} do |project_actions|
-      project_actions.conditions 'projects/:id/reset_activities', :action => 'reset_activities'
     end
   end  
   
