@@ -341,11 +341,13 @@ class MailHandler < ActiveRecord::Base
   
   # Removes the email body of text after the truncation configurations.
   def cleanup_body(body)
+    logger.info("body before cleanup #{body}")
     delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map {|s| Regexp.escape(s)}
     unless delimiters.empty?
       regex = Regexp.new("^(#{ delimiters.join('|') })\s*[\r\n].*", Regexp::MULTILINE)
       body = body.gsub(regex, '')
     end
+    logger.info("body after cleanup #{body.strip}")
     body.strip
   end
 end
