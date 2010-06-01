@@ -61,6 +61,7 @@ class Issue < ActiveRecord::Base
     return true if agree_total > 0 && self.updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
     return true if agree_total > (project.binding_members_count / 2)
     return true if agree_total > (project.active_binding_members_count / 2)
+    return true if agree_total > 0 && self.status == IssueStatus.open
     return false
   end
   
