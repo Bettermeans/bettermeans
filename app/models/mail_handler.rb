@@ -3,7 +3,7 @@
 #
 
 class MailHandler < ActiveRecord::Base
-  include ActionView::Helpers::SanitizeHelper
+  include ActionView::Helpers
 
   class UnauthorizedAction < StandardError; end
   class MissingInformation < StandardError; end
@@ -123,17 +123,20 @@ class MailHandler < ActiveRecord::Base
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
   
   def dispatch
-    logger.info("dispatching #{email.in_reply_to}  : #{email.references}")
+    logger.info("dispatching #{email.in_reply_to}  : #{email.references} \n body: #{email.body}")
     headers = [email.in_reply_to, email.references].flatten.compact
     if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
+      logger.info("headers detected")
       klass, object_id = $1, $2.to_i
       method_name = "receive_#{klass}_reply"
       if self.class.private_instance_methods.collect(&:to_s).include?(method_name)
+        logger.info("sending #{method_name}  #{object_id}")
         send method_name, object_id
       else
         # ignoring it
       end
     elsif m = email.subject.match(ISSUE_REPLY_SUBJECT_RE)
+      logger.info("recieving issue reply")
       receive_issue_reply(m[1].to_i)
     elsif m = email.subject.match(MESSAGE_REPLY_SUBJECT_RE)
       receive_message_reply(m[1].to_i)
@@ -208,6 +211,8 @@ class MailHandler < ActiveRecord::Base
       raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
       raise UnauthorizedAction unless status.nil? || user.allowed_to?(:edit_issues, issue.project)
     end
+    
+    logger.info("body here: #{email.body}")
 
     # add the note
     journal = issue.init_journal(user, cleaned_up_text_body)
@@ -301,7 +306,9 @@ class MailHandler < ActiveRecord::Base
     if plain_text_part.nil?
       # no text/plain part found, assuming html-only email
       # strip html tags and remove doctype directive
-      @plain_text_body = strip_tags(@email.body.to_s)
+      @plain_text_body = @email.body.to_s
+      @plain_text_body.gsub! /On.{40,80}wrote:(.+)/sm, ''  #removing all lines including and after a "On xxxxxx (email)"
+      @plain_text_body = strip_tags(sanitize(@plain_text_body))
       @plain_text_body.gsub! %r{^<!DOCTYPE .*$}, ''
     else
       @plain_text_body = plain_text_part.body.to_s
