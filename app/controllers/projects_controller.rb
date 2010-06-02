@@ -169,7 +169,7 @@ class ProjectsController < ApplicationController
                                                 :status =>      { :only => :name },
                                                 :todos =>       { :only => [:id, :subject, :completed_on, :owner_login] },
                                                 :tracker =>     { :only => [:name,:id] },
-                                                :author =>      { :only => [:firstname, :lastname, :login] },
+                                                :author =>      { :only => [:firstname, :lastname, :login, :mail] },
                                                 :assigned_to => { :only => [:firstname, :lastname, :login] }})
   end
   
@@ -181,7 +181,7 @@ class ProjectsController < ApplicationController
     end
     time_delta = params[:seconds].to_f.round
     if @project.last_item_updated_on.advance(:seconds => time_delta) > DateTime.now
-        render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND updated_on >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'").to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
+        render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND updated_on >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'").to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login, :mail]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
     else
         render :text => 'no'
     end
