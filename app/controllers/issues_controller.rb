@@ -222,8 +222,9 @@ class IssuesController < ApplicationController
   
   def finish
     params[:issue] = {:status_id => IssueStatus.done.id}
+    @iv = IssueVote.create :user_id => User.current.id, :issue_id => @issue.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1 #adding accept vote for user who finished the issue
+    @issue.update_accept_total  @iv.isbinding
     change_status
-    IssueVote.create :user_id => User.current.id, :issue_id => @issue.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1 #adding accept vote for user who finished the issue
   end
   
   def release
