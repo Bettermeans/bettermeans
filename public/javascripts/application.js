@@ -23,7 +23,6 @@ function initialize(){
 }
 
 function show_fancybox(url,message){
-	////console.log("Fancybox for: " + url);
 	$.fancybox({
 					'width'				: '90%',
 				'height'			: '95%',
@@ -409,7 +408,6 @@ var gravatar_url = "http://gravatar.com/avatar.php?gravatar_id="+id+"&size="+o.a
 }
   $.fn.getGravatar.output = function(avatarContainer, gravatar_url, stop) {
 //replace the src of our avatar container with the gravatar url
-console.log("called funtion" + gravatar_url + " container: " + avatarContainer);
 $(avatarContainer).attr("src", gravatar_url);
 $(avatarContainer).show();
 if(stop) stop();
