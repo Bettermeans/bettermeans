@@ -1781,6 +1781,7 @@ div.projects h3 { background: url(/images/projects.png) no-repeat 0% 50%; paddin
 .storyDetailsTable {padding-top: 10px; border-spacing: 0px 0; border-collapse: separate}
 .storyDetailsTable td.letContentExpand {width: 1px;border-bottom:none;}
 .storyDetailsTable td {border-bottom:none;}
+.storyDetailsTable .created_by {text-align:right; line-height:1.3em;}
 .storyDetailsButton {padding: 0px;}
 .storyDetailsActionButton {text-align: right; padding: 0px;}
 .storyDetails .section {color:#333; font-weight:normal; font-size:0.95em; line-height: 14px; margin-top: 15px}

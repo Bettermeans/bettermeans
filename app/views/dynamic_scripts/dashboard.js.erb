@@ -2148,6 +2148,13 @@ function recalculate_widths(){
 
 function expand_item(dataId){
 	$('#item_' + dataId).replaceWith(generate_item_edit(dataId));
+	$.fn.getGravatar.getUrl({
+	        avatarContainer: '#gravatar_' + dataId,
+	        avatarSize:27
+			},
+			D[dataId].author.mail
+	);
+
 	$('#edit_story_type_' + dataId).val(D[dataId].tracker.id);
 	$('#new_comment_' + dataId).watermark('watermark',new_comment_text);
 	$('#new_comment_' + dataId).autogrow();
@@ -2675,19 +2682,16 @@ if (D[dataId].tracker.name == 'Expense' ){
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
-html = html + '	                <td class="storyDetailsLabelIcon" colspan="1">';
-html = html + '	                  <div class="storyDetailsLabelIcon">';
-// html = html + '	                    <img src="/images/feature_icon.png" id="edit_story_type_image" name="edit_story_type_image">';
-html = html + '	                  </div>';
-html = html + '	                </td>';
-html = html + '	                <td class="helpIcon lastCell" colspan="1">';
-html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types' + dataId + '">';
+html = html + '	                <td class="helpIcon">';
 html = html + '	                    <img id="help_image_feature_' + dataId + '" src="/images/question_mark.gif" class="help_question_mark">';
-html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	                <td class="lastCell created_by">';
+html = html + '        				<img id="gravatar_' + dataId +'" display="hidden" class="gravatar right" src=""/>';
+html = html + '	                 created by&nbsp;<br>' + D[dataId].author.firstname + ' ' + D[dataId].author.lastname + '&nbsp;';
 html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	              <tr id="assigned_to_' + dataId + '">';
-html = html + '	                <td class="letContentExpand" colspan="1">';
+html = html + '	                <td class="letContentExpand" colspan="3">';
 html = html + '	                <div id="assigned_to_text_' + dataId + '">';
 
 if (D[dataId].assigned_to_id != null && D[dataId].tracker.name == 'Gift' ){
