@@ -33,9 +33,9 @@ body  {
 	font-size:1em;
 	line-height:20px;
 	margin:2px 0px 0px 0px;
-	max-width:none;
+	max-width: 9999999px;
 	padding-top: 0px;
-	float:left;
+	float: left;
 	width:100%;
 }
 
