@@ -35,6 +35,10 @@ class Tracker < ActiveRecord::Base
   def gift?
     name == l(:default_issue_tracker_gift)
   end
+
+  def expense?
+    name == l(:default_issue_tracker_expense)
+  end
   
   
   # Returns an array of IssueStatus that are used
