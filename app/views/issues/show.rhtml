@@ -3,9 +3,6 @@
 
 <%= render :partial => 'action_menu' %>
 <h2><%= link_to(@issue.project.name, {:controller => 'projects', :action => 'show', :id => @issue.project_id}) %> : <%= @issue.tracker.name %> #<%= @issue.id %></h2>
-
-
-
 <div class="<%= @issue.css_classes %> details">
         <div id="main_gravatar">
           <% if @issue.assigned_to %>
@@ -57,7 +54,6 @@
                               
 <p> -->
 
-<%#= link_to_attachments @issue %>
 
 <% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
 <hr />
@@ -67,14 +63,7 @@
 <% end %>
 <div id="todo_wrapper"></div>
 
-
-<!-- <% #if User.current.allowed_to?(:add_issue_watchers, @project) ||
-        (@issue.watchers.any? && User.current.allowed_to?(:view_issue_watchers, @project)) %>
-<hr />
-<div id="watchers">
-<%#= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>
-</div>
-<%# end %> -->
+<%= link_to_attachments @issue %>
 
 </div>
 
@@ -114,6 +103,10 @@
 <%#= @issue.to_dashboard %>
 
 <div id='flyovers' style="display:none;">
+  
+  <% if !params[:update].nil? %>  
+    <%= javascript_tag 'showAndScrollTo("update", "attachments_1_file");' %>
+  <% end %>
 
 <script>
   var item = <%=@issue.to_dashboard %>;

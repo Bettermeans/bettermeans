@@ -18,7 +18,7 @@
     
     <fieldset><legend><%= l(:field_notes) %></legend>
     <%= textile_editor_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>    
-    <!-- <p><%#=l(:label_attachment_plural)%><br /><%#= render :partial => 'attachments/form' %></p> -->
+    <p><%=l(:label_attachment_plural)%><br /><%= render :partial => 'attachments/form' %></p>
     </fieldset>
     </div>
     

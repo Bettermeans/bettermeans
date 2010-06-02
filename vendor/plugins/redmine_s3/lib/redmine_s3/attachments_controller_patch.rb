@@ -17,7 +17,7 @@ module RedmineS3
     
     module InstanceMethods
       def redirect_to_s3
-        if @attachment.container.is_a?(Version) || @attachment.container.is_a?(Project)
+        if @attachment.container.is_a?(Project)
           @attachment.increment_download
         end
         redirect_to("#{RedmineS3::Connection.uri}/#{@attachment.disk_filename}")
