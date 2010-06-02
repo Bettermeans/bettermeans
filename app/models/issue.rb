@@ -118,6 +118,10 @@ class Issue < ActiveRecord::Base
     team.length>1
   end
 
+  def has_todos?
+    todos.length>0
+  end
+
   def team
     issue_votes.select {|i| i.vote_type == IssueVote::JOIN_VOTE_TYPE}
   end
