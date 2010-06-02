@@ -629,7 +629,7 @@ function generate_estimate_flyover(dataId){
 	
 	var you_voted = "You haven't estimated yet";
 	var title = '';
-	var user_estimate_id = -1;
+	var user_estimate = -1;
 	var total_people_estimating = 0;
 	
 	for(i=0; i < item.issue_votes.length; i++){
@@ -637,13 +637,13 @@ function generate_estimate_flyover(dataId){
 		total_people_estimating++ ;
 		
 		if (currentUserLogin == item.issue_votes[i].user.login){
-			you_voted = "Your estimate " + item.issue_votes[i].points + " - " + humane_date(item.issue_votes[i].updated_on);
-			user_estimate_id = item.issue_votes[i].id;
+			user_estimate = item.issue_votes[i].points;
+			you_voted = "Your estimate " + user_estimate + " - " + humane_date(item.issue_votes[i].updated_on);
 		}
 	}
 	
 	//If user estimated, or item is in progress, we can see the average
-	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (user_estimate_id > -1)){
+	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (user_estimate > -1)){
 		if (credits == null){
 			title = 'No binding estimates yet';
 		}
@@ -657,7 +657,7 @@ function generate_estimate_flyover(dataId){
 	
 	var history = '';
 	//Show history if user estimated, or if item is no longer available for estimation
-	if ((user_estimate_id > -1)||((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))){
+	if ((user_estimate > -1)||((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))){
 		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 4) continue;
 			history = history + item.issue_votes[i].points + ' cr - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
@@ -673,18 +673,52 @@ function generate_estimate_flyover(dataId){
 	var buttons = '';
 	
 	if (!((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {	
-		user_estimate_id < 0 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
+		user_estimate < 0 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
 		for(i = 0; i < point_factor.length; i++ ){
-			buttons = buttons + generate_estimate_button(i,point_factor[i] * credit_base, item.id, user_estimate_id,dataId);
+			buttons = buttons + generate_estimate_button(i,point_factor[i] * credit_base, item.id, dataId);
 		}
+		buttons = buttons + generate_custom_estimate_button(dataId,user_estimate);
 	}
 	
 	return generate_flyover(dataId,'estimate',title,you_voted,action_header,buttons,history);
 	
 }
 
+function prompt_for_number(message,default_data){
+	var amount=prompt(message,default_data);
+	if (amount == null || amount == '' || (!isNumeric(amount))) { 
+		return prompt_for_number(message,default_data); 
+	}
+	
+	else
+	{ 
+		return amount;
+	}
+}
 
-function generate_estimate_button(points,credits, itemId, user_estimate_id, dataId){
+
+function prompt_for_custom_estimate(dataId,points){
+	var amount = prompt_for_number("Please enter expense amount in dollars:",points);
+	send_item_action(dataId,'estimate','&points=' + amount);
+}
+
+	
+
+function generate_custom_estimate_button(dataId,user_estimate){
+	var points = 0;
+	if (user_estimate > -1){
+		points = user_estimate;
+	}
+	
+	var html = '<div>';
+	html = html + '<img src="/images/dice_No.png" width="18" height="18" alt="Custom Credits" class="dice" onclick="prompt_for_custom_estimate(' + dataId + ',' + points + ')">';	
+	html = html + ' custom amount';
+	html = html + '</div>';
+	return html;
+}
+
+
+function generate_estimate_button(points,credits, itemId, dataId){
 	var html = '<div>';
 	html = html + '<img src="/images/dice_' + Math.round(points) + '.png" width="18" height="18" alt="' + credits + ' Credits" class="dice" onclick="send_item_action(' + dataId + ',\'estimate\',\'&points=' + credits + '\')">';	
 	html = html + ' ' + credits + ' credits';
@@ -1212,6 +1246,9 @@ function update_todo_buttons(todoId,show){
 //Takes credits, and base, and turns them to points for display
 function credits_to_points(credits,base){
 	normalized = Math.round(credits/base);
+	if (normalized > credits_to_points_array.length - 1 ){
+		return credits_to_points_array[credits_to_points_array.length - 1];
+	}
 	return credits_to_points_array[normalized]; //TODO: fix this formula credits larger than 12
 }
 
@@ -2359,14 +2396,8 @@ function story_type_changed(){
 
 function prompt_for_expense_amount(points,dataId)
 {
-var amount=prompt("Please enter expense amount in dollars:",points)
-if (amount == null || amount == '' || (!isNumeric(amount))) 
-{ return prompt_for_expense_amount(points,dataId); }
-else
-{ 
+	var amount=prompt_for_number("Please enter expense amount in dollars:",points);
 	$("#item_expense_amount_" + dataId).html(generate_expense_amount_editor(amount,dataId));
-	return amount;
-}
 }
 
 function isNumeric(form_value) 
