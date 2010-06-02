@@ -11,6 +11,7 @@
 <h5><%= l("label_from_ago" , :author => link_to_user_from_id(@notification.sender_id), :age => time_tag(@notification.created_on)) %></h5>
 <%= l(:text_credits_distributed_for, :amount => number_to_currency(credit_distribution["amount"].to_f.round, :unit => '', :separator => ".", :delimiter => ",", :precision => 0), :workstream => project_name) %>
 <%= "<br><br>" + l(:text_credits_are_a_gift) if credit_distribution["retro_id"] == CreditDistribution::GIFT %>
+<%= "<br><br>" + l(:text_credits_are_an_expense) if credit_distribution["retro_id"] == CreditDistribution::EXPENSE %>
 
 <br>
 <br>

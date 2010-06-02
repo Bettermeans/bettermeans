@@ -91,6 +91,10 @@ class Issue < ActiveRecord::Base
   def is_gift?
     tracker.gift?
   end
+
+  def is_expense?
+    tracker.expense?
+  end
   
   def updated_status
     return IssueStatus.accepted if ready_for_accepted?
@@ -448,10 +452,12 @@ class Issue < ActiveRecord::Base
             
       if self.status == IssueStatus.accepted 
         self.assigned_to.add_as_contributor_if_new(self.project)
-        if self.is_gift?
-          # self.status = IssueStatus.archived
+        if self.is_gift? 
           self.retro_id = Retro::NOT_NEEDED_ID
-          self.give_credits
+          self.give_credits CreditDistribution::GIFT
+        elsif self.is_expense?
+          self.retro_id = Retro::NOT_NEEDED_ID
+          self.give_credits CreditDistribution::EXPENSE
         else #if a non-gift is accepted, set retro id to not started to prep for next retrospective
           self.retro_id = Retro::NOT_STARTED_ID 
           self.save
@@ -467,8 +473,8 @@ class Issue < ActiveRecord::Base
   end
   
   #issues credits for this one issue to person it's assigned to
-  def give_credits
-    CreditDistribution.create :user_id => self.assigned_to_id, :project_id => self.project_id, :retro_id => CreditDistribution::GIFT, :amount => self.points unless self.points == 0 || self.points.nil?
+  def give_credits(credit_distribution_type)
+    CreditDistribution.create :user_id => self.assigned_to_id, :project_id => self.project_id, :retro_id => credit_distribution_type, :amount => self.points unless self.points == 0 || self.points.nil?
   end
   
   #returns json object for consumption from dashboard

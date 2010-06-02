@@ -1234,7 +1234,10 @@ function generate_item(dataId){
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
 	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ item.id +');return false;">'; 
-	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
+	
+	if (is_item_estimatable(item)){
+		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
+	}
 	
 	if (show_comment(item)){
 	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png" onclick="show_details_flyover('+ dataId +',this.id);return false;">'; 
@@ -1425,7 +1428,7 @@ function buttons_for(dataId,expanded){
 			if (is_part_of_team(item)){
 				html = html + dash_button('leave',dataId);
 			}
-			else{
+			else if (is_item_joinable(item)){
 				html = html + dash_button('join',dataId);
 			}
 		}
@@ -1552,7 +1555,7 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	
 	
 	if (item.assigned_to_id == currentUserId){
-		return tally + dash_button('start',dataId,false,{label:'takeback'})
+		return tally + dash_button('start',dataId,false,{label:'takeback'});
 	}
 	
 	var label = 'accept?';
@@ -2155,8 +2158,12 @@ function save_new_item(){
 	}
 	var data = "commit=Create&project_id=" + projectId + "&issue[tracker_id]=" + $('#new_story_type').val() + "&issue[subject]=" + $('#new_title_input').val() + "&issue[description]=" + $('#new_description').val();
 	
-	if ($('#new_story_type').val() == 9){
+	if ($('#new_story_type').val() == 9){ //BUGBUG hardcoded value
 		data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
+	}
+
+	if ($('#new_story_type').val() == 10){ //BUGBUG hardcoded value
+		data = data + "&issue[points]=" + $('#new_expense_amount_new').val();
 	}
 
     var url = url_for({ controller: 'issues',
@@ -2192,6 +2199,10 @@ function save_edit_item(dataId){
 		return false;
 	}	
 	var data = "commit=Submit&lock_version=" + D[dataId].lock_version + "&project_id=" + projectId + "&id=" + D[dataId].id + "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + "&issue[description]=" + $('#edit_description_' + dataId).val();
+	
+	if ($('#edit_story_type_' + dataId).val() == 10){ //BUGBUG hardcoded value
+		data = data + "&issue[points]=" + $('#new_expense_amount_' + dataId).val();
+	}
 
     var url = url_for({ controller: 'issues',
                            action    : 'edit'
@@ -2332,11 +2343,38 @@ function story_type_changed(){
 	var selection = $("#new_story_type").val();
 	if (selection == "9"){   //TODO: hardcoded value
 		$("#new_assigned_to").show();
+		$("#new_expense").hide();
 		$("#assigned_to_select").ajaxAddOption('/projects/' + projectId + '/community_members',{},false,sortoptions);
+	}
+	else if (selection == "10"){   //TODO: hardcoded value
+		var amount = prompt_for_expense_amount("0.0", "new");
+		$("#new_expense").show();
+		$("#new_assigned_to").hide();
 	}
 	else{
 		$("#new_assigned_to").hide();
+		$("#new_expense").hide();
 	}
+}
+
+function prompt_for_expense_amount(points,dataId)
+{
+var amount=prompt("Please enter expense amount in dollars:",points)
+if (amount == null || amount == '' || (!isNumeric(amount))) 
+{ return prompt_for_expense_amount(points,dataId); }
+else
+{ 
+	$("#item_expense_amount_" + dataId).html(generate_expense_amount_editor(amount,dataId));
+	return amount;
+}
+}
+
+function isNumeric(form_value) 
+{ 
+    if (form_value.match(/^[-+]?\d+(\.\d+)?$/) == null) 
+        return false; 
+    else 
+        return true; 
 }
 
 function sortoptions(sort)
@@ -2407,6 +2445,9 @@ html = html + '	                      </option>';
 html = html + '	                      <option value="9">';
 html = html + '	                        Gift';
 html = html + '	                      </option>';
+html = html + '	                      <option value="10">';
+html = html + '	                        Expense';
+html = html + '	                      </option>';
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
@@ -2419,6 +2460,11 @@ html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
 html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	              </tr>';
+html = html + '	              <tr id="new_expense" class="hidden">';
+html = html + '	                <td class="letContentExpand" colspan="1">';
+html = html + generate_expense_amount_editor('0','new');
 html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	              <tr id="new_assigned_to" class="hidden">';
@@ -2495,9 +2541,29 @@ function is_item_editable(dataId) {
 
 }
 
-function is_tracker_editable(dataId) {
-  return !(D[dataId].tracker.name == 'Gift');
+function is_item_joinable(item) {
+  return !(item.tracker.name == 'Expense');
+}
 
+function is_item_estimatable(item) {
+  return !(item.tracker.name == 'Expense');
+}
+
+
+function is_tracker_editable(dataId) {
+  return !(D[dataId].tracker.name == 'Gift' || D[dataId].tracker.name == 'Expense');
+
+}
+
+function generate_expense_amount_editor(points,dataId){
+	var html = '';
+	html = html + '<div id="item_expense_amount_' + dataId + '">Amount $' + points;
+	if (dataId == "new"){
+		html = html + ' (<a href="" onclick="prompt_for_expense_amount(' + points + ', \'' + dataId + '\');return false;">edit</a>)';
+	}
+	html = html + '	        <input id="new_expense_amount_' + dataId + '" class="hidden" name="title_input" value="' + points + '" type="text">';
+	html = html + '</div>';
+	return html;
 }
 
 function generate_item_edit(dataId){  
@@ -2510,7 +2576,7 @@ var tracker_editable = is_tracker_editable(dataId);
 var readonly = !item_editable ? "readonly" : "";
 var disabled = !item_editable || !tracker_editable  ? "disabled" : "";
   
-html = '';	
+var html = '';	
 html = html + '	<div class="item" id="edit_item_' + dataId + '">';
 html = html + '	  <div class="storyItem underEdit" id="editItem_content_' + dataId + '">';
 // html = html + '	   <form action="#">';
@@ -2570,7 +2636,11 @@ if (D[dataId].assigned_to_id != null && D[dataId].tracker.name == 'Gift' ){
 	html = html + '	                        Gift';
 	html = html + '	                      </option>';
 }
-
+if (D[dataId].tracker.name == 'Expense' ){
+	html = html + '	                      <option value="10">';
+	html = html + '	                        Expense';
+	html = html + '	                      </option>';
+}
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
@@ -2591,6 +2661,9 @@ html = html + '	                <div id="assigned_to_text_' + dataId + '">';
 
 if (D[dataId].assigned_to_id != null && D[dataId].tracker.name == 'Gift' ){
 	html = html + 'for: ' + D[dataId].assigned_to.firstname + " " + D[dataId].assigned_to.lastname ;
+	};
+if (D[dataId].tracker.name == 'Expense' ){
+	html = html + generate_expense_amount_editor(D[dataId].points, dataId);;
 	};
 	
 html = html + '</div>';
