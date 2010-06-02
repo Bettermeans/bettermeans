@@ -1059,6 +1059,7 @@ en:
   text_retro_ended : " workstream has ended. <br/>Click below to see your team's feedback, and your final contribution"
   text_credits_distributed_for : "You earned {{amount}} credits for your work on <strong>{{workstream}}</strong>. Congrats!"
   text_credits_are_a_gift : "These credits were gifted to you by your peers for your contribution. They're not a part of any retrospective."
+  text_credits_are_an_expense : "These credits are a reimbursment for an expense item. They're not a part of any retrospective."
   text_joiner_is_now_working_with_you : "{{joiner}} is now working with you on<br/>{{issue}}"
   text_joiner_is_no_longer_working_with_you : "{{joiner}} is no longer working with you on<br/>{{issue}}"
   text_history_hidden_until_you_vote : "Voting history is hidden since you haven't cast your vote"
@@ -1103,6 +1104,7 @@ en:
   default_activity_planning: Planning
   default_activity_execution: Execution
   default_issue_tracker_gift: Gift
+  default_issue_tracker_expense: Expense
   
   enumeration_issue_priorities: Item priorities
   enumeration_doc_categories: Document categories

@@ -5,6 +5,7 @@ class CreditDistribution < ActiveRecord::Base
   belongs_to :user
   
   GIFT = -1 #value in retro_id when distribution is a result of a gift, not a retrospective
+  EXPENSE = -2 #value in retro_id when distribution is a result of an expense, not a retrospective
   
   def add_credits
     Credit.create :owner_id => self.user_id, :project_id => self.project.root.id, :amount => self.amount
@@ -13,7 +14,7 @@ class CreditDistribution < ActiveRecord::Base
     self.user.add_as_contributor_if_new(self.project)
     
     
-    admin = User.find(:first,:conditions => {:login => "admin"})
+    admin = User.sysadmin
     Notification.create :recipient_id => self.user_id,
                         :variation => 'credits_distributed',
                         :params => {:project_name => project.name, :credit_distribution => self.attributes, :enterprise_id => self.project.root.id}, 
