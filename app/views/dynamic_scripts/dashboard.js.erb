@@ -2537,6 +2537,11 @@ html = html + '	                      </div>';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
+html = html + '	                <tr>';
+html = html + '	                <td>';
+html = html + '	                <a href="" onclick="alert(\'You can attach files after you create the request is created\')">Attach files</a>';
+html = html + '	                </td>';
+html = html + '	                </tr>';
 html = html + '	              </tbody>';
 html = html + '	            </table>';
 html = html + '	          </div>';
@@ -2778,6 +2783,14 @@ html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
 html = html + '	              </tbody>';
+html = html + '	            </table>';
+html = html + '	            <table>';
+html = html + '	                <tr>';
+html = html + '	                <td>';
+html = html + '	                <a href="" onclick="full_screen(' + dataId + ',\'true\');return false;">Attach files</a>';
+html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Relations</a>';
+html = html + '	                </td>';
+html = html + '	                </tr>';
 html = html + '	            </table>';
 html = html + '	          </div>';
 
@@ -3039,16 +3052,21 @@ function update_comment_count(dataId){
 
 
 //View item history
-function full_screen(dataId){
-	show_issue_full(D[dataId].id);
+function full_screen(dataId,update){
+	show_issue_full(D[dataId].id,update);
 }
 
 //Full page view in fancy box of a single issue
-function show_issue_full(itemId){
+function show_issue_full(itemId,update){
 	var url = url_for({ controller: 'issues',
 	                           action    : 'show',
-								id		: itemId
+								id		: itemId,
+								update : update
 	                          });
+	if (update == 'true'){
+		url = url + '?update=true';
+	}
+	
 	show_fancybox(url,'loading data...');
 
 	return false;
