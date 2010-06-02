@@ -86,16 +86,7 @@
     <table class="retrospective" style="width:85%" align="center">
       
     <% @retro.issues.each do |issue| %>
-      <tr><td class="issue" colspan="3">
-          <%= link_to_issue(issue, :css_class => '') %>  - <%= issue.points.round %> credits <%#= image_tag "dice_#{issue.points.round}.png", :alt => "#{issue.points} credits"%></td><tr>
-      <tr><td class="subtitle">Author:</td><td> <%= link_to_user_from_id(issue.author_id) %></td><tr>
-      <tr><td class="subtitle">Owner:</td><td> <%= link_to_user_from_id(issue.assigned_to_id) %></td><tr>
-        <% if issue.has_team? %>
-      <tr><td class="subtitle">Team:</td><td> 
-      <%= team_from_issue issue %>
-      </td><tr>
-        <% end %>
-      </td></tr>
+      <%= render :partial => "issue_details", :locals => { :issue => issue } %>
     <% end %>
     </table>
     <!-- <br> -->

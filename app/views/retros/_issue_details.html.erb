@@ -1,0 +1,20 @@
+<tr><td class="issue" colspan="3">
+    <%= link_to_issue(issue, :css_class => '') %>  - <%= issue.points.round %> credits <%= image_tag "dice_#{issue.points_from_credits}.png", :alt => "#{issue.points} credits"%></td><tr>
+<tr><td class="subtitle">Author:</td><td> <%= link_to_user_from_id(issue.author_id) %></td><tr>
+<tr><td class="subtitle">Owner:</td><td> <%= link_to_user_from_id(issue.assigned_to_id) %></td><tr>
+  <% if issue.has_team? %>
+<tr><td class="subtitle">Team:</td><td> 
+<%= team_from_issue issue %>
+</td><tr>
+  <% end %>
+
+  <% if issue.has_todos? %>
+
+<tr><td class="subtitle">Todos:</td><td> 
+  <% issue.todos.each do |todo| %>
+  <%= todo.subject %> <%= " - (" + link_to_user_from_id(todo.author_id) + ")" unless todo.author_id.nil? %><br>
+  <% end %>
+</td><tr>
+  <% end %>  
+  
+</td></tr>
