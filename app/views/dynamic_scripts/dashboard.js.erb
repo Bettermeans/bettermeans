@@ -319,7 +319,7 @@ function make_text_boxes_toggle_keyboard_shortcuts(){
 
 function load_buttons(){
 	$('#main-menu').append('<input id="new_request" value="New Idea" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
-	$('#main-menu').append('<select id="filter_select" class="filter-search" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="all">Updated in last&nbsp;&nbsp;&#187;</option><option value="1">&nbsp;&nbsp;&#187; 24 hours</option><option value="2">&nbsp;&nbsp;&#187; two days</option><option value="3">&nbsp;&nbsp;&#187; three days</option><option value="7">&nbsp;&nbsp;&#187; week</option><option value="14">&nbsp;&nbsp;&#187; two weeks</option><option value="30">&nbsp;&nbsp;&#187; month</option><option value="60">&nbsp;&nbsp;&#187; two months</option></select>');
+	$('#main-menu').append('<select id="filter_select" class="filter-search" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="all">Items that I&nbsp;&nbsp;&#187;</option><option value="untouched_by_me">&nbsp;&nbsp;&#187; didn\'t touch</option><option value="touched_by_me">&nbsp;&nbsp;&#187; touched</option><option value="added_by_me">&nbsp;&nbsp;&#187; added</option><option value="prioritized">&nbsp;&nbsp;&#187; prioritized</option><option value="all">Needs my&nbsp;&nbsp;&#187;</option><option value="unagreed">&nbsp;&nbsp;&#187; agreement</option><option value="unestimated">&nbsp;&nbsp;&#187; estimate</option><option value="unaccepted">&nbsp;&nbsp;&#187; acceptance</option><option value="unprioritized">&nbsp;&nbsp;&#187; prioritization</option><option value="all">Updated in last&nbsp;&nbsp;&#187;</option><option value="1">&nbsp;&nbsp;&#187; 24 hours</option><option value="2">&nbsp;&nbsp;&#187; two days</option><option value="3">&nbsp;&nbsp;&#187; three days</option><option value="7">&nbsp;&nbsp;&#187; week</option><option value="14">&nbsp;&nbsp;&#187; two weeks</option><option value="30">&nbsp;&nbsp;&#187; month</option><option value="60">&nbsp;&nbsp;&#187; two months</option></select>');
 	$('#main-menu').append('<input id="fast_search" class="fast-search" type="text"></input>');
 }
 
@@ -1892,6 +1892,22 @@ function filter_select(){
 					break;	
 		case "all":	hide_inactive(99999);
 					break;						
+		case "unagreed":	show_unvoted({'New':1,'Open':1,'Estimate':1}, 1);
+					break;						
+		case "unaccepted":	show_unvoted({'Done':1},2);
+					break;						
+		case "unprioritized":	show_unvoted({'New':1,'Open':1,'Estimate':1},3);
+					break;						
+		case "unestimated":	show_unvoted({'New':1,'Open':1,'Estimate':1},4);
+					break;						
+		case "prioritized":	show_voted({'New':1,'Open':1,'Estimate':1,'Done':1},3,1);
+					break;						
+		case "added_by_me":	show_added_by_me();
+					break;						
+		case "touched_by_me": show_hide_touched(true);
+					break;						
+		case "untouched_by_me":	show_hide_touched(false);
+					break;						
 	}	
 	
 	if (selection != "all"){
@@ -1905,6 +1921,32 @@ function filter_select(){
 	update_panel_counts();
 }
 
+//Shows all items added by current user
+function show_added_by_me(){
+	
+	for(var i = 0; i < D.length; i++ ){
+		if (D[i].author_id == currentUserId){
+			$("#item_" + i).show();
+		}
+		else{
+			$("#item_" + i).hide();
+		}
+	}	
+}
+
+//Shows (or hides) all items touched by current user, if show is true it shows them, else it hides them
+function show_hide_touched(show){
+	for(var i = 0; i < D.length; i++ ){
+		if (is_item_touched_by_user(D[i])){
+			show ? $("#item_" + i).show() : $("#item_" + i).hide();
+		}
+		else{
+			show ? $("#item_" + i).hide() : $("#item_" + i).show();
+		}
+	}	
+}
+
+
 //Hides all items not active in the last *days*
 function hide_inactive(days){
 	var today = new Date();
@@ -1917,6 +1959,68 @@ function hide_inactive(days){
 			$("#item_" + i).show();
 		}
 	}	
+}
+
+//Shows only items that don't have vote_type by current user for statuses defined in statuses option array
+function show_unvoted(statuses,vote_type){
+	for(var i = 0; i < D.length; i++ ){
+		if (statuses[D[i].status.name] == undefined){ 
+			$("#item_" + i).hide();
+		}
+		else if (has_vote_type(D[i],vote_type)){
+			$("#item_" + i).hide();
+		}
+		else{
+			$("#item_" + i).show();
+		}
+	}	
+}
+
+//Shows only items that have vote_type by current user for statuses defined in statuses option array
+function show_voted(statuses,vote_type,vote_value){
+	for(var i = 0; i < D.length; i++ ){
+		if (statuses[D[i].status.name] == undefined){ 
+			$("#item_" + i).hide();
+		}
+		else if (has_vote_type(D[i],vote_type,vote_value)){
+			$("#item_" + i).show();
+		}
+		else{
+			$("#item_" + i).hide();
+		}
+	}	
+}
+
+//If vote_value is defined, function checks that item has been voted on by curent user with vote_value, otherwise, it just checks that it was voted on by current user
+function has_vote_type(item,vote_type,vote_value){
+	for(var i = 0; i < item.issue_votes.length ; i++ ){
+		if (item.issue_votes[i].user_id != currentUserId){continue;}
+		
+		if (vote_value == undefined){
+			if (item.issue_votes[i].vote_type == vote_type){return true;}			
+		}
+		else{
+			if (item.issue_votes[i].vote_type == vote_type && item.issue_votes[i].points == vote_value){return true;}			
+		}
+	}
+	return false;
+}
+
+//returns true if user has voted in any way on item
+function is_item_touched_by_user(item){
+	if (item.author_id == currentUserId){
+		return true;
+	}
+	
+	for(var i = 0; i < item.issue_votes.length ; i++ ){
+		if (item.issue_votes[i].user_id == currentUserId){return true;}			
+	}
+
+	for(var j = 0; j < item.journals.length ; j++ ){
+		if (item.journals[j].user_id == currentUserId){return true;}			
+	}
+	
+	return false;
 }
 
 function search_for(text){
