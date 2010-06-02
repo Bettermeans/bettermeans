@@ -74,10 +74,13 @@
 </div>
 
 <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %>
+
+<% if (has_content?(:sidebar)) %>
     <div id="sidebar">        
         <%= yield :sidebar %>
     </div>
-    
+<%   end   %>
+
     <div id="content">
 				<%= render_flash_messages %>
         <%= yield %>
