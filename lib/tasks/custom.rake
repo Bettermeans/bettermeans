@@ -18,17 +18,17 @@ namespace :custom do
       
   end
 
-# Rejects/accepts lazy majority items after 3 days from their creation
+# Rejects/accepts lazy majority items that haven't had any activity for a certain number of days (LAZY_MAJORITY_NO_ACTIVITY_LENGTH)
   task :lazy_majority => :environment do
-    Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.newstatus.id,DateTime.now - Setting::LAZY_MAJORITY_LENGTH ]).each do |issue|
+    Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.newstatus.id,DateTime.now - Setting::LAZY_MAJORITY_NO_ACTIVITY_LENGTH ]).each do |issue|
       issue.update_status
     end
 
-    Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.estimate.id,DateTime.now - Setting::LAZY_MAJORITY_LENGTH ]).each do |issue|
+    Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.estimate.id,DateTime.now - Setting::LAZY_MAJORITY_NO_ACTIVITY_LENGTH ]).each do |issue|
       issue.update_status
     end
 
-    Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.done.id,DateTime.now - Setting::LAZY_MAJORITY_LENGTH ]).each do |issue|
+    Issue.all(:conditions => [ "status_id = ? AND updated_on < ?", IssueStatus.done.id,DateTime.now - Setting::LAZY_MAJORITY_NO_ACTIVITY_LENGTH ]).each do |issue|
       issue.update_status
     end
   end

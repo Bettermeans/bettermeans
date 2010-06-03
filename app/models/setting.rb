@@ -98,6 +98,8 @@ class Setting < ActiveRecord::Base
 
   LAZY_MAJORITY_LENGTH = 3 #number of days before a lazy majority vote is counted
   
+  LAZY_MAJORITY_NO_ACTIVITY_LENGTH = 1 #number of days an item needs to have no activity on before a lazy majority move is attempted on it
+  
   #Reputation calculation constants
   
   #lenght of window for moving averages for reputation index average calculation. 
