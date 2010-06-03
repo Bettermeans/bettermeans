@@ -58,7 +58,7 @@ class Issue < ActiveRecord::Base
   def ready_for_open?
     return false if points.nil? || agree_total < 1
     return true if agree + disagree > points_from_credits / 2
-    return true if agree_total > 0 && self.updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
+    return true if agree_total > 0 && self.created_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
     return true if agree_total > (project.active_binding_members_count / 2)
     return true if agree_total > 0 && self.status == IssueStatus.open
     return false
