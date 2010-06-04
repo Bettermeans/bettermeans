@@ -9,7 +9,7 @@ module RetrosHelper
   end
   
   def team_from_issue(issue)
-    issue.team.collect{|iv| link_to_user_from_id iv.user_id }.join(", ")
+    issue.team_votes.collect{|iv| link_to_user_from_id iv.user_id }.join(", ")
   end
     
   def accuracy_display(self_bias,magnitude)

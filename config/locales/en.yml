@@ -820,6 +820,7 @@ en:
   label_total_credits_issued : Total Issued
   label_youve_got_credits : "You've got credits!"
   label_someone_joined_your_issue : "{{joiner}} joined an issue assigned to you"
+  label_someone_added_you_to_their_issue : "{{sender}} added you to an issue they own"
   label_someone_left_your_issue : "{{joiner}} left an issue assigned to you"
   label_agree : "Agree"
   label_disagree : "Disagree"
@@ -912,6 +913,7 @@ en:
   button_test: Test
   button_edit: Edit
   button_add: Add
+  button_add_team_member: + Add Someone
   button_change: Change
   button_apply: Apply
   button_clear: Clear
@@ -1062,6 +1064,7 @@ en:
   text_credits_are_an_expense : "These credits are a reimbursment for an expense item. They're not a part of any retrospective."
   text_joiner_is_now_working_with_you : "{{joiner}} is now working with you on<br/>{{issue}}"
   text_joiner_is_no_longer_working_with_you : "{{joiner}} is no longer working with you on<br/>{{issue}}"
+  text_you_are_now_working_with_you : "You are now part of the team working on<br/>{{issue}}"
   text_history_hidden_until_you_vote : "Voting history is hidden since you haven't cast your vote"
   text_tally_hidden_until_you_vote : "Voting tally is hidden until you cast your vote"
   text_you_dont_have_shares_to_vote : "You need to have shares to weigh in on this motion."
@@ -1070,10 +1073,10 @@ en:
   text_role_description_Member : "As a member, all your votes are now binding. <br>In addition you can nominate contributors for membership,<br>and vote on Core Team elections."
   text_role_description_Core Team : "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
   text_role_description_Board : "As a board member,all your votes are binding."
-  text_member_nomination : "{{user}} is being nominated to be a member of {{enterprise}}. As a member, all their votes would be binding. In addition they will be able to nominate contributors for membership, and vote on Core Team elections. This votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
-  text_core_member_nomination : "{{user}} is being nominated for the Core Team of {{enterprise}}. As a member of the Core Team they would have binding votes in all matters, including the selection of new members. This votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
-  text_core_member_removal : "This motion is to remove {{user}} from the Core Team of {{enterprise}}. If the motion passes {{user}} would become a Member. As a Member, their votes will remain binding and their shares and credits would be unaffected. This votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
-  text_member_removal : "This motion is to remove {{user}} as a member of {{enterprise}}. If the motion passes {{user}} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. This votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_member_nomination : "{{user}} is being nominated to be a member of {{enterprise}}. As a member, all their votes would be binding. In addition they will be able to nominate contributors for membership, and vote on Core Team elections. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_core_member_nomination : "{{user}} is being nominated for the Core Team of {{enterprise}}. As a member of the Core Team they would have binding votes in all matters, including the selection of new members. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_core_member_removal : "This motion is to remove {{user}} from the Core Team of {{enterprise}}. If the motion passes {{user}} would become a Member. As a Member, their votes will remain binding and their shares and credits would be unaffected. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_member_removal : "This motion is to remove {{user}} as a member of {{enterprise}}. If the motion passes {{user}} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
   text_issue_edit_footer : "You can comment on this issue via email, by replying to this email directly."
   text_message_edit_footer : "You can reply to this message via email, by replying to this email directly."
   
