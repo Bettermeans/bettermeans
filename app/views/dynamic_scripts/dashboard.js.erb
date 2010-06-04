@@ -2180,6 +2180,11 @@ function clear_filters(){
 	$('#fast_search').val(''); //clearing fast search
 	hide_inactive(99999);
 	update_panel_counts();
+		
+	for(var i = 0; i < D.length; i++ )
+	{
+		$("#item_" + i).show().removeHighlight();
+	}
 }
 
 function send_item_action(dataId,action,extradata){
