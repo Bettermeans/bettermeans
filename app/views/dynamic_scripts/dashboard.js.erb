@@ -1242,10 +1242,9 @@ try{
 	$('#comment_' + journalId + '_subject_submit_container').html('');
 	
 	var data = "commit=Update&id=" + journalId + "&issue_id=" + D[dataId].id + "&journal[notes]=" + new_text;
-	console.log(data);
 	
 	var url = url_for({ controller: 'journals',
-	                           action    : 'update'
+	                           action    : 'edit_from_dashboard'
 	                          });
 	
 	$.ajax({
@@ -1265,7 +1264,6 @@ try{
 	return false;
 	}
 catch(err){
-	console.log(err);
 	return false;
 }
 }
