@@ -4,9 +4,7 @@
       <div style="float:left;"><%= link_to "##{journal.indice}", :anchor => "note-#{journal.indice}" %></div>&nbsp;
     <%= content_tag('a', '', :name => "note-#{journal.indice}")%>
     <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
-    <%#= render_votes(journal) %>
     </h4>
-    <%#= render_votes(journal) %>
     <%= avatar(journal.user, :size => "32") %>
     <ul>
     <% for detail in journal.details %>
