@@ -1932,7 +1932,8 @@ function submit_comment_prompt(dataId,data,action){
 		alert('Comment is too short!');
 	}
 	else{
-		post_comment(dataId,true,action);
+		// post_comment(dataId,true,action);
+		data = data + '&notes=' + text;
 		send_item_action(dataId,action,data);
 		$.fancybox.close();
 	}

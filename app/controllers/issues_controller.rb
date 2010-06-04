@@ -298,6 +298,7 @@ class IssuesController < ApplicationController
   
   def agree
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => params[:points]
+    journal = @issue.init_journal(User.current, params[:notes]) if params[:notes]
     @issue.update_agree_total @iv.isbinding
     @issue.save if !@issue.update_status
     @issue.reload
@@ -311,6 +312,7 @@ class IssuesController < ApplicationController
 
   def accept
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => params[:points]
+    journal = @issue.init_journal(User.current, params[:notes]) if params[:notes]
     @issue.update_accept_total  @iv.isbinding
     @issue.save if !@issue.update_status
     
