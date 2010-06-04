@@ -1,6 +1,7 @@
 var D; //all data
 var R; //all retrospectives
 var MAX_REQUESTS_PER_PERSON = 4;
+var ANONYMOUS_USER_ID = 2;
 var TIMER_INTERVAL = 15000; //15 seconds
 var INACTIVITY_THRESHOLD = 300000; //5 minutes
 var timer_active = false;
@@ -1699,6 +1700,9 @@ function dash_button(type,dataId,hide,options_param){
 }
 
 function click_start(dataId,source,data){
+	//Login required	
+	if (!is_user_logged_in()){return false;}
+
 	if ($(".action_button_finish").get().length >= MAX_REQUESTS_PER_PERSON){
 		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " ideas at a time");
 	}
@@ -1710,16 +1714,25 @@ function click_start(dataId,source,data){
 }
 
 function click_reject(dataId,source,data){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+
 	$('#' + source.id).parent().hide();
 	comment_prompt(dataId,source,data,'reject',true);
 }
 
 function click_finish(dataId,source,data){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+
 	$('#' + source.id).parent().hide();
 	comment_prompt(dataId,source,data,'finish',true);
 }
 
 function click_restart(dataId,source,data){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'restart');
 }
@@ -1729,6 +1742,9 @@ function click_restart(dataId,source,data){
 // }
 
 function click_agree(dataId,source,data){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+
 	$('#item_content_buttons_' + dataId).hide();
 	
 	switch(data)
@@ -1755,6 +1771,9 @@ function click_accept_root(dataId,source,data){
 }
 
 function click_accept(dataId,source,data){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+
 	$('#' + source.id).parent().hide();
 	switch(data)
 	{
@@ -1770,35 +1789,48 @@ function click_accept(dataId,source,data){
 }
 
 function click_release(dataId,source,data){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'release');
 }
 
 function click_cancel(dataId,source,data){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+
 	$('#' + source.id).parent().hide();
 	comment_prompt(dataId,source,data,'cancel',true);
 }
 
 function click_leave(dataId,source,data){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'leave');
 }
 
 function click_join(dataId,source,data){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+
 	$('#' + source.id).parent().hide();
 	send_item_action(dataId,'join');
 }
 
 function click_pri(dataId,source,points){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+
 	// $('#pri_container_' + D[dataId].id).hide();
 	send_item_action(dataId,'prioritize','&points=' + points);
 }
 
 function click_retro(dataId,source,data){
-	// var url = url_for({ controller: 'retros',
-	//                            action    : 'show',
-	// 							id		: D[dataId].retroId
-	//                           });
+	//Login required	
+	if (!is_user_logged_in()){return false;}
 	
 	var url = '/projects/' + projectId + '/retros/' + D[dataId].retro_id + '/show';
 	
@@ -2062,6 +2094,9 @@ function clear_filters(){
 }
 
 function send_item_action(dataId,action,extradata){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+	
 	var data = "commit=Create&lock_version=" + D[dataId].lock_version + extradata;
 
     var url = url_for({ controller: 'issues',
@@ -2530,6 +2565,10 @@ function sortoptions(sort)
 }
 
 function new_item(){
+
+//Login required	
+if (!is_user_logged_in()){return;}
+
 keyboard_shortcuts = false;
 $("#new_item_wrapper").remove();
 html = '';	
@@ -2956,6 +2995,11 @@ function generate_todo_section_lightbox(dataId){
 }
 
 function post_comment(dataId,from_prompt,action){
+
+//Login required	
+if (!is_user_logged_in()){return false;}
+
+	
 try{
 	var text = "";
 	
@@ -3021,6 +3065,11 @@ catch(err){
 }
 
 function post_todo(dataId){
+
+//Login required	
+if (!is_user_logged_in()){return false;}
+
+
 try{
 	var text = $("#new_todo_" + dataId).val();
 	if ((text == null) || (text.length < 2)|| (text == new_todo_text)){
@@ -3247,9 +3296,30 @@ function poll_server_response(data){
 	}
 }
 
+function is_user_logged_in(){
+	if (currentUserId == ANONYMOUS_USER_ID){
+		ask_for_login();
+		return false;
+	}
+	else{
+		return true;
+	}
+}
 
-function handle_error (XMLHttpRequest, textStatus, errorThrown, dataId, action) {
-	if (dataId){
+function ask_for_login(){
+	$.jGrowl("<a href='/login'>Sorry, you need to be logged in first.<br> </a>" , { sticky:true, header: '<a href=\'/login\'>Login Required</a>'});
+}
+
+
+function handle_error (xhr, textStatus, errorThrown, dataId, action) {
+	if (xhr.status == 401 && currentUserId == ANONYMOUS_USER_ID){
+		ask_for_login();
+		
+		if (dataId){
+			$('#item_' + dataId).replaceWith(generate_item(dataId));
+		}
+	}
+	else if (dataId){
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
 		$('#item_lightbox_' + dataId).replaceWith(generate_item_lightbox(dataId));
 		update_lightbox_lock_version(dataId);
