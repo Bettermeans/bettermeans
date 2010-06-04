@@ -16,11 +16,9 @@ class JournalsController < ApplicationController
     end
   end
 
-  def update
-    @journal = Journal.find(params[:id])
-
-    respond_to do |format|
-      if @journal.update_attributes(params[:journal])
+  def edit_from_dashboard
+    if @journal.update_attributes(params[:journal])
+      respond_to do |format|
         format.js {render :json => @journal.issue.to_dashboard}
       end
     end

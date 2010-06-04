@@ -11,7 +11,7 @@
        <li><%= show_detail(detail) %></li>
     <% end %>
     </ul>
-    <%= render_notes(journal) unless journal.notes.blank? %>
+    <%= render_notes(journal,journal == journals.last && User.current.id == journal.user_id) unless journal.notes.blank? %>
     
   </div>
 <% end %>
