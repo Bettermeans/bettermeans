@@ -18,7 +18,11 @@ class Credit < ActiveRecord::Base
   
   #For every credit that is issue, a corresponding share is issued
   def issue_shares
-    Share.create! :amount => amount, :owner => owner, :project => project, :issued_on => issued_on unless issued_on.to_s != created_on.to_s #We don't create shares if we're creating credit for a past issue date (i.e. in case of an incomplete payoff)
+    Share.create! :amount => amount, :owner => owner, :project => project, :issued_on => issued_on unless previously_issued #We don't create shares if we're creating credit for a past issue date (i.e. in case of an incomplete payoff)
+  end
+  
+  def previously_issued
+    (issued_on - created_on) > 2 #if created date is different than issued on date (by more than a few milliseconds) then this was a previously issued credit, that's being recreated as portion of shares already given out
   end
   
   def settled?
