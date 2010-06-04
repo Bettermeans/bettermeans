@@ -33,14 +33,8 @@
 <tr>
   <th class="assigned-to"><%=l(:field_assigned_to)%>:</th><td id="assigned_to"><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
 </tr>
-<tr>
-  <th class="assigned-to"><%=l(:field_joined_by)%>:</th><td id="joined_by">
-    <% @issue.team.each do |issue_vote| %>
-    <% next if issue_vote.user_id == @issue.assigned_to_id  %>
-      <%= avatar(issue_vote.user, :size => "14") %><%= link_to_user_from_id(issue_vote.user_id) %>&nbsp;&nbsp;
-    <% end %>
-  </td>
-</tr>
+<tr id="joined_by_partial">
+<%= render :partial => "joined_by"  %>
 <tr>
     <th class="issue-url"><%=l(:field_item_url)%>: <%= help_bubble :help_item_url %></th>
     <td id="issue_id" class="issue-id">  <%= url_for(:action => 'dashboard', :controller => 'projects', :show_issue_id => @issue.id, :only_path => false, :protocol => 'http') %></td>
@@ -61,6 +55,7 @@
 <%= render :partial => 'relations' %>
 </div>
 <% end %>
+
 <div id="todo_wrapper"></div>
 
 <%= link_to_attachments @issue %>

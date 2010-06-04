@@ -172,4 +172,11 @@ module IssuesHelper
     end
     export
   end
+  
+  def collection_for_project_members_select
+    values = @issue.project.root.all_members.collect {|p| [p.name, p.user.id]}
+    existing_team = @issue.team_votes.collect {|p| [User.find(p.user_id).name, p.user_id]}
+    values - existing_team
+  end
+  
 end

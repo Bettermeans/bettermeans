@@ -106,6 +106,7 @@ module ApplicationHelper
 
   def toggle_link(name, id, options={})
     onclick = "$('##{id}').toggle(); "
+    onclick << "$('##{options[:second_toggle]}').toggle(); " if options[:second_toggle]
     onclick << (options[:focus] ? "$('##{options[:focus]}').focus(); " : "this.blur(); ")
     onclick << "return false;"
     link_to(name, "#", :onclick => onclick)

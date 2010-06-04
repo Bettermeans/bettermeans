@@ -12,7 +12,10 @@ class Project < ActiveRecord::Base
   belongs_to :enterprise                        
   
   # Specific overidden Activities
-  has_many :all_members,:class_name => 'Member', :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}"
+  has_many :all_members,:class_name => 'Member', 
+                        :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}",
+                        :order => "firstname ASC"
+                        
   has_many :core_members, :class_name => 'Member', 
                           :include => [:user,:roles], 
                           :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}",
