@@ -280,7 +280,9 @@ function url_for(options){
 // with their equivalent html counter parts
 //
 function h(s) {
+	console.log(s);
   var escaped = s;  
+  escaped = escaped.replace(/\n/g, "xxxxxx11");
   escaped = escaped.replace(/<br>/g, "xxxxxx11");
   escaped = escaped.replace(/&/g, "&amp;");
   escaped = escaped.replace(/</g, "&lt;");
