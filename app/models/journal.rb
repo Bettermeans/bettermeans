@@ -26,6 +26,14 @@ class Journal < ActiveRecord::Base
                             :find_options => {:include => [{:issue => :project}, :details, :user],
                                               :conditions => "#{Journal.table_name}.journalized_type = 'Issue' AND" +
                                                              " (#{JournalDetail.table_name}.prop_key = 'status_id' OR #{Journal.table_name}.notes <> '')"}
+                                                             
+  after_save :update_issue_timestamp
+  
+  def update_issue_timestamp
+    issue.updated_on = DateTime.now
+    logger.info("saving issue")
+    issue.save
+  end
   
   def save(*args)
     # Do not save an empty journal

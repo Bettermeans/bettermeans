@@ -3,10 +3,10 @@
 #
 
 module JournalsHelper
-  def render_notes(journal, options={})
+  def render_notes(journal, editable, options={})
     # votingcontent = ''
     content = ''
-    editable = journal.editable_by?(User.current)
+    editable ||= false;
     links = []
     if !journal.notes.blank?
       
@@ -16,35 +16,15 @@ module JournalsHelper
       #                         :class => 'icon icon-comment') if options[:reply_links]
 
                               
-      # links << link_to_in_place_notes_editor(l(:button_edit), "journal-#{journal.id}-notes", 
-      #                                            { :controller => 'journals', :action => 'edit', :id => journal },
-      #                                               :title => l(:button_edit),
-      #                                               :class => 'icon icon-edit') if editable
-      #     
+      links << link_to_in_place_notes_editor(l(:button_edit), "journal-#{journal.id}-notes", 
+                                                 { :controller => 'journals', :action => 'edit', :id => journal },
+                                                    :title => l(:button_edit),
+                                                    :class => 'icon icon-edit') if editable
+          
     	
     		
     end
-    
-    #     # Voting on journal items
-    #     unless journal.user_id == User.current.id ||
-    #       !User.current.logged? ||
-    #       User.current.voted_on?(journal)
-    #       votingcontent << link_to_remote (image_tag('/images/aupgray.gif', :size => "15x14", :border => 0), 
-    #         {
-    #         :url => user_journal_votes_path(User.current, journal, :vote => :true, :format => :js, :voteable_type => "journal"), 
-    #         :method => :post
-    #         })
-    #       votingcontent << link_to_remote (image_tag('/images/adowngray.gif', :size => "15x14", :border => 0), 
-    #         {
-    #     :url => user_journal_votes_path(User.current, journal, :vote => :false, :format => :js, :voteable_type => "journal"), 
-    #     :method => :post
-    #     })
-    # end
-    # 
-    #     #We show total votes regardless 
-    #     votingcontent << " " + String(journal.votes_for - journal.votes_against) + " points"
-
-    
+  
     content << content_tag('div', links.join(' '), :class => 'contextual') unless links.empty?
     # content << content_tag('div', votingcontent, :id => "votes_" + String(journal.id), :class => 'journalvote')        
     content << textilizable(journal, :notes)
@@ -81,7 +61,7 @@ module JournalsHelper
   
   
   def link_to_in_place_notes_editor(text, field_id, url, options={})
-    onclick = "new Ajax.Request('#{url_for(url)}', {asynchronous:true, evalScripts:true, method:'get'}); return false;"
+    onclick = "$.ajax({type: 'GET', url: '#{url_for(url)}'});return false;"
     link_to text, '#', options.merge(:onclick => onclick)
   end
 end
