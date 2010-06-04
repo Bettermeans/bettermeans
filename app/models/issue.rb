@@ -122,7 +122,7 @@ class Issue < ActiveRecord::Base
     todos.length>0
   end
 
-  def team
+  def team_votes
     issue_votes.select {|i| i.vote_type == IssueVote::JOIN_VOTE_TYPE}
   end
   

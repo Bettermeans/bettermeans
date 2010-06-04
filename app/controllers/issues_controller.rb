@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   default_search_scope :issues
   
-  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
@@ -355,6 +355,30 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+    end
+  end
+
+  def add_team_member
+    IssueVote.create :user_id => params[:issue_vote][:user_id], :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1
+    @issue.save
+    @issue.reload
+    
+    admin = User.sysadmin
+    
+    Notification.create :recipient_id => params[:issue_vote][:user_id],
+                        :variation => 'issue_team_member_added',
+                        :params => {:issue_id => @issue.id, :joiner_id => params[:issue_vote][:user_id]}, 
+                        :sender_id => User.current.id,
+                        :source_id => @issue.id
+    
+    
+    respond_to do |format|
+      format.js do
+        render :update do |page|
+          page.replace_html "joined_by_partial", :partial => 'issues/joined_by'
+          page.visual_effect :highlight, "joined_by_partial"
+        end
+      end
     end
   end
 

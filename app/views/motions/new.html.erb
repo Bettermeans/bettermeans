@@ -4,7 +4,7 @@
   <%= f.error_messages %>
 <br>
   <p>
-    <%#= f.label :variation %><br />
+    <br />
     <%= select(:motion, :variation, Setting::MOTIONS.collect{|m| [ m[1]["Title"], m[0] ] }.sort,:prompt => l(:label_select)) %>
   </p>
   <p id="Description">

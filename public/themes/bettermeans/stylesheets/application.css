@@ -1635,12 +1635,17 @@ table th {
 	font-weight: bold;
 	padding: 5px 8px;
 	color: #444;
+	vertical-align: top;
 }
 
 table td {
 	padding: 8px;
 	color: #444;
 /*	border-bottom: 1px solid #d2d2d2;*/
+}
+
+#joined_by {
+	line-height:20px;
 }
 
 table td span.active { color: #55a34a;}
