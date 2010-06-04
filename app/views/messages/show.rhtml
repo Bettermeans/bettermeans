@@ -64,6 +64,8 @@
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>
+<% else %>
+  <%= link_to l(:button_reply), :controller => "account", :action => "login" %>
 <% end %>
 
 <% content_for :header_tags do %>
