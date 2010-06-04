@@ -610,7 +610,7 @@ function generate_details_flyover(dataId){
 	html = html + '	          </div>';
 	html = html + '	<div class="section">';
 	html = html + generate_details_flyover_description(item);
-	html = html + generate_comments(item,true);
+	html = html + generate_comments(dataId,true);
 	html = html + '</div>';
 	html = html + '	        </div>';
 	html = html + '	      </div>';
@@ -1037,9 +1037,33 @@ function generate_details_flyover_description(item){
 	
 }
 
-//blank_if_no_comments: when true, nothing is returned if there aren't any comments, when false the header is returned
-function generate_comments(item,blank_if_no_comments){
+function generate_comments_section(dataId){
+	var html = '	          <div class="section" id="comments_container_' + dataId + '">';
+	html = html + '	            <table class="storyDescriptionTable">';
+	html = html + '	              <tbody>';
+	html = html + '	                <tr>';
+	html = html + generate_comments(dataId,false);
+	html = html + '	                </tr>';
+	html = html + '	                <tr>';
+	html = html + '	                  <td colspan="5">';
+	html = html + '	                    <div>';
+	html = html + '	                      <textarea class = "textAreaFocus" id="new_comment_' + dataId + '" rows="1" cols="20" name="story[comment]"></textarea>     ';
+	html = html + '	                    <div>';
+	html = html + '	                    <input value="Post Comment" type="submit" onclick="post_comment(' + dataId + '); return false;">';
+	html = html + '	                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
+	html = html + '	                      </div>';
+	html = html + '	                    </div>';
+	html = html + '	                  </td>';
+	html = html + '	                </tr>';
+	html = html + '	              </tbody>';
+	html = html + '	            </table>';
+	html = html + '	          </div>';
+	return html;
+}
 
+//blank_if_no_comments: when true, nothing is returned if there aren't any comments, when false the header is returned
+function generate_comments(dataId,blank_if_no_comments){
+	var item = D[dataId];
 	var count = 0;
 	for(var k = 0; k < item.journals.length; k++ ){
 			if (item.journals[k].notes != '' && item.journals[k].notes != null){
@@ -1071,7 +1095,8 @@ function generate_comments(item,blank_if_no_comments){
 				{
 					note = item.journals[i].notes.replace(/\r\n/g,"<br>");
 				}
-				html = html + generate_comment(author,note,item.journals[i].created_on,item.id);
+				var last_comment = (i == (item.journals.length - 1));
+				html = html + generate_comment(author,note,item.journals[i].created_on,item.id, (last_comment &&(currentUserId == item.journals[i].user_id)), item.journals[i].id,dataId);
 			}
 	}
 	html = html + '	    </tbody>';
@@ -1081,16 +1106,20 @@ function generate_comments(item,blank_if_no_comments){
 	
 }
 
-function generate_comment(author,note,created_on,itemId){
+function generate_comment(author,note,created_on,itemId,last_comment,journalId,dataId){
 	var html = '';
 	html = html + '<tr class="noteInfoRow">';
-	html = html + '<td class="noteInfo  noteInfo_' + itemId + '">';
+	html = html + '<td class="noteInfo" id="noteInfo_' + journalId + '">';
 	html = html + '<span class="specialhighlight">' + author + '</span> <span class="italic">' + humane_date(created_on) + '</span>';
+	if (last_comment){
+		html = html + '&nbsp;&nbsp;<a href="" onclick="edit_comment(' + journalId + ',' + dataId + ');return false;">edit</a>';
+	}
 	html = html + '</td>';
 	html = html + '</tr>';
     html = html + '<tr class="noteTextRow">';
-	html = html + '<td class="noteText">';
-	html = html + h(note);
+	html = html + '<td class="noteText" id="noteText_' + journalId + '">';
+	html = html + '	<span id="comment_' + journalId + '_text_container">' + h(note) + '</span>';
+	html = html + '	<span id="comment_' + journalId + '_subject_submit_container"></span>';
 	html = html + '</td>';
 	html = html + '</tr>';
 	return html;
@@ -1176,6 +1205,67 @@ try{
 		return false;
 	}
 catch(err){
+	return false;
+}
+}
+
+function edit_comment(journalId,dataId){
+try{
+		var button = ' <input id="comment_' + journalId + '_subject_submit" type="submit" onclick="edit_comment_post(' + journalId + ',' + dataId + ');return false;" value="done" class="right"/>';
+		var cancel_button = ' <input id="comment_' + journalId + '_subject_submit" type="submit" onclick="edit_comment_cancel(' + journalId + ',' + dataId + ');return false;" value="cancel" class="right"/>';
+		var input = '<textarea id="comment_' + journalId + '_subject_input" cols="20" rows="5"/>';
+		$('#comment_' + journalId + '_text_container').hide();
+		$('#comment_' + journalId + '_subject_submit_container').html(input + button + cancel_button);
+		$('#comment_' + journalId + '_subject_input').show().focus();
+		$('#comment_' + journalId + '_subject_input').html($('#comment_' + journalId + '_text_container').html().replace(/<br>/g, "\n"));		
+		keyboard_shortcuts = false;
+		
+		return false;
+	}
+catch(err){
+	return false;
+}
+}
+
+function edit_comment_cancel(journalId,dataId){
+	keyboard_shortcuts = true;
+	$('#comment_' + journalId + '_text_container').show();
+	$('#comment_' + journalId + '_subject_submit_container').html('');
+}
+
+function edit_comment_post(journalId,dataId){
+try{
+	keyboard_shortcuts = true;
+	var new_text = $('#comment_' + journalId + '_subject_input').val().replace(/\n/g, "<br>");
+	
+	$('#comment_' + journalId + '_text_container').html(new_text).show();
+	$('#comment_' + journalId + '_subject_submit_container').html('');
+	
+	var data = "commit=Update&id=" + journalId + "&issue_id=" + D[dataId].id + "&journal[notes]=" + new_text;
+	console.log(data);
+	
+	var url = url_for({ controller: 'journals',
+	                           action    : 'update'
+	                          });
+	
+	$.ajax({
+	   type: "POST",
+	   dataType: "json",
+	   url: url,
+	   data: data,
+	   success: 	function(html){
+			comment_added(html,dataId);
+		},
+	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+		handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
+		},
+		timeout: 30000 //30 seconds
+	 });
+
+	return false;
+	}
+catch(err){
+	console.log(err);
 	return false;
 }
 }
@@ -2510,6 +2600,7 @@ function item_updated(item, dataId){
 
 function comment_added(item, dataId){
 	D[dataId] = item; 
+	$('#comments_container_' + dataId).replaceWith(generate_comments_section(dataId,false));
 }
 
 function todo_added(item, dataId){
@@ -2886,28 +2977,9 @@ html = html + '	          </div>';
 
 //todos
 html = html + generate_todo_section(dataId);
-//comments
 
-html = html + '	          <div class="section">';
-html = html + '	            <table class="storyDescriptionTable">';
-html = html + '	              <tbody>';
-html = html + '	                <tr>';
-html = html + generate_comments(D[dataId],false);
-html = html + '	                </tr>';
-html = html + '	                <tr>';
-html = html + '	                  <td colspan="5">';
-html = html + '	                    <div>';
-html = html + '	                      <textarea class = "textAreaFocus" id="new_comment_' + dataId + '" rows="1" cols="20" name="story[comment]"></textarea>     ';
-html = html + '	                    <div>';
-html = html + '	                    <input value="Post Comment" type="submit" onclick="post_comment(' + dataId + '); return false;">';
-html = html + '	                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
-html = html + '	                      </div>';
-html = html + '	                    </div>';
-html = html + '	                  </td>';
-html = html + '	                </tr>';
-html = html + '	              </tbody>';
-html = html + '	            </table>';
-html = html + '	          </div>';
+//comments
+html = html + generate_comments_section(dataId);
 
 // request id
 html = html + '	                <tr><td>&nbsp;</td></tr>';
@@ -3024,7 +3096,7 @@ try{
 	{
 		var item = D[dataId];
 		try{
-			$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),'1 second ago',D[dataId].id));
+			$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),'1 second ago','new'));
 			$('#new_comment_' + dataId).val('');
 		}
 		catch(err){
@@ -3047,12 +3119,8 @@ try{
 		   data: data,
 		   success: 	function(html){
 				comment_added(html,dataId);
-				update_comment_count(dataId);
 			},
 		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
-			  // typically only one of textStatus or errorThrown 
-			  // will have info
-			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
 			handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
 			},
 			timeout: 30000 //30 seconds
@@ -3201,9 +3269,9 @@ function update_todo_count(dataId){
 	$('#task_' + dataId  + '_count').html('(' + D[dataId].todos.length + ')');
 }
 
-function update_comment_count(dataId){
-	$('#comment_' + D[dataId].id  + '_count').html('(' + $('.noteInfo_' + D[dataId].id).length + ')');	
-}
+// function update_comment_count(dataId){
+// 	$('#comment_' + D[dataId].id  + '_count').html('(' + $('.noteInfo_' + D[dataId].id).length + ')');	
+// }
 
 
 //View item history
