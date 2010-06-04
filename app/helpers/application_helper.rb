@@ -26,6 +26,11 @@ module ApplicationHelper
     link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
 
+  # Display a link if user is not logged in
+  def link_to_if_anon(name, options = {}, html_options = nil, *parameters_for_method_reference)
+    link_to(name, options, html_options, *parameters_for_method_reference) if User.current == User.anonymous
+  end
+
   # Display a link to remote if user is authorized
   def link_to_remote_if_authorized(name, options = {}, html_options = nil)
     url = options[:url] || {}
