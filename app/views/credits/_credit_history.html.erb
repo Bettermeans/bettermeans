@@ -1,21 +1,21 @@
 <h3><%=l(:label_credit_history) %></h3>
   <table class="list">
+    <%  @credits_by_day = @credits.group_by{|credit| credit.issued_on.to_date}
+        @credits_by_day.sort { |b,a| a[0] <=> b[0] }
+        @credits_by_day.each do |cbd|
+    %>
     <tr>
-      <th>Amount</th>
-      <th>Owner</th>
-      <th>Issued</th>
-      <th>Status</th>
-    </tr>
-<%  credits.sort! { |a,b| b.created_on <=> a.created_on } %>
-<%     credits.each do |credit| %>
+        <th><%= cbd[0].to_s %></th>
+      </tr>
+         <% cbd[1].each do |credit|%>
     <tr class="<%= cycle 'odd', 'even' %>">
-      <td><%=h number_to_currency credit.amount.round.to_i, :unit => '$', :separator => ".", :delimiter => ",", :precision => 0 %></td>
+      <td class="currency"><%=h number_to_currency credit.amount.round.to_i, :unit => '$', :separator => ".", :delimiter => ",", :precision => 0 %></td>
       <td><%=link_to_user_from_id credit.owner_id %></td>
-      <td><%=h format_date credit.created_on %></td>
       <td><%=h credit.settled_on.nil? ? credit.enabled ? "Active" : "Inactive" : "Settled" %></td>
       <% if authorize_for(:credits, :edit) %>
       <td><%= link_to 'Edit', :controller => :credits, :action => :edit, :id => credit %> | <%= link_to 'Destroy', :controller => :credits, :action => :destroy, :id => credit %></td>
       <% end %>
     </tr>
+  <% end %>
   <% end %>
   </table>

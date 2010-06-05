@@ -22,6 +22,7 @@ rescue LoadError
 end
 
 Rails::Initializer.run do |config|
+  
   # Settings in config/environments/* take precedence those specified here
   
   # Skip frameworks you're not going to use
