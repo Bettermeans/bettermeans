@@ -31,7 +31,6 @@ class Journal < ActiveRecord::Base
   
   def update_issue_timestamp
     issue.updated_on = DateTime.now
-    logger.info("saving issue")
     issue.save
   end
   
