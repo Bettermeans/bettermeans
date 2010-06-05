@@ -325,10 +325,10 @@ class Mailer < ActionMailer::Base
     # if he doesn't want to receive notifications about what he does
     @author ||= User.current
     if @author.pref[:no_self_notified]
-      recipients.delete(@author.mail) if recipients
+      recipients.delete(@author.mail) if recipients && !recipients.nil?
       cc.delete(@author.mail) if cc
       bcc.delete(@author.mail) if bcc
-    end
+    end unless User.current == User.anonymous #no need to check for prefs if current user is anonymous
     # Blind carbon copy recipients
     if Setting.bcc_recipients?
       bcc([recipients, cc].flatten.compact.uniq)
