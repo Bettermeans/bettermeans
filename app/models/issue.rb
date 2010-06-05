@@ -273,10 +273,12 @@ class Issue < ActiveRecord::Base
     @issue_before_change = self.clone
     @issue_before_change.status = self.status
     @custom_values_before_change = {}
-    self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
+
     # Make sure updated_on is updated when adding a note.
     updated_on_will_change!
+    logger.info ("Curent jouornal initialized #{@current_journal}")
     @current_journal
+    
   end
   
   # Return true if the issue is closed, otherwise false
@@ -463,7 +465,6 @@ class Issue < ActiveRecord::Base
           self.give_credits CreditDistribution::EXPENSE
         else #if a non-gift is accepted, set retro id to not started to prep for next retrospective
           self.retro_id = Retro::NOT_STARTED_ID 
-          self.save
           self.project.start_retro_if_ready
         end
       end
@@ -524,10 +525,12 @@ class Issue < ActiveRecord::Base
     if @current_journal
       # attributes changes
       (Issue.column_names - %w(id description lock_version created_on updated_on pri accept reject accept_total agree disagree agree_total retro_id accept_nonbind reject_nonbind accept_total_nonbind agree_nonbind disagree_nonbind agree_total_nonbind points_nonbind pri_nonbind)).each {|c|
+        puts("creating journal for Column #{c}")
         @current_journal.details << JournalDetail.new(:property => 'attr',
                                                       :prop_key => c,
                                                       :old_value => @issue_before_change.send(c),
                                                       :value => send(c)) unless send(c)==@issue_before_change.send(c)
+       puts(@current_journal.details.inspect)
       }
 
       @current_journal.save
