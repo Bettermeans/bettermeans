@@ -248,6 +248,7 @@ class IssuesController < ApplicationController
 
       @notes = params[:notes]
       journal = @issue.init_journal(User.current, @notes)
+      
       # # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
       # if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
         attrs = params[:issue].dup

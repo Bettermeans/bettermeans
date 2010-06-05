@@ -45,12 +45,9 @@ class MailHandlerController < ActionController::Base
   private
   
   def check_credential
-    logger.info("checking credential")
     User.current = nil
-    logger.info("checking params key #{params[:key]}  settings key: #{Setting.mail_handler_api_key}")
     
     unless Setting.mail_handler_api_enabled? && params[:key].to_s == Setting.mail_handler_api_key
-      logger.info("failed params key #{params[:key]}  settings key: #{Setting.mail_handler_api_key}")
       render :text => 'Access denied. Incoming emails WS is disabled or key is invalid.', :status => 403
     end
   end
