@@ -31,7 +31,6 @@ module OpenIdAuthentication
 
         yield Result[:successful], identity_url , extension_response_fields
       else
-        logger.info "OpenID authentication failed: #{identity_url}" 
         yield Result[:failed], identity_url, nil
       end
     end

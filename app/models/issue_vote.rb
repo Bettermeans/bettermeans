@@ -35,7 +35,6 @@ class IssueVote < ActiveRecord::Base
   end
   
   def set_binding
-    logger.info(self.inspect)
     result = User.find(self.user_id).binding_voter_of?(self.issue.project)
     self.isbinding = result
     return true

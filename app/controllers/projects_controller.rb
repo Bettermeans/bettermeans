@@ -56,8 +56,6 @@ class ProjectsController < ApplicationController
     @project = Project.new(params[:project])
     @parent = Project.find(params[:parent_id]) unless params[:parent_id] == "" || params[:parent_id].nil?
     
-    logger.info("parent: #{@parent.inspect}")
-    
     if request.get?
       @project.enabled_module_names = Setting.default_projects_modules
       @project.dpp = 100
@@ -70,7 +68,6 @@ class ProjectsController < ApplicationController
       @project.is_public = Setting.default_projects_public?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
       if validate_parent_id && @project.save
-        logger.info("PARENT #{@parent.inspect}")
         @project.set_allowed_parent!(@parent.id) #unless @parent.nil?
         if @parent.nil?
           # Add current user as a admin and core team member

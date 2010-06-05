@@ -88,14 +88,11 @@ class MailHandler < ActiveRecord::Base
     if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
       return false
     end
-    logger.info("sender email #{sender_email}")
     @user = User.find_by_mail(sender_email)
     if @user && !@user.active?
-      logger.info("no user?")
       return false
     end
     if @user.nil?
-      logger.info("unkown user")
       # Email was submitted by an unknown user
       case @@handler_options[:unknown_user]
       when 'accept'
@@ -105,7 +102,6 @@ class MailHandler < ActiveRecord::Base
         if @user
           Mailer.deliver_account_information(@user, @user.password)
         else
-          logger.error "MailHandler: could not create account for [#{sender_email}]" if logger && logger.error
           return false
         end
       else
@@ -123,20 +119,16 @@ class MailHandler < ActiveRecord::Base
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
   
   def dispatch
-    logger.info("dispatching #{email.in_reply_to}  : #{email.references} \n body: #{email.body}")
     headers = [email.in_reply_to, email.references].flatten.compact
     if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
-      logger.info("headers detected")
       klass, object_id = $1, $2.to_i
       method_name = "receive_#{klass}_reply"
       if self.class.private_instance_methods.collect(&:to_s).include?(method_name)
-        logger.info("sending #{method_name}  #{object_id}")
         send method_name, object_id
       else
         # ignoring it
       end
     elsif m = email.subject.match(ISSUE_REPLY_SUBJECT_RE)
-      logger.info("recieving issue reply")
       receive_issue_reply(m[1].to_i)
     elsif m = email.subject.match(MESSAGE_REPLY_SUBJECT_RE)
       receive_message_reply(m[1].to_i)
@@ -212,8 +204,6 @@ class MailHandler < ActiveRecord::Base
       raise UnauthorizedAction unless status.nil? || user.allowed_to?(:edit_issues, issue.project)
     end
     
-    logger.info("body here: #{email.body}")
-
     # add the note
     journal = issue.init_journal(user, cleaned_up_text_body)
     add_attachments(issue)
@@ -348,13 +338,11 @@ class MailHandler < ActiveRecord::Base
   
   # Removes the email body of text after the truncation configurations.
   def cleanup_body(body)
-    logger.info("body before cleanup #{body}")
     delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map {|s| Regexp.escape(s)}
     unless delimiters.empty?
       regex = Regexp.new("^(#{ delimiters.join('|') })\s*[\r\n].*", Regexp::MULTILINE)
       body = body.gsub(regex, '')
     end
-    logger.info("body after cleanup #{body.strip}")
     body.strip
   end
 end

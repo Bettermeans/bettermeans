@@ -276,7 +276,6 @@ class Issue < ActiveRecord::Base
 
     # Make sure updated_on is updated when adding a note.
     updated_on_will_change!
-    logger.info ("Curent jouornal initialized #{@current_journal}")
     @current_journal
     
   end
