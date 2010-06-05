@@ -16,7 +16,7 @@
 #admin-menu a.info { background-image: url(/images/help.png); }
 
 
-#sidebar{ float: right; width: 30%; position: relative; z-index: 9; min-height: 600px; padding: 0; margin: 0;}
+#sidebar{ float: right; width: 30%; position: relative; z-index: 9; min-height: 600px; padding-top:10px; padding-left: 2px; padding-right: 2px padding-botton: 0px; margin: 0;}
 * html #sidebar{ width: 17%; }
 #sidebar h3{ font-size: 14px; margin-top:14px; color: #666;  }
 #sidebar hr{ width: 100%; margin: 0 auto; height: 1px; background: #ccc; border: 0; }
@@ -1648,12 +1648,29 @@ table td {
 	line-height:20px;
 }
 
+.half-page{
+	width: 50%;
+	float:left;
+}
+
 table td span.active { color: #55a34a;}
 table td span.pending { color: #c5a059;}
 table td span.closed { color: #a02b2b;}
 
 table .odd {
-	background: #f6f6f6; 
+	background: #ddd; 
+}
+
+table.list tr {
+	line-height:0.6em;
+}
+
+table.list td.currency {
+	text-align:right;
+}
+
+table.list th {
+	vertical-align:middle;
 }
 
 /*Old stuff*/
