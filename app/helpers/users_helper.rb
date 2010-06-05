@@ -52,7 +52,6 @@ module UsersHelper
   end
   
   def reputation_project(reputation)
-    logger.info(reputation.inspect)
     if reputation.project_id != 0
       link_to(h(reputation.project.name_with_ancestors), :controller => 'projects', :action => 'show', :id => reputation.project) 
     else

@@ -36,9 +36,7 @@ module Professionalnerd # :nodoc:
         # Ensures the passed user is either the sender or the recipient then returns the message.
         # If the reader is the recipient and the message has yet not been read, it marks the read_at timestamp.
         def read_and_get(id, reader)
-          logger.info("Entering read")
           message = find(id, :conditions => ["sender_id = ? OR recipient_id = ?", reader, reader])
-          logger.info("Message read: #{message}")
           if message.read_at.nil? && reader == message.recipient
             message.read_at = Time.now
             message.save!
