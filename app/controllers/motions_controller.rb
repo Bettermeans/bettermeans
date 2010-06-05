@@ -41,10 +41,8 @@ class MotionsController < ApplicationController
   # GET /motions/new.xml
   def new
     @motion = Motion.new(params[:motion])
-    logger.info(@motion.inspect)
     
     @concerned_user_list = Motion.eligible_users(@motion.variation, @project.id)
-    logger.info("concerned #{@concerned_user_list}")
 
     respond_to do |format|
       format.html # new.html.erb
@@ -57,7 +55,6 @@ class MotionsController < ApplicationController
     case params[:variation].to_i
       when Motion::VARIATION_NEW_MEMBER
         @concerned_user_list = @project.contributor_list
-        logger.info("new member from #{@concerned_user_list}")
       when Motion::VARIATION_NEW_CORE
         @concerned_user_list = @project.member_list
       when Motion::VARIATION_FIRE_MEMBER
