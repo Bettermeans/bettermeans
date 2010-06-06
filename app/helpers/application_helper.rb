@@ -733,6 +733,20 @@ module ApplicationHelper
     end
   end
   
+  #depending on credit's status, provides link to activate/deactivate
+  def credit_activation_link(credit)
+    return '' if !credit.settled_on.nil?
+    
+    return link_to_remote(l(:button_deactivate),
+                            { :url => {:controller => 'credits', :action => 'disable', :id => credit.id} },
+                            :class => 'icon icon-deactivate') if credit.enabled
+                            
+    return link_to_remote(l(:button_activate),
+                            { :url => {:controller => 'credits', :action => 'enable', :id => credit.id} },
+                            :class => 'icon icon-activate') if !credit.enabled
+  end
+  
+  
 
 
   private
@@ -749,5 +763,7 @@ module ApplicationHelper
       {:href => url_for(:params => url_params)}
     )
   end
+  
+  
   
 end

@@ -16,6 +16,16 @@ class Credit < ActiveRecord::Base
     self.issued_on.strftime('%D')
   end
   
+  def disable
+    self.enabled = false
+    return self.save
+  end
+  
+  def enable
+    self.enabled = true
+    return self.save
+  end
+  
   #For every credit that is issue, a corresponding share is issued
   def issue_shares
     Share.create! :amount => amount, :owner => owner, :project => project, :issued_on => issued_on unless previously_issued #We don't create shares if we're creating credit for a past issue date (i.e. in case of an incomplete payoff)

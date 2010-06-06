@@ -5,10 +5,10 @@
 <h2><%=l(:label_credits) %></h2>
 <div id="credits">
   <div class="half-page">
-  <%= render :partial => 'credits/credit_queue', :locals => {:credits => @credits}%>
+  <%= render :partial => 'credits/credit_queue'%>
   </div>
   <div class="half-page">
-  <%= render :partial => 'credits/credit_history', :locals => {:credits => @credits}%>
+  <%= render :partial => 'credits/credit_history'%>
   </div>
 
   <% if authorize_for(:credits, :create) %>
@@ -19,9 +19,13 @@
 </div>
 
 <% content_for :sidebar do %>
-    <%= render :partial => 'credits/my_credits', :locals => {:credits => @credits}%>
+    <div>
+    <%= render :partial => 'credits/my_credits'%>
+    </div>
     <h3><%=l(:label_credits_breakdown)%></h3>
+    <span id="active_credits_partial">
     <%= render :partial => 'credits/credit_breakdown', :locals => {:group_credits => @active_credits, :title => l(:label_active_credits)}%>
+    </span>
     <br><br><br><br>
     <%= render :partial => 'credits/credit_breakdown', :locals => {:group_credits => @oustanding_credits, :title => l(:label_outstanding_credits)}%>
     <br><br><br><br>
