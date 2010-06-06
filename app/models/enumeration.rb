@@ -25,14 +25,6 @@ class Enumeration < ActiveRecord::Base
     end
   end
 
-  named_scope :document_categories, :conditions => { :type => "DocumentCategory" }, :order => 'position' do
-    ActiveSupport::Deprecation.warn("Enumeration#document_categories is deprecated, use the DocumentCategories class. (#{Redmine::Info.issue(3007)})")
-    def default
-      find(:first, :conditions => { :is_default => true })
-    end
-  end
-
-  
   named_scope :values, lambda {|type| { :conditions => { :type => type }, :order => 'position' } } do
     def default
       find(:first, :conditions => { :is_default => true })
@@ -135,7 +127,6 @@ private
 end
 
 # Force load the subclasses in development mode
-require_dependency 'document_category'
 require_dependency 'issue_priority'
 
 

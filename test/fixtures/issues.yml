@@ -7,7 +7,6 @@ issues_001:
   subject: Can't print recipes
   id: 1
   fixed_version_id: 
-  category_id: 1
   description: Unable to print recipes
   tracker_id: 1
   assigned_to_id: 
@@ -23,7 +22,6 @@ issues_002:
   subject: Add ingredients categories
   id: 2
   fixed_version_id: 2
-  category_id: 
   description: Ingredients of the recipe should be classified by categories
   tracker_id: 2
   assigned_to_id: 3
@@ -214,6 +212,7 @@ issues_013:
 
 
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -224,7 +223,6 @@ issues_013:
 #  subject              :string(255)     default(""), not null
 #  description          :text
 #  due_date             :date
-#  category_id          :integer
 #  status_id            :integer         default(0), not null
 #  assigned_to_id       :integer
 #  priority_id          :integer         default(0), not null

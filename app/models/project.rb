@@ -51,7 +51,6 @@ class Project < ActiveRecord::Base
   has_many :queries, :dependent => :delete_all
   has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :delete_all, :include => :author
-  # has_many :issue_categories, :dependent => :delete_all, :order => "#{IssueCategory.table_name}.name"
   has_many :boards, :dependent => :destroy, :order => "position ASC"
   has_one :wiki, :dependent => :destroy
   has_many :team_offers, :dependent => :delete_all
@@ -580,14 +579,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # Copies issue categories from +project+
-  def copy_issue_categories(project)
-    project.issue_categories.each do |issue_category|
-      new_issue_category = IssueCategory.new
-      new_issue_category.attributes = issue_category.attributes.dup.except("id", "project_id")
-      self.issue_categories << new_issue_category
-    end
-  end
   
   # Copies issues from +project+
   def copy_issues(project)

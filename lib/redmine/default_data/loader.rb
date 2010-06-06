@@ -131,9 +131,6 @@ module Redmine
             }
           
             # Enumerations
-            DocumentCategory.create!(:opt => "DCAT", :name => l(:default_doc_category_public), :position => 1)
-            DocumentCategory.create!(:opt => "DCAT", :name => l(:default_doc_category_private), :position => 2)
-          
             IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_low), :position => 1)
             IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_normal), :position => 2, :is_default => true)
             IssuePriority.create!(:opt => "IPRI", :name => l(:default_priority_high), :position => 3)
