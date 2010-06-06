@@ -328,7 +328,7 @@ class Mailer < ActionMailer::Base
       recipients.delete(@author.mail) if recipients
       cc.delete(@author.mail) if cc
       bcc.delete(@author.mail) if bcc
-    end unless User.current == User.anonymous #no need to check for prefs if current user is anonymous
+    end #unless User.current == User.anonymous #no need to check for prefs if current user is anonymous
     # Blind carbon copy recipients
     if Setting.bcc_recipients?
       bcc([recipients, cc].flatten.compact.uniq)
