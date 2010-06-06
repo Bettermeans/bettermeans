@@ -18,10 +18,6 @@
 <p>
 <label><%= l(:field_priority) %>: 
 <%= select_tag('priority_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(IssuePriority.all, :id, :name)) %></label>
-<!-- <label> --><%#= l(:field_category) %>: 
-<%#= select_tag('category_id', content_tag('option', l(:label_no_change_option), :value => '') +
-                                content_tag('option', l(:label_none), :value => 'none') +
-                                options_from_collection_for_select(@project.issue_categories, :id, :name)) %><!-- </label> -->
 </p>
 <p>
 <label><%= l(:field_assigned_to) %>: 

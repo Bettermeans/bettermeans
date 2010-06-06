@@ -5,8 +5,7 @@
 
 <h2><%=h @document.title %></h2>
 
-<p><em><%=h @document.category.name %><br />
-<%= format_date @document.created_on %></em></p>
+<p><em><%= format_date @document.created_on %></em></p>
 <div class="wiki">
 <%= textilizable @document.description, :attachments => @document.attachments %>
 </div>

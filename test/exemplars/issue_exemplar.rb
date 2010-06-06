@@ -24,6 +24,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -34,7 +35,6 @@ end
 #  subject              :string(255)     default(""), not null
 #  description          :text
 #  due_date             :date
-#  category_id          :integer
 #  status_id            :integer         default(0), not null
 #  assigned_to_id       :integer
 #  priority_id          :integer         default(0), not null

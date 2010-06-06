@@ -10,7 +10,6 @@ class Issue < ActiveRecord::Base
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :retro
-  # belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
     
   has_many :journals, :as => :journalized, :dependent => :destroy, :order => "#{Journal.table_name}.created_on ASC"  
   has_many :time_entries, :dependent => :delete_all
@@ -239,13 +238,6 @@ class Issue < ActiveRecord::Base
   # def validate_on_create
   #   errors.add :tracker_id, :invalid unless project.trackers.include?(tracker)
   # end
-  
-  def before_create
-    # default assignment based on category
-    # if assigned_to.nil? && category && category.assigned_to
-    #   self.assigned_to = category.assigned_to
-    # end
-  end
   
   # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
   # even if the user turns off the setting later
@@ -551,6 +543,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: issues
@@ -561,7 +554,6 @@ end
 #  subject              :string(255)     default(""), not null
 #  description          :text
 #  due_date             :date
-#  category_id          :integer
 #  status_id            :integer         default(0), not null
 #  assigned_to_id       :integer
 #  priority_id          :integer         default(0), not null

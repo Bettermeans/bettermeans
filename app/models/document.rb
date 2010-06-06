@@ -4,7 +4,6 @@
 
 class Document < ActiveRecord::Base
   belongs_to :project
-  belongs_to :category, :class_name => "DocumentCategory", :foreign_key => "category_id"
   acts_as_attachable :delete_permission => :manage_documents
 
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
@@ -13,17 +12,11 @@ class Document < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.id}}
   acts_as_activity_provider :find_options => {:include => :project}
   
-  validates_presence_of :project, :title, :category
+  validates_presence_of :project, :title
   validates_length_of :title, :maximum => 60
   
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_documents, project)
-  end
-  
-  def after_initialize
-    if new_record?
-      self.category ||= DocumentCategory.default
-    end
   end
   
   def updated_on
@@ -43,13 +36,13 @@ class Document < ActiveRecord::Base
 end
 
 
+
 # == Schema Information
 #
 # Table name: documents
 #
 #  id          :integer         not null, primary key
 #  project_id  :integer         default(0), not null
-#  category_id :integer         default(0), not null
 #  title       :string(60)      default(""), not null
 #  description :text
 #  created_on  :datetime

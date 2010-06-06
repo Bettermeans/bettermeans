@@ -189,9 +189,6 @@ module Redmine
         pdf.SetFontStyle('',9)
         pdf.Cell(60,5, issue.author.to_s,"R")
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_category) + ":","L")
-        pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, issue.category.to_s,"R")
         pdf.Ln   
         
         pdf.SetFontStyle('B',9)
