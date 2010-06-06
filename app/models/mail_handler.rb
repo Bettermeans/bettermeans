@@ -168,13 +168,6 @@ class MailHandler < ActiveRecord::Base
     if issue.subject.blank?
       issue.subject = '(no subject)'
     end
-    # custom fields
-    issue.custom_field_values = issue.available_custom_fields.inject({}) do |h, c|
-      if value = get_keyword(c.name, :override => true)
-        h[c.id] = value
-      end
-      h
-    end
     issue.description = cleaned_up_text_body
     # add To and Cc as watchers before saving so the watchers can reply to Redmine
     add_watchers(issue)

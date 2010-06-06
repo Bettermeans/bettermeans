@@ -8,7 +8,6 @@ class Enumeration < ActiveRecord::Base
   belongs_to :project
   
   acts_as_list :scope => 'type = \'#{type}\''
-  acts_as_customizable
   acts_as_tree :order => 'position ASC'
 
   before_destroy :check_integrity
@@ -114,23 +113,13 @@ class Enumeration < ActiveRecord::Base
 
   # Does the +new+ Hash override the previous Enumeration?
   def self.overridding_change?(new, previous)
-    if (same_active_state?(new['active'], previous.active)) && same_custom_values?(new,previous)
+    if (same_active_state?(new['active'], previous.active))
       return false
     else
       return true
     end
   end
 
-  # Does the +new+ Hash have the same custom values as the previous Enumeration?
-  def self.same_custom_values?(new, previous)
-    previous.custom_field_values.each do |custom_value|
-      if custom_value.value != new["custom_field_values"][custom_value.custom_field_id.to_s]
-        return false
-      end
-    end
-
-    return true
-  end
   
   # Are the new and previous fields equal?
   def self.same_active_state?(new, previous)

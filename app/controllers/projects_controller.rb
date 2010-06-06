@@ -28,8 +28,6 @@ class ProjectsController < ApplicationController
   
   helper :sort
   include SortHelper
-  helper :custom_fields
-  include CustomFieldsHelper   
   helper :issues
   helper IssuesHelper
   helper :queries
@@ -52,7 +50,6 @@ class ProjectsController < ApplicationController
   
   # Add a new project
   def add
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @project = Project.new(params[:project])
     @parent = Project.find(params[:parent_id]) unless params[:parent_id] == "" || params[:parent_id].nil?
     
@@ -83,7 +80,6 @@ class ProjectsController < ApplicationController
   end
   
   def copy
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     @trackers = Tracker.all
     @root_projects = Project.find(:all,
                                   :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
@@ -198,8 +194,6 @@ class ProjectsController < ApplicationController
   end
   
   def settings
-    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    # @issue_category ||= IssueCategory.new
     @member ||= @project.all_members.new
     @trackers = Tracker.all
     @wiki ||= @project.wiki

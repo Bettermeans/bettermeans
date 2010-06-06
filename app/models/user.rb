@@ -45,8 +45,6 @@ class User < Principal
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
     
-  acts_as_customizable
-  
   has_private_messages :class_name => "Mail"
   
   attr_accessor :password, :password_confirmation
@@ -443,10 +441,6 @@ class AnonymousUser < User
   def validate_on_create
     # There should be only one AnonymousUser in the database
     errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
-  end
-  
-  def available_custom_fields
-    []
   end
   
   # Overrides a few properties

@@ -23,7 +23,6 @@ class Issue < ActiveRecord::Base
   has_many :todos, :dependent => :delete_all
   
   acts_as_attachable :after_remove => :attachment_removed
-  acts_as_customizable
   acts_as_watchable
   acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
                      :include => [:project, :journals],
@@ -126,11 +125,6 @@ class Issue < ActiveRecord::Base
     issue_votes.select {|i| i.vote_type == IssueVote::JOIN_VOTE_TYPE}
   end
   
-  # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
-  def available_custom_fields
-    (project && tracker) ? project.all_issue_custom_fields.select {|c| tracker.custom_fields.include? c } : []
-  end
-  
   def copy_from(arg)
     issue = arg.is_a?(Issue) ? arg : Issue.find(arg)
     self.attributes = issue.attributes.dup.except("id", "created_on", "updated_on")
@@ -173,7 +167,6 @@ class Issue < ActiveRecord::Base
         issue.tracker = new_tracker
       end
       if options[:copy]
-        issue.custom_field_values = self.custom_field_values.inject({}) {|h,v| h[v.custom_field_id] = v.value; h}
         issue.status = if options[:attributes] && options[:attributes][:status_id]
                          IssueStatus.find_by_id(options[:attributes][:status_id])
                        else
@@ -201,7 +194,6 @@ class Issue < ActiveRecord::Base
     self.tracker = nil
     write_attribute(:tracker_id, tid)
     result = write_attribute(:tracker_id, tid)
-    @custom_field_values = nil
     result
   end
   
@@ -288,7 +280,6 @@ class Issue < ActiveRecord::Base
     @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
     @issue_before_change = self.clone
     @issue_before_change.status = self.status
-    @custom_values_before_change = {}
 
     # Make sure updated_on is updated when adding a note.
     updated_on_will_change!

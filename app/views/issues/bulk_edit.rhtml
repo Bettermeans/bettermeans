@@ -37,12 +37,6 @@
 <%= text_field_tag 'due_date', '', :size => 10 %><%= calendar_for('due_date') %></label>
 </p>
 
-<% @custom_fields.each do |custom_field| %>
-<p><label><%= h(custom_field.name) %></label>
-<%= select_tag "custom_field_values[#{custom_field.id}]", options_for_select([[l(:label_no_change_option), '']] + custom_field.possible_values) %></label>
-</p>
-<% end %>
-
 </fieldset>
 
 <fieldset><legend><%= l(:field_notes) %></legend>

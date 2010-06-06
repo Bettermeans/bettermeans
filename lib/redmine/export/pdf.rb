@@ -141,18 +141,13 @@ module Redmine
           end
           pdf.Cell(15, row_height, issue.id.to_s, 1, 0, 'L', 1)
           query.columns.each_with_index do |column, i|
-            s = if column.is_a?(QueryCustomFieldColumn)
-              cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}
-              show_value(cv)
+            value = issue.send(column.name)
+            if value.is_a?(Date)
+              format_date(value)
+            elsif value.is_a?(Time)
+              format_time(value)
             else
-              value = issue.send(column.name)
-              if value.is_a?(Date)
-                format_date(value)
-              elsif value.is_a?(Time)
-                format_time(value)
-              else
-                value
-              end
+              value
             end
             pdf.Cell(col_width[i], row_height, s.to_s, 1, 0, 'L', 1)
           end
@@ -218,13 +213,6 @@ module Redmine
         pdf.SetFontStyle('',9)
         pdf.Cell(60,5, format_date(issue.due_date),"RB")
         pdf.Ln
-          
-        for custom_value in issue.custom_field_values
-          pdf.SetFontStyle('B',9)
-          pdf.Cell(35,5, custom_value.custom_field.name + ":","L")
-          pdf.SetFontStyle('',9)
-          pdf.MultiCell(155,5, (show_value custom_value),"R")
-        end
           
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_subject) + ":","LTB")

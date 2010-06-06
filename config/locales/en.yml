@@ -430,9 +430,6 @@ en:
   label_issue_category: Item category
   label_issue_category_plural: Item categories
   label_issue_category_new: New category
-  label_custom_field: Custom field
-  label_custom_field_plural: Custom fields
-  label_custom_field_new: New custom field
   label_enumerations: Enumerations
   label_enumeration_new: New value
   label_information: Information
@@ -1039,7 +1036,6 @@ en:
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
-  text_custom_field_possible_values_info: 'One line for each value'
   text_wiki_page_destroy_question: "This page has {{descendants}} child page(s) and descendant(s). What do you want to do?"
   text_wiki_page_nullify_children: "Keep child pages as root pages"
   text_wiki_page_destroy_children: "Delete child pages and all their descendants"

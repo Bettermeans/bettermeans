@@ -23,14 +23,6 @@ module ActiveRecord
 
           if attr == "base"
             full_messages << message
-          elsif attr == "custom_values"
-            # Replace the generic "custom values is invalid"
-            # with the errors on custom values
-            @base.custom_values.each do |value|
-              value.errors.each do |attr, msg|
-                full_messages << value.custom_field.name + ' ' + msg
-              end
-            end
           else
             attr_name = @base.class.human_attribute_name(attr)
             full_messages << attr_name + ' ' + message.to_s

@@ -18,8 +18,6 @@ class IssuesController < ApplicationController
   helper :journals
   helper :projects
   include ProjectsHelper   
-  helper :custom_fields
-  include CustomFieldsHelper
   helper :issue_relations
   include IssueRelationsHelper
   helper :watchers
@@ -108,8 +106,6 @@ class IssuesController < ApplicationController
     @issue = Issue.new
     @issue.copy_from(params[:copy_from]) if params[:copy_from]
     @issue.project = @project
-    # Tracker must be set before custom field values
-    # @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
     @issue.tracker ||= Tracker.find(params[:tracker_id] || :first || params[:issue][:tracker_id])
     if @issue.tracker.nil?
       render_error l(:error_no_tracker_in_project)
@@ -317,24 +313,6 @@ class IssuesController < ApplicationController
     journal = @issue.init_journal(User.current, params[:notes]) if params[:notes]
     @issue.update_accept_total  @iv.isbinding
     @issue.save if !@issue.update_status
-    
-    # @issue.status = @issue.updated_status
-    #     
-    #     if @issue.status == IssueStatus.accepted
-    #       @issue.assigned_to.add_as_contributor_if_new(@issue.project)
-    #       if @issue.is_gift?
-    #         @issue.retro_id = Retro::NOT_NEEDED_ID
-    #         @issue.give_credits
-    #         @issue.save
-    #       else #if a non-gift is accepted, set retro id to not started to prep for next retrospective
-    #         @issue.retro_id = Retro::NOT_STARTED_ID
-    #         @issue.save
-    #         @issue.project.start_retro_if_ready
-    #       end
-    #     else
-    #       @issue.save
-    #     end
-    #     
     @issue.reload
     
     respond_to do |format|
@@ -432,8 +410,6 @@ class IssuesController < ApplicationController
       status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
       priority = params[:priority_id].blank? ? nil : IssuePriority.find_by_id(params[:priority_id])
       assigned_to = (params[:assigned_to_id].blank? || params[:assigned_to_id] == 'none') ? nil : User.find_by_id(params[:assigned_to_id])
-      # category = (params[:category_id].blank? || params[:category_id] == 'none') ? nil : @project.issue_categories.find_by_id(params[:category_id])
-      custom_field_values = params[:custom_field_values] ? params[:custom_field_values].reject {|k,v| v.blank?} : nil
       
       unsaved_issue_ids = []      
       @issues.each do |issue|
@@ -444,7 +420,6 @@ class IssuesController < ApplicationController
         issue.start_date = params[:start_date] unless params[:start_date].blank?
         issue.due_date = params[:due_date] unless params[:due_date].blank?
         issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
-        issue.custom_field_values = custom_field_values if custom_field_values && !custom_field_values.empty?
         # Don't save any change to the issue if the user is not authorized to apply the requested status
         unless (status.nil? || (issue.new_statuses_allowed_to(User.current).include?(status) && issue.status = status)) && issue.save
           # Keep unsaved issue ids to display them in flash error
@@ -462,7 +437,6 @@ class IssuesController < ApplicationController
       return
     end
     @available_statuses = Workflow.available_statuses(@project)
-    @custom_fields = @project.issue_custom_fields.select {|f| f.field_format == 'list'}
   end
 
   def move
