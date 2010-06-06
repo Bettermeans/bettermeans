@@ -1,4 +1,4 @@
-var D; //all data
+var D = []; //all data
 var R; //all retrospectives
 var MAX_REQUESTS_PER_PERSON = 4;
 var ANONYMOUS_USER_ID = 2;
@@ -143,8 +143,12 @@ function start(){
 		$("#quote").hide();
 	}
 	else{
-		load_dashboard();
-		
+		//prepares ui for page
+		prepare_page();
+		load_dashboard_data();
+		load_buttons();
+		timer_active = false; //now that data is loaded, we can start timer
+		start_timer();
 		
 		$(document).keyup(function(e)
 		{
@@ -167,8 +171,6 @@ function start(){
 			start_timer();
 			last_activity = new Date();
 		});
-
-
 	}
 }
 
@@ -182,22 +184,30 @@ function parse_xml(xml){
 	  return xml;
 }
 
-function load_dashboard(){
+
+function load_dashboard_data(){
 	$("#load_dashboard").hide();	
-	$("#quote").show();
-	$("#loading").show();
+	$("#quote").hide();
+	$("#loading").hide();
 	
 	keyboard_shortcuts = false;
+	load_dashboard_data_for_statuses('10,11','new');
+	load_dashboard_data_for_statuses('1,6','open');
+	load_dashboard_data_for_statuses('4','inprogress');
+	load_dashboard_data_for_statuses('8,14,13','done');
+	load_retros(); 
+	load_dashboard_data_for_statuses('9,12','canceled'); //canceled and archived
+}
+
+function load_dashboard_data_for_statuses(status_ids,name){
+	var url = url_for({ controller: 'projects',
+	                           action    : 'dashdata',
+								id		: projectId
+	                          });
 
 	
-	var url = url_for({ controller: 'projects',
-                           action    : 'dashdata',
-							id		: projectId
-                          });
-
-//1,4,8,10,11,13,14
-
-	var url = url + '?status_ids=1,4,6,8,10,11,13,14';
+	// var url = url + '?status_ids=1,4,6,8,10,11,13,14';
+	var url = url + '?status_ids=' + status_ids;
 	
 	$.ajax({
 	   type: "GET",
@@ -207,7 +217,7 @@ function load_dashboard(){
 	   dataType: ($.browser.msie) ? "text" : "json",
 	   url: url,
 	   success:  	function(html){
-			data_ready(html);
+			data_ready(html,name);
 		},
 	   error: 	function (xhr, textStatus, errorThrown) {
 		// alert(xhr.status);
@@ -219,10 +229,7 @@ function load_dashboard(){
 		},
 		timeout: 30000 //30 seconds
 	 });
-	
 
-   	load_buttons();
-	// load_search();
 }
 
 //Binds events to search box
@@ -251,14 +258,16 @@ function bind_search_events(){
 // 	}
 // });
 
-function data_ready(html){
+function data_ready(html,name){
 	last_data_pull = new Date();
-	$("#loading").hide();
-	$("#quote").hide();
-	D = html;
+	// $("#loading").hide();
+	// $("#quote").hide();
+	last_item = D.length;
+	D = D.concat(html);
+	add_items_to_panels(last_item);
+	$('#' + name + '_close').addClass('closePanel').removeClass('closePanelLoading');
+	update_panel_counts();
 	prepare_item_lookup_array();
-	prepare_page();
-	load_retros(); 
 }
 
 
@@ -354,15 +363,12 @@ function load_search(){
 
 
 function prepare_page(){
-	load_ui();
+	display_panels();
 	resize();
 	recalculate_widths();
 	keyboard_shortcuts = true;	
 	bind_search_events();
 	make_text_boxes_toggle_keyboard_shortcuts();
-	timer_active = false; //now that data is loaded, we can start timer
-	start_timer();
-	update_panel_counts();
 }
 
 function start_timer(){
@@ -390,7 +396,7 @@ function prepare_item_lookup_array(){
 
 
 // Loads all items in their perspective panels, and sets up panels
-function load_ui(){
+function display_panels(){
 	insert_panel(0,'new','New',true);
 	// insert_panel(0,'estimate','In Estimation',true);
 	insert_panel(0,'open','Open',true);
@@ -398,15 +404,21 @@ function load_ui(){
 	insert_panel(0,'done','Done',true);
 	insert_panel(0,'canceled','Canceled',false);
 	insert_panel(0,'archived','Archived',false);
-	
-	for(var i = 0; i < D.length; i++ ){
-		add_item(i,"bottom",false);	
-	}
 
+	// for(var i = 0; i < D.length; i++ ){
+	// 	add_item(i,"bottom",false);	
+	// }
+
+	
 	sort_panel('open');
 	sort_panel('new');
 	sort_panel('inprogress');
-	
+}
+
+function add_items_to_panels(last_item){
+	for(var i = last_item; i < D.length; i++ ){
+			add_item(i,"bottom",false);	
+	}
 }
 
 //Called after data is ready for a retrospective
@@ -2267,7 +2279,7 @@ function generate_and_append_panel(position,name,title, visible){
 	panelHtml = panelHtml + "<div class='panelHeaderRight'></div>";
 	panelHtml = panelHtml + "<div class='panelHeaderLeft'></div>";
 	panelHtml = panelHtml + "<div id='panel_header_" + name +"'class='panelHeader'>";
-	panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanel panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\");return false;'></a>";
+	panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanelLoading panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\");return false;'></a>";
 	panelHtml = panelHtml + "  <span id='" + name +"_panel_title' class='panelTitle'>" + title + " (0)</span>";
 	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="help_question_mark">';
 	panelHtml = panelHtml + "</div>";
