@@ -194,6 +194,10 @@ function load_dashboard(){
                            action    : 'dashdata',
 							id		: projectId
                           });
+
+//1,4,8,10,11,13,14
+
+	var url = url + '?status_ids=1,4,6,8,10,11,13,14';
 	
 	$.ajax({
 	   type: "GET",
@@ -359,7 +363,6 @@ function prepare_page(){
 	timer_active = false; //now that data is loaded, we can start timer
 	start_timer();
 	update_panel_counts();
-	
 }
 
 function start_timer(){
