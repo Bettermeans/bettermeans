@@ -452,8 +452,8 @@ font-weight:bold;
 text-align:center;
 padding:0.6em;
 z-index:100;
-filter:alpha(opacity=50);
-opacity: 0.5;
+filter:alpha(opacity=70);
+opacity: 0.7;
 }
 
 html>body #ajax-indicator { position: fixed; }
@@ -811,6 +811,8 @@ padding-bottom: 3px;
 .icon-file.application-pdf { background-image: url(/images/files/pdf.png); }
 .icon-file.application-zip { background-image: url(/images/files/zip.png); }
 .icon-file.application-x-gzip { background-image: url(/images/files/zip.png); }
+.icon-activate  { background-image: url(/images/icon_accept.png); }
+.icon-deactivate { background-image: url(/images/cancel16.png); }
 
 img.gravatar { 
 	padding: 2px;

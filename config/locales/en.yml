@@ -639,7 +639,7 @@ en:
   label_watched_issues: Watched items
   label_related_issues: Related items
   label_applied_status: Applied status
-  label_loading: Loading...
+  label_loading: Working...
   label_relation_new: New relation
   label_relation_delete: Delete relation
   label_relates_to: related to
@@ -972,6 +972,9 @@ en:
   button_mark_as_read: Mark as read
   button_duplicate: Duplicate
   button_show: Show
+  
+  button_activate: Activate
+  button_deactivate: Deactivate
   
   button_dashboard: Goto Dashboard
   

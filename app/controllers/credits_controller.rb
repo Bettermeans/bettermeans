@@ -1,6 +1,8 @@
 class CreditsController < ApplicationController
   
-  before_filter :require_admin
+  before_filter :require_admin, :except => [:disable, :enable]
+  before_filter :find_credit, :only => [:disable, :enable]
+  before_filter :self_authorize, :only => [:disable, :enable]
   
   # GET /credits
   # GET /credits.xml
@@ -78,6 +80,60 @@ class CreditsController < ApplicationController
       end
     end
   end
+  
+  def disable
+    respond_to do |format|
+      if @credit.disable
+        format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
+        format.js do
+          update_credit_partials
+        end
+      else
+        format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
+        format.js do
+          render :update do |page|
+            page.call '$.jGrowl', 'Something went wrong. Couldn\'t update record.'
+          end
+        end
+      end
+    end
+  end
+  
+  def enable
+    respond_to do |format|
+      if @credit.enable
+        format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
+        format.js do
+          update_credit_partials
+        end
+      else
+        format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
+        format.js do
+          render :update do |page|
+            page.call '$.jGrowl', 'Something went wrong. Couldn\'t update record.'
+          end
+        end
+      end
+    end
+  end
+  
+  def update_credit_partials
+    @project = @credit.project
+    @credits = @project.credits
+    @active_credits = @credits.find_all{|credit| credit.enabled == true && credit.settled_on.nil? == true }.group_by{|credit| credit.owner_id}
+    
+    render :update do |page|
+      page.replace_html "my_credits_partial", :partial => 'credits/my_credits'
+      page.replace_html "credit_queue_partial", :partial => 'credits/credit_queue'
+      page.replace_html "credit_history_partial", :partial => 'credits/credit_history'
+      page.replace_html "active_credits_partial", :partial => 'credits/credit_breakdown', :locals => {:group_credits => @active_credits, :title => l(:label_active_credits)}
+      page.visual_effect :highlight, "q_#{@credit.id}", :duration => 2
+      page.visual_effect :highlight, "h_#{@credit.id}", :duration => 2
+      page.visual_effect :highlight, "m_#{@credit.id}", :duration => 3
+    end
+  end
+  
+  
 
   # DELETE /credits/1
   # DELETE /credits/1.xml
@@ -88,6 +144,21 @@ class CreditsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
       format.xml  { head :ok }
+    end
+  end
+  
+  private
+  
+  def find_credit
+    @credit = Credit.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
+  end
+  
+  def self_authorize
+    if User.current.id != @credit.owner_id
+      render_403
+      return false
     end
   end
 end
