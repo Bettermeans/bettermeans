@@ -1233,7 +1233,10 @@ function generate_item(dataId){
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
 	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ item.id +');return false;">'; 
-	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
+
+        if(D[dataId].tracker.id != standard_trackers.Hourly.id) {
+            html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
+        }
 	
 	if (show_comment(item)){
 	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png" onclick="show_details_flyover('+ dataId +',this.id);return false;">'; 
@@ -1388,11 +1391,14 @@ function generate_notice(noticeHtml, noticeId){
 function buttons_for(dataId,expanded){
 	item = D[dataId];
 	html = '';
-	
+    	
 	switch (item.status.name){
 	case 'New':
 		html = html + pri_button(dataId);
-		html = html + agree_buttons_root(dataId,false,expanded);
+	    if(item.tracker.id != standard_trackers.Hourly.id)
+		html = html + agree_buttons_root(dataId, false, expanded);
+	    else
+		html = html + dash_button('start', dataId);
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
