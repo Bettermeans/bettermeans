@@ -30,32 +30,6 @@ class QueryColumn
   end
 end
 
-class QueryCustomFieldColumn < QueryColumn
-
-  def initialize(custom_field)
-    self.name = "cf_#{custom_field.id}".to_sym
-    self.sortable = custom_field.order_statement || false
-    if %w(list date bool int).include?(custom_field.field_format)
-      self.groupable = custom_field.order_statement
-    end
-    self.groupable ||= false
-    @cf = custom_field
-  end
-  
-  def caption
-    @cf.name
-  end
-  
-  def custom_field
-    @cf
-  end
-  
-  def value(issue)
-    cv = issue.custom_values.detect {|v| v.custom_field_id == @cf.id}
-    cv && @cf.cast_value(cv.value)
-  end
-end
-
 class Query < ActiveRecord::Base
   class StatementInvalid < ::ActiveRecord::StatementInvalid
   end
@@ -188,10 +162,8 @@ class Query < ActiveRecord::Base
       unless @project.descendants.active.empty?
         @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => @project.descendants.visible.collect{|s| [s.name, s.id.to_s] } }
       end
-      add_custom_fields_filters(@project.all_issue_custom_fields)
     else
       # global filters for cross project issue list
-      add_custom_fields_filters(IssueCustomField.find(:all, :conditions => {:is_filter => true, :is_for_all => true}))
     end
     @available_filters
   end
@@ -237,10 +209,6 @@ class Query < ActiveRecord::Base
   def available_columns
     return @available_columns if @available_columns
     @available_columns = Query.available_columns
-    @available_columns += (project ? 
-                            project.all_issue_custom_fields :
-                            IssueCustomField.find(:all)
-                           ).collect {|cf| QueryCustomFieldColumn.new(cf) }      
   end
   
   # Returns an array of columns that can be used to group the results
@@ -364,14 +332,7 @@ class Query < ActiveRecord::Base
       end
       
       sql = ''
-      if field =~ /^cf_(\d+)$/
-        # custom field
-        db_table = CustomValue.table_name
-        db_field = 'value'
-        is_custom_filter = true
-        sql << "#{Issue.table_name}.id IN (SELECT #{Issue.table_name}.id FROM #{Issue.table_name} LEFT OUTER JOIN #{db_table} ON #{db_table}.customized_type='Issue' AND #{db_table}.customized_id=#{Issue.table_name}.id AND #{db_table}.custom_field_id=#{$1} WHERE "
-        sql << sql_for_field(field, operator, v, db_table, db_field, true) + ')'
-      elsif field == 'watcher_id'
+      if field == 'watcher_id'
         db_table = Watcher.table_name
         db_field = 'user_id'
         sql << "#{Issue.table_name}.id #{ operator == '=' ? 'IN' : 'NOT IN' } (SELECT #{db_table}.watchable_id FROM #{db_table} WHERE #{db_table}.watchable_type='Issue' AND "
@@ -407,9 +368,6 @@ class Query < ActiveRecord::Base
         r = {nil => issue_count}
       end
       c = group_by_column
-      if c.is_a?(QueryCustomFieldColumn)
-        r = r.keys.inject({}) {|h, k| h[c.custom_field.cast_value(k)] = r[k]; h}
-      end
     end
     r
   rescue ::ActiveRecord::StatementInvalid => e
@@ -446,7 +404,7 @@ class Query < ActiveRecord::Base
   private
   
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
-  def sql_for_field(field, operator, value, db_table, db_field, is_custom_filter=false)
+  def sql_for_field(field, operator, value, db_table, db_field)
     sql = ''
     case operator
     when "="
@@ -455,10 +413,8 @@ class Query < ActiveRecord::Base
       sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
     when "!*"
       sql = "#{db_table}.#{db_field} IS NULL"
-      sql << " OR #{db_table}.#{db_field} = ''" if is_custom_filter
     when "*"
       sql = "#{db_table}.#{db_field} IS NOT NULL"
-      sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
     when ">="
       sql = "#{db_table}.#{db_field} >= #{value.first.to_i}"
     when "<="
@@ -495,26 +451,6 @@ class Query < ActiveRecord::Base
     end
     
     return sql
-  end
-  
-  def add_custom_fields_filters(custom_fields)
-    @available_filters ||= {}
-    
-    custom_fields.select(&:is_filter?).each do |field|
-      case field.field_format
-      when "text"
-        options = { :type => :text, :order => 20 }
-      when "list"
-        options = { :type => :list_optional, :values => field.possible_values, :order => 20}
-      when "date"
-        options = { :type => :date, :order => 20 }
-      when "bool"
-        options = { :type => :list, :values => [[l(:general_text_yes), "1"], [l(:general_text_no), "0"]], :order => 20 }
-      else
-        options = { :type => :string, :order => 20 }
-      end
-      @available_filters["cf_#{field.id}"] = options.merge({ :name => field.name })
-    end
   end
   
   # Returns a SQL clause for a date or datetime field.

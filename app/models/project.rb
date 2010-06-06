@@ -62,17 +62,10 @@ class Project < ActiveRecord::Base
   has_many :reputations, :dependent => :delete_all
   has_many :credit_disributions
   has_many :motions
-  # Custom field for the project issues
-  has_and_belongs_to_many :issue_custom_fields, 
-                          :class_name => 'IssueCustomField',
-                          :order => "#{CustomField.table_name}.position",
-                          :join_table => "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-                          :association_foreign_key => 'custom_field_id'
   acts_as_nested_set :order => 'name', :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
 
-  acts_as_customizable
   acts_as_searchable :columns => ['name', 'description'], :project_key => 'id', :permission => nil
   acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
@@ -398,12 +391,6 @@ class Project < ActiveRecord::Base
     all_members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user}
   end
   
-  # Returns an array of all custom fields enabled for project issues
-  # (explictly associated custom fields and custom fields enabled for all projects)
-  def all_issue_custom_fields
-    @all_issue_custom_fields ||= (IssueCustomField.for_all + issue_custom_fields).uniq.sort
-  end
-  
   def project
     self
   end
@@ -525,8 +512,6 @@ class Project < ActiveRecord::Base
         copy = Project.new(attributes)
         copy.enabled_modules = project.enabled_modules
         copy.trackers = project.trackers
-        copy.custom_values = project.custom_values.collect {|v| v.clone}
-        copy.issue_custom_fields = project.issue_custom_fields
         return copy
       else
         return nil

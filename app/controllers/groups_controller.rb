@@ -7,8 +7,6 @@ class GroupsController < ApplicationController
   
   before_filter :require_admin
   
-  helper :custom_fields
-  
   # GET /groups
   # GET /groups.xml
   def index
