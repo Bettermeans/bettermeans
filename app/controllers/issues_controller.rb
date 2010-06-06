@@ -226,7 +226,13 @@ class IssuesController < ApplicationController
   end
   
   def release
-    params[:issue] = {:status_id => IssueStatus.open.id, :assigned_to_id => ''}
+    if(@issue.is_hourly?)
+      new_status_id = IssueStatus.newstatus.id
+    else
+      new_status_id = IssueStatus.open.id
+    end
+      
+    params[:issue] = {:status_id => new_status_id, :assigned_to_id => ''}
     change_status
   end
   
@@ -282,6 +288,12 @@ class IssuesController < ApplicationController
           render_error 'Can not estimate request unless it is new, open, or in estimation' 
           return false;
     end
+    
+    if(@issue.is_hourly?)
+      render_error 'Can not estimate hourly items'
+      return false;
+    end
+    
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :points => params[:points]
     @issue.update_estimate_total @iv.isbinding
     @issue.save if !@issue.update_status
