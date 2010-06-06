@@ -156,9 +156,15 @@ class ProjectsController < ApplicationController
     #                                             :author =>      { :only => [:firstname, :lastname, :login] },
     #                                             :assigned_to => { :only => [:firstname, :lastname, :login] }})
     
-    render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND (retro_id < 0 OR retro_id is null)")  \
-                         .to_json(:include => { :journals =>    { :include => :user },
-                                                :issue_votes => { :include => :user },
+    if params[:status_ids]
+      @conditions = "project_id = #{@project.id} AND (retro_id < 0 OR retro_id is null) AND status_id in (#{params[:status_ids]})"
+    else
+      @conditions = "project_id = #{@project.id} AND (retro_id < 0 OR retro_id is null)"
+    end
+    
+    render :json => Issue.find(:all, :conditions => @conditions)  \
+                         .to_json(:include => { :journals =>    { :include => {:user => { :only => [:firstname, :lastname, :login] }}},
+                                                :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                                                 :status =>      { :only => :name },
                                                 :todos =>       { :only => [:id, :subject, :completed_on, :owner_login] },
                                                 :tracker =>     { :only => [:name,:id] },
