@@ -2492,7 +2492,10 @@ function generate_tracker_dropdown(dont_show_gift) {
 
 	var tracker = standard_trackers[name];
 
-	if(tracker.name == 'Gift' && dont_show_gift) 
+	if(tracker.id == standard_trackers.Gift.id && dont_show_gift)
+	    continue;
+
+	if(tracker.id == standard_trackers.Hourly.id && hourly_types.length == 0)
 	    continue;
 
 	var selected_text = (tracker.name == 'Feature' ? 'selected="true"' : '');
