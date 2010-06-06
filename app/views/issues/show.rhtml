@@ -125,6 +125,19 @@
   var currentUserIsCitizen = '<%= User.current.core_member_of?(@project) %>';
   var currentUserIsMember = '<%= User.current.member_of?(@project) %>';
   var point_factor = <%= Setting::POINT_FACTOR.to_json %>;  
+
+  var standard_trackers = function() {
+      var trackers = <%= Tracker.standard_ones.to_json %>
+
+      var trackers_object = {};
+
+      for(var i=0; i<trackers.length; i++) {
+	  trackers_object[trackers[i].name] = trackers[i];
+      }
+
+      return trackers_object;
+
+  }();
   
   $('document').ready(function(){
     show_item();
