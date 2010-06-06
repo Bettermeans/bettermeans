@@ -15,6 +15,8 @@ var panel_height = $(window).height() - 200;
 var last_activity = new Date(); //tracks last activity of mouse or keyboard click. Used to turn off server polling
 var last_data_pull = new Date(); //tracks last data recieved from server
 var highest_pri = -9999;
+var loaded_panels = 0; //keeps track of how many panels have had their data loaded
+
 
 $(window).bind('resize', function() {
 	resize();
@@ -195,7 +197,6 @@ function load_dashboard_data(){
 	load_dashboard_data_for_statuses('1,6','open');
 	load_dashboard_data_for_statuses('4','inprogress');
 	load_dashboard_data_for_statuses('8,14,13','done');
-	load_retros(); 
 }
 
 function load_dashboard_data_for_statuses(status_ids,name){
@@ -267,6 +268,10 @@ function data_ready(html,name){
 	$('#' + name + '_close').addClass('closePanel').removeClass('closePanelLoading');
 	update_panel_counts();
 	prepare_item_lookup_array();
+	loaded_panels = loaded_panels + 1;
+	if (loaded_panels == 4){
+		load_retros();
+	}
 }
 
 
@@ -297,6 +302,11 @@ function load_retros(){
 function retros_ready(html){
 	R = html;
 	insert_retros();	
+	
+	//canceled and archived loaded in the background
+	load_dashboard_data_for_statuses('9','canceled'); 
+	load_dashboard_data_for_statuses('12','archived'); 
+	
 }
 
 function insert_retros(){
@@ -433,10 +443,7 @@ function rdata_ready(html,rdataId){
 	for(; i < D.length; i++ ){
 		add_item(i,"bottom",false,panelid);	
 	}
-	update_panel_count(panelid,true);
-	
-	load_dashboard_data_for_statuses('9,12','canceled'); //canceled and archived loaded in the background
-	
+	update_panel_count(panelid,true);	
 }
 
 
