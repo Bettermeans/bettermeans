@@ -196,7 +196,6 @@ function load_dashboard_data(){
 	load_dashboard_data_for_statuses('4','inprogress');
 	load_dashboard_data_for_statuses('8,14,13','done');
 	load_retros(); 
-	load_dashboard_data_for_statuses('9,12','canceled'); //canceled and archived
 }
 
 function load_dashboard_data_for_statuses(status_ids,name){
@@ -435,6 +434,9 @@ function rdata_ready(html,rdataId){
 		add_item(i,"bottom",false,panelid);	
 	}
 	update_panel_count(panelid,true);
+	
+	load_dashboard_data_for_statuses('9,12','canceled'); //canceled and archived loaded in the background
+	
 }
 
 
