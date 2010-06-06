@@ -62,17 +62,6 @@ class Notification < ActiveRecord::Base
   def self.activate_all(variation, source_id)
     update_all(variation,source_id,-1,STATE_ACTIVE)
   end
-  # 
-  # # Creates a notification (isolating this method so that we can add delayed job in the future)
-  # def self.create(recipient_id, variation, params, source_id)
-  #   @notification = Notification.new
-  #   @notification.recipient_id = recipient_id
-  #   @notification.variation = variation
-  #   @notification.params = params
-  #   @notification.source_id = source_id
-  #   @notification.save    
-  # end
-  
 end
 
 
