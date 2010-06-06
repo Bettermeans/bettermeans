@@ -25,15 +25,6 @@
 
 </div>
 
-<% unless @issue_custom_fields.empty? %>
-<fieldset class="box"><legend><%=l(:label_custom_field_plural)%></legend>
-<% @issue_custom_fields.each do |custom_field| %>
-    <label class="floating">
-	<%= check_box_tag 'project[issue_custom_field_ids][]', custom_field.id, (@project.all_issue_custom_fields.include? custom_field), (custom_field.is_for_all? ? {:disabled => "disabled"} : {}) %>
-	<%= custom_field.name %>
-	</label>
-<% end %>
-<%= hidden_field_tag 'project[issue_custom_field_ids][]', '' %>
 </fieldset>
 <% end %>
 <!--[eoform:project]-->

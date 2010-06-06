@@ -18,25 +18,6 @@ module IssuesHelper
       "<strong>#{@cached_label_priority}</strong>: #{issue.priority.name}"
   end
   
-  def render_custom_fields_rows(issue)
-    return if issue.custom_field_values.empty?
-    ordered_values = []
-    half = (issue.custom_field_values.size / 2.0).ceil
-    half.times do |i|
-      ordered_values << issue.custom_field_values[i]
-      ordered_values << issue.custom_field_values[i + half]
-    end
-    s = "<tr>\n"
-    n = 0
-    ordered_values.compact.each do |value|
-      s << "</tr>\n<tr>\n" if n > 0 && (n % 2) == 0
-      s << "\t<th>#{ h(value.custom_field.name) }:</th><td>#{ simple_format_without_paragraph(h(show_value(value))) }</td>\n"
-      n += 1
-    end
-    s << "</tr>\n"
-    s
-  end
-  
   def sidebar_queries
     unless @sidebar_queries
       # User can see public queries and his own queries
@@ -79,13 +60,6 @@ module IssuesHelper
       when 'estimated_hours'
         value = "%0.02f" % detail.value.to_f unless detail.value.blank?
         old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
-      end
-    when 'cf'
-      custom_field = CustomField.find_by_id(detail.prop_key)
-      if custom_field
-        label = custom_field.name
-        value = format_value(detail.value, custom_field.field_format) if detail.value
-        old_value = format_value(detail.old_value, custom_field.field_format) if detail.old_value
       end
     when 'attachment'
       label = l(:label_attachment)
@@ -142,10 +116,6 @@ module IssuesHelper
                   l(:field_created_on),
                   l(:field_updated_on)
                   ]
-      # Export project custom fields if project is given
-      # otherwise export custom fields marked as "For all projects"
-      custom_fields = project.nil? ? IssueCustomField.for_all : project.all_issue_custom_fields
-      custom_fields.each {|f| headers << f.name}
       # Description in the last column
       headers << l(:field_description)
       csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
@@ -165,7 +135,6 @@ module IssuesHelper
                   format_time(issue.created_on),  
                   format_time(issue.updated_on)
                   ]
-        custom_fields.each {|f| fields << show_value(issue.custom_value_for(f)) }
         fields << issue.description
         csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
       end

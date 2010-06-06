@@ -6,7 +6,6 @@ class Mailer < ActionMailer::Base
   layout 'mailer'
   helper :application
   helper :issues
-  helper :custom_fields
 
   include ActionController::UrlWriter
   include Redmine::I18n

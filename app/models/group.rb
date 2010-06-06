@@ -6,8 +6,6 @@ class Group < Principal
   has_and_belongs_to_many :users, :after_add => :user_added,
                                   :after_remove => :user_removed
   
-  acts_as_customizable
-  
   validates_presence_of :lastname
   validates_uniqueness_of :lastname, :case_sensitive => false
   validates_length_of :lastname, :maximum => 30

@@ -13,7 +13,4 @@
 <%= check_box 'enumeration', 'is_default'  %></p>
 <!--[eoform:optvalue]-->
 
-<% @enumeration.custom_field_values.each do |value| %>
-	<p><%= custom_field_tag_with_label :enumeration, value %></p>
-<% end %>
 </div>
