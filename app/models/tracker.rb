@@ -39,6 +39,10 @@ class Tracker < ActiveRecord::Base
   def expense?
     name == l(:default_issue_tracker_expense)
   end
+
+  def recurring?
+    name == l(:default_issue_tracker_recurring)
+  end
   
   
   # Returns an array of IssueStatus that are used

@@ -319,7 +319,7 @@ function make_text_boxes_toggle_keyboard_shortcuts(){
 
 
 function load_buttons(){
-	$('#main-menu').append('<input id="new_request" value="New Idea" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
+	$('#main-menu').append('<input id="new_request" value="New Request" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
 	$('#main-menu').append('<select id="filter_select" class="filter-search" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="all">Items that I&nbsp;&nbsp;&#187;</option><option value="untouched_by_me">&nbsp;&nbsp;&#187; didn\'t touch</option><option value="touched_by_me">&nbsp;&nbsp;&#187; touched</option><option value="added_by_me">&nbsp;&nbsp;&#187; added</option><option value="prioritized">&nbsp;&nbsp;&#187; prioritized</option><option value="all">Needs my&nbsp;&nbsp;&#187;</option><option value="unagreed">&nbsp;&nbsp;&#187; agreement</option><option value="unestimated">&nbsp;&nbsp;&#187; estimate</option><option value="unaccepted">&nbsp;&nbsp;&#187; acceptance</option><option value="unprioritized">&nbsp;&nbsp;&#187; prioritization</option><option value="all">Updated in last&nbsp;&nbsp;&#187;</option><option value="1">&nbsp;&nbsp;&#187; 24 hours</option><option value="2">&nbsp;&nbsp;&#187; two days</option><option value="3">&nbsp;&nbsp;&#187; three days</option><option value="7">&nbsp;&nbsp;&#187; week</option><option value="14">&nbsp;&nbsp;&#187; two weeks</option><option value="30">&nbsp;&nbsp;&#187; month</option><option value="60">&nbsp;&nbsp;&#187; two months</option></select>');
 	$('#main-menu').append('<input id="fast_search" class="fast-search" type="text"></input>');
 }
@@ -2557,6 +2557,7 @@ function item_actioned(item, dataId,action){
 
 	keyboard_shortcuts = true;
 	
+	
 	if (action == "open" || item.status.name == "Open" || pre_status == "Open") {sort_panel("open");}
 	if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
 		sort_panel(item.status.name.toLowerCase());
@@ -2718,11 +2719,14 @@ html = html + '	                      </option>';
 html = html + '	                      <option value="8">';
 html = html + '	                        Bug';
 html = html + '	                      </option>';
+html = html + '	                      <option value="10">';
+html = html + '	                        Expense';
+html = html + '	                      </option>';
 html = html + '	                      <option value="9">';
 html = html + '	                        Gift';
 html = html + '	                      </option>';
-html = html + '	                      <option value="10">';
-html = html + '	                        Expense';
+html = html + '	                      <option value="11">';
+html = html + '	                        Recurring';
 html = html + '	                      </option>';
 html = html + '	                    </select>';
 html = html + '	                  </div>';
@@ -2911,17 +2915,19 @@ html = html + '	                      </option>';
 html = html + '	                      <option value="8">';
 html = html + '	                        Bug';
 html = html + '	                      </option>';
-
-if (D[dataId].assigned_to_id != null && D[dataId].tracker.name == 'Gift' ){
-	html = html + '	                      <option value="9">';
-	html = html + '	                        Gift';
-	html = html + '	                      </option>';
-}
 if (D[dataId].tracker.name == 'Expense' ){
 	html = html + '	                      <option value="10">';
 	html = html + '	                        Expense';
 	html = html + '	                      </option>';
 }
+if (D[dataId].assigned_to_id != null && D[dataId].tracker.name == 'Gift' ){
+	html = html + '	                      <option value="9">';
+	html = html + '	                        Gift';
+	html = html + '	                      </option>';
+}
+html = html + '	                      <option value="11">';
+html = html + '	                        Recurring';
+html = html + '	                      </option>';
 html = html + '	                    </select>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
@@ -3354,12 +3360,15 @@ function poll_server_response(data){
 		dataId = ITEMHASH["item" + String(item.id)];
 		
 		if (dataId == null){
-			if (item.author_id == currentUserId){
-				continue;
-			}
 			D.push(data[i]);
 			ITEMHASH["item" + item.id] = D.length - 1;
 			add_item(D.length-1,"bottom",false);	
+			
+			//sort open panel for recurring items that slide in as open!
+			if (item.status.name == "Open") {
+				sort_panel("open");
+				$("#item_content_" + (D.length - 1)).effect("highlight", {mode: 'show'}, 5000);
+			} 
 		}
 		else{		
 			if (D[dataId].updated_on == item.updated_on){

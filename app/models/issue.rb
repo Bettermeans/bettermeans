@@ -134,9 +134,25 @@ class Issue < ActiveRecord::Base
   def copy_from(arg)
     issue = arg.is_a?(Issue) ? arg : Issue.find(arg)
     self.attributes = issue.attributes.dup.except("id", "created_on", "updated_on")
-    self.custom_values = issue.custom_values.collect {|v| v.clone}
     self.status = issue.status
     self
+  end
+  
+
+  #Creates a new issue and sets its status to open
+  #Copies all issue votes except team ones and accept/reject ones
+  def clone_recurring
+    @new_issue = Issue.new
+    @new_issue.attributes = self.attributes.dup.except("id", "created_on", "updated_on")
+    @new_issue.status = IssueStatus.open
+    @new_issue.save
+    self.issue_votes.each do |iv|
+      next if iv.vote_type == IssueVote::JOIN_VOTE_TYPE || iv.vote_type == IssueVote::ACCEPT_VOTE_TYPE
+      @new_iv = IssueVote.new
+      @new_iv.attributes = iv.attributes.dup.except("id", "issue_id")
+      @new_iv.issue_id = @new_issue.id
+      @new_iv.save
+    end
   end
   
   # Moves/copies an issue to a new project and tracker
@@ -524,14 +540,11 @@ class Issue < ActiveRecord::Base
     if @current_journal
       # attributes changes
       (Issue.column_names - %w(id description lock_version created_on updated_on pri accept reject accept_total agree disagree agree_total retro_id accept_nonbind reject_nonbind accept_total_nonbind agree_nonbind disagree_nonbind agree_total_nonbind points_nonbind pri_nonbind)).each {|c|
-        puts("creating journal for Column #{c}")
         @current_journal.details << JournalDetail.new(:property => 'attr',
                                                       :prop_key => c,
                                                       :old_value => @issue_before_change.send(c),
                                                       :value => send(c)) unless send(c)==@issue_before_change.send(c)
-       puts(@current_journal.details.inspect)
       }
-
       @current_journal.save
     end
   end
