@@ -155,10 +155,6 @@ class Query < ActiveRecord::Base
     end
   
     if project
-      # project specific filters
-      # unless @project.issue_categories.empty?
-      #   @available_filters["category_id"] = { :type => :list_optional, :order => 6, :values => @project.issue_categories.collect{|s| [s.name, s.id.to_s] } }
-      # end
       unless @project.descendants.active.empty?
         @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => @project.descendants.visible.collect{|s| [s.name, s.id.to_s] } }
       end

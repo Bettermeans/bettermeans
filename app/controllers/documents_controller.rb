@@ -11,8 +11,8 @@ class DocumentsController < ApplicationController
   helper :attachments
   
   def index
-    @sort_by = %w(catego»ry date title author).include?(params[:sort_by]) ? params[:sort_by] : 'category'
-    documents = @project.documents.find :all, :include => [:attachments, :category]
+    @sort_by = %w(catego»ry date title author).include?(params[:sort_by]) ? params[:sort_by] : 'title'
+    documents = @project.documents.find :all, :include => [:attachments]
     case @sort_by
     when 'date'
       @grouped = documents.group_by {|d| d.updated_on.to_date }
@@ -21,7 +21,7 @@ class DocumentsController < ApplicationController
     when 'author'
       @grouped = documents.select{|d| d.attachments.any?}.group_by {|d| d.attachments.last.author}
     else
-      @grouped = documents.group_by(&:category)
+      @grouped = documents.group_by {|d| d.updated_on.to_date }
     end
     @document = @project.documents.build
     render :layout => false if request.xhr?
@@ -41,7 +41,6 @@ class DocumentsController < ApplicationController
   end
   
   def edit
-    @categories = DocumentCategory.all
     if request.post? and @document.update_attributes(params[:document])
       flash[:notice] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document

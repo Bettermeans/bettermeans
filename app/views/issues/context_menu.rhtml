@@ -51,17 +51,6 @@
 	</li>
 	<% end %>
 	<% unless @project.nil? || @project.issue_categories.empty? -%>
-	<li class="folder">			
-		<a href="#" class="submenu"><%= l(:field_category) %></a>
-		<ul>
-		<% @project.issue_categories.each do |u| -%>
-		    <li><%= context_menu_link u.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'category_id' => u, :back_to => @back}, :method => :post,
-		                              :selected => (@issue && u == @issue.category), :disabled => !@can[:update] %></li>
-		<% end -%>
-		    <li><%= context_menu_link l(:label_none), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'category_id' => 'none', :back_to => @back}, :method => :post,
-		                              :selected => (@issue && @issue.category.nil?), :disabled => !@can[:update] %></li>
-		</ul>
-	</li>
 	<% end -%>
 		</ul>
 	</li>

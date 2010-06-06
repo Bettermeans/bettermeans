@@ -22,12 +22,6 @@ class ReportsController < ApplicationController
       @data = issues_by_priority
       @report_title = l(:field_priority)
       render :template => "reports/issue_report_details"   
-    when "category"
-      @field = "category_id"
-      @rows = @project.issue_categories
-      @data = issues_by_category
-      @report_title = l(:field_category)
-      render :template => "reports/issue_report_details"   
     when "assigned_to"
       @field = "assigned_to_id"
       @rows = @project.all_members.collect { |m| m.user }
@@ -55,7 +49,6 @@ class ReportsController < ApplicationController
       @subprojects = @project.descendants.active
       issues_by_tracker
       issues_by_priority
-      issues_by_category
       issues_by_assigned_to
       issues_by_author
       issues_by_subproject
@@ -102,21 +95,6 @@ private
                                                 group by s.id, s.is_closed, p.id")	
   end
 	
-  def issues_by_category   
-    @issues_by_category ||= 
-      ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
-                                                  s.is_closed as closed, 
-                                                  c.id as category_id,
-                                                  count(i.id) as total 
-                                                from 
-                                                  #{Issue.table_name} i, #{IssueStatus.table_name} s, #{IssueCategory.table_name} c
-                                                where 
-                                                  i.status_id=s.id 
-                                                  and i.category_id=c.id
-                                                  and i.project_id=#{@project.id}
-                                                group by s.id, s.is_closed, c.id")	
-  end
-  
   def issues_by_assigned_to
     @issues_by_assigned_to ||= 
       ActiveRecord::Base.connection.select_all("select    s.id as status_id, 
