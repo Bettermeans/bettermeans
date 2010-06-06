@@ -136,13 +136,11 @@ function start(){
 		show_issue_full(show_issue_id);
 		$("#load_dashboard").show();
 		$("#loading").hide();
-		$("#quote").hide();
 	}
 	else if (show_retro_id){
 		show_retro_full(show_retro_id);
 		$("#load_dashboard").show();
 		$("#loading").hide();
-		$("#quote").hide();
 	}
 	else{
 		//prepares ui for page
@@ -189,7 +187,6 @@ function parse_xml(xml){
 
 function load_dashboard_data(){
 	$("#load_dashboard").hide();	
-	$("#quote").hide();
 	$("#loading").hide();
 	
 	keyboard_shortcuts = false;
@@ -224,7 +221,6 @@ function load_dashboard_data_for_statuses(status_ids,name){
 		// typically only one of textStatus or errorThrown will have info
 		// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
 		$("#loading").hide();
-		$("#quote").hide();
 		$("#loading_error").show();
 		},
 		timeout: 30000 //30 seconds
@@ -260,8 +256,6 @@ function bind_search_events(){
 
 function data_ready(html,name){
 	last_data_pull = new Date();
-	// $("#loading").hide();
-	// $("#quote").hide();
 	last_item = D.length;
 	D = D.concat(html);
 	add_items_to_panels(last_item);
@@ -292,7 +286,6 @@ function load_retros(){
 			// typically only one of textStatus or errorThrown will have info
 			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
 			$("#loading").hide();
-			$("#quote").hide();
 			$("#loading_error").show();
 			},
 			timeout: 30000 //30 seconds

@@ -31,13 +31,13 @@
     <a href="#" onclick="load_dashboard();return false;">Load Dashboard</a>
   </td></tr></table>
 </div>
-<div id='quote' style="display:none;text-align:center;width:100%">
+<!-- <div id='quote' style="display:none;text-align:center;width:100%">
   <table class="centeredTable"><tr><td>
-  <% @quote = Quote.random  %>
-  <%= @quote.body  %><br>
-  ~<%= @quote.author  %>
+  <%# @quote = Quote.random  %>
+  <%#= @quote.body  %><br>
+  ~<%#= @quote.author  %>
   </td></tr></table>
-</div>
+</div> -->
 <div id='filtered_message' style="display:none;" class="filtered-message">
   Filtered results&nbsp;<span id="filter_detail" style="font-weight:bold;"></span>
   &nbsp;&nbsp;&nbsp;&nbsp;<a onclick="clear_filters();return false;" class="clickable bold">Clear</a>
