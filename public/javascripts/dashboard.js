@@ -1272,7 +1272,10 @@ function generate_item_lightbox(dataId){
 
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
 	html = html + '<h3 style="border:none"><img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '">'; 
-	html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
+        if(item.tracker.id != standard_trackers.Hourly.id) { 
+            html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
+	}
+
 	html = html + '&nbsp;&nbsp;&nbsp;' + h(item.subject);
 	html = html + '&nbsp;<span id="icon_set_' + dataId + '">&nbsp;';
 	html = html + '</span>';
