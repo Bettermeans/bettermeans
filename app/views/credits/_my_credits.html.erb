@@ -1,3 +1,4 @@
+<span id="my_credits_partial">
 <h3><%=l(:label_my_credits) %></h3>
   <table class="list">
     <%  @credits_by_day = @credits.group_by{|credit| credit.issued_on.to_date}
@@ -10,12 +11,14 @@
          <% cbd[1].each do |credit|
     next if credit.owner_id != User.current.id
    %>
-   <tr class="<%= cycle 'odd', 'even' %>">
+   <tr class="<%= cycle 'odd', 'even' %>"id="m_<%= credit.id %>">
      <%= @date %>
      <td class="currency"><%=h number_to_currency credit.amount.round.to_i, :unit => '$', :separator => ".", :delimiter => ",", :precision => 0 %></td>
       <td><%=h credit.settled_on.nil? ? credit.enabled ? "Active" : "Inactive" : "Settled" %></td>
+      <td><%= credit_activation_link(credit) %></td>
     </tr>
     <% @date = "<td></td>" %>
   <% end %>
   <% end %>
   </table>
+</span>

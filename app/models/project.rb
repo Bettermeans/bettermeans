@@ -57,7 +57,7 @@ class Project < ActiveRecord::Base
   has_many :team_offers, :dependent => :delete_all
   has_many :team_points, :dependent => :delete_all
   has_many :shares, :dependent => :delete_all
-  has_many :credits, :dependent => :delete_all
+  has_many :credits, :dependent => :delete_all, :order => 'created_on ASC'
   has_many :retros, :dependent => :delete_all
   has_many :reputations, :dependent => :delete_all
   has_many :credit_disributions
