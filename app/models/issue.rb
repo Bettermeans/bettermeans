@@ -481,7 +481,13 @@ class Issue < ActiveRecord::Base
   
   #returns json object for consumption from dashboard
   def to_dashboard
-    self.to_json(:include => {:journals => { :include => {:user => { :only => [:firstname, :lastname, :login] }}}, :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on, :owner_login]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login, :mail]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
+    self.to_json(:include => {:journals => { :only => [:id,:notes, :created_on], :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
+                              :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
+                              :status => {:only => :name}, 
+                              :todos => {:only => [:id, :subject, :completed_on, :owner_login]}, 
+                              :tracker => {:only => [:name,:id]}, 
+                              :author => {:only => [:firstname, :lastname, :login, :mail]}, 
+                              :assigned_to => {:only => [:firstname, :lastname, :login]}})
   end
   
   #returns dollar amount based on points for this issue
