@@ -288,13 +288,14 @@ function url_for(options){
 //
 function h(s) {
   var escaped = s;  
+  escaped = escaped.replace(/\r\n/g, "xxxxxx11");
   escaped = escaped.replace(/\n/g, "xxxxxx11");
   escaped = escaped.replace(/<br>/g, "xxxxxx11");
   escaped = escaped.replace(/&/g, "&amp;");
   escaped = escaped.replace(/</g, "&lt;");
   escaped = escaped.replace(/>/g, "&gt;");
   escaped = escaped.replace(/\"/g, "&quot;");
-  escaped = escaped.replace(/xxxxxx11/g, "<br>");
+  escaped = escaped.replace(/xxxxxx11/g, "\r\n");
 
   return escaped;
 }
