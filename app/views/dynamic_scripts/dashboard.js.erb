@@ -2239,16 +2239,11 @@ function send_item_action(dataId,action,extradata){
 
 //returns true if item has a description or any journals that have notes
 function show_comment(item){
-	// if (item.description != ''){ 
-	// 	return true;
-	// }
-	
 	for(var i = 0; i < item.journals.length; i++ ){
 			if (item.journals[i].notes != '' && item.journals[i].notes != null){
 				return true;
 			}
 		}
-	
 	return false;
 }
 
