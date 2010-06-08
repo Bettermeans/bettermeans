@@ -338,6 +338,7 @@ function load_buttons(){
 	$('#main-menu').append('<input id="new_request" value="New Request" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
 	$('#main-menu').append('<select id="filter_select" class="filter-search" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="all">Items that I&nbsp;&nbsp;&#187;</option><option value="untouched_by_me">&nbsp;&nbsp;&#187; didn\'t touch</option><option value="touched_by_me">&nbsp;&nbsp;&#187; touched</option><option value="added_by_me">&nbsp;&nbsp;&#187; added</option><option value="prioritized">&nbsp;&nbsp;&#187; prioritized</option><option value="all">Needs my&nbsp;&nbsp;&#187;</option><option value="unagreed">&nbsp;&nbsp;&#187; agreement</option><option value="unestimated">&nbsp;&nbsp;&#187; estimate</option><option value="unaccepted">&nbsp;&nbsp;&#187; acceptance</option><option value="unprioritized">&nbsp;&nbsp;&#187; prioritization</option><option value="all">Updated in last&nbsp;&nbsp;&#187;</option><option value="1">&nbsp;&nbsp;&#187; 24 hours</option><option value="2">&nbsp;&nbsp;&#187; two days</option><option value="3">&nbsp;&nbsp;&#187; three days</option><option value="7">&nbsp;&nbsp;&#187; week</option><option value="14">&nbsp;&nbsp;&#187; two weeks</option><option value="30">&nbsp;&nbsp;&#187; month</option><option value="60">&nbsp;&nbsp;&#187; two months</option></select>');
 	$('#main-menu').append('<input id="fast_search" class="fast-search" type="text"></input>');
+	bind_search_events();
 }
 
 function load_search(){
@@ -370,7 +371,6 @@ function prepare_page(){
 	resize();
 	recalculate_widths();
 	keyboard_shortcuts = true;	
-	bind_search_events();
 	make_text_boxes_toggle_keyboard_shortcuts();
 }
 
