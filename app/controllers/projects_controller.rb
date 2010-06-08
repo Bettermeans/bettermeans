@@ -146,16 +146,6 @@ class ProjectsController < ApplicationController
   #TODO: optimize this query, it's WAY too heavy, and we need fewer columns, and it's executing hundreds of queries!
   def dashdata
     
-    #TODO: could optimize by hardcoding archived issue status id to 12    
-    # render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND (status_id <> #{IssueStatus.archived.id})")  \
-    #                      .to_json(:include => { :journals =>    { :include => :user },
-    #                                             :issue_votes => { :include => :user },
-    #                                             :status =>      { :only => :name },
-    #                                             :todos =>       { :only => [:id, :subject, :completed_on] },
-    #                                             :tracker =>     { :only => [:name,:id] },
-    #                                             :author =>      { :only => [:firstname, :lastname, :login] },
-    #                                             :assigned_to => { :only => [:firstname, :lastname, :login] }})
-    
     if params[:status_ids]
       @conditions = "project_id = #{@project.id} AND (retro_id < 0 OR retro_id is null) AND status_id in (#{params[:status_ids]})"
     else
@@ -163,7 +153,7 @@ class ProjectsController < ApplicationController
     end
     
     render :json => Issue.find(:all, :conditions => @conditions)  \
-                         .to_json(:include => { :journals =>    { :only => [:id,:notes, :created_on], :include => {:user => { :only => [:firstname, :lastname, :login] }}},
+                         .to_json(:include => { :journals =>    { :only => [:id, :notes, :created_on, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                                                 :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                                                 :status =>      { :only => :name },
                                                 :todos =>       { :only => [:id, :subject, :completed_on, :owner_login] },
@@ -180,7 +170,7 @@ class ProjectsController < ApplicationController
     end
     time_delta = params[:seconds].to_f.round
     if @project.last_item_updated_on.advance(:seconds => time_delta) > DateTime.now
-        render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND updated_on >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'").to_json(:include => {:journals => { :only => [:id,:notes, :created_on], :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
+        render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND updated_on >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'").to_json(:include => {:journals => { :only => [:id, :notes, :created_on, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
                                                                                                                                                                                                       :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
                                                                                                                                                                                                       :status => {:only => :name}, 
                                                                                                                                                                                                       :todos => {:only => [:id, :subject, :completed_on]}, 
