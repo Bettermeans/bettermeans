@@ -259,6 +259,7 @@ function data_ready(html,name){
 	last_item = D.length;
 	D = D.concat(html);
 	add_items_to_panels(last_item);
+	sort_panels();
 	$('#' + name + '_close').addClass('closePanel').removeClass('closePanelLoading');
 	update_panel_counts();
 	prepare_item_lookup_array();
@@ -406,12 +407,9 @@ function display_panels(){
 	insert_panel(0,'done','Done',true);
 	insert_panel(0,'canceled','Canceled',false);
 	insert_panel(0,'archived','Archived',false);
+}
 
-	// for(var i = 0; i < D.length; i++ ){
-	// 	add_item(i,"bottom",false);	
-	// }
-
-	
+function sort_panels(){
 	sort_panel('open');
 	sort_panel('new');
 	sort_panel('inprogress');
