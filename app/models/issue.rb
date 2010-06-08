@@ -113,7 +113,7 @@ class Issue < ActiveRecord::Base
   
   # Returns true if one or more people joined this issue
   def has_team?
-    team.length>1
+    team_votes.length>1
   end
 
   def has_todos?
