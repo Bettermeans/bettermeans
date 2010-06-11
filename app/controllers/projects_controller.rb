@@ -133,7 +133,9 @@ class ProjectsController < ApplicationController
   end
   
   def community_members
-    render :json => @project.root.all_members.to_json(:only => :user_id, :methods => :name).gsub("\"user_id\":","\"").gsub(",\"name\"", "\"").gsub("}","").gsub("{","").gsub("[","{").gsub("]","}")
+    
+    render :json => @project.root.all_members.to_json(:only => :xxx, :methods => :name_and_id).gsub("\"name_and_id\":", "").gsub("}","").gsub("{","").gsub("[","{").gsub("]","}").gsub(":","\":\"")
+    
   end
   
   def dashboard
