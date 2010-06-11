@@ -18,6 +18,10 @@ class Member < ActiveRecord::Base
   def name
     self.user.name
   end
+
+  def name_and_id
+    "#{self.user.id.to_s}:#{self.user.name}"
+  end
   
   alias :base_role_ids= :role_ids=
   def role_ids=(arg)
