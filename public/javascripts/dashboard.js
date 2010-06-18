@@ -430,6 +430,9 @@ function rdata_ready(html,rdataId){
 	retro = R[rdataId];
 	var panelid = 'retro_' + retro.id;
 	var i = D.length;
+	
+	$('#' + panelid + '_close').addClass('closePanel').removeClass('closePanelLoading');
+	
 	D = D.concat(html);
 	if (retro.status_id == 1){
 		var notice = generate_notice('<a class="date_label" title="Retrospective is now open" href="#" onclick="click_retro(' + i +',this.id);return false;">Retrospective is open &rArr;</a>', rdataId);
