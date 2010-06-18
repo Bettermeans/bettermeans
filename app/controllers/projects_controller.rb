@@ -15,7 +15,7 @@ class ProjectsController < ApplicationController
   
   before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add ]
   before_filter :find_optional_project, :only => [:activity, :add]
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members ]
+  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :hourly_types ]
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
@@ -132,10 +132,18 @@ class ProjectsController < ApplicationController
     
   end
   
+  def hourly_types
+    render :json => @project.hourly_types.inject({}) { |hash, hourly_type|
+      hash[hourly_type.id] = hourly_type.name
+      hash
+    }.to_json
+  end
+  
   def community_members
-    
-    render :json => @project.root.all_members.to_json(:only => :xxx, :methods => :name_and_id).gsub("\"name_and_id\":", "").gsub("}","").gsub("{","").gsub("[","{").gsub("]","}").gsub(":","\":\"")
-    
+    render :json => @project.all_members.inject({}) { |hash, member|
+      hash[member.user_id] = member.name
+      hash
+    }.to_json
   end
   
   def dashboard

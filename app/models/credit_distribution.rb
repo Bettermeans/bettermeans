@@ -6,6 +6,7 @@ class CreditDistribution < ActiveRecord::Base
   
   GIFT = -1 #value in retro_id when distribution is a result of a gift, not a retrospective
   EXPENSE = -2 #value in retro_id when distribution is a result of an expense, not a retrospective
+  HOURLY = -3 # value in retro_id when distribution is a result of an hourly, not a retrospective
   
   def add_credits
     Credit.create :owner_id => self.user_id, :project_id => self.project.root.id, :amount => self.amount

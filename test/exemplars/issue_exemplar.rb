@@ -14,17 +14,6 @@ class Issue < ActiveRecord::Base
 
 end
 
-
-
-
-
-
-
-
-
-
-
-
 # == Schema Information
 #
 # Table name: issues
@@ -63,5 +52,7 @@ end
 #  agree_total_nonbind  :integer         default(0)
 #  points_nonbind       :integer         default(0)
 #  pri_nonbind          :integer         default(0)
+#  hourly_type_id       :integer
+#  num_hours            :integer         default(0)
 #
 
