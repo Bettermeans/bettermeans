@@ -220,7 +220,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/new', :action => 'add'
       project_views.connect 'projects/update_scale', :action => 'update_scale'
       project_views.connect 'projects/:id', :action => 'show'
-      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members/
+      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|hourly_types/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
@@ -247,6 +247,17 @@ ActionController::Routing::Routes.draw do |map|
       activity.connect 'activity.:format', :id => nil
     end
   end  
+  
+  map.with_options :controller => 'hourly_types' do |hourly_type_routes|
+    hourly_type_routes.with_options :conditions => {:method => :get} do |hourly_type_views|
+      hourly_type_views.connect 'projects/:project_id/hourly_types/new', :action => 'new'
+      hourly_type_views.connect 'projects/:project_id/hourly_types/:id/edit', :action => 'edit'
+    end
+    hourly_type_routes.with_options :conditions => {:method => :post} do |hourly_type_action|
+      hourly_type_action.connect 'projects/:project_id/hourly_types/new', :action => 'new'
+      hourly_type_action.connect 'projects/:project_id/hourly_types/:id/:action', :action => /new|edit|destroy/
+    end
+  end
   
   map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
   map.connect 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/
@@ -288,12 +299,7 @@ ActionController::Routing::Routes.draw do |map|
       mv.resources :votes
     end
   end
-  
-  #
-  # Dynamically generate the js files located inside dynamic_scripts
-  #
-  map.connect '/javascripts/dynamic_scripts/:action.:format', :controller => 'dynamic_scripts'
-  
+    
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
   map.connect 'robots.txt', :controller => 'welcome', :action => 'robots'

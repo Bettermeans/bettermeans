@@ -19,8 +19,6 @@ class Tracker < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
   
-  named_scope :standard_ones, :conditions => ["name='Feature' OR name='Chore' OR name='Bug'"]
-
   def to_s; name end
   
   def <=>(tracker)
@@ -41,6 +39,22 @@ class Tracker < ActiveRecord::Base
 
   def recurring?
     name == l(:default_issue_tracker_recurring)
+  end
+  
+  def hourly?
+    name == l(:default_issue_tracker_hourly)
+  end
+  
+  def feature?
+    name == l(:default_issue_tracker_feature)
+  end
+  
+  def bug?
+    name == l(:default_issue_tracker_bug)
+  end
+  
+  def chore?
+    name == l(:default_issue_tracker_chore)
   end
   
   
