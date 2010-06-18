@@ -143,35 +143,40 @@ function start(){
 		$("#loading").hide();
 	}
 	else{
-		//prepares ui for page
-		prepare_page();
-		load_dashboard_data();
-		load_buttons();
-		timer_active = false; //now that data is loaded, we can start timer
-		start_timer();
-		
-		$(document).keyup(function(e)
-		{
-			last_activity = new Date();
-			start_timer();
-			if (searching){
-				var text = $('#fast_search').val();
-				search_for(text);
-			}
-		});
-
-		$(document).click(function(e)
-		{
-			start_timer();
-			last_activity = new Date();
-		});
-
-		$(document).focus(function(e)
-		{
-			start_timer();
-			last_activity = new Date();
-		});
+		load_dashboard();
 	}
+}
+
+function load_dashboard(){
+	//prepares ui for page
+	prepare_page();
+	load_dashboard_data();
+	load_buttons();
+	timer_active = false; //now that data is loaded, we can start timer
+	start_timer();
+	
+	$(document).keyup(function(e)
+	{
+		last_activity = new Date();
+		start_timer();
+		if (searching){
+			var text = $('#fast_search').val();
+			search_for(text);
+		}
+	});
+
+	$(document).click(function(e)
+	{
+		start_timer();
+		last_activity = new Date();
+	});
+
+	$(document).focus(function(e)
+	{
+		start_timer();
+		last_activity = new Date();
+	});
+	
 }
 
 //For IE explorer handling of xml
