@@ -10,6 +10,7 @@ class Issue < ActiveRecord::Base
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
   belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :retro
+  belongs_to :hourly_type
     
   has_many :journals, :as => :journalized, :dependent => :destroy, :order => "#{Journal.table_name}.created_on ASC"  
   has_many :time_entries, :dependent => :delete_all
@@ -39,6 +40,7 @@ class Issue < ActiveRecord::Base
   validates_presence_of :subject, :project, :tracker, :author, :status #,:priority,
   validates_length_of :subject, :maximum => 255
   validates_numericality_of :estimated_hours, :allow_nil => true
+  validates_numericality_of :num_hours, :allow_nil => true # refers to the estimated number of hours for an hourly work item
 
   named_scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
@@ -71,18 +73,18 @@ class Issue < ActiveRecord::Base
   end
 
   def ready_for_accepted?
+    return true if self.status == IssueStatus.accepted
     return false if points.nil? || accept_total < 1
-    # return true if accept + reject > points_from_credits / 2
     return true if accept_total > 0 && self.updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
     return true if accept_total > (project.binding_members_count / 2)
     return false
   end
   
   def ready_for_rejected?
+    return true if self.status == IssueStatus.rejected
     return false if points.nil? || accept_total > -1
     return true if accept_total < 0 && updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH #rejected
     return false
-    # return true if (accept_total * -1) > ((project.root.core_members.count + project.root.members.count) / 2)
   end
   
   def is_gift?
@@ -91,6 +93,22 @@ class Issue < ActiveRecord::Base
 
   def is_expense?
     tracker.expense?
+  end
+  
+  def is_hourly?
+    tracker.hourly?
+  end
+  
+  def is_feature
+    tracker.feature?
+  end
+  
+  def is_bug
+    tracker.bug?
+  end
+  
+  def is_chore
+    tracker.chore?
   end
   
   def updated_status
@@ -122,6 +140,11 @@ class Issue < ActiveRecord::Base
 
   def team_votes
     issue_votes.select {|i| i.vote_type == IssueVote::JOIN_VOTE_TYPE}
+  end
+  
+  def team_members
+    IssueVote.find(:all, :conditions => ["issue_id=? AND vote_type=?", 
+                                                   self.id, IssueVote::JOIN_VOTE_TYPE]).map(&:user)
   end
   
   def copy_from(arg)
@@ -390,7 +413,6 @@ class Issue < ActiveRecord::Base
     s << ' assigned-to-me' if User.current.logged? && assigned_to_id == User.current.id
     s
   end
-
   
   
   #returns true if this user is allowed to take (and/or offer) ownership for this particular issue
@@ -452,15 +474,20 @@ class Issue < ActiveRecord::Base
       journal = self.init_journal(admin)
       self.status = updated
       self.retro_id = nil
-            
+
+      logger.info("almost in")
+      
       if self.status == IssueStatus.accepted 
         self.assigned_to.add_as_contributor_if_new(self.project)
         if self.is_gift? 
           self.retro_id = Retro::NOT_NEEDED_ID
-          self.give_credits CreditDistribution::GIFT
+          self.give_credits
         elsif self.is_expense?
           self.retro_id = Retro::NOT_NEEDED_ID
-          self.give_credits CreditDistribution::EXPENSE
+          self.give_credits
+        elsif self.is_hourly?
+          self.retro_id = Retro::NOT_GIVEN_AND_NOT_PART_OF_RETRO
+          self.give_credits
         else #if a non-gift is accepted, set retro id to not started to prep for next retrospective
           self.retro_id = Retro::NOT_STARTED_ID 
           self.project.start_retro_if_ready
@@ -474,9 +501,48 @@ class Issue < ActiveRecord::Base
     end
   end
   
-  #issues credits for this one issue to person it's assigned to
-  def give_credits(credit_distribution_type)
-    CreditDistribution.create :user_id => self.assigned_to_id, :project_id => self.project_id, :retro_id => credit_distribution_type, :amount => self.points unless self.points == 0 || self.points.nil?
+  # sets number of points for an hourly item
+  def set_points_from_hourly
+    return unless self.is_hourly?
+
+    if (hourly_type.hourly_rate_per_person * self.team_members.length) > hourly_type.hourly_cap
+      self.points = hourly_type.hourly_cap * self.num_hours
+    else
+      self.points = self.num_hours * self.team_members.length * hourly_type.hourly_rate_per_person
+    end
+  end
+  
+  # issues credits for this one issue to the people it's assigned to
+  def give_credits
+    if self.is_gift?
+      CreditDistribution.create(:user_id => self.assigned_to_id, 
+                                :project_id => self.project_id, 
+                                :retro_id => CreditDistribution::GIFT, 
+                                :amount => self.points) unless self.points == 0 || self.points.nil?
+    elsif self.is_expense?
+      CreditDistribution.create(:user_id => self.assigned_to_id, 
+                                :project_id => self.project_id, 
+                                :retro_id => CreditDistribution::EXPENSE, 
+                                :amount => self.points) unless self.points == 0 || self.points.nil?
+    elsif self.is_hourly?
+      credits_per_person_per_hour = 0
+      
+      if (hourly_type.hourly_rate_per_person * self.team_members.length) > hourly_type.hourly_cap
+        credits_per_person_per_hour = hourly_type.hourly_cap / self.team_members.length
+      else
+        credits_per_person_per_hour = hourly_type.hourly_rate_per_person
+      end
+      
+      credits_per_person = credits_per_person_per_hour * self.num_hours
+      
+      self.team_members.each do |member|
+        puts "giving to #{member.inspect}  : #{credits_per_person}"
+        CreditDistribution.create(:user_id => member.id,
+                                  :project_id => self.project_id,
+                                  :retro_id => CreditDistribution::HOURLY,
+                                  :amount => credits_per_person) unless credits_per_person == 0 || self.points.nil?
+      end
+    end
   end
   
   #returns json object for consumption from dashboard
@@ -588,5 +654,7 @@ end
 #  agree_total_nonbind  :integer         default(0)
 #  points_nonbind       :integer         default(0)
 #  pri_nonbind          :integer         default(0)
+#  hourly_type_id       :integer
+#  num_hours            :integer         default(0)
 #
 

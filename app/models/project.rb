@@ -61,6 +61,8 @@ class Project < ActiveRecord::Base
   has_many :reputations, :dependent => :delete_all
   has_many :credit_disributions
   has_many :motions
+  has_many :hourly_types
+
   acts_as_nested_set :order => 'name', :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files

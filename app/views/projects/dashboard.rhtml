@@ -1,6 +1,6 @@
 <%= javascript_include_tag  'jquery.ui.position' %>
 <%= stylesheet_link_tag 'dashboard' %>
-<%= dynamic_script_tag 'dashboard', :project_id => @project.id %>
+<%= javascript_include_tag 'dashboard' %>
 
 <!--[if lt IE 20]>
 <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>
@@ -62,7 +62,22 @@
   var credit_base = '<%= @credit_base %>';
   var point_factor = <%= Setting::POINT_FACTOR.to_json %>;
   var credits_to_points_array = <%= Setting::CREDITS_TO_POINTS.to_json %>;
-  
+
+  var standard_trackers = function() {
+      var trackers = <%= Tracker.all.to_json %>
+
+      var trackers_object = {};
+
+      for(var i=0; i<trackers.length; i++) {
+	  trackers_object[trackers[i].name] = trackers[i];
+      }
+
+      return trackers_object;
+
+  }();
+
+  var hourly_types = <%= @project.hourly_types.to_json(:methods => :name_with_rates) %>
+
   $('document').ready(function(){
       start();
   });
