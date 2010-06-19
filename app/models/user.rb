@@ -315,8 +315,6 @@ class User < Principal
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project, options={})
-    logger.info("entering allowed to: #{action.inspect},#{project},#{options.inspect}")
-    puts("entering allowed to: #{action.inspect},#{project},#{options.inspect}")
     if project
       # No action allowed on archived projects
       return false unless project.active?
@@ -325,12 +323,10 @@ class User < Principal
       # Admin users are authorized for anything else
       return true if admin?
       
-      puts("ok, project allows action")
       # #Check if user is a citizen of the enterprise, and the citizen role is allowed to take that action
       # return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
       roles = roles_for_project(project)
       return false unless roles
-      puts("ok, passwd this points as well")
       roles.detect {|role| (project.is_public? || role.community_member?) && role.allowed_to?(action)}
       
     elsif options[:global]
