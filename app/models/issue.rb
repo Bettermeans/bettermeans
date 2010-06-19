@@ -357,9 +357,12 @@ class Issue < ActiveRecord::Base
     # Author and assignee are always notified unless they have been locked
     notified << author if author && author.active? && !author.pref[:no_self_notified]
     notified << assigned_to if assigned_to && assigned_to.active?
+    notified += team_members
+    notified += journals.collect {|j| j.user}
     notified.uniq!
     # Remove users that can not view the issue
     notified.reject! {|user| !visible?(user)}
+    notified.delete User.sysadmin
     notified.collect(&:mail)
   end
     
