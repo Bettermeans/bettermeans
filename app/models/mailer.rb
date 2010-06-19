@@ -141,11 +141,14 @@ class Mailer < ActionMailer::Base
     references message.parent unless message.parent.nil?
     recipients(message.recipients)
     
-    if message.author.pref[:no_self_notified]
-      cc((message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients - message.author)
-    else
-      cc((message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients)
-    end
+    logger.info("message.root.watcher_recipients #{message.root.watcher_recipients}")
+    logger.info("board watcher recipientes #{message.board.watcher_recipients}")
+    logger.info("recipients #{@recipients}")
+    logger.info("authoer #{message.author}")
+    
+    all_recipients = (message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients
+    all_recipients.delete(message.author) if message.author.pref[:no_self_notified]
+    cc(all_recipients)
     
     subject "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
     body :message => message,
