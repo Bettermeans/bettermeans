@@ -1110,12 +1110,12 @@ function generate_comments(dataId,blank_if_no_comments){
 				{
 					var note_array = item.journals[i].notes.split('\n');
 					for(var j = 1; j < note_array.length; j++ ){
-						if (note_array[j][0]!='>'){note = note + note_array[j] + '\n';};
+						if (note_array[j][0]!='>'){note = note + note_array[j].replace(/\n/g,"<br>") + '\n';};
 					}
 				}
 				else
 				{
-					note = item.journals[i].notes.replace(/\r\n/g,"<br>");
+					note = item.journals[i].notes;
 				}
 				var last_comment = (i == (item.journals.length - 1));
 				html = html + generate_comment(author,note,item.journals[i].created_on,item.id, (last_comment &&(currentUserId == item.journals[i].user_id)), item.journals[i].id,dataId);
@@ -1140,7 +1140,7 @@ function generate_comment(author,note,created_on,itemId,last_comment,journalId,d
 	html = html + '</tr>';
     html = html + '<tr class="noteTextRow">';
 	html = html + '<td class="noteText" id="noteText_' + journalId + '">';
-	html = html + '	<span id="comment_' + journalId + '_text_container">' + h(note) + '</span>';
+	html = html + '	<span id="comment_' + journalId + '_text_container">' + h(note).replace(/\r\n/g,"<br>").replace(/\n/g,"<br>") + '</span>';
 	html = html + '	<span id="comment_' + journalId + '_subject_submit_container"></span>';
 	html = html + '</td>';
 	html = html + '</tr>';
@@ -1258,7 +1258,7 @@ function edit_comment_cancel(journalId,dataId){
 function edit_comment_post(journalId,dataId){
 try{
 	keyboard_shortcuts = true;
-	var new_text = $('#comment_' + journalId + '_subject_input').val().replace(/\n/g, "<br>");
+	var new_text = $('#comment_' + journalId + '_subject_input').val().replace(/<br>/g, "\n");
 	
 	$('#comment_' + journalId + '_text_container').html(new_text).show();
 	$('#comment_' + journalId + '_subject_submit_container').html('');
