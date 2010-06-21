@@ -1363,6 +1363,18 @@ function credits_to_points(credits,base){
 	return credits_to_points_array[normalized]; //TODO: fix this formula credits larger than 12
 }
 
+function has_current_user_estimated(item){
+	//Checking wether or not current user estimated this item voted
+	for(i=0; i < item.issue_votes.length; i++){
+		if (item.issue_votes[i].vote_type != 4) continue;
+		
+		if (currentUserLogin == item.issue_votes[i].user.login){
+			return true;
+		}
+	}
+	return false;
+}
+
 function generate_item_estimate_button(dataId,points){
 	var item = D[dataId];
 	var html = '';
@@ -1371,17 +1383,7 @@ function generate_item_estimate_button(dataId,points){
 		return '';
 	}
 	
-	var current_user_voted = false;
-	
-	//Checking wether or not current user estimated this item voted
-	for(i=0; i < item.issue_votes.length; i++){
-		if (item.issue_votes[i].vote_type != 4) continue;
-		
-		if (currentUserLogin == item.issue_votes[i].user.login){
-			current_user_voted = true;
-			break;
-		}
-	}
+	var current_user_voted = has_current_user_estimated(item);
 	
 	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (current_user_voted)){
 		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';		
@@ -1850,11 +1852,17 @@ function click_start(dataId,source,data){
 
 	if ($(".action_button_finish").get().length >= MAX_REQUESTS_PER_PERSON){
 		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " ideas at a time");
+		return false;
 	}
-	else{
-		$('#' + source.id).parent().hide();
-		send_item_action(dataId,'start');
+
+	if (!has_current_user_estimated(D[dataId])){
+		$.jGrowl("Sorry, you can't start an item before estimating it first");
+		return false;
 	}
+	
+	
+	$('#' + source.id).parent().hide();
+	send_item_action(dataId,'start');
 	return false;
 }
 
