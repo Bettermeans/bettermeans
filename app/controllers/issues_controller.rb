@@ -227,12 +227,21 @@ class IssuesController < ApplicationController
   
   def release
     if(@issue.is_hourly?)
-      new_status_id = IssueStatus.newstatus.id
+      params[:issue] = {:status_id => IssueStatus.newstatus.id, :assigned_to_id => ''}
     else
-      new_status_id = IssueStatus.open.id
-    end
+      #Deleting current user from issue
+      IssueVote.delete_all(["user_id = ? AND issue_id = ? AND vote_type = ?", User.current.id, params[:id], IssueVote::JOIN_VOTE_TYPE])
       
-    params[:issue] = {:status_id => new_status_id, :assigned_to_id => ''}
+      #Check to see if anybody else is on the issue, if they are assign the issue to them 
+      next_team_member = @issue.team_members.first
+      if next_team_member.nil?
+        new_status_id = IssueStatus.open.id
+        params[:issue] = {:status_id => IssueStatus.open.id, :assigned_to_id => ''}
+      else
+        params[:issue] = {:assigned_to_id => next_team_member.id}
+      end
+    end
+    
     change_status
   end
   
