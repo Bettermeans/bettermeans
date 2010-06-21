@@ -11,13 +11,13 @@
 <% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>
     <%= hidden_field_tag('project_id', @project.to_param) if @project %>
 		<div id="query_form_content">
-    <fieldset id="filters" class="collapsible">
+    <fieldset id="filters" class="collapsible collapsed hidden">
     	<legend onclick="toggleFieldset(this);"><%= l(:label_filter_plural) %></legend>
     	<div>
     		<%= render :partial => 'queries/filters', :locals => {:query => @query} %>
     	</div>
     </fieldset>
-    <fieldset class="collapsible collapsed">
+    <fieldset class="collapsible collapsed hidden">
     	<legend onclick="toggleFieldset(this);"><%= l(:label_options) %></legend>
     	<div style="display: none;">
     		<table>
@@ -33,7 +33,7 @@
 			</div>
 		</fieldset>
 		</div>
-    <p class="buttons">
+    <p class="buttons hidden">
 
     <%= link_to_remote l(:button_apply), 
                        { :url => { :set_filter => 1 },
