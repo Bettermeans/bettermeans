@@ -144,7 +144,7 @@ class Issue < ActiveRecord::Base
   
   def team_members
     IssueVote.find(:all, :conditions => ["issue_id=? AND vote_type=?", 
-                                                   self.id, IssueVote::JOIN_VOTE_TYPE]).map(&:user)
+                                                   self.id, IssueVote::JOIN_VOTE_TYPE], :order => "updated_on ASC").map(&:user)
   end
   
   def copy_from(arg)
