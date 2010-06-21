@@ -340,7 +340,7 @@ function make_text_boxes_toggle_keyboard_shortcuts(){
 
 function load_buttons(){
 	$('#main-menu').append('<input id="new_request" value="New Request" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
-	$('#main-menu').append('<select id="filter_select" class="filter-search" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="all">Items that I&nbsp;&nbsp;&#187;</option><option value="untouched_by_me">&nbsp;&nbsp;&#187; didn\'t touch</option><option value="touched_by_me">&nbsp;&nbsp;&#187; touched</option><option value="added_by_me">&nbsp;&nbsp;&#187; added</option><option value="prioritized">&nbsp;&nbsp;&#187; prioritized</option><option value="all">Needs my&nbsp;&nbsp;&#187;</option><option value="unagreed">&nbsp;&nbsp;&#187; agreement</option><option value="unestimated">&nbsp;&nbsp;&#187; estimate</option><option value="unaccepted">&nbsp;&nbsp;&#187; acceptance</option><option value="unprioritized">&nbsp;&nbsp;&#187; prioritization</option><option value="all">Updated in last&nbsp;&nbsp;&#187;</option><option value="1">&nbsp;&nbsp;&#187; 24 hours</option><option value="2">&nbsp;&nbsp;&#187; two days</option><option value="3">&nbsp;&nbsp;&#187; three days</option><option value="7">&nbsp;&nbsp;&#187; week</option><option value="14">&nbsp;&nbsp;&#187; two weeks</option><option value="30">&nbsp;&nbsp;&#187; month</option><option value="60">&nbsp;&nbsp;&#187; two months</option></select>');
+	$('#main-menu').append('<select id="filter_select" class="filter-search" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="all">Items that I&nbsp;&nbsp;&#187;</option><option value="untouched_by_me">&nbsp;&nbsp;&#187; didn\'t touch</option><option value="touched_by_me">&nbsp;&nbsp;&#187; touched</option><option value="added_by_me">&nbsp;&nbsp;&#187; added</option><option value="prioritized">&nbsp;&nbsp;&#187; prioritized</option><option value="all">Needs my&nbsp;&nbsp;&#187;</option><option value="unagreed">&nbsp;&nbsp;&#187; agreement</option><option value="unestimated">&nbsp;&nbsp;&#187; estimate</option><option value="unaccepted">&nbsp;&nbsp;&#187; acceptance</option><option value="unprioritized">&nbsp;&nbsp;&#187; prioritization</option><option value="all">Updated in last&nbsp;&nbsp;&#187;</option><option value="1">&nbsp;&nbsp;&#187; 24 hours</option><option value="2">&nbsp;&nbsp;&#187; two days</option><option value="3">&nbsp;&nbsp;&#187; three days</option><option value="7">&nbsp;&nbsp;&#187; week</option><option value="14">&nbsp;&nbsp;&#187; two weeks</option><option value="30">&nbsp;&nbsp;&#187; month</option><option value="60">&nbsp;&nbsp;&#187; two months</option><option value="all">Only show&nbsp;&nbsp;&#187;</option><option value="features">&nbsp;&nbsp;&#187;&nbsp;Features</option><option value="chores">&nbsp;&nbsp;&#187;&nbsp;Chores</option><option value="bugs">&nbsp;&nbsp;&#187;&nbsp;Bugs</option><option value="expenses">&nbsp;&nbsp;&#187;&nbsp;Expenses</option><option value="gifts">&nbsp;&nbsp;&#187;&nbsp;Gifts</option><option value="recurring">&nbsp;&nbsp;&#187;&nbsp;Recurring</option><option value="hourly">&nbsp;&nbsp;&#187;&nbsp;Hourly</option></select>');
 	$('#main-menu').append('<input id="fast_search" class="fast-search" type="text"></input>');
 	bind_search_events();
 }
@@ -2057,6 +2057,20 @@ function filter_select(){
 					break;						
 		case "untouched_by_me":	show_hide_touched(false);
 					break;						
+		case "features":	show_tracker(standard_trackers.Feature.id);
+					break;						
+		case "chores":	show_tracker(standard_trackers.Chore.id);
+					break;						
+		case "bugs":	show_tracker(standard_trackers.Bug.id);
+					break;						
+		case "expense":	show_tracker(standard_trackers.Expense.id);
+					break;						
+		case "gift":	show_tracker(standard_trackers.Gift.id);
+					break;						
+		case "recurring":	show_tracker(standard_trackers.Recurring.id);
+					break;						
+		case "hourly":	show_tracker(standard_trackers.Hourly.id);
+					break;						
 	}	
 	
 	if (selection != "all"){
@@ -2091,6 +2105,19 @@ function show_hide_touched(show){
 		}
 		else{
 			show ? $("#item_" + i).hide() : $("#item_" + i).show();
+		}
+	}	
+}
+
+//Hides all items except those with tracker_id
+function show_tracker(tracker_id){
+	
+	for(var i = 0; i < D.length; i++ ){
+		if (D[i].tracker.id == tracker_id){
+			$("#item_" + i).show();
+		}
+		else{
+			$("#item_" + i).hide();
 		}
 	}	
 }
