@@ -3573,6 +3573,14 @@ function poll_server_response(data){
 			if (D[dataId].updated_on == item.updated_on){
 				continue;
 			}
+			
+			if ($("#edit_item_" + dataId).length > 0){
+				//item is being edited
+				$.jGrowl("An item you are editing (#" + D[dataId].id + ") has been updated by another user. It's best to cancel your edits and re-open the item.", { sticky:true, header: 'Item conflict'});
+				D[dataId] = item; 
+				continue;
+			}
+			
 			item_actioned(item, dataId,'data_refresh');
 		}
 	}
