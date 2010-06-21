@@ -290,7 +290,7 @@ class MailHandler < ActiveRecord::Base
       # no text/plain part found, assuming html-only email
       # strip html tags and remove doctype directive
       @plain_text_body = @email.body.to_s
-      @plain_text_body.gsub! /On.{40,80}wrote:(.+)/sm, ''  #removing all lines including and after a "On xxxxxx (email)"
+      @plain_text_body.gsub! /On.{30,100}wrote:(.+)/sm, ''  #removing all lines including and after a "On xxxxxx (email)"
       @plain_text_body = strip_tags(sanitize(@plain_text_body))
       @plain_text_body.gsub! %r{^<!DOCTYPE .*$}, ''
     else
