@@ -113,6 +113,7 @@
   var currentUserIsCitizen = '<%= User.current.core_member_of?(@project) %>';
   var currentUserIsMember = '<%= User.current.member_of?(@project) %>';
   var point_factor = <%= Setting::POINT_FACTOR.to_json %>;  
+  var startable_priority_tiers = <%= Setting::NUMBER_OF_STARTABLE_PRIORITY_TIERS %>;
 
   var standard_trackers = function() {
       var trackers = <%= Tracker.all.to_json %>
@@ -128,7 +129,7 @@
   }();
   
   $('document').ready(function(){
-    show_item();
+    show_item(<%= @issue.startable? %>);
   });
   
 </script>

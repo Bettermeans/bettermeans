@@ -62,6 +62,7 @@
   var credit_base = '<%= @credit_base %>';
   var point_factor = <%= Setting::POINT_FACTOR.to_json %>;
   var credits_to_points_array = <%= Setting::CREDITS_TO_POINTS.to_json %>;
+  var startable_priority_tiers = <%= Setting::NUMBER_OF_STARTABLE_PRIORITY_TIERS %>;
 
   var standard_trackers = function() {
       var trackers = <%= Tracker.all.to_json %>
