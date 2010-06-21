@@ -1363,6 +1363,37 @@ function credits_to_points(credits,base){
 	return credits_to_points_array[normalized]; //TODO: fix this formula credits larger than 12
 }
 
+function generate_item_estimate_button(dataId,points){
+	var item = D[dataId];
+	var html = '';
+	
+	if (!is_item_estimatable(item)){
+		return '';
+	}
+	
+	var current_user_voted = false;
+	
+	//Checking wether or not current user estimated this item voted
+	for(i=0; i < item.issue_votes.length; i++){
+		if (item.issue_votes[i].vote_type != 4) continue;
+		
+		if (currentUserLogin == item.issue_votes[i].user.login){
+			current_user_voted = true;
+			break;
+		}
+	}
+	
+	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (current_user_voted)){
+		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';		
+	}
+	else{
+		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_No.png" alt="Credits hidden until you estimate" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';		
+	}
+	
+	return html;
+	
+}
+
 
 //Generates html for collapsed item
 function generate_item(dataId){
@@ -1383,9 +1414,7 @@ function generate_item(dataId){
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
 	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ item.id +');return false;">'; 
 	
-	if (is_item_estimatable(item)){
-		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';
-	}
+	html = html + generate_item_estimate_button(dataId,points);
 	
 	if (show_comment(item)){
 	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png" onclick="show_details_flyover('+ dataId +',this.id);return false;">'; 
