@@ -2342,7 +2342,12 @@ function update_panel_counts(){
 
 function update_panel_count(name, skip_button){
 	try{
-		count = $("#" + name + "_start_of_list > *:visible").length;
+		if ($("#" + name + '_panel').is(":visible")){
+			count = $("#" + name + "_start_of_list > *:visible").length;
+		}
+		else{
+			count = $("#" + name + "_start_of_list > *").length;
+		}
 		$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\([0-9]*\)/,"(" + count + ")"));
 		if (!skip_button){
 			$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\([0-9]*\)/,"(" + count + ")"));
