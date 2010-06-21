@@ -2612,6 +2612,7 @@ function item_actioned(item, dataId,action){
 	pre_status = D[dataId].status.name;
 	
 	status_changed = (pre_status != item.status.name);
+
 	// New and estimate status are the same as far as the dashboard is concerned
 	if ((item.status.name == 'Estimate' && pre_status == 'New')||(item.status.name == 'New' && pre_status == 'Estimate'))
 	{
@@ -2622,7 +2623,7 @@ function item_actioned(item, dataId,action){
 	$('#item_lightbox_' + dataId).replaceWith(generate_item_lightbox(dataId));
 	update_lightbox_lock_version(dataId);
 	
-	if (!status_changed)
+	if ((!status_changed) || (item.status.name == 'Accepted'))
 	{
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
 		show_start_buttons();
@@ -2634,8 +2635,6 @@ function item_actioned(item, dataId,action){
 		add_item(dataId,"bottom",true);
 		update_panel_counts();
 	}	
-	
-	
 
 	keyboard_shortcuts = true;
 	
