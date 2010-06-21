@@ -17,6 +17,8 @@ class Setting < ActiveRecord::Base
   TIME_BETWEEN_CREDIT_DISTRIBUTIONS = 7 #Days between credit distributions
   DAY_FOR_CREDIT_DISTRIBUTION = "Saturday"
   
+  NUMBER_OF_STARTABLE_PRIORITY_TIERS = 3 #number of highest tiers that are startable
+  
   DAYS_FOR_ACTIVE_MEMBERSHIP = 14 #If a member does any activity on a project in the last X days, they're considered active
 
 

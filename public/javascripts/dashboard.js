@@ -2421,10 +2421,9 @@ function sort_panel(name){
 
 function show_start_buttons(){
 	$(".action_button_start").hide();
-	$(".pri_" + highest_pri).find(".action_button_start").show();
-	$(".pri_" + (highest_pri - 1)).find(".action_button_start").show();
-	$(".pri_" + (highest_pri - 2)).find(".action_button_start").show();
-	// $(".pri_" + (highest_pri - 3)).find(".action_button_start").show();
+	for (var i=0; i < startable_priority_tiers; i++){
+		$(".pri_" + (highest_pri - i)).find(".action_button_start").show();
+	}
 	$(".points_0").find(".action_button_start").show();
 }
 
