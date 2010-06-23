@@ -1664,7 +1664,7 @@ table .odd {
 }
 
 table.list tr {
-	line-height: 1em;
+	line-height: 1.1em;
 }
 
 table.list td.currency {
