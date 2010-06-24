@@ -59,7 +59,6 @@ Rails::Initializer.run do |config|
   config.action_controller.session = { :key => "_bettermeans_session", :secret => "95fd75499b43ada8cfbc538558d74312asdf" }
 
   config.gem 'rubytree', :lib => 'tree'
-  config.gem 'sparklines'
   
   # Load any local configuration that is kept out of source control
   # (e.g. gems, patches).
