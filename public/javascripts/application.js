@@ -300,6 +300,14 @@ function h(s) {
   return escaped;
 }
 
+
+function display_sparks(){
+	$('.spark').each(function(){
+	$(this).show();
+	$(this).sparkline('html', {type: 'bar' , barColor: 'grey'});
+	});
+}
+
 function humane_date(date_str){
 		
       var time_formats = [
