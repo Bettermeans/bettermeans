@@ -665,6 +665,8 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: projects
@@ -684,5 +686,6 @@ end
 #  enterprise_id        :integer
 #  last_item_updated_on :datetime
 #  dpp                  :float
+#  activity_line        :text            default("[]")
 #
 

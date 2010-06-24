@@ -2079,3 +2079,7 @@ text-decoration:underline !important;
 	background-repeat: no-repeat;
 	background-image: url(/images/loading.gif);
 }
+
+.spark {
+	display: none;
+}

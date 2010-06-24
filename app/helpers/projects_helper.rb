@@ -14,32 +14,6 @@ module ProjectsHelper
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}     
   end
   
-  def team_action_links(project)
-    content = ''
-    
-    #Link to join core if user is a core member of the parent workstream and isn't already on core, or if user has enough points
-    content << link_to_remote(l(:label_join_core_team), {:url => {:controller => 'projects', :action => 'join_core_team', :id => project}, :method => :post}, 
-                                           :class => 'icon icon-add') << '  ' if  @project.eligible_for_core?(User.current) unless User.current.core_member_of?(@project)
-    
-    #Link to request joining core if user is a contributor and isn't a core member of the parent workstream
-    # content << link_to_remote(l(:label_request_to_join_core_team), {:url => {:controller => 'team_offers', :action => 'add', :project => project, :author => User.current}, :method => :post}, 
-    #                                             :class => 'icon icon-cr-request') << '  ' if  !@project.eligible_for_core?(User.current) && User.current.contributor_of?(@project)
-    
-    #Link to leave core if user is on core
-    content << link_to_remote(l(:label_leave_core_team), {:url => {:controller => 'projects', :action => 'leave_core_team', :id => project}, :method => :post}, 
-                                           :class => 'icon icon-cr-decline') << '  ' if  User.current.core_member_of?(@project)
-                                           
-    #Link to invite users to core, if user is on core
-    # content << link_to_remote(l(:label_invitation_to_join_core_team), {:url => {:controller => 'team_offers', :action => 'add', :project => project, :author => User.current}, :method => :post}, 
-    #                                             :class => 'icon icon-cr-offer') << '  ' if  User.current.core_member_of?(@project)
-  
-    #Help link: How do I join this team? if user is not a contributor, telling them to become a contributor first
-    content << help_link(:how_do_i_join_a_team,:show_name => :true) unless User.current.member_of?(@project)
-    
-    content
-
-  end
-
   def nomination_links(member,project)
     return if member.user_id == User.current.id
     return unless User.current.binding_voter_of?(project)

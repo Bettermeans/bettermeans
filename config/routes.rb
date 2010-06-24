@@ -312,8 +312,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :credits
   map.resources :shares
-  map.resources :team_points
-  map.resources :team_offers
   map.resources :enterprises
   map.resources :comments
   map.resources :retro_ratings

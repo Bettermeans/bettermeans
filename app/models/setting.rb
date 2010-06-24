@@ -20,6 +20,8 @@ class Setting < ActiveRecord::Base
   NUMBER_OF_STARTABLE_PRIORITY_TIERS = 3 #number of highest tiers that are startable
   
   DAYS_FOR_ACTIVE_MEMBERSHIP = 14 #If a member does any activity on a project in the last X days, they're considered active
+  
+  ACTIVITY_LINE_LENGTH = 90 #number of days for activity sparklines
 
 
   #Factor by which dollars per point is multiplies e.g. a 5 point issue is worth $(POINT_FACTOR[5] * dpp)

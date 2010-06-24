@@ -59,7 +59,6 @@ Redmine::AccessControl.map do |map|
     map.permission :push_commitment, {:issues => [:assign]} #Can send request for someone to comitt to a task
     map.permission :pull_commitment, {:issues => [:assign]} #Can pull request. i.e. ask to be the person that the task is commited to.
     map.permission :view_commit_requests, {:commit_requests => [:edit, :show]} #Can view ownereship requests
-    # map.permission :view_team_offers, {:team_offers => [:show]} #Can view core team offers
     map.permission :view_member_roles, {:member_roles => [:show]} #Can view member roles
     map.permission :estimate_issues, {:issues => :estimate} #Can estimate issue
     map.permission :accept_issues, {:issues => [:accept, :reject]} #can accept or reject issues

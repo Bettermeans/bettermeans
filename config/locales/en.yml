@@ -776,7 +776,6 @@ en:
   label_team_invitation : "Core Team Invitation"
   label_team_request : "Core Team Request"
   label_team_request_plural : "Core Team requests"
-  label_team_offers_and_requests : "Team Invitations & Requests"
   label_accepted : "accepted"
   label_sent : "sent"
   label_withdrawn : "withdrawn"

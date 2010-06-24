@@ -37,9 +37,10 @@
   <div class="box">    
     <h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%>:</h3>
  	  <ul>
- 	    <li>
-        <%= @subprojects.collect{|p| link_to(h(p), :action => 'show', :id => p)}.join("</li><li>") %>
-      </li>
+ 	      <% @subprojects.each do |p| %>
+ 	      <li><%= link_to(h(p), :action => 'show', :id => p)  %>
+ 	        <span class="spark right"><%= p.activity_line.split(",").slice(p.activity_line.split(",").length - 40,40).join(",") %></span></li>
+ 	      <% end %>
     </ul>
   </div>
   <% end %>
@@ -81,3 +82,9 @@
 <% end %>
 
 <% html_title(l(:label_overview)) -%>
+
+<script>
+  $('document').ready(function(){
+    display_sparks();
+  });
+</script>
