@@ -11,6 +11,7 @@
 	
 <div class="splitcontentleft">
 	<%= textilizable @project.description %>	
+  
 	<% unless @project.homepage.blank? %><%=l(:field_homepage)%>: <%= link_to(h(@project.homepage), @project.homepage) %><% end %>
 	
   <% if @news.any? && authorize_for('news', 'index') %>
@@ -34,7 +35,8 @@
   <% end %>
   
   <% if @subprojects.any? %>
-  <div class="box">    
+  <span class="spark"><%= @project.activity_line.split(",").slice(@project.activity_line.split(",").length - 80,80).join(",") %></span></li>
+	<div class="box">    
     <h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%>:</h3>
  	  <ul>
  	      <% @subprojects.each do |p| %>
