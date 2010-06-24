@@ -18,7 +18,7 @@
 		<ul>
 		<% for project in @enterprises %>
 			<li>
-			<%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %> (<%= format_time(project.created_on) %>)
+			<%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %><!-- (<%#= since_tag(project.created_on) %>) --> <span class="spark right"><%= project.activity_line %></span>
 			<%= textilizable project.short_description, :project => project %>
 			</li>
 		<% end %>
@@ -47,3 +47,9 @@
 <%= auto_discovery_link_tag(:atom, {:controller => 'projects', :action => 'activity', :key => User.current.rss_key, :format => 'atom'},
                                    :title => "#{Setting.app_title}: #{l(:label_activity)}") %>
 <% end %>
+
+<script>
+  $('document').ready(function(){
+    display_sparks();
+  });
+</script>

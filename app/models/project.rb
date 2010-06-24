@@ -47,14 +47,14 @@ class Project < ActiveRecord::Base
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
   has_many :issues, :dependent => :destroy, :order => "#{Issue.table_name}.created_on DESC", :include => [:status, :tracker]
+  has_many :issue_votes, :through => :issues
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :queries, :dependent => :delete_all
   has_many :documents, :dependent => :destroy
   has_many :news, :dependent => :delete_all, :include => :author
   has_many :boards, :dependent => :destroy, :order => "position ASC"
+  has_many :messages, :through => :boards
   has_one :wiki, :dependent => :destroy
-  has_many :team_offers, :dependent => :delete_all
-  has_many :team_points, :dependent => :delete_all
   has_many :shares, :dependent => :delete_all
   has_many :credits, :dependent => :delete_all, :order => 'created_on ASC'
   has_many :retros, :dependent => :delete_all
@@ -564,6 +564,37 @@ class Project < ActiveRecord::Base
     start_new_retro if ready_for_retro?
   end
   
+  def refresh_activity_line
+    date_array = Hash.new(0)
+    for i in (1..Setting::ACTIVITY_LINE_LENGTH)
+      date_array[(Date.today - i).to_s] = 0
+    end
+    
+    #All issue votes
+    iv_array = issue_votes.count(:group => 'DATE(issue_votes.created_on)', :conditions => "issue_votes.created_on > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
+    my_line = date_array.merge iv_array
+
+    #all issues
+    iv_array = issues.count(:group => 'DATE(issues.updated_on)', :conditions => "issues.updated_on > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
+    my_line + iv_array
+    
+    #all board messages
+    iv_array = messages.count(:group => 'DATE(messages.updated_on)', :conditions => "messages.updated_on > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
+    my_line + iv_array
+    
+    #all journals
+    iv_array = issue_changes.count(:group => 'DATE(journals.updated_on)', :conditions => "journals.updated_on > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
+    my_line + iv_array
+    
+    self.children.each do |sub_project| 
+      my_line + sub_project.refresh_activity_line
+    end
+    
+    self.activity_line = (my_line.sort.collect {|v| v[1]}).inspect.delete("[").delete("]")
+    save
+    my_line
+  end
+  
   private
   
   # Copies wiki from +project+
@@ -678,6 +709,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: projects
@@ -697,5 +729,6 @@ end
 #  enterprise_id        :integer
 #  last_item_updated_on :datetime
 #  dpp                  :float
+#  activity_line        :text            default("[]")
 #
 

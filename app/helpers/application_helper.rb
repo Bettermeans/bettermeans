@@ -271,6 +271,11 @@ module ApplicationHelper
     end
   end
 
+  def since_tag(time)
+    text = distance_of_time_in_words(Time.now, time)
+    content_tag('acronym', text, :title => format_time(time))
+  end
+
   def syntax_highlight(name, content)
     type = CodeRay::FileType[name]
     type ? CodeRay.scan(content, type).html : h(content)

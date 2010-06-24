@@ -43,6 +43,10 @@ namespace :custom do
   task :calculate_reputation => :environment do
     Reputation.calculate_all
   end
+
+  task :refresh_activity_timelines => :environment do
+    Project.all_roots.each {|p| p.refresh_activity_line} 
+  end
   
 
 end
