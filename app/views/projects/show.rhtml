@@ -38,12 +38,16 @@
   <span class="spark"><%= @project.activity_line.split(",").slice(@project.activity_line.split(",").length - 80,80).join(",") %></span></li>
 	<div class="box">    
     <h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%>:</h3>
- 	  <ul>
+    <table class="projects">
  	      <% @subprojects.each do |p| %>
- 	      <li><%= link_to(h(p), :action => 'show', :id => p)  %>
- 	        <span class="spark right"><%= p.activity_line.split(",").slice(p.activity_line.split(",").length - 40,40).join(",") %></span></li>
+ 	      <tr><td>
+ 	      <%= link_to(h(p), :action => 'show', :id => p)  %>
+ 	        <% array = p.activity_line.split(",").slice(p.activity_line.split(",").length - 40,40) %>
+ 	        </td><td>
+ 	        <span class="spark right" max="<%=  array.max{|a,b| a.to_f <=> b.to_f} %>"><%= array.join(",") %></span>
+ 	        </td></tr>
  	      <% end %>
-    </ul>
+    </table>
   </div>
   <% end %>
 
