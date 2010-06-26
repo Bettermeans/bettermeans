@@ -124,22 +124,6 @@ dt.member-role { background-image: url(/images/users.png); }
 
 #search-results dt.issue.closed { background-image: url(/images/ticket_checked.png); }
 
-div#roadmap fieldset.related-issues { margin-bottom: 1em; }
-div#roadmap fieldset.related-issues ul { margin-top: 0.3em; margin-bottom: 0.3em; }
-div#roadmap .wiki h1:first-child { display: none; }
-div#roadmap .wiki h1 { font-size: 120%; }
-div#roadmap .wiki h2 { font-size: 110%; }
-
-div#version-summary { float:right; width:380px; margin-left: 16px; margin-bottom: 16px; background-color: #fff; }
-div#version-summary fieldset { margin-bottom: 1em; }
-div#version-summary .total-hours { text-align: right; }
-
-table#time-report td.hours, table#time-report th.period, table#time-report th.total { text-align: right; padding-right: 0.5em; }
-table#time-report tbody tr { font-style: italic; color: #777; }
-table#time-report tbody tr.last-level { font-style: normal; color: #555; }
-table#time-report tbody tr.total { font-style: normal; font-weight: bold; color: #555; background-color:#EEEEEE; }
-table#time-report .hours-dec { font-size: 0.9em; }
-
 form#issue-form .attributes { margin-bottom: 8px; }
 form#issue-form .attributes p { padding-top: 1px; padding-bottom: 2px; }
 form#issue-form .attributes select { min-width: 30%; }
@@ -152,6 +136,8 @@ ul.projects li.root { margin-bottom: 1em; }
 ul.projects li.child { margin-top: 1em;}
 ul.projects div.root a.project { font-family: "Trebuchet MS", Verdana, sans-serif; font-weight: bold; font-size: 16px; margin: 0 0 10px 0; }
 .my-project { padding-left: 18px; background: url(/images/fav.png) no-repeat 0 50%; }
+
+table.projects td {vertical-align:bottom; padding:0px; height:25px;}
 
 #tracker_project_ids ul { margin: 0;  padding-left: 1em; }
 #tracker_project_ids li { list-style-type:none; } 
@@ -2083,3 +2069,4 @@ text-decoration:underline !important;
 .spark {
 	display: none;
 }
+

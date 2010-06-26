@@ -304,7 +304,18 @@ function h(s) {
 function display_sparks(){
 	$('.spark').each(function(){
 	$(this).show();
-	$(this).sparkline('html', {type: 'bar' , barColor: 'grey'});
+	// console.log($(this).attr('max'));
+	var max = parseFloat($(this).attr('max'));
+	console.log (max);
+	if (max > 10){
+		max = 10;
+		console.log("trimmed down to " + max);
+	}
+	if (max == 0){
+		max = 1;
+	}
+	$(this).sparkline('html', {type: 'bar' , barColor: 'grey', height: max});
+	console.log ("created sparkline with: " + max);
 	});
 }
 
