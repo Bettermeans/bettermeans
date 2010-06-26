@@ -306,16 +306,18 @@ function display_sparks(){
 	$(this).show();
 	// console.log($(this).attr('max'));
 	var max = parseFloat($(this).attr('max'));
-	console.log (max);
-	if (max > 10){
-		max = 10;
-		console.log("trimmed down to " + max);
+	if (max > 15){
+		max = 15;
 	}
 	if (max == 0){
 		max = 1;
 	}
-	$(this).sparkline('html', {type: 'bar' , barColor: 'grey', height: max});
-	console.log ("created sparkline with: " + max);
+	if (isNaN(max)){
+		$(this).sparkline('html', {type: 'bar' , barColor: 'grey'});
+	}
+	else{
+		$(this).sparkline('html', {type: 'bar' , barColor: 'grey', height: max});
+	}
 	});
 }
 
