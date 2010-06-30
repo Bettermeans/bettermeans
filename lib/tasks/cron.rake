@@ -15,6 +15,7 @@ task :cron => :environment do
     
     if Time.now.hour == 0
       
+      Rake::Task['heroku:daily_backup'].invoke
       Rake::Task['start_retros'].invoke
       Rake::Task['custom:calculate_reputation'].invoke
       
