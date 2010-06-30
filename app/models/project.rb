@@ -595,6 +595,14 @@ class Project < ActiveRecord::Base
     my_line
   end
   
+  def activity_line_max
+    self.activity_line.split(',').max{|a,b| a.to_f <=> b.to_f}
+  end
+  
+  def activity_line_fordash(length)
+    activity_line.split(",").slice(self.activity_line.split(",").length - length,length).join(",")
+  end
+  
   private
   
   # Copies wiki from +project+
