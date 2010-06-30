@@ -35,7 +35,7 @@
   <% end %>
   
   <% if @subprojects.any? %>
-  <span class="spark" max="<%= @project.activity_line.split(',').max{|a,b| a.to_f <=> b.to_f} %>"><%= @project.activity_line.split(",").slice(@project.activity_line.split(",").length - 80,80).join(",") %></span></li>
+  <span class="spark" max="<%#= @project.activity_line_max %>"><%#= @project.activity_line_fordash(80) %></span></li>
 	<div class="box">    
     <h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%>:</h3>
     <table class="projects">
