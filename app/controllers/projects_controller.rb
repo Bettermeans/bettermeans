@@ -64,7 +64,8 @@ class ProjectsController < ApplicationController
       @project.is_public = Setting.default_projects_public?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
       if validate_parent_id && @project.save
-        @project.set_allowed_parent!(@parent.id) unless @parent.nil?
+        # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
+        @project.set_parent!(@parent.id) unless @parent.nil?
         if @parent.nil?
           # Add current user as a admin and core team member
           r = Role.find(Role::BUILTIN_CORE_MEMBER)
