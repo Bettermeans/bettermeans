@@ -221,16 +221,26 @@ function load_dashboard_data(){
 }
 
 function save_local_data(){
-	store.set('D_' + projectId,JSON.stringify(D));
-	store.set('R_' + projectId,JSON.stringify(R));
-	store.set('last_data_pull_' + projectId,last_data_pull)
+	try{
+		store.set('D_' + projectId,JSON.stringify(D));
+		store.set('R_' + projectId,JSON.stringify(R));
+		store.set('last_data_pull_' + projectId,last_data_pull);
+	}
+	catch(err){
+		return false;
+	}
 }
 
 function get_local_data(){
-	local_D = JSON.parse(store.get('D_' + projectId));
-	if (local_D == null) {return;}
-	local_R = JSON.parse(store.get('R_' + projectId));
-	last_data_pull = new Date(store.get('last_data_pull_' + projectId));
+	try{
+		local_D = JSON.parse(store.get('D_' + projectId));
+		if (local_D == null) {return;}
+		local_R = JSON.parse(store.get('R_' + projectId));
+		last_data_pull = new Date(store.get('last_data_pull_' + projectId));
+	}
+	catch(err){
+		return false;
+	}
 }
 
 function load_dashboard_data_for_statuses(status_ids,name){
