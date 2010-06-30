@@ -4,6 +4,10 @@ production:
   bucket: bettermeans_production
   cname_bucket: false
 
+  # export s3_access_key_id='your AWS access key'
+  # export s3_secret_access_key='your AWS secret access key'
+  # export s3_bucket='your unique bucket name'
+
 development:
     access_key_id: <%= ENV['s3_access_key_id'] %>
     secret_access_key: <%= ENV['s3_secret_access_key_id'] %>
