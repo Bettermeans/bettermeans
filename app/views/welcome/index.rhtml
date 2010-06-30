@@ -18,7 +18,7 @@
 		<ul>
 		<% for project in @enterprises %>
 			<li>
-			<%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %><!-- (<%#= since_tag(project.created_on) %>) --> <span class="spark right" max="<%= project.activity_line.split(',').max{|a,b| a.to_f <=> b.to_f} %>"><%= project.activity_line %></span>
+			<%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %><!-- (<%#= since_tag(project.created_on) %>) --> <span class="spark right" max="<%= project.activity_line_max %>"><%= project.activity_line_show(60) %></span>
 			<%= textilizable project.short_description, :project => project %>
 			</li>
 		<% end %>

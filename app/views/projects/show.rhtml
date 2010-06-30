@@ -35,16 +35,16 @@
   <% end %>
   
   <% if @subprojects.any? %>
-  <span class="sparkx" max="<%#= @project.activity_line_max %>"><%#= @project.activity_line_fordash(80) %></span></li>
+  <span class="spark" max="<%= @project.activity_line_max %>"><%= @project.activity_line_show(80) %></span></li>
 	<div class="box">    
     <h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%>:</h3>
     <table class="projects">
  	      <% @subprojects.each do |p| %>
  	      <tr><td>
  	      <%= link_to(h(p), :action => 'show', :id => p)  %>
- 	        <%# array = p.activity_line.split(",").slice(p.activity_line.split(",").length - 40,40) %>
+ 	        <% array = p.activity_line_show(40) %>
  	        </td><td>
- 	        <span class="sparkx right" max="<%#=  array.max{|a,b| a.to_f <=> b.to_f} %>"><%#= array.join(",") %></span>
+ 	        <span class="spark right" max="<%=  p.activity_line_max %>"><%= p.activity_line_show(40) %></span>
  	        </td></tr>
  	      <% end %>
     </table>
