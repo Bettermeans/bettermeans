@@ -8,7 +8,7 @@ module RedmineS3
     @@conn              = nil
     
     def self.load_options
-      options = YAML::load(ERB.new(File.read("#{RAILS_ROOT}/config/s3.yml")).run)
+      options = YAML.load(ERB.new(File.read("#{RAILS_ROOT}/config/s3.yml")).run)
       @@access_key_id     = options[Rails.env]['access_key_id']
       @@secret_acces_key  = options[Rails.env]['secret_access_key']
       @@bucket            = options[Rails.env]['bucket']
