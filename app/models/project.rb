@@ -599,7 +599,7 @@ class Project < ActiveRecord::Base
     self.activity_line.split(',').max{|a,b| a.to_f <=> b.to_f}
   end
   
-  def activity_line_fordash(length)
+  def activity_line_show(length)
     activity_line.split(",").slice(self.activity_line.split(",").length - length,length).join(",")
   end
   

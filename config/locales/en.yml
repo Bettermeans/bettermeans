@@ -1069,7 +1069,7 @@ en:
   text_tally_hidden_until_you_vote : "Voting tally is hidden until you cast your vote"
   text_you_dont_have_shares_to_vote : "You need to have shares to weigh in on this motion."
   text_you_are_now_a_role : "You are now a <b>{{role_name}}</b> of"
-  text_role_description_Administrator : "As an Admin, you can bypass governance rules and directly add/remove members and workstreams. Use this role as you are setting up your structures, and then remove yourself from the admin role when you're ready to fully adopt the Open Enterprise governance model."
+  text_role_description_Administrator : "As an Admin, you can bypass governance rules and directly add/remove members and workstreams.<br> Use this role sparingly as you are setting up your structures, <br>and then remove yourself from the admin role when you're ready to fully adopt the Open Enterprise governance model."
   text_role_description_Contributor : "As a contributor, you can now earn credits and own a stake in <b>{{enterprise}}.</b><br>Your votes on all matters will be visible to everyone, and will be non-binding."
   text_role_description_Member : "As a member, all your votes are now binding. <br>In addition you can nominate contributors for membership,<br>and vote on Core Team elections."
   text_role_description_Core Team : "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
