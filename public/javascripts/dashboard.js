@@ -2733,6 +2733,8 @@ function item_actioned(item, dataId,action){
 	
 	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 5000);
 	
+	save_local_data();
+	
 	return false;
 }
 
