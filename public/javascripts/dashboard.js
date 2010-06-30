@@ -1,5 +1,7 @@
 var D = []; //all data
-var R; //all retrospectives
+var R = []; //all retrospectives
+var local_D = null;
+var local_R = null;
 var MAX_REQUESTS_PER_PERSON = 4;
 var ANONYMOUS_USER_ID = 2;
 var TIMER_INTERVAL = 15000; //15 seconds
@@ -16,7 +18,7 @@ var last_activity = new Date(); //tracks last activity of mouse or keyboard clic
 var last_data_pull = new Date(); //tracks last data recieved from server
 var highest_pri = -9999;
 var loaded_panels = 0; //keeps track of how many panels have had their data loaded
-
+var local_store = null; //local persistant storage
 
 $(window).bind('resize', function() {
 	resize();
@@ -194,11 +196,44 @@ function load_dashboard_data(){
 	$("#load_dashboard").hide();	
 	$("#loading").hide();
 	
-	keyboard_shortcuts = false;
-	load_dashboard_data_for_statuses('10,11','new');
-	load_dashboard_data_for_statuses('1,6','open');
-	load_dashboard_data_for_statuses('4','inprogress');
-	load_dashboard_data_for_statuses('8,14,13','done');
+	get_local_data();
+	if (local_D != null){
+		data_ready(local_D,'all');
+		retros_ready(local_R);
+		load_retros();
+		start_timer();
+		new_dash_data();
+		local_D = null;
+		local_R = null;
+	}
+	else{
+		D = [];
+		R = [];
+		keyboard_shortcuts = false;
+		load_dashboard_data_for_statuses('10,11','new');
+		load_dashboard_data_for_statuses('1,6','open');
+		load_dashboard_data_for_statuses('4','inprogress');
+		load_dashboard_data_for_statuses('8,14,13','done');
+		load_dashboard_data_for_statuses('9','canceled'); 
+		load_dashboard_data_for_statuses('12','archived'); 
+	}
+	
+}
+
+function save_local_data(){
+	console.log("saving local data D:" + D.length + "  R:" + R.length);
+	store.set('D_' + projectId,JSON.stringify(D));
+	store.set('R_' + projectId,JSON.stringify(R));
+	store.set('last_data_pull_' + projectId,last_data_pull)
+}
+
+function get_local_data(){
+	console.log("getting local data");
+	local_D = JSON.parse(store.get('D_' + projectId));
+	if (local_D == null) {return;}
+	local_R = JSON.parse(store.get('R_' + projectId));
+	console.log("getting local data D:" + local_D.length + "  R:" + local_R.length);
+	last_data_pull = store.get('last_data_pull_' + projectId);
 }
 
 function load_dashboard_data_for_statuses(status_ids,name){
@@ -264,10 +299,20 @@ function data_ready(html,name){
 	D = D.concat(html);
 	add_items_to_panels(last_item);
 	sort_panels();
-	$('#' + name + '_close').addClass('closePanel').removeClass('closePanelLoading');
+	if (name == 'all'){
+		console.log("renaming all");
+		$('#new_close').addClass('closePanel').removeClass('closePanelLoading');
+		$('#open_close').addClass('closePanel').removeClass('closePanelLoading');
+		$('#inprogress_close').addClass('closePanel').removeClass('closePanelLoading');
+		$('#done_close').addClass('closePanel').removeClass('closePanelLoading');
+		loaded_panels = 6;
+	}
+	else{
+		$('#' + name + '_close').addClass('closePanel').removeClass('closePanelLoading');
+		loaded_panels = loaded_panels + 1;
+	}
 	update_panel_counts();
 	prepare_item_lookup_array();
-	loaded_panels = loaded_panels + 1;
 	if (loaded_panels == 4){
 		load_retros();
 	}
@@ -297,17 +342,13 @@ function load_retros(){
 		 });
 }
 
-function retros_ready(html){
+function retros_ready(html,load_remaining_panels){
 	R = html;
 	insert_retros();	
-	
-	//canceled and archived loaded in the background
-	load_dashboard_data_for_statuses('9','canceled'); 
-	load_dashboard_data_for_statuses('12','archived'); 
-	
 }
 
 function insert_retros(){
+	$('.retrospective').remove();
 	for(var i = 0; i < R.length; i++ ){
 		add_retro(i,"bottom",false);	
 	}
@@ -382,7 +423,6 @@ function start_timer(){
 	if (timer_active){
 		return;
 	}
-	
 	
 	timer_active = true;
 	$.timer(TIMER_INTERVAL, function (timer) {
@@ -1480,7 +1520,7 @@ function update_lightbox_lock_version(dataId){
 function generate_retro(rdataId){
 	var retro = R[rdataId];
 	var html = '';
-	html = html + '	<div id="retro_' + rdataId + '" class="item">';
+	html = html + '	<div id="retro_' + rdataId + '" class="item retrospective">';
 	html = html + '	<div id="retro_' + rdataId + '_content" class="iterationHeader">';
 	html = html + '	<table>';
 	html = html + '	<tbody>';
@@ -3527,6 +3567,11 @@ function poll_server(timer){
 	stop_timer(timer);
 	timer_active = false;
 	
+	new_dash_data();
+	
+}
+
+function new_dash_data(){
 	var data = "seconds=" + (((new Date).getTime() - last_data_pull.getTime())/1000);
 
 	var url = url_for({ controller: 'projects',
@@ -3541,16 +3586,17 @@ function poll_server(timer){
 	   data: data,
 	   success:  	function(html){
 			start_timer();
-			poll_server_response(html);
+			new_dash_data_response(html);
 		},
 	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 			start_timer();
+			save_local_data();
 		},
 		timeout: 30000 //30 seconds
 	 });
 }
 
-function poll_server_response(data){
+function new_dash_data_response(data){
 	last_data_pull = new Date();
 	for(var i = 0; i < data.length; i++ ){
 		
@@ -3583,6 +3629,7 @@ function poll_server_response(data){
 			item_actioned(item, dataId,'data_refresh');
 		}
 	}
+	save_local_data();
 }
 
 function is_user_logged_in(){
