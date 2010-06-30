@@ -221,19 +221,16 @@ function load_dashboard_data(){
 }
 
 function save_local_data(){
-	console.log("saving local data D:" + D.length + "  R:" + R.length);
 	store.set('D_' + projectId,JSON.stringify(D));
 	store.set('R_' + projectId,JSON.stringify(R));
 	store.set('last_data_pull_' + projectId,last_data_pull)
 }
 
 function get_local_data(){
-	console.log("getting local data");
 	local_D = JSON.parse(store.get('D_' + projectId));
 	if (local_D == null) {return;}
 	local_R = JSON.parse(store.get('R_' + projectId));
-	console.log("getting local data D:" + local_D.length + "  R:" + local_R.length);
-	last_data_pull = store.get('last_data_pull_' + projectId);
+	last_data_pull = new Date(store.get('last_data_pull_' + projectId));
 }
 
 function load_dashboard_data_for_statuses(status_ids,name){
@@ -254,6 +251,7 @@ function load_dashboard_data_for_statuses(status_ids,name){
 	   dataType: ($.browser.msie) ? "text" : "json",
 	   url: url,
 	   success:  	function(html){
+			last_data_pull = new Date();
 			data_ready(html,name);
 		},
 	   error: 	function (xhr, textStatus, errorThrown) {
@@ -294,13 +292,11 @@ function bind_search_events(){
 // });
 
 function data_ready(html,name){
-	last_data_pull = new Date();
 	last_item = D.length;
 	D = D.concat(html);
 	add_items_to_panels(last_item);
 	sort_panels();
 	if (name == 'all'){
-		console.log("renaming all");
 		$('#new_close').addClass('closePanel').removeClass('closePanelLoading');
 		$('#open_close').addClass('closePanel').removeClass('closePanelLoading');
 		$('#inprogress_close').addClass('closePanel').removeClass('closePanelLoading');
@@ -3585,10 +3581,12 @@ function new_dash_data(){
 	   url: url,
 	   data: data,
 	   success:  	function(html){
+			last_data_pull = new Date();
 			start_timer();
 			new_dash_data_response(html);
 		},
 	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			last_data_pull = new Date();
 			start_timer();
 			save_local_data();
 		},
@@ -3597,7 +3595,6 @@ function new_dash_data(){
 }
 
 function new_dash_data_response(data){
-	last_data_pull = new Date();
 	for(var i = 0; i < data.length; i++ ){
 		
 		item = data[i];
