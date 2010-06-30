@@ -532,6 +532,8 @@ class Project < ActiveRecord::Base
      Board.create! :project_id => id,
                   :name => Setting.forum_name,                        
                   :description => Setting.forum_description + name
+                  
+     refresh_activity_line
   end
   
   
