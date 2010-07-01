@@ -94,6 +94,15 @@ class Project < ActiveRecord::Base
   named_scope :all_roots, {:conditions => "parent_id is null"}
   named_scope :all_children, {:conditions => "parent_id is not null"}
   
+  def graph_data
+    if children.size > 0
+      mychildren = children.collect{ |node|  node.graph_data }
+    else
+      mychildren = []
+    end
+    { :id => self.identifier, :name => name, :children => mychildren, :data => {:$angularWidth => issues.length, :$color => '#aaa' } }
+  end
+  
   def identifier=(identifier)
     super unless identifier_frozen?
   end

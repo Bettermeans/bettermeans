@@ -48,6 +48,9 @@ class ProjectsController < ApplicationController
     end
   end
   
+  def map
+  end
+  
   # Add a new project
   def add
     @project = Project.new(params[:project])
