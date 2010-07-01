@@ -52,6 +52,10 @@ task :backup => :environment do
   yaml_string = ERB.new(File.read("#{RAILS_ROOT}/config/s3.yml")).result
   options = YAML.load(yaml_string)
   
+  puts "yaml string #{yaml_string}"
+  puts "access key #{options[Rails.env]['access_key_id']}"
+  puts "secret key #{options[Rails.env]['secret_key_id']}"
+  
   AWS::S3::Base.establish_connection!(
       :access_key_id => options[Rails.env]['access_key_id'],
       :secret_access_key => options[Rails.env]['secret_key_id']
