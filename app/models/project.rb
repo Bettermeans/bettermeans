@@ -95,8 +95,9 @@ class Project < ActiveRecord::Base
   named_scope :all_children, {:conditions => "parent_id is not null"}
   
   def graph_data
-    if children.size > 0
-      mychildren = children.collect{ |node|  node.graph_data }
+    valid_kids = children.select{|c| c.active?}
+    if valid_kids.size > 0
+      mychildren = valid_kids.collect{ |node|  node.graph_data }
     else
       mychildren = []
     end
