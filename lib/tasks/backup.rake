@@ -50,11 +50,11 @@ task :backup => :environment do
   
   # config = YAML.load(File.open("#{RAILS_ROOT}/config/s3.yml"))[RAILS_ENV]
   yaml_string = ERB.new(File.read("#{RAILS_ROOT}/config/s3.yml")).result
-  config = YAML.load(yaml_string)
+  options = YAML.load(yaml_string)
   
   AWS::S3::Base.establish_connection!(
-      :access_key_id => config['access_key_id'],
-      :secret_access_key => config['secret_access_key']
+      :access_key_id => options[Rails.env]['access_key_id'],
+      :secret_access_key => options[Rails.env]['secret_key_id']
     )
     
   begin
