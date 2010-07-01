@@ -5266,7 +5266,7 @@ Graph.Op = {
             
             case 'fade:seq': case 'fade':
                 that = this;
-                //set alpha to 0 for nodes to remove.
+                // set alpha to 0 for nodes to remove.
                 for(i=0; i<n.length; i++) {
                     nodeObj = viz.graph.getNode(n[i]);
                     nodeObj.setData('alpha', 0, 'end');
@@ -5653,8 +5653,11 @@ Graph.Op = {
                                         ['node-property:alpha', 
                                          'edge-property:alpha'];
                 //Append extra node-property animations (if any)
+				// console.log("modes 0" + modes[0]);
+				// console.log("extra modes " + extraModes);
                 modes[0] = modes[0] + ((extraModes && ('node-property' in extraModes))? 
                     $.splat(extraModes['node-property']).join(':') : '');
+				modes[0] = "node-property:dim"; //HACK HACK BUGBUG
                 //Append extra edge-property animations (if any)
                 modes[1] = (modes[1] || 'edge-property:alpha') + ((extraModes && ('edge-property' in extraModes))? 
                     $.splat(extraModes['edge-property']).join(':') : '');
@@ -5662,6 +5665,7 @@ Graph.Op = {
                 if(extraModes && ('label-property' in extraModes)) {
                   modes.push('label-property' + $.splat(extraModes['label-property']).join(':'))
                 }
+				// console.log("modes: " + modes[0]);
                 viz.reposition();
                 viz.graph.eachNode(function(elem) {
                     if (elem.id != root && elem.pos.getp().equals(Polar.KER)) {
@@ -6523,6 +6527,7 @@ Graph.Plot = {
         },
         
         'node-property': function(elem, props, delta) {
+		// console.log("called with: elem:" + elem + " props: " + props + "  delta:" + delta)
           this['node'](elem, props, delta, 'map', 'getData', 'setData');
         },
         
@@ -6734,6 +6739,7 @@ Graph.Plot = {
         compute: function(delta) {
           graph.eachNode(function(node) { 
             for(var p in m) {
+				// console.log("p: " + p + " m:" + m[p]);
               interp[p](node, m[p], delta, versor);
             }
           });
