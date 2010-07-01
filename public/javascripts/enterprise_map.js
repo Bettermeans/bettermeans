@@ -1,4 +1,4 @@
-var labelType, useGradients, nativeTextSupport, animate;
+var labelType, useGradients, nativeTextSupport, animate, rgraph;
 
 (function() {
   var ua = navigator.userAgent,
@@ -15,268 +15,143 @@ var labelType, useGradients, nativeTextSupport, animate;
   animate = !(iStuff || !nativeCanvasSupport);
 })();
 
-var Log = {
-  elem: false,
-  write: function(text){
-    if (!this.elem) 
-      this.elem = document.getElementById('log');
-    this.elem.innerHTML = text;
-    this.elem.style.left = (500 - this.elem.offsetWidth / 2) + 'px';
-  }
-};
+// var Log = {
+//   elem: false,
+//   write: function(text){
+//     if (!this.elem) 
+//       this.elem = document.getElementById('log');
+//     this.elem.innerHTML = text;
+//     this.elem.style.left = (500 - this.elem.offsetWidth / 2) + 'px';
+//   }
+// };
 
 
 function init() {
     //init data
 
-   var json15 = {"children":[{"children":null,"data":{"$angularWidth":21,"$color":"#aaa"},"name":"Code Refactoring","id":"ch"},{"children":null,"data":{"$angularWidth":6,"$color":"#aaa"},"name":"Test Infrastructure","id":"ce"},{"children":null,"data":{"$angularWidth":19,"$color":"#aaa"},"name":"UI and Design","id":"cg"}],"data":{"$angularWidth":677,"$color":"#aaa"},"name":"Website Platform","id":"platform"};
-
-    var json9 = {
-      'id': 'root',
-      'name': 'RGraph( RGraph )',
-      'data': {
-          '$type': 'none'
-      },
-      'children':[
-        {
-            'id':'pie10',
-            'name': 'pie1',
-            'data': {
-                '$angularWidth': 20,
-                '$color': '#f55'
-            },
-            'children': [
-                {
-                    'id':'pie100',
-                    'name': 'pc1',
-                    'data': {
-                        '$angularWidth': 20,
-                        '$color': '#55f'
-                    },
-                    'children': []
-                    
-                },
-                {
-                    'id':'pie101',
-                    'name': 'pc2',
-                    'data': {
-                        '$angularWidth': 70,
-                        '$color': '#66f'
-                    },
-                    'children': []
-                    
-                },
-                {
-                    'id':'pie102',
-                    'name': 'pc3',
-                    'data': {
-                        '$angularWidth': 10,
-                        '$color': '#77f'
-                    },
-                    'children': []
-                    
-                }
-            ]
-        },
-        {
-            'id':'pie20',
-            'name': 'pie2',
-            'data': {
-                '$angularWidth': 40,
-                '$color': '#f77'
-            },
-            'children': [
-                {
-                    'id':'pie200',
-                    'name': 'pc1',
-                    'data': {
-                        '$angularWidth': 40,
-                        '$color': '#88f'
-                    },
-                    'children': []
-                    
-                },
-                {
-                    'id':'pie201',
-                    'name': 'pc2',
-                    'data': {
-                        '$angularWidth': 60,
-                        '$color': '#99f'
-                    },
-                    'children': []
-                    
-                }
-            ]
-        },
-        {
-            'id':'pie30',
-            'name': 'pie3',
-            'data': {
-                '$angularWidth': 10,
-                '$color': '#f99'
-            },
-            'children': [
-                {
-                    'id':'pie300',
-                    'name': 'pc1',
-                    'data': {
-                        '$angularWidth': 100,
-                        '$color': '#aaf'
-                    },
-                    'children': []
-                    
-                }
-            ]
-        }
-      ]
-    };
-    var jsonpie = {
-      'id': 'root',
-      'name': 'RGraph based Pie Chart',
-      'data': {
-          '$type': 'none'
-      },
-      'children':[
-        {
-            'id':'pie1',
-            'name': 'pie1',
-            'data': {
-                '$angularWidth': 70,
-                '$color': '#f55'
-            },
-            'children': []
-        },
-        {
-            'id':'pie2',
-            'name': 'pie2',
-            'data': {
-                '$angularWidth': 10,
-                '$color': '#f77'
-            },
-            'children': []
-        },
-        {
-            'id':'pie3',
-            'name': 'pie3',
-            'data': {
-                '$angularWidth': 10,
-                '$color': '#f99'
-            },
-            'children': []
-        },
-        {
-            'id':'pie4',
-            'name': 'pie4',
-            'data': {
-                '$angularWidth': 10,
-                '$color': '#fbb'
-            },
-            'children': []
-        }
-      ]
-    };
+   // var jsonpie = {
+   //    'id': 'root',
+   //    'name': 'RGraph based Pie Chart',
+   //    'data': {
+   //        '$type': 'none'
+   //    },
+   //    'children':[
+   //      {
+   //          'id':'pie1',
+   //          'name': 'pie1',
+   //          'data': {
+   //              '$angularWidth': 70,
+   //              '$color': '#f55'
+   //          },
+   //          'children': []
+   //      }
+   //    ]
+   //  };
     //end
     
-    //init nodetypes
-    //Here we implement custom node rendering types for the RGraph
-    //Using this feature requires some javascript and canvas experience.
-    $jit.RGraph.Plot.NodeTypes.implement({
-        //This node type is used for plotting pie-chart slices as nodes
-        'nodepie': {
-          'render': function(node, canvas) {
-            var span = node.angleSpan, begin = span.begin, end = span.end;
-            var polarNode = node.pos.getp(true);
-            var polar = new $jit.Polar(polarNode.rho, begin);
-            var p1coord = polar.getc(true);
-            polar.theta = end;
-            var p2coord = polar.getc(true);
-
-            var ctx = canvas.getCtx();
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(p1coord.x, p1coord.y);
-            ctx.moveTo(0, 0);
-            ctx.lineTo(p2coord.x, p2coord.y);
-            ctx.moveTo(0, 0);
-            ctx.arc(0, 0, polarNode.rho, begin, end, false);
-            ctx.fill();
-          }
-        },
-        //Create a new node type that renders an entire RGraph visualization
-        //as node
-        'piechart': {
-          'render': function(node, canvas, animating) {
-            var ctx = canvas.getCtx(), pos = node.pos.getc(true);
-            ctx.save();
-			// console.log('node' + node.data['$angularWidth'] + '  canvas:' + canvas + '  animating:' + animating);
-            ctx.translate(pos.x, pos.y);
-				
-            pie.plot();
-            ctx.restore();
-          }
-         }
-    });
-    //end
+			//     //init nodetypes
+			//     //Here we implement custom node rendering types for the RGraph
+			//     //Using this feature requires some javascript and canvas experience.
+			//     $jit.RGraph.Plot.NodeTypes.implement({
+			//         //This node type is used for plotting pie-chart slices as nodes
+			//         'nodepie': {
+			//           'render': function(node, canvas) {
+			//             var span = node.angleSpan, begin = span.begin, end = span.end;
+			//             var polarNode = node.pos.getp(true);
+			//             var polar = new $jit.Polar(polarNode.rho, begin);
+			//             var p1coord = polar.getc(true);
+			//             polar.theta = end;
+			//             var p2coord = polar.getc(true);
+			// 
+			//             var ctx = canvas.getCtx();
+			//             ctx.beginPath();
+			//             ctx.moveTo(0, 0);
+			//             ctx.lineTo(p1coord.x, p1coord.y);
+			//             ctx.moveTo(0, 0);
+			//             ctx.lineTo(p2coord.x, p2coord.y);
+			//             ctx.moveTo(0, 0);
+			//             ctx.arc(0, 0, polarNode.rho, begin, end, false);
+			//             ctx.fill();
+			//           }
+			//         },
+			//         //Create a new node type that renders an entire RGraph visualization
+			//         //as node
+			//         'piechart': {
+			//           'render': function(node, canvas, animating) {
+			//             var ctx = canvas.getCtx(), pos = node.pos.getc(true);
+			//             ctx.save();
+			// // console.log('node' + node.data['$angularWidth'] + '  canvas:' + canvas + '  animating:' + animating);
+			//             ctx.translate(pos.x, pos.y);
+			// 	
+			//             pie.plot();
+			//             ctx.restore();
+			//           }
+			//          }
+			//     });
+			//     //end
     
-    //init pie
-    //This RGraph instance will be used as the node for 
-    //another RGraph instance.
-    var pie = new $jit.RGraph({
-        'injectInto': 'infovis',
-        //Optional: create a background canvas and plot
-        //concentric circles in it.
-        'background': {
-          CanvasStyles: {
-            strokeStyle: '#eee'
-          }
-        },
-        //Add node/edge styles and set
-        //overridable=true if you want your
-        //styles to be individually overriden
-        Node: {
-            'overridable': true,
-             'type':'nodepie'
-        },
-        Edge: {
-            'type':'none'
-        },
-        //Parent-children distance
-        levelDistance: 30,
-        //Don't create labels in this visualization
-        withLabels: false,
-        //Don't clear the entire canvas when plotting
-        //this visualization
-        clearCanvas: false
-    });
-    //load graph.
-    pie.loadJSON(jsonpie);
-    pie.compute();
-    //end
+    // //init pie
+    // //This RGraph instance will be used as the node for 
+    // //another RGraph instance.
+    // var pie = new $jit.RGraph({
+    //     'injectInto': 'infovis',
+    //     //Optional: create a background canvas and plot
+    //     //concentric circles in it.
+    //     'background': {
+    //       CanvasStyles: {
+    //         strokeStyle: '#eee'
+    //       }
+    //     },
+    //     //Add node/edge styles and set
+    //     //overridable=true if you want your
+    //     //styles to be individually overriden
+    //     Node: {
+    //         'overridable': true,
+    //          'type':'nodepie'
+    //     },
+    //     Edge: {
+    //         'type':'none'
+    //     },
+    //     //Parent-children distance
+    //     levelDistance: 30,
+    //     //Don't create labels in this visualization
+    //     withLabels: false,
+    //     //Don't clear the entire canvas when plotting
+    //     //this visualization
+    //     clearCanvas: false
+    // });
+    // //load graph.
+    // pie.loadJSON(jsonpie);
+    // pie.compute();
+    // //end
 
     //init rgraph
-    var rgraph = new $jit.RGraph({
-        useCanvas: pie.canvas,
+    rgraph = new $jit.RGraph({
+	    injectInto: 'infovis',
+    
+        // useCanvas: pie.canvas,
         //Add node/edge styles and set
         //overridable=true if you want your
         //styles to be individually overriden
         Node: {
             //set the RGraph rendering function
             //as node type
-           'type': 'piechart'
+		   'overridable': true,
+           'type': 'circle'
         },
         Edge: {
-            color: '#000'
+            color: '#ccc'
         },
         //Parent-children distance
-        levelDistance: 100,
+        levelDistance: 150,
         //Duration
         duration: 1500,
         //Add styles to node labels on label creation
         onCreateLabel: function(domElement, node){
             domElement.innerHTML = node.name;
             var style = domElement.style;
-            style.fontSize = "0.8em";
-            style.color = "#fff";
+            style.fontSize = "1em";
+            style.color = "#111";
             style.cursor = "pointer";
             domElement.onclick = function() {
               rgraph.onClick(node.id, {
@@ -308,4 +183,28 @@ function init() {
     });
 
     //end
+}
+
+function refresh_data(){
+	//load JSON data.
+    // rgraph.loadJSON(json2);
+    // rgraph.refresh();
+    //trigger small animation
+	// rgraph.compute('end');
+	// rgraph.op.morph(json2,{
+	//   type: 'fade:con',
+	//   duration: 2500
+	// }//,{'position': 'linear','node-property': ['dim']}
+	// );
+	
+	rgraph.op.morph(json2, {
+      type: 'fade:seq',
+      duration: 1500,
+      hideLabels: false	  
+    }, {
+	  'node-property': 'dim'
+    });
+    
+    // rgraph.refresh();
+    
 }

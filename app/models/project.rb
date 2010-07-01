@@ -101,7 +101,19 @@ class Project < ActiveRecord::Base
     else
       mychildren = []
     end
-    { :id => self.identifier, :name => name, :children => mychildren, :data => {:$angularWidth => issues.length, :$color => '#aaa' } }
+    diameter = issues.length**0.5/3.142*6
+    { :id => self.identifier, :name => name, :children => mychildren, :data => {:$dim => diameter,:$angularWidth => diameter, :$color => '#fdd13d' } }
+  end
+
+  def graph_data2
+    valid_kids = children.select{|c| c.active?}
+    if valid_kids.size > 0
+      mychildren = valid_kids.collect{ |node|  node.graph_data2 }
+    else
+      mychildren = []
+    end
+    diameter = issues.length**0.5/3.142*3
+    { :levelDistance => issues.length,:id => self.identifier, :name => name, :children => mychildren, :data => {:$dim => diameter,:$angularWidth => diameter, :$color => '#fdd13d' } }
   end
   
   def identifier=(identifier)
