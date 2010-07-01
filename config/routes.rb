@@ -220,7 +220,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/new', :action => 'add'
       project_views.connect 'projects/update_scale', :action => 'update_scale'
       project_views.connect 'projects/:id', :action => 'show'
-      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|hourly_types/
+      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|hourly_types|map/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'

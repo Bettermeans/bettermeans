@@ -1,0 +1,22 @@
+<%= javascript_include_tag 'jit' %>
+<%= javascript_include_tag 'enterprise_map' %>
+<%= stylesheet_link_tag 'enterprise_map' %>
+
+<script type="text/javascript">
+var json = <%= @project.graph_data.to_json %>;
+
+$('document').ready(function(){
+    init();
+});
+
+</script>
+
+<div id="container">
+
+<div id="center-container">
+    <div id="infovis"></div>    
+</div>
+
+<div id="inner-details"></div>
+
+</div>
