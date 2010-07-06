@@ -12,15 +12,15 @@ class Attachment < ActiveRecord::Base
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
 
-  acts_as_event :title => :filename,
-                :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id, :filename => o.filename}}
-
-  acts_as_activity_provider :type => 'documents',
-                            :permission => :view_documents,
-                            :author_key => :author_id,
-                            :find_options => {:select => "#{Attachment.table_name}.*", 
-                                              :joins => "LEFT JOIN #{Document.table_name} ON #{Attachment.table_name}.container_type='Document' AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " +
-                                                        "LEFT JOIN #{Project.table_name} ON #{Document.table_name}.project_id = #{Project.table_name}.id"}
+  # acts_as_event :title => :filename,
+  #               :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id, :filename => o.filename}}
+  # 
+  # acts_as_activity_provider :type => 'documents',
+  #                           :permission => :view_documents,
+  #                           :author_key => :author_id,
+  #                           :find_options => {:select => "#{Attachment.table_name}.*", 
+  #                                             :joins => "LEFT JOIN #{Document.table_name} ON #{Attachment.table_name}.container_type='Document' AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " +
+  #                                                       "LEFT JOIN #{Project.table_name} ON #{Document.table_name}.project_id = #{Project.table_name}.id"}
 
   cattr_accessor :storage_path
   @@storage_path = "#{RAILS_ROOT}/files"

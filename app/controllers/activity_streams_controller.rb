@@ -6,6 +6,6 @@
 # Template to generate the controllers
 class ActivityStreamsController < ApplicationController
   include ActivityStreamsModule
-  before_filter :login_required, :except => :feed
-  before_filter :admin_required, :except => :feed
+  before_filter :require_login, :except => :feed
+  # before_filter :require_admin, :except => :feed
 end

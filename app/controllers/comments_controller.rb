@@ -2,6 +2,9 @@ class CommentsController < ApplicationController
   unloadable
   before_filter :find_issue, :only => [:index, :create ]
   before_filter :find_project, :authorize
+  
+  log_activity_streams :current_user, :name, :commented_on, :@issue, :subject, :create, :issues, {}
+  
     
   def index
     @journals = @issue.journals.find(:all, 

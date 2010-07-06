@@ -32,10 +32,13 @@ class IssuesController < ApplicationController
 
   verify :method => :post,
          :only => :destroy,
-         :render => { :nothing => true, :status => :method_not_allowed
-           
-  log_activity_streams :current_user, :name, :has_finished, @issue, :title, :finish
-  log_activity_streams :current_user, :name, :has_started, @issue, :title, :start
+         :render => { :nothing => true, :status => :method_not_allowed}
+
+  # log_activity_streams :current_user, :name, :no_longer_follows,
+  #                :@destroyed_categories, :name, :set_my_feeds, :follow_category,
+  #                {:total => -1 }           
+  log_activity_streams :current_user, :name, :finished, :@issue, :subject, :finish, :issues, {}
+  log_activity_streams :current_user, :name, :started, :@issue, :subject, :start, :issues, {}
            
   def index
     retrieve_query
