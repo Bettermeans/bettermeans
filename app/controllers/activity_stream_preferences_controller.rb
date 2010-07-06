@@ -6,5 +6,5 @@
 # Template to generate the controllers
 class ActivityStreamPreferencesController < ApplicationController
   include ActivityStreamPreferencesModule
-  before_filter :login_required, :except => :feed
+  before_filter :require_login, :except => :feed
 end

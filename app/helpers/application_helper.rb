@@ -103,6 +103,14 @@ module ApplicationHelper
 
     link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
   end
+  
+  def current_user
+    User.current
+  end
+  
+  def logged_in?
+    User.current.logged?
+  end
 
   def toggle_link(name, id, options={})
     onclick = "$('##{id}').toggle(); "
