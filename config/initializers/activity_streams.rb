@@ -7,9 +7,7 @@
 
 # NOTE: The activites keys must be unique
 ACTIVITY_STREAM_ACTIVITIES = { 
-    :has_finished => 'Finish an issue',
-    :has_started => 'Start an issue',
-    :posted_message => 'Post a public message',
+    :move_issue => 'Move an issue around',
     :download => 'Download a torrent'
     }
 
