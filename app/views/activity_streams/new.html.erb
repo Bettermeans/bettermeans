@@ -1,0 +1,39 @@
+<h1>New activity_stream</h1>
+
+<% form_for(@activity_stream) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :activity %><br />
+    <%= f.text_field :activity %>
+  </p>
+  <p>
+    <%= f.label :actor_id %><br />
+    <%= f.text_field :actor_id %>
+  </p>
+  <p>
+    <%= f.label :actor_type %><br />
+    <%= f.text_field :actor_type %>
+  </p>
+  <p>
+    <%= f.label :count %><br />
+    <%= f.text_field :count %>
+  </p>
+  <p>
+    <%= f.label :object_id %><br />
+    <%= f.text_field :object_id %>
+  </p>
+  <p>
+    <%= f.label :object_type %><br />
+    <%= f.text_field :object_type %>
+  </p>
+  <p>
+    <%= f.label :status %><br />
+    <%= f.text_field :status %>
+  </p>
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', activity_streams_path %>

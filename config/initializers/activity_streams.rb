@@ -7,12 +7,11 @@
 
 # NOTE: The activites keys must be unique
 ACTIVITY_STREAM_ACTIVITIES = { 
-    :follow_creator => 'Subscribe or Unsubscribe to a Content Creator',
-    :follow_category => 'Subscribe or Unsubscribe to a Category',
-    :sponsor_creator => 'Sponsor a Content Creator',
-    :posted_torrent => 'Upload a new torrent',
+    :has_finished => 'Finish an issue',
+    :has_started => 'Start an issue',
     :posted_message => 'Post a public message',
-    :download => 'Download a torrent'}
+    :download => 'Download a torrent'
+    }
 
 # NOTE: These have hard coded meanings
 ACTIVITY_STREAM_LOCATIONS = { 
@@ -23,4 +22,4 @@ ACTIVITY_STREAM_LOCATIONS = {
 ACTIVITY_STREAM_SERVICE_STRING="MyServiceName"
 ACTIVITY_STREAM_USER_MODEL='User'
 ACTIVITY_STREAM_USER_MODEL_ID='user_id'
-ACTIVITY_STREAM_USER_MODEL_NAME='friendly_name'
+ACTIVITY_STREAM_USER_MODEL_NAME='name'

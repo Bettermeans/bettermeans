@@ -32,7 +32,10 @@ class IssuesController < ApplicationController
 
   verify :method => :post,
          :only => :destroy,
-         :render => { :nothing => true, :status => :method_not_allowed }
+         :render => { :nothing => true, :status => :method_not_allowed
+           
+  log_activity_streams :current_user, :name, :has_finished, @issue, :title, :finish
+  log_activity_streams :current_user, :name, :has_started, @issue, :title, :start
            
   def index
     retrieve_query

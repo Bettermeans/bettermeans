@@ -90,10 +90,10 @@ module ActivityStreamPreferencesModule
 protected
 
   def get_user_id
-    if current_user.admin? && params[ACTIVITY_STREAM_USER_MODEL_ID.to_sym] 
+    if User.current.admin? && params[ACTIVITY_STREAM_USER_MODEL_ID.to_sym] 
       @user_id = params[ACTIVITY_STREAM_USER_MODEL_ID.to_sym]
     else
-      @user_id = current_user.id
+      @user_id = User.current.id
     end
   end
 
