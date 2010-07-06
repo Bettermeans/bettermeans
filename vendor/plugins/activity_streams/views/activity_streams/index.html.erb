@@ -1,0 +1,43 @@
+<div class = "clear">
+<h2>All Site ActivityStreams</h2>
+
+<table>
+  <tr>
+    <th>Actor</th>
+    <th>Activity</th>
+    <th>Object</th>
+    <th>Cnt</th>
+    <th>Dbg</th>
+  </tr>
+
+<% for activity_stream in @activity_streams %>
+<tr>
+<td colspan = 5><hr><%= activity_stream.id-%>: 
+
+<%= render :partial => 'activity_streams/activity_stream', :locals => {:activity_stream => activity_stream} %>
+ 
+</td>
+</tr>
+
+<tr>
+<td colspan = 5><%= activity_stream.updated_at.strftime(fmt='%d %b') -%>:</td>
+</tr>
+
+  <tr>
+    <td><%=h "#{activity_stream.actor_type} (#{activity_stream.actor_id})" %></td>
+    <td><%=h activity_stream.activity %></td>
+    <td><%=h "#{activity_stream.object_type}/#{activity_stream.object_id} "%></td>
+    <td><%=h activity_stream.count %></td>
+    <td><%=h activity_stream.status %></td>
+    <td><%= link_to 'Show', activity_stream %>|</td>
+    <td><%= link_to 'Edit', edit_activity_stream_path(activity_stream) %>|</td>
+    <td><%= link_to 'Destroy', activity_stream, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<% # link_to 'New activity_stream', new_activity_stream_path %>
+
+</div>
