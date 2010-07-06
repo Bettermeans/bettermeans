@@ -8,6 +8,7 @@ require 'ruby-debug'
 
 class ApplicationController < ActionController::Base
   include Redmine::I18n
+  include LogActivityStreams
 
   layout 'base'
   
@@ -38,6 +39,10 @@ class ApplicationController < ActionController::Base
     Setting.check_cache
     # Find the current user
     User.current = find_current_user
+  end
+  
+  def current_user
+    User.current
   end
   
   # Returns the current user or nil if no user is logged in
