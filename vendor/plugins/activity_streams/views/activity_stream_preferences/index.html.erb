@@ -1,0 +1,67 @@
+<% page_settings :title => '- Configure Your Activity Stream Access' %>
+
+<script type='text/javascript'>
+function all_clicked(checkbox, location_id) {
+  prefs = $('new_activity_stream_preference').getElementsByTagName('input')
+  for (var i=0; i<prefs.length;i++) {
+     if ( prefs[i].id == location_id )
+       prefs[i].checked = checkbox.checked;
+  }
+}
+</script>
+
+<div class = "static">
+
+<% if flash[:success] %><%= flash[:success] %><% end %>
+<%= error_messages_for :activity_stream_preference %>
+
+<h3>Activity Feed Access Preferences</h3>
+Check = activities are printed.
+<br/>
+<br/>
+<br/>
+<% form_for(ActivityStreamPreference.new) do |f| %>
+  <%= hidden_field_tag "#{ACTIVITY_STREAM_USER_MODEL_ID}", @user_id %>
+  <table>
+    <tr>
+      <th>Activity</th>
+      <% ACTIVITY_STREAM_LOCATIONS.each_value do |location| %>
+        <th><%=h location %></th>
+      <% end %>
+    </tr>
+      <td>[Toggle All]</td>
+      <% ACTIVITY_STREAM_LOCATIONS.each_key do |location| %>
+        <td><%= check_box_tag "all", location, false, {:onclick => "all_clicked(this, '#{location}')"} %></td>
+      <% end %>
+    <tr>
+    <tr>
+<td colspan = 6><hr></td>
+    </tr>
+    </tr>
+      <% ACTIVITY_STREAM_ACTIVITIES.each do |sym,activity| %>
+        <tr>
+          <td><%=h activity %></td>
+          <% ACTIVITY_STREAM_LOCATIONS.each_key do |location| %>
+            <% key = "#{sym}.#{location}" %>
+            <td><%= check_box_tag "locations[]", key, @activities[key].nil?, {:id => location} %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+<br/>
+<br/>
+<p>
+  You can access your selected options as a atom feed using the following url:<br />
+<span style="font-size:13px">
+  <br/>
+  <% custom_user_rss = your_activities_url(:activity_stream_token => current_user.activity_stream_token) %>
+  <%= link_to custom_user_rss, custom_user_rss %>
+</span>
+<br/>
+<br/>
+<%= f.submit 'Save My Activity Stream Access Preferences' %>
+<% end %>
+</form>
+</div>
+
+<br />
