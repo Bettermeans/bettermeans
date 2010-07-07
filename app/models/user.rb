@@ -75,6 +75,16 @@ class User < ActiveRecord::Base
   validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
   validates_length_of :mail, :maximum => 60, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
+  
+  def <=>(user)
+    if self.class.name == user.class.name
+      self.to_s.downcase <=> user.to_s.downcase
+    else
+      # groups after users
+      user.class.name <=> self.class.name
+    end
+  end
+  
 
   def before_create
     self.mail_notification = false
