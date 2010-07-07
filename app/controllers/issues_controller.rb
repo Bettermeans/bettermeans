@@ -45,6 +45,11 @@ class IssuesController < ApplicationController
   log_activity_streams :current_user, :name, :canceled, :@issue, :subject, :cancel, :issues, {}
   log_activity_streams :current_user, :name, :joined, :@issue, :subject, :join, :issues, {}
   log_activity_streams :current_user, :name, :left, :@issue, :subject, :leave, :issues, {}
+  log_activity_streams :current_user, :name, :updated, :@issue, :subject, :edit, :issues, 
+                      {:indirect_object => :@journal,
+                        :indirect_object_name_method => :notes,
+                        :indirect_object_phrase => ' details: ' }
+  
   # log_activity_streams :current_user, :name, :moved, :@issue, :subject, :move, :issues, {}#, 
           # {:indirect_object => :@target_project,
           #   :indirect_object_name_method => :name,
@@ -191,7 +196,7 @@ class IssuesController < ApplicationController
     @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
     
     @notes = params[:notes]
-    journal = @issue.init_journal(User.current, @notes)
+    @journal = @issue.init_journal(User.current, @notes)
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
     if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
       attrs = params[:issue].dup
@@ -202,7 +207,7 @@ class IssuesController < ApplicationController
 
     if request.post?
       attachments = attach_files(@issue, params[:attachments])
-      attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
+      attachments.each {|a| @journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
       
       if @issue.save
         # if !journal.new_record?
@@ -507,7 +512,9 @@ class IssuesController < ApplicationController
         end
         issue.init_journal(User.current)
         if r = issue.move_to(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
-          write_activity_stream_log(:current_user, :name, :moved, :@issue,:subject, :move, :issues, {})
+          write_single_activity_stream(User.current,:name,issue,:subject,:moved,:move, 0, @target_project, {
+                    :indirect_object_name_method => :name,
+                    :indirect_object_phrase => ' to ' })
           moved_issues << r
         else
           unsaved_issue_ids << issue.id
