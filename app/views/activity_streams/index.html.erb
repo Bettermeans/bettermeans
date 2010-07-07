@@ -1,10 +1,6 @@
 <div class = "clear">
 <h2>All Site ActivityStreams</h2>
 
-<%# for activity_stream in @activity_streams %>
-<%#= render :partial => 'activity_streams/activity_stream', :locals => {:activity_stream => activity_stream} %> 
-<%# end %>
-
 <% @grouped_by_item.each do |key, value| %>
 <%= render :partial => 'activity_streams/activity_stream_group', :locals => {:activity_stream_group_name => key, :activity_stream_group => value} %> 
 <% end %>
