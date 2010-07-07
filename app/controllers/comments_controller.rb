@@ -3,7 +3,9 @@ class CommentsController < ApplicationController
   before_filter :find_issue, :only => [:index, :create ]
   before_filter :find_project, :authorize
   
-  log_activity_streams :current_user, :name, :commented_on, :@issue, :subject, :create, :issues, {}
+  log_activity_streams :current_user, :name, :commented_on, :@issue, :subject, :create, :issues, {:indirect_object => :@journal,
+            :indirect_object_name_method => :notes,
+            :indirect_object_phrase => 'about indirect_object' }
   
     
   def index
@@ -14,10 +16,14 @@ class CommentsController < ApplicationController
     # render :partial => "comment", :collection => @journals, :as => :journal
   end
   
+  def j
+    @issue.journals.first
+  end
+  
   def create
-    journal = @issue.init_journal(User.current, params[:comment])
-    journal.save!
-    journal.reload
+    @journal = @issue.init_journal(User.current, params[:comment])
+    @journal.save!
+    @journal.reload
     @issue.reload
     render :json => @issue.to_dashboard
   end
