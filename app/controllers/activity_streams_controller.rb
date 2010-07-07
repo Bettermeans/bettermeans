@@ -8,4 +8,9 @@ class ActivityStreamsController < ApplicationController
   include ActivityStreamsModule
   before_filter :require_login, :except => :feed
   # before_filter :require_admin, :except => :feed
+  
+  def index
+    @activity_streams = ActivityStream.all
+    @grouped_by_item = ActivityStream.all.group_by {|a| a.object_type + a.object_id.to_s}
+  end
 end
