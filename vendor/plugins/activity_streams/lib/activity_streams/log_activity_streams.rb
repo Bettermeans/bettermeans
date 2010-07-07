@@ -46,8 +46,7 @@ module LogActivityStreams
   
   def log_activity_stream(actor,object,verb,activity,indirect_object, options)
   # If there are identical activities within 8 hours, up count
-  activity_stream = ActivityStream.find_identical(actor, object, verb, 
-    activity);
+  activity_stream = ActivityStream.find_identical(actor, object, verb, activity);
 
   if activity_stream
     activity_stream.count += 1

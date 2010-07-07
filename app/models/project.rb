@@ -38,11 +38,10 @@ class Project < ActiveRecord::Base
                            :order => "firstname ASC"
 
 
-  has_many :member_principals, :class_name => 'Member', 
-                               :include => :principal,
-                               :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
+  has_many :member_users, :class_name => 'Member', 
+                               :include => :user,
+                               :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE})"
   has_many :users, :through => :all_members
-  has_many :principals, :through => :member_principals, :source => :principal
   
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"

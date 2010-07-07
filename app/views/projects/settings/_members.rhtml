@@ -1,6 +1,6 @@
 <%= error_messages_for 'member' %>
 <% roles = @project.enterprise? ? Role.find_all_givable(Role::LEVEL_ENTERPRISE) : Role.find_all_givable(Role::LEVEL_PROJECT)
-   members = @project.member_principals.find(:all, :include => [:roles, :principal]).sort %>
+   members = @project.member_users.find(:all, :include => [:roles, :user]).sort %>
 
 <div class="splitcontentleft">
 <% if members.any? %>
@@ -14,7 +14,7 @@
 	<% members.each do |member| %>
 	<% next if member.new_record? %>
 	<tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
-	<td class="<%= member.principal.class.name.downcase %>"><%= link_to_user member.principal %></td>
+	<td class="<%= member.user.class.name.downcase %>"><%= link_to_user member.user %></td>
   <td class="roles">
     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
     <% if authorize_for('members', 'edit') %>
@@ -47,23 +47,23 @@
 <% end %>
 </div>
 
-<% principals = Principal.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @project.principals %>
+<% users = User.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @project.users %>
 
 <div class="splitcontentright">
-<% if roles.any? && principals.any? %>
+<% if roles.any? && users.any? %>
   <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post) do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
     
-		<p><%= text_field_tag 'principal_search', nil, :size => "40" %></p>
-		<%= observe_field(:principal_search,
+		<p><%= text_field_tag 'user_search', nil, :size => "40" %></p>
+		<%= observe_field(:user_search,
                  :frequency => 0.5,
-                 :update => :principals,
+                 :update => :users,
                  :url => { :controller => 'members', :action => 'autocomplete_for_member', :id => @project },
                  :with => 'q')
                   %>
 		
-		<div id="principals">
-			<%= principals_check_box_tags 'member[user_ids][]', principals %>
+		<div id="users">
+			<%= users_check_box_tags 'member[user_ids][]', users %>
 		</div>
 		
     <p><%= l(:label_role_plural) %>:
