@@ -57,24 +57,6 @@ class MemberRole < ActiveRecord::Base
     end unless role_id == Role::BUILTIN_CORE_MEMBER #We don't destory the member if the role being removed is the core_member role since we're going to add a contributor role    
   end
   
-  def add_role_to_group_users
-    if member.principal.is_a?(Group)
-      member.principal.users.each do |user|
-        user_member = Member.find_by_project_id_and_user_id(member.project_id, user.id) || Member.new(:project_id => member.project_id, :user_id => user.id)
-        user_member.member_roles << MemberRole.new(:role => role, :inherited_from => id)
-        user_member.save!
-      end
-    end 
-  end
-  
-  def remove_role_from_group_users
-    MemberRole.find(:all, :conditions => { :inherited_from => id }).group_by(&:member).each do |member, member_roles|
-      member_roles.each(&:destroy)
-      if member && member.user
-        Watcher.prune(:user => member.user, :project => member.project)
-      end
-    end
-  end
   
   def send_notification
     

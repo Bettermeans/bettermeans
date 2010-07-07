@@ -5,7 +5,7 @@
 
 require "digest/sha1"
 
-class User < Principal
+class User < ActiveRecord::Base
 
   # Account statuses
   STATUS_ANONYMOUS  = 0
@@ -27,8 +27,6 @@ class User < Principal
   has_many :projects, :through => :memberships
   
 
-  has_and_belongs_to_many :groups, :after_add => Proc.new {|user, group| group.user_added(user)},
-                                   :after_remove => Proc.new {|user, group| group.user_removed(user)}
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   has_one :api_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='api'"
@@ -50,13 +48,21 @@ class User < Principal
     
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
+  
+  named_scope :like, lambda {|q| 
+    s = "%#{q.to_s.strip.downcase}%"
+    {:conditions => ["LOWER(login) LIKE :s OR LOWER(firstname) LIKE :s OR LOWER(lastname) LIKE :s OR LOWER(mail) LIKE :s", {:s => s}],
+     :order => 'type, login, lastname, firstname, mail'
+    }
+  } 
+  
     
   has_private_messages :class_name => "Mail"
   
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
   # Prevents unauthorized assignments
-  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password, :group_ids
+  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
 	
   validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }

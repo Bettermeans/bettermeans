@@ -56,7 +56,7 @@ class MembersController < ApplicationController
   end
   
   def autocomplete_for_member
-    @principals = Principal.active.like(params[:q]).find(:all, :limit => 100) - @project.principals
+    @users = User.active.like(params[:q]).find(:all, :limit => 100) - @project.users
     render :layout => false
   end
 
