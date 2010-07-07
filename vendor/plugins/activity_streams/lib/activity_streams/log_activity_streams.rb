@@ -43,9 +43,40 @@ module LogActivityStreams
       :logged_in_location
     end
   end
+  
+  def log_activity_stream(actor,object,verb,activity,indirect_object, options)
+  # If there are identical activities within 8 hours, up count
+  activity_stream = ActivityStream.find_identical(actor, object, verb, 
+    activity);
+
+  if activity_stream
+    activity_stream.count += 1
+  else
+    activity_stream = ActivityStream.new
+    activity_stream.verb = verb.to_s
+    activity_stream.activity = activity.to_s
+    activity_stream.actor = actor
+    activity_stream.actor_name_method = actor_name.to_s
+    activity_stream.object = object
+    activity_stream.object_name_method = object_name.to_s
+    activity_stream.status = status
+    activity_stream.project_id = object.send('project_id')
+    
+    if indirect_object
+      activity_stream.indirect_object = indirect_object
+      activity_stream.indirect_object_name_method = options[:indirect_object_name_method].to_s
+      activity_stream.indirect_object_phrase = options[:indirect_object_phrase]
+    end
+  end
+  
+  activity_stream.save!
+   
+  end
 
   def write_activity_stream_log(actor_method, actor_name, verb, object_method,
     object_name, action, activity, options={}) #:nodoc:
+    
+    logger.info("logging activity stream")
 
     return unless action == self.action_name.to_sym
 
@@ -82,30 +113,35 @@ module LogActivityStreams
         # ensure no errors on object, as a validation error would mean no
         # activity should fire
         next unless object.errors.empty?
+        
+        log_activity_stream(actor,object,verb,activity,indirect_object, options)
+        
 
-        # If there are identical activities within 8 hours, up count
-        activity_stream = ActivityStream.find_identical(actor, object, verb, 
-          activity);
-
-        if activity_stream
-          activity_stream.count += 1
-        else
-          activity_stream = ActivityStream.new
-          activity_stream.verb = verb.to_s
-          activity_stream.activity = activity.to_s
-          activity_stream.actor = actor
-          activity_stream.actor_name_method = actor_name.to_s
-          activity_stream.object = object
-          activity_stream.object_name_method = object_name.to_s
-          activity_stream.status = status
-          if indirect_object
-            activity_stream.indirect_object = indirect_object
-            activity_stream.indirect_object_name_method = options[:indirect_object_name_method].to_s
-            activity_stream.indirect_object_phrase = options[:indirect_object_phrase]
-          end
-        end
-
-        activity_stream.save!
+        # # If there are identical activities within 8 hours, up count
+        #         activity_stream = ActivityStream.find_identical(actor, object, verb, 
+        #           activity);
+        # 
+        #         if activity_stream
+        #           activity_stream.count += 1
+        #         else
+        #           activity_stream = ActivityStream.new
+        #           activity_stream.verb = verb.to_s
+        #           activity_stream.activity = activity.to_s
+        #           activity_stream.actor = actor
+        #           activity_stream.actor_name_method = actor_name.to_s
+        #           activity_stream.object = object
+        #           activity_stream.object_name_method = object_name.to_s
+        #           activity_stream.status = status
+        #           activity_stream.project_id = object.send('project_id')
+        #           
+        #           if indirect_object
+        #             activity_stream.indirect_object = indirect_object
+        #             activity_stream.indirect_object_name_method = options[:indirect_object_name_method].to_s
+        #             activity_stream.indirect_object_phrase = options[:indirect_object_phrase]
+        #           end
+        #         end
+        #         
+        #         activity_stream.save!
 
         total = options[:total]
         if total

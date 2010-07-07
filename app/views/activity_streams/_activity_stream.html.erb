@@ -13,7 +13,9 @@
   (deleted)
 <% end %>
 <% if activity_stream.indirect_object -%>
-  <%= activity_stream.indirect_object_phrase.gsub(/indirect_object/, link_to(activity_stream.indirect_object.send(activity_stream.indirect_object_name_method), url_for(activity_stream.indirect_object), :rel => 'bookmark', :class => 'object uri')) %>
+<%= activity_stream.indirect_object_phrase %>
+<%= activity_stream.indirect_object.send(activity_stream.indirect_object_name_method) %>
+  <%#= activity_stream.indirect_object_phrase.gsub(/indirect_object/, link_to(activity_stream.indirect_object.send(activity_stream.indirect_object_name_method), url_for(activity_stream.indirect_object), :rel => 'bookmark', :class => 'object uri')) %>
 <% end %>
 (<abbr class="updated" title="<%= activity_stream.updated_at %>"><%= activity_stream.updated_at.strftime(fmt='%d %b') %></abbr>)<%= activity_stream.count > 1 ? ", #{activity_stream.count} times" : '' %>
 <% if logged_in? && activity_stream.actor_id == current_user.id && activity_stream.actor_type==ACTIVITY_STREAM_USER_MODEL && params[:format] != 'atom' %>
