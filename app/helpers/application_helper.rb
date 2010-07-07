@@ -248,10 +248,10 @@ module ApplicationHelper
     s
   end
   
-  def principals_check_box_tags(name, principals)
+  def users_check_box_tags(name, users)
     s = ''
-    principals.sort.each do |principal|
-      s << "<label>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
+    users.sort.each do |user|
+      s << "<label>#{ check_box_tag name, user.id, false } #{h user}</label>\n"
     end
     s 
   end

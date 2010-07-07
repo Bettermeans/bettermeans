@@ -5,12 +5,11 @@
 class Member < ActiveRecord::Base
   
   belongs_to :user
-  belongs_to :principal, :foreign_key => 'user_id'
   has_many :member_roles, :dependent => :destroy
   has_many :roles, :through => :member_roles
   belongs_to :project
 
-  validates_presence_of :principal, :project
+  validates_presence_of :user, :project
   validates_uniqueness_of :user_id, :scope => :project_id
 
   after_destroy :unwatch_from_permission_change
@@ -41,7 +40,7 @@ class Member < ActiveRecord::Base
   
   def <=>(member)
     a, b = roles.sort.first, member.roles.sort.first
-    a == b ? (principal <=> member.principal) : (a <=> b)
+    a == b ? (user <=> member.user) : (a <=> b)
   end
   
   def deletable?
