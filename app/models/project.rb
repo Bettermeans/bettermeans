@@ -40,7 +40,8 @@ class Project < ActiveRecord::Base
 
   has_many :member_users, :class_name => 'Member', 
                                :include => :user,
-                               :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE})"
+                               :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}"
+                               
   has_many :users, :through => :all_members
   
   has_many :enabled_modules, :dependent => :delete_all

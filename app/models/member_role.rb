@@ -7,7 +7,6 @@ class MemberRole < ActiveRecord::Base
   belongs_to :member
   belongs_to :role
   
-  after_create :add_role_to_group_users
   # after_create :remove_contributor_role_if_core
   after_create :send_notification
 
