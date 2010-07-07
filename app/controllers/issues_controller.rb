@@ -37,8 +37,21 @@ class IssuesController < ApplicationController
   # log_activity_streams :current_user, :name, :no_longer_follows,
   #                :@destroyed_categories, :name, :set_my_feeds, :follow_category,
   #                {:total => -1 }           
+
+  log_activity_streams :current_user, :name, :added, :@issue, :subject, :new, :issues, {}
   log_activity_streams :current_user, :name, :finished, :@issue, :subject, :finish, :issues, {}
   log_activity_streams :current_user, :name, :started, :@issue, :subject, :start, :issues, {}
+  log_activity_streams :current_user, :name, :gave_up, :@issue, :subject, :release, :issues, {}
+  log_activity_streams :current_user, :name, :canceled, :@issue, :subject, :cancel, :issues, {}
+  log_activity_streams :current_user, :name, :joined, :@issue, :subject, :join, :issues, {}
+  log_activity_streams :current_user, :name, :left, :@issue, :subject, :leave, :issues, {}
+  # log_activity_streams :current_user, :name, :moved, :@issue, :subject, :move, :issues, {}#, 
+          # {:indirect_object => :@target_project,
+          #   :indirect_object_name_method => :name,
+          #   :indirect_object_phrase => 'to' }
+  log_activity_streams :current_user, :name, :restarted, :@issue, :subject, :restart, :issues, {}
+  # log_activity_streams :current_user, :name, :ed, :@issue, :subject, :, :issues, {}
+  # log_activity_streams :current_user, :name, :ed, :@issue, :subject, :, :issues, {}
            
   def index
     retrieve_query
@@ -494,6 +507,7 @@ class IssuesController < ApplicationController
         end
         issue.init_journal(User.current)
         if r = issue.move_to(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
+          write_activity_stream_log(:current_user, :name, :moved, :@issue,:subject, :move, :issues, {})
           moved_issues << r
         else
           unsaved_issue_ids << issue.id

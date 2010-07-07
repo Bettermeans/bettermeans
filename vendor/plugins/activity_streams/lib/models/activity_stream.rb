@@ -85,9 +85,9 @@ class ActivityStream < ActiveRecord::Base
 
   def self.find_identical(actor, object, verb, activity) # :nodoc:
     ActivityStream.find(:first, :conditions => [
-      'actor_id = ? AND actor_type = ? AND object_id = ? AND object_type = ? AND verb = ? AND activity = ? AND updated_at >= ? AND status = 0', 
+      'actor_id = ? AND actor_type = ? AND object_id = ? AND object_type = ? AND verb = ? AND activity = ? AND updated_at >= ? AND project_id = ? AND status = 0', 
       actor.id, actor.class.name, object.id, object.class.name, verb.to_s, 
-      activity.to_s, Time.now - 8.hours])
+      activity.to_s, Time.now - 8.hours, object.project_id])
   end
 
 end
