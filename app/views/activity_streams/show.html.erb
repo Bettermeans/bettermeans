@@ -1,0 +1,38 @@
+<p>
+  <b>Activity:</b>
+  <%=h @activity_stream.activity %>
+</p>
+
+<p>
+  <b>Actor:</b>
+  <%=h @activity_stream.actor_id %>
+</p>
+
+<p>
+  <b>Actor type:</b>
+  <%=h @activity_stream.actor_type %>
+</p>
+
+<p>
+  <b>Count:</b>
+  <%=h @activity_stream.count %>
+</p>
+
+<p>
+  <b>Object:</b>
+  <%=h @activity_stream.object_id %>
+</p>
+
+<p>
+  <b>Object type:</b>
+  <%=h @activity_stream.object_type %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%=h @activity_stream.status %>
+</p>
+
+
+<%= link_to 'Edit', edit_activity_stream_path(@activity_stream) %> |
+<%= link_to 'Back', activity_streams_path %>

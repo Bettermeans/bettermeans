@@ -38,11 +38,11 @@ class Project < ActiveRecord::Base
                            :order => "firstname ASC"
 
 
-  has_many :member_principals, :class_name => 'Member', 
-                               :include => :principal,
-                               :conditions => "#{Principal.table_name}.type='Group' OR (#{Principal.table_name}.type='User' AND #{Principal.table_name}.status=#{User::STATUS_ACTIVE})"
+  has_many :member_users, :class_name => 'Member', 
+                               :include => :user,
+                               :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}"
+                               
   has_many :users, :through => :all_members
-  has_many :principals, :through => :member_principals, :source => :principal
   
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
@@ -62,15 +62,16 @@ class Project < ActiveRecord::Base
   has_many :credit_disributions
   has_many :motions
   has_many :hourly_types
+  has_many :activity_streams #TODO: include sub workstreams here!
 
   acts_as_nested_set :order => 'name', :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
                      :delete_permission => :manage_files
 
   acts_as_searchable :columns => ['name', 'description'], :project_key => 'id', :permission => nil
-  acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
-                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
-                :author => nil
+  # acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
+  #               :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
+  #               :author => nil
 
   attr_protected :status, :enabled_module_names
   
@@ -94,6 +95,10 @@ class Project < ActiveRecord::Base
   named_scope :all_roots, {:conditions => "parent_id is null"}
   named_scope :all_children, {:conditions => "parent_id is not null"}
   
+  def project_id
+    self.id
+  end
+  
   def graph_data
     valid_kids = children.select{|c| c.active?}
     if valid_kids.size > 0
@@ -103,6 +108,15 @@ class Project < ActiveRecord::Base
     end
     diameter = issues.length**0.5/3.142*6
     { :id => self.identifier, :name => name, :children => mychildren, :data => {:$dim => diameter,:$angularWidth => diameter, :$color => '#fdd13d' } }
+  end
+  
+  #returns array of project ids that are children of this project. includes id of current project
+  def sub_project_array
+    array = [self.id]
+    self.children.each do |child|
+      array += child.sub_project_array
+    end
+    array
   end
 
   def graph_data2

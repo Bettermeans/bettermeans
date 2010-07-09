@@ -1,0 +1,6 @@
+<% if as.indirect_object_type.to_s == "Journal" && as.indirect_object_phrase == "GENERATEDETAILS" %>
+  <%= render_journal_details(as.indirect_object)%>
+<% else %>
+  <%= as.indirect_object_phrase %>
+  <%= as.indirect_object_description %>
+<% end %>

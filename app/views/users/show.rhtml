@@ -10,7 +10,8 @@
 </div>
 
 <div class="splitcontentright">
-  <%= render :partial => "activity" %>
+  <h2>Recent Activity</h2>
+  <%= render :partial => "activity_streams/activity_stream_list", :locals => {:activities_by_item => @activities_by_item} %>
 </div>
 
 <% html_title @user.name %>

@@ -1,0 +1,10 @@
+<%= render :partial => 'activity_streams/activity_stream', :locals => {:as => asg[0], :show_indirect => :true} %> 
+  <dl class="sub">
+  <% for as in asg %>
+    <%= render :partial => 'activity_streams/activity_stream_sub', :locals => {:as => as} unless as == asg[0] %> 
+  <% end %>
+  </dl>
+</dd>
+
+  
+

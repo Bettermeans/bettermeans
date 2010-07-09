@@ -1,0 +1,192 @@
+ActivityStreams
+===============
+
+ActivityStreams is a Rails Plug-in providing a customizable framework
+for cataloging and publishing user activity and social objects.
+
+Developed and tested on Rails 2.1
+
+Example
+=======
+
+1) Generate initialization class, migration, controllers, and tests:
+
+       ./script/generate activity_streams User
+
+The only option is the name of the model that holds your User.
+
+2) Run the migration
+       
+       rake db:migrate
+
+3)   Edit ./config/initializers/activity_streams.rb.   Here you
+must define your on list of ACTIVITY_STREAM_ACTIVITIES.
+ACTIVITY_STREAM_ACTIVITIES are a hash of activities used on the
+entire site.   ACTIVITY_STREAM_ACTIVITIES are a grouping of activities
+so verbs like "now follows" and "no longer follows" can be tracked
+as the same activity.   Please ensure the keys are unique.
+
+ACTIVITY_STREAM_LOCATIONS relies on a application controller method
+"activity_stream_location".    If you change or add to
+ACTIVITY_STREAM_LOCATIONS you will probably need to override the
+activity_stream_location method.
+
+The ACTIVITY_STREAM_USER_MODEL, _CLASS, and _MODEL_ID should not
+need changing.  However, set ACTIVITY_STREAM_USER_MODEL_NAME to be
+the method of your user model the returns a friendly name (like
+"firstname lastname").
+
+4) Edit application controller and include the activity logger:
+
+    class ApplicationController < ActionController::Base
+
+      include LogActivityStreams
+
+      #...
+
+
+5) Add logging calls to each controller for all the actions you
+want to log activities.  For example:
+
+    class FeedsController < ApplicationController
+      #...
+      log_activity_streams :current_user, :friendly_name, :now_follows, 
+        :@new_creators, :title, :set_my_feeds, :follow_creator, {:total => 1 }
+      
+      log_activity_streams :current_user, :friendly_name, :now_follows,
+        :@new_categories, :name, :set_my_feeds, :follow_category,
+        {:total => 1 }        
+
+      log_activity_streams :current_user, :friendly_name, :no_longer_follows,
+        :@destroyed_creators, :title, :set_my_feeds, :follow_creator,
+        {:total => -1 }
+      
+      log_activity_streams :current_user, :friendly_name, :no_longer_follows,
+        :@destroyed_categories, :name, :set_my_feeds, :follow_category,
+        {:total => -1 }
+
+      #...
+    end
+
+And an example with an indirect object:
+
+    class Posts < ApplicationController
+      log_activity_streams :current_user, :friendly_name, :posted,
+        :@post, :activity_title, :create, :posted_message,
+        {:indirect_object => :forum_owner,
+        :indirect_object_name_method => :title,
+        :indirect_object_phrase => 'about indirect_object' }
+
+      #...
+    end
+
+The arguments for log activity stream are
+    
+    actor: a method or instance variable the is a single model or
+    Array of models.  An Array will generate multiple activities
+
+    actor_method_name: A method name that returns a display-able
+    name for the actor model
+
+    verb: The verb for the activity.
+
+    object: a method or instance variable the is a single model or
+    Array of models.  An Array will generate multiple activities
+
+    object_method_name: A method name that returns a display-able
+    name for the object model
+
+    action: The name of the action that triggers this activity.
+
+    activity: The activity grouping, the key should be predefined in 
+    ACTIVITY_STREAM_ACTIVITIES.
+
+    options: A hash of options.   Currently the options can take:
+    :status for non display-able, debug, or internal activities
+    :total for keeping total counts across grouped activities in the 
+    activity_stream_totals table. The :total can be either a Fixnum 
+    (positive or negative)or the symbol name of an instance variable 
+    or method.
+
+
+6) Display a stream in one of your views. For example, from 
+./app/views/users/show.html.erb:
+   <h3>Recent Activity</h3>
+
+   <div class="hfeed">
+
+   <%= render :partial => 'activity_streams/activity_stream', :collection => ActivityStream.recent_actors(@user, activity_stream_location)  %>
+
+   </div> <!-- hfeed -->
+
+7) Define the required methods.  The plug-in needs to know the current logged in user and if that user is an admin.   So the following methods must be defined.
+
+  a) The User model needs an "admin?" method
+
+  b) The controller need a "current_user" controller and helper method
+
+  c) The controller needs "logged_in?" controller and helper method
+
+  d) Finally, either the generated controllers need to be modified
+  or a login_required and admin_required methods must be written for
+  the controllers.
+
+Except for the admin methods above, restful_authentication defines
+all these methods for us.
+http://agilewebdevelopment.com/plugins/restful_authentication
+
+8) Activities should now be logging.  You should be able to generate
+and view activities now.  A good interactive test is to play with the
+preferences and atom feed found here:
+
+    http://localhost:3000/activity_stream_preferences
+
+9) Fix the generated tests and add new ones. Activity streams
+generator generates unit, controller, and integration tests.  These
+tests will need to be fixed as your fixtures will be different than
+the ones provided.
+
+Finally, you should write some tests for your controllers where you add your
+activities.  For example:
+    class FeedsControllerTest < ActionController::TestCase
+      #...
+
+      def test_follow_creator_generates_activity
+        login_as :fred
+          assert_difference('ActivityStream.count', +1) do
+          post :set_my_feeds, :id => 1, :creators => ['1'], :feed_digest_option => 'daily'
+        end
+      end
+
+      def test_follow_category_generates_activity
+        login_as :fred
+          assert_difference('ActivityStream.count', +1) do
+          post :set_my_feeds, :id => 1, :categories => ['1'], :feed_digest_option => 'daily'
+        end
+      end
+
+      def test_follow_three_generates_three_activities
+        login_as :fred
+          assert_difference('ActivityStream.count', +3) do
+          post :set_my_feeds, :id => 1, :categories => ['1'], :creators => ['2','3'], :feed_digest_option => 'daily'
+        end
+      end
+
+      def test_follow_creator_activity_has_correct_data
+        login_as :fred
+
+        post :set_my_feeds, :id => 1, :creators => ['1'], :feed_digest_option => 'daily'
+        activity = ActivityStream.find(:last)
+
+        assert_equal(activity.object_id, 1)
+        assert_equal(activity.object_type, 'Creator')
+        assert_equal(activity.actor_id, users(:fred).id)
+        assert_equal(activity.actor_type, 'User')
+        assert_equal(activity.verb, 'now_follows')
+      end
+
+You should be able to modify the views by copying the view directorys from 
+the plugin into your app/views directory.
+
+Copyright (c) 2008 Matson Systems, Inc.
+Released under the BSD license found in the file LICENSE
