@@ -22,8 +22,8 @@ class ProjectTest < ActiveSupport::TestCase
   context "associations" do
     should_have_many :members
     should_have_many :users, :through => :members
-    should_have_many :member_principals
-    should_have_many :principals, :through => :member_principals
+    should_have_many :member_users
+    should_have_many :users, :through => :member_users
     should_have_many :enabled_modules
     should_have_many :issues
     should_have_many :issue_changes, :through => :issues

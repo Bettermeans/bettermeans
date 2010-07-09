@@ -75,7 +75,7 @@ class IssueTest < ActiveSupport::TestCase
     issues = Issue.visible(user).all
     assert issues.empty?
     # User should see issues of projects for which he has view_issues permissions only
-    Member.create!(:principal => user, :project_id => 2, :role_ids => [1])
+    Member.create!(:user => user, :project_id => 2, :role_ids => [1])
     user.reload
     issues = Issue.visible(user).all
     assert issues.any?
