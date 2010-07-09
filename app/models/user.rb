@@ -88,6 +88,7 @@ class User < ActiveRecord::Base
 
   def before_create
     self.mail_notification = false
+    self.login = self.login.downcase
     true
   end
   
