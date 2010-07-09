@@ -1,27 +1,10 @@
-<% if activity_stream_group.length == 1 %>
-  <%= render :partial => 'activity_streams/activity_stream', :locals => {:activity_stream => activity_stream_group[0]} %> 
-<% else %>
+<%= render :partial => 'activity_streams/activity_stream', :locals => {:as => asg[0], :show_indirect => :true} %> 
+  <dl class="sub">
+  <% for as in asg %>
+    <%= render :partial => 'activity_streams/activity_stream_sub', :locals => {:as => as} unless as == asg[0] %> 
+  <% end %>
+  </dl>
+</dd>
 
-<div class="hentry">
-<p class="entry-content">
-  <%= link_to activity_stream_group[0].object_name %>
-  <br>
   
-<% for activity_stream in activity_stream_group %>
-  <%= link_to activity_stream.actor_name, self.send("#{activity_stream.object_type.downcase}_path", activity_stream.actor_id), :class => "author uri" %>
-<span class='ActivityStreamVerb'><%= activity_stream.verb.tr('_', ' ') %></span>
-
-
-
-<% if activity_stream.indirect_object_id -%>
-  <%= render :partial => 'indirect_object', :locals => {:activity_stream => activity_stream} %>
-<% end %>
-
-<%= activity_stream.updated_at.strftime(fmt='at %I:%M%p') -%>
-<br>
-<% end %>
-</p>
-</div>
-
-<% end %>
 

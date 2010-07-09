@@ -287,6 +287,10 @@ module ApplicationHelper
     end
   end
   
+  def format_time_ago(updated_at)
+    "#{distance_of_time_in_words(Time.now,local_time(updated_at))} ago"
+  end
+  
   
   def project_nested_ul(projects, &block)
     s = ''
@@ -755,7 +759,7 @@ module ApplicationHelper
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
-    if Setting.gravatar_enabled?
+    # if Setting.gravatar_enabled?
       options.merge!({:ssl => Setting.protocol == 'https', :default => Setting.gravatar_default})
       email = nil
       if user.respond_to?(:mail)
@@ -764,7 +768,7 @@ module ApplicationHelper
         email = $1
       end
       return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
-    end
+    # end
   end
   
   def avatar_from_id(user_id, options = { })

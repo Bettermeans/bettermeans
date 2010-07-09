@@ -3,11 +3,11 @@ class CommentsController < ApplicationController
   before_filter :find_issue, :only => [:index, :create ]
   before_filter :find_project, :authorize
   
-  log_activity_streams :current_user, :name, :updated, :@issue, :subject, :create, :issues, {:indirect_object => :@journal,
-            :indirect_object_name_method => :notes,
-            :indirect_object_phrase => ' ' }
-
-  
+  log_activity_streams :current_user, :name, :updated, :@issue, :subject, :create, :issues, {
+            :object_description_method => :description,
+            :indirect_object => :@journal,
+            :indirect_object_description_method => :notes,
+            :indirect_object_phrase => '' }
     
   def index
     @journals = @issue.journals.find(:all, 
