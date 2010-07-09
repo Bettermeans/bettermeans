@@ -107,7 +107,7 @@ class UsersController < ApplicationController
   
   def edit_membership
     @user = User.find(params[:id])
-    @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:principal => @user)
+    @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:user => @user)
     @membership.attributes = params[:membership]
     @membership.save if request.post?
     respond_to do |format|

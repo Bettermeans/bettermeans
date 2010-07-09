@@ -1,6 +1,6 @@
-<tr id="<%= member.principal.login %>" class="<%= cycle 'odd', 'even' %> member <%= member.principal.name %>">
-<td width="10px">  <%= avatar(member.principal, :size => "64") %></td>
-<td class="<%= member.principal.class.name.downcase %>"><%= link_to_user member.principal %></td>
+<tr id="<%= member.user.login %>" class="<%= cycle 'odd', 'even' %> member <%= member.user.name %>">
+<td width="10px">  <%= avatar(member.user, :size => "64") %></td>
+<td class="<%= member.user.class.name.downcase %>"><%= link_to_user member.user %></td>
 <td class="roles">
   <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
 </td>
