@@ -10,6 +10,11 @@ class DocumentsController < ApplicationController
   
   helper :attachments
   
+  log_activity_streams :current_user, :name, :added, :@document, :title, :new, :documents, {}
+  log_activity_streams :current_user, :name, :updated, :@document, :title, :edit, :documents, {}
+  log_activity_streams :current_user, :name, :deleted, :@document, :title, :destroy, :documents, {}
+  
+  
   def index
     @sort_by = %w(catego»ry date title author).include?(params[:sort_by]) ? params[:sort_by] : 'title'
     documents = @project.documents.find :all, :include => [:attachments]

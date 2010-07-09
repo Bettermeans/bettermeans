@@ -10,6 +10,14 @@ class NewsController < ApplicationController
   before_filter :find_optional_project, :only => :index
   accept_key_auth :index
   
+  log_activity_streams :current_user, :name, :announced, :@news, :title, :new, :news, {}#{:indirect_object => :@project,
+  log_activity_streams :current_user, :name, :commented_on, :@news, :title, :add_comment, :news, {:indirect_object => :@comment,
+              :indirect_object_name_method => :comments,
+              :indirect_object_phrase => ' comment details ' }
+
+  
+  
+  
   def index
     @news_pages, @newss = paginate :news,
                                    :per_page => 10,

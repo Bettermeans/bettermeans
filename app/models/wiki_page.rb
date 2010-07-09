@@ -12,14 +12,14 @@ class WikiPage < ActiveRecord::Base
   acts_as_tree :dependent => :nullify, :order => 'title'
 
   acts_as_watchable
-  acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
-                :description => :text,
-                :datetime => :created_on,
-                :url => Proc.new {|o| {:controller => 'wiki', :id => o.wiki.project, :page => o.title}}
-
-  acts_as_searchable :columns => ['title', 'text'],
-                     :include => [{:wiki => :project}, :content],
-                     :project_key => "#{Wiki.table_name}.project_id"
+  # acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
+  #               :description => :text,
+  #               :datetime => :created_on,
+  #               :url => Proc.new {|o| {:controller => 'wiki', :id => o.wiki.project, :page => o.title}}
+  # 
+  # acts_as_searchable :columns => ['title', 'text'],
+  #                    :include => [{:wiki => :project}, :content],
+  #                    :project_key => "#{Wiki.table_name}.project_id"
 
   attr_accessor :redirect_existing_links
   
@@ -27,6 +27,10 @@ class WikiPage < ActiveRecord::Base
   validates_format_of :title, :with => /^[^,\.\/\?\;\|\s]*$/
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
+  
+  def project_id
+    wiki.project.id
+  end
   
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_wiki_pages, project)
