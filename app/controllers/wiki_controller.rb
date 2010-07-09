@@ -15,6 +15,13 @@ class WikiController < ApplicationController
   include AttachmentsHelper   
   helper :watchers
   
+  log_activity_streams :current_user, :name, :edited, :@page, :title, :edit, :wikis, {} #{:indirect_object => :@content,
+            # :indirect_object_name_method => :to_s,
+            # :indirect_object_phrase => ' ' }
+
+  log_activity_streams :current_user, :name, :attached, :@page, :title, :add_attachment, :wikis, {}
+  
+  
   # display a page (in editing mode if it doesn't exist)
   def index
     page_title = params[:page]

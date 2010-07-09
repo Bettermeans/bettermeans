@@ -8,6 +8,9 @@
 #
 # README provides examples
 module LogActivityStreams 
+  
+  include SingleLogActivityStreams
+  
 
   def self.included(controller) #:nodoc:
     controller.extend(ClassMethods)
@@ -44,40 +47,12 @@ module LogActivityStreams
     end
   end
   
-  def write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
-  # If there are identical activities within 8 hours, up count
-  activity_stream = ActivityStream.find_identical(actor, object, verb, activity);
-
-  if activity_stream
-    activity_stream.count += 1
-  else
-    activity_stream = ActivityStream.new
-    activity_stream.verb = verb.to_s
-    activity_stream.activity = activity.to_s
-    activity_stream.actor = actor
-    activity_stream.actor_name_method = actor_name.to_s
-    activity_stream.object = object
-    activity_stream.object_name_method = object_name.to_s
-    activity_stream.status = status
-    activity_stream.project_id = object.send('project_id')
-    
-    if indirect_object
-      activity_stream.indirect_object = indirect_object
-      activity_stream.indirect_object_name_method = options[:indirect_object_name_method].to_s
-      activity_stream.indirect_object_phrase = options[:indirect_object_phrase]
-    end
-  end
-  
-  activity_stream.save!
-   
-  end
-
   def write_activity_stream_log(actor_method, actor_name, verb, object_method,
     object_name, action, activity, options={}) #:nodoc:
-    
-    logger.info("logging activity stream")
 
     return unless action == self.action_name.to_sym
+    
+    logger.info("logging activity stream #{options.inspect}")
 
     return if !flash[:error].blank? || @suppress_activity_stream
 
@@ -97,12 +72,18 @@ module LogActivityStreams
       objects = self.send(object_method) || []
     end
     objects = [ objects ] unless objects.is_a? Array
+    
+    logger.info ("options #{options.inspect}")
 
     if indirect_object_method = options[:indirect_object]
+      logger.info("we have an indirect object")
+      
       if indirect_object_method.to_s.start_with?('@')
         indirect_object = self.instance_variable_get(indirect_object_method)
+        logger.info(" 2 indirect object #{indirect_object.inspect}")
       else
         indirect_object = self.send(indirect_object_method)
+        logger.info("indirect object #{indirect_object.inspect}")
       end
     end
 
@@ -114,33 +95,6 @@ module LogActivityStreams
         next unless object.errors.empty?
         
         write_single_activity_stream(actor,actor_name,object,object_name,verb,activity,status,indirect_object, options)
-        
-
-        # # If there are identical activities within 8 hours, up count
-        #         activity_stream = ActivityStream.find_identical(actor, object, verb, 
-        #           activity);
-        # 
-        #         if activity_stream
-        #           activity_stream.count += 1
-        #         else
-        #           activity_stream = ActivityStream.new
-        #           activity_stream.verb = verb.to_s
-        #           activity_stream.activity = activity.to_s
-        #           activity_stream.actor = actor
-        #           activity_stream.actor_name_method = actor_name.to_s
-        #           activity_stream.object = object
-        #           activity_stream.object_name_method = object_name.to_s
-        #           activity_stream.status = status
-        #           activity_stream.project_id = object.send('project_id')
-        #           
-        #           if indirect_object
-        #             activity_stream.indirect_object = indirect_object
-        #             activity_stream.indirect_object_name_method = options[:indirect_object_name_method].to_s
-        #             activity_stream.indirect_object_phrase = options[:indirect_object_phrase]
-        #           end
-        #         end
-        #         
-        #         activity_stream.save!
 
         total = options[:total]
         if total

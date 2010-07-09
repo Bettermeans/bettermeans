@@ -15,6 +15,15 @@ class MessagesController < ApplicationController
   helper :watchers
   helper :attachments
   include AttachmentsHelper   
+  
+  log_activity_streams :current_user, :name, :created_new_topic, :@message, :subject, :new, :messages, {} #{:indirect_object => :@content,
+            # :indirect_object_name_method => :to_s,
+            # :indirect_object_phrase => ' ' }
+
+  log_activity_streams :current_user, :name, :replied_to, :@topic, :subject, :reply, :messages, {:indirect_object => :@reply,
+            :indirect_object_name_method => :body,
+            :indirect_object_phrase => ' ' }
+  
 
   # Show a topic and its replies
   def show

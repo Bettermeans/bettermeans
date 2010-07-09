@@ -34,6 +34,10 @@ class ProjectsController < ApplicationController
   include QueriesHelper
   include ProjectsHelper
   
+  log_activity_streams :current_user, :name, :added, :@project, :name, :add, :workstreams, {}
+  log_activity_streams :current_user, :name, :edited, :@project, :name, :edit, :workstreams, {}
+  
+  
   # Lists visible projects
   def index
     respond_to do |format|

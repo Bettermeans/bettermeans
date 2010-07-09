@@ -1,25 +1,15 @@
 <div class="hentry">
 <p class="entry-content">
-<% if activity_stream.actor -%>
-  <%= link_to activity_stream.actor_name, self.send("#{activity_stream.actor.class.name.downcase}_path", activity_stream.actor), :class => "author uri" %>
-<% else %>
-  (deleted)
-<% end %>
+<%= link_to activity_stream.actor_name, self.send("#{activity_stream.object_type.downcase}_path", activity_stream.actor_id), :class => "author uri" %>
 <span class='ActivityStreamVerb'><%= activity_stream.verb.tr('_', ' ') %></span>
-<% if activity_stream.object -%>
-  <%= link_to activity_stream.object_name, self.send("#{activity_stream.object.class.name.downcase}_path", activity_stream.object), :rel => 'bookmark', :class => 'object uri' %>
-<% else %>
-  (deleted)
-<% end %>
-<% if activity_stream.indirect_object -%>
+  <%#= activity_stream.object_name %>
+      <%= activity_stream.object_name %>
+  <%#=self.send("#{activity_stream.object.class.name.downcase}_path", activity_stream.object), :rel => 'bookmark', :class => 'object uri' %>
 
-<% if activity_stream.indirect_object.type.to_s == "Journal" %>
-<%= render_journal_details(activity_stream.indirect_object)%>
-<% else %>
-<%= activity_stream.indirect_object_phrase %>
-<%= activity_stream.indirect_object.send(activity_stream.indirect_object_name_method) %>
+<% if activity_stream.indirect_object_id -%>
+  <%= render :partial => 'indirect_object', :locals => {:activity_stream => activity_stream} %>
 <% end %>
-<% end %>
+
 <%= activity_stream.updated_at.strftime(fmt='%d %b') -%>
 </p>
 </div>
