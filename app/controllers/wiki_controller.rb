@@ -15,6 +15,8 @@ class WikiController < ApplicationController
   include AttachmentsHelper   
   helper :watchers
   
+  log_activity_streams :current_user, :name, :attached, :@page, :title, :add_attachment, :wikis, {}
+  
   # display a page (in editing mode if it doesn't exist)
   def index
     page_title = params[:page]
@@ -65,12 +67,18 @@ class WikiController < ApplicationController
         redirect_to :action => 'index', :id => @project, :page => @page.title
         return
       end
-      #@content.text = params[:content][:text]
-      #@content.comments = params[:content][:comments]
+      @content.text = params[:content][:text]
+      @content.comments = params[:content][:comments]
       @content.attributes = params[:content]
       @content.author = User.current
       # if page is new @page.save will also save content, but not if page isn't a new record
-      if (@page.new_record? ? @page.save : @content.save)
+      if @page.new_record?
+        @page.save
+        write_single_activity_stream(User.current, :name, @page, :title, :created, :wikis, 0, nil,{})
+        redirect_to :action => 'index', :id => @project, :page => @page.title
+      else
+        @content.save
+        write_single_activity_stream(User.current, :name, @page, :title, :edited, :wikis, 0, nil,{})
         redirect_to :action => 'index', :id => @project, :page => @page.title
       end
     end

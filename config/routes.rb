@@ -264,6 +264,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/
    
   map.resources :groups
+  map.resources :activity_streams
   
   map.resources :projects, :has_many => :shares
   map.resources :projects, :has_many => :credits

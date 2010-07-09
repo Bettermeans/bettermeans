@@ -48,6 +48,15 @@ module Redmine
       Setting.time_format.blank? ? ::I18n.l(local, :format => (include_date ? :default : :time)) : 
                                    ((include_date ? "#{format_date(time)} " : "") + "#{local.strftime(Setting.time_format)}")
     end
+    
+    def local_time(time)
+      return nil unless time
+      time = time.to_time if time.is_a?(String)
+      zone = User.current.time_zone
+      local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
+      return local
+    end
+    
 
     def day_name(day)
       ::I18n.t('date.day_names')[day % 7]

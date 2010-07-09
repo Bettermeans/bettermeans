@@ -13,14 +13,15 @@ class Message < ActiveRecord::Base
                      :include => {:board => :project},
                      :project_key => 'project_id',
                      :date_column => "#{table_name}.created_on"
-  acts_as_event :title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
-                :description => :content,
-                :type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
-                :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id}.merge(o.parent_id.nil? ? {:id => o.id} : 
-                                                                                                                                       {:id => o.parent_id, :anchor => "message-#{o.id}"})}
 
-  acts_as_activity_provider :find_options => {:include => [{:board => :project}, :author]},
-                            :author_key => :author_id
+  # acts_as_event :title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
+  #               :description => :content,
+  #               :type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
+  #               :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id}.merge(o.parent_id.nil? ? {:id => o.id} : 
+  #                                                                                                                                      {:id => o.parent_id, :anchor => "message-#{o.id}"})}
+  # 
+  # acts_as_activity_provider :find_options => {:include => [{:board => :project}, :author]},
+  #                           :author_key => :author_id
   acts_as_watchable
   
   attr_protected :locked, :sticky
@@ -28,6 +29,10 @@ class Message < ActiveRecord::Base
   validates_length_of :subject, :maximum => 255
   
   after_create :add_author_as_watcher
+  
+  def project_id
+    board.project.id
+  end
   
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_messages, project)

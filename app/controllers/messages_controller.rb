@@ -8,6 +8,7 @@ class MessagesController < ApplicationController
   before_filter :find_board, :only => [:new, :preview]
   before_filter :find_message, :except => [:new, :preview, :motion_reply]
   before_filter :authorize, :except => [:preview, :edit, :destroy]
+  # before_filter :guess_board, :only => [:show]
 
   verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }
   verify :xhr => true, :only => :quote
@@ -15,6 +16,18 @@ class MessagesController < ApplicationController
   helper :watchers
   helper :attachments
   include AttachmentsHelper   
+  
+  log_activity_streams :current_user, :name, :created, :@message, :subject, :new, :messages, {:object_description_method => :content}
+  log_activity_streams :current_user, :name, :edited, :@message, :subject, :edit, :messages, {:object_description_method => :content}
+            # :indirect_object_name_method => :to_s,
+            # :indirect_object_phrase => ' ' }
+
+  log_activity_streams :current_user, :name, :replied_to, :@topic, :subject, :reply, :messages, {
+            :object_description_method => :content,
+            :indirect_object => :@reply,
+            :indirect_object_description_method => :content,
+            :indirect_object_phrase => '' }
+  
 
   # Show a topic and its replies
   def show
@@ -101,12 +114,29 @@ class MessagesController < ApplicationController
   
 private
   def find_message
-    find_board
+    if params[:board_id] == 'guess'
+      guess_board
+    else
+      find_board
+    end
+    
     @message = @board.messages.find(params[:id], :include => :parent)
     @topic = @message.root
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+  
+  #This function is used to redirect links coming from the activity stream
+  #To save queries on the database, we don't try to load the board id in the link to a message
+  def guess_board
+    logger.info("guessing")
+    message = Message.find(params[:id])
+    @board = message.board
+    redirect_to :action => "show", :board_id => @board.id, :id => params[:id]
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+  
   
   def find_board
     @board = Board.find(params[:board_id], :include => :project)

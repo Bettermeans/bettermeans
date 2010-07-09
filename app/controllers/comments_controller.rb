@@ -2,6 +2,12 @@ class CommentsController < ApplicationController
   unloadable
   before_filter :find_issue, :only => [:index, :create ]
   before_filter :find_project, :authorize
+  
+  log_activity_streams :current_user, :name, :updated, :@issue, :subject, :create, :issues, {
+            :object_description_method => :description,
+            :indirect_object => :@journal,
+            :indirect_object_description_method => :notes,
+            :indirect_object_phrase => '' }
     
   def index
     @journals = @issue.journals.find(:all, 
@@ -12,9 +18,9 @@ class CommentsController < ApplicationController
   end
   
   def create
-    journal = @issue.init_journal(User.current, params[:comment])
-    journal.save!
-    journal.reload
+    @journal = @issue.init_journal(User.current, params[:comment])
+    @journal.save!
+    @journal.reload
     @issue.reload
     render :json => @issue.to_dashboard
   end
