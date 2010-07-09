@@ -106,11 +106,12 @@ div#search-results-counts  li { list-style-type:none; float: left; margin-left: 
 div#activity dl { margin-left: 2em; }
 div#activity dt { margin-bottom: 0px; line-height: 18px; background-position: 0 0; background-repeat: no-repeat;}
 div#activity dt.me .time { border-bottom: 1px solid #999; }
-div#activity dt .description { display:block; font-style: italic; }
+div#activity dt .description { display:block; font-style: normal; }
+div#activity dt .count { font-size: 80%; font-style: italic; }
 div#activity dd .time { color: #777; font-size: 80%; }
 div#activity dd .project { color: #777; font-size: 80%; }
-div#activity dd .title { font-weight: bold;  padding-left: 25px; }
-div#activity dd .description { font-style: italic; padding-left: 25px; }
+div#activity dd .title { font-weight: normal;  padding-left: 25px; }
+div#activity dd .description { font-style: normal; padding-left: 25px; }
 div#activity dd .bordered { border-left: 2px solid #ccc;}
 div#activity dd { margin-bottom: 1em; padding-left: 4px; font-size: 0.9em; margin-left:55px; background-position: 10px 0; background-repeat: no-repeat; }
 div#activity dd span.description { display:block; color: #333; }
@@ -118,27 +119,28 @@ div#activity dd span.description { display:block; color: #333; }
 div#activity dl.sub { margin-left: 0; }
 div#activity dt.sub { margin-bottom: 0px; line-height: 18px; background-position: 0 0; background-repeat: no-repeat; }
 div#activity dt.sub .time { color: #777; font-size: 80%; }
+div#activity dt.sub .count { font-size: 80%; font-style: italic; }
 div#activity dd.sub .title { font-weight: bold; padding-left: 15px;}
-div#activity dd.sub .description { font-style: italic; padding-left: 5px; }
+div#activity dd.sub .description { font-style: normal; padding-left: 5px; }
 div#activity dd.sub { margin-bottom: 2px; padding-left: 4px; font-size: 0.9em; margin-left:18px; line-height: 0.9em; background-position: 0 0; background-repeat: no-repeat; }
 div#activity dd.sub span.description { display:block; color: #808080; }
 
 dd.issue { background-image: url(/images/ticket.png); }
-dt.issue-edit { background-image: url(/images/ticket_edit.png); }
-dt.issue-closed { background-image: url(/images/ticket_checked.png); }
-dt.issue-note { background-image: url(/images/ticket_note.png); }
-dt.changeset { background-image: url(/images/changeset.png); }
-dt.news { background-image: url(/images/news.png); }
-dt.message { background-image: url(/images/message.png); }
-dt.reply { background-image: url(/images/comments.png); }
-dt.wiki-page { background-image: url(/images/wiki_edit.png); }
-dt.attachment { background-image: url(/images/attachment.png); }
-dt.document { background-image: url(/images/document.png); }
-dt.project { background-image: url(/images/projects.png); }
-dt.time-entry { background-image: url(/images/time.png); }
-dt.cr-note { background-image: url(/images/tag_blue.png); }  
-dt.team-offer { background-image: url(/images/user_new.png); }  
-dt.member-role { background-image: url(/images/users.png); }
+dd.issue-edit { background-image: url(/images/ticket_edit.png); }
+dd.issue-closed { background-image: url(/images/ticket_checked.png); }
+dd.issue-note { background-image: url(/images/ticket_note.png); }
+dd.changeset { background-image: url(/images/changeset.png); }
+dd.news { background-image: url(/images/news.png); }
+dd.message { background-image: url(/images/message.png); }
+dd.reply { background-image: url(/images/comments.png); }
+dd.wiki-page, dd.wikipage { background-image: url(/images/wiki_edit.png); }
+dd.attachment { background-image: url(/images/attachment.png); }
+dd.document { background-image: url(/images/document.png); }
+dd.project { background-image: url(/images/projects.png); }
+dd.time-entry { background-image: url(/images/time.png); }
+dd.cr-note { background-image: url(/images/tag_blue.png); }  
+dd.team-offer { background-image: url(/images/user_new.png); }  
+dd.member-role { background-image: url(/images/users.png); }
 
 #search-results dt.issue.closed { background-image: url(/images/ticket_checked.png); }
 

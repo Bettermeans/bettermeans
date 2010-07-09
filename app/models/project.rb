@@ -95,6 +95,10 @@ class Project < ActiveRecord::Base
   named_scope :all_roots, {:conditions => "parent_id is null"}
   named_scope :all_children, {:conditions => "parent_id is not null"}
   
+  def project_id
+    self.id
+  end
+  
   def graph_data
     valid_kids = children.select{|c| c.active?}
     if valid_kids.size > 0
@@ -104,6 +108,15 @@ class Project < ActiveRecord::Base
     end
     diameter = issues.length**0.5/3.142*6
     { :id => self.identifier, :name => name, :children => mychildren, :data => {:$dim => diameter,:$angularWidth => diameter, :$color => '#fdd13d' } }
+  end
+  
+  #returns array of project ids that are children of this project. includes id of current project
+  def sub_project_array
+    array = [self.id]
+    self.children.each do |child|
+      array += child.sub_project_array
+    end
+    array
   end
 
   def graph_data2

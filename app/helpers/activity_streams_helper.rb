@@ -14,6 +14,6 @@ module ActivityStreamsHelper
     
     html << content #_tag('div', content, :id => "journal-#{journal.id}-notes", :class => css_classes)
     
-  end  
+  end
   
 end
