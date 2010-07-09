@@ -118,7 +118,7 @@ div#activity dd span.description { display:block; color: #333; }
 
 div#activity dl.sub { margin-left: 0; }
 div#activity dt.sub { margin-bottom: 0px; line-height: 18px; background-position: 0 0; background-repeat: no-repeat; }
-div#activity dt.sub .time { color: #777; font-size: 80%; }
+div#activity dt.sub .time { color: #777; }
 div#activity dt.sub .count { font-size: 80%; font-style: italic; }
 div#activity dd.sub .title { font-weight: bold; padding-left: 15px;}
 div#activity dd.sub .description { font-style: normal; padding-left: 5px; }
