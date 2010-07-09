@@ -1,0 +1,13 @@
+<dt class="sub <%= User.current.logged? && User.current.id == as.actor_id ? 'me' : nil %>">
+<%= avatar(as.actor_email, :size => "24") %>
+<span class="author"><%= link_to as.actor_name, self.send("#{as.actor_type.downcase}_path", as.actor_id) %></span>
+<span class='verb'><%= as.verb.tr('_', ' ') %> this</span>
+<span class='count'><%= action_times(as.count) %></span>
+</dt>
+<dd class="sub">
+  <span class="description"><% if as.indirect_object_id -%>
+    <%= render :partial => 'activity_streams/indirect_object', :locals => {:as => as} %>
+  <% end %>
+  </span>
+  <span class="time"><%= format_time_ago(as.updated_at) %></span>
+</dd>

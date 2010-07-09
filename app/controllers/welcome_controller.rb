@@ -9,6 +9,8 @@ class WelcomeController < ApplicationController
     @news = News.latest User.current
     @projects = Project.latest User.current, 10, false
     @enterprises = Project.latest User.current, 10, true
+    @activities_by_item = ActivityStream.fetch(nil, nil, true, 100)    
+    
   end
   
   def robots

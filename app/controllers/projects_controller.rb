@@ -34,6 +34,9 @@ class ProjectsController < ApplicationController
   include QueriesHelper
   include ProjectsHelper
   
+  log_activity_streams :current_user, :name, :edited, :@project, :name, :edit, :workstreams, {:object_description_method => :description}
+  
+  
   # Lists visible projects
   def index
     respond_to do |format|
@@ -67,6 +70,7 @@ class ProjectsController < ApplicationController
       @project.is_public = Setting.default_projects_public?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
       if validate_parent_id && @project.save
+        write_single_activity_stream(User.current, :name, @project, :name, :created, :workstreams, 0, nil,{:object_description_method => :description})
         # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
         @project.set_parent!(@parent.id) unless @parent.nil?
         if @parent.nil?
@@ -115,7 +119,6 @@ class ProjectsController < ApplicationController
       redirect_to_project_menu_item(@project, params[:jump]) && return
     end
     
-    # @subprojects = @project.children.visible.find(:all, :order => 'name ASC')
     @subprojects = @project.children.active.find(:all, :order => 'name ASC')
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = @project.rolled_up_trackers
@@ -132,6 +135,9 @@ class ProjectsController < ApplicationController
     @key = User.current.rss_key
     
     @motions = @project.motions.viewable_by(User.current.position_for(@project)).allactive
+    
+    @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], 30)    
+    
     
   end
   
@@ -292,49 +298,74 @@ class ProjectsController < ApplicationController
     @oustanding_credits = @credits.find_all{|credit| credit.settled_on.nil? == true }.group_by{|credit| credit.owner_id}
     @total_credits = @credits.group_by{|credit| credit.owner_id}
   end
-  
-  
+
+#params that can be passed: length, with_subprojects, and author
   def activity
-    @days = Setting.activity_days_default.to_i
     
-    if params[:from]
-      begin; @date_to = params[:from].to_date + 1; rescue; end
-    end
-
-    @date_to ||= Date.today + 1
-    @date_from = @date_to - @days
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
-    @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
-    
-    @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project, 
-                                                             :with_subprojects => @with_subprojects,
-                                                             :author => @author)
-    @activity.scope_select {|t| !params["show_#{t}"].nil?}
-    @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
-
-    events = @activity.events(@date_from, @date_to)
-    
-    if events.empty? || stale?(:etag => [events.first, User.current])
-      respond_to do |format|
-        format.html { 
-          @events_by_day = events.group_by(&:event_date)
-          render :layout => false if request.xhr?
-        }
-        format.atom {
-          title = l(:label_activity)
-          if @author
-            title = @author.name
-          elsif @activity.scope.size == 1
-            title = l("label_#{@activity.scope.first.singularize}_plural")
-          end
-          render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
-        }
-      end
-    end
+    @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], params[:length])    
+    # if events.empty? || stale?(:etag => [events.first, User.current])
+    #   respond_to do |format|
+    #     format.html { 
+    #       @events_by_day = events.group_by(&:event_date)
+    #       render :layout => false if request.xhr?
+    #     }
+    #     format.atom {
+    #       title = l(:label_activity)
+    #       if @author
+    #         title = @author.name
+    #       elsif @activity.scope.size == 1
+    #         title = l("label_#{@activity.scope.first.singularize}_plural")
+    #       end
+    #       render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
+    #     }
+    #   end
+    # end
     
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
+  end  
+  
+  # def activity
+  #   @days = Setting.activity_days_default.to_i
+  #   
+  #   if params[:from]
+  #     begin; @date_to = params[:from].to_date + 1; rescue; end
+  #   end
+  # 
+  #   @date_to ||= Date.today + 1
+  #   @date_from = @date_to - @days
+  #   @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
+  #   @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
+  #   
+  #   @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project, 
+  #                                                            :with_subprojects => @with_subprojects,
+  #                                                            :author => @author)
+  #   @activity.scope_select {|t| !params["show_#{t}"].nil?}
+  #   @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
+  # 
+  #   events = @activity.events(@date_from, @date_to)
+  #   
+  #   if events.empty? || stale?(:etag => [events.first, User.current])
+  #     respond_to do |format|
+  #       format.html { 
+  #         @events_by_day = events.group_by(&:event_date)
+  #         render :layout => false if request.xhr?
+  #       }
+  #       format.atom {
+  #         title = l(:label_activity)
+  #         if @author
+  #           title = @author.name
+  #         elsif @activity.scope.size == 1
+  #           title = l("label_#{@activity.scope.first.singularize}_plural")
+  #         end
+  #         render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
+  #       }
+  #     end
+  #   end
+  #   
+  # rescue ActiveRecord::RecordNotFound
+  #   render_404
+  # end
   
 private
   # Find project of id params[:id]

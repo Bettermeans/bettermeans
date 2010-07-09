@@ -31,71 +31,7 @@ module IssuesHelper
     end
     @sidebar_queries
   end
-  
 
-
-  def show_detail(detail, no_html=false)
-    case detail.property
-    when 'attr'
-      label = l(("field_" + detail.prop_key.to_s.gsub(/\_id$/, "")).to_sym)   
-      case detail.prop_key
-      when 'due_date', 'start_date'
-        value = format_date(detail.value.to_date) if detail.value
-        old_value = format_date(detail.old_value.to_date) if detail.old_value
-      when 'project_id'
-        p = Project.find_by_id(detail.value) and value = p.name if detail.value
-        p = Project.find_by_id(detail.old_value) and old_value = p.name if detail.old_value
-      when 'status_id'
-        s = IssueStatus.find_by_id(detail.value) and value = s.name if detail.value
-        s = IssueStatus.find_by_id(detail.old_value) and old_value = s.name if detail.old_value
-      when 'tracker_id'
-        t = Tracker.find_by_id(detail.value) and value = t.name if detail.value
-        t = Tracker.find_by_id(detail.old_value) and old_value = t.name if detail.old_value
-      when 'assigned_to_id'
-        u = User.find_by_id(detail.value) and value = u.name if detail.value
-        u = User.find_by_id(detail.old_value) and old_value = u.name if detail.old_value
-      when 'priority_id'
-        e = IssuePriority.find_by_id(detail.value) and value = e.name if detail.value
-        e = IssuePriority.find_by_id(detail.old_value) and old_value = e.name if detail.old_value
-      when 'estimated_hours'
-        value = "%0.02f" % detail.value.to_f unless detail.value.blank?
-        old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
-      end
-    when 'attachment'
-      label = l(:label_attachment)
-    end
-
-    label ||= detail.prop_key
-    value ||= detail.value
-    old_value ||= detail.old_value
-    
-    unless no_html
-      label = content_tag('strong', label)
-      old_value = content_tag("i", h(old_value)) if detail.old_value
-      old_value = content_tag("strike", old_value) if detail.old_value and (!detail.value or detail.value.empty?)
-      if detail.property == 'attachment' && !value.blank? && a = Attachment.find_by_id(detail.prop_key)
-        # Link to the attachment if it has not been removed
-        value = link_to_attachment(a)
-      else
-        value = content_tag("i", h(value)) if value
-      end
-    end
-    
-    if !detail.value.blank?
-      case detail.property
-      when 'attr', 'cf'
-        if !detail.old_value.blank?
-          l(:text_journal_changed, :label => label, :old => old_value, :new => value)
-        else
-          l(:text_journal_set_to, :label => label, :value => value)
-        end
-      when 'attachment'
-        l(:text_journal_added, :label => label, :value => value)
-      end
-    else
-      l(:text_journal_deleted, :label => label, :old => old_value)
-    end
-  end
   
   def issues_to_csv(issues, project = nil)
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    

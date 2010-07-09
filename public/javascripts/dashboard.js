@@ -197,6 +197,10 @@ function load_dashboard_data(){
 	$("#loading").hide();
 	
 	get_local_data();
+	if (local_R == null){
+		local_R = [];
+	}
+	
 	if (local_D != null){
 		data_ready(local_D,'all');
 		retros_ready(local_R);
@@ -244,8 +248,12 @@ function save_local_data(){
 function get_local_data(){
 	try{
 		local_D = JSON.parse(store.get('D_' + projectId));
+		
 		if (local_D == null) {return;}
+		
 		local_R = JSON.parse(store.get('R_' + projectId));
+		if (local_R == null) {local_R = [];}
+		
 		last_data_pull = new Date(store.get('last_data_pull_' + projectId));
 	}
 	catch(err){
@@ -3623,6 +3631,11 @@ function new_dash_data(){
 }
 
 function new_dash_data_response(data){
+	if (data == null) {
+		save_local_data();
+		return;
+	}
+	
 	for(var i = 0; i < data.length; i++ ){
 		
 		item = data[i];

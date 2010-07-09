@@ -3,6 +3,8 @@
 #
 
 class Issue < ActiveRecord::Base
+  include SingleLogActivityStreams
+  
   belongs_to :project
   belongs_to :tracker
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
@@ -28,12 +30,13 @@ class Issue < ActiveRecord::Base
                      :include => [:project, :journals],
                      # sort by id so that limited eager loading doesn't break with postgresql
                      :order_column => "#{table_name}.id"
-  acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
-                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
-                :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
-  
-  acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
-                            :author_key => :author_id
+
+  # acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
+  #               :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
+  #               :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
+  # 
+  # acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
+  #                           :author_key => :author_id
 
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
   
@@ -478,15 +481,22 @@ class Issue < ActiveRecord::Base
   #refreshes issue status, returns true if status changed
   def update_status
     original = self.status
-    updated = self.updated_status
+    @updated = self.updated_status
     
-    if (original.id != updated.id)
+    if (original.id != @updated.id)
       admin = User.find(:first,:conditions => {:login => "admin"})
       journal = self.init_journal(admin)
-      self.status = updated
+      self.status = @updated
       self.retro_id = nil
 
-      logger.info("almost in")
+      # write_single_activity_stream(User.current,:name,issue,:subject,:moved,:move, 0, @target_project, {
+      #           :indirect_object_name_method => :name,
+      #           :indirect_object_phrase => ' to ' })
+      
+      write_single_activity_stream(User.sysadmin,:name,self,:subject,:changed,"update_to_#{@updated.name}", 0, @updated,{
+                :indirect_object_name_method => :name,
+                :indirect_object_phrase => "from <strong>#{original.name}</strong> to <strong>#{@updated.name}</strong> " })
+      
       
       if self.status == IssueStatus.accepted 
         self.assigned_to.add_as_contributor_if_new(self.project) unless self.assigned_to_id.nil?

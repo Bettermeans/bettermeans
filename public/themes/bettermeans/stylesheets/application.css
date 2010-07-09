@@ -90,14 +90,12 @@ div#issue-changesets .changeset { padding: 4px;}
 div#issue-changesets .changeset { border-bottom: 1px solid #ddd; }
 div#issue-changesets p { margin-top: 0; margin-bottom: 1em;}
 
-div#activity dl, #search-results { margin-left: 2em; }
-div#activity dd, #search-results dd { margin-bottom: 1em; padding-left: 18px; font-size: 0.9em; }
-div#activity dt, #search-results dt { margin-bottom: 0px; padding-left: 20px; line-height: 18px; background-position: 0 50%; background-repeat: no-repeat; }
-div#activity dt.me .time { border-bottom: 1px solid #999; }
-div#activity dt .time { color: #777; font-size: 80%; }
-div#activity dd .description, #search-results dd .description { font-style: italic; }
-div#activity span.project:after, #search-results span.project:after { content: " -"; }
-div#activity dd span.description, #search-results dd span.description { display:block; color: #808080; }
+#search-results { margin-left: 2em; }
+#search-results dd { margin-bottom: 1em; padding-left: 18px; font-size: 0.9em; }
+#search-results dt { margin-bottom: 0px; padding-left: 20px; line-height: 18px; background-position: 0 50%; background-repeat: no-repeat; }
+#search-results dd .description { font-style: italic; }
+#search-results span.project:after { content: " -"; }
+#search-results dd span.description { display:block; color: #808080; }
 
 #search-results dd { margin-bottom: 1em; padding-left: 20px; margin-left:0px; }
 
@@ -105,22 +103,44 @@ div#search-results-counts {float:right;}
 div#search-results-counts ul { margin-top: 0.5em; }
 div#search-results-counts  li { list-style-type:none; float: left; margin-left: 1em; }
 
-dt.issue { background-image: url(/images/ticket.png); }
-dt.issue-edit { background-image: url(/images/ticket_edit.png); }
-dt.issue-closed { background-image: url(/images/ticket_checked.png); }
-dt.issue-note { background-image: url(/images/ticket_note.png); }
-dt.changeset { background-image: url(/images/changeset.png); }
-dt.news { background-image: url(/images/news.png); }
-dt.message { background-image: url(/images/message.png); }
-dt.reply { background-image: url(/images/comments.png); }
-dt.wiki-page { background-image: url(/images/wiki_edit.png); }
-dt.attachment { background-image: url(/images/attachment.png); }
-dt.document { background-image: url(/images/document.png); }
-dt.project { background-image: url(/images/projects.png); }
-dt.time-entry { background-image: url(/images/time.png); }
-dt.cr-note { background-image: url(/images/tag_blue.png); }  
-dt.team-offer { background-image: url(/images/user_new.png); }  
-dt.member-role { background-image: url(/images/users.png); }
+div#activity dl { margin-left: 2em; }
+div#activity dt { margin-bottom: 0px; line-height: 18px; background-position: 0 0; background-repeat: no-repeat;}
+div#activity dt.me .time { border-bottom: 1px solid #999; }
+div#activity dt .description { display:block; font-style: normal; }
+div#activity dt .count { font-size: 80%; font-style: italic; }
+div#activity dd .time { color: #777; font-size: 80%; }
+div#activity dd .project { color: #777; font-size: 80%; }
+div#activity dd .title { font-weight: normal;  padding-left: 25px; }
+div#activity dd .description { font-style: normal; padding-left: 25px; }
+div#activity dd .bordered { border-left: 2px solid #ccc;}
+div#activity dd { margin-bottom: 1em; padding-left: 4px; font-size: 0.9em; margin-left:55px; background-position: 10px 0; background-repeat: no-repeat; }
+div#activity dd span.description { display:block; color: #333; }
+
+div#activity dl.sub { margin-left: 0; }
+div#activity dt.sub { margin-bottom: 0px; line-height: 18px; background-position: 0 0; background-repeat: no-repeat; }
+div#activity dt.sub .time { color: #777; font-size: 80%; }
+div#activity dt.sub .count { font-size: 80%; font-style: italic; }
+div#activity dd.sub .title { font-weight: bold; padding-left: 15px;}
+div#activity dd.sub .description { font-style: normal; padding-left: 5px; }
+div#activity dd.sub { margin-bottom: 2px; padding-left: 4px; font-size: 0.9em; margin-left:18px; line-height: 0.9em; background-position: 0 0; background-repeat: no-repeat; }
+div#activity dd.sub span.description { display:block; color: #808080; }
+
+dd.issue { background-image: url(/images/ticket.png); }
+dd.issue-edit { background-image: url(/images/ticket_edit.png); }
+dd.issue-closed { background-image: url(/images/ticket_checked.png); }
+dd.issue-note { background-image: url(/images/ticket_note.png); }
+dd.changeset { background-image: url(/images/changeset.png); }
+dd.news { background-image: url(/images/news.png); }
+dd.message { background-image: url(/images/message.png); }
+dd.reply { background-image: url(/images/comments.png); }
+dd.wiki-page, dd.wikipage { background-image: url(/images/wiki_edit.png); }
+dd.attachment { background-image: url(/images/attachment.png); }
+dd.document { background-image: url(/images/document.png); }
+dd.project { background-image: url(/images/projects.png); }
+dd.time-entry { background-image: url(/images/time.png); }
+dd.cr-note { background-image: url(/images/tag_blue.png); }  
+dd.team-offer { background-image: url(/images/user_new.png); }  
+dd.member-role { background-image: url(/images/users.png); }
 
 #search-results dt.issue.closed { background-image: url(/images/ticket_checked.png); }
 
@@ -360,6 +380,11 @@ td.username img.gravatar {
 #activity dt img.gravatar {
 	float: left;
 	margin: 0 1em 1em 0;
+}
+
+#activity dt.sub img.gravatar {
+	float: left;
+	margin: 0 2px 2px 0;
 }
 
 #activity dt,
@@ -704,159 +729,6 @@ background-image:url('/images/close.png');
 a.close-icon:hover {
 background-image:url('/images/close_hl.png');
 }
-
-/***** Gantt chart *****/
-.gantt_hdr {
-  position:absolute;
-  top:0;
-  height:16px;
-  border-top: 1px solid #c0c0c0;
-  border-bottom: 1px solid #c0c0c0;
-  border-right: 1px solid #c0c0c0;
-  text-align: center;
-  overflow: hidden;
-}
-
-.task {
-  position: absolute;
-  height:8px;
-  font-size:0.8em;
-  color:#888;
-  padding:0;
-  margin:0;
-  line-height:0.8em;
-}
-
-.task_late { background:#f66 url(/images/task_late.png); border: 1px solid #f66; }
-.task_done { background:#66f url(/images/task_done.png); border: 1px solid #66f; }  
-.task_todo { background:#aaa url(/images/task_todo.png); border: 1px solid #aaa; }
-.milestone { background-image:url(/images/milestone.png); background-repeat: no-repeat; border: 0; }
-
-/***** Icons *****/
-.icon {
-background-position: 0% 50%;
-background-repeat: no-repeat;
-padding-left: 20px;
-padding-top: 2px;
-padding-bottom: 3px;
-}
-
-.icon-add { background-image: url(/images/add.png); }
-.icon-bullet-add { background-image: url(/images/bullet_add.png); }
-.icon-bullet-delete { background-image: url(/images/bullet_delete.png); }
-.icon-edit { background-image: url(/images/edit.png); }
-.icon-copy { background-image: url(/images/copy.png); }
-.icon-duplicate { background-image: url(/images/duplicate.png); }
-.icon-del { background-image: url(/images/delete.png); }
-.icon-move { background-image: url(/images/move.png); }
-.icon-save { background-image: url(/images/save.png); }
-.icon-cancel { background-image: url(/images/cancel.png); }
-.icon-multiple { background-image: url(/images/table_multiple.png); }
-.icon-folder { background-image: url(/images/folder.png); }
-.open .icon-folder { background-image: url(/images/folder_open.png); }
-.icon-package { background-image: url(/images/package.png); }
-.icon-home { background-image: url(/images/home.png); }
-.icon-user { background-image: url(/images/user.png); }
-.icon-projects { background-image: url(/images/projects.png); }
-.icon-help { background-image: url(/images/help.png); }
-.icon-attachment  { background-image: url(/images/attachment.png); }
-.icon-history  { background-image: url(/images/history.png); }
-.icon-time  { background-image: url(/images/time.png); }
-.icon-time-add  { background-image: url(/images/time_add.png); }
-.icon-stats  { background-image: url(/images/stats.png); }
-.icon-warning  { background-image: url(/images/warning.png); }
-.icon-fav  { background-image: url(/images/fav.png); }
-.icon-fav-off  { background-image: url(/images/fav_off.png); }
-.icon-reload  { background-image: url(/images/reload.png); }
-.icon-lock  { background-image: url(/images/locked.png); }
-.icon-unlock  { background-image: url(/images/unlock.png); }
-.icon-checked  { background-image: url(/images/true.png); }
-.icon-details  { background-image: url(/images/zoom_in.png); }
-.icon-report  { background-image: url(/images/report.png); }
-.icon-comment  { background-image: url(/images/comment.png); }
-.icon-cr-cancel  { background-image: url(/images/cancel16.png); }
-.icon-cr-request { background-image: url(/images/tag_blue.png); }
-.icon-cr-take { background-image: url(/images/wrench.png); }
-.icon-cr-offer { background-image: url(/images/user_go.png); }
-.icon-cr-accept { background-image: url(/images/true.png); }
-.icon-cr-decline { background-image: url(/images/false.png); }
-.icon-cr-ignore { background-image: url(/images/ignore.gif); }
-.icon-summary  { background-image: url(/images/lightning.png); }
-
-.icon-file { background-image: url(/images/files/default.png); }
-.icon-file.text-plain { background-image: url(/images/files/text.png); }
-.icon-file.text-x-c { background-image: url(/images/files/c.png); }
-.icon-file.text-x-csharp { background-image: url(/images/files/csharp.png); }
-.icon-file.text-x-php { background-image: url(/images/files/php.png); }
-.icon-file.text-x-ruby { background-image: url(/images/files/ruby.png); }
-.icon-file.text-xml { background-image: url(/images/files/xml.png); }
-.icon-file.image-gif { background-image: url(/images/files/image.png); }
-.icon-file.image-jpeg { background-image: url(/images/files/image.png); }
-.icon-file.image-png { background-image: url(/images/files/image.png); }
-.icon-file.image-tiff { background-image: url(/images/files/image.png); }
-.icon-file.application-pdf { background-image: url(/images/files/pdf.png); }
-.icon-file.application-zip { background-image: url(/images/files/zip.png); }
-.icon-file.application-x-gzip { background-image: url(/images/files/zip.png); }
-.icon-activate  { background-image: url(/images/icon_accept.png); }
-.icon-deactivate { background-image: url(/images/cancel16.png); }
-
-img.gravatar { 
-	padding: 2px;
-  border: solid 1px #d5d5d5;
-  background: #fff;
-}
-
-div.issue img.gravatar {
-	float: right;
-	margin: 0 0 0 1em;
-	padding: 5px;
-}
-
-div.issue table img.gravatar {
-	height: 14px;
-	width: 14px;
-	padding: 2px;
-	float: left;
-	margin: 0 0.5em 0 0;
-}
-
-#history img.gravatar {
-	padding: 3px;
-	margin: 0 1.5em 1em 0;
-	float: left;
-}
-
-td.username img.gravatar {
-	float: left;
-	margin: 0 1em 0 0;
-}
-
-#activity dt img.gravatar {
-	float: left;
-	margin: 0 1em 1em 0;
-}
-
-#activity dt,
-.journal {
-	clear: left;
-}
-
-.gravatar-margin {
-  margin-left: 60px;
-}
-
-h2 img { vertical-align:middle; }
-
-.hascontextmenu { cursor: context-menu; }
-
-/***** Media print specific styles *****/
-@media print {
-  #top-menu, #header, #main-menu, #sidebar, #footer, .contextual, .other-formats { display:none; }
-  #main { background: #fff; }
-  #content { width: 99%; margin: 0; padding: 0; border: 0; background: #fff; overflow: visible !important;}
-	#wiki_add_attachment { display:none; }
-}
-
 
 /*Voting*/
 
@@ -1251,7 +1123,7 @@ table.retrospective td.subtitle { width: 5em; vertical-align: top; border-left-w
 
 body {
 	font: 12px/14px Arial, Helvetica, sans-serif;
-	color: #666;
+	color: #222;
 	text-align: left;
 	background:  url(/images/top_background.gif) repeat-x;
 }

@@ -103,6 +103,14 @@ module ApplicationHelper
 
     link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
   end
+  
+  def current_user
+    User.current
+  end
+  
+  def logged_in?
+    User.current.logged?
+  end
 
   def toggle_link(name, id, options={})
     onclick = "$('##{id}').toggle(); "
@@ -216,6 +224,74 @@ module ApplicationHelper
     end
   end
   
+  def show_detail(detail, no_html=false)
+    case detail.property
+    when 'attr'
+      label = l(("field_" + detail.prop_key.to_s.gsub(/\_id$/, "")).to_sym)   
+      case detail.prop_key
+      when 'due_date', 'start_date'
+        value = format_date(detail.value.to_date) if detail.value
+        old_value = format_date(detail.old_value.to_date) if detail.old_value
+      when 'project_id'
+        p = Project.find_by_id(detail.value) and value = p.name if detail.value
+        p = Project.find_by_id(detail.old_value) and old_value = p.name if detail.old_value
+      when 'status_id'
+        s = IssueStatus.find_by_id(detail.value) and value = s.name if detail.value
+        s = IssueStatus.find_by_id(detail.old_value) and old_value = s.name if detail.old_value
+      when 'tracker_id'
+        t = Tracker.find_by_id(detail.value) and value = t.name if detail.value
+        t = Tracker.find_by_id(detail.old_value) and old_value = t.name if detail.old_value
+      when 'assigned_to_id'
+        u = User.find_by_id(detail.value) and value = u.name if detail.value
+        u = User.find_by_id(detail.old_value) and old_value = u.name if detail.old_value
+      when 'priority_id'
+        e = IssuePriority.find_by_id(detail.value) and value = e.name if detail.value
+        e = IssuePriority.find_by_id(detail.old_value) and old_value = e.name if detail.old_value
+      when 'estimated_hours'
+        value = "%0.02f" % detail.value.to_f unless detail.value.blank?
+        old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
+      end
+    when 'attachment'
+      label = l(:label_attachment)
+    end
+
+    label ||= detail.prop_key
+    value ||= detail.value
+    old_value ||= detail.old_value
+    
+    unless no_html
+      label = content_tag('strong', label)
+      old_value = content_tag("i", h(old_value)) if detail.old_value
+      old_value = content_tag("strike", old_value) if detail.old_value and (!detail.value or detail.value.empty?)
+      if detail.property == 'attachment' && !value.blank? && a = Attachment.find_by_id(detail.prop_key)
+        # Link to the attachment if it has not been removed
+        value = link_to_attachment(a)
+      else
+        value = content_tag("i", h(value)) if value
+      end
+    end
+    
+    if !detail.value.blank?
+      case detail.property
+      when 'attr', 'cf'
+        if !detail.old_value.blank?
+          l(:text_journal_changed, :label => label, :old => old_value, :new => value)
+        else
+          l(:text_journal_set_to, :label => label, :value => value)
+        end
+      when 'attachment'
+        l(:text_journal_added, :label => label, :value => value)
+      end
+    else
+      l(:text_journal_deleted, :label => label, :old => old_value)
+    end
+  end
+  
+  def format_time_ago(updated_at)
+    "#{distance_of_time_in_words(Time.now,local_time(updated_at))} ago"
+  end
+  
+  
   def project_nested_ul(projects, &block)
     s = ''
     if projects.any?
@@ -240,10 +316,10 @@ module ApplicationHelper
     s
   end
   
-  def principals_check_box_tags(name, principals)
+  def users_check_box_tags(name, users)
     s = ''
-    principals.sort.each do |principal|
-      s << "<label>#{ check_box_tag name, principal.id, false } #{h principal}</label>\n"
+    users.sort.each do |user|
+      s << "<label>#{ check_box_tag name, user.id, false } #{h user}</label>\n"
     end
     s 
   end
@@ -683,7 +759,7 @@ module ApplicationHelper
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
-    if Setting.gravatar_enabled?
+    # if Setting.gravatar_enabled?
       options.merge!({:ssl => Setting.protocol == 'https', :default => Setting.gravatar_default})
       email = nil
       if user.respond_to?(:mail)
@@ -692,8 +768,28 @@ module ApplicationHelper
         email = $1
       end
       return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
+    # end
+  end
+  
+  def url_for_activity_stream(as)  
+    case as.object_type.downcase
+    when 'message'
+      return {:controller => 'messages', :action => 'show', :board_id => 'guess', :id => as.object_id}
+    when 'wikipage'
+      return {:controller => 'wiki', :action => 'index', :id => as.project_id, :page => as.object_name}
+    else
+      return {:controller => as.object_type.downcase.pluralize, :action => 'show', :id => as.object_id}
     end
   end
+  
+  def action_times(count)  
+    count = count.to_i
+    return nil if count < 2
+    return "(twice)" if count == 2
+    return "(#{as.count.to_s} times)" if count > 2 
+  end
+  
+  
   
   def avatar_from_id(user_id, options = { })
     avatar(User.find(user_id), options)
