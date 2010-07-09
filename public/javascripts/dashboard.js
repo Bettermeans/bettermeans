@@ -3631,6 +3631,11 @@ function new_dash_data(){
 }
 
 function new_dash_data_response(data){
+	if (data == null) {
+		save_local_data();
+		return;
+	}
+	
 	for(var i = 0; i < data.length; i++ ){
 		
 		item = data[i];
