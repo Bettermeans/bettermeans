@@ -30,6 +30,10 @@ class Message < ActiveRecord::Base
   
   after_create :add_author_as_watcher
   
+  def project_id
+    board.project.id
+  end
+  
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_messages, project)
   end

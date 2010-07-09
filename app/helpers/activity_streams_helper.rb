@@ -12,8 +12,7 @@ module ActivityStreamsHelper
     css_classes = "wiki"
     css_classes << " gravatar-margin" if Setting.gravatar_enabled?
     
-    html + content_tag('div', content, :id => "journal-#{journal.id}-notes", :class => css_classes)
+    html << content #_tag('div', content, :id => "journal-#{journal.id}-notes", :class => css_classes)
     
   end
-  
 end

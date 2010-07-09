@@ -7,7 +7,12 @@
 
 # NOTE: The activites keys must be unique
 ACTIVITY_STREAM_ACTIVITIES = { 
-    :move_issue => 'Move an issue around',
+    :issues => 'Issues',
+    :news => 'News',
+    :documents => 'Documents',
+    :wikis => 'Wikis',
+    :messages => 'Discussion',
+    :workstreams => 'Workstreams',
     :download => 'Download a torrent'
     }
 

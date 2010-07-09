@@ -38,22 +38,28 @@ class IssuesController < ApplicationController
   #                :@destroyed_categories, :name, :set_my_feeds, :follow_category,
   #                {:total => -1 }           
 
-  log_activity_streams :current_user, :name, :added, :@issue, :subject, :new, :issues, {}
-  log_activity_streams :current_user, :name, :finished, :@issue, :subject, :finish, :issues, {}
-  log_activity_streams :current_user, :name, :started, :@issue, :subject, :start, :issues, {}
-  log_activity_streams :current_user, :name, :gave_up, :@issue, :subject, :release, :issues, {}
-  log_activity_streams :current_user, :name, :canceled, :@issue, :subject, :cancel, :issues, {}
-  log_activity_streams :current_user, :name, :joined, :@issue, :subject, :join, :issues, {}
-  log_activity_streams :current_user, :name, :left, :@issue, :subject, :leave, :issues, {}
-  log_activity_streams :current_user, :name, :updated, :@issue, :subject, :edit, :issues, 
-                      {:indirect_object => :@journal,
-                        :indirect_object_name_method => :notes,
-                        :indirect_object_phrase => ' details: ' }
+  log_activity_streams :current_user, :name, :added, :@issue, :subject, :new, :issues, {:object_description_method => :description}
+  log_activity_streams :current_user, :name, :finished, :@issue, :subject, :finish, :issues, {
+    :object_description_method => :description,
+    :indirect_object => :@journal,
+    :indirect_object_description_method => :notes,
+    :indirect_object_phrase => ' details: ' }
+
+  log_activity_streams :current_user, :name, :started, :@issue, :subject, :start, :issues, {:object_description_method => :description}
+  log_activity_streams :current_user, :name, :gave_up, :@issue, :subject, :release, :issues, {:object_description_method => :description}
+  log_activity_streams :current_user, :name, :canceled, :@issue, :subject, :cancel, :issues, {
+    :object_description_method => :description,
+    :indirect_object => :@journal,
+    :indirect_object_description_method => :notes,
+    :indirect_object_phrase => ' details: ' }
+  log_activity_streams :current_user, :name, :joined, :@issue, :subject, :join, :issues, {:object_description_method => :description}
+  log_activity_streams :current_user, :name, :left, :@issue, :subject, :leave, :issues, {:object_description_method => :description}
+  log_activity_streams :current_user, :name, :updated, :@issue, :subject, :edit, :issues,{
+    :object_description_method => :description,
+    :indirect_object => :@journal,
+    :indirect_object_description_method => :notes,
+    :indirect_object_phrase => 'GENERATEDETAILS' } #special value generates details for each property change
   
-  # log_activity_streams :current_user, :name, :moved, :@issue, :subject, :move, :issues, {}#, 
-          # {:indirect_object => :@target_project,
-          #   :indirect_object_name_method => :name,
-          #   :indirect_object_phrase => 'to' }
   log_activity_streams :current_user, :name, :restarted, :@issue, :subject, :restart, :issues, {}
   # log_activity_streams :current_user, :name, :ed, :@issue, :subject, :, :issues, {}
   # log_activity_streams :current_user, :name, :ed, :@issue, :subject, :, :issues, {}
@@ -284,7 +290,7 @@ class IssuesController < ApplicationController
       # @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
 
       @notes = params[:notes]
-      journal = @issue.init_journal(User.current, @notes)
+      @journal = @issue.init_journal(User.current, @notes)
       
       # # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
       # if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]

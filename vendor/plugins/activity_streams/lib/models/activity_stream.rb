@@ -15,6 +15,8 @@ class ActivityStream < ActiveRecord::Base
   belongs_to :actor, :polymorphic => true
   belongs_to :object, :polymorphic => true
   belongs_to :indirect_object, :polymorphic => true
+  
+  before_create :write_html
 
   # Finds the recent activities for a given actor, and honors
   # the users activity_stream_preferences.  Please see the README
@@ -71,24 +73,21 @@ class ActivityStream < ActiveRecord::Base
     self.update_attribute(:status, DELETED)
   end
 
-  # The "Name" fo the actor based on the actor_name_method passed into 
-  # the activity_stream_log controller method
-  def actor_name
-    self.actor.nil? ? '' : self.actor.send(self.actor_name_method)
-  end
-
-  # The "Name" fo the object based on the object_name_method passed into 
-  # the activity_stream_log controller method
-  def object_name
-    self.object.nil? ? '' : self.object.send(self.object_name_method)
-  end
-
-  def self.find_identical(actor, object, verb, activity) # :nodoc:
-    logger.info("actor #{actor} object #{object}")
-    ActivityStream.find(:first, :conditions => [
-      'actor_id = ? AND actor_type = ? AND object_id = ? AND object_type = ? AND verb = ? AND activity = ? AND updated_at >= ? AND project_id = ? AND status = 0', 
-      actor.id, actor.class.name, object.id, object.class.name, verb.to_s, 
-      activity.to_s, Time.now - 8.hours, object.project_id])
+  # # The "Name" fo the actor based on the actor_name_method passed into 
+  # # the activity_stream_log controller method
+  # def actor_name
+  #   self.actor.nil? ? '' : self.actor.send(self.actor_name_method)
+  # end
+  # 
+  # # The "Name" fo the object based on the object_name_method passed into 
+  # # the activity_stream_log controller method
+  # def object_name
+  #   self.object.nil? ? '' : self.object.send(self.object_name_method)
+  # end
+  
+  #Pre-populates html for quicker writing of stream
+  def write_html
+    
   end
 
 end

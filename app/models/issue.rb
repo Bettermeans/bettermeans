@@ -3,6 +3,8 @@
 #
 
 class Issue < ActiveRecord::Base
+  include SingleLogActivityStreams
+  
   belongs_to :project
   belongs_to :tracker
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
@@ -487,7 +489,14 @@ class Issue < ActiveRecord::Base
       self.status = updated
       self.retro_id = nil
 
-      logger.info("almost in")
+      # write_single_activity_stream(User.current,:name,issue,:subject,:moved,:move, 0, @target_project, {
+      #           :indirect_object_name_method => :name,
+      #           :indirect_object_phrase => ' to ' })
+      
+      write_single_activity_stream(User.sysadmin,:name,self,:subject,:changed_status,"update_to_#{updated.name}", 0, updated,{
+                :indirect_object_name_method => :name,
+                :indirect_object_phrase => ' to ' })
+      
       
       if self.status == IssueStatus.accepted 
         self.assigned_to.add_as_contributor_if_new(self.project) unless self.assigned_to_id.nil?
