@@ -114,7 +114,7 @@ module Net
   # LDAP servers are typically used to access information about people,
   # but also very often about such items as printers, computers, and other
   # resources. To reflect this, LDAP uses the term <i>entity,</i> or less
-  # commonly, <i>principal,</i> to denote its basic data-storage unit.
+  # commonly, <i>user,</i> to denote its basic data-storage unit.
   # 
   #
   # === Distinguished Names

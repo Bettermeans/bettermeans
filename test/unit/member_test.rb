@@ -71,7 +71,7 @@ class MemberTest < ActiveSupport::TestCase
     
     context "of user" do
       setup do
-        @member = Member.create!(:project => Project.find(2), :principal => User.find(9), :role_ids => [1, 2])
+        @member = Member.create!(:project => Project.find(2), :user => User.find(9), :role_ids => [1, 2])
       end
       
       context "by deleting membership" do
@@ -98,7 +98,7 @@ class MemberTest < ActiveSupport::TestCase
     context "of group" do
       setup do
         group = Group.find(10)
-        @member = Member.create!(:project => Project.find(2), :principal => group, :role_ids => [1, 2])
+        @member = Member.create!(:project => Project.find(2), :user => group, :role_ids => [1, 2])
         group.users << User.find(9)
       end
 
