@@ -2,13 +2,13 @@
 
 <div class="splitcontentleft">
   <%= textilizable Setting.welcome_text %>
-  <% if @news.any? %>
-  <div class="news box">
-	<h3><%=l(:label_news_latest)%></h3>
-		<%= render :partial => 'news/news', :collection => @news %>
-		<%= link_to l(:label_news_view_all), :controller => 'news' %>
-  </div>
-  <% end %>
+  
+  <div class="activity box">
+    <h3><%=l(:label_activity_latest)%></h3>  
+    <%= render :partial => 'activity_streams/activity_stream_list', :locals => {:activities_by_item => @activities_by_item} %>
+    <p><%= link_to l(:label_activity_view_all), :controller => 'projects', :action => 'activity' %></p>
+  </div>  
+  
 </div>
 
 <div class="splitcontentright">
@@ -25,6 +25,15 @@
 		</ul>
 	</div>
 	<% end %>
+	
+	<% if @news.any? %>
+  <div class="news box">
+	<h3><%=l(:label_news_latest)%></h3>
+		<%= render :partial => 'news/news', :collection => @news %>
+		<%= link_to l(:label_news_view_all), :controller => 'news' %>
+  </div>
+  <% end %>
+  
   
     <% if @projects.any? %>
 	<div class="projects box">

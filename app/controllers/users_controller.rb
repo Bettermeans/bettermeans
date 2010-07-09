@@ -47,8 +47,8 @@ class UsersController < ApplicationController
       reputation.project_id == 0 || reputation.project.is_public? || (User.current.community_member_of?(membership.project))
     end
     
-    events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
-    @events_by_day = events.group_by(&:event_date)
+    @activities_by_item = ActivityStream.fetch(@user, nil, nil, nil)
+    
     
     if @user != User.current && !User.current.admin? && @memberships.empty? && events.empty?
       render_404

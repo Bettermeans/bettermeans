@@ -771,6 +771,26 @@ module ApplicationHelper
     # end
   end
   
+  def url_for_activity_stream(as)  
+    case as.object_type.downcase
+    when 'message'
+      return {:controller => 'messages', :action => 'show', :board_id => 'guess', :id => as.object_id}
+    when 'wikipage'
+      return {:controller => 'wiki', :action => 'index', :id => as.project_id, :page => as.object_name}
+    else
+      return {:controller => as.object_type.downcase.pluralize, :action => 'show', :id => as.object_id}
+    end
+  end
+  
+  def action_times(count)  
+    count = count.to_i
+    return nil if count < 2
+    return "(twice)" if count == 2
+    return "(#{as.count.to_s} times)" if count > 2 
+  end
+  
+  
+  
   def avatar_from_id(user_id, options = { })
     avatar(User.find(user_id), options)
   end

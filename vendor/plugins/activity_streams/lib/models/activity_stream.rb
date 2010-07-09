@@ -66,6 +66,29 @@ class ActivityStream < ActiveRecord::Base
       AND activity_streams.activity = p.activity \
       AND location = '#{location.to_s}'"
   end
+  
+  def self.fetch(user_id, project, with_subprojects, limit)
+    
+    length = Setting::ACTIVITY_STREAM_LENGTH
+    
+    if limit
+      begin; @length = params[:length].to_i; rescue; end
+    end
+    
+    with_subprojects ||= true
+    
+    conditions = {}
+    conditions[:actor_id] = user_id unless user_id.nil?
+    conditions[:project_id] = project.id if project && !with_subprojects
+    conditions[:project_id] = project.sub_project_array if project && with_subprojects
+    
+    activities_by_item = ActivityStream.all(:conditions => conditions, :limit => length).group_by {|a| a.object_type + a.object_id.to_s}
+    activities_by_item.each_pair do |key,value| 
+      activities_by_item[key] = value.sort_by{|i| - i[:updated_at].to_i}
+    end
+    
+    activities_by_item.sort_by{|g| - g[1][0][:updated_at].to_i}
+  end
 
   # Soft Delete in as some activites are necessary for site stats
   def soft_destroy

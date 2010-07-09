@@ -1,33 +1,11 @@
 <h2><%= @author.nil? ? l(:label_activity) : l(:label_user_activity, link_to_user(@author)) %></h2>
 <p class="subtitle"><%#= l(:label_date_from_to, :start => format_date(@date_to - @days), :end => format_date(@date_to-1)) %></p>
-
-<div id= "activity">
-<h2>All Site ActivityStreams</h2>
-
-<dl>
-<% @activities_by_item.each do |key, value| %>
-<%= render :partial => 'activity_streams/activity_stream_group', :locals => {:asg_name => key, :asg => value} %> 
-<% end %>
-</dl>
-
-</div>
+<br>
+<%= render :partial => 'activity_streams/activity_stream_list', :locals => {:activities_by_item => @activities_by_item} %>
 
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if @activities_by_item.empty? %>
 
-<!-- <div style="float:left;">
-<%#= link_to_remote(('&#171; ' + l(:label_previous)), 
-                   {:update => "content", :url => params.merge(:from => @date_to - @days - 1), :method => :get, :complete => 'window.scrollTo(0,0)'},
-                   {:href => url_for(params.merge(:from => @date_to - @days - 1)),
-                    :title => l(:label_date_from_to, :start => format_date(@date_to - 2*@days), :end => format_date(@date_to - @days - 1))}) %>
-</div>
-<div style="float:right;">
-<%#= link_to_remote((l(:label_next) + ' &#187;'), 
-                   {:update => "content", :url => params.merge(:from => @date_to + @days - 1), :method => :get, :complete => 'window.scrollTo(0,0)'},
-                   {:href => url_for(params.merge(:from => @date_to + @days - 1)),
-                    :title => l(:label_date_from_to, :start => format_date(@date_to), :end => format_date(@date_to + @days - 1))}) unless @date_to >= Date.today %>
-</div>
-&nbsp;
-<%# other_formats_links do |f| %>
+<!-- <%# other_formats_links do |f| %>
   <%#= f.link_to 'Atom', :url => params.merge(:from => nil, :key => User.current.rss_key) %>
 <%# end %>
 
@@ -50,6 +28,6 @@
 <%#= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
 <p><%#= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
 <%# end %>
-<%# end %> -->
-
+<%# end %> 
+ -->
 <% html_title(l(:label_activity), @author) -%>
