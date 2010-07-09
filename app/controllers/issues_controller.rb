@@ -43,15 +43,15 @@ class IssuesController < ApplicationController
     :object_description_method => :description,
     :indirect_object => :@journal,
     :indirect_object_description_method => :notes,
-    :indirect_object_phrase => ' details: ' }
+    :indirect_object_phrase => '' }
 
   log_activity_streams :current_user, :name, :started, :@issue, :subject, :start, :issues, {:object_description_method => :description}
-  log_activity_streams :current_user, :name, :gave_up, :@issue, :subject, :release, :issues, {:object_description_method => :description}
+  log_activity_streams :current_user, :name, :gave_up_on, :@issue, :subject, :release, :issues, {:object_description_method => :description}
   log_activity_streams :current_user, :name, :canceled, :@issue, :subject, :cancel, :issues, {
     :object_description_method => :description,
     :indirect_object => :@journal,
     :indirect_object_description_method => :notes,
-    :indirect_object_phrase => ' details: ' }
+    :indirect_object_phrase => '' }
   log_activity_streams :current_user, :name, :joined, :@issue, :subject, :join, :issues, {:object_description_method => :description}
   log_activity_streams :current_user, :name, :left, :@issue, :subject, :leave, :issues, {:object_description_method => :description}
   log_activity_streams :current_user, :name, :updated, :@issue, :subject, :edit, :issues,{
@@ -520,7 +520,7 @@ class IssuesController < ApplicationController
         if r = issue.move_to(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
           write_single_activity_stream(User.current,:name,issue,:subject,:moved,:move, 0, @target_project, {
                     :indirect_object_name_method => :name,
-                    :indirect_object_phrase => ' to ' })
+                    :indirect_object_phrase => 'to ' })
           moved_issues << r
         else
           unsaved_issue_ids << issue.id

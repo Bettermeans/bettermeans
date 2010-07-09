@@ -22,7 +22,7 @@ class MessagesController < ApplicationController
 
   log_activity_streams :current_user, :name, :replied_to, :@topic, :subject, :reply, :messages, {:indirect_object => :@reply,
             :indirect_object_name_method => :body,
-            :indirect_object_phrase => ' ' }
+            :indirect_object_phrase => '' }
   
 
   # Show a topic and its replies

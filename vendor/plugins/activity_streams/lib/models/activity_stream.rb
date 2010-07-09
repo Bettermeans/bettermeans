@@ -15,9 +15,8 @@ class ActivityStream < ActiveRecord::Base
   belongs_to :actor, :polymorphic => true
   belongs_to :object, :polymorphic => true
   belongs_to :indirect_object, :polymorphic => true
+  belongs_to :project
   
-  before_create :write_html
-
   # Finds the recent activities for a given actor, and honors
   # the users activity_stream_preferences.  Please see the README
   # for an example usage.
@@ -84,10 +83,5 @@ class ActivityStream < ActiveRecord::Base
   # def object_name
   #   self.object.nil? ? '' : self.object.send(self.object_name_method)
   # end
-  
-  #Pre-populates html for quicker writing of stream
-  def write_html
-    
-  end
 
 end

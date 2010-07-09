@@ -13,7 +13,7 @@ class NewsController < ApplicationController
   log_activity_streams :current_user, :name, :announced, :@news, :title, :new, :news, {}#{:indirect_object => :@project,
   log_activity_streams :current_user, :name, :commented_on, :@news, :title, :add_comment, :news, {:indirect_object => :@comment,
               :indirect_object_name_method => :comments,
-              :indirect_object_phrase => ' comment details ' }
+              :indirect_object_phrase => '' }
 
   
   

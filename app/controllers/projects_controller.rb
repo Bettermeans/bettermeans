@@ -308,30 +308,30 @@ class ProjectsController < ApplicationController
 
     @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
     
-    @activity = ActivityStream.all.group_by {|a| a.object_type + a.object_id.to_s}
-    @activity.each_pair do |key,value| 
-      @activity[key] = value.sort_by{|i| - i[:updated_at].to_i}
+    @activities_by_item = ActivityStream.all.group_by {|a| a.object_type + a.object_id.to_s}
+    @activities_by_item.each_pair do |key,value| 
+      @activities_by_item[key] = value.sort_by{|i| - i[:updated_at].to_i}
     end
     
-    @activity = @activity.sort_by{|g| - g[1][0][:updated_at].to_i}
+    @activities_by_item = @activities_by_item.sort_by{|g| - g[1][0][:updated_at].to_i}
     
-    if events.empty? || stale?(:etag => [events.first, User.current])
-      respond_to do |format|
-        format.html { 
-          @events_by_day = events.group_by(&:event_date)
-          render :layout => false if request.xhr?
-        }
-        format.atom {
-          title = l(:label_activity)
-          if @author
-            title = @author.name
-          elsif @activity.scope.size == 1
-            title = l("label_#{@activity.scope.first.singularize}_plural")
-          end
-          render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
-        }
-      end
-    end
+    # if events.empty? || stale?(:etag => [events.first, User.current])
+    #   respond_to do |format|
+    #     format.html { 
+    #       @events_by_day = events.group_by(&:event_date)
+    #       render :layout => false if request.xhr?
+    #     }
+    #     format.atom {
+    #       title = l(:label_activity)
+    #       if @author
+    #         title = @author.name
+    #       elsif @activity.scope.size == 1
+    #         title = l("label_#{@activity.scope.first.singularize}_plural")
+    #       end
+    #       render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
+    #     }
+    #   end
+    # end
     
   rescue ActiveRecord::RecordNotFound
     render_404

@@ -481,21 +481,21 @@ class Issue < ActiveRecord::Base
   #refreshes issue status, returns true if status changed
   def update_status
     original = self.status
-    updated = self.updated_status
+    @updated = self.updated_status
     
-    if (original.id != updated.id)
+    if (original.id != @updated.id)
       admin = User.find(:first,:conditions => {:login => "admin"})
       journal = self.init_journal(admin)
-      self.status = updated
+      self.status = @updated
       self.retro_id = nil
 
       # write_single_activity_stream(User.current,:name,issue,:subject,:moved,:move, 0, @target_project, {
       #           :indirect_object_name_method => :name,
       #           :indirect_object_phrase => ' to ' })
       
-      write_single_activity_stream(User.sysadmin,:name,self,:subject,:changed_status,"update_to_#{updated.name}", 0, updated,{
+      write_single_activity_stream(User.sysadmin,:name,self,:subject,:changed,"update_to_#{@updated.name}", 0, @updated,{
                 :indirect_object_name_method => :name,
-                :indirect_object_phrase => ' to ' })
+                :indirect_object_phrase => "From #{original.name} to #{@updated.name} " })
       
       
       if self.status == IssueStatus.accepted 
