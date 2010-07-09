@@ -17,7 +17,7 @@
   <%= render :partial => 'indirect_object', :locals => {:activity_stream => activity_stream} %>
 <% end %>
 
-<%= activity_stream.updated_at.strftime(fmt='%d %b') -%>
+<%= activity_stream.updated_at.strftime(fmt='at %I:%M%p') -%>
 <br>
 <% end %>
 </p>
