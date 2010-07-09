@@ -34,8 +34,7 @@ class ProjectsController < ApplicationController
   include QueriesHelper
   include ProjectsHelper
   
-  log_activity_streams :current_user, :name, :added, :@project, :name, :add, :workstreams, {}
-  log_activity_streams :current_user, :name, :edited, :@project, :name, :edit, :workstreams, {}
+  log_activity_streams :current_user, :name, :edited, :@project, :name, :edit, :workstreams, {:object_description_method => :description}
   
   
   # Lists visible projects
@@ -71,6 +70,7 @@ class ProjectsController < ApplicationController
       @project.is_public = Setting.default_projects_public?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
       if validate_parent_id && @project.save
+        write_single_activity_stream(User.current, :name, @project, :name, :created, :workstreams, 0, nil,{:object_description_method => :description})
         # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
         @project.set_parent!(@parent.id) unless @parent.nil?
         if @parent.nil?
@@ -119,7 +119,6 @@ class ProjectsController < ApplicationController
       redirect_to_project_menu_item(@project, params[:jump]) && return
     end
     
-    # @subprojects = @project.children.visible.find(:all, :order => 'name ASC')
     @subprojects = @project.children.active.find(:all, :order => 'name ASC')
     @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
     @trackers = @project.rolled_up_trackers
@@ -136,6 +135,9 @@ class ProjectsController < ApplicationController
     @key = User.current.rss_key
     
     @motions = @project.motions.viewable_by(User.current.position_for(@project)).allactive
+    
+    @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], 30)    
+    
     
   end
   
@@ -297,24 +299,10 @@ class ProjectsController < ApplicationController
     @total_credits = @credits.group_by{|credit| credit.owner_id}
   end
 
+#params that can be passed: length, with_subprojects, and author
   def activity
-    @length = Setting::ACTIVITY_STREAM_LENGTH
     
-    if params[:length]
-      begin; @lenght = params[:length].to_i; rescue; end
-    end
-
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
-
-    @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
-    
-    @activities_by_item = ActivityStream.all.group_by {|a| a.object_type + a.object_id.to_s}
-    @activities_by_item.each_pair do |key,value| 
-      @activities_by_item[key] = value.sort_by{|i| - i[:updated_at].to_i}
-    end
-    
-    @activities_by_item = @activities_by_item.sort_by{|g| - g[1][0][:updated_at].to_i}
-    
+    @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], params[:length])    
     # if events.empty? || stale?(:etag => [events.first, User.current])
     #   respond_to do |format|
     #     format.html { 

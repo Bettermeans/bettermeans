@@ -10,9 +10,12 @@ class NewsController < ApplicationController
   before_filter :find_optional_project, :only => :index
   accept_key_auth :index
   
-  log_activity_streams :current_user, :name, :announced, :@news, :title, :new, :news, {}#{:indirect_object => :@project,
-  log_activity_streams :current_user, :name, :commented_on, :@news, :title, :add_comment, :news, {:indirect_object => :@comment,
-              :indirect_object_name_method => :comments,
+  log_activity_streams :current_user, :name, :announced, :@news, :title, :new, :news, {:object_description_method => :summary}
+  log_activity_streams :current_user, :name, :edited, :@news, :title, :edit, :news, {:object_description_method => :summary}
+  log_activity_streams :current_user, :name, :commented_on, :@news, :title, :add_comment, :news, {
+              :object_description_method => :summary,
+              :indirect_object => :@comment,
+              :indirect_object_description_method => :comments,
               :indirect_object_phrase => '' }
 
   

@@ -10,9 +10,9 @@ class DocumentsController < ApplicationController
   
   helper :attachments
   
-  log_activity_streams :current_user, :name, :added, :@document, :title, :new, :documents, {}
-  log_activity_streams :current_user, :name, :updated, :@document, :title, :edit, :documents, {}
-  log_activity_streams :current_user, :name, :deleted, :@document, :title, :destroy, :documents, {}
+  log_activity_streams :current_user, :name, :added, :@document, :title, :new, :documents, {:object_description_method => :description}
+  log_activity_streams :current_user, :name, :updated, :@document, :title, :edit, :documents, {:object_description_method => :description}
+  log_activity_streams :current_user, :name, :deleted, :@document, :title, :destroy, :documents, {:object_description_method => :description}
   
   
   def index
