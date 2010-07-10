@@ -50,7 +50,7 @@ class UsersController < ApplicationController
     @activities_by_item = ActivityStream.fetch(@user, nil, nil, nil)
     
     
-    if @user != User.current && !User.current.admin? && @memberships.empty? && events.empty?
+    if @user != User.current && !User.current.admin? && @memberships.empty?
       render_404
       return
     end
