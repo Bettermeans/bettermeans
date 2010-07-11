@@ -7,12 +7,9 @@ class MemberRole < ActiveRecord::Base
   belongs_to :member
   belongs_to :role
   
-  # after_create :remove_contributor_role_if_core
   after_create :send_notification
 
   after_destroy :remove_member_if_empty
-  after_destroy :remove_role_from_group_users
-  # after_destroy :add_contributor_role_if_core
   
   validates_presence_of :role
   
