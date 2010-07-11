@@ -1,0 +1,961 @@
+@import url("gt-rounded-corners.css");
+@import url("gt-fixed.css");
+
+/*
+Template:	GT-502
+File:		gt-styles.css - This contains all the Gooey styles for the template.
+
+All the styles are separted into the following groups:
+HTML, Body - for the html and body tags
+Layout - any style that defines how the site is laid out (position and size of objects)
+Modules - styles for modules
+Nav - navigation bar
+Headings - headings like h1, h2, etc
+Text Styles - Styles for text
+Lists - unordered and ordered lists
+Forms - html forms
+Links - links
+Misc - anything that doesn't fit elsewhere
+*/
+
+/* @group HTML, Body */
+html {
+	background-color: #e2eaee;
+}
+body {
+	font-family: Helvetica, sans-serif;
+}
+/* @end */
+
+/* @group Layout */
+/* Heading Styles */
+.gt-hd {
+	background: url(../images/gt/hd-bkg.jpg) repeat-x 0 100%;
+	padding-top: 1px;
+}
+.gt-hd-top {
+	overflow: hidden;
+	border-bottom: 1px solid #3b2716;
+	padding: 0 0 10px 0;
+}
+.gt-hd .gt-logo {
+	margin-left: 35px;
+	margin-bottom: 0;
+	padding-top: 10px;
+	color: #fff;
+	font-size: 215%;
+	font-weight: normal;
+	float: left;
+	display: inline;
+}
+.gt-hd .gt-logo .gt-leaf {
+	vertical-align: top;
+}
+.gt-hd .gt-leaf-watermark {
+	background: url(../images/gt/leaves-watermark.png) no-repeat 99% 0;
+}
+
+/* Body Styles */
+.gt-bd {
+	padding: 25px 35px;
+}
+
+/* Standard 2 Column */
+.gt-cols .gt-content {
+	width: 65%;
+	float: left;
+	display: inline;
+}
+.gt-cols .gt-sidebar {
+	width: 30%;
+	float: right;
+	display: inline;
+}
+
+/* Left Sidebar, 2 Column */
+.gt-cols-2 .gt-sidebar {
+	width: 30%;
+	float: left;
+	display: inline;
+}
+.gt-cols-2 .gt-content {
+	width: 65%;
+	float: right;
+	display: inline;
+}
+
+/* 3 Equal Columns Layout */
+.gt-cols-3 .gt-sidebar-left {
+	width: 31%;
+	margin-right: 3.5%;
+	float: left;
+	display: inline;
+}
+.gt-cols-3 .gt-content {
+	width: 31%;
+	float: left;
+	display: inline;
+}
+.gt-cols-3 .gt-sidebar {
+	width: 31%;
+	float: right;
+	display: inline;
+}
+
+/* Fixed Width Layout */
+.gt-fixed .gt-bd {
+	padding-left: 0!important;
+	padding-right: 0!important;
+}
+.gt-fixed .gt-nav {
+	margin-left: 0!important;
+}
+.gt-fixed .gt-nav a {
+	padding-left: 0!important;
+}
+.gt-fixed .gt-logo {
+	margin-left: 0!important;
+}
+.gt-fixed .gt-search {
+	margin-right: 0!important;
+}
+.gt-fixed .gt-util-box {
+	margin-right: 0!important;
+}
+
+/* Left and Right Columns */
+.gt-left-col {
+	width: 48%;
+	float: left;
+	display: inline;
+}
+.gt-right-col {
+	width: 48%;
+	float: right;
+	display: inline;
+}
+
+/* Footer Styles */
+.gt-footer {
+	clear: both;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	font-size: 93%;
+	color: #666666;
+	margin: 20px 35px;
+	text-align: center;
+	background-color: #f4f7f8;
+}
+.gt-footer-inner {
+	padding: 10px;
+}
+.gt-footer p {
+	margin: 0;
+}
+/* @end */
+
+/* @group Modules */
+/* Width Styles */
+.gt-width-33 {
+	width: 33%;
+}
+.gt-width-66 {
+	width: 66%;
+}
+.gt-width-99 {
+	width: 99%;
+}
+.gt-width-25 {
+	width: 25%;
+}
+.gt-width-50 {
+	width: 50%;
+}
+.gt-width-75 {
+	width: 75%;
+}
+.gt-width-100 {
+	width: 100%;
+}
+
+
+/* Utility Box Styles */
+.gt-util-box {
+	margin-right: 20px;
+	color: #eee;
+	font-size: 93%;
+	float: right;
+	display: inline;
+}
+.gt-util-box p {
+	margin: 0;
+}
+.gt-util-box a:link, .gt-util-box a:visited {
+	color: #eee;
+	text-decoration: none;
+}
+.gt-util-box a:hover {
+	text-decoration: underline;
+}
+.gt-util-box-inner {
+	padding: .35em 2em;
+}
+.gt-util-separator {
+	padding: 0 .35em;
+}
+.gt-util-box li {
+	margin: 0;
+	padding: 0;
+	float: left;
+	list-style-type: none;
+}
+
+
+/* Default List Table */
+.gt-content-box {
+	background-color: #fff;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 1px;
+}
+.gt-content-box-padding {
+	padding: 15px;
+}
+.gt-table {
+	width: 100%;
+}
+.gt-table th {
+	font-weight: bold;
+	font-size: 100%;
+	padding: 7px 10px;
+	color: #333;
+	border-bottom: 1px solid #ccc;
+}
+.gt-table td {
+	padding: 7px 10px;
+	border-top: 1px solid #ccc;
+	color: #333;
+	vertical-align: top;
+}
+.gt-table tr:hover td {
+	background-color: #f4f7f8;
+}
+.gt-table tr:first-child td {
+	border: none;
+}
+.gt-table h4 {
+	font-size: 108%;
+	color: #365b6d;
+	margin-bottom: 0;
+}
+.gt-table a:link, .gt-table a:visited {
+	color: #365b6d;
+	text-decoration: none;
+}
+.gt-table td a:hover {
+	text-decoration: underline;
+}
+.gt-table-edit {
+	margin: 0;
+}
+.gt-table-edit a {
+	display: block;
+	padding: 1px 0 1px 22px;
+	background: url(../images/famfamfam/icons/pencil.png) no-repeat 0 50%;
+}
+.gt-table-edit a:link, .gt-table-edit a:visited {
+	color: #7898aa;
+}
+.gt-table-edit a:hover {
+	color: #365b6d;
+	text-decoration: none!important;
+}
+
+/* Table Buttons */
+.gt-table-buttons {
+	margin: 10px 0 40px 0;
+}
+.gt-table-buttons:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+.gt-table-buttons {display: inline-block;}
+/* Hides from IE-mac \*/
+* html .gt-table-buttons {height: 1%;}
+.gt-table-buttons {display: block;}
+/* End hide from IE-mac */
+
+/* Table Pager, Table Select Box */
+.gt-table-controls {
+	font-size: 93%;
+	padding: 7px 10px;
+}
+.gt-content-box .gt-table-controls {
+	border-bottom: 1px solid #ccc;
+}
+.gt-content-box .gt-table-controls-btm {
+	border-bottom: none!important;
+	border-top: 1px solid #ccc;
+}
+.gt-table-controls .gt-table-picker {
+	float: left;
+	display: inline;
+}
+.gt-table-controls .gt-table-pager {
+	margin: 0 2px 0 0;
+	color: #aaa;
+	padding: 3px 0 0 0;
+	float: right;
+	display: inline;
+}
+.gt-table-controls .gt-table-pager a {
+	padding: 0 2px;
+}
+.gt-table-controls .gt-table-pager a:link, .gt-table-controls .gt-table-pager a:visited {
+	color: #666666;
+	text-decoration: none;
+}
+.gt-table-controls .gt-table-pager a.current:link, .gt-table-controls .gt-table-pager a.current:visited {
+	color: #333;
+	text-decoration: underline;
+}
+.gt-table-controls .gt-table-pager a:hover {
+	text-decoration: underline;
+}
+
+/* Default Table Columns */
+.gt-table td {
+	width: auto;
+}
+.gt-table th.gt-table-col-checkbox {
+	width: 20px;
+}
+
+/* Categories Sub Table */
+.gt-table-categories th {
+	font-weight: normal;
+	color: #666666;
+	text-align: right;
+	padding: 0 10px 5px 0;
+	vertical-align: top;
+	font-size: 85%;
+	border: none;
+}
+.gt-table-categories td {
+	text-align: left;
+	font-size: 85%;
+	font-weight: bold;
+	color: #666666;
+	vertical-align: top;
+	padding: 0 0 5px 0;
+	border: none;
+}
+.gt-table-categories a:link, .gt-table-categories a:visited {
+	color: #666666;
+	text-decoration: none;
+}
+.gt-table-categories a:hover {
+	text-decoration: underline;
+}
+
+/* Action Links */
+.gt-table .gt-table-action-list {
+	color: #999;
+	margin: 0;
+}
+.gt-table .gt-table-action-list img {
+	vertical-align: text-bottom;
+}
+.gt-table .gt-table-action-list .gt-separator {
+	margin: 0 3px;
+}
+.gt-table .gt-table-action-list a:link, .gt-table .gt-table-action-list a:visited {
+	color: #7898aa;
+}
+.gt-table .gt-table-action-list a:hover {
+	color: #365b6d;
+	text-decoration: none!important;
+}
+
+/* User Table */
+.gt-user-table .gt-avatar {
+	width: 1%;
+}
+.gt-user-table p {
+	font-size: 85%;
+}
+
+/* Login Box Styles */
+.gt-login-hd {
+	width: 430px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 250px;
+	margin-bottom: 10px;
+	font-size: 161.6%;
+	font-weight: bold;
+	color: #0e2029;
+}
+.gt-login-box {
+	width: 350px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1.5em 3em;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	border-radius: 5px;
+}
+.gt-login-box .gt-form .gt-form-text {
+	font-size: 116%;
+}
+.gt-login-box .gt-remember-me {
+	display: block;
+	padding: 12px 0 0 0;
+	font-size: 85%;
+	font-weight: normal;
+	color: #666666;
+	float: left;
+	display: inline;
+}
+.gt-forgot-password {
+	font-size: 85%;
+	clear: both;
+	margin: 0;
+	padding: 5px 0 0 0;
+}
+
+
+/* Sidebar Box */
+.gt-sidebar-box {
+	padding: .75em;
+	border-radius: 5px;
+	margin-bottom: 20px;
+}
+.gt-sidebar-box-gray {
+	background: url(../images/gt/sidenav-gray-bkg.gif) repeat-x 0 0 #333;
+}
+.gt-sidebar-box-blue {
+	background: url(../images/gt/sidenav-blue-bkg.gif) repeat-x 0 0 #002f49;
+}
+
+/* Sidebar Content */
+.gt-sidebar-content {
+	margin-bottom: 20px;
+	color: #333;
+}
+.gt-sidebar-content h3 {
+	font-size: 108%;
+	font-weight: bold;
+	color: #365b6d;
+	border-bottom: 1px solid #ccc;
+	margin: 0 0 5px 0;
+}
+.gt-sidebar-content p {
+	font-size: 85%;
+}
+.gt-sidebar-content li {
+	font-size: 85%;
+}
+.gt-sidebar-content li li {
+	font-size: 100%;
+}
+
+/* Sidebar List */
+.gt-sidebar-list {
+	margin-bottom: 20px;
+}
+.gt-sidebar-list ul, .gt-sidebar-list li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.gt-sidebar-list h3 {
+	font-size: 108%;
+	font-weight: bold;
+	color: #365b6d;
+	margin: 0 0 5px 0;
+}
+.gt-sidebar-list .gt-sidebar-list-content {
+	border: 1px solid #ccc;
+	background-color: #fff;
+	border-radius: 5px;
+	padding: 1px;
+}
+.gt-sidebar-list .gt-sidebar-list-row {
+	padding: 1em;
+	border-top: 1px solid #e5e6eb;
+	color: #666666;
+	clear: both;
+}
+.gt-sidebar-list .gt-sidebar-list-row:hover {
+	background-color: #f4f7f8;
+}
+.gt-sidebar-list .gt-sidebar-list-row:first-child {
+	border: none;
+}
+.gt-sidebar-list .gt-sidebar-list-row h4 {
+	margin: 0;
+	font-size: 93%;
+	color: #365b6d;
+}
+.gt-sidebar-list .gt-sidebar-list-row h4 a:link, .gt-sidebar-list .gt-sidebar-list-row h4 a:visited {
+	color: #365b6d;
+	text-decoration: none;
+}
+.gt-sidebar-list .gt-sidebar-list-row h4 a:hover {
+	text-decoration: underline;
+}
+.gt-sidebar-list .gt-sidebar-list-row p {
+	font-size: 85%;
+	margin: 0;
+}
+
+/* Avatars */
+.gt-avatar-small {
+	margin: 0 10px 10px 0;
+	float: left;
+	display: inline;
+}
+
+/* Buttons */
+.gt-btn-gray-mini, .gt-btn-gray-small, .gt-btn-gray-medium, .gt-btn-gray-large, .gt-btn-blue-mini, .gt-btn-blue-small, .gt-btn-blue-medium, .gt-btn-blue-large {
+	display: block;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	font-weight: bold;
+	color: #fff!important;
+	text-decoration: none!important;
+	font-size: 13px;
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+.gt-btn-gray-mini {
+	width: 37px;
+	background: url(../images/gt/btn-gray-mini.png) no-repeat 0 0 transparent;
+}
+.gt-btn-gray-small {
+	width: 70px;
+	background: url(../images/gt/btn-gray-small.png) no-repeat 0 0 transparent;
+}
+.gt-btn-gray-medium {
+	width: 126px;
+	background: url(../images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;
+}
+.gt-btn-gray-large {
+	width: 185px;
+	background: url(../images/gt/btn-gray-large.png) no-repeat 0 0 transparent;
+}
+
+.gt-btn-blue-mini {
+	width: 37px;
+	background: url(../images/gt/btn-blue-mini.png) no-repeat 0 0 transparent;
+}
+.gt-btn-blue-small {
+	width: 70px;
+	background: url(../images/gt/btn-blue-small.png) no-repeat 0 0 transparent;
+}
+.gt-btn-blue-medium {
+	width: 126px;
+	background: url(../images/gt/btn-blue-medium.png) no-repeat 0 0 transparent;
+}
+.gt-btn-blue-large {
+	width: 185px;
+	background: url(../images/gt/btn-blue-large.png) no-repeat 0 0 transparent;
+}
+
+/* Button Positioning */
+.gt-btn-left {
+	margin-right: 10px;
+	float: left;
+	display: inline;
+}
+.gt-btn-right {
+	margin-left: 10px;
+	float: right;
+	display: inline;
+}
+/* @end */
+
+/* @group Nav */
+/* Navbar */
+.gt-navbar {
+	background: url(../images/gt/navbar-bkg.png) repeat 0 0;
+	margin-bottom: 2px;
+}
+
+/* Main Navigation */
+.gt-nav {
+	margin: 0 0 0 14px;
+	width: 70%;
+	float: left;
+	display: inline;
+}
+.gt-nav ul {
+	margin: 0;
+	padding: 0;
+	float: left;
+	display: inline;
+}
+.gt-nav ul li {
+	margin: 0;
+	padding: 0;
+	float: left;
+	display: inline;
+}
+.gt-nav ul li a {
+	display: block;
+	padding: 0 1.5em;
+	font-weight: bold;
+	line-height: 42px;
+	font-size: 116%;
+	float: left;
+	display: inline;
+}
+.gt-nav a:link, .gt-nav a:visited {
+	color: #a6cbdc;
+	text-decoration: none;
+}
+.gt-nav a:hover, .gt-nav a.gt-active:link, .gt-nav a.gt-active:visited, .gt-nav .gt-active a:link, .gt-nav .gt-active a:visited {
+	color: #fff;
+	text-decoration: none;
+}
+
+/* Sidebar Navigation */
+.gt-sidebar-nav {
+	margin-bottom: 20px;
+	border-radius: 5px;
+}
+.gt-sidebar-nav ul {
+	margin: 0;
+	padding: 0 1px 1px 1px;
+}
+.gt-sidebar-nav ul li {
+	padding: 0 0 0 0;
+	margin: 0;
+	list-style-type: none;
+}
+.gt-sidebar-nav ul li a {
+	display: block;
+	padding: .6em .6em .6em 1.8em;
+}
+.gt-sidebar-nav a:link, .gt-sidebar-nav a:visited {
+	color: #eee;
+	text-decoration: none;
+}
+.gt-sidebar-nav a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+.gt-sidebar-nav h3 {
+	font-size: 108%;
+	margin: 0;
+	padding: .6em .6em .6em 1.2em;
+	color: #fff;
+	font-weight: bold;
+}
+
+/* Brown Sidebar Nav */
+.gt-sidebar-nav-blue {
+	background: url(../images/gt/sidenav-blue-bkg.gif) repeat-x 0 0 #002f49;
+}
+.gt-sidebar-nav-blue li {
+	border-top: 1px solid #1b5c7e;
+}
+.gt-sidebar-nav-blue a:hover {
+	background-color: #1a5472;
+}
+
+/* Green Sidebar Nav */
+.gt-sidebar-nav-gray {
+	background: url(../images/gt/sidenav-gray-bkg.gif) repeat-x 0 0 #333;
+}
+.gt-sidebar-nav-gray li {
+	border-top: 1px solid #6b6b6b;
+}
+.gt-sidebar-nav-gray a:hover {
+	background-color: #5b5b5b;
+}
+/* @end */
+
+/* @group Headings */
+h1 {
+	font-size: 182%;
+	color: #0e2029;
+	margin-bottom: 10px;
+}
+
+/* H2 */
+h2 {
+	font-size: 161.6%;
+	color: #0e2029;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+h2.gt-table-head, h2.gt-form-head {
+	margin-bottom: 6px;
+}
+h3 {
+	font-size: 138.5%;
+	color: #365b6d;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+h4 {
+	font-size: 123.1%;
+	color: #333;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+h5 {
+	font-size: 123.1%;
+	color: #333;
+	margin-bottom: 10px;
+}
+h6 {
+	font-size: 100%;
+	color: #365b6d;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+/* @end */
+
+/* @group Text Styles */
+address {
+	margin-bottom: 10px;
+}
+blockquote {
+	margin: 10px 40px 20px 40px;
+	font-style: italic;
+}
+code {
+	font-family: monospace;
+}
+dl {
+	margin-left: 30px;
+	margin-bottom: 20px;
+}
+dl dt {
+	font-weight: bold;
+}
+dl dd {
+	margin-left: 10px;
+	margin-bottom: 5px;
+}
+em {
+	font-style: italic;
+}
+p {
+	margin-bottom: 10px;
+	line-height: 130%;
+}
+q {
+	font-style: italic;
+}
+strong {
+	font-weight: bold;
+}
+tt {
+	font-family: monospace;
+}
+
+
+/* Custom Text Classes */
+.gt-cancel {
+	color: #666666;
+}
+.gt-cancel a:link, .gt-cancel a:visited {
+	color: #cc0000;
+	text-decoration: underline;
+}
+.gt-cancel a:hover {
+	text-decoration: none;
+}
+
+.gt-error {
+	background-color: #cc0000;
+	padding: .5em 1em;
+	color: #fff;
+}
+.gt-notice-box {
+	border: 3px solid #aaa;
+	padding: 1em;
+	background-color: #fff;
+}
+.gt-success {
+	background-color: #47790a;
+	padding: .5em 1em;
+	color: #fff;
+}
+/* @end */
+
+/* @group Lists */
+ol {
+	margin-bottom: 20px;
+}
+ol li {
+	list-style-type: decimal;
+	margin-left: 40px;
+	margin-bottom: 2px;
+}
+ul {
+	margin-bottom: 20px;
+}
+ul li {
+	list-style-type: disc;
+	margin-left: 35px;
+	margin-bottom: 2px;
+}
+/* @end */
+
+/* @group Forms */
+/* Default Form */
+.gt-form {
+
+}
+.gt-form.gt-content-box {
+	padding: 15px 15px 5px 15px;
+	margin-bottom: 40px;
+}
+.gt-form .gt-form-text, .gt-form .gt-form-textarea {
+	border: 1px solid #ccc;
+	background-color: #f4f7f8;
+	padding: 5px 2px;
+	font-size: 108%;
+	width: 99%;
+}
+.gt-form .gt-form-text:focus, .gt-form .gt-form-textarea:focus {
+	background-color: #fff;
+}
+.gt-form label {
+	font-size: 100%;
+	color: #365b6d;
+	display: block;
+	margin-bottom: 3px;
+	font-weight: bold;
+}
+.gt-form option {
+	font-size: 108%;
+}
+.gt-form .gt-form-row {
+	margin-bottom: 10px;
+}
+
+/* Auto clear the form row */
+.gt-form .gt-form-row:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+.gt-form-row {display: inline-block;}
+
+/* Hides from IE-mac \*/
+* html .gt-form-row {height: 1%;}
+.gt-form-row {display: block;}
+/* End hide from IE-mac */
+/* End auto clearing the form row */
+
+.gt-form .gt-form-row-inline {
+	clear: left;
+}
+.gt-form .gt-form-row-inline label {
+	width: 30%;
+	margin-right: 4%;
+	padding: 1% 0;
+	float: left;
+	display: inline;
+}
+.gt-form .gt-form-element-label {
+	font-size: 93%;
+	margin-bottom: 5px;
+	padding-left: 3px;
+	font-weight: normal;
+	color: #666666;
+}
+.gt-form .gt-form-note {
+	font-size: 93%;
+	margin: 0 0 5px 0;
+	font-style: italic;
+	color: #666666;
+}
+.gt-form .gt-form-row-inline .gt-form-text {
+	width: 63%;
+}
+.gt-form .gt-form-radio, .gt-form .gt-form-checkbox {
+	margin-right: 3px;
+}
+.gt-form .gt-submit-btn {
+	margin: 0 10px 0 0;
+	float: left;
+	display: inline;
+}
+.gt-form .gt-cancel {
+	line-height: 37px;
+	margin-bottom: 0;
+}
+
+/* Search Box */
+.gt-search {
+	background: url(../images/gt/search-box-left.png) no-repeat 0 0;
+	height: 22px;
+	padding: 0 0 0 20px;
+}
+.gt-search-inner {
+	height: 19px;
+	background: url(../images/gt/search-box-right.png) no-repeat 100% 0;
+	padding: 3px 0 0 0;
+}
+.gt-search .gt-search-text {
+	border: none;
+	background-color: transparent;
+	font-size: 93%;
+	color: #999;
+	padding: 0 0 0 5px;
+	margin-top: 2px;
+	width: 95%;
+}
+.gt-navbar .gt-search {
+	width: 20%;
+	margin-top: 9px;
+	margin-right: 35px;
+	float: right;
+	display: inline;
+}
+/* @end */
+
+/* @group Links - link visited hover active */
+a:link, a:visited {
+	color: #365b6d;
+	text-decoration: underline;
+}
+a:hover {
+	text-decoration: none;
+}
+/* @end */
+
+/* @group Misc */
+.clear {
+	clear: both;
+}
+.clearfix:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+.clearfix {display: inline-block;}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+/* @end */
