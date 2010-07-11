@@ -1,7 +1,7 @@
 <h2><%=l(:label_attachment_new)%></h2>
 
 <%= error_messages_for 'attachment' %>
-<div class="box">
+<div class="gt-content-box">
 <% form_tag({ :action => 'add_file', :id => @project }, :multipart => true, :class => "tabular") do %>
 
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>

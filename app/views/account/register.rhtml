@@ -3,7 +3,7 @@
 <% form_tag({:action => 'register'}, :class => "tabular") do %>
 <%= error_messages_for 'user' %>
 
-<div class="box">
+<div class="gt-content-box">
 <!--[form:user]-->
 <% if @user.auth_source_id.nil? %>
 <p><label for="user_login"><%=l(:field_login)%> <span class="required">*</span></label>

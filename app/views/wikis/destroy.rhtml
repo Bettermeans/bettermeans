@@ -1,6 +1,6 @@
 <h2><%=l(:label_confirmation)%></h2>
 
-<div class="box"><center>
+<div class="gt-content-box"><center>
 <p><strong><%= @project.name %></strong><br /><%=l(:text_wiki_destroy_confirmation)%></p>
 
 <% form_tag({:controller => 'wikis', :action => 'destroy', :id => @project}) do %>
