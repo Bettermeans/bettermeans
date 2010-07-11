@@ -12,7 +12,7 @@
 <div class="splitcontentleft">
   
   <% if @motions.any? %>
-  <div class="motions box">
+  <div class="motions gt-content-box">
     <h3><%=l(:label_motions_active)%></h3>  
     <%= render :partial => 'motions/motions', :collection => @motions %>
     <p><%= link_to l(:label_motions_view_all), :controller => 'motions', :action => 'index', :project_id => @project %></p>
@@ -20,7 +20,7 @@
   <% end %>
   
   <% if @subprojects.any? %>
-	<div class="box">    
+	<div class="gt-content-box">    
     <h3 class="icon22 icon22-projects"><%=l(:label_subproject_plural)%>:</h3>
     <table class="projects">
  	      <% @subprojects.each do |p| %>
@@ -36,7 +36,7 @@
   <% end %>
   
   <% if @news.any? && authorize_for('news', 'index') %>
-  <div class="news box">
+  <div class="news gt-content-box">
     <h3><%=l(:label_news_latest)%></h3>  
     <%= render :partial => 'news/news', :collection => @news %>
     <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
@@ -52,7 +52,7 @@
 </div>
 
 <div class="splitcontentright">
-  <div class="activity box">
+  <div class="activity gt-content-box">
     <h3><%=l(:label_activity_latest)%></h3>  
     <%= render :partial => 'activity_streams/activity_stream_list', :locals => {:activities_by_item => @activities_by_item} %>
     <p><%= link_to l(:label_activity_view_all), :controller => 'projects', :action => 'activity', :project_id => @project %></p>

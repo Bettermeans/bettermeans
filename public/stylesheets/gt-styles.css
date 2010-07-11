@@ -959,3 +959,7 @@ a:hover {
 .clearfix {display: block;}
 /* End hide from IE-mac */
 /* @end */
+
+/* Custom */
+.splitcontentleft{float:left; width:49%;}
+.splitcontentright{float:right; width:49%;}

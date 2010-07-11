@@ -3,7 +3,7 @@
 <% labelled_tabular_form_for :issue, @issue, 
                              :html => {:multipart => true, :id => 'issue-form'} do |f| %>
     <%= error_messages_for 'issue' %>
-    <div class="box">
+    <div class="gt-content-box">
     <%= render :partial => 'issues/form', :locals => {:f => f} %>
     </div>
     <%= submit_tag l(:button_create) %>

@@ -2,7 +2,7 @@
 
 <% form_tag do %>
 <%= @issues.collect {|i| hidden_field_tag 'ids[]', i.id } %>
-<div class="box">
+<div class="gt-content-box">
 <p><strong><%= l(:text_destroy_time_entries_question, :hours => number_with_precision(@hours, :precision => 2)) %></strong></p>
 <p>
 <label><%= radio_button_tag 'todo', 'destroy', true %> <%= l(:text_destroy_time_entries) %></label><br />

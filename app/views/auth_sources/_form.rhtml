@@ -1,6 +1,6 @@
 <%= error_messages_for 'auth_source' %>
 
-<div class="box">
+<div class="gt-content-box">
 <!--[form:auth_source]-->
 <p><label for="auth_source_name"><%=l(:field_name)%> <span class="required">*</span></label>
 <%= text_field 'auth_source', 'name'  %></p>
@@ -27,7 +27,7 @@
 <%= check_box 'auth_source', 'onthefly_register' %></p>
 </div>
 
-<fieldset class="box"><legend><%=l(:label_attribute_plural)%></legend>
+<fieldset class="gt-content-box"><legend><%=l(:label_attribute_plural)%></legend>
 <p><label for="auth_source_attr_login"><%=l(:field_login)%> <span class="required">*</span></label>
 <%= text_field 'auth_source', 'attr_login', :size => 20  %></p>
 

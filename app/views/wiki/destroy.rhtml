@@ -1,7 +1,7 @@
 <h2><%=h @page.pretty_title %></h2>
 
 <% form_tag({}) do %>
-<div class="box">
+<div class="gt-content-box">
 <p><strong><%= l(:text_wiki_page_destroy_question, :descendants => @descendants_count) %></strong></p>
 <p><label><%= radio_button_tag 'todo', 'nullify', true %> <%= l(:text_wiki_page_nullify_children) %></label><br />
 <label><%= radio_button_tag 'todo', 'destroy', false %> <%= l(:text_wiki_page_destroy_children) %></label>

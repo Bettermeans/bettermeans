@@ -3,7 +3,7 @@
 <% form_tag({:controller => 'documents', :action => 'new', :project_id => @project}, :class => "tabular", :multipart => true) do %>
 <%= render :partial => 'documents/form' %>
 
-<div class="box">
+<div class="gt-content-box">
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 </div>
 
