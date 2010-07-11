@@ -1,0 +1,11 @@
+/*
+Template:	GT-502
+File:		gt-fixed.css - If you want a fixed width layout, add "gt-fixed" to the body tag of your page. You can change
+			the width of the page below. This file is automatically included on all app pages via gt-styles.css.
+*/
+
+.gt-fixed .gt-fixed-wrap, .gt-fixed .gt-bd, .gt-fixed .gt-footer {
+	width: 960px!important;
+	margin-left: auto!important;
+	margin-right: auto!important;
+}

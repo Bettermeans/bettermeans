@@ -135,21 +135,21 @@ Redmine::AccessControl.map do |map|
   
 end
 
-Redmine::MenuManager.map :top_menu do |menu|
-  menu.push :home, :home_path
-  menu.push :my_page, { :controller => 'my', :action => 'page' }, :if => Proc.new { User.current.logged? }
-  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_enterprise_plural
-  menu.push :activity, { :controller => 'activity', :action => 'index' }
-  menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
-  #menu.push :help, Redmine::Info.help_url, :last => true
-end
+# Redmine::MenuManager.map :top_menu do |menu|
+#   menu.push :home, :home_path
+#   menu.push :my_page, { :controller => 'my', :action => 'page' }, :if => Proc.new { User.current.logged? }
+#   menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_enterprise_plural
+#   menu.push :activity, { :controller => 'activity', :action => 'index' }
+#   menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
+#   #menu.push :help, Redmine::Info.help_url, :last => true
+# end
 
-Redmine::MenuManager.map :account_menu do |menu|
-  menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
-  menu.push :register, { :controller => 'account', :action => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
-  menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
-  menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
-end
+# Redmine::MenuManager.map :account_menu do |menu|
+#   menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
+#   menu.push :register, { :controller => 'account', :action => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
+#   menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
+#   menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
+# end
 
 Redmine::MenuManager.map :application_menu do |menu|
   # Empty
