@@ -9,7 +9,7 @@
 <% form_tag({}, :id => 'move_form') do %>
 <%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
 
-<div class="box tabular">
+<div class="gt-content-box tabular">
 <p><label for="new_project_id"><%=l(:field_project)%>:</label>
 <%= select_tag "new_project_id",
                project_tree_options_for_select(@allowed_projects, :selected => @target_project),

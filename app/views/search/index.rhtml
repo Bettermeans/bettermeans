@@ -1,6 +1,6 @@
 <h2><%= l(:label_search) %></h2>
 
-<div class="box">
+<div class="gt-content-box">
 <% form_tag({}, :method => :get) do %>
 <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
 <%= javascript_tag "Field.focus('search-input')" %>
