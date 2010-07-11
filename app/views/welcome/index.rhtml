@@ -3,8 +3,8 @@
 <div class="splitcontentleft">
   <%= textilizable Setting.welcome_text %>
   
-  <div class="activity box">
-    <h3><%=l(:label_activity_latest)%></h3>  
+  <h2 class="gt-table-head"><%=l(:label_activity_latest)%></h2>  
+  <div class="activity gt-content-box">
     <%= render :partial => 'activity_streams/activity_stream_list', :locals => {:activities_by_item => @activities_by_item} %>
     <p><%= link_to l(:label_activity_view_all), :controller => 'projects', :action => 'activity' %></p>
   </div>  
@@ -13,8 +13,8 @@
 
 <div class="splitcontentright">
     <% if @enterprises.any? %>
+  <h2 class="gt-table-head icon22 icon22-projects"><%=l(:label_enterprise_latest)%></h2>
 	<div class="gt-content-box">
-	<h3 class="icon22 icon22-projects"><%=l(:label_enterprise_latest)%></h3>
 		<ul>
 		<% for project in @enterprises %>
 			<li>
@@ -24,20 +24,22 @@
 		<% end %>
 		</ul>
 	</div>
+	<br>
 	<% end %>
 	
 	<% if @news.any? %>
-  <div class="news box">
-	<h3><%=l(:label_news_latest)%></h3>
+  <h2 class="gt-table-head"><%=l(:label_news_latest)%></h2>
+  <div class="news gt-content-box">
 		<%= render :partial => 'news/news', :collection => @news %>
 		<%= link_to l(:label_news_view_all), :controller => 'news' %>
   </div>
+  <br>
   <% end %>
   
   
     <% if @projects.any? %>
-	<div class="projects box">
-	<h3><%=l(:label_project_latest)%></h3>
+  <h2 class="gt-table-head"><%=l(:label_project_latest)%></h2>
+	<div class="projects gt-content-box">
 		<ul>
 		<% for project in @projects %>
 			<li>
@@ -47,6 +49,7 @@
 		<% end %>
 		</ul>
 	</div>
+	<br>
 	<% end %>
 </div>	
 
