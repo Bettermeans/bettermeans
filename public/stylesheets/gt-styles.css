@@ -963,3 +963,43 @@ a:hover {
 /* Custom */
 .splitcontentleft{float:left; width:49%;}
 .splitcontentright{float:right; width:49%;}
+
+.loading {
+	padding-left: 26px;
+	background-position: 0% 40%;
+	background-repeat: no-repeat;
+	background-image: url(/images/loading.gif);
+	font-style: italic;
+}
+
+.clickable{
+	cursor:pointer;
+}
+
+.help_question_mark{
+ 	cursor:pointer;
+	margin-bottom: 3px;
+	margin-left: 4px;
+}
+
+
+.point-scale{
+	float:left;
+	padding-left:15px;
+}
+
+.left{
+	float:left;
+}
+
+.right{
+	float:right;
+}
+
+.hidden{
+	display:none;
+}
+
+.tip{
+	width:300px;
+}
