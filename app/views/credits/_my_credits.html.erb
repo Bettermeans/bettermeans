@@ -1,6 +1,8 @@
 <span id="my_credits_partial">
-<h3><%=l(:label_my_credits) %></h3>
-  <table class="list">
+<h2 class="gt-table-head"><%=l(:label_my_credits) %></h2>
+<div class="gt-content-box">
+  <table border="0" class="gt-table gt-user-table">
+		<tbody>
     <%  @credits_by_day = @credits.group_by{|credit| credit.issued_on.to_date}
         @credits_by_day.sort { |b,a| a[0] <=> b[0] }
         @credits_by_day.each do |cbd|
@@ -20,5 +22,7 @@
     <% @date = "<td></td>" %>
   <% end %>
   <% end %>
+  </tbody>
   </table>
+</div>
 </span>
