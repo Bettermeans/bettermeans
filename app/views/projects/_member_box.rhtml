@@ -3,11 +3,21 @@
 @users_by_role = @project.root.users_by_role
 if @users_by_role.any? 
   %>
+<h2 class="gt-table-head"><%=l(:label_team)%></h2>	
 <div class="members gt-content-box">
-	<h3 class="icon22 icon22-users"><%=l(:label_team)%></h3>	
-	<p><% @users_by_role.keys.sort.each do |role| %>
-	<%=h role %>: <%= @users_by_role[role].sort.collect{|u| link_to_user u}.join(", ") %><br />
-	<% end %></p>
-	<p><%= link_to l(:label_team_view_all), :controller => 'projects', :action => 'team', :id => @project %></p>    
+  <table border="0" class="gt-table gt-user-table">
+		<tbody>
+    	<% @users_by_role.keys.sort.each do |role| %>
+    	<tr>
+    	  <th><%=h role %></th>
+    	  <td><%= @users_by_role[role].sort.collect{|u| link_to_user u}.join(", ") %></td>
+      </tr>
+    	<% end %>
+	  </tbody>
+	</table>
 </div>
+<div class="gt-table-buttons">
+	<%= link_to l(:label_team_view_all), {:controller => 'projects', :action => 'team', :project_id => @project} , :class => "gt-btn-blue-large" %>
+</div>
+
 <% end %>
