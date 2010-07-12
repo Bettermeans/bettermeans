@@ -2395,8 +2395,8 @@ function show_comment(item){
 
 //resize heights of container and panels
 function resize(){
-	panel_height = $(window).height() - $('#header').height() - $('#top-menu').height();
-	$("#content").height(panel_height - 35);
+	panel_height = $(window).height() - $('.gt-hd').height() + $('.gt-footer').height() ;
+	// $("#content").height(panel_height - 35);
 	$(".list").height(panel_height - 75);
 	$("#panels").show();
 	recalculate_widths();
