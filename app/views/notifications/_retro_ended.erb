@@ -1,23 +1,30 @@
 <!-- Notification sent to users by admin when a retrospective is ended -->
-<div class="notification notification-retro-ended" id="notification_<%= @notification.id %>">
-<table>
-  <tr>
-    <td style="vertical-align: top; padding: 23px 10px 0px 0px">
-    <%= avatar_from_id(@notification.sender_id) %>
-    </td>
-    <td>
-<h4><%= link_to "#{l("label_retro_ended")} ##{@notification.source_id}", {:controller => "projects", :action => "dashboard", :show_retro_id => @notification.source_id, :id => project.id},{:target => "_blank"} %> </h4>
-<h5><%= l("label_from_ago" , :author => link_to_user_from_id(@notification.sender_id), :age => time_tag(@notification.created_on)) %></h5>
+  <tr class="notification notification-retro-ended" id="notification_<%= @notification.id %>">
+      <td class="gt-avatar">
+        <%= avatar_from_id(@notification.sender_id, :size => '53') %>
+      </td>
+      <td>
+  <h4>
+<%= link_to "#{l("label_retro_ended")} ##{@notification.source_id}", {:controller => "projects", :action => "dashboard", :show_retro_id => @notification.source_id, :id => project.id},{:target => "_blank"} %> 
+</h4>
 <%= l(:text_retro_ended_for) %>
 <strong><%= project.name %></strong>
 <%= l(:text_retro_ended) %>
-<br>
-<br>
+<p class="gt-table-action-list">
 <%= link_to(l(:button_view), {:controller => "projects", :action => "dashboard", :show_retro_id => @notification.source_id, :id => project.id}, {:id =>'cr_button', :class => 'icon icon-cr-offer',  :target => "_blank"})%>
 &nbsp;
 <%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
+</p>
     </td>
+        <td>
+    			<!-- Categories Sub Table -->
+    			<table border="0" class="gt-table-categories">
+    				<tr>
+    					<td><%= link_to_user_from_id(@notification.sender_id) %></td>
+    				</tr>
+    				<tr>
+    					<td><%= since_tag(@notification.created_on) %> ago</td>
+    				</tr>
+    			</table>
+    		</td>
     </tr>
-    </table>
-
-</div>

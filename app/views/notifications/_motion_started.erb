@@ -1,21 +1,24 @@
 <!-- Notification sent to users by admin when a motion is started -->
-<div class="notification notification-motion-started" id="notification_<%= @notification.id %>">
-<table>
-  <tr>
-    <td style="vertical-align: top; padding: 23px 10px 0px 0px">
-    <%= avatar_from_id(@notification.sender_id) %>
+<tr class="notification notification-motion-started" id="notification_<%= @notification.id %>">
+      <td class="gt-avatar">
+        <%= avatar_from_id(@notification.sender_id, :size => '53') %>
+      </td>
+      <td>
+<h4><%= link_to l("label_motion_started", :title => motion_title, :id => @notification.source_id), {:controller => "motions", :action => "show", :id => @notification.source_id, :project_id => enterprise_id},{:target => "_blank"} %> </h4>
+<p class="gt-table-action-list">
+<%= link_to(l(:button_participate), {:controller => "motions", :action => "show", :id => @notification.source_id, :project_id => enterprise_id}, {:id =>'cr_button', :class => 'icon icon-cr-offer', :target => "_blank"})%>
+<%= link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_ignored}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
+</p>
     </td>
     <td>
-<h4><%= link_to l("label_motion_started", :title => motion_title, :id => @notification.source_id), {:controller => "motions", :action => "show", :id => @notification.source_id, :project_id => enterprise_id},{:target => "_blank"} %> </h4>
-<h5><%= l("label_from_ago" , :author => link_to_user_from_id(@notification.sender_id), :age => time_tag(@notification.created_on)) %></h5>
-<%= motion_description %>
-<br>
-<br>
-<%= link_to(l(:button_participate), {:controller => "motions", :action => "show", :id => @notification.source_id, :project_id => enterprise_id}, {:id =>'cr_button', :class => 'icon icon-cr-offer', :target => "_blank"})%>
-&nbsp;
-<%= link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_ignored}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
-    </td>
-    </tr>
-    </table>
-
-</div>
+			<!-- Categories Sub Table -->
+			<table border="0" class="gt-table-categories">
+				<tr>
+					<td><%= link_to_user_from_id(@notification.sender_id) %></td>
+				</tr>
+				<tr>
+					<td><%= since_tag(@notification.created_on) %> ago</td>
+				</tr>
+			</table>
+		</td>
+</tr>
