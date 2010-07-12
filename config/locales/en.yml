@@ -623,6 +623,7 @@ en:
   label_feed_plural: Feeds
   label_changes_details: Details of all changes
   label_issue_tracking: Work Breakdown
+  label_boards: Discussion
   label_spent_time: Spent time
   label_f_hour: "{{value}} hour"
   label_f_hour_plural: "{{value}} hours"

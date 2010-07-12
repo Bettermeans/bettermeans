@@ -168,13 +168,13 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :credits, { :controller => 'projects', :action => 'credits' }, 
       :if => Proc.new { |p| p.root? }
   menu.push :activity, { :controller => 'projects', :action => 'activity' }
-  menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
-  menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
+  menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id, :caption => :label_boards#,
   menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }#, 
               # :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
-  menu.push :discussions, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id#,
               # :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
-  menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_attachment_plural
+  menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
+  menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
+  # menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_attachment_plural
   menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
 end
 
