@@ -1,4 +1,4 @@
-<h2><%= l(:label_home) %></h2>
+<h1><%= l(:label_home) %></h1>
 
 <div class="splitcontentleft">
   <%= textilizable Setting.welcome_text %>
@@ -6,8 +6,11 @@
   <h2 class="gt-table-head"><%=l(:label_activity_latest)%></h2>  
   <div class="activity gt-content-box">
     <%= render :partial => 'activity_streams/activity_stream_list', :locals => {:activities_by_item => @activities_by_item} %>
-    <p><%= link_to l(:label_activity_view_all), :controller => 'projects', :action => 'activity' %></p>
   </div>  
+  <div class="gt-table-buttons">
+    <%= link_to l(:label_activity_view_all), {:controller => 'projects', :action => 'activity'} , :class => "gt-btn-blue-large" %>
+	</div>
+	
   
 </div>
 
@@ -15,41 +18,100 @@
     <% if @enterprises.any? %>
   <h2 class="gt-table-head icon22 icon22-projects"><%=l(:label_enterprise_latest)%></h2>
 	<div class="gt-content-box">
-		<ul>
-		<% for project in @enterprises %>
-			<li>
-			<%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %><!-- (<%#= since_tag(project.created_on) %>) --> <span class="spark right" max="<%= project.activity_line_max %>"><%= project.activity_line_show(60) %></span>
-			<%= textilizable project.short_description, :project => project %>
-			</li>
-		<% end %>
-		</ul>
+	  <table border="0" class="gt-table gt-user-table">
+			<tbody>
+				  <% for project in @enterprises %>
+				  <tr>
+      			<td>
+      			<h4><%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %></h4>
+      			<p><%= textilizable project.short_description, :project => project %></p>
+            <!-- <p class="gt-table-edit"><a href="">Edit</a></p> -->
+						</td>
+						<td>
+  						<!-- Categories Sub Table -->
+  						<table border="0" class="gt-table-categories">
+  							<tr>
+  								<td colspan="2"><span class="spark right" max="<%= project.activity_line_max %>"><%= project.activity_line_show(30) %></span></td>
+  							</tr>
+  							<tr>
+  								<td colspan="2">&nbsp;</td>
+  							</tr>
+  							<tr>
+  								<th>Created:</th>
+  								<td><%= since_tag(project.created_on) %> ago</td>
+  							</tr>
+  							<tr>
+  								<th>Team:</th>
+  								<td><%= project.all_members.count %> members</td>
+  							</tr>
+  						</table>
+  					</td>
+      		</tr>
+      		<% end %>
+					
+			</tbody>
+		</table>
+	</div><!-- /Content Box -->
+	<div class="gt-table-buttons">
+	  <%= link_to "Browse all enterprises", {:controller => :projects, :action => :index}, :class => "gt-btn-blue-large" %>
 	</div>
-	<br>
 	<% end %>
 	
 	<% if @news.any? %>
   <h2 class="gt-table-head"><%=l(:label_news_latest)%></h2>
   <div class="news gt-content-box">
-		<%= render :partial => 'news/news', :collection => @news %>
-		<%= link_to l(:label_news_view_all), :controller => 'news' %>
+	  <table border="0" class="gt-table gt-user-table">
+			<tbody>
+		    <%= render :partial => 'news/news', :collection => @news %>
+		  </tbody>
+		</table>
   </div>
-  <br>
+  <div class="gt-table-buttons">
+		<%= link_to l(:label_news_view_all), {:controller => 'news'} , :class => "gt-btn-blue-large" %>
+	</div>
   <% end %>
   
   
     <% if @projects.any? %>
   <h2 class="gt-table-head"><%=l(:label_project_latest)%></h2>
 	<div class="projects gt-content-box">
-		<ul>
-		<% for project in @projects %>
-			<li>
-			<%= link_to h(project.name_with_ancestors), :controller => 'projects', :action => 'show', :id => project %> (<%= format_time(project.created_on) %>)
-			<%= textilizable project.short_description, :project => project %>
-			</li>
-		<% end %>
-		</ul>
+	  <table border="0" class="gt-table gt-user-table">
+			<tbody>
+		    <% for project in @projects %>
+    		  <tr>
+      			<td>
+      			<h4><%= link_to h(project.name_with_ancestors), :controller => 'projects', :action => 'show', :id => project %></h4>
+      			<p><%= textilizable project.short_description, :project => project %></p>
+            <!-- <p class="gt-table-edit"><a href="">Edit</a></p> -->
+						</td>
+						<td>
+  						<!-- Categories Sub Table -->
+  						<table border="0" class="gt-table-categories">
+  							<tr>
+  								<td colspan="2"><span class="spark right" max="<%= project.activity_line_max %>"><%= project.activity_line_show(30) %></span></td>
+  							</tr>
+  							<tr>
+  								<td colspan="2">&nbsp;</td>
+  							</tr>
+  							<tr>
+  								<th>Created:</th>
+  								<td><%= since_tag(project.created_on) %> ago</td>
+  							</tr>
+  							<tr>
+  								<th>Team:</th>
+  								<td><%= project.all_members.count %> members</td>
+  							</tr>
+  						</table>
+  					</td>
+      		</tr>
+      		<% end %>
+					
+			</tbody>
+		</table>
+	</div><!-- /Content Box -->
+	<div class="gt-table-buttons">
+	  <%= link_to "Browse all workstreams", {:controller => :projects, :action => :index}, :class => "gt-btn-blue-large" %>
 	</div>
-	<br>
 	<% end %>
 </div>	
 

@@ -1,6 +1,30 @@
-<p><%= link_to(h(news.project.name), :controller => 'projects', :action => 'show', :id => news.project) + ': ' unless @project %>
-<%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
-<%= "(#{l(:label_x_comments, :count => news.comments_count)})" if news.comments_count > 0 %>
-<br />
-<% unless news.summary.blank? %><span class="summary"><%=h news.summary %></span><br /><% end %>
-<span class="author"><%= authoring news.created_on, news.author %></span></p>
+  <tr>
+		<td>
+		<h4>  
+		  <%= link_to(h(news.project.name), :controller => 'projects', :action => 'show', :id => news.project) + ': ' unless @project %>
+      <%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
+    </h4>
+		<p><%=h news.summary %></p>
+    <!-- <p class="gt-table-edit"><a href="">Edit</a></p> -->
+		</td>
+		<td>
+			<!-- Categories Sub Table -->
+			<table border="0" class="gt-table-categories">
+				<tr>
+					<th>Author:</th>
+					<td><%= link_to_user(news.author) %></td>
+				</tr>
+				<tr>
+					<th>Created:</th>
+					<td><%= since_tag(news.created_on) %> ago</td>
+				</tr>
+        <% if news.comments_count > 0 %>
+				<tr>
+					<th>Response:</th>
+					<td><%= "#{l(:label_x_comments, :count => news.comments_count)}" %>
+          </td>
+				</tr>
+				<% end %>
+			</table>
+		</td>
+	</tr>
