@@ -2535,7 +2535,7 @@ function show_start_buttons(){
 
 
 function recalculate_widths(){
-	new_width = $('#content').width() / $('.panel:visible').length;
+	new_width = $('#main').width() / $('.panel:visible').length;
 	$('.panel:visible').width(new_width);
 }
 
