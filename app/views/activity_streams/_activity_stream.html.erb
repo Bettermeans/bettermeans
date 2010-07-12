@@ -1,25 +1,42 @@
-<dt class="<%= as.object_type.downcase %>  <%= User.current.logged? && User.current.id == as.actor_id ? 'me' : nil %>">
-<%= avatar(as.actor_email, :size => "42") %>
-<span class="author"><%= link_to as.actor_name, self.send("#{as.actor_type.downcase}_path", as.actor_id) %></span>
+<tr>
+  <td class="gt-avatar <%= User.current.logged? && User.current.id == as.actor_id ? 'me' : nil %>"><%= avatar(as.actor_email, :size => '53') %>
+    </td>
+    <td>
+<h4><%= link_to as.actor_name, self.send("#{as.actor_type.downcase}_path", as.actor_id) %>
 <span class='verb'><%= as.verb.tr('_', ' ') %></span>
-<%#= link_to format_activity_title(as.object_name), as.object_url, :class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe" %>
 <%= link_to (as.tracker_name) ? "#{as.tracker_name} ##{as.object_id}" : l("label_#{as.object_type.downcase}") , url_for_activity_stream(as), {:class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe"} %>
-<span class='count'><%= action_times(as.count) %></span>
-<% if as.indirect_object_id && show_indirect == :true-%>
-<span class="description">
+</h4>
+<% if as.indirect_object_id-%>
+<p class="description">
   <%= render :partial => 'activity_streams/indirect_object', :locals => {:as => as} %>
+</p>
 <% end %>
-</span>
-</dt>
-<dd class="<%= as.object_type.downcase %>">
-  <div class="bordered">
-    <span class="title"><%= link_to format_activity_title(as.object_name) , url_for_activity_stream(as), :class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe" %></span>
-    <span class="description">
-      <%= format_activity_description(as.object_description) %>
-    </span>
-  </div>
-  <span class="time"><%= format_time_ago(as.updated_at) %></span>
-  <span class="project">
-  
-  <%= link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id if @project.nil? || @project.id != as.project_id %>
-  </span>
+<table class="gt-table gt-user-table activity-item">
+  <tbody>
+    <tr>
+      <td class="<%= as.object_type.downcase %> border">&nbsp;</td>
+      <td>
+        <h5><%= link_to format_activity_title(as.object_name) , url_for_activity_stream(as), :class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe" %></h5>
+        <p>
+          <%= format_activity_description(as.object_description) %>
+        </p>
+      </td>
+    <tr>
+  </tbody> 
+</table>
+
+
+
+
+<!-- <table class="activity-item">
+  <tbody>
+    <span class="<%= as.object_type.downcase %>">
+      <div class="bordered">
+        <span class="title"><%#= link_to format_activity_title(as.object_name) , url_for_activity_stream(as), :class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe" %></span>
+        <span class="description">
+          <%#= format_activity_description(as.object_description) %>
+        </span>
+      </div>
+    </span> 
+  </tbody> 
+</table> -->
