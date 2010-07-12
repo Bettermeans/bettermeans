@@ -1458,6 +1458,8 @@ padding-bottom: 3px;
 .icon-cr-ignore { background-image: url(/images/ignore.gif); }
 .icon-summary  { background-image: url(/images/lightning.png); }
 .icon-dashboard { background-image: url(/images/lightning.png); }
+.icon-activate { background-image: url(/images/true.png); }
+.icon-deactivate { background-image: url(/images/false.png); }
 
 
 .icon-file { background-image: url(/images/files/default.png); }
