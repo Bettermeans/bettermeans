@@ -1034,6 +1034,51 @@ table.activity-sub tr {border-top-color:#fff; border-top-style:solid; border-wid
 table.activity-sub table.gt-table-categories tr {border-top:0px;}
 
 /************** Dashboards *************************/
+
+.action_link{
+	color: #fff;
+}
+
+.action_button{
+	width:60px;
+	height:21px;
+	line-height:21px;
+	text-align:center;
+	vertical-align:middle;
+	cursor:pointer;
+	color: #fff;
+	float: right;
+}
+
+.action_button_no_float{
+	width:60px;
+	height:21px;
+	line-height:21px;
+	text-align:center;
+	vertical-align:middle;
+	cursor:pointer;
+	color: #fff;
+	float: left;
+}
+
+
+.action_button_change{
+	font-color:#000;
+	font-weight:bold;
+	background: url(/images/bb_ocean.png) no-repeat; 
+	float:left;
+	padding-top:2px;
+}
+
+
+.action_button_save{
+	font-color:#000;
+	font-weight:bold;
+	background: url(/images/bb_red.png) no-repeat; 
+	float:left;
+	padding-top:2px;
+}
+
 /*Flyovers*/
 .storyPreviewHeader {
 	padding:1px 4px;

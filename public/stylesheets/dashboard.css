@@ -390,3 +390,6 @@ html>body #ajax-indicator { position: fixed; }
 #ajax-indicator span {
 	display:none;
 }
+
+/********** Overriding base ************/
+.gt-bd { padding: 0px;}
