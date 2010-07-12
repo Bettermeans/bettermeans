@@ -348,7 +348,7 @@ module ApplicationHelper
   end
 
   def since_tag(time)
-    text = distance_of_time_in_words(Time.now, time)
+    text = distance_of_time_in_words(Time.now, time).gsub(/about/,"")
     content_tag('acronym', text, :title => format_time(time))
   end
 
@@ -772,11 +772,12 @@ module ApplicationHelper
   end
   
   def render_journal_details(journal)
-    html = "<ul>"
+    html = ""
+    html = "<ul>" if journal.details.count > 0
     for detail in journal.details
       html << "<li>#{show_detail(detail)}</li>"
     end
-    html << "</ul>"
+    html << "</ul>"  if journal.details.count > 0
     
     content = ""
     content << textilizable(journal, :notes)
@@ -802,8 +803,8 @@ module ApplicationHelper
   def action_times(count)  
     count = count.to_i
     return nil if count < 2
-    return "(twice)" if count == 2
-    return "(#{as.count.to_s} times)" if count > 2 
+    return "twice" if count == 2
+    return "#{as.count.to_s} times" if count > 2 
   end
   
   
