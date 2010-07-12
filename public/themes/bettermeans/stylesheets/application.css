@@ -384,32 +384,6 @@ div.flash.warning {
 #errorExplanation ul { font-size: 0.9em;}
 #errorExplanation h2, #errorExplanation p { display: none; }
 
-/***** Ajax indicator ******/
-#ajax-indicator {
-position: absolute; /* fixed not supported by IE */
-background-color:#eee;
-border: 1px solid #bbb;
-top:35%;
-left:40%;
-width:20%;
-font-weight:bold;
-text-align:center;
-padding:0.6em;
-z-index:100;
-filter:alpha(opacity=70);
-opacity: 0.7;
-}
-
-html>body #ajax-indicator { position: fixed; }
-
-#ajax-indicator span {
-background-position: 0% 40%;
-background-repeat: no-repeat;
-background-image: url(/images/loading.gif);
-padding-left: 26px;
-vertical-align: bottom;
-}
-
 /***** Calendar *****/
 table.cal {border-collapse: collapse; width: 100%; margin: 0px 0 6px 0;border: 1px solid #d7d7d7;}
 table.cal thead th {width: 14%;}
@@ -549,76 +523,6 @@ div.autocomplete ul li span.informal {
   color: #aaa;
 }
 
-/***** Diff *****/
-.diff_out { background: #fcc; }
-.diff_in { background: #cfc; }
-
-/***** Wiki *****/
-.wiki h1 {
-	margin-bottom:30px;
-	margin-top:5px;
-}
-
-div.wiki table {
-    border: 1px solid #505050;
-    border-collapse: collapse;
-    margin-bottom: 1em;
-}
-
-div.wiki table, div.wiki td, div.wiki th {
-    border: 1px solid #bbb;
-    padding: 4px;
-}
-
-div.wiki .external {
-    background-position: 0% 60%;
-    background-repeat: no-repeat;
-    padding-left: 12px;
-    background-image: url(/images/external.png);
-}
-
-div.wiki a.new {
-    color: #b73535;
-}
-
-div.wiki pre {
-    margin: 1em 1em 1em 1.6em;
-    padding: 2px;
-    background-color: #fafafa;
-    border: 1px solid #dadada;
-    width:95%;
-    overflow-x: auto;
-}
-
-div.wiki ul.toc {
-    background-color: #ffffdd;
-    border: 1px solid #e4e4e4;
-    padding: 4px;
-    line-height: 1.2em;
-    margin-bottom: 12px;
-    margin-right: 12px;
-    margin-left: 0;
-    display: table
-}
-* html div.wiki ul.toc { width: 50%; } /* IE6 doesn't autosize div */
-
-div.wiki ul.toc.right { float: right; margin-left: 12px; margin-right: 0; width: auto; }
-div.wiki ul.toc.left  { float: left; margin-right: 12px; margin-left: 0; width: auto; }
-div.wiki ul.toc li { list-style-type:none;}
-div.wiki ul.toc li.heading2 { margin-left: 6px; }
-div.wiki ul.toc li.heading3 { margin-left: 12px; font-size: 0.8em; }
-
-div.wiki ul.toc a {
-    font-size: 0.9em;
-    font-weight: normal;
-    text-decoration: none;
-    color: #606060;
-}
-div.wiki ul.toc a:hover { color: #c61a1a; text-decoration: underline;}
-
-a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
-a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
-h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
 
 div.concerned_user {
 	text-align: center;
