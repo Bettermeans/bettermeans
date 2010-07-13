@@ -29,5 +29,7 @@
 									options_from_collection_for_select(@roles, 'id', 'name', @target_roles && @target_roles.map(&:id)), :multiple => true %>
 </p>
 </div>
+<div class="gt-table-buttons">
 <%= submit_tag l(:button_copy) %>
+</div>
 <% end %>

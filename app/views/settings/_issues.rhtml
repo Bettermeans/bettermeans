@@ -14,5 +14,7 @@
         Query.new.available_columns.collect {|c| [c.caption, c.name.to_s]}, :label => false) %>
 </fieldset>
 
+<div class="gt-table-buttons">
 <%= submit_tag l(:button_save) %>
+</div>
 <% end %>

@@ -1,15 +1,15 @@
 <h2><%= @copy ? l(:button_copy) : l(:button_move) %></h2>
 
-<ul>
-<% @issues.each do |issue| -%>
-	<li><%= link_to_issue issue %></li>
-<% end -%>
-</ul>
 
 <% form_tag({}, :id => 'move_form') do %>
 <%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
 
 <div class="gt-content-box tabular">
+  <p>
+  <% @issues.each do |issue| -%>
+  	<%= link_to_issue issue %>
+  <% end -%>
+  </p>
 <p><label for="new_project_id"><%=l(:field_project)%>:</label>
 <%= select_tag "new_project_id",
                project_tree_options_for_select(@allowed_projects, :selected => @target_project),

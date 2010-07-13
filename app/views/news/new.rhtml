@@ -4,12 +4,18 @@
                                            :html => { :id => 'news-form' } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
 <%= textile_editor_initialize(:framework => :jquery) %>
-<%= submit_tag l(:button_create) %>
+
+<div class="gt-table-buttons">
+  <%= submit_tag l(:button_create) %>
+
+<p class="gt-cancel">
 <%= link_to_remote l(:label_preview), 
                    { :url => { :controller => 'news', :action => 'preview', :project_id => @project },
                      :method => 'post',
                      :update => 'preview',
                      :with => "Form.serialize('news-form')"
                    }, :accesskey => accesskey(:preview) %>
+</p>
+</div>
 <% end %>
 <div id="preview" class="wiki"></div>

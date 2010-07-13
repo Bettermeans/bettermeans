@@ -2,7 +2,9 @@
 
 <% form_tag({:action => 'edit', :id => @document}, :class => "tabular") do %>
   <%= render :partial => 'form' %>
+    <div class="gt-table-buttons">
   <%= submit_tag l(:button_save) %>
+  </div>
 <% end %>
 
 
