@@ -1,4 +1,4 @@
-<h1><%#=l(:label_overview)%></h1> 
+<!-- <h1><%#=l(:label_overview)%></h1>  -->
 	
 <div class="splitcontentleft">
   
@@ -64,6 +64,8 @@
 </div>
 
 <% content_for :sidebar do %>
+<h2 class="gt-table-head">&nbsp;</h2>
+
 <div class="gt-sidebar-nav gt-sidebar-nav-blue">
   <h3>Quick Links</h3>
   <ul>
@@ -80,18 +82,18 @@
   </li>
   </ul>
 </div>
-
+<br><br>
 <div class="gt-sidebar-content">
 <h3><%=l(:label_project_description)%></h3>
 <%= textilizable @project.description %>	
 <% unless @project.homepage.blank? %><%=l(:field_homepage)%>: <%= link_to(h(@project.homepage), @project.homepage) %><% end %>
 </div>
-
+<br><br>
 <div class="gt-sidebar-content">
 <h3>3-month Activity Timeline</h3>
 <div class="spark" max="<%= @project.activity_line_max %>"><%= @project.activity_line_show(70) %></div>
 </div>
-
+<br><br>
 <% if User.current.allowed_to?(:view_issues, @project) %>
     <div class="gt-sidebar-nav gt-sidebar-nav-gray">
     <h3><%=l(:label_issue_tracking)%></h3>
