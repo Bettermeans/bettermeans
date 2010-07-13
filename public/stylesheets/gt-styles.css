@@ -781,17 +781,19 @@ tt {
 	text-decoration: none;
 }
 
-.gt-error {
-	background-color: #cc0000;
-	padding: .5em 1em;
-	color: #fff;
-}
-.gt-notice-box {
+.flash {
 	border: 3px solid #aaa;
 	padding: 1em;
 	background-color: #fff;
 }
-.gt-success {
+
+.error {
+	background-color: #cc0000;
+	padding: .5em 1em;
+	color: #fff;
+}
+
+.success {
 	background-color: #47790a;
 	padding: .5em 1em;
 	color: #fff;
