@@ -1836,3 +1836,87 @@ form p {
 .contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top:5px; padding-left: 10px; font-size:0.9em;margin-right:10px;}
 .contextual input, .contextual select {font-size:0.9em;}
 .message .contextual { margin-top: 0; }
+
+
+/*Admin Menu*/
+#admin-menu ul {margin: 0;  padding: 0;}
+#admin-menu li {margin: 0;  padding: 0 0 12px 0; list-style-type:none;}
+
+#admin-menu a { background-position: 0% 40%; background-repeat: no-repeat; padding-left: 20px; padding-top: 2px; padding-bottom: 3px;}
+#admin-menu a.projects { background-image: url(/images/projects.png); }
+#admin-menu a.users { background-image: url(/images/user.png); }
+#admin-menu a.groups { background-image: url(/images/group.png); }
+#admin-menu a.roles { background-image: url(/images/database_key.png); }
+#admin-menu a.trackers { background-image: url(/images/ticket.png); }
+#admin-menu a.issue_statuses { background-image: url(/images/ticket_edit.png); }
+#admin-menu a.workflows { background-image: url(/images/ticket_go.png); }
+#admin-menu a.custom_fields { background-image: url(/images/textfield.png); }
+#admin-menu a.enumerations { background-image: url(/images/text_list_bullets.png); }
+#admin-menu a.settings { background-image: url(/images/changeset.png); }
+#admin-menu a.plugins { background-image: url(/images/plugin.png); }
+#admin-menu a.info { background-image: url(/images/help.png); }
+
+/*Tabs*/
+
+.tabs {height: 2.6em; border-bottom: 1px solid #bbbbbb; margin-bottom:1.2em; position:relative; overflow:hidden;}
+.tabs ul {margin:0; position:absolute; bottom:-2px; padding-left:1em; width: 2000px;}
+.tabs>ul { bottom:-1px; } /* others */
+.tabs ul li {
+float:left;
+list-style-type:none;
+white-space:nowrap;
+margin-right:8px;
+background:#fff;
+}
+.tabs ul li a{
+display:block;
+font-size: 0.9em;
+text-decoration:none;
+line-height:1.3em;
+padding:4px 6px 4px 6px;
+border: 1px solid #ccc;
+border-bottom: 1px solid #bbbbbb;
+background-color: #eeeeee;
+color:#777;
+font-weight:bold;
+}
+
+.tabs ul li a:hover {
+background-color: #ffffdd;
+text-decoration:none;
+}
+
+.tabs ul li a.selected {
+background-color: #fff;
+border: 1px solid #bbbbbb;
+border-bottom: 1px solid #fff;
+}
+
+.tabs ul li a.selected:hover {
+background-color: #fff;
+}
+
+div.tabs-buttons { position:absolute; right: 0; width: 48px; height: 24px; background: white; bottom: -1px;  }
+
+button.tab-left, button.tab-right {
+	font-size: 0.9em;
+	cursor: pointer;
+	height:24px;
+	border: 1px solid #ccc;
+	border-bottom: 1px solid #bbbbbb;
+	position:absolute;
+	padding:4px;
+	width: 20px;
+}
+
+button.tab-left {
+	right: 20px;
+	bottom: 0;
+	background: #eeeeee url(/images/bullet_arrow_left.png) no-repeat 50% 50%;
+}
+
+button.tab-right {
+	right: 0;
+	bottom: 0;
+	background: #eeeeee url(/images/bullet_arrow_right.png) no-repeat 50% 50%;}
+}

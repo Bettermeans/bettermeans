@@ -13,8 +13,8 @@ module RetrosHelper
   end
     
   def accuracy_display(self_bias,magnitude)
-    return "<br><br>Didn't vote" if self_bias.nil? && magnitude.nil?
+    return "<br>Didn't vote" if self_bias.nil? && magnitude.nil?
     content = ""
-    content << "<br><br>#{tame_bias(self_bias)}<br>#{tame_scale(magnitude)}"
+    content << "<br>#{tame_bias(self_bias)}<br>#{tame_scale(magnitude)}"
   end
 end
