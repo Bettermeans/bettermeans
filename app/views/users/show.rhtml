@@ -6,12 +6,15 @@
 
 <div class="splitcontentleft">
 <%= render :partial => "reputation" %>
+<br><br>
 <%= render :partial => "membership" %>
 </div>
 
 <div class="splitcontentright">
-  <h2>Recent Activity</h2>
+  <h2 class="gt-table-head">Recent Activity</h2>
+  <div class="gt-content-box">
   <%= render :partial => "activity_streams/activity_stream_list", :locals => {:activities_by_item => @activities_by_item} %>
+  </div>
 </div>
 
 <% html_title @user.name %>
