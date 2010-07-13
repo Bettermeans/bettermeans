@@ -1,6 +1,7 @@
 /* BetterMeans - Work 2.0
    Copyright (C) 2006-2008  Shereef Bishay */
 
+var jumpbox_text = "";
 
 function initialize(){
 	$("a.fancyframe").fancybox({
@@ -20,6 +21,37 @@ function initialize(){
 				});
 			$('#fancybox-inner').prepend("<div id='fancy-loading' class='loading'>loading...</div>");
 		});
+		
+	prep_jumpbox();
+}
+
+function prep_jumpbox(){
+	jumpbox_text = $('#jumpbox :selected').text();
+	$('#jumpbox :selected').text($('#jumpbox :selected').text().trim());
+	adjust_jumpbox_width();
+	
+	$('#jumpbox').focus(function(){
+		$('#jumpbox :selected').text(jumpbox_text);				
+		adjust_jumpbox_width();
+		$('#jumpbox').css('background-color','#0094CD');
+	});
+	$('#jumpbox').focusout(function(){
+		$('#jumpbox :selected').text($('#jumpbox :selected').text().trim());				
+		$('#jumpbox').css('background-color','transparent');
+		adjust_jumpbox_width();
+	});
+	$('#jumpbox').change(function(){
+		$('#jumpbox :selected').text($('#jumpbox :selected').text().trim());				
+		$('#jumpbox').css('background-color','transparent');
+		adjust_jumpbox_width();
+	});
+}
+
+function adjust_jumpbox_width(){
+	jumpbox_width = $('#widthcalc').html($('#jumpbox :selected').text()).width();
+	if (jumpbox_width > 10){
+		$('#jumpbox').width(jumpbox_width + 50);
+	}
 }
 
 function show_fancybox(url,message){
