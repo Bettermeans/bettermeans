@@ -190,14 +190,15 @@ module ApplicationHelper
     # Retrieve them now to avoid a COUNT query
     projects = User.current.projects.all
     if projects.any?
-      s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
+      s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
             "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
             '<option value="" disabled="disabled">---</option>'
       s << project_tree_options_for_select(projects, :selected => @project) do |p|
-        { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
+        # { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
+        { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
       end
       s << '</select>'
-      s
+      s << '<span id="widthcalc" style="display:none;"></span>'
     end
   end
   
@@ -427,7 +428,7 @@ module ApplicationHelper
     else
       b = []
       # b << link_to(h(@project.enterprise.name), {:controller => 'enterprises', :action => 'show', :id => @project.enterprise.id, :jump => current_menu_item}, :class => 'root')
-
+    
       ancestors = (@project.root? ? [] : @project.ancestors.visible)
       if ancestors.any?
         root = ancestors.shift
@@ -438,8 +439,10 @@ module ApplicationHelper
         end
         b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
       end
-      b << h(@project)
-      b.join(' &#187; ')
+      # b << content_tag('span', h(@project), :id => "last_header")
+      b = b.join(' &#187; ')
+      
+      # b << "&nbsp;&nbsp;" << link_to("jump", nil, :class => 'root', :onclick => "jump_to_workstream();return false();", :id => "last_header_button")
     end
   end
 
