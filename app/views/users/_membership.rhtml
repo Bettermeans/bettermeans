@@ -1,4 +1,5 @@
 <% unless @memberships.empty? %>
+<div class="gt-content-box">
 <h3><%=l(:label_project_plural)%></h3>
 <ul>
 <% for membership in @memberships %>
@@ -6,4 +7,5 @@
    <%=h membership.roles.sort.collect(&:to_s).join(', ') %><%#= format_date(membership.created_on) %></li>
 <% end %>
 </ul>
+</div>
 <% end %>

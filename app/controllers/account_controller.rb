@@ -198,6 +198,7 @@ class AccountController < ApplicationController
 
   def invalid_credentials
     flash.now[:error] = l(:notice_account_invalid_creditentials)
+    render :layout => 'blank'
   end
 
   # Register a user for email activation.

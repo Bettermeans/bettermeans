@@ -35,7 +35,8 @@
 <p class="subtitle"><%=h @board.description %></p>
 
 <% if @topics.any? %>
-<table class="list messages">
+<div class="gt-content-box">
+<table class="gt-table">
   <thead><tr>
     <th><%= l(:field_subject) %></th>
     <th><%= l(:field_author) %></th>
@@ -60,6 +61,7 @@
   <% end %>
   </tbody>
 </table>
+</div>
 <p class="pagination"><%= pagination_links_full @topic_pages, @topic_count %></p>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
