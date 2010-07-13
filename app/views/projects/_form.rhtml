@@ -7,7 +7,7 @@
 <p><%= f.text_field :name, :required => true %><br /><em><%= l(:text_caracters_maximum, 30) %></em></p>
 
 <% unless @parent.nil? %>
-    <p><label><%= l(:field_parent) %></label><%= link_to @parent.name, {:controller => 'projects', :action => 'show', :id => @parent} %></p>
+    <p><label><%= l(:field_parent) %> <%= link_to @parent.name, {:controller => 'projects', :action => 'show', :id => @parent} %></label></p>
 <% end %>
 
 <p><%= f.textile_editor :description, :rows => 5, :class => 'wiki-edit' %></p>
