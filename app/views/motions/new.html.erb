@@ -1,10 +1,10 @@
 <h2>New motion</h2>
 
 <% form_for @motion, :url => {:action => "create", :project_id => @project.id} do |f| %>
+<div class="gt-content-box">
   <%= f.error_messages %>
-<br>
   <p>
-    <br />
+    <label>Motion type</label>
     <%= select(:motion, :variation, Setting::MOTIONS.collect{|m| [ m[1]["Title"], m[0] ] }.sort,:prompt => l(:label_select)) %>
   </p>
   <p id="Description">
@@ -12,15 +12,16 @@
     <%= f.text_area :description %>
   </p>
   <div id="eligible_users_container"></div>
-  <p>
-    <%= f.submit 'Create' %>
-  </p>
   <%= observe_field :motion_variation, :url => {:controller => :motions, :action => :eligible_users, :only_path => :false }, :update => :eligible_users_container, :with => 'variation' %>
+  </div>
+  <p>
+  <%= f.submit 'Create' %>
+  </p>
+  
 <% end %>
 
 
-
-<%= link_to 'Back', :controller => "motion", :action => "index", :project_id => @project %>
+<%#= link_to 'Back', :controller => "motion", :action => "index", :project_id => @project %>
 
 <script type="text/javascript">
 $('document').ready(function(){

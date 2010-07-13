@@ -43,7 +43,7 @@ body {
 	margin-bottom: 0;
 	padding-top: 10px;
 	color: #fff;
-	font-size: 170%;
+	font-size: 150%;
 	font-weight: normal;
 	float: left;
 	display: inline;
@@ -770,6 +770,8 @@ tt {
 /* Custom Text Classes */
 .gt-cancel {
 	color: #666666;
+	margin-left: 20px;
+	
 }
 .gt-cancel a:link, .gt-cancel a:visited {
 	color: #cc0000;
@@ -1747,7 +1749,7 @@ form option {
 	font-size: 108%;
 }
 
-label.note {
+form label.note {
 	color: #444;
 	font-weight: normal;
 	font-size: 10px;
@@ -1780,7 +1782,6 @@ form input[type=submit] {
 	margin: 0 10px 0 0;
 	float: left;
 	display: inline;
-	display: block;
 	height: 38px;
 	line-height: 38px;
 	text-align: center;
@@ -1814,11 +1815,24 @@ form input.max { width: 95%;}
 form .gt-content-box {
 	padding: 15px 15px 5px 15px;
 	margin-bottom: 40px;
+	max-width: 800px;
+}
+
+form .gt-cancel {
+	line-height: 37px;
+	margin-bottom: 0;
+	margin-left: 20px;
+	float: left;
 }
 
 
-form,
+
 form p {
 	margin-bottom: 10px;
-	width: 66%;
+	width: 80%;
 }
+
+/*TEMP*/
+.contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top:5px; padding-left: 10px; font-size:0.9em;margin-right:10px;}
+.contextual input, .contextual select {font-size:0.9em;}
+.message .contextual { margin-top: 0; }

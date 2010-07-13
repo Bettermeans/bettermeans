@@ -3,12 +3,15 @@
 <% labelled_tabular_form_for :news, @news, :url => { :action => "edit" },
                                            :html => { :id => 'news-form' } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
+<div class="gt-table-buttons">
 <%= submit_tag l(:button_save) %>
+<p class="gt-cancel">
 <%= link_to_remote l(:label_preview), 
                    { :url => { :controller => 'news', :action => 'preview', :project_id => @project },
                      :method => 'post',
                      :update => 'preview',
                      :with => "Form.serialize('news-form')"
                    }, :accesskey => accesskey(:preview) %>
+</p></div>
 <% end %>
 <div id="preview" class="wiki"></div>

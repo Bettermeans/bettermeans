@@ -2,5 +2,7 @@
 
 <% form_tag({:action => 'new', :project_id => @query.project}, :onsubmit => 'selectAllOptions("selected_columns");') do %>
   <%= render :partial => 'form', :locals => {:query => @query} %>
+  <div class="gt-table-buttons">
   <%= submit_tag l(:button_save) %>
+  </div>
 <% end %>

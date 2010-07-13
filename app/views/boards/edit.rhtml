@@ -2,5 +2,7 @@
 
 <% labelled_tabular_form_for :board, @board, :url => {:action => 'edit', :id => @board} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
+  <div class="gt-table-buttons">
   <%= submit_tag l(:button_save) %>
+  </div>
 <% end %>
