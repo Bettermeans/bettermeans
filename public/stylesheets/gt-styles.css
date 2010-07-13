@@ -54,6 +54,13 @@ body {
 .gt-hd .gt-leaf-watermark {
 	background: url(../images/gt/leaves-watermark.png) no-repeat 99% 0;
 }
+.gt-hd .gt-logo select {
+	background-color: transparent;
+	border: 0px;
+	color: #fff;
+/*	display:none;*/
+	font-family: Helvetica,sans-serif;
+}
 
 /* Body Styles */
 .gt-bd {
