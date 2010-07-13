@@ -26,8 +26,11 @@
         																							 :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
         <% end %></p>
         <%= hidden_field_tag 'member[role_ids][]', '' %>
-        <p><%= submit_tag l(:button_change), :class => "small" %>
+        <div class="gt-table-buttons">
+        <%= submit_tag l(:button_change), :class => "small" %>
+        <p class="gt-cancel">
         <%= link_to_function l(:button_cancel), "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;" %></p>
+        </div>
       <% end %>
     <% end %>
   </td>
@@ -71,7 +74,9 @@
     	<label><%= check_box_tag 'member[role_ids][]', role.id %> <%=h role %></label>
    	<% end %></p>
    	
-    <p><%= submit_tag l(:button_add) %></p>
+    <div class="gt-table-buttons">
+    <%= submit_tag l(:button_add) %>
+    </div>
 		</fieldset>
   <% end %>
 <% end %>

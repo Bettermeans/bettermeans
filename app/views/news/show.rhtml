@@ -14,7 +14,9 @@
 <% labelled_tabular_form_for :news, @news, :url => { :action => "edit", :id => @news },
                                            :html => { :id => 'news-form' } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
+<div class="gt-table-buttons">
 <%= submit_tag l(:button_save) %>
+<p class="gt-cancel">
 <%= link_to_remote l(:label_preview), 
                    { :url => { :controller => 'news', :action => 'preview', :project_id => @project },
                      :method => 'post',
@@ -22,6 +24,7 @@
                      :with => "Form.serialize('news-form')"
                    }, :accesskey => accesskey(:preview) %> |
 <%= link_to l(:button_cancel), "#", :onclick => '$("#edit-news").hide(); return false;' %>
+</p></div>
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>
@@ -53,7 +56,9 @@
 <div class="gt-content-box">
     <%= textile_editor 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
 </div>
-<p><%= submit_tag l(:button_add) %></p>
+<div class="gt-table-buttons">
+<%= submit_tag l(:button_add) %>
+</div>
 <%= textile_editor_initialize(:framework => :jquery) %>
 <% end %>
 <% end %>

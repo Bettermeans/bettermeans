@@ -23,7 +23,9 @@
     </div>
     
     <%= f.hidden_field :lock_version %>
-    <%= submit_tag l(:button_submit) %>
+  <div class="gt-table-buttons">
+        <%= submit_tag l(:button_submit) %>
+  <p class="gt-cancel">
     <%= link_to_remote l(:label_preview), 
                        { :url => { :controller => 'issues', :action => 'preview', :project_id => @project, :id => @issue },
                          :method => 'post',
@@ -31,6 +33,8 @@
                          :with => "$('#issue-form').serialize()",
                          :complete => "$('body').scrollTo('#preview')"
                        }, :accesskey => accesskey(:preview) %>
+     </p>
+     </div>
      <%= textile_editor_initialize(:framework => :jquery) %>
 <% end %>
 
