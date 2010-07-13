@@ -63,17 +63,17 @@
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
 <% end %>
 
-<% other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => { :project_id => @project, :query_id => (@query.new_record? ? nil : @query), :key => User.current.rss_key } %>
+<%# other_formats_links do |f| %>
+	<%#= f.link_to 'Atom', :url => { :project_id => @project, :query_id => (@query.new_record? ? nil : @query), :key => User.current.rss_key } %>
 	<%#= f.link_to 'CSV', :url => { :project_id => @project } %>
 	<%#= f.link_to 'PDF', :url => { :project_id => @project } %>
-<% end %>
+<%# end %>
 
 <% end %>
 
-<% content_for :sidebar do %>
+<%# content_for :sidebar do %>
     <%#= render :partial => 'issues/sidebar' %>
-<% end %>
+<%# end %>
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_issue_plural)) %>

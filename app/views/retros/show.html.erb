@@ -6,7 +6,7 @@
 <%= javascript_tag  'var belongs = true;'%>
 <% end %>
 
-<div class="user_retrospective">
+<div class="user_retrospective gt-content-box">
   <table class="retrospective">
     <tr><td class="avatar">
       <!-- </td><td class="name"> -->
@@ -80,9 +80,10 @@
 </div>
 <br><br>
 
-
-  <div class="user_retrospective" align="center">
-    <h2>Contribution Breakdown  : <%= format_date(@retro.from_date) %> to <%= format_date(@retro.to_date)%></h2>
+<div align="center">
+<h2 class="gt-table-head">Contribution Breakdown  : <%= format_date(@retro.from_date) %> to <%= format_date(@retro.to_date)%></h2>
+</div>
+  <div class="user_retrospective gt-content-box" align="center">
     <table class="retrospective" style="width:85%" align="center">
       
     <% @retro.issues.each do |issue| %>
@@ -102,12 +103,13 @@
 <% content_for :sidebar do %>
 <!-- <h3><%#= l(:label_activity) %></h3> -->
 <br><br>
-<div style="overflow-x:auto;" align="center">
+<div style="overflow-x:auto;" align="center" class="gt-content-box">
   <% @chart_width = @point_totals.length*70 + 50
    @chart_width = 1000 if @chart_width > 1000
    %>
   
   <img src="<%= Gchart.bar(
+              :title => 'Contribution Breakdown',
               :data => [@idea_totals, @vote_totals, @journal_totals], 
               :bar_colors => 'EA7235,757668,E3A34D',
               #:horizontal => 'true',
@@ -125,31 +127,35 @@
 </div>
 <br>
 <br>
-<div align="center">
+<div align="center" class="gt-content-box">
   <img src="<%=  Gchart.pie(:title => 'Credits', 
                  :size => '400x200',
                  :data => @pie_data_points, :labels => @pie_labels_points )
    %>"/> 
-   <br>
-   <br>
+ </div>
+ <br>
+ <br>
+ <div align="center" class="gt-content-box">
    <img src="<%=  Gchart.pie(:title => 'Ideas', 
                   :size => '400x200',
                   :data => @pie_data_ideas, :labels => @pie_labels_ideas )
     %>"/> 
-   <br>
-   <br>
+  </div>
+  <br>
+  <br>
+  <div align="center" class="gt-content-box">
    <img src="<%=  Gchart.pie(:title => 'Journals', 
                   :size => '400x200',
                   :data => @pie_data_journals, :labels => @pie_labels_journals )
     %>"/> 
-    <br>
-    <br>
+  </div>
+  <br>
+  <br>
+  <div align="center" class="gt-content-box">
     <img src="<%=  Gchart.pie(:title => 'Votes', 
                    :size => '400x200',
                    :data => @pie_data_votes, :labels => @pie_labels_votes )
      %>"/> 
-     <br>
-     <br>
 </div>
 <% end %>
 
