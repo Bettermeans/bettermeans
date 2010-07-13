@@ -12,6 +12,7 @@ class AccountController < ApplicationController
     if request.get?
       # Logout user
       self.logged_user = nil
+      render :layout => 'blank'
     else
       # Authenticate user
       if Setting.openid? && using_open_id?
@@ -20,6 +21,8 @@ class AccountController < ApplicationController
         password_authentication
       end
     end
+    
+    
   end
 
   # Log out current user and redirect to welcome page
@@ -42,7 +45,7 @@ class AccountController < ApplicationController
         if @user.save
           @token.destroy
           flash[:notice] = l(:notice_account_password_updated)
-          redirect_to :action => 'login'
+          redirect_to :action => 'login', :layout => 'blank'
           return
         end 
       end
@@ -60,7 +63,7 @@ class AccountController < ApplicationController
         if token.save
           Mailer.deliver_lost_password(token)
           flash[:notice] = l(:notice_account_lost_email_sent)
-          redirect_to :action => 'login'
+          redirect_to :action => 'login', :layout => 'blank'
           return
         end
       end
@@ -115,7 +118,7 @@ class AccountController < ApplicationController
       token.destroy
       flash[:notice] = l(:notice_account_activated)
     end
-    redirect_to :action => 'login'
+    redirect_to :action => 'login', :layout => 'blank'
   end
   
   private
@@ -205,7 +208,7 @@ class AccountController < ApplicationController
     if user.save and token.save
       Mailer.deliver_register(token)
       flash[:notice] = l(:notice_account_register_done)
-      redirect_to :action => 'login'
+      redirect_to :action => 'login', :layout => 'blank'
     else
       yield if block_given?
     end
@@ -242,6 +245,6 @@ class AccountController < ApplicationController
 
   def account_pending
     flash[:notice] = l(:notice_account_pending)
-    redirect_to :action => 'login'
+    redirect_to :action => 'login', :layout => 'blank'
   end
 end
