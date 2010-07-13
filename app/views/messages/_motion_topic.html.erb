@@ -11,7 +11,6 @@
 <%#= link_to_attachments @topic, :author => false %>
 </div>
 <br />
-
 <% unless @replies.empty? %>
 <h3 class="comments"><%= l(:label_reply_plural) %></h3>
 <% @replies.each do |message| %>

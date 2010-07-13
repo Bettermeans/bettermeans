@@ -1,11 +1,3 @@
-<div class="contextual">
-<%= link_to_remote l(:button_add), 
-                   :url => {:controller => 'watchers',
-                            :action => 'new',
-                            :object_type => watched.class.name.underscore,
-                            :object_id => watched} if User.current.allowed_to?(:add_issue_watchers, @project) %>
-</div>
-
 <p><strong><%= l(:label_issue_watchers) %></strong></p>
 <%= watchers_list(watched) %>
 
@@ -25,4 +17,21 @@
 <%= toggle_link l(:button_cancel), 'new-watcher-form'%></p>
 </div></p>
 <% end %>
+<% end %>
+
+
+<% content_for :sidebar do %>
+  <div class="gt-sidebar-nav gt-sidebar-nav-gray">
+    <ul>
+      <li>
+        <%= link_to_remote l(:button_add), 
+                           :url => {:controller => 'watchers',
+                                    :action => 'new',
+                                    :object_type => watched.class.name.underscore,
+                                    :object_id => watched} if User.current.allowed_to?(:add_issue_watchers, @project) %>
+      </li>
+      <li>
+      </li>
+    </ul>
+  </div>
 <% end %>
