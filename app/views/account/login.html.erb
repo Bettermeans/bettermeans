@@ -1,0 +1,65 @@
+		<!-- login form head -->
+		<div class="gt-login-hd">
+			You're back, that makes us happy
+		</div>
+		
+		<!-- login box -->
+		<div class="gt-login-box">
+
+			<!-- login form -->
+      <% if Setting.openid? %>
+      <tr>
+        <td align="right"><label for="openid_url"><%=l(:field_identity_url)%></label></td>
+        <td align="left"><%= text_field_tag "openid_url", nil, :tabindex => '3' %></td>
+      </tr>
+      <% end %>
+
+      <!-- <form action="index.html" method="POST">
+      <p class="main">
+        <label>Username: </label>
+        <input gtbfieldid="1" name="username" value="username"> 
+        <label>Password: </label>
+        <input name="password" value="asdf1234" type="password">  
+      </p> -->
+
+  		<p class="space">
+  		  <% if Setting.autologin? %>
+        <span><label for="autologin"></label>
+        </span>
+        <% end %>
+
+        <%# if Setting.lost_password? %>
+        <%# end %>
+  		</p>
+  	  
+			<% form_tag({:action=> "login"}, :class => "gt-form") do %>
+        <%= back_url_hidden_field_tag %>
+				<!-- form row -->
+				<div class="gt-form-row">
+				  <label for="username" class="gt-login-label"><%=l(:field_login)%></label>
+          <%= text_field_tag 'username', nil, :tabindex => '1', :class => "gt-form-text" %>
+				</div><!-- /form row -->
+				
+				<!-- form row -->
+				<div class="gt-form-row">
+				  <label for="password" class="gt-login-label"><%=l(:field_password)%></label>
+				  <%= password_field_tag 'password', nil, :tabindex => '2', :class => "gt-form-text" %>
+				</div><!-- /form row -->
+				
+				<!-- form row -->
+				<div class="gt-form-row">
+				   
+					<label class="gt-remember-me"><%= check_box_tag 'autologin', 1, false, :tabindex => 4, :class => "gt-form-checkbox" %> <%= l(:label_stay_logged_in, {:class => "gt-remember-me"}) %></label>
+					
+          <input type="submit" name="login" class="gt-btn-gray-medium gt-btn-right" value="<%=l(:button_login)%> &#187;" tabindex="5"/>
+				</div>
+				<!-- /form row -->
+				
+				<p class="gt-forgot-password"><%= link_to l(:label_register), { :controller => 'account', :action => 'register' } %>
+    		<span class="lost">&nbsp;|&nbsp; </span>
+    		<%= link_to l(:label_password_lost), {:controller => 'account', :action => 'lost_password'} %>
+    		</p>
+				
+			<% end %><!-- /login form -->
+		</div><!-- /login box -->    
+<%= javascript_tag "$('#username').focus();" %>

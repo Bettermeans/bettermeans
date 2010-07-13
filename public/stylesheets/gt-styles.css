@@ -1722,3 +1722,103 @@ table.retrospective td.total { vertical-align: top; border-left-width: 0px;  fon
 table.retrospective td.button { vertical-align: bottom; border-left-width: 0px;  border-left-style:solid; padding-left: 4px; width: 70px;text-align:center;}
 table.retrospective td.title { vertical-align: top; border-left-width: 0px;  font-size: 1em; border-left-style:solid; padding-left: 10px; width: 4em;text-align:center;font-weight:bold;}
 table.retrospective td.subtitle { width: 5em; vertical-align: top; border-left-width: 0px;  font-size: 1em; padding-left: 2em; text-align:right;}
+
+/*Forms*/
+
+/* Default Form */
+/* Form Style */
+
+/*form ul li {
+	margin: 0 0 15px;
+	padding: 0;
+	list-style: none;
+}
+*/
+
+form label {
+	font-size: 100%;
+	color: #365b6d;
+	display: block;
+	margin-bottom: 3px;
+	font-weight: bold;
+}
+
+form option {
+	font-size: 108%;
+}
+
+label.note {
+	color: #444;
+	font-weight: normal;
+	font-size: 10px;
+}
+
+label.choice {
+	margin: 0 15px 0 0;
+	font-weight: normal;
+	font-size: 12px;
+	color: #666;
+}
+
+form input[type=text],
+form input[type=password],
+form textarea {
+	border: 1px solid #ccc;
+	background-color: #f4f7f8;
+	padding: 5px 2px;
+	font-size: 108%;
+	width: 99%;
+}
+
+form input[type=text]:focus,
+form input[type=password]:focus,
+form textarea:focus {
+	background-color: #fff;
+}
+
+form input[type=submit] {
+	margin: 0 10px 0 0;
+	float: left;
+	display: inline;
+	display: block;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	font-weight: bold;
+	color: #fff!important;
+	text-decoration: none!important;
+	font-size: 13px;
+	border: none;
+	padding: 0;
+	margin: 0;
+	width: 126px;
+	background: url(../images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;	
+}
+
+form input[type=radio],
+form input[type=checkbox] {
+	margin-right: 3px;
+}
+
+form input[type=select] {
+	font-size: 12px;
+	margin: 5px 5px 0 0;
+	border: 1px solid #d2d2d2;
+}
+
+form input.short { width: 20%;}
+form input.medium { width: 45%;}
+form input.long { width:70%;}
+form input.max { width: 95%;}
+
+form .gt-content-box {
+	padding: 15px 15px 5px 15px;
+	margin-bottom: 40px;
+}
+
+
+form,
+form p {
+	margin-bottom: 10px;
+	width: 66%;
+}
