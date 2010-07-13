@@ -826,7 +826,7 @@ module ApplicationHelper
   end
   
   def tally_table(motion)
-    content = "<table id='motion_votes_totals'>"
+    content = "<table id='motion_votes_totals' class='gt-table'>"
     content << "<thead><tr>"
     content << "<th>&nbsp;</th><th>#{l :label_binding}</th><th>#{l :label_non_binding}</th>"
     content << "</tr></thead>"
