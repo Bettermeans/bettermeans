@@ -224,6 +224,7 @@ body {
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	padding: 1px;
+	margin-bottom: 1em;
 }
 .gt-content-box-padding {
 	padding: 15px;
@@ -668,12 +669,9 @@ body {
 }
 .gt-sidebar-nav ul li a {
 	display: block;
-	padding: .6em .6em .6em 0em;
-	margin-left: 1.8em;
+	padding: .6em .6em .6em 1.8em;
 }
 .gt-sidebar-nav ul li a.icon {
-	display: block;
-	padding: .6em .6em .6em 1.8em;
 	margin-left: 1.8em;
 }
 
@@ -816,6 +814,7 @@ tt {
 	border: 3px solid #aaa;
 	padding: 1em;
 	background-color: #fff;
+	margin-bottom: 1.5em;
 }
 
 .error {
@@ -1956,3 +1955,6 @@ button.tab-right {
 	bottom: 0;
 	background: #eeeeee url(/images/bullet_arrow_right.png) no-repeat 50% 50%;}
 }
+
+/*Breadcrumbs*/
+p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
