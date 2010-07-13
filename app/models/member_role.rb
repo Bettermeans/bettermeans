@@ -16,11 +16,11 @@ class MemberRole < ActiveRecord::Base
   
   validates_presence_of :role
   
-  # acts_as_event :title => :event_title,
-  #               :description => :long_description,
-  #               :author =>  :user,
-  #               :type => 'member-role',
-  #               :url => Proc.new {|o| {:controller => 'projects', :action => 'team', :id => o.member.project_id}}
+  acts_as_event :title => :event_title,
+                :description => :long_description,
+                :author =>  :user,
+                :type => 'member-role',
+                :url => Proc.new {|o| {:controller => 'projects', :action => 'team', :id => o.member.project_id}}
     
   
   def validate
