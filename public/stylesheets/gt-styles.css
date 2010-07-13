@@ -277,6 +277,10 @@ body {
 	color: #365b6d;
 	text-decoration: none!important;
 }
+.gt-table td.side {
+	width: 100px;
+}
+
 
 /*Custom indentation*/
 .gt-content-box h3 {
@@ -664,8 +668,15 @@ body {
 }
 .gt-sidebar-nav ul li a {
 	display: block;
-	padding: .6em .6em .6em 1.8em;
+	padding: .6em .6em .6em 0em;
+	margin-left: 1.8em;
 }
+.gt-sidebar-nav ul li a.icon {
+	display: block;
+	padding: .6em .6em .6em 1.8em;
+	margin-left: 1.8em;
+}
+
 .gt-sidebar-nav a:link, .gt-sidebar-nav a:visited {
 	color: #eee;
 	text-decoration: none;
@@ -1533,6 +1544,9 @@ vertical-align: bottom;
 .diff_in { background: #cfc; }
 
 /***** Wiki *****/
+.wiki {
+	padding: 15px;
+}
 .wiki h1 {
 	margin-bottom:30px;
 	margin-top:5px;

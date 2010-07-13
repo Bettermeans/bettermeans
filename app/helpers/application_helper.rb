@@ -117,7 +117,7 @@ module ApplicationHelper
     onclick << "$('##{options[:second_toggle]}').toggle(); " if options[:second_toggle]
     onclick << (options[:focus] ? "$('##{options[:focus]}').focus(); " : "this.blur(); ")
     onclick << "return false;"
-    link_to(name, "#", :onclick => onclick)
+    link_to(name, "#", options.merge({:onclick => onclick}))
   end
 
   def image_to_function(name, function, html_options = {})
@@ -199,6 +199,8 @@ module ApplicationHelper
       end
       s << '</select>'
       s << '<span id="widthcalc" style="display:none;"></span>'
+    else
+      s = ' &#187; ' + @project.name
     end
   end
   
