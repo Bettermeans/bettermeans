@@ -271,6 +271,12 @@ body {
 	text-decoration: none!important;
 }
 
+/*Custom indentation*/
+.gt-content-box h3 {
+	margin: 10px;
+}
+
+
 /* Table Buttons */
 .gt-table-buttons {
 	margin: 10px 0 40px 0;
@@ -387,9 +393,16 @@ body {
 .gt-user-table .gt-avatar {
 	width: 1%;
 }
+.gt-user-table .gt-avatar img{
+	padding: 2px;
+  border: solid 1px #d5d5d5;
+  background: #fff;
+	
+}
 .gt-user-table p {
 	font-size: 85%;
 }
+
 
 /* Login Box Styles */
 .gt-login-hd {
@@ -781,17 +794,19 @@ tt {
 	text-decoration: none;
 }
 
-.gt-error {
-	background-color: #cc0000;
-	padding: .5em 1em;
-	color: #fff;
-}
-.gt-notice-box {
+.flash {
 	border: 3px solid #aaa;
 	padding: 1em;
 	background-color: #fff;
 }
-.gt-success {
+
+.error {
+	background-color: #cc0000;
+	padding: .5em 1em;
+	color: #fff;
+}
+
+.success {
 	background-color: #47790a;
 	padding: .5em 1em;
 	color: #fff;

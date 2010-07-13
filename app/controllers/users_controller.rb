@@ -54,7 +54,7 @@ class UsersController < ApplicationController
       render_404
       return
     end
-    render :layout => 'base'
+    render :layout => 'gooey'
 
   rescue ActiveRecord::RecordNotFound
     render_404
