@@ -925,3 +925,64 @@ div.projects h3 { background: url(/images/projects.png) no-repeat 0% 50%; paddin
 #quote{
 	width:30%;
 }
+
+
+/* Sidebar Navigation */
+.gt-sidebar-nav {
+	margin-bottom: 20px;
+	border-radius: 5px;
+}
+.gt-sidebar-nav ul {
+	margin: 0;
+	padding: 0 1px 1px 1px;
+}
+.gt-sidebar-nav ul li {
+	padding: 0 0 0 0;
+	margin: 0;
+	list-style-type: none;
+}
+.gt-sidebar-nav ul li a {
+	display: block;
+	padding: .6em .6em .6em 1.8em;
+}
+.gt-sidebar-nav ul li a.icon {
+	margin-left: 1.8em;
+}
+
+.gt-sidebar-nav a:link, .gt-sidebar-nav a:visited {
+	color: #eee;
+	text-decoration: none;
+}
+.gt-sidebar-nav a:hover {
+	color: #fff;
+	text-decoration: none;
+}
+.gt-sidebar-nav h3 {
+	font-size: 108%;
+	margin: 0;
+	padding: .6em .6em .6em 1.2em;
+	color: #fff;
+	font-weight: bold;
+}
+
+/* Brown Sidebar Nav */
+.gt-sidebar-nav-blue {
+	background: url(../images/gt/sidenav-blue-bkg.gif) repeat-x 0 0 #002f49;
+}
+.gt-sidebar-nav-blue li {
+	border-top: 1px solid #1b5c7e;
+}
+.gt-sidebar-nav-blue a:hover {
+	background-color: #1a5472;
+}
+
+/* Green Sidebar Nav */
+.gt-sidebar-nav-gray {
+	background: url(../images/gt/sidenav-gray-bkg.gif) repeat-x 0 0 #333;
+}
+.gt-sidebar-nav-gray li {
+	border-top: 1px solid #6b6b6b;
+}
+.gt-sidebar-nav-gray a:hover {
+	background-color: #5b5b5b;
+}
