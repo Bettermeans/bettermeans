@@ -1,7 +1,7 @@
 <h2><%= l(:label_search) %></h2>
 
 <% form_tag({}, {:method => :get, :class=>"search-form"}) do %>
-<div class="gt-content-box wiki">
+<div class="gt-content-box padded">
 <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
 <%= javascript_tag "Field.focus('search-input')" %>
 <%= project_select_tag %>
@@ -29,7 +29,7 @@
 
 <% if @results %>
     <h3 class="gt-table-head"><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
-    <div class="gt-content-box wiki">
+    <div class="gt-content-box padded">
     <dl id="search-results">
       <% @results.each do |e| %>
         <dt class="<%= e.event_type %>"><%= content_tag('span', h(e.project), :class => 'project') unless @project == e.project %> <%= link_to highlight_tokens(truncate(e.event_title, :length => 255), @tokens), e.event_url, :class => (e.event_type.match(/^issue/)) ? "fancyframe" : "noframe" %></dt>

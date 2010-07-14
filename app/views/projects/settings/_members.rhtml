@@ -3,8 +3,9 @@
    members = @project.member_users.find(:all, :include => [:roles, :user]).sort %>
 
 <div class="splitcontentleft">
+<div class="gt-content-box padded">
 <% if members.any? %>
-<table class="list members">
+<table class="gt-table border='0'">
 	<thead>
 	  <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
 	  <th><%= l(:label_role_plural) %></th>
@@ -49,10 +50,12 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 </div>
+</div>
 
 <% users = User.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @project.users %>
 
 <div class="splitcontentright">
+<div class="gt-content-box padded">
 <% if roles.any? && users.any? %>
   <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post) do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
@@ -80,4 +83,5 @@
 		</fieldset>
   <% end %>
 <% end %>
+</div>
 </div>
