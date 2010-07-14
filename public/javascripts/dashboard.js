@@ -463,7 +463,7 @@ function display_panels(){
 
 function wipe_panels(){
 	$('.panel').remove();
-	$('.dahboard-button-panel').remove();
+	$('.dashboard-button-panel').remove();
 }
 
 function sort_panels(){
@@ -2390,7 +2390,7 @@ function insert_panel(position, name, title, visible){
 	if (visible){button_style = 'style="display:none;"';}
 	generate_and_append_panel(position,name,title, visible);
 	
-	$('#panel_buttons').append('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dahboard-button-panel" ' + button_style + '/>');
+	$('#panel_buttons').prepend('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '/>');
 	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right', bindShow: 'click'});
 }
 
