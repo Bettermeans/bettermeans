@@ -206,6 +206,7 @@ body {
 }
 .gt-util-box-inner {
 	padding: .35em 2em;
+	float:right;
 }
 .gt-util-separator {
 	padding: 0 .35em;
@@ -619,7 +620,7 @@ body {
 /* Main Navigation */
 .gt-nav {
 	margin: 0 0 0 14px;
-	width: 70%;
+/*	width: 70%;*/
 	float: left;
 	display: inline;
 }
@@ -958,12 +959,29 @@ ul li {
 	margin-top: 2px;
 	width: 95%;
 }
-.gt-navbar .gt-search {
+.gt-navbar .gt-search-wide {
 	width: 20%;
 	margin-top: 9px;
 	margin-right: 35px;
 	float: right;
 	display: inline;
+}
+.gt-navbar .gt-search-narrow {
+	width: 50%;
+	float:right;
+}
+
+.gt-navbar .gt-search-container {
+	width: 30%;
+	margin-top: 9px;
+	margin-right: 9px;
+	float: right;
+	display: inline;	
+}
+
+.dash-filter {
+	float: right;
+	margin-left: 5px;
 }
 /* @end */
 
@@ -1821,8 +1839,8 @@ form input[type=submit] {
 	line-height: 38px;
 	text-align: center;
 	font-weight: bold;
-	color: #fff!important;
-	text-decoration: none!important;
+	color: #fff;
+	text-decoration: none;
 	font-size: 13px;
 	border: none;
 	padding: 0;
@@ -1958,3 +1976,9 @@ button.tab-right {
 
 /*Breadcrumbs*/
 p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
+
+.highlight { background-color: #FCFD8D;}
+.highlight.token-1 { background-color: #faa;}
+.highlight.token-2 { background-color: #afa;}
+.highlight.token-3 { background-color: #aaf;}
+.search-highlight { background-color: #FCFD8D;font-weight:bold;}
