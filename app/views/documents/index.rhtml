@@ -16,11 +16,15 @@
 
 <!-- <h2><%#=l(:label_document_plural)%></h2> -->
 
-<% if @grouped.empty? %><p class="nodata"><%= l(:label_no_data) %></p><% end %>
+<% if @grouped.empty? %>
+<div class="gt-content-box">
+  <p class="nodata"><%= l(:label_no_data) %></p>
+</div>
+<% end %>
 
 <% @grouped.keys.sort.each do |group| %>
     <h3><%= group %></h3>
-    <div class="gt-content-box wiki">
+    <div class="gt-content-box padded">
       <%= render :partial => 'documents/document', :collection => @grouped[group] %>
     </div>
 <% end %>

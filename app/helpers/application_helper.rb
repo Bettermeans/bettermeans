@@ -199,8 +199,10 @@ module ApplicationHelper
       end
       s << '</select>'
       s << '<span id="widthcalc" style="display:none;"></span>'
+    elsif @project
+      s = ' &#187; ' + @project.name
     else
-      s = ' &#187; ' + @project.name unless !@project
+      s = h(Setting::APP_TITLE)
     end
   end
   

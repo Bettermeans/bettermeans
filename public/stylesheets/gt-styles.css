@@ -282,7 +282,9 @@ body {
 .gt-table td.side {
 	width: 100px;
 }
-
+.padded {
+	padding: 15px;
+}
 
 /*Custom indentation*/
 .gt-content-box h3 {
@@ -1909,6 +1911,10 @@ form p {
 	margin-bottom: 15px;
 }
 
+/*********** Attachment form ***************/
+#attachments_fields input[type="text"] {
+/*	width: 50%;*/
+}
 
 
 
@@ -1955,7 +1961,7 @@ text-decoration:none;
 line-height:1.3em;
 padding:4px 6px 4px 6px;
 border: 1px solid #ccc;
-border-bottom: 1px solid #bbbbbb;
+border-bottom: 0px solid #bbbbbb;
 background-color: #eeeeee;
 color:#777;
 font-weight:bold;
@@ -2023,3 +2029,10 @@ p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 div#search-results-counts {float:right;}
 div#search-results-counts ul { margin-top: 0.5em; }
 div#search-results-counts  li { list-style-type:none; float: left; margin-left: 1em; }
+
+
+/******* MISC ************/
+.nodata {
+	margin: 20px;
+	text-align: center;
+}
