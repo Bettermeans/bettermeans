@@ -693,7 +693,7 @@ en:
   label_bulk_edit_selected_issues: Bulk edit selected items
   label_theme: Theme
   label_default: Default
-  label_search_titles_only: Search titles only
+  label_search_titles_only: Titles only
   label_user_mail_option_all: "For any event on all my workstreams"
   label_user_mail_option_selected: "For any event on the selected workstreams only..."
   label_user_mail_option_none: "Only for things I watch or I'm involved in"
@@ -911,6 +911,7 @@ en:
   
   button_login: Login
   button_submit: Submit
+  button_search: Search
   button_save: Save
   button_check_all: Check all
   button_uncheck_all: Uncheck all
