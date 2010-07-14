@@ -189,16 +189,28 @@ module ApplicationHelper
   def render_project_jump_box
     # Retrieve them now to avoid a COUNT query
     projects = User.current.projects.all
+    current_project_in_list = false #when true, it means that dropdown already contains current project
     if projects.any?
-      s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
-            "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
-            '<option value="" disabled="disabled">---</option>'
-      s << project_tree_options_for_select(projects, :selected => @project) do |p|
+      s_options = ""
+      s_options << project_tree_options_for_select(projects, :selected => @project) do |p|
+        current_project_in_list = true if @project && p.id == @project.id
         # { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
         { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
       end
+      
+      if current_project_in_list || !@project
+        s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
+              "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
+              '<option value="" disabled="disabled">---</option>'
+      else
+        s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
+              "<option value='#{url_for(:controller => 'projects', :action => 'show', :id => @project)}' selected=\"yes\"> &#187; #{ @project.name }</option>" +
+              '<option value="" disabled="disabled">---</option>'
+      end
+      s << s_options
       s << '</select>'
       s << '<span id="widthcalc" style="display:none;"></span>'
+      # s << current_project_in_list.to_s
     elsif @project
       s = ' &#187; ' + @project.name
     else
