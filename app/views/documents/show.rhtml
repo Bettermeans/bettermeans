@@ -1,12 +1,6 @@
-<div class="contextual">
-<%= link_to_if_authorized l(:button_edit), {:controller => 'documents', :action => 'edit', :id => @document}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy', :id => @document}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
-</div>
-
 <h2><%=h @document.title %></h2>
-
 <p><em><%= format_date @document.created_on %></em></p>
-<div class="wiki">
+<div class="gt-content-box wiki">
 <%= textilizable @document.description, :attachments => @document.attachments %>
 </div>
 
@@ -14,8 +8,10 @@
 <%= link_to_attachments @document %>
 
 <% if authorize_for('documents', 'add_attachment') %>
-<p><%= link_to l(:label_attachment_new), {}, :onclick => "$('#add_attachment_form').show(); $('#' + this.id).hide(); $('body').scrollTo('#add_attachment_form'); return false;",
-                                             :id => 'attach_files_link' %></p>
+<p><%= link_to l(:label_attachment_new), {}, 
+              :onclick => "$('#add_attachment_form').show(); $('#' + this.id).hide(); $('body').scrollTo('#add_attachment_form'); return false;",
+              :id => 'attach_files_link', 
+              :class => "gt-btn-gray-large" %></p>
   <% form_tag({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>
   <div class="gt-content-box">
   <p><%= render :partial => 'attachments/form' %></p>
@@ -27,3 +23,17 @@
 <% end %>
 
 <% html_title @document.title -%>
+
+<% content_for :sidebar do %>
+<h2>&nbsp;</h2>
+<div class="gt-sidebar-nav gt-sidebar-nav-gray">
+  <ul>
+  <li>
+    <%= link_to_if_authorized l(:button_edit), {:controller => 'documents', :action => 'edit', :id => @document}, :class => 'icon icon-edit', :accesskey => accesskey(:edit) %>
+  </li>
+  <li>
+    <%= link_to_if_authorized l(:button_delete), {:controller => 'documents', :action => 'destroy', :id => @document}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+  </li>
+  </ul>
+</div>
+<% end %>
