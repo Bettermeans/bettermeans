@@ -1,13 +1,5 @@
 <%= breadcrumb link_to(l(:label_board_plural), {:controller => 'boards', :action => 'index', :project_id => @project}) %>
 
-<div class="contextual">
-<%= link_to_if_authorized l(:label_message_new),
-                          {:controller => 'messages', :action => 'new', :board_id => @board},
-                          :class => 'icon icon-add',
-                          :onclick => '$("#add-message").show(); $("#message_subject").focus(); return false;' %>
-<%= watcher_tag(@board, User.current) %>
-</div>
-
 <div id="add-message" style="display:none;">
 <% if authorize_for('messages', 'new') %>
 <h2><%= link_to h(@board.name), :controller => 'boards', :action => 'show', :project_id => @project, :id => @board %> &#187; <%= l(:label_message_new) %></h2>
@@ -75,4 +67,21 @@
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
+<% end %>
+
+<% content_for :sidebar do %>
+<h2>&nbsp;</h2>
+<div class="gt-sidebar-nav gt-sidebar-nav-gray">
+  <ul>
+  <li>
+    <%= link_to_if_authorized l(:label_message_new),
+                              {:controller => 'messages', :action => 'new', :board_id => @board},
+                              :class => 'icon icon-add',
+                              :onclick => '$("#add-message").show(); $("#message_subject").focus(); return false;' %>
+  </li>
+  <li>
+    <%= watcher_tag(@board, User.current) %>
+  </li>
+  </ul>
+</div>
 <% end %>
