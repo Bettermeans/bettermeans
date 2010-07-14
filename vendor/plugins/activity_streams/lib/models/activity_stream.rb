@@ -82,7 +82,7 @@ class ActivityStream < ActiveRecord::Base
     conditions[:project_id] = project.id if project && !with_subprojects
     conditions[:project_id] = project.sub_project_array if project && with_subprojects
     
-    activities_by_item = ActivityStream.all(:conditions => conditions, :limit => length).group_by {|a| a.object_type + a.object_id.to_s}
+    activities_by_item = ActivityStream.all(:conditions => conditions, :limit => length, :order => "updated_at desc").group_by {|a| a.object_type + a.object_id.to_s}
     activities_by_item.each_pair do |key,value| 
       activities_by_item[key] = value.sort_by{|i| - i[:updated_at].to_i}
     end
