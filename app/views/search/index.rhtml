@@ -1,7 +1,7 @@
 <h2><%= l(:label_search) %></h2>
 
-<div class="gt-content-box">
-<% form_tag({}, :method => :get) do %>
+<% form_tag({}, {:method => :get, :class=>"search-form"}) do %>
+<div class="gt-content-box wiki">
 <p><%= text_field_tag 'q', @question, :size => 60, :id => 'search-input' %>
 <%= javascript_tag "Field.focus('search-input')" %>
 <%= project_select_tag %>
@@ -12,20 +12,24 @@
 <% @object_types.each do |t| %>
 <label><%= check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %></label>
 <% end %>
-</p>
+<%= submit_tag l(:button_search), :name => 'submit', :class => "gt-btn-gray-large" %>
 
-<div class="gt-table-buttons">
-<%= submit_tag l(:button_submit), :name => 'submit' %>
+</p>
 </div>
+
 <% end %>
-</div>
+
+<% content_for :sidebar do %>
+    <h2>&nbsp;</h2>
+    <div class="gt-sidebar-nav gt-sidebar-nav-blue">
+      <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
+    </div>
+<% end %>    
+
 
 <% if @results %>
-    <div id="search-results-counts">
-    <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
-    </div>
-    
-    <h3><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
+    <h3 class="gt-table-head"><%= l(:label_result_plural) %> (<%= @results_by_type.values.sum %>)</h3>
+    <div class="gt-content-box wiki">
     <dl id="search-results">
       <% @results.each do |e| %>
         <dt class="<%= e.event_type %>"><%= content_tag('span', h(e.project), :class => 'project') unless @project == e.project %> <%= link_to highlight_tokens(truncate(e.event_title, :length => 255), @tokens), e.event_url, :class => (e.event_type.match(/^issue/)) ? "fancyframe" : "noframe" %></dt>
@@ -33,6 +37,7 @@
         <span class="author"><%= format_time(e.event_datetime) %></span></dd>
       <% end %>
     </dl>
+    </div>
 <% end %>
 
 <p><center>

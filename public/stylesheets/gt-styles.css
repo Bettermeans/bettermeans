@@ -1885,6 +1885,33 @@ form p {
 	width: 80%;
 }
 
+
+/********** Search form **************/
+.search-form label {
+	display: inline;
+}
+
+.search-form input[type="text"] {
+	width: 50%;
+}
+
+.search-form input[type="submit"] {
+	float: none;
+	margin: 10px;
+}
+
+.search-form {
+	width: 100%;
+}
+
+.search-form .gt-content-box {
+	max-width: 100%;
+	margin-bottom: 15px;
+}
+
+
+
+
 /*TEMP*/
 .contextual {float:right; white-space: nowrap; line-height:1.4em;margin-top:5px; padding-left: 10px; font-size:0.9em;margin-right:10px;}
 .contextual input, .contextual select {font-size:0.9em;}
@@ -1982,3 +2009,17 @@ p.breadcrumb { font-size: 0.9em; margin: 4px 0 4px 0;}
 .highlight.token-2 { background-color: #afa;}
 .highlight.token-3 { background-color: #aaf;}
 .search-highlight { background-color: #FCFD8D;font-weight:bold;}
+
+/***** Search Results *******/
+#search-results { margin-left: 2em; }
+#search-results dd { margin-bottom: 1em; padding-left: 8px; font-size: 0.9em; }
+#search-results dt { margin-bottom: 0px; padding-left: 10px; line-height: 18px; background-position: 0 50%; background-repeat: no-repeat; }
+#search-results dd .description { font-style: italic; }
+#search-results span.project:after { content: " -"; }
+#search-results dd span.description { display:block; color: #808080; }
+
+#search-results dd { margin-bottom: 1em; padding-left: 10px; margin-left:0px; }
+
+div#search-results-counts {float:right;}
+div#search-results-counts ul { margin-top: 0.5em; }
+div#search-results-counts  li { list-style-type:none; float: left; margin-left: 1em; }
