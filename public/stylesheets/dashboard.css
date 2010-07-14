@@ -303,8 +303,8 @@ background-repeat:repeat-y;
 	font-weight: bold;
 }
 
-.dashboard-panel-button{
-	float: left;
+.dashboard-button-panel{
+	float: right;
 	margin-left: 2px;
 	margin-top: 0px;
 	font-weight: normal;
@@ -428,10 +428,14 @@ form input[type=submit] {
 	width: auto;
 	background-image: none;
 	border: 1px solid #006; 	
+	border-color: #FFFFFF #666666 #666666 #FFFFFF;
+	background-color: #ECE9D8; border-style: solid;
 }
 
 input[type=submit] {
 	border: 1px solid #006;
+	border-color: #FFFFFF #666666 #666666 #FFFFFF;
+	background-color: #ECE9D8 border-style: solid;
 }
 
 /*form input[type=submit]{
