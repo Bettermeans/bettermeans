@@ -200,7 +200,7 @@ module ApplicationHelper
       s << '</select>'
       s << '<span id="widthcalc" style="display:none;"></span>'
     else
-      s = ' &#187; ' + @project.name
+      s = ' &#187; ' + @project.name unless !@project
     end
   end
   
