@@ -74,6 +74,7 @@
 		  <div class="gt-util-box-inner">
       <%= render :partial => "layouts/account_menu" -%>
 			</div>
+			<%= yield :buttonbar %>
 		</div>
 		<!-- / utility box -->		
 		</div>
@@ -95,18 +96,23 @@
 		</div><!-- / navigation -->
 		
 		<!-- search -->
-		<div class="gt-search"><div class="gt-search-inner">
-		  <%# form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
-      <%#= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+		<% if (!has_content?(:searchbar)) %>
+    
+		<div class="gt-search gt-search-wide">
+		  <div class="gt-search-inner">
+		  <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+      <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
       <%#= link_to "#{l(:label_search)}:", {:controller => 'search', :action => 'index', :id => @project}, :id=> "search-label", :accesskey => accesskey(:search) %>
-      <%#= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %>
+      <%= text_field_tag 'q', @question, :size => 20, :class => 'gt-search-text', :onfocus => "javascript:if(this.value=='Search')this.value='';", :onblur=> "javascript:if(this.value=='')this.value='Search';", :accesskey => accesskey(:quick_search) %>
       
-      <%# end %>
-      <input type="text" class="gt-search-text" value="Search" onfocus="javascript:if(this.value=='Search')this.value='';" onblur="javascript:if(this.value=='')this.value='Search';" />
-		</div></div>
+      <% end %>
+		  </div>
+		</div>
+		<% else %>
+		  <%= yield :searchbar %>		
+		<% end %>
 		
 		</div>
-		
 	</div><!-- /navbar -->			
 </div><!-- /leaf watermark -->
 </div>
