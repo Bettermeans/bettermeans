@@ -595,6 +595,8 @@ function show_accept_flyover(dataId,callingElement){
 }
 
 function is_visible(item){
+	if (item == null) {return;}
+	
 	if (item.tracker.name == "Gift" && item.assigned_to_id == currentUserId){
 		return false;
 	}
