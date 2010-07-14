@@ -803,7 +803,7 @@ module ApplicationHelper
     count = count.to_i
     return nil if count < 2
     return "(twice)" if count == 2
-    return "(#{as.count.to_s} times)" if count > 2 
+    return "(#{count.to_s} times)" if count > 2 
   end
   
   
