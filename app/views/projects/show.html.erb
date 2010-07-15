@@ -1,6 +1,6 @@
 <!-- <h1><%#=l(:label_overview)%></h1>  -->
 	
-<div class="splitcontentleft">
+<div class="gt-right-col">
   
   <% if @motions.any? %>
   <h2><%=l(:label_motions_active)%></h2>  
@@ -52,7 +52,7 @@
   <% end %>
 </div>
 
-<div class="splitcontentright">
+<div class="gt-left-col">
   <h2 class="gt-table-head"><%=l(:label_activity_latest)%></h2>  
   <div class="activity gt-content-box">
     <%= render :partial => 'activity_streams/activity_stream_list', :locals => {:activities_by_item => @activities_by_item} %>

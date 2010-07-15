@@ -4,13 +4,17 @@
     <td>
 <h4><%= link_to as.actor_name, self.send("#{as.actor_type.downcase}_path", as.actor_id) %>
 <span class='verb'><%= as.verb.tr('_', ' ') %></span>
-<%= link_to (as.tracker_name) ? "#{as.tracker_name} ##{as.object_id}" : l("label_#{as.object_type.downcase}") , url_for_activity_stream(as), {:class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe"} %>
-</h4>
-<% if as.indirect_object_id-%>
-<p class="description">
-  <%= render :partial => 'activity_streams/indirect_object', :locals => {:as => as} %>
-</p>
+<%= link_to (as.tracker_name) ? "a #{as.tracker_name.downcase}" : l("label_#{as.object_type.downcase}") , url_for_activity_stream(as), {:class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe"} %>
+<%= action_times(as.count) %>
+<% if @project.nil? || @project.id != as.project_id %>
+in <%= link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %>
 <% end %>
+</h4>
+<%# if as.indirect_object_id-%>
+<!-- <p class="description"> -->
+  <%#= render :partial => 'activity_streams/indirect_object', :locals => {:as => as} %>
+<!-- </p> -->
+<%# end %>
 <table class="gt-table gt-user-table activity-item">
   <tbody>
     <tr>
@@ -24,7 +28,14 @@
     <tr>
   </tbody> 
 </table>
+<div class="activity-tag">
+&nbsp;&nbsp;<%= since_tag(as.updated_at) %> ago in 
+<%# if @project.nil? || @project.id != as.project_id %>
+	<%= link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %>
+<%# end %>
+<%= link_to " - #{as.tracker_name} ##{as.id}", url_for_activity_stream(as), {:class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe"} if as.tracker_name%>
 
+</div>
 
 
 
