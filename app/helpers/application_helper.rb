@@ -150,7 +150,7 @@ module ApplicationHelper
     id = rand(100000)
     string = newhtml
     h = truncate(string,length,"")
-    h << "<a href='' onclick='$(\"##{id.to_s}\").show();$(this).hide();return false;'> ...read more</a>"
+    h << "<a href='' onclick='$(\"##{id.to_s}\").show();$(this).hide();return false;'> ...<strong>read more</strong></a>"
     h << "<span class='hidden' id=#{id.to_s}>"
     h << string[length..string.length]
     h << "</span>"
