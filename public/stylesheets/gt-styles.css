@@ -2047,3 +2047,6 @@ div#search-results-counts  li { list-style-type:none; float: left; margin-left: 
 	margin: 20px;
 	text-align: center;
 }
+
+
+wbr:after { content: "\00200B" } /*opera compatibility with wbr*/
