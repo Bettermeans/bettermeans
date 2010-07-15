@@ -1,34 +1,12 @@
 <%= render :partial => 'activity_streams/activity_stream', :locals => {:as => asg[0]} %> 
     <table class="gt-table gt-user-table activity-sub">
       <tbody>
-      <% for as in asg %>
-        <%= render :partial => 'activity_streams/activity_stream_sub', :locals => {:as => as} unless as == asg[0] %> 
+      <% for as in asg.to_a.reverse %>
+        <%= render :partial => 'activity_streams/activity_stream_sub', :locals => {:as => as} %> 
       <% end %>
       </tbody>
     </table>
   </td>
-  <td style="width:20%">
-		<!-- Categories Sub Table -->
-		<table border="0" class="gt-table-categories">
-			<tr>
-        <!-- <th>Logged time:</th> -->
-				<td><%= since_tag(asg[0].updated_at) %> ago</td>
-			</tr>
-			<% if asg[0].count > 1 %>
-			<tr>
-        <!-- <th>Repeated:</th> -->
-				<td><%= action_times(asg[0].count) %></td>
-			</tr>
-			<% end %>
-			<% if @project.nil? || @project.id != asg[0].project_id %>
-			<tr>
-        <!-- <th>Workstream:</th> -->
-				<td><%= link_to h(asg[0].project_name), :controller => 'projects', :action => 'show', :id => asg[0].project_id  %></td>
-			</tr>
-			<% end %>
-		</table>
-  </td>
-  
 </tr>
 
   

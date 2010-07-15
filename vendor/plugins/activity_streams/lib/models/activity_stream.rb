@@ -72,7 +72,7 @@ class ActivityStream < ActiveRecord::Base
     length = Setting::ACTIVITY_STREAM_LENGTH
     
     if limit
-      begin; @length = params[:length].to_i; rescue; end
+      length = limit
     end
     
     with_subprojects ||= true
