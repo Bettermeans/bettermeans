@@ -27,7 +27,7 @@ function initialize(){
 
 function prep_jumpbox(){
 	jumpbox_text = $('#jumpbox :selected').text();
-	$('#jumpbox :selected').text($('#jumpbox :selected').text().trim());
+	$('#jumpbox :selected').text($.trim($('#jumpbox :selected').text()));
 	adjust_jumpbox_width();
 	
 	$('#jumpbox').focus(function(){
@@ -36,12 +36,12 @@ function prep_jumpbox(){
 		$('#jumpbox').css('background-color','#0094CD');
 	});
 	$('#jumpbox').focusout(function(){
-		$('#jumpbox :selected').text($('#jumpbox :selected').text().trim());				
+		$('#jumpbox :selected').text($.trim($('#jumpbox :selected').text()));
 		$('#jumpbox').css('background-color','transparent');
 		adjust_jumpbox_width();
 	});
 	$('#jumpbox').change(function(){
-		$('#jumpbox :selected').text($('#jumpbox :selected').text().trim());				
+		$('#jumpbox :selected').text($.trim($('#jumpbox :selected').text()));
 		$('#jumpbox').css('background-color','transparent');
 		adjust_jumpbox_width();
 	});
