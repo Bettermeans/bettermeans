@@ -1,12 +1,3 @@
-<div class="contextual">
-<%= link_to_if_authorized l(:button_edit), 
-                          {:controller => 'news', :action => 'edit', :id => @news},
-                          :class => 'icon icon-edit',
-                          :accesskey => accesskey(:edit),
-                          :onclick => '$("#edit-news").show(); return false;' %>
-<%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
-</div>
-
 <h2><%=h @news.title %></h2>
 
 <% if authorize_for('news', 'edit') %>
@@ -14,7 +5,9 @@
 <% labelled_tabular_form_for :news, @news, :url => { :action => "edit", :id => @news },
                                            :html => { :id => 'news-form' } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
+<div class="gt-table-buttons">
 <%= submit_tag l(:button_save) %>
+<p class="gt-cancel">
 <%= link_to_remote l(:label_preview), 
                    { :url => { :controller => 'news', :action => 'preview', :project_id => @project },
                      :method => 'post',
@@ -22,38 +15,95 @@
                      :with => "Form.serialize('news-form')"
                    }, :accesskey => accesskey(:preview) %> |
 <%= link_to l(:button_cancel), "#", :onclick => '$("#edit-news").hide(); return false;' %>
+</p></div>
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>
 <% end %>
 
-<p><em><% unless @news.summary.blank? %><%=h @news.summary %><br /><% end %>
-<span class="author"><%= authoring @news.created_on, @news.author %></span></em></p>
-<div class="wiki">
-<%= textilizable(@news.description) %>
+<div class="message gt-content-box">
+  
+<table class="gt-table gt-user-table" border="0">  
+  <tbody>
+    <tr>
+      <td class="gt-avatar <%= User.current.logged? && User.current.id == @news.author ? 'me' : nil %>">
+        <%= avatar(@news.author, :size => '53') %>
+      </td>
+      <td>
+        <p><em><% unless @news.summary.blank? %><%="<strong>Summary</strong>: #{h @news.summary}" %><br /><% end %>
+        </em></p>
+        
+        <%= textilizable(@news.description) %>
+    </td>
+    <td class="side">
+      <table border="0" class="gt-table-categories">
+  			<tr>
+          <!-- <th>Repeated:</th> -->
+  				<td><%= link_to_user(@news.author) %></td>
+  			</tr>
+  			<tr>
+          <!-- <th>Logged time:</th> -->
+  				<td><%= since_tag(@news.created_on) %> ago</td>
+  			</tr>
+  		</table>
+    </td>
+   </tr>
+  </tbody>
+</table>
 </div>
+
 <br />
 
-<div id="comments" style="margin-bottom:16px;">
 <h3 class="comments"><%= l(:label_comment_plural) %></h3>
+<div class="gt-content-box">
+<table class="gt-table gt-user-table" border="0">  
+  <tbody>
+
 <% @comments.each do |comment| %>
-    <% next if comment.new_record? %>
-    <div class="contextual">
-    <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment},
-                                                       :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %>
-    </div>
-    <h4><%= authoring comment.created_on, comment.author %></h4>
-    <%= textilizable(comment.comments) %>
+<% next if comment.new_record? %>
+
+ <tr>
+   <td class="gt-avatar <%= User.current.logged? && User.current.id == comment.author ? 'me' : nil %>">
+     <%= avatar(comment.author, :size => '53') %>
+   </td>
+   <td>
+     <div class="comment reply" id="<%= "comment-#{comment.id}" %>">
+       <%= textilizable comment.comments %>
+     </div>
+     
+   </td>
+   <td class="side">
+     <table border="0" class="gt-table-categories">
+ 			<tr>
+         <!-- <th>Repeated:</th> -->
+ 				<td><%= link_to_user(comment.author) %></td>
+ 			</tr>
+ 			<tr>
+         <!-- <th>Logged time:</th> -->
+ 				<td><%= since_tag(comment.created_on) %> ago</td>
+ 			</tr>
+      <tr><td>
+        <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment},
+                                                           :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %>
+        </td>
+        </tr>
+ 		</table>
+   </td>
+</tr>
 <% end if @comments.any? %>
+    </tbody>
+  </table>
 </div>
 
 <% if authorize_for 'news', 'add_comment' %>
-<p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
+<p><%= toggle_link l(:label_comment_add), "add_comment_form", {:focus => "comment_comments", :class => "gt-btn-gray-large"} %></p>
 <% form_tag({:action => 'add_comment', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
-<div class="box">
+<div class="gt-content-box">
     <%= textile_editor 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
 </div>
-<p><%= submit_tag l(:button_add) %></p>
+<div class="gt-table-buttons">
+<%= submit_tag l(:button_add) %>
+</div>
 <%= textile_editor_initialize(:framework => :jquery) %>
 <% end %>
 <% end %>
@@ -62,4 +112,21 @@
 
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <div class="gt-sidebar-nav gt-sidebar-nav-gray">
+    <ul>
+      <li>
+        <%= link_to_if_authorized l(:button_edit), 
+                                  {:controller => 'news', :action => 'edit', :id => @news},
+                                  :class => 'icon icon-edit',
+                                  :accesskey => accesskey(:edit),
+                                  :onclick => '$("#edit-news").show(); return false;' %>
+      </li>
+      <li>
+        <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+      </li>
+    </ul>
+  </div>
 <% end %>

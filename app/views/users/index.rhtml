@@ -10,7 +10,9 @@
 <%= select_tag 'status', users_status_options_for_select(@status), :class => "small", :onchange => "this.form.submit(); return false;"  %>
 <label><%= l(:label_user) %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
+<div class="gt-table-buttons">
 <%= submit_tag l(:button_apply), :class => "small", :name => nil %>
+</div>
 </fieldset>
 <% end %>
 &nbsp;

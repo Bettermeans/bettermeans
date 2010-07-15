@@ -1,24 +1,44 @@
 <% roles = Role.find_all_givable(Role::LEVEL_PROJECT)
    members = project.member_users.find(:all, :include => [:roles, :user]).sort 
-   #TODO: is there way to include incoming_team_points here, so we're not calling it once for every team member below?
    %>
+   
+   <!-- Shows active members -->
+   <% 
+   if members.any? 
+     %>
+   <div class="members gt-content-box">
+     <table border="0" class="gt-table gt-user-table">
+   		<tbody>
+       	<% members.each do |member| %>
+       	<tr>
+       	  <td class="gt-avatar"><%= avatar(member.user) %></td>
+       	  <td><h4><%= link_to_user member.user %></h4>
+       	      <%= nomination_links(member,project) %>
+       	  </td>
+       	  <td>
+       	    <!-- Categories Sub Table -->
+						<table border="0" class="gt-table-categories">
+							<tr>
+								<th>Role:</th>
+								<td><%=h member.roles.sort.collect(&:to_s).join(', ') %></td>
+							</tr>
+							<tr>
+								<th>Since:</th>
+								<td><%= since_tag(member.created_on) %> ago</td>
+							</tr>
+						</table>
+						
+       	  </td>
+         </tr>
+       	<% end %>
+   	  </tbody>
+   	</table>
+   </div>
+   <div class="gt-table-buttons">
+   </div>
 
-<div id="team_list">
-<% if members.any? %>
-<table class="list members">
-	<thead>
-	  <th>&nbsp;</th>
-	  <th><%#= l(:label_user) %> <%#= l(:label_group) %></th>
-	  <th><%#= l(:label_role_plural) %></th>
-	</thead>
-	<tbody>
-	<% members.each do |member| %>
-	<% next if member.new_record? %>
-	<%= render :partial => 'team_list_member', :locals => {:member => member} %>
-	</tbody>
-<% end; reset_cycle %>
-</table>
-<% else %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
-</div>
+   <% else %>
+   <div class="gt-content-box">
+   <p class="nodata"><%= l(:label_no_data) %></p>
+    </div>
+   <% end %>

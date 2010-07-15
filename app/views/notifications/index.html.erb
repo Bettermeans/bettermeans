@@ -1,8 +1,12 @@
-<h2><%=l(:label_notifications)%></h2>
-<%#= link_to 'New notification', new_notification_path %>
-<% @notifications.each do |@notification| %>
-    <%= render :partial => @notification.variation, 
-              :locals => @notification.params %>
-<% end %>
-<br />
-
+<h2 class="gt-table-head icon22 icon22-projects"><%=l(:label_notifications)%></h2>
+<div class="gt-content-box">
+<table border="0" class="gt-table gt-user-table">
+  <tbody>
+    <%#= link_to 'New notification', new_notification_path %>
+    <% @notifications.each do |@notification| %>
+        <%= render :partial => @notification.variation, 
+                  :locals => @notification.params %>
+    <% end %>
+  </tbody>
+</table>
+</table>

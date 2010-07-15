@@ -124,7 +124,7 @@ class IssuesController < ApplicationController
     
     # @priorities = IssuePriority.all
     respond_to do |format|
-      format.html { render :template => 'issues/show.rhtml', :layout => 'blank' }
+      format.html { render :template => 'issues/show.rhtml', :layout => 'issue_blank' }
       format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end

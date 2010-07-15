@@ -622,7 +622,8 @@ en:
   label_preview: Preview
   label_feed_plural: Feeds
   label_changes_details: Details of all changes
-  label_issue_tracking: Item tracking
+  label_issue_tracking: Work Breakdown
+  label_boards: Discussion
   label_spent_time: Spent time
   label_f_hour: "{{value}} hour"
   label_f_hour_plural: "{{value}} hours"
@@ -692,7 +693,7 @@ en:
   label_bulk_edit_selected_issues: Bulk edit selected items
   label_theme: Theme
   label_default: Default
-  label_search_titles_only: Search titles only
+  label_search_titles_only: Titles only
   label_user_mail_option_all: "For any event on all my workstreams"
   label_user_mail_option_selected: "For any event on the selected workstreams only..."
   label_user_mail_option_none: "Only for things I watch or I'm involved in"
@@ -795,7 +796,7 @@ en:
   label_sending_team_invitation : "{{author}} wants you to join the Core Team for the {{project}} workstream"
   label_sending_team_request : "{{author}} wants to join the Core Team for the {{project}} workstream"
   label_team_view_all : "View team details"
-  label_team_view_all_enterprise : "View entire enterprise team"
+  label_team_view_all_enterprise : "View entire team"
   label_member_role_plural : "Team Changes" 
   label_join_core_team : "Join Core Team"
   label_leave_core_team : "Leave Core Team"
@@ -910,6 +911,7 @@ en:
   
   button_login: Login
   button_submit: Submit
+  button_search: Search
   button_save: Save
   button_check_all: Check all
   button_uncheck_all: Uncheck all

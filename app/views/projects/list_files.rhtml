@@ -1,6 +1,3 @@
-<div class="contextual">
-<%= link_to_if_authorized l(:label_attachment_new), {:controller => 'projects', :action => 'add_file', :id => @project}, :class => 'icon icon-add' %>
-</div>
 
 <h2><%=l(:label_attachment_plural)%></h2>
 
@@ -37,3 +34,13 @@
 </table>
 
 <% html_title(l(:label_attachment_plural)) -%>
+
+<% content_for :sidebar do %>
+  <div class="gt-sidebar-nav gt-sidebar-nav-gray">
+    <ul>
+      <li>
+        <%= link_to_if_authorized l(:label_attachment_new), {:controller => 'projects', :action => 'add_file', :id => @project}, :class => 'icon icon-add' %>
+      </li>
+    </ul>
+  </div>
+<% end %>

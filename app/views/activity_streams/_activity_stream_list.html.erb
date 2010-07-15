@@ -1,7 +1,9 @@
-<div id= "activity">
-<dl>
-<% activities_by_item.each do |key, value| %>
-<%= render :partial => 'activity_streams/activity_stream_group', :locals => {:asg_name => key, :asg => value} %> 
-<% end %>
-</dl>
-</div>
+ <table border="0" class="gt-table gt-user-table">
+    <tbody>
+      <% activities_by_item.each do |key, value| %>
+      <%= render :partial => 'activity_streams/activity_stream_group', :locals => {:asg_name => key, :asg => value} %> 
+      <% end %>
+    </tbody>
+  </table>
+
+<%= content_tag('p', l(:label_no_data), :class => 'nodata') if @activities_by_item.empty? %>

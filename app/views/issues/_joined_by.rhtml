@@ -17,8 +17,12 @@
      &nbsp;
      <%= select :issue_vote, :user_id, collection_for_project_members_select %>
      &nbsp;
-     <%= submit_tag l(:button_add) %>
+  <div class="gt-table-buttons">
+       <%= submit_tag l(:button_add) %>
+       <p class="gt-cancel">
      <%= toggle_link l(:button_cancel), 'new-team-member-form', {:second_toggle => 'add_member_link'}%>
+     </p>
+     </div>
      </p>
       <%#= render :partial => 'form_add_team_member', :locals => {:f => f}%>
     <% end %>

@@ -1,10 +1,13 @@
-<%= render :partial => 'activity_streams/activity_stream', :locals => {:as => asg[0], :show_indirect => :true} %> 
-  <dl class="sub">
-  <% for as in asg %>
-    <%= render :partial => 'activity_streams/activity_stream_sub', :locals => {:as => as} unless as == asg[0] %> 
-  <% end %>
-  </dl>
-</dd>
+<%= render :partial => 'activity_streams/activity_stream', :locals => {:as => asg[0]} %> 
+    <table class="gt-table gt-user-table activity-sub">
+      <tbody>
+      <% for as in asg.to_a.reverse %>
+        <%= render :partial => 'activity_streams/activity_stream_sub', :locals => {:as => as} %> 
+      <% end %>
+      </tbody>
+    </table>
+  </td>
+</tr>
 
   
 

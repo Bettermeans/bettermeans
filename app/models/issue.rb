@@ -31,9 +31,9 @@ class Issue < ActiveRecord::Base
                      # sort by id so that limited eager loading doesn't break with postgresql
                      :order_column => "#{table_name}.id"
 
-  # acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
-  #               :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
-  #               :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
+  acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
+                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
+                :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
   # 
   # acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
   #                           :author_key => :author_id
@@ -495,7 +495,7 @@ class Issue < ActiveRecord::Base
       
       write_single_activity_stream(User.sysadmin,:name,self,:subject,:changed,"update_to_#{@updated.name}", 0, @updated,{
                 :indirect_object_name_method => :name,
-                :indirect_object_phrase => "from <strong>#{original.name}</strong> to <strong>#{@updated.name}</strong> " })
+                :indirect_object_phrase => "From <strong>#{original.name}</strong> to <strong>#{@updated.name}</strong> " })
       
       
       if self.status == IssueStatus.accepted 

@@ -1,7 +1,7 @@
 <% if @deliveries %>
 <% form_tag({:action => 'edit', :tab => 'notifications'}) do %>
 
-<div class="box tabular settings">
+<div class="gt-content-box tabular settings">
 <p><%= setting_text_field :mail_from, :size => 60 %></p>
 
 <p><%= setting_check_box :bcc_recipients %></p>
@@ -9,14 +9,14 @@
 <p><%= setting_check_box :plain_text_mail %></p>
 </div>
 
-<fieldset class="box settings" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
+<fieldset class="gt-content-box settings" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
 	<%= setting_multiselect(:notified_events, 
         @notifiables.collect {|notifiable| [l_or_humanize(notifiable, :prefix => 'label_'), notifiable]}, :label => false) %>
 
 	<p><%= check_all_links('notified_events') %></p>
 </fieldset>
 
-<fieldset class="box"><legend><%= l(:setting_emails_footer) %></legend>
+<fieldset class="gt-content-box"><legend><%= l(:setting_emails_footer) %></legend>
 <%= setting_text_area :emails_footer, :label => false, :class => 'wiki-edit', :rows => 5 %>
 </fieldset>
 
@@ -24,7 +24,9 @@
 <%= link_to l(:label_send_test_email), :controller => 'admin', :action => 'test_email' %>
 </div>
 
+<div class="gt-table-buttons">
 <%= submit_tag l(:button_save) %>
+</div>
 <% end %>
 <% else %>
 <div class="nodata">
