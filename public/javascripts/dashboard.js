@@ -19,6 +19,7 @@ var last_data_pull = new Date(); //tracks last data recieved from server
 var highest_pri = -9999;
 var loaded_panels = 0; //keeps track of how many panels have had their data loaded
 var local_store = null; //local persistant storage
+var ok_to_save_local_data = false;
 
 $(window).bind('resize', function() {
 	resize();
@@ -223,6 +224,8 @@ function load_dashboard_data(){
 		load_dashboard_data_for_statuses('12','archived'); 
 	}
 	
+	ok_to_save_local_data = true;
+	
 }
 
 function refresh_local_data(){
@@ -236,6 +239,8 @@ function refresh_local_data(){
 }
 
 function save_local_data(){
+	if (ok_to_save_local_data == false) {return;}
+	
 	try{
 		store.set('D_' + projectId,JSON.stringify(D));
 		store.set('R_' + projectId,JSON.stringify(R));
