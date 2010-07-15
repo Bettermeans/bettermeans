@@ -33,7 +33,9 @@
   <% if user_vote.nil? && motion.active? %>
     <%= l :text_tally_hidden_until_you_vote %>
   <% else %>
-    <%= tally_table(motion) %>
+    <div class="gt-content-box">
+      <%= tally_table(motion) %>
+    </div>
   <% end %>
 </div>
 <br>

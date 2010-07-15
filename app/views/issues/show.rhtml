@@ -40,13 +40,6 @@
     <td id="issue_id" class="issue-id">  <%= url_for(:action => 'dashboard', :controller => 'projects', :show_issue_id => @issue.id, :only_path => false, :protocol => 'http') %></td>
 </tr>
 </table>
-<!-- <hr />
-
-<div class="contextual">
-<%#= link_to_remote_if_authorized(l(:button_quote), { :url => {:action => 'reply', :id => @issue} }, :class => 'icon icon-comment') unless @issue.description.blank? %>
-</div>
-                              
-<p> -->
 
 
 <% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>

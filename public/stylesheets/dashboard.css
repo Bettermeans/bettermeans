@@ -39,9 +39,18 @@ body  {
 	width:100%;
 }
 
+#main_table{
+	margin-top: 13px;
+}
+
+#panels {
+	background-color: #fff;
+	margin-top: -5px;
+}
+
 .panel {
 	padding: 0px 7px;
-	margin: 0p;
+	margin: 0px;
 	border:medium none;
 	min-width:225px;
 	max-width:800px;
@@ -290,7 +299,17 @@ background-repeat:repeat-y;
 .dashboard-button{
 	float: left;
 	margin-left: 3px;
+	margin-top: 9px;
+	font-weight: bold;
 }
+
+.dashboard-button-panel{
+	float: right;
+	margin-left: 2px;
+	margin-top: 0px;
+	font-weight: normal;
+}
+
 
 .watermark{
 	color: #7C7B76;
@@ -342,18 +361,17 @@ padding-left:0;
 padding-right:0;
 }
 
-.filter-search {
-/*margin-right:58px;*/
+/*.filter-search {
 float:right;
 font-size: 0.8em;
 }
-
-.fast-search {
+*/
+/*.fast-search {
 margin-right:5px;
 float:right;
 font-size: 0.8em;
 }
-
+*/
 .filtered-message {
 text-align:center;
 width:100%;
@@ -390,3 +408,39 @@ html>body #ajax-indicator { position: fixed; }
 #ajax-indicator span {
 	display:none;
 }
+
+/********** Overriding base ************/
+.gt-bd { padding: 0px;}
+
+/******** Overriding buttons ************/
+form input[type=submit] {
+	float: none;
+	display: inline;
+	height: auto;
+	line-height: normal;
+	font-weight: normal;
+	color: #000;
+	text-decoration: none!important;
+	font-size: normal;
+	border: normal;
+	padding: 0;
+	margin: 0;
+	width: auto;
+	background-image: none;
+	border: 1px solid #006; 	
+	border-color: #FFFFFF #666666 #666666 #FFFFFF;
+	background-color: #ECE9D8; border-style: solid;
+}
+
+input[type=submit] {
+	border: 1px solid #006;
+	border-color: #FFFFFF #666666 #666666 #FFFFFF;
+	background-color: #ECE9D8 border-style: solid;
+}
+
+/*form input[type=submit]{
+	background: none; border: none; margin: 0; padding: 0; font-size: 0; line-height: 0; width: auto; overflow: visible;
+}
+
+button { background: none; border: none; margin: 0; padding: 0; font-size: 0; line-height: 0; width: auto; overflow: visible; }
+*/

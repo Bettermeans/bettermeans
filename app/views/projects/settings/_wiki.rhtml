@@ -5,7 +5,7 @@
 
 <%= error_messages_for 'wiki' %>
 
-<div class="box tabular">
+<div class="gt-content-box tabular">
 <p><%= f.text_field :start_page, :size => 60, :required => true %><br />
 <em><%= l(:text_unallowed_characters) %>: , . / ? ; : |</em></p>
 </div>
@@ -14,6 +14,7 @@
 <%= link_to(l(:button_delete), {:controller => 'wikis', :action => 'destroy', :id => @project},
             :class => 'icon icon-del') if @wiki && !@wiki.new_record? %>
 </div>
-
+<div class="gt-table-buttons">
 <%= submit_tag((@wiki.nil? || @wiki.new_record?) ? l(:button_create) : l(:button_save)) %>
+</div>
 <% end %>

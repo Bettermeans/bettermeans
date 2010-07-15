@@ -3,8 +3,9 @@
    members = @project.member_users.find(:all, :include => [:roles, :user]).sort %>
 
 <div class="splitcontentleft">
+<div class="gt-content-box padded">
 <% if members.any? %>
-<table class="list members">
+<table class="gt-table border='0'">
 	<thead>
 	  <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
 	  <th><%= l(:label_role_plural) %></th>
@@ -26,8 +27,11 @@
         																							 :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
         <% end %></p>
         <%= hidden_field_tag 'member[role_ids][]', '' %>
-        <p><%= submit_tag l(:button_change), :class => "small" %>
+        <div class="gt-table-buttons">
+        <%= submit_tag l(:button_change), :class => "small" %>
+        <p class="gt-cancel">
         <%= link_to_function l(:button_cancel), "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;" %></p>
+        </div>
       <% end %>
     <% end %>
   </td>
@@ -46,10 +50,12 @@
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
 </div>
+</div>
 
 <% users = User.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @project.users %>
 
 <div class="splitcontentright">
+<div class="gt-content-box padded">
 <% if roles.any? && users.any? %>
   <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post) do |f| %>
     <fieldset><legend><%=l(:label_member_new)%></legend>
@@ -71,8 +77,11 @@
     	<label><%= check_box_tag 'member[role_ids][]', role.id %> <%=h role %></label>
    	<% end %></p>
    	
-    <p><%= submit_tag l(:button_add) %></p>
+    <div class="gt-table-buttons">
+    <%= submit_tag l(:button_add) %>
+    </div>
 		</fieldset>
   <% end %>
 <% end %>
+</div>
 </div>

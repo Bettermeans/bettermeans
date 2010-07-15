@@ -50,6 +50,127 @@
   </table>
 </div>
 
+<% content_for :searchbar do %>
+<div class="gt-search-container">
+  <div class="dash-filter">
+    <select id="filter_select" class="filter-search" onchange="filter_select();return false;">
+      <option value="all">
+        Filter (show all)
+      </option>
+      <option value="all">
+        Items that I&nbsp;&nbsp;»
+      </option>
+      <option value="untouched_by_me">
+        &nbsp;&nbsp;» didn\'t touch
+      </option>
+      <option value="touched_by_me">
+        &nbsp;&nbsp;» touched
+      </option>
+      <option value="added_by_me">
+        &nbsp;&nbsp;» added
+      </option>
+      <option value="prioritized">
+        &nbsp;&nbsp;» prioritized
+      </option>
+      <option value="all">
+        Needs my&nbsp;&nbsp;»
+      </option>
+      <option value="unagreed">
+        &nbsp;&nbsp;» agreement
+      </option>
+      <option value="unestimated">
+        &nbsp;&nbsp;» estimate
+      </option>
+      <option value="unaccepted">
+        &nbsp;&nbsp;» acceptance
+      </option>
+      <option value="unprioritized">
+        &nbsp;&nbsp;» prioritization
+      </option>
+      <option value="all">
+        Updated in last&nbsp;&nbsp;»
+      </option>
+      <option value="1">
+        &nbsp;&nbsp;» 24 hours
+      </option>
+      <option value="2">
+        &nbsp;&nbsp;» two days
+      </option>
+      <option value="3">
+        &nbsp;&nbsp;» three days
+      </option>
+      <option value="7">
+        &nbsp;&nbsp;» week
+      </option>
+      <option value="14">
+        &nbsp;&nbsp;» two weeks
+      </option>
+      <option value="30">
+        &nbsp;&nbsp;» month
+      </option>
+      <option value="60">
+        &nbsp;&nbsp;» two months
+      </option>
+      <option value="all">
+        Only show&nbsp;&nbsp;»
+      </option>
+      <option value="features">
+        &nbsp;&nbsp;»&nbsp;Features
+      </option>
+      <option value="chores">
+        &nbsp;&nbsp;»&nbsp;Chores
+      </option>
+      <option value="bugs">
+        &nbsp;&nbsp;»&nbsp;Bugs
+      </option>
+      <option value="expenses">
+        &nbsp;&nbsp;»&nbsp;Expenses
+      </option>
+      <option value="gifts">
+        &nbsp;&nbsp;»&nbsp;Gifts
+      </option>
+      <option value="recurring">
+        &nbsp;&nbsp;»&nbsp;Recurring
+      </option>
+      <option value="hourly">
+        &nbsp;&nbsp;»&nbsp;Hourly
+      </option>
+    </select>
+  </div>
+  
+<div class="gt-search gt-search-narrow">
+  <div class="gt-search-inner">
+    <input id="fast_search" type="text" class="gt-search-text fast-search" autocomplete="off" size="20" name="searchString" value="" onblur="searching = false;" onfocus = "searching = true;">
+    <!-- <table class="searchField">
+      <tbody>
+        <tr>
+          <td>
+            <a onclick="$(\'searchString\').focus(); return false;" href="#"><img src="/images/search_left.png" alt="Search" title=""></a>
+          </td>
+          <td class="field">
+            
+          </td>
+          <td style="vertical-align:top;">
+            <img src="/images/search_right.png">
+          </td>
+        </tr>
+      </tbody>
+    </table> -->
+  </div>
+  </div>
+</div>
+
+  <input id="new_request" value="New Request" type="submit" onclick="new_item();return false;" class="dashboard-button"/>
+  <input id="refresh_data" value="Refresh" type="submit" onclick="refresh_local_data();return false;" class="dashboard-button" />
+  
+<% end %>
+
+<% content_for :buttonbar do %>
+<div id="panel_buttons">
+</div>
+<% end %>
+
+
 <script>
   var projectId = '<%= @project.identifier %>';
   var currentUser = '<%= User.current.name %>';

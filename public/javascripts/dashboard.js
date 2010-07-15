@@ -133,6 +133,7 @@ $.fn.keyboard_sensitive = function() {
 
 function start(){
 	timer_active = true; //stop timer from starting until data loads
+	$('#fast_search').watermark('watermark','Fast Search');
 	//Checking for single issue display
 	if (show_issue_id){
 		show_issue_full(show_issue_id);
@@ -153,7 +154,7 @@ function load_dashboard(){
 	//prepares ui for page
 	prepare_page();
 	load_dashboard_data();
-	load_buttons();
+	// load_buttons();
 	timer_active = false; //now that data is loaded, we can start timer
 	start_timer();
 	
@@ -293,17 +294,7 @@ function load_dashboard_data_for_statuses(status_ids,name){
 	 });
 }
 
-//Binds events to search box
-function bind_search_events(){
-	$('#fast_search').blur(function(e){
-		searching = false;
-	});
-	$('#fast_search').focus(function(e){
-		searching = true;
-	});
 	
-	$('#fast_search').watermark('watermark','Fast Search');
-}
 
 // listens for any navigation keypress activity
 // $(document).keypress(function(e)
@@ -403,37 +394,29 @@ function make_text_boxes_toggle_keyboard_shortcuts(){
 }
 
 
-function load_buttons(){
-	$('#main-menu').append('<input id="new_request" value="New Request" type="submit" onclick="new_item();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
-	$('#main-menu').append('<input id="refresh_data" value="Refresh" type="submit" onclick="refresh_local_data();return false;" class="dashboard-button" style="margin-left: 20px;margin-right: 20px;font-weight:bold;"/>');
-	$('#main-menu').append('<select id="filter_select" class="filter-search" onChange="filter_select();return false;"><option value="all">Filter (show all)</option><option value="all">Items that I&nbsp;&nbsp;&#187;</option><option value="untouched_by_me">&nbsp;&nbsp;&#187; didn\'t touch</option><option value="touched_by_me">&nbsp;&nbsp;&#187; touched</option><option value="added_by_me">&nbsp;&nbsp;&#187; added</option><option value="prioritized">&nbsp;&nbsp;&#187; prioritized</option><option value="all">Needs my&nbsp;&nbsp;&#187;</option><option value="unagreed">&nbsp;&nbsp;&#187; agreement</option><option value="unestimated">&nbsp;&nbsp;&#187; estimate</option><option value="unaccepted">&nbsp;&nbsp;&#187; acceptance</option><option value="unprioritized">&nbsp;&nbsp;&#187; prioritization</option><option value="all">Updated in last&nbsp;&nbsp;&#187;</option><option value="1">&nbsp;&nbsp;&#187; 24 hours</option><option value="2">&nbsp;&nbsp;&#187; two days</option><option value="3">&nbsp;&nbsp;&#187; three days</option><option value="7">&nbsp;&nbsp;&#187; week</option><option value="14">&nbsp;&nbsp;&#187; two weeks</option><option value="30">&nbsp;&nbsp;&#187; month</option><option value="60">&nbsp;&nbsp;&#187; two months</option><option value="all">Only show&nbsp;&nbsp;&#187;</option><option value="features">&nbsp;&nbsp;&#187;&nbsp;Features</option><option value="chores">&nbsp;&nbsp;&#187;&nbsp;Chores</option><option value="bugs">&nbsp;&nbsp;&#187;&nbsp;Bugs</option><option value="expenses">&nbsp;&nbsp;&#187;&nbsp;Expenses</option><option value="gifts">&nbsp;&nbsp;&#187;&nbsp;Gifts</option><option value="recurring">&nbsp;&nbsp;&#187;&nbsp;Recurring</option><option value="hourly">&nbsp;&nbsp;&#187;&nbsp;Hourly</option></select>');
-	$('#main-menu').append('<input id="fast_search" class="fast-search" type="text"></input>');
-	bind_search_events();
-}
-
-function load_search(){
-	html = '';
-
-	html = html + '	<table class="searchField">';
-	html = html + '	<tbody>';
-	html = html + '	<tr>';
-	html = html + '	<td>';
-	html = html + '	<a onclick="$(\'searchString\').focus(); return false;" href="#">';
-	html = html + '	<img src="/images/search_left.png" alt="Search" title=""/>';
-	html = html + '	</a>';
-	html = html + '	</td>';
-	html = html + '	<td class="field">';
-	html = html + '	<input id="searchString" type="text" autocomplete="off" size="20" name="searchString" value=""/>';
-	html = html + '	</td>';
-	html = html + '	<td style="vertical-align:top;">';
-	html = html + '	<img src="/images/search_right.png"/>';
-	html = html + '	</td>';
-	html = html + '	</tr>';
-	html = html + '	</tbody>';
-	html = html + '	</table>';
-	
-	$('#header').append(html);
-}
+// function load_search(){
+// 	html = '';
+// 
+// 	html = html + '	<table class="searchField">';
+// 	html = html + '	<tbody>';
+// 	html = html + '	<tr>';
+// 	html = html + '	<td>';
+// 	html = html + '	<a onclick="$(\'searchString\').focus(); return false;" href="#">';
+// 	html = html + '	<img src="/images/search_left.png" alt="Search" title=""/>';
+// 	html = html + '	</a>';
+// 	html = html + '	</td>';
+// 	html = html + '	<td class="field">';
+// 	html = html + '	<input id="searchString" type="text" autocomplete="off" size="20" name="searchString" value=""/>';
+// 	html = html + '	</td>';
+// 	html = html + '	<td style="vertical-align:top;">';
+// 	html = html + '	<img src="/images/search_right.png"/>';
+// 	html = html + '	</td>';
+// 	html = html + '	</tr>';
+// 	html = html + '	</tbody>';
+// 	html = html + '	</table>';
+// 	
+// 	$('#header').append(html);
+// }
 
 
 function prepare_page(){
@@ -480,7 +463,7 @@ function display_panels(){
 
 function wipe_panels(){
 	$('.panel').remove();
-	$('.dahboard-button-panel').remove();
+	$('.dashboard-button-panel').remove();
 }
 
 function sort_panels(){
@@ -2397,8 +2380,8 @@ function show_comment(item){
 
 //resize heights of container and panels
 function resize(){
-	panel_height = $(window).height() - $('#header').height() - $('#top-menu').height();
-	$("#content").height(panel_height - 35);
+	panel_height = $(window).height() - $('.gt-hd').height() + $('.gt-footer').height() ;
+	// $("#content").height(panel_height - 35);
 	$(".list").height(panel_height - 75);
 	$("#panels").show();
 	recalculate_widths();
@@ -2409,7 +2392,7 @@ function insert_panel(position, name, title, visible){
 	if (visible){button_style = 'style="display:none;"';}
 	generate_and_append_panel(position,name,title, visible);
 	
-	$('#main-menu').append('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button dahboard-button-panel" ' + button_style + '/>');
+	$('#panel_buttons').prepend('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '/>');
 	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right', bindShow: 'click'});
 }
 
@@ -2537,7 +2520,7 @@ function show_start_buttons(){
 
 
 function recalculate_widths(){
-	new_width = $('#content').width() / $('.panel:visible').length;
+	new_width = $('#main').width() / $('.panel:visible').length;
 	$('.panel:visible').width(new_width);
 }
 

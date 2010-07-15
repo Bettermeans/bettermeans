@@ -1,7 +1,7 @@
 <%= error_messages_for 'tracker' %>
 
 <div class="splitcontentleft">
-<div class="box tabular">
+<div class="gt-content-box tabular">
 <!--[form:tracker]-->
 <p><%= f.text_field :name, :required => true %></p>
 
@@ -11,12 +11,14 @@
 <% end %>
 <!--[eoform:tracker]-->
 </div>
+<div class="gt-table-buttons">
 <%= submit_tag l(@tracker.new_record? ? :button_create : :button_save) %>
+</div>
 </div>
 
 <div class="splitcontentright">
 <% if @projects.any? %>
-<fieldset class="box" id="tracker_project_ids"><legend><%= l(:label_project_plural) %></legend>
+<fieldset class="gt-content-box" id="tracker_project_ids"><legend><%= l(:label_project_plural) %></legend>
 <%= project_nested_ul(@projects) do |p|
   content_tag('label', check_box_tag('tracker[project_ids][]', p.id, @tracker.projects.include?(p), :id => nil) + ' ' + h(p))
 end %>

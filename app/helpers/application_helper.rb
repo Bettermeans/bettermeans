@@ -117,7 +117,7 @@ module ApplicationHelper
     onclick << "$('##{options[:second_toggle]}').toggle(); " if options[:second_toggle]
     onclick << (options[:focus] ? "$('##{options[:focus]}').focus(); " : "this.blur(); ")
     onclick << "return false;"
-    link_to(name, "#", :onclick => onclick)
+    link_to(name, "#", options.merge({:onclick => onclick}))
   end
 
   def image_to_function(name, function, html_options = {})
@@ -189,15 +189,32 @@ module ApplicationHelper
   def render_project_jump_box
     # Retrieve them now to avoid a COUNT query
     projects = User.current.projects.all
+    current_project_in_list = false #when true, it means that dropdown already contains current project
     if projects.any?
-      s = '<select onchange="if (this.value != \'\') { window.location = this.value; }">' +
-            "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
-            '<option value="" disabled="disabled">---</option>'
-      s << project_tree_options_for_select(projects, :selected => @project) do |p|
-        { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
+      s_options = ""
+      s_options << project_tree_options_for_select(projects, :selected => @project) do |p|
+        current_project_in_list = true if @project && p.id == @project.id
+        # { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
+        { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
       end
+      
+      if current_project_in_list || !@project
+        s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
+              "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
+              '<option value="" disabled="disabled">---</option>'
+      else
+        s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
+              "<option value='#{url_for(:controller => 'projects', :action => 'show', :id => @project)}' selected=\"yes\"> &#187; #{ @project.name }</option>" +
+              '<option value="" disabled="disabled">---</option>'
+      end
+      s << s_options
       s << '</select>'
-      s
+      s << '<span id="widthcalc" style="display:none;"></span>'
+      # s << current_project_in_list.to_s
+    elsif @project
+      s = ' &#187; ' + @project.name
+    else
+      s = h(Setting::APP_TITLE)
     end
   end
   
@@ -348,7 +365,7 @@ module ApplicationHelper
   end
 
   def since_tag(time)
-    text = distance_of_time_in_words(Time.now, time)
+    text = distance_of_time_in_words(Time.now, time).gsub(/about/,"")
     content_tag('acronym', text, :title => format_time(time))
   end
 
@@ -423,23 +440,28 @@ module ApplicationHelper
   
   def page_header_title
     if @project.nil? || @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
-      h(Setting.app_title)
+      ""
+      # h(Setting.app_title)
     else
       b = []
       # b << link_to(h(@project.enterprise.name), {:controller => 'enterprises', :action => 'show', :id => @project.enterprise.id, :jump => current_menu_item}, :class => 'root')
-
+    
       ancestors = (@project.root? ? [] : @project.ancestors.visible)
       if ancestors.any?
         root = ancestors.shift
-        b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root, :jump => current_menu_item}, :class => 'root')
+        # b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root, :jump => current_menu_item}, :class => 'root')
+        b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root}, :class => 'root')
         if ancestors.size > 2
           b << '&#8230;'
           ancestors = ancestors[-2, 2]
         end
-        b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
+        # b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
+        b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p}, :class => 'ancestor') }
       end
-      b << h(@project)
-      b.join(' &#187; ')
+      # b << content_tag('span', h(@project), :id => "last_header")
+      b = b.join(' &#187; ')
+      
+      # b << "&nbsp;&nbsp;" << link_to("jump", nil, :class => 'root', :onclick => "jump_to_workstream();return false();", :id => "last_header_button")
     end
   end
 
@@ -772,11 +794,12 @@ module ApplicationHelper
   end
   
   def render_journal_details(journal)
-    html = "<ul>"
+    html = ""
+    html = "<ul>" if journal.details.count > 0
     for detail in journal.details
       html << "<li>#{show_detail(detail)}</li>"
     end
-    html << "</ul>"
+    html << "</ul>"  if journal.details.count > 0
     
     content = ""
     content << textilizable(journal, :notes)
@@ -802,8 +825,8 @@ module ApplicationHelper
   def action_times(count)  
     count = count.to_i
     return nil if count < 2
-    return "(twice)" if count == 2
-    return "(#{count.to_s} times)" if count > 2 
+    return " twice" if count == 2
+    return " #{count.to_s} times" if count > 2 
   end
   
   
@@ -817,7 +840,7 @@ module ApplicationHelper
   end
   
   def tally_table(motion)
-    content = "<table id='motion_votes_totals'>"
+    content = "<table id='motion_votes_totals' class='gt-table'>"
     content << "<thead><tr>"
     content << "<th>&nbsp;</th><th>#{l :label_binding}</th><th>#{l :label_non_binding}</th>"
     content << "</tr></thead>"

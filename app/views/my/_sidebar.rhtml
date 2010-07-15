@@ -1,10 +1,17 @@
-<h3><%=l(:label_my_account)%></h3>
+<div class="gt-sidebar-nav gt-sidebar-nav-gray">
+  <ul>
+  <li>
+    <%= link_to(l(:button_change_password), :action => 'password') unless @user.auth_source_id %>
+  </li>
+</div>
+
+<h3>General</h3>
 
 <p><%=l(:field_login)%>: <strong><%= @user.login %></strong><br />
 <%=l(:field_created_on)%>: <%= format_time(@user.created_on) %></p>
 
 
-<h4><%= l(:label_feeds_access_key) %></h4>
+<h3><%= l(:label_feeds_access_key) %></h3>
 
 <p>
 <% if @user.rss_token %>
@@ -16,7 +23,7 @@
 </p>
 
 <% if Setting.rest_api_enabled? %>
-<h4><%= l(:label_api_access_key) %></h4>
+<h3><%= l(:label_api_access_key) %></h3>
 <p>
   <%= link_to_function(l(:button_show), "$('api-access-key').toggle();")%>
   <pre id='api-access-key' class='autoscroll'><%= @user.api_key %></pre>
