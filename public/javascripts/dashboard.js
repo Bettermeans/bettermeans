@@ -217,11 +217,11 @@ function load_dashboard_data(){
 		R = [];
 		keyboard_shortcuts = false;
 		load_dashboard_data_for_statuses('10,11','new');
-		load_dashboard_data_for_statuses('1,6','open');
-		load_dashboard_data_for_statuses('4','inprogress');
-		load_dashboard_data_for_statuses('8,14,13','done');
-		load_dashboard_data_for_statuses('9','canceled'); 
-		load_dashboard_data_for_statuses('12','archived'); 
+		// load_dashboard_data_for_statuses('1,6','open');
+		// load_dashboard_data_for_statuses('4','inprogress');
+		// load_dashboard_data_for_statuses('8,14,13','done');
+		// load_dashboard_data_for_statuses('9','canceled'); 
+		// load_dashboard_data_for_statuses('12','archived'); 
 	}
 	
 	ok_to_save_local_data = true;
@@ -279,10 +279,11 @@ function load_dashboard_data_for_statuses(status_ids,name){
 	
 	$.ajax({
 	   type: "GET",
-	   // dataType: "json",
+	   dataType: "json",
 	   contentType: "application/json",
 	   cache:false,
-	   dataType: ($.browser.msie) ? "text" : "json",
+		data:{},
+	   // dataType: ($.browser.msie) ? "text" : "json",
 	   url: url,
 	   success:  	function(html){
 			last_data_pull = new Date();
@@ -485,7 +486,7 @@ function add_items_to_panels(last_item){
 
 //Called after data is ready for a retrospective
 function rdata_ready(html,rdataId){
-	retro = R[rdataId];
+	var retro = R[rdataId];
 	var panelid = 'retro_' + retro.id;
 	var i = D.length;
 	
@@ -1210,7 +1211,7 @@ function generate_comment(author,note,created_on,itemId,last_comment,journalId,d
 
 //blank_if_no_todos: when true, nothing is returned if there aren't any todos, when false the header is returned
 function generate_todos(dataId,blank_if_no_todos){
-	item = D[dataId];
+	var item = D[dataId];
 
 	var count = item.todos.length;
 	
@@ -1631,8 +1632,8 @@ function generate_notice(noticeHtml, noticeId){
 
 
 function buttons_for(dataId,expanded){
-	item = D[dataId];
-	html = '';
+	var item = D[dataId];
+	var html = '';
     	
 	switch (item.status.name){
 	case 'New':
@@ -1721,7 +1722,7 @@ function is_part_of_team(item){
 
 function agree_buttons_root(dataId,include_start_button,expanded){
 	var html = '';
-	item = D[dataId];
+	var item = D[dataId];
 	
 	var tally = '';
 	var label = 'agree?';
@@ -1780,7 +1781,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 function accept_buttons_root(dataId,include_start_button,expanded){
 	
 	var html = '';
-	item = D[dataId];
+	var item = D[dataId];
 	
 	var tally = '';
 	
@@ -1854,7 +1855,7 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 
 
 function pri_button(dataId){
-	item = D[dataId];
+	var item = D[dataId];
 	for(var i=0; i < item.issue_votes.length; i++){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 3)){
 			if (item.issue_votes[i].points == 1){
@@ -2525,7 +2526,7 @@ function show_start_buttons(){
 
 
 function recalculate_widths(){
-	new_width = $('#main').width() / $('.panel:visible').length;
+	var new_width = $('#main').width() / $('.panel:visible').length;
 	$('.panel:visible').width(new_width);
 }
 
@@ -2709,9 +2710,9 @@ function item_added(item){
 function item_actioned(item, dataId,action){
 	
 	collapse_item(dataId);
-	pre_status = D[dataId].status.name;
+	var pre_status = D[dataId].status.name;
 	
-	status_changed = (pre_status != item.status.name);
+	var status_changed = (pre_status != item.status.name);
 
 	// New and estimate status are the same as far as the dashboard is concerned
 	if ((item.status.name == 'Estimate' && pre_status == 'New')||(item.status.name == 'New' && pre_status == 'Estimate'))
@@ -3567,7 +3568,7 @@ function show_issue_full(itemId,update){
 
 //Full page view in fancy box of a single retro
 function show_retro_full(retroId){
-	url = '/projects/' + projectId + '/retros/' + retroId + '/show';
+	var url = '/projects/' + projectId + '/retros/' + retroId + '/show';
 	show_fancybox(url,'generating retrospective data...');
 
 	return false;
@@ -3628,7 +3629,7 @@ function new_dash_data_response(data){
 	
 	for(var i = 0; i < data.length; i++ ){
 		
-		item = data[i];
+		var item = data[i];
 		dataId = ITEMHASH["item" + String(item.id)];
 		
 		if (dataId == null){
