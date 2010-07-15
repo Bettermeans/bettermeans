@@ -142,7 +142,18 @@ module ApplicationHelper
   end
   
   def format_activity_description(text)
-    h(truncate(text.to_s, :length => 400).gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />")
+    make_expandable h(text.to_s.gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />"), 250
+  end
+  
+  def make_expandable(newhtml,length=400)
+    return newhtml if newhtml.length < length
+    id = rand(100000)
+    string = newhtml
+    h = truncate(string,length,"")
+    h << "<a href='' onclick='$(\"##{id.to_s}\").show();$(this).hide();return false;'> ...read more</a>"
+    h << "<span class='hidden' id=#{id.to_s}>"
+    h << string[length..string.length]
+    h << "</span>"
   end
 
   def due_date_distance_in_words(date)
@@ -803,6 +814,7 @@ module ApplicationHelper
     
     content = ""
     content << textilizable(journal, :notes)
+    content = make_expandable content, 250
     css_classes = "wiki"
     css_classes << " gravatar-margin" if Setting.gravatar_enabled?
     

@@ -2,5 +2,5 @@
   <%= render_journal_details(as.indirect_object)%>
 <% else %>
   <%= as.indirect_object_phrase %>
-  <%= as.indirect_object_description %>
+  <%= format_activity_description(as.indirect_object_description) %>
 <% end %>
