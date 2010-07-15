@@ -6,14 +6,16 @@
 
 <p><%= f.textile_editor :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
 <p><label><%= l(:field_comments) %></label><br /><%= f.text_field :comments, :size => 120 %></p>
-<p><%= submit_tag l(:button_save) %>
-   <%= link_to_remote l(:label_preview), 
+<div class="gt-table-buttons">
+<%= submit_tag l(:button_save) %>
+<p class="gt-cancel">   <%= link_to_remote l(:label_preview), 
                        { :url => { :controller => 'wiki', :action => 'preview', :id => @project, :page => @page.title },
                          :method => 'post',
                          :update => 'preview',
                          :with => "$('#wiki_form').serialize()",
                          :complete => "$('body').scrollTo('#preview')"
                        }, :accesskey => accesskey(:preview) %></p>
+</div>
 <%= textile_editor_initialize(:framework => :jquery) %>
 <% end %>
 

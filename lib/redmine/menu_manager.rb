@@ -412,7 +412,7 @@ module Redmine
       def html_options(options={})
         if options[:selected]
           o = @html_options.dup
-          o[:class] += ' selected'
+          o[:class] += ' gt-active'
           o
         else
           @html_options

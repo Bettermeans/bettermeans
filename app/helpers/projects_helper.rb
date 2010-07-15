@@ -17,12 +17,13 @@ module ProjectsHelper
   def nomination_links(member,project)
     return if member.user_id == User.current.id
     return unless User.current.binding_voter_of?(project)
-    content = ''
+    content = '<p class="gt-table-action-list">'
     
     #Link to nominate to core if user is a member
     content << link_to(l(:label_nominate_to_core_team), project_motions_path(project, "motion[variation]" => Motion::VARIATION_NEW_CORE, "motion[concerned_user_id]" => member.user_id), 
                                            :class => 'icon icon-cr-offer',
                                            :method => :post) << '&nbsp;&nbsp;&nbsp;&nbsp;' if member.roles.first.id  == Role::BUILTIN_MEMBER
+                                           
     
     #Link to drop from core if user is a core member
     content << link_to(l(:label_drop_from_core_team), project_motions_path(project, "motion[variation]" => Motion::VARIATION_FIRE_CORE, "motion[concerned_user_id]" => member.user_id), 
@@ -39,7 +40,8 @@ module ProjectsHelper
     content << link_to(l(:label_drop_from_member), project_motions_path(project, "motion[variation]" => Motion::VARIATION_FIRE_MEMBER, "motion[concerned_user_id]" => member.user_id), 
                                           :method => :post,
                                            :class => 'icon icon-cr-decline') << '  ' if member.roles.first.id  == Role::BUILTIN_MEMBER
-    content
+ 
+    content << "</p"
   end
   
   def parent_project_select_tag(project)

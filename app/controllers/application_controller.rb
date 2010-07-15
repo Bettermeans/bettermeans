@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   include Redmine::I18n
   include LogActivityStreams
 
-  layout 'base'
+  layout 'gooey'
   
   # Remove broken cookie after upgrade from 0.8.x (#4292)
   # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
@@ -183,7 +183,7 @@ class ApplicationController < ActionController::Base
   
   def render_403
     @project = nil
-    render :template => "common/403", :layout => (request.xhr? ? false : 'base'), :status => 403
+    render :template => "common/403", :layout => (request.xhr? ? false : 'gooey'), :status => 403
     return false
   end
     

@@ -4,6 +4,8 @@
 
 class Setting < ActiveRecord::Base
   
+  APP_TITLE = "BetterMeans.com"
+  
   TEXT_FORMATTING = "textile"
 
   MAXIMUM_CONCURRENT_REQUESTS = 4 #Maximum issues same pereson can own at the same time per workstream

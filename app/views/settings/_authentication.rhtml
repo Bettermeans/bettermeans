@@ -1,6 +1,6 @@
 <% form_tag({:action => 'edit', :tab => 'authentication'}) do %>
 
-<div class="box tabular settings">
+<div class="gt-content-box tabular settings">
 <p><%= setting_check_box :login_required %></p>
 
 <p><%= setting_select :autologin, [1, 7, 30, 365].collect{|days| [l('datetime.distance_in_words.x_days', :count => days), days.to_s]}, :blank => :label_disabled %></p>
@@ -23,5 +23,7 @@
     <%= link_to l(:label_ldap_authentication), :controller => 'auth_sources', :action => 'list' %>
 </div>
 
+<div class="gt-table-buttons">
 <%= submit_tag l(:button_save) %>
+</div>
 <% end %>

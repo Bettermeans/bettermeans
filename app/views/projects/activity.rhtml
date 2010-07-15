@@ -1,10 +1,9 @@
-<h2><%= @author.nil? ? l(:label_activity) : l(:label_user_activity, link_to_user(@author)) %></h2>
-<p class="subtitle"><%#= l(:label_date_from_to, :start => format_date(@date_to - @days), :end => format_date(@date_to-1)) %></p>
-<br>
+<h2 class="gt-table-head"><%= @author.nil? ? l(:label_activity) : l(:label_user_activity, link_to_user(@author)) %></h2>
+<!-- <p class="subtitle"><%#= l(:label_date_from_to, :start => format_date(@date_to - @days), :end => format_date(@date_to-1)) %></p>
+<br> -->
+<div class="gt-content-box">
 <%= render :partial => 'activity_streams/activity_stream_list', :locals => {:activities_by_item => @activities_by_item} %>
-
-<%= content_tag('p', l(:label_no_data), :class => 'nodata') if @activities_by_item.empty? %>
-
+</div>
 <!-- <%# other_formats_links do |f| %>
   <%#= f.link_to 'Atom', :url => params.merge(:from => nil, :key => User.current.rss_key) %>
 <%# end %>
@@ -12,11 +11,11 @@
 <%# content_for :header_tags do %>
 <%#= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :from => nil, :key => User.current.rss_key)) %>
 <%# end %>
-
-<%# content_for :sidebar do %>
+-->
+<% content_for :sidebar do %>
 <%# form_tag({}, :method => :get) do %>
-<h3><%#= l(:label_activity) %></h3>
-<p><%# @activity.event_types.each do |t| %>
+<h3><%= l(:label_activity) %></h3>
+<!-- <p><%# @activity.event_types.each do |t| %>
 <%#= check_box_tag "show_#{t}", 1, @activity.scope.include?(t) %>
 <%#= link_to(l("label_#{t.singularize}_plural"), {"show_#{t}" => 1, :user_id => params[:user_id]})%>
 <br />
@@ -28,6 +27,6 @@
 <%#= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
 <p><%#= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
 <%# end %>
-<%# end %> 
- -->
+-->
+<% end %> 
 <% html_title(l(:label_activity), @author) -%>

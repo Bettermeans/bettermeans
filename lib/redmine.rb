@@ -135,21 +135,21 @@ Redmine::AccessControl.map do |map|
   
 end
 
-Redmine::MenuManager.map :top_menu do |menu|
-  menu.push :home, :home_path
-  menu.push :my_page, { :controller => 'my', :action => 'page' }, :if => Proc.new { User.current.logged? }
-  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_enterprise_plural
-  menu.push :activity, { :controller => 'activity', :action => 'index' }
-  menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
-  #menu.push :help, Redmine::Info.help_url, :last => true
-end
+# Redmine::MenuManager.map :top_menu do |menu|
+#   menu.push :home, :home_path
+#   menu.push :my_page, { :controller => 'my', :action => 'page' }, :if => Proc.new { User.current.logged? }
+#   menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_enterprise_plural
+#   menu.push :activity, { :controller => 'activity', :action => 'index' }
+#   menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
+#   #menu.push :help, Redmine::Info.help_url, :last => true
+# end
 
-Redmine::MenuManager.map :account_menu do |menu|
-  menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
-  menu.push :register, { :controller => 'account', :action => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
-  menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
-  menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
-end
+# Redmine::MenuManager.map :account_menu do |menu|
+#   menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
+#   menu.push :register, { :controller => 'account', :action => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
+#   menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
+#   menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
+# end
 
 Redmine::MenuManager.map :application_menu do |menu|
   # Empty
@@ -168,13 +168,13 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :credits, { :controller => 'projects', :action => 'credits' }, 
       :if => Proc.new { |p| p.root? }
   menu.push :activity, { :controller => 'projects', :action => 'activity' }
-  menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
-  menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
+  menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id, :caption => :label_boards#,
   menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }#, 
               # :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
-  menu.push :discussions, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id#,
               # :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
-  menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_attachment_plural
+  menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
+  menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
+  # menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_attachment_plural
   menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
 end
 

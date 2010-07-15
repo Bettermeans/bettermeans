@@ -1,12 +1,13 @@
 <div class="contextual">
-<%= link_to_if_authorized(l(:label_motions_new),
+<%#= link_to_if_authorized(l(:label_motions_new),
                           {:controller => 'motions', :action => 'new', :project_id => @project},
                           :class => 'icon icon-add') %>
 </div>
 
 <h2>Listing motions</h2>
 
-<table>
+<div class="gt-content-box">
+<table class="gt-table">
   <tr>
     <th>&nbsp;</th>
     <th>Title</th>
@@ -31,9 +32,18 @@
   </tr>
 <% end %>
 </table>
+</div>
 
 <br />
 
+<% content_for :sidebar do %>
+<div class="gt-sidebar-nav gt-sidebar-nav-gray">
+  <ul>
+  <li>
+    <%= link_to 'New motion', new_project_motion_path(@project)%>
+  </li>
+</div>
+<% end %>
+
 <!-- {:controller => 'news', :action => 'new', :project_id => @project}, -->
 
-<%= link_to 'New motion', new_project_motion_path(@project) %>

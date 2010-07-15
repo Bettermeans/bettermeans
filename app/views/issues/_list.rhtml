@@ -1,6 +1,7 @@
 <% form_tag({}) do -%>	
 <%= hidden_field_tag 'back_url', url_for(params) %>
-<table class="list issues">
+<div class="gt-content-box">
+<table class="gt-table">
     <thead><tr>
         <th><%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
@@ -31,4 +32,5 @@
 	<% end -%>
 	</tbody>
 </table>
+</div>
 <% end -%>

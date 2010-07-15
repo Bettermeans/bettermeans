@@ -1,60 +1,104 @@
-<h3><%= l :label_motion %> <%= h @motion.id %> : <%=h @topic.subject %></h3>
-
-<div class="message">  
-  
-<p><span class="author"><%= authoring @topic.created_on, @topic.author %>. <%= render_title_date %></span></p>
-  
-  
-<% if @motion.concerned_user_id != nil %>
-<div class="concerned_user">
-<%= avatar_from_id(@motion.concerned_user_id) %><br>
-<%= link_to_user_from_id @motion.concerned_user_id %>
+<h2 class="gt-table-head"><%= l :label_motion %> <%= h @motion.id %> : <%=h @topic.subject %></h2>
+<div class="gt-content-box">
+<table class="gt-table gt-user-table" border="0">  
+  <tbody>
+    <tr>
+    <% if @motion.concerned_user_id != nil %>
+           <td class="gt-avatar">
+              <%= avatar(@motion.concerned_user, :size => '53') %><br>
+              <%= link_to_user_from_id @motion.concerned_user_id %>
+            </td>
+    <% end %>
+    <td>
+      <%= h @motion.description %>
+      <br><br>
+      <p>
+        <b>State:</b>
+        <%=l "label_motion_state#{h @motion.state}" %><br>
+        <b>Variation:</b>
+        <%=l "label_motion_variation#{h @motion.variation}" %><br>
+        <b>Vote Type:</b>
+        <%=l "label_motion_vote_type#{h @motion.motion_type}" %> (<%=l "label_motion_vote_type#{h @motion.motion_type}_desc" %>)<br>
+        <b>Minimum level needed to view:</b>
+        <%="#{h @motion.visibility_level_description}" %><br>
+        <b>Minimum level for binding vote:</b>
+        <%="#{h @motion.binding_level_description}" %><br>
+        <b>Discussion viewable by: </b>Everyone<br>
+      </p>
+      
+    </td>
+         <td>
+           <table border="0" class="gt-table-categories">
+            <tr>
+               <th>by:</th>
+              <td><%= link_to_user(@topic.author) %></td>
+            </tr>
+            <tr>
+               <th>Added:</th>
+              <td><%= since_tag(@topic.created_on) %> ago</td>
+            </tr>
+            <tr>
+              <td colspan="2"><%= render_title_date %></td>
+            </tr>
+          </table>
+         </td>
+      </tr>
+ </tbody>
+</table>
 </div>
-<div class="motion-description wiki">
-<%= h @motion.description %>
-</div>
-<% end %>
-<div style="clear:both;"> </div>
-<br><br>
-<p>
-  <b>State:</b>
-  <%=l "label_motion_state#{h @motion.state}" %><br>
-  <b>Variation:</b>
-  <%=l "label_motion_variation#{h @motion.variation}" %><br>
-  <b>Vote Type:</b>
-  <%=l "label_motion_vote_type#{h @motion.motion_type}" %> (<%=l "label_motion_vote_type#{h @motion.motion_type}_desc" %>)<br>
-  <b>Minimum level needed to view:</b>
-  <%="#{h @motion.visibility_level_description}" %><br>
-  <b>Minimum level for binding vote:</b>
-  <%="#{h @motion.binding_level_description}" %><br>
-  <b>Discussion viewable by: </b>Everyone<br>
-</p>
-</div>
+    
 
 <% unless @replies.empty? %>
 <h3 class="comments"><%= l(:label_comment_plural) %></h3>
-<% @replies.each do |message| %>
-  <div class="message reply" id="<%= "message-#{message.id}" %>">
-    <div class="contextual">
-      <%= link_to_remote_if_authorized image_tag('comment.png'), { :url => {:action => 'quote', :id => message} }, :title => l(:button_quote) %>
-    </div>    
-  <h4>
-    <%= link_to h(message.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :anchor => "message-#{@topic.id}" } %>
-    -
-    <%= authoring message.created_on, message.author %>
-  </h4>
-  <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
-  <%#= link_to_attachments message, :author => false %>
-  </div>
-<% end %>
+<div class="gt-content-box">
+<table class="gt-table gt-user-table" border="0">  
+  <tbody>
+    <% @replies.each do |message| %>
+       <tr>
+         <td class="gt-avatar <%= User.current.logged? && User.current.id == @topic.author ? 'me' : nil %>">
+           <%= avatar(message.author, :size => '53') %>
+         </td>
+         <td>
+           <div class="message reply" id="<%= "message-#{message.id}" %>">
+           <h4>
+             <%= link_to h(message.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :anchor => "message-#{message.id}" } %>
+           </h4>
+           <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
+      </div>
+           
+         </td>
+         <td class="side">
+           <table border="0" class="gt-table-categories">
+            <tr>
+               <!-- <th>:</th> -->
+              <td><%= link_to_user(message.author) %></td>
+            </tr>
+            <tr>
+               <!-- <th>:</th> -->
+              <td><%= since_tag(message.created_on) %> ago</td>
+            </tr>
+            <tr>
+              <td>
+              <%= link_to_remote_if_authorized image_tag('comment.png'), { :url => {:action => 'quote', :id => message} }, :title => l(:button_quote) %>
+              </td>
+              </tr>
+          </table>
+         </td>
+      </tr>
+    <% end %>
+ </tbody>
+</table>
+</div>
 <% end %>
 
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-<p><%= toggle_link l(:button_comment), "reply", :focus => 'message_content' %></p>
+<p><%= toggle_link l(:button_comment), "reply", {:focus => 'message_content', :class => 'gt-btn-gray-large'} %></p>
 <div id="reply" style="display:none;">
 <% form_for :reply, @reply, :url => {:action => 'reply', :id => @motion}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'messages/form', :locals => {:f => f, :replying => true} %>
+  <div class="gt-table-buttons">
   <%= submit_tag l(:button_submit) %>
+  <p class="gt-cancel">
   <%= link_to_remote l(:label_preview), 
                      { :url => { :controller => 'messages', :action => 'preview', :board_id => @board },
                        :method => 'post',
@@ -62,6 +106,8 @@
                        :with => "$('#message-form').serialize()",
                        :complete => "$('body').scrollTo('#preview')"
                      }, :accesskey => accesskey(:preview) %>
+  </p>
+  </div>
 <% end %>
 <div id="preview" class="wiki"></div>
 </div>
