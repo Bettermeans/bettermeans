@@ -495,7 +495,7 @@ class Issue < ActiveRecord::Base
       
       write_single_activity_stream(User.sysadmin,:name,self,:subject,:changed,"update_to_#{@updated.name}", 0, @updated,{
                 :indirect_object_name_method => :name,
-                :indirect_object_phrase => "from <strong>#{original.name}</strong> to <strong>#{@updated.name}</strong> " })
+                :indirect_object_phrase => "From <strong>#{original.name}</strong> to <strong>#{@updated.name}</strong> " })
       
       
       if self.status == IssueStatus.accepted 
