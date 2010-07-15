@@ -415,7 +415,8 @@ body {
   background: #fff;
 }
 .gt-user-table p {
-	font-size: 85%;
+	margin-bottom: inherit;
+
 }
 
 
