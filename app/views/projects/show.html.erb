@@ -86,7 +86,7 @@
 <div class="gt-sidebar-content">
 <h3><%=l(:label_project_description)%></h3>
 <%= textilizable @project.description %>	
-<% unless @project.homepage.blank? %><%=l(:field_homepage)%>: <%= link_to(h(@project.homepage), @project.homepage) %><% end %>
+<%# unless @project.homepage.blank? %><%#=l(:field_homepage)%><!-- : --> <%#= link_to(h(@project.homepage), @project.homepage) %><%# end %>
 </div>
 <br><br>
 <div class="gt-sidebar-content">
