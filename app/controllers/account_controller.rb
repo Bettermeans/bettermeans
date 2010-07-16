@@ -186,7 +186,8 @@ class AccountController < ApplicationController
       token = Token.create(:user => user, :action => 'autologin')
       cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
     end
-    redirect_back_or_default :controller => 'my', :action => 'page'
+    # redirect_back_or_default :controller => 'my', :action => 'page'
+    redirect_back_or_default :controller => 'welcome', :action => 'index'
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes

@@ -2,11 +2,11 @@ class HomeController < ApplicationController
   layout 'static'
   def index
     # render the landing page
-    if current_user
+    if User.current.logged?
       logger.info("we have a current user #{current_user.inspect}")
-      render :controller => 'welcome', :action => 'index'
+      redirect_to :controller => 'welcome', :action => 'index'
     else
-      render :action => 'show', :page => 'index'
+      redirect_to :controller => 'home', :action => 'show', :page => 'index'
     end
   end
 
