@@ -166,7 +166,8 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_default(default)
     back_url = CGI.unescape(params[:back_url].to_s)
-    if !back_url.blank?
+    logger.info("back url #{back_url}")
+    if !back_url.blank? && !back_url.include?("/home/")
       begin
         uri = URI.parse(back_url)
         # do not redirect user to another host or to the login or register page
