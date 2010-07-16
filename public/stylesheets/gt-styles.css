@@ -1429,7 +1429,7 @@ text-decoration:underline !important;
 .action_button_tally{
 	font-weight:bold;
 	color: #000;
-	background: url(/images/bb_blank.png) no-repeat; 
+/*	background: url(/images/bb_blank.png) no-repeat; */
 	width:60px;
 	height:21px;
 	text-align:center;
