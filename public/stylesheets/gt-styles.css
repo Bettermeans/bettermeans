@@ -1118,6 +1118,7 @@ div.activity-tag {
 	cursor:pointer;
 	color: #fff;
 	float: right;
+	display: inline;
 }
 
 .action_button_no_float{
@@ -1157,9 +1158,15 @@ div.activity-tag {
 .storyPreviewButtons {
 	float:right;
 	padding-bottom:1px;
-	padding-top:2px;
+	padding-top:0px;
 	padding-left:2px;
 	text-align:right;
+/*	width: 100px; /*will be overwritten by javascript*/
+	height: 19px;
+}
+
+.pri-container{
+	
 }
 
 .storyPreviewHeader .icons, .storyPreviewHeader .storyPreviewText {
@@ -1168,7 +1175,7 @@ div.activity-tag {
 }
 
 .storyPreviewText {
-	padding-left:80px;
+	padding-left:60px;
 }
 
 .storyPreviewInput {
@@ -1176,6 +1183,11 @@ div.activity-tag {
 }
 .storyPreviewText, .storyLabels {
 	-moz-user-select:none;
+}
+
+.icons {
+	float:left;
+	width: 60px;
 }
 
 
@@ -2048,7 +2060,14 @@ div#search-results-counts  li { list-style-type:none; float: left; margin-left: 
 .nodata {
 	margin: 20px;
 	text-align: center;
+	border-width: 0px;
 }
 
 
 wbr:after { content: "\00200B" } /*opera compatibility with wbr*/
+
+#jumpbox{
+	background: #323232;
+	font-size: 90%;
+/*	background: transparent;*/
+}

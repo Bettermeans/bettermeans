@@ -33,17 +33,18 @@ function prep_jumpbox(){
 	
 	$('#jumpbox').focus(function(){
 		$('#jumpbox :selected').text(jumpbox_text);				
-		adjust_jumpbox_width();
-		$('#jumpbox').css('background-color','#323232');
+		//adjust_jumpbox_width();
+		 $('#jumpbox').width('auto');
 	});
 	$('#jumpbox').focusout(function(){
 		$('#jumpbox :selected').text($.trim($('#jumpbox :selected').text()));
-		$('#jumpbox').css('background-color','transparent');
+		$('#jumpbox').css('background','#323232');
 		adjust_jumpbox_width();
+		
 	});
 	$('#jumpbox').change(function(){
 		$('#jumpbox :selected').text($.trim($('#jumpbox :selected').text()));
-		$('#jumpbox').css('background-color','transparent');
+		$('#jumpbox').css('background','#323232');
 		adjust_jumpbox_width();
 	});
 }
