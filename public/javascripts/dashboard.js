@@ -217,11 +217,11 @@ function load_dashboard_data(){
 		R = [];
 		keyboard_shortcuts = false;
 		load_dashboard_data_for_statuses('10,11','new');
-		// load_dashboard_data_for_statuses('1,6','open');
-		// load_dashboard_data_for_statuses('4','inprogress');
-		// load_dashboard_data_for_statuses('8,14,13','done');
-		// load_dashboard_data_for_statuses('9','canceled'); 
-		// load_dashboard_data_for_statuses('12','archived'); 
+		load_dashboard_data_for_statuses('1,6','open');
+		load_dashboard_data_for_statuses('4','inprogress');
+		load_dashboard_data_for_statuses('8,14,13','done');
+		load_dashboard_data_for_statuses('9','canceled'); 
+		load_dashboard_data_for_statuses('12','archived'); 
 	}
 	
 	ok_to_save_local_data = true;
@@ -239,12 +239,13 @@ function refresh_local_data(){
 }
 
 function save_local_data(){
-	if (ok_to_save_local_data == false) {return;}
+	if (ok_to_save_local_data == false) {return false;}
 	
 	try{
 		store.set('D_' + projectId,JSON.stringify(D));
 		store.set('R_' + projectId,JSON.stringify(R));
 		store.set('last_data_pull_' + projectId,last_data_pull);
+		return true;
 	}
 	catch(err){
 		return false;
@@ -255,12 +256,13 @@ function get_local_data(){
 	try{
 		local_D = JSON.parse(store.get('D_' + projectId));
 		
-		if (local_D == null) {return;}
+		if (local_D == null) {return false;}
 		
 		local_R = JSON.parse(store.get('R_' + projectId));
 		if (local_R == null) {local_R = [];}
 		
 		last_data_pull = new Date(store.get('last_data_pull_' + projectId));
+		return true;
 	}
 	catch(err){
 		return false;
@@ -275,7 +277,7 @@ function load_dashboard_data_for_statuses(status_ids,name){
 
 	
 	// var url = url + '?status_ids=1,4,6,8,10,11,13,14';
-	var url = url + '?status_ids=' + status_ids;
+	url = url + '?status_ids=' + status_ids;
 	
 	$.ajax({
 	   type: "GET",
@@ -584,7 +586,7 @@ function show_accept_flyover(dataId,callingElement){
 }
 
 function is_visible(item){
-	if (item == null) {return;}
+	if (item == null) {return false;}
 	
 	if (item.tracker.name == "Gift" && item.assigned_to_id == currentUserId){
 		return false;
@@ -2845,7 +2847,7 @@ function generate_hourly_fields(dataId, should_show, disable_fields) {
     html = html + '       <div>';
     html = html + '         <select id="' + hourly_type_id + '" class="storyDetailsField" name="' + hourly_type_id + '" ' + disabled + '>';    
     for(var i in hourly_types) {
-	html = html + '<option value="' + hourly_types[i].id + '">' + hourly_types[i].name_with_rates + '</option>'
+	html = html + '<option value="' + hourly_types[i].id + '">' + hourly_types[i].name_with_rates + '</option>';
     }
     html = html + '	     </select>';
     html = html + '	   </div>';
@@ -2944,9 +2946,9 @@ function generate_tracker_dropdown(dont_show_gift) {
 
 	var selected_text = (tracker.name == 'Feature' ? 'selected="true"' : '');
 
-	html += '<option ' + selected_text + ' value="' +  tracker.id + '">'
+	html += '<option ' + selected_text + ' value="' +  tracker.id + '">';
 	html += tracker.name;
-	html += '</option>'
+	html += '</option>';
     }   
 
     return html;
