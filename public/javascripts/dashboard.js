@@ -484,6 +484,31 @@ function add_items_to_panels(last_item){
 	for(var i = last_item; i < D.length; i++ ){
 			add_item(i,"bottom",false);	
 	}
+	
+	adjust_button_container_widths();
+
+}
+
+function adjust_button_container_widths(){
+	
+	if (jQuery.browser.msie) {  
+	
+		$.each($('.storyPreviewButtons'), function(){
+
+		var $sum = 0;
+	
+		$(this).children().each(function()
+		{
+			if ($(this).is(":visible")){
+			 	$sum += $(this).outerWidth();
+			}
+		});
+
+		$(this).width($sum + 12);
+		// console.log(sum);
+
+		});
+	}
 }
 
 //Called after data is ready for a retrospective
@@ -1481,9 +1506,9 @@ function generate_item(dataId){
 	
 	html = html + generate_item_estimate_button(dataId,points);
 	
-	if (show_comment(item)){
-	html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png" onclick="show_details_flyover('+ dataId +',this.id);return false;">'; 
-	}
+	// if (show_comment(item)){
+	// html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png" onclick="show_details_flyover('+ dataId +',this.id);return false;">'; 
+	// }
 	
 	html = html + '</div>';
     
@@ -1875,9 +1900,9 @@ function pri_button(dataId){
 }
 
 function generate_pri_button(dataId,direction,pri){
-	var html = '<div id="pri_container_' + D[dataId].id + '" style="float:right;">';
-	html = html + '<div id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button pri_button_' + direction + '" onclick="show_pri_flyover(' + dataId + ',this.id);return false;">' + pri + '</div>';	
-	html = html + '</div>';
+	// var html = '<div id="pri_container_' + D[dataId].id + '" class="pri_container">';
+	var html = '<div id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button pri_button_' + direction + '" onclick="show_pri_flyover(' + dataId + ',this.id);return false;">' + pri + '</div>';	
+	// html = html + '</div>';
 	return html;
 }
 
@@ -2405,7 +2430,7 @@ function insert_panel(position, name, title, visible){
 }
 
 function generate_and_append_panel(position,name,title, visible){
-	var panel_style = "";
+	var panel_style = null;
 	if (!visible){panel_style = 'style="display:none;"';}
 
 	var panelHtml = '';
