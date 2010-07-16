@@ -67,6 +67,7 @@ body {
 /* Body Styles */
 .gt-bd {
 	padding: 25px 35px;
+	min-height: 300px;
 }
 
 /* Standard 2 Column */

@@ -11,6 +11,7 @@
 <%= stylesheet_link_tag 'jquery.fancybox-1.3.0' %>
 <%= stylesheet_link_tag 'jquery-ui-1.7.2.custom' %>
 <%= stylesheet_link_tag 'gt-styles' %>
+<%= stylesheet_link_tag 'headerandfooter.css' %>
 
 <link href="/stylesheets/bubbletip.css" rel="stylesheet" type="text/css" />
 <!--[if IE]>
@@ -146,11 +147,12 @@
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
 
 
-<!-- footer -->
-<div class="gt-footer"><div class="gt-footer-inner">
-	<p>Powered by <a href="http://BetterMeans.com" target="new">BetterMeans.com</a> <%= Date.today.year %>  <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="new">[cc] CreativeCommons Attribution-Share Alike</a></p>
-</div></div>
-<!-- /footer -->
+<% if (has_content?(:footer)) %>
+  <%= yield :footer %>
+<% else %>
+  <%= render :partial => '/home/footer' %>
+<% end %>
+
 
     
 

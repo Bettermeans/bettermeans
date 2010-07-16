@@ -3,9 +3,9 @@
       <!-- end logo -->
       <div class="span-10 last">
 <!-- begin nav -->
-<% if current_user && current_user.name !=  'Anonymous'%>
+<% if User.current.logged? %>
         <ul class="sf-menu" id="topnav">
-          <li <%= "class='active'" if page == "dashboard" %>> <a href="/dashboard"><span>Dashboard</span></a>
+          <li <%= "class='active'" if page == "/" %>> <a href="/"><span><Dashboard>Browse</span></a>
           </li>
           <li <%= "class='active'" if page == "account" %>> <a href="/my/account"><span>Account</span></a>
           </li>

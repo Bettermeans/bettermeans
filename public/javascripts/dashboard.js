@@ -505,12 +505,8 @@ function adjust_button_container_widths(){
 		});
 
 		$(this).width($sum);
-		// console.log(sum);
 
 		});
-	}
-	else{
-		console.log("not ie");
 	}
 }
 
