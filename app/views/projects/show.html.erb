@@ -104,9 +104,10 @@
 									:total => @total_issues_by_tracker[tracker].to_i), :controller => 'issues', :action => 'index', :project_id => @project, 
                                                         :set_filter => 1, 
                                                         "tracker_id" => tracker.id %></span>
-									<span style="width:30%;"<%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
+									<span style="float:left;width:30%;"><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
                                                         :set_filter => 1, 
                                                         "tracker_id" => tracker.id %></span>
+                                                        :
           		</li>
             <% end %>
     </ul>
