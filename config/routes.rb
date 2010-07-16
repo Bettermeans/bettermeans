@@ -21,8 +21,6 @@ ActionController::Routing::Routes.draw do |map|
   # map.connect 'products/:id', :controller => 'catalog', :action => 'view'
   # Keep in mind you can assign values other than :controller and :action
 
-  map.home '', :controller => 'welcome'
-  
   map.signin 'login', :controller => 'account', :action => 'login'
   map.signout 'logout', :controller => 'account', :action => 'logout'
   
@@ -282,31 +280,19 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'projects/:project_id/motions/:action', :controller => 'motions'  
   map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
   
+  #semi-statig pages
+  map.root :controller => 'home'
+  map.home '', :controller => 'home', :action => 'index'
+  map.static ':page', :controller => 'home', :action => 'show', :page => /index.html|about.html|contact.html|blog.html|hq.html|pricing.html|signup.html|apps.html|products.html|services.html|single.html|tour.html|webdesign.html|index.htm|elements.html|privacy.html|library.html|features.html|testimonials.html|irb.html/                          
   
-  # Vote fu mappings
-  map.resources :users do |user|
-    user.resources :commit_requests
-    user.resources :votes
-    user.resources :journal do |mv|
-      mv.resources :votes    
-    end
-    user.resources :message do |mv|
-      mv.resources :votes    
-    end
-    user.resources :reply do |mv|
-      mv.resources :votes    
-    end
-    user.resources :issue do |mv|
-      mv.resources :votes
-    end
-  end
     
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
   map.connect 'robots.txt', :controller => 'welcome', :action => 'robots'
   # Used for OpenID
-  map.root :controller => 'account', :action => 'login'
+  # map.root :controller => 'account', :action => 'login'
   
+  map.resources :pages, :only => :show
       
   map.resources :todos
   map.resources :issue_votes
