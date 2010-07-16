@@ -1,5 +1,5 @@
     <div class="span-12 last" id="header">
-      <div class="span-2" id="logo"><a href="/index.html" title="BetterMeans">Meedo</a></div>
+      <div class="span-2" id="logo"><a href="/front/index.html" title="BetterMeans">BetterMeans</a></div>
       <!-- end logo -->
       <div class="span-10 last">
 <!-- begin nav -->
@@ -9,11 +9,11 @@
           </li>
           <li <%= "class='active'" if page == "account" %>> <a href="/my/account"><span>Account</span></a>
           </li>
-          <li <%= "class='active'" if page == "library" %>> <a href="/library.html"><span>Library +</span></a>
+          <li <%= "class='active'" if page == "library" %>> <a href="/front/library.html"><span>Library +</span></a>
             <ul>
-              <li> <a href="/library.html">Overview</a> </li>
-              <li> <a href="/tutorials.html">Tutorials</a> </li>
-              <li> <a href="/reference.html">Reference</a></li>
+              <li> <a href="/front/library.html">Overview</a> </li>
+              <li> <a href="/front/tutorials.html">Tutorials</a> </li>
+              <li> <a href="/front/reference.html">Reference</a></li>
               </li>
             </ul>
           </li>
@@ -23,13 +23,13 @@
 
 <% else %>
         <ul class="sf-menu" id="topnav">
-          <li <%= "class='active'" if page == "home" %>> <a href="/index.html"><span>Home</span></a> </li>
-          <li <%= "class='active'" if page == "tour" %>> <a href="/tour.html"><span>Tour</span></a> </li>
-          <li <%= "class='active'" if page == "library" %>> <a href="/library.html"><span>Library +</span></a>
+          <li <%= "class='active'" if page == "home" %>> <a href="/front/index.html"><span>Home</span></a> </li>
+          <li <%= "class='active'" if page == "tour" %>> <a href="/front/tour.html"><span>Tour</span></a> </li>
+          <li <%= "class='active'" if page == "library" %>> <a href="/front/library.html"><span>Library +</span></a>
             <ul>
-              <li> <a href="/library.html">Overview</a> </li>
-              <li> <a href="/tutorials.html">Tutorials</a> </li>
-              <li> <a href="/reference.html">Reference</a></li>
+              <li> <a href="/front/library.html">Overview</a> </li>
+              <li> <a href="/front/tutorials.html">Tutorials</a> </li>
+              <li> <a href="/front/reference.html">Reference</a></li>
               </li>
             </ul>
           </li>
