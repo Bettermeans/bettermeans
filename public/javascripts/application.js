@@ -34,7 +34,7 @@ function prep_jumpbox(){
 	$('#jumpbox').focus(function(){
 		$('#jumpbox :selected').text(jumpbox_text);				
 		adjust_jumpbox_width();
-		$('#jumpbox').css('background-color','#0094CD');
+		$('#jumpbox').css('background-color','#323232');
 	});
 	$('#jumpbox').focusout(function(){
 		$('#jumpbox :selected').text($.trim($('#jumpbox :selected').text()));

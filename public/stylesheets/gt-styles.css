@@ -31,12 +31,13 @@ body {
 /* Heading Styles */
 .gt-hd {
 	background: url(../images/gt/hd-bkg.jpg) repeat-x 0 100%;
-	padding-top: 1px;
+	padding-top: 0px;
 }
 .gt-hd-top {
 	overflow: hidden;
 	border-bottom: 1px solid #3b2716;
 	padding: 0 0 10px 0;
+	background-color: #323232;
 }
 .gt-hd .gt-logo {
 	margin-left: 35px;
@@ -621,8 +622,8 @@ body {
 /* @group Nav */
 /* Navbar */
 .gt-navbar {
-	background: url(../images/gt/navbar-bkg.png) repeat 0 0;
-	margin-bottom: 2px;
+/*	background: url(../images/gt/navbar-bkg.png) repeat 0 0;
+*/	margin-bottom: 2px;
 }
 
 /* Main Navigation */
@@ -995,7 +996,7 @@ ul li {
 
 /* @group Links - link visited hover active */
 a:link, a:visited {
-	color: #365b6d;
+	color: #A6CBDC; /*#365b6d;*/
 	text-decoration: underline;
 }
 a:hover {
