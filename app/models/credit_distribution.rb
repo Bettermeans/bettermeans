@@ -12,7 +12,7 @@ class CreditDistribution < ActiveRecord::Base
     Credit.create :owner_id => self.user_id, :project_id => self.project.root.id, :amount => self.amount
     
     #Add as contributor
-    self.user.add_as_contributor_if_new(self.project)
+    self.user.add_as_contributor_if_new(self.project.root)
     
     
     admin = User.sysadmin
