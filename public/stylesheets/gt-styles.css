@@ -30,6 +30,7 @@ body {
 /* @group Layout */
 /* Heading Styles */
 .gt-hd {
+/*	background: url(../images/gt/hd-bkg.jpg) repeat-x 0 100%;*/
 	background: url(../images/gt/hd-bkg.jpg) repeat-x 0 100%;
 	padding-top: 0px;
 }
