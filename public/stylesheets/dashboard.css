@@ -198,6 +198,7 @@ background:#B5BDC1 url(/images/dropzone_repeating_pattern.png) repeat-x scroll c
 border-top:1px solid #6E6E6E;
 color:#666666;
 height:7em;
+padding-top:0px;
 }
 
 .hoverable:hover {
