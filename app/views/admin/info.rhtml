@@ -2,7 +2,7 @@
 
 <p><strong><%= Redmine::Info.versioned_name %></strong> (<%= @db_adapter_name %>)</p>
 
-<table class="list">
+<table class="gt-table">
 <% @checklist.each do |label, result| %>
 	<tr class="<%= cycle 'odd', 'even' %>">
 		<td><%= l(label) %></td>

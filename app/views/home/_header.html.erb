@@ -1,9 +1,9 @@
     <div class="span-12 last" id="header">
-      <div class="span-2" id="logo"><a href="/index.html" title="PsychSurveys">Meedo</a></div>
+      <div class="span-2" id="logo"><a href="/index.html" title="BetterMeans">Meedo</a></div>
       <!-- end logo -->
       <div class="span-10 last">
 <!-- begin nav -->
-<% if current_user %>
+<% if current_user && current_user.name !=  'Anonymous'%>
         <ul class="sf-menu" id="topnav">
           <li <%= "class='active'" if page == "dashboard" %>> <a href="/dashboard"><span>Dashboard</span></a>
           </li>
@@ -44,7 +44,7 @@
           </li> -->
           <!-- <li <%= "class='active'" if page == "contact" %>> <a href="/contact.html"><span>Contact +</span></a> -->
           <li> <a href="/login"><span>Login</span></a>
-          <li class="sign-up"><a class="sign-up" href="/signup"><span class="sign-up">Sign Up</span></a><b></b></li>
+          <li class="sign-up"><a class="sign-up" href="/account/register"><span class="sign-up">Sign Up</span></a><b></b></li>
         </ul>
 
 <% end %>
