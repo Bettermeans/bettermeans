@@ -1,0 +1,86 @@
+<div id="inner-page">
+  <div class="container">
+    <%= render :partial => 'header', :locals => {:page => 'about'} %>
+    <div class="clear span-12 last" id="main-inner">
+      <div class="span-8 left-content-secondary">
+        <div class="span-8 first inner-page-title">
+          <h2 class="main-title-2">Contact Us or say Hi</h2>
+          <span>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </span> </div>
+        <p class="contact-intro">Like all true geeks, we love receiving emails. You may just want to say “Hi” or you think I kinda rock and are interested in working with us. Well it’s pretty easy to get in touch, just fill out this handy little form with your info and I will get back to you.</p>
+        <div class="trib">.</div>
+        <div id="message"></div>
+        <form id="contact-form" method="post" action="contact.php">
+          <h3>Contact us if you need further assistance</h3>
+          <p>
+            <label for="first">Name</label>
+            <input type="text" name="name" id="name"/>
+          </p>
+          <p>
+            <label for="first">Email</label>
+            <input type="text" name="email" id="email" />
+          </p>
+          <p>
+            <label for="first">Website</label>
+            <input type="text" name="website" id="website" />
+          </p>
+          <p>
+            <label for="first">Phone</label>
+            <input type="text" name="phone" id="phone" />
+          </p>
+		   <p>
+            <label for="first">Subject</label>
+            <input type="text" name="subject" id="subject" />
+          </p>
+          <p>
+            <label for="first">Comments</label>
+            <textarea name="comments" id="comments"></textarea>
+          </p>
+          <input style="margin:0" id="contact-submit" type="submit" name="submit" value="submit"/>
+        </form>
+      </div>
+      <!-- inner-main-content -->
+      <div class="span-4 last right-content-secondary sidebar">
+        <div id="map">
+          <div class="sidebar-title">
+            <h1>Where are we?</h1>
+            <div class="arrow">.</div>
+          </div>
+          <img src="/images/map.png" alt=""/> </div>
+        <!-- /Map -->
+        <div id="details">
+          <div class="sidebar-title">
+            <h1>Contact Details</h1>
+            <div class="arrow">.</div>
+          </div>
+          <p class="mail"> <a href="mailto:contact@psychsurveys.com">E-mail: contact@psychsurveys.com</a></p>
+          <p class="tel">Tel: +1 510 2132990</p>
+        </div>
+        <!-- /Details -->
+        <div id="text-widget-contact">
+          <div class="sidebar-title">
+            <h1>Text Widget</h1>
+            <div class="arrow">.</div>
+          </div>
+          <div class="boxxx">
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+          </div>
+        </div>
+        <!-- /text-widget -->
+        <div id="ads">
+          <div class="sidebar-title">
+            <h1>Advertisement</h1>
+            <div class="arrow">.</div>
+          </div>
+          <div class="ad-boxes"> <a href="#" class="adhere100px center">Advertise Here</a> <a href="#" class="adhere100px">Advertise Here</a> <a href="#" class="adhere100px">Advertise Here</a> <a href="#" class="adhere100px">Advertise Here</a> </div>
+        </div>
+        <!-- /text-widget -->
+      </div>
+    </div>
+    <!-- end main-secondary -->
+  </div>
+  <!-- end main -->
+</div>
+<!-- / Container -->
+<script type="text/javascript">
+			// Cufon.replace('h1, h2');
+		</script>

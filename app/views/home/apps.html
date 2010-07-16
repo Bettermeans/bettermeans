@@ -1,0 +1,102 @@
+<script type="text/javascript"> 
+		$(document).ready(function() {
+			$("a.example").fancybox({
+				'titleShow'     : false,
+				'transitionIn'	: 'elastic',
+				'transitionOut'	: 'elastic'
+			});
+		});
+	</script>
+<div id="inner-page">
+  <div class="container">
+    <%= render :partial => 'header', :locals => {:page => 'about'} %>
+    <div class="clear span-12 last" id="main-inner">
+      <div class="clear span-12">
+        <div class="span-8 first inner-page-title">
+          <h2 class="main-title-2">See our latest applications</h2>
+          <span>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. </span> </div>
+        <div class="clear"></div>
+        <div class="span-12" id="gallery">
+          <div class="gallery-content">
+            <div class="span-5 gallery-left">
+              <h3>Suspendisse posuere libero quis</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non ultricies sapien. Etiam eget sapien eget quam lacinia mollis venenatis non urna.</p>
+              <ul>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+              </ul>
+              <a class="readmore" href="#">Read more</a> </div>
+            <div class="viewport span-6"> <a class="example" HREF="/images/static/image-1_b.jpg"> <span class="dark-background"></span> <img src="/images/static/product-ph.jpg" alt="" width="460" height="247"/> </a> </div>
+          </div>
+          <!--/Gallery Content-->
+          <div class="hr"></div>
+          <div class="gallery-content">
+            <div class="span-5 gallery-left">
+              <h3>Suspendisse posuere libero quis</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non ultricies sapien. Etiam eget sapien eget quam lacinia mollis venenatis non urna.</p>
+              <ul>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+              </ul>
+              <a class="readmore" href="#">Read more</a> </div>
+            <div class="viewport span-6"> <a class="example" HREF="/images/static/image-2_b.jpg"> <span class="dark-background"></span> <img src="/images/static/product-ph-2.jpg" alt="" width="460" height="247"/> </a> </div>
+          </div>
+          <!--/Gallery Content-->
+          <div class="hr"></div>
+          <div class="gallery-content">
+            <div class="span-5 gallery-left">
+              <h3>Suspendisse posuere libero quis</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non ultricies sapien. Etiam eget sapien eget quam lacinia mollis venenatis non urna.</p>
+              <ul>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+              </ul>
+              <a class="readmore" href="#">Read more</a> </div>
+            <div class="viewport span-6"> <a class="example" HREF="/images/static/image-3_b.jpg"> <span class="dark-background"></span> <img src="/images/static/product-ph-3.jpg" alt="" width="460" height="247"/> </a> </div>
+          </div>
+          <!--/Gallery Content-->
+          <div class="hr"></div>
+          <div class="gallery-content">
+            <div class="span-5 gallery-left">
+              <h3>Suspendisse posuere libero quis</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus non ultricies sapien. Etiam eget sapien eget quam lacinia mollis venenatis non urna.</p>
+              <ul>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </li>
+              </ul>
+              <a class="readmore" href="#">Read more</a> </div>
+            <div class="viewport span-6"> <a class="example" HREF="/images/static/image-4_b.jpg"> <span class="dark-background"></span> <img src="/images/static/product-ph-4.jpg" alt="" width="460" height="247"/> </a> </div>
+          </div>
+          <!--/Gallery Content-->
+          <div class="hr"></div>
+        </div>
+        <!-- Gallery -->
+      </div>
+      <!-- end main-inner -->
+    </div>
+    <!-- / Main -->
+  </div>
+  <!-- / Container -->
+</div>
+
+<script type="text/javascript">
+			// Cufon.replace('h2');
+</script>
+<script type="text/javascript"> 
+			$(document).ready(function() {
+				$('.viewport').mouseenter(function(e) {
+					$(this).children('a').children('img').animate({ height: '268', left: '-20', top: '-20', width: '480'}, 100);
+					$(this).children('a').children('span').fadeIn(300);
+				}).mouseleave(function(e) {
+					$(this).children('a').children('img').animate({ height: '268', left: '-20', top: '-20', width: '480'}, 100);
+					$(this).children('a').children('span').fadeOut(200);
+				});
+			});
+    </script>
+</body>
+<!-- / page -->
+</html>
