@@ -1,7 +1,7 @@
 <h2><%= l(:label_plugins) %></h2>
 
 <% if @plugins.any? %>
-<table class="list plugins">
+<table class="gt-table plugins">
     <% @plugins.each do |plugin| %>
         <tr class="<%= cycle('odd', 'even') %>">
         <td><span class="name"><%=h plugin.name %></span>
