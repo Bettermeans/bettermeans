@@ -139,7 +139,7 @@ Footer
 ************************************************************************/
 
 #footer {
-	margin-top: 50px;
+	margin-top: 100px;
 	height:433px;
 	background:url(/images/static/footer-bg.jpg) repeat-x
 }
@@ -183,6 +183,17 @@ Footer
 #top-footer div.footer-list ul li a:hover {
 	background:#eeeeee;
 }
+#top-footer div.footer-list ul li div a {
+	color:#4a4949;
+	display:inline;
+	border-bottom:0px;
+	padding: 3px 0 3px 3px;
+	text-decoration:none;
+}
+#top-footer div.footer-list ul li div a:hover {
+	background:none;
+}
+
 #top-footer div.copyright {
 	margin-top:100px
 }
@@ -246,4 +257,18 @@ ul#topnav.sf-menu li.current ul, ul#topnav.sf-menu li ul {
 	background:#f3f3f3;
 	border:1px solid #e3e3e3;
 	margin-bottom:14px
+}
+
+
+.column, div.span-1, div.span-2, div.span-3, div.span-4, div.span-5, div.span-6, div.span-7, div.span-8, div.span-9, div.span-10, div.span-11, div.span-12 {
+	float:left;
+	margin-right:20px;
+}
+
+#top-footer .span-3 {
+	width: 220px;
+}
+
+#top-footer .last, #top-footer div.last {
+	margin-right: 0;
 }
