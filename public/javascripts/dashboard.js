@@ -1236,9 +1236,10 @@ function generate_comment(author,note,created_on,itemId,last_comment,journalId,d
 }
 
 //blank_if_no_todos: when true, nothing is returned if there aren't any todos, when false the header is returned
-function generate_todos(dataId,blank_if_no_todos){
+function generate_todos(dataId,blank_if_no_todos, item_editable){
 	var item = D[dataId];
-
+	
+	
 	var count = item.todos.length;
 	
 	if (count==0 && blank_if_no_todos){return '';};
@@ -1259,7 +1260,7 @@ function generate_todos(dataId,blank_if_no_todos){
 	
 	
 	for(var i = 0; i < sorted.length; i++ ){
-		html = html + generate_todo(sorted[i].subject,sorted[i].completed_on, sorted[i].id,sorted[i].owner_login,dataId);
+		html = html + generate_todo(sorted[i].subject,sorted[i].completed_on, sorted[i].id,sorted[i].owner_login,dataId, item_editable);
 	}
 	// html = html + '	    </tbody>';
 	html = html + '	  </table>';
@@ -1269,18 +1270,22 @@ function generate_todos(dataId,blank_if_no_todos){
 	
 }
 
-function generate_todo(subject,completed_on,todoId,owner_login,dataId){
+function generate_todo(subject,completed_on,todoId,owner_login,dataId, item_editable){
 	var completed = '';
 	var checked = '';
+	var disabled = '';
 	if (completed_on != null){
 		completed = 'completed';
-		checked = 'checked="true"';
+		checked = ' checked="true" ';
 		}
+	if (!item_editable){
+		disabled = ' disabled="true" ';
+	}
 		
 	var html = '';
 	html = html + '<tr class="task_row" id="task_' + todoId  + '"  onmouseover="update_todo_buttons(' + todoId + ',true)"  onmouseout="update_todo_buttons(' + todoId + ',false)">';
 	html = html + '	<td>';
-	html = html + '	<input type="checkbox" value="" id="task_' + todoId  + '_complete" onclick="update_todo(' + todoId + ',' + dataId + ')" ' + checked + '/>';
+	html = html + '	<input type="checkbox" value="" id="task_' + todoId  + '_complete" onclick="update_todo(' + todoId + ',' + dataId + ')" ' + checked + disabled + '/>';
 	html = html + '	</td>';
 	html = html + '<td  id="task_' + todoId  + '_subject" class="taskDescription ' + completed + '">';
 	html = html + '	<span id="task_' + todoId + '_subject_text">';
@@ -1292,16 +1297,20 @@ function generate_todo(subject,completed_on,todoId,owner_login,dataId){
 	html = html + '	<input id="task_' + todoId + '_subject_input" style="display:none;" value="' + h(subject) + '" onblur="edit_todo_post('+ todoId +',' + dataId + ')">';
 	html = html + '	<span id="task_' + todoId + '_subject_submit_container"></span>';
 	html = html + '</td>';
-	html = html + '	<td>';
-	html = html + '	<a id="task_' + todoId  + '_edit" href="javascript:void(0);" style="opacity: 0;" onclick="edit_todo('+ todoId +',' + dataId + ')">';
-	html = html + '	<img src="/images/task_edit.png"/>';
-	html = html + '	</a>';
-	html = html + '	</td>';
-	html = html + '	<td>';
-	html = html + '	<a id="task_' + todoId  + '_delete" href="javascript:void(0);" style="opacity: 0;" onclick="delete_todo('+ todoId +',' + dataId + ')">';
-	html = html + '	<img src="/images/task_delete.png"/>';
-	html = html + '	</a>';
-	html = html + '	</td>';
+	
+	if (item_editable){
+		html = html + '	<td>';
+		html = html + '	<a id="task_' + todoId  + '_edit" href="javascript:void(0);" style="opacity: 0;" onclick="edit_todo('+ todoId +',' + dataId + ')">';
+		html = html + '	<img src="/images/task_edit.png"/>';
+		html = html + '	</a>';
+		html = html + '	</td>';
+		html = html + '	<td>';
+		html = html + '	<a id="task_' + todoId  + '_delete" href="javascript:void(0);" style="opacity: 0;" onclick="delete_todo('+ todoId +',' + dataId + ')">';
+		html = html + '	<img src="/images/task_delete.png"/>';
+		html = html + '	</a>';
+		html = html + '	</td>';
+	}
+	
 	html = html + '</tr>';
 	return html;
 	
@@ -3140,6 +3149,8 @@ $("#new_items").scrollTo( '#new_item_wrapper', 800);
 function is_item_editable(dataId) {
   return !(D[dataId].status.name == 'Committed' ||
 	   D[dataId].status.name == 'Done'      ||
+	   D[dataId].status.name == 'Accepted'      ||
+	   D[dataId].status.name == 'Rejected'      ||
 	   D[dataId].status.name == 'Canceled'  ||
 	   D[dataId].status.name == 'Archived');
 
@@ -3326,24 +3337,29 @@ return html;
 }
 
 function generate_todo_section(dataId){
+
+	var item_editable = is_item_editable(dataId);
+	
 	var html = '';
 	html = html + '	          <div id="todo_section_' + dataId + '" class="section">';
 	html = html + '	   <form action="#">';
 	html = html + '	            <table class="storyDescriptionTable">';
 	html = html + '	              <tbody>';
 	html = html + '	                <tr><td colspan="5">';
-	html = html + generate_todos(dataId,false);
+	html = html + generate_todos(dataId,false,item_editable);
 	html = html + '	                </td></tr>';
-	html = html + '	                <tr>';
-	html = html + '	                  <td colspan="5">';
-	html = html + '	                    <div>';
-	html = html + '	                      <input class= "tasksTextArea" id="new_todo_' + dataId + '"></input>     ';
-	html = html + '	                      <div>';
-	html = html + '	                         <input value="Add" type="submit" onclick="post_todo(' + dataId + '); return false;">';
-	html = html + '	                      </div>';
-	html = html + '	                    </div>';
-	html = html + '	                  </td>';
-	html = html + '	                </tr>';
+	if (item_editable){
+		html = html + '	                <tr>';
+		html = html + '	                  <td colspan="5">';
+		html = html + '	                    <div>';
+		html = html + '	                      <input class= "tasksTextArea" id="new_todo_' + dataId + '"></input>     ';
+		html = html + '	                      <div>';
+		html = html + '	                         <input value="Add" type="submit" onclick="post_todo(' + dataId + '); return false;">';
+		html = html + '	                      </div>';
+		html = html + '	                    </div>';
+		html = html + '	                  </td>';
+		html = html + '	                </tr>';
+	}
 	html = html + '	              </tbody>';
 	html = html + '	            </table>';
 	html = html + '	   </form>';
