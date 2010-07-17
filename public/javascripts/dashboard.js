@@ -1251,8 +1251,15 @@ function generate_todos(dataId,blank_if_no_todos){
 	html = html + '	  <table class="tasksTable" id="notesTable_todos_' + item.id + '">';
 	// html = html + '	    <tbody>';
 	
-	for(var i = 0; i < item.todos.length; i++ ){
-		html = html + generate_todo(item.todos[i].subject,item.todos[i].completed_on, item.todos[i].id,item.todos[i].owner_login,dataId);
+	var sorted = item.todos.sort(function(a, b) {
+	   return (a.id < b.id) ? -1 : (a.id > b.id) ? 1 : 0;
+	})
+	
+	
+	
+	
+	for(var i = 0; i < sorted.length; i++ ){
+		html = html + generate_todo(sorted[i].subject,sorted[i].completed_on, sorted[i].id,sorted[i].owner_login,dataId);
 	}
 	// html = html + '	    </tbody>';
 	html = html + '	  </table>';
