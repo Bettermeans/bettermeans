@@ -211,8 +211,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'projects' do |projects|
     projects.with_options :conditions => {:method => :get} do |project_views|
-      project_views.connect 'issues/:show_issue_id', :action => 'projects/dashboard'
-      project_views.connect 'issues/:show_issue_id.:format', :action => 'projects/dashboard'
+      project_views.connect 'issues/:show_issue_id', :action => 'dashboard'
+      project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
       project_views.connect 'projects', :action => 'index'
       project_views.connect 'projects.:format', :action => 'index'
       project_views.connect 'projects/new', :action => 'add'
