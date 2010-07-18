@@ -2072,3 +2072,8 @@ wbr:after { content: "\00200B" } /*opera compatibility with wbr*/
 	font-size: 90%;
 /*	background: transparent;*/
 }
+
+.activity-comment {
+	width:95%;
+	color:#bbb;
+}

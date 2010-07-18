@@ -1,11 +1,19 @@
 <%= render :partial => 'activity_streams/activity_stream', :locals => {:as => asg[0]} %> 
-    <table class="gt-table gt-user-table activity-sub">
+    <table class="gt-table gt-user-table activity-sub" id="comments_table_<%= asg[0].object_id %>">
       <tbody>
       <% for as in asg.to_a.reverse %>
         <%= render :partial => 'activity_streams/activity_stream_sub', :locals => {:as => as} %> 
       <% end %>
       </tbody>
     </table>
+        
+    <%  if User.current.logged? and asg[0].object_type.downcase == "issue" %>
+    <table class="gt-table gt-user-table activity-sub">
+      <tbody>
+        <%= render :partial => 'activity_streams/activity_comment', :locals => {:as => asg[0]} %> 
+      </tbody>
+    </table>
+    <% end %>
   </td>
 </tr>
 
