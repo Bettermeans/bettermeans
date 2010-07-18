@@ -7,3 +7,80 @@
   </table>
 
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if @activities_by_item.empty? %>
+
+<script type="text/javascript">
+
+function prepare_input(object_id){
+  $("#input_comment_" + object_id).show();
+  $("#input_comment_textarea_" + object_id).focus();
+  $("#input_comment_textarea_" + object_id).autogrow();
+  console.log(object_id);
+  $("#add_comment_trigger_" + object_id).hide();
+  
+}
+
+function post_comment(object_id){
+  $("#input_comment_" + object_id).hide();
+  $("#add_comment_trigger_" + object_id).show();
+    
+  // try{
+	  var text = $("#input_comment_textarea_" + object_id).val();
+	  console.log(text);
+	
+  	if ((text == null) || (text.length < 2)){
+  		return false;
+  	}
+  	else
+  	{
+      $("#comments_table_" + object_id).append(generate_comment(object_id,text));
+      console.log("appending to #comments_table_" + object_id);
+      $("#input_comment_textarea_" + object_id).val('');
+    
+  		var data = "commit=Create&issue_id=" + object_id + "&comment=" + text;
+		
+  		var url = url_for({ controller: 'comments',
+  	                           action    : 'create'
+  	                          });
+	
+  		$.ajax({
+  		   type: "POST",
+  		   dataType: "json",
+  		   url: url,
+  		   data: data,
+  		   success: 	function(html){
+  			},
+        //         error:   function (XMLHttpRequest, textStatus, errorThrown) {
+        // handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
+        // },
+  			timeout: 30000 //30 seconds
+  		 });
+
+  		return false;
+  	}
+  //  }
+  // catch(err){
+  //   console.log(err);
+  //  return false;
+  // }
+}
+
+function generate_comment(object_id, text){
+  var html = '<tr>';
+  html = html +  '    <td class="gt-avatar">';
+  html = html +  '      <%= avatar(User.current, :size => "24") %>';
+  html = html +  '      </td>';
+  html = html +  '      <td>';
+  html = html +  '        <span class="author"><%= link_to User.current.name, "user_path", :id => User.current.id %></span>';
+  html = html +  '        <span class="verb">Updated this.</span>';
+  html = html +  '          <span class="long-words"><p>';
+  html = html +  text;
+  html = html +  '          </p></span>';
+  html = html +  '      </td>';
+  html = html +  '    <td  style="width:20%">';
+  html = html +  '  				<strong>Just now</strong>';
+  html = html +  '    </td>';
+  html = html +  '  </tr>';
+  return html;
+}
+
+</script>

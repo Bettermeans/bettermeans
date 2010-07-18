@@ -30,18 +30,3 @@
 <%= link_to " - #{as.tracker_name} ##{as.id}", url_for_activity_stream(as), {:class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe"} if as.tracker_name%>
 
 </div>
-
-
-
-<!-- <table class="activity-item">
-  <tbody>
-    <span class="<%= as.object_type.downcase %>">
-      <div class="bordered">
-        <span class="title"><%#= link_to format_activity_title(as.object_name) , url_for_activity_stream(as), :class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe" %></span>
-        <span class="description">
-          <%#= format_activity_description(as.object_description) %>
-        </span>
-      </div>
-    </span> 
-  </tbody> 
-</table> -->
