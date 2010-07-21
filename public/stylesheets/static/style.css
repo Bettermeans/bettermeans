@@ -723,7 +723,7 @@ table#pricing-chart td {
 	width:460px
 }
 #main-inner #main-pricing-list {
-	margin:0px 40px 50px 40px
+	margin:0px 40px 20px 40px
 }
 #main-inner ul#main-pricing-list li {
 	color:#666;
@@ -742,6 +742,9 @@ table#pricing-chart td {
 #main-inner ul#main-pricing-list li.clock {
 	background:url(/images/static/clock.png) no-repeat 0 40%;
 	padding-left:25px
+}
+table#pricing-chart{
+	margin-bottom: 0px;
 }
 table#pricing-chart th.enterprise {
 	background: url(/images/static/th-enterprise.gif) no-repeat;
@@ -921,7 +924,7 @@ table#pricing-chart td span.unsupported-green {
 	top:5px
 }
 #main-inner div#pricing-col {
-	margin-top: 40px
+	margin-top: 5px
 }
 #main-inner div#pricing-col h3 {
 	color: #545454;
@@ -930,7 +933,7 @@ table#pricing-chart td span.unsupported-green {
 	padding-bottom: 5px
 }
 #main-inner div#pricing-col div.column {
-	width: 259px;
+/*	width: 259px;*/
 	padding: 0 20px
 }
 #main-inner div#pricing-col h4 {
@@ -1617,4 +1620,9 @@ a.sign-up-floating:hover {
 }
 a.sign-up-floating:active {
 	background-position: 0 -36px;
+}
+
+
+p.free-plan{
+	margin-top: -10px;
 }
