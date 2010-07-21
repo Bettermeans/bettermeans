@@ -723,7 +723,7 @@ table#pricing-chart td {
 	width:460px
 }
 #main-inner #main-pricing-list {
-	margin:50px 40px
+	margin:0px 40px 50px 40px
 }
 #main-inner ul#main-pricing-list li {
 	color:#666;
@@ -1599,4 +1599,22 @@ Browser Specific Fixes
 }
 
 
-/*Firefox*/
+
+a.sign-up-floating {
+	background:url("/images/static/sign-up-blue.png") no-repeat scroll 0 0 transparent;
+	height:35px;
+	left:4px;
+/*	margin:0 auto;
+	position:relative;
+*/	text-indent:-9999px;
+	margin-left:40px;
+	margin-right:40px;
+	width:105px;
+	float:left;
+}
+a.sign-up-floating:hover {
+	background-position: 0 -37px;
+}
+a.sign-up-floating:active {
+	background-position: 0 -36px;
+}
