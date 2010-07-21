@@ -2793,7 +2793,7 @@ function comment_added(item, dataId){
 
 function todo_added(item, dataId){
 	D[dataId] = item; 
-	$('#todo_container_' + item.id).html(generate_todos(dataId,false,null));
+	$('#todo_container_' + item.id).html(generate_todos(dataId,false,true));
 }
 
 function todo_updated(item, dataId){
