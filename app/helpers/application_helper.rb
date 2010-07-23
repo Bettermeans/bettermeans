@@ -142,7 +142,7 @@ module ApplicationHelper
   end
   
   def format_activity_description(text)
-    make_expandable h(text.to_s.gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />"), 250
+    make_expandable h(text.to_s.gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />"), 300
   end
   
   def make_expandable(newhtml,length=400)
@@ -150,10 +150,10 @@ module ApplicationHelper
     id = rand(100000)
     string = newhtml
     h = truncate(string,length,"")
-    h << "<a href='' onclick='$(\"##{id.to_s}\").show();$(this).hide();return false;'> ...<strong>read more</strong></a>"
-    h << "<span class='hidden' id=#{id.to_s}>"
+    h << "<a href='' onclick='$(\"##{id.to_s}\").replaceWith($(\"##{id.to_s}\").html());$(this).remove();return false;'> ...<strong>read more</strong></a>"
+    h << "<div class='hidden' id=#{id.to_s}>"
     h << string[length..string.length]
-    h << "</span>"
+    h << "</div>"
   end
 
   def due_date_distance_in_words(date)
