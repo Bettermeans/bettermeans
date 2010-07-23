@@ -19,8 +19,10 @@
     <% end %>
     </td>
     <td class="buttons">
+      <% unless board.name == "General" %>
     	<%= link_to_if_authorized l(:button_edit), {:controller => 'boards', :action => 'edit', :project_id => @project, :id => board}, :class => 'icon icon-edit' %>
     	<%= link_to_if_authorized l(:button_delete), {:controller => 'boards', :action => 'destroy', :project_id => @project, :id => board}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+    	<% end %>
     </td>
 	</tr>
 <% end %>
@@ -31,4 +33,4 @@
 </div>
 <% end %>
 
-<p><%= link_to_if_authorized l(:label_board_new), {:controller => 'boards', :action => 'new', :project_id => @project}, :class=>"gt-btn-gray-large" %></p>
+<p><%= link_to_if_authorized l(:label_board_new), {:controller => 'boards', :action => 'new', :project_id => @project}, :class=>"gt-btn-gray-large"%></p>

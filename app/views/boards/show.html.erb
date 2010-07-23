@@ -78,7 +78,7 @@
 <div class="gt-sidebar-nav gt-sidebar-nav-gray">
   <ul>
   <li>
-    <%= link_to_if_authorized l(:label_message_new),
+    <%= link_to_if_authorized l(:label_topic_new),
                               {:controller => 'messages', :action => 'new', :board_id => @board},
                               :class => 'icon icon-add',
                               :onclick => '$("#add-message").show(); $("#message_subject").focus(); return false;' %>

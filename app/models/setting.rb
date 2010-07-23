@@ -93,14 +93,15 @@ class Setting < ActiveRecord::Base
       "Visible" => Motion::VISIBLE_BOARD,
       "Type" => Motion::TYPE_CONSENSUS,
       "Days" => 5
-    },
-    Motion::VARIATION_HOURLY_TYPE => {
-      "Title" => "New Hourly Activity Type",
-      "Binding" => Motion::BINDING_MEMBER,
-      "Visible" => Motion::VISIBLE_USER,
-      "Type" => Motion::TYPE_MAJORITY,
-      "Days" => 3
     }
+    # ,
+    # Motion::VARIATION_HOURLY_TYPE => {
+    #   "Title" => "New Hourly Activity Type",
+    #   "Binding" => Motion::BINDING_MEMBER,
+    #   "Visible" => Motion::VISIBLE_USER,
+    #   "Type" => Motion::TYPE_MAJORITY,
+    #   "Days" => 3
+    # }
 }
   
 

@@ -117,10 +117,13 @@
     </div>
     <% end %>
     
-    <div class="gt-sidebar-content">
-    <h3><%= l(:label_dpp_scale) %><%= help_bubble :help_dpp %></h3>
-    <p><%= render :partial => 'point_scale', :locals => { :dpp => @project.dpp.round } unless @project.dpp.nil? %></p>
-    </div>    
+    <% if @project.credits_enabled? %>
+    
+      <div class="gt-sidebar-content">
+        <h3><%= l(:label_dpp_scale) %><span><%= help_bubble :help_dpp %></span></h3>
+        <p><%= render :partial => 'point_scale', :locals => { :dpp => @project.dpp.round } unless @project.dpp.nil? %></p>
+      </div>    
+    <% end %>
 <% end %>
 
 <% content_for :header_tags do %>
