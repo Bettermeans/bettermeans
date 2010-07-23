@@ -20,6 +20,7 @@ var highest_pri = -9999;
 var loaded_panels = 0; //keeps track of how many panels have had their data loaded
 var local_store = null; //local persistant storage
 var ok_to_save_local_data = false;
+var complexity_description = ['Real Easy','.','.','Average','.','.','Super Hard']
 
 $(window).bind('resize', function() {
 	resize();
@@ -701,19 +702,28 @@ function generate_estimate_flyover(dataId){
 		if (item.issue_votes[i].vote_type != 4) continue;
 		total_people_estimating++ ;
 		
-		if (currentUserLogin == item.issue_votes[i].user.login){
-			user_estimate = item.issue_votes[i].points;
+		if (currentUserLogin == item.issue_votes[i].user.login){			
+			if (credits_enabled){
+				user_estimate = item.issue_votes[i].points;
+			}
+			else{
+				user_estimate = convert_points_to_complexity(item.issue_votes[i].points);
+			}
+			
 			you_voted = "Your estimate " + user_estimate + " - " + humane_date(item.issue_votes[i].updated_on);
 		}
 	}
 	
 	//If user estimated, or item is in progress, we can see the average
-	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (user_estimate > -1)){
+	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (user_estimate != -1)){
 		if (credits == null){
 			title = 'No binding estimates yet';
 		}
-		else{
+		else if (credits_enabled){
 			title = 'Avg ' + Math.round(credits) + ' credits (' + total_people_estimating + ' people)';
+		}
+		else{
+			title = 'Avg ' + credits_to_points(Math.round(credits),credit_base) + ' points (' + total_people_estimating + ' people)';
 		}
 	}
 	else{
@@ -722,7 +732,7 @@ function generate_estimate_flyover(dataId){
 	
 	var history = '';
 	//Show history if user estimated, or if item is no longer available for estimation
-	if ((user_estimate > -1)||((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))){
+	if ((user_estimate != -1)||((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))){
 		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 4) continue;
 			history = history + item.issue_votes[i].points + ' cr - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
@@ -738,7 +748,7 @@ function generate_estimate_flyover(dataId){
 	var buttons = '';
 	
 	if (!((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {	
-		user_estimate < 0 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
+		user_estimate = -1 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
 		for(i = 0; i < point_factor.length; i++ ){
 			buttons = buttons + generate_estimate_button(i,point_factor[i] * credit_base, item.id, dataId);
 		}
@@ -770,6 +780,10 @@ function prompt_for_custom_estimate(dataId,points){
 	
 
 function generate_custom_estimate_button(dataId,user_estimate){
+	if (!credits_enabled){
+		return '';
+	}
+	
 	var points = 0;
 	if (user_estimate > -1){
 		points = user_estimate;
@@ -782,11 +796,25 @@ function generate_custom_estimate_button(dataId,user_estimate){
 	return html;
 }
 
+function convert_points_to_complexity(points){
+	if (points > complexity_description.length - 1){
+		points = complexity_description.length - 1;
+	}
+	return complexity_description[points];
+}
+
 
 function generate_estimate_button(points,credits, itemId, dataId){
+	var label = '';
+	if (credits_enabled){
+		label = credits + ' Credits';
+	}
+	else{
+		label = convert_points_to_complexity(points);
+	}
 	var html = '<div>';
-	html = html + '<img src="/images/dice_' + Math.round(points) + '.png" width="18" height="18" alt="' + credits + ' Credits" class="dice" onclick="send_item_action(' + dataId + ',\'estimate\',\'&points=' + credits + '\')">';	
-	html = html + ' ' + credits + ' credits';
+	html = html + '<img src="/images/dice_' + Math.round(points) + '.png" width="18" height="18" alt="' + label + '" class="dice" onclick="send_item_action(' + dataId + ',\'estimate\',\'&points=' + credits + '\')">';	
+	html = html + ' ' + label;
 	html = html + '</div>';
 	return html;
 }
