@@ -3119,6 +3119,17 @@ function is_item_editable(dataId) {
 
 }
 
+function is_item_todos_editable(dataId) {
+  return !(
+	   D[dataId].status.name == 'Done'      ||
+	   D[dataId].status.name == 'Accepted'      ||
+	   D[dataId].status.name == 'Rejected'      ||
+	   D[dataId].status.name == 'Canceled'  ||
+	   D[dataId].status.name == 'Archived');
+
+}
+
+
 function is_item_joinable(item) {
   return !(item.tracker.name == 'Expense');
 }
@@ -3301,7 +3312,7 @@ return html;
 
 function generate_todo_section(dataId){
 
-	var item_editable = is_item_editable(dataId);
+	var item_editable = is_item_todos_editable(dataId);
 	
 	var html = '';
 	html = html + '	          <div id="todo_section_' + dataId + '" class="section">';
