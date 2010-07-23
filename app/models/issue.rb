@@ -507,11 +507,15 @@ class Issue < ActiveRecord::Base
           self.retro_id = Retro::NOT_NEEDED_ID
           self.give_credits
         elsif self.is_hourly?
-          self.retro_id = Retro::NOT_GIVEN_AND_NOT_PART_OF_RETRO
+          self.retro_id = Retro::GIVEN_BUT_NOT_PART_OF_RETRO
           self.give_credits
-        else #if a non-gift is accepted, set retro id to not started to prep for next retrospective
-          self.retro_id = Retro::NOT_STARTED_ID 
-          self.project.start_retro_if_ready
+        else #if a non-gift/expense/hourly is accepted, set retro id to not started to prep for next retrospective
+          if self.project.credits_enabled?
+            self.retro_id = Retro::NOT_STARTED_ID 
+            self.project.start_retro_if_ready
+          else
+            self.retro_id = Retro::NOT_ENABLED_ID #credits not enabled, we don't care
+          end
         end
       end
 

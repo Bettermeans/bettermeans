@@ -14,6 +14,7 @@ class Retro < ActiveRecord::Base
   STATUS_DISPUTED = 9
   NOT_STARTED_ID = -1 #is for issues that haven't been started yet
   NOT_NEEDED_ID = -2 #is for issues that don't need a retrospective b/c only one person worked on them (e.g gifts)
+  NOT_ENABLED_ID = -5 #is for issues that don't need a retrospective b/c credits are disabled for their workstream
   
   #
   # The following two statuses are for issues that aren't part of a
@@ -22,6 +23,8 @@ class Retro < ActiveRecord::Base
   #
   NOT_GIVEN_AND_NOT_PART_OF_RETRO = -3 
   GIVEN_BUT_NOT_PART_OF_RETRO = -4 
+  
+  
   
   
   belongs_to :project
