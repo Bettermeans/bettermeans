@@ -2077,3 +2077,7 @@ wbr:after { content: "\00200B" } /*opera compatibility with wbr*/
 	width:95%;
 	color:#bbb;
 }
+
+.gt-content {
+	min-height: 300px;
+}
