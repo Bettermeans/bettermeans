@@ -14,7 +14,6 @@ function prepare_input(object_id){
   $("#input_comment_" + object_id).show();
   $("#input_comment_textarea_" + object_id).focus();
   $("#input_comment_textarea_" + object_id).autogrow();
-  console.log(object_id);
   $("#add_comment_trigger_" + object_id).hide();
   
 }
@@ -25,7 +24,6 @@ function post_comment(object_id){
     
   // try{
 	  var text = $("#input_comment_textarea_" + object_id).val();
-	  console.log(text);
 	
   	if ((text == null) || (text.length < 2)){
   		return false;
@@ -33,7 +31,6 @@ function post_comment(object_id){
   	else
   	{
       $("#comments_table_" + object_id).append(generate_comment(object_id,text));
-      console.log("appending to #comments_table_" + object_id);
       $("#input_comment_textarea_" + object_id).val('');
     
   		var data = "commit=Create&issue_id=" + object_id + "&comment=" + text;

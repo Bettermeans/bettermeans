@@ -6,7 +6,7 @@ module SingleLogActivityStreams
   # If there are identical activities within 8 hours, up count
   as = find_identical(actor, object, verb, activity);
 
-  if as
+  if as && !(as.object_type.downcase == 'issue' && as.indirect_object_description != nil) #if action was found, and action is NOT a comment on an issue)
     as.count += 1
   else
     as = ActivityStream.new
