@@ -3,17 +3,18 @@
 <h3><%= l(:label_general) %></h3>
 <%= render :partial => "general_info" %>
 </div>
+
 <% unless @reputations.empty? %>
-<br>
-<br>
-<div class="gt-content-box">
-<h3><%= l(:label_assessment_accuracy) %> <%= help_bubble :help_assessment_accuracy %></h3>
-<ul>
-<% for reputation in @reputations %>
-	<li><%= reputation_value(reputation.reputation_type, reputation.value) %>
-	   - <%= reputation_project(reputation) %>
-	  </li>
+  <br>
+  <br>
+  <div class="gt-content-box">
+  <h3><%= l(:label_assessment_accuracy) %> <%= help_bubble :help_assessment_accuracy %></h3>
+  <ul>
+  <% for reputation in @reputations %>
+  	<li><%= reputation_value(reputation.reputation_type, reputation.value) %>
+  	   - <%= reputation_project(reputation) %>
+  	  </li>
+  <% end %>
+  </ul>
+  </div>
 <% end %>
-<% end %>
-</ul>
-</div>
