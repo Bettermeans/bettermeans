@@ -666,6 +666,7 @@ en:
   label_message_plural: Messages
   label_message_last: Last message
   label_message_new: New message
+  label_topic_new: New topic
   label_message_posted: Message added
   label_reply_plural: Replies
   label_comments_plural: Comments

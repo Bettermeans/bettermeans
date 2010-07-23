@@ -581,6 +581,8 @@ class Project < ActiveRecord::Base
   
   #Returns true if threshold of points that haven't been included in a retrospective have been created
   def ready_for_retro?
+    return false if !credits_enabled?
+    
     total_unretroed = Issue.sum(:points, :conditions => {:status_id => IssueStatus.accepted.id,:retro_id => Retro::NOT_STARTED_ID, :project_id => id})
     return true if total_unretroed >= Setting::RETRO_CREDIT_THRESHOLD
     
@@ -595,6 +597,8 @@ class Project < ActiveRecord::Base
   
   #Starts a new retrospective for this project
   def start_new_retro
+    return false if !credits_enabled?
+    
     puts "Starting retro for: #{self.name}"
     from_date = issues.first(:conditions => {:retro_id => Retro::NOT_STARTED_ID}, :order => "updated_on ASC").updated_on
     total_points = issues.sum(:points, :conditions => {:retro_id => Retro::NOT_STARTED_ID})
