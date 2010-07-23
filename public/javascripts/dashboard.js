@@ -155,8 +155,10 @@ function load_dashboard_data(){
 	
 	if (local_D != null){
 		data_ready(local_D,'all');
-		retros_ready(local_R);
-		load_retros();
+		if (credits_enabled){
+			retros_ready(local_R);
+			load_retros();
+		}
 		start_timer();
 		new_dash_data();
 		local_D = null;
@@ -286,13 +288,16 @@ function data_ready(html,name){
 	}
 	update_panel_counts();
 	prepare_item_lookup_array();
-	if (loaded_panels == 4){
+	if (loaded_panels == 4 && credits_enabled){
 		load_retros();
 	}
 }
 
 
 function load_retros(){
+		if (!credits_enabled){
+			return false;
+		}
 		var url = url_for({ controller: 'projects',
 								id		: projectId
 	                          });
@@ -562,7 +567,7 @@ function show_accept_flyover(dataId,callingElement){
 function is_visible(item){
 	if (item == null) {return false;}
 	
-	if (item.tracker.id == standard_trackers.Gift.id && item.assigned_to_id == currentUserId){
+	if (credits_enabled && item.tracker.id == standard_trackers.Gift.id && item.assigned_to_id == currentUserId){
 		return false;
 	}
 	
@@ -2590,7 +2595,7 @@ function save_new_item(){
         "&issue[subject]=" + $('#new_title_input').val() + 
         "&issue[description]=" + $('#new_description').val();
     
-    if ($('#new_story_type').val() == standard_trackers.Gift.id){
+    if((credits_enabled) && ($('#new_story_type').val() == standard_trackers.Gift.id)){
 	data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
     }
 
@@ -3215,7 +3220,7 @@ html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
 html = html + '	                    <select id="edit_story_type_' + dataId + '" class="storyDetailsField" ';
 html = html + '                             name="edit_story_type" onChange="edit_story_type_changed(' + dataId + '); return false;" ' + disabled + '>';    
-html = html +                         generate_tracker_dropdown(D[dataId].tracker.id != standard_trackers.Gift.id); // Don't show gift, if item isn't already a gift. 
+html = html +                         generate_tracker_dropdown(credits_enabled && (D[dataId].tracker.id != standard_trackers.Gift.id)); // Don't show gift, if item isn't already a gift. 
                                                                                                    // Disallows features, bugs...etc. to be turned into a gift item
 html = html + '	                    </select>';
 html = html + '	                  </div>';
@@ -3232,12 +3237,14 @@ html = html + '	              <tr id="assigned_to_' + dataId + '">';
 html = html + '	                <td class="letContentExpand" colspan="3">';
 html = html + '	                <div id="assigned_to_text_' + dataId + '">';
 
-if (D[dataId].assigned_to_id != null && D[dataId].tracker.id == standard_trackers.Gift.id ){
-	html = html + 'for: ' + D[dataId].assigned_to.firstname + " " + D[dataId].assigned_to.lastname ;
-	};
-if (D[dataId].tracker.id == standard_trackers.Expense.id ){
-	html = html + generate_expense_amount_editor(D[dataId].points, dataId);;
-	};
+if (credits_enabled) {
+	if (D[dataId].assigned_to_id != null && D[dataId].tracker.id == standard_trackers.Gift.id ){
+		html = html + 'for: ' + D[dataId].assigned_to.firstname + " " + D[dataId].assigned_to.lastname ;
+		};
+	if (D[dataId].tracker.id == standard_trackers.Expense.id ){
+		html = html + generate_expense_amount_editor(D[dataId].points, dataId);;
+		};
+}
 	
 html = html + '</div>';
 html = html + '	                </td>';

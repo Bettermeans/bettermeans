@@ -123,18 +123,20 @@
       <option value="bugs">
         &nbsp;&nbsp;»&nbsp;Bugs
       </option>
-      <option value="expenses">
-        &nbsp;&nbsp;»&nbsp;Expenses
-      </option>
-      <option value="gifts">
-        &nbsp;&nbsp;»&nbsp;Gifts
-      </option>
       <option value="recurring">
         &nbsp;&nbsp;»&nbsp;Recurring
       </option>
-      <option value="hourly">
-        &nbsp;&nbsp;»&nbsp;Hourly
-      </option>
+      <% if @project.credits_enabled? %>
+        <option value="expenses">
+          &nbsp;&nbsp;»&nbsp;Expenses
+        </option>
+        <option value="gifts">
+          &nbsp;&nbsp;»&nbsp;Gifts
+        </option>
+        <option value="hourly">
+          &nbsp;&nbsp;»&nbsp;Hourly
+        </option>
+      <% end %>
     </select>
   </div>
   
