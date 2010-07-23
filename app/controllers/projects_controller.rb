@@ -66,7 +66,11 @@ class ProjectsController < ApplicationController
       @project.enabled_module_names = params[:enabled_modules]
       @project.enterprise_id = @parent.enterprise_id unless @parent.nil?
       @project.identifier = Project.next_identifier # if Setting.sequential_project_identifiers?
-      @project.trackers = Tracker.all
+      if @project.credits_enabled?
+        @project.trackers = Tracker.all
+      else
+        @project.trackers = Tracker.no_credits
+      end
       @project.is_public = Setting.default_projects_public?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
       if validate_parent_id && @project.save

@@ -99,6 +99,8 @@ class Project < ActiveRecord::Base
     self.id
   end
   
+  
+  
   def graph_data
     valid_kids = children.select{|c| c.active?}
     if valid_kids.size > 0
@@ -477,6 +479,10 @@ class Project < ActiveRecord::Base
   def module_enabled?(module_name)
     module_name = module_name.to_s
     enabled_modules.detect {|m| m.name == module_name}
+  end
+  
+  def credits_enabled?
+    !module_enabled?(:credits).nil?
   end
   
   def enabled_module_names=(module_names)
