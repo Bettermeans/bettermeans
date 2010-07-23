@@ -2873,7 +2873,14 @@ function hourly_type_selected(dataId) {
     }
 
     $("#" + hourly_fields_id).show();
+
 }
+
+function expense_type_selected() {
+	var amount = prompt_for_expense_amount("0.0", "new");
+    $("#new_expense").show();
+}
+
 
 function gift_type_selected() {
     $("#new_assigned_to").show();
@@ -2881,7 +2888,9 @@ function gift_type_selected() {
 }
 
 function new_story_type_changed() {    
-
+	console.log('what!');
+	
+    $("#new_expense").hide();
     $("#new_assigned_to").hide();
     $("#hourly_fields").hide(); 
 
@@ -2893,6 +2902,10 @@ function new_story_type_changed() {
     else if(selection == standard_trackers.Gift.id) {
 	gift_type_selected();
     }
+	else if(selection == standard_trackers.Expense.id) {
+		expense_type_selected();
+	}
+	console.log(selection);
 }
 
 function edit_story_type_changed(dataId) {
