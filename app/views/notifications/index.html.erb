@@ -2,10 +2,13 @@
 <div class="gt-content-box">
 <table border="0" class="gt-table gt-user-table">
   <tbody>
-    <%#= link_to 'New notification', new_notification_path %>
-    <% @notifications.each do |@notification| %>
-        <%= render :partial => @notification.variation, 
-                  :locals => @notification.params %>
+    <% if @notifications.empty? %>
+    <p class="nodata"><%= l(:label_no_data) %></p>
+    <% else %>
+      <% @notifications.each do |@notification| %>
+          <%= render :partial => @notification.variation, 
+                    :locals => @notification.params %>
+      <% end %>
     <% end %>
   </tbody>
 </table>
