@@ -477,6 +477,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: users
@@ -498,5 +499,6 @@ end
 #  type                  :string(255)
 #  identity_url          :string(255)
 #  activity_stream_token :string(255)
+#  identifier            :string(255)
 #
 
