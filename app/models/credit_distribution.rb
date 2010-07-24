@@ -9,7 +9,7 @@ class CreditDistribution < ActiveRecord::Base
   HOURLY = -3 # value in retro_id when distribution is a result of an hourly, not a retrospective
   
   def add_credits
-    Credit.create :owner_id => self.user_id, :project_id => self.project.root.id, :amount => self.amount
+    Credit.create :owner_id => self.user_id, :project_id => self.project_id, :amount => self.amount
     
     #Add as contributor
     self.user.add_as_contributor_if_new(self.project.root)

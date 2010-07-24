@@ -3,10 +3,11 @@
 <div class="gt-content-box">
   <%  @credits_by_day = @credits.group_by{|credit| credit.issued_on.to_date}
   
+    display_no_data = true;
+  
     if @credits_by_day.length == 0
-   %>
-  <%=     content_tag 'p', l(:label_no_data), :class => "nodata" %>
-  <% else %>
+      display_no_data = true;
+    else %>
   
   
   <table border="0" class="gt-table gt-user-table">
@@ -20,6 +21,7 @@
       </tr>
          <% cbd[1].each do |credit|
     next if credit.owner_id != User.current.id
+      display_no_data = false;
    %>
    <tr class="<%= cycle 'odd', 'even' %>"id="m_<%= credit.id %>">
      <%= @date %>
@@ -33,5 +35,10 @@
   </tbody>
   </table>
   <% end %>
+  
+  <% if display_no_data %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+  <% end %>
+  
 </div>
 </span>
