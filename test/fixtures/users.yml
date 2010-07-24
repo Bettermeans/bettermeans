@@ -157,6 +157,7 @@ groups_011:
 
 
 
+
 # == Schema Information
 #
 # Table name: users
@@ -178,5 +179,6 @@ groups_011:
 #  type                  :string(255)
 #  identity_url          :string(255)
 #  activity_stream_token :string(255)
+#  identifier            :string(255)
 #
 

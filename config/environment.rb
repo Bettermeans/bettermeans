@@ -60,6 +60,13 @@ Rails::Initializer.run do |config|
 
   config.gem 'rubytree', :lib => 'tree'
   
+  
+  config.gem "rpx_now"
+
+  config.after_initialize do # so rake gems:install works
+    RPXNow.api_key = "0207d50c20303a6cc34a839901a137ba2f92b35e"
+  end
+  
   # Load any local configuration that is kept out of source control
   # (e.g. gems, patches).
   if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
