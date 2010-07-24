@@ -48,5 +48,19 @@ namespace :custom do
     Project.all_roots.each {|p| p.refresh_activity_line} 
   end
   
+  #one time fix for credits tables, and makes sure all projects have credit module enabled
+  task :run_once_fix_credit_distros => :environment do
+    CreditDistribution.all.each do |cd|
+      credit = Credit.find(:first, :conditions => {:owner_id => cd.user_id, :amount => cd.amount})
+      credit.project_id = cd.project_id
+      credit.save
+    end
+  
+    Project.all.each do |p|
+      p.enabled_modules << EnabledModule.create(:name => "credits")
+    end
+  end
+  
+  
 
 end
