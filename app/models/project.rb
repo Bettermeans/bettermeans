@@ -166,6 +166,17 @@ class Project < ActiveRecord::Base
     end
   end
   
+  def fetch_credits(with_subprojects = true)
+    if with_subprojects
+      conditions = {}
+      conditions[:project_id] = self.sub_project_array
+      Credit.all(:conditions => conditions, :order => 'created_on ASC')
+    else
+      self.credits
+    end
+  end
+  
+  
   def self.allowed_to_condition(user, permission, options={})
     statements = []
     base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
