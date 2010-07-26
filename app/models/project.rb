@@ -166,8 +166,11 @@ class Project < ActiveRecord::Base
     end
   end
   
-  def fetch_credits(with_subprojects = true)
-    if with_subprojects
+  def fetch_credits(with_subprojects)
+    with_subprojects ||= 'true'
+    logger.info("widht sub #{with_subprojects}")
+    if with_subprojects == 'true'
+      logger.info("getting iwth sub")
       conditions = {}
       conditions[:project_id] = self.sub_project_array
       Credit.all(:conditions => conditions, :order => 'created_on ASC')

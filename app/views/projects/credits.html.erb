@@ -1,3 +1,24 @@
+<% content_for :sidebar do %>
+<div class="gt-sidebar-nav gt-sidebar-nav-blue">
+  <% if params[:with_subprojects] == 'false' %>
+  <h3>Sub Workstreams Excluded</h3>
+  <% else %>
+  <h3>Sub Workstreams Included</h3>
+  <% end %>
+  
+  
+  <ul>
+  <li>
+    <% if params[:with_subprojects] == 'false' %>
+    <%= link_to "Include sub workstreams", { :controller => 'projects', :action => 'credits', :with_subprojects => :true } %>
+    <% else %>
+    <%= link_to "Exclude sub workstreams", { :controller => 'projects', :action => 'credits', :with_subprojects => :false } %>
+    <% end %>
+  </li>
+  </ul>
+</div>
+<% end %>
+
   <div class="splitcontentright">
       <%= render :partial => 'credits/credit_queue'%>
   </div>
