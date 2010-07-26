@@ -123,6 +123,7 @@ en:
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '7'
   
+  notice_account_inactive_user: Account has not yet been activated. Please check your email for activation link
   notice_account_updated: Account was successfully updated.
   notice_account_invalid_creditentials: Invalid user or password
   notice_account_password_updated: Password was successfully updated.

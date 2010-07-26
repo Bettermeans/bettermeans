@@ -122,7 +122,7 @@ class User < ActiveRecord::Base
     user = find(:first, :conditions => ["login=?", login.downcase])
     if user
       # user is already in local database
-      return nil if !user.active?
+      # return nil if !user.active?
       if user.auth_source
         # user has an external authentication method
         return nil unless user.auth_source.authenticate(login, password)
