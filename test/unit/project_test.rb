@@ -667,6 +667,8 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: projects
@@ -687,5 +689,6 @@ end
 #  last_item_updated_on :datetime
 #  dpp                  :float
 #  activity_line        :text            default("[]")
+#  volunteer            :boolean         default(FALSE)
 #
 

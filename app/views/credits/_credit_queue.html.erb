@@ -2,6 +2,8 @@
 <h2 class="gt-table-head"><%=l(:label_credit_queue) %></h2>
 <div class="gt-content-box">
   <% @credits_by_day = @credits.group_by{|credit| credit.issued_on.to_date}
+    unit = unit_for(@project)
+  
     if @credits_by_day.length == 0
    %>
   <%=     content_tag 'p', l(:label_no_data), :class => "nodata" %>
@@ -21,7 +23,7 @@
       next if !credit.enabled || !credit.settled_on.nil?
   %>
   <tr id="q_<%= credit.id %>">
-    <td class="currency"><%=h number_to_currency credit.amount.round.to_i, :unit => '$', :separator => ".", :delimiter => ",", :precision => 0 %></td>
+    <td class="currency"><%=h number_to_currency credit.amount.round.to_i, :unit => unit, :separator => ".", :delimiter => ",", :precision => 0 %></td>
     <td><%=link_to_user_from_id credit.owner_id %></td>
   </tr>
 <% end %>
