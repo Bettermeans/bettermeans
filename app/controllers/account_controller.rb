@@ -130,6 +130,8 @@ class AccountController < ApplicationController
       invalid_credentials
     elsif user.new_record?
       onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
+    elsif !user.active?
+      inactive_user
     else
       # Valid user
       successful_authentication(user)
@@ -201,6 +203,12 @@ class AccountController < ApplicationController
     flash.now[:error] = l(:notice_account_invalid_creditentials)
     render :layout => 'blank'
   end
+  
+  def inactive_user
+    flash.now[:error] = l(:notice_account_inactive_user)
+    render :layout => 'blank'
+  end
+  
 
   # Register a user for email activation.
   #
@@ -209,10 +217,11 @@ class AccountController < ApplicationController
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
       Mailer.deliver_register(token)
-      flash[:notice] = l(:notice_account_register_done)
-      self.logged_user = user
-      redirect_to :controller => 'welcome', :action => 'index'
-      # redirect_to :action => 'login', :layout => 'blank'
+      flash[:success] = l(:notice_account_register_done)
+      flash.now[:notice] = "whatever"
+      # self.logged_user = user
+      # redirect_to :controller => 'welcome', :action => 'index'
+      redirect_to :action => 'login', :layout => 'blank'
     else
       yield if block_given?
     end
