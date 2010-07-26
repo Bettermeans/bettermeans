@@ -25,7 +25,7 @@ class Setting < ActiveRecord::Base
   
   ACTIVITY_LINE_LENGTH = 90 #number of days for activity sparklines
   
-  ACTIVITY_STREAM_LENGTH = 100 #number of actions to show before paginating
+  ACTIVITY_STREAM_LENGTH = 40 #number of actions to show before paginating
 
 
   #Factor by which dollars per point is multiplies e.g. a 5 point issue is worth $(POINT_FACTOR[5] * dpp)
