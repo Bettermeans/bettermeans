@@ -15,7 +15,7 @@ welcome_text:
 login_required:
   default: 0
 self_registration:
-  default: '3'
+  default: '1'
 lost_password:
   default: 1
 password_min_length:

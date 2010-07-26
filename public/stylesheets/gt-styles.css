@@ -679,9 +679,14 @@ body {
 	margin: 0;
 	list-style-type: none;
 }
-.gt-sidebar-nav ul li a {
+.gt-sidebar-nav ul li a, .gt-sidebar-nav ul li p {
 	display: block;
 	padding: .6em .6em .6em 1.8em;
+}
+.gt-sidebar-nav ul li p {
+	color: #eee;
+	text-decoration: none;
+	margin-bottom: 15px;
 }
 .gt-sidebar-nav ul li a.icon {
 	margin-left: 1.8em;

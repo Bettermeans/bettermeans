@@ -14,7 +14,7 @@ module Redmine
       'text/x-csharp' => 'cs',
       'text/x-java' => 'java',
       'text/x-javascript' => 'js',
-      'text/x-html-template' => 'rhtml',
+      'text/x-html-template' => 'rhtml,html.erb',
       'text/x-perl' => 'pl,pm',
       'text/x-php' => 'php,php3,php4,php5',
       'text/x-python' => 'py',

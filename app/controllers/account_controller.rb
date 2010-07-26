@@ -210,7 +210,9 @@ class AccountController < ApplicationController
     if user.save and token.save
       Mailer.deliver_register(token)
       flash[:notice] = l(:notice_account_register_done)
-      redirect_to :action => 'login', :layout => 'blank'
+      self.logged_user = user
+      redirect_to :controller => 'welcome', :action => 'index'
+      # redirect_to :action => 'login', :layout => 'blank'
     else
       yield if block_given?
     end
@@ -226,7 +228,7 @@ class AccountController < ApplicationController
     if user.save
       self.logged_user = user
       flash[:notice] = l(:notice_account_activated)
-      redirect_to :controller => 'my', :action => 'account'
+      redirect_to :controller => 'welcome', :action => 'index'
     else
       yield if block_given?
     end
