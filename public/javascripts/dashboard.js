@@ -2862,8 +2862,10 @@ function generate_hourly_fields(dataId, disable_fields) {
 
     var visible = '';
     
-    if(!(credits_enabled && D[dataId].tracker.id == standard_trackers.Hourly.id))
-	visible = 'class="hidden"';
+    if(dataId == null || !(credits_enabled && D[dataId].tracker.id == standard_trackers.Hourly.id)){
+		visible = 'class="hidden"';
+	}
+	
 
     var readonly = disable_fields ? 'readonly' : '';
     var disabled = disable_fields ? 'disabled' : '';
