@@ -25,7 +25,7 @@
                                                         { :onchange => "#{remote_function(:url  => {:action => "update_scale"},
                                                                                                               :with => "'dpp='+value")}"})%>
     <span><%= help_bubble :help_select_scale %></span>
-    <%= render :partial => 'point_scale', :locals => { :dpp => @project.dpp.nil? ? Setting::PAY_SCALES_DEFAULT : @project.dpp.round } %>                                                                                             </p>
+    <%= render :partial => 'point_scale', :locals => {:unit => unit_for(@project), :dpp => @project.dpp.nil? ? Setting::PAY_SCALES_DEFAULT : @project.dpp.round } %>                                                                                             </p>
     <% end %>
 
 </div>
