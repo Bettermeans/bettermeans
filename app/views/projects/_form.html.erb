@@ -15,7 +15,8 @@
 <%= textile_editor_initialize(:framework => :jquery) %>
 
 <!-- <p><%#= f.text_field :homepage, :size => 60 %></p> -->
-<p><%= f.check_box :is_public if User.current == User.sysadmin %></p>
+<p><%= f.check_box :is_public %></p>
+<p><%= f.check_box :volunteer %></p>
 <div class="gt-left-col">
   <% if @project.credits_enabled? %>
   
