@@ -2,6 +2,7 @@
 <h2 class="gt-table-head"><%=l(:label_my_credits) %></h2>
 <div class="gt-content-box">
   <%  @credits_by_day = @credits.group_by{|credit| credit.issued_on.to_date}
+  unit = unit_for(@project)
   
     display_no_data = true;
   
@@ -25,7 +26,7 @@
    %>
    <tr class="<%= cycle 'odd', 'even' %>"id="m_<%= credit.id %>">
      <%= @date %>
-     <td class="currency"><%=h number_to_currency credit.amount.round.to_i, :unit => '$', :separator => ".", :delimiter => ",", :precision => 0 %></td>
+     <td class="currency"><%=h number_to_currency credit.amount.round.to_i, :unit => unit, :separator => ".", :delimiter => ",", :precision => 0 %></td>
       <td><%=h credit.settled_on.nil? ? credit.enabled ? "Active" : "Inactive" : "Settled" %></td>
       <td><%= credit_activation_link(credit) %></td>
     </tr>

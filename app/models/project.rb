@@ -665,6 +665,10 @@ class Project < ActiveRecord::Base
     activity_line.split(",").slice(self.activity_line.split(",").length - length,length).join(",")
   end
   
+  def volunteer?
+    return self.volunteer == true
+  end
+  
   private
   
   # Copies wiki from +project+
@@ -780,6 +784,8 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: projects
@@ -800,5 +806,6 @@ end
 #  last_item_updated_on :datetime
 #  dpp                  :float
 #  activity_line        :text            default("[]")
+#  volunteer            :boolean         default(FALSE)
 #
 

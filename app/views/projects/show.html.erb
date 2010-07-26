@@ -64,7 +64,12 @@
 </div>
 
 <% content_for :sidebar do %>
+<% if @project.volunteer? %>
+  <h4>This is a volunteer-run workstream<%= help_bubble :help_volunteer %></h4>
+<% else %>
 <h2 class="gt-table-head">&nbsp;</h2>
+<% end %>
+
 
 <div class="gt-sidebar-nav gt-sidebar-nav-blue">
   <h3>Quick Links</h3>
@@ -84,6 +89,7 @@
 </div>
 <br><br>
 <div class="gt-sidebar-content">
+  
 <h3><%=l(:label_project_description)%></h3>
 <%= textilizable @project.description %>	
 <%# unless @project.homepage.blank? %><%#=l(:field_homepage)%><!-- : --> <%#= link_to(h(@project.homepage), @project.homepage) %><%# end %>
