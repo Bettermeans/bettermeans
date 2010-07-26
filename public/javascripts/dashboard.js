@@ -2862,7 +2862,7 @@ function generate_hourly_fields(dataId, disable_fields) {
 
     var visible = '';
     
-    if(dataId == null || !(credits_enabled && D[dataId].tracker.id == standard_trackers.Hourly.id)){
+    if(dataId != null && !(credits_enabled && D[dataId].tracker.id == standard_trackers.Hourly.id)){
 		visible = 'class="hidden"';
 	}
 	
