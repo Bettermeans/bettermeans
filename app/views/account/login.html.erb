@@ -21,22 +21,13 @@
 		
 		<!-- login box -->
 		<div class="gt-login-box">
+        <%=RPXNow.embed_code('bettermeans', url_for(:controller=>:users, :action=>:rpx_token, :only_path => false))%>
+        <br><br><br>
+        <div class="signup-header">or login using your account</div>
+        
+      
 
 			<!-- login form -->
-      <% if Setting.openid? %>
-      <tr>
-        <td align="right"><label for="openid_url"><%=l(:field_identity_url)%></label></td>
-        <td align="left"><%= text_field_tag "openid_url", nil, :tabindex => '3' %></td>
-      </tr>
-      <% end %>
-
-      <!-- <form action="index.html" method="POST">
-      <p class="main">
-        <label>Username: </label>
-        <input gtbfieldid="1" name="username" value="username"> 
-        <label>Password: </label>
-        <input name="password" value="asdf1234" type="password">  
-      </p> -->
 
   		<p class="space">
   		  <% if Setting.autologin? %>

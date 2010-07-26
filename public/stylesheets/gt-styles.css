@@ -428,14 +428,14 @@ body {
 	width: 430px;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 250px;
+	margin-top: 30px;
 	margin-bottom: 10px;
 	font-size: 161.6%;
 	font-weight: bold;
 	color: #0e2029;
 }
 .gt-login-box {
-	width: 350px;
+	width: 400px;
 	margin-left: auto;
 	margin-right: auto;
 	padding: 1.5em 3em;
@@ -998,7 +998,7 @@ ul li {
 
 /* @group Links - link visited hover active */
 a:link, a:visited {
-	color: #A6CBDC; /*#365b6d;*/
+	color: #365b6d;
 	text-decoration: underline;
 }
 a:hover {
@@ -2080,4 +2080,14 @@ wbr:after { content: "\00200B" } /*opera compatibility with wbr*/
 
 .gt-content {
 	min-height: 300px;
+}
+
+.signup-header{
+	font-family: 'lucida grande',Verdana,sans-serif;
+	color: #333;
+	font-weight: normal;
+	font-size: 1.4em;
+	padding: 7px;
+	text-align: center;
+	width: 100%;
 }
