@@ -13,28 +13,28 @@ class Project < ActiveRecord::Base
   
   # Specific overidden Activities
   has_many :all_members,:class_name => 'Member', 
-                        :include => [:user, :roles], :conditions => "#{User.table_name}.type='User' AND #{User.table_name}.status=#{User::STATUS_ACTIVE}",
+                        :include => [:user, :roles], :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}",
                         :order => "firstname ASC"
                         
   has_many :core_members, :class_name => 'Member', 
                           :include => [:user,:roles], 
-                          :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}",
+                          :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}",
                            :order => "firstname ASC"
 
 
   has_many :members, :class_name => 'Member', 
                            :include => [:user,:roles], 
-                           :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER}",
+                           :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER}",
                             :order => "firstname ASC"
 
   has_many :board_members, :class_name => 'Member', 
                             :include => [:user,:roles], 
-                            :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_BOARD}",
+                            :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_BOARD}",
                              :order => "firstname ASC"
 
   has_many :contributors, :class_name => 'Member', 
                           :include => [:user,:roles], 
-                          :conditions => "#{User.table_name}.type='User' AND #{Role.table_name}.builtin=#{Role::BUILTIN_CONTRIBUTOR}",
+                          :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_CONTRIBUTOR}",
                            :order => "firstname ASC"
 
 
