@@ -42,6 +42,7 @@ class MyController < ApplicationController
       @user.mail_notification = (params[:notification_option] == 'all')
       @user.pref.attributes = params[:pref]
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
+      @user.pref[:no_emails] = (params[:no_emails] == '1')
       if @user.save
         @user.pref.save
         @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])

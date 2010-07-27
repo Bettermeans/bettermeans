@@ -147,7 +147,7 @@ class Mailer < ActionMailer::Base
     logger.info("authoer #{message.author}")
     
     all_recipients = (message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients
-    all_recipients.delete(message.author) if message.author.pref[:no_self_notified]
+    all_recipients.delete(message.author) if message.author.pref[:no_self_notified] || message.author.pref[:no_emails]
     cc(all_recipients)
     
     subject "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
@@ -326,7 +326,7 @@ class Mailer < ActionMailer::Base
     # Removes the current user from the recipients and cc
     # if he doesn't want to receive notifications about what he does
     @author ||= User.current
-    if @author.pref[:no_self_notified]
+    if @author.pref[:no_self_notified] || @author.pref[:no_emails]
       recipients.delete(@author.mail) if recipients
       cc.delete(@author.mail) if cc
       bcc.delete(@author.mail) if bcc
