@@ -2096,3 +2096,7 @@ wbr:after { content: "\00200B" } /*opera compatibility with wbr*/
 	text-align: center;
 	width: 100%;
 }
+
+.percentage_label_confidence{
+	font-size: 50%;
+}

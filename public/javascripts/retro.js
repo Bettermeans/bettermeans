@@ -1,3 +1,5 @@
+var confdescriptions = ['Wild guess','I\'m probably wrong', 'Not sure', 'Confident', 'Pretty sure', 'Absolutely positive'];
+
 $('document').ready(function(){
 	
 	if (retroStatus == 1){
@@ -18,7 +20,7 @@ $('document').ready(function(){
 	
 	calculate_sum();
 	
-	$(".slider").slider({
+	$(".slider-per").slider({
 		range: "min",
 		value: 0,
 		min: 0,
@@ -31,9 +33,31 @@ $('document').ready(function(){
 		}
 	});
 	
-	$(".slider").each(function(){
+	$(".slider-per").each(function(){
 	 	$("#" + this.id).slider('value',parseInt($("#" + this.id).attr("per")));
 	});
+	
+	$(".slider-conf").slider({
+		range: "min",
+		value: 0,
+		min: 0,
+		max: 100,
+		step: 20,
+		slide: function(event, ui) {
+			var user_id = $("#" + this.id).attr("user_id");
+			$("#user_" + user_id + "_percentage").html(confdescriptions[ui.value/20] + ' (' + ui.value + ')%');
+			calculate_sum();
+		}
+	});
+	
+	$(".slider-conf").each(function(){
+	 	$("#" + this.id).slider('value',parseInt($("#" + this.id).attr("per")));
+	});
+	
+	var confvalue = $('#slider_confidence').slider('value');
+	$("#user_0_percentage").html(confdescriptions[confvalue/20] + ' (' + confvalue + ')%');
+	
+	
 });
 
 function calculate_sum(){
