@@ -64,7 +64,7 @@ Rails::Initializer.run do |config|
   config.gem "rpx_now"
 
   config.after_initialize do # so rake gems:install works
-    RPXNow.api_key = "0207d50c20303a6cc34a839901a137ba2f92b35e"
+    RPXNow.api_key = ENV['RPXNOW_KEY']
   end
   
   # Load any local configuration that is kept out of source control
