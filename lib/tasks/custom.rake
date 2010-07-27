@@ -61,6 +61,13 @@ namespace :custom do
     end
   end
   
+  #maps all users to recurly users
+  task :create_recurly_users => :environment do
+    User.all.each do |user|
+      User.create_recurly_account(user.id)
+    end
+  end
+  
   
 
 end
