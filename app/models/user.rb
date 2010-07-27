@@ -31,6 +31,7 @@ class User < ActiveRecord::Base
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   has_one :api_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='api'"
   belongs_to :auth_source
+  belongs_to :plan
   
   has_many :commit_requests, :dependent => :delete_all
   has_many :notifications, :foreign_key => 'recipient_id', :dependent => :delete_all
@@ -483,6 +484,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: users
@@ -505,5 +507,6 @@ end
 #  identity_url          :string(255)
 #  activity_stream_token :string(255)
 #  identifier            :string(255)
+#  plan_id               :integer
 #
 
