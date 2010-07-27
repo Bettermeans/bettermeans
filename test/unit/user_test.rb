@@ -268,6 +268,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: users
@@ -290,5 +291,6 @@ end
 #  identity_url          :string(255)
 #  activity_stream_token :string(255)
 #  identifier            :string(255)
+#  plan_id               :integer
 #
 

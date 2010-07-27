@@ -158,6 +158,7 @@ groups_011:
 
 
 
+
 # == Schema Information
 #
 # Table name: users
@@ -180,5 +181,6 @@ groups_011:
 #  identity_url          :string(255)
 #  activity_stream_token :string(255)
 #  identifier            :string(255)
+#  plan_id               :integer
 #
 
