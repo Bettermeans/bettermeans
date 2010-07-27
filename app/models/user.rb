@@ -77,6 +77,7 @@ class User < ActiveRecord::Base
   validates_length_of :mail, :maximum => 60, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
   
+  
   def <=>(user)
     if self.class.name == user.class.name
       self.to_s.downcase <=> user.to_s.downcase
@@ -96,6 +97,49 @@ class User < ActiveRecord::Base
   def before_save
     # update hashed_password if password was set
     self.hashed_password = User.hash_password(self.password) if self.password
+  end
+  
+  def after_create
+    User.send_later(:create_recurly_account,self.id)
+  end
+  
+  
+  def after_update
+    User.send_later(:update_recurly_account,self.id)
+  end
+  
+  def self.create_recurly_account(id)
+    @user = User.find(id)
+    begin
+      @account = Recurly::Account.find(@user.id)
+    rescue ActiveResource::ResourceNotFound
+      @account = Recurly::Account.create(
+        :account_code => @user.id,
+        :first_name => @user.firstname,
+        :last_name => @user.lastname,
+        :email => @user.mail,
+        :username => @user.login)
+    end
+  end
+  
+  def self.update_recurly_account(id)
+    @user = User.find(id)
+    
+    begin
+      @account = Recurly::Account.find(@user.id)
+    rescue ActiveResource::ResourceNotFound
+      logger.info("couldn't find account")
+      puts("couldn't find account")
+      @account = User.create_recurly_account(id)
+    end
+     
+    @account.account_code = @user.id
+    @account.first_name = @user.firstname
+    @account.last_name = @user.lastname
+    @account.email = @user.mail
+    @account.username = @user.login
+    @account.save
+    @result_object = Recurly::Account.find(@account.account_code)
   end
   
   def reload(*args)
