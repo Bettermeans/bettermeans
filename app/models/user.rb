@@ -128,8 +128,6 @@ class User < ActiveRecord::Base
     begin
       @account = Recurly::Account.find(@user.id)
     rescue ActiveResource::ResourceNotFound
-      logger.info("couldn't find account")
-      puts("couldn't find account")
       @account = User.create_recurly_account(id)
     end
      
@@ -141,6 +139,59 @@ class User < ActiveRecord::Base
     @account.save
     @result_object = Recurly::Account.find(@account.account_code)
   end
+  
+  def save_billing(cc,ccverify,ip)
+    User.send_later(:update_recurly_billing,self.id,cc,ccverify,ip)
+  end
+  
+  def self.update_recurly_billing(id,cc,ccverify,ip)
+    @user = User.find(id)
+    begin
+      @account = Recurly::Account.find(@user.id)
+    rescue ActiveResource::ResourceNotFound
+      @account = User.create_recurly_account(id)
+    end
+    
+    puts "credit card #{cc}"
+    
+    cc.gsub!(/[^0-9]/,'')
+    puts "credit card #{cc}"
+    
+    if cc && cc.length > 14
+    
+    @result_object = Recurly::BillingInfo.create(
+      :account_code => @account.account_code,
+      :first_name => @account.first_name,
+      :last_name => @account.last_name,
+      :address1 => @user.b_address1,
+      :zip => @user.b_zip,
+      :phone => @user.b_phone,
+      :ip_address => ip,
+      :credit_card => {
+        :number => cc,
+        :year => @user.b_cc_year,
+        :month => @user.b_cc_month,
+        :verification_value => ccverify
+      })
+      
+    else
+      
+      @result_object = Recurly::BillingInfo.create(
+        :account_code => @account.account_code,
+        :first_name => @account.first_name,
+        :last_name => @account.last_name,
+        :address1 => @user.b_address1,
+        :zip => @user.b_zip,
+        :phone => @user.b_phone,
+        :ip_address => ip)
+    end
+    
+
+    @user.b_cc_type = @result_object.credit_card.attributes["type"]
+    @user.b_cc_last_four = "XXXX - " + @result_object.credit_card.attributes["last_four"] + " " + @result_object.credit_card.attributes["type"]
+    @user.save
+  end
+  
   
   def reload(*args)
     @name = nil
@@ -529,6 +580,9 @@ end
 
 
 
+
+
+
 # == Schema Information
 #
 # Table name: users
@@ -552,5 +606,16 @@ end
 #  activity_stream_token :string(255)
 #  identifier            :string(255)
 #  plan_id               :integer
+#  b_first_name          :string(255)
+#  b_last_name           :string(255)
+#  b_address1            :string(255)
+#  b_zip                 :string(255)
+#  b_country             :string(255)
+#  b_phone               :string(255)
+#  b_ip_address          :string(255)
+#  b_cc_last_four        :string(255)
+#  b_cc_type             :string(255)
+#  b_cc_month            :integer
+#  b_cc_year             :integer
 #
 

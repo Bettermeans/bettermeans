@@ -300,7 +300,10 @@ body {
 .gt-table-buttons {
 	margin: 10px 0 40px 0;
 }
-.gt-table-buttons:after {
+.gt-table-buttons-inside {
+	margin: 10px 0 10px 0;
+}
+.gt-table-buttons:after, .gt-table-buttons-inside:after {
     content: "."; 
     display: block; 
     height: 0; 
@@ -308,6 +311,8 @@ body {
     visibility: hidden;
 }
 .gt-table-buttons {display: inline-block;}
+.gt-table-buttons-inside {display: block;}
+
 /* Hides from IE-mac \*/
 * html .gt-table-buttons {height: 1%;}
 .gt-table-buttons {display: block;}
@@ -1882,6 +1887,10 @@ form input[type=submit] {
 	background: url(../images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;	
 }
 
+.gt-table-buttons-inside input[type=submit]{
+	float: right;;
+}
+
 form input[type=radio],
 form input[type=checkbox] {
 	margin-right: 3px;
@@ -2099,4 +2108,9 @@ wbr:after { content: "\00200B" } /*opera compatibility with wbr*/
 
 .percentage_label_confidence{
 	font-size: 50%;
+}
+
+form input[type="text"].verification-code {
+	width: auto;
+	margin-right: 10px;
 }

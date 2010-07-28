@@ -269,6 +269,9 @@ end
 
 
 
+
+
+
 # == Schema Information
 #
 # Table name: users
@@ -292,5 +295,16 @@ end
 #  activity_stream_token :string(255)
 #  identifier            :string(255)
 #  plan_id               :integer
+#  b_first_name          :string(255)
+#  b_last_name           :string(255)
+#  b_address1            :string(255)
+#  b_zip                 :string(255)
+#  b_country             :string(255)
+#  b_phone               :string(255)
+#  b_ip_address          :string(255)
+#  b_cc_last_four        :string(255)
+#  b_cc_type             :string(255)
+#  b_cc_month            :integer
+#  b_cc_year             :integer
 #
 
