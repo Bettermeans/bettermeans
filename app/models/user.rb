@@ -152,11 +152,8 @@ class User < ActiveRecord::Base
       @account = User.create_recurly_account(id)
     end
     
-    puts "credit card #{cc}"
-    
     cc.gsub!(/[^0-9]/,'')
-    puts "credit card #{cc}"
-    
+
     if cc && cc.length > 14
     
     @result_object = Recurly::BillingInfo.create(
