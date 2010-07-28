@@ -38,6 +38,11 @@ class MyController < ApplicationController
     @user = User.current
     @pref = @user.pref
     if request.post?
+      cc = params[:user][:b_cc_last_four]
+      cc.gsub!(/[^0-9]/,'')
+      if cc.length > 14
+        params[:user][:b_cc_last_four] = ("XXXX-") + params[:user][:b_cc_last_four][cc.length-4,cc.length-1]
+      end
       @user.attributes = params[:user]
       @user.mail_notification = (params[:notification_option] == 'all')
       @user.pref.attributes = params[:pref]
@@ -45,6 +50,7 @@ class MyController < ApplicationController
       @user.pref[:no_emails] = (params[:no_emails] == '1')
       if @user.save
         @user.pref.save
+        @user.save_billing cc, params[:ccverify], request.remote_ip
         @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
         set_language_if_valid @user.language
         flash[:notice] = l(:notice_account_updated)
