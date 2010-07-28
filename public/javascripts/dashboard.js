@@ -307,6 +307,7 @@ function load_retros(){
 		$.ajax({
 		   type: "GET",
 		   dataType: "json",
+		   contentType: "application/json",
 		   url: url,
 		   success:  	function(html){
 				retros_ready(html);
@@ -1612,6 +1613,7 @@ function display_retro(rdataId){
 	$.ajax({
 	   type: "GET",
 	   dataType: "json",
+	   contentType: "application/json",
 	   url: 'retros/' + retro.id + '/dashdata',
 	   success:  	function(html){
 			$('#new_retro_wrapper_' + rdataId).hide();
@@ -3675,6 +3677,7 @@ function new_dash_data(){
 	$.ajax({
 	   type: "GET",
 	   dataType: "json",	
+	   contentType: "application/json",
 	   url: url,
 	   data: data,
 	   success:  	function(html){
