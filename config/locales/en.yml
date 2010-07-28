@@ -435,6 +435,8 @@ en:
   label_enumeration_new: New value
   label_information: Information
   label_information_plural: Information
+  label_personal_information: Personal Info
+  label_billing_information: Billing Info
   label_please_login: Please log in
   label_register: Register
   label_login_with_open_id_option: or login with OpenID
@@ -912,6 +914,22 @@ en:
   label_hourly_type_new: "New hourly type"
   label_hourly_rate_per_person: "Hourly rate per person"
   label_hourly_cap: "Hourly cap"
+  
+  field_b_first_name: "First name"
+  field_b_last_name: "Last name"
+  field_b_address1: "Street Address"
+  field_b_address2: "Address (line 2)"
+  field_b_city: "City"
+  field_b_state: "State"
+  field_b_zip: "Zip/Postal Code"
+  field_b_country: "Country"
+  field_b_phone: "Phone"
+  field_b_cc_type: "Type"
+  field_b_cc_month: "Expiration Date"
+  field_b_cc_year: ""
+  field_b_cc_last_four: "Credit Card"
+  label_b_expiration: "Expiration Date"
+  label_b_verification_code: "Verification Code"
   
   button_login: Login
   button_submit: Submit
