@@ -824,6 +824,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: projects
@@ -846,6 +847,6 @@ end
 #  activity_line        :text            default("[]")
 #  volunteer            :boolean         default(FALSE)
 #  owner_id             :integer
-#  storage              :float
+#  storage              :float           default(0.0)
 #
 
