@@ -1,7 +1,11 @@
 <!-- <h1><%#= l(:label_home) %></h1> -->
 
+
 <div class="splitcontentleft">
   <%#= textilizable Setting.welcome_text %>
+  
+  	<h1><%= link_to "Create a workstream", {:controller => 'projects', :action => 'add', :parent_id => @project} %></h1>
+  
   
   <h2 class="gt-table-head"><%=l(:label_activity_latest)%></h2>  
   <div class="activity gt-content-box">
