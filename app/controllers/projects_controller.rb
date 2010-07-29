@@ -72,6 +72,7 @@ class ProjectsController < ApplicationController
         @project.trackers = Tracker.no_credits
       end
       @project.is_public = Setting.default_projects_public?
+      @project.owner_id = User.current.id if params[:parent_id] == "" || params[:parent_id].nil?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
       if validate_parent_id && @project.save
         write_single_activity_stream(User.current, :name, @project, :name, :created, :workstreams, 0, nil,{:object_description_method => :description})

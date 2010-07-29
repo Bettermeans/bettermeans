@@ -16,6 +16,16 @@ class Document < ActiveRecord::Base
   validates_presence_of :project, :title
   validates_length_of :title, :maximum => 60
   
+  def size
+    sum = 0.0
+    attachments.each do |a|
+      sum += a.filesize
+    end
+    
+    sum = sum / 1000000000
+    sum.round(3)
+  end
+  
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_documents, project)
   end

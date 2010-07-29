@@ -592,6 +592,18 @@ class Issue < ActiveRecord::Base
     return Setting::CREDITS_TO_POINTS[Setting::CREDITS_TO_POINTS.length - 1] if normalized > Setting::CREDITS_TO_POINTS.length #returns max if credits are more than max
   	return Setting::CREDITS_TO_POINTS[normalized]; 
   end
+  
+  def size
+    sum = 0.0
+    attachments.each do |a|
+      sum += a.filesize
+    end
+    
+    sum = sum / 1000000000
+    sum.round(3)
+  end
+  
+  
 
   private
   

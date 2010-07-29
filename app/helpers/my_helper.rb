@@ -3,4 +3,7 @@
 #
 
 module MyHelper
+  def describe(amount)
+    amount == -1 ? 'unlimited' : amount
+  end
 end
