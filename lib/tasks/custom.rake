@@ -67,6 +67,10 @@ namespace :custom do
       User.create_recurly_account(user.id)
     end
   end
+
+  task :calculate_project_storage => :environment do
+    Project.all.each do |p| p.calculate_storage end
+  end
   
   
 

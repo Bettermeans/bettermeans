@@ -10,12 +10,18 @@ class Project < ActiveRecord::Base
   
   
   belongs_to :enterprise                        
+  belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
   
   # Specific overidden Activities
   has_many :all_members,:class_name => 'Member', 
                         :include => [:user, :roles], :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}",
                         :order => "firstname ASC"
                         
+  has_many :administrators, :class_name => 'Member', 
+                          :include => [:user,:roles], 
+                          :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_ADMINISTRATOR}",
+                           :order => "firstname ASC"
+
   has_many :core_members, :class_name => 'Member', 
                           :include => [:user,:roles], 
                           :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}",
@@ -98,9 +104,7 @@ class Project < ActiveRecord::Base
   def project_id
     self.id
   end
-  
-  
-  
+    
   def graph_data
     valid_kids = children.select{|c| c.active?}
     if valid_kids.size > 0
@@ -590,6 +594,24 @@ class Project < ActiveRecord::Base
                   :description => Setting.forum_description + name
                   
      refresh_activity_line
+     set_owner
+  end
+  
+  def set_owner
+    if !self.root?
+      self.owner_id = self.root.owner_id 
+      self.save
+    elsif owner_id.nil?
+      admins = self.administrators.sort {|x,y| x.created_on <=> y.created_on}
+      if admins.length > 0
+        self.owner_id = admins[0].user_id
+        self.save
+      else
+        core = self.core_members.sort {|x,y| x.created_on <=> y.created_on}
+        self.owner_id = core[0].user_id if core.length > 0
+        self.save
+      end
+    end
   end
   
   
@@ -667,6 +689,20 @@ class Project < ActiveRecord::Base
   
   def volunteer?
     return self.volunteer == true
+  end
+  
+  def calculate_storage
+    sum = 0
+    documents.each do |d|
+      sum += d.size
+    end
+    
+    issues.each do |d|
+      sum += d.size
+    end
+    
+    self.storage = sum
+    self.save
   end
   
   private
@@ -786,6 +822,8 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: projects
@@ -807,5 +845,7 @@ end
 #  dpp                  :float
 #  activity_line        :text            default("[]")
 #  volunteer            :boolean         default(FALSE)
+#  owner_id             :integer
+#  storage              :float
 #
 

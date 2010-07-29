@@ -36,6 +36,8 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: projects
@@ -57,5 +59,7 @@ end
 #  dpp                  :float
 #  activity_line        :text            default("[]")
 #  volunteer            :boolean         default(FALSE)
+#  owner_id             :integer
+#  storage              :float
 #
 

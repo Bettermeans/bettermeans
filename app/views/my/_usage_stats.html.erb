@@ -1,0 +1,18 @@
+<% plan = User.current.plan %>
+<div class="gt-sidebar-nav gt-sidebar-nav-gray">
+  <h3>Plan: <%= plan.name %></h3>
+  <ul>
+  <li><p><span style="float:right;width:35%">$<%= plan.amount.round %> monthly</span><span style="float:right;width:65%">Cost</span></p>
+  </li>
+  <li><p><span style="float:right;width:35%"><%= User.current.project_storage_total %> / <%= describe plan.storage_max %> GB</span><span style="float:right;width:65%">Storage</span></p>
+  </li>
+  <li><p><span style="float:right;width:35%"><%= User.current.private_project_total %> / <%= describe plan.private_workstream_max %></span><span style="float:right;width:65%">Private Workstreams</span></p>
+  </li>
+  <li><p><span style="float:right;width:35%"><%= User.current.private_contributor_total %> / <%= describe plan.contributor_max %></span><span style="float:right;width:65%">Private Collaborators</span></p>
+  </li>
+  <li><p><span style="float:right;width:35%"><%= User.current.public_project_total %> / <%= describe plan.public_workstream_max %></span><span style="float:right;width:65%">Public Workstreams</span></p>
+  </li>
+  <li><p><span style="float:right;width:35%"><%= User.current.public_contributor_total %> / unlimited</span><span style="float:right;width:65%">Public Collaborators</span></p>
+  </li>
+  </ul>
+</div>
