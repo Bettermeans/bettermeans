@@ -35,6 +35,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: users
@@ -57,7 +58,7 @@ end
 #  identity_url          :string(255)
 #  activity_stream_token :string(255)
 #  identifier            :string(255)
-#  plan_id               :integer
+#  plan_id               :integer         default(1)
 #  b_first_name          :string(255)
 #  b_last_name           :string(255)
 #  b_address1            :string(255)

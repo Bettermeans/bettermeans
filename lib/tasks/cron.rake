@@ -12,12 +12,12 @@ task :cron => :environment do
     Rake::Task['custom:close_motions'].invoke
     Rake::Task['custom:refresh_activity_timelines'].invoke
     
-    
     if Time.now.hour == 0
       
       Rake::Task['heroku:daily_backup'].invoke
       Rake::Task['start_retros'].invoke
       Rake::Task['custom:calculate_reputation'].invoke
+      Rake::Task['custom:calculate_project_storage'].invoke
       
       # Credit distribution
       last_distribution = CreditDistribution.first(:order => "updated_on DESC")

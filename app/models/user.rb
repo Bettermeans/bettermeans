@@ -25,6 +25,8 @@ class User < ActiveRecord::Base
   has_many :memberships, :class_name => 'Member', :foreign_key => 'user_id', :include => [ :project, :roles ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name"
   has_many :core_memberships, :class_name => 'Member', :foreign_key => 'user_id', :include => [ :project, :roles ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}", :order => "#{Project.table_name}.name"
   has_many :projects, :through => :memberships
+  has_many :owned_projects, :class_name => 'Project', :foreign_key => 'owner_id', :include => [:all_members]
+  
   
 
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
@@ -540,6 +542,28 @@ class User < ActiveRecord::Base
     User.find(:first,:conditions => {:login => "admin"})
   end
   
+  #total owned public projects
+  def public_project_total
+    self.owned_projects.find_all{|p| p.is_public && p.active? }.length
+  end
+  
+  def private_project_total
+    self.owned_projects.find_all{|p| !p.is_public && p.active? }.length
+  end
+  
+  def public_contributor_total
+    self.owned_projects.find_all{|p| p.root? && p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
+  end
+  
+  def private_contributor_total
+    self.owned_projects.find_all{|p| p.root? && !p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
+  end
+  
+  def project_storage_total
+    self.owned_projects.inject(0){|sum,item| sum + item.storage}
+  end
+  
+  
   protected
   
   def validate
@@ -580,6 +604,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: users
@@ -602,7 +627,7 @@ end
 #  identity_url          :string(255)
 #  activity_stream_token :string(255)
 #  identifier            :string(255)
-#  plan_id               :integer
+#  plan_id               :integer         default(1)
 #  b_first_name          :string(255)
 #  b_last_name           :string(255)
 #  b_address1            :string(255)
