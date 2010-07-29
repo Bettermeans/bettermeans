@@ -18,32 +18,7 @@
 <%= submit_tag l(:button_save) %>
 </div>
 </div>
-
-<h3><%=l(:label_billing_information)%></h3>
-<div class="gt-content-box tabular">
-<p><%= f.text_field :b_first_name %></p>
-<p><%= f.text_field :b_last_name %></p>
-<p><%= f.text_field :b_address1 %></p>
-<p><%= f.select :b_country, options_for_select(country_hash.sort, :selected => "US") %></p>
-<p><%= f.text_field :b_zip %></p>
-<p><%= f.text_field :b_phone %></p>
-<img width="27" height="19" src="https://app-static.recurly.com/images/creditcards/visa.png?1280183849" alt="Visa">
-<img width="27" height="19" src="https://app-static.recurly.com/images/creditcards/mastercard.png?1280183849" alt="MasterCard">
-<img width="27" height="19" src="https://app-static.recurly.com/images/creditcards/amex.png?1280183849" alt="AmEx">
-<img width="27" height="19" src="https://app-static.recurly.com/images/creditcards/discover.png?1280183849" alt="Discover">
-<p><%= f.text_field :b_cc_last_four %></p>
-<table style="width:100%;"><tr><td>
-<p>
-  <%= f.select :b_cc_month, options_for_select(month_hash, :selected => Date.today.month) %>
-  <%= f.select :b_cc_year, options_for_select(year_hash.sort, :selected => Date.today.year) %>
-</p>
-</td><td style="vertical-align:top;">
-<p><label><%= l(:label_b_verification_code) %></label> <%= text_field "", "ccverify", :size => 5, :class => "verification-code" %><img src="https://app-static.recurly.com/images/creditcards/cvv-glyph.png?1280344890" alt="CVV"></p>
-</td></tr></table>
-<div class="gt-table-buttons-inside">
-<%= submit_tag l(:button_save) %>
-</div>
-</div>
+<%#= render :partial => 'billing_form' %>
 
 </div>
 
