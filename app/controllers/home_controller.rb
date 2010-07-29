@@ -5,8 +5,8 @@ class HomeController < ApplicationController
     if User.current.logged?
       redirect_to :controller => 'welcome', :action => 'index'
     else
-      redirect_to :controller => 'welcome', :action => 'index'
-      # redirect_to :controller => 'home', :action => 'show', :page => 'index'
+      # redirect_to :controller => 'welcome', :action => 'index'
+      redirect_to :controller => 'home', :action => 'show', :page => 'index'
     end
   end
 
