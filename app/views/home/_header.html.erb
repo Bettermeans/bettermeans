@@ -9,14 +9,14 @@
           </li>
           <li <%= "class='active'" if page == "account" %>> <a href="/my/account"><span>Account</span></a>
           </li>
-          <li <%= "class='active'" if page == "library" %>> <a href="/front/library.html"><span>Library +</span></a>
+          <!-- <li <%= "class='active'" if page == "library" %>> <a href="/front/library.html"><span>Library +</span></a>
             <ul>
               <li> <a href="/front/library.html">Overview</a> </li>
               <li> <a href="/front/tutorials.html">Tutorials</a> </li>
               <li> <a href="/front/reference.html">Reference</a></li>
               </li>
             </ul>
-          </li>
+          </li> -->
           <li> <a href="/logout"><span>Logout</span></a>
           <li> <a href="/my/account"><span style="color:#ccc"><%= current_user.name %></span></a></li>
         </ul>
@@ -25,14 +25,14 @@
         <ul class="sf-menu" id="topnav">
           <li <%= "class='active'" if page == "home" %>> <a href="/front/index.html"><span>Home</span></a> </li>
           <li <%= "class='active'" if page == "tour" %>> <a href="/front/tour.html"><span>Tour</span></a> </li>
-          <li <%= "class='active'" if page == "library" %>> <a href="/front/library.html"><span>Library +</span></a>
+          <!-- <li <%= "class='active'" if page == "library" %>> <a href="/front/library.html"><span>Library +</span></a>
             <ul>
               <li> <a href="/front/library.html">Overview</a> </li>
               <li> <a href="/front/tutorials.html">Tutorials</a> </li>
               <li> <a href="/front/reference.html">Reference</a></li>
               </li>
             </ul>
-          </li>
+          </li> -->
           <!-- <li <%#= "class='active'" if page == "services" %>> <a href="/services.html"><span>Services +</span></a>
             <ul>
               <li> <a href="/pricing.html">Pricings</a> </li>
