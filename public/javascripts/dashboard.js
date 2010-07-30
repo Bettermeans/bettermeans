@@ -417,6 +417,7 @@ function prepare_item_lookup_array(){
 
 // Loads all items in their perspective panels, and sets up panels
 function display_panels(){
+	loaded_panels = 0;
 	insert_panel(0,'new','New',true);
 	// insert_panel(0,'estimate','In Estimation',true);
 	insert_panel(0,'open','Open',true);
@@ -2925,7 +2926,6 @@ function gift_type_selected() {
 }
 
 function new_story_type_changed() {    
-	console.log('what!');
 	
     $("#new_expense").hide();
     $("#new_assigned_to").hide();
