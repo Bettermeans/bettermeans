@@ -16,7 +16,7 @@ class ProjectsController < ApplicationController
   before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add ]
   before_filter :find_optional_project, :only => [:activity, :add]
   before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :hourly_types ]
-  # before_filter :authorize_global, :only => :add
+  before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
   
@@ -39,16 +39,10 @@ class ProjectsController < ApplicationController
   
   # Lists visible projects
   def index
-    respond_to do |format|
-      format.html { 
-        @projects = Project.visible.find(:all, :order => 'lft') 
-      }
-      format.atom {
-        projects = Project.visible.find(:all, :order => 'created_on DESC',
-                                              :limit => Setting.feeds_limit.to_i)
-        render_feed(projects, :title => "#{Setting.app_title}: #{l(:label_project_latest)}")
-      }
-    end
+    @news = News.latest User.current
+    @projects = Project.latest User.current, 10, false
+    @enterprises = Project.latest User.current, 10, true
+    @activities_by_item = ActivityStream.fetch(nil, nil, true, 100)
   end
   
   def map
