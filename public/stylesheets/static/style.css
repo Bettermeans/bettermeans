@@ -107,8 +107,8 @@ Banner
 	z-index:100
 }
 #description {
-	margin-top:63px;
-	width:500px
+	margin-top:20px;/*63px;*/
+	width:450px
 }
 #description p {
 	font-size:2.3em;
