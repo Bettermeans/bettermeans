@@ -128,8 +128,8 @@ Redmine::AccessControl.map do |map|
   # 
   map.project_module :credits do |map|
     map.permission :view_credits, {:projects => :credits, :credits => [:index,:show]}, :require => :loggedin
-    map.permission :add_credits, {:credits => [:new, :create]}, :require => :admin
-    map.permission :manage_credits, {:credits => [:destroy, :edit]}, :require => :admin
+    map.permission :add_credits, {:credits => [:new, :create]}, :require => :loggedin
+    map.permission :manage_credits, {:credits => [:destroy, :edit]}, :require => :loggedin
   end
   
   
@@ -168,7 +168,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :credits, { :controller => 'projects', :action => 'credits' }, 
       :if => Proc.new { |p| p.credits_enabled? }
   menu.push :activity, { :controller => 'projects', :action => 'activity' }
-  menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id, :caption => :label_boards#,
+  menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id, :caption => :label_boards
   menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }#, 
               # :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
               # :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
