@@ -445,6 +445,7 @@ en:
   label_my_page: My page
   label_my_account: My account
   label_my_projects: My workstreams
+  label_projects_i_belong_to: Workstreams I belong to
   label_administration: Administration
   label_login: Sign in
   label_logout: Sign out

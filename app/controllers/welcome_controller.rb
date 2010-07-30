@@ -11,6 +11,7 @@ class WelcomeController < ApplicationController
     @enterprises = Project.latest User.current, 10, true
     @activities_by_item = ActivityStream.fetch(nil, nil, true, 50)    
     @my_projects = User.current.owned_projects
+    @belong_to_projects = User.current.belongs_to_projects
   end
   
   def robots

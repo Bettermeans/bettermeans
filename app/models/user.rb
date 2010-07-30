@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   has_many :core_memberships, :class_name => 'Member', :foreign_key => 'user_id', :include => [ :project, :roles ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}", :order => "#{Project.table_name}.name"
   has_many :projects, :through => :memberships
   has_many :owned_projects, :class_name => 'Project', :foreign_key => 'owner_id', :include => [:all_members]
+  # has_many :belongs_to_projects, :through => :memberships, :class_name => 'Project', :foreign_key=> 'project_id', :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.owner_id <> #{self.id}, :order => #{Project.table_name}.name"
   
   
 
@@ -561,6 +562,11 @@ class User < ActiveRecord::Base
   
   def project_storage_total
     self.owned_projects.inject(0){|sum,item| sum + item.storage}
+  end
+  
+  #projects user belongs to but doesnt own
+  def belongs_to_projects
+    self.projects.does_not_belong_to(self.id)
   end
   
   
