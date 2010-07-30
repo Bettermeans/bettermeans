@@ -204,7 +204,7 @@ a.readmore .hover {
 	margin-bottom:60px
 } /*Just to work better - temporal*/
 #main {
-	margin-top:50px
+	margin-top:0px /*50*/
 }
 #main #columns .cols {
 	width:280px;
