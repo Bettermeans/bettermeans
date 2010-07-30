@@ -2114,3 +2114,7 @@ form input[type="text"].verification-code {
 	width: auto;
 	margin-right: 10px;
 }
+
+.centered{
+	text-align: center;
+}
