@@ -54,7 +54,7 @@ html {
 	overflow-y: scroll;
 }
 html h1, html h2, html h3, html h4 {
-	font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, Verdana, sans-serif;
+	font-family: Helvetica, sans-serif;
 	font-weight:normal;
 	color:#545454;
 }
@@ -167,8 +167,8 @@ Banner
 }
 .galleryview {
 	font-size: 11px;
-	font-family: Arial, Helvetica, sans-serif;
-}
+	font-family: Helvetica, sans-serif;
+	}
 .panel-overlay h2, .panel-overlay p {
 	margin: .4em 0;
 }
@@ -1275,7 +1275,7 @@ div.blog-post-single p.rating {
 }
 .tweetmemebutton {
 	color:#333;
-	font-family:Helvetica, Arial, Verdana;
+	font-family: Helvetica, sans-serif;
 	font-size:81.3%;
 	line-height:1.5em;
 	margin:0;
