@@ -39,6 +39,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: projects
@@ -57,7 +58,7 @@ end
 #  rgt                  :integer
 #  enterprise_id        :integer
 #  last_item_updated_on :datetime
-#  dpp                  :float
+#  dpp                  :float           default(100.0)
 #  activity_line        :text            default("[]")
 #  volunteer            :boolean         default(FALSE)
 #  owner_id             :integer
