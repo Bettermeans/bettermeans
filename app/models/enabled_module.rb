@@ -6,7 +6,7 @@ class EnabledModule < ActiveRecord::Base
   belongs_to :project
   
   validates_presence_of :name
-  #validates_uniqueness_of :name, :scope => :project_id
+  #validates_uniqueness_of :name, :scope => :project_id #TODO: uncomment this, but make credits module work when being added
   
   after_create :module_enabled
   
