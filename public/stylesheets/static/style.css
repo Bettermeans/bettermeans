@@ -707,11 +707,13 @@ table#pricing-chart td {
 	text-align:center
 }
 #main-inner div.inner-page-title {
-	margin-bottom:30px
+	margin-bottom:30px;
+	text-align:center;
 }
 #main-inner h2.main-title-2 {
 	color:#44a1dc;
 	margin:0;
+	
 }
 #main-inner div.inner-page-title span {
 	font-size:.9em;
@@ -1432,12 +1434,16 @@ Gallery
 
 
 div#gallery div.gallery-content {
-	padding:40px 0
+	padding:40px 0;
 }
 div#gallery div.gallery-content ul li {
 	background:url(/images/static/list.png) no-repeat 0 50%;
 	padding-left:20px;
-	list-style:none
+	list-style:none;
+	font-size: 110%;
+}
+div#gallery div.gallery-content p {
+	font-size: 110%;
 }
 /* --- viewport configuration ---------------------------------------------------------- */
         .viewport {
