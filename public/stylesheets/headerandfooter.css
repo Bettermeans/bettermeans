@@ -272,3 +272,8 @@ ul#topnav.sf-menu li.current ul, ul#topnav.sf-menu li ul {
 #top-footer .last, #top-footer div.last {
 	margin-right: 0;
 }
+
+
+/*From HN*/
+#top-footer .footer-logo {left:-21px;}
+#top-footer h3 {background:none;padding-left:0;}
