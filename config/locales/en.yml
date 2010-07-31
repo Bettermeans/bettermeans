@@ -224,7 +224,7 @@ en:
   field_parent: Sub workstream of
   field_is_in_roadmap: Items displayed in roadmap
   field_login: Username
-  field_mail_notification: Email notifications
+  field_mail_notification: Email Notifications
   field_admin: Administrator
   field_last_login_on: Last connection
   field_language: Language
@@ -387,6 +387,7 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
   
+  label_select_plan: Select Plan
   label_user: User
   label_user_plural: Users
   label_user_new: New user
@@ -934,6 +935,7 @@ en:
   label_b_verification_code: "Verification Code"
   
   
+  button_change_plan: Change Plan
   button_login: Login
   button_submit: Submit
   button_search: Search
