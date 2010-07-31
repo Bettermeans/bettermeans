@@ -16,7 +16,16 @@
 <%= submit_tag l(:button_save) %>
 </div>
 </div>
-<%#= render :partial => 'billing_form' %>
+
+<% if !User.current.b_cc_last_four.nil? %>
+  <h3><%=l(:label_billing_information)%></h3>
+  <div class="gt-content-box tabular">
+  <%= render :partial => 'billing_form', :locals => {:f => f} %>
+    <div class="gt-table-buttons-inside">
+    <%= submit_tag l(:button_save) %>
+    </div>
+  </div>
+<% end %>
 
 </div>
 

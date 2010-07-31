@@ -65,6 +65,102 @@ class MyController < ApplicationController
     @notification_options.insert 1, [l(:label_user_mail_option_selected), 'selected'] if @user.memberships.length > 1
     @notification_option = @user.mail_notification? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')    
   end
+  
+  def upgrade
+    @user = User.current
+    @plans = Plan.all
+    @selected_plan = @user.plan
+    
+    if request.post?
+      cc = params[:user][:b_cc_last_four]
+      cc.gsub!(/[^0-9]/,'')
+      if cc.length > 14
+        params[:user][:b_cc_last_four] = ("XXXX-") + params[:user][:b_cc_last_four][cc.length-4,cc.length-1]
+      else
+        params[:user].delete :b_cc_last_four
+      end
+      
+      @new_plan = Plan.find(params[:user][:plan_id])
+      @user.attributes = params[:user]
+      @user.plan_id = @new_plan.id
+
+      logger.info("new plan #{@new_plan.inspect}")
+      account = User.update_recurly_billing @user.id, cc, params[:ccverify], request.remote_ip
+        
+      # logger.info { "hellooooooooo" } if account.billing_info.defined?
+        
+      if defined? account.billing_info && account.billing_info.errors
+        flash[:error] = account.billing_info.errors[:base]
+        logger.error { "error here please" }
+        logger.info("error in updating billing: #{account.billing_info.inspect}")
+        return
+      end
+              
+      if @new_plan.code == Plan::FREE_CODE && @new_plan.code != @selected_plan.code
+        begin
+          sub = Recurly::Subscription.find(@user.id.to_s)
+          sub.cancel(@user.id.to_s)
+        rescue ActiveResource::ResourceNotFound
+          logger.info { "couldn't get existing sub" }
+          sub = Recurly::Subscription.create(
+            :account_code => account.account_code,
+            :plan_code => @new_plan.code, 
+            :quantity => 1,
+            :account => account
+          )
+        rescue Exception => e
+          logger.info e.inspect
+          flash[:error] = e.message
+          return
+        else
+          @user.save
+          flash[:notice] = "Your plan was successfully canceled"
+          redirect_to :action => 'account'
+          return
+        end
+      elsif @new_plan.code != @selected_plan.code
+        begin
+          sub = Recurly::Subscription.find(@user.id.to_s)
+          logger.info { "Got existing sub #{sub.inspect}" }
+          begin
+          sub.change('now', :plan_code => @new_plan.code, :quantity => 1)
+          rescue Exception => e
+            logger.info e.inspect
+            flash[:error] = e.message
+            return
+          end
+        rescue ActiveResource::ResourceNotFound
+          logger.info { "couldn't get existing sub" }
+          sub = Recurly::Subscription.create(
+            :account_code => account.account_code,
+            :plan_code => @new_plan.code, 
+            :quantity => 1,
+            :account => account
+          )
+        end
+        
+        if sub.errors && sub.errors.any?
+          flash[:error] = sub.errors.collect {|k, v| "#{v}"}.join('<br>')
+          logger.info("error in cancelling billing: #{sub.errors.inspect}")
+          logger.info("error in cancelling billing: #{sub.errors.base.inspect}")
+          
+          # logger.info sub.errors["base"].sub.collect {|k, v| "#{v}"}.join('<br>')
+          
+          return
+        else
+          @user.save
+          flash[:notice] = "Plan successfully changed to #{@new_plan.name}"
+        end
+      else
+        flash[:notice] = l(:notice_account_updated) + " No changes were made to your plan"
+      end
+      
+      logger.info("subscription #{sub.inspect}")
+      
+      redirect_to :action => 'account'
+      return
+    end    
+  end
 
   # Manage user's password
   def password
