@@ -674,6 +674,7 @@ body {
 .gt-sidebar-nav {
 	margin-bottom: 20px;
 	border-radius: 5px;
+	max-width: 800px;
 }
 .gt-sidebar-nav ul {
 	margin: 0;
@@ -850,6 +851,13 @@ tt {
 	padding: .5em 1em;
 	color: #fff;
 }
+
+.notice {
+	background-color: #47790a;
+	padding: .5em 1em;
+	color: #fff;
+}
+
 /* @end */
 
 /* @group Lists */

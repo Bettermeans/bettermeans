@@ -158,38 +158,46 @@ class User < ActiveRecord::Base
     cc.gsub!(/[^0-9]/,'')
 
     if cc && cc.length > 14
-    
-    @result_object = Recurly::BillingInfo.create(
-      :account_code => @account.account_code,
-      :first_name => @account.first_name,
-      :last_name => @account.last_name,
-      :address1 => @user.b_address1,
-      :zip => @user.b_zip,
-      :phone => @user.b_phone,
-      :ip_address => ip,
-      :credit_card => {
-        :number => cc,
-        :year => @user.b_cc_year,
-        :month => @user.b_cc_month,
-        :verification_value => ccverify
-      })
-      
-    else
-      
-      @result_object = Recurly::BillingInfo.create(
+      @account.billing_info = Recurly::BillingInfo.create(
         :account_code => @account.account_code,
         :first_name => @account.first_name,
         :last_name => @account.last_name,
         :address1 => @user.b_address1,
         :zip => @user.b_zip,
+        :country => @user.b_country,
+        :city => "none",
+        :state => "none",
         :phone => @user.b_phone,
-        :ip_address => ip)
+        :ip_address => ip,
+        :credit_card => {
+          :number => cc,
+          :year => @user.b_cc_year,
+          :month => @user.b_cc_month,
+          :verification_value => ccverify
+        })
+      
+        return @account if @account.billing_info.errors 
+
+        @user.b_cc_type = @account.billing_info.credit_card.attributes["type"]
+        @user.b_cc_last_four = "XXXX - " + @account.billing_info.credit_card.attributes["last_four"] + " " + @account.billing_info.credit_card.attributes["type"]
+        @user.save
+      
+      # else
+      #   @account.billing_info = Recurly::BillingInfo.create(
+      #     :account_code => @account.account_code,
+      #     :first_name => @account.first_name,
+      #     :last_name => @account.last_name,
+      #     :address1 => @user.b_address1,
+      #     :zip => @user.b_zip,
+      #     :country => @user.b_country,
+      #     :city => "none",
+      #     :state => "none",
+      #     :phone => @user.b_phone,
+      #     :ip_address => ip)
     end
     
-
-    @user.b_cc_type = @result_object.credit_card.attributes["type"]
-    @user.b_cc_last_four = "XXXX - " + @result_object.credit_card.attributes["last_four"] + " " + @result_object.credit_card.attributes["type"]
-    @user.save
+    return @account
+    
   end
   
   

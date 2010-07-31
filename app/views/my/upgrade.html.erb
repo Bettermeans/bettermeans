@@ -1,0 +1,37 @@
+<% form_for :user, @user, :url => { :action => "upgrade" }, 
+                          :builder => TabularFormBuilder, 
+                          :lang => current_language,
+                          :html => { :id => 'my_upgrade_form' } do |f| %>
+                          
+<h3><%=l(:label_select_plan)%></h3>
+<!-- <div class="gt-content-box"> -->
+  <div class="gt-sidebar-nav gt-sidebar-nav-blue">
+  <% plan = User.current.plan %>
+  <%#= observe_field(:searchbox,
+        :url => '',
+        :on => 'click',
+        :update => 'plan_description',
+        :with => render :partial => 'plan_description', :locals => {:selected_plan_id => } %>
+
+  
+    <h3><%= f.select :plan_id, options_for_select(@plans.map {|u| [u.name,u.id]}, :selected => plan.id), :label => "" %></h3>
+    <span id="plan_description">
+      <%= render :partial => 'plan_description', :locals => {:plan => plan} %>
+    </span>
+  </div>
+  
+<!-- </div> -->
+
+<h3><%=l(:label_billing_information)%></h3>
+<div class="gt-content-box tabular">
+<%= render :partial => 'billing_form', :locals => {:f => f} %>
+  <div class="gt-table-buttons-inside" id="change_plan_button">
+  <%= submit_tag l(:button_change_plan) %>
+  </div>
+</div>
+
+<% end %>
+
+<% content_for :sidebar do %>
+<%= render :partial => "usage_stats" %>
+<% end %>

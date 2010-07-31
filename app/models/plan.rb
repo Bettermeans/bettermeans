@@ -1,4 +1,5 @@
 class Plan < ActiveRecord::Base
+  FREE_CODE = 0
 end
 
 # == Schema Information
