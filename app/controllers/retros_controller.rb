@@ -94,6 +94,10 @@ class RetrosController < ApplicationController
       end
     end
     
+    logger.info { "user retro hash #{@user_retro_hash.inspect}" }
+    
+    @user_retro_hash.delete(nil)
+    
     @user_retro_hash.keys.each do |key| 
       @user_retro_hash[key].store "percentage_points", @total_points == 0 ? 100  : (@user_retro_hash[key]["total_points"].to_f / @total_points * 100).round_to(0).to_i
       @pie_data_points << @user_retro_hash[key]["percentage_points"]
