@@ -2126,3 +2126,10 @@ form input[type="text"].verification-code {
 .centered{
 	text-align: center;
 }
+
+.activity-bottom{
+	text-align: center;
+	width: 100%;
+	font-size: 120%;
+	padding: 20px;
+}

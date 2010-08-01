@@ -8,7 +8,13 @@
   
   <h2 class="gt-table-head"><%=l(:label_activity_latest)%></h2>  
   <div class="activity gt-content-box">
-    <%= render :partial => 'activity_streams/activity_stream_list', :locals => {:activities_by_item => @activities_by_item} %>
+    <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
+      :user_id => nil,
+      :project_id => nil,
+      :with_subprojects => true,
+      :limit => 100,
+      :max_created_on => nil
+    } %>
   </div>  
   <div class="gt-table-buttons">
     <%= link_to l(:label_activity_view_all), {:controller => 'projects', :action => 'activity'} , :class => "gt-btn-blue-large" %>

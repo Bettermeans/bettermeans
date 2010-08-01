@@ -1,3 +1,14 @@
+<!-- 
+  Parameters:
+  user_id
+  project_id
+  with_subprojects
+  limit
+  max_created_on
+   -->
+   <% 
+    activities_by_item = ActivityStream.fetch(user_id,project_id, with_subprojects, limit, max_created_on)
+    %>
  <table border="0" class="gt-table gt-user-table">
     <tbody>
       <% activities_by_item.each do |key, value| %>
@@ -5,8 +16,20 @@
       <% end %>
     </tbody>
   </table>
+  <div id="activity_stream_bottom" class="activity-bottom">
+    <%= link_to_remote "Load more", {
+                                :url => {:controller => :activity_streams, 
+                                        :action => :index,
+                                        :user_id => user_id,
+                                        :project_id => project_id,
+                                        :with_subprojects => with_subprojects,
+                                        :limit => limit,
+                                        :max_created_on => activities_by_item.last[1].last.created_at},
+                                :method => :get
+                                } %>
+  </div>
 
-<%= content_tag('p', l(:label_no_data), :class => 'nodata') if @activities_by_item.empty? %>
+<%= content_tag('p', l(:label_no_data), :class => 'nodata') if activities_by_item.empty? %>
 
 <script type="text/javascript">
 
