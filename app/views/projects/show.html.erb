@@ -32,7 +32,7 @@
   
   <% if @news.any? && authorize_for('news', 'index') %>
   <h2 class="gt-table-head"><%=l(:label_news_latest)%></h2>  
-  <div class="news gt-content-box">
+  <div class="news gt-content-box padded">
     <table border="0" class="gt-table gt-user-table">
 			<tbody>
 	      <%= render :partial => 'news/news', :collection => @news %>
