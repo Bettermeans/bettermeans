@@ -4,7 +4,7 @@
   
   <% if @motions.any? %>
   <h2><%=l(:label_motions_active)%></h2>  
-  <div class="motions gt-content-box">
+  <div class="motions gt-content-box padded">
     <%= render :partial => 'motions/motions', :collection => @motions %>
   </div>  
   <div class="gt-table-buttons">
