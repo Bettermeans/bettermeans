@@ -82,7 +82,7 @@ class ActivityStream < ActiveRecord::Base
     end
     
     with_subprojects ||= true
-    project_id.nil? ? project = nil : Project.find(project_id)
+    project_id.nil? ? project = nil : project = Project.find(project_id)
     conditions = {}
     conditions[:actor_id] = user_id unless user_id.nil?
     conditions[:project_id] = project.id if project && !with_subprojects
