@@ -6,15 +6,25 @@
 # Template to generate the controllers
 class ActivityStreamsController < ApplicationController
   include ActivityStreamsModule
-  before_filter :require_login, :except => :feed
-  # before_filter :require_admin, :except => :feed
+  # before_filter :require_login, :except => :feed
+  before_filter :authorize, :except => [ :index, :feed]
+  
   
   def index
-    @grouped_by_item = ActivityStream.all.group_by {|a| a.object_type + a.object_id.to_s}
-    @grouped_by_item.each_pair do |key,value| 
-      @grouped_by_item[key] = value.sort_by{|i| - i[:updated_at].to_i}
+    # @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], params[:length], params[:max_created_on])    
+
+    respond_to do |wants|
+      wants.js do
+        render :update do |page|
+            page.replace "activity_stream_bottom", :partial => "activity_streams/activity_stream_list", :locals => { 
+                                                :user_id => params[:user_id],
+                                                :project_id => params[:project_id],
+                                                :with_subprojects => params[:with_subprojects],
+                                                :limit => params[:limit],
+                                                :max_created_on => params[:max_created_on]}
+        end
+      end
     end
     
-    @grouped_by_item = @grouped_by_item.sort_by{|g| - g[1][0][:updated_at].to_i}
   end
 end

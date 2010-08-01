@@ -48,7 +48,7 @@ class UsersController < ApplicationController
       reputation.project_id == 0 || reputation.project.is_public? || (User.current.community_member_of?(membership.project))
     end
     
-    @activities_by_item = ActivityStream.fetch(@user, nil, nil, nil)
+    # @activities_by_item = ActivityStream.fetch(@user, nil, nil, nil)
     
     
     # if @user != User.current && !User.current.admin? && @memberships.empty?
