@@ -13,7 +13,13 @@
 <div class="splitcontentright">
   <h2 class="gt-table-head">Recent Activity</h2>
   <div class="gt-content-box">
-  <%= render :partial => "activity_streams/activity_stream_list", :locals => {:activities_by_item => @activities_by_item} %>
+  <%= render :partial => "activity_streams/activity_stream_list", :locals => {
+      :user_id => @user.id,
+      :project_id => nil,
+      :with_subprojects => nil,
+      :limit => nil, 
+      :max_created_on => nil
+      } %>
   </div>
 </div>
 

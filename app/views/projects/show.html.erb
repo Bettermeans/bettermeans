@@ -55,7 +55,13 @@
 <div class="gt-left-col">
   <h2 class="gt-table-head"><%=l(:label_activity_latest)%></h2>  
   <div class="activity gt-content-box">
-    <%= render :partial => 'activity_streams/activity_stream_list', :locals => {:activities_by_item => @activities_by_item} %>
+    <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
+      :user_id => params[:user_id],
+      :project_id => @project.id,
+      :with_subprojects => params[:with_subprojects],
+      :limit => 50,
+      :max_created_on => nil
+    } %>
   </div>
   <div class="gt-table-buttons">
     <%= link_to l(:label_activity_view_all), {:controller => 'projects', :action => 'activity', :project_id => @project}, :class => "gt-btn-blue-large" %>    

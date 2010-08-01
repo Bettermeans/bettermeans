@@ -42,7 +42,7 @@ class ProjectsController < ApplicationController
     @news = News.latest User.current
     @projects = Project.latest User.current, 10, false
     @enterprises = Project.latest User.current, 10, true
-    @activities_by_item = ActivityStream.fetch(nil, nil, true, 100)
+    # @activities_by_item = ActivityStream.fetch(nil, nil, true, 100)
   end
   
   def map
@@ -135,7 +135,7 @@ class ProjectsController < ApplicationController
     
     @motions = @project.motions.viewable_by(User.current.position_for(@project)).allactive
     
-    @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], 30)    
+    # @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], 30)    
     
     
   end
@@ -301,7 +301,7 @@ class ProjectsController < ApplicationController
 #params that can be passed: length, with_subprojects, and author
   def activity
     
-    @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], params[:length])    
+    # @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], params[:length])    
     # if events.empty? || stale?(:etag => [events.first, User.current])
     #   respond_to do |format|
     #     format.html { 

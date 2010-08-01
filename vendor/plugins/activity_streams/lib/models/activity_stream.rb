@@ -67,22 +67,28 @@ class ActivityStream < ActiveRecord::Base
       AND location = '#{location.to_s}'"
   end
   
-  def self.fetch(user_id, project, with_subprojects, limit)
+  def self.fetch(user_id, project_id, with_subprojects, limit, max_created_on = nil)
+    logger.info("max created on #{max_created_on}")
     
-    length = Setting::ACTIVITY_STREAM_LENGTH
+    max_created_on = DateTime.now if max_created_on.nil? || max_created_on == ""
+
+    logger.info("max created on #{max_created_on}")
     
+    length = limit  || Setting::ACTIVITY_STREAM_LENGTH
+
+
     if limit
       length = limit
     end
     
     with_subprojects ||= true
-    
+    project_id.nil? ? project = nil : Project.find(project_id)
     conditions = {}
     conditions[:actor_id] = user_id unless user_id.nil?
     conditions[:project_id] = project.id if project && !with_subprojects
     conditions[:project_id] = project.sub_project_array if project && with_subprojects
-    
-    activities_by_item = ActivityStream.all(:conditions => conditions, :limit => length, :order => "updated_at desc").group_by {|a| a.object_type + a.object_id.to_s}
+    conditions[:created_at] = (DateTime.now - 10.year)..max_created_on
+    activities_by_item = ActivityStream.all(:conditions => conditions, :limit => length, :order => "updated_at desc").group_by {|a| a.object_type.to_s + a.object_id.to_s}
     activities_by_item.each_pair do |key,value| 
       activities_by_item[key] = value.sort_by{|i| - i[:updated_at].to_i}
     end
