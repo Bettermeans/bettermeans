@@ -409,7 +409,7 @@ class IssuesController < ApplicationController
     respond_to do |format|
       format.js do
         render :update do |page|
-          page.replace_html "joined_by_partial", :partial => 'issues/joined_by'
+          page.replace "joined_by_partial", :partial => 'issues/joined_by'
           page.visual_effect :highlight, "joined_by_partial"
         end
       end

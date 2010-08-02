@@ -1,17 +1,25 @@
 <% for journal in journals %>
-  <div id="change-<%= journal.id %>" class="journal">
-    <h4>
-      <div style="float:left;"><%= link_to "##{journal.indice}", :anchor => "note-#{journal.indice}" %></div>&nbsp;
-    <%= content_tag('a', '', :name => "note-#{journal.indice}")%>
-    <%= authoring journal.created_on, journal.user, :label => :label_updated_time_by %>
-    </h4>
-    <%= avatar(journal.user, :size => "32") %>
-    <ul>
-    <% for detail in journal.details %>
-       <li><%= show_detail(detail) %></li>
-    <% end %>
-    </ul>
-    <%= render_notes(journal,journal == journals.last && User.current.id == journal.user_id) unless journal.notes.blank? %>
-    
-  </div>
+<div class="comment" id="change-<%= journal.id %>">
+    <div class="comment-body">
+        <div class="comment-body-wrapper">
+            <div class="comment-accessory-shadow"></div>
+            <div class="comment-accessory"></div>
+            <ul>
+            <% for detail in journal.details %>
+               <li><%= show_detail(detail) %></li>
+            <% end %>
+            </ul>
+            <%= render_notes(journal,journal == journals.last && User.current.id == journal.user_id) unless journal.notes.blank? %>
+        </div>
+    </div>
+    <div class="comment-meta">
+        <div class="comment-meta-wrapper">
+            <div class="comment-author-image"><%= avatar(journal.user, :size => "28", :class => "none") %></div>
+            <div class="comment-meta-meta">
+                <div class="comment-author"><%= link_to_user journal.user %></div>
+                <div class="comment-date"><%= time_tag(journal.updated_on) %> ago</div>
+            </div>
+        </div>
+    </div>
+</div>
 <% end %>

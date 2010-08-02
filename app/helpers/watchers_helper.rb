@@ -28,7 +28,7 @@ module WatchersHelper
     link_to_remote((watched ? l(:button_unwatch) : l(:button_watch)),
                    {:url => url},
                    :href => url_for(url),
-                   :class => (watched ? 'icon icon-fav' : 'icon icon-fav-off'))
+                   :class => (watched ? 'icon icon-fav action-state-button' : 'icon icon-fav-off action-state-button'))
   
   end
   
