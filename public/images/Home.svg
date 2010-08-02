@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" sodipodi:docname="home.svg" inkscape:version="0.46dev+devel" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" sodipodi:version="0.32" xmlns:cc="http://creativecommons.org/ns#" inkscape:output_extension="org.inkscape.output.svg.inkscape"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="250.531px"
+	 height="251.891px" viewBox="0 0 250.531 251.891" enable-background="new 0 0 250.531 251.891" xml:space="preserve">
+<linearGradient id="path2389_1_" gradientUnits="userSpaceOnUse" x1="368.1992" y1="-9.5227" x2="368.1992" y2="-201.4519" gradientTransform="matrix(1 0 0 -1 -242.3604 9.7603)">
+	<stop  offset="0" style="stop-color:#24295B"/>
+	<stop  offset="0.4336" style="stop-color:#373F8B"/>
+	<stop  offset="0.743" style="stop-color:#4D57B9"/>
+	<stop  offset="0.8855" style="stop-color:#4CACD5"/>
+	<stop  offset="1" style="stop-color:#00FFF5"/>
+</linearGradient>
+<path id="path2389" fill="url(#path2389_1_)" d="M53.109,209.696l0.505-89.903l-27.274-1.01L65.23,79.891l0.506-37.375h28.284
+	v11.111l32.829-34.345l98.49,99.5h-26.264l-0.505,92.429h-28.284l-1.01-59.094h-27.779v58.084L53.109,209.696z"/>
+<radialGradient id="path3010_1_" cx="-102.2993" cy="40.489" r="99.4995" gradientTransform="matrix(-7.106465e-08 -1.4615 -1.4254 7.219916e-08 184.0262 -75.6616)" gradientUnits="userSpaceOnUse">
+	<stop  offset="0" style="stop-color:#6ABCE4"/>
+	<stop  offset="1" style="stop-color:#6ABCE4;stop-opacity:0.749"/>
+</radialGradient>
+<path id="path3010" opacity="0.9474" fill="url(#path3010_1_)" stroke="#6ABCE4" enable-background="new    " d="M53.583,209.419
+	l0.505-89.903l-27.273-1.01l38.891-38.892l0.505-37.375h28.284V53.35l32.83-34.345l98.49,99.5h-26.264l-0.506,92.429h-28.284
+	l-1.011-59.094h-27.778v58.083L53.583,209.419z"/>
+</svg>
