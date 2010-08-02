@@ -1014,7 +1014,7 @@ en:
   button_activate: Activate
   button_deactivate: Deactivate
   
-  button_dashboard: Goto Dashboard
+  button_dashboard: Dashboard
   
   status_active: active
   status_registered: registered
