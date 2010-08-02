@@ -44,6 +44,12 @@ class Project < ActiveRecord::Base
                            :order => "firstname ASC"
 
 
+   has_many :binding_members, :class_name => 'Member', 
+                           :include => [:user,:roles], 
+                           :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_BOARD} OR #{Role.table_name}.builtin=#{Role::BUILTIN_ADMINISTRATOR}",
+                            :order => "firstname ASC"
+
+
   has_many :member_users, :class_name => 'Member', 
                                :include => :user,
                                :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}"
@@ -412,31 +418,38 @@ class Project < ActiveRecord::Base
   end
 
   def binding_members_count
-    self.root.core_member_list.count + self.root.member_list.count
+    self.root.core_member_list.count + self.root.member_list.count  + self.root.member_list.count
   end
   
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
   def refresh_active_members
-    puts self.name
+    puts "refreshing membership for #{self.name}"
     return if self.enterprise?
+    return unless self.active?
     
-    u = {}
-    self.all_members.each(&:destroy)
+    if self.is_public?
+      u = {}
+      self.all_members.each(&:destroy)
     
-    issues.each do |issue|
-      next if (issue.updated_on.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) < Time.now 
-      issue.issue_votes.each do |iv|
-        u[iv.user_id] ||= iv.user_id
-      end
+      issues.each do |issue|
+        next if (issue.updated_on.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) < Time.now 
+        issue.issue_votes.each do |iv|
+          u[iv.user_id] ||= iv.user_id
+        end
       
-      u[issue.author_id] ||= issue.author_id
-      u[issue.assigned_to_id] ||= issue.assigned_to_id
-    end
+        u[issue.author_id] ||= issue.author_id
+        u[issue.assigned_to_id] ||= issue.assigned_to_id
+      end
     
-    u.delete nil
+      u.delete nil
     
-    u.keys.each do |user_id|
-      User.find(user_id).add_to_project(self, Role::BUILTIN_ACTIVE)
+      u.keys.each do |user_id|
+        User.find(user_id).add_to_project(self, Role::BUILTIN_ACTIVE)
+      end
+    else
+      self.root.binding_members.each do |m|
+        User.find(m.user_id).add_to_project(self, Role::BUILTIN_ACTIVE)
+      end
     end
   end
   
