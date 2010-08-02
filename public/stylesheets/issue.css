@@ -1,0 +1,435 @@
+body {
+    background-color: rgb(237, 241, 244);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(222, 226, 229)), to(rgb(237, 241, 244)));
+    background-repeat: no-repeat;
+    border-top: 1px solid rgb(208, 212, 215);
+    margin: 0;
+    padding: 0;
+    color: rgb(77, 77, 77);
+    font-size: 12px;
+/*    font-family: "Helvetica Neue", "Lucida Grande", Arial, sans-serif;*/
+    line-height: 2em;
+    min-width: 500px;
+    word-wrap: break-word;
+    text-shadow: 0px 1px 0px white;   
+	overflow: visible;
+}
+
+h1, #item_header h3 {
+    color: black;
+	font-size: 182%;
+    padding-left: 0px;
+	margin-left: -5px;
+    margin-bottom: -1px;
+    line-height: 32px;
+}
+
+#wrapper {
+    padding: 2em;
+    margin: 0 1em;
+    min-width: 500px;
+}
+
+.issue {
+    background-color: rgb(248, 248, 248);
+    position: relative;
+    font-size: 12px;
+    line-height: 24px;
+    -webkit-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.issue p {
+    margin: 0;
+    padding: 0;
+    margin-top: 24px;
+}
+
+.issue-wrapper:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.issue-content {
+    width: 70%;
+    float: left;
+}
+
+.issue-content-wrapper {
+    margin: 1em;
+    padding-top: 0.2em;
+    padding-bottom: 1em;
+}
+
+.issue-meta {
+    width: 30%;
+    float: left;
+    margin-top: 1.5em;
+}
+
+.issue-meta-wrapper {
+    padding: 1em;
+}
+
+.issue-meta-box {
+    border: 1px solid rgb(232, 232, 232);
+    margin-top: -1px;
+    padding: 0.5em 1em;
+    font-size: 90%;
+    line-height: 1.8em;
+}
+
+.issue-meta-box h3 {
+    text-transform: uppercase;
+    color: rgb(194, 194, 194);
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+    font-size: 11px;
+}
+
+.issue-image-area {
+    position: absolute;
+    top: -8px;
+    right: 6px;
+    -webkit-transform: rotate(4deg);
+    -moz-transform: rotate(4deg);
+    background: white;
+    border: 1px solid rgb(222, 222, 222);
+    -webkit-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+    width: 82px;
+    height: 82px;
+}
+
+img.issue-author-image {
+    position: absolute;
+    margin: auto;
+    width: 68px;
+    height: 68px;
+    top: 7px;
+    left: 7px;    
+}
+
+.issue-image-paperclip-placeholder {
+    width: 35px;
+    height: 50px;
+    position: absolute;
+    background-image: url("/images/paperclip.png");
+    -webkit-transform: translate(-1px);
+    -moz-transform: translate(-1px);
+    right: -13px;
+}
+
+.issue-left-border-placeholder {
+    position: absolute;
+    left: 4.2em;
+    top: 2em;
+    bottom: 2em;
+    width: 1px;
+    background-color: rgb(235, 235, 235);
+}
+
+.issue-body {
+    background-image: url("/images/textgrid.png");
+    background-repeat: repeat-x repeat-y;
+    padding: 3px 1em 3em 55px;
+    min-height: 160px;
+}
+
+.issue-body ol, .issue-body ul, .issue-body li, pre {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.issue-closed-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 86px;
+    height: 44px;
+    background-image: url("Resources/closedStamp.png");
+    display: none;
+}
+
+.stamp-closed {
+    display: block;
+}
+
+.issue-meta-action-wrapper {
+    text-align: center;
+    margin: 1.5em 0;
+}
+
+.action-state-button:hover {
+    -webkit-box-shadow: 0px 0px 4px rgba(155, 155, 155, 0.3);
+    -moz-box-shadow: 0px 0px 4px rgba(155, 155, 155, 0.3);
+    box-shadow: 0px 0px 4px rgba(155, 155, 155, 0.3);
+}
+
+.action-state-button:active {
+    background-image: -webkit-gradient(linear, left bottom, left top, from(rgb(248, 248, 248)), to(rgb(228, 228, 228)));
+}
+
+.action-state-button {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(248, 248, 248)), to(rgb(228, 228, 228)));
+    font-size: 12px;
+    padding: 0.5em 1.5em 0.5em 2.5em;
+    text-decoration: none;
+    color: black;
+    background-color: rgb(228, 228, 228);
+    border: 1px solid rgb(195, 195, 195);
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+
+    -webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);
+    -moz-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3); 
+}
+
+.wantsopen-closed {
+    display: none;
+}
+
+.wantsclosed-open {
+    display: none;
+}
+.comment {
+    margin: 2em 1em 1em 4em;
+}
+
+.comment-body {
+    float: left;
+    width: 75%;
+}
+
+.comment-body-wrapper {
+    font-size: 12px;
+    background-color: rgb(246, 248, 222);
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    padding: 0.5em 2em 0.5em 2em;
+    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+    position: relative;
+    min-height: 44px;
+}
+
+.comment-accessory {
+    width: 0px;
+    height: 1px;
+    position: absolute;
+    right: -10px;
+    top: 20px;
+    border-left: 10px solid rgb(246, 248, 222);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: none;
+}
+
+.comment-accessory-shadow {
+    width: 0px;
+    height: 1px;
+    position: absolute;
+    right: -10px;
+    top: 21px;
+    border-left: 10px solid rgba(0, 0, 0, 0.2);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: none;
+}
+
+.comment-meta {
+    float: left;
+    width: 25%;
+}
+
+.comment-meta-wrapper {
+    padding: 1em 0em 1em 3em;
+}
+
+.comment:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.comment-author-image {
+    float: left;
+    margin-top: 4px;
+    height: 28px;
+    width: 28px;
+    padding: 2px;
+    background-color: white;
+    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);    
+    -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);    
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);    
+}
+
+.comment-meta-meta {
+    margin-left: 40px;
+}
+
+.comment-author {
+    font-weight: bold;
+    line-height: 10px;
+    padding-top: 8px;
+}
+
+.comment-date {
+    color: rgb(104, 104, 104);
+}
+
+#add-comment-button-wrapper {
+    text-align: right;
+}
+
+#add-comment-button-wrapper a {
+}
+
+.comment-form-wrapper {
+    text-align: right;
+    margin-top: 2em;
+    margin-bottom: 20px;
+}
+
+.fakebutton {
+    font-size: 12px;
+    background-color: rgb(246, 248, 222);
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    padding: 0.5em 1em 0.5em 1em;
+    color: black;
+    text-decoration: none;
+    border: 1px solid rgb(200, 200, 200);        
+}
+
+.fakebutton:active {
+    background-color: rgb(236, 238, 212);
+}
+
+#add-comment-textarea-wrapper-wrapper {
+    padding: 0;
+    margin-right: 0;
+}
+
+#add-comment-textarea {
+    width: 100%;
+    margin: 0;
+    margin-right: 2em;
+    height: 80px;
+    display: block;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    padding: 0.5em 1em 0.5em 1em;
+}
+
+#add-comment-textarea:focus {
+    outline: none;
+    border: 1px solid gray;
+    -webkit-box-shadow: 0px 0px 6px yellow;
+    -moz-box-shadow: 0px 0px 6px yellow;
+    box-shadow: 0px 0px 6px yellow;
+}
+
+#add-comment-textarea-wrapper {
+    margin-right: 0;
+}
+#comment-form-error-message {
+    display: none;
+}
+
+.view-on-github {
+    color: rgb(155, 155, 155);
+}
+
+.error-message {
+    color: red;
+}
+
+img {
+    border: none;
+}
+                </style>
+<!--[if IE]>
+<style>
+.issue {
+    display: block;
+    clear: both;
+    float: left;
+    width: 100%;
+    border: 1px solid #bbb;
+}
+.comment-author-image {
+    border: 1px solid #bbb;
+}
+.comment {
+    float: left;
+    width: 93%;
+}
+.comment-body-wrapper {
+    border: 1px solid rgb(226, 228, 202);
+}
+#add-comment-textarea {
+    border: 1px solid rgb(226, 228, 202);
+}
+#add-comment-textarea:active {
+    border: 1px solid yellow;
+}
+
+/*Overwrite*/
+.icon {
+	background-position: 1em;
+}
+.icons{
+	width:auto;
+	float:none;
+}
+.help_question_mark{
+	margin-bottom:3px;
+	border:0px;
+}
+.relations{
+	padding-left:2px;
+}
+
+body #content{
+	overflow: hidden;
+}
+
+form input[type="text"].short {
+	width: auto;
+	margin-right: 10px;
+}
+
+img.gravatar { 
+	padding: 2px;
+  border: solid 1px #d5d5d5;
+  background: #fff;
+}
+td.author-name {
+	padding-left: 10px;
+}
+
+.open {
+	background-color: transparent;
+}
+
+p, li {
+	font-size: 125%;
+}

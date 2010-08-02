@@ -1,10 +1,8 @@
-<div class="contextual">
+<p><strong><%=l(:label_related_issues)%></strong>&nbsp;&nbsp;
 <% if authorize_for('issue_relations', 'new') %>
     <%= toggle_link l(:button_add), 'new-relation-form'%>
 <% end %>
-</div>
-
-<p><strong><%=l(:label_related_issues)%></strong></p>
+</p>
 
 <% if @issue.relations.any? %>
 <table style="width:100%">

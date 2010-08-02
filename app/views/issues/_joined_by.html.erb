@@ -1,31 +1,35 @@
-<th class="assigned-to"><%=l(:field_joined_by)%>:</th><td id="joined_by">
-  <% @issue.team_votes.each do |issue_vote| %>
-  <% next if issue_vote.user_id == @issue.assigned_to_id  %>
-    <%= avatar(issue_vote.user, :size => "14") %><%= link_to_user_from_id(issue_vote.user_id) %>&nbsp;&nbsp;<br>
-  <% end %>
+  <div class="issue-meta-box first-box" id="joined_by_partial">
+      <h3 class="issue-meta-title"><%=l(:field_joined_by)%></h3>
+      <span class="issue-meta-content">
+        <span id="joined_by">
+          <% @issue.team_votes.each do |issue_vote| %>
+          <% next if issue_vote.user_id == @issue.assigned_to_id  %>
+            <%= avatar(issue_vote.user, :size => "14") %><%= link_to_user_from_id(issue_vote.user_id) %>&nbsp;&nbsp;<br>
+          <% end %>
+        </span>
+        <% if User.current.id == @issue.assigned_to_id %>
+          <span id="add_member_link">
+          <%= toggle_link l(:button_add_team_member), 'new-team-member-form', {:second_toggle => 'add_member_link'}%>
+          </span>
 
-  <% if User.current.id == @issue.assigned_to_id %>
-    <span id="add_member_link">
-    <%= toggle_link l(:button_add_team_member), 'new-team-member-form', {:second_toggle => 'add_member_link'}%>
-    </span>
-  
-    <% remote_form_for(:issue, @issue, 
-                     :url => {:controller => 'issues', :action => 'add_team_member', :id => @issue.id},
-                     :method => :post,
-                     :html => {:id => 'new-team-member-form', :style => 'display: none;'}) do |f| %>
-                     
-     &nbsp;
-     <%= select :issue_vote, :user_id, collection_for_project_members_select %>
-     &nbsp;
-  <div class="gt-table-buttons">
-       <%= submit_tag l(:button_add) %>
-       <p class="gt-cancel">
-     <%= toggle_link l(:button_cancel), 'new-team-member-form', {:second_toggle => 'add_member_link'}%>
-     </p>
-     </div>
-     </p>
-      <%#= render :partial => 'form_add_team_member', :locals => {:f => f}%>
-    <% end %>
-  <% end %>
-  
-</td>
+          <% remote_form_for(:issue, @issue, 
+                           :url => {:controller => 'issues', :action => 'add_team_member', :id => @issue.id},
+                           :method => :post,
+                           :html => {:id => 'new-team-member-form', :style => 'display: none;'}) do |f| %>
+
+           &nbsp;
+           <%= select :issue_vote, :user_id, collection_for_project_members_select %>
+           &nbsp;
+        <div class="gt-table-buttons">
+             <%= submit_tag l(:button_add) %>
+             <p class="gt-cancel">
+           <%= toggle_link l(:button_cancel), 'new-team-member-form', {:second_toggle => 'add_member_link'}%>
+           </p>
+           </div>
+           </p>
+            <%#= render :partial => 'form_add_team_member', :locals => {:f => f}%>
+          <% end %>
+        <% end %>
+        
+      </span>
+  </div>

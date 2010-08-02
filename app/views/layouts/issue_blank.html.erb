@@ -5,9 +5,13 @@
 <title><%=h html_title %></title>
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
-<%= stylesheet_link_tag 'application', :media => 'all' %>
+<%#= stylesheet_link_tag 'application', :media => 'all' %>
+<%= stylesheet_link_tag 'gt-styles' %>
 <%= stylesheet_link_tag 'jquery.fancybox-1.3.0' %>
 <%= stylesheet_link_tag 'jquery-ui-1.7.2.custom' %>
+<%= stylesheet_link_tag 'dashboard' %>
+<%= stylesheet_link_tag 'issue' %>
+
 <style type="text/css">
   body {   background:none;   }
 </style>
@@ -24,7 +28,8 @@
 <%= javascript_include_tag  'jquery.fancybox-1.3.0.pack' %>
 <%= javascript_include_tag  'jquery.sparkline.min.js' %>
 <%= javascript_include_tag  'store' %>
-
+<%= javascript_include_tag 'dashboard' %>
+<%= javascript_include_tag 'issue' %>
 <!--[if IE]>
     <style type="text/css">
       * html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
@@ -50,12 +55,6 @@
   </script>
 <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
 <div id="wrapper">
-
-<%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %>
-    <div id="sidebar" style="min-height:200px;">        
-        <%= yield :sidebar %>
-    </div>
-    
     <div id="content" style="min-height:200px;">   
 				<%= render_flash_messages %>
         <%= yield %>
