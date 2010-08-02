@@ -86,6 +86,9 @@
 <div id="comments" class="comments">
 <%= render :partial => 'history', :locals => { :journals => @journals } %>
 </div>
+<% else %>
+<div id="comments" class="comments">
+</div>
 <% end %>
 
 <div id="add-comment-area" class="comment">
