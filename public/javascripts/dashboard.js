@@ -3622,10 +3622,12 @@ function update_todo_count(dataId){
 //View item history
 function full_screen(dataId,update){
 	show_issue_full(D[dataId].id,update);
+	collapse_item(dataId);
 }
 
 //Full page view in fancy box of a single issue
 function show_issue_full(itemId,update){
+	
 	var url = url_for({ controller: 'issues',
 	                           action    : 'show',
 								id		: itemId,

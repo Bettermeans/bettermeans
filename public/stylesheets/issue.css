@@ -185,6 +185,7 @@ img.issue-author-image {
     text-decoration: none;
     color: black;
     background-color: rgb(228, 228, 228);
+	background-position: 1em;
     border: 1px solid rgb(195, 195, 195);
     border-radius: 8px;
     -moz-border-radius: 8px;
@@ -396,9 +397,10 @@ img {
 issue-meta-action-wrapper a.icon {
 	background-position: 1em;
 }
-.icon-edit {
+/*.icon-edit {
 	background-position: 0em;
 }
+*/
 .icons{
 	width:auto;
 	float:none;
