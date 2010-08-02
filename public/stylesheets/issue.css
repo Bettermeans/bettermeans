@@ -393,7 +393,7 @@ img {
 }
 
 /*Overwrite*/
-.icon {
+issue-meta-action-wrapper a.icon {
 	background-position: 1em;
 }
 .icon-edit {
