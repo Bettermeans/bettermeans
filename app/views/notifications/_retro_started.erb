@@ -4,7 +4,7 @@
       </td>
       <td>
   <h4>
-<%= link_to "#{l("label_retro_started")} ##{@notification.source_id}", {:controller => "projects", :action => "dashboard", :show_retro_id => @notification.source_id, :id => project.id},{:target => "_blank"} %> </h4>
+<%= link_to "#{l("label_retro_started")} ##{@notification.source_id}", {:controller => "retros", :action => "show", :id => @notification.source_id},{:class => "fancyframe"} %> </h4>
 <%= l(:text_retro_started_for) %>
 <strong><%= project.name %></strong>
 <%= l(:text_retro_started) %>
