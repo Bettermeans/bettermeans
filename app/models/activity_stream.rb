@@ -83,11 +83,16 @@ class ActivityStream < ActiveRecord::Base
     
     with_subprojects ||= true
     project_id.nil? ? project = nil : project = Project.find(project_id)
+    
+    user = User.find(user_id) if user_id
+
     conditions = {}
-    conditions[:actor_id] = user_id unless user_id.nil?
+    conditions[:actor_id] = user_id unless user_id.nil? || with_subprojects == "custom"
+    conditions[:project_id] = user.projects.collect{|m| m.id} if !user.nil? && with_subprojects == "custom" && !user.projects.empty?#Customized activity stream for user
     conditions[:project_id] = project.id if project && !with_subprojects
     conditions[:project_id] = project.sub_project_array if project && with_subprojects
     conditions[:created_at] = (DateTime.now - 10.year)..max_created_on
+    
     activities_by_item = ActivityStream.all(:conditions => conditions, :limit => length, :order => "updated_at desc").group_by {|a| a.object_type.to_s + a.object_id.to_s}
     activities_by_item.each_pair do |key,value| 
       activities_by_item[key] = value.sort_by{|i| - i[:updated_at].to_i}
