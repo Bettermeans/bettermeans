@@ -124,6 +124,7 @@ class ProjectsController < ApplicationController
     
     cond = @project.project_condition(Setting.display_subprojects_issues?)
     
+    logger.info { "XXXXX" }
     @open_issues_by_tracker = Issue.visible.count(:group => :tracker,
                                             :include => [:project, :status, :tracker],
                                             :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
