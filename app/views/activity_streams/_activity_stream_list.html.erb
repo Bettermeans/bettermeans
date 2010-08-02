@@ -16,6 +16,7 @@
       <% end %>
     </tbody>
   </table>
+  <% unless activities_by_item.empty? %>
   <div id="activity_stream_bottom" class="activity-bottom">
     <%= link_to_remote "Load more", {
                                 :url => {:controller => :activity_streams, 
@@ -26,8 +27,9 @@
                                         :limit => limit,
                                         :max_created_on => activities_by_item.last[1].last.created_at},
                                 :method => :get
-                                } %>
+                                } unless activities_by_item.last.nil? %>
   </div>
+  <% end %>
 
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if activities_by_item.empty? %>
 
