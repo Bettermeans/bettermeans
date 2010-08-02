@@ -6,7 +6,7 @@ class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   default_search_scope :issues
   
-  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member, :move]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
@@ -499,8 +499,9 @@ class IssuesController < ApplicationController
       # admin is allowed to move issues to any active (visible) project
       @allowed_projects = Project.find(:all, :conditions => Project.visible_by(User.current))
     else
-      User.current.memberships.each {|m| @allowed_projects << m.project if m.roles.detect {|r| r.allowed_to?(:move_issues)}}
+      @issue.project.root.self_and_descendants.each {|p| @allowed_projects << p if p.visible_by(User.current)}
     end
+    
     @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
     @target_project ||= @project    
     @trackers = @target_project.trackers
