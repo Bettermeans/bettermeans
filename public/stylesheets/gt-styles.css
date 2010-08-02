@@ -62,7 +62,16 @@ body {
 	color: #fff;
 /*	display:none;*/
 	font-family: Helvetica,sans-serif;
+	cursor:pointer;
 }
+.gt-hd .gt-logo a:link, .gt-hd .gt-logo a:visited {
+	color: #eee;
+	text-decoration:none;
+}
+.gt-hd .gt-logo a:hover {
+	text-decoration:underline;
+}
+
 
 /* Body Styles */
 .gt-bd {
