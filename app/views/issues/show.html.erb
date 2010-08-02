@@ -1,68 +1,104 @@
-<%= javascript_include_tag 'dashboard' %>
-<%= javascript_include_tag 'issue' %>
+<div id="first-issue" class="issue">
+    <div class="issue-wrapper">
 
-<%= render :partial => 'action_menu' %>
-<h2><%= link_to(@issue.project.name, {:controller => 'projects', :action => 'show', :id => @issue.project_id}) %> : <%= @issue.tracker.name %> #<%= @issue.id %></h2>
-<div class="<%= @issue.css_classes %> details">
-        <div id="main_gravatar">
-          <% if @issue.assigned_to %>
-          <%= avatar(@issue.assigned_to, :size => "64") %>
-          <% else %>
-          <%= avatar(@issue.author, :size => "64") %>
-          <% end %>
+        <div id="issue-stamp" class="issue-closed-placeholder stamp-{{state}}"></div>
+        <div class="issue-left-border-placeholder"></div>
+
+        <div class="issue-content">
+            <div class="issue-content-wrapper">
+              <span id="item_header"><h3 class="issue-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @issue.subject %></h3></span>
+                <div class="issue-body">
+                    <p>
+                      <%= textilizable @issue, :description, :attachments => @issue.attachments %>
+                      <br>
+                    </p>
+                    <!-- <p><a target="_blank" class="view-on-github" href="http://github.com/{{repo_identifier}}/issues/{{number}}">View on github</a></p> -->
+                    
+                    <%= link_to_attachments @issue %>
+                    
+                    <hr />
+                    <div id="todo_wrapper"></div>
+                    
+                    <% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
+                    <div id="relations">
+                    <%= render :partial => 'relations' %>
+                    </div>
+                    <% end %>
+                </div>
+            </div>
         </div>
         
-        <div id="item_header"></div>
-        <%#=h @issue.subject %>
-          <p class="author">
-            <%= authoring @issue.created_on, @issue.author %>.
-            <% if @issue.created_on != @issue.updated_on %>
-            <%= l(:label_updated_time, time_tag(@issue.updated_on)) %>.
-            <% end %>
-          </p>
-
-          <strong><%=l(:field_description)%></strong></p>
-          <div class="wiki">
-          <%= textilizable @issue, :description, :attachments => @issue.attachments %>
-          </div>
-          
-<table class="attributes">
-<tr>
-    <th class="status"><%=l(:field_status)%>:</th><td id="issue_status" class="status"><%= @issue.status.name %></td>
-</tr>
-<tr>
-  <th class="assigned-to"><%=l(:field_assigned_to)%>:</th><td id="assigned_to"><%= avatar(@issue.assigned_to, :size => "14") %><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
-</tr>
-<tr id="joined_by_partial">
-<%= render :partial => "joined_by"  %>
-<tr>
-    <th class="issue-url"><%=l(:field_item_url)%>: <%= help_bubble :help_item_url %></th>
-    <td id="issue_id" class="issue-id">  <%= url_for(:action => 'dashboard', :controller => 'projects', :show_issue_id => @issue.id, :only_path => false, :protocol => 'http') %></td>
-</tr>
-</table>
-
-
-<% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
-<hr />
-<div id="relations">
-<%= render :partial => 'relations' %>
-</div>
-<% end %>
-
-<div id="todo_wrapper"></div>
-
-<%= link_to_attachments @issue %>
-
+        <div class="issue-meta">
+            <div class="issue-meta-wrapper">
+                <div class="issue-image-area">
+                  <% if @issue.assigned_to %>
+                  <%= avatar(@issue.assigned_to, :size => "68", :class=>"issue-author-image") %>
+                  <% else %>
+                  <%= avatar(@issue.author, :size => "68", :class=>"issue-author-image") %>
+                  <% end %>
+                  <div class="issue-image-paperclip-placeholder"></div>
+                </div>
+                <div class="issue-meta-box first-box">
+                    <h3 class="issue-meta-title"><%= l(:label_project) %></h3>
+                    <span class="issue-meta-content"><%= link_to(@issue.project.name, {:controller => 'projects', :action => 'show', :id => @issue.project_id}) %> - <%= @issue.tracker.name %> #<%= @issue.id %></span>
+                </div>
+                <div class="issue-meta-box first-box">
+                    <h3 class="issue-meta-title"><%=l(:field_status)%></h3>
+                    <span class="issue-meta-content"><span id="issue_status"><%= @issue.status.name %></span></span>
+                </div>
+                <div class="issue-meta-box first-box">
+                    <h3 class="issue-meta-title"><%= l(:label_created_time_by, :age => time_tag(@issue.created_on)) %></h3>
+                    <span class="issue-meta-content"><span id="author">
+                      <table class="author">
+                        <tr>
+                          <td><%= avatar(@issue.author, :size => "28") %> </td>
+                          <td class="author-name"><%= link_to_user(@issue.author)%></td>
+                        </tr>
+                    </table>
+                    </span></span>
+                </div>
+                <div class="issue-meta-box first-box">
+                    <h3 class="issue-meta-title"><%=l(:field_assigned_to)%></h3>
+                    <span class="issue-meta-content"><span id="assigned_to">
+                      <table class="author">
+                        <tr>
+                          <td><%= avatar(@issue.assigned_to, :size => "28") %></td>
+                          <td class="author-name"><%= @issue.assigned_to ? link_to_user(@issue.assigned_to) : "-" %></td>
+                        </tr>
+                    </table>
+                  </span></span>
+                </div>
+                <%= render :partial => "joined_by"  %>
+                <div class="issue-meta-box last-box">
+                    <h3 class="issue-meta-title"><%=l(:field_item_url)%> <%= help_bubble :help_item_url %></h3>
+                    <span class="issue-meta-content"><%= url_for(:action => 'dashboard', :controller => 'projects', :show_issue_id => @issue.id, :only_path => false, :protocol => 'http') %></span>
+                </div>
+                <div class="issue-meta-action-wrapper">
+                  <%= render :partial => 'action_menu' %>
+                </div>
+            </div>
+        </div>
+        
+    </div>
 </div>
 
 <% if @journals.any? %>
-<div id="history">
-<h3><%=l(:label_history)%></h3>
+<div id="comments" class="comments">
 <%= render :partial => 'history', :locals => { :journals => @journals } %>
 </div>
 <% end %>
 
-<%= render :partial => 'action_menu', :locals => {:replace_watcher => 'watcher2' } %>
+<div id="add-comment-area" class="comment">
+	<div id="add-comment-textarea-wrapper" class="comment-body">
+        <div><p>Comment on this issue:</p></div>
+        <textarea id="add-comment-textarea" class="comment-body-wrapper"></textarea>
+        <div class="comment-form-wrapper">
+        	<span id="comment-form-error-message" class="error-message">Something went wrong. Try again.</span>
+            <a class="fakebutton" href="#" onclick="hideCommentForm(); return false;">Clear</a>
+            <a class="fakebutton" href="#" onclick="submitCommentForm(); return false;">Comment</a>
+        </div>
+    </div>
+</div>
 
 <div style="clear: both;"></div>
 
@@ -80,15 +116,11 @@
 
 <% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
 
-<%# content_for :sidebar do %>
-    <%#= render :partial => 'issues/sidebar' %>
-<%# end %>
-
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>
     <%= stylesheet_link_tag 'scm' %>
 <% end %>
-<%#= @issue.to_dashboard %>
+
 
 <div id='flyovers' style="display:none;">
   
