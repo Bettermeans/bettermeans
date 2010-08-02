@@ -5,7 +5,6 @@
 #++
 # ActivityStreams
 #
-require 'activity_streams/routes.rb'
 require 'activity_streams/log_activity_streams.rb'
 
 require 'controllers/activity_stream_preferences_module.rb'
