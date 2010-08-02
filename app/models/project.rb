@@ -159,7 +159,16 @@ class Project < ActiveRecord::Base
       all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
     end
   end	
-
+  
+  #Returns true if project is visible by user
+  def visible_by(user)
+    return true if user.admin?
+    return false unless active?
+    return true if is_public
+    return true if user.community_member_of?(self)
+    return false
+  end
+  
   # Returns a SQL :conditions string used to find all active projects for the specified user.
   #
   # Examples:
