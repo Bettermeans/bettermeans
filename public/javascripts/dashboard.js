@@ -3385,13 +3385,15 @@ function generate_todo_section(dataId){
 }
 
 function generate_todo_section_lightbox(dataId){
+	var item_editable = is_item_todos_editable(dataId);
+	
 	var html = '';
 	html = html + '	          <div id="todo_section_' + dataId + '" class="section">';
 	html = html + '	   <form action="#">';
 	html = html + '	            <table id="todo_lightbox">';
 	html = html + '	              <tbody>';
 	html = html + '	                <tr><td colspan="5">';
-	html = html + generate_todos(dataId,false);
+	html = html + generate_todos(dataId,false, item_editable);
 	html = html + '	                </td></tr>';
 	html = html + '	                <tr>';
 	html = html + '	                  <td colspan="5">';
