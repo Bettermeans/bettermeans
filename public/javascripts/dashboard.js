@@ -3704,6 +3704,8 @@ function new_dash_data_response(data){
 		return;
 	}
 	
+	var sort = false;
+	
 	for(var i = 0; i < data.length; i++ ){
 		
 		var item = data[i];
@@ -3716,8 +3718,7 @@ function new_dash_data_response(data){
 			
 			//sort open panel for recurring items that slide in as open!
 			if (item.status.name == "Open") {
-				sort_panel("open");
-				$("#item_content_" + (D.length - 1)).effect("highlight", {mode: 'show'}, 5000);
+				sort = true;
 			} 
 		}
 		else{		
@@ -3735,6 +3736,11 @@ function new_dash_data_response(data){
 			item_actioned(item, dataId,'data_refresh');
 		}
 	}
+	
+	if (sort == true) {
+		sort_panel("open");
+	} 
+	
 	save_local_data();
 }
 
