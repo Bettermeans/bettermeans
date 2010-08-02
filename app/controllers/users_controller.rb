@@ -55,6 +55,8 @@ class UsersController < ApplicationController
     #   render_404
     #   return
     # end
+    
+    flash[:notice] = l(:notice_this_is_your_profie) if @user == User.current
 
     render :layout => 'gooey'
 
