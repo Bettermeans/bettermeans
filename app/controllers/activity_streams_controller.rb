@@ -22,6 +22,7 @@ class ActivityStreamsController < ApplicationController
                                                 :with_subprojects => params[:with_subprojects],
                                                 :limit => params[:limit],
                                                 :max_created_on => params[:max_created_on]}
+            page.call "arm_fancybox" #attaches fancybox triggers to new issues
         end
       end
     end

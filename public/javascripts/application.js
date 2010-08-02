@@ -4,6 +4,13 @@
 var jumpbox_text = "";
 
 function initialize(){
+	arm_fancybox();
+		
+	prep_jumpbox();
+	$('.long-words').breakWords();
+}
+
+function arm_fancybox(){
 	$("a.fancyframe").fancybox({
 			'speedIn'		:	600, 
 			'speedOut'		:	200, 
@@ -21,9 +28,6 @@ function initialize(){
 				});
 			$('#fancybox-inner').prepend("<div id='fancy-loading' class='loading'>loading...</div>");
 		});
-		
-	prep_jumpbox();
-	$('.long-words').breakWords();
 }
 
 function prep_jumpbox(){
