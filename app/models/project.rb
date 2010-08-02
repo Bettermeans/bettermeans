@@ -619,17 +619,22 @@ class Project < ActiveRecord::Base
     #Send notification of request or invitation to recipient
      Board.create! :project_id => id,
                   :name => Setting.forum_name,                        
-                  :description => Setting.forum_description + name
+                  :description => Setting.forum_description + name              
+                  
+    User.current.add_to_project(self, Role::BUILTIN_ACTIVE)
                   
      refresh_activity_line
      refresh_active_members
   end
   
   def set_owner
+    logger.info { "setting owner" }
     if !self.root?
+      logger.info { "i'm not a root but my papa has one #{self.root.inspect}" }
       self.owner_id = self.root.owner_id 
       self.save
     elsif owner_id.nil?
+      logger.info { "i'm a root, i'm a root! #{self.root?} #{self.parent_id}" }
       admins = self.administrators.sort {|x,y| x.created_on <=> y.created_on}
       if admins.length > 0
         self.owner_id = admins[0].user_id

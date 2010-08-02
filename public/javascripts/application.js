@@ -1504,7 +1504,7 @@ stop: null
 	          //incorect text-indent with space characters
 			  words = node.nodeValue.split(' ');
 			  for (var i = 0; i < words.length; i++){
-				if (words[i].length > 10){
+				if (words[i].length > 15){
 					words[i] = trim(words[i].split('').join(c));
 				}
 			  }
