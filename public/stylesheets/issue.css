@@ -31,7 +31,7 @@ h1, #item_header h3 {
 }
 
 .issue {
-    background-color: rgb(248, 248, 248);
+    background-color: #fff;
     position: relative;
     font-size: 12px;
     line-height: 24px;
@@ -396,6 +396,9 @@ img {
 .icon {
 	background-position: 1em;
 }
+.icon-edit {
+	background-position: 0em;
+}
 .icons{
 	width:auto;
 	float:none;
@@ -408,10 +411,11 @@ img {
 	padding-left:2px;
 }
 
-body #content{
-	overflow: hidden;
+html > body #content {
+	min-height: 200px;
+	overflow-y: hidden;
+	overflow-x: hidden;
 }
-
 form input[type="text"].short {
 	width: auto;
 	margin-right: 10px;
@@ -426,10 +430,14 @@ td.author-name {
 	padding-left: 10px;
 }
 
-.open {
+.open, .hoverable, .new, .inprogress, .canceled, .accepted, .estimate, .done {
 	background-color: transparent;
 }
 
 p, li {
 	font-size: 125%;
+}
+
+fieldset {
+	border: none;
 }
