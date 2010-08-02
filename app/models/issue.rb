@@ -3,7 +3,6 @@
 #
 
 class Issue < ActiveRecord::Base
-  include SingleLogActivityStreams
   
   belongs_to :project
   belongs_to :tracker
