@@ -90,17 +90,19 @@
 
 <div id="add-comment-area" class="comment">
 	<div id="add-comment-textarea-wrapper" class="comment-body">
-        <div><p>Comment on this issue:</p></div>
+        <div><p>Comment on this item:</p></div>
         <textarea id="add-comment-textarea" class="comment-body-wrapper"></textarea>
         <div class="comment-form-wrapper">
-        	<span id="comment-form-error-message" class="error-message">Something went wrong. Try again.</span>
-            <a class="fakebutton" href="#" onclick="hideCommentForm(); return false;">Clear</a>
-            <a class="fakebutton" href="#" onclick="submitCommentForm(); return false;">Comment</a>
+            <a class="fakebutton" href="#" onclick="post_comment(); return false;">Comment</a>
         </div>
     </div>
 </div>
 
-<div style="clear: both;"></div>
+
+<%# other_formats_links do |f| %>
+	<%#= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+	<%#= f.link_to 'PDF' %>
+<%# end %>
 
 <% if authorize_for('issues', 'edit') %>
   <div id="update" style="display:none;">
@@ -109,10 +111,6 @@
   </div>
 <% end %>
 
-<%# other_formats_links do |f| %>
-	<%#= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-	<%#= f.link_to 'PDF' %>
-<%# end %>
 
 <% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
 
@@ -157,5 +155,83 @@
   $('document').ready(function(){
     show_item(<%= @issue.startable? %>);
   });
+  
+  function generate_comment(text){
+    var html = '';
+    html = html +  '      <div class="comment" id="change-new">';
+    html = html +  '          <div class="comment-body">';
+    html = html +  '              <div class="comment-body-wrapper">';
+    html = html +  '                  <div class="comment-accessory-shadow"></div>';
+    html = html +  '                  <div class="comment-accessory"></div>';
+    html = html +  '                    <div id="journal-new-notes" class="wiki editable gravatar-margin"> ';
+    html = html +  '                        <div class="contextual hidden" id="new_comment_edit">';
+    html = html +  '<a title="Edit" class="icon icon-edit icon-edit-new" id="new_comment_edit_link" href="#">Edit</a>';
+    html = html +  '                            </div> ';
+    html = html +                          '<p>' + text + '</p>';
+    html = html +  '                    </div> ';
+    html = html +  '              </div>';
+    html = html +  '          </div>';
+    html = html +  '          <div class="comment-meta">';
+    html = html +  '              <div class="comment-meta-wrapper">';
+    html = html +  '                  <div class="comment-author-image"><%= avatar(User.current, :size => "28", :class => "none") %></div>';
+    html = html +  '                  <div class="comment-meta-meta">';
+    html = html +  '                      <div class="comment-author"><%= link_to_user User.current %></div>';
+    html = html +  '                      <div class="comment-date">Just now</div>';
+    html = html +  '                  </div>';
+    html = html +  '              </div>';
+    html = html +  '          </div>';
+    html = html +  '      </div>';
+    return html;
+  }
+  
+  function post_comment(){
+
+    // try{
+  	  var text = $("#add-comment-textarea").val();
+
+    	if ((text == null) || (text.length < 2)){
+    		return false;
+    	}
+    	else
+    	{
+        $("#comments").append(generate_comment(text));
+        $("#add-comment-textarea").val('');
+
+    		var data = "commit=Create&issue_id=<%= @issue.id %>&comment=" + text;
+
+    		var url = url_for({ controller: 'comments',
+    	                           action    : 'create'
+    	                          });
+
+    		$.ajax({
+    		   type: "POST",
+    		   dataType: "json",
+    		   url: url,
+    		   data: data,
+    		   success: 	function(issue){
+    		     $('.icon-edit').hide();
+    		     $('.icon-edit-new').show();
+    		     $('#new_comment_edit').show();
+    		     var new_journal_id = issue.journals[issue.journals.length-1].id
+    		     var onclick = "$.ajax({type: 'GET', url: '/journals/edit/" + new_journal_id + "'});return false;";
+    		     $("#journal-new-notes").attr('id','journal-' + new_journal_id + '-notes'); //updated id
+    		     
+     		     $('#new_comment_edit_link').attr('onclick',onclick);
+    			},
+          //         error:   function (XMLHttpRequest, textStatus, errorThrown) {
+          // handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
+          // },
+    			timeout: 30000 //30 seconds
+    		 });
+
+    		return false;
+    	}
+    //  }
+    // catch(err){
+    //   console.log(err);
+    //  return false;
+    // }
+  }
+  
   
 </script>

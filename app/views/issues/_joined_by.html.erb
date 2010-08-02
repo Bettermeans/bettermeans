@@ -4,7 +4,7 @@
         <span id="joined_by">
           <% @issue.team_votes.each do |issue_vote| %>
           <% next if issue_vote.user_id == @issue.assigned_to_id  %>
-            <%= avatar(issue_vote.user, :size => "14") %><%= link_to_user_from_id(issue_vote.user_id) %>&nbsp;&nbsp;<br>
+            <%= avatar(issue_vote.user, :size => "18") %>&nbsp; &nbsp;<%= link_to_user_from_id(issue_vote.user_id) %>&nbsp;&nbsp;<br>
           <% end %>
         </span>
         <% if User.current.id == @issue.assigned_to_id %>
@@ -20,12 +20,10 @@
            &nbsp;
            <%= select :issue_vote, :user_id, collection_for_project_members_select %>
            &nbsp;
-        <div class="gt-table-buttons">
              <%= submit_tag l(:button_add) %>
              <p class="gt-cancel">
            <%= toggle_link l(:button_cancel), 'new-team-member-form', {:second_toggle => 'add_member_link'}%>
            </p>
-           </div>
            </p>
             <%#= render :partial => 'form_add_team_member', :locals => {:f => f}%>
           <% end %>
