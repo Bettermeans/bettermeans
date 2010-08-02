@@ -1245,7 +1245,7 @@ div.activity-tag {
 .storyDetails .storyDescriptionTable textArea {margin-top: 3px}
 .storyDetails .storyDescriptionTable {width: 100%}
 .storyDetails .tasksTable {width: 100%}
-.tasksTextArea {margin-top: 3px; width: 95%; overflow:auto; max-width:500px;}
+.tasksTextArea {margin-top: 3px; width: 95%; max-width:500px;}
 .storyDetails .section textArea.textAreaFocus, .storyDetails input[type=text].textAreaFocus {font-weight:normal; width: 95%}
 .storyDetails .section .italic {font-style:italic; color:#7C7B76; font-size:0.85em}
 .storyDetails .section .specialhighlight {color: #333; font-weight:bold; font-size: 103%;}
