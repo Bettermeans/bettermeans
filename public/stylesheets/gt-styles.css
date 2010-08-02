@@ -849,6 +849,15 @@ tt {
 	margin-bottom: 1.5em;
 }
 
+.flash a:link, .flash a:visited {
+	color: #fff;
+	text-decoration: underline;
+}
+.flash a:hover {
+	text-decoration: none;
+}
+
+
 .error {
 	background-color: #cc0000;
 	padding: .5em 1em;

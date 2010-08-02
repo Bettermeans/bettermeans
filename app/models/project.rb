@@ -622,7 +622,7 @@ class Project < ActiveRecord::Base
                   :description => Setting.forum_description + name
                   
      refresh_activity_line
-     set_owner
+     refresh_active_members
   end
   
   def set_owner
