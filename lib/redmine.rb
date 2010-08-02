@@ -30,7 +30,7 @@ Redmine::AccessControl.map do |map|
   map.permission :view_project, {:projects => [:show, :activity, :team, :shares, :credits, :dashboard, :map]}, :public => true
   map.permission :search_project, {:search => :index}, :public => true
   map.permission :add_project, {:projects => [:add, :new]}, :require => :loggedin
-  map.permission :add_subprojects, {:projects => [:add, :new]}, :require => :admin
+  map.permission :add_subprojects, {:projects => [:add, :new]}, :require => :loggedin
   map.permission :edit_project, {:projects => [:settings, :edit]}, :require => :member
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
   map.permission :manage_members, {:projects => :settings, :members => [:new, :edit, :destroy, :autocomplete_for_member]}, :require => :member

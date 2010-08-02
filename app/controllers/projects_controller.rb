@@ -49,6 +49,7 @@ class ProjectsController < ApplicationController
   end
   
   # Add a new project
+  #TODO too much logic here, needs to move to model somehow
   def add
     @project = Project.new(params[:project])
     @parent = Project.find(params[:parent_id]) unless params[:parent_id] == "" || params[:parent_id].nil?
@@ -65,13 +66,14 @@ class ProjectsController < ApplicationController
       else
         @project.trackers = Tracker.no_credits
       end
-      @project.is_public = Setting.default_projects_public?
+      @project.is_public = params[:is_public] || Setting.default_projects_public?
       @project.owner_id = User.current.id if params[:parent_id] == "" || params[:parent_id].nil?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
       if validate_parent_id && @project.save
         write_single_activity_stream(User.current, :name, @project, :name, :created, :workstreams, 0, nil,{:object_description_method => :description})
         # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
         @project.set_parent!(@parent.id) unless @parent.nil?
+        @project.set_owner
         if @parent.nil?
           # Add current user as a admin and core team member
           r = Role.find(Role::BUILTIN_CORE_MEMBER)
