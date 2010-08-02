@@ -263,6 +263,11 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/
    
   map.resources :groups
+  
+  # map.your_activities '/feeds/your_activities/:activity_stream_token', :controller => 'activity_streams', :action => 'feed', :format => 'atom'
+  # map.resources :activity_stream_preferences
+  map.resources :activity_streams
+  
   map.resources :activity_streams
   
   map.resources :projects, :has_many => :shares

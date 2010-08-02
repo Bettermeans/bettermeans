@@ -1,3 +1,6 @@
+require 'activity_streams'
+
+
 #--
 # Copyright (c) 2008 Matson Systems, Inc.
 # Released under the BSD license found in the file 
