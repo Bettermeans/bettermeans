@@ -706,6 +706,15 @@ module ApplicationHelper
     [0,1,2,3,4,5,6,7,8,9,10].collect{|n| [(Date.today.year + n).to_s, Date.today.year + n]}
   end
   
+  def unit_for(project)
+    if project.volunteer?
+      return '♥'
+    else
+      return '$'
+    end
+  end
+  
+  
   
   def country_hash
     {
