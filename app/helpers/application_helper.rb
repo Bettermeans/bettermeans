@@ -698,6 +698,10 @@ module ApplicationHelper
     image_tag("icon_privacy.png", {:id => "privacy-#{project.id}",:class => "private-workstream"}) unless project.is_public
   end
   
+  def volunteering(project)
+    image_tag("icon_volunteer.png", {:id => "volunteering-#{project.id}",:class => "volunteer-workstream"}) if project.volunteer
+  end
+  
   def year_hash
     [0,1,2,3,4,5,6,7,8,9,10].collect{|n| [(Date.today.year + n).to_s, Date.today.year + n]}
   end

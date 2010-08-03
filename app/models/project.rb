@@ -167,7 +167,7 @@ class Project < ActiveRecord::Base
   end	
   
   #Returns true if project is visible by user
-  def visible_by(user)
+  def visible_to(user)
     return true if user.admin?
     return false unless active?
     return true if is_public
@@ -395,6 +395,11 @@ class Project < ActiveRecord::Base
     all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}",:include => [:user, :roles], :order => "firstname ASC")
   end
 
+  # Returns a hash of project users with clearance
+  def clearance_members
+    all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_CLEARANCE}",:include => [:user, :roles], :order => "firstname ASC")
+  end
+
   # Returns a hash of contributers
   def contributor_list
     self.contributors
@@ -422,36 +427,56 @@ class Project < ActiveRecord::Base
   end
   
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
+  # Also refreshes members with clearance
   def refresh_active_members
-    puts "refreshing membership for #{self.name}"
-    return if self.enterprise?
+    return if self.root?
     return unless self.active?
     
-    if self.is_public?
-      u = {}
-      self.all_members.each(&:destroy)
+    u = {}
     
-      issues.each do |issue|
-        next if (issue.updated_on.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) < Time.now 
-        issue.issue_votes.each do |iv|
-          u[iv.user_id] ||= iv.user_id
-        end
+    #Adding from activity stream
+    self.activity_streams.recent.each do |as|
+      u[as.actor_id] ||= as.actor_id
+    end
+    
+    #Adding voters (do we really need this?)
+    issues.each do |issue|
+      next if (issue.updated_on.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) < Time.now 
+      issue.issue_votes.each do |iv|
+        u[iv.user_id] ||= iv.user_id
+      end
+    end
+  
+    u.delete nil
+    
+    #removing active members that aren't in new list
+    self.active_members.each do |m|
+      if u[m.user_id].nil?
+        a = m.role_ids
+        a.delete Role.active.id 
+        m.role_ids = a
+      end
+    end
+    
+    #adding active members that are in new list that aren't already active
+    existing_active_members = self.active_members.collect(&:user_id)
+    u.keys.each do |user_id|
+      User.find(user_id).add_to_project(self, Role.active.id) unless existing_active_members.include? user_id
+    end
+    
+    unless self.is_public?
+      #giving clearance to all active members
+      self.active_members.each do |m|
+        User.find(m.user_id).add_to_project(self, Role.clearance.id)
+      end
       
-        u[issue.author_id] ||= issue.author_id
-        u[issue.assigned_to_id] ||= issue.assigned_to_id
-      end
-    
-      u.delete nil
-    
-      u.keys.each do |user_id|
-        User.find(user_id).add_to_project(self, Role::BUILTIN_ACTIVE)
-      end
-    else
+      #giving all root binding members clearance
       self.root.binding_members.each do |m|
-        User.find(m.user_id).add_to_project(self, Role::BUILTIN_ACTIVE)
+        User.find(m.user_id).add_to_project(self, Role.clearance.id)
       end
     end
   end
+  
   
   
   # Deletes all project's members
@@ -624,7 +649,6 @@ class Project < ActiveRecord::Base
     else
       self.trackers = Tracker.no_credits
     end
-    self.is_public ||= Setting.default_projects_public?
     self.owner_id = User.current.id if self.parent_id.nil?
     return true
   end
@@ -640,7 +664,6 @@ class Project < ActiveRecord::Base
                   :description => Setting.forum_description + name              
                       
     self.set_owner
-    self.refresh_active_members
     self.refresh_activity_line
     self.save!
     return true

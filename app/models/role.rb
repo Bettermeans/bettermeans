@@ -26,6 +26,7 @@ class Role < ActiveRecord::Base
   BUILTIN_ACTIVE = 7 #scope project
   BUILTIN_MEMBER = 8 #scope enterprise
   BUILTIN_BOARD = 9 #scope enterprise
+  BUILTIN_CLEARANCE = 10 #scope project
 
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
   named_scope :builtin, lambda { |*args|
@@ -99,7 +100,7 @@ class Role < ActiveRecord::Base
   
   # Return true if the role belongs to the community in any way
   def community_member?
-    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_ACTIVE
+    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_ACTIVE || builtin == BUILTIN_CLEARANCE
   end
 
   # Return true if the role is a binding member role
@@ -121,6 +122,12 @@ class Role < ActiveRecord::Base
   def member?
     builtin == BUILTIN_MEMBER
   end  
+  
+  # Return true if the role is a clearance
+  def clearance?
+    builtin == BUILTIN_CLEARANCE
+  end  
+  
   
   # Return true if role is allowed to do the specified action
   # action can be:
@@ -183,6 +190,16 @@ class Role < ActiveRecord::Base
   # Return the builtin 'founder' role 
   def self.founder
     find(:first, :conditions => {:builtin => BUILTIN_FOUNDER}) || raise('Missing founder builtin role.')
+  end
+
+  # Return the builtin 'clearance' role 
+  def self.clearance
+    find(:first, :conditions => {:builtin => BUILTIN_CLEARANCE}) || raise('Missing clearance builtin role.')
+  end
+
+  # Return the builtin 'active' role 
+  def self.active
+    find(:first, :conditions => {:builtin => BUILTIN_ACTIVE}) || raise('Missing active builtin role.')
   end
 
   

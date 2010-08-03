@@ -17,6 +17,9 @@ class ActivityStream < ActiveRecord::Base
   belongs_to :indirect_object, :polymorphic => true
   belongs_to :project
   
+  named_scope :recent, {:conditions => "activity_streams.updated_at > '#{(Time.now.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP * -1).to_s}'"}
+
+  
   # Finds the recent activities for a given actor, and honors
   # the users activity_stream_preferences.  Please see the README
   # for an example usage.
