@@ -13,7 +13,7 @@
       <table border="0" class="gt-table gt-user-table">
    	      <% @my_projects.each do |p| %>
    	      <tr><td>
-   	      <%= link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %>
+   	      <%= link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= privacy p %>
    	        <% array = p.activity_line_show(40) %>
    	        </td><td>
    	        <span class="spark right" max="<%=  p.activity_line_max %>"><%= p.activity_line_show(40) %></span>
@@ -59,7 +59,7 @@
       <table border="0" class="gt-table gt-user-table">
    	      <% @belong_to_projects.each do |p| %>
    	      <tr><td>
-   	      <%= link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %>
+   	      <%= link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= privacy p %>
    	        <% array = p.activity_line_show(40) %>
    	        </td><td>
    	        <span class="spark right" max="<%=  p.activity_line_max %>"><%= p.activity_line_show(40) %></span>
