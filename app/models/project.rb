@@ -9,6 +9,8 @@ class Project < ActiveRecord::Base
   STATUS_ARCHIVED   = 9
   
   
+  
+  
   belongs_to :enterprise                        
   belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
   
@@ -85,7 +87,14 @@ class Project < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
                 :author => nil
 
-  acts_as_fleximage :image_directory => 'public/help/'
+  acts_as_fleximage do
+      require_image false
+      s3_bucket 'bettermeans_workstream_logos'
+
+      # preprocess_image do |image|
+      #   image.resize '800x600'
+      # end
+    end
 
   attr_protected :status, :enabled_module_names
   
