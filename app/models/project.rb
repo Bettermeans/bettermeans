@@ -195,9 +195,7 @@ class Project < ActiveRecord::Base
   
   def fetch_credits(with_subprojects)
     with_subprojects ||= 'true'
-    logger.info("widht sub #{with_subprojects}")
     if with_subprojects == 'true'
-      logger.info("getting iwth sub")
       conditions = {}
       conditions[:project_id] = self.sub_project_array
       Credit.all(:conditions => conditions, :order => 'created_on ASC')
@@ -642,10 +640,8 @@ class Project < ActiveRecord::Base
   end
   
   def before_validation_on_create
-    logger.info "entering before create"
     self.enterprise_id = self.parent.enterprise_id unless self.parent.nil?
     self.identifier = Project.next_identifier
-    logger.info "my identifier #{self.identifier}"
     if self.credits_enabled?
       self.trackers = Tracker.all
     else
@@ -659,7 +655,6 @@ class Project < ActiveRecord::Base
   
   #Setup default forum for workstream
   def after_create
-    logger.info("after create called")
     #Send notification of request or invitation to recipient
      Board.create! :project_id => id,
                   :name => Setting.forum_name,                        
@@ -672,13 +667,10 @@ class Project < ActiveRecord::Base
   end
   
   def set_owner
-    logger.info { "setting owner" }
     if !self.root?
-      logger.info { "i'm not a root but my papa has one #{self.root.inspect}" }
       self.owner_id = self.root.owner_id 
       self.save
     elsif owner_id.nil?
-      logger.info { "i'm a root, i'm a root! #{self.root?} #{self.parent_id}" }
       admins = self.administrators.sort {|x,y| x.created_on <=> y.created_on}
       if admins.length > 0
         self.owner_id = admins[0].user_id
@@ -726,7 +718,6 @@ class Project < ActiveRecord::Base
   end
   
   def refresh_activity_line
-    logger.info "refreshing activity line"
     date_array = Hash.new(0)
     for i in (1..Setting::ACTIVITY_LINE_LENGTH)
       date_array[(Date.today - i).to_s] = 0
@@ -754,7 +745,6 @@ class Project < ActiveRecord::Base
     
     self.activity_line = (my_line.sort.collect {|v| v[1]}).inspect.delete("[").delete("]")
     self.save
-    logger.info("refreshed line #{my_line}")
     my_line
   end
   
