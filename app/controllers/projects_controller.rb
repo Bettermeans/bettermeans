@@ -15,7 +15,9 @@ class ProjectsController < ApplicationController
   
   before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add ]
   before_filter :find_optional_project, :only => [:activity, :add]
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :hourly_types ]
+  before_filter :authorize, :except => [ :index, :list, :add ]
+  # before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :join_core_team, :leave_core_team, :core_vote, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :hourly_types ]
+  
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
   accept_key_auth :activity
@@ -57,17 +59,23 @@ class ProjectsController < ApplicationController
     if request.get?
       @project.enabled_module_names = Setting.default_projects_modules
       @project.dpp = 100
+
+      if @parent
+        @project.is_public = @parent.is_public
+        @project.volunteer = @parent.volunteer
+      end
     else
       @project.enabled_module_names = params[:enabled_modules]
-      @project.is_public = params[:is_public] || Setting.default_projects_public?
+      logger.info { "combo #{params[:project][:is_public] || Setting.default_projects_public?}" }
+      logger.info { "just param #{params[:project][:is_public]}" }
+      logger.info { "just setting #{params.inspect}" }
+      @project.is_public = params[:project][:is_public] || Setting.default_projects_public?
       @project.owner_id = User.current.id if params[:parent_id] == "" || params[:parent_id].nil?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
-      
-      
-      
 
       if validate_parent_id && @project.save
         write_single_activity_stream(User.current, :name, @project, :name, :created, :workstreams, 0, nil,{:object_description_method => :description})
+
         if @parent.nil?          
           # Add current user as a admin and core team member
           # User.current.add_to_project(self, Role::BUILTIN_ADMINISTRATOR)
@@ -78,6 +86,7 @@ class ProjectsController < ApplicationController
           @project.all_members << m
         else
           @project.set_parent!(@parent.id)  # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
+          @project.refresh_active_members
           User.current.add_to_project(@project, Role::BUILTIN_ACTIVE)
         end
 
@@ -228,6 +237,7 @@ class ProjectsController < ApplicationController
       @project.attributes = params[:project]
       if validate_parent_id && @project.save
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
+        @project.refresh_active_members
         flash[:notice] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
       else

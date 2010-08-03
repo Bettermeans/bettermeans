@@ -388,6 +388,7 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
   
+  label_team_with_access: Members with clearance (to this workstream)
   label_select_plan: Select Plan
   label_user: User
   label_user_plural: Users
@@ -1177,3 +1178,4 @@ en:
   help_no_my_workstreams: "You haven't created any workstreams yet."
   help_no_workstreams_i_belong_to: "You haven't contributed to any workstreams yet."
   help_activities_i_belong_to: "This activity stream show all activity in workstreams that you own and/or belong to"
+  help_this_workstream_is_private: "This is private workstream. When a workstream is made private, all binding members (i.e. members, core team, board, and admins) are given permanent clearance to it. Also, all active contributors to the workstream are given clearance.<br><br> If you want to manage users' clearance to a private workstream, use the members tab under settings."

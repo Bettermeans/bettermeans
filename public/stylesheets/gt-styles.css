@@ -2153,7 +2153,7 @@ form input[type="text"].verification-code {
 	padding: 20px;
 }
 
-img.private-workstream{
+img.private-workstream, img.volunteer-workstream{
 	margin-left:5px;
 	margin-right:5px;
 }
