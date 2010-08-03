@@ -88,12 +88,5 @@ module ProjectsHelper
     s
   end
   
-  def unit_for(project)
-    if project.volunteer?
-      return '♥'
-    else
-      return '$'
-    end
-  end
   
 end
