@@ -234,7 +234,15 @@ class ProjectsController < ApplicationController
   # Edit @project
   def edit
     if request.post?
+      old_attributes = @project.attributes
       @project.attributes = params[:project]
+      
+      logger.info "old attributes #{old_attributes.inspect}"
+      if (old_attributes["is_public"] != (params[:project]["is_public"] == "1"))
+        description = (params[:project]["is_public"] == "1") ? "publicised" : "privatized"
+          write_single_activity_stream(User.current, :name, @project, :name, description, :workstreams, 0, nil,{})
+      end
+      
       if validate_parent_id && @project.save
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         @project.refresh_active_members
