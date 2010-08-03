@@ -175,17 +175,17 @@ img.issue-author-image {
 }
 
 .action-state-button:active {
-    background-image: -webkit-gradient(linear, left bottom, left top, from(rgb(248, 248, 248)), to(rgb(228, 228, 228)));
-}
+/*    background-image: -webkit-gradient(linear, left bottom, left top, from(rgb(248, 248, 248)), to(rgb(228, 228, 228)));
+*/}
 
 .action-state-button {
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(248, 248, 248)), to(rgb(228, 228, 228)));
-    font-size: 12px;
-    padding: 0.5em 1.5em 0.5em 2.5em;
+/*    background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(248, 248, 248)), to(rgb(228, 228, 228)));
+*/  font-size: 12px;
+    padding: 0.5em 0.5em 0.5em 2em;
     text-decoration: none;
     color: black;
     background-color: rgb(228, 228, 228);
-	background-position: 1em;
+	background-position: 0.5em;
     border: 1px solid rgb(195, 195, 195);
     border-radius: 8px;
     -moz-border-radius: 8px;

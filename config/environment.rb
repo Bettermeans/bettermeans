@@ -60,14 +60,16 @@ Rails::Initializer.run do |config|
 
   config.gem 'rubytree', :lib => 'tree'
   
-  
   config.gem "rpx_now"
-
+  
   config.after_initialize do # so rake gems:install works
     RPXNow.api_key = ENV['RPXNOW_KEY']
   end
   
   config.gem "recurly"
+  
+  config.gem "fleximage"
+  
   
   # Load any local configuration that is kept out of source control
   # (e.g. gems, patches).
