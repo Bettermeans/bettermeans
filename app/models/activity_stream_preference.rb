@@ -8,3 +8,16 @@
 
 class ActivityStreamPreference < ActiveRecord::Base
 end
+
+# == Schema Information
+#
+# Table name: activity_stream_preferences
+#
+#  id         :integer         not null, primary key
+#  activity   :string(255)
+#  location   :string(255)
+#  user_id    :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+

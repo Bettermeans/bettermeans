@@ -1,6 +1,13 @@
 <h2><%=l(:label_project_new)%></h2>
 
 <% labelled_tabular_form_for :project, @project, :url => { :action => "add" }, :html => { :multipart => true }  do |f| %>
+
+<p>
+   <b>Upload Image</b><br />
+   <%= f.file_field :image_file %><br />
+   or URL: <%= f.text_field :image_file_url %>
+ </p>
+
 <%= render :partial => 'form', :locals => { :f => f, :include_modules => true } %>
 
 <div class="gt-table-buttons">

@@ -99,6 +99,8 @@
 </div>
 <br><br>
 <div class="gt-sidebar-content">
+
+<%= image_tag formatted_project_path(@project, :jpg) %>
   
 <h3><%=l(:label_project_description)%></h3>
 <%= textilizable @project.description %>	
