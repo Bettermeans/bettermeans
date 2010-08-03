@@ -59,28 +59,28 @@ class ProjectsController < ApplicationController
       @project.dpp = 100
     else
       @project.enabled_module_names = params[:enabled_modules]
-      @project.enterprise_id = @parent.enterprise_id unless @parent.nil?
-      @project.identifier = Project.next_identifier # if Setting.sequential_project_identifiers?
-      if @project.credits_enabled?
-        @project.trackers = Tracker.all
-      else
-        @project.trackers = Tracker.no_credits
-      end
       @project.is_public = params[:is_public] || Setting.default_projects_public?
       @project.owner_id = User.current.id if params[:parent_id] == "" || params[:parent_id].nil?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
+      
+      
+      
+
       if validate_parent_id && @project.save
         write_single_activity_stream(User.current, :name, @project, :name, :created, :workstreams, 0, nil,{:object_description_method => :description})
-        # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
-        @project.set_parent!(@parent.id) unless @parent.nil?
-        @project.set_owner
-        if @parent.nil?
+        if @parent.nil?          
           # Add current user as a admin and core team member
+          # User.current.add_to_project(self, Role::BUILTIN_ADMINISTRATOR)
+          # User.current.add_to_project(self, Role::BUILTIN_CORE_MEMBER)
           r = Role.find(Role::BUILTIN_CORE_MEMBER)
           r2 = Role.find(Role::BUILTIN_ADMINISTRATOR)
           m = Member.new(:user => User.current, :roles => [r,r2])
           @project.all_members << m
+        else
+          @project.set_parent!(@parent.id)  # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
+          User.current.add_to_project(@project, Role::BUILTIN_ACTIVE)
         end
+
         flash[:notice] = l(:notice_successful_create)
         redirect_to :controller => 'projects', :action => 'show', :id => @project
       end
@@ -413,4 +413,6 @@ private
     end
     true
   end
+  
+  
 end

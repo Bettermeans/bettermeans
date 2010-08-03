@@ -116,7 +116,7 @@ class Project < ActiveRecord::Base
   def project_id
     self.id
   end
-    
+  
   def graph_data
     valid_kids = children.select{|c| c.active?}
     if valid_kids.size > 0
@@ -614,17 +614,36 @@ class Project < ActiveRecord::Base
     user.team_points_for(project)
   end
   
+  def before_validation_on_create
+    logger.info "entering before create"
+    self.enterprise_id = self.parent.enterprise_id unless self.parent.nil?
+    self.identifier = Project.next_identifier
+    logger.info "my identifier #{self.identifier}"
+    if self.credits_enabled?
+      self.trackers = Tracker.all
+    else
+      self.trackers = Tracker.no_credits
+    end
+    self.is_public ||= Setting.default_projects_public?
+    self.owner_id = User.current.id if self.parent_id.nil?
+    return true
+  end
+    
+  
+  
   #Setup default forum for workstream
   def after_create
+    logger.info("after create called")
     #Send notification of request or invitation to recipient
      Board.create! :project_id => id,
                   :name => Setting.forum_name,                        
                   :description => Setting.forum_description + name              
-                  
-    User.current.add_to_project(self, Role::BUILTIN_ACTIVE)
-                  
-     refresh_activity_line
-     refresh_active_members
+                      
+    self.set_owner
+    self.refresh_active_members
+    self.refresh_activity_line
+    self.save!
+    return true
   end
   
   def set_owner
@@ -682,6 +701,7 @@ class Project < ActiveRecord::Base
   end
   
   def refresh_activity_line
+    logger.info "refreshing activity line"
     date_array = Hash.new(0)
     for i in (1..Setting::ACTIVITY_LINE_LENGTH)
       date_array[(Date.today - i).to_s] = 0
@@ -708,7 +728,8 @@ class Project < ActiveRecord::Base
     end
     
     self.activity_line = (my_line.sort.collect {|v| v[1]}).inspect.delete("[").delete("]")
-    save
+    self.save
+    logger.info("refreshed line #{my_line}")
     my_line
   end
   
@@ -738,8 +759,7 @@ class Project < ActiveRecord::Base
     self.save
   end
   
-  private
-  
+  private  
   # Copies wiki from +project+
   def copy_wiki(project)
     # Check that the source project has a wiki first
