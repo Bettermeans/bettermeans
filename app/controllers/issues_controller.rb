@@ -521,6 +521,7 @@ class IssuesController < ApplicationController
         if r = issue.move_to(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
           write_single_activity_stream(User.current,:name,issue,:subject,:moved,:move, 0, @target_project, {
                     :indirect_object_name_method => :name,
+                    :indirect_object_name_description => :name,
                     :indirect_object_phrase => 'to ' })
           moved_issues << r
         else

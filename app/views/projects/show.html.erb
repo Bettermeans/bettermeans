@@ -18,7 +18,7 @@
     <table border="0" class="gt-table gt-user-table">
  	      <% @subprojects.each do |p| %>
  	      <tr><td>
- 	      <%= link_to(h(p), :action => 'show', :id => p)  %><%= privacy p %>
+ 	      <%= link_to(h(p), :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
  	        <% array = p.activity_line_show(40) %>
  	        </td><td>
  	        <span class="spark right" max="<%=  p.activity_line_max %>"><%= p.activity_line_show(40) %></span>
@@ -49,6 +49,7 @@
     <%= render :partial => "member_box" %>
   <% else %>
     <%= render :partial => "active_member_box" %>
+    <%= render :partial => "clearance_member_box" unless @project.is_public %>    
   <% end %>
 </div>
 
@@ -70,8 +71,11 @@
 </div>
 
 <% content_for :sidebar do %>
+<% if !@project.is_public %>
+  <h4><%= privacy @project %>This is a private workstream <%= help_bubble :help_this_workstream_is_private %></h4>
+<% end %>
 <% if @project.volunteer? %>
-  <h4>This is a volunteer-run workstream<%= help_bubble :help_volunteer %></h4>
+  <h4><%= volunteering @project %>This is a volunteer-run workstream<%= help_bubble :help_volunteer %></h4>
 <% else %>
 <h2 class="gt-table-head">&nbsp;</h2>
 <% end %>
@@ -96,7 +100,7 @@
 <br><br>
 <div class="gt-sidebar-content">
   
-<h3><%=l(:label_project_description)%><%= privacy @project %></h3>
+<h3><%=l(:label_project_description)%></h3>
 <%= textilizable @project.description %>	
 <%# unless @project.homepage.blank? %><%#=l(:field_homepage)%><!-- : --> <%#= link_to(h(@project.homepage), @project.homepage) %><%# end %>
 </div>
