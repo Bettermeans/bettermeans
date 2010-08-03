@@ -85,6 +85,8 @@ class Project < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
                 :author => nil
 
+  acts_as_fleximage :image_directory => 'public/help/'
+
   attr_protected :status, :enabled_module_names
   
   validates_presence_of :name, :identifier
