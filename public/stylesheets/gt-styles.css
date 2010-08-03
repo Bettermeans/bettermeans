@@ -837,6 +837,7 @@ tt {
 .gt-cancel a:link, .gt-cancel a:visited {
 	color: #cc0000;
 	text-decoration: underline;
+	
 }
 .gt-cancel a:hover {
 	text-decoration: none;
@@ -2150,4 +2151,9 @@ form input[type="text"].verification-code {
 	width: 100%;
 	font-size: 120%;
 	padding: 20px;
+}
+
+img.private-workstream{
+	margin-left:5px;
+	margin-right:5px;
 }
