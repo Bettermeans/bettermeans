@@ -24,6 +24,8 @@ html {
 }
 body {
 	font-family: Helvetica, sans-serif;
+	word-wrap: break-word;
+    
 }
 /* @end */
 
