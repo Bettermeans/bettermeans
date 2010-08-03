@@ -60,7 +60,6 @@ module LogActivityStreams
   end
   
   def find_identical(actor, object, verb, activity) # :nodoc:
-    logger.info("actor #{actor} object #{object}")
     ActivityStream.find(:first, :conditions => [
       'actor_id = ? AND actor_type = ? AND object_id = ? AND object_type = ? AND verb = ? AND activity = ? AND updated_at >= ? AND project_id = ? AND status = 0', 
       actor.id, actor.class.name, object.id, object.class.name, verb.to_s, 
@@ -108,8 +107,6 @@ module LogActivityStreams
 
     return unless action == self.action_name.to_sym
     
-    logger.info("logging activity stream #{options.inspect}")
-
     return if !flash[:error].blank? || @suppress_activity_stream
 
     status = options[:status] || 0
@@ -129,17 +126,13 @@ module LogActivityStreams
     end
     objects = [ objects ] unless objects.is_a? Array
     
-    logger.info ("options #{options.inspect}")
 
     if indirect_object_method = options[:indirect_object]
-      logger.info("we have an indirect object")
       
       if indirect_object_method.to_s.start_with?('@')
         indirect_object = self.instance_variable_get(indirect_object_method)
-        logger.info(" 2 indirect object #{indirect_object.inspect}")
       else
         indirect_object = self.send(indirect_object_method)
-        logger.info("indirect object #{indirect_object.inspect}")
       end
     end
 
