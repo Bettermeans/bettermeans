@@ -1,3 +1,0 @@
-@project.operate do |image|
-    image.resize '302x204'
-end
