@@ -20,6 +20,10 @@
 <%# end %>
 -->
 <% content_for :sidebar do %>
+<div class="gt-sidebar-logo">
+<%= image_tag formatted_project_path(@project, :png) %>
+</div>
+
 <%# form_tag({}, :method => :get) do %>
 <h3><%= l(:label_activity) %></h3>
 <!-- <p><%# @activity.event_types.each do |t| %>

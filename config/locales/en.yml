@@ -181,6 +181,9 @@ en:
   gui_validation_error: 1 error
   gui_validation_error_plural: "{{count}} errors"
   
+  field_logo : "Logo"
+  field_image_file: "Upload local file"
+  field_image_file_url: "or image URL"
   field_retro: Retrospective
   field_volunteer: Volunteer
   field_name: Name

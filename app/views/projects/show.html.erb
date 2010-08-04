@@ -97,11 +97,13 @@
   </li>
   </ul>
 </div>
-<br><br>
+
+<div class="gt-sidebar-logo">
+<%= image_tag formatted_project_path(@project, :png) %>
+</div>
+  
 <div class="gt-sidebar-content">
 
-<%= image_tag formatted_project_path(@project, :jpg) %>
-  
 <h3><%=l(:label_project_description)%></h3>
 <%= textilizable @project.description %>	
 <%# unless @project.homepage.blank? %><%#=l(:field_homepage)%><!-- : --> <%#= link_to(h(@project.homepage), @project.homepage) %><%# end %>
