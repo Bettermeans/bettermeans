@@ -8,4 +8,9 @@
 </div
 >
 
+<% content_for :sidebar do %>
+<div class="gt-sidebar-logo">
+<%= image_tag formatted_project_path(@project, :png) %>
+</div>
+<% end %>
 <% html_title(l(:label_team)) %>
