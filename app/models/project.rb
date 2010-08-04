@@ -457,6 +457,7 @@ class Project < ActiveRecord::Base
     end
   
     u.delete nil
+    u.delete User.sysadmin
     
     #removing active members that aren't in new list
     self.active_members.each do |m|
