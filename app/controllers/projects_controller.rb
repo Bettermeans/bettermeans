@@ -74,7 +74,7 @@ class ProjectsController < ApplicationController
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
 
       if validate_parent_id && @project.save
-        write_single_activity_stream(User.current, :name, @project, :name, :created, :workstreams, 0, nil,{:object_description_method => :description})
+        LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, :created, :workstreams, 0, nil,{:object_description_method => :description})
 
         if @parent.nil?          
           # Add current user as a admin and core team member
@@ -240,7 +240,7 @@ class ProjectsController < ApplicationController
       logger.info "old attributes #{old_attributes.inspect}"
       if (old_attributes["is_public"] != (params[:project]["is_public"] == "1"))
         description = (params[:project]["is_public"] == "1") ? "publicised" : "privatized"
-          write_single_activity_stream(User.current, :name, @project, :name, description, :workstreams, 0, nil,{})
+          LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, description, :workstreams, 0, nil,{})
       end
       
       if validate_parent_id && @project.save
