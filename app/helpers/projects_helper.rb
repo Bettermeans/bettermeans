@@ -15,7 +15,7 @@ module ProjectsHelper
   end
   
   def project_image(project)
-    content_tag('div', (image_tag formatted_project_path(@project, :png)), :class => "gt-sidebar-logo") if project.has_image?
+    content_tag('div', (image_tag formatted_project_path(@project, :png)), :class => "gt-sidebar-logo") if project && project.has_image?
   end
   
   def nomination_links(member,project)
