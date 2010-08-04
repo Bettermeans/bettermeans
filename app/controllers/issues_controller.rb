@@ -499,7 +499,7 @@ class IssuesController < ApplicationController
       # admin is allowed to move issues to any active (visible) project
       @allowed_projects = Project.find(:all, :conditions => Project.visible_by(User.current))
     else
-      @issue.project.root.self_and_descendants.each {|p| @allowed_projects << p if p.visible_by(User.current)}
+      @issue.project.root.self_and_descendants.each {|p| @allowed_projects << p if p.visible_to(User.current)}
     end
     
     @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
@@ -519,7 +519,7 @@ class IssuesController < ApplicationController
         end
         issue.init_journal(User.current)
         if r = issue.move_to(@target_project, new_tracker, {:copy => @copy, :attributes => changed_attributes})
-          write_single_activity_stream(User.current,:name,issue,:subject,:moved,:move, 0, @target_project, {
+          LogActivityStreams.write_single_activity_stream(User.current,:name,issue,:subject,:moved,:move, 0, @target_project, {
                     :indirect_object_name_method => :name,
                     :indirect_object_name_description => :name,
                     :indirect_object_phrase => 'to ' })
