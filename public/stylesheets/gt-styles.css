@@ -493,6 +493,10 @@ body {
 }
 
 /* Sidebar Content */
+.gt-sidebar-logo {
+	text-align: center;
+	padding-bottom:10px;
+}
 .gt-sidebar-content {
 	margin-bottom: 20px;
 	color: #333;

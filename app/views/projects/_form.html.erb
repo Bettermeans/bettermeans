@@ -29,6 +29,14 @@
     <% end %>
 
 </div>
+
+<p>
+   <b><%= l(:field_logo) %></b><br />
+   <%= image_tag formatted_project_path(@project, :png) %>
+   <%= f.file_field :image_file %><br />
+   <%= f.text_field :image_file_url %>
+</p>
+
 <% if include_modules  then%>
 <div>
 <p>
