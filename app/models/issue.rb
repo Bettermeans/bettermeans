@@ -2,10 +2,7 @@
 # Copyright (C) 2009  Shereef Bishay
 #
 
-class Issue < ActiveRecord::Base
-  
-  require 'activity_streams'
-  
+class Issue < ActiveRecord::Base  
   
   belongs_to :project
   belongs_to :tracker
