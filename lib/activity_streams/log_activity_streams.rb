@@ -143,7 +143,7 @@ module LogActivityStreams
         # activity should fire
         next unless object.errors.empty?
         
-        write_single_activity_stream(actor,actor_name,object,object_name,verb,activity,status,indirect_object, options)
+        LogActivityStreams.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity,status,indirect_object, options)
 
         total = options[:total]
         if total

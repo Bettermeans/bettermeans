@@ -3,6 +3,7 @@
 #
 
 class ProjectsController < ApplicationController
+  
   menu_item :overview
   menu_item :activity, :only => :activity
   menu_item :dashboard, :only => :dashboard
