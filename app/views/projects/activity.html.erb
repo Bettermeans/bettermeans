@@ -21,11 +21,11 @@
 -->
 <% content_for :sidebar do %>
 <div class="gt-sidebar-logo">
-<%= image_tag formatted_project_path(@project, :png) %>
+<%= image_tag formatted_project_path(@project, :png) if @project.has_image? %>
 </div>
 
 <%# form_tag({}, :method => :get) do %>
-<h3><%= l(:label_activity) %></h3>
+<!-- <h3><%#= l(:label_activity) %></h3> -->
 <!-- <p><%# @activity.event_types.each do |t| %>
 <%#= check_box_tag "show_#{t}", 1, @activity.scope.include?(t) %>
 <%#= link_to(l("label_#{t.singularize}_plural"), {"show_#{t}" => 1, :user_id => params[:user_id]})%>
