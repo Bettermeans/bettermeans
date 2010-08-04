@@ -1,4 +1,4 @@
 @project.operate do |image|
-    image.resize '100*400'
-    image.shadow :background  => 'transparent', :blur => 30
+    image.resize '100*200'
+    #image.shadow :background  => 'white' #, :blur => 30
 end

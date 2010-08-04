@@ -1,6 +1,10 @@
 <% content_for :sidebar do %>
+<%= project_image @project %>
+<% if !@project.is_public %>
+  <h4><%= privacy @project %>This is a private workstream <%= help_bubble :help_this_workstream_is_private %></h4>
+<% end %>
 <% if @project.volunteer? %>
-  <h4>This is a volunteer-run workstream<%= help_bubble :help_volunteer_credits %></h4>
+  <h4><%= volunteering @project %>This is a volunteer-run workstream<%= help_bubble :help_volunteer %></h4>
 <% end %>
 
 <div class="gt-sidebar-nav gt-sidebar-nav-blue">

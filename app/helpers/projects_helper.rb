@@ -14,6 +14,10 @@ module ProjectsHelper
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}     
   end
   
+  def project_image(project)
+    content_tag('div', (image_tag formatted_project_path(@project, :png)), :class => "gt-sidebar-logo") if project.has_image?
+  end
+  
   def nomination_links(member,project)
     return if member.user_id == User.current.id
     return unless User.current.binding_voter_of?(project)

@@ -71,6 +71,9 @@
 </div>
 
 <% content_for :sidebar do %>
+
+<%= project_image @project %>
+
 <% if !@project.is_public %>
   <h4><%= privacy @project %>This is a private workstream <%= help_bubble :help_this_workstream_is_private %></h4>
 <% end %>
@@ -96,10 +99,6 @@
   <%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project} %>
   </li>
   </ul>
-</div>
-
-<div class="gt-sidebar-logo">
-<%= image_tag formatted_project_path(@project, :png)  if @project.has_image? %>
 </div>
   
 <div class="gt-sidebar-content">

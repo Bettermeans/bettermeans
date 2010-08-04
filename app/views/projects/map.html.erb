@@ -23,3 +23,8 @@ $('document').ready(function(){
 <div id="inner-details"></div>
 
 </div>
+
+
+<% content_for :sidebar do %>
+<%= project_image @project %>
+<% end %>
