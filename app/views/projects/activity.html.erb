@@ -4,7 +4,7 @@
 <div class="gt-content-box">
 <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
   :user_id => params[:user_id],
-  :project_id => @project.id,
+  :project_id => @project ? @project.id : nil,
   :with_subprojects => params[:with_subprojects],
   :limit => 50,
   :max_created_on => nil
