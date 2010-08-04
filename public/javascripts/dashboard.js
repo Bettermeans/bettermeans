@@ -2772,7 +2772,15 @@ function item_actioned(item, dataId,action){
 
 	keyboard_shortcuts = true;
 	
+	//we don't sort panels on data refresh
+	if (action != "data_refresh"){
+		item_actioned_sort_panels(item, dataId, action);
+	}
 	
+	return false;
+}
+
+function item_actioned_sort_panels(item, dataId, action){
 	if (action == "open" || item.status.name == "Open" || pre_status == "Open") {sort_panel("open");}
 	if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
 		sort_panel(item.status.name.toLowerCase());
@@ -2785,7 +2793,6 @@ function item_actioned(item, dataId,action){
 	
 	save_local_data();
 	
-	return false;
 }
 
 function item_prioritized(item, dataId,action){
@@ -3704,8 +3711,6 @@ function new_dash_data_response(data){
 		return;
 	}
 	
-	var sort = false;
-	
 	for(var i = 0; i < data.length; i++ ){
 		
 		var item = data[i];
@@ -3715,11 +3720,6 @@ function new_dash_data_response(data){
 			D.push(data[i]);
 			ITEMHASH["item" + item.id] = D.length - 1;
 			add_item(D.length-1,"bottom",false);	
-			
-			//sort open panel for recurring items that slide in as open!
-			if (item.status.name == "Open") {
-				sort = true;
-			} 
 		}
 		else{		
 			if (D[dataId].updated_on == item.updated_on){
@@ -3737,10 +3737,8 @@ function new_dash_data_response(data){
 		}
 	}
 	
-	if (sort == true) {
-		sort_panel("open");
-	} 
-	
+	sort_panels();
+	adjust_button_container_widths();
 	save_local_data();
 }
 
