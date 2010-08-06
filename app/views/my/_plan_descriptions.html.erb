@@ -1,0 +1,24 @@
+<div class="gt-sidebar-nav gt-sidebar-nav-blue">
+  <span id="plan_description">
+    <ul>
+    <li>
+      <p style="width:100;">
+        <span style="float:right;width:20%"><strong>Storage</strong></span>
+        <span style="float:right;width:25%"><strong>Contributors</strong></span>
+        <span style="float:right;width:25%"><strong>Workstreams</strong></span>
+        <span style="float:right;width:30%"><strong>Plan</strong></span>
+      </p>
+    </li>
+    <% Plan.all.each do |plan| %>
+    <li>
+      <p style="width:100;">
+      <span style="float:right;width:20%"><%= describe plan.storage_max %> GB</span>
+      <span style="float:right;width:25%"><%= describe plan.private_workstream_max %></span>
+      <span style="float:right;width:25%"><%= describe plan.contributor_max %></span>
+      <span style="float:right;width:30%"><%= radio_button(:user,:plan_id, plan.id) %>&nbsp;<%= plan.name %>($<%= plan.amount.round %>/month)</span>
+      </p>
+    </li>
+    <% end %>
+  </ul>
+  </span>
+</div>
