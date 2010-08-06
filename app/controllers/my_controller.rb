@@ -89,10 +89,13 @@ class MyController < ApplicationController
         
       # logger.info { "hellooooooooo" } if account.billing_info.defined?
         
-      if defined? account.billing_info && account.billing_info.errors
-        flash[:error] = account.billing_info.errors[:base]
-        logger.error { "error here please" }
+      if (defined? account.billing_info) && account.billing_info.errors && account.billing_info.errors.any?
         logger.info("error in updating billing: #{account.billing_info.inspect}")
+        logger.info("errors in updating billing: #{account.billing_info.errors.inspect}")
+        logger.info { "any? #{account.billing_info.errors.any?}" }
+        
+        flash[:error] = account.billing_info.errors[:base].collect {|v| "#{v}"}.join('<br>')
+        logger.error { "error here please" }
         return
       end
               
