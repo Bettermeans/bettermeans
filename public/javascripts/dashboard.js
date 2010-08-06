@@ -1666,10 +1666,10 @@ function buttons_for(dataId,expanded){
 	switch (item.status.name){
 	case 'New':
 		html = html + pri_button(dataId);
-	    if ((credits_enabled) && (item.tracker.id != standard_trackers.Hourly.id))
-		html = html + agree_buttons_root(dataId, false, expanded);
-	    else
+	    if ((typeof standard_trackers.Hourly != 'undefined') && (item.tracker.id == standard_trackers.Hourly.id))
 		html = html + dash_button('start', dataId);
+	    else
+		html = html + agree_buttons_root(dataId, false, expanded);
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);

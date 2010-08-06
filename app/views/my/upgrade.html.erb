@@ -5,20 +5,7 @@
                           
 <h3><%=l(:label_select_plan)%></h3>
 <!-- <div class="gt-content-box"> -->
-  <div class="gt-sidebar-nav gt-sidebar-nav-blue">
-  <% plan = User.current.plan %>
-  <%#= observe_field(:searchbox,
-        :url => '',
-        :on => 'click',
-        :update => 'plan_description',
-        :with => render :partial => 'plan_description', :locals => {:selected_plan_id => } %>
-
-  
-    <h3><%= f.select :plan_id, options_for_select(@plans.map {|u| [u.name,u.id]}, :selected => plan.id), :label => "" %></h3>
-    <span id="plan_description">
-      <%= render :partial => 'plan_description', :locals => {:plan => plan} %>
-    </span>
-  </div>
+<%= render :partial => 'plan_descriptions', :locals => {:current_plan => User.current.plan} %>
   
 <!-- </div> -->
 
