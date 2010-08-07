@@ -15,6 +15,22 @@ module ApplicationHelper
 
   extend Forwardable
   def_delegators :wiki_helper
+  
+  def help_section(name)
+    return if User.current.anonymous?
+    
+    help_section = HelpSection.first(:conditions => {:user_id => User.current.id, :name => name})
+
+    if help_section.nil?
+      help_section = HelpSection.create(
+      :user_id => User.current.id,
+      :name => name,
+      :show => true
+      )
+    end
+    
+    render :partial => 'help_sections/show', :locals => {:help_section => help_section} if help_section.show
+  end
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
