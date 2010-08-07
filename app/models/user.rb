@@ -49,6 +49,7 @@ class User < ActiveRecord::Base
   has_many :incoming_ratings, :class_name => 'RetroRating', :foreign_key => 'ratee_id'
   has_many :credit_disributions
   has_many :reputations, :dependent => :delete_all
+  has_many :help_sections
     
   # Active non-anonymous users scope
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"

@@ -2168,3 +2168,22 @@ img.private-workstream, img.volunteer-workstream{
 	margin-left:5px;
 	margin-right:5px;
 }
+
+.help-section {
+	border: 3px solid #aaa;
+	padding: 1em 2em 2em 1em;
+	margin-bottom: 1.5em;
+	background-color: #FEFF6F;
+/*	width: 100%;*/
+	display: block;
+}
+
+.help-section a{
+	float:right;
+	padding: 0em 1em 0em 1em;
+	font-weight: bold;
+}
+
+#dash_main .help-section {
+	margin: 1em 1em 1.5em 1em;
+}
