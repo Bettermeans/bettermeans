@@ -1,5 +1,8 @@
 <div class="help-section" id="help_section">
-<%= l("help_section_#{help_section.name}") %><br>
+<p>
+  <%= l("help_section_#{help_section.name}") %>
+</p>
+<br>
 <a href="#" onclick="$('#help_section').hide(); return false;" class="help-section-link">Close</a>
 <%= link_to_remote "Don't show again", {:url => {:controller => :help_sections, :action => :dont_show, :id => help_section.id}}, :class => "help-section-link" %>
 </div>
