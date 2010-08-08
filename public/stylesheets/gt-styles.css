@@ -2178,7 +2178,7 @@ img.private-workstream, img.volunteer-workstream{
 	display: block;
 }
 
-.help-section a{
+.help-section a.help-section-link{
 	float:right;
 	padding: 0em 1em 0em 1em;
 	font-weight: bold;

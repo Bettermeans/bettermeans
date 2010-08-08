@@ -1,0 +1,12 @@
+<h1>Editing help_section</h1>
+
+<% form_for(@help_section) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @help_section %> |
+<%= link_to 'Back', help_sections_path %>
