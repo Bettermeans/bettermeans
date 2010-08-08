@@ -1,4 +1,5 @@
 class HelpSectionsController < ApplicationController
+  before_filter :authorize, :except => :dont_show
   # GET /help_sections
   # GET /help_sections.xml
   def index
