@@ -2178,6 +2178,10 @@ img.private-workstream, img.volunteer-workstream{
 	display: block;
 }
 
+.help-section p{
+	font-size: 130%;
+}
+
 .help-section a.help-section-link{
 	float:right;
 	padding: 0em 1em 0em 1em;
