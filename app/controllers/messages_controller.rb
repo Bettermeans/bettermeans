@@ -9,6 +9,8 @@ class MessagesController < ApplicationController
   before_filter :find_message, :except => [:new, :preview, :motion_reply]
   before_filter :authorize, :except => [:preview, :edit, :destroy]
   # before_filter :guess_board, :only => [:show]
+  ssl_required :index, :show, :new, :edit, :create, :update, :preview, :motion_reply, :reply, :quote
+  
 
   verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }
   verify :xhr => true, :only => :quote

@@ -1,4 +1,6 @@
 class EnterprisesController < ApplicationController
+  ssl_required :index, :show, :new, :edit, :create, :update
+  
   # GET /enterprises
   # GET /enterprises.xml
   def index

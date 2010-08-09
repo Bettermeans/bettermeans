@@ -2,6 +2,8 @@ class CreditDistributionsController < ApplicationController
   # GET /credit_distributions
   # GET /credit_distributions.xml
   before_filter :require_admin
+  ssl_required :index, :show, :new, :edit, :create, :update, :destroy
+  
   
   def index
     @credit_distributions = CreditDistribution.all

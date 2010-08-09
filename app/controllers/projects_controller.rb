@@ -14,6 +14,8 @@ class ProjectsController < ApplicationController
   menu_item :credits, :only => :credits
   menu_item :shares, :only => :shares
   
+  ssl_required :index, :show, :new, :edit, :create, :update, :map, :dashboard, :dashdata, :new_dashdata, :update_scale, :mypris, :settings, :team, :credits, :wiki 
+  
   before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add ]
   before_filter :find_optional_project, :only => [:activity, :add]
   # before_filter :authorize, :except => [ :index, :list, :add ]

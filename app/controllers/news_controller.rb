@@ -9,6 +9,8 @@ class NewsController < ApplicationController
   before_filter :authorize, :except => [:index, :preview]
   before_filter :find_optional_project, :only => :index
   accept_key_auth :index
+  ssl_required :index, :show, :new, :edit, :create, :update, :add_comment
+  
   
   log_activity_streams :current_user, :name, :announced, :@news, :title, :new, :news, {:object_description_method => :summary}
   log_activity_streams :current_user, :name, :edited, :@news, :title, :edit, :news, {:object_description_method => :summary}

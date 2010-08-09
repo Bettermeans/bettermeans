@@ -5,6 +5,7 @@
 class WikisController < ApplicationController
   menu_item :settings
   before_filter :find_project, :authorize
+  ssl_required :edit
   
   # Create or update a project's wiki
   def edit

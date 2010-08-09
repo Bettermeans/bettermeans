@@ -4,6 +4,8 @@
 
 class MyController < ApplicationController
   before_filter :require_login
+  ssl_required :page, :upgrade, :account, :password
+  
 
   helper :issues
 

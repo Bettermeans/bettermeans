@@ -3,6 +3,8 @@ class CreditsController < ApplicationController
   before_filter :require_admin, :except => [:disable, :enable]
   before_filter :find_credit, :only => [:disable, :enable]
   before_filter :self_authorize, :only => [:disable, :enable]
+  ssl_required :index, :show, :new, :edit, :create, :update, :enable, :disable
+  
   
   # GET /credits
   # GET /credits.xml

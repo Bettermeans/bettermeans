@@ -4,6 +4,8 @@ class MotionsController < ApplicationController
   before_filter :find_motion, :only => [:show, :edit, :destroy, :update, :reply]
   before_filter :check_visibility_permission, :only => [:show]
   before_filter :require_admin, :only => [:edit, :update, :destroy]
+  ssl_required :index, :show, :new, :edit, :create, :update
+  
   
   # GET /motions
   # GET /motions.xml
