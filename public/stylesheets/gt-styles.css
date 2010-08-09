@@ -2121,7 +2121,7 @@ wbr:after { content: "\00200B" } /*opera compatibility with wbr*/
 
 #jumpbox{
 	background: #323232;
-	font-size: 90%;
+/*	font-size: 90%;*/
 /*	background: transparent;*/
 }
 
