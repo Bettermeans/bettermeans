@@ -39,9 +39,10 @@ class MyController < ApplicationController
     @pref = @user.pref
     if request.post?
       cc = params[:user][:b_cc_last_four]
-      cc.gsub!(/[^0-9]/,'')
-      if cc.length > 14
-        params[:user][:b_cc_last_four] = ("XXXX-") + params[:user][:b_cc_last_four][cc.length-4,cc.length-1]
+      
+      if cc && cc.length > 14
+        cc.gsub!(/[^0-9]/,'')
+        params[:user][:b_cc_last_four] = ("XXXX-") + params[:user][:b_cc_last_four][cc.length-4,cc.length-1] if cc.length > 14
       end
       @user.attributes = params[:user]
       @user.mail_notification = (params[:notification_option] == 'all')
