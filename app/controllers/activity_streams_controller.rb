@@ -25,6 +25,7 @@ class ActivityStreamsController < ApplicationController
                                                 :max_created_on => nil,
                                                 :show_refresh => true}
             page.call "arm_fancybox" #attaches fancybox triggers to new issues
+            page.call "break_long_words"
           else
             page.replace "activity_stream_bottom", :partial => "activity_streams/activity_stream_list", :locals => { 
                                                 :user_id => params[:user_id],
@@ -34,6 +35,7 @@ class ActivityStreamsController < ApplicationController
                                                 :max_created_on => params[:max_created_on],
                                                 :show_refresh => false}
             page.call "arm_fancybox" #attaches fancybox triggers to new issues
+            page.call "break_long_words"
           end
         end
       end
