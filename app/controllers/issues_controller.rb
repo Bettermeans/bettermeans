@@ -241,6 +241,7 @@ class IssuesController < ApplicationController
       return false;
     else
       IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1 #Joins as first person on the team
+      IssueVote.delete_all :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE
       params[:issue] = {:status_id => IssueStatus.assigned.id, :assigned_to_id => User.current.id}
       change_status
     end
