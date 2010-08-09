@@ -155,7 +155,7 @@ img.issue-author-image {
     left: 0;
     width: 86px;
     height: 44px;
-    background-image: url("Resources/closedStamp.png");
+/*    background-image: url("Resources/closedStamp.png");*/
     display: none;
 }
 

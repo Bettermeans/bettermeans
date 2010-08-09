@@ -24,7 +24,7 @@ class News < ActiveRecord::Base
   # Returns the mail adresses of users that should be notified
   def recipients
     notified = project.notified_users
-    notified.reject! {|user| !visible?(user)}
+    notified.reject! {|user| !visible?(user) || user.pref[:no_emails]}
     notified.collect(&:mail)
   end
   
