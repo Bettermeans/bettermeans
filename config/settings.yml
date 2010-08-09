@@ -45,7 +45,7 @@ wiki_compression:
 default_language:
   default: en
 host_name:
-  default: secure.bettermeans.com
+  default: bettermeans.com
 protocol:
   default: http
 feeds_limit:
@@ -145,7 +145,7 @@ ui_theme:
 emails_footer:
   default: |-
     You have received this notification because you have either subscribed to it, or are involved in it.
-    To change your notification preferences, please click here: http://secure.bettermeans.com/my/account
+    To change your notification preferences, please click here: http://bettermeans.com/my/account
 gravatar_enabled:  
   default: 1
 openid:
