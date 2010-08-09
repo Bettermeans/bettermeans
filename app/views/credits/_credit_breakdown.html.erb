@@ -14,7 +14,7 @@ group_credits.keys.sort.each do |owner_id|
   percentage_points = total_points == 0 ? 0  : (total_amount / total_points * 100).round_to(1).to_i
   pie_data << percentage_points.round.to_i
 #  pie_labels << User.find(owner_id).login + " #{number_to_currency total_amount, :unit => '$', :separator => ".", :delimiter => ",", :precision => 0}(#{percentage_points})%"
-  pie_labels << User.find(owner_id).login + " #{number_to_currency total_amount, :unit => unit, :separator => ".", :delimiter => ",", :precision => 0}"
+  pie_labels << User.find(owner_id).firstname + " #{number_to_currency total_amount, :unit => unit, :separator => ".", :delimiter => ",", :precision => 0}"
 end
  %>
  

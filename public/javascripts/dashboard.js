@@ -1029,7 +1029,7 @@ function generate_agree_flyover(dataId){
 		
 		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 1) continue;
-			history = history + agree_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.login; //firstname + ' ' + item.issue_votes[i].user.lastname;
+			history = history + agree_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
 			if (item.issue_votes[i].isbinding == false){
 				history = history + ' (non-binding)';
 			}
@@ -1089,7 +1089,7 @@ function generate_accept_flyover(dataId){
 		
 		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 2) continue;
-			history = history + accept_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.login; //firstname + ' ' + item.issue_votes[i].user.lastname;
+			history = history + accept_text(item.issue_votes[i].points) + ' - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
 			if (item.issue_votes[i].isbinding == false){
 				history = history + ' (non-binding)';
 			}
@@ -1696,7 +1696,7 @@ function buttons_for(dataId,expanded){
 			html = html + dash_button('finish',dataId);
 		}
 		else if (item.assigned_to != null){
-			html = html + '<div id="committed_tally_' + dataId + '" class="action_button_tally">' + item.assigned_to.login + '</div>';
+			html = html + '<div id="committed_tally_' + dataId + '" class="action_button_tally">' + item.assigned_to.firstname + '</div>';
 		
 			if (is_part_of_team(item)){
 				html = html + dash_button('leave',dataId);
