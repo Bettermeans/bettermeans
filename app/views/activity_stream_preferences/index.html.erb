@@ -12,7 +12,7 @@ function all_clicked(checkbox, location_id) {
 
 <div class = "static">
 
-<% if flash[:success] %><%= flash[:success] %><% end %>
+<% if flash.now[:success] %><%= flash.now[:success] %><% end %>
 <%= error_messages_for :activity_stream_preference %>
 
 <h3>Activity Feed Access Preferences</h3>

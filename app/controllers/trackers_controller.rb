@@ -26,7 +26,7 @@ class TrackersController < ApplicationController
       if !params[:copy_workflow_from].blank? && (copy_from = Tracker.find_by_id(params[:copy_workflow_from]))
         @tracker.workflows.copy(copy_from)
       end
-      flash[:notice] = l(:notice_successful_create)
+      flash.now[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list'
       return
     end
@@ -37,7 +37,7 @@ class TrackersController < ApplicationController
   def edit
     @tracker = Tracker.find(params[:id])
     if request.post? and @tracker.update_attributes(params[:tracker])
-      flash[:notice] = l(:notice_successful_update)
+      flash.now[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list'
       return
     end
@@ -47,7 +47,7 @@ class TrackersController < ApplicationController
   def destroy
     @tracker = Tracker.find(params[:id])
     unless @tracker.issues.empty?
-      flash[:error] = "This tracker contains issues and can\'t be deleted."
+      flash.now[:error] = "This tracker contains issues and can\'t be deleted."
     else
       @tracker.destroy
     end

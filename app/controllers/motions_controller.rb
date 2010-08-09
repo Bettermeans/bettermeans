@@ -82,11 +82,11 @@ class MotionsController < ApplicationController
 
     respond_to do |format|
       if @motion.concerned_user == User.current
-        flash[:notice] = 'Cannot create motion for yourself'
+        flash.now[:notice] = 'Cannot create motion for yourself'
         format.html { render :action => "index" }
         format.xml  { render :xml => @motion.errors, :status => :unprocessable_entity }
       elsif @motion.save
-        flash[:notice] = 'Motion was successfully created.'
+        flash.now[:notice] = 'Motion was successfully created.'
         format.html { redirect_to :action => "show", :id => @motion }
         format.xml  { render :xml => @motion, :status => :created, :location => @motion }
       else
@@ -103,7 +103,7 @@ class MotionsController < ApplicationController
     
     respond_to do |format|
       if @motion.update_attributes(params[:motion])
-        flash[:notice] = 'Motion was successfully updated.'
+        flash.now[:notice] = 'Motion was successfully updated.'
         format.html { redirect_to(@motion) }
         format.xml  { head :ok }
       else

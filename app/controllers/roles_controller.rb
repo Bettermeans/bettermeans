@@ -28,7 +28,7 @@ class RolesController < ApplicationController
       if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
         @role.workflows.copy(copy_from)
       end
-      flash[:notice] = l(:notice_successful_create)
+      flash.now[:notice] = l(:notice_successful_create)
       redirect_to :action => 'index'
     end
     @permissions = @role.setable_permissions
@@ -38,7 +38,7 @@ class RolesController < ApplicationController
   def edit
     @role = Role.find(params[:id])
     if request.post? and @role.update_attributes(params[:role])
-      flash[:notice] = l(:notice_successful_update)
+      flash.now[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     end
     @permissions = @role.setable_permissions
@@ -49,7 +49,7 @@ class RolesController < ApplicationController
     @role.destroy
     redirect_to :action => 'index'
   rescue
-    flash[:error] = 'This role is in use and can not be deleted.'
+    flash.now[:error] = 'This role is in use and can not be deleted.'
     redirect_to :action => 'index'
   end
   
@@ -61,7 +61,7 @@ class RolesController < ApplicationController
         role.permissions = params[:permissions][role.id.to_s]
         role.save
       end
-      flash[:notice] = l(:notice_successful_update)
+      flash.now[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index'
     end
   end

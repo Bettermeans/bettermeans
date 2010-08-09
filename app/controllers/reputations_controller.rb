@@ -44,7 +44,7 @@ class ReputationsController < ApplicationController
 
     respond_to do |format|
       if @reputation.save
-        flash[:notice] = 'Reputation was successfully created.'
+        flash.now[:notice] = 'Reputation was successfully created.'
         format.html { redirect_to(@reputation) }
         format.xml  { render :xml => @reputation, :status => :created, :location => @reputation }
       else
@@ -61,7 +61,7 @@ class ReputationsController < ApplicationController
 
     respond_to do |format|
       if @reputation.update_attributes(params[:reputation])
-        flash[:notice] = 'Reputation was successfully updated.'
+        flash.now[:notice] = 'Reputation was successfully updated.'
         format.html { redirect_to(@reputation) }
         format.xml  { head :ok }
       else

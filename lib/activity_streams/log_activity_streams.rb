@@ -107,7 +107,7 @@ module LogActivityStreams
 
     return unless action == self.action_name.to_sym
     
-    return if !flash[:error].blank? || @suppress_activity_stream
+    return if !flash.now[:error].blank? || @suppress_activity_stream
 
     status = options[:status] || 0
 

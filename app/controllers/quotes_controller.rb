@@ -45,7 +45,7 @@ class QuotesController < ApplicationController
 
     respond_to do |format|
       if @quote.save
-        flash[:notice] = 'Quote was successfully created.'
+        flash.now[:notice] = 'Quote was successfully created.'
         format.html { redirect_to(@quote) }
         format.xml  { render :xml => @quote, :status => :created, :location => @quote }
       else
@@ -62,7 +62,7 @@ class QuotesController < ApplicationController
 
     respond_to do |format|
       if @quote.update_attributes(params[:quote])
-        flash[:notice] = 'Quote was successfully updated.'
+        flash.now[:notice] = 'Quote was successfully updated.'
         format.html { redirect_to(@quote) }
         format.xml  { head :ok }
       else

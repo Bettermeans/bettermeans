@@ -56,7 +56,7 @@ class MyController < ApplicationController
         @user.save_billing cc, params[:ccverify], request.remote_ip
         @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
         set_language_if_valid @user.language
-        flash[:notice] = l(:notice_account_updated)
+        flash.now[:notice] = l(:notice_account_updated)
         redirect_to :action => 'account'
         return
       end
@@ -97,7 +97,7 @@ class MyController < ApplicationController
         logger.info("errors in updating billing: #{account.billing_info.errors.inspect}")
         logger.info { "any? #{account.billing_info.errors.any?}" }
         
-        flash[:error] = account.billing_info.errors[:base].collect {|v| "#{v}"}.join('<br>')
+        flash.now[:error] = account.billing_info.errors[:base].collect {|v| "#{v}"}.join('<br>')
         logger.error { "error here please" }
         return
       end
@@ -116,11 +116,11 @@ class MyController < ApplicationController
           )
         rescue Exception => e
           logger.info e.inspect
-          flash[:error] = e.message
+          flash.now[:error] = e.message
           return
         else
           @user.save
-          flash[:notice] = "Your plan was successfully canceled"
+          flash.now[:notice] = "Your plan was successfully canceled"
           redirect_to :action => 'account'
           return
         end
@@ -132,7 +132,7 @@ class MyController < ApplicationController
           sub.change('now', :plan_code => @new_plan.code, :quantity => 1)
           rescue Exception => e
             logger.info e.inspect
-            flash[:error] = e.message
+            flash.now[:error] = e.message
             return
           end
         rescue ActiveResource::ResourceNotFound
@@ -146,7 +146,7 @@ class MyController < ApplicationController
         end
         
         if sub.errors && sub.errors.any?
-          flash[:error] = sub.errors.collect {|k, v| "#{v}"}.join('<br>')
+          flash.now[:error] = sub.errors.collect {|k, v| "#{v}"}.join('<br>')
           logger.info("error in cancelling billing: #{sub.errors.inspect}")
           logger.info("error in cancelling billing: #{sub.errors.base.inspect}")
           
@@ -155,10 +155,10 @@ class MyController < ApplicationController
           return
         else
           @user.save
-          flash[:notice] = "Plan successfully changed to #{@new_plan.name}"
+          flash.now[:notice] = "Plan successfully changed to #{@new_plan.name}"
         end
       else
-        flash[:notice] = l(:notice_account_updated) + " No changes were made to your plan"
+        flash.now[:notice] = l(:notice_account_updated) + " No changes were made to your plan"
       end
       
       logger.info("subscription #{sub.inspect}")
@@ -172,7 +172,7 @@ class MyController < ApplicationController
   def password
     @user = User.current
     if @user.auth_source_id
-      flash[:error] = l(:notice_can_t_change_password)
+      flash.now[:error] = l(:notice_can_t_change_password)
       redirect_to :action => 'account'
       return
     end
@@ -180,11 +180,11 @@ class MyController < ApplicationController
       if @user.check_password?(params[:password])
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save
-          flash[:notice] = l(:notice_account_password_updated)
+          flash.now[:notice] = l(:notice_account_password_updated)
           redirect_to :action => 'account'
         end
       else
-        flash[:error] = l(:notice_account_wrong_password)
+        flash.now[:error] = l(:notice_account_wrong_password)
       end
     end
   end
@@ -197,7 +197,7 @@ class MyController < ApplicationController
         User.current.reload
       end
       User.current.rss_key
-      flash[:notice] = l(:notice_feeds_access_key_reseted)
+      flash.now[:notice] = l(:notice_feeds_access_key_reseted)
     end
     redirect_to :action => 'account'
   end
@@ -210,7 +210,7 @@ class MyController < ApplicationController
         User.current.reload
       end
       User.current.api_key
-      flash[:notice] = l(:notice_api_access_key_reseted)
+      flash.now[:notice] = l(:notice_api_access_key_reseted)
     end
     redirect_to :action => 'account'
   end

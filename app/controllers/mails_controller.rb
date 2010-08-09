@@ -33,7 +33,7 @@ class MailsController < ApplicationController
     @mail.recipient = User.find_by_login(params[:mail][:to])
 
     if @mail.save
-      flash[:notice] = "Message sent"
+      flash.now[:notice] = "Message sent"
       redirect_to user_mails_path(@user)
     else
       render :action => :new
@@ -47,7 +47,7 @@ class MailsController < ApplicationController
           @mail = Mail.find(:first, :conditions => ["mails.id = ? AND (sender_id = ? OR recipient_id = ?)", id, @user, @user])
           @mail.mark_deleted(@user) unless @mail.nil?
         }
-        flash[:notice] = "Messages deleted"
+        flash.now[:notice] = "Messages deleted"
       end
       redirect_to user_mail_path(@user, @mails)
     end

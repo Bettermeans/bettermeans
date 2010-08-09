@@ -246,7 +246,7 @@ class ApplicationController < ActionController::Base
         a.new_record? ? (unsaved << a) : (attached << a)
       end
       if unsaved.any?
-        flash[:warning] = l(:warning_attachments_not_saved, unsaved.size)
+        flash.now[:warning] = l(:warning_attachments_not_saved, unsaved.size)
       end
     end
     attached

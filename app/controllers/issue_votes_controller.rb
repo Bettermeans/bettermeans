@@ -44,7 +44,7 @@ class IssueVotesController < ApplicationController
 
     respond_to do |format|
       if @issue_vote.save
-        flash[:notice] = 'IssueVote was successfully created.'
+        flash.now[:notice] = 'IssueVote was successfully created.'
         format.html { redirect_to(@issue_vote) }
         format.xml  { render :xml => @issue_vote, :status => :created, :location => @issue_vote }
       else
@@ -61,7 +61,7 @@ class IssueVotesController < ApplicationController
 
     respond_to do |format|
       if @issue_vote.update_attributes(params[:issue_vote])
-        flash[:notice] = 'IssueVote was successfully updated.'
+        flash.now[:notice] = 'IssueVote was successfully updated.'
         format.html { redirect_to(@issue_vote) }
         format.xml  { head :ok }
       else
