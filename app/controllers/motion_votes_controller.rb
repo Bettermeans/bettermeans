@@ -54,7 +54,7 @@ class MotionVotesController < ApplicationController
 
     respond_to do |format|
       if @motion_vote.save
-        # flash[:notice] = @motion_vote.isbinding ? 'Your binding vote was cast' : 'Your non-binding vote was cast'
+        # flash.now[:notice] = @motion_vote.isbinding ? 'Your binding vote was cast' : 'Your non-binding vote was cast'
         format.js  { render :action => "cast_vote", :motion => @motion_vote.motion}        
       else
         format.js { render :action => "error"}
@@ -71,7 +71,7 @@ class MotionVotesController < ApplicationController
 
     respond_to do |format|
       if @motion_vote.update_attributes(params[:motion_vote])
-        flash[:notice] = 'MotionVote was successfully updated.'
+        flash.now[:notice] = 'MotionVote was successfully updated.'
         format.html { redirect_to(@motion_vote) }
         format.xml  { head :ok }
       else

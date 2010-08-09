@@ -60,7 +60,7 @@ class HelpSectionsController < ApplicationController
 
     respond_to do |format|
       if @help_section.save
-        flash[:notice] = 'HelpSection was successfully created.'
+        flash.now[:notice] = 'HelpSection was successfully created.'
         format.html { redirect_to(@help_section) }
         format.xml  { render :xml => @help_section, :status => :created, :location => @help_section }
       else
@@ -77,7 +77,7 @@ class HelpSectionsController < ApplicationController
 
     respond_to do |format|
       if @help_section.update_attributes(params[:help_section])
-        flash[:notice] = 'HelpSection was successfully updated.'
+        flash.now[:notice] = 'HelpSection was successfully updated.'
         format.html { redirect_to(@help_section) }
         format.xml  { head :ok }
       else

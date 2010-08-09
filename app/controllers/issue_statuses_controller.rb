@@ -27,7 +27,7 @@ class IssueStatusesController < ApplicationController
   def create
     @issue_status = IssueStatus.new(params[:issue_status])
     if @issue_status.save
-      flash[:notice] = l(:notice_successful_create)
+      flash.now[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -41,7 +41,7 @@ class IssueStatusesController < ApplicationController
   def update
     @issue_status = IssueStatus.find(params[:id])
     if @issue_status.update_attributes(params[:issue_status])
-      flash[:notice] = l(:notice_successful_update)
+      flash.now[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list'
     else
       render :action => 'edit'
@@ -52,7 +52,7 @@ class IssueStatusesController < ApplicationController
     IssueStatus.find(params[:id]).destroy
     redirect_to :action => 'list'
   rescue
-    flash[:error] = "Unable to delete issue status"
+    flash.now[:error] = "Unable to delete issue status"
     redirect_to :action => 'list'
   end  	
 end

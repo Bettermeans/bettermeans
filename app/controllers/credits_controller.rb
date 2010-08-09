@@ -56,7 +56,7 @@ class CreditsController < ApplicationController
 
     respond_to do |format|
       if @credit.save
-        flash[:notice] = 'Credit was successfully created.'
+        flash.now[:notice] = 'Credit was successfully created.'
         format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
         format.xml  { render :xml => @credit, :status => :created, :location => @credit }
       else
@@ -73,7 +73,7 @@ class CreditsController < ApplicationController
 
     respond_to do |format|
       if @credit.update_attributes(params[:credit])
-        flash[:notice] = 'Credit was successfully updated.'
+        flash.now[:notice] = 'Credit was successfully updated.'
         format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
         format.xml  { head :ok }
       else

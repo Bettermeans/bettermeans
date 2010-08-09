@@ -172,7 +172,7 @@ class IssuesController < ApplicationController
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
       if @issue.save
         attach_files(@issue, params[:attachments])
-        # flash[:notice] = l(:notice_successful_create)
+        # flash.now[:notice] = l(:notice_successful_create)
         @issue.reload
         
         respond_to do |format|
@@ -220,7 +220,7 @@ class IssuesController < ApplicationController
       if @issue.save
         # if !journal.new_record?
         #   # Only send notification if something was actually changed
-        #   # flash[:notice] = l(:notice_successful_update)
+        #   # flash.now[:notice] = l(:notice_successful_update)
         # end
         @issue.reload
         respond_to do |format|
@@ -482,9 +482,9 @@ class IssuesController < ApplicationController
         end
       end
       if unsaved_issue_ids.empty?
-        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
+        flash.now[:notice] = l(:notice_successful_update) unless @issues.empty?
       else
-        flash[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
+        flash.now[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
                                                          :total => @issues.size,
                                                          :ids => '#' + unsaved_issue_ids.join(', #'))
       end
@@ -532,9 +532,9 @@ class IssuesController < ApplicationController
         end
       end
       if unsaved_issue_ids.empty?
-        # flash[:notice] = l(:notice_successful_update) unless @issues.empty?
+        # flash.now[:notice] = l(:notice_successful_update) unless @issues.empty?
       else
-        flash[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
+        flash.now[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
                                                          :total => @issues.size,
                                                          :ids => '#' + unsaved_issue_ids.join(', #'))
       end

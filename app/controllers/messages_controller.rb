@@ -75,7 +75,7 @@ class MessagesController < ApplicationController
     end
     if request.post? && @message.update_attributes(params[:message])
       attach_files(@message, params[:attachments])
-      flash[:notice] = l(:notice_successful_update)
+      flash.now[:notice] = l(:notice_successful_update)
       @message.reload
       redirect_to :action => 'show', :board_id => @message.board, :id => @message.root
     end
