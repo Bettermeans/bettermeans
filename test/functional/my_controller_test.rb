@@ -83,7 +83,7 @@ class MyControllerTest < ActionController::TestCase
                     :new_password_confirmation => 'hello'
     assert_response :success
     assert_template 'password'
-    assert_equal 'Wrong password', flash[:error]
+    assert_equal 'Wrong password', flash.now[:error]
     
     # good password
     post :password, :password => 'jsmith',

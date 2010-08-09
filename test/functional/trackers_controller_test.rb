@@ -94,7 +94,7 @@ class TrackersControllerTest < ActionController::TestCase
       post :destroy, :id => tracker.id
     end
     assert_redirected_to '/trackers/list'
-    assert_nil flash[:error]
+    assert_nil flash.now[:error]
   end
   
   def test_destroy_tracker_in_use
@@ -102,6 +102,6 @@ class TrackersControllerTest < ActionController::TestCase
       post :destroy, :id => 1
     end
     assert_redirected_to '/trackers/list'
-    assert_not_nil flash[:error]
+    assert_not_nil flash.now[:error]
   end
 end
