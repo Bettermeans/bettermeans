@@ -25,6 +25,7 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
   protect_from_forgery
@@ -41,6 +42,14 @@ class ApplicationController < ActionController::Base
     # Find the current user
     User.current = find_current_user
   end
+  
+  def ssl_required?
+    return false
+    return false if local_request? || RAILS_ENV == 'test' || RAILS_ENV == 'development'
+    super
+  end
+
+  
   
   def current_user
     User.current
