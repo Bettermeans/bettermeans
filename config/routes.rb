@@ -270,8 +270,6 @@ ActionController::Routing::Routes.draw do |map|
   # map.resources :activity_stream_preferences
   map.resources :activity_streams
   
-  map.resources :activity_streams
-  
   map.resources :projects, :has_many => :shares
   map.resources :projects, :has_many => :credits
   map.resources :projects, :has_many => :motions
