@@ -45,7 +45,7 @@ class AccountController < ApplicationController
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save
           @token.destroy
-          flash[:notice] = l(:notice_account_password_updated)
+          flash.now[:notice] = l(:notice_account_password_updated)
           render :action => 'login', :layout => 'blank'
           return
         end 
@@ -63,7 +63,7 @@ class AccountController < ApplicationController
         token = Token.new(:user => user, :action => "recovery")
         if token.save
           Mailer.send_later(:deliver_lost_password,token)
-          flash[:notice] = l(:notice_account_lost_email_sent)
+          flash.now[:notice] = l(:notice_account_lost_email_sent)
           render :action => 'login', :layout => 'blank'
           return
         end
@@ -88,7 +88,7 @@ class AccountController < ApplicationController
         if @user.save
           session[:auth_source_registration] = nil
           self.logged_user = @user
-          flash[:notice] = l(:notice_account_activated)
+          flash.now[:notice] = l(:notice_account_activated)
           render :controller => 'my', :action => 'account'
         end
       else
@@ -224,7 +224,7 @@ class AccountController < ApplicationController
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
       Mailer.send_later(:deliver_register,token)
-      flash[:success] = l(:notice_account_register_done)
+      flash.now[:success] = l(:notice_account_register_done)
       # self.logged_user = user
       render :action => 'login', :layout => 'blank'
     else
@@ -241,7 +241,7 @@ class AccountController < ApplicationController
     user.last_login_on = Time.now
     if user.save
       self.logged_user = user
-      flash[:notice] = l(:notice_account_activated)
+      flash.now[:notice] = l(:notice_account_activated)
       render :controller => 'welcome', :action => 'index'
     else
       yield if block_given?
@@ -262,7 +262,7 @@ class AccountController < ApplicationController
   end
 
   def account_pending
-    flash[:notice] = l(:notice_account_pending)
+    flash.now[:notice] = l(:notice_account_pending)
     render :action => 'login', :layout => 'blank'
   end
 end
