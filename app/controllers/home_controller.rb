@@ -6,7 +6,8 @@ class HomeController < ApplicationController
       redirect_to :controller => 'welcome', :action => 'index'
     else
       # redirect_to :controller => 'welcome', :action => 'index'
-      redirect_to :controller => 'home', :action => 'show', :page => 'index'
+      redirect_to "/front/index.html"
+      # redirect_to :controller => 'home', :action => 'show', :page => 'index'
     end
   end
 
