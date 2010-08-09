@@ -45,14 +45,14 @@ wiki_compression:
 default_language:
   default: en
 host_name:
-  default: rm.bettermeans.com
+  default: secure.bettermeans.com
 protocol:
   default: http
 feeds_limit:
   format: int
   default: 25
 # Maximum size of files that can be displayed
-# inline through the file viewer (in KB)
+# inline through the file viewer (in KB)    mat
 file_max_size_displayed:
   format: int
   default: 512
@@ -145,7 +145,7 @@ ui_theme:
 emails_footer:
   default: |-
     You have received this notification because you have either subscribed to it, or are involved in it.
-    To change your notification preferences, please click here: http://rm.bettermeans.com/my/account
+    To change your notification preferences, please click here: http://secure.bettermeans.com/my/account
 gravatar_enabled:  
   default: 1
 openid:
