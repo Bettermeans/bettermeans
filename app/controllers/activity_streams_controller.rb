@@ -16,16 +16,29 @@ class ActivityStreamsController < ApplicationController
     respond_to do |wants|
       wants.js do
         render :update do |page|
+          if params[:refresh]
+            page.replace "activity_stream_list", :partial => "activity_streams/activity_stream_list", :locals => { 
+                                                :user_id => params[:user_id],
+                                                :project_id => params[:project_id],
+                                                :with_subprojects => params[:with_subprojects],
+                                                :limit => params[:limit],
+                                                :max_created_on => nil,
+                                                :show_refresh => true}
+            page.call "arm_fancybox" #attaches fancybox triggers to new issues
+          else
             page.replace "activity_stream_bottom", :partial => "activity_streams/activity_stream_list", :locals => { 
                                                 :user_id => params[:user_id],
                                                 :project_id => params[:project_id],
                                                 :with_subprojects => params[:with_subprojects],
                                                 :limit => params[:limit],
-                                                :max_created_on => params[:max_created_on]}
+                                                :max_created_on => params[:max_created_on],
+                                                :show_refresh => false}
             page.call "arm_fancybox" #attaches fancybox triggers to new issues
+          end
         end
       end
     end
     
   end
+  
 end
