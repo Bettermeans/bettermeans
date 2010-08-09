@@ -44,7 +44,7 @@ class ApplicationController < ActionController::Base
   end
   
   def ssl_required?
-    return false
+    # return false
     return false if local_request? || RAILS_ENV == 'test' || RAILS_ENV == 'development'
     super
   end
@@ -176,9 +176,12 @@ class ApplicationController < ActionController::Base
 
   def redirect_back_or_default(default)
     back_url = CGI.unescape(params[:back_url].to_s)
+    logger.info("back url #{back_url}")
     if !back_url.blank? && !back_url.include?("/home/") && !back_url.include?("/front/")
       begin
         uri = URI.parse(back_url)
+        logger.info("back uri #{uri}")
+        
         # do not redirect user to another host or to the login or register page
         if (uri.relative? || (uri.host == request.host)) && !uri.path.match(%r{/(login|account/register)})
           redirect_to(back_url)
