@@ -57,6 +57,7 @@ module Redmine
           if respond_to?(:visible?)
             notified.reject! {|user| !visible?(user)}
           end
+          notified.reject! {|user| user.pref[:no_emails]}
           notified.collect(&:mail).compact
         end
 

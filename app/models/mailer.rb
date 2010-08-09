@@ -27,7 +27,9 @@ class Mailer < ActionMailer::Base
                     'Issue-Author' => issue.author.login
     redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
     message_id issue
-    recipients issue.recipients
+    recipient_list = issue.recipients
+    recipient_list.delete issue.author.mail if issue.author.pref[:no_self_notified]
+    recipients recipient_list
     cc(issue.watcher_recipients - @recipients)
     subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
     body :issue => issue,
@@ -49,7 +51,9 @@ class Mailer < ActionMailer::Base
     message_id journal
     references issue
     @author = journal.user
-    recipients issue.recipients
+    recipient_list = issue.recipients
+    recipient_list.delete @author.mail if @author.pref[:no_self_notified]
+    recipients recipient_list
     # Watchers in cc
     cc(issue.watcher_recipients - @recipients)
     s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
@@ -100,7 +104,7 @@ class Mailer < ActionMailer::Base
     when 'Project'
       added_to_url = url_for(:controller => 'projects', :action => 'list_files', :id => container)
       added_to = "#{l(:label_project)}: #{container}"
-      recipients container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project)}
+      recipients container.project.notified_users.select {|user| user.allowed_to?(:view_files, container.project) && !user.pref[:no_emails]}
     when 'Document'
       added_to_url = url_for(:controller => 'documents', :action => 'show', :id => container.id)
       added_to = "#{l(:label_document)}: #{container.title}"
@@ -139,6 +143,11 @@ class Mailer < ActionMailer::Base
                     'Topic-Id' => (message.parent_id || message.id)
     message_id message
     references message.parent unless message.parent.nil?
+    
+    recipient_list = message.recipients
+    recipient_list.delete message.author.mail if message.author.pref[:no_self_notified]
+    recipients recipient_list
+    
     recipients(message.recipients)
     
     logger.info("message.root.watcher_recipients #{message.root.watcher_recipients}")
@@ -165,7 +174,11 @@ class Mailer < ActionMailer::Base
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id
     message_id wiki_content
-    recipients wiki_content.recipients
+    
+    recipient_list = wiki_content.recipients
+    recipient_list.delete wiki_content.author.mail if wiki_content.author.pref[:no_self_notified]
+    recipients recipient_list
+    
     cc(wiki_content.page.wiki.watcher_recipients - recipients)
     subject "[#{wiki_content.project.name}] #{l(:mail_subject_wiki_content_added, :page => wiki_content.page.pretty_title)}"
     body :wiki_content => wiki_content,
