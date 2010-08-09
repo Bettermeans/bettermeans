@@ -464,7 +464,7 @@ class IssuesControllerTest < ActionController::TestCase
     
     get :new, :project_id => 1
     assert_response 500
-    assert_not_nil flash[:error]
+    assert_not_nil flash.now[:error]
     assert_tag :tag => 'div', :attributes => { :class => /error/ },
                               :content => /No default item/
   end
@@ -475,7 +475,7 @@ class IssuesControllerTest < ActionController::TestCase
     
     get :new, :project_id => 1
     assert_response 500
-    assert_not_nil flash[:error]
+    assert_not_nil flash.now[:error]
     assert_tag :tag => 'div', :attributes => { :class => /error/ },
                               :content => /No tracker/
   end

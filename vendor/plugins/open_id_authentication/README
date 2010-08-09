@@ -140,7 +140,7 @@ app/controllers/sessions_controller.rb
       end
 
       def failed_login(message)
-        flash[:error] = message
+        flash.now[:error] = message
         redirect_to(new_session_url)
       end
   end
