@@ -2,6 +2,8 @@ class TodosController < ApplicationController
   
   before_filter :find_issue, :only => [:index, :create, :update, :destroy ]
   before_filter :find_project, :authorize
+  ssl_required :index, :show, :new, :edit, :create, :update
+  
   
   # GET /todos
   # GET /todos.xml

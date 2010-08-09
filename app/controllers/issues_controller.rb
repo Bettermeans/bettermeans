@@ -5,6 +5,8 @@
 class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   default_search_scope :issues
+  ssl_required :index, :show, :new, :edit, :create, :update
+  
   
   before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member, :move]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]

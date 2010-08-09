@@ -9,6 +9,7 @@ require 'ruby-debug'
 class ApplicationController < ActionController::Base
   include Redmine::I18n
   include LogActivityStreams
+  include SslRequirement
 
   layout 'gooey'
   
