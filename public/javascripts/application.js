@@ -7,6 +7,10 @@ function initialize(){
 	arm_fancybox();
 		
 	prep_jumpbox();
+	break_long_words();
+}
+
+function break_long_words(){
 	$('.long-words').breakWords();
 }
 
