@@ -46,7 +46,7 @@ class AccountController < ApplicationController
         if @user.save
           @token.destroy
           flash[:notice] = l(:notice_account_password_updated)
-          redirect_to :action => 'login', :layout => 'blank'
+          render :action => 'login', :layout => 'blank'
           return
         end 
       end
@@ -62,9 +62,9 @@ class AccountController < ApplicationController
         # create a new token for password recovery
         token = Token.new(:user => user, :action => "recovery")
         if token.save
-          Mailer.deliver_lost_password(token)
+          Mailer.send_later(:deliver_lost_password,token)
           flash[:notice] = l(:notice_account_lost_email_sent)
-          redirect_to :action => 'login', :layout => 'blank'
+          render :action => 'login', :layout => 'blank'
           return
         end
       end
@@ -89,7 +89,7 @@ class AccountController < ApplicationController
           session[:auth_source_registration] = nil
           self.logged_user = @user
           flash[:notice] = l(:notice_account_activated)
-          redirect_to :controller => 'my', :action => 'account'
+          render :controller => 'my', :action => 'account'
         end
       else
         @user.login = params[:user][:login]
@@ -111,15 +111,21 @@ class AccountController < ApplicationController
   def activate
     redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
     token = Token.find_by_action_and_value('register', params[:token])
+    logger.info("got token #{token.inspect}")
     redirect_to(home_url) && return unless token and !token.expired?
+    logger.info("got token #{token.inspect}")
     user = token.user
+    logger.info { "got user #{user.inspect}" }
     redirect_to(home_url) && return unless user.status == User::STATUS_REGISTERED
     user.status = User::STATUS_ACTIVE
     if user.save
       token.destroy
-      flash[:notice] = l(:notice_account_activated)
+      flash.now[:notice] = l(:notice_account_activated)
+      render :action => 'login', :layout => 'blank'
+    else
+      render :action => 'login', :layout => 'blank'
     end
-    redirect_to :action => 'login', :layout => 'blank'
+    
   end
   
   private
@@ -217,12 +223,10 @@ class AccountController < ApplicationController
   def register_by_email_activation(user, &block)
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
-      Mailer.deliver_register(token)
+      Mailer.send_later(:deliver_register,token)
       flash[:success] = l(:notice_account_register_done)
-      flash.now[:notice] = "whatever"
       # self.logged_user = user
-      # redirect_to :controller => 'welcome', :action => 'index'
-      redirect_to :action => 'login', :layout => 'blank'
+      render :action => 'login', :layout => 'blank'
     else
       yield if block_given?
     end
@@ -238,7 +242,7 @@ class AccountController < ApplicationController
     if user.save
       self.logged_user = user
       flash[:notice] = l(:notice_account_activated)
-      redirect_to :controller => 'welcome', :action => 'index'
+      render :controller => 'welcome', :action => 'index'
     else
       yield if block_given?
     end
@@ -250,7 +254,7 @@ class AccountController < ApplicationController
   def register_manually_by_administrator(user, &block)
     if user.save
       # Sends an email to the administrators
-      Mailer.deliver_account_activation_request(user)
+      Mailer.send_later(:deliver_account_activation_request,user)
       account_pending
     else
       yield if block_given?
@@ -259,6 +263,6 @@ class AccountController < ApplicationController
 
   def account_pending
     flash[:notice] = l(:notice_account_pending)
-    redirect_to :action => 'login', :layout => 'blank'
+    render :action => 'login', :layout => 'blank'
   end
 end
