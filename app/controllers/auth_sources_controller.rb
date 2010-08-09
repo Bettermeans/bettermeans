@@ -28,7 +28,7 @@ class AuthSourcesController < ApplicationController
   def create
     @auth_source = AuthSourceLdap.new(params[:auth_source])
     if @auth_source.save
-      flash[:notice] = l(:notice_successful_create)
+      flash.now[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list'
     else
       render :action => 'new'
@@ -42,7 +42,7 @@ class AuthSourcesController < ApplicationController
   def update
     @auth_source = AuthSource.find(params[:id])
     if @auth_source.update_attributes(params[:auth_source])
-      flash[:notice] = l(:notice_successful_update)
+      flash.now[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list'
     else
       render :action => 'edit'
@@ -53,9 +53,9 @@ class AuthSourcesController < ApplicationController
     @auth_method = AuthSource.find(params[:id])
     begin
       @auth_method.test_connection
-      flash[:notice] = l(:notice_successful_connection)
+      flash.now[:notice] = l(:notice_successful_connection)
     rescue => text
-      flash[:error] = "Unable to connect (#{text})"
+      flash.now[:error] = "Unable to connect (#{text})"
     end
     redirect_to :action => 'list'
   end
@@ -64,7 +64,7 @@ class AuthSourcesController < ApplicationController
     @auth_source = AuthSource.find(params[:id])
     unless @auth_source.users.find(:first)
       @auth_source.destroy
-      flash[:notice] = l(:notice_successful_delete)
+      flash.now[:notice] = l(:notice_successful_delete)
     end
     redirect_to :action => 'list'
   end

@@ -86,7 +86,7 @@ class WikiController < ApplicationController
     end
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
-    flash[:error] = l(:notice_locking_conflict)
+    flash.now[:error] = l(:notice_locking_conflict)
   end
   
   # rename a page
@@ -96,7 +96,7 @@ class WikiController < ApplicationController
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.pretty_title
     if request.post? && @page.update_attributes(params[:wiki_page])
-      flash[:notice] = l(:notice_successful_update)
+      flash.now[:notice] = l(:notice_successful_update)
       redirect_to :action => 'index', :id => @project, :page => @page.title
     end
   end

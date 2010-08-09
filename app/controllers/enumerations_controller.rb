@@ -31,7 +31,7 @@ class EnumerationsController < ApplicationController
     @enumeration = Enumeration.new(params[:enumeration])
     @enumeration.type = params[:enumeration][:type]
     if @enumeration.save
-      flash[:notice] = l(:notice_successful_create)
+      flash.now[:notice] = l(:notice_successful_create)
       redirect_to :action => 'list', :type => @enumeration.type
     else
       render :action => 'new'
@@ -46,7 +46,7 @@ class EnumerationsController < ApplicationController
     @enumeration = Enumeration.find(params[:id])
     @enumeration.type = params[:enumeration][:type] if params[:enumeration][:type]
     if @enumeration.update_attributes(params[:enumeration])
-      flash[:notice] = l(:notice_successful_update)
+      flash.now[:notice] = l(:notice_successful_update)
       redirect_to :action => 'list', :type => @enumeration.type
     else
       render :action => 'edit'
@@ -67,7 +67,7 @@ class EnumerationsController < ApplicationController
     end
     @enumerations = Enumeration.find(:all, :conditions => ['type = (?)', @enumeration.type]) - [@enumeration]
   #rescue
-  #  flash[:error] = 'Unable to delete enumeration'
+  #  flash.now[:error] = 'Unable to delete enumeration'
   #  redirect_to :action => 'index'
   end
 end
