@@ -48,6 +48,11 @@ class ApplicationController < ActionController::Base
     return false if local_request? || RAILS_ENV == 'test' || RAILS_ENV == 'development'
     super
   end
+  
+  def redirect_with_flash(flash_type,msg,*params)
+    flash[flash_type] = msg
+    redirect_to(*params)
+  end
 
   
   

@@ -1,0 +1,28 @@
+<p>
+  <b>User:</b>
+  <%=h @invitation.user_id %>
+</p>
+
+<p>
+  <b>Workstream:</b>
+  <%=h @invitation.project_id %>
+</p>
+
+<p>
+  <b>translation missing: en, field_token:</b>
+  <%=h @invitation.token %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%=h @invitation.status %>
+</p>
+
+<p>
+  <b>Role:</b>
+  <%=h @invitation.role %>
+</p>
+
+
+<%= link_to 'Edit', edit_invitation_path(@invitation) %> |
+<%= link_to 'Back', invitations_path %>

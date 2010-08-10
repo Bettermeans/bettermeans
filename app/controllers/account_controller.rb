@@ -77,6 +77,12 @@ class AccountController < ApplicationController
     if request.get?
       session[:auth_source_registration] = nil
       @user = User.new(:language => Setting.default_language)
+      
+      if params[:invitation_token]
+        invitation = Invitation.find_by_token params[:invitation_token]
+        @user.mail = invitation.mail if invitation
+      end
+      
     else
       @user = User.new(params[:user])
       @user.admin = false
@@ -88,8 +94,7 @@ class AccountController < ApplicationController
         if @user.save
           session[:auth_source_registration] = nil
           self.logged_user = @user
-          flash.now[:notice] = l(:notice_account_activated)
-          render :controller => 'my', :action => 'account'
+          redirect_with_flash :notice, l(:notice_account_activated), :controller => 'my', :action => 'account'
         end
       else
         @user.login = params[:user][:login]
@@ -97,7 +102,7 @@ class AccountController < ApplicationController
 
         case Setting.self_registration
         when '1'
-          register_by_email_activation(@user)
+          register_by_email_activation(@user,params[:invitation_token])
         when '3'
           register_automatically(@user)
         else
@@ -220,7 +225,17 @@ class AccountController < ApplicationController
   # Register a user for email activation.
   #
   # Pass a block for behavior when a user fails to save
-  def register_by_email_activation(user, &block)
+  def register_by_email_activation(user, invitation_token = nil)
+    
+    if invitation_token
+      invitation = Invitation.find_by_token invitation_token
+    end
+    
+    if invitation && invitation.mail == user.mail
+      register_automatically(user)
+      return
+    end
+    
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
       Mailer.send_later(:deliver_register,token)
@@ -241,8 +256,7 @@ class AccountController < ApplicationController
     user.last_login_on = Time.now
     if user.save
       self.logged_user = user
-      flash.now[:notice] = l(:notice_account_activated)
-      render :controller => 'welcome', :action => 'index'
+      redirect_with_flash :success, l(:notice_account_activated), :controller => 'welcome', :action => 'index'
     else
       yield if block_given?
     end

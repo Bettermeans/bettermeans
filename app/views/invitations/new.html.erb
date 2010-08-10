@@ -1,0 +1,21 @@
+<%= help_section "invitation_new" %>
+<h2>Invite others to contribute to <%= @project.name %></h2>
+<% form_tag({:action => 'create', :project => @project}, :method => 'post') do %>
+<div class="gt-left-col">
+
+<label>Enter up to 50 emails, one email per line </label>
+<%= text_area_tag :emails, @emails, :class => 'wiki-edit', :rows => 20, :colums => 60 %>
+
+  <p>
+    <%= submit_tag 'Send Invitations' %>
+  </p>
+<% end %>
+</div>
+<div class="gt-right-col">
+  <label>Personalize your invitation</label>
+  <%= text_area_tag :note, @note, :class => 'wiki-edit', :rows => 20, :colums => 60 %>
+  
+</div>
+
+
+<%#= link_to 'Back', invitations_path %>

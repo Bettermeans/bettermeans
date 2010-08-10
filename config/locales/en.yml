@@ -925,6 +925,9 @@ en:
   label_hourly_rate_per_person: "Hourly rate per person"
   label_hourly_cap: "Hourly cap"
   
+  label_invitation_new: "Invite new team members"
+  label_invitation_others: "Invite others"
+  
   field_b_first_name: "First name"
   field_b_last_name: "Last name"
   field_b_address1: "Street Address"
@@ -1197,3 +1200,4 @@ en:
   help_section_project_settings: "Use settings sparingly. If you're admin and core team, make sure to use core team stuff when possible for things to stay democratic"
   help_section_motion_new: "Motions are used to make large important decisions that are project-wide. To learn more about motions <a href='google.com'>click here</a>"
   help_section_project_new: "New workstream"
+  help_section_invitation_new: "Use invitations to enroll team members to join your project.<br> When you send someone an invitation, they will be prompted to create a bettermeans account, and automatically added as a contributor to your workstream.<br> Enter up to 50 emails at a time, one email address per line. <a href='http://help.bettermeans.com/how-to/invitations' target='blank'>Read more</a>"
