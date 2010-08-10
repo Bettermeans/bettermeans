@@ -60,6 +60,8 @@ module LogActivityStreams
   end
   
   def self.find_identical(actor, object, verb, activity) # :nodoc:
+    puts { "responds #{object.respond_to?(:project_id)}" }
+    return nil unless object.respond_to?(:project_id)
     ActivityStream.find(:first, :conditions => [
       'actor_id = ? AND actor_type = ? AND object_id = ? AND object_type = ? AND verb = ? AND activity = ? AND updated_at >= ? AND project_id = ? AND status = 0', 
       actor.id, actor.class.name, object.id, object.class.name, verb.to_s, 
