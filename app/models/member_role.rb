@@ -72,7 +72,7 @@ class MemberRole < ActiveRecord::Base
   
   def log_activity
     # def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
-    
+    return if role.id == Role.active.id #don't log active memberships
     LogActivityStreams.write_single_activity_stream(User.sysadmin,:name,self,:name,:added,:memberships, 0, nil,{})
     
   end
