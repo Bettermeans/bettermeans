@@ -54,12 +54,10 @@ class InvitationsController < ApplicationController
       @invitation.project_id = @project.id
       @invitation.user_id = User.current.id
       if @invitation.save
-        @invitation.send_later(:deliver, params[:notes])
+        @invitation.deliver(params[:note])
         success = true
       end
     end
-    
-    
     
     # Mailer.invitation_add(@invitation,params[:note])
 
@@ -92,9 +90,7 @@ class InvitationsController < ApplicationController
           self.logged_user = @user
           @invitation.accept
           msg = "Invitation accepted. You are now a #{@invitation.role.name} of #{@invitation.project.name}."
-          logger.info { "accepted invitation" }
           redirect_with_flash :success, msg, :controller => :projects, :action => :show, :id => @invitation.project_id
-          logger.info { "whats going on?" }
           return
         else
           #redirect to register, with an invitation token parameter

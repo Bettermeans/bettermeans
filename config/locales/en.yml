@@ -1187,7 +1187,7 @@ en:
   help_activities_i_belong_to: "This activity stream show all activity in workstreams that you own and/or belong to"
   help_this_workstream_is_private: "This is private workstream. When a workstream is made private, all binding members (i.e. members, core team, board, and admins) are given permanent clearance to it. Also, all active contributors to the workstream are given clearance.<br><br> If you want to manage users' clearance to a private workstream, use the members tab under settings."
   
-  help_section_project_show: "<strong>This is your project overview page</strong>"
+  help_section_project_show: "<strong>This is your project overview page</strong><br>This is a new line."
   help_section_project_dashboard: "<strong>This is your project's dashboard </strong>"
   help_section_project_wiki: "<strong>This is the project wiki. </strong>Each project has a wiki. Wiki formatting can be seen here. To learn more about what a wiki is click here. "
   help_section_project_news: "<strong>This is your project's news. </strong>News is used to broadcast events to your team. For example winning a bid, or a new product release."
