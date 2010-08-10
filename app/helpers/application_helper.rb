@@ -29,7 +29,7 @@ module ApplicationHelper
       )
     end
     
-    render :partial => 'help_sections/show', :locals => {:help_section => help_section} if help_section.show # && false
+    render :partial => 'help_sections/show', :locals => {:help_section => help_section} if help_section.show && false
   end
 
   # Return true if user is authorized for controller/action, otherwise false
