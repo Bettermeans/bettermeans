@@ -1,10 +1,13 @@
-This user <%= @user.name %>
-wants you to join this project <%= @project.name %>
+<%= @user.name %> is inviting you to work with them on <%= @project.name %>
 
 <% if @note %>
-and added this note <%= @note %>
+--------------------
+<%= @note %>
+--------------------
 <% end %>
 
-click here to accept
-
+To accept their invitation follow this link:
 <%= @invitation_url %>
+
+Good luck!
+the folks at bettermeans.com

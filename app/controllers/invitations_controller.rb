@@ -27,7 +27,7 @@ class InvitationsController < ApplicationController
   # GET /invitations/new
   # GET /invitations/new.xml
   def new
-    @note = 
+    @note = l(:text_invitation_note_default)
 
     respond_to do |format|
       format.html # new.html.erb
