@@ -2501,6 +2501,7 @@ function show_panel(name){
 	$('#' + name + '_panel').show();
 	$('#' + name + '_panel_toggle').hide();
 	recalculate_widths();
+	$('#' + name + '_close').addClass('closePanel').removeClass('closePanelLoading');
 }
 
 // Sorts items in a plane by priority (highest first) followed by created date (oldest first)
