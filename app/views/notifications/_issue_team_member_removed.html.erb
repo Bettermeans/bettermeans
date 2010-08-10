@@ -1,0 +1,25 @@
+<!-- Notification sent to users by another user when someone who owns an issue removes them from it -->
+<tr class="notification notification-issue-team-member-removed" id="notification_<%= @notification.id %>">
+    <td class = "gt-avatar">
+      <%= avatar_from_id(@notification.sender_id, :size => '53') %>
+    </td>
+    <td>
+<h4><%= l("label_someone_removed_you_from_their_issue", :sender => link_to_user_from_id(@notification.sender_id)) %> </h4>
+
+<%= l(:text_you_are_no_longer_working_on, :issue => link_to_issue_from_id(issue_id)) %>
+<p class="gt-table-action-list">
+<%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
+</p>
+    </td>
+    <td>
+			<!-- Categories Sub Table -->
+			<table border="0" class="gt-table-categories">
+				<tr>
+					<td><%= link_to_user_from_id(@notification.sender_id) %></td>
+				</tr>
+				<tr>
+					<td><%= since_tag(@notification.created_on) %> ago</td>
+				</tr>
+			</table>
+		</td>
+</tr>

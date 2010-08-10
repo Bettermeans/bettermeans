@@ -8,7 +8,7 @@ class IssuesController < ApplicationController
   ssl_required :index, :show, :new, :edit, :create, :update
   
   
-  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member, :move]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member, :remove_team_member, :move]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
@@ -400,8 +400,6 @@ class IssuesController < ApplicationController
     @issue.save
     @issue.reload
     
-    admin = User.sysadmin
-    
     Notification.create :recipient_id => params[:issue_vote][:user_id],
                         :variation => 'issue_team_member_added',
                         :params => {:issue_id => @issue.id, :joiner_id => params[:issue_vote][:user_id]}, 
@@ -418,6 +416,26 @@ class IssuesController < ApplicationController
       end
     end
   end
+  
+  def remove_team_member
+    IssueVote.delete_all :user_id => params[:user_id], :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE
+    
+    Notification.create :recipient_id => params[:user_id],
+                        :variation => 'issue_team_member_removed',
+                        :params => {:issue_id => @issue.id, :joiner_id => params[:user_id]}, 
+                        :sender_id => User.current.id,
+                        :source_id => @issue.id
+    
+    respond_to do |format|
+      format.js do
+        render :update do |page|
+          page.replace "joined_by_partial", :partial => 'issues/joined_by'
+          page.visual_effect :highlight, "joined_by_partial"
+        end
+      end
+    end
+  end
+  
 
   def leave
     IssueVote.delete_all(["user_id = ? AND issue_id = ? AND vote_type = ?", User.current.id, params[:id], IssueVote::JOIN_VOTE_TYPE])
