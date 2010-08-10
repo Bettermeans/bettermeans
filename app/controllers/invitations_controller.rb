@@ -67,7 +67,7 @@ class InvitationsController < ApplicationController
       if success
         @emails = nil
         @note = params[:note]
-        flash.now[:notice] = "#{@email_array.count} invitation(s)  successfully sent<br>" + @email_array.join(", ")
+        flash.now[:notice] = "#{@email_array.count} invitation(s)  successfully sent to<br>" + @email_array.join(", ")
         format.html { render :action => "new" }
         format.xml  { render :xml => @invitation, :status => :created, :location => @invitation }
       else
