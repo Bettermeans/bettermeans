@@ -1,0 +1,30 @@
+<div class="gt-content-box padded">
+<% users = User.active.find(:all, :limit => 100, :order => 'type, login, lastname ASC') - @project.users %>
+<% if roles.any? && users.any? %>
+  <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post) do |f| %>
+    <fieldset><legend><%=l(:label_member_new)%></legend>
+    
+		<p><%= text_field_tag 'user_search', nil, :size => "40" %></p>
+		<%= observe_field(:user_search,
+                 :frequency => 0.5,
+                 :update => :users,
+                 :url => { :controller => 'members', :action => 'autocomplete_for_member', :id => @project },
+                 :with => 'q')
+                  %>
+		
+		<div id="users">
+			<%= users_check_box_tags 'member[user_ids][]', users %>
+		</div>
+		
+    <p><%= l(:label_role_plural) %>:
+    <% roles.each do |role| %>
+    	<label><%= check_box_tag 'member[role_ids][]', role.id %> <%=h role %></label>
+   	<% end %></p>
+   	
+    <div class="gt-table-buttons">
+    <%= submit_tag l(:button_add) %>
+    </div>
+		</fieldset>
+  <% end %>
+<% end %>
+</div>
