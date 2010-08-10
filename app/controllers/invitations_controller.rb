@@ -49,8 +49,12 @@ class InvitationsController < ApplicationController
     @email_array.uniq!
     
     @email_array.each do |email|
+        @email_array.delete email unless valid_email?(email)
+    end
+    
+    @email_array.each do |email|
       @invitation = Invitation.new(params[:invitation])
-      @invitation.mail = email
+      @invitation.mail = TMail::Address.parse(email).to_s
       @invitation.project_id = @project.id
       @invitation.user_id = User.current.id
       if @invitation.save
@@ -136,5 +140,14 @@ class InvitationsController < ApplicationController
     rescue ActiveRecord::RecordNotFound
       render_404
     end
+    
+    def valid_email?(email)
+      TMail::Address.parse(email)
+      logger.info { "parsing #{email}  #{TMail::Address.parse(email)}" }
+      return true
+    rescue
+      return false
+    end
+    
   
 end
