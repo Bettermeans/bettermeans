@@ -69,9 +69,6 @@ class ProjectsController < ApplicationController
       end
     else
       @project.enabled_module_names = params[:enabled_modules]
-      logger.info { "combo #{params[:project][:is_public] || Setting.default_projects_public?}" }
-      logger.info { "just param #{params[:project][:is_public]}" }
-      logger.info { "just setting #{params.inspect}" }
       @project.is_public = params[:project][:is_public] || Setting.default_projects_public?
       @project.owner_id = User.current.id if params[:parent_id] == "" || params[:parent_id].nil?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
@@ -138,7 +135,6 @@ class ProjectsController < ApplicationController
     
     cond = @project.project_condition(Setting.display_subprojects_issues?)
     
-    logger.info { "XXXXX" }
     @open_issues_by_tracker = Issue.visible.count(:group => :tracker,
                                             :include => [:project, :status, :tracker],
                                             :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
@@ -240,7 +236,6 @@ class ProjectsController < ApplicationController
       old_attributes = @project.attributes
       @project.attributes = params[:project]
       
-      logger.info "old attributes #{old_attributes.inspect}"
       if (old_attributes["is_public"] != (params[:project]["is_public"] == "1"))
         description = (params[:project]["is_public"] == "1") ? "publicised" : "privatized"
           LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, description, :workstreams, 0, nil,{})

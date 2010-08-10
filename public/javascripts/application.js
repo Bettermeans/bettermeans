@@ -319,7 +319,7 @@ function url_for(options){
   // keys.each(function(key, index){
   //   url += key + "=" + options[key];
   //   if(index<keys.length-1) url += "&";
-  // });da
+  // });
   
   return url;
 }

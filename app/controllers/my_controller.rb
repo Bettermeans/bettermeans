@@ -87,18 +87,10 @@ class MyController < ApplicationController
       @user.attributes = params[:user]
       @user.plan_id = @new_plan.id
 
-      logger.info("new plan #{@new_plan.inspect}")
       account = User.update_recurly_billing @user.id, cc, params[:ccverify], request.remote_ip
         
-      # logger.info { "hellooooooooo" } if account.billing_info.defined?
-        
       if (defined? account.billing_info) && account.billing_info.errors && account.billing_info.errors.any?
-        logger.info("error in updating billing: #{account.billing_info.inspect}")
-        logger.info("errors in updating billing: #{account.billing_info.errors.inspect}")
-        logger.info { "any? #{account.billing_info.errors.any?}" }
-        
         flash.now[:error] = account.billing_info.errors[:base].collect {|v| "#{v}"}.join('<br>')
-        logger.error { "error here please" }
         return
       end
               
@@ -107,7 +99,6 @@ class MyController < ApplicationController
           sub = Recurly::Subscription.find(@user.id.to_s)
           sub.cancel(@user.id.to_s)
         rescue ActiveResource::ResourceNotFound
-          logger.info { "couldn't get existing sub" }
           sub = Recurly::Subscription.create(
             :account_code => account.account_code,
             :plan_code => @new_plan.code, 
@@ -115,7 +106,6 @@ class MyController < ApplicationController
             :account => account
           )
         rescue Exception => e
-          logger.info e.inspect
           flash.now[:error] = e.message
           return
         else
@@ -127,16 +117,13 @@ class MyController < ApplicationController
       elsif @new_plan.code != @selected_plan.code
         begin
           sub = Recurly::Subscription.find(@user.id.to_s)
-          logger.info { "Got existing sub #{sub.inspect}" }
           begin
           sub.change('now', :plan_code => @new_plan.code, :quantity => 1)
           rescue Exception => e
-            logger.info e.inspect
             flash.now[:error] = e.message
             return
           end
         rescue ActiveResource::ResourceNotFound
-          logger.info { "couldn't get existing sub" }
           sub = Recurly::Subscription.create(
             :account_code => account.account_code,
             :plan_code => @new_plan.code, 
@@ -147,11 +134,6 @@ class MyController < ApplicationController
         
         if sub.errors && sub.errors.any?
           flash.now[:error] = sub.errors.collect {|k, v| "#{v}"}.join('<br>')
-          logger.info("error in cancelling billing: #{sub.errors.inspect}")
-          logger.info("error in cancelling billing: #{sub.errors.base.inspect}")
-          
-          # logger.info sub.errors["base"].sub.collect {|k, v| "#{v}"}.join('<br>')
-          
           return
         else
           @user.save
@@ -160,8 +142,6 @@ class MyController < ApplicationController
       else
         flash.now[:notice] = l(:notice_account_updated) + " No changes were made to your plan"
       end
-      
-      logger.info("subscription #{sub.inspect}")
       
       redirect_to :action => 'account'
       return

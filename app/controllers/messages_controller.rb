@@ -57,13 +57,17 @@ class MessagesController < ApplicationController
   # Reply to a topic
   def reply
     @reply = Message.new(params[:reply])
+    @reply.subject = @message.subject if @reply.subject == ""
     @reply.author = User.current
     @reply.board = @board
     @topic.children << @reply
     if !@reply.new_record?
       attach_files(@reply, params[:attachments])
     end
-    redirect_to :action => 'show', :id => @topic
+    respond_to do |wants|
+      wants.html { redirect_to :action => 'show', :id => @topic  }
+      wants.js { render :nothing => :true}
+    end
   end
 
   # Edit a message
@@ -120,9 +124,8 @@ private
       guess_board
     else
       find_board
+      @message = @board.messages.find(params[:id], :include => :parent)
     end
-    
-    @message = @board.messages.find(params[:id], :include => :parent)
     @topic = @message.root
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -131,10 +134,10 @@ private
   #This function is used to redirect links coming from the activity stream
   #To save queries on the database, we don't try to load the board id in the link to a message
   def guess_board
-    logger.info("guessing")
-    message = Message.find(params[:id])
-    @board = message.board
-    redirect_to :action => "show", :board_id => @board.id, :id => params[:id]
+    @message = Message.find(params[:id], :include => :parent)
+    @board = @message.board
+    @project = @board.project
+    # redirect_to :action => "show", :board_id => @board.id, :id => params[:id]
   rescue ActiveRecord::RecordNotFound
     render_404
   end

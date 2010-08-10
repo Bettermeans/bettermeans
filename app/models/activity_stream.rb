@@ -71,14 +71,8 @@ class ActivityStream < ActiveRecord::Base
   end
   
   def self.fetch(user_id, project_id, with_subprojects, limit, max_created_on = nil)
-    logger.info("max created on #{max_created_on}")
-    
     max_created_on = DateTime.now if max_created_on.nil? || max_created_on == ""
-
-    logger.info("max created on #{max_created_on}")
-    
     length = limit  || Setting::ACTIVITY_STREAM_LENGTH
-
 
     if limit
       length = limit
