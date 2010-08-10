@@ -35,6 +35,9 @@ Redmine::AccessControl.map do |map|
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
   map.permission :manage_members, {:projects => :settings, :members => [:new, :edit, :destroy, :autocomplete_for_member]}, :require => :member
   map.permission :credits, {:credits => [:add, :edit, :update]}, :require => :admin
+  map.permission :send_invitations, {:invitations => [:new, :create]}, :require => :loggedin
+  map.permission :manage_invitations, {:invitations => [:index, :destroy, :update]}, :require => :loggedin
+  
   
   map.project_module :issue_tracking do |map|
     # Issues

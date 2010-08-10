@@ -1,0 +1,10 @@
+This user <%= @user.name %>
+wants you to join this project <%= @project.name %>
+
+<% if @note %>
+and added this note <%= @note %>
+<% end %>
+
+click here to accept
+
+<%= @invitation_url %>

@@ -28,7 +28,7 @@
 <%= text_field 'user', 'lastname'  %></p>
 
 <p><label for="user_mail"><%=l(:field_mail)%> <span class="required">*</span></label>
-<%= text_field 'user', 'mail'  %></p>
+<%= text_field 'user', 'mail', :readonly => !params[:invitation_token].nil?  %></p>
 
 <!--[eoform:user]-->
 
@@ -37,6 +37,9 @@
   <p><label for="user_language"><%=l(:field_language)%></label>
   <%= select("user", "language", lang_options_for_select) %></p>  
 </div>
+
+<%= hidden_field_tag 'invitation_token', params[:invitation_token] %>
+
 
 <div class="gt-form-row">
   <br>
