@@ -1,7 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+
   map.resources :help_sections
-
-
   map.resources :reputations
   map.resources :credit_distributions
   map.resources :quotes
@@ -91,6 +90,13 @@ ActionController::Routing::Routes.draw do |map|
       messages_actions.connect 'boards/:board_id/topics/:id/:action', :action => /edit|destroy/
     end
   end
+  
+  map.with_options :controller => 'invitations' do |invitations_routes|
+    invitations_routes.with_options :conditions => {:method => :get} do |invitations_views|
+      invitations_views.connect 'invitations/:id', :action => 'accept'
+    end
+  end
+  
   
   map.with_options :controller => 'boards' do |board_routes|
     board_routes.with_options :conditions => {:method => :get} do |board_views|
@@ -273,6 +279,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :projects, :has_many => :shares
   map.resources :projects, :has_many => :credits
   map.resources :projects, :has_many => :motions
+  map.resources :projects, :has_many => :invitations
   
   
   #left old routes at the bottom for backwards compat

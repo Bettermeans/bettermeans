@@ -146,6 +146,11 @@ emails_footer:
   default: |-
     You have received this notification because you have either subscribed to it, or are involved in it.
     To change your notification preferences, please click here: http://bettermeans.com/my/account
+emails_footer_nospam:
+  default: |-
+    You are receiving this email via bettermeans.com
+    We have zero tolerance for spam. 
+    Please forward this email to abuse@bettermeans.com if you feel you are recieving it in error. Thanks!
 gravatar_enabled:  
   default: 1
 openid:

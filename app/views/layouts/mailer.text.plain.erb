@@ -1,3 +1,4 @@
 <%= yield %>
 -- 
-<%= Setting.emails_footer %>
+<% @footer ||=  Setting.emails_footer%>
+<%= @footer %>

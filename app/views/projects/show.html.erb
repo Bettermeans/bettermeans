@@ -95,6 +95,11 @@
 		<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
 	</li>
 	<% end %>
+	<% if User.current.allowed_to?(:send_invitations, @project) %>
+	<li>
+		<%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
+	</li>
+	<% end %>
 	<li>
   <%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project} %>
   </li>

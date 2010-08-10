@@ -66,6 +66,19 @@ class Mailer < ActionMailer::Base
 
     render_multipart('issue_edit', body)
   end
+  
+  def invitation_add(invitation,note)
+    from invitation.user.mail
+    subject "Invitation to join #{invitation.project.name}"
+    recipients invitation.mail
+    body :user => invitation.user,
+         :project => invitation.project,
+         :note => note,
+         :invitation_url => url_for(:controller => :invitations, :action => "accept", :id => invitation.id, :token => invitation.token),
+         :footer => Setting.emails_footer_nospam,
+         :ignore_bcc_setting => true
+    render_multipart('invitation_add', body)
+  end
 
   def reminder(user, issues, days)
     set_language_if_valid user.language
@@ -149,11 +162,6 @@ class Mailer < ActionMailer::Base
     recipients recipient_list
     
     recipients(message.recipients)
-    
-    logger.info("message.root.watcher_recipients #{message.root.watcher_recipients}")
-    logger.info("board watcher recipientes #{message.board.watcher_recipients}")
-    logger.info("recipients #{@recipients}")
-    logger.info("authoer #{message.author}")
     
     all_recipients = (message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients
     all_recipients.delete(message.author) if message.author.pref[:no_self_notified] || message.author.pref[:no_emails]
@@ -268,7 +276,7 @@ class Mailer < ActionMailer::Base
   def test(user)
     set_language_if_valid(user.language)
     recipients user.mail
-    subject 'Redmine test'
+    subject 'Bettermeans test'
     body :url => url_for(:controller => 'welcome')
     render_multipart('test', body)
   end
@@ -322,16 +330,16 @@ class Mailer < ActionMailer::Base
     from Setting.mail_from
     
     # Common headers
-    headers 'X-Mailer' => 'Redmine',
-            'X-Redmine-Host' => Setting.host_name,
-            'X-Redmine-Site' => Setting.app_title,
+    headers 'X-Mailer' => 'BetterMeans',
+            'X-BetterMeans-Host' => Setting.host_name,
+            'X-BetterMeans-Site' => Setting.app_title,
             'Precedence' => 'bulk',
             'Auto-Submitted' => 'auto-generated'
   end
 
   # Appends a Redmine header field (name is prepended with 'X-Redmine-')
   def redmine_headers(h)
-    h.each { |k,v| headers["X-Redmine-#{k}"] = v }
+    h.each { |k,v| headers["X-BetterMeans-#{k}"] = v }
   end
 
   # Overrides the create_mail method
@@ -349,7 +357,7 @@ class Mailer < ActionMailer::Base
       bcc([recipients, cc].flatten.compact.uniq)
       recipients []
       cc []
-    end
+    end unless @ignore_bcc_setting
     super
   end
 

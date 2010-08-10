@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
   has_many :core_memberships, :class_name => 'Member', :foreign_key => 'user_id', :include => [ :project, :roles ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}", :order => "#{Project.table_name}.name"
   has_many :projects, :through => :memberships
   has_many :owned_projects, :class_name => 'Project', :foreign_key => 'owner_id', :include => [:all_members]
+  has_many :invitations
   # has_many :belongs_to_projects, :through => :memberships, :class_name => 'Project', :foreign_key=> 'project_id', :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.owner_id <> #{self.id}, :order => #{Project.table_name}.name"
   
   
@@ -36,7 +37,6 @@ class User < ActiveRecord::Base
   belongs_to :auth_source
   belongs_to :plan
   
-  has_many :commit_requests, :dependent => :delete_all
   has_many :notifications, :foreign_key => 'recipient_id', :dependent => :delete_all
   
   has_many :shares, :foreign_key => :owner_id, :dependent => :nullify
@@ -104,7 +104,14 @@ class User < ActiveRecord::Base
   end
   
   def after_create
+    activate_invitations
     User.send_later(:create_recurly_account,self.id)
+  end
+  
+  def activate_invitations
+    Invitation.all(:conditions => {:mail => self.mail}).each do |invite|
+      invite.accept
+    end
   end
   
   

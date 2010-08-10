@@ -77,6 +77,7 @@ class Project < ActiveRecord::Base
   has_many :motions
   has_many :hourly_types
   has_many :activity_streams #TODO: include sub workstreams here!
+  has_many :invitations
 
   acts_as_nested_set :order => 'name', :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
