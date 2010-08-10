@@ -71,7 +71,6 @@ class Reputation < ActiveRecord::Base
       weight_total += weight
       score_total += rr.score * weight
       counter += -1 if counter > 1 
-      # puts("score: #{rr.score}, points: #{rr.retro.total_points}, counter: #{counter}, weight #{weight} weight_total: #{weight_total}, score_total: #{score_total}")
     end
     
     weight_total == 0 ? nil : score_total / weight_total

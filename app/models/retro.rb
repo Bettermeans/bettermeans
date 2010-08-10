@@ -110,10 +110,6 @@ class Retro < ActiveRecord::Base
       @confidence_array[user_id] = 0
     end
 
-    puts("H: " + @user_hash.inspect)
-    puts("total raters #{total_raters}")
-
-    
     team_confidence_total = 0
     retro_ratings.each do |rr|
       next if rr.rater_id < 0;

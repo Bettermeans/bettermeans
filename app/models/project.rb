@@ -715,7 +715,6 @@ class Project < ActiveRecord::Base
   def start_new_retro
     return false if !credits_enabled?
     
-    puts "Starting retro for: #{self.name}"
     from_date = issues.first(:conditions => {:retro_id => Retro::NOT_STARTED_ID}, :order => "updated_on ASC").updated_on
     total_points = issues.sum(:points, :conditions => {:retro_id => Retro::NOT_STARTED_ID})
     @retro = Retro.create :project_id => id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now, :from_date => from_date, :total_points => total_points
