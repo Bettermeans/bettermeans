@@ -2,7 +2,7 @@
   <td class="gt-avatar <%= User.current.logged? && User.current.id == as.actor_id ? 'me' : nil %>"><%= avatar(as.actor_email, :size => '53') %>
     </td>
     <td>
-<h4 class="long-words"><%= link_to as.actor_name, self.send("#{as.actor_type.downcase}_path", as.actor_id) %>&nbsp;<span class='verb'><%= as.verb.tr('_', ' ') %></span>&nbsp;<%= link_to (as.tracker_name) ? "a #{as.tracker_name.downcase}" : l("label_#{as.object_type.downcase}") , url_for_activity_stream(as), {:class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe"} %><%= action_times(as.count) %><% if @project.nil? || @project.id != as.project_id %>&nbsp;in&nbsp;<%=link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %><% end %>
+<h4 class="long-words"><%= link_to as.actor_name, self.send("#{as.actor_type.downcase}_path", as.actor_id) %>&nbsp;<span class='verb'><%= as.verb.tr('_', ' ') %></span>&nbsp;<%= link_to_activity(as) %> <%= action_times(as.count) %><% if @project.nil? || @project.id != as.project_id %>&nbsp;in&nbsp;<%=link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %><% end %>
 </h4>
 <%# if as.indirect_object_id-%>
 <!-- <p class="description"> -->
@@ -14,7 +14,7 @@
     <tr>
       <td class="<%= as.object_type.downcase %> border">&nbsp;</td>
       <td class="long-words">
-        <h5><%= link_to format_activity_title(as.object_name) , url_for_activity_stream(as), :class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe" %></h5>
+        <h5><%= link_to title_for_activity_stream(as) , url_for_activity_stream(as), :class => class_for_activity_stream(as) %></h5>
         <span>
           <%= format_activity_description(as.object_description) %>
         </span>
@@ -27,6 +27,6 @@
 <%# if @project.nil? || @project.id != as.project_id %>
 	<%= link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %>
 <%# end %>
-<%= link_to " - #{as.tracker_name} ##{as.object_id}", url_for_activity_stream(as), {:class => (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe"} if as.tracker_name%>
+<%= link_to " - #{as.tracker_name} ##{as.object_id}", url_for_activity_stream(as), {:class => class_for_activity_stream(as)} if as.tracker_name%>
 
 </div>
