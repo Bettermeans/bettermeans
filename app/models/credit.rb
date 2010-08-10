@@ -42,7 +42,6 @@ class Credit < ActiveRecord::Base
   def pay_out(pay_amount)
     pay_amount = Credit.round(pay_amount)
     return false if pay_amount > amount #TODO raise an error here?
-    puts "Paying out #{pay_amount}/#{amount} to #{owner.name}"
     original_amount = self.amount
     
     #Saving current record

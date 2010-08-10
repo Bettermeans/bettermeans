@@ -33,7 +33,8 @@ class Mailer < ActionMailer::Base
     cc(issue.watcher_recipients - @recipients)
     subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
     body :issue => issue,
-         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
+         :issue_url => url_for(:controller => 'dashboard', :action => 'projects', :show_issue_id => issue.id)
+         # :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
     render_multipart('issue_add', body)
   end
 
@@ -62,7 +63,8 @@ class Mailer < ActionMailer::Base
     subject s
     body :issue => issue,
          :journal => journal,
-         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
+         :issue_url => url_for(:controller => 'dashboard', :action => 'projects', :show_issue_id => issue.id)
+         # :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
 
     render_multipart('issue_edit', body)
   end

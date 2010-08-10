@@ -561,7 +561,6 @@ class Issue < ActiveRecord::Base
       credits_per_person = credits_per_person_per_hour * self.num_hours
       
       self.team_members.each do |member|
-        puts "giving to #{member.inspect}  : #{credits_per_person}"
         CreditDistribution.create(:user_id => member.id,
                                   :project_id => self.project_id,
                                   :retro_id => CreditDistribution::HOURLY,
