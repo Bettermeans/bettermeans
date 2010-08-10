@@ -6,10 +6,10 @@
   <li><p><span style="float:right;width:70%"><%= format_time(@user.created_on) %></span><span style="float:right;width:30%"><%=l(:field_created_on)%></span></p>
   </li>
   <li>
-    <%= link_to(l(:button_change_password), :action => 'password')# unless @user.identifier %>
+    <%= link_to l(:button_change_password), :action => 'password' %>
   </li>
   <li>
-    <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
+    <%#= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
   </li>
   </ul>
 </div>
