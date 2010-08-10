@@ -25,18 +25,14 @@ class Member < ActiveRecord::Base
   alias :base_role_ids= :role_ids=
   def role_ids=(arg)
     arg = [arg] unless arg.respond_to? :collect
-    logger.info { "arg #{arg.inspect}" }
     ids = (arg || []).collect(&:to_i) - [0]
     # Keep inherited roles
-    logger.info { "ids #{ids}" }
     ids += member_roles.select {|mr| !mr.inherited_from.nil?}.collect(&:role_id)
-    logger.info { "ids2 #{ids}" }
     new_role_ids = ids - role_ids
     # Add new roles
     new_role_ids.each {|id| member_roles << MemberRole.new(:role_id => id) }
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
     member_roles_to_destroy = member_roles.select {|mr| !ids.include?(mr.role_id)}
-    logger.info { "member roles to destroy #{member_roles_to_destroy}" }
     if member_roles_to_destroy.any?
       member_roles_to_destroy.each(&:destroy)
       unwatch_from_permission_change

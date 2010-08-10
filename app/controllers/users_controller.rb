@@ -144,7 +144,6 @@ class UsersController < ApplicationController
   # not found: nil (can happen with e.g. invalid tokens)
   def rpx_token
     raise "hackers?" unless data = RPXNow.user_data(params[:token])
-    logger.info(data.inspect)
     
     @user = User.find_by_identifier(data[:identifier])
     

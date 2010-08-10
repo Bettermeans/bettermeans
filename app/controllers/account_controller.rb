@@ -116,11 +116,8 @@ class AccountController < ApplicationController
   def activate
     redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
     token = Token.find_by_action_and_value('register', params[:token])
-    logger.info("got token #{token.inspect}")
     redirect_to(home_url) && return unless token and !token.expired?
-    logger.info("got token #{token.inspect}")
     user = token.user
-    logger.info { "got user #{user.inspect}" }
     redirect_to(home_url) && return unless user.status == User::STATUS_REGISTERED
     user.status = User::STATUS_ACTIVE
     if user.save

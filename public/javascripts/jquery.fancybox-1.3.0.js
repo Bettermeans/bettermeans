@@ -507,8 +507,6 @@
 
 	function fancybox_show() {
 		loading.hide();
-		console.log("eshta");
-		
 
 		if (wrap.is(":visible") && $.isFunction(currentOpts.onCleanup)) {
 			if (currentOpts.onCleanup(currentArray, currentIndex, currentOpts) === false) {
