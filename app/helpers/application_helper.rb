@@ -1147,6 +1147,8 @@ module ApplicationHelper
       return {:controller => 'wiki', :action => 'index', :id => as.project_id, :page => as.object_name}
     when 'memberrole'
       return {:controller => 'projects', :action => 'team', :id => as.project_id}
+    when 'motion'
+      return {:controller => 'motions', :action => 'show', :project_id => as.project_id, :id => as.object_id}
     else
       return {:controller => as.object_type.downcase.pluralize, :action => 'show', :id => as.object_id}
     end
