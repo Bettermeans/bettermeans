@@ -22,7 +22,7 @@ class Invitation < ActiveRecord::Base
     @user = User.find_by_mail(self.mail)
     return unless @user
     
-    @user.add_to_project self.project, self.role_id unless @user.community_member_of? self.project
+    @user.add_to_project self.project.root, self.role_id unless @user.community_member_of? self.project.root
     
     self.status = ACCEPTED
     self.save!
