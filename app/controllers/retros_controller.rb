@@ -96,8 +96,6 @@ class RetrosController < ApplicationController
       end
     end
     
-    logger.info { "user retro hash #{@user_retro_hash.inspect}" }
-    
     @user_retro_hash.delete(nil)
     
     @user_retro_hash.keys.each do |key| 

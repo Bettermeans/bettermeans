@@ -6,8 +6,7 @@
       <% end %>
       </tbody>
     </table>
-        
-    <%  if User.current.logged? and asg[0].object_type.downcase == "issue" %>
+    <%  if User.current.logged? and (asg[0].object_type.downcase == "issue" || asg[0].object_type.downcase == "message") %>
     <table class="gt-table gt-user-table activity-sub">
       <tbody>
         <%= render :partial => 'activity_streams/activity_comment', :locals => {:as => asg[0]} %> 

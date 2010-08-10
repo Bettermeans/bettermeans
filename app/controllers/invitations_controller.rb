@@ -143,7 +143,6 @@ class InvitationsController < ApplicationController
     
     def valid_email?(email)
       TMail::Address.parse(email)
-      logger.info { "parsing #{email}  #{TMail::Address.parse(email)}" }
       return true
     rescue
       return false

@@ -5,11 +5,8 @@
   <%#= textilizable Setting.welcome_text %>
 
   	
-  	<%# logger.info @my_projects %>
-  	
     <h2 class="gt-table-head"><%=l(:label_my_projects)%></h2>
   	<% if @my_projects.length > 0 %>
-  	<% logger.info "projects length #{@my_projects.inspect}" %>
   	<div class="gt-content-box">    
       <table border="0" class="gt-table gt-user-table">
    	      <% @my_projects.each do |p| %>
@@ -55,7 +52,6 @@
   
     <h2 class="gt-table-head"><%=l(:label_projects_i_belong_to)%></h2>
   	<% if @belong_to_projects.length > 0 %>
-  	<% logger.info "projects length #{@belong_to_projects.inspect}" %>
   	<div class="gt-content-box">    
       <table border="0" class="gt-table gt-user-table">
    	      <% @belong_to_projects.each do |p| %>
