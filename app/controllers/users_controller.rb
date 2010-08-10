@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   
   skip_before_filter :verify_authenticity_token, :only => [:rpx_token] # RPX does not pass Rails form tokens...
   before_filter :require_admin, :except => [:show, :rpx_token]
-  ssl_required :index, :show, :new, :edit, :create, :update, :edit_membership
+  ssl_required :index, :show, :new, :edit, :create, :update, :edit_membership, :rpx_token
   
 
   helper :sort
