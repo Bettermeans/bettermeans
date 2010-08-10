@@ -944,6 +944,8 @@ en:
   label_b_expiration: "Expiration Date"
   label_b_verification_code: "Verification Code"
   
+  label_memberrole: "a membership"
+  
   
   button_change_plan: Change Plan
   button_login: Login

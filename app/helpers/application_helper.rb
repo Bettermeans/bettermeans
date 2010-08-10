@@ -1127,6 +1127,17 @@ module ApplicationHelper
     
   end
   
+  def link_to_activity(as)
+    link_to name_for_activity_stream(as), url_for_activity_stream(as), {:class => class_for_activity_stream(as)}
+  end
+  
+  def name_for_activity_stream(as)
+    (as.tracker_name) ? "a #{as.tracker_name.downcase}" : l("label_#{as.object_type.downcase}")
+  end
+  
+  def class_for_activity_stream(as)
+     (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe"
+  end
   
   def url_for_activity_stream(as)  
     case as.object_type.downcase
@@ -1134,8 +1145,19 @@ module ApplicationHelper
       return {:controller => 'messages', :action => 'show', :board_id => 'guess', :id => as.object_id}
     when 'wikipage'
       return {:controller => 'wiki', :action => 'index', :id => as.project_id, :page => as.object_name}
+    when 'memberrole'
+      return {:controller => 'projects', :action => 'team', :id => as.project_id}
     else
       return {:controller => as.object_type.downcase.pluralize, :action => 'show', :id => as.object_id}
+    end
+  end
+  
+  def title_for_activity_stream(as)
+    case as.object_type.downcase
+    when 'memberrole'
+      return "#{as.object.user.name} is now #{as.object.name}"
+    else
+      format_activity_title(as.object_name)
     end
   end
   

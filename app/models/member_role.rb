@@ -7,7 +7,7 @@ class MemberRole < ActiveRecord::Base
   belongs_to :member
   belongs_to :role
   
-  after_create :send_notification, :refresh_memberships
+  after_create :send_notification, :refresh_memberships, :log_activity
 
   after_destroy :remove_member_if_empty, :refresh_memberships
   
@@ -26,6 +26,15 @@ class MemberRole < ActiveRecord::Base
   
   def project
     member.respond_to?(:project) ? member.project : nil
+  end
+  
+  #used for activity stream
+  def name
+    role.name
+  end
+  
+  def project_id
+    project.id
   end
   
   def user_id
@@ -59,6 +68,13 @@ class MemberRole < ActiveRecord::Base
                               :params => {:role_name => self.role.name, :project_name => self.member.project.root.name, :enterprise_id => self.member.project.root.id}, 
                               :sender_id => User.sysadmin.id,
                               :source_id => self.id if self.role.level == Role::LEVEL_ENTERPRISE    
+  end
+  
+  def log_activity
+    # def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
+    
+    LogActivityStreams.write_single_activity_stream(User.sysadmin,:name,self,:name,:added,:memberships, 0, nil,{})
+    
   end
   
   #refreshes memberships for all private workstreams
