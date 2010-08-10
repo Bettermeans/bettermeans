@@ -27,16 +27,14 @@
         																							 :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
         <% end %></p>
         <%= hidden_field_tag 'member[role_ids][]', '' %>
-        <div class="gt-table-buttons">
-        <%= submit_tag l(:button_change), :class => "small" %>
-        <p class="gt-cancel">
-        <%= link_to_function l(:button_cancel), "$('member-#{member.id}-roles').show(); $('member-#{member.id}-roles-form').hide(); return false;" %></p>
-        </div>
+        <%= submit_tag l(:button_change) %>
+        <p class="gt-cancel" style="float:none;">
+        <%= link_to_function l(:button_cancel), "$('#member-#{member.id}-roles').show(); $('#member-#{member.id}-roles-form').hide(); return false;" %></p>
       <% end %>
     <% end %>
   </td>
   <td class="buttons">
-      <%= link_to_function l(:button_edit), "$('member-#{member.id}-roles').hide(); $('member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
+      <%= link_to_function l(:button_edit), "$('#member-#{member.id}-roles').hide(); $('#member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
       <%= link_to_remote(l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
                                               :method => :post
                                             }, :title => l(:button_delete),
@@ -54,15 +52,15 @@
 
 <div class="splitcontentright">
 	<% if User.current.allowed_to?(:send_invitations, @project) %>
-  <div class="gt-sidebar-nav gt-sidebar-nav-gray">
+  <div class="gt-sidebar-nav gt-sidebar-nav-blue">
     <ul>
-    <li>
+    <li style="text-align:center;">
   		<%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
     </li>
     </ul>
   </div>
 	<% end %>
 
-<%= render :partial => '/projects/settings/select_new_member', :locals => {:roles => roles} %>
+<%#= render :partial => '/projects/settings/select_new_member', :locals => {:roles => roles} %>
 
 </div>
