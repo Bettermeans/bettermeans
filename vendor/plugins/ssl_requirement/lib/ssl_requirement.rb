@@ -50,9 +50,9 @@ module SslRequirement
       return true if ssl_allowed?
 
       if ssl_required? && !request.ssl?
-        new_url = "http://secure.bettermeans.com" + request.request_uri
-        old_url = "http://" + request.host_with_port + request.request_uri
-        redirect_to new_url if new_url != old_url
+        new_url = "secure.bettermeans.com" + request.request_uri
+        old_url = request.host_with_port + request.request_uri
+        redirect_to "https://" + new_url if new_url != old_url
         flash.keep
         return false
       elsif request.ssl? && !ssl_required?
