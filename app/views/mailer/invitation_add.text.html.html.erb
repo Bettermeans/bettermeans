@@ -1,13 +1,13 @@
 <%= @user.name %> is inviting you to work with them on <%= @project.name %>
-
+<br><br>
 <% if @note %>
---------------------
-<%= @note %>
---------------------
+--------------------<br>
+<%= @note %><br>
+--------------------<br><br>
 <% end %>
 
-To accept their invitation follow this link:
-<a href="<%= @invitation_url %>"><%= @invitation_url %></a>
+To accept their invitation follow this link:<br>
+<a href="<%= @invitation_url %>"><%= @invitation_url %></a><br>
 <br><br>
-Good luck!
-the folks at bettermeans.com
+Good luck!<br>
+the folks at bettermeans.com<br><br>
