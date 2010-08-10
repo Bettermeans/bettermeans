@@ -45,7 +45,7 @@ class InvitationsController < ApplicationController
   def create
     success = false
     @emails = params[:emails]
-    @email_array = @emails.gsub(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i).collect
+    @email_array = @emails.gsub(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i) {|s| s}.collect
     @email_array.uniq!
     
     @email_array.each do |email|
