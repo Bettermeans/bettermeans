@@ -2441,7 +2441,7 @@ function generate_and_append_panel(position,name,title, visible){
 	panelHtml = panelHtml + "<div id='panel_header_" + name +"'class='panelHeader'>";
 	panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanelLoading panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\");return false;'></a>";
 	panelHtml = panelHtml + "  <span id='" + name +"_panel_title' class='panelTitle'>" + title + " (0)</span>";
-	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="help_question_mark">';
+	panelHtml = panelHtml + '  	<img id="help_image_panel_' + name + '" src="/images/question-mark.png" class="help_question_mark">';
 	panelHtml = panelHtml + "</div>";
 	panelHtml = panelHtml + "<div id='" + name + "_list' class='list'>";
 	panelHtml = panelHtml + "  <div id='" + name + "_items' class='items'>";
