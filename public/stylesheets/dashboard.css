@@ -65,7 +65,7 @@ vertical-aling:center;
 }
 
 .list {
-	background-color:#B5BDC1;
+	background-color:#e1eaee;
 	border-color:-moz-use-text-color #6E6E6E #6E6E6E;
 	border-style:none solid solid;
 	border-width:medium 1px 1px;
@@ -195,7 +195,9 @@ border-spacing:16px 0;
 -moz-background-clip:border;
 -moz-background-inline-policy:continuous;
 -moz-background-origin:padding;
-background:#B5BDC1 url(/images/dropzone_repeating_pattern.png) repeat-x scroll center top;
+/*background:#B5BDC1 url(/images/dropzone_repeating_pattern.png) repeat-x scroll center top;*/
+/*background: url(/images/drop_repeat_blue.png) repeat-x scroll center top;*/
+background: url(/images/dropzone_repeating_pattern.png) repeat-x scroll center top;
 border-top:1px solid #6E6E6E;
 color:#666666;
 height:7em;
