@@ -1,4 +1,5 @@
 class NotificationsController < ApplicationController
+  ssl_required :index, :show, :new, :edit, :create, :update
   # GET /notifications
   # GET /notifications.xml
   def index
