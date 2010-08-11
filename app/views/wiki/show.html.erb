@@ -1,3 +1,4 @@
+<%= help_section "project_wiki" %>
 <%= breadcrumb(@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:page => parent.title}}) %>
 
 <% if @content.version != @page.content.version %>
