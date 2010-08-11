@@ -1692,8 +1692,8 @@ function buttons_for(dataId,expanded){
 	break;
 	case 'Committed':
 		if (item.assigned_to_id == currentUserId){
-			html = html + dash_button('release',dataId,false,{label:'giveup'});
 			html = html + dash_button('finish',dataId);
+			html = html + dash_button('release',dataId,false,{label:'giveup'});
 		}
 		else if (item.assigned_to != null){
 			html = html + '<div id="committed_tally_' + dataId + '" class="action_button_tally">' + item.assigned_to.firstname + '</div>';
@@ -1780,13 +1780,13 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 							cssclass = 'agree';
 							break;	
 				case "0":	label = 'neutral';
-							cssclass = 'agree';
+							cssclass = 'neutral';
 							break;	
 				case "-1":	label = 'against';
 							cssclass = 'against';
 							break;	
 				case "-9999": label = 'blocked';
-							cssclass = 'against';
+							cssclass = 'block';
 							break;	
 			}
 			
@@ -1828,7 +1828,7 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	
 	
 	if (item.assigned_to_id == currentUserId){
-		return tally + dash_button('start',dataId,false,{label:'takeback'});
+		return tally + dash_button('start',dataId,false,{label:'takeback', cssclass:'takeback'});
 	}
 	
 	var label = 'accept?';
@@ -1858,13 +1858,13 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 							cssclass = 'accept';
 							break;	
 				case "0":	label = 'neutral';
-							cssclass = 'accept';
+							cssclass = 'neutral';
 							break;	
 				case "-1":	label = 'rejected';
 							cssclass = 'reject';
 							break;	
 				case "-9999": label = 'blocked';
-							cssclass = 'reject';
+							cssclass = 'block';
 							break;	
 			}
 			
