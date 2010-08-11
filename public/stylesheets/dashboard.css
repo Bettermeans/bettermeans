@@ -98,8 +98,8 @@ border-spacing:16px 0;
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	background:transparent url(/images/panel_header_bg.png) repeat-x scroll center top;
-	color:#333333;
+	background:transparent url(/images/panel_head_bg.png) repeat-x scroll center top;
+	color:#eee;
 	overflow:hidden;
 }
 
@@ -107,7 +107,7 @@ border-spacing:16px 0;
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	background:transparent url(/images/panel_header.png) no-repeat scroll left top;
+	background:transparent url(/images/panel_head.png) no-repeat scroll left top;
 	float:left;
 }
 
@@ -115,7 +115,7 @@ border-spacing:16px 0;
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	background:transparent url(/images/panel_header.png) no-repeat scroll right top;
+	background:transparent url(/images/panel_head.png) no-repeat scroll right top;
 	float:right;
 }
 
@@ -180,6 +180,7 @@ border-spacing:16px 0;
 	background:transparent url(/images/close_panel.png) no-repeat scroll 0 0px;
 	height: 20px;
 	margin-right: 0px;
+	margin-top: 5px;
 	width: 14px;
 }
 
