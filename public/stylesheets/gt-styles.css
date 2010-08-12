@@ -1269,6 +1269,11 @@ div.activity-tag {
 	padding-left:60px;
 }
 
+.storyPreviewTextNewLink{
+	text-align: center;
+	font-weight: bold;
+}
+
 .storyPreviewInput {
 	padding-left:20px;
 }
@@ -1285,6 +1290,12 @@ div.activity-tag {
 .underEdit .storyPreviewHeader {
 	background-color:#FFEDA1;
 }
+
+.newlink .storyPreviewHeader {
+	background-color:#FFEDA1;
+}
+
+
 
 .unstarted, .newStory {
 	background-color:white;

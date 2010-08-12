@@ -1484,6 +1484,32 @@ function generate_item_estimate_button(dataId,points){
 	
 }
 
+function add_new_link(){
+	$("#new_start_of_list").prepend(generate_new_link());
+}
+
+function remove_new_link(){
+	$("#item_new_link").remove();
+}
+
+
+function generate_new_link(){
+	var html = '';
+	
+	html = html + '<div id="item_new_link" class="item">';
+	html = html + '<div id="item_content_new_link" class="newlink hoverable" style="">';
+	html = html + '<div class="storyPreviewHeader">';
+
+	html = html + '<div id="item_content_details_new_link" class="storyPreviewTextNewLink" onDblclick="new_item();return false;" style="cursor: default;">'; 
+	
+	html = html + '<a href="#" onclick="new_item();return false;">Add New Item</a>';
+	html = html + '</div>';
+	html = html + '</div>';
+	html = html + '</div>';
+	html = html + '</div>';
+	return html;
+}
+
 
 //Generates html for collapsed item
 function generate_item(dataId){
@@ -2733,6 +2759,8 @@ function save_edit_item(dataId){
 
 function cancel_new_item(dataId){
 	$("#new_item_wrapper").remove();
+	$("#item_new_link").show();
+	
 	keyboard_shortcuts = true;
 	return false;
 }
@@ -2744,6 +2772,8 @@ function item_added(item){
 	add_item(D.length-1,"top",false);
 	keyboard_shortcuts = true;
 	update_panel_counts();
+	remove_new_link();
+	add_new_link();
 	return false;
 }
 
@@ -3133,6 +3163,7 @@ html = html + '	  </div>';
 html = html + '	</div>';
 
 show_panel('new');
+$("#item_new_link").hide();
 $("#new_items").prepend(html);
 $("#new_title_input").val(default_new_title).select();	
 $("#new_description").autogrow();
@@ -3155,6 +3186,7 @@ $('#help_image_feature_new').mybubbletip($('#help_feature'), {
 });
 
 $("#new_items").scrollTo( '#new_item_wrapper', 800);
+
 }
 
 function is_item_editable(dataId) {
