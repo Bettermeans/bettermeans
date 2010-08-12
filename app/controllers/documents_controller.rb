@@ -7,7 +7,7 @@ class DocumentsController < ApplicationController
   before_filter :find_project, :only => [:index, :new]
   before_filter :find_document, :except => [:index, :new]
   before_filter :authorize
-  ssl_required :index, :show, :new, :edit, :create, :update, :add_attachment
+  ssl_required :all  
   
   helper :attachments
   

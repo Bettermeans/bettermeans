@@ -4,7 +4,7 @@
 
 class JournalsController < ApplicationController
   before_filter :find_journal
-  ssl_required :edit, :edit_from_dashboard
+  ssl_required :all  
   
   
   def edit
