@@ -278,7 +278,7 @@ class User < ActiveRecord::Base
     if formatter
       eval('"' + (USER_FORMATS[formatter] || USER_FORMATS[:firstname_lastname]) + '"').strip
     else
-      @name.strip ||= eval('"' + (USER_FORMATS[Setting.user_format] || USER_FORMATS[:firstname_lastname]) + '"').strip
+      @name ||= eval('"' + (USER_FORMATS[Setting.user_format] || USER_FORMATS[:firstname_lastname]) + '"').strip
     end
   end
   
