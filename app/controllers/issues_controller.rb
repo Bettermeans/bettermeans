@@ -355,6 +355,23 @@ class IssuesController < ApplicationController
     @issue.save if !@issue.update_status
     @issue.reload
     
+    if params[:notes]
+      action = :updated
+      logger.info { "action is #{params[:points]}" }
+      case params[:points]
+      when "-1"
+        action = "voted against"
+        logger.info { "action is #{action}" }
+      when "-9999"
+        action = :blocked
+        logger.info { "action is #{action}" }
+      end
+
+      LogActivityStreams.write_single_activity_stream(User.current,:name,@issue,:subject,action,:issues, 0, journal,{
+          :indirect_object_description_method => :notes,
+          :indirect_object_phrase => 'GENERATEDETAILS' })
+    end
+    
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -368,6 +385,24 @@ class IssuesController < ApplicationController
     @issue.update_accept_total  @iv.isbinding
     @issue.save if !@issue.update_status
     @issue.reload
+    
+    if params[:notes]
+      action = :updated
+      logger.info { "action is #{params[:points]}" }
+      case params[:points]
+      when "-1"
+        action = :rejected
+        logger.info { "action is #{action}" }
+      when "-9999"
+        action = "blocked acceptance of"
+        logger.info { "action is #{action}" }
+      end
+
+      LogActivityStreams.write_single_activity_stream(User.current,:name,@issue,:subject,action,:issues, 0, journal,{
+          :indirect_object_description_method => :notes,
+          :indirect_object_phrase => 'GENERATEDETAILS' })
+    end
+    
     
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
