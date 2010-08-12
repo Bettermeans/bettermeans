@@ -39,12 +39,13 @@ body  {
 	margin:0px 0px 0px 0px;
 	max-width: 9999999px;
 	padding-top: 0px;
-	float: left;
+/*	float: left;*/
 	width:100%;
 }
 
 #main_table{
 	margin-top: 13px;
+	float: left;
 }
 
 #panels {
