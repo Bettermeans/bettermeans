@@ -366,7 +366,7 @@ class Issue < ActiveRecord::Base
     notified = project.notified_users
     # Author and assignee are always notified unless they have been locked
     notified << author if author && author.active?
-    notified << assigned_to if assigned_to && assigned_to.active?
+    notified << assigned_to if assigned_to && assigned_to.active? unless self.tracker.gift?
     notified += team_members
     notified += journals.collect {|j| j.user}
     notified.uniq!
