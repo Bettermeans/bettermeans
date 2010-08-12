@@ -1170,6 +1170,48 @@ div.activity-tag {
 	display: inline;
 }
 
+.new_request_button{
+	width:90px;
+	height:21px;
+	line-height:23px;
+	text-align:center;
+	vertical-align:middle;
+	cursor:pointer;
+	color: #111;
+	font-weight: bold;
+/*	float: right;*/
+	display: block;
+	background: url(/images/bb_very_white.png) no-repeat; 
+}
+
+.panel_button_top{
+	width:90px;
+	height:21px;
+	line-height:23px;
+	text-align:center;
+	vertical-align:middle;
+	cursor:pointer;
+	color: #111;
+	font-weight: normal;
+/*	float: right;*/
+	display: block;
+	background: url(/images/bb_white.png) no-repeat; 
+}
+
+
+.refresh_button{
+	width:18px;
+	height:18px;
+	line-height:23px;
+	text-align:center;
+	vertical-align:middle;
+	cursor:pointer;
+/*	float: right;*/
+	display: block;
+	background: url(/images/refresh.png) no-repeat; 
+	margin:2px;
+}
+
 .action_button_no_float{
 	width:60px;
 	height:21px;
@@ -1201,7 +1243,7 @@ div.activity-tag {
 
 /*Flyovers*/
 .storyPreviewHeader {
-	padding:1px 4px;
+	padding:4px 4px;
 }
 
 .storyPreviewButtons {
@@ -2177,13 +2219,15 @@ img.private-workstream, img.volunteer-workstream{
 	border: 3px solid #aaa;
 	padding: 1em 2em 2em 1em;
 	margin-bottom: 1.5em;
-	background-color: #FEFF6F;
+	background-color: #F6EABB;
+/*	background-color: #FEFF6F;*/
 /*	width: 100%;*/
 	display: block;
 }
 
 .help-section p{
 	font-size: 130%;
+	margin-bottom: -2px;
 }
 
 .help-section a.help-section-link{

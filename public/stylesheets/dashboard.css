@@ -1,5 +1,9 @@
 #main-menu { margin: 0 24px; width: 100%;}
 
+html {
+	background-color: #fff;
+}
+
 
 table, tr, td {
 border-collapse:collapse;
@@ -120,7 +124,7 @@ border-spacing:16px 0;
 }
 
 .panelHeaderLeft, .panelHeaderRight {
-	width:6px;
+	width:5px;
 }
 
 .panelHeader, .panelHeaderLeft, .panelHeaderRight {
@@ -211,7 +215,7 @@ background-repeat:repeat-y;
 
 
 .new {
-	background-color:#F6EABB;
+	background-color:#fff;
 }
 
 .deployed .storyPreviewHeader {
@@ -219,11 +223,15 @@ background-repeat:repeat-y;
 }
 
 .committed {
-	background-color:#D8EECE;
+	background-color:#ddd;	
+/*	background-color:#EFEFEF;*/
+	/*background-color:#D8EECE;*/
 }
 
 .open {
-	background-color:white;
+	background-color:#eee;
+/*	background-color: #e2eaee;*/
+/*	background-color:#F6EABB;*/
 }
 
 .canceled {
@@ -235,8 +243,14 @@ background-repeat:repeat-y;
 	background-color:#F6EABB; /*e1d6ad D5CA9F FFF8DC;*/
 }
 
+.accepted{
+	background-color:#ccc;
+}
+
 .done, .finished, .delivered {
-	background-color:#E7F3FA;
+	background-color:#ccc;
+/*	background-color:#e2eaee;*/
+/*	background-color:#E7F3FA;*/
 }
 
 
