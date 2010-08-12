@@ -449,7 +449,9 @@ form input[type=submit] {
 	background-image: none;
 	border: 1px solid #006; 	
 	border-color: #FFFFFF #666666 #666666 #FFFFFF;
-	background-color: #ECE9D8; border-style: solid;
+/*	background-color: #ECE9D8; */
+	background-color: #fff; 
+	border-style: solid;
 }
 
 input[type=submit] {
