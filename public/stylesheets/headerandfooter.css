@@ -140,11 +140,11 @@ Footer
 
 #footer {
 	margin-top: 100px;
-	height:433px;
-	background:url(/images/static/footer-bg.jpg) repeat-x
+	height:300px;
+	background:url(/images/footer-bg.png) repeat-x
 }
 #top-footer {
-	height:382px;
+	height:280px;
 	position:relative
 }
 #top-footer h3 {
