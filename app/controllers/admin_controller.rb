@@ -6,7 +6,7 @@ class AdminController < ApplicationController
   layout 'admin'
   
   before_filter :require_admin
-  ssl_required :index, :projects
+  ssl_required :all  
 
   helper :sort
   include SortHelper	

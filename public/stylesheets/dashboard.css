@@ -171,7 +171,7 @@ border-spacing:16px 0;
 	-moz-background-clip:border;
 	-moz-background-inline-policy:continuous;
 	-moz-background-origin:padding;
-	background:transparent url(/images/loading.gif) no-repeat scroll 0 0px;
+	background:transparent url(/images/ajax-loader.gif) no-repeat scroll 0 0px;
 	height: 20px;
 	margin-right: 0px;
 	width: 14px;
@@ -407,7 +407,8 @@ align:center;
 /***** Ajax indicator ******/
 #ajax-indicator {
 position: absolute; /* fixed not supported by IE */
-background-image: url(/images/loading.gif);
+background-image: url(/images/ajax-loader.gif);
+/*background-image: url(/images/loading.gif);*/
 background-repeat: no-repeat;
 background-color: transparent;
 border: 0px;

@@ -4,7 +4,7 @@
 
 class WelcomeController < ApplicationController
   caches_action :robots
-  ssl_required :index
+  ssl_required :all  
 
   def index
     # @news = News.latest User.current

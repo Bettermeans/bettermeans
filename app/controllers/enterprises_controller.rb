@@ -1,5 +1,5 @@
 class EnterprisesController < ApplicationController
-  ssl_required :index, :show, :new, :edit, :create, :update
+  ssl_required :all  
   
   # GET /enterprises
   # GET /enterprises.xml
