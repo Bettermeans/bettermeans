@@ -2565,6 +2565,9 @@ function sort_panel(name){
 		   if (compA == 'new_link') {
 				return -1;
 			}
+			else if (compB == 'new_link') {
+					return 1;
+			}
 			  else if (D[compA].pri > D[compB].pri) {
 			return -1;
 			} else if (D[compA].pri < D[compB].pri) {
