@@ -62,6 +62,15 @@
 </div>
 </div>
 
+<h3><%=l(:label_your_gravatar)%></h3>
+<div class="gt-content-box padded">
+  <p width="100%">
+  <%= avatar User.current, :class => "gt-avatar-small" %>
+  <%= l(:text_your_gravatar) %>
+  </p>
+</div>
+
+
 </div>
 <% end %>
 

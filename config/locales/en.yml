@@ -391,6 +391,7 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
   
+  label_your_gravatar: Profile Picture
   label_team_with_access: Members with clearance (to this workstream)
   label_select_plan: Select Plan
   label_user: User
@@ -1040,6 +1041,7 @@ en:
   field_joined_by: Joined by
   field_item_url: Permalink
   
+  text_your_gravatar: We use <a href="http://gravatar.com" target="blank">Gravatar</a> to display your profile picture. <br>To add/update your picture <a href="http://gravatar.com" target="blank">create an account here</a> using the same email you used to signup for BetterMeans
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$
   text_min_max_length_info: 0 means no restriction
