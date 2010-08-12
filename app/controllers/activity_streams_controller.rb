@@ -8,6 +8,7 @@ class ActivityStreamsController < ApplicationController
   include ActivityStreamsModule
   # before_filter :require_login, :except => :feed
   before_filter :authorize, :except => [ :index, :feed]
+  ssl_required :all
   
   
   def index
