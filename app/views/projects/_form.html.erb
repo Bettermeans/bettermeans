@@ -42,9 +42,10 @@
 <p>
   <fieldset><label><%= l(:label_module_plural) %></label>
   <% Redmine::AccessControl.available_project_modules.each do |m| %>
-      <label class="floating">
+      <label class="floating" style="display:inline">
       <%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) %>
       <%= l_or_humanize(m, :prefix => "project_module_") %>
+      <%= help_bubble "help_#{m}" %><br>
       </label>
   <% end %>
   </fieldset>
