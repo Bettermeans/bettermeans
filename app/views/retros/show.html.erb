@@ -30,7 +30,7 @@
   </td><td class="stats">
     <strong><%= user_retro["total_points"].round %> credits (<%= user_retro["percentage_points"] %>%)</strong> <br>
     <%= user_retro["total_ideas"] %> ideas <br>      
-    <%= user_retro["total_journals"] %> journals <br>      
+    <%= user_retro["total_journals"] %> comments <br>      
     <%= user_retro["total_votes"] %> votes <br>      
   </td><td class="percentage private hidden">
     <label id="user_<%= user_id%>_percentage" class="percentage_label"><%= user_retro["given_percentage"] ||=0 %>%</label>
@@ -119,7 +119,7 @@
               :axis_with_labels => 'x',
               :axis_labels => @axis_labels,
               :bar_width_and_spacing => '15,2,10',
-              :legend => ['Ideas','Votes','Journals'],
+              :legend => ['Ideas','Votes','Comments'],
               :custom => "chm=N*f0*,000000,0,-1,11|N*f0*,000000,1,-1,11|N*f0*,000000,2,-1,11&chds=0,#{@max_range}"
               # :custom => 'chma=50,50,50,50|200,200'
               )
@@ -141,7 +141,7 @@
   </div>
   <br>
   <div align="center" class="gt-content-box">
-   <img src="<%=  Gchart.pie(:title => 'Journals', 
+   <img src="<%=  Gchart.pie(:title => 'Comments', 
                   :size => '400x200',
                   :data => @pie_data_journals, :labels => @pie_labels_journals )
     %>"/> 
