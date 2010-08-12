@@ -637,6 +637,11 @@ class Issue < ActiveRecord::Base
                                                       :value => send(c)) unless send(c)==@issue_before_change.send(c)
       }
       @current_journal.save
+      
+      LogActivityStreams.write_single_activity_stream(@current_journal.user,:name,@current_journal.issue,:subject,:updated,:issues, 0, @current_journal,{
+        :indirect_object_description_method => :notes,
+        :indirect_object_phrase => 'GENERATEDETAILS' }) unless @current_journal.notes.nil?
+      
     end
   end
   
