@@ -1,5 +1,5 @@
 class SharesController < ApplicationController
-  ssl_required :index, :show, :new, :edit, :create, :update
+  ssl_required :all  
   
   # GET /shares
   # GET /shares.xml

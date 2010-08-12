@@ -1,6 +1,6 @@
 class HourlyTypesController < ApplicationController
   before_filter :find_project
-  ssl_required :new, :edit
+  ssl_required :all  
   
   
   def new
