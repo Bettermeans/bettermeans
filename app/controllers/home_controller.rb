@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  ssl_required :index  
   layout 'static'
   def index
     # render the landing page

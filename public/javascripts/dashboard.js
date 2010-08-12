@@ -182,6 +182,7 @@ function load_dashboard_data(){
 }
 
 function refresh_local_data(){
+	clear_filters();
 	store.set('D_' + projectId, null);
 	store.set('R_' + projectId, null);
 	store.set('lata_data_pull_' + projectId, null);
