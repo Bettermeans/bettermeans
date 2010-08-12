@@ -419,6 +419,7 @@ function prepare_item_lookup_array(){
 function display_panels(){
 	loaded_panels = 0;
 	insert_panel(0,'new','New',true);
+	add_new_link();
 	// insert_panel(0,'estimate','In Estimation',true);
 	insert_panel(0,'open','Open',true);
 	insert_panel(0,'inprogress','In Progress',true);
