@@ -295,6 +295,10 @@ function data_ready(html,name){
 	}
 }
 
+function replace_reloading_images_for_panels(){
+	$('.closePanelLoading').addClass('closePanel').removeClass('closePanelLoading');
+}
+
 
 function load_retros(){
 		if (!credits_enabled){
@@ -3718,6 +3722,8 @@ function poll_server(timer){
 }
 
 function new_dash_data(){
+	replace_reloading_images_for_panels();
+	
 	var data = "seconds=" + (((new Date).getTime() - last_data_pull.getTime())/1000);
 
 	var url = url_for({ controller: 'projects',
