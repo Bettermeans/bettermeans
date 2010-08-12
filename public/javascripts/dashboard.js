@@ -2552,13 +2552,16 @@ function sort_panel(name){
 		listitems.sort(function(a, b) {
 		   var compA = a.id.replace(/item_/g,'');
 		   var compB = b.id.replace(/item_/g,'');
-			
+					
 		   if (name == "open"){
 				if (D[compA].pri > highest_pri) { highest_pri = D[compA].pri;}
 		   		if (D[compB].pri > highest_pri) { highest_pri = D[compB].pri;}
 		   }
 		
-		   if (D[compA].pri > D[compB].pri) {
+		   if (compA == 'new_link') {
+				return -1;
+			}
+			  else if (D[compA].pri > D[compB].pri) {
 			return -1;
 			} else if (D[compA].pri < D[compB].pri) {
 				return 1;
