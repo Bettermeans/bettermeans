@@ -2227,7 +2227,7 @@ img.private-workstream, img.volunteer-workstream{
 
 .help-section p{
 	font-size: 130%;
-	margin-bottom: -2px;
+	margin-bottom: 0px;
 }
 
 .help-section a.help-section-link{
