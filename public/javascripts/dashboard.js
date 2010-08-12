@@ -2414,7 +2414,7 @@ function show_comment(item){
 
 //resize heights of container and panels
 function resize(){
-	panel_height = $(window).height() - $('.gt-hd').height() + $('.gt-footer').height() ;
+	panel_height = $(window).height() - $('.gt-hd').height() + 28;// + $('.gt-footer').height() ;
 	// $("#content").height(panel_height - 35);
 	$(".list").height(panel_height - 75);
 	$("#panels").show();
@@ -2426,7 +2426,13 @@ function insert_panel(position, name, title, visible){
 	if (visible){button_style = 'style="display:none;"';}
 	generate_and_append_panel(position,name,title, visible);
 	
-	$('#panel_buttons').prepend('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '/>');
+	// $('#panel_buttons').prepend('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '/>');
+	var button = "";
+	button = button + '<a id="' + name + '_panel_toggle" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '>'
+	button = button + '<div id="' + name + '_panel_toggle_count" class="panel_button_top">' + title + ' (0)</div>'
+	button = button + '</a>'
+	$('#panel_buttons').prepend(button);
+	
 	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right', bindShow: 'click'});
 }
 
@@ -2477,7 +2483,7 @@ function update_panel_count(name, skip_button){
 		}
 		$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\([0-9]*\)/,"(" + count + ")"));
 		if (!skip_button){
-			$("#" + name + '_panel_toggle').val($("#" + name + '_panel_toggle').val().replace(/\([0-9]*\)/,"(" + count + ")"));
+			$("#" + name + '_panel_toggle_count').html($("#" + name + '_panel_toggle_count').html().replace(/\([0-9]*\)/,"(" + count + ")"));
 		}
 		return true;
 	}

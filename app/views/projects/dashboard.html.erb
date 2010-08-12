@@ -164,8 +164,15 @@
   </div>
 </div>
 
-  <input id="new_request" value="New Request" type="submit" onclick="new_item();return false;" class="dashboard-button"/>
-  <input id="refresh_data" value="Refresh" type="submit" onclick="refresh_local_data();return false;" class="dashboard-button" />
+
+  <a id="new_request" onclick="new_item();return false;" class="dashboard-button">
+    <div class="new_request_button">New Item</div>
+  </a>
+
+  <a id="refresh_data" onclick="refresh_local_data();return false;" class="dashboard-button">
+    <div class="refresh_button"></div>
+  </a>
+  
   
 <% end %>
 
@@ -310,11 +317,11 @@
 
 <% content_for :footer do %>
 <!-- footer -->
-<div class="gt-footer">
+<!-- <div class="gt-footer">
   <div class="gt-footer-inner">
-	<p>Powered by <a href="http://BetterMeans.com" target="new">BetterMeans.com</a> <%= Date.today.year %>  <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="new">[cc] CreativeCommons Attribution-Share Alike</a></p>
+  <p>Powered by <a href="http://BetterMeans.com" target="new">BetterMeans.com</a> <%#= Date.today.year %>  <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="new">[cc] CreativeCommons Attribution-Share Alike</a></p>
   </div>
-</div>
+</div> -->
 <!-- /footer -->
 
 <% end %>
