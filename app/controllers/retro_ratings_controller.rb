@@ -1,4 +1,6 @@
 class RetroRatingsController < ApplicationController
+  ssl_required :all  
+  
   # before_filter :authorize
   # GET /retro_ratings
   # GET /retro_ratings.xml
