@@ -1,6 +1,8 @@
 class InvitationsController < ApplicationController
   before_filter :find_project, :except => :accept
   before_filter :authorize, :except => :accept  
+  ssl_required :all  
+  
   
   # GET /invitations
   # GET /invitations.xml
