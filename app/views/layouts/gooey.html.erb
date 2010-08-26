@@ -125,7 +125,7 @@
 <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? 'gt-bd gt-cols clearfix' : 'gt-bd clearfix')}, true) %>
 	
 	<!-- main content -->
-	<div class="gt-content">
+	<div class="gt-content" id="content">
   		<%= render_flash_messages %>
       <%= yield %>
 	</div>

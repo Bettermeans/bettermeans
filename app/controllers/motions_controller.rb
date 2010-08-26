@@ -21,6 +21,7 @@ class MotionsController < ApplicationController
   # GET /motions/1
   # GET /motions/1.xml
   def show
+    logger.info { "showing motion" }
     if @motion.concerned_user_id == User.current.id
       render_404
       return false

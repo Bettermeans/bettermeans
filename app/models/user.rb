@@ -442,6 +442,9 @@ class User < ActiveRecord::Base
   
   # Return true if the user is allowed to see motion
   def allowed_to_see_motion?(motion)
+    logger.info { "current position #{position_for(motion.project)}" }
+    logger.info { "visibilitly level #{motion.visibility_level.to_f}" }
+    logger.info { "allowed #{position_for(motion.project) <= motion.visibility_level.to_f}" }
     position_for(motion.project) <= motion.visibility_level.to_f
   end  
   

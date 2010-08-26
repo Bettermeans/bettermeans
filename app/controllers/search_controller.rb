@@ -4,6 +4,7 @@
 
 class SearchController < ApplicationController
   before_filter :find_optional_project
+  ssl_required :all
 
   helper :messages
   include MessagesHelper
