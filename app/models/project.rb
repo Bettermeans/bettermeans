@@ -784,6 +784,11 @@ class Project < ActiveRecord::Base
     self.save
   end
   
+  def allowed_actions
+    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
+  end
+  
+  
   private  
   # Copies wiki from +project+
   def copy_wiki(project)
@@ -879,11 +884,6 @@ class Project < ActiveRecord::Base
       Redmine::AccessControl.modules_permissions(module_names).collect {|p| p.name}
     end
   end
-
-  def allowed_actions
-    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
-  end
-
   
   # Archives subprojects recursively
   def archive!
