@@ -87,15 +87,24 @@ class MailHandler < ActiveRecord::Base
     @@handler_options = options.dup
     
     @email = email
+    
+    logger.info { "1" } if logger
+    
     sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
     if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
       return false
     end
+    
+    logger.info { "2" } if logger
+    
     @user = User.find_by_mail(sender_email)
     if @user && !@user.active?
       return false
     end
+    
+    logger.info { "3" } if logger
+    
     if @user.nil?
       # Email was submitted by an unknown user
       case @@handler_options[:unknown_user]
@@ -113,6 +122,8 @@ class MailHandler < ActiveRecord::Base
         return false
       end
     end
+    logger.info { "4" } if logger
+    
     mailhandler = MailHandler.new(email, @user)
   end
   
