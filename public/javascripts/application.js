@@ -346,7 +346,6 @@ function h(s) {
 function display_sparks(){
 	$('.spark').each(function(){
 	$(this).show();
-	// console.log($(this).attr('max'));
 	var max = parseFloat($(this).attr('max'));
 	if (max > 15){
 		max = 15;
