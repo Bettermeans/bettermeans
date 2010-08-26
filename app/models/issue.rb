@@ -576,7 +576,7 @@ class Issue < ActiveRecord::Base
                               :status => {:only => :name}, 
                               :todos => {:only => [:id, :subject, :completed_on, :owner_login]}, 
                               :tracker => {:only => [:name,:id]}, 
-                              :author => {:only => [:firstname, :lastname, :login, :mail]}, 
+                              :author => {:only => [:firstname, :lastname, :login, :mail_hash]}, 
                               :assigned_to => {:only => [:firstname, :lastname, :login]}})
   end
   

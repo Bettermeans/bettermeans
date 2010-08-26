@@ -2613,7 +2613,7 @@ function expand_item(dataId){
 	        avatarContainer: '#gravatar_' + dataId,
 	        avatarSize:27
 			},
-			D[dataId].author.mail
+			D[dataId].author.mail_hash
 	);
 
 	$('#edit_story_type_' + dataId).val(D[dataId].tracker.id);
