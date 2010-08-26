@@ -2792,8 +2792,6 @@ function item_added(item){
 
 function item_actioned(item, dataId,action){
 	
-	console.log("item actioned");
-	
 	collapse_item(dataId);
 	var pre_status = D[dataId].status.name;
 	
@@ -2811,14 +2809,12 @@ function item_actioned(item, dataId,action){
 	
 	if ((!status_changed) || (item.status.name == 'Accepted' && action != "data_refresh"))
 	{
-		console.log("changing in place");
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
 		show_start_buttons();
 		//tODO: highlight the right item here
 	}
 	else
 	{
-		console.log("changing panels");
 		$("#item_" + dataId).remove();
 		add_item(dataId,"bottom",true);
 		update_panel_counts();
@@ -3777,16 +3773,9 @@ function new_dash_data_response(data){
 		}
 		else{		
 			if (String(new Date(D[dataId].updated_on)) == String(new Date(item.updated_on))){
-				console.log("skipping");
-				console.log(D[dataId].updated_on);
-				console.log(item.updated_on);
 				continue;
 			}
-			
-			console.log("not skipping");
-			console.log(D[dataId].updated_on);
-			console.log(item.updated_on);
-			
+						
 			
 			if ($("#edit_item_" + dataId).length > 0){
 				//item is being edited
