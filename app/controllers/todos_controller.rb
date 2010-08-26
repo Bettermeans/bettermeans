@@ -51,6 +51,7 @@ class TodosController < ApplicationController
 
     respond_to do |format|
       if @todo.save
+        @issue.reload
         format.js {render :json => @issue.to_dashboard}
         format.html { redirect_to(@todo) }
         format.xml  { render :xml => @todo, :status => :created, :location => @todo }
@@ -68,6 +69,7 @@ class TodosController < ApplicationController
 
     respond_to do |format|
       if @todo.update_attributes(params[:todo])
+        @issue.reload
         format.js {render :json => @issue.to_dashboard}
         format.html { redirect_to(@todo) }
         format.xml  { head :ok }
