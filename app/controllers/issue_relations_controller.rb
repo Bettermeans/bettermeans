@@ -5,6 +5,7 @@
 
 class IssueRelationsController < ApplicationController
   before_filter :find_project, :authorize
+  ssl_required :all
   
   def new
     @relation = IssueRelation.new(params[:relation])
