@@ -82,6 +82,8 @@ class MailHandler < ActiveRecord::Base
   # Processes incoming emails
   # Returns the created object (eg. an issue, a message) or false
   def self.receive_from_api(email)
+    @@handler_options = options.dup
+    
     @email = email
     sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
