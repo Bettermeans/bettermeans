@@ -81,7 +81,7 @@ class MailHandler < ActiveRecord::Base
 
   # Processes incoming emails
   # Returns the created object (eg. an issue, a message) or false
-  def self.receive_from_api(email)
+  def self.receive_from_api(email,options ={})
     @@handler_options = options.dup
     
     @email = email
