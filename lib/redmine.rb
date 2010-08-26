@@ -87,12 +87,14 @@ Redmine::AccessControl.map do |map|
   map.project_module :documents do |map|
     map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment]}, :require => :loggedin
     map.permission :view_documents, :documents => [:index, :show, :download]
-  end
-  
-  map.project_module :files do |map|
     map.permission :manage_files, {:projects => :add_file}, :require => :loggedin
     map.permission :view_files, :projects => :list_files
   end
+  
+  # map.project_module :files do |map|
+  #   map.permission :manage_files, {:projects => :add_file}, :require => :loggedin
+  #   map.permission :view_files, :projects => :list_files    
+  # end
     
   map.project_module :wiki do |map|
     map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
