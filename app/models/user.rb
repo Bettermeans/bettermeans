@@ -6,7 +6,7 @@
 require "digest/sha1"
 
 class User < ActiveRecord::Base
-
+  
   # Account statuses
   STATUS_ANONYMOUS  = 0
   STATUS_ACTIVE     = 1
@@ -101,6 +101,7 @@ class User < ActiveRecord::Base
   def before_save
     # update hashed_password if password was set
     self.hashed_password = User.hash_password(self.password) if self.password
+    self.mail_hash =  Digest::MD5.hexdigest(self.mail) unless mail.nil?
   end
   
   def after_create
@@ -630,6 +631,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: users
@@ -664,5 +666,6 @@ end
 #  b_cc_type             :string(255)
 #  b_cc_month            :integer
 #  b_cc_year             :integer
+#  mail_hash             :string(255)
 #
 

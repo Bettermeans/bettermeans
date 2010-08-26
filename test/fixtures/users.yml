@@ -163,6 +163,7 @@ groups_011:
 
 
 
+
 # == Schema Information
 #
 # Table name: users
@@ -197,5 +198,6 @@ groups_011:
 #  b_cc_type             :string(255)
 #  b_cc_month            :integer
 #  b_cc_year             :integer
+#  mail_hash             :string(255)
 #
 
