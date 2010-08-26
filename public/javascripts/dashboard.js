@@ -2550,6 +2550,7 @@ function sort_panel(name){
 		if ((name == "open") && (listitems.length > 0)){
 			var first_item_id = listitems[0].id.replace(/item_/g,'');
 			// var first_item_data_id = ITEMHASH["item" + first_item_id];
+			//BUGBUG: listitems.length could be greater than 0 if it has only one item that's being edited
 			highest_pri = D[first_item_id].pri;
 			}
 		
@@ -3771,7 +3772,7 @@ function new_dash_data_response(data){
 			add_item(D.length-1,"bottom",false);	
 		}
 		else{		
-			if (D[dataId].updated_on == item.updated_on){
+			if (Date(D[dataId].updated_on) == Date(item.updated_on)){
 				continue;
 			}
 			
