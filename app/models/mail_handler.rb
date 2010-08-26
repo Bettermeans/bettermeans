@@ -221,6 +221,11 @@ class MailHandler < ActiveRecord::Base
       issue.status = status
     end
     issue.save!
+    
+    LogActivityStreams.write_single_activity_stream(user,:name,issue,:subject,:updated,:issues, 0, journal,{
+        :indirect_object_description_method => :notes,
+        :indirect_object_phrase => 'GENERATEDETAILS' })
+        
     journal
   end
   
