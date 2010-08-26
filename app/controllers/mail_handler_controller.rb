@@ -30,6 +30,8 @@ class MailHandlerController < ActionController::Base
     @email.from = params[:from]
     @email.subject = params[:subject]
     
+    logger.info { "email coming up" }
+    logger.info(@email.inspect)
     #   attachments - Number of attachments included in email
     # *
     #   attachment1, attachment2, …, attachmentN - File upload names. The numbers are sequence numbers starting from 1 and ending on the number specified by the attachments parameter. If attachments is 0, there will be no attachment files. If attachments is 3, parameters attachment1, attachment2, and attachment3 will have file uploads.
