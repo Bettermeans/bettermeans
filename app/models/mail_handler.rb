@@ -11,6 +11,7 @@ class MailHandler < ActiveRecord::Base
   attr_reader :email, :user
   
   def initialize(email, user,options = {})
+    logger.info { "initializing mail handler" } if logger
     @@handler_options = options.dup
     
     @@handler_options[:issue] ||= {}
@@ -82,6 +83,7 @@ class MailHandler < ActiveRecord::Base
   # Processes incoming emails
   # Returns the created object (eg. an issue, a message) or false
   def self.receive_from_api(email,options ={})
+    logger.info { "recieving from api" } if logger
     @@handler_options = options.dup
     
     @email = email
@@ -121,6 +123,7 @@ class MailHandler < ActiveRecord::Base
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
   
   def dispatch
+    logger.info { "attempting to dispatch" } if logger
     headers = [email.in_reply_to, email.references].flatten.compact
     if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
       klass, object_id = $1, $2.to_i
