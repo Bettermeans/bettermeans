@@ -4,13 +4,16 @@
             
 <div class=box>
 <strong><%= l(:text_select_project_modules) %></strong>
-
+<br><br>
 <% Redmine::AccessControl.available_project_modules.each do |m| %>
-<p><label><%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) -%>
- <%= l_or_humanize(m, :prefix => "project_module_") %></label></p>
+ <label class="floating" style="display:inline">
+ <%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) %>
+ <%= l_or_humanize(m, :prefix => "project_module_") %>
+ <%= help_bubble "help_#{m}" %><br>
+ </label>
 <% end %>
 </div>
-
+<br>
 <p><%= check_all_links 'modules-form' %></p>
 <div class="gt-table-buttons">
 <%= submit_tag l(:button_save) %>
