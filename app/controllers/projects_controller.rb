@@ -9,10 +9,10 @@ class ProjectsController < ApplicationController
   menu_item :dashboard, :only => :dashboard
   menu_item :files, :only => [:list_files, :add_file]
   menu_item :settings, :only => :settings
-  menu_item :issues, :only => [:changelog]
+  # menu_item :issues, :only => [:changelog]
   menu_item :team, :only => :team
   menu_item :credits, :only => :credits
-  menu_item :shares, :only => :shares
+  # menu_item :shares, :only => :shares
   
   ssl_required :all  
   

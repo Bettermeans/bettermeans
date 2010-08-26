@@ -27,7 +27,7 @@ REDMINE_SUPPORTED_SCM = %w( Subversion Darcs Mercurial Cvs Bazaar Git Filesystem
 
 # Permissions
 Redmine::AccessControl.map do |map|
-  map.permission :view_project, {:projects => [:show, :activity, :team, :shares, :credits, :dashboard, :map, :activity, :dashdata, :new_dashdata, :mypris, :community_members, :hourly_types]}, :public => true
+  map.permission :view_project, {:projects => [:show, :activity, :team, :shares, :map, :activity, :mypris, :community_members, :hourly_types]}, :public => true
   map.permission :search_project, {:search => :index}, :public => true
   map.permission :add_project, {:projects => [:add, :new, :copy]}, :require => :loggedin
   map.permission :add_subprojects, {:projects => [:add, :new]}, :require => :loggedin
@@ -48,7 +48,7 @@ Redmine::AccessControl.map do |map|
                                   :comments => :index,
                                   :todos => :index,
                                   :retros => [:index, :index_json, :dashdata, :show],
-                                  :project => [:dashboard,:community_members]
+                                  :projects => [:dashboard,:community_members, :dashdata, :new_dashdata]
                                   }
                 
     map.permission :add_issues, {:issues => [:new, :update_form]}
