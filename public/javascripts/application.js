@@ -83,12 +83,7 @@ function show_fancybox(url,message){
 }
 
 function checkAll (id, checked) {
-	var els = Element.descendants(id);
-	for (var i = 0; i < els.length; i++) {
-    if (els[i].disabled==false) {
-      els[i].checked = checked;
-    }
-	}
+     $("form#" + id + " INPUT[type='checkbox']").attr('checked', checked);
 }
 
 function toggleCheckboxesBySelector(selector) {
