@@ -55,7 +55,8 @@ class MotionsController < ApplicationController
   
   def eligible_users
     @concerned_user_list = ""
-    case params[:variation].to_i
+    @variation = params[:variation].to_i
+    case @variation
       when Motion::VARIATION_NEW_MEMBER
         @concerned_user_list = @project.contributor_list
       when Motion::VARIATION_NEW_CORE
@@ -65,6 +66,8 @@ class MotionsController < ApplicationController
       when Motion::VARIATION_FIRE_CORE
         @concerned_user_list = @project.core_member_list
     end
+    
+    #todo: remove current user from list
     
     render :layout => false
   end
