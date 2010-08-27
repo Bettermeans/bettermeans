@@ -1145,10 +1145,10 @@ stop: null
 				 	_calc.left = $(window).width() - _wrapper.width();
 				}
 				
-				if ((_calc.top + _wrapper.height()) > $(window).height()){
-				 	create_wrapper(true);
-				  	_calc.top = $(window).height() - _wrapper.height();
-				}
+				// if ((_calc.top + _wrapper.height()) > $(window).height()){
+				//  	create_wrapper(true);
+				//   	_calc.top = $(window).height() - _wrapper.height();
+				// }
 
 				if (_calc.left < 0){
 				 	create_wrapper(true);
