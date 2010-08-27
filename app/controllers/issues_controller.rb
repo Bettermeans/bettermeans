@@ -392,10 +392,8 @@ class IssuesController < ApplicationController
       case params[:points]
       when "-1"
         action = :rejected
-        logger.info { "action is #{action}" }
       when "-9999"
         action = "blocked acceptance of"
-        logger.info { "action is #{action}" }
       end
 
       LogActivityStreams.write_single_activity_stream(User.current,:name,@issue,:subject,action,:issues, 0, journal,{
