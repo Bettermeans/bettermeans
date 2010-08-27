@@ -1,4 +1,5 @@
 class QuotesController < ApplicationController
+  ssl_required :all
   # GET /quotes
   # GET /quotes.xml
   def index

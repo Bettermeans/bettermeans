@@ -2790,7 +2790,7 @@ function item_added(item){
 	return false;
 }
 
-function item_actioned(item, dataId,action){
+function item_actioned(item, dataId, action){
 	
 	collapse_item(dataId);
 	var pre_status = D[dataId].status.name;
@@ -2807,7 +2807,11 @@ function item_actioned(item, dataId,action){
 	$('#item_lightbox_' + dataId).replaceWith(generate_item_lightbox(dataId));
 	update_lightbox_lock_version(dataId);
 	
-	if ((!status_changed) || (item.status.name == 'Accepted' && action != "data_refresh"))
+	if (item.retro_id > 1){ //an item has moved into a retrospective, we remove it from the dashboard.
+		$("#item_" + dataId).remove();
+		update_panel_counts();
+	}
+	else if ((!status_changed) || (item.status.name == 'Accepted' && action != "data_refresh") || (item.status.name == 'Rejected' && action != "data_refresh"))
 	{
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
 		show_start_buttons();

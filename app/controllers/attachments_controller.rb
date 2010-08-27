@@ -6,6 +6,7 @@ class AttachmentsController < ApplicationController
   before_filter :find_project
   before_filter :file_readable, :read_authorize, :except => :destroy
   before_filter :delete_authorize, :only => :destroy
+  ssl_required :all
   
   verify :method => :post, :only => :destroy
   

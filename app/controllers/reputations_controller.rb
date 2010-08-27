@@ -1,4 +1,5 @@
 class ReputationsController < ApplicationController
+  ssl_required :all
   # GET /reputations
   # GET /reputations.xml
   def index

@@ -6,6 +6,7 @@ class AuthSourcesController < ApplicationController
   layout 'admin'
   
   before_filter :require_admin
+  ssl_required :all
 
   def index
     list

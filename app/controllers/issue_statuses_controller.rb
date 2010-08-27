@@ -6,7 +6,8 @@ class IssueStatusesController < ApplicationController
   layout 'admin'
   
   before_filter :require_admin
-
+  ssl_required :all
+  
   verify :method => :post, :only => [ :destroy, :create, :update, :move ],
          :redirect_to => { :action => :list }
          

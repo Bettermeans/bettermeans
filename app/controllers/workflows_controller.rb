@@ -6,6 +6,7 @@ class WorkflowsController < ApplicationController
   layout 'admin'
   
   before_filter :require_admin
+  ssl_required :all
 
   def index
     @workflow_counts = Workflow.count_by_tracker_and_role
