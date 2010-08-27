@@ -1,4 +1,6 @@
 class MotionVotesController < ApplicationController
+  ssl_required :all
+  
   # before_filter :require_admin
   # GET /motion_votes
   # GET /motion_votes.xml
