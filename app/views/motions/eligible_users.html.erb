@@ -8,14 +8,15 @@
 
 <% case @variation
   when Motion::VARIATION_NEW_MEMBER
-    %>You have no contributors to nominate for membership<%
+    %>You have no contributors to nominate for membership.<%
   when Motion::VARIATION_NEW_CORE
-    %>You have no existing members to nominate to the core team<%
+    %>You have no existing members to nominate to the core team.<%
   when Motion::VARIATION_FIRE_MEMBER
-    %>You have no existing members to remove<%
+    %>You have no existing members to remove.<%
   when Motion::VARIATION_FIRE_CORE
-    %>You have no existing core members to remove<%
+    %>You have no existing core members to remove.<%
   end
 %>
-
+ <br><a href="http://help.bettermeans.com/faq/membership" target="blank">Click here</a> to learn more about how membership rules work.
+ <br>
 <% end %>
