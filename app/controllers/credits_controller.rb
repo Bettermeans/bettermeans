@@ -106,7 +106,7 @@ class CreditsController < ApplicationController
       if @credit.enable
         format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
         format.js do
-          update_credit_partials
+          update_credit_partials(params[:project_id])
         end
       else
         format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
@@ -120,8 +120,8 @@ class CreditsController < ApplicationController
   end
   
   def update_credit_partials
-    @project = @credit.project
-    @credits = @project.credits
+    @project = Project.find(params[:project_id])
+    @credits = @project.fetch_credits(params[:with_subprojects])
     @active_credits = @credits.find_all{|credit| credit.enabled == true && credit.settled_on.nil? == true }.group_by{|credit| credit.owner_id}
     
     render :update do |page|
