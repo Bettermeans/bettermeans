@@ -101,9 +101,8 @@ issue_list_default_columns:
   default: 
   - tracker
   - status
-  - priority
   - subject
-  - assigned_to
+  - pri
   - updated_on
 display_subprojects_issues:
   default: 1
