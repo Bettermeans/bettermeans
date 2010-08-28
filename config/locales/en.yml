@@ -218,7 +218,7 @@ en:
   field_subject: Subject
   field_due_date: Due by
   field_expected_date: Expected by
-  field_assigned_to: Owned by #Changed
+  field_assigned_to: Owner #Changed
   field_priority: Priority
   field_fixed_version: Deliverable
   field_user: User
@@ -281,6 +281,7 @@ en:
   field_dpp: Estimation Scale
   field_hourly_rate_per_person: Hourly rate per person
   field_hourly_cap: Hourly cap
+  field_pri: Pri
   
   setting_app_title: Application title
   setting_app_subtitle: Application subtitle
