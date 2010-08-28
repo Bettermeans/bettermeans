@@ -13,6 +13,7 @@ var searching = false; //true when user is entering text in search box
 var default_new_title = 'Enter Title Here';
 var new_comment_text = 'Add new comment';
 var new_todo_text = 'Add todo';
+// var panel_height = $(window).height() - $('.gt-hd').height() - $('#help_section').height() + 28;// + $('.gt-footer').height() ;
 var panel_height = $(window).height() - $('.gt-hd').height() + 28;// + $('.gt-footer').height() ;
 var last_activity = new Date(); //tracks last activity of mouse or keyboard click. Used to turn off server polling
 var last_data_pull = new Date(); //tracks last data recieved from server
@@ -20,7 +21,7 @@ var highest_pri = -9999;
 var loaded_panels = 0; //keeps track of how many panels have had their data loaded
 var local_store = null; //local persistant storage
 var ok_to_save_local_data = false;
-var complexity_description = ['Real Easy','.','.','Average','.','.','Super Hard']
+var complexity_description = ['Real Easy','.','.','Average','.','.','Super Hard'];
 
 $(window).bind('resize', function() {
 	resize();
@@ -85,6 +86,10 @@ $.fn.keyboard_sensitive = function() {
 
 function start(){
 	timer_active = true; //stop timer from starting until data loads
+	$('.help-section-link').bind('click',function() {
+	  resize();
+	});
+	
 	$('#fast_search').watermark('watermark','Fast Search');
 	//Checking for single issue display
 	if (show_issue_id){
@@ -325,6 +330,7 @@ function load_retros(){
 			},
 			timeout: 30000 //30 seconds
 		 });
+		return true;
 }
 
 function retros_ready(html,load_remaining_panels){
@@ -1245,10 +1251,7 @@ function generate_todos(dataId,blank_if_no_todos, item_editable){
 	
 	var sorted = item.todos.sort(function(a, b) {
 	   return (a.id < b.id) ? -1 : (a.id > b.id) ? 1 : 0;
-	})
-	
-	
-	
+	});
 	
 	for(var i = 0; i < sorted.length; i++ ){
 		html = html + generate_todo(sorted[i].subject,sorted[i].completed_on, sorted[i].id,sorted[i].owner_login,dataId, item_editable);
@@ -2446,7 +2449,9 @@ function show_comment(item){
 
 //resize heights of container and panels
 function resize(){
-	panel_height = $(window).height() - $('.gt-hd').height() + 28;// + $('.gt-footer').height() ;
+	panel_height = $(window).height() - $('.gt-hd').height() - $('#help_section:visible').height() + 28;// + $('.gt-footer').height() ;
+	// panel_height = $(window).height() - $('.gt-hd').height() + 28;// + $('.gt-footer').height() ;
+	// console.log(panel_height)
 	// $("#content").height(panel_height - 35);
 	$(".list").height(panel_height - 75);
 	$("#panels").show();
@@ -2460,9 +2465,9 @@ function insert_panel(position, name, title, visible){
 	
 	// $('#panel_buttons').prepend('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '/>');
 	var button = "";
-	button = button + '<a id="' + name + '_panel_toggle" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '>'
-	button = button + '<div id="' + name + '_panel_toggle_count" class="panel_button_top">' + title + ' (0)</div>'
-	button = button + '</a>'
+	button = button + '<a id="' + name + '_panel_toggle" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '>';
+	button = button + '<div id="' + name + '_panel_toggle_count" class="panel_button_top">' + title + ' (0)</div>';
+	button = button + '</a>';
 	$('#panel_buttons').prepend(button);
 	
 	$("#help_image_panel_" + name).mybubbletip('#help_panel_' + name, {deltaDirection: 'right', bindShow: 'click'});
@@ -2684,7 +2689,7 @@ function save_new_item(){
 
         data = data + 
 	    "&issue[hourly_type_id]=" + $("#hourly_type").val() +
-            "&issue[num_hours]=" + parseInt(num_hours);
+            "&issue[num_hours]=" + parseInt(num_hours,10);
     }
 
 	if ($('#new_story_type').val() == 10){ //BUGBUG hardcoded value
@@ -2740,7 +2745,7 @@ function save_edit_item(dataId){
 
         data = data + 
 	    "&issue[hourly_type_id]=" + $("#hourly_type_" + dataId).val() +
-            "&issue[num_hours]=" + parseInt(num_hours);
+            "&issue[num_hours]=" + parseInt(num_hours,10);
     }
 
     var url = url_for({ controller: 'issues',
