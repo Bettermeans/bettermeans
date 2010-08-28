@@ -2814,7 +2814,7 @@ function item_actioned(item, dataId, action){
 	
 	if (item.retro_id > 1){ //an item has moved into a retrospective, we remove it from the dashboard.
 		$("#item_" + dataId).remove();
-		update_panel_counts();
+		// update_panel_counts();
 	}
 	else if ((!status_changed) || (item.status.name == 'Accepted' && action != "data_refresh") || (item.status.name == 'Rejected' && action != "data_refresh"))
 	{
@@ -2826,10 +2826,12 @@ function item_actioned(item, dataId, action){
 	{
 		$("#item_" + dataId).remove();
 		add_item(dataId,"bottom",true);
-		update_panel_counts();
+		// update_panel_counts();
 	}	
 
 	keyboard_shortcuts = true;
+	
+	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 5000);
 	
 	//we don't sort panels on data refresh
 	if (action != "data_refresh"){
@@ -2838,13 +2840,10 @@ function item_actioned(item, dataId, action){
 			sort_panel(item.status.name.toLowerCase());
 			$("#" + item.status.name.toLowerCase() + "_items").scrollTo('#item_' + dataId, 300);
 		}
-
-		$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 5000);
-
-		adjust_button_container_widths();
-
-		save_local_data();
 		
+		adjust_button_container_widths();
+		save_local_data();
+		update_panel_counts();
 	}
 	
 	return false;
@@ -3797,8 +3796,10 @@ function new_dash_data_response(data){
 		}
 	}
 	
-	sort_panels();
+	sort_panel('open');
+	sort_panel('inprogress');
 	adjust_button_container_widths();
+	update_panel_counts();
 	save_local_data();
 }
 
