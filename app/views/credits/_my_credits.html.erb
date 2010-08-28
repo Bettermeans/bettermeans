@@ -28,7 +28,7 @@
      <%= @date %>
      <td class="currency"><%=h number_to_currency credit.amount.round.to_i, :unit => unit, :separator => ".", :delimiter => ",", :precision => 0 %></td>
       <td><%=h credit.settled_on.nil? ? credit.enabled ? "Active" : "Inactive" : "Settled" %></td>
-      <td><%= credit_activation_link(credit) %></td>
+      <td><%= credit_activation_link(credit, @project.id, params[:with_subprojects]) %></td>
     </tr>
     <% @date = "<td></td>" %>
   <% end %>
