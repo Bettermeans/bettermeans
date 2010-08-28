@@ -20,7 +20,7 @@ module QueriesHelper
     case value.class.name
     when 'String'
       if column.name == :subject
-        link_to(h(value), :controller => 'issues', :action => 'show', :id => issue)
+        link_to(h(value), {:controller => 'issues', :action => 'show', :id => issue}, :class => "fancyframe")
       else
         h(value)
       end
