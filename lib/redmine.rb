@@ -133,8 +133,9 @@ Redmine::AccessControl.map do |map|
   # 
   map.project_module :credits do |map|
     map.permission :view_credits, {:projects => :credits, :credits => [:index,:show]}, :require => :loggedin
+    map.permission :enable_disable_credits, {:credits => [:enable, :disable]}, :require => :loggedin
     map.permission :add_credits, {:credits => [:new, :create]}, :require => :loggedin
-    map.permission :manage_credits, {:credits => [:destroy, :edit]}, :require => :loggedin
+    map.permission :manage_credits, {:credits => [:destroy, :edit, :update]}, :require => :loggedin
   end
   
   
