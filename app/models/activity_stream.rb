@@ -17,7 +17,7 @@ class ActivityStream < ActiveRecord::Base
   belongs_to :indirect_object, :polymorphic => true
   belongs_to :project
   
-  named_scope :recent, {:conditions => "activity_streams.updated_at > '#{(Time.now.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP * -1).to_s}'"}
+  named_scope :recent, {:conditions => "activity_streams.created_at > '#{(Time.now.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP * -1).to_s}'"}
   
   def before_update
     self.is_public = self.project.is_public if self.project
@@ -93,12 +93,23 @@ class ActivityStream < ActiveRecord::Base
     conditions[:project_id] = user.projects.collect{|m| m.id} if !user.nil? && with_subprojects == "custom" && !user.projects.empty? #Customized activity stream for user
     conditions[:project_id] = project.id if project && !with_subprojects
     conditions[:project_id] = project.sub_project_array_visible_to(User.current) if project && with_subprojects
-    conditions[:created_at] = (DateTime.now - 20.year)..max_created_on
-    conditions[:is_public] = true unless conditions[:project_id]
+    
+    if conditions[:project_id]
+      conditions[:created_at] = (DateTime.now - 20.year)..max_created_on
+    else
+      conditions = conditions.to_array_conditions
+      conditions[0] += " AND " unless conditions[0].empty?
+      conditions[0] += "((is_public = true) OR (project_id in (?)))"
+      conditions.push User.current.projects.collect{|m| m.id}
+      conditions[0] += " AND created_at >= ? AND created_at <= ?"
+      conditions.push DateTime.now - 20.year
+      conditions.push max_created_on
+    end
+    # conditions[:is_public] = true unless conditions[:project_id]
     logger.info { "xxxxxxx #{conditions.inspect}" }
     #|| user.nil?
     
-    activities_by_item = ActivityStream.all(:conditions => conditions, :limit => length, :order => "updated_at desc").group_by {|a| a.object_type.to_s + a.object_id.to_s}
+    activities_by_item = ActivityStream.all(:conditions => conditions, :limit => length, :order => "created_at desc").group_by {|a| a.object_type.to_s + a.object_id.to_s}
     activities_by_item.each_pair do |key,value| 
       activities_by_item[key] = value.sort_by{|i| - i[:created_at].to_i}
     end
