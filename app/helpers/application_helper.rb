@@ -1043,8 +1043,11 @@ module ApplicationHelper
   end
   
   def help_bubble(name, options={})
-    html = content_tag(:div, l(name), :class => 'tip hidden', :id=>"tip_#{name}")
-    html << link_to(image_tag("question_mark.gif", :class=> "help_question_mark", :id=>"help_image_#{name}"), {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
+    # html = content_tag(:div, l(name), :class => 'tip hidden', :id=>"tip_#{name}")
+    # html << link_to(image_tag("question_mark.gif", :class=> "help_question_mark", :id=>"help_image_#{name}"), {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
+
+    html = link_to(image_tag("question_mark.gif", :class=> "help_question_mark", :id=>"help_image_#{name}"), {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
+    html << content_tag(:span, l(name), :class => 'tip hidden', :id=>"tip_#{name}")
     
     # <img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="help_question_mark">
     # <div id="help_panel_canceled" style="display:none;">
