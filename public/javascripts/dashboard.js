@@ -85,6 +85,7 @@ $.fn.keyboard_sensitive = function() {
 };
 
 function start(){
+	disable_refresh_button();
 	timer_active = true; //stop timer from starting until data loads
 	$('.help-section-link').bind('click',function() {
 	  resize();
@@ -187,6 +188,7 @@ function load_dashboard_data(){
 }
 
 function refresh_local_data(){
+	disable_refresh_button();
 	clear_filters();
 	store.set('D_' + projectId, null);
 	store.set('R_' + projectId, null);
@@ -321,6 +323,7 @@ function load_retros(){
 		   url: url,
 		   success:  	function(html){
 				retros_ready(html);
+				enable_refresh_button();
 			},
 		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 			// typically only one of textStatus or errorThrown will have info
@@ -331,6 +334,14 @@ function load_retros(){
 			timeout: 30000 //30 seconds
 		 });
 		return true;
+}
+
+function enable_refresh_button(){
+	$('#refresh_data').show();
+}
+
+function disable_refresh_button(){
+	$('#refresh_data').hide();
 }
 
 function retros_ready(html,load_remaining_panels){
@@ -590,6 +601,7 @@ function is_visible(item){
 }
 
 function add_item(dataId,position,scroll,panelid){
+	
 	if (!is_visible(D[dataId])) {return;}
 	
 	if (!panelid){
@@ -2517,6 +2529,9 @@ function update_panel_count(name, skip_button){
 		}
 		else{
 			count = $("#" + name + "_start_of_list > *").length;
+		}
+		if (name == 'new'){
+			count = count - 1; //accounting for add new item link
 		}
 		$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\([0-9]*\)/,"(" + count + ")"));
 		if (!skip_button){
