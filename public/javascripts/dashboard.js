@@ -2840,7 +2840,7 @@ function item_actioned(item, dataId, action){
 	else
 	{
 		$("#item_" + dataId).remove();
-		add_item(dataId,"bottom",true);
+		add_item(dataId,"bottom",!data_refresh);
 		// update_panel_counts();
 	}	
 
