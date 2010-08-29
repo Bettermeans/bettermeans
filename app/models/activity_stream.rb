@@ -90,18 +90,20 @@ class ActivityStream < ActiveRecord::Base
 
     conditions = {}
     conditions[:actor_id] = user_id unless user_id.nil? || with_subprojects == "custom"
-    conditions[:project_id] = user.projects.collect{|m| m.id} if !user.nil? && with_subprojects == "custom" && !user.projects.empty?#Customized activity stream for user
+    conditions[:project_id] = user.projects.collect{|m| m.id} if !user.nil? && with_subprojects == "custom" && !user.projects.empty? #Customized activity stream for user
     conditions[:project_id] = project.id if project && !with_subprojects
-    conditions[:project_id] = project.sub_project_array if project && with_subprojects
-    conditions[:created_at] = (DateTime.now - 10.year)..max_created_on
-    conditions[:is_public] = true
+    conditions[:project_id] = project.sub_project_array_visible_to(User.current) if project && with_subprojects
+    conditions[:created_at] = (DateTime.now - 20.year)..max_created_on
+    conditions[:is_public] = true unless conditions[:project_id]
+    logger.info { "xxxxxxx #{conditions.inspect}" }
+    #|| user.nil?
     
     activities_by_item = ActivityStream.all(:conditions => conditions, :limit => length, :order => "updated_at desc").group_by {|a| a.object_type.to_s + a.object_id.to_s}
     activities_by_item.each_pair do |key,value| 
-      activities_by_item[key] = value.sort_by{|i| - i[:updated_at].to_i}
+      activities_by_item[key] = value.sort_by{|i| - i[:created_at].to_i}
     end
     
-    activities_by_item.sort_by{|g| - g[1][0][:updated_at].to_i}
+    activities_by_item.sort_by{|g| - g[1][0][:created_at].to_i}
   end
 
   # Soft Delete in as some activites are necessary for site stats
