@@ -18,7 +18,10 @@ class ActivityStream < ActiveRecord::Base
   belongs_to :project
   
   named_scope :recent, {:conditions => "activity_streams.updated_at > '#{(Time.now.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP * -1).to_s}'"}
-
+  
+  def before_update
+    self.is_public = self.project.is_public if self.project
+  end
   
   # Finds the recent activities for a given actor, and honors
   # the users activity_stream_preferences.  Please see the README
@@ -91,6 +94,7 @@ class ActivityStream < ActiveRecord::Base
     conditions[:project_id] = project.id if project && !with_subprojects
     conditions[:project_id] = project.sub_project_array if project && with_subprojects
     conditions[:created_at] = (DateTime.now - 10.year)..max_created_on
+    conditions[:is_public] = true
     
     activities_by_item = ActivityStream.all(:conditions => conditions, :limit => length, :order => "updated_at desc").group_by {|a| a.object_type.to_s + a.object_id.to_s}
     activities_by_item.each_pair do |key,value| 
@@ -118,6 +122,7 @@ class ActivityStream < ActiveRecord::Base
   # end
 
 end
+
 
 # == Schema Information
 #
@@ -149,5 +154,6 @@ end
 #  tracker_name                :string(255)
 #  project_name                :string(255)
 #  actor_email                 :string(255)
+#  is_public                   :boolean         default(FALSE)
 #
 
