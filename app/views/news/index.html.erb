@@ -12,7 +12,7 @@
                    { :url => { :controller => 'news', :action => 'preview', :project_id => @project },
                      :method => 'post',
                      :update => 'preview',
-                     :with => "Form.serialize('news-form')"
+                     :with => "$('#news-form').serialize()"
                    }, :accesskey => accesskey(:preview) %> |
 <%= link_to l(:button_cancel), "#", :onclick => '$("#add-news").hide()' %>
 </p>
@@ -24,13 +24,12 @@
 
 <h2 class="gt-table-head"><%=l(:label_news_plural)%></h2>
 <div class="gt-content-box">    
-  <table border="0" class="gt-table gt-user-table">
-    <tbody>
-
-
 <% if @newss.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
+<table border="0" class="gt-table gt-user-table">
+  <tbody>
+
 <% @newss.each do |news| %>
 <tr>
   <td>
@@ -55,13 +54,13 @@
 </tr>
 
 <% end %>
+  </tbody>
+</table>
+<!-- Table Controls -->
+<div class="gt-table-controls gt-table-controls-btm clearfix">
+	<p class="gt-table-pager"><%= pagination_links_full @news_pages %></p>
+</div><!-- /Table Controls -->
 <% end %>
-    </tbody>
-  </table>
-  <!-- Table Controls -->
-  <div class="gt-table-controls gt-table-controls-btm clearfix">
-  	<p class="gt-table-pager"><%= pagination_links_full @news_pages %></p>
-  </div><!-- /Table Controls -->
 </div>
 
 
