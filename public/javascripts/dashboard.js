@@ -1974,7 +1974,7 @@ function click_start(dataId,source,data){
 	if (!is_user_logged_in()){return false;}
 
 	if ($(".action_button_finish").get().length >= MAX_REQUESTS_PER_PERSON){
-		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " ideas at a time");
+		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " items at a time");
 		return false;
 	}
 
@@ -3834,7 +3834,7 @@ function handle_error (xhr, textStatus, errorThrown, dataId, action) {
 		
 		sort_panel('open');
 		$('#featureicon_' + dataId).attr("src", "/images/error.png");
-		$.jGrowl("Sorry, couldn't " + action + " idea:<br>" + h(D[dataId].subject) , { header: 'Error', position: 'bottom-right' });
+		$.jGrowl("Sorry, couldn't " + action + " item:<br>" + h(D[dataId].subject) , { header: 'Error', position: 'bottom-right' });
 		
 	}
 	else{

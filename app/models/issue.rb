@@ -62,16 +62,16 @@ class Issue < ActiveRecord::Base
   def ready_for_open?
     return false if points.nil? || agree_total < 1
     return true if agree - disagree > points_from_credits / 2
-    return true if agree_total > 0 && self.created_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
+    return true if agree_total > 0 && (self.created_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
     return true if agree_total > (project.active_binding_members_count / 2)
-    return true if agree_total > 0 && self.status == IssueStatus.open
+    return true if agree_total > 0 && (self.status == IssueStatus.open)
     return false
   end
   
   # Returns true if there are enough disagreements in relation to the estimated points of the request
   def ready_for_canceled?
     return false if agree_total > 0
-    return true if agree_total < 0 && updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
+    return true if agree_total < 0 && (updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
     # return true if agree_total * -1 > ((project.root.core_members.count + project.root.members.count) / 2)
     return false
   end
@@ -79,7 +79,7 @@ class Issue < ActiveRecord::Base
   def ready_for_accepted?
     return true if self.status == IssueStatus.accepted
     return false if points.nil? || accept_total < 1
-    return true if accept_total > 0 && self.updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
+    return true if accept_total > 0 && (self.updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
     return true if accept_total > (project.binding_members_count / 2)
     return false
   end
@@ -87,7 +87,7 @@ class Issue < ActiveRecord::Base
   def ready_for_rejected?
     return true if self.status == IssueStatus.rejected
     return false if points.nil? || accept_total > -1
-    return true if accept_total < 0 && updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH #rejected
+    return true if accept_total < 0 && (updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH) #rejected
     return false
   end
   
