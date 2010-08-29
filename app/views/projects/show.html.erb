@@ -90,9 +90,11 @@
     <li>
       <%= link_to l(:label_login), {:controller => :account, :action => :login} unless User.current.logged? %>
     </li>
+  <% if User.current.allowed_to?(:view_issues, @project) %>
   <li>
     <%= link_to l(:label_dashboard), {:controller => :projects, :action => :dashboard, :id => @project} %>
   </li>
+  <% end %>
 	<% if User.current.allowed_to?(:add_subprojects, @project) %>
 	<li>
 		<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
@@ -140,7 +142,8 @@
     </ul>
     </div>
     <div class="gt-table-buttons">
-      <%= link_to l(:label_issue_view_all), {:controller => 'projects', :action => 'dashboard', :project_id => @project}, :class => "gt-btn-blue-medium right" %>
+      <%= link_to l(:label_issue_view_all), {:controller => 'issues', :action => 'index', :project_id => @project}, :class => "gt-btn-blue-medium right" %>
+      <%= link_to l(:label_dashboard), {:controller => 'projects', :action => 'dashboard', :project_id => @project}, :class => "gt-btn-blue-medium right" %>
     </div>
     <% end %>
     
