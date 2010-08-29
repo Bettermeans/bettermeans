@@ -148,6 +148,21 @@ class Project < ActiveRecord::Base
     end
     array
   end
+  
+  #returns array of project ids that are children of this project. includes id of current project that are visible to user
+  def sub_project_array_visible_to(user)
+    if self.visible_to(user) 
+      array = [self.id]
+    else
+      array = []
+    end
+    
+    self.children.each do |child|
+      array += child.sub_project_array_visible_to(user)
+    end
+    array
+  end
+  
 
   def graph_data2
     valid_kids = children.select{|c| c.active?}
