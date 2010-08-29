@@ -87,6 +87,10 @@ Rails::Initializer.run do |config|
         end
       end
     end
+    
+    def to_array_conditions
+        [self.keys.map{|k| "#{k} = ?" }.join(" AND "), self.values].flatten
+    end
   end
   
     
