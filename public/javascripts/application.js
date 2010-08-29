@@ -348,12 +348,15 @@ function display_sparks(){
 	if (max == 0){
 		max = 1;
 	}
-	if (isNaN(max)){
-		$(this).sparkline('html', {type: 'bar' , barColor: 'grey'});
-	}
-	else{
-		$(this).sparkline('html', {type: 'bar' , barColor: 'grey', height: max});
-	}
+	
+	$(this).sparkline('html', {type: 'bar' , barColor: 'grey', chartRangeMax: max, height: 15});
+	
+	// if (isNaN(max)){
+	// 		$(this).sparkline('html', {type: 'bar' , barColor: 'grey'});
+	// 	}
+	// 	else{
+	// 		$(this).sparkline('html', {type: 'bar' , barColor: 'grey', height: max});
+	// 	}
 	});
 }
 
