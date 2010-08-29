@@ -82,6 +82,8 @@ class ActivityStream < ActiveRecord::Base
     project_id.nil? ? project = nil : project = Project.find(project_id)
     
     user = User.find(user_id) if user_id
+    return [] if user && with_subprojects == "custom" && user.projects.empty?#Customized activity stream for user, but user doesn't belong to any projects
+    
 
     conditions = {}
     conditions[:actor_id] = user_id unless user_id.nil? || with_subprojects == "custom"

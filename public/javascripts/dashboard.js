@@ -3750,11 +3750,13 @@ function new_dash_data(){
 	   url: url,
 	   data: data,
 	   success:  	function(html){
-			last_data_pull = new Date();
+			$('#ajax-indicator').hide();
+		last_data_pull = new Date();
 			start_timer();
 			new_dash_data_response(html);
 		},
 	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			$('#ajax-indicator').hide();
 			last_data_pull = new Date();
 			start_timer();
 			save_local_data();
