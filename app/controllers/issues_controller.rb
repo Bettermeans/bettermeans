@@ -237,7 +237,7 @@ class IssuesController < ApplicationController
   
   def start
     @in_progress = Issue.count(:conditions => {:assigned_to_id => User.current.id, :status_id => IssueStatus.assigned.id, :project_id => @issue.project_id})
-    if @in_progress > Setting::MAXIMUM_CONCURRENT_REQUESTS
+    if @in_progress >= Setting::MAXIMUM_CONCURRENT_REQUESTS
       render_error "Maximum issues owned by this user already" 
       return false;
     else
