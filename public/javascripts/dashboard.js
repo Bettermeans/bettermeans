@@ -3766,7 +3766,7 @@ function new_dash_data(){
 	   data: data,
 	   success:  	function(html){
 			$('#ajax-indicator').hide();
-		last_data_pull = new Date();
+			last_data_pull = new Date();
 			start_timer();
 			new_dash_data_response(html);
 		},
