@@ -7,7 +7,7 @@
 <h4><%= link_to l("label_motion_started", :title => motion_title, :id => @notification.source_id), {:controller => "motions", :action => "show", :id => @notification.source_id, :project_id => enterprise_id},{:target => "_blank"} %> </h4>
 <p class="gt-table-action-list">
 <%= link_to(l(:button_participate), {:controller => "motions", :action => "show", :id => @notification.source_id, :project_id => enterprise_id}, {:id =>'cr_button', :class => 'icon icon-cr-offer', :target => "_blank"})%>
-<%= link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_ignored}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
+<%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
 </p>
     </td>
     <td>

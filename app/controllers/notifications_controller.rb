@@ -72,10 +72,9 @@ class NotificationsController < ApplicationController
   
   def hide
     @notification = Notification.find(params[:notification_id])
-    @notification.state = Notification::STATE_RESPONDED
     
     respond_to do |format|
-      if @notification.save
+      if @notification.mark_as_responded
         format.js {render :action => "hide"}
         format.xml  { head :ok }
       else
