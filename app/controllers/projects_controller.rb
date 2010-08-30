@@ -208,8 +208,10 @@ class ProjectsController < ApplicationController
                                                                                                                                                                                                             :tracker => {:only => [:name,:id]}, 
                                                                                                                                                                                                             :author => {:only => [:firstname, :lastname, :login, :mail_hash]}, 
                                                                                                                                                                                                             :assigned_to => {:only => [:firstname, :lastname, :login]}})
+    elsif params[:issuecount] != @project.issue_count.to_s
+      render :json =>  Issue.find(:all, :conditions => {:project_id => @project.id}).collect {|i| i.id}
     else
-        render :text => 'no'
+      render :text => 'no'
     end
   end
   
