@@ -15,6 +15,7 @@ class Notification < ActiveRecord::Base
 
   def mark_as_responded
     self.state = STATE_RESPONDED
+    self.params = nil
     self.save
   end
   

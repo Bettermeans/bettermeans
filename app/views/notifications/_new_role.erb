@@ -10,7 +10,7 @@
 <p class="gt-table-action-list">
 <%= link_to(l(:button_view), {:controller => "projects", :action => "team", :id => enterprise_id}, {:id =>'cr_button', :class => 'icon icon-cr-offer', :target => "_blank"})%>
 &nbsp;
-<%= link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_ignored}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
+<%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
 </p>
     </td>
     <td>
