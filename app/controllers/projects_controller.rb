@@ -197,15 +197,10 @@ class ProjectsController < ApplicationController
       @project.last_item_updated_on = DateTime.now
       @project.save
     end
+    
     time_delta = params[:seconds].to_f.round
     if @project.last_item_updated_on.advance(:seconds => time_delta) > DateTime.now
         render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND updated_on >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'").to_json(:include => {:journals => { :only => [:id, :notes, :created_on, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
-                                                                                                                                                                                                      :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
-                                                                                                                                                                                                      :status => {:only => :name}, 
-                                                                                                                                                                                                      :todos => {:only => [:id, :subject, :completed_on]}, 
-                                                                                                                                                                                                      :tracker => {:only => [:name,:id]}, 
-                                                                                                                                                                                                      :author => {:only => [:firstname, :lastname, :login, :mail_hash]}, 
-                                                                                                                                                                                                      :assigned_to => {:only => [:firstname, :lastname, :login]}})
     else
         render :text => 'no'
     end

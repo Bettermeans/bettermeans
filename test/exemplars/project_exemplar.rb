@@ -40,6 +40,8 @@ end
 
 
 
+
+
 # == Schema Information
 #
 # Table name: projects
@@ -63,5 +65,6 @@ end
 #  volunteer            :boolean         default(FALSE)
 #  owner_id             :integer
 #  storage              :float           default(0.0)
+#  issue_count          :integer         default(0)
 #
 
