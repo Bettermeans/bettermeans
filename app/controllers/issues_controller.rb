@@ -581,6 +581,7 @@ class IssuesController < ApplicationController
           unsaved_issue_ids << issue.id
         end
       end
+      @project.project.refresh_issue_count
       if unsaved_issue_ids.empty?
         # flash.now[:notice] = l(:notice_successful_update) unless @issues.empty?
       else

@@ -4,6 +4,6 @@ class AddItemCountToProjects < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :projects, :item_count
+    remove_column :projects, :issue_count
   end
 end

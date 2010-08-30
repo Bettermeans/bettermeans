@@ -808,8 +808,6 @@ class Project < ActiveRecord::Base
     self.save
   end
   
-  
-  
   private  
   # Copies wiki from +project+
   def copy_wiki(project)
