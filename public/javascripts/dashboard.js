@@ -296,7 +296,7 @@ function data_ready(html,name){
 		loaded_panels = loaded_panels + 1;
 	}
 	update_panel_counts();
-	prepare_item_lookup_array();
+	prepare_item_lookup_array(); //TODO: move this somewhere else for efficiency. it should only run once
 	if (loaded_panels == 4 && credits_enabled){
 		load_retros();
 	}
@@ -2463,7 +2463,6 @@ function show_comment(item){
 function resize(){
 	panel_height = $(window).height() - $('.gt-hd').height() - $('#help_section:visible').height() + 28;// + $('.gt-footer').height() ;
 	// panel_height = $(window).height() - $('.gt-hd').height() + 28;// + $('.gt-footer').height() ;
-	// console.log(panel_height)
 	// $("#content").height(panel_height - 35);
 	$(".list").height(panel_height - 75);
 	$("#panels").show();
@@ -3752,6 +3751,7 @@ function new_dash_data(){
 	replace_reloading_images_for_panels();
 	
 	var data = "seconds=" + (((new Date).getTime() - last_data_pull.getTime())/1000);
+	data = data + "&issuecount=" + ISSUE_COUNT;
 
 	var url = url_for({ controller: 'projects',
                            action    : 'new_dashdata',
@@ -3782,6 +3782,24 @@ function new_dash_data(){
 
 function new_dash_data_response(data){
 	if (data == null) {
+		save_local_data();
+		return;
+	}
+	
+	//checking if this is a response with different item count
+	if (data[0].tracker == undefined){
+		//we're getting a list of issue ids as a result of an issue moving that we didn't know about
+		ISSUE_COUNT = data.length;
+		for(var x=0; x < data.length; x++){
+			delete ITEMHASH["item" + String(data[x])];
+		}
+		
+		for(var idt in ITEMHASH){
+			D.splice(ITEMHASH[idt],1);
+			$("#item_" + ITEMHASH[idt]).remove();
+		}
+		
+		prepare_item_lookup_array();
 		save_local_data();
 		return;
 	}

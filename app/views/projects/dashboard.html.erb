@@ -197,6 +197,7 @@
   var credits_to_points_array = <%= Setting::CREDITS_TO_POINTS.to_json %>;
   var startable_priority_tiers = <%= Setting::NUMBER_OF_STARTABLE_PRIORITY_TIERS %>;
   var credits_enabled = <%= @project.credits_enabled? %>
+  var ISSUE_COUNT = <%= @project.issue_count %>
 
   var standard_trackers = function() {
       var trackers = <%= @project.credits_enabled? ? Tracker.all.to_json : Tracker.no_credits.to_json %>
