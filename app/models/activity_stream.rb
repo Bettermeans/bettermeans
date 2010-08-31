@@ -20,8 +20,8 @@ class ActivityStream < ActiveRecord::Base
   named_scope :recent, {:conditions => "activity_streams.created_at > '#{(Time.now.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP * -1).to_s}'"}
   
   def before_save
-    logger.info("projec.is public #{self.project.inspect}")
-    self.is_public = self.project.is_public if self.project
+    self.is_public = self.project.is_public if self.project && self.is_public == nil
+    # self.is_public = false if self.hidden_from_user_id > 0
   end
   
   # Finds the recent activities for a given actor, and honors
@@ -95,20 +95,25 @@ class ActivityStream < ActiveRecord::Base
     conditions[:project_id] = project.id if project && !with_subprojects
     conditions[:project_id] = project.sub_project_array_visible_to(User.current) if project && with_subprojects
     
-    if conditions[:project_id]
-      conditions[:created_at] = (DateTime.now - 20.year)..max_created_on
-    else
-      conditions = conditions.to_array_conditions
-      conditions[0] += " AND " unless conditions[0].empty?
-      conditions[0] += "((is_public = true) OR (project_id in (?)))"
+    project_specified = conditions[:project_id] #temp variable for later use
+    
+    conditions = conditions.to_array_conditions
+    conditions[0] += " AND " unless conditions[0].empty?
+    conditions[0] += " created_at >= ? AND created_at <= ?"
+    conditions.push DateTime.now - 20.year
+    conditions.push max_created_on
+    
+    conditions[0] += " AND hidden_from_user_id <> ?"
+    conditions.push User.current.id
+    
+    unless project_specified
+      conditions[0] += " AND ((is_public = true) OR (project_id in (?)))"
       conditions.push User.current.projects.collect{|m| m.id}
-      conditions[0] += " AND created_at >= ? AND created_at <= ?"
-      conditions.push DateTime.now - 20.year
-      conditions.push max_created_on
     end
-    # conditions[:is_public] = true unless conditions[:project_id]
-    logger.info { "xxxxxxx #{conditions.inspect}" }
-    #|| user.nil?
+    
+    unless User.current.logged?
+      conditions[0] += " AND (is_public = true)"
+    end
     
     activities_by_item = ActivityStream.all(:conditions => conditions, :limit => length, :order => "created_at desc").group_by {|a| a.object_type.to_s + a.object_id.to_s}
     activities_by_item.each_pair do |key,value| 
@@ -136,6 +141,8 @@ class ActivityStream < ActiveRecord::Base
   # end
 
 end
+
+
 
 
 # == Schema Information
@@ -169,5 +176,6 @@ end
 #  project_name                :string(255)
 #  actor_email                 :string(255)
 #  is_public                   :boolean         default(FALSE)
+#  hidden_from_user_id         :integer         default(0)
 #
 
