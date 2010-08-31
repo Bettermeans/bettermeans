@@ -22,7 +22,6 @@ var loaded_panels = 0; //keeps track of how many panels have had their data load
 var local_store = null; //local persistant storage
 var ok_to_save_local_data = false;
 var complexity_description = ['Real Easy','.','.','Average','.','.','Super Hard'];
-var new_dash_data_counter = 10;
 
 $(window).bind('resize', function() {
 	resize();
@@ -168,6 +167,7 @@ function load_dashboard_data(){
 			load_retros();
 		}
 		start_timer();
+		ISSUE_COUNT = -1; //we are loading from local data, so we set the counter past 10 to refresh moved items
 		new_dash_data();
 		local_D = null;
 		local_R = null;
@@ -3753,14 +3753,7 @@ function new_dash_data(){
 	
 	var data = "seconds=" + (((new Date).getTime() - last_data_pull.getTime())/1000);
 	
-	if (new_dash_data_counter > 10){
-		data = data + "&issuecount=0"; //refreshing issue counts
-		new_dash_data_counter = 0;
-	}
-	else{
-		data = data + "&issuecount=" + ISSUE_COUNT;
-		new_dash_data_counter = new_dash_data_counter + 1;
-	}
+	data = data + "&issuecount=" + ISSUE_COUNT;
 	
 
 	var url = url_for({ controller: 'projects',
