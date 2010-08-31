@@ -22,6 +22,7 @@ var loaded_panels = 0; //keeps track of how many panels have had their data load
 var local_store = null; //local persistant storage
 var ok_to_save_local_data = false;
 var complexity_description = ['Real Easy','.','.','Average','.','.','Super Hard'];
+var new_dash_data_counter = 10;
 
 $(window).bind('resize', function() {
 	resize();
@@ -3751,7 +3752,16 @@ function new_dash_data(){
 	replace_reloading_images_for_panels();
 	
 	var data = "seconds=" + (((new Date).getTime() - last_data_pull.getTime())/1000);
-	data = data + "&issuecount=" + ISSUE_COUNT;
+	
+	if (new_dash_data_counter > 10){
+		data = data + "&issuecount=0"; //refreshing issue counts
+		new_dash_data_counter = 0;
+	}
+	else{
+		data = data + "&issuecount=" + ISSUE_COUNT;
+		new_dash_data_counter = new_dash_data_counter + 1;
+	}
+	
 
 	var url = url_for({ controller: 'projects',
                            action    : 'new_dashdata',
