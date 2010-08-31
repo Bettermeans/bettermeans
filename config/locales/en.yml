@@ -299,7 +299,7 @@ en:
   setting_text_formatting: Text formatting
   setting_wiki_compression: Wiki history compression
   setting_feeds_limit: Feed content limit
-  setting_default_projects_public: New workstreams are public by default
+  setting_default_projects_public: New project workstreams are public by default
   setting_autofetch_changesets: Autofetch commits
   setting_commit_ref_keywords: Referencing keywords
   setting_commit_fix_keywords: Fixing keywords
@@ -327,7 +327,7 @@ en:
   setting_openid: Allow OpenID login and registration
   setting_password_min_length: Minimum password length
   setting_new_project_user_role_id: Role given to a non-admin user who creates a workstream
-  setting_default_projects_modules: Default enabled modules for new workstreams
+  setting_default_projects_modules: Default enabled modules for new project workstreams
   setting_issue_done_ratio: Calculate the item done ratio with
   setting_issue_done_ratio_issue_field: Use the item field
   setting_issue_done_ratio_issue_status: Use the item status
@@ -335,7 +335,7 @@ en:
   setting_rest_api_enabled: Enable REST web service
   
   permission_view_project : View workstream
-  permission_add_project: Create workstream
+  permission_add_project: Create project workstream
   permission_add_subprojects: Create sub workstream
   permission_edit_project: Edit workstream
   permission_select_project_modules: Select workstream modules
@@ -401,7 +401,7 @@ en:
   label_user_new: New user
   label_user_anonymous: Anonymous
   label_project: Workstream
-  label_project_new: New workstream
+  label_project_new: New project workstream
   label_project_plural: Workstreams
   label_x_projects:
     zero:  no workstreams
@@ -1206,7 +1206,7 @@ en:
   help_revision_notes: "Optional: Add notes to this revision of the wiki. These notes will appear in the version history of the wiki"
 
   
-  help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br> If you want to start a new workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/how-to/create-a-workstream' target='blank'>click here.</a><br> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/getting-started/joining-an-existing-workstream' target='blank'>click here.</a><br>We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com/home' target='blank'> the tour</a> before you begin."
+  help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br> If you want to start a new project workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/how-to/create-a-workstream' target='blank'>click here.</a><br> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/getting-started/joining-an-existing-workstream' target='blank'>click here.</a><br>We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com/home' target='blank'> the tour</a> before you begin."
   help_section_project_dashboard: "<strong>This is your project's dashboard </strong> and this is where the magic happens. In our opinion, this is where you can get the best view of all the work within a workstream. Each workstream and subworkstream has its own dashboard. <br>From the dashboard you can offer new ideas/requests, comment, agree and disagree with ideas, prioritize, estimate  we know it's a lot - learn more by <a href= 'http://help.bettermeans.com/faq/voting' target='blank'> clicking here </a>. <br>We also want to offer a little cheat sheet, click here for a key that tells you the meaning of all the symbols you see in the Dashboard. <br>As you get rolling with your work, some helpful tools will be the filters and the search functions on the upper right corner of the dashboard, be sure to play around with those. To start a new item, click on the New Item button on the upper right bar or at the top of the New column."
   help_section_project_wiki: "<strong>Wikis are great tools for collaboration and therefore each workstream has a wiki.</strong> You can start building your wiki here and you can create multiple pages by clicking ÒStart PageÓ (in blue to the right). Wikis are essentially online documents and everyone that has access can not only read but also edit and contribute to online. <br>Note the different action buttons (on the right in grey), these will be helpful when working on the Wiki."
   help_section_project_news: "<strong>Check out or report on the latest news here.</strong> News is used to broadcast events to your team. For example winning a bid, or a new product release."
