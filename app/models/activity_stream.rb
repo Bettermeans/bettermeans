@@ -93,11 +93,13 @@ class ActivityStream < ActiveRecord::Base
     conditions[:actor_id] = user_id unless user_id.nil? || with_subprojects == "custom"
     conditions[:project_id] = user.projects.collect{|m| m.id} if !user.nil? && with_subprojects == "custom" && !user.projects.empty? #Customized activity stream for user
     conditions[:project_id] = project.id if project && !with_subprojects
-    conditions[:project_id] = project.sub_project_array_visible_to(User.current) if project && with_subprojects
+    # conditions[:project_id] = project.sub_project_array_visible_to(User.current) if project && with_subprojects
     
     project_specified = conditions[:project_id] #temp variable for later use
     
     conditions = conditions.to_array_conditions
+    
+    logger.info { "conditions #{conditions.inspect}" }
     conditions[0] += " AND " unless conditions[0].empty?
     conditions[0] += " created_at >= ? AND created_at <= ?"
     conditions.push DateTime.now - 20.year
