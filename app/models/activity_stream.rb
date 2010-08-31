@@ -19,7 +19,8 @@ class ActivityStream < ActiveRecord::Base
   
   named_scope :recent, {:conditions => "activity_streams.created_at > '#{(Time.now.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP * -1).to_s}'"}
   
-  def before_update
+  def before_save
+    logger.info("projec.is public #{self.project.inspect}")
     self.is_public = self.project.is_public if self.project
   end
   
