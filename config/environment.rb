@@ -89,7 +89,17 @@ Rails::Initializer.run do |config|
     end
     
     def to_array_conditions
-        [self.keys.map{|k| "#{k} = ?" }.join(" AND "), self.values].flatten
+      @new_conditions = []
+      @new_conditions[0] = self.each.map {|k,v| v.type.to_s == "Array" ? "#{k} in (?)" : "#{k} = ?"}.join(" AND ")
+      self.values.each do |v|
+        v.type.to_s == "Array" ? @new_conditions.push(v.flatten) : @new_conditions.push("#{v}")
+      end
+      @new_conditions
+      #[self.each.map {|k,v| v.type.to_s == "Array" ? "#{k} in (?)" : "#{k} = ?"}.join(" AND "), self.values.map {|v| v.type.to_s == "Array" ? v.flatten : "#{v}"}]
+
+      
+      # [self.keys.map{|k| "#{k} = ?" }.join(" AND "), self.values].flatten
+      
     end
   end
   
