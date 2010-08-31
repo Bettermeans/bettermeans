@@ -38,6 +38,12 @@ module LogActivityStreams
     
     if as.object_type == "Issue"
       as.tracker_name = as.object.tracker.name
+
+      #hiding gifts
+      if as.object.tracker.gift?
+        as.hidden_from_user_id = as.object.assigned_to_id
+        as.is_public = false
+      end
     end
     
     

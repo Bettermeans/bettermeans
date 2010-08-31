@@ -159,7 +159,7 @@ class ProjectsController < ApplicationController
   end
   
   def community_members
-    render :json => @project.all_members.inject({}) { |hash, member|
+    render :json => @project.root.all_members.inject({}) { |hash, member|
       hash[member.user_id] = member.name
       hash
     }.to_json

@@ -84,6 +84,8 @@ class ActivityStreamTest < ActiveSupport::TestCase
 end
 
 
+
+
 # == Schema Information
 #
 # Table name: activity_streams
@@ -115,5 +117,6 @@ end
 #  project_name                :string(255)
 #  actor_email                 :string(255)
 #  is_public                   :boolean         default(FALSE)
+#  hidden_from_user_id         :integer         default(0)
 #
 
