@@ -20,8 +20,8 @@ class ActivityStream < ActiveRecord::Base
   named_scope :recent, {:conditions => "activity_streams.created_at > '#{(Time.now.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP * -1).to_s}'"}
   
   def before_save
-    self.is_public = self.project.is_public if self.project && self.is_public == nil
-    # self.is_public = false if self.hidden_from_user_id > 0
+    self.is_public = self.project.is_public if self.project
+    self.is_public = false if self.hidden_from_user_id > 0
   end
   
   # Finds the recent activities for a given actor, and honors
