@@ -40,12 +40,12 @@ class BoardsController < ApplicationController
         @message = Message.new
         render :action => 'show', :layout => !request.xhr?
       }
-      format.atom {
-        @messages = @board.messages.find :all, :order => 'created_on DESC',
-                                               :include => [:author, :board],
-                                               :limit => Setting.feeds_limit.to_i
-        render_feed(@messages, :title => "#{@project}: #{@board}")
-      }
+      # format.atom {
+      #   @messages = @board.messages.find :all, :order => 'created_on DESC',
+      #                                          :include => [:author, :board],
+      #                                          :limit => Setting.feeds_limit.to_i
+      #   render_feed(@messages, :title => "#{@project}: #{@board}")
+      # }
     end
   end
   

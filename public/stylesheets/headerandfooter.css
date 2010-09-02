@@ -20,6 +20,18 @@
 	text-indent:-9999px;
 	margin-top:4px
 }
+
+#logo_app {
+	display:block;
+	background-image: url(/images/static/logo_app.png);
+	height:22px;
+	width:159px;
+	text-indent:-9999px;
+	margin-left:6px;
+	float:left;
+	vertical-align:top;
+}
+
 /************************************************************************
 Main Navigation
 ************************************************************************/

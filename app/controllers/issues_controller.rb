@@ -74,7 +74,7 @@ class IssuesController < ApplicationController
       limit = per_page_option
       respond_to do |format|
         format.html { }
-        format.atom { limit = Setting.feeds_limit.to_i }
+        # format.atom { limit = Setting.feeds_limit.to_i }
         format.csv  { limit = Setting.issues_export_limit.to_i }
         format.pdf  { limit = Setting.issues_export_limit.to_i }
       end
@@ -89,7 +89,7 @@ class IssuesController < ApplicationController
       
       respond_to do |format|
         format.html { render :template => 'issues/index.html.erb', :layout => !request.xhr? }
-        format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
+        # format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
       end
@@ -126,7 +126,7 @@ class IssuesController < ApplicationController
     # @priorities = IssuePriority.all
     respond_to do |format|
       format.html { render :template => 'issues/show.html.erb', :layout => 'issue_blank' }
-      format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
+      # format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
   end
