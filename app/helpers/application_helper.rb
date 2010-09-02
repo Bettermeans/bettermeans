@@ -241,7 +241,9 @@ module ApplicationHelper
     elsif @project
       s = ' &#187; ' + @project.name
     else
-      s = h(Setting::APP_TITLE)
+      s = '<span id="logo_app"><a href="/" title="BetterMeans">BetterMeans</a></span>'
+      
+      # s = h(Setting::APP_TITLE)
     end
   end
   
@@ -467,7 +469,6 @@ module ApplicationHelper
   
   def page_header_title
     if @project.nil? || @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
-      ""
       # h(Setting.app_title)
     else
       b = []

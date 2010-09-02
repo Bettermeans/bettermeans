@@ -130,7 +130,7 @@ class ApplicationController < ActionController::Base
       end
       respond_to do |format|
         format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
-        format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
+        # format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
         format.xml { head :unauthorized }
         format.json { head :unauthorized }
       end
