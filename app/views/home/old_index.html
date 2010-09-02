@@ -1,23 +1,6 @@
 <div id="page">
   <div class="container">
-    <%= render :partial => 'home/header', :locals => {:page => 'home'} %>
-      <div class="learnMore span-12"> 
-      	<h1>Better than a bank.</h1>
-      	<div class="feature">
-      			<div onclick="slideShow(-1);" class="fade-left">	
-      				<img src="/images/static/fade-arrow-left.png">
-      			</div>
-      			<div class="screenshot">
-      				<img src="/images/static/goals.png">
-      			</div>
-      			<div onclick="slideShow(1);" class="fade">	
-      				<img src="/images/static/fade-arrow.png">
-      			</div>
-      	</div>
-      	<div class="span-12">
-      		<h2 id="caption">Worry-free banking lets you control your budget.</h2>
-      	</div>
-      </div>
+    <%= render :partial => 'home/header', :locals => {:page => 'about'} %>
     <div class="clear span-12 last" id="banner">
       <div  class="span-7" id="description">
         <!-- <p>Collaborate on your projects.<br>Openly and Democratically.<br>Get things done.</p> -->
@@ -104,7 +87,7 @@
 </div>
 <!-- / Page -->
 <script type="text/javascript">
-			// Cufon.replace('h1, h2, #main h3, h4');
+			// Cufon.replace('h1, h2, #main h3, h4');s
 		</script>
 <script type="text/javascript">
 $(document).ready(function() {

@@ -20,7 +20,8 @@ Misc - anything that doesn't fit elsewhere
 
 /* @group HTML, Body */
 html {
-	background-color: #e2eaee;
+/*	background-color: #e2eaee;
+*/	background-color: #f3f3f3;
 }
 body {
 	font-family: Helvetica, sans-serif;

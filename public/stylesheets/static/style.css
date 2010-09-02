@@ -20,7 +20,8 @@ Table of Content:
 1.- General Cascade Stylesheets Rules
 ************************************************************************/
 body {
-	color: #545454;
+	color: #343434;
+	background-color: #f3f3f3;
 }
 a, a:link {
 	color: #409edc;
@@ -53,12 +54,12 @@ a:active {
 html {
 	overflow-y: scroll;
 }
-html h1, html h2, html h3, html h4 {
+/*html h1, html h2, html h3, html h4 {
 	font-family: Helvetica, sans-serif;
 	font-weight:normal;
 	color:#545454;
 }
-/* =Clearfix (all browsers)
+*//* =Clearfix (all browsers)
 --------------------------------*/
 /* new clearfix */
 .clearfix:after {
@@ -1454,7 +1455,7 @@ div#gallery div.gallery-content p {
 	overflow: hidden;
 	position: relative;
 	width: 459px;
-	left:88px;
+	left:15px;
 }
 /* This is so that the 2nd thumbnail in each row fits snugly. You will want to add a similar
            class to the last thumbnail in each row to get rid of the margin-right. */
@@ -1633,3 +1634,111 @@ p.free-plan{
 	margin-top: -10px;
 }
 
+
+
+.fade-left {
+	background: url(/images/static/auth.png) no-repeat 0 0px;
+	float: left;
+	position: relative;
+	top: 100px;
+	cursor: pointer;
+	height: 160px;
+}
+
+.screenshot {
+	float: left;
+	background: url(/images/static/border.png) repeat-x 0 0px;
+	padding: 1em;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.screenshot img {
+	border: 1px solid #f3f3f3;
+}
+
+.fade {
+	background: url(/images/static/goals.png) no-repeat 0 0px;
+	float: left;
+	position: relative;
+	top: 100px;
+	cursor: pointer;
+	height: 160px;
+}
+
+.fade img, .fade-left img {
+	width: 220px;
+	height: 160px;
+}
+
+.catchPhrase {
+	text-align: center;
+	font-size: 1.5em;
+	padding-top: 2em;
+}
+
+.feature {
+	margin-left: 3em;
+}
+
+#arrow {
+	float: left;
+	width: 50px;
+	height: 50px;
+}
+
+#better {
+	margin-bottom: 1em;
+}
+
+.copyright {
+	color: #999;
+	float: right;
+}
+
+/* Learn More */
+.learnMore {
+	margin-top: 2.5em;
+}
+.learnMore h1 {
+	text-align: center;
+	margin-top: 0.5em;
+}
+
+.learnMore ul {
+	padding: 0 1.5em 0 0;
+}
+
+.learnMore li {
+	font-family: "Helvetica Neue", Arial, sans-serif;
+	font-size:1.5em;line-height:1.5em; margin-bottom:1em;
+	list-style: none;
+	text-shadow: 0 2px #fff;
+}
+
+#caption {
+	margin-left: 20px;
+	margin-top: 1em;
+	font-weight: bold;
+	color: #555;
+	text-align: center;
+}
+
+.learnMore .box {
+	background-color: #FFF;
+}
+
+.learnMore p {
+	font-family: Georgia, 'Times New Roman', Times, serif;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+.whitebox {padding:1.5em;margin-bottom:1.5em;background:#fff; border: 1px solid #ddd;}
+
+.spacer {height: 2.5em;}
+
+/*.colborder {padding-right:24px;margin-right:25px;border-right:1px solid #eee;}
+.colborder { border-color: #666; }
+*/
