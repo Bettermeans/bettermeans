@@ -21,7 +21,7 @@ Table of Content:
 ************************************************************************/
 body {
 	color: #343434;
-	background-color: #f3f3f3;
+/*	background-color: #f3f3f3;*/
 }
 a, a:link {
 	color: #409edc;
@@ -1704,6 +1704,7 @@ p.free-plan{
 .learnMore h1 {
 	text-align: center;
 	margin-top: 0.5em;
+	line-height: 1.15em;
 }
 
 .learnMore ul {

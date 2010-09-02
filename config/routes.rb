@@ -296,7 +296,7 @@ ActionController::Routing::Routes.draw do |map|
   #semi-statig pages
   map.root :controller => 'home'
   map.home '', :controller => 'home', :action => 'index'
-  map.static '/front/:page', :controller => 'home', :action => 'show', :page => /index.html|about.html|howitworks.html|contact.html|blog.html|hq.html|pricing.html|signup.html|apps.html|products.html|services.html|single.html|tour.html|webdesign.html|index.htm|elements.html|privacy.html|library.html|features.html|testimonials.html|irb.html/                          
+  map.static '/front/:page', :controller => 'home', :action => 'show', :page => /index.html|about.html|howitworks.html|contact.html|blog.html|hq.html|pricing.html|signup.html|apps.html|products.html|services.html|single.html|tour.html|webdesign.html|index.htm|elements.html|privacy.html|library.html|features.html|testimonials.html|irb.html|open_enterprise_governance_model.html|user_agreement.html/                          
   
     
   # Install the default route as the lowest priority.
