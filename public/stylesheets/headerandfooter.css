@@ -2,10 +2,10 @@
 2.- General Structure
 ************************************************************************/
 #page {
-	background:#fff url(/images/static/background.jpg) repeat-x;
+	background:#ffffff url(/images/static/background.jpg) repeat-x;
 }
 #inner-page {
-	background:#fff url(/images/static/inner-background.jpg) repeat-x;
+	background:#f3f3f3 url(/images/static/inner-background.jpg) repeat-x;
 }
 #header {
 	height:63px;
@@ -277,3 +277,9 @@ ul#topnav.sf-menu li.current ul, ul#topnav.sf-menu li ul {
 /*From HN*/
 #top-footer .footer-logo {left:-21px;}
 #top-footer h3 {background:none;padding-left:0;}
+
+#inviteArrow {
+left:-1em;
+position:relative;
+top:-0.3em;
+}

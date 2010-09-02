@@ -23,10 +23,11 @@
 
 <% else %>
         <ul class="sf-menu" id="topnav">
-          <li <%= "class='active'" if page == "home" %>> <a href="/front/index.html"><span>Home</span></a> </li>
+          <li <%= "class='active'" if page == "home" %>> <a href="/front/index.html"><span>home</span></a> </li>
           <!-- <li <%#= "class='active'" if page == "tour" %>> <a href="/front/tour.html"><span>Tour</span></a> </li> -->
-          <li <%= "class='active'" if page == "features" %>> <a href="/front/features.html"><span>Features</span></a> </li>
-          <li <%= "class='active'" if page == "pricing" %>> <a href="/front/pricing.html"><span>Pricing</span></a> </li>
+          <li <%= "class='active'" if page == "howitworks" %>> <a href="/front/howitworks.html"><span>how it works</span></a> </li>
+          <li <%= "class='active'" if page == "features" %>> <a href="/front/features.html"><span>features</span></a> </li>
+          <li <%= "class='active'" if page == "pricing" %>> <a href="/front/pricing.html"><span>pricing</span></a> </li>
           <!-- <li <%#= "class='active'" if page == "library" %>> <a href="/front/library.html"><span>Library +</span></a>
             <ul>
               <li> <a href="/front/library.html">Overview</a> </li>
@@ -45,8 +46,10 @@
             </ul>
           </li> -->
           <!-- <li <%#= "class='active'" if page == "contact" %>> <a href="/contact.html"><span>Contact +</span></a> -->
-          <li> <a href="/login"><span>Login</span></a>
-          <li class="sign-up"><a class="sign-up" href="/account/register"><span class="sign-up">Sign Up</span></a><b></b></li>
+          <li> <a href="/login"><span>login</span></a>
+          <li><a href="/account/register"><span>sign up</span></a><img src="/images/static/blue_arrow_left.png" id="inviteArrow"></li>
+          
+          <!-- <li class="sign-up"><a class="sign-up" href="/account/register"><span class="sign-up">Sign Up</span></a><b></b></li> -->
         </ul>
 
 <% end %>
