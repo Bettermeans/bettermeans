@@ -56,6 +56,9 @@ body {
 .gt-hd .gt-logo .gt-leaf {
 	vertical-align: top;
 }
+.gt-leaf{
+	margin-right: 6px;
+}
 .gt-hd .gt-leaf-watermark {
 	background: url(../images/gt/leaves-watermark.png) no-repeat 99% 0;
 }
