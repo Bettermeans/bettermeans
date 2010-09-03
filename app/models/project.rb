@@ -297,10 +297,10 @@ class Project < ActiveRecord::Base
     end
   end
  
-  def to_param
-    # id is used for projects with a numeric identifier (compatibility)
-    @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id : identifier)
-  end
+  # def to_param
+  #   # id is used for projects with a numeric identifier (compatibility)
+  #   @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id : identifier)
+  # end
   
   def active?
     self.status == STATUS_ACTIVE
