@@ -11,8 +11,8 @@
 <p><%= f.text_field :b_cc_last_four %></p>
 <table style="width:100%;"><tr><td>
 <p>
-  <%= f.select :b_cc_month, options_for_select(month_hash, :selected => Date.today.month) %>
-  <%= f.select :b_cc_year, options_for_select(year_hash.sort, :selected => Date.today.year) %>
+  <%= f.select :b_cc_month, options_for_select(month_hash, :selected => @user.b_cc_month || Date.today.month) %>
+  <%= f.select :b_cc_year, options_for_select(year_hash.sort, :selected => @user.b_cc_year || Date.today.year) %>
 </p>
 </td><td style="vertical-align:top;">
 <p><label><%= l(:label_b_verification_code) %></label> <%= text_field "", "ccverify", :size => 5, :class => "verification-code" %><img src="https://app-static.recurly.com/images/creditcards/cvv-glyph.png?1280344890" alt="CVV"></p>

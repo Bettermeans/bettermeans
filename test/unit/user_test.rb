@@ -274,6 +274,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: users
@@ -309,5 +310,6 @@ end
 #  b_cc_month            :integer
 #  b_cc_year             :integer
 #  mail_hash             :string(255)
+#  trial_expires_on      :datetime
 #
 

@@ -1,7 +1,14 @@
 <% plan = User.current.plan %>
 <div class="gt-sidebar-nav gt-sidebar-nav-gray">
-  <h3>Your current plan: <%= plan.name %></h3>
+  <h3>Your current plan: <%= plan.name %> Plan</h3>
   <ul>
+    <% if @user.trial_expires_on >= Date.today %>
+    <li><p><span style="float:right;width:35%"><%= distance_of_date_in_words(Date.today, @user.trial_expires_on)  %> </span><span style="float:right;width:65%">Trial Expires in</span></p>
+    </li>
+    <% elsif @user.trial_expires_on %>
+    <li><p><span style="float:right;width:35%"><%= distance_of_date_in_words(Date.today, @user.trial_expires_on)  %> ago </span><span style="float:right;width:65%">TRIAL EXPIRED</span></p>
+    </li>
+    <% end  %>
   <li><p><span style="float:right;width:35%">$<%= plan.amount.round %> monthly</span><span style="float:right;width:65%">Cost</span></p>
   </li>
   <li><p><span style="float:right;width:35%"><%= User.current.project_storage_total %> / <%= describe plan.storage_max %> GB</span><span style="float:right;width:65%">Storage</span></p>

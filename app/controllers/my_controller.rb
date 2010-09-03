@@ -47,11 +47,13 @@ class MyController < ApplicationController
         params[:user][:b_cc_last_four] = ("XXXX-") + params[:user][:b_cc_last_four][cc.length-4,cc.length-1] if cc.length > 14
       end
       @user.attributes = params[:user]
+      logger.info { "@user.attributes #{@user.attributes.inspect}" }
       @user.mail_notification = (params[:notification_option] == 'all')
       @user.pref.attributes = params[:pref]
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref[:no_emails] = (params[:no_emails] == '1')
       if @user.save
+        @user.reload
         @user.pref.save
         @user.save_billing cc, params[:ccverify], request.remote_ip
         @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
@@ -86,7 +88,8 @@ class MyController < ApplicationController
       @new_plan = Plan.find(params[:user][:plan_id])
       @user.attributes = params[:user]
       @user.plan_id = @new_plan.id
-
+      @user.save
+          
       account = User.update_recurly_billing @user.id, cc, params[:ccverify], request.remote_ip
         
       if (defined? account.billing_info) && account.billing_info.errors && account.billing_info.errors.any?
@@ -143,7 +146,7 @@ class MyController < ApplicationController
         flash.now[:notice] = l(:notice_account_updated) + " No changes were made to your plan"
       end
       
-      redirect_to :action => 'account'
+      # redirect_to :action => 'account'
       return
     end    
   end
