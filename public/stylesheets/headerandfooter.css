@@ -23,6 +23,7 @@
 
 #logo_app {
 	display:block;
+	background: no-repeat;
 	background-image: url(/images/static/logo_app.png);
 	height:22px;
 	width:157px;
