@@ -71,9 +71,9 @@ class ApplicationController < ActionController::Base
       user = User.try_to_autologin(cookies[:autologin])
       session[:user_id] = user.id if user
       user
-    elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
-      # RSS key authentication does not start a session
-      User.find_by_rss_key(params[:key])
+    # elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
+    #   # RSS key authentication does not start a session
+    #   User.find_by_rss_key(params[:key])
     elsif Setting.rest_api_enabled? && ['xml', 'json'].include?(params[:format]) && accept_key_auth_actions.include?(params[:action])
       if params[:key].present?
         # Use API key

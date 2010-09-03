@@ -101,20 +101,20 @@ class IssuesController < ApplicationController
     render_404
   end
   
-  def changes
-    retrieve_query
-    sort_init 'id', 'desc'
-    sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
-    
-    if @query.valid?
-      @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC", 
-                                  :limit => 25)
-    end
-    @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
-    render :layout => false, :content_type => 'application/atom+xml'
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
+  # def changes
+  #   retrieve_query
+  #   sort_init 'id', 'desc'
+  #   sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
+  #   
+  #   if @query.valid?
+  #     @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC", 
+  #                                 :limit => 25)
+  #   end
+  #   @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
+  #   render :layout => false, :content_type => 'application/atom+xml'
+  # rescue ActiveRecord::RecordNotFound
+  #   render_404
+  # end
   
   def show
     @item = @issue.to_dashboard
