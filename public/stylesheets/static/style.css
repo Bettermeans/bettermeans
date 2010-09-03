@@ -746,123 +746,6 @@ table#pricing-chart td {
 	background:url(/images/static/clock.png) no-repeat 0 40%;
 	padding-left:25px
 }
-table#pricing-chart{
-	margin-bottom: 0px;
-}
-table#pricing-chart th.enterprise {
-	background: url(/images/static/th-enterprise.gif) no-repeat;
-	width: 195px;
-	height: 158px;
-	border-top: 1px solid #3587ba;
-	border-bottom: 1px solid #3587ba;
-	border-left: 1px solid #3587ba;
-}
-table#pricing-chart th.business {
-	background:url(/images/static/business-th.gif) no-repeat 0 0px;
-	width:211px;
-	height:168px;
-	border-right:1px solid #709c22;
-	border-bottom:2px solid #88bd2c
-}
-table#pricing-chart th.standard {
-	background:url(/images/static/standard-th.gif) no-repeat 0px 0px;
-	width:195px;
-	height:158px;
-	border-top: 1px solid #3587ba;
-	border-bottom: 1px solid #3587ba;
-	border-right: 1px solid #3587ba;
-}
-table#pricing-chart th.free {
-	background:url(/images/static/free-th.gif) no-repeat 0 0px;
-	width:198px;
-	height:158px;
-	border-top: 1px solid #3587ba;
-	border-bottom: 1px solid #3587ba;
-	border-right: 1px solid #3587ba;
-}
-table#pricing-chart td.blue-1 {
-	background:#e6f6ff url(/images/static/p-chart-shadow.png) repeat-y center right;
-	height:25px;
-}
-table#pricing-chart td.blue-2 {
-	background:#f5fbfe url(/images/static/p-chart-shadow.png) repeat-y center right;
-	height:25px
-}
-table#pricing-chart td.blue-3 {
-	background:#e6f6ff url(/images/static/p-chart-shadow-r.png) repeat-y center left;
-	height:25px;
-	border-right: 1px solid #e3e3e3
-}
-table#pricing-chart td.blue-4 {
-	background:#f5fbfe url(/images/static/p-chart-shadow-r.png) repeat-y center left;
-	height:25px;
-	border-right: 1px solid #e3e3e3
-}
-table#pricing-chart td.blue-5 {
-	background:#e6f6ff
-}
-table#pricing-chart td.blue-6 {
-	background:#f5fbfe
-}
-table#pricing-chart td.green-1 {
-	background:#f2fbdc
-}
-table#pricing-chart td.green-2 {
-	background:#f8fdeb
-}
-table#pricing-chart th a.sign-up {
-	background:url("/images/static/sign-up-orange.png") no-repeat scroll 0 0 transparent;
-	display:block;
-	height:30px;
-	left:4px;
-	margin:0 auto;
-	position:relative;
-	text-indent:-9999px;
-	top:55px;
-	width:99px;
-}
-table#pricing-chart th a.sign-up:hover {
-	background-position: 0 -34px;
-}
-table#pricing-chart th a.sign-up:active {
-	background-position: 0 -33px;
-}
-table#pricing-chart th a.sign-up-blue {
-	background:url("/images/static/sign-up-blue.png") no-repeat scroll 0 0 transparent;
-	display:block;
-	height:35px;
-	left:4px;
-	margin:0 auto;
-	position:relative;
-	text-indent:-9999px;
-	top:55px;
-	width:105px;
-}
-table#pricing-chart th a.sign-up-blue:hover {
-	background-position: 0 -37px;
-}
-table#pricing-chart th a.sign-up-blue:active {
-	background-position: 0 -36px;
-}
-table#pricing-chart td.blue-1, table#pricing-chart td.blue-2 {
-	border-left:1px solid #3587ba;
-}
-table#pricing-chart th.top {
-	background:url(/images/static/table-top.jpg) no-repeat center bottom
-}
-table#pricing-chart td.green-1, table#pricing-chart td.green-2 {
-	border-left:1px solid #99c54c;
-	border-right:1px solid #99c54c;
-}
-table#pricing-chart td.blue-5, table#pricing-chart td.blue-6 {
-	border-right:1px solid #3587ba;
-}
-table#pricing-chart td.last {
-	border-bottom:1px solid #3587ba
-}
-table#pricing-chart td.bottom {
-	background:url(/images/static/table-bottom.gif) no-repeat -6px 0
-}
 #main-inner div#right-call-buttom {
 	float:right;
 	width:226px;
@@ -881,68 +764,15 @@ table#pricing-chart td.bottom {
 table#pricing-chart th.table-col-0 {
 	text-align:center
 }
-div#main-inner table#pricing-chart th.table-col-0 h2 {
-	margin:-16px 0 0 0;
-	line-height:0;
-}
-table#pricing-chart td span {
-	color:#545454;
-	text-shadow:1px 1px #fff
-}
-table#pricing-chart td span.shield {
-	background:url(/images/static/shield.png) no-repeat 0 50%;
-	padding-left: 20px;
-}
-table#pricing-chart td span.time {
-	background:url(/images/static/time.png) no-repeat 0 50%;
-	padding-left: 20px;
-}
-table#pricing-chart td span.iphone {
-	background:url(/images/static/iphone.png) no-repeat 0 50%;
-	padding-left: 20px;
-}
-table#pricing-chart td span.iphone img {
-	position: relative;
-	top:-4px;
-	left:2px
-}
-table#pricing-chart td span.unsupported {
-	background: url(/images/static/nofeature.png) no-repeat 0 50%;
-	text-indent:-9999px;
-	width:14px;
-	display: block;
-	margin: 0 auto;
-}
-table#pricing-chart td.push span.unsupported {
-	position: relative;
-	left: -5px
-}
-table#pricing-chart td span.unsupported-green {
-	background: url(/images/static/nofeature.png) no-repeat 0 50%;
-	text-indent:-9999px;
-	width:14px;
-	display: block;
-	margin: 0 auto;
-	position: relative;
-	top:5px
-}
 #main-inner div#pricing-col {
 	margin-top: 5px
-}
-#main-inner div#pricing-col h3 {
-	color: #545454;
-	font-style: italic;
-	border-bottom: 1px solid #ccc;
-	padding-bottom: 5px
 }
 #main-inner div#pricing-col div.column {
 /*	width: 259px;*/
 	padding: 0 20px
 }
 #main-inner div#pricing-col h4 {
-	color:#0675bd;
-	font-size: 1.7em;
-	margin: 15px 0
+	font-weight:bold;
 }
 #main-inner div#pricing-col img {
 	padding: 2px;
