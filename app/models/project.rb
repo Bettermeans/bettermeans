@@ -89,13 +89,16 @@ class Project < ActiveRecord::Base
                 :author => nil
 
   acts_as_fleximage do
+    begin
       require_image false
       # image_directory '/public/help'
       s3_bucket 'bettermeans_workstream_logos'
       preprocess_image do |image|
         image.resize '200x600'
       end
+    rescue
     end
+  end
 
   attr_protected :status, :enabled_module_names
   
