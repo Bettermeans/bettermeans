@@ -97,18 +97,18 @@ module ActivityStreamsModule
     end
   end
 
-  def feed
-
-    klass = Object::const_get(ACTIVITY_STREAM_USER_MODEL)
-    @user = klass.find_by_activity_stream_token params[:activity_stream_token] unless params[:activity_stream_token].blank?
-
-    render :nothing => true and return if @user.nil?
-
-    @activity_streams = ActivityStream.recent_actors(@user,:feed_location)
-    
-    respond_to do |wants|
-      wants.atom { render :partial => 'activity_streams/activity_stream_feed.atom.builder' }
-    end
-  end
+  # def feed
+  # 
+  #   klass = Object::const_get(ACTIVITY_STREAM_USER_MODEL)
+  #   @user = klass.find_by_activity_stream_token params[:activity_stream_token] unless params[:activity_stream_token].blank?
+  # 
+  #   render :nothing => true and return if @user.nil?
+  # 
+  #   @activity_streams = ActivityStream.recent_actors(@user,:feed_location)
+  #   
+  #   respond_to do |wants|
+  #     wants.atom { render :partial => 'activity_streams/activity_stream_feed.atom.builder' }
+  #   end
+  # end
 
 end

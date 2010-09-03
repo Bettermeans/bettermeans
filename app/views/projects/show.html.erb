@@ -136,7 +136,6 @@
 									<span style="float:left;width:30%;"><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
                                                         :set_filter => 1, 
                                                         "tracker_id" => tracker.id %></span>
-                                                        :
           		</li>
             <% end %>
     </ul>
@@ -156,9 +155,9 @@
     <% end %>
 <% end %>
 
-<% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, {:action => 'activity', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
-<% end %>
+<%# content_for :header_tags do %>
+<%#= auto_discovery_link_tag(:atom, {:action => 'activity', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
+<%# end %>
 
 <% html_title(l(:label_overview)) -%>
 
