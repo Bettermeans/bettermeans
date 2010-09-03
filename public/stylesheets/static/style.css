@@ -811,7 +811,7 @@ table#pricing-chart td.green-2 {
 	background:#f8fdeb
 }
 table#pricing-chart th a.sign-up {
-	background:url("/images/static/sign-up-green.png") no-repeat scroll 0 0 transparent;
+	background:url("/images/static/sign-up-orange.png") no-repeat scroll 0 0 transparent;
 	display:block;
 	height:30px;
 	left:4px;
@@ -1611,7 +1611,7 @@ Browser Specific Fixes
 
 
 a.sign-up-floating {
-	background:url("/images/static/sign-up-green.png") no-repeat scroll 0 0 transparent;
+	background:url("/images/static/sign-up-orange.png") no-repeat scroll 0 0 transparent;
 	height:35px;
 	left:4px;
 /*	margin:0 auto;
@@ -1659,7 +1659,7 @@ p.free-plan{
 }
 
 .fade {
-	background: url(/images/static/goals.png) no-repeat 0 0px;
+	background: url(/images/static/people.png) no-repeat 0 0px;
 	float: left;
 	position: relative;
 	top: 100px;
