@@ -1161,7 +1161,7 @@ module ApplicationHelper
   def title_for_activity_stream(as)
     case as.object_type.downcase
     when 'memberrole'
-      return "#{as.object.user.name} is now #{as.object.name}"
+      as.object ? "#{as.object.user.name} is now #{as.object.name}" : "New member role"
     else
       format_activity_title(as.object_name)
     end
