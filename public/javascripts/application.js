@@ -472,7 +472,7 @@ if(o.start) o.start($this);
 //call MD5 function
 id = email;
 // id = $.fn.getGravatar.md5(email);
-var gravatar_url = "http://gravatar.com/avatar.php?gravatar_id="+id+"&size="+o.avatarSize;
+var gravatar_url = "https://secure.gravatar.com/avatar.php?gravatar_id="+id+"&size="+o.avatarSize;
 //call our function to output the avatar to the container
     $.fn.getGravatar.output(o.avatarContainer, gravatar_url, o.stop);
 }
