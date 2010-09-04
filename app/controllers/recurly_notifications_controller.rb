@@ -2,7 +2,7 @@
 # Copyright (C) 2009  Shereef Bishay
 #
 
-class IssuesController < ApplicationController
+class RecurlyNotificationsController < ApplicationController
   def listen
     logger.info { "params #{params.inspect}" }
   end
