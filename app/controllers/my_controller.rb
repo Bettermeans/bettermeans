@@ -128,7 +128,7 @@ class MyController < ApplicationController
             return
           end
         rescue ActiveResource::ResourceNotFound
-          trial_expiration == @user.trial_expires_on || -1.days.from_now
+          trial_expiration = @user.trial_expires_on || -1.days.from_now
           sub = Recurly::Subscription.create(
             :account_code => account.account_code,
             :plan_code => @new_plan.code, 
