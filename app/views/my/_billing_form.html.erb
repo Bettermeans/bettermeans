@@ -4,10 +4,10 @@
 <p><%= f.select :b_country, options_for_select(country_hash.sort, :selected => "US") %></p>
 <p><%= f.text_field :b_zip %></p>
 <p><%= f.text_field :b_phone %></p>
-<img width="27" height="19" src="https://app-static.recurly.comspancreditcards/visa.png" alt="Visa">
-<img width="27" height="19" src="https://app-static.recurly.comspancreditcards/mastercard.png" alt="MasterCard">
-<img width="27" height="19" src="https://app-static.recurly.comspancreditcards/amex.png" alt="AmEx">
-<img width="27" height="19" src="https://app-static.recurly.comspancreditcards/discover.png" alt="Discover">
+<img width="27" height="19" src="/images/visa.png" alt="Visa">
+<img width="27" height="19" src="/images/mastercard.png" alt="MasterCard">
+<img width="27" height="19" src="/images/amex.png" alt="AmEx">
+<img width="27" height="19" src="/images/discover.png" alt="Discover">
 <p><%= f.text_field :b_cc_last_four %></p>
 <table style="width:100%;"><tr><td>
 <p>
@@ -15,5 +15,5 @@
   <%= f.select :b_cc_year, options_for_select(year_hash.sort, :selected => @user.b_cc_year || Date.today.year) %>
 </p>
 </td><td style="vertical-align:top;">
-<p><label><%= l(:label_b_verification_code) %></label> <%= text_field "", "ccverify", :size => 5, :class => "verification-code" %><img src="https://app-static.recurly.comspancreditcards/cvv-glyph.png?1280344890" alt="CVV"></p>
+<p><label><%= l(:label_b_verification_code) %></label> <%= text_field "", "ccverify", :size => 5, :class => "verification-code" %><img src="/images/cvv-glyph.png" alt="CVV"></p>
 </td></tr></table>
