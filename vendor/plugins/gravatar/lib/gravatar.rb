@@ -31,7 +31,7 @@ module GravatarHelper
     :class => 'gravatar',
     
     # Whether or not to display the gravatars using HTTPS instead of HTTP
-    :ssl => false,
+    :ssl => true,
   }
   
   # The methods that will be made available to your views.
@@ -68,7 +68,7 @@ module GravatarHelper
       email_hash = Digest::MD5.hexdigest(email)
       options = DEFAULT_OPTIONS.merge(options)
       options[:default] = CGI::escape(options[:default]) unless options[:default].nil?
-      returning gravatar_api_url(email_hash, options.delete(:ssl)) do |url|
+      returning gravatar_api_url(email_hash, options) do |url|
         opts = []
         [:rating, :size, :default].each do |opt|
           unless options[opt].nil?
