@@ -266,6 +266,12 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   
+  map.with_options :controller => 'recurly_notifications' do |recurly_routes|
+    recurly_routes.with_options :conditions => {:method => :post} do |recurly_action|
+      recurly_action.connect 'recurly_notifications/listen', :action => 'listen'
+    end
+  end
+  
   map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
   map.connect 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/
   map.connect 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/
@@ -292,7 +298,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'projects/:project_id/news/:action', :controller => 'news'  
   map.connect 'projects/:project_id/motions/:action', :controller => 'motions'  
   map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
-  
+
   #semi-statig pages
   map.root :controller => 'home'
   map.home '', :controller => 'home', :action => 'index'

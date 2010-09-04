@@ -114,7 +114,8 @@ class MyController < ApplicationController
         else
           @user.save
           flash.now[:notice] = "Your plan was successfully canceled"
-          redirect_to :action => 'account'
+          # redirect_to :action => 'account'
+          @user.reload
           return
         end
       elsif @new_plan.code != @selected_plan.code
@@ -127,11 +128,13 @@ class MyController < ApplicationController
             return
           end
         rescue ActiveResource::ResourceNotFound
+          trial_expiration == @user.trial_expires_on || -1.days.from_now
           sub = Recurly::Subscription.create(
             :account_code => account.account_code,
             :plan_code => @new_plan.code, 
             :quantity => 1,
-            :account => account
+            :account => account,
+            :trial_ends_at => trial_expiration
           )
         end
         
@@ -145,6 +148,7 @@ class MyController < ApplicationController
       else
         flash.now[:notice] = l(:notice_account_updated) + " No changes were made to your plan"
       end
+      @user.reload
       
       # redirect_to :action => 'account'
       return
