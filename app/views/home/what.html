@@ -9,7 +9,7 @@
 	</script>
 <div id="inner-page">
   <div class="container">
-   <%= render :partial => 'header', :locals => {:page => 'features'} %>
+   <%= render :partial => 'header', :locals => {:page => 'what'} %>
     <div class="clear span-12 last" id="main-inner">
       <div>
       <h1>Get things done together. Don't just document.</h1>
@@ -172,12 +172,12 @@
 
       <!-- <div>
             <h1></h1>
-            <section class="span-12 left whitebox">
-              <section class="span-6 left colborder">
-              </section>
-              <section class="span-6 viewport left last">
-              </section>
-            </section>
+            <span class="span-12 left whitebox">
+              <span class="span-6 left colborder">
+              </span>
+              <span class="span-6 viewport left last">
+              </span>
+            </span>
       </div> -->
       
             
@@ -188,20 +188,6 @@
   <!-- / Container -->
 </div>
 
-<script type="text/javascript">
-			// Cufon.replace('h1, h2,h2 ,h4 ,h5 ,h6');
-</script>
-<script type="text/javascript"> 
-			$(document).ready(function() {
-				$('.viewport').mouseenter(function(e) {
-					$(this).children('a').children('img').animate({ height: '268', left: '-20', top: '-20', width: '480'}, 100);
-					$(this).children('a').children('span').fadeIn(300);
-				}).mouseleave(function(e) {
-					$(this).children('a').children('img').animate({ height: '268', left: '-20', top: '-20', width: '480'}, 100);
-					$(this).children('a').children('span').fadeOut(200);
-				});
-			});
-    </script>
 </body>
 <!-- / page -->
 </html>
