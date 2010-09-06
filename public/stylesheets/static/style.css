@@ -1297,14 +1297,14 @@ div#gallery div.gallery-content p {
 	display: block;
 	position: relative;
 }
-.viewport a img {
+/*.viewport a img {
 	height: 268px;
 	left: -20px;
 	position: relative;
 	top: -20px;
 	width: 480px;
 }
-/* --- Label configuration -------------------------------------------------------------- */
+*//* --- Label configuration -------------------------------------------------------------- */
         .viewport a span {
 	display: none;
 	font-size: 3.0em;
