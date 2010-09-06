@@ -1573,3 +1573,8 @@ p.free-plan{
 /*.colborder {padding-right:24px;margin-right:25px;border-right:1px solid #eee;}
 .colborder { border-color: #666; }
 */
+
+.box, .whitebox {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
