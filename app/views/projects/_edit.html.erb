@@ -1,5 +1,5 @@
 <% labelled_tabular_form_for :project, @project, :url => { :action => "edit", :id => @project }, :html => { :multipart => true }  do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <div class="gt-table-buttons">
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
 </div><% end %>

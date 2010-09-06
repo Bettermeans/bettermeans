@@ -7,7 +7,7 @@
 <%= text_area_tag :emails, @emails, :class => 'wiki-edit', :rows => 20, :colums => 60 %>
 
   <p>
-    <%= submit_tag 'Send Invitations' %>
+    <%= submit_tag 'Send Invitations', :disable_with => l(:button_working) %>
   </p>
 <% end %>
 </div>

@@ -3,6 +3,6 @@
 <% labelled_tabular_form_for :hourly_type, @hourly_type, :url => {:action => 'edit', :id => @hourly_type} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f} %>
   <div class="gt-table-buttons">
-      <%= submit_tag l(:button_save) %>
+      <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
   </div>
 <% end %>

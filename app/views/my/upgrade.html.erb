@@ -13,8 +13,8 @@
 <div class="gt-content-box tabular">
 <%= render :partial => 'billing_form', :locals => {:f => f} %>
   <div class="gt-table-buttons-inside" id="change_plan_button">
-  <%= submit_tag l(:button_change_plan) %>
-  <%= submit_tag l(:button_update_billing) %>
+  <%= submit_tag l(:button_change_plan), :disable_with => "changing plan..." %>
+  <%= submit_tag l(:button_update_billing), :disable_with => "updating..." %>
   </div>
 </div>
 

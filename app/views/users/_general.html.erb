@@ -4,6 +4,6 @@
 		<p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label>
 	<% end -%>
 	<div class="gt-table-buttons">
-  <%= submit_tag l(:button_save) %>
+  <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
   </div>
 <% end %>

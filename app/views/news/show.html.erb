@@ -103,7 +103,7 @@
     <%= textile_editor 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
 </div>
 <div class="gt-table-buttons">
-<%= submit_tag l(:button_add) %>
+<%= submit_tag l(:button_add), :disable_with => l(:button_working) %>
 </div>
 <%= textile_editor_initialize(:framework => :jquery) %>
 <% end %>

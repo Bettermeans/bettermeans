@@ -1,6 +1,6 @@
 &nbsp;
 <%= select :issue_vote, :user_id, collection_for_project_members_select %>
 &nbsp;
-<%= submit_tag l(:button_add) %>
+<%= submit_tag l(:button_add), :disable_with => l(:button_working) %>
 <%= toggle_link l(:button_cancel), 'new-team-member-form'%>
 </p>

@@ -2,9 +2,9 @@
 
 <% form_tag({:action => 'update', :id => @enumeration}, :class => "tabular") do %>
   <%= render :partial => 'form' %>
-  <%= submit_tag l(:button_save) %>
+  <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
 <% end %>
 
 <% form_tag({:action => 'destroy', :id => @enumeration}) do %>
-  <%= submit_tag l(:button_delete) %>
+  <%= submit_tag l(:button_delete), :disable_with => l(:button_working) %>
 <% end %>

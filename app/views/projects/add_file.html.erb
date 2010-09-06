@@ -7,6 +7,6 @@
 <p><label><%=l(:label_attachment_plural)%></label><%= render :partial => 'attachments/form' %></p>
 </div>
 <div class="gt-table-buttons">
-<%= submit_tag l(:button_add) %>
+<%= submit_tag l(:button_add), :disable_with => l(:button_working) %>
 </div>
 <% end %> 

@@ -128,14 +128,14 @@
     <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
             <% for tracker in @trackers %>    
-              <li><span style="float:right;width:70%">
+              <li><div style="float:right;width:70%">
                   <%= link_to l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
 									:total => @total_issues_by_tracker[tracker].to_i), :controller => 'issues', :action => 'index', :project_id => @project, 
                                                         :set_filter => 1, 
-                                                        "tracker_id" => tracker.id %></span>
-									<span style="float:left;width:30%;"><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
+                                                        "tracker_id" => tracker.id %></div>
+									<div style="width:30%;"><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
                                                         :set_filter => 1, 
-                                                        "tracker_id" => tracker.id %></span>
+                                                        "tracker_id" => tracker.id %></div>
           		</li>
             <% end %>
     </ul>

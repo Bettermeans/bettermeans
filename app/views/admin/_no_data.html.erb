@@ -4,7 +4,7 @@
     <p><%= l(:field_language) %>:
     <%= select_tag 'lang', options_for_select(lang_options_for_select(false), current_language.to_s) %>
     <div class="gt-table-buttons">
-    <%= submit_tag l(:text_load_default_configuration) %></p>
+    <%= submit_tag l(:text_load_default_configuration), :disable_with => l(:button_working) %></p>
     </div>
     
 <% end %>
