@@ -1,4 +1,8 @@
 <!-- <h2><%#=l(:label_register)%> <%#=link_to l(:label_login_with_open_id_option), signin_url if Setting.openid? %></h2> -->
+<div id="inner-page">
+  <div class="container">
+   <%= render :partial => '/home/header', :locals => {:page => 'register'} %>
+    <div class="clear span-12 last" id="main-inner">
 
 <div class="gt-login-box">
 
@@ -34,19 +38,22 @@
 
 <div class="gt-form-row">
 	<%= submit_tag l(:button_signup), :class => "gt-btn-gray-medium gt-btn-right right", :style => "float:right;", :disable_with => l(:button_working)  %>
-  <p><label for="user_language"><%=l(:field_language)%></label>
-  <%= select("user", "language", lang_options_for_select) %></p>  
+	<p>&nbsp;</p>
+  <!-- <p><label for="user_language"><%#=l(:field_language)%></label>
+  <%#= select("user", "language", lang_options_for_select) %></p>   -->
 </div>
 
 <%= hidden_field_tag 'invitation_token', params[:invitation_token] %>
 <%= hidden_field_tag 'plan_id', @plan_id %>
-
+<br><br>
 <div class="gt-form-row">
   <br>
   <label>By signing up you indicate that you have read and agreed to the <a href="/front/user_agreement.html" target="_blank">User Agreement</a> and <a href="/front/open_enterprise_governance_model.html" target="blank">Open Enterprise Governance Model</a>
   </label>
   
   </div>
+  
+  </div></div></div>
 
 
 </div>

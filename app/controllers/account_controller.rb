@@ -83,7 +83,6 @@ class AccountController < ApplicationController
         invitation = Invitation.find_by_token params[:invitation_token]
         @user.mail = invitation.mail if invitation
       end
-      
     else
       @user = User.new(params[:user])
       @user.plan_id = params[:plan_id] || Plan.find_by_code(Plan::FREE_CODE)
@@ -114,6 +113,7 @@ class AccountController < ApplicationController
         end
       end
     end
+    render :layout => 'static'
   end
   
   # Token based account activation
