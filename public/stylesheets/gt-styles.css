@@ -33,8 +33,8 @@ body {
 /* @group Layout */
 /* Heading Styles */
 .gt-hd {
-/*	background: url(../images/gt/hd-bkg.jpg) repeat-x 0 100%;*/
-	background: url(../images/gt/hd-bkg.jpg) repeat-x 0 100%;
+/*	background: url(/images/gt/hd-bkg.jpg) repeat-x 0 100%;*/
+	background: url(/images/gt/hd-bkg.jpg) repeat-x 0 100%;
 	padding-top: 0px;
 }
 .gt-hd-top {
@@ -60,7 +60,7 @@ body {
 	margin-right: 6px;
 }
 .gt-hd .gt-leaf-watermark {
-	background: url(../images/gt/leaves-watermark.png) no-repeat 99% 0;
+	background: url(/images/gt/leaves-watermark.png) no-repeat 99% 0;
 }
 .gt-hd .gt-logo select {
 	background-color: transparent;
@@ -289,7 +289,7 @@ body {
 .gt-table-edit a {
 	display: block;
 	padding: 1px 0 1px 22px;
-	background: url(../images/famfamfam/icons/pencil.png) no-repeat 0 50%;
+	background: url(/images/famfamfam/icons/pencil.png) no-repeat 0 50%;
 }
 .gt-table-edit a:link, .gt-table-edit a:visited {
 	color: #7898aa;
@@ -490,10 +490,10 @@ body {
 	margin-bottom: 20px;
 }
 .gt-sidebar-box-gray {
-	background: url(../images/gt/sidenav-gray-bkg.gif) repeat-x 0 0 #333;
+	background: url(/images/gt/sidenav-gray-bkg.gif) repeat-x 0 0 #333;
 }
 .gt-sidebar-box-blue {
-	background: url(../images/gt/sidenav-blue-bkg.gif) repeat-x 0 0 #002f49;
+	background: url(/images/gt/sidenav-blue-bkg.gif) repeat-x 0 0 #002f49;
 }
 
 /* Sidebar Content */
@@ -605,36 +605,36 @@ body {
 }
 .gt-btn-gray-mini {
 	width: 37px;
-	background: url(../images/gt/btn-gray-mini.png) no-repeat 0 0 transparent;
+	background: url(/images/gt/btn-gray-mini.png) no-repeat 0 0 transparent;
 }
 .gt-btn-gray-small {
 	width: 70px;
-	background: url(../images/gt/btn-gray-small.png) no-repeat 0 0 transparent;
+	background: url(/images/gt/btn-gray-small.png) no-repeat 0 0 transparent;
 }
 .gt-btn-gray-medium {
 	width: 126px;
-	background: url(../images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;
+	background: url(/images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;
 }
 .gt-btn-gray-large {
 	width: 185px;
-	background: url(../images/gt/btn-gray-large.png) no-repeat 0 0 transparent;
+	background: url(/images/gt/btn-gray-large.png) no-repeat 0 0 transparent;
 }
 
 .gt-btn-blue-mini {
 	width: 37px;
-	background: url(../images/gt/btn-blue-mini.png) no-repeat 0 0 transparent;
+	background: url(/images/gt/btn-blue-mini.png) no-repeat 0 0 transparent;
 }
 .gt-btn-blue-small {
 	width: 70px;
-	background: url(../images/gt/btn-blue-small.png) no-repeat 0 0 transparent;
+	background: url(/images/gt/btn-blue-small.png) no-repeat 0 0 transparent;
 }
 .gt-btn-blue-medium {
 	width: 126px;
-	background: url(../images/gt/btn-blue-medium.png) no-repeat 0 0 transparent;
+	background: url(/images/gt/btn-blue-medium.png) no-repeat 0 0 transparent;
 }
 .gt-btn-blue-large {
 	width: 185px;
-	background: url(../images/gt/btn-blue-large.png) no-repeat 0 0 transparent;
+	background: url(/images/gt/btn-blue-large.png) no-repeat 0 0 transparent;
 }
 
 /* Button Positioning */
@@ -653,7 +653,7 @@ body {
 /* @group Nav */
 /* Navbar */
 .gt-navbar {
-/*	background: url(../images/gt/navbar-bkg.png) repeat 0 0;
+/*	background: url(/images/gt/navbar-bkg.png) repeat 0 0;
 */	margin-bottom: 2px;
 }
 
@@ -740,7 +740,7 @@ body {
 
 /* Brown Sidebar Nav */
 .gt-sidebar-nav-blue {
-	background: url(../images/gt/sidenav-blue-bkg.gif) repeat-x 0 0 #002f49;
+	background: url(/images/gt/sidenav-blue-bkg.gif) repeat-x 0 0 #002f49;
 }
 .gt-sidebar-nav-blue li {
 	border-top: 1px solid #1b5c7e;
@@ -751,7 +751,7 @@ body {
 
 /* Green Sidebar Nav */
 .gt-sidebar-nav-gray {
-	background: url(../images/gt/sidenav-gray-bkg.gif) repeat-x 0 0 #333;
+	background: url(/images/gt/sidenav-gray-bkg.gif) repeat-x 0 0 #333;
 }
 .gt-sidebar-nav-gray li {
 	border-top: 1px solid #6b6b6b;
@@ -1004,13 +1004,13 @@ ul li {
 
 /* Search Box */
 .gt-search {
-	background: url(../images/gt/search-box-left.png) no-repeat 0 0;
+	background: url(/images/gt/search-box-left.png) no-repeat 0 0;
 	height: 22px;
 	padding: 0 0 0 20px;
 }
 .gt-search-inner {
 	height: 20px;
-	background: url(../images/gt/search-box-right.png) no-repeat 100% 0;
+	background: url(/images/gt/search-box-right.png) no-repeat 100% 0;
 	padding: 3px 0 0 0;
 }
 .gt-search .gt-search-text {
@@ -1983,7 +1983,7 @@ form input[type=submit] {
 	padding: 0;
 	margin: 0;
 	width: 126px;
-	background: url(../images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;	
+	background: url(/images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;	
 }
 
 .gt-table-buttons-inside input[type=submit]{

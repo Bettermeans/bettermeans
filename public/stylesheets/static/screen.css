@@ -643,3 +643,169 @@ ul.plans-features li.intro{font-weight:normal;color:#666;padding:0;background:tr
 button.classy,a.button.classy{height:34px;padding:0;position:relative;top:1px;margin-left:10px;font-family:helvetica,arial,freesans,clean,sans-serif;font-weight:bold;font-size:12px;color:#333;text-shadow:1px 1px 0 #fff;white-space:nowrap;border:none;overflow:visible;background:#ddd;filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ffffff',endColorstr='#e1e1e1');background:-webkit-gradient(linear,0% 0,0% 100%,from(#fff),to(#e1e1e1));background:-moz-linear-gradient(-90deg,#fff,#e1e1e1);border-bottom:1px solid #ebebeb;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;-webkit-box-shadow:0 1px 4px rgba(0,0,0,0.3);-moz-box-shadow:0 1px 4px rgba(0,0,0,0.3);box-shadow:0 1px 4px rgba(0,0,0,0.3);cursor:pointer;-webkit-font-smoothing:subpixel-antialiased!important;}
 a.button.classy{display:inline-block;}
 button.classy span,a.button.classy span{display:block;height:34px;padding:0 13px;line-height:36px;}
+
+
+/*forms*/
+/* Login Box Styles */
+.gt-login-hd {
+	width: 430px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	margin-bottom: 10px;
+	font-size: 161.6%;
+	font-weight: bold;
+	color: #0e2029;
+}
+.gt-login-box {
+	width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 1.5em 3em;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	border-radius: 5px;
+}
+.gt-login-box .gt-form .gt-form-text {
+	font-size: 116%;
+}
+.gt-login-box .gt-remember-me {
+	display: block;
+	padding: 12px 0 0 0;
+	font-size: 85%;
+	font-weight: normal;
+	color: #666666;
+	float: left;
+	display: inline;
+}
+.gt-forgot-password {
+	font-size: 85%;
+	clear: both;
+	margin: 0;
+	padding: 5px 0 0 0;
+}
+
+.signup-header{
+	font-family: 'lucida grande',Verdana,sans-serif;
+	color: #333;
+	font-weight: normal;
+	font-size: 1.4em;
+	padding: 7px;
+	text-align: center;
+	width: 100%;
+}
+
+form input[type=text],
+form input[type=password],
+form textarea {
+	border: 1px solid #ccc;
+	background-color: #f4f7f8;
+	padding: 5px 2px;
+	font-size: 108%;
+	width: 99%;
+}
+
+form input[type=text]:focus,
+form input[type=password]:focus,
+form textarea:focus {
+	background-color: #fff;
+}
+
+form input[type=submit] {
+	margin: 0 10px 0 0;
+	float: left;
+	display: inline;
+	height: 38px;
+	line-height: 38px;
+	text-align: center;
+	font-weight: bold;
+	color: #fff;
+	text-decoration: none;
+	font-size: 13px;
+	border: none;
+	padding: 0;
+	margin: 0;
+	width: 126px;
+	background: url(/images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;	
+}
+
+.gt-table-buttons-inside input[type=submit]{
+	float: right;;
+}
+
+form label {
+	font-size: 100%;
+	color: #365b6d;
+	display: block;
+	margin-bottom: 3px;
+	font-weight: bold;
+}
+
+form option {
+	font-size: 108%;
+}
+
+form label.note {
+	color: #444;
+	font-weight: normal;
+	font-size: 10px;
+}
+
+label.choice {
+	margin: 0 15px 0 0;
+	font-weight: normal;
+	font-size: 12px;
+	color: #666;
+}
+
+
+form input[type=radio],
+form input[type=checkbox] {
+	margin-right: 3px;
+}
+
+form input[type=select] {
+	font-size: 12px;
+	margin: 5px 5px 0 0;
+	border: 1px solid #d2d2d2;
+}
+
+form input.short { width: 20%;}
+form input.medium { width: 45%;}
+form input.long { width:70%;}
+form input.max { width: 95%;}
+
+form .gt-content-box {
+	padding: 15px 15px 5px 15px;
+	margin-bottom: 40px;
+	max-width: 800px;
+}
+
+form .gt-cancel {
+	line-height: 37px;
+	margin-bottom: 0;
+	margin-left: 20px;
+	float: left;
+}
+
+
+
+form p {
+	margin-bottom: 10px;
+	width: 80%;
+}
+
+.gt-login-box .errorExplanation h2{
+	display:none;
+}
+
+.gt-login-box .errorExplanation ul li{
+	color: #DF0000;
+	font-weight: bold;
+}
+
+.gt-login-box .errorExplanation p {
+		color: #DF0000;
+		font-weight: bold;
+		margin-top: 15px;
+}
