@@ -4,7 +4,7 @@
                                            :html => { :id => 'news-form' } do |f| %>
 <%= render :partial => 'form', :locals => { :f => f } %>
 <div class="gt-table-buttons">
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
 <p class="gt-cancel">
 <%= link_to_remote l(:label_preview), 
                    { :url => { :controller => 'news', :action => 'preview', :project_id => @project },

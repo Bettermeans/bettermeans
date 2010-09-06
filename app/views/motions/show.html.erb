@@ -97,7 +97,7 @@
 <% form_for :reply, @reply, :url => {:action => 'reply', :id => @motion}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'messages/form', :locals => {:f => f, :replying => true} %>
   <div class="gt-table-buttons">
-  <%= submit_tag l(:button_submit) %>
+  <%= submit_tag l(:button_submit), :disable_with => l(:button_working) %>
   <p class="gt-cancel">
   <%= link_to_remote l(:label_preview), 
                      { :url => { :controller => 'messages', :action => 'preview', :board_id => @board },

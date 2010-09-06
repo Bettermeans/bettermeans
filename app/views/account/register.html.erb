@@ -33,7 +33,7 @@
 <!--[eoform:user]-->
 
 <div class="gt-form-row">
-	<%= submit_tag l(:button_signup), :class => "gt-btn-gray-medium gt-btn-right right", :style => "float:right;" %>
+	<%= submit_tag l(:button_signup), :class => "gt-btn-gray-medium gt-btn-right right", :style => "float:right;", :disable_with => l(:button_working)  %>
   <p><label for="user_language"><%=l(:field_language)%></label>
   <%= select("user", "language", lang_options_for_select) %></p>  
 </div>

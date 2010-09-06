@@ -3,6 +3,6 @@
 <% form_tag({:action => 'update', :id => @issue_status}, :class => "tabular") do %>
   <%= render :partial => 'form' %>
   <div class="gt-table-buttons">
-    <%= submit_tag l(:button_save) %>
+    <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
   </div>
 <% end %>

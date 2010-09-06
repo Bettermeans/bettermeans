@@ -9,6 +9,6 @@
 <p><%= f.text_field :parent_title, :size => 100  %></p>
 </div>
 <div class="gt-table-buttons">
-<%= submit_tag l(:button_rename) %>
+<%= submit_tag l(:button_rename), :disable_with => l(:button_working) %>
 </div>
 <% end %>
