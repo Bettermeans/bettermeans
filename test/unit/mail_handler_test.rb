@@ -325,3 +325,11 @@ class MailHandlerTest < ActiveSupport::TestCase
     issue.reload
   end
 end
+
+# == Schema Information
+#
+# Table name: mail_handlers
+#
+#  mail_handler_id :integer(8)      not null
+#
+
