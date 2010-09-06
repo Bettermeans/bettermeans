@@ -24,7 +24,7 @@
     
     <%= f.hidden_field :lock_version %>
   <div class="gt-table-buttons">
-        <%= submit_tag l(:button_submit) %>
+        <%= submit_tag l(:button_submit), :disable_with => l(:button_working) %>
   <!-- <p class="gt-cancel">
     <%#= link_to_remote l(:label_preview), 
                        { :url => { :controller => 'issues', :action => 'preview', :project_id => @project, :id => @issue },

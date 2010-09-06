@@ -11,7 +11,7 @@
 <label><%= l(:label_project) %>:</label>
 <%= text_field_tag 'name', params[:name], :size => 30 %>
 <div class="gt-table-buttons">
-<%= submit_tag l(:button_apply), :class => "small", :name => nil %>
+<%= submit_tag l(:button_apply), :class => "small", :name => nil, :disable_with => l(:button_working) %>
 </div>
 </fieldset>
 <% end %>

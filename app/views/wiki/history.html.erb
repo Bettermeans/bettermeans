@@ -31,7 +31,7 @@
 </tbody>
 </table>
 <div class="gt-table-buttons">
-<%= submit_tag l(:label_view_diff), :class => 'small' if show_diff %>
+<%= submit_tag l(:label_view_diff), :class => 'small', :disable_with => l(:button_working) if show_diff %>
 </div>
 <span class="pagination"><%= pagination_links_full @version_pages, @version_count, :page_param => :p %></span>
 <% end %>

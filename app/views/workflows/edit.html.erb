@@ -56,7 +56,7 @@
 </table>
 <p><%= check_all_links 'workflow_form' %></p>
 
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
 <% end %>
 <% end %>
 

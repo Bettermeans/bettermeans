@@ -6,7 +6,7 @@
 <%= render :partial => @partial, :locals => {:settings => @settings}%>
 </div>
 <div class="gt-table-buttons">
-<%= submit_tag l(:button_apply) %>
+<%= submit_tag l(:button_apply), :disable_with => l(:button_working) %>
 </div>
 <% end %>
 </div>

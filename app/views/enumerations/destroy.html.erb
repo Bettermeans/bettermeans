@@ -7,7 +7,7 @@
 <%= select_tag 'reassign_to_id', ("<option>--- #{l(:actionview_instancetag_blank_option)} ---</option>" + options_from_collection_for_select(@enumerations, 'id', 'name')) %></p>
 </div>
   <div class="gt-table-buttons">
-<%= submit_tag l(:button_apply) %>
+<%= submit_tag l(:button_apply), :disable_with => l(:button_working) %>
 <p class="gt-cancel">
 <%= link_to l(:button_cancel), :controller => 'enumerations', :action => 'index' %>
 </p>

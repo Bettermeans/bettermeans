@@ -14,7 +14,7 @@
 <p><%= f.text_field :mail, :required => true, :readonly => true, :disabled => true %></p>
 <p><%= f.select :language, lang_options_for_select %></p>
 <div class="gt-table-buttons-inside">
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
 </div>
 </div>
 
@@ -23,7 +23,7 @@
   <div class="gt-content-box tabular">
   <%= render :partial => 'billing_form', :locals => {:f => f} %>
     <div class="gt-table-buttons-inside">
-    <%= submit_tag l(:button_save) %>
+    <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
     </div>
   </div>
 <% end %>
@@ -46,7 +46,7 @@
   </div>
 <p><label><%= check_box_tag 'no_emails', 1, @user.pref[:no_emails], :onclick=>"show_hide_notification_form(this);", :id => "no_emails_checkbox" %> <%= l(:label_user_mail_no_emails) %></label></p>
 <div class="gt-table-buttons-inside">
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
 </div>
 </div>
 
@@ -58,7 +58,7 @@
 <!-- <p><%#= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']] %></p> -->
 <% end %>
 <div class="gt-table-buttons-inside">
-<%= submit_tag l(:button_save) %>
+<%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
 </div>
 </div>
 

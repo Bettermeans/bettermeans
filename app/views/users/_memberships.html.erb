@@ -54,7 +54,7 @@
   <label><%= check_box_tag 'membership[role_ids][]', role.id %> <%=h role %></label>
 <% end %></p>
 <div class="gt-table-buttons">
-<%= submit_tag l(:button_add) %>
+<%= submit_tag l(:button_add), :disable_with => l(:button_working) %>
 </div>
 <% end %>
 </fieldset>

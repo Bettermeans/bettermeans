@@ -27,7 +27,7 @@
         																							 :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
         <% end %></p>
         <%= hidden_field_tag 'member[role_ids][]', '' %>
-        <%= submit_tag l(:button_change) %>
+        <%= submit_tag l(:button_change), :disable_with => l(:button_working) %>
         <p class="gt-cancel" style="float:none;">
         <%= link_to_function l(:button_cancel), "$('#member-#{member.id}-roles').show(); $('#member-#{member.id}-roles-form').hide(); return false;" %></p>
       <% end %>

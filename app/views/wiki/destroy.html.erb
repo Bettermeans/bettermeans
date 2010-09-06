@@ -15,7 +15,7 @@
 </div>
 
 <div class="gt-table-buttons">
-<%= submit_tag l(:button_apply) %>
+<%= submit_tag l(:button_apply), :disable_with => l(:button_working) %>
 </div>
 <%= link_to l(:button_cancel), :controller => 'wiki', :action => 'index', :id => @project, :page => @page.title %>
 <% end %>

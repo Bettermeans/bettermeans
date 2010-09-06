@@ -15,6 +15,6 @@
 			<%= error_message_on @mail, :body %>
     </p>
     <p>
-      <%= submit_tag "Send" %>
+      <%= submit_tag "Send", :disable_with => l(:button_working) %>
     </p>
 <% end %>

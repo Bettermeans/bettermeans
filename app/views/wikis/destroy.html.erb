@@ -6,7 +6,7 @@
 <% form_tag({:controller => 'wikis', :action => 'destroy', :id => @project}) do %>
 <%= hidden_field_tag "confirm", 1 %>
 <div class="gt-table-buttons">
-<%= submit_tag l(:button_delete) %>
+<%= submit_tag l(:button_delete), :disable_with => l(:button_working) %>
 </div>
 <% end %>
 </center></div>
