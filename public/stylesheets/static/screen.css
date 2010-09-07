@@ -101,11 +101,12 @@ p img.right {
 	margin:1.5em 0 1.5em 1.5em;
 }
 
-blockquote {
+/*blockquote {
 	margin:1.5em;
 	color:#666;
 	font-style:italic;
 }
+*/
 strong {
 	font-weight:bold;
 }
@@ -808,4 +809,45 @@ form p {
 		color: #DF0000;
 		font-weight: bold;
 		margin-top: 15px;
+}
+
+blockquote {
+font-family: georgia, 'Times New Roman';
+display: block;
+padding: 0px 60px 40px 60px;
+width: 350px;
+/*margin:1.5em;*/
+color:#666;
+font-style:italic;
+}
+
+blockquote author{
+	font-weight:bold;
+	padding-left:20px;
+}
+
+blockquote author:before{
+	content: "~";
+}
+
+
+blockquote:before, blockquote:after {
+color: #69c;
+display: block;
+font-size: 700%;
+width: 50px;
+}
+ 
+blockquote:before {
+content: "\201C";
+height: 30px;
+margin-left: -0.55em;
+
+}
+blockquote:after {
+content: '\201D';
+height: 50px;
+margin-top: -70px;
+margin-left: 360px;
+padding-right: 5px;
 }

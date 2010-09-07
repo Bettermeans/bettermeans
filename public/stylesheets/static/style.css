@@ -1279,13 +1279,14 @@ div#gallery div.gallery-content p {
 /* --- viewport configuration ---------------------------------------------------------- */
         .viewport {
 	border: 3px solid #eee;
-	float: left;
-	height: 248px;
+/*	float: left;
+*/	height: 248px;
 	margin: 0 0px 9px 0px;
 	overflow: hidden;
 	position: relative;
 	width: 459px;
 	left:15px;
+	display:block;
 }
 /* This is so that the 2nd thumbnail in each row fits snugly. You will want to add a similar
            class to the last thumbnail in each row to get rid of the margin-right. */
