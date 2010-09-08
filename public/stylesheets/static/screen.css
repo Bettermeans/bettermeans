@@ -65,8 +65,9 @@ h2 {
 	line-height: 110%;
 }
 h3 {
-	font-size:2em;
-	line-height:1.15;
+	font-size:1.5em;
+/*	line-height:1.15;*/
+	line-height: 110%;
 	margin-bottom:0.5em;
 }
 h4 {
@@ -856,6 +857,11 @@ height: 50px;
 margin-top: -70px;
 margin-left: 290px;
 padding-right: 5px;
+}
+
+blockquote.middle{
+	padding-left:320px;
+	padding-bottom:70px;
 }
 
 div.paint {
