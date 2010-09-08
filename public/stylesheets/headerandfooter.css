@@ -292,7 +292,7 @@ ul#topnav.sf-menu li.current ul, ul#topnav.sf-menu li ul {
 #top-footer h3 {background:none;padding-left:0;}
 
 #inviteArrow {
-left:-1em;
+left:-0.5em;
 position:relative;
-top:-0.3em;
+/*top:-0.3em;*/
 }
