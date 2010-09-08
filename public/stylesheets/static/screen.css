@@ -62,6 +62,7 @@ h2 {
 	font-weight:bold;
 	font-size:2em;
 	margin-bottom:0.75em;
+	line-height: 110%;
 }
 h3 {
 	font-size:2em;
@@ -145,6 +146,11 @@ ul, ol {
 }
 ul {
 	list-style-type:disc;
+}
+ul li {
+	font-size: 110%;
+/*	line-height: 120%;
+*//*	color: #818181*/
 }
 ol {
 	list-style-type:decimal;
@@ -613,7 +619,7 @@ form.inline p {
 .plan .price .amount{color:#000;}
 .plan .price .symbol{position:relative;top:-5px;font-size:16px;opacity:.7;}
 .plan .price .duration{font-size:14px;opacity:.5;}
-.plan ul.bigpoints{margin:12px 0;padding:7px 9px;font-weight:bold;font-size:14px;color:#000;background:rgba(255,255,255,0.5);border:1px solid rgba(0,0,0,0.2);border-right-color:rgba(0,0,0,0.1);border-bottom-color:rgba(0,0,0,0.05);-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
+.plan ul.bigpoints{margin:12px 0;padding:7px 9px;font-weight:bold;font-size:13px;color:#000;background:rgba(255,255,255,0.5);border:1px solid rgba(0,0,0,0.2);border-right-color:rgba(0,0,0,0.1);border-bottom-color:rgba(0,0,0,0.05);-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
 .plan ul.bigpoints li{list-style-type:none;margin:0;}
 .plan ul.smallpoints{margin:-10px 0 0 0;}
 .plan ul.smallpoints li{list-style-type:none;padding:5px 0;opacity:.6;border-top:1px solid rgba(0,0,0,0.15);}
@@ -814,8 +820,8 @@ form p {
 blockquote {
 font-family: georgia, 'Times New Roman';
 display: block;
-padding: 0px 60px 40px 60px;
-width: 350px;
+padding: 0px 60px 40px 90px;
+width: 300px;
 /*margin:1.5em;*/
 color:#666;
 font-style:italic;
@@ -848,6 +854,46 @@ blockquote:after {
 content: '\201D';
 height: 50px;
 margin-top: -70px;
-margin-left: 360px;
+margin-left: 290px;
 padding-right: 5px;
+}
+
+div.paint {
+	-moz-background-clip:border;
+	-moz-background-origin:padding;
+	-moz-background-size:auto auto;
+	background-attachment:scroll;
+	background-color:transparent;
+	background-image:url("/images/static/paint_blue.png");
+	background-position:0 0;
+	background-repeat:no-repeat;
+	float:left;
+	height:131px;
+	margin-bottom:0;
+	margin-left:200px;
+	margin-right:0;
+	margin-top:0;
+	text-align:center;
+	width:600px;
+}
+
+div.paint p{
+	color:#777;
+	font-size:22px;
+	font-style:italic;
+	line-height:normal;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	margin-top:15px;
+	padding-top:10px;
+	font-family: georgia, times, "times new roman";
+}
+
+div.paint p a{
+	color:#fff;
+}
+
+.span-6 h2{
+	text-align:center;
 }

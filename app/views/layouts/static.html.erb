@@ -80,8 +80,10 @@
               });
 
     	/* This is basic - uses default settings */
-
-    	$(".fancy_image").fancybox();
+    	$("a.fancy_image").fancybox({
+				'transitionIn'	: 'elastic',
+				'transitionOut'	: 'elastic'
+			});
       
 		});
             
