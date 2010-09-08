@@ -1,12 +1,3 @@
-<script type="text/javascript"> 
-		$(document).ready(function() {
-			$("a.example").fancybox({
-				'titleShow'     : false,
-				'transitionIn'	: 'elastic',
-				'transitionOut'	: 'elastic'
-			});
-		});
-	</script>
 <div id="inner-page">
   <div class="container">
    <%= render :partial => 'header', :locals => {:page => 'what'} %>
@@ -29,7 +20,7 @@
       	</span>
       	<span class="span-6 left last">
       	  <span class="viewport">
-<a class="example" HREF="/images/static/home.png"> <span class="dark-background"></span> <img src="/images/static/home_medium.png" alt="" width="460" height="247"/> </a>
+<a class="fancy_image" HREF="/images/static/home.png" title="Home Screen"> <span class="dark-background"></span> <img src="/images/static/home_medium.png" alt="" width="460" height="247"/> </a>
           </span>
           <blockquote>The significant problems we have cannot be solved at the same level of thinking with which we created them<author>Albert Einstein</author></blockquote>
         	
@@ -60,13 +51,16 @@
             	</span>
             	<span class="span-6 left last">
             	  <span class="viewport">
-<a class="example" HREF="/images/static/dashboard.png"> <span class="dark-background"></span> <img src="/images/static/dashboard_medium.png" alt="" width="460" height="247"/> </a>
+<a class="fancy_image" HREF="/images/static/dashboard.png" title="Workstream Dashboard"> <span class="dark-background"></span> <img src="/images/static/dashboard_medium.png" alt="" width="460" height="247"/> </a>
 </span>
 
             	</span>
             </span>
       </div>
-
+      <div class="paint">
+        <p>
+        learn about <br><a href="/front/how.html">how an open enterprise works</a></p>
+      </div>
       <div>
             <h1></h1>
             <span class="span-12 left whitebox">
@@ -78,7 +72,7 @@
             	</span>
             	<span class="span-6 left last">
             	  <span class="viewport">
-            <a class="example" HREF="/images/static/lightbox.png"> <span class="dark-background"></span> <img src="/images/static/lightbox_medium.png" alt="" width="460" height="247"/> </a></span>
+            <a class="fancy_image" HREF="/images/static/lightbox.png" title="Work item view: Lightbox"> <span class="dark-background"></span> <img src="/images/static/lightbox_medium.png" alt="" width="460" height="247"/> </a></span>
             	</span>
             </span>
       </div>
@@ -99,7 +93,7 @@
                 </span>
               	<span class="span-6 left last">
               	  <span class="viewport">
-            	  <a class="example" HREF="/images/static/activity.png"> <span class="dark-background"></span> <img src="/images/static/activity_medium.png" alt="" width="460" height="247"/> </a></span>
+            	  <a class="fancy_image" HREF="/images/static/activity.png" title="Activity Stream"> <span class="dark-background"></span> <img src="/images/static/activity_medium.png" alt="" width="460" height="247"/> </a></span>
             	</span>
             </span>
       </div>
@@ -113,22 +107,22 @@
                 </p>
                 <p>No bosses, no jobs, just work</p>
                 <p>It's really best explained in this video. We recommend you take the time to watch it</p>
+                <p>Also worth checking out is the <a href="/front/open_enterprise_governance_model.html" target="_blank">Open Enterprise Governance Model</a></p>
             	</span>
             	<span class="span-6 left last">
             	  <span class="viewport">
-                <a id="videolink" href="http://www.youtube.com/v/IdcAxGGRafc&hl=en&fs=1&autoplay=1" target="blank" title="open enterprise governance">
+                <a id="videolink" href="http://www.youtube.com/v/IdcAxGGRafc&hl=en&fs=1&autoplay=1" target="blank" title="Open Enterprise Governance Model">
                 <img src="/images/static/openenterprisegovernance.jpg" />
                 </a>
                 </span>
               </span>
             </span>
       </div>
-
       <div>
-            <div class="span-12 spacer">&nbsp;</div>
-            <div class="span-12 spacer">&nbsp;</div>
+            <!-- <div class="span-12 spacer">&nbsp;</div>
+            <div class="span-12 spacer">&nbsp;</div> -->
             
-            <h1>Fair Compensation. Say farewell to annual reviews.</h1>
+            <!-- <h1>Fair Compensation. Say farewell to annual reviews.</h1> -->
             <span class="span-12 left whitebox">
             	<span class="span-6 left colborder">
                 <h2>Item Estimation</h2>
@@ -155,14 +149,16 @@
             	</span>
             	<span class="span-6 left last">
             	  <span class="viewport">
-            <a class="example" HREF="/images/static/estimation.png"> <span class="dark-background"></span> <img src="/images/static/estimation_medium.png" alt="" width="460" height="247"/> </a></span>
-          	<blockquote>We will need a willingness to question our most deeply held habitual ways of seeing organizations and management. We will need a willingness eventually to embrace the seeming chaos of an organization that no one ‘runs’ and where we all share responsibility. We will need to embrace continual mistake-making and correcting, nature’s learning process. And we will need a willingness to surrender the personal need to control—‘the closet Newtonian’ that resides in all of us.<author>Dee Hock, CEO and Founder of Visa</author></blockquote>
-            
+            <a class="fancy_image" HREF="/images/static/estimation.png" title="Work Item Estimation"> <span class="dark-background"></span> <img src="/images/static/estimation_medium.png" alt="" width="460" height="247"/> </a></span>            
             	</span>
             </span>
       </div>
-
-      <div>
+      <div class="paint">
+        <p>
+        take a look at our<br><a href="/front/pricing.html">plans and pricing</a>
+        </p>
+      </div>
+      <!-- <div>
             <h1></h1>
             <span class="span-12 left whitebox">
               <span class="span-6 left colborder">
@@ -170,8 +166,8 @@
                 <p>After a group of items are completed, a retrospective starts<br>Here is how it works:</p>
                 <p>For each group of items, each person assesses:</p>
                 <ul>
-                      <li>what % of the work you think you did</li>
-                      <li>what % of the work you think others did</li>
+                      <li>what percentage of the work you think you did</li>
+                      <li>what percentage of the work you think others did</li>
                       <li>how confident you are of your esitmate</li>
                 </ul>
                 
@@ -181,13 +177,13 @@
                 <p>This is an <strong>option</strong> when you create a workstream – just select credits and you are in business. 
                 </p>
               </span>
-            	<span class="span-6 left last">
-            	  <span class="viewport">
-                <a class="example" HREF="/images/static/retro.png"> <span class="dark-background"></span> <img src="/images/static/retro_medium.png" alt="" width="460" height="247"/></a></span>  <blockquote>Heaven is purpose, principle, and people. Purgatory is paper and procedure. Hell is rules and regulations<author>Dee Hock, Founder and CEO of VISA</author></blockquote>
+              <span class="span-6 left last">
+                <span class="viewport">
+                <a class="fancy_image" HREF="/images/static/retro.png"> <span class="dark-background"></span> <img src="/images/static/retro_medium.png" alt="" width="460" height="247"/></a></span>  <blockquote>Heaven is purpose, principle, and people. Purgatory is paper and procedure. Hell is rules and regulations<author>Dee Hock, Founder and CEO of VISA</author></blockquote>
                 
               </span>
             </span>
-      </div>
+      </div> -->
 
       <!-- <div>
             <h1></h1>
