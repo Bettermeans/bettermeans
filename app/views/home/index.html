@@ -16,18 +16,17 @@
         
       	
       	<div class="feature">
-      			<div onclick="slideShow(-1);" class="fade-left">	
-      				<img src="/images/static/fade-arrow-left.png">
+      			<div onclick="slideShow(-1);" class="fade-left">
+              <img src="/images/static/fade-arrow-left.png">
       			</div>
       			<div class="screenshot">
       			  <!-- The Video Thumbnail -->
               <a id="videolink" href="http://www.youtube.com/v/YxJDmgOeVeY&autoplay=1" target="blank" title="bettermeans in 3 minutes">
               <img src="/images/static/goals.png" />
               </a>
-              <!-- <img src="/images/static/goals.png"> -->
       			</div>
       			<div onclick="slideShow(1);" class="fade">	
-      				<img src="/images/static/fade-arrow.png">
+              <img src="/images/static/fade-arrow.png">
       			</div>
       	</div>
       	<div class="span-12">
@@ -37,8 +36,42 @@
     <!-- end banner -->
     <!-- end main -->
     <!-- end main -->
+    
+    <div class="paint">
+      <p>&nbsp;<br>
+      <a href="/front/why.html">why bettermeans?</a>
+      </p>
+    </div>
   </div>
   <!-- / Container -->
 </div>
 <!-- / Page -->        
+
+<script type="text/javascript">
+var captions = [
+		"Leadership. Not management.",
+		"Democratic and transparent project management.",
+		"Inclusive and efficient decision making.",
+		"Full transparancy.",
+		"Peer-assessed, contribution-based compensation."];
+	
+var imgIdx = 0;
+
+function md(i, n) {
+	if (i < 0) i = n-1; else
+	if (i >= n) i = 0;
+	return (i);
+}
+
+function slideShow(dir) {
+	var images = ["dashboard_front.png", "home_front.png", "motion_front.png", "activity_front.png", "retro_front.png"];
+	imgIdx = md(imgIdx + dir, images.length);
+	var prev = md(imgIdx - 1, images.length);
+	var next = md(imgIdx + 1, images.length);
+	$('#caption').html(captions[imgIdx]);
+	$('.screenshot img').attr('src', '/images/static/' + images[imgIdx]);
+	$('.fade-left').css('background-image', 'url(/images/static/' + images[prev] + ')');
+	$('.fade').css('background-image', 'url(/images/static/' + images[next] + ')');
+}
+</script>
       
