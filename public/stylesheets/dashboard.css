@@ -466,3 +466,14 @@ input[type=submit] {
 
 button { background: none; border: none; margin: 0; padding: 0; font-size: 0; line-height: 0; width: auto; overflow: visible; }
 */
+
+table.dash_key{
+	
+}
+table.dash_key tr{
+	vertical-align:top;
+}
+table.dash_key tr td{
+	line-height:2em;
+	padding: 8px;
+}

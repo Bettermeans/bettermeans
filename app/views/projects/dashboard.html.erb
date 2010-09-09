@@ -21,6 +21,7 @@
 
 <!-- <div style="background-color:#fff" id="dash_main"> -->
 <div id="dash_main">
+  
   <%= help_section("project_dashboard") %>
 <!-- todo: do we need this link? -->
 <div id='loading' class='loading'>
@@ -165,6 +166,9 @@
   </div>
 </div>
 
+  <a id="dash_key" onclick="return false;" class="dashboard-button">
+    <div class="dash_key_button"></div>
+  </a>
 
   <a id="new_request" onclick="new_item();return false;" class="dashboard-button">
     <div class="new_request_button">New Item</div>
@@ -173,6 +177,7 @@
   <a id="refresh_data" onclick="refresh_local_data();return false;" class="dashboard-button">
     <div class="refresh_button"></div>
   </a>
+
   
   
 <% end %>
@@ -313,6 +318,61 @@
     Legacy requests that don't belong in the system anymore. Think of them as bugs in the matrix!
   </div>
 </div>
+
+<div id="help_key" style="display:none">
+   <div class="tip" style="width:600px">
+     <strong>Dashboard Key</strong><br>
+     <table class="dash_key">
+       <tr><td>
+     <strong>Work Items</strong><br>
+     <img src="/images/feature_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Feature<br>
+     <img src="/images/bug_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Bug<br>
+     <img src="/images/chore_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Chore<br>
+     <img src="/images/gift_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Gift<br>
+     <img src="/images/expense_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Expense<br>
+     <img src="/images/recurring_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Recurring<br>
+     <!-- <img src="/images/hourly_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;<br> -->
+     <br><strong>Estimation</strong><br>
+     <img src="/images/dice_no.png" class="storyPoints hoverDiceIcon">&nbsp;Estimate needed<br>
+     <img src="/images/dice_4.png" class="storyPoints hoverDiceIcon">&nbsp;Average estimate<br>
+
+     <br><strong>Priority</strong><br>
+     <div class="pri_button_no_float pri_button_up left"></div>&nbsp;You prioritized this<br>
+     <div class="pri_button_no_float pri_button_down left"></div>&nbsp;You de-prioritized this<br>
+     <div class="pri_button_no_float pri_button_neutral left"></div>&nbsp;You set this pri to neutral<br>
+     <div class="pri_button_no_float pri_button_none left"></div>&nbsp;You haven't prioritized this<br>
+     <div class="pri_button_no_float pri_button_none left">3</div>&nbsp;Total priority is 3<br><br>
+     <a href="http://help.bettermeans.com/faq/voting/dashboard-key" target="blank">Learn more</a>
+     
+     </td><td>
+     <strong>Agreement Voting</strong><br>
+     <div class="action_button_no_float action_button_root">agree?</div>&nbsp;You haven't voted yet<br>
+     <div class="action_button_no_float action_button_agree">agreed</div>&nbsp;You agreed<br>
+     <div class="action_button_no_float action_button_neutral">neutral</div>&nbsp;You are neutral<br>
+     <div class="action_button_no_float action_button_against">against</div>&nbsp;You voted against<br>
+     <div class="action_button_no_float action_button_block">blocked</div>&nbsp;You are blocking<br>
+
+     <br><strong>Acceptance Voting</strong><br>
+     <div class="action_button_no_float action_button_root">accept?</div>&nbsp;You haven't voted yet<br>
+     <div class="action_button_no_float action_button_accept">accepted</div>&nbsp;You accepted<br>
+     <div class="action_button_no_float action_button_neutral">neutral</div>&nbsp;You are neutral<br>
+     <div class="action_button_no_float action_button_reject">rejected</div>&nbsp;You rejected this<br>
+     <div class="action_button_no_float action_button_block">blocked</div>&nbsp;You are blocking<br>
+
+     <br><strong>Actions</strong><br>
+     <div class="action_button_no_float action_button_start_no_hide">start</div>&nbsp;Commit to an item and own it<br>
+     <div class="action_button_no_float action_button_join">join</div>&nbsp;Join an item that already has an owner<br>
+     <div class="action_button_no_float action_button_finish">finish</div>&nbsp;Complete a work item<br>
+     <div class="action_button_no_float action_button_cancel">cancel</div>&nbsp;Set item state to canceled<br>
+     <div class="action_button_no_float action_button_release">giveup</div>&nbsp;Release an item you own<br>
+     <div class="action_button_no_float action_button_leave">leave</div>&nbsp;Leave an item you previously joined<br>
+     </td></tr>
+     </table>
+
+   </div>
+
+ </div>
+
 
 </div>
 </div>
