@@ -1216,6 +1216,19 @@ div.activity-tag {
 	margin:2px;
 }
 
+.dash_key_button{
+	width:16px;
+	height:16px;
+	line-height:23px;
+	text-align:center;
+	vertical-align:middle;
+	cursor:pointer;
+/*	float: right;*/
+	display: block;
+	background: url(/images/key.png) no-repeat; 
+	margin:2px;
+}
+
 .action_button_no_float{
 	width:60px;
 	height:21px;
@@ -1450,6 +1463,17 @@ text-decoration:underline !important;
 	vertical-align:middle;
 }
 
+.pri_button_no_float{
+	width:13px;
+	height:21px;
+	text-align:center;
+/*	float:right;*/
+	font-weight: bold;
+/*	color: white;*/
+	padding-left:12px;
+	vertical-align:middle;
+}
+
 .pri_button_action{
 	padding-left:20px;
 }
@@ -1472,6 +1496,10 @@ text-decoration:underline !important;
 }
 
 .action_button_start{
+	background: url(/images/bb_sky.png) no-repeat; 
+}
+
+.action_button_start_no_hide{
 	background: url(/images/bb_sky.png) no-repeat; 
 }
 
