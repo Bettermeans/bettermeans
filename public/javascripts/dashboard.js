@@ -91,6 +91,8 @@ function start(){
 	  resize();
 	});
 	
+	$("#dash_key").mybubbletip('#help_key', {deltaDirection: 'right', bindShow: 'click'});
+	
 	$('#fast_search').watermark('watermark','Fast Search');
 	//Checking for single issue display
 	if (show_issue_id){
