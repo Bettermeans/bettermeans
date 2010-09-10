@@ -38,10 +38,10 @@ Main Navigation
 ************************************************************************/
 ul#topnav {
 	padding: 0 0;
-	width: 590px;  /*Change this if you want a bigger nav*/
+	width: 690px;  /*Change this if you want a bigger nav*/
 	font-size: 1.2em;
 	text-align:center;
-	margin: 19px 0 19px 220px;
+	margin: 19px 0 19px 120px;
 	list-style: none;
 }
 /*ul#topnav .subnav {display:none}*/
