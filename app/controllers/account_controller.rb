@@ -86,7 +86,7 @@ class AccountController < ApplicationController
     else
       @user = User.new(params[:user])
       @user.plan_id = params[:plan_id] || Plan.find_by_code(Plan::FREE_CODE)
-      @user.trial_expires_on = 30.days.from_now if @user.plan_id > 1 #TODO: clean this. no good depending on id of plan
+      @user.trial_expires_on = 30.days.from_now if @user.plan_id && @user.plan_id > 1 #TODO: clean this. no good depending on id of plan
         
       @user.admin = false
       @user.status = User::STATUS_REGISTERED
@@ -106,6 +106,7 @@ class AccountController < ApplicationController
         case Setting.self_registration
         when '1'
           register_by_email_activation(@user,params[:invitation_token])
+          return
         when '3'
           register_automatically(@user)
         else
