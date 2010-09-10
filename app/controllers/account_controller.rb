@@ -105,8 +105,7 @@ class AccountController < ApplicationController
 
         case Setting.self_registration
         when '1'
-          register_by_email_activation(@user,params[:invitation_token])
-          return
+          return if register_by_email_activation(@user,params[:invitation_token])
         when '3'
           register_automatically(@user)
         else
@@ -244,8 +243,10 @@ class AccountController < ApplicationController
       flash.now[:success] = l(:notice_account_register_done)
       # self.logged_user = user
       render :action => 'login', :layout => 'blank'
+      return true
     else
       yield if block_given?
+      return false
     end
   end
   
