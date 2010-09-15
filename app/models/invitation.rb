@@ -17,16 +17,20 @@ class Invitation < ActiveRecord::Base
   end
   
   def accept
-    return unless self.status = PENDING
+    return unless self.status == PENDING
     
     @user = User.find_by_mail(self.mail)
     return unless @user
     
+    puts "ok"
     if self.project.root?
+      puts "#{@user.inspect }is a community member of #{self.project.inspect}" if @user.community_member_of? self.project
       @user.add_to_project self.project, self.role_id unless @user.community_member_of? self.project
+      puts "added to project"
     else
       @user.add_to_project self.project, Role.active.id
       @user.add_to_project self.project.root, self.role_id unless @user.community_member_of? self.project.root
+      puts "already part of project"
     end
     
     @user.add_to_project self.project, Role.clearance.id unless self.project.is_public?
