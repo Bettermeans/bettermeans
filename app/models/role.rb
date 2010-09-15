@@ -122,6 +122,11 @@ class Role < ActiveRecord::Base
   def member?
     builtin == BUILTIN_MEMBER
   end  
+
+  # Return true if the role is active
+  def active?
+    builtin == BUILTIN_ACTIVE
+  end  
   
   # Return true if the role is a clearance
   def clearance?
