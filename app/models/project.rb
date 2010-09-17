@@ -127,6 +127,9 @@ class Project < ActiveRecord::Base
     }
   } 
   
+  reportable :daily_new_projects, :aggregation => :count, :limit => 14
+  reportable :weekly_new_projects, :aggregation => :count, :grouping => :week, :limit => 20
+  
   
   def project_id
     self.id
