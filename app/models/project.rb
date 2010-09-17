@@ -928,6 +928,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: projects
@@ -945,7 +946,7 @@ end
 #  lft                  :integer
 #  rgt                  :integer
 #  enterprise_id        :integer
-#  last_item_updated_at :datetime
+#  last_item_updated_on :datetime
 #  dpp                  :float           default(100.0)
 #  activity_line        :text            default("[]")
 #  volunteer            :boolean         default(FALSE)

@@ -1,1 +1,9 @@
-<%= sparkline_tag(User.daily_registrations_report) %>
+<%#= javascript_include_tag 'excanvas.min', 'jquery.flot.min' %>
+<%= javascript_include_tag 'raphael.min', 'g.raphael.min', 'g.line.min', 'g.bar.min' %>
+
+<div class="gt-content-box padded">
+  Daily signups for the last 14 days<br>
+  <%= raphael_report_tag(User.daily_registrations_report,{:width => 600, :height => 150},{ :vertical_label_unit => 'registrations' }) %><br>
+  Weekly signups 
+  <%= raphael_report_tag(User.weekly_registrations_report,{:width => 600, :height => 150},{}) %>
+</div>

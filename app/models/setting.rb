@@ -265,6 +265,7 @@ private
 end
 
 
+
 # == Schema Information
 #
 # Table name: settings
@@ -272,6 +273,6 @@ end
 #  id         :integer         not null, primary key
 #  name       :string(255)     default(""), not null
 #  value      :text
-#  updated_at :datetime
+#  updated_on :datetime
 #
 
