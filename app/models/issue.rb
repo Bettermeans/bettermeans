@@ -49,7 +49,7 @@ class Issue < ActiveRecord::Base
   
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
-  named_scope :open_status, :conditions => ["status_id = ?", IssueStatus.open.id], :include => :status
+  named_scope :open_status, :conditions => {:status_id => 1}, :include => :status #BUGBUG: hard coded because IssueStatus.open.id breaks rake for some reason!!!
 
   after_save :after_save
   
