@@ -1,0 +1,57 @@
+!!!
+%head
+  %title User Stats
+  %link{:href=>"/__user_stats.css", :media=>"screen, projection", :rel=>"stylesheet", :type=>"text/css"}
+%body
+  #wrapper
+    %h1 User Stats
+    .quick-stats
+      #signups.data
+        %h2 Sign Ups
+        .today
+          %span.value= @signups_today
+          %span.label past day
+        .this-week
+          %span.value= @signups_this_week
+          %span.label past week
+      - if @active_today && @active_this_week
+        #activity.data
+          %h2 Active Users
+          .today
+            %span.value= @active_today
+            %span.label past day
+          .this-week
+            %span.value= @active_this_week
+            %span.label past week
+    #newest-users.data
+      %h2 Newest Users
+      %table{:cellspacing => 0}
+        %tr
+          %th
+            ID
+          %th
+            Email
+          %th
+            Created
+        - @newest_users.each do |u|
+          %tr.listing
+            %td.id= u.id
+            %td.email= u.email
+            %td.created_at= u.created_at
+    - if @last_active_users
+      #last-active-users.data
+        %h2 Last Active Users
+        %table{:cellspacing => 0}
+          %tr
+            %th
+              ID
+            %th
+              Email
+            %th
+              Last Activity
+          - @last_active_users.each do |u|
+            %tr.listing
+              %td.id= u.id
+              %td.email= u.email
+              %td.last_request_at= u.last_request_at
+          
