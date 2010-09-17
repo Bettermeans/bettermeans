@@ -193,15 +193,15 @@ class ProjectsController < ApplicationController
   
   #Checks to see if any items have changed in this project (in the last params[:seconds]). If it has, returns only items that have changed
   def new_dashdata
-    if @project.last_item_updated_at.nil?
-      @project.last_item_updated_at = DateTime.now
+    if @project.last_item_updated_on.nil?
+      @project.last_item_updated_on = DateTime.now
       @project.save
     end
     
     time_delta = params[:seconds].to_f.round
     
-    if @project.last_item_updated_at.advance(:seconds => time_delta) > DateTime.now
-      render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND updated_at >= '#{@project.last_item_updated_at.advance(:seconds => -1 * time_delta)}'").to_json(:include => {:journals => { :only => [:id, :notes, :created_at, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
+    if @project.last_item_updated_on.advance(:seconds => time_delta) > DateTime.now
+      render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'").to_json(:include => {:journals => { :only => [:id, :notes, :created_at, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
                                                                                                                                                                                                             :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
                                                                                                                                                                                                             :status => {:only => :name}, 
                                                                                                                                                                                                             :todos => {:only => [:id, :subject, :completed_on]}, 
