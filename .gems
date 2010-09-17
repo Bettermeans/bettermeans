@@ -1,4 +1,4 @@
-activesupport
+rails -v 2.3.5
 mislav-will_paginate --source gems.github.com
 ruby-debug
 rubytree
