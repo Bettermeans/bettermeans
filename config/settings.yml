@@ -103,7 +103,7 @@ issue_list_default_columns:
   - status
   - subject
   - pri
-  - updated_on
+  - updated_at
 display_subprojects_issues:
   default: 1
 issue_done_ratio:

@@ -307,8 +307,8 @@ task :migrate_from_mantis => :environment do
                       :subject => encode(bug.summary),
                       :description => encode(bug.bug_text.full_description),
                       :priority => PRIORITY_MAPPING[bug.priority] || DEFAULT_PRIORITY,
-                      :created_on => bug.date_submitted,
-                      :updated_on => bug.last_updated
+                      :created_at => bug.date_submitted,
+                      :updated_at => bug.last_updated
     	i.author = User.find_by_id(users_map[bug.reporter_id])
     	i.category = IssueCategory.find_by_project_id_and_name(i.project_id, bug.category[0,30]) unless bug.category.blank?
     	i.fixed_version = Version.find_by_project_id_and_name(i.project_id, bug.fixed_in_version) unless bug.fixed_in_version.blank?
@@ -330,7 +330,7 @@ task :migrate_from_mantis => :environment do
     	bug.bug_notes.each do |note|
     	  next unless users_map[note.reporter_id]
           n = Journal.new :notes => encode(note.bug_note_text.note),
-                          :created_on => note.date_submitted
+                          :created_at => note.date_submitted
           n.user = User.find_by_id(users_map[note.reporter_id])
           n.journalized = i
           n.save
@@ -338,7 +338,7 @@ task :migrate_from_mantis => :environment do
     	
         # Bug files
         bug.bug_files.each do |file|
-          a = Attachment.new :created_on => file.date_added
+          a = Attachment.new :created_at => file.date_added
           a.file = file
           a.author = User.find :first
           a.container = i
@@ -376,7 +376,7 @@ task :migrate_from_mantis => :environment do
         n = News.new :project_id => projects_map[news.project_id],
                      :title => encode(news.headline[0..59]),
                      :description => encode(news.body),
-                     :created_on => news.date_posted
+                     :created_at => news.date_posted
         n.author = User.find_by_id(users_map[news.poster_id])
         n.save
         print '.'

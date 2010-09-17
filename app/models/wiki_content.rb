@@ -35,15 +35,15 @@ class WikiContent < ActiveRecord::Base
 
     acts_as_event :title => Proc.new {|o| "#{l(:label_wiki_edit)}: #{o.page.title} (##{o.version})"},
                   :description => :comments,
-                  :datetime => :updated_on,
+                  :datetime => :updated_at,
                   :type => 'wiki-page',
                   :url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}}
     # 
     # acts_as_activity_provider :type => 'wiki_edits',
-    #                           :timestamp => "#{WikiContent.versioned_table_name}.updated_on",
+    #                           :timestamp => "#{WikiContent.versioned_table_name}.updated_at",
     #                           :author_key => "#{WikiContent.versioned_table_name}.author_id",
     #                           :permission => :view_wiki_edits,
-    #                           :find_options => {:select => "#{WikiContent.versioned_table_name}.updated_on, #{WikiContent.versioned_table_name}.comments, " +
+    #                           :find_options => {:select => "#{WikiContent.versioned_table_name}.updated_at, #{WikiContent.versioned_table_name}.comments, " +
     #                                                        "#{WikiContent.versioned_table_name}.#{WikiContent.version_column}, #{WikiPage.table_name}.title, " +
     #                                                        "#{WikiContent.versioned_table_name}.page_id, #{WikiContent.versioned_table_name}.author_id, " +
     #                                                        "#{WikiContent.versioned_table_name}.id",
@@ -102,7 +102,7 @@ end
 #  author_id  :integer
 #  text       :text
 #  comments   :string(255)     default("")
-#  updated_on :datetime        not null
+#  updated_at :datetime        not null
 #  version    :integer         not null
 #
 

@@ -367,7 +367,7 @@ end
 # Table name: mail_handlers
 #
 #  id         :integer         not null, primary key
-#  created_on :datetime
-#  updated_on :datetime
+#  created_at :datetime
+#  updated_at :datetime
 #
 

@@ -4,8 +4,8 @@ class CreateHelpSections < ActiveRecord::Migration
       t.integer :user_id, :default => 0, :null => false
       t.string :name 
       t.boolean :show, :default => true
-      t.datetime  :created_on
-      t.datetime  :updated_on
+      t.datetime  :created_at
+      t.datetime  :updated_at
     end
   end
 

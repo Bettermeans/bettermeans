@@ -65,7 +65,7 @@ class Reputation < ActiveRecord::Base
     weight_total = 0
     counter = Setting::LENGTH_OF_MOVING_AVERAGE
     
-    RetroRating.all(:conditions => {:ratee_id => user_id, :rater_id => rr_variation}, :include => :retro, :order => "updated_on DESC").each do |rr|
+    RetroRating.all(:conditions => {:ratee_id => user_id, :rater_id => rr_variation}, :include => :retro, :order => "updated_at DESC").each do |rr|
       next if rr.retro.project.root.id != project_id && project_id != 0
       weight = rr.retro.total_points * (counter.to_f/Setting::LENGTH_OF_MOVING_AVERAGE)
       weight_total += weight

@@ -192,9 +192,9 @@ module Redmine
         pdf.Ln   
         
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_created_on) + ":","L")
+        pdf.Cell(35,5, l(:field_created_at) + ":","L")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, format_date(issue.created_on),"R")
+        pdf.Cell(60,5, format_date(issue.created_at),"R")
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_assigned_to) + ":","L")
         pdf.SetFontStyle('',9)
@@ -202,9 +202,9 @@ module Redmine
         pdf.Ln
         
         pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_updated_on) + ":","LB")
+        pdf.Cell(35,5, l(:field_updated_at) + ":","LB")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, format_date(issue.updated_on),"RB")
+        pdf.Cell(60,5, format_date(issue.updated_at),"RB")
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_due_date) + ":","LB")
         pdf.SetFontStyle('',9)
@@ -245,9 +245,9 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.Cell(190,5, l(:label_history), "B")
         pdf.Ln  
-        for journal in issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
+        for journal in issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_at ASC")
           pdf.SetFontStyle('B',8)
-          pdf.Cell(190,5, format_time(journal.created_on) + " - " + journal.user.name)
+          pdf.Cell(190,5, format_time(journal.created_at) + " - " + journal.user.name)
           pdf.Ln
           pdf.SetFontStyle('I',8)
           for detail in journal.details
@@ -269,7 +269,7 @@ module Redmine
             pdf.SetFontStyle('',8)
             pdf.Cell(80,5, attachment.filename)
             pdf.Cell(20,5, number_to_human_size(attachment.filesize),0,0,"R")
-            pdf.Cell(25,5, format_date(attachment.created_on),0,0,"R")
+            pdf.Cell(25,5, format_date(attachment.created_at),0,0,"R")
             pdf.Cell(65,5, attachment.author.name,0,0,"R")
             pdf.Ln
           end

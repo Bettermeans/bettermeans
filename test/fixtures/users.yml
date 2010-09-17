@@ -1,11 +1,11 @@
 --- 
 users_004: 
-  created_on: 2006-07-19 19:34:07 +02:00
+  created_at: 2006-07-19 19:34:07 +02:00
   status: 1
   last_login_on: 
   language: en
   hashed_password: 4e4aeb7baaf0706bd670263fef42dad15763b608
-  updated_on: 2006-07-19 19:34:07 +02:00
+  updated_at: 2006-07-19 19:34:07 +02:00
   admin: false
   mail: rhill@somenet.foo
   lastname: Hill
@@ -16,12 +16,12 @@ users_004:
   login: rhill
   type: User
 users_001: 
-  created_on: 2006-07-19 19:12:21 +02:00
+  created_at: 2006-07-19 19:12:21 +02:00
   status: 1
   last_login_on: 2006-07-19 22:57:52 +02:00
   language: en
   hashed_password: d033e22ae348aeb5660fc2140aec35850c4da997
-  updated_on: 2006-07-19 22:57:52 +02:00
+  updated_at: 2006-07-19 22:57:52 +02:00
   admin: true
   mail: admin@somenet.foo
   lastname: Admin
@@ -32,12 +32,12 @@ users_001:
   login: admin
   type: User
 users_002: 
-  created_on: 2006-07-19 19:32:09 +02:00
+  created_at: 2006-07-19 19:32:09 +02:00
   status: 1
   last_login_on: 2006-07-19 22:42:15 +02:00
   language: en
   hashed_password: a9a653d4151fa2c081ba1ffc2c2726f3b80b7d7d
-  updated_on: 2006-07-19 22:42:15 +02:00
+  updated_at: 2006-07-19 22:42:15 +02:00
   admin: false
   mail: jsmith@somenet.foo
   lastname: Smith
@@ -48,12 +48,12 @@ users_002:
   login: jsmith
   type: User
 users_003: 
-  created_on: 2006-07-19 19:33:19 +02:00
+  created_at: 2006-07-19 19:33:19 +02:00
   status: 1
   last_login_on: 
   language: en
   hashed_password: 7feb7657aa7a7bf5aef3414a5084875f27192415
-  updated_on: 2006-07-19 19:33:19 +02:00
+  updated_at: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: dlopper@somenet.foo
   lastname: Lopper
@@ -65,13 +65,13 @@ users_003:
   type: User
 users_005: 
   id: 5
-  created_on: 2006-07-19 19:33:19 +02:00
+  created_at: 2006-07-19 19:33:19 +02:00
   # Locked
   status: 3
   last_login_on: 
   language: en
   hashed_password: 7feb7657aa7a7bf5aef3414a5084875f27192415
-  updated_on: 2006-07-19 19:33:19 +02:00
+  updated_at: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: dlopper2@somenet.foo
   lastname: Lopper2
@@ -82,12 +82,12 @@ users_005:
   type: User
 users_006: 
   id: 6
-  created_on: 2006-07-19 19:33:19 +02:00
+  created_at: 2006-07-19 19:33:19 +02:00
   status: 0
   last_login_on: 
   language: ''
   hashed_password: 1
-  updated_on: 2006-07-19 19:33:19 +02:00
+  updated_at: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: ''
   lastname: Anonymous
@@ -98,12 +98,12 @@ users_006:
   type: AnonymousUser
 users_007: 
   id: 7
-  created_on: 2006-07-19 19:33:19 +02:00
+  created_at: 2006-07-19 19:33:19 +02:00
   status: 1
   last_login_on: 
   language: ''
   hashed_password: 1
-  updated_on: 2006-07-19 19:33:19 +02:00
+  updated_at: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: someone@foo.bar
   lastname: One
@@ -114,12 +114,12 @@ users_007:
   type: User
 users_008: 
   id: 8
-  created_on: 2006-07-19 19:33:19 +02:00
+  created_at: 2006-07-19 19:33:19 +02:00
   status: 1
   last_login_on: 
   language: 'it'
   hashed_password: 1
-  updated_on: 2006-07-19 19:33:19 +02:00
+  updated_at: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: miscuser8@foo.bar
   lastname: Misc
@@ -130,12 +130,12 @@ users_008:
   type: User
 users_009: 
   id: 9
-  created_on: 2006-07-19 19:33:19 +02:00
+  created_at: 2006-07-19 19:33:19 +02:00
   status: 1
   last_login_on: 
   language: 'it'
   hashed_password: 1
-  updated_on: 2006-07-19 19:33:19 +02:00
+  updated_at: 2006-07-19 19:33:19 +02:00
   admin: false
   mail: miscuser9@foo.bar
   lastname: Misc
@@ -182,8 +182,8 @@ groups_011:
 #  last_login_on         :datetime
 #  language              :string(5)       default("")
 #  auth_source_id        :integer
-#  created_on            :datetime
-#  updated_on            :datetime
+#  created_at            :datetime
+#  updated_at            :datetime
 #  type                  :string(255)
 #  identity_url          :string(255)
 #  activity_stream_token :string(255)

@@ -28,7 +28,7 @@ class NewsController < ApplicationController
                                    :per_page => 10,
                                    :conditions => Project.allowed_to_condition(User.current, :view_news, :project => @project),
                                    :include => [:author, :project],
-                                   :order => "#{News.table_name}.created_on DESC"    
+                                   :order => "#{News.table_name}.created_at DESC"    
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
       format.xml { render :xml => @newss.to_xml }

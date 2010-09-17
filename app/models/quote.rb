@@ -20,7 +20,7 @@ end
 #  user_id    :integer
 #  author     :string(255)
 #  body       :text
-#  created_on :datetime
-#  updated_on :datetime
+#  created_at :datetime
+#  updated_at :datetime
 #
 
