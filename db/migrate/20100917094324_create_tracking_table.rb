@@ -3,7 +3,7 @@ class CreateTrackingTable < ActiveRecord::Migration
     create_table :tracks do |t|
       t.integer :user_id
       t.integer :code
-      timestamps
+      t.timestamps
     end
   end
 
