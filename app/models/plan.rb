@@ -15,7 +15,7 @@ end
 #  contributor_max        :integer
 #  private_workstream_max :integer
 #  public_workstream_max  :integer
-#  created_on             :datetime
-#  updated_on             :datetime
+#  created_at             :datetime
+#  updated_at             :datetime
 #
 

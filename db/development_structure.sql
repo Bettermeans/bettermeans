@@ -29,7 +29,7 @@ CREATE TABLE attachments (
     digest character varying(40) DEFAULT ''::character varying NOT NULL,
     downloads integer DEFAULT 0 NOT NULL,
     author_id integer DEFAULT 0 NOT NULL,
-    created_on timestamp without time zone,
+    created_at timestamp without time zone,
     description character varying(255)
 );
 
@@ -218,8 +218,8 @@ CREATE TABLE comments (
     commented_id integer DEFAULT 0 NOT NULL,
     author_id integer DEFAULT 0 NOT NULL,
     comments text,
-    created_on timestamp without time zone NOT NULL,
-    updated_on timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -253,8 +253,8 @@ CREATE TABLE commit_requests (
     days integer DEFAULT 0,
     responder_id integer DEFAULT 0,
     response integer DEFAULT 0 NOT NULL,
-    created_on timestamp without time zone,
-    updated_on timestamp without time zone
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -380,7 +380,7 @@ CREATE TABLE documents (
     category_id integer DEFAULT 0 NOT NULL,
     title character varying(60) DEFAULT ''::character varying NOT NULL,
     description text,
-    created_on timestamp without time zone
+    created_at timestamp without time zone
 );
 
 
@@ -588,8 +588,8 @@ CREATE TABLE issues (
     fixed_version_id integer,
     author_id integer DEFAULT 0 NOT NULL,
     lock_version integer DEFAULT 0 NOT NULL,
-    created_on timestamp without time zone,
-    updated_on timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     start_date date,
     done_ratio integer DEFAULT 0 NOT NULL,
     estimated_hours double precision,
@@ -657,7 +657,7 @@ CREATE TABLE journals (
     journalized_type character varying(30) DEFAULT ''::character varying NOT NULL,
     user_id integer DEFAULT 0 NOT NULL,
     notes text,
-    created_on timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL
 );
 
 
@@ -753,7 +753,7 @@ CREATE TABLE members (
     id integer NOT NULL,
     user_id integer DEFAULT 0 NOT NULL,
     project_id integer DEFAULT 0 NOT NULL,
-    created_on timestamp without time zone,
+    created_at timestamp without time zone,
     mail_notification boolean DEFAULT false NOT NULL
 );
 
@@ -789,8 +789,8 @@ CREATE TABLE messages (
     author_id integer,
     replies_count integer DEFAULT 0 NOT NULL,
     last_reply_id integer,
-    created_on timestamp without time zone NOT NULL,
-    updated_on timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     locked boolean DEFAULT false,
     sticky integer DEFAULT 0
 );
@@ -825,7 +825,7 @@ CREATE TABLE news (
     summary character varying(255) DEFAULT ''::character varying,
     description text,
     author_id integer DEFAULT 0 NOT NULL,
-    created_on timestamp without time zone,
+    created_at timestamp without time zone,
     comments_count integer DEFAULT 0 NOT NULL
 );
 
@@ -970,8 +970,8 @@ CREATE TABLE projects (
     homepage character varying(255) DEFAULT ''::character varying,
     is_public boolean DEFAULT true NOT NULL,
     parent_id integer,
-    created_on timestamp without time zone,
-    updated_on timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     identifier character varying(20),
     status integer DEFAULT 1 NOT NULL,
     lft integer,
@@ -1126,7 +1126,7 @@ CREATE TABLE settings (
     id integer NOT NULL,
     name character varying(255) DEFAULT ''::character varying NOT NULL,
     value text,
-    updated_on timestamp without time zone
+    updated_at timestamp without time zone
 );
 
 
@@ -1164,8 +1164,8 @@ CREATE TABLE time_entries (
     tyear integer NOT NULL,
     tmonth integer NOT NULL,
     tweek integer NOT NULL,
-    created_on timestamp without time zone NOT NULL,
-    updated_on timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -1196,7 +1196,7 @@ CREATE TABLE tokens (
     user_id integer DEFAULT 0 NOT NULL,
     action character varying(30) DEFAULT ''::character varying NOT NULL,
     value character varying(40) DEFAULT ''::character varying NOT NULL,
-    created_on timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL
 );
 
 
@@ -1297,8 +1297,8 @@ CREATE TABLE users (
     last_login_on timestamp without time zone,
     language character varying(5) DEFAULT ''::character varying,
     auth_source_id integer,
-    created_on timestamp without time zone,
-    updated_on timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     type character varying(255),
     identity_url character varying(255)
 );
@@ -1332,8 +1332,8 @@ CREATE TABLE versions (
     name character varying(255) DEFAULT ''::character varying NOT NULL,
     description character varying(255) DEFAULT ''::character varying,
     effective_date date,
-    created_on timestamp without time zone,
-    updated_on timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     wiki_page_title character varying(255)
 );
 
@@ -1432,7 +1432,7 @@ CREATE TABLE wiki_content_versions (
     data bytea,
     compression character varying(6) DEFAULT ''::character varying,
     comments character varying(255) DEFAULT ''::character varying,
-    updated_on timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     version integer NOT NULL
 );
 
@@ -1465,7 +1465,7 @@ CREATE TABLE wiki_contents (
     author_id integer,
     text text,
     comments character varying(255) DEFAULT ''::character varying,
-    updated_on timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     version integer NOT NULL
 );
 
@@ -1496,7 +1496,7 @@ CREATE TABLE wiki_pages (
     id integer NOT NULL,
     wiki_id integer NOT NULL,
     title character varying(255) NOT NULL,
-    created_on timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
     protected boolean DEFAULT false NOT NULL,
     parent_id integer
 );
@@ -1529,7 +1529,7 @@ CREATE TABLE wiki_redirects (
     wiki_id integer NOT NULL,
     title character varying(255),
     redirects_to character varying(255),
-    created_on timestamp without time zone NOT NULL
+    created_at timestamp without time zone NOT NULL
 );
 
 
@@ -2373,10 +2373,10 @@ CREATE INDEX index_attachments_on_container_id_and_container_type ON attachments
 
 
 --
--- Name: index_attachments_on_created_on; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_attachments_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_attachments_on_created_on ON attachments USING btree (created_on);
+CREATE INDEX index_attachments_on_created_at ON attachments USING btree (created_at);
 
 
 --
@@ -2464,10 +2464,10 @@ CREATE INDEX index_documents_on_category_id ON documents USING btree (category_i
 
 
 --
--- Name: index_documents_on_created_on; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_documents_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_documents_on_created_on ON documents USING btree (created_on);
+CREATE INDEX index_documents_on_created_at ON documents USING btree (created_at);
 
 
 --
@@ -2527,10 +2527,10 @@ CREATE INDEX index_issues_on_category_id ON issues USING btree (category_id);
 
 
 --
--- Name: index_issues_on_created_on; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_issues_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_issues_on_created_on ON issues USING btree (created_on);
+CREATE INDEX index_issues_on_created_at ON issues USING btree (created_at);
 
 
 --
@@ -2562,10 +2562,10 @@ CREATE INDEX index_issues_on_tracker_id ON issues USING btree (tracker_id);
 
 
 --
--- Name: index_journals_on_created_on; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_journals_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_journals_on_created_on ON journals USING btree (created_on);
+CREATE INDEX index_journals_on_created_at ON journals USING btree (created_at);
 
 
 --
@@ -2618,10 +2618,10 @@ CREATE INDEX index_messages_on_author_id ON messages USING btree (author_id);
 
 
 --
--- Name: index_messages_on_created_on; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_messages_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_messages_on_created_on ON messages USING btree (created_on);
+CREATE INDEX index_messages_on_created_at ON messages USING btree (created_at);
 
 
 --
@@ -2639,10 +2639,10 @@ CREATE INDEX index_news_on_author_id ON news USING btree (author_id);
 
 
 --
--- Name: index_news_on_created_on; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_news_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_news_on_created_on ON news USING btree (created_on);
+CREATE INDEX index_news_on_created_at ON news USING btree (created_at);
 
 
 --
@@ -2674,10 +2674,10 @@ CREATE INDEX index_time_entries_on_activity_id ON time_entries USING btree (acti
 
 
 --
--- Name: index_time_entries_on_created_on; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_time_entries_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_time_entries_on_created_on ON time_entries USING btree (created_on);
+CREATE INDEX index_time_entries_on_created_at ON time_entries USING btree (created_at);
 
 
 --
@@ -2730,10 +2730,10 @@ CREATE INDEX index_watchers_on_watchable_id_and_watchable_type ON watchers USING
 
 
 --
--- Name: index_wiki_content_versions_on_updated_on; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_wiki_content_versions_on_updated_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_wiki_content_versions_on_updated_on ON wiki_content_versions USING btree (updated_on);
+CREATE INDEX index_wiki_content_versions_on_updated_at ON wiki_content_versions USING btree (updated_at);
 
 
 --

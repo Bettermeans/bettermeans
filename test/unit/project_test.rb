@@ -685,14 +685,14 @@ end
 #  homepage             :string(255)     default("")
 #  is_public            :boolean         default(TRUE), not null
 #  parent_id            :integer
-#  created_on           :datetime
-#  updated_on           :datetime
+#  created_at           :datetime
+#  updated_at           :datetime
 #  identifier           :string(20)
 #  status               :integer         default(1), not null
 #  lft                  :integer
 #  rgt                  :integer
 #  enterprise_id        :integer
-#  last_item_updated_on :datetime
+#  last_item_updated_at :datetime
 #  dpp                  :float           default(100.0)
 #  activity_line        :text            default("[]")
 #  volunteer            :boolean         default(FALSE)

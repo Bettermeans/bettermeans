@@ -86,11 +86,11 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:subject, :sortable => "#{Issue.table_name}.subject"),
     QueryColumn.new(:author),
     QueryColumn.new(:assigned_to, :sortable => ["#{User.table_name}.lastname", "#{User.table_name}.firstname", "#{User.table_name}.id"], :groupable => true),
-    QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
+    QueryColumn.new(:updated_at, :sortable => "#{Issue.table_name}.updated_at", :default_order => 'desc'),
     QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
     QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
     QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
-    QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
+    QueryColumn.new(:created_at, :sortable => "#{Issue.table_name}.created_at", :default_order => 'desc'),
   ]
   cattr_reader :available_columns
   
@@ -131,8 +131,8 @@ class Query < ActiveRecord::Base
                            "tracker_id" => { :type => :list, :order => 2, :values => trackers.collect{|s| [s.name, s.id.to_s] } },                                                                                                                
                            # "priority_id" => { :type => :list, :order => 3, :values => IssuePriority.all.collect{|s| [s.name, s.id.to_s] } },
                            "subject" => { :type => :text, :order => 8 },  
-                           "created_on" => { :type => :date_past, :order => 9 },                        
-                           "updated_on" => { :type => :date_past, :order => 10 },
+                           "created_at" => { :type => :date_past, :order => 9 },                        
+                           "updated_at" => { :type => :date_past, :order => 10 },
                            "start_date" => { :type => :date, :order => 11 },
                            "due_date" => { :type => :date, :order => 12 },
                            "estimated_hours" => { :type => :integer, :order => 13 }

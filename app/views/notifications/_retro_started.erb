@@ -21,7 +21,7 @@
 					<td><%= link_to_user_from_id(@notification.sender_id) %></td>
 				</tr>
 				<tr>
-					<td><%= since_tag(@notification.created_on) %> ago</td>
+					<td><%= since_tag(@notification.created_at) %> ago</td>
 				</tr>
 			</table>
 		</td>

@@ -12,7 +12,7 @@ class ActivityStreamsController < ApplicationController
   
   
   def index
-    # @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], params[:length], params[:max_created_on])    
+    # @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], params[:length], params[:max_created_at])    
 
     respond_to do |wants|
       wants.js do
@@ -23,7 +23,7 @@ class ActivityStreamsController < ApplicationController
                                                 :project_id => params[:project_id],
                                                 :with_subprojects => params[:with_subprojects],
                                                 :limit => params[:limit],
-                                                :max_created_on => nil,
+                                                :max_created_at => nil,
                                                 :show_refresh => true}
             page.call "arm_fancybox" #attaches fancybox triggers to new issues
             page.call "break_long_words"
@@ -33,7 +33,7 @@ class ActivityStreamsController < ApplicationController
                                                 :project_id => params[:project_id],
                                                 :with_subprojects => params[:with_subprojects],
                                                 :limit => params[:limit],
-                                                :max_created_on => params[:max_created_on],
+                                                :max_created_at => params[:max_created_at],
                                                 :show_refresh => false}
             page.call "arm_fancybox" #attaches fancybox triggers to new issues
             page.call "break_long_words"

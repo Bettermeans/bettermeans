@@ -139,7 +139,7 @@ class QueryTest < ActiveSupport::TestCase
 
   def test_operator_this_week_on_datetime
     query = Query.new(:project => Project.find(1), :name => '_')
-    query.add_filter('created_on', 'w', [''])
+    query.add_filter('created_at', 'w', [''])
     find_issues_with_query(query)
   end
 

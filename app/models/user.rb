@@ -270,7 +270,7 @@ class User < ActiveRecord::Base
     # Make sure there's only 1 token that matches the key
     if tokens.size == 1
       token = tokens.first
-      if (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
+      if (token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
         token.user.update_attribute(:last_login_on, Time.now)
         token.user
       end
@@ -656,8 +656,8 @@ end
 #  last_login_on         :datetime
 #  language              :string(5)       default("")
 #  auth_source_id        :integer
-#  created_on            :datetime
-#  updated_on            :datetime
+#  created_at            :datetime
+#  updated_at            :datetime
 #  type                  :string(255)
 #  identity_url          :string(255)
 #  activity_stream_token :string(255)

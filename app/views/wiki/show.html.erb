@@ -9,7 +9,7 @@
     <%= link_to((l(:label_next) + ' &#187;'), :action => 'index', :page => @page.title, :version => (@content.version + 1)) + " - " if @content.version < @page.content.version %>
     <%= link_to(l(:label_current_version), :action => 'index', :page => @page.title) %>
     <br />
-    <em><%= @content.author ? @content.author.name : "anon" %>, <%= format_time(@content.updated_on) %> </em><br />
+    <em><%= @content.author ? @content.author.name : "anon" %>, <%= format_time(@content.updated_at) %> </em><br />
     <%=h @content.comments %>
     </p>
     <hr />

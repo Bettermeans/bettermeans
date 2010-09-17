@@ -4,6 +4,6 @@
 <%= render(:partial => 'documents/document',
            :collection => Document.find(:all,
                          :limit => 10,
-                         :order => "#{Document.table_name}.created_on DESC",
+                         :order => "#{Document.table_name}.created_at DESC",
                          :conditions => "#{Document.table_name}.project_id in (#{project_ids.join(',')})",
                          :include => [:project])) unless project_ids.empty? %>

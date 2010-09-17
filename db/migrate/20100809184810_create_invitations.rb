@@ -8,8 +8,8 @@ class CreateInvitations < ActiveRecord::Migration
       t.integer :role_id, :defulat => Role::BUILTIN_CONTRIBUTOR
       t.string  :mail
 
-      t.datetime  :created_on
-      t.datetime  :updated_on
+      t.datetime  :created_at
+      t.datetime  :updated_at
     end
   end
 

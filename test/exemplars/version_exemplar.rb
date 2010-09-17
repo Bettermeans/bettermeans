@@ -18,8 +18,8 @@ end
 #  name            :string(255)     default(""), not null
 #  description     :string(255)     default("")
 #  effective_date  :date
-#  created_on      :datetime
-#  updated_on      :datetime
+#  created_at      :datetime
+#  updated_at      :datetime
 #  wiki_page_title :string(255)
 #  status          :string(255)     default("open")
 #  sharing         :string(255)     default("none"), not null
