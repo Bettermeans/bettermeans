@@ -196,6 +196,9 @@ class AccountController < ApplicationController
   def successful_authentication(user)
     # Valid user
     self.logged_user = user
+    
+    Track.log(Track::LOGIN)
+    
     # generate a key and set cookie if autologin
     if params[:autologin] && Setting.autologin?
       token = Token.create(:user => user, :action => 'autologin')
