@@ -1,0 +1,50 @@
+@import custom_mixins.sass
+
+body
+  font-family: "Helvetica Neue","Helvetica","Arial","Liberation Sans","Bitstream Vera Sans","sans-serif"
+  background-color: #F7F7F8
+  #wrapper
+    width: 700px
+    margin: 0 auto
+    h1
+      text-align: center
+    h2
+      margin: 0 0 10px
+      border-bottom= 1px "dotted" #DDD
+    .data
+      background-color: #FFF
+      padding: 15px
+      +rounded-corners
+    .quick-stats
+      clear: both
+      height: 165px
+      #signups, #activity
+        width: 300px
+        .today, .this-week
+          span.value
+            font-weight: bold
+        .today
+          span.value
+            font-size: 300%
+        .this-week
+          span.value
+            font-size: 150%
+          span.label
+            font-size: 80%
+      #signups
+        float: left
+      #activity
+        float: right
+    #newest-users, #last-active-users
+      margin-top: 20px
+      table
+        font-size: 75%
+        th
+          text-align: left
+          border-bottom: 1px solid #DDD
+        td
+          padding: 3px 5px
+        td.id, td.email
+          border-right: 1px solid #DDD
+        td.email
+          width: 430px
