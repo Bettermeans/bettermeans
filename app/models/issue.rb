@@ -627,7 +627,7 @@ class Issue < ActiveRecord::Base
   end
     
   def update_last_item_stamp
-    project.last_item_updated_at = DateTime.now
+    project.last_item_updated_on = DateTime.now
     project.save!
   end
   
