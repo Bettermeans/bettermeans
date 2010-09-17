@@ -5,14 +5,14 @@
 class Message < ActiveRecord::Base
   belongs_to :board
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  acts_as_tree :counter_cache => :replies_count, :order => "#{Message.table_name}.created_on ASC"
+  acts_as_tree :counter_cache => :replies_count, :order => "#{Message.table_name}.created_at ASC"
   acts_as_attachable
   belongs_to :last_reply, :class_name => 'Message', :foreign_key => 'last_reply_id'
   
   acts_as_searchable :columns => ['subject', 'content'],
                      :include => {:board => :project},
                      :project_key => 'project_id',
-                     :date_column => "#{table_name}.created_on"
+                     :date_column => "#{table_name}.created_at"
 
   acts_as_event :title => Proc.new {|o| "#{o.board.name}: #{o.subject}"},
                 :description => :content,
@@ -110,8 +110,8 @@ end
 #  author_id     :integer
 #  replies_count :integer         default(0), not null
 #  last_reply_id :integer
-#  created_on    :datetime        not null
-#  updated_on    :datetime        not null
+#  created_at    :datetime        not null
+#  updated_at    :datetime        not null
 #  locked        :boolean         default(FALSE)
 #  sticky        :integer         default(0)
 #

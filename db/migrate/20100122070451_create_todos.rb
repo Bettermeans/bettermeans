@@ -6,8 +6,8 @@ class CreateTodos < ActiveRecord::Migration
       t.integer :owner_id
       t.integer :issue_id
       t.datetime :completed_on
-      t.datetime :created_on
-      t.datetime :updated_on
+      t.datetime :created_at
+      t.datetime :updated_at
     end
     
     add_index :todos, [:author_id]

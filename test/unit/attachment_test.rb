@@ -49,7 +49,7 @@ end
 #  digest         :string(40)      default(""), not null
 #  downloads      :integer         default(0), not null
 #  author_id      :integer         default(0), not null
-#  created_on     :datetime
+#  created_at     :datetime
 #  description    :string(255)
 #
 

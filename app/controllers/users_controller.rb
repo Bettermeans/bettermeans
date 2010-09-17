@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
   def index
     sort_init 'login', 'asc'
-    sort_update %w(login firstname lastname mail admin created_on last_login_on)
+    sort_update %w(login firstname lastname mail admin created_at last_login_on)
     
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])

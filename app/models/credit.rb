@@ -32,7 +32,7 @@ class Credit < ActiveRecord::Base
   end
   
   def previously_issued
-    (issued_on - created_on) > 2 #if created date is different than issued on date (by more than a few milliseconds) then this was a previously issued credit, that's being recreated as portion of shares already given out
+    (issued_on - created_at) > 2 #if created date is different than issued on date (by more than a few milliseconds) then this was a previously issued credit, that's being recreated as portion of shares already given out
   end
   
   def settled?
@@ -99,8 +99,8 @@ end
 #  id         :integer         not null, primary key
 #  amount     :float           not null
 #  issued_on  :datetime
-#  created_on :datetime
-#  updated_on :datetime
+#  created_at :datetime
+#  updated_at :datetime
 #  owner_id   :integer
 #  project_id :integer
 #  settled_on :datetime

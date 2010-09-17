@@ -4,7 +4,7 @@ class CreateWikiRedirects < ActiveRecord::Migration
       t.column :wiki_id, :integer, :null => false
       t.column :title, :string
       t.column :redirects_to, :string
-      t.column :created_on, :datetime, :null => false
+      t.column :created_at, :datetime, :null => false
     end
     add_index :wiki_redirects, [:wiki_id, :title], :name => :wiki_redirects_wiki_id_title
   end

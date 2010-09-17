@@ -29,8 +29,8 @@ end
 #  priority_id          :integer         default(0), not null
 #  author_id            :integer         default(0), not null
 #  lock_version         :integer         default(0), not null
-#  created_on           :datetime
-#  updated_on           :datetime
+#  created_at           :datetime
+#  updated_at           :datetime
 #  start_date           :date
 #  done_ratio           :integer         default(0), not null
 #  estimated_hours      :float

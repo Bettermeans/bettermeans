@@ -39,6 +39,6 @@ end
 #  id         :integer         not null, primary key
 #  name       :string(255)     default(""), not null
 #  value      :text
-#  updated_on :datetime
+#  updated_at :datetime
 #
 

@@ -76,7 +76,7 @@ end
 #  author_id  :integer
 #  text       :text
 #  comments   :string(255)     default("")
-#  updated_on :datetime        not null
+#  updated_at :datetime        not null
 #  version    :integer         not null
 #
 

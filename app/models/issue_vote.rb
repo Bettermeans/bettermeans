@@ -55,8 +55,8 @@ end
 #  user_id    :integer         not null
 #  issue_id   :integer         not null
 #  vote_type  :integer         not null
-#  created_on :datetime
-#  updated_on :datetime
+#  created_at :datetime
+#  updated_at :datetime
 #  isbinding  :boolean         default(FALSE)
 #
 

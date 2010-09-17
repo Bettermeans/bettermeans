@@ -2,7 +2,7 @@
 	<% unless @user.pref.hide_mail %>
 		<li><%=l(:field_mail)%>: <%= mail_to(h(@user.mail), nil, :encode => 'javascript') %></li>
 	<% end %>
-    <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_on) %></li>
+    <li><%=l(:label_registered_on)%>: <%= format_date(@user.created_at) %></li>
 	<% unless @user.last_login_on.nil? %>
 		<li><%=l(:field_last_login_on)%>: <%= format_date(@user.last_login_on) %></li>
 	<% end %> 

@@ -38,7 +38,7 @@ class Retro < ActiveRecord::Base
   
   #Sets the from_date according to earliest updated issue in retrospective
   def set_from_date
-    from_date = issues.first(:order => "updated_on ASC").updated_on
+    from_date = issues.first(:order => "updated_at ASC").updated_at
     self.save
   end
   
@@ -218,8 +218,8 @@ end
 #  project_id   :integer
 #  from_date    :datetime
 #  to_date      :datetime
-#  created_on   :datetime
-#  updated_on   :datetime
+#  created_at   :datetime
+#  updated_at   :datetime
 #  total_points :integer
 #
 

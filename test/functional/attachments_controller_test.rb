@@ -91,7 +91,7 @@ class AttachmentsControllerTest < ActionController::TestCase
   #   # no referrer
   #   assert_redirected_to 'projects/ecookbook'
   #   assert_nil Attachment.find_by_id(1)
-  #   j = issue.journals.find(:first, :order => 'created_on DESC')
+  #   j = issue.journals.find(:first, :order => 'created_at DESC')
   #   assert_equal 'attachment', j.details.first.property
   #   assert_equal '1', j.details.first.prop_key
   #   assert_equal 'error281.txt', j.details.first.old_value

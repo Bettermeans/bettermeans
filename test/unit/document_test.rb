@@ -31,16 +31,16 @@ class DocumentTest < ActiveSupport::TestCase
     assert doc.save
   end
   
-  def test_updated_on_with_attachments
+  def test_updated_at_with_attachments
     d = Document.find(1)
     assert d.attachments.any?
-    assert_equal d.attachments.map(&:created_on).max, d.updated_on
+    assert_equal d.attachments.map(&:created_at).max, d.updated_at
   end
   
-  def test_updated_on_without_attachments
+  def test_updated_at_without_attachments
     d = Document.find(2)
     assert d.attachments.empty?
-    assert_equal d.created_on, d.updated_on
+    assert_equal d.created_at, d.updated_at
   end
 end
 
@@ -54,6 +54,6 @@ end
 #  project_id  :integer         default(0), not null
 #  title       :string(60)      default(""), not null
 #  description :text
-#  created_on  :datetime
+#  created_at  :datetime
 #
 

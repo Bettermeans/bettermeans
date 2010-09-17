@@ -246,8 +246,8 @@ class Setting < ActiveRecord::Base
   # and clears the cache hash if it's the case
   # Called once per request
   def self.check_cache
-    settings_updated_on = Setting.maximum(:updated_on)
-    if settings_updated_on && @cached_cleared_on <= settings_updated_on
+    settings_updated_at = Setting.maximum(:updated_at)
+    if settings_updated_at && @cached_cleared_on <= settings_updated_at
       @cached_settings.clear
       @cached_cleared_on = Time.now
     end
@@ -272,6 +272,6 @@ end
 #  id         :integer         not null, primary key
 #  name       :string(255)     default(""), not null
 #  value      :text
-#  updated_on :datetime
+#  updated_at :datetime
 #
 
