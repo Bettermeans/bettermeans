@@ -81,8 +81,8 @@ class User < ActiveRecord::Base
   validates_length_of :mail, :maximum => 60, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
   
-  reportable :daily_registrations, :aggregation => :count
-  reportable :weekly_registrations, :aggregation => :count, :period => :week
+  reportable :daily_registrations, :aggregation => :count, :limit => 14
+  reportable :weekly_registrations, :aggregation => :count, :grouping => :week, :limit => 20
   
   
   def <=>(user)

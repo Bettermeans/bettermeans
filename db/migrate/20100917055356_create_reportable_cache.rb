@@ -19,7 +19,7 @@ class CreateReportableCache < ActiveRecord::Migration
       :grouping,
       :aggregation,
       :conditions
-    ], :name => :name_model_grouping_agregation
+    ], :name => "name_model_grouping_agregation"
     add_index :reportable_cache, [
       :model_name,
       :report_name,
@@ -27,12 +27,12 @@ class CreateReportableCache < ActiveRecord::Migration
       :aggregation,
       :conditions,
       :reporting_period
-    ], :unique => true, :name => :name_model_grouping_aggregation_period
+    ], :unique => true, :name => "name_model_grouping_aggregation_period"
   end
 
   def self.down
-    remove_index :reportable_cache, :name => :name_model_grouping_agregation
-    remove_index :reportable_cache, :name => :name_model_grouping_aggregation_period
+    remove_index :reportable_cache, :name => "name_model_grouping_agregation"
+    remove_index :reportable_cache, :name => "name_model_grouping_aggregation_period"
 
     drop_table :reportable_cache
   end

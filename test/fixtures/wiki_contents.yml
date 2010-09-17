@@ -74,6 +74,7 @@ wiki_contents_006:
   
 
 
+
 # == Schema Information
 #
 # Table name: wiki_contents
@@ -83,7 +84,7 @@ wiki_contents_006:
 #  author_id  :integer
 #  text       :text
 #  comments   :string(255)     default("")
-#  updated_at :datetime        not null
+#  updated_on :datetime        not null
 #  version    :integer         not null
 #
 
