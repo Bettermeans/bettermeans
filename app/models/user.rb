@@ -514,14 +514,17 @@ class User < ActiveRecord::Base
   
   #Adds user to that project as that role
   def add_to_project(project, role_id, options={})
+    puts "adding to project role_id #{role_id} project #{project.inspect}"
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     if m.nil? 
+      puts "user isn't a member"
       #User isn't a member let's create a membership
       member_role = Role.find(:first, :conditions => {:id => role_id})
       m = Member.new(:user => self, :roles => [member_role])
       p = Project.find(project)
       result = p.all_members << m
     else
+      puts "already a member"
       #User is already a member, we just add a role (but make sure role doesn't exist already)
       MemberRole.create! :member_id => m.id, :role_id => role_id if MemberRole.first(:conditions => {:member_id => m.id, :role_id => role_id}) == nil
     end

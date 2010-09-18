@@ -38,7 +38,6 @@ end
 
 
 
-
 # == Schema Information
 #
 # Table name: users
@@ -75,6 +74,5 @@ end
 #  b_cc_year             :integer
 #  mail_hash             :string(255)
 #  trial_expires_on      :datetime
-#  active_subscription   :boolean         default(FALSE)
 #
 
