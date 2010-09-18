@@ -145,8 +145,8 @@ end
 #  author_id     :integer
 #  replies_count :integer         default(0), not null
 #  last_reply_id :integer
-#  created_on    :datetime        not null
-#  updated_on    :datetime        not null
+#  created_at    :datetime        not null
+#  updated_at    :datetime        not null
 #  locked        :boolean         default(FALSE)
 #  sticky        :integer         default(0)
 #

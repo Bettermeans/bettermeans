@@ -6,7 +6,7 @@ class Todo < ActiveRecord::Base
   after_save :update_issue_timestamp
   
   def update_issue_timestamp
-    issue.updated_on = DateTime.now
+    issue.updated_at = DateTime.now
     issue.save
   end
   
@@ -24,8 +24,8 @@ end
 #  owner_id     :integer
 #  issue_id     :integer
 #  completed_on :datetime
-#  created_on   :datetime
-#  updated_on   :datetime
+#  created_at   :datetime
+#  updated_at   :datetime
 #  owner_login  :string(255)
 #
 

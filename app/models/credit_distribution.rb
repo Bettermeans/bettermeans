@@ -33,7 +33,7 @@ end
 #  project_id :integer
 #  retro_id   :integer
 #  amount     :float
-#  created_on :datetime
-#  updated_on :datetime
+#  created_at :datetime
+#  updated_at :datetime
 #
 

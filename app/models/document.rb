@@ -9,7 +9,7 @@ class Document < ActiveRecord::Base
   acts_as_searchable :columns => ['title', "#{table_name}.description"], :include => :project
 
   acts_as_event :title => Proc.new {|o| "#{l(:label_document)}: #{o.title}"},
-                :author => Proc.new {|o| (a = o.attachments.find(:first, :order => "#{Attachment.table_name}.created_on ASC")) ? a.author : nil },
+                :author => Proc.new {|o| (a = o.attachments.find(:first, :order => "#{Attachment.table_name}.created_at ASC")) ? a.author : nil },
                 :url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.id}}
   # acts_as_activity_provider :find_options => {:include => :project}
   
@@ -30,12 +30,12 @@ class Document < ActiveRecord::Base
     !user.nil? && user.allowed_to?(:view_documents, project)
   end
   
-  def updated_on
-    unless @updated_on
-      a = attachments.find(:first, :order => 'created_on DESC')
-      @updated_on = (a && a.created_on) || created_on
+  def updated_at
+    unless @updated_at
+      a = attachments.find(:first, :order => 'created_at DESC')
+      @updated_at = (a && a.created_at) || created_at
     end
-    @updated_on
+    @updated_at
   end
   
   # Returns the mail adresses of users that should be notified
@@ -56,6 +56,6 @@ end
 #  project_id  :integer         default(0), not null
 #  title       :string(60)      default(""), not null
 #  description :text
-#  created_on  :datetime
+#  created_at  :datetime
 #
 

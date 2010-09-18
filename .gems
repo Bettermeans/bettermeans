@@ -1,3 +1,4 @@
+rails -v 2.3.5
 mislav-will_paginate --source gems.github.com
 ruby-debug
 rubytree
@@ -5,3 +6,4 @@ right_aws
 rpx_now
 recurly
 fleximage
+reportable

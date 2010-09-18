@@ -13,7 +13,7 @@ task :autoaccept_commitrequests => :environment do
   admin = User.find(:first,:conditions => {:login => "admin"})
   
   CommitRequest.find(:all, :conditions => 'response = 0 AND responder_id is null AND days > -1').each do |cr|
-    non_response_time = (Time.now - cr.created_on) / SECONDS_PER_DAY
+    non_response_time = (Time.now - cr.created_at) / SECONDS_PER_DAY
     next if non_response_time < MINIMUM_INCREMENT 
     if non_response_time > cr.days
       puts "Auto accepting: #{cr.id}  for issue #{cr.issue.subject}"

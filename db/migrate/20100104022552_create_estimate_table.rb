@@ -4,8 +4,8 @@ class CreateEstimateTable < ActiveRecord::Migration
       t.integer  :points, :null => false
       t.integer  :user_id, :null => false
       t.integer  :issue_id, :null => false
-      t.datetime :created_on
-      t.datetime :updated_on
+      t.datetime :created_at
+      t.datetime :updated_at
     end
     add_index :estimates, [:user_id]
     add_index :estimates, [:issue_id]

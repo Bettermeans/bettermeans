@@ -68,6 +68,6 @@ end
 #  wiki_id      :integer         not null
 #  title        :string(255)
 #  redirects_to :string(255)
-#  created_on   :datetime        not null
+#  created_at   :datetime        not null
 #
 

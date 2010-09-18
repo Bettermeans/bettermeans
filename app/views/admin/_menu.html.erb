@@ -13,5 +13,6 @@
 		<% end -%>
 		<li><%= link_to l(:label_plugins), {:controller => 'admin', :action => 'plugins'}, :class => 'plugins' %></li>
 		<li><%= link_to l(:label_information_plural), {:controller => 'admin', :action => 'info'}, :class => 'info' %></li>
+		<li><%= link_to :Stats, {:controller => 'admin', :action => 'user_stats'}, :class => 'info' %></li>
 	</ul>
 </div>

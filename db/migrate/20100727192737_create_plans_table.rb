@@ -9,8 +9,8 @@ class CreatePlansTable < ActiveRecord::Migration
       t.integer   :contributor_max
       t.integer   :private_workstream_max
       t.integer   :public_workstream_max
-      t.datetime  :created_on
-      t.datetime  :updated_on
+      t.datetime  :created_at
+      t.datetime  :updated_at
     end
     
     add_column :users, :plan_id, :integer, :default => 1

@@ -394,7 +394,7 @@ class ProjectsControllerTest < ActionController::TestCase
            :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
     end
     assert_redirected_to 'projects/ecookbook/files'
-    a = Attachment.find(:first, :order => 'created_on DESC')
+    a = Attachment.find(:first, :order => 'created_at DESC')
     assert_equal 'testfile.txt', a.filename
     assert_equal Project.find(1), a.container
 
@@ -425,7 +425,7 @@ class ProjectsControllerTest < ActionController::TestCase
            :attachments => {'1' => {'file' => uploaded_test_file('testfile.txt', 'text/plain')}}
     end
     assert_redirected_to 'projects/ecookbook/files'
-    a = Attachment.find(:first, :order => 'created_on DESC')
+    a = Attachment.find(:first, :order => 'created_at DESC')
     assert_equal 'testfile.txt', a.filename
     assert_equal Version.find(2), a.container
   end

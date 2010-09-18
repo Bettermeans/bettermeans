@@ -32,6 +32,7 @@ class SettingTest < ActiveSupport::TestCase
 end
 
 
+
 # == Schema Information
 #
 # Table name: settings

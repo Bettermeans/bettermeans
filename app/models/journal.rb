@@ -16,7 +16,7 @@ class Journal < ActiveRecord::Base
   after_save :update_issue_timestamp
   
   def update_issue_timestamp
-    issue.updated_on = DateTime.now
+    issue.updated_at = DateTime.now
     issue.save
   end
   
@@ -59,7 +59,7 @@ end
 #  journalized_type :string(30)      default(""), not null
 #  user_id          :integer         default(0), not null
 #  notes            :text
-#  created_on       :datetime        not null
-#  updated_on       :datetime
+#  created_at       :datetime        not null
+#  updated_at       :datetime
 #
 

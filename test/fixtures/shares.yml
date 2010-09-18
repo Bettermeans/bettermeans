@@ -15,8 +15,8 @@
 #  expires    :datetime
 #  variation  :integer         default(2), not null
 #  issued_on  :datetime
-#  created_on :datetime
-#  updated_on :datetime
+#  created_at :datetime
+#  updated_at :datetime
 #  project_id :integer
 #  owner_id   :integer
 #

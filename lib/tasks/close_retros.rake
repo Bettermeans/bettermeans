@@ -9,7 +9,7 @@ desc "Closes retrospectives that are open"
 task :close_retros => :environment do
   puts "Closing retros..."
   Retro.find(:all, :conditions => {:status_id => Retro::STATUS_INPROGRESS}).each do |retro|
-    if (Time.now.advance(:days => Setting::DEFAULT_RETROSPECTIVE_LENGTH * -1)  > retro.created_on)
+    if (Time.now.advance(:days => Setting::DEFAULT_RETROSPECTIVE_LENGTH * -1)  > retro.created_at)
       retro.close
       puts ("closing retro: #{retro.id} because it expired")
     elsif retro.all_in?
