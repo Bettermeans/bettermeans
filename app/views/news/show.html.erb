@@ -44,7 +44,7 @@
   			</tr>
   			<tr>
           <!-- <th>Logged time:</th> -->
-  				<td><%= since_tag(@news.created_on) %> ago</td>
+  				<td><%= since_tag(@news.created_at) %> ago</td>
   			</tr>
   		</table>
     </td>
@@ -81,7 +81,7 @@
  			</tr>
  			<tr>
          <!-- <th>Logged time:</th> -->
- 				<td><%= since_tag(comment.created_on) %> ago</td>
+ 				<td><%= since_tag(comment.created_at) %> ago</td>
  			</tr>
       <tr><td>
         <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment},

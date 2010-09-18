@@ -60,7 +60,7 @@ class Project < ActiveRecord::Base
   
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
-  has_many :issues, :dependent => :destroy, :order => "#{Issue.table_name}.created_on DESC", :include => [:status, :tracker]
+  has_many :issues, :dependent => :destroy, :order => "#{Issue.table_name}.created_at DESC", :include => [:status, :tracker]
   has_many :issue_votes, :through => :issues
   has_many :issue_changes, :through => :issues, :source => :journals
   has_many :queries, :dependent => :delete_all
@@ -70,7 +70,7 @@ class Project < ActiveRecord::Base
   has_many :messages, :through => :boards
   has_one :wiki, :dependent => :destroy
   has_many :shares, :dependent => :delete_all
-  has_many :credits, :dependent => :delete_all, :order => 'created_on ASC'
+  has_many :credits, :dependent => :delete_all, :order => 'created_at ASC'
   has_many :retros, :dependent => :delete_all
   has_many :reputations, :dependent => :delete_all
   has_many :credit_disributions
@@ -126,6 +126,9 @@ class Project < ActiveRecord::Base
      :order => 'name'
     }
   } 
+  
+  reportable :daily_new_projects, :aggregation => :count, :limit => 14
+  reportable :weekly_new_projects, :aggregation => :count, :grouping => :week, :limit => 20
   
   
   def project_id
@@ -190,9 +193,9 @@ class Project < ActiveRecord::Base
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=10, root=false)
     if root
-      all_roots.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
+      all_roots.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_at DESC")	
     else
-      all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
+      all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_at DESC")	
     end
   end	
   
@@ -226,7 +229,7 @@ class Project < ActiveRecord::Base
     if with_subprojects == 'true'
       conditions = {}
       conditions[:project_id] = self.sub_project_array
-      Credit.all(:conditions => conditions, :order => 'created_on ASC')
+      Credit.all(:conditions => conditions, :order => 'created_at ASC')
     else
       self.credits
     end
@@ -469,7 +472,7 @@ class Project < ActiveRecord::Base
     
     #Adding voters (do we really need this?)
     issues.each do |issue|
-      next if (issue.updated_on.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) < Time.now 
+      next if (issue.updated_at.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) < Time.now 
       issue.issue_votes.each do |iv|
         u[iv.user_id] ||= iv.user_id
       end
@@ -599,7 +602,7 @@ class Project < ActiveRecord::Base
   
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
-    p = Project.find(:first, :order => 'created_on DESC')
+    p = Project.find(:first, :order => 'created_at DESC')
     return 'A' if p.nil?
     
     next_id = p.identifier.to_s.succ
@@ -700,12 +703,12 @@ class Project < ActiveRecord::Base
       self.owner_id = self.root.owner_id 
       self.save
     elsif owner_id.nil?
-      admins = self.administrators.sort {|x,y| x.created_on <=> y.created_on}
+      admins = self.administrators.sort {|x,y| x.created_at <=> y.created_at}
       if admins.length > 0
         self.owner_id = admins[0].user_id
         self.save
       else
-        core = self.core_members.sort {|x,y| x.created_on <=> y.created_on}
+        core = self.core_members.sort {|x,y| x.created_at <=> y.created_at}
         self.owner_id = core[0].user_id if core.length > 0
         self.save
       end
@@ -721,9 +724,9 @@ class Project < ActiveRecord::Base
     return true if total_unretroed >= Setting::RETRO_CREDIT_THRESHOLD
     
     #Getting most recent issue that's not part of retrospective
-    first_issue = Issue.first(:conditions => {:project_id => self.id, :status_id => IssueStatus.accepted, :retro_id => Retro::NOT_STARTED_ID}, :order => "updated_on asc")
+    first_issue = Issue.first(:conditions => {:project_id => self.id, :status_id => IssueStatus.accepted, :retro_id => Retro::NOT_STARTED_ID}, :order => "updated_at asc")
     return false if first_issue == nil 
-    return true if (first_issue.updated_on.advance :days => Setting::RETRO_DAY_THRESHOLD) < Time.now
+    return true if (first_issue.updated_at.advance :days => Setting::RETRO_DAY_THRESHOLD) < Time.now
     
     return false
     
@@ -733,7 +736,7 @@ class Project < ActiveRecord::Base
   def start_new_retro
     return false if !credits_enabled?
     
-    from_date = issues.first(:conditions => {:retro_id => Retro::NOT_STARTED_ID}, :order => "updated_on ASC").updated_on
+    from_date = issues.first(:conditions => {:retro_id => Retro::NOT_STARTED_ID}, :order => "updated_at ASC").updated_at
     total_points = issues.sum(:points, :conditions => {:retro_id => Retro::NOT_STARTED_ID})
     @retro = Retro.create :project_id => id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now, :from_date => from_date, :total_points => total_points
     Issue.update_all("retro_id = #{@retro.id}" , "project_id = #{id} AND retro_id = #{Retro::NOT_STARTED_ID}")
@@ -752,19 +755,19 @@ class Project < ActiveRecord::Base
     end
     
     #All issue votes
-    iv_array = issue_votes.count(:group => 'DATE(issue_votes.created_on)', :conditions => "issue_votes.created_on > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
+    iv_array = issue_votes.count(:group => 'DATE(issue_votes.created_at)', :conditions => "issue_votes.created_at > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
     my_line = date_array.merge iv_array
 
     #all issues
-    iv_array = issues.count(:group => 'DATE(issues.updated_on)', :conditions => "issues.updated_on > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
+    iv_array = issues.count(:group => 'DATE(issues.updated_at)', :conditions => "issues.updated_at > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
     my_line + iv_array
     
     #all board messages
-    iv_array = messages.count(:group => 'DATE(messages.updated_on)', :conditions => "messages.updated_on > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
+    iv_array = messages.count(:group => 'DATE(messages.updated_at)', :conditions => "messages.updated_at > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
     my_line + iv_array
     
     #all journals
-    iv_array = issue_changes.count(:group => 'DATE(journals.updated_on)', :conditions => "journals.updated_on > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
+    iv_array = issue_changes.count(:group => 'DATE(journals.updated_at)', :conditions => "journals.updated_at > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
     my_line + iv_array
     
     self.children.each do |sub_project| 
@@ -819,8 +822,8 @@ class Project < ActiveRecord::Base
       self.wiki ||= Wiki.new
       wiki.attributes = project.wiki.attributes.dup.except("id", "project_id")
       project.wiki.pages.each do |page|
-        new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id", "updated_on"))
-        new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_on", "parent_id"))
+        new_wiki_content = WikiContent.new(page.content.attributes.dup.except("id", "page_id", "updated_at"))
+        new_wiki_page = WikiPage.new(page.attributes.dup.except("id", "wiki_id", "created_at", "parent_id"))
         new_wiki_page.content = new_wiki_content
         wiki.pages << new_wiki_page
       end
@@ -872,7 +875,7 @@ class Project < ActiveRecord::Base
   def copy_members(project)
     project.all_members.each do |member|
       new_member = Member.new
-      new_member.attributes = member.attributes.dup.except("id", "project_id", "created_on")
+      new_member.attributes = member.attributes.dup.except("id", "project_id", "created_at")
       new_member.role_ids = member.role_ids.dup
       new_member.project = self
       self.all_members << new_member
@@ -928,6 +931,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: projects
@@ -938,8 +942,8 @@ end
 #  homepage             :string(255)     default("")
 #  is_public            :boolean         default(TRUE), not null
 #  parent_id            :integer
-#  created_on           :datetime
-#  updated_on           :datetime
+#  created_at           :datetime
+#  updated_at           :datetime
 #  identifier           :string(20)
 #  status               :integer         default(1), not null
 #  lft                  :integer

@@ -11,7 +11,7 @@ class CreateJournals < ActiveRecord::Migration
       t.column "journalized_type", :string, :limit => 30, :default => "", :null => false
       t.column "user_id", :integer, :default => 0, :null => false
       t.column "notes", :text
-      t.column "created_on", :datetime, :null => false
+      t.column "created_at", :datetime, :null => false
     end
     create_table :journal_details, :force => true do |t|
       t.column "journal_id", :integer, :default => 0, :null => false
@@ -29,7 +29,7 @@ class CreateJournals < ActiveRecord::Migration
 
     # data migration
     IssueHistory.find(:all, :include => :issue).each {|h|
-      j = Journal.new(:journalized => h.issue, :user_id => h.author_id, :notes => h.notes, :created_on => h.created_on)
+      j = Journal.new(:journalized => h.issue, :user_id => h.author_id, :notes => h.notes, :created_at => h.created_at)
       j.details << JournalDetail.new(:property => 'attr', :prop_key => 'status_id', :value => h.status_id)
       j.save    
     }    
@@ -46,7 +46,7 @@ class CreateJournals < ActiveRecord::Migration
       t.column "status_id", :integer, :default => 0, :null => false
       t.column "author_id", :integer, :default => 0, :null => false
       t.column "notes", :text, :default => ""
-      t.column "created_on", :timestamp
+      t.column "created_at", :timestamp
     end
   
     add_index "issue_histories", ["issue_id"], :name => "issue_histories_issue_id"

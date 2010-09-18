@@ -107,7 +107,7 @@ class IssuesController < ApplicationController
   #   sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
   #   
   #   if @query.valid?
-  #     @journals = @query.journals(:order => "#{Journal.table_name}.created_on DESC", 
+  #     @journals = @query.journals(:order => "#{Journal.table_name}.created_at DESC", 
   #                                 :limit => 25)
   #   end
   #   @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
@@ -118,7 +118,7 @@ class IssuesController < ApplicationController
   
   def show
     @item = @issue.to_dashboard
-    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
+    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_at ASC")
     @journals.each_with_index {|j,i| j.indice = i+1}
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)

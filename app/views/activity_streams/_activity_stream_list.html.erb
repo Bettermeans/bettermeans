@@ -4,10 +4,10 @@
   project_id
   with_subprojects
   limit
-  max_created_on
+  max_created_at
    -->
    <% 
-    activities_by_item = ActivityStream.fetch(user_id,project_id, with_subprojects, limit, max_created_on)
+    activities_by_item = ActivityStream.fetch(user_id,project_id, with_subprojects, limit, max_created_at)
     %>
 <span id="activity_stream_list">    
  <table border="0" class="gt-table gt-user-table">
@@ -22,7 +22,7 @@
                                               :project_id => project_id,
                                               :with_subprojects => with_subprojects,
                                               :limit => limit,
-                                              :max_created_on => nil,
+                                              :max_created_at => nil,
                                               :refresh => true
                                               },
                                       :method => :get, :class => "right"
@@ -44,7 +44,7 @@
                                         :project_id => project_id,
                                         :with_subprojects => with_subprojects,
                                         :limit => limit,
-                                        :max_created_on => activities_by_item.last[1].last.created_at
+                                        :max_created_at => activities_by_item.last[1].last.created_at
                                         },
                                 :method => :get
                                 } unless activities_by_item.last.nil? %>

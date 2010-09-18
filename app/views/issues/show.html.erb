@@ -47,7 +47,7 @@
                     <span class="issue-meta-content"><span id="issue_status"><%= @issue.status.name %></span></span>
                 </div>
                 <div class="issue-meta-box first-box">
-                    <h3 class="issue-meta-title"><%= l(:label_created_time_by, :age => time_tag(@issue.created_on)) %></h3>
+                    <h3 class="issue-meta-title"><%= l(:label_created_time_by, :age => time_tag(@issue.created_at)) %></h3>
                     <span class="issue-meta-content"><span id="author">
                       <table class="author">
                         <tr>

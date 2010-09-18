@@ -112,7 +112,7 @@ class WikiController < ApplicationController
     @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
     # don't load text    
     @versions = @page.content.versions.find :all, 
-                                            :select => "id, author_id, comments, updated_on, version",
+                                            :select => "id, author_id, comments, updated_at, version",
                                             :order => 'version DESC',
                                             :limit  =>  @version_pages.items_per_page + 1,
                                             :offset =>  @version_pages.current.offset
@@ -166,10 +166,10 @@ class WikiController < ApplicationController
     # show pages index, sorted by title
     when 'page_index', 'date_index'
       # eager load information about last updates, without loading text
-      @pages = @wiki.pages.find :all, :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_on",
+      @pages = @wiki.pages.find :all, :select => "#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_at",
                                       :joins => "LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id",
                                       :order => 'title'
-      @pages_by_date = @pages.group_by {|p| p.updated_on.to_date}
+      @pages_by_date = @pages.group_by {|p| p.updated_at.to_date}
       @pages_by_parent_id = @pages.group_by(&:parent_id)
     # export wiki to a single html file
     when 'export'

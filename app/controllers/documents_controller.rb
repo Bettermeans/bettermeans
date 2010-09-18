@@ -21,20 +21,20 @@ class DocumentsController < ApplicationController
     documents = @project.documents.find :all, :include => [:attachments]
     case @sort_by
     when 'date'
-      @grouped = documents.group_by {|d| d.updated_on.to_date }
+      @grouped = documents.group_by {|d| d.updated_at.to_date }
     when 'title'
       @grouped = documents.group_by {|d| d.title.first.upcase}
     when 'author'
       @grouped = documents.select{|d| d.attachments.any?}.group_by {|d| d.attachments.last.author}
     else
-      @grouped = documents.group_by {|d| d.updated_on.to_date }
+      @grouped = documents.group_by {|d| d.updated_at.to_date }
     end
     @document = @project.documents.build
     render :layout => false if request.xhr?
   end
   
   def show
-    @attachments = @document.attachments.find(:all, :order => "created_on DESC")
+    @attachments = @document.attachments.find(:all, :order => "created_at DESC")
   end
 
   def new

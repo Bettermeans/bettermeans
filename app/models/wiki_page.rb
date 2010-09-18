@@ -14,7 +14,7 @@ class WikiPage < ActiveRecord::Base
   acts_as_watchable
   acts_as_event :title => Proc.new {|o| "#{l(:label_wiki)}: #{o.title}"},
                 :description => :text,
-                :datetime => :created_on,
+                :datetime => :created_at,
                 :url => Proc.new {|o| {:controller => 'wiki', :id => o.wiki.project, :page => o.title}}
   
   acts_as_searchable :columns => ['title', 'text'],
@@ -191,7 +191,7 @@ end
 #  id         :integer         not null, primary key
 #  wiki_id    :integer         not null
 #  title      :string(255)     not null
-#  created_on :datetime        not null
+#  created_at :datetime        not null
 #  protected  :boolean         default(FALSE), not null
 #  parent_id  :integer
 #

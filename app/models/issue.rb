@@ -13,7 +13,7 @@ class Issue < ActiveRecord::Base
   belongs_to :retro
   belongs_to :hourly_type
     
-  has_many :journals, :as => :journalized, :dependent => :destroy, :order => "#{Journal.table_name}.created_on ASC"  
+  has_many :journals, :as => :journalized, :dependent => :destroy, :order => "#{Journal.table_name}.created_at ASC"  
   has_many :time_entries, :dependent => :delete_all
   
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
@@ -49,7 +49,7 @@ class Issue < ActiveRecord::Base
   
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
-  named_scope :open_status, :conditions => ["status_id = ?", IssueStatus.open.id], :include => :status
+  named_scope :open_status, :conditions => {:status_id => 1}, :include => :status #BUGBUG: hard coded because IssueStatus.open.id breaks rake for some reason!!!
 
   after_save :after_save
   
@@ -62,7 +62,7 @@ class Issue < ActiveRecord::Base
   def ready_for_open?
     return false if points.nil? || agree_total < 1
     return true if agree - disagree > points_from_credits / 2
-    return true if agree_total > 0 && (self.created_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
+    return true if agree_total > 0 && (self.created_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
     return true if agree_total > (project.active_binding_members_count / 2)
     return true if agree_total > 0 && (self.status == IssueStatus.open)
     return false
@@ -71,7 +71,7 @@ class Issue < ActiveRecord::Base
   # Returns true if there are enough disagreements in relation to the estimated points of the request
   def ready_for_canceled?
     return false if agree_total > 0
-    return true if agree_total < 0 && (updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
+    return true if agree_total < 0 && (updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
     # return true if agree_total * -1 > ((project.root.core_members.count + project.root.members.count) / 2)
     return false
   end
@@ -79,7 +79,7 @@ class Issue < ActiveRecord::Base
   def ready_for_accepted?
     return true if self.status == IssueStatus.accepted
     return false if points.nil? || accept_total < 1
-    return true if accept_total > 0 && (self.updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
+    return true if accept_total > 0 && (self.updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
     return true if accept_total > (project.binding_members_count / 2)
     return false
   end
@@ -87,7 +87,7 @@ class Issue < ActiveRecord::Base
   def ready_for_rejected?
     return true if self.status == IssueStatus.rejected
     return false if points.nil? || accept_total > -1
-    return true if accept_total < 0 && (updated_on < DateTime.now - Setting::LAZY_MAJORITY_LENGTH) #rejected
+    return true if accept_total < 0 && (updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH) #rejected
     return false
   end
   
@@ -148,12 +148,12 @@ class Issue < ActiveRecord::Base
   
   def team_members
     IssueVote.find(:all, :conditions => ["issue_id=? AND vote_type=?", 
-                                                   self.id, IssueVote::JOIN_VOTE_TYPE], :order => "updated_on ASC").map(&:user)
+                                                   self.id, IssueVote::JOIN_VOTE_TYPE], :order => "updated_at ASC").map(&:user)
   end
   
   def copy_from(arg)
     issue = arg.is_a?(Issue) ? arg : Issue.find(arg)
-    self.attributes = issue.attributes.dup.except("id", "created_on", "updated_on")
+    self.attributes = issue.attributes.dup.except("id", "created_at", "updated_at")
     self.status = issue.status
     self
   end
@@ -169,7 +169,7 @@ class Issue < ActiveRecord::Base
   #Copies all issue votes except team ones and accept/reject ones
   def clone_recurring
     @new_issue = Issue.new
-    @new_issue.attributes = self.attributes.dup.except("id", "created_on", "updated_on")
+    @new_issue.attributes = self.attributes.dup.except("id", "created_at", "updated_at")
     @new_issue.status = IssueStatus.open
     @new_issue.save
     self.issue_votes.each do |iv|
@@ -306,8 +306,8 @@ class Issue < ActiveRecord::Base
     @issue_before_change = self.clone
     @issue_before_change.status = self.status
 
-    # Make sure updated_on is updated when adding a note.
-    updated_on_will_change!
+    # Make sure updated_at is updated when adding a note.
+    updated_at_will_change!
     @current_journal
     
   end
@@ -571,7 +571,7 @@ class Issue < ActiveRecord::Base
   
   #returns json object for consumption from dashboard
   def to_dashboard
-    self.to_json(:include => {:journals => { :only => [:id, :notes, :created_on, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
+    self.to_json(:include => {:journals => { :only => [:id, :notes, :created_at, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
                               :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
                               :status => {:only => :name}, 
                               :todos => {:only => [:id, :subject, :completed_on, :owner_login]}, 
@@ -636,7 +636,7 @@ class Issue < ActiveRecord::Base
   def create_journal
     if @current_journal
       # attributes changes
-      (Issue.column_names - %w(id description lock_version created_on updated_on pri accept reject accept_total agree disagree agree_total retro_id accept_nonbind reject_nonbind accept_total_nonbind agree_nonbind disagree_nonbind agree_total_nonbind points_nonbind pri_nonbind)).each {|c|
+      (Issue.column_names - %w(id description lock_version created_at updated_at pri accept reject accept_total agree disagree agree_total retro_id accept_nonbind reject_nonbind accept_total_nonbind agree_nonbind disagree_nonbind agree_total_nonbind points_nonbind pri_nonbind)).each {|c|
         @current_journal.details << JournalDetail.new(:property => 'attr',
                                                       :prop_key => c,
                                                       :old_value => @issue_before_change.send(c),
@@ -673,8 +673,8 @@ end
 #  priority_id          :integer         default(0), not null
 #  author_id            :integer         default(0), not null
 #  lock_version         :integer         default(0), not null
-#  created_on           :datetime
-#  updated_on           :datetime
+#  created_at           :datetime
+#  updated_at           :datetime
 #  start_date           :date
 #  done_ratio           :integer         default(0), not null
 #  estimated_hours      :float

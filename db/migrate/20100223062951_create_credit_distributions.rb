@@ -6,8 +6,8 @@ class CreateCreditDistributions < ActiveRecord::Migration
       t.integer :retro_id
       t.float :amount
 
-      t.datetime :created_on
-      t.datetime :updated_on
+      t.datetime :created_at
+      t.datetime :updated_at
     end
   end
 

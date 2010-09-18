@@ -680,7 +680,7 @@ function generate_details_flyover(dataId){
 	html = html + '	      <div style="height: auto;">';
 	html = html + '	        <div class="metaInfo">';
 	html = html + '	          <div class="left">';
-	html = html + 'Added by ' + item.author.firstname + ' ' + item.author.lastname + ' ' + humane_date(item.created_on);
+	html = html + 'Added by ' + item.author.firstname + ' ' + item.author.lastname + ' ' + humane_date(item.created_at);
 	html = html + '	          </div>';
 	html = html + '<div class="right infoSection">';
 	html = html + '	            <img class="estimateIcon left" width="18" src="/images/dice_' + points + '.png" alt="Estimate: ' + points + ' credits" title="Estimate: ' + points + ' credits">';
@@ -739,7 +739,7 @@ function generate_estimate_flyover(dataId){
 				user_estimate = convert_points_to_complexity(item.issue_votes[i].points);
 			}
 			
-			you_voted = "Your estimate " + user_estimate + " - " + humane_date(item.issue_votes[i].updated_on);
+			you_voted = "Your estimate " + user_estimate + " - " + humane_date(item.issue_votes[i].updated_at);
 		}
 	}
 	
@@ -919,7 +919,7 @@ function generate_pri_flyover(dataId){
 		if (currentUserLogin == item.issue_votes[i].user.login){
 			if (item.issue_votes[i].vote_type != 3) continue;
 			total_people_prioritizing++ ;
-			you_voted = "You prioritized " + pri_text(item.issue_votes[i].points) + " - " + humane_date(item.issue_votes[i].updated_on);
+			you_voted = "You prioritized " + pri_text(item.issue_votes[i].points) + " - " + humane_date(item.issue_votes[i].updated_at);
 			user_pri_id = item.issue_votes[i].id;
 		}
 	}
@@ -1031,7 +1031,7 @@ function generate_agree_flyover(dataId){
 		if (currentUserLogin == item.issue_votes[i].user.login){
 			if (item.issue_votes[i].vote_type != 1) continue;
 			total_people_agreeing++ ;
-			title = "You voted: " + agree_text(item.issue_votes[i].points);// + " - " + humane_date(item.issue_votes[i].updated_on);
+			title = "You voted: " + agree_text(item.issue_votes[i].points);// + " - " + humane_date(item.issue_votes[i].updated_at);
 			user_agree_id = i;
 		}
 	}
@@ -1091,7 +1091,7 @@ function generate_accept_flyover(dataId){
 		if (currentUserLogin == item.issue_votes[i].user.login){
 			if (item.issue_votes[i].vote_type != 2) continue;
 			total_people_accepting++ ;
-			title = "You voted: " + accept_text(item.issue_votes[i].points);// + " - " + humane_date(item.issue_votes[i].updated_on);
+			title = "You voted: " + accept_text(item.issue_votes[i].points);// + " - " + humane_date(item.issue_votes[i].updated_at);
 			user_accept_id = i;
 		}
 	}
@@ -1217,7 +1217,7 @@ function generate_comments(dataId,blank_if_no_comments){
 					note = item.journals[i].notes;
 				}
 				var last_comment = (i == (item.journals.length - 1));
-				html = html + generate_comment(author,note,item.journals[i].created_on,item.id, (last_comment &&(currentUserId == item.journals[i].user_id)), item.journals[i].id,dataId);
+				html = html + generate_comment(author,note,item.journals[i].created_at,item.id, (last_comment &&(currentUserId == item.journals[i].user_id)), item.journals[i].id,dataId);
 			}
 	}
 	html = html + '	    </tbody>';
@@ -1227,11 +1227,11 @@ function generate_comments(dataId,blank_if_no_comments){
 	
 }
 
-function generate_comment(author,note,created_on,itemId,last_comment,journalId,dataId){
+function generate_comment(author,note,created_at,itemId,last_comment,journalId,dataId){
 	var html = '';
 	html = html + '<tr class="noteInfoRow">';
 	html = html + '<td class="noteInfo" id="noteInfo_' + journalId + '">';
-	html = html + '<span class="specialhighlight">' + author + '</span> <span class="italic">' + humane_date(created_on) + '</span>';
+	html = html + '<span class="specialhighlight">' + author + '</span> <span class="italic">' + humane_date(created_at) + '</span>';
 	if (last_comment){
 		html = html + '&nbsp;&nbsp;<a href="" onclick="edit_comment(' + journalId + ',' + dataId + ');return false;">edit</a>';
 	}
@@ -1732,7 +1732,7 @@ function buttons_for(dataId,expanded){
 		if (currentUserIsCitizen == 'true'){
 			var today = new Date();
 			var one_day=1000*60*60*24;
-			var updated = new Date(item.updated_on).getTime();
+			var updated = new Date(item.updated_at).getTime();
 			var days = (today.getTime() - updated)/one_day;
 			if (days > 30){
 				html = html + dash_button('cancel',dataId);
@@ -2303,7 +2303,7 @@ function hide_inactive(days){
 	var today = new Date();
 	
 	for(var i = 0; i < D.length; i++ ){
-		if (new Date(D[i].updated_on) < new Date().setDate(today.getDate()-days)){
+		if (new Date(D[i].updated_at) < new Date().setDate(today.getDate()-days)){
 			$("#item_" + i).hide();
 		}
 		else{
@@ -2595,7 +2595,7 @@ function sort_panel(name){
 			return -1;
 			} else if (D[compA].pri < D[compB].pri) {
 				return 1;
-			} else if (new Date(D[compA].created_on) > new Date(D[compB].created_on)) {
+			} else if (new Date(D[compA].created_at) > new Date(D[compB].created_at)) {
 				return 1;
 			} else {
 				return -1;
@@ -3820,7 +3820,7 @@ function new_dash_data_response(data){
 			add_item(D.length-1,"bottom",false);	
 		}
 		else{		
-			if (String(new Date(D[dataId].updated_on)) == String(new Date(item.updated_on))){
+			if (String(new Date(D[dataId].updated_at)) == String(new Date(item.updated_at))){
 				continue;
 			}
 						

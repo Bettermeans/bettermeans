@@ -130,7 +130,7 @@ class ProjectsController < ApplicationController
     end
     
     @subprojects = @project.children.active.find(:all, :order => 'name ASC')
-    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
+    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_at DESC")
     @trackers = @project.rolled_up_trackers
     
     cond = @project.project_condition(Setting.display_subprojects_issues?)
@@ -182,7 +182,7 @@ class ProjectsController < ApplicationController
     end
     
     render :json => Issue.find(:all, :conditions => @conditions)  \
-                         .to_json(:include => { :journals =>    { :only => [:id, :notes, :created_on, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}},
+                         .to_json(:include => { :journals =>    { :only => [:id, :notes, :created_at, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                                                 :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                                                 :status =>      { :only => :name },
                                                 :todos =>       { :only => [:id, :subject, :completed_on, :owner_login] },
@@ -201,7 +201,7 @@ class ProjectsController < ApplicationController
     time_delta = params[:seconds].to_f.round
     
     if @project.last_item_updated_on.advance(:seconds => time_delta) > DateTime.now
-      render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND updated_on >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'").to_json(:include => {:journals => { :only => [:id, :notes, :created_on, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
+      render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'").to_json(:include => {:journals => { :only => [:id, :notes, :created_at, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
                                                                                                                                                                                                             :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}}, 
                                                                                                                                                                                                             :status => {:only => :name}, 
                                                                                                                                                                                                             :todos => {:only => [:id, :subject, :completed_on]}, 
@@ -302,7 +302,7 @@ class ProjectsController < ApplicationController
   def list_files
     sort_init 'filename', 'asc'
     sort_update 'filename' => "#{Attachment.table_name}.filename",
-                'created_on' => "#{Attachment.table_name}.created_on",
+                'created_at' => "#{Attachment.table_name}.created_at",
                 'size' => "#{Attachment.table_name}.filesize",
                 'downloads' => "#{Attachment.table_name}.downloads"
                 

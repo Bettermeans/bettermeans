@@ -33,6 +33,6 @@ end
 #  user_id    :integer         default(0), not null
 #  action     :string(30)      default(""), not null
 #  value      :string(40)      default(""), not null
-#  created_on :datetime        not null
+#  created_at :datetime        not null
 #
 

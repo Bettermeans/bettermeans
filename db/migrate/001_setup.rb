@@ -19,7 +19,7 @@ class Setup < ActiveRecord::Migration
       t.column "digest", :string, :limit => 40, :default => "", :null => false
       t.column "downloads", :integer, :default => 0, :null => false
       t.column "author_id", :integer, :default => 0, :null => false
-      t.column "created_on", :timestamp
+      t.column "created_at", :timestamp
     end
 
     create_table "auth_sources", :force => true do |t|
@@ -71,7 +71,7 @@ class Setup < ActiveRecord::Migration
       t.column "category_id", :integer, :default => 0, :null => false
       t.column "title", :string, :limit => 60, :default => "", :null => false
       t.column "description", :text
-      t.column "created_on", :timestamp
+      t.column "created_at", :timestamp
     end
     
     add_index "documents", ["project_id"], :name => "documents_project_id"
@@ -93,7 +93,7 @@ class Setup < ActiveRecord::Migration
       t.column "status_id", :integer, :default => 0, :null => false
       t.column "author_id", :integer, :default => 0, :null => false
       t.column "notes", :text
-      t.column "created_on", :timestamp
+      t.column "created_at", :timestamp
     end
   
     add_index "issue_histories", ["issue_id"], :name => "issue_histories_issue_id"
@@ -118,8 +118,8 @@ class Setup < ActiveRecord::Migration
       t.column "fixed_version_id", :integer
       t.column "author_id", :integer, :default => 0, :null => false
       t.column "lock_version", :integer, :default => 0, :null => false
-      t.column "created_on", :timestamp
-      t.column "updated_on", :timestamp
+      t.column "created_at", :timestamp
+      t.column "updated_at", :timestamp
     end
   
     add_index "issues", ["project_id"], :name => "issues_project_id"
@@ -128,7 +128,7 @@ class Setup < ActiveRecord::Migration
       t.column "user_id", :integer, :default => 0, :null => false
       t.column "project_id", :integer, :default => 0, :null => false
       t.column "role_id", :integer, :default => 0, :null => false
-      t.column "created_on", :timestamp
+      t.column "created_at", :timestamp
     end
   
     create_table "news", :force => true do |t|
@@ -137,7 +137,7 @@ class Setup < ActiveRecord::Migration
       t.column "summary", :string, :limit => 255, :default => ""
       t.column "description", :text
       t.column "author_id", :integer, :default => 0, :null => false
-      t.column "created_on", :timestamp
+      t.column "created_at", :timestamp
     end
     
     add_index "news", ["project_id"], :name => "news_project_id"
@@ -166,8 +166,8 @@ class Setup < ActiveRecord::Migration
       t.column "is_public", :boolean, :default => true, :null => false
       t.column "parent_id", :integer
       t.column "projects_count", :integer, :default => 0
-      t.column "created_on", :timestamp
-      t.column "updated_on", :timestamp
+      t.column "created_at", :timestamp
+      t.column "updated_at", :timestamp
     end
   
     create_table "roles", :force => true do |t|
@@ -178,7 +178,7 @@ class Setup < ActiveRecord::Migration
       t.column "user_id", :integer, :default => 0, :null => false
       t.column "action", :string, :limit => 30, :default => "", :null => false
       t.column "value", :string, :limit => 40, :default => "", :null => false
-      t.column "created_on", :datetime, :null => false
+      t.column "created_at", :datetime, :null => false
     end
   
     create_table "trackers", :force => true do |t|
@@ -198,8 +198,8 @@ class Setup < ActiveRecord::Migration
       t.column "last_login_on", :datetime
       t.column "language", :string, :limit => 2, :default => ""
       t.column "auth_source_id", :integer
-      t.column "created_on", :timestamp
-      t.column "updated_on", :timestamp
+      t.column "created_at", :timestamp
+      t.column "updated_at", :timestamp
     end
   
     create_table "versions", :force => true do |t|
@@ -207,8 +207,8 @@ class Setup < ActiveRecord::Migration
       t.column "name", :string, :limit => 30, :default => "", :null => false
       t.column "description", :string, :default => ""
       t.column "effective_date", :date
-      t.column "created_on", :timestamp
-      t.column "updated_on", :timestamp
+      t.column "created_at", :timestamp
+      t.column "updated_at", :timestamp
     end
     
     add_index "versions", ["project_id"], :name => "versions_project_id"

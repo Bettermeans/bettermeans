@@ -5,8 +5,8 @@ class CreateRetroRatings < ActiveRecord::Migration
       t.integer  :ratee_id
       t.float    :score
       t.integer  :retro_id
-      t.datetime :created_on
-      t.datetime :updated_on
+      t.datetime :created_at
+      t.datetime :updated_at
     end
     
     add_index :retro_ratings, [:rater_id]

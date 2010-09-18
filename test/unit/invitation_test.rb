@@ -21,7 +21,7 @@ end
 #  status     :integer         default(0)
 #  role_id    :integer
 #  mail       :string(255)
-#  created_on :datetime
-#  updated_on :datetime
+#  created_at :datetime
+#  updated_at :datetime
 #
 

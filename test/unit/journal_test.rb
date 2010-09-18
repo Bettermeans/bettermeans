@@ -46,7 +46,7 @@ end
 #  journalized_type :string(30)      default(""), not null
 #  user_id          :integer         default(0), not null
 #  notes            :text
-#  created_on       :datetime        not null
-#  updated_on       :datetime
+#  created_at       :datetime        not null
+#  updated_at       :datetime
 #
 

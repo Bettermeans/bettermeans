@@ -5,7 +5,7 @@
 class News < ActiveRecord::Base
   belongs_to :project
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-  has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_on"
+  has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_at"
   
   validates_presence_of :title, :description
   validates_length_of :title, :maximum => 60
@@ -30,7 +30,7 @@ class News < ActiveRecord::Base
   
   # returns latest news for projects visible by user
   def self.latest(user = User.current, count = 5)
-    find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")	
+    find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_at DESC")	
   end
 end
 
@@ -45,7 +45,7 @@ end
 #  summary        :string(255)     default("")
 #  description    :text
 #  author_id      :integer         default(0), not null
-#  created_on     :datetime
+#  created_at     :datetime
 #  comments_count :integer         default(0), not null
 #
 

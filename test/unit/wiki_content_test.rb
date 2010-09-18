@@ -67,6 +67,7 @@ class WikiContentTest < ActiveSupport::TestCase
 end
 
 
+
 # == Schema Information
 #
 # Table name: wiki_contents

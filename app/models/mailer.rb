@@ -239,7 +239,7 @@ class Mailer < ActionMailer::Base
     recipients User.active.find(:all, :conditions => {:admin => true}).collect { |u| u.mail }.compact
     subject l(:mail_subject_account_activation_request, Setting.app_title)
     body :user => user,
-         :url => url_for(:controller => 'users', :action => 'index', :status => User::STATUS_REGISTERED, :sort_key => 'created_on', :sort_order => 'desc')
+         :url => url_for(:controller => 'users', :action => 'index', :status => User::STATUS_REGISTERED, :sort_key => 'created_at', :sort_order => 'desc')
     render_multipart('account_activation_request', body)
   end
 
@@ -390,7 +390,7 @@ class Mailer < ActionMailer::Base
   def self.message_id_for(object)
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
-    timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on) 
+    timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at) 
     hash = "redmine.#{object.class.name.demodulize.underscore}-#{object.id}.#{timestamp.strftime("%Y%m%d%H%M%S")}"
     host = Setting.mail_from.to_s.gsub(%r{^.*@}, '')
     host = "#{::Socket.gethostname}.redmine" if host.empty?
