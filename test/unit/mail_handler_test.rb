@@ -325,14 +325,3 @@ class MailHandlerTest < ActiveSupport::TestCase
     issue.reload
   end
 end
-
-
-# == Schema Information
-#
-# Table name: mail_handlers
-#
-#  id         :integer         not null, primary key
-#  created_on :datetime
-#  updated_on :datetime
-#
-

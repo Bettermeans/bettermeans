@@ -165,7 +165,6 @@ groups_011:
 
 
 
-
 # == Schema Information
 #
 # Table name: users
@@ -202,6 +201,5 @@ groups_011:
 #  b_cc_year             :integer
 #  mail_hash             :string(255)
 #  trial_expires_on      :datetime
-#  active_subscription   :boolean         default(FALSE)
 #
 
