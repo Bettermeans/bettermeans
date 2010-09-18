@@ -33,8 +33,8 @@ end
 #  ratee_id   :integer
 #  score      :float
 #  retro_id   :integer
-#  created_on :datetime
-#  updated_on :datetime
+#  created_at :datetime
+#  updated_at :datetime
 #  confidence :integer         default(100)
 #
 

@@ -494,7 +494,7 @@ module ActiveRecord #:nodoc:
 
             updated_col = nil
             self.versioned_columns.each do |col| 
-              updated_col = col if !updated_col && %(updated_at updated_on).include?(col.name)
+              updated_col = col if !updated_col && %(updated_at updated_at).include?(col.name)
               self.connection.add_column versioned_table_name, col.name, col.type, 
                 :limit => col.limit, 
                 :default => col.default,

@@ -2,7 +2,7 @@
 
 <div class="message">  
   
-<p><span class="author"><%= authoring @topic.created_on, @topic.author %></span></p>
+<p><span class="author"><%= authoring @topic.created_at, @topic.author %></span></p>
   
   
 <div class="wiki">
@@ -25,7 +25,7 @@
   <h4>
     <%= link_to h(message.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :anchor => "message-#{message.id}" } %>
     -
-    <%= authoring message.created_on, message.author %>
+    <%= authoring message.created_at, message.author %>
   </h4>
   <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
   <%= link_to_attachments message, :author => false %>

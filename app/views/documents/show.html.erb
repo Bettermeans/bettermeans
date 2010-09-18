@@ -1,5 +1,5 @@
 <h2><%=h @document.title %></h2>
-<p><em><%= format_date @document.created_on %></em></p>
+<p><em><%= format_date @document.created_at %></em></p>
 <div class="gt-content-box wiki">
 <%= textilizable @document.description, :attachments => @document.attachments %>
 </div>

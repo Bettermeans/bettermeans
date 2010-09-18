@@ -5,8 +5,8 @@ class CreateSharesAndCreditTables < ActiveRecord::Migration
       t.datetime :expires
       t.integer  :variation, :default => 2, :null => false
       t.datetime :issued_on, :default => Time.now
-      t.datetime :created_on
-      t.datetime :updated_on
+      t.datetime :created_at
+      t.datetime :updated_at
       t.integer  :project_id
       t.integer  :owner_id
     end
@@ -16,8 +16,8 @@ class CreateSharesAndCreditTables < ActiveRecord::Migration
     create_table :credits do |t|
       t.float    :amount, :null => false
       t.datetime :issued_on, :default => Time.now
-      t.datetime :created_on
-      t.datetime :updated_on
+      t.datetime :created_at
+      t.datetime :updated_at
       t.integer  :owner_id
       t.integer  :project_id
     end

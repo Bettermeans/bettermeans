@@ -49,8 +49,8 @@ module IssuesHelper
                   l(:field_start_date),
                   l(:field_due_date),
                   l(:field_estimated_hours),
-                  l(:field_created_on),
-                  l(:field_updated_on)
+                  l(:field_created_at),
+                  l(:field_updated_at)
                   ]
       # Description in the last column
       headers << l(:field_description)
@@ -68,8 +68,8 @@ module IssuesHelper
                   format_date(issue.start_date),
                   format_date(issue.due_date),
                   issue.estimated_hours.to_s.gsub('.', decimal_separator),
-                  format_time(issue.created_on),  
-                  format_time(issue.updated_on)
+                  format_time(issue.created_at),  
+                  format_time(issue.updated_at)
                   ]
         fields << issue.description
         csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }

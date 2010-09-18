@@ -16,12 +16,12 @@ class Token < ActiveRecord::Base
 
   # Return true if token has expired  
   def expired?
-    return Time.now > self.created_on + @@validity_time
+    return Time.now > self.created_at + @@validity_time
   end
   
   # Delete all expired tokens
   def self.destroy_expired
-    Token.delete_all ["action <> 'feeds' AND created_on < ?", Time.now - @@validity_time]
+    Token.delete_all ["action <> 'feeds' AND created_at < ?", Time.now - @@validity_time]
   end
   
 private
@@ -46,6 +46,6 @@ end
 #  user_id    :integer         default(0), not null
 #  action     :string(30)      default(""), not null
 #  value      :string(40)      default(""), not null
-#  created_on :datetime        not null
+#  created_at :datetime        not null
 #
 

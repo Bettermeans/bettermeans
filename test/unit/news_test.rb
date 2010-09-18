@@ -74,7 +74,7 @@ end
 #  summary        :string(255)     default("")
 #  description    :text
 #  author_id      :integer         default(0), not null
-#  created_on     :datetime
+#  created_at     :datetime
 #  comments_count :integer         default(0), not null
 #
 

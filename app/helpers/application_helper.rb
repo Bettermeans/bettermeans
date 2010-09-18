@@ -185,7 +185,7 @@ module ApplicationHelper
       pages[node].each do |page|
         content << "<li>"
         content << link_to(h(page.pretty_title), {:controller => 'wiki', :action => 'index', :id => page.project, :page => page.title},
-                           :title => (page.respond_to?(:updated_on) ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on)) : nil))
+                           :title => (page.respond_to?(:updated_at) ? l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_at)) : nil))
         content << "\n" + render_page_hierarchy(pages, page.id) if pages[page.id]
         content << "</li>\n"
       end
@@ -535,7 +535,7 @@ module ApplicationHelper
     attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
 
     if attachments
-      attachments = attachments.sort_by(&:created_on).reverse
+      attachments = attachments.sort_by(&:created_at).reverse
       text = text.gsub(/!((\<|\=|\>)?(\([^\)]+\))?(\[[^\]]+\])?(\{[^\}]+\})?)(\S+\.(bmp|gif|jpg|jpeg|png))!/i) do |m|
         style = $1
         filename = $6.downcase
@@ -1234,7 +1234,37 @@ module ApplicationHelper
   
   
 
-
+  # def bar_report_tag(data, options = {}, raphael_options = {})
+  #         @__raphael_report_tag_count ||= -1
+  #         @__raphael_report_tag_count += 1
+  #         default_dom_id = "#{data.model_name.downcase}_#{data.report_name}#{@__raphael_report_tag_count > 0 ? @__raphael_report_tag_count : ''}"
+  #         options.reverse_merge!(Saulabs::Reportable::Config.raphael_options.slice(:width, :height, :format))
+  #         options.reverse_merge!(:dom_id => default_dom_id)
+  #         raphael_options.reverse_merge!(Saulabs::Reportable::Config.raphael_options.except(:width, :height, :format))
+  #         %Q{<div id="#{options[:dom_id]}" style="width:#{options[:width]}px;height:#{options[:height]}px;"></div>
+  # <script type="text\/javascript" charset="utf-8">
+  # var graph = Raphael('#{options[:dom_id]}');
+  # graph.g.barchart(
+  # -10, 4, #{options[:width]}, #{options[:height]},
+  # #{(0..data.size).to_a.to_json},
+  # #{data.map { |d| d[1].send(options[:format]) }.to_json},
+  #             #{raphael_options.to_json}
+  #           ).hover(function() {
+  #             this.disc = graph.g.disc(this.x, this.y, 3).attr({fill: "#{options[:hover_fill_color]}", stroke: '#{options[:hover_line_color]}' }).insertBefore(this);
+  #             this.flag = graph.g.flag(this.x, this.y, this.value || "0", 0).insertBefore(this);
+  #             if (this.x + this.flag.getBBox().width > this.paper.width) {
+  #               this.flag.rotate(-180);
+  #               this.flag.translate(-this.flag.getBBox().width, 0);
+  #               this.flag.items[1].rotate(180);
+  #               this.flag.items[1].translate(-5, 0);
+  #             }
+  #           }, function() {
+  #             this.disc.remove();
+  #             this.flag.remove();
+  #           });
+  #         </script>}
+  # end
+  
   private
 
   def wiki_helper

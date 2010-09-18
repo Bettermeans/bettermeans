@@ -26,10 +26,10 @@ class BoardsController < ApplicationController
   def show
     respond_to do |format|
       format.html {
-        sort_init 'updated_on', 'desc'
-        sort_update	'created_on' => "#{Message.table_name}.created_on",
+        sort_init 'updated_at', 'desc'
+        sort_update	'created_at' => "#{Message.table_name}.created_at",
                     'replies' => "#{Message.table_name}.replies_count",
-                    'updated_on' => "#{Message.table_name}.updated_on"
+                    'updated_at' => "#{Message.table_name}.updated_at"
           
         @topic_count = @board.topics.count
         @topic_pages = Paginator.new self, @topic_count, per_page_option, params['page']
@@ -41,7 +41,7 @@ class BoardsController < ApplicationController
         render :action => 'show', :layout => !request.xhr?
       }
       # format.atom {
-      #   @messages = @board.messages.find :all, :order => 'created_on DESC',
+      #   @messages = @board.messages.find :all, :order => 'created_at DESC',
       #                                          :include => [:author, :board],
       #                                          :limit => Setting.feeds_limit.to_i
       #   render_feed(@messages, :title => "#{@project}: #{@board}")

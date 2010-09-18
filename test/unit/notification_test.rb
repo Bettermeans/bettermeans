@@ -20,8 +20,8 @@ end
 #  state        :integer         default(0)
 #  source_id    :integer
 #  expiration   :datetime
-#  created_on   :datetime
-#  updated_on   :datetime
+#  created_at   :datetime
+#  updated_at   :datetime
 #  sender_id    :integer
 #
 

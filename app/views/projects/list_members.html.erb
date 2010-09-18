@@ -7,7 +7,7 @@
 <h3><%= role.name %></h3>
 <ul>
 <% members[role].each do |m| %>
-<li><%= link_to_user m.user %> (<%= format_date m.created_on %>)</li>
+<li><%= link_to_user m.user %> (<%= format_date m.created_at %>)</li>
 <% end %>
 </ul>
 <% end %>

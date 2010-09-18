@@ -5,8 +5,8 @@ class CreateRetros < ActiveRecord::Migration
       t.integer   :project_id
       t.datetime  :from_date
       t.datetime  :to_date
-      t.datetime  :created_on
-      t.datetime  :updated_on
+      t.datetime  :created_at
+      t.datetime  :updated_at
     end
     
     add_column :issues, :retro_id, :integer

@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
   def index
     @journals = @issue.journals.find(:all, 
                                           :include => [:user, :details], 
-                                          :order => "#{Journal.table_name}.created_on DESC",
+                                          :order => "#{Journal.table_name}.created_at DESC",
                                           :conditions => "notes!=''")
     # render :partial => "comment", :collection => @journals, :as => :journal
   end

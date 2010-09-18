@@ -74,8 +74,8 @@ class ActivityStream < ActiveRecord::Base
       AND location = '#{location.to_s}'"
   end
   
-  def self.fetch(user_id, project_id, with_subprojects, limit, max_created_on = nil)
-    max_created_on = DateTime.now if max_created_on.nil? || max_created_on == ""
+  def self.fetch(user_id, project_id, with_subprojects, limit, max_created_at = nil)
+    max_created_at = DateTime.now if max_created_at.nil? || max_created_at == ""
     length = limit  || Setting::ACTIVITY_STREAM_LENGTH
 
     if limit
@@ -103,7 +103,7 @@ class ActivityStream < ActiveRecord::Base
     conditions[0] += " AND " unless conditions[0].empty?
     conditions[0] += " created_at >= ? AND created_at <= ?"
     conditions.push DateTime.now - 20.year
-    conditions.push max_created_on
+    conditions.push max_created_at
     
     conditions[0] += " AND hidden_from_user_id <> ?"
     conditions.push User.current.id

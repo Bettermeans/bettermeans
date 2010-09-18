@@ -3,8 +3,8 @@ class CreatePriTable < ActiveRecord::Migration
     create_table :pris do |t|
       t.integer  :user_id
       t.integer :issue_id
-      t.datetime :created_on
-      t.datetime :updated_on
+      t.datetime :created_at
+      t.datetime :updated_at
     end
     
     add_index :pris, :user_id

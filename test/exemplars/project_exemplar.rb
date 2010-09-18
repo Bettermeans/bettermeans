@@ -42,6 +42,7 @@ end
 
 
 
+
 # == Schema Information
 #
 # Table name: projects
@@ -52,8 +53,8 @@ end
 #  homepage             :string(255)     default("")
 #  is_public            :boolean         default(TRUE), not null
 #  parent_id            :integer
-#  created_on           :datetime
-#  updated_on           :datetime
+#  created_at           :datetime
+#  updated_at           :datetime
 #  identifier           :string(20)
 #  status               :integer         default(1), not null
 #  lft                  :integer

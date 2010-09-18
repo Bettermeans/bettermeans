@@ -160,7 +160,7 @@ class NewsControllerTest < ActionController::TestCase
     post :add_comment, :id => 1, :comment => { :comments => 'This is a NewsControllerTest comment' }
     assert_redirected_to 'news/1'
     
-    comment = News.find(1).comments.find(:first, :order => 'created_on DESC')
+    comment = News.find(1).comments.find(:first, :order => 'created_at DESC')
     assert_not_nil comment
     assert_equal 'This is a NewsControllerTest comment', comment.comments
     assert_equal User.find(2), comment.author

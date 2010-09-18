@@ -20,7 +20,7 @@
     <td>
     <small>
       <% if board.last_message %>
-      <%= authoring board.last_message.created_on, board.last_message.author %><br />
+      <%= authoring board.last_message.created_at, board.last_message.author %><br />
       <%= link_to_message board.last_message %>  
       <% end %>
     </small>

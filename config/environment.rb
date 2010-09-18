@@ -69,7 +69,8 @@ Rails::Initializer.run do |config|
   config.gem "recurly"
   
   config.gem "fleximage"
-  
+
+  config.gem 'reportable', :lib => 'saulabs/reportable'  
   
   # Load any local configuration that is kept out of source control
   # (e.g. gems, patches).

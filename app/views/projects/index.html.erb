@@ -14,7 +14,7 @@
       :project_id => nil,
       :with_subprojects => true,
       :limit => 100,
-      :max_created_on => nil
+      :max_created_at => nil
     } %>
   </div>  
   <div class="gt-table-buttons">
@@ -48,7 +48,7 @@
   							</tr>
   							<tr>
   								<th>Created:</th>
-  								<td><%= since_tag(project.created_on) %> ago</td>
+  								<td><%= since_tag(project.created_at) %> ago</td>
   							</tr>
   							<tr>
   								<th>Team:</th>

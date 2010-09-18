@@ -465,7 +465,7 @@ namespace :redmine do
                           :subject => encode(ticket.summary[0, limit_for(Issue, 'subject')]),
                           :description => convert_wiki_text(encode(ticket.description)),
                           :priority => PRIORITY_MAPPING[ticket.priority] || DEFAULT_PRIORITY,
-                          :created_on => ticket.time
+                          :created_at => ticket.time
           i.author = find_or_create_user(ticket.reporter)
           i.category = issues_category_map[ticket.component] unless ticket.component.blank?
           i.fixed_version = version_map[ticket.milestone] unless ticket.milestone.blank?
@@ -489,7 +489,7 @@ namespace :redmine do
               comment_change = changeset.select {|change| change.field == 'comment'}.first
 
               n = Journal.new :notes => (comment_change ? convert_wiki_text(encode(comment_change.newvalue)) : ''),
-                              :created_on => time
+                              :created_at => time
               n.user = find_or_create_user(changeset.first.author)
               n.journalized = i
               if status_change &&
@@ -514,7 +514,7 @@ namespace :redmine do
           ticket.attachments.each do |attachment|
             next unless attachment.exist?
               attachment.open {
-                a = Attachment.new :created_on => attachment.time
+                a = Attachment.new :created_at => attachment.time
                 a.file = attachment
                 a.author = find_or_create_user(attachment.author)
                 a.container = i
@@ -566,7 +566,7 @@ namespace :redmine do
               next unless attachment.exist?
               next if p.attachments.find_by_filename(attachment.filename.gsub(/^.*(\\|\/)/, '').gsub(/[^\w\.\-]/,'_')) #add only once per page
               attachment.open {
-                a = Attachment.new :created_on => attachment.time
+                a = Attachment.new :created_at => attachment.time
                 a.file = attachment
                 a.author = find_or_create_user(attachment.author)
                 a.description = attachment.description
@@ -579,7 +579,7 @@ namespace :redmine do
           wiki.reload
           wiki.pages.each do |page|
             page.content.text = convert_wiki_text(page.content.text)
-            Time.fake(page.content.updated_on) { page.content.save }
+            Time.fake(page.content.updated_at) { page.content.save }
           end
         end
         puts

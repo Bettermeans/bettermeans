@@ -4,8 +4,8 @@ class CreateQuoteTable < ActiveRecord::Migration
         t.integer  :user_id
         t.string :author
         t.text :body
-        t.datetime :created_on
-        t.datetime :updated_on
+        t.datetime :created_at
+        t.datetime :updated_at
       end
     end
 
