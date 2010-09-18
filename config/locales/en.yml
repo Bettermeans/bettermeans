@@ -197,8 +197,8 @@ en:
   field_filesize: Size
   field_downloads: Downloads
   field_author: Author
-  field_created_on: Created
-  field_updated_on: Updated
+  field_created_at: Created
+  field_updated_at: Updated
   field_field_format: Format
   field_is_for_all: For all workstreams
   field_possible_values: Possible values
@@ -697,7 +697,7 @@ en:
   label_send_test_email: Send a test email
   label_feeds_access_key: RSS access key
   label_missing_feeds_access_key: Missing a RSS access key
-  label_feeds_access_key_created_on: "RSS access key created {{value}} ago"
+  label_feeds_access_key_created_at: "RSS access key created {{value}} ago"
   label_module_plural: Modules
   label_added_time_by: "Added by {{author}} {{age}} ago"
   label_updated_time_by: "Updated by {{author}} {{age}} ago"
@@ -862,7 +862,7 @@ en:
   label_display_used_statuses_only: Only display statuses that are used by this tracker
   label_api_access_key: API access key
   label_missing_api_access_key: Missing an API access key
-  label_api_access_key_created_on: "API access key created {{value}} ago"
+  label_api_access_key_created_at: "API access key created {{value}} ago"
   label_dpp_scale: "Estimation Scale"
   
   label_motion: "Motion"

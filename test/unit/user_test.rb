@@ -291,8 +291,8 @@ end
 #  last_login_on         :datetime
 #  language              :string(5)       default("")
 #  auth_source_id        :integer
-#  created_on            :datetime
-#  updated_on            :datetime
+#  created_at            :datetime
+#  updated_at            :datetime
 #  type                  :string(255)
 #  identity_url          :string(255)
 #  activity_stream_token :string(255)
