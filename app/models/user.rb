@@ -81,6 +81,9 @@ class User < ActiveRecord::Base
   validates_length_of :mail, :maximum => 60, :allow_nil => true
   validates_confirmation_of :password, :allow_nil => true
   
+  reportable :daily_registrations, :aggregation => :count, :limit => 14
+  reportable :weekly_registrations, :aggregation => :count, :grouping => :week, :limit => 20
+  
   
   def <=>(user)
     if self.class.name == user.class.name
@@ -256,6 +259,7 @@ class User < ActiveRecord::Base
       end
     end    
     user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
+    Track.log(Track::LOGIN)
     user
   rescue => text
     raise text
@@ -267,8 +271,9 @@ class User < ActiveRecord::Base
     # Make sure there's only 1 token that matches the key
     if tokens.size == 1
       token = tokens.first
-      if (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
+      if (token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
         token.user.update_attribute(:last_login_on, Time.now)
+        Track.log(Track::LOGIN)
         token.user
       end
     end
@@ -653,8 +658,8 @@ end
 #  last_login_on         :datetime
 #  language              :string(5)       default("")
 #  auth_source_id        :integer
-#  created_on            :datetime
-#  updated_on            :datetime
+#  created_at            :datetime
+#  updated_at            :datetime
 #  type                  :string(255)
 #  identity_url          :string(255)
 #  activity_stream_token :string(255)
