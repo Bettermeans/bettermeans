@@ -77,7 +77,7 @@ autologin:
 date_format:
   default: '%m/%d/%Y'
 time_format:
-  default: ''
+  default: '%I:%M %p'
 user_format:
   default: :firstname_lastname
   format: symbol
