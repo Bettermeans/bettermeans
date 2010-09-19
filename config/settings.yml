@@ -75,7 +75,7 @@ autologin:
   default: 30
 # date format
 date_format:
-  default: ''
+  default: '%m/%d/%Y'
 time_format:
   default: ''
 user_format:
