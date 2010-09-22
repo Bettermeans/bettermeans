@@ -30,7 +30,7 @@ class RecurlyNotificationsController < ApplicationController
         user.plan_id = Plan.find_by_code(subscription["plan"]["plan_code"]).id
         user.active_subscription = true
       else
-        user.plan_id = Plan.find(Plan::FREE_CODE)
+        user.plan_id = Plan.find(Plan::FREE_CODE).id
         user.active_subscription = false
       end
       # user.trial_expires_on = new Date(subscription["trial_ends_at"])

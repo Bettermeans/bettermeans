@@ -77,7 +77,7 @@ class AccountController < ApplicationController
     if request.get?
       session[:auth_source_registration] = nil
       @user = User.new(:language => Setting.default_language)
-      @plan_id = params[:plan] ? Plan.find_by_code(params[:plan]).id : Plan.find_by_code(Plan::FREE_CODE)
+      @plan_id = params[:plan] ? Plan.find_by_code(params[:plan]).id : Plan.find_by_code(Plan::FREE_CODE).id
       
       if params[:invitation_token]
         invitation = Invitation.find_by_token params[:invitation_token]
@@ -85,7 +85,7 @@ class AccountController < ApplicationController
       end
     else
       @user = User.new(params[:user])
-      @user.plan_id = params[:plan_id] || Plan.find_by_code(Plan::FREE_CODE)
+      @user.plan_id = params[:plan_id] || Plan.find_by_code(Plan::FREE_CODE).id
       @user.trial_expires_on = 30.days.from_now if @user.plan_id && @user.plan_id > 1 #TODO: clean this. no good depending on id of plan
         
       @user.admin = false
