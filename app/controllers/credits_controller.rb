@@ -106,7 +106,7 @@ class CreditsController < ApplicationController
       if @credit.enable
         format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
         format.js do
-          update_credit_partials(params[:project_id])
+          update_credit_partials
         end
       else
         format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
