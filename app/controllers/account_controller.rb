@@ -236,8 +236,7 @@ class AccountController < ApplicationController
     end
     
     if invitation && invitation.mail == user.mail
-      register_automatically(user)
-      return
+      return register_automatically(user)
     end
     
     token = Token.new(:user => user, :action => "register")
@@ -263,8 +262,10 @@ class AccountController < ApplicationController
     if user.save
       self.logged_user = user
       redirect_with_flash :success, l(:notice_account_activated), :controller => 'welcome', :action => 'index'
+      return true
     else
       yield if block_given?
+      return false
     end
   end
   
