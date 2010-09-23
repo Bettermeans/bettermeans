@@ -116,9 +116,9 @@ default_projects_modules:
   - issue_tracking
   - news
   - documents
-  - files
   - wiki
   - boards
+  - motions
 default_root_projects_modules:
   serialized: true
   default: 
