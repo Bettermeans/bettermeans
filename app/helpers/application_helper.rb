@@ -469,6 +469,7 @@ module ApplicationHelper
   
   def page_header_title
     if @project.nil? || @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
+      "New project workstream"
       # h(Setting.app_title)
     else
       b = []
