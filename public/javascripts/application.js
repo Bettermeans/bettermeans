@@ -938,6 +938,7 @@ stop: null
 				
 				// append the wrapper to the document body
 				_wrapper.appendTo('body');
+				_wrapper.width(_tip.width() + 66);
 				
 				// apply IE filters to _wrapper elements
 				if ((/msie/.test(navigator.userAgent.toLowerCase())) && (!/opera/.test(navigator.userAgent.toLowerCase()))) {
@@ -1013,6 +1014,7 @@ stop: null
 			};
 
 			function _Calculate(firstTime) {
+				
 				// calculate values
 				if (_options.positionAt.match(/^element$/i)) {
 					var offset = _options.positionAtElement.offset();
