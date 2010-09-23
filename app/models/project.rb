@@ -91,14 +91,17 @@ class Project < ActiveRecord::Base
   acts_as_fleximage do
     begin
       require_image false
-      # image_directory '/public/help'
-      s3_bucket 'bettermeans_workstream_logos'
+      if RAILS_ENV == 'production'
+        s3_bucket 'bettermeans_workstream_logos'
+      else
+        image_directory '/public/help'
+      end
       preprocess_image do |image|
         image.resize '200x600'
-      end
+      end 
     rescue
     end
-  end
+  end 
 
   attr_protected :status, :enabled_module_names
   
