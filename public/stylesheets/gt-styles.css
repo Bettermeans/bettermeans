@@ -21,12 +21,12 @@ Misc - anything that doesn't fit elsewhere
 /* @group HTML, Body */
 html {
 /*	background-color: #e2eaee;
-*/	background-color: #f3f3f3;
+/*	background-color: #f3f3f3;*/
+	background-color: #e2eaee;
 }
 body {
 	font-family: Helvetica, sans-serif;
-	word-wrap: break-word;
-    
+/*	word-wrap: break-word;*/
 }
 /* @end */
 
@@ -266,7 +266,8 @@ body {
 	word-wrap: break-word; 
 }
 .gt-table tr:hover td {
-	background-color: #f4f7f8;
+/*	background-color: #f4f7f8;*/
+	background-color: #ddd;
 }
 .gt-table tr:first-child td {
 	border: none;
@@ -2284,3 +2285,6 @@ img.private-workstream, img.volunteer-workstream{
 }
 
 
+.image-url{
+	width: 60%;
+}

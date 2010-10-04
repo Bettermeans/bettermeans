@@ -75,7 +75,7 @@ class Motion < ActiveRecord::Base
           self.state = STATE_PASSED
         end
     when TYPE_SHARE
-      if (self.agree + (self.diagree * -1)) * Setting::SHARE_MAJORIY_MOTION_RATIO < self.agree
+      if (self.agree + (self.disagree * -1)) * Setting::SHARE_MAJORIY_MOTION_RATIO < self.agree
           self.state = STATE_DEFEATED
         else
           self.state = STATE_PASSED
