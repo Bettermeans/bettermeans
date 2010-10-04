@@ -55,11 +55,11 @@ class IssuesController < ApplicationController
     :indirect_object_phrase => '' }
   log_activity_streams :current_user, :name, :joined, :@issue, :subject, :join, :issues, {:object_description_method => :description}
   log_activity_streams :current_user, :name, :left, :@issue, :subject, :leave, :issues, {:object_description_method => :description}
-  # log_activity_streams :current_user, :name, :updated, :@issue, :subject, :edit, :issues,{
-  #   :object_description_method => :description,
-  #   :indirect_object => :@journal,
-  #   :indirect_object_description_method => :notes,
-  #   :indirect_object_phrase => 'GENERATEDETAILS' } #special value generates details for each property change
+  log_activity_streams :current_user, :name, :updated, :@issue, :subject, :edit, :issues,{
+    :object_description_method => :description,
+    :indirect_object => :@journal,
+    :indirect_object_description_method => :notes,
+    :indirect_object_phrase => 'GENERATEDETAILS' } #special value generates details for each property change
   
   log_activity_streams :current_user, :name, :restarted, :@issue, :subject, :restart, :issues, {}
   # log_activity_streams :current_user, :name, :ed, :@issue, :subject, :, :issues, {}
