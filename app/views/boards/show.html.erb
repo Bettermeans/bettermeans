@@ -64,9 +64,9 @@
 </div>
 <% end %>
 
-<% other_formats_links do |f| %>
-	<%= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-<% end %>
+<%# other_formats_links do |f| %>
+	<%#= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+<%# end %>
 
 <% html_title h(@board.name) %>
 
