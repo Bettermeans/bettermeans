@@ -5,19 +5,46 @@
 <!--[form:project]-->
 <%= hidden_field_tag 'parent_id', params[:parent_id]%>
 
-<p><%= f.text_field :name, :required => true %><br /><em><%= l(:text_caracters_maximum, 30) %></em></p>
-
 <% unless @parent.nil? %>
     <p><label><%= l(:field_parent) %> <%= link_to @parent.name, {:controller => 'projects', :action => 'show', :id => @parent} %></label></p>
 <% end %>
 
-<p><%= f.textile_editor :description, :rows => 5, :class => 'wiki-edit' %></p>
+<p><%= f.text_field :name, :required => true %><br /><em><%= l(:text_caracters_maximum, 30) %></em></p>
+
+
+<p><label><%= l(:field_description) %></label><%= f.textile_editor :description, :rows => 5, :class => 'wiki-edit' %></p>
 <%= textile_editor_initialize(:framework => :jquery) %>
 
-<!-- <p><%#= f.text_field :homepage, :size => 60 %></p> -->
-<p><%= f.check_box :is_public %></p>
-<p><%= f.check_box :volunteer %></p>
+<div class="clear">
+<p>
+    <label><%= l(:field_logo) %></label>
+    <div class="gt-content-box">
+    <%= image_tag formatted_project_path(@project, :png) if @project.has_image? %>
+    <%= f.file_field :image_file %><br />
+    <%= f.text_field :image_file_url , :style => "width:60%;"%>
+    </div>
+</p>
+</div>
+
 <div class="gt-left-col">
+<p>
+  <fieldset><label><%= l(:label_type_of_workstream) %></label>
+      <label class="floating" style="display:inline">
+      <%= check_box_tag 'project[is_public]', 1, true %>
+      <%= l(:field_is_public) %>
+      <%= help_bubble "help_is_public" %><br>
+      </label>
+      <label class="floating" style="display:inline">
+      <%= check_box_tag 'project[volunteer]', 1, false %>
+      <%= l(:field_volunteer) %>
+      <%= help_bubble "help_volunteer" %><br>
+      </label>
+  </fieldset>
+</p>
+
+<!-- <p><%#= f.text_field :homepage, :size => 60 %></p> -->
+<!-- <p><%#= f.check_box :is_public %></p>
+<p><%#= f.check_box :volunteer %></p> -->
   <% if @project.credits_enabled? %>
   
   <p><%=  f.select(:dpp, options_for_select(Setting::PAY_SCALES, :selected => @project.dpp.nil? ? Setting::PAY_SCALES_DEFAULT : @project.dpp.round),
@@ -30,15 +57,8 @@
 
 </div>
 
-<p>
-   <b><%= l(:field_logo) %></b><br />
-   <%= image_tag formatted_project_path(@project, :png) if @project.has_image? %>
-   <%= f.file_field :image_file %><br />
-   <%= f.text_field :image_file_url %>
-</p>
-
 <% if include_modules  then%>
-<div>
+<div class="gt-right-col">
 <p>
   <fieldset><label><%= l(:label_module_plural) %></label>
   <% Redmine::AccessControl.available_project_modules.each do |m| %>
@@ -52,6 +72,8 @@
 </p>
 </div>
 <% end %>
+
+<div class="clear" />
 </div>
 
 </fieldset>

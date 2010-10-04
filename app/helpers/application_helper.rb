@@ -468,9 +468,10 @@ module ApplicationHelper
   end
   
   def page_header_title
-    if @project.nil? || @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
-      "New project workstream"
+    if @project.nil? 
       # h(Setting.app_title)
+    elsif @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
+      "New project workstream"
     else
       b = []
       # b << link_to(h(@project.enterprise.name), {:controller => 'enterprises', :action => 'show', :id => @project.enterprise.id, :jump => current_menu_item}, :class => 'root')

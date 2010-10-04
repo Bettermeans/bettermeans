@@ -93,7 +93,7 @@
 		
 		<!-- navigation -->
 		<div class="gt-nav">
-		  <% if @project %>
+		  <% if @project && !@project.new_record? %>
 		    <%= render_main_menu(@project) %>
 		  <% else %>
 		    <ul><li><a href="#" style="opacity:0;">.</a></li></ul> <!-- placeholder to maintain height of bar -->

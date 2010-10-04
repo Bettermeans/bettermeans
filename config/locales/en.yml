@@ -393,6 +393,7 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
   
+  label_type_of_workstream: Workstream Options
   label_your_gravatar: Profile Picture
   label_team_with_access: Members with clearance (to this workstream)
   label_select_plan: Select Plan
