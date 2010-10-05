@@ -346,6 +346,8 @@ function display_sparks(){
 	
 	$(this).sparkline('html', {type: 'bar' , barColor: 'grey', chartRangeMax: max, height: 15});
 	
+	$(this).removeClass("spark");
+	
 	// if (isNaN(max)){
 	// 		$(this).sparkline('html', {type: 'bar' , barColor: 'grey'});
 	// 	}
