@@ -1145,6 +1145,7 @@ table.activity-item td.time-entry { background-image: url(/images/time.png); }
 table.activity-item td.cr-note { background-image: url(/images/tag_blue.png); }  
 table.activity-item td.team-offer { background-image: url(/images/user_new.png); }  
 table.activity-item td.member-role { background-image: url(/images/users.png); }
+table.activity-item td.memberrole { background-image: url(/images/users.png); }
 
 /*Sub Table*/
 table.activity-sub {margin-left: 7px; margin-top: 0px;}
