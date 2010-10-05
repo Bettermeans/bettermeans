@@ -2141,13 +2141,14 @@ text-decoration:none;
 }
 
 .tabs ul li a.selected {
-background-color: #fff;
+background-color: #555;
 border: 1px solid #bbbbbb;
-border-bottom: 1px solid #fff;
+border-bottom: none;
+color: #EEE;
 }
 
 .tabs ul li a.selected:hover {
-background-color: #fff;
+background-color: #888;
 }
 
 div.tabs-buttons { position:absolute; right: 0; width: 48px; height: 24px; background: white; bottom: -1px;  }
