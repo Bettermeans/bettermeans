@@ -217,7 +217,7 @@ class ProjectsController < ApplicationController
   
   def update_scale
     render :update do |page|
-      page.replace 'point_scale', :partial => 'point_scale', :locals => {:unit => unit_for(@project), :dpp => params[:dpp] }
+      page.replace 'point_scale', :partial => 'point_scale', :locals => {:dpp => params[:dpp] }
       page["point_scale"].visual_effect :highlight
     end
   end
