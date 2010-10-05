@@ -121,12 +121,13 @@ class MessagesController < ApplicationController
 private
   def find_message
     if params[:board_id] == 'guess'
+      logger.info { "guessing board" }
       guess_board
     else
       find_board
       @message = @board.messages.find(params[:id], :include => :parent)
     end
-    @topic = @message.root
+    @topic = @message.root unless @message.nil?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -137,6 +138,7 @@ private
     @message = Message.find(params[:id], :include => :parent)
     @board = @message.board
     @project = @board.project
+    logger.info { "guessed board #{@board.inspect}" }
     # redirect_to :action => "show", :board_id => @board.id, :id => params[:id]
   rescue ActiveRecord::RecordNotFound
     render_404
