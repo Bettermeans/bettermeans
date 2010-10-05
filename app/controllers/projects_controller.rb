@@ -16,10 +16,11 @@ class ProjectsController < ApplicationController
   
   ssl_required :all  
   
-  before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add ]
+  before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add, :index_active, :index_latest ]
   before_filter :find_optional_project, :only => [:activity, :add]
   # before_filter :authorize, :except => [ :index, :list, :add ]
-  before_filter :authorize, :except => [ :index, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :hourly_types ]
+  #BUGBUG: why aren't these actions being authorized!!!
+  before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :hourly_types ]
   
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
@@ -44,10 +45,45 @@ class ProjectsController < ApplicationController
   
   # Lists visible projects
   def index
-    @news = News.latest User.current
-    @projects = Project.latest User.current, 10, false
-    @enterprises = Project.latest User.current, 10, true
+    # @news = News.latest User.current
+    # @projects = Project.latest User.current, 10, false
+    @latest_enterprises = Project.latest User.current, 10, true
+    @active_enterprises = Project.most_active User.current, 10, true
     # @activities_by_item = ActivityStream.fetch(nil, nil, true, 100)
+  end
+  
+  def index_latest
+    limit = 10
+    @latest_enterprises = Project.latest User.current, limit, true, Integer(params[:offset])
+    
+    respond_to do |wants|
+      wants.js do
+        render :update do |page|
+          page.replace "project_index_bottom_latest", :partial => "project_list", :locals => { 
+                                              :projects => @latest_enterprises,
+                                              :offset => Integer(params[:offset]) + limit,
+                                              :index_type => 'latest'}
+          page.call "display_sparks"
+        end
+      end
+    end
+  end
+  
+  def index_active
+    limit = 10
+    @active_enterprises = Project.most_active User.current, limit, true, Integer(params[:offset])
+    
+    respond_to do |wants|
+      wants.js do
+        render :update do |page|
+          page.replace "project_index_bottom_active", :partial => "project_list", :locals => { 
+                                              :projects => @active_enterprises,
+                                              :offset => Integer(params[:offset]) + limit,
+                                              :index_type => 'active'}
+          page.call "display_sparks"
+        end
+      end
+    end
   end
   
   def map
