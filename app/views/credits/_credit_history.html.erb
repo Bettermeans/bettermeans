@@ -24,7 +24,7 @@
       <td><%=link_to_user_from_id credit.owner_id %></td>
       <td><%=h credit.settled_on.nil? ? credit.enabled ? "Active" : "Inactive" : "Settled" %></td>
       <% if authorize_for(:credits, :edit) %>
-      <td><%= link_to 'Edit', :controller => :credits, :action => :edit, :id => credit %> | <%= link_to 'Destroy', :controller => :credits, :action => :destroy, :id => credit %></td>
+      <td><%= link_to 'Edit', :controller => :credits, :action => :edit, :id => credit %> | <%= link_to 'Delete', :controller => :credits, :action => :destroy, :id => credit %></td>
       <% end %>
     </tr>
   <% end %>
