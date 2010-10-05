@@ -194,13 +194,24 @@ class Project < ActiveRecord::Base
 
   # returns latest created projects
   # non public projects will be returned only if user is a member of those
-  def self.latest(user=nil, count=10, root=false)
+  def self.latest(user=nil, count=10, root=false,offset=0)
     if root
-      all_roots.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_at DESC")	
+      all_roots.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_at DESC", :offset => offset)	
     else
-      all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_at DESC")	
+      all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_at DESC", :offset => offset)	
     end
   end	
+  
+  # returns most active projects
+  # non public projects will be returned only if user is a member of those
+  def self.most_active(user=nil, count=10, root=false, offset=0)
+    if root
+      all_roots.find(:all, :limit => count, :conditions => visible_by(user), :order => "activity_total DESC", :offset => offset)	
+    else
+      all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "activity_total DESC", :offset => offset)	
+    end
+  end	
+  
   
   #Returns true if project is visible by user
   def visible_to(user)
@@ -778,6 +789,14 @@ class Project < ActiveRecord::Base
     end
     
     self.activity_line = (my_line.sort.collect {|v| v[1]}).inspect.delete("[").delete("]")
+    weight = 1
+    activity_total = 0
+    my_line.sort.each do |v|
+      logger.info { "activity total #{activity_total} weight #{weight}  value #{v[1]}" }
+      activity_total = activity_total +  (weight * v[1])
+      weight = weight + 1
+    end
+    self.activity_total = activity_total
     self.save
     my_line
   end
