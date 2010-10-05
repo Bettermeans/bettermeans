@@ -1,6 +1,6 @@
 <span id="point_scale" class="point-scale">
 <% for i in 0..Setting::POINT_FACTOR.length - 1 do %>
 <img src="/images/dice_<%= i %>.png" width="18" height="18" alt="<%= i %> Points" class="dice"/>
-<%= unit %><%= (Integer(dpp) * Setting::POINT_FACTOR[i]).round %><br>
+<%#= unit %><%= (Integer(dpp) * Setting::POINT_FACTOR[i]).round %><br>
 <% end %>
 </span>
