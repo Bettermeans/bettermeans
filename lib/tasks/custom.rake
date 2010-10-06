@@ -72,6 +72,17 @@ namespace :custom do
     Project.all.each do |p| p.calculate_storage end
   end
   
+  task :add_daily_digest_option_to_users => :environment do
+    User.all.each do |user|
+      user.pref.others.merge!({:daily_digest => true})
+      user.pref.save
+    end
+  end
+
+  task :deliver_daily_digest => :environment do
+    DailyDigest.deliver
+  end
+  
   
 
 end

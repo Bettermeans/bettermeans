@@ -42,7 +42,9 @@
     <% end %></p>
     <p><em><%= l(:text_user_mail_option) %></em></p>
     <% end %>
+    <br><br>
     <p><label><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %> <%= l(:label_user_mail_no_self_notified) %></label></p>
+    <p><label><%= check_box_tag 'daily_digest', 1, @user.pref[:daily_digest] %> <%= l(:label_user_mail_daily_digest) %></label></p>
   </div>
 <p><label><%= check_box_tag 'no_emails', 1, @user.pref[:no_emails], :onclick=>"show_hide_notification_form(this);", :id => "no_emails_checkbox" %> <%= l(:label_user_mail_no_emails) %></label></p>
 <div class="gt-table-buttons-inside">

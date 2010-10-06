@@ -1,0 +1,12 @@
+<% @journals.group_by{|j| j.issue_id}.each_pair do |issue_id, details| %>
+<% issue = Issue.find(issue_id) %>
+<%= link_to "#{issue.tracker.name} ##{issue.id}: #{issue.subject}", url_for(:controller => 'projects', :action => 'dashboard', :show_issue_id => issue.id) %>
+<% details.each do |detail|%>
+  <% journal = Journal.find(detail.journal_id)  %>
+  <% for detail in journal.details %>
+      <%= show_detail(detail, true) %>
+  <% end %>
+<% end %>
+-------------------------------
+
+<% end %>
