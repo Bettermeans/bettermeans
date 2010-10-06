@@ -719,6 +719,7 @@ en:
   label_user_mail_option_none: "Only for things I watch or I'm involved in"
   label_user_mail_no_self_notified: "I don't want to be notified of changes that I make myself"
   label_user_mail_no_emails: "Disable email notification"
+  label_user_mail_daily_digest: "Send me a daily summary of system updates to issues I'm involved in"
   label_registration_activation_by_email: account activation by email
   label_registration_manual_activation: manual account activation
   label_registration_automatic_activation: automatic account activation

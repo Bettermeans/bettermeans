@@ -51,10 +51,12 @@ class MyController < ApplicationController
       @user.mail_notification = (params[:notification_option] == 'all')
       @user.pref.attributes = params[:pref]
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
+      @user.pref[:daily_digest] = (params[:daily_digest] == '1')
+      logger.info { "user pref #{@user.pref.inspect}" }
       @user.pref[:no_emails] = (params[:no_emails] == '1')
       if @user.save
-        @user.reload
         @user.pref.save
+        @user.reload
         @user.save_billing cc, params[:ccverify], request.remote_ip
         @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
         set_language_if_valid @user.language
