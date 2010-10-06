@@ -2290,3 +2290,10 @@ img.private-workstream, img.volunteer-workstream{
 .image-url{
 	width: 60%;
 }
+
+.learn-more{
+	border-top: 1px solid;
+	padding: 10px;
+	text-align:center;
+	vertical-align:middle;
+}

@@ -31,6 +31,7 @@
 			</tbody>
 		</table>
 		<span id="project_index_bottom_<%= index_type %>">
+		  <div class="learn-more">
 		  <%= link_to_remote "Load more", {
                                   :url => {:controller => :projects, 
                                           :action => "index_#{index_type}",
@@ -38,4 +39,5 @@
                                           },
                                   :method => :get
                                   } unless projects.last.nil? %>
+                                  </div>
 		</span>
