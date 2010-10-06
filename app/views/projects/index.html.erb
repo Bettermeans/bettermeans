@@ -11,9 +11,9 @@
     <%= render :partial => 'project_list', :locals => {:projects => @latest_enterprises, :offset => 0, :index_type => 'latest', :offset => 10} %>
   </div>
     
-	<div class="gt-table-buttons">
-	  <%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}, :class => "gt-btn-blue-large" %>
-	</div>
+  <!-- <div class="gt-table-buttons">
+    <%#= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}, :class => "gt-btn-blue-large" %>
+  </div> -->
 	<% end %>
 </div>
 
@@ -23,13 +23,13 @@
   <div class="gt-content-box">
   <%= render :partial => 'project_list', :locals => {:projects => @active_enterprises, :offset => 0, :index_type => 'active', :offset => 10} %>
   </div>
-  <div class="gt-table-buttons">
-	  <%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}, :class => "gt-btn-blue-large" %>
-	</div>
+  <!-- <div class="gt-table-buttons">
+    <%#= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}, :class => "gt-btn-blue-large" %>
+  </div> -->
 	<% end %>
 	
 	<%# if @news.any? %>
-  <!-- <h2 class="gt-table-head"><%=l(:label_news_latest)%></h2>
+  <!-- <h2 class="gt-table-head"><%#=l(:label_news_latest)%></h2>
   <div class="news gt-content-box">
     <table border="0" class="gt-table gt-user-table">
       <tbody>
@@ -41,15 +41,6 @@
     <%#= link_to l(:label_news_view_all), {:controller => 'news'} , :class => "gt-btn-blue-large" %>
   </div> -->
   <%# end %>
-  
-  <%#= render :partial => 'activity_streams/activity_stream_list', :locals => {
-    :user_id => nil,
-    :project_id => nil,
-    :with_subprojects => true,
-    :limit => 100,
-    :max_created_at => nil
-  } %>
-  
   
   
 </div>	
@@ -64,6 +55,17 @@
     <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
   </li>
   </ul>
+  
+  <!-- <div class="gt-content-box">
+    <%#= render :partial => 'activity_streams/activity_stream_list', :locals => {
+      :user_id => nil,
+      :project_id => nil,
+      :with_subprojects => true,
+      :limit => 100,
+      :max_created_at => nil
+    } %>
+    
+  </div> -->
 </div>
 <% end %>
 
