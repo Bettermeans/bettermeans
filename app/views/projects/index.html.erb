@@ -54,6 +54,9 @@
   <li>
     <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
   </li>
+  <li>
+    <%= link_to l(:label_all_activity), {:controller => 'projects', :action => 'activity', :id => nil} %>
+  </li>
   </ul>
   
   <!-- <div class="gt-content-box">
