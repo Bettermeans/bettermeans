@@ -4,6 +4,7 @@
 
 class JournalObserver < ActiveRecord::Observer
   def after_create(journal)
+    return if journal.user == User.sysadmin #Don't send system events for issue updates
     Mailer.send_later(:deliver_issue_edit,journal) if Setting.notified_events.include?('issue_updated')
   end
 end
