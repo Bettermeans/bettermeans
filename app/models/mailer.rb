@@ -64,9 +64,20 @@ class Mailer < ActionMailer::Base
     body :issue => issue,
          :journal => journal,
          :issue_url => url_for(:controller => 'projects', :action => 'dashboard', :show_issue_id => issue.id)
-         # :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
 
     render_multipart('issue_edit', body)
+  end
+  
+  def daily_digest(recipient,journals)
+    @author = User.sysadmin
+    recipients recipient
+    s = "Daily Digest - "
+    s << Time.now.strftime("%m/%d/%Y")
+    subject s
+    body :journals => journals
+    
+    render_multipart('daily_digest', body)
+    
   end
   
   def invitation_add(invitation,note)

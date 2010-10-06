@@ -18,6 +18,7 @@ task :cron => :environment do
       Rake::Task['start_retros'].invoke
       Rake::Task['custom:calculate_reputation'].invoke
       Rake::Task['custom:calculate_project_storage'].invoke
+      Rake::Task['custom:deliver_daily_digest'].invoke
       
       # Credit distribution
       last_distribution = CreditDistribution.first(:order => "updated_at DESC")
