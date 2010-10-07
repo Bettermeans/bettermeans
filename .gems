@@ -8,4 +8,4 @@ recurly
 fleximage
 reportable
 fastercsv
-crafterm-comma
+crafterm-comma --source gems.github.com
