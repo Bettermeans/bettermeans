@@ -128,7 +128,7 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'issues' do |issues_routes|
     issues_routes.with_options :conditions => {:method => :get} do |issues_views|
       issues_views.connect 'issues', :action => 'index'
-      # issues_views.connect 'issues/:id/dashdata', :action => 'dashdata'
+      issues_views.connect 'issues/datadump.:format', :action => 'datadump'
       issues_views.connect 'issues.:format', :action => 'index'
       issues_views.connect 'projects/:project_id/issues', :action => 'index'
       issues_views.connect 'projects/:project_id/issues.:format', :action => 'index'
