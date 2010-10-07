@@ -42,7 +42,7 @@ Redmine::AccessControl.map do |map|
   map.project_module :issue_tracking do |map|
     # Issues
     map.permission :view_issues, {:projects => :roadmap, 
-                                  :issues => [:index, :changes, :show, :context_menu],
+                                  :issues => [:index, :changes, :show, :context_menu, :datadump],
                                   :queries => :index,
                                   :reports => :issue_report,
                                   :comments => :index,

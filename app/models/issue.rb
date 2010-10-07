@@ -36,7 +36,40 @@ class Issue < ActiveRecord::Base
   # 
   # acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
   #                           :author_key => :author_id
-
+  
+  # ===============
+  # = CSV support =
+  # ===============
+  comma do  # implicitly named :default
+     id
+     tracker :name
+     project :name
+     subject
+     description
+     status :name
+     assigned_to :name
+     author :name
+     created_at
+     points
+     pri
+     accept
+     reject
+     agree
+     disagree
+     retro_id
+     accept_nonbind
+     reject_nonbind
+     agree_nonbind
+     disagree_nonbind
+     agree_total_nonbind
+     points_nonbind
+     pri_nonbind
+     hourly_type_id
+     num_hours
+     updated_at
+     start_date
+  end
+  
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
   
   validates_presence_of :subject, :project, :tracker, :author, :status #,:priority,
