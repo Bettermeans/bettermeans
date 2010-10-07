@@ -486,9 +486,9 @@ class Project < ActiveRecord::Base
     
     #Adding voters (do we really need this?)
     issues.each do |issue|
-      next if (issue.updated_at.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) < Time.now 
+      next if (issue.updated_at.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) > Time.now 
       issue.issue_votes.each do |iv|
-        u[iv.user_id] ||= iv.user_id
+        u[iv.user_id] ||= iv.user_id if (iv.updated_at.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) > Time.now 
       end
     end
   
