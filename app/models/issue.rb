@@ -49,14 +49,12 @@ class Issue < ActiveRecord::Base
      status :name
      assigned_to :name
      author :name
-     created_at
      points
      pri
      accept
      reject
      agree
      disagree
-     retro_id
      accept_nonbind
      reject_nonbind
      agree_nonbind
@@ -64,10 +62,10 @@ class Issue < ActiveRecord::Base
      agree_total_nonbind
      points_nonbind
      pri_nonbind
-     hourly_type_id
+     hourly_type :name
      num_hours
+     created_at
      updated_at
-     start_date
   end
   
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
