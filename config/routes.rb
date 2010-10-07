@@ -38,18 +38,18 @@ ActionController::Routing::Routes.draw do |map|
     
     timelog.with_options :action => 'details', :conditions => {:method => :get}  do |time_details|
       time_details.connect 'time_entries'
-      time_details.connect 'time_entries.:format'
+      # time_details.connect 'time_entries.:format'
       time_details.connect 'issues/:issue_id/time_entries'
-      time_details.connect 'issues/:issue_id/time_entries.:format'
-      time_details.connect 'projects/:project_id/time_entries.:format'
+      # time_details.connect 'issues/:issue_id/time_entries.:format'
+      # time_details.connect 'projects/:project_id/time_entries.:format'
       time_details.connect 'projects/:project_id/issues/:issue_id/time_entries'
-      time_details.connect 'projects/:project_id/issues/:issue_id/time_entries.:format'
+      # time_details.connect 'projects/:project_id/issues/:issue_id/time_entries.:format'
     end
     timelog.connect 'projects/:project_id/time_entries/report', :action => 'report'
     timelog.with_options :action => 'report',:conditions => {:method => :get} do |time_report|
       time_report.connect 'time_entries/report'
-      time_report.connect 'time_entries/report.:format'
-      time_report.connect 'projects/:project_id/time_entries/report.:format'
+      # time_report.connect 'time_entries/report.:format'
+      # time_report.connect 'projects/:project_id/time_entries/report.:format'
     end
 
     timelog.with_options :action => 'edit', :conditions => {:method => :get} do |time_edit|
@@ -103,7 +103,7 @@ ActionController::Routing::Routes.draw do |map|
       board_views.connect 'projects/:project_id/boards', :action => 'index'
       board_views.connect 'projects/:project_id/boards/new', :action => 'new'
       board_views.connect 'projects/:project_id/boards/:id', :action => 'show'
-      board_views.connect 'projects/:project_id/boards/:id.:format', :action => 'show'
+      # board_views.connect 'projects/:project_id/boards/:id.:format', :action => 'show'
       board_views.connect 'projects/:project_id/boards/:id/edit', :action => 'edit'
     end
     board_routes.with_options :conditions => {:method => :post} do |board_actions|
@@ -221,8 +221,12 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'projects' do |projects|
     projects.with_options :conditions => {:method => :get} do |project_views|
       # project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
-      project_views.connect 'projects/:action', :action => '/index|index_latest|index_active/'
+      project_views.connect 'projects', :action => 'index'
+      project_views.connect 'projects.:format', :action => 'index'
+      # project_views.connect 'projects/:action', :action => '/index|index_latest|index_active/'
       project_views.connect 'projects/new', :action => 'add'
+      project_views.connect 'projects/index_latest', :action => 'index_latest'
+      project_views.connect 'projects/index_active', :action => 'index_active'
       project_views.connect 'projects/update_scale', :action => 'update_scale'
       project_views.connect 'projects/:id', :action => 'show'
       project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|hourly_types|map/
