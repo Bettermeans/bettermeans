@@ -72,6 +72,14 @@
   </p>
 </div>
 
+<h3><%=l(:label_data_dump)%></h3>
+<div class="gt-content-box padded">
+  <p width="100%">
+  <%= l(:text_data_dump) %>&nbsp;&nbsp;
+  <%= link_to l(:label_issues), {:controller => :issues, :action => :datadump, :format => :csv}, {:class => "icon icon-attachment"} %>
+  </p>
+</div>
+
 
 </div>
 <% end %>

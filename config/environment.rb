@@ -22,7 +22,7 @@ rescue LoadError
 end
 
 Rails::Initializer.run do |config|
-  
+    
   # Settings in config/environments/* take precedence those specified here
   
   # Skip frameworks you're not going to use
@@ -72,6 +72,11 @@ Rails::Initializer.run do |config|
 
   config.gem 'reportable', :lib => 'saulabs/reportable'  
   
+  config.gem 'crafterm-comma', :lib => 'comma'
+  
+  config.gem 'fastercsv'
+  
+    
   # Load any local configuration that is kept out of source control
   # (e.g. gems, patches).
   if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))

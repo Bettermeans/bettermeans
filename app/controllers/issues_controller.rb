@@ -10,7 +10,7 @@ class IssuesController < ApplicationController
   before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member, :remove_team_member, :move]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
-  before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu]
+  before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu, :datadump]
   before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
   accept_key_auth :index, :show, :changes
 
@@ -707,6 +707,12 @@ class IssuesController < ApplicationController
     @attachements = @issue.attachments if @issue
     @text = params[:notes] || (params[:issue] ? params[:issue][:description] : nil)
     render :partial => 'common/preview'
+  end
+  
+  def datadump
+    @issues = Issue.find(:all, :conditions => "project_id IN (#{User.current.owned_projects.collect {|p| p.id}.join(",")})")
+    render :csv => @issues
+    # send_data issues.to_csv, {:filename => "issues.csv"}
   end
   
 private
