@@ -166,7 +166,7 @@ class ProjectsController < ApplicationController
     end
     
     @subprojects = @project.children.active.find(:all, :order => 'name ASC')
-    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_at DESC")
+    @news = @project.news.find(:all, :conditions => " (created_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_LATEST_NEWS * -1)}')", :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_at DESC")
     @trackers = @project.rolled_up_trackers
     
     cond = @project.project_condition(Setting.display_subprojects_issues?)
