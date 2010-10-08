@@ -82,6 +82,10 @@ namespace :custom do
   task :deliver_daily_digest => :environment do
     DailyDigest.deliver
   end
+
+  task :deliver_personal_welcome => :environment do
+    PersonalWelcome.deliver
+  end
   
   
 
