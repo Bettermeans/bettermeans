@@ -30,7 +30,7 @@ class News < ActiveRecord::Base
   
   # returns latest news for projects visible by user
   def self.latest(user = User.current, count = 5)
-    find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_at DESC")	
+    find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news) + " (created_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_LATEST_NEWS * -1)}')", :include => [ :author, :project ], :order => "#{News.table_name}.created_at DESC")	
   end
 end
 

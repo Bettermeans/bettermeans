@@ -23,6 +23,8 @@ class Setting < ActiveRecord::Base
   
   DAYS_FOR_ACTIVE_MEMBERSHIP = 14 #If a member does any activity on a project in the last X days, they're considered active
   
+  DAYS_FOR_LATEST_NEWS = 45 #Number of days before a news item expires
+  
   ACTIVITY_LINE_LENGTH = 90 #number of days for activity sparklines
   
   ACTIVITY_STREAM_LENGTH = 40 #number of actions to show before paginating
