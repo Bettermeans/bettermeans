@@ -292,10 +292,11 @@ class Mailer < ActionMailer::Base
   #   issue_add(issue) => tmail object
   #   Mailer.deliver_issue_add(issue) => sends an email to issue recipients
   def personal_welcome(user,project)
+    from "shereef@bettermeans.com"
     recipients user.mail
-    bcc "shereef@gmail.com"
     subject "bettermeans and " + project.name
-    body :name => user.firstname
+    body :name => user.firstname,
+        :footer => "Don't ask yourself what the world needs; ask yourself what makes you come alive and then go do that. Because what the world needs is people who are alive."
     render_multipart('personal_welcome', body)
   end
   
