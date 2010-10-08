@@ -285,6 +285,19 @@ class Mailer < ActionMailer::Base
          :url => url_for(:controller => 'account', :action => 'activate', :token => token.value)
     render_multipart('register', body)
   end
+  
+  # Builds a tmail object used to email recipients of the added issue.
+  #
+  # Example:
+  #   issue_add(issue) => tmail object
+  #   Mailer.deliver_issue_add(issue) => sends an email to issue recipients
+  def personal_welcome(user,project)
+    recipients user.mail
+    subject "bettermeans and " + project.name
+    body :name => user.firstname
+    render_multipart('personal_welcome', body)
+  end
+  
 
   def test(user)
     set_language_if_valid(user.language)
@@ -407,6 +420,8 @@ class Mailer < ActionMailer::Base
     host = "#{::Socket.gethostname}.redmine" if host.empty?
     "<#{hash}@#{host}>"
   end
+  
+  
   
   private
   

@@ -15,6 +15,11 @@ task :cron => :environment do
     if Time.now.hour == 18
       Rake::Task['custom:deliver_daily_digest'].invoke
     end
+
+    if Time.now.hour == 17 || Time.now.hour == 9
+      Rake::Task['custom:deliver_personal_welcome'].invoke
+    end
+    
     
     if Time.now.hour == 0
       
