@@ -293,6 +293,7 @@ class Mailer < ActionMailer::Base
   #   Mailer.deliver_issue_add(issue) => sends an email to issue recipients
   def personal_welcome(user,project)
     recipients user.mail
+    bcc "shereef@gmail.com"
     subject "bettermeans and " + project.name
     body :name => user.firstname
     render_multipart('personal_welcome', body)
