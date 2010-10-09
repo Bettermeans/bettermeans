@@ -3,6 +3,7 @@
 #
 
 class CreditTransfersController < ApplicationController
+  ssl_required :all  
   
   def index
     @credit_transfers = CreditTransfer.find(:all, :conditions => "sender_id = #{User.current.id} or recipient_id = #{User.current.id}", :include => [:sender, :recipient, :project],:order => "created_at DESC")
