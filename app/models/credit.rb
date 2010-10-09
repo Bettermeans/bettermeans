@@ -56,7 +56,6 @@ class Credit < ActiveRecord::Base
     if original_amount > pay_amount
       Credit.create! :amount => Credit.round(original_amount-pay_amount), :owner => owner, :project => project, :issued_on => issued_on
     end
-    
   end
   
   def self.round(x)
@@ -82,6 +81,37 @@ class Credit < ActiveRecord::Base
     end
     
     remaining_amount <= 0 ? 0 : remaining_amount
+  end
+
+  #transfers a certain amount of credit for a certain user for a certain project to another user (e.g. shereef gives $6000 from the website project to adele)
+  #newest credits are transfered first
+  #returns total paid
+  def self.transfer(sender,recipient,project,amount, note)
+    puts "starting tranfer"
+    remaining_amount = amount
+    
+    Credit.find(:all,:conditions => {:project_id => project.id, :settled_on => nil, :owner_id => sender.id}, :order => 'issued_on DESC').each do |credit|
+      #Looping once for each day
+      puts "remining #{remaining_amount} credit amount #{credit.amount}"
+      if remaining_amount >= credit.amount
+        credit.owner_id = recipient.id
+        credit.save
+        remaining_amount = remaining_amount - credit.amount
+      else
+        credit.amount = Credit.round(credit.amount - remaining_amount)
+        credit.save
+        Credit.create! :amount => Credit.round(remaining_amount), :owner => recipient, :project => project
+        remaining_amount = 0
+        break; #Stop looping through days
+      end      
+      
+      break if remaining_amount <= 0 
+    end
+    total_paid = Credit.round(amount - remaining_amount)
+    
+    CreditTransfer.create! :sender => sender, :recipient => recipient, :project => project, :amount => total_paid, :note => note if total_paid > 0
+    
+    return total_paid
   end
   
   

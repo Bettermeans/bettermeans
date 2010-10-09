@@ -393,6 +393,12 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
   
+  label_amount_to_transfer: Amount to Transfer
+  label_select_recipient: Select Recipient
+  label_credit_transfers: Credit Transfers
+  label_new_credit_transfer: New Transfer
+  label_select_project: Select Project Workstream
+  label_previous_credit_transfers: Your History
   label_data_dump: Data Dump
   text_data_dump: Download a local copy of all issues that belong to project workstreams that you own
   label_issues: datadump.csv
@@ -1053,6 +1059,7 @@ en:
   field_joined_by: Joined by
   field_item_url: Permalink
   
+  text_failed_to_transfer: Failed to transfer credits.<br>
   text_your_gravatar: We use <a href="http://gravatar.com" target="blank">Gravatar</a> to display your profile picture. <br>To add/update your picture <a href="http://gravatar.com" target="blank">create an account here</a> using the same email you used to signup for BetterMeans
   text_select_mail_notifications: Select actions for which email notifications should be sent.
   text_regexp_info: eg. ^[A-Z0-9]+$
@@ -1121,6 +1128,7 @@ en:
   text_retro_started : " workstream has started. <br/>You have 3 days to give your team feedback on their contribution"
   text_retro_ended_for : "A retrospective for the"
   text_retro_ended : " workstream has ended. <br/>Click below to see your team's feedback, and your final contribution"
+  text_credits_transferred: "{{sender}} just transferred {{amount}} credits to you in {{project}}"
   text_credits_distributed_for : "You earned {{amount}} credits for your work on <strong>{{workstream}}</strong>. Congrats!"
   text_credits_are_a_gift : "These credits were gifted to you by your peers for your contribution. They're not a part of any retrospective."
   text_credits_are_an_expense : "These credits are a reimbursment for an expense item. They're not a part of any retrospective."
