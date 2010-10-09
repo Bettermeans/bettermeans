@@ -1,0 +1,19 @@
+  <h2 class="gt-table-head"><%=l(:label_new_credit_transfer) %></h2>
+  <% form_tag({:action => :create}) do %>
+  <label><%= l(:label_select_project) %></label>
+  <%= collection_select(:credit_transfer, :project_id, project_list, :project_id, :name, {:prompt => l(:label_select)}) %>
+  
+  <!-- :selected => :selected_project_id -->
+
+  <div id="users_container"></div>
+  <%= observe_field :credit_transfer_project_id, :url => {:controller => :credit_transfers, :action => :eligible_recipients, :only_path => :false }, :update => :users_container, :with => 'project_id' %>
+  
+  <% end %>
+  
+  <script type="text/javascript">
+  $(document).ready(function(){
+    if ($('#credit_transfer_project_id').val() != "") {
+      $('#credit_transfer_project_id').change();
+    }
+  });
+  </script>

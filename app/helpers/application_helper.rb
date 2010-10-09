@@ -67,6 +67,25 @@ module ApplicationHelper
     end
   end
   
+  def link_to_user_or_you(user, options={})
+    if user == User.current
+      "You"
+    else
+      link_to_user(user,options)
+    end
+  end
+  
+  # Displays a link to project
+  def link_to_project(project, options={})
+    if project.is_a?(Project)
+      name = h(project.name)
+      link_to name, :controller => 'projects', :action => 'show', :id => project
+    else
+      h(project.to_s)
+    end
+  end
+  
+  
   def link_to_user_from_id(user_id, options={})
     link_to_user(User.find(user_id))
   end

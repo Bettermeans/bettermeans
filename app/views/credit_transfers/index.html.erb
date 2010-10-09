@@ -1,0 +1,12 @@
+<h1><%= l(:label_credit_transfers) %></h1>
+<div class="splitcontentleft">
+<%= render :partial => 'new_credit_transfer', :locals => {:project_list => @project_list} %>
+</div>
+<div class="splitcontentright">
+  <h2 class="gt-table-head"><%=l(:label_previous_credit_transfers) %></h2>
+    <%= render :partial => 'credit_transfer_history', :locals => {:credit_transfers => @credit_transfers} %>
+</div>
+
+
+
+
