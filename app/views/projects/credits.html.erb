@@ -23,6 +23,9 @@
     <%= link_to "Exclude sub workstreams", { :controller => 'projects', :action => 'credits', :with_subprojects => :false } %>
     <% end %>
   </li>
+  <li>
+    <%= link_to "Credit Transfer", {:controller => 'credit_transfers', :action => 'index', :selected_project_id => @project.id} %>
+  </li>
   </ul>
 </div>
 <% end %>

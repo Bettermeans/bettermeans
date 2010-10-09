@@ -1,0 +1,34 @@
+  <div class="gt-content-box">
+    <%  if credit_transfers.length == 0 %>
+        <p class="nodata"><%= l(:label_no_data) %></p>
+    <% else %>
+
+    <table border="0" class="gt-table gt-user-table">
+  		<tbody>
+  		<tr>
+  		  <th>Date</th>
+  		  <th>Amount</th>
+  		  <th>Sender</th>
+  		  <th>Recipient</th>
+  		  <th>Workstream</th>
+  		</tr>
+      <%  
+          credit_transfers.sort { |b,a| a.created_at <=> b.created_at }
+          credit_transfers.each do |ct|
+      %>
+      <tr class="<%= cycle 'odd', 'even' %>"id="m_<%= ct.id %>">
+      <td> <%= format_date ct.created_at %> </td>
+       <td class="currency"><%=h number_to_currency ct.amount.round.to_i, :unit => "", :separator => ".", :delimiter => ",", :precision => 0 %></td>
+        <td><%= link_to_user_or_you ct.sender %></td>
+        <td><%= link_to_user_or_you ct.recipient %></td>
+        <td><%= link_to_project ct.project %></td>
+      </tr>
+      <% end %>
+
+      </tbody>
+    </table>
+
+    <% end %>
+
+
+  </div>

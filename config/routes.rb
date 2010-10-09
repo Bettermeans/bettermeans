@@ -327,6 +327,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :retros
   map.resources :notifications
   map.resources :issues
+  map.resources :credit_transfers
+  
   # map.resources :motions
   
 end

@@ -1,0 +1,37 @@
+<!-- Notification sent to users by admin when credits are transferred -->
+<tr class="notification notification-credits-transferred" id="notification_<%= @notification.id %>">
+    <td class="gt-avatar">
+      <%= avatar_from_id(@notification.sender_id, :size => '53') %>
+    </td>
+    <td>
+<h4>
+<%= link_to "#{l("label_youve_got_credits")}", {:controller => "projects", :action => "credits", :id => project.id},{:target => "_blank"} %>
+</h4>
+<%= l(:text_credits_transferred, :amount => number_to_currency(amount.to_f.round, :unit => '', :separator => ".", :delimiter => ",", :precision => 0), :workstream => h(project.name), :sender => link_to_user(@notification.sender), :project => link_to_project(project)) %>
+<br><br>
+<% unless note.nil? %>
+<%= l(:text_included_note) %><br>
+-------
+<%= h(note) %>
+-------
+<br><br>
+<% end %>
+
+<p class="gt-table-action-list">
+<%= link_to(l(:button_view), {:controller => "projects", :action => "credits", :id => project.id}, {:id =>'cr_button', :class => 'icon icon-cr-offer', :target => "_blank"})%>
+&nbsp;
+<%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
+</p>
+    </td>
+        <td>
+    			<!-- Categories Sub Table -->
+    			<table border="0" class="gt-table-categories">
+    				<tr>
+    					<td><%= link_to_user_from_id(@notification.sender_id) %></td>
+    				</tr>
+    				<tr>
+    					<td><%= since_tag(@notification.created_at) %> ago</td>
+    				</tr>
+    			</table>
+    		</td>
+    </tr>
