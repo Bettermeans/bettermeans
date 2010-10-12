@@ -464,6 +464,8 @@ class User < ActiveRecord::Base
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project, options={})
+    puts ("running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}")
+    logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     if project
       # No action allowed on archived projects
       return false unless project.active?

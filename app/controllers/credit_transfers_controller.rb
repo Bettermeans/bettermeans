@@ -4,6 +4,7 @@
 
 class CreditTransfersController < ApplicationController
   ssl_required :all  
+  before_filter :authorize_global, :except => :eligible_recipients
   
   def index
     @credit_transfers = CreditTransfer.find(:all, :conditions => "sender_id = #{User.current.id} or recipient_id = #{User.current.id}", :include => [:sender, :recipient, :project],:order => "created_at DESC")
@@ -11,6 +12,12 @@ class CreditTransfersController < ApplicationController
     @project_list = Project.find(:all, :conditions => "id IN (#{project_id_array.join(",")})").sort! {|x,y| x.name <=> y.name }
     if params[:selected_project_id]
       @selected_project_id = Integer(params[:selected_project_id])
+      @project = Project.find(@selected_project_id)
+      @total_credits = Credit.round(Credit.sum(:amount, :conditions => {:settled_on => nil, :owner_id => User.current.id, :project_id => @project.id}))
+      @user_list = @project.root.all_members
+      #remove current user from list
+      @user_list.delete_if { |a| a.user_id == User.current.id}
+      
     end
   end
   
@@ -31,7 +38,6 @@ class CreditTransfersController < ApplicationController
     flash.keep
   end
   
-    
   
   def eligible_recipients
     @project = Project.find(params[:project_id])
@@ -42,7 +48,8 @@ class CreditTransfersController < ApplicationController
     #remove current user from list
     @user_list.delete_if { |a| a.user_id == User.current.id}
     
-    render :layout => false
+    render :partial => "eligible_recipients"
+    # render :layout => false
   end
   
   
