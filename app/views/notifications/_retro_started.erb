@@ -9,7 +9,7 @@
 <strong><%= project.name %></strong>
 <%= l(:text_retro_started) %>
 <p class="gt-table-action-list">
-<%= link_to(l(:button_participate), {:controller => "projects", :action => "dashboard", :show_retro_id => @notification.source_id, :id => project.id}, {:id =>'cr_button', :class => 'icon icon-cr-offer', :target => "_blank"})%>
+<%= link_to(l(:button_participate), {:controller => "projects", :action => "dashboard", :show_retro_id => @notification.source_id, :id => project.id}, {:id =>'cr_button', :class => 'icon icon-cr-offer fancyframe', :target => "_blank"})%>
 &nbsp;
 <%= link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_ignored}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
 </p>
