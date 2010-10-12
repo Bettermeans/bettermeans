@@ -10,7 +10,7 @@ class DailyDigest < ActiveRecord::Base
     digests_by_mail = DailyDigest.all.group_by{|digest| digest.mail}
     digests_by_mail.each_pair do |mail,journals| 
       Mailer.send_later(:deliver_daily_digest,mail,journals)
-      DailyDigest.delete_all :mail => mail
+      # DailyDigest.delete_all :mail => mail
     end
   end
 end
