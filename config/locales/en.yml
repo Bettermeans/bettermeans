@@ -393,6 +393,7 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
   
+  label_note_to_recipient: Note for recipient (optional)
   label_amount_to_transfer: Amount to Transfer
   label_select_recipient: Select Recipient
   label_credit_transfers: Credit Transfers
@@ -1059,6 +1060,7 @@ en:
   field_joined_by: Joined by
   field_item_url: Permalink
   
+  text_included_note: note
   text_failed_to_transfer: Failed to transfer credits.<br>
   text_your_gravatar: We use <a href="http://gravatar.com" target="blank">Gravatar</a> to display your profile picture. <br>To add/update your picture <a href="http://gravatar.com" target="blank">create an account here</a> using the same email you used to signup for BetterMeans
   text_select_mail_notifications: Select actions for which email notifications should be sent.

@@ -5,7 +5,9 @@ Available credits: <%= @total_credits %><br><br>
 <p id="select_concerned_user">
   <label><%= l(:label_select_recipient) %></label><%= collection_select(:credit_transfer, :recipient_id, @user_list, :user_id, :name, :prompt => l(:label_select)) %><br><br>
   <label><%= l(:label_amount_to_transfer) %></label>
-  <%= text_field_tag 'amount', nil, :size => 10, :style => "width:40%" %>
+  <%= text_field_tag 'amount', nil, :size => 10, :style => "width:40%" %><br><br>
+  <label><%= l(:label_note_to_recipient) %></label>
+  <%= text_area('note', nil, :cols => 30, :rows => 6) %>
   <div class="gt-table-buttons">
   <%= submit_tag l(:button_submit), :disable_with => l(:button_working) %></p>
   </div>

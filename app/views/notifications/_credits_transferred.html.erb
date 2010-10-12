@@ -8,13 +8,11 @@
 <%= link_to "#{l("label_youve_got_credits")}", {:controller => "projects", :action => "credits", :id => project.id},{:target => "_blank"} %>
 </h4>
 <%= l(:text_credits_transferred, :amount => number_to_currency(amount.to_f.round, :unit => '', :separator => ".", :delimiter => ",", :precision => 0), :workstream => h(project.name), :sender => link_to_user(@notification.sender), :project => link_to_project(project)) %>
-<br><br>
+<br>
 <% unless note.nil? %>
-<%= l(:text_included_note) %><br>
--------
-<%= h(note) %>
--------
-<br><br>
+
+------- <%= l(:text_included_note) %> -------<br>
+<%= h(note) %><br>
 <% end %>
 
 <p class="gt-table-action-list">
