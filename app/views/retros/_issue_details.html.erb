@@ -12,7 +12,7 @@
 
 <tr><td class="subtitle">Todos:</td><td> 
   <% issue.todos.each do |todo| %>
-  <%= todo.subject %> <%= " - (" + link_to_user_from_id(todo.author_id) + ")" unless todo.author_id.nil? %><br>
+  <%= todo.subject %> <%= " - (" + link_to_user_from_id(todo.owner_id) + ")" unless todo.owner_id.nil? %><br>
   <% end %>
 </td><tr>
   <% end %>  
