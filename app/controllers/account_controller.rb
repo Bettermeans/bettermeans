@@ -77,7 +77,11 @@ class AccountController < ApplicationController
     if request.get?
       session[:auth_source_registration] = nil
       @user = User.new(:language => Setting.default_language)
-      @plan_id = params[:plan] ? Plan.find_by_code(params[:plan]).id : Plan.find_by_code(Plan::FREE_CODE).id
+      if params[:plan] && params[:plan].is_a?(Numeric)
+        @plan_id = Plan.find_by_code(params[:plan]).id 
+      else
+        @plan_id = Plan.find_by_code(Plan::FREE_CODE).id
+      end
       
       if params[:invitation_token]
         invitation = Invitation.find_by_token params[:invitation_token]
