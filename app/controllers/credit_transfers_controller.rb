@@ -9,15 +9,18 @@ class CreditTransfersController < ApplicationController
   def index
     @credit_transfers = CreditTransfer.find(:all, :conditions => "sender_id = #{User.current.id} or recipient_id = #{User.current.id}", :include => [:sender, :recipient, :project],:order => "created_at DESC")
     project_id_array = Credit.find(:all,:conditions => {:settled_on => nil, :owner_id => User.current.id}).group_by(&:project_id).collect{|p| p[0]}
-    @project_list = Project.find(:all, :conditions => "id IN (#{project_id_array.join(",")})").sort! {|x,y| x.name <=> y.name }
-    if params[:selected_project_id]
-      @selected_project_id = Integer(params[:selected_project_id])
-      @project = Project.find(@selected_project_id)
-      @total_credits = Credit.round(Credit.sum(:amount, :conditions => {:settled_on => nil, :owner_id => User.current.id, :project_id => @project.id}))
-      @user_list = @project.root.all_members
-      #remove current user from list
-      @user_list.delete_if { |a| a.user_id == User.current.id}
+    if project_id_array.empty?
+    else
+      @project_list = Project.find(:all, :conditions => "id IN (#{project_id_array.join(",")})").sort! {|x,y| x.name <=> y.name } 
+      if params[:selected_project_id]
+        @selected_project_id = Integer(params[:selected_project_id])
+        @project = Project.find(@selected_project_id)
+        @total_credits = Credit.round(Credit.sum(:amount, :conditions => {:settled_on => nil, :owner_id => User.current.id, :project_id => @project.id}))
+        @user_list = @project.root.all_members
+        #remove current user from list
+        @user_list.delete_if { |a| a.user_id == User.current.id}
       
+      end
     end
   end
   
