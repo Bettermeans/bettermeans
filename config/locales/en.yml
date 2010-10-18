@@ -502,6 +502,7 @@ en:
   label_download: "%{count} Download"
   label_download_plural: "%{count} Downloads"
   label_no_data: No data to display
+  label_no_credits: You have no credits to transfer
   label_change_status: Change status
   label_history: History
   label_attachment: File
