@@ -89,7 +89,13 @@ class AccountController < ApplicationController
       end
     else
       @user = User.new(params[:user])
-      @user.plan_id = params[:plan_id] || Plan.find_by_code(Plan::FREE_CODE).id
+
+      if params[:plan] && params[:plan].is_a?(Numeric)
+        @user.plan_id = Plan.find_by_code(params[:plan]).id 
+      else
+        @user.plan_id = Plan.find_by_code(Plan::FREE_CODE).id
+      end
+      
       @user.trial_expires_on = 30.days.from_now if @user.plan_id && @user.plan_id > 1 #TODO: clean this. no good depending on id of plan
         
       @user.admin = false
