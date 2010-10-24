@@ -8,7 +8,7 @@ class Token < ActiveRecord::Base
   
   before_create :delete_previous_tokens
   
-  @@validity_time = 1.day
+  @@validity_time = 30.day
   
   def before_create
     self.value = Token.generate_token_value
