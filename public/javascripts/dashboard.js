@@ -764,7 +764,13 @@ function generate_estimate_flyover(dataId){
 	if ((user_estimate != -1)||((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))){
 		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 4) continue;
-			history = history + item.issue_votes[i].points + ' cr - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
+			if (credits_enabled){
+				history = history + item.issue_votes[i].points + ' cr - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
+			}
+			else{
+				history = history + credits_to_points(Math.round(item.issue_votes[i].points),credit_base) + ' points - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
+			}
+			
 			if (item.issue_votes[i].isbinding == false){
 				history = history + ' (non-binding)';
 			}
@@ -2692,7 +2698,8 @@ function save_new_item(){
     var data = "commit=Create&project_id=" + projectId + 
         "&issue[tracker_id]=" + $('#new_story_type').val() + 
         "&issue[subject]=" + $('#new_title_input').val() + 
-        "&issue[description]=" + $('#new_description').val();
+        "&issue[description]=" + $('#new_description').val() +
+        "&estimate=" + $('#new_story_complexity').val();
     
     if((credits_enabled) && ($('#new_story_type').val() == standard_trackers.Gift.id)){
 	data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
@@ -3108,7 +3115,7 @@ function generate_complexity_row(){
 function generate_complexity_dropdown() {
     var html='';
 	if (credits_enabled){
-		html += '<option selected="true" value="-1">Credits (optional)</option>';
+		html += '<option selected="true" value="">Credits (optional)</option>';
 		
 		for(var i = 0;i<7;i++) {
 		
