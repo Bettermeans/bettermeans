@@ -171,6 +171,13 @@ class IssuesController < ApplicationController
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
       if @issue.save
         attach_files(@issue, params[:attachments])
+        
+        #dealing with the estimate
+        if params[:estimate] && params[:estimate] != ""  #-2 means that nothing was chosen
+          @iv = IssueVote.create :issue_id => @issue.id, :user_id => User.current.id, :points => params[:estimate].to_i, :vote_type => IssueVote::ESTIMATE_VOTE_TYPE
+          @issue.update_estimate_total @iv.isbinding
+          @issue.save
+        end
         # flash.now[:notice] = l(:notice_successful_create)
         @issue.reload
         
