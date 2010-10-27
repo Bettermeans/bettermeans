@@ -3129,12 +3129,12 @@ function generate_complexity_dropdown() {
 	}
 	else{
 		html += '<option value="0">0 - Real easy</option>';
-		html += '<option value="1">1</option>';
-		html += '<option value="2">2</option>';
-		html += '<option selected="true" value="3">3 - Average complexity</option>';
-		html += '<option value="4">4</option>';
-		html += '<option value="5">5</option>';
-		html += '<option value="6">6 - Super hard</option>';
+		html += '<option value="' + point_factor[1] * credit_base + '">1</option>';
+		html += '<option value="' + point_factor[2] * credit_base + '">2</option>';
+		html += '<option selected="true" value="' + point_factor[3] * credit_base + '">3 - Average complexity</option>';
+		html += '<option value="' + point_factor[4] * credit_base + '">4</option>';
+		html += '<option value="' + point_factor[5] * credit_base + '">5</option>';
+		html += '<option value="' + point_factor[6] * credit_base + '">6 - Super hard</option>';
 		html += '<option value="-1">Don\'t know</option>';
 	}
 
