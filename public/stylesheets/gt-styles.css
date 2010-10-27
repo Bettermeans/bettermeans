@@ -1407,7 +1407,7 @@ div.activity-tag {
 .spacerCell {width:99%}
 .emphasizedFieldLabel {display:inline;}
 .fieldLabel {display:inline; color:gray}
-.storyDetailsField, .storyDeadlineField, .storyDetailsTextField {width: 150px; margin-top: 1px; margin-bottom: 1px; margin-right: 8px;}
+.storyDetailsField, .storyDeadlineField, .storyDetailsTextField {width: 200px; margin-top: 1px; margin-bottom: 1px; margin-right: 8px;}
 .storyDetailsTextField{ width: 146px}
 .storyDetailsStoryLink {width: 95%; margin-top: 1px; margin-bottom: 1px; margin-right: 10px; padding: 5px}
 .storyDetails .storyLabels {padding-left: 5px}

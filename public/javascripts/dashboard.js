@@ -3080,6 +3080,61 @@ function generate_tracker_dropdown(dont_show_gift) {
     return html;
 }
 
+function generate_complexity_row(){
+	var html = '';
+	html = html + '	              <tr>';
+	html = html + '	                <td class="letContentExpand" colspan="1">';
+	html = html + '	                  <div>';
+	html = html + '	                    <select id="new_story_complexity" class="storyDetailsField" name="new_story_complexity" >';
+	html = html +                         generate_complexity_dropdown();
+	html = html + '	                    </select>';
+	html = html + '	                  </div>';
+	html = html + '	                </td>';
+	html = html + '	                <td class="storyDetailsLabelIcon" colspan="1">';
+	html = html + '	                  <div class="storyDetailsLabelIcon">';
+	html = html + '	                  </div>';
+	html = html + '	                </td>';
+	html = html + '	                <td class="helpIcon lastCell" colspan="1">';
+	html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
+	html = html + '	                    <img id="help_image_complexity" src="/images/question_mark.gif"  class="help_question_mark">';
+	html = html + '	                  </div>';
+	html = html + '	                </td>';
+	html = html + '	              </tr>';
+	return html;
+	
+}
+
+
+function generate_complexity_dropdown() {
+    var html='';
+	if (credits_enabled){
+		html += '<option selected="true" value="-1">Credits (optional)</option>';
+		
+		for(var i = 0;i<7;i++) {
+		
+		credits = point_factor[i] * credit_base	
+		html += '<option value="' +  credits + '">';
+		html += credits + " credits";
+		html += '</option>';
+	    }   
+
+		html += '<option value="-1">Don\'t know</option>';
+	}
+	else{
+		html += '<option value="0">0 - Real easy</option>';
+		html += '<option value="1">1</option>';
+		html += '<option value="2">2</option>';
+		html += '<option selected="true" value="3">3 - Average complexity</option>';
+		html += '<option value="4">4</option>';
+		html += '<option value="5">5</option>';
+		html += '<option value="6">6 - Super hard</option>';
+		html += '<option value="-1">Don\'t know</option>';
+	}
+
+    return html;
+}
+
+
 function new_item(){
 
 //Login required	
@@ -3115,14 +3170,6 @@ html = html + '	                    <input id="new_cancel_button" value="Cancel"
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
-html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input disabled="disabled" id="new_delete_button" value="Delete" type="submit">';
-html = html + '	                  </div>';
-html = html + '	                </td>';
-html = html + '	                <td>';
-html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input disabled="disabled" id="new_full_screen_button" value="Full Screen" type="submit" >';
-html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
@@ -3148,6 +3195,7 @@ html = html + '	                    <img id="help_image_feature_new" src="/image
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
+html = html + generate_complexity_row();
 html = html + '	              <tr id="new_expense" class="hidden">';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + generate_expense_amount_editor('0','new');
@@ -3216,6 +3264,21 @@ $('#help_image_description_new').mybubbletip($('#help_description'), {
 });
 
 $('#help_image_feature_new').mybubbletip($('#help_feature'), {
+	deltaDirection: 'up',
+	delayShow: 300,
+	delayHide: 100,
+	offsetTop: 0,
+	bindShow: 'click'
+});
+
+if (credits_enabled){
+	complexity_help_id = "#help_complexity_credits";
+}
+else{
+	complexity_help_id = "#help_complexity_no_credits";
+}
+
+$('#help_image_complexity').mybubbletip($(complexity_help_id), {
 	deltaDirection: 'up',
 	delayShow: 300,
 	delayHide: 100,
