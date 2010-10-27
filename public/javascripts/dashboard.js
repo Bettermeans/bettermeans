@@ -3202,7 +3202,6 @@ html = html + '	                    <img id="help_image_feature_new" src="/image
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
-html = html + generate_complexity_row();
 html = html + '	              <tr id="new_expense" class="hidden">';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + generate_expense_amount_editor('0','new');
@@ -3213,6 +3212,7 @@ html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                <div><select id="assigned_to_select"><option value="0">loading...</option></select></div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
+html = html + generate_complexity_row();
 html = html + '	            </tbody>';
 html = html + '	          </table>';
 html = html +             generate_hourly_fields();
