@@ -1138,6 +1138,7 @@ table.activity-item td.news { background-image: url(/images/news.png); }
 table.activity-item td.message { background-image: url(/images/message.png); }
 table.activity-item td.reply { background-image: url(/images/comments.png); }
 table.activity-item td.wiki-page { background-image: url(/images/wiki_edit.png); }
+table.activity-item td.wikipage { background-image: url(/images/wiki_edit.png); }
 table.activity-item td.attachment { background-image: url(/images/attachment.png); }
 table.activity-item td.document { background-image: url(/images/document.png); }
 table.activity-item td.project { background-image: url(/images/projects.png); }
