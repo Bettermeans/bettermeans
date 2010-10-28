@@ -67,8 +67,9 @@ class MotionsController < ApplicationController
         @concerned_user_list = @project.core_member_list
     end
     
+    @concerned_user_list = [] if @concerned_user_list == ""
     #remove current user from list
-    @concerned_user_list.delete_if { |a| a.user_id == User.current.id}
+    @concerned_user_list.delete_if {|a| a.user_id == User.current.id}
     
     render :layout => false
   end
