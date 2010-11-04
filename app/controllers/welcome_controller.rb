@@ -6,7 +6,7 @@ class WelcomeController < ApplicationController
   caches_action :robots
   ssl_required :all  
   
-  # before_filter :authorize
+  before_filter :require_login, :except => :robots
 
   def index
     # @news = News.latest User.current
