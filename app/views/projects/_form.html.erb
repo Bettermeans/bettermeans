@@ -31,12 +31,12 @@
 <p>
   <fieldset><label><%= l(:label_type_of_workstream) %></label>
       <label class="floating" style="display:inline">
-      <%= check_box_tag 'project[is_public]', 1, true %>
+      <%= check_box_tag 'project[is_public]', 1, @project.is_public %>
       <%= l(:field_is_public) %>
       <%= help_bubble "help_is_public" %><br>
       </label>
       <label class="floating" style="display:inline">
-      <%= check_box_tag 'project[volunteer]', 1, false %>
+      <%= check_box_tag 'project[volunteer]', 1, @project.volunteer %>
       <%= l(:field_volunteer) %>
       <%= help_bubble "help_volunteer" %><br>
       </label>
