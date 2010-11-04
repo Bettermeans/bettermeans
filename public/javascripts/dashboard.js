@@ -3491,10 +3491,10 @@ html = html + '	            <table>';
 html = html + '	                <tr>';
 html = html + '	                <td align="right">';
 html = html + '	                <a href="" onclick="full_screen(' + dataId + ',\'true\');return false;">Attach files</a>';
-html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Relations</a>';
-html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Add Team Members</a>';
 
 if (currentUserIsCore == 'true' || currentUserIsMember == 'true'){
+html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Relations</a>';
+html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Add Team Members</a>';
 html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Move</a>';
 }
 
