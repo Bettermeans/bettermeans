@@ -1735,7 +1735,7 @@ function buttons_for(dataId,expanded){
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,true,expanded);
 		
-		if (currentUserIsCitizen == 'true'){
+		if (currentUserIsCore == 'true'){
 			var today = new Date();
 			var one_day=1000*60*60*24;
 			var updated = new Date(item.updated_at).getTime();
@@ -3119,7 +3119,7 @@ function generate_complexity_dropdown() {
 		
 		for(var i = 0;i<7;i++) {
 		
-		credits = point_factor[i] * credit_base	
+		credits = point_factor[i] * credit_base;
 		html += '<option value="' +  credits + '">';
 		html += credits + " credits";
 		html += '</option>';
@@ -3493,7 +3493,11 @@ html = html + '	                <td align="right">';
 html = html + '	                <a href="" onclick="full_screen(' + dataId + ',\'true\');return false;">Attach files</a>';
 html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Relations</a>';
 html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Add Team Members</a>';
+
+if (currentUserIsCore == 'true' || currentUserIsMember == 'true'){
 html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Move</a>';
+}
+
 html = html + '	                </td>';
 html = html + '	                </tr>';
 html = html + '	            </table>';
