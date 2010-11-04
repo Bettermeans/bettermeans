@@ -2,8 +2,8 @@
   welcome <strong><%= link_to_user(User.current, :format => :username) %></strong>
   <span class="gt-util-separator">|</span>
   <%= render :partial => "notifications/unresponded" %>    
-  <%= link_to "home", :home %>
-  <span class="gt-util-separator">|</span>
+  <%#= link_to "home", :home %>
+  <!-- <span class="gt-util-separator">|</span> -->
   <!-- <%#= link_to "my page", {:controller => :my, :action => :page} %>
   <span class="gt-util-separator">|</span> -->
   <%= link_to "account", {:controller => :my, :action => :account} %>
