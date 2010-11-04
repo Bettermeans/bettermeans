@@ -77,6 +77,7 @@
     </div>
     <% end %>
     
+    <% unless (@belong_to_projects.length + @my_projects.length) == 0 %>
     <h2 class="gt-table-head"><%=l(:label_activities_i_belong_to)%><%= help_bubble :help_activities_i_belong_to %></h2>
     <div class="activity gt-content-box">
       <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
@@ -87,7 +88,7 @@
         :max_created_at => nil
       } %>
     </div>
-    
+    <% end %>
     
     
   
