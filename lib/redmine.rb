@@ -77,12 +77,6 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_issue_watchers, {:watchers => :destroy}
   end
   
-  map.project_module :news do |map|
-    map.permission :manage_news, {:news => [:new, :edit, :destroy, :destroy_comment]}, :require => :member
-    map.permission :view_news, {:news => [:index, :show]}, :public => true
-    map.permission :comment_news, {:news => :add_comment}
-  end
-
   map.project_module :documents do |map|
     map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment]}, :require => :loggedin
     map.permission :view_documents, :documents => [:index, :show, :download]
@@ -122,6 +116,13 @@ Redmine::AccessControl.map do |map|
     map.permission :create_motion, {:motions => [:create, :new]}, :require => :loggedin
     map.permission :vote_motion, {:motions => :reply, :motion_vote => :create}, :require => :loggedin
   end
+
+  map.project_module :news do |map|
+    map.permission :manage_news, {:news => [:new, :edit, :destroy, :destroy_comment]}, :require => :member
+    map.permission :view_news, {:news => [:index, :show]}, :public => true
+    map.permission :comment_news, {:news => :add_comment}
+  end
+
   
   
   # map.project_module :shares do |map|
@@ -136,6 +137,7 @@ Redmine::AccessControl.map do |map|
     map.permission :add_credits, {:credits => [:new, :create]}, :require => :loggedin
     map.permission :manage_credits, {:credits => [:destroy, :edit, :update]}, :require => :loggedin
   end
+
   
   
 end
