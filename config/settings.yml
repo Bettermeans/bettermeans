@@ -114,21 +114,10 @@ default_projects_modules:
   serialized: true
   default: 
   - issue_tracking
-  - news
   - documents
   - wiki
   - boards
   - motions
-default_root_projects_modules:
-  serialized: true
-  default: 
-  - news
-  - documents
-  - files
-  - wiki
-  - boards
-  - shares
-  - credits
 
 # Role given to a non-admin user who creates a project
 new_project_user_role_id:
