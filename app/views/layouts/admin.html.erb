@@ -1,4 +1,4 @@
-<% unless controller_name == 'admin' && action_name == 'index' %>
+<% unless controller_name == 'admin' && action_name == 'index' ||  controller_name == 'admin' && action_name == 'user_stats' %>
 	<% content_for :sidebar do %>
 		<h3><%=l(:label_administration)%></h3>
 	  <%= render :partial => 'admin/menu' %>

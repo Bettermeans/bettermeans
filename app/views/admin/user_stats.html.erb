@@ -4,17 +4,18 @@
 <div class="gt-content-box padded">
   <h2>Signups</h2>
   Daily signups for the last 14 days<br>
-  <%= raphael_report_tag(User.daily_registrations_report,{:width => 600, :height => 150},{ :vertical_label_unit => 'registrations' }) %><br>
+  <%= raphael_report_tag(User.daily_registrations_report,{:width => 600, :height => 150},{ :shade => false }) %>
+  <br>
   Weekly signups 
   <%= raphael_report_tag(User.weekly_registrations_report,{:width => 600, :height => 150},{}) %>
   <h2>Logins</h2>
   Daily logins for the last 14 days<br>
-  <%= raphael_report_tag(Track.daily_logins_report,{:width => 600, :height => 150},{}) %><br>
+  <%= raphael_report_tag(Track.daily_logins_report,{:width => 600, :height => 150},{ :shade => false }) %><br>
   Weekly logins 
   <%= raphael_report_tag(Track.weekly_logins_report,{:width => 600, :height => 150},{}) %>
   <h2>New Projects</h2>
   Daily new projects for the last 14 days<br>
-  <%= raphael_report_tag(Project.daily_new_projects_report,{:width => 600, :height => 150},{}) %><br>
+  <%= raphael_report_tag(Project.daily_new_projects_report,{:width => 600, :height => 150},{ :shade => false }) %><br>
   Weekly new projects 
-  <%= raphael_report_tag(Project.weekly_new_projects_report,{:width => 600, :height => 150},{}) %>
+  <%= raphael_report_tag(Project.weekly_new_projects_report,{:width => 600, :height => 150},{"smooth" => true}) %>
 </div>
