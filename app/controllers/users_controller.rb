@@ -5,7 +5,6 @@
 class UsersController < ApplicationController
   layout 'admin'
   
-  skip_before_filter :verify_authenticity_token, :only => [:rpx_token] # RPX does not pass Rails form tokens...
   before_filter :require_admin, :except => [:show, :rpx_token]
   ssl_required :all  
   
@@ -138,41 +137,5 @@ class UsersController < ApplicationController
       format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
     end
   end
-  
-  # user_data
-  # found: {:name=>'John Doe', :username => 'john', :email=>'john@doe.com', :identifier=>'blug.google.com/openid/dsdfsdfs3f3'}
-  # not found: nil (can happen with e.g. invalid tokens)
-  def rpx_token
-    raise "hackers?" unless data = RPXNow.user_data(params[:token])
     
-    @user = User.find_by_identifier(data[:identifier])
-    
-    if !@user
-      @user = User.find_by_mail(data[:email])
-      
-      if @user
-        @user.identifier = data[:identifier]
-        @user.save
-      else
-        name = data[:name] || data[:username]
-        newdata = {:firstname => name, :mail => data[:email], :identifier => data[:identifier]}
-        @user = User.new(newdata)
-        
-        #try and find a good login
-        if !User.find_by_login(data[:username])
-          @user.login = data[:username]
-        elsif !User.find_by_login(name)
-          @user.login = name
-        else
-          @user.login = data[:email]
-        end
-        
-        raise "Couldn't create new account" unless @user.save
-      end
-    end
-    
-    self.logged_user = @user
-    redirect_back_or_default :controller => 'welcome', :action => 'index'
-  end
-  
 end

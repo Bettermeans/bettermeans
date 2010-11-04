@@ -4,12 +4,15 @@
 
 class AccountController < ApplicationController
   
+  skip_before_filter :verify_authenticity_token, :only => [:rpx_token] # RPX does not pass Rails form tokens...
+
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required
   ssl_required :all
 
   # Login request and validation
   def login
+    
     if request.get?
       # Logout user
       self.logged_user = nil
@@ -22,9 +25,48 @@ class AccountController < ApplicationController
         password_authentication
       end
     end
-    
-    
   end
+  
+  # user_data
+  # found: {:name=>'John Doe', :username => 'john', :email=>'john@doe.com', :identifier=>'blug.google.com/openid/dsdfsdfs3f3'}
+  # not found: nil (can happen with e.g. invalid tokens)
+  def rpx_token
+    raise "hackers?" unless data = RPXNow.user_data(params[:token])
+    
+    logger.info { "all data #{data.inspect}" }
+    @user = User.find_by_identifier(data[:identifier])
+    logger.info { "found our user! #{@user}" }
+    if !@user
+      @user = User.find_by_mail(data[:email]) if data[:email]
+      
+      if @user
+        @user.identifier = data[:identifier]
+        @user.save
+      else
+        name = data[:name] || data[:username]
+        mail = data[:email] || "#{(0...8).map{65.+(rand(25)).chr}.join}_noemail@bettermeans.com" #twitter accounts don't give email so we generate a random one
+        newdata = {:firstname => name, :mail => mail, :identifier => data[:identifier]}
+        logger.info { "new data #{newdata.inspect}" }
+        @user = User.new(newdata)
+        
+        #try and find a good login
+        if !User.find_by_login(data[:username])
+          @user.login = data[:username]
+        elsif !User.find_by_login(name)
+          @user.login = name
+        else
+          @user.login = data[:email]
+        end
+        
+        raise "Couldn't create new account" unless @user.save
+      end
+    end
+    
+    logger.info { "WE ARE HERE! Almost authenticating for user #{@user.inspect}" }
+
+    successful_authentication(@user)    
+  end
+  
 
   # Log out current user and redirect to welcome page
   def logout

@@ -1253,6 +1253,14 @@ module ApplicationHelper
                             :class => 'icon icon-activate') if !credit.enabled
   end
   
+  def login_protocol()
+    if ENV['RAILS_ENV'] == "development"
+      'http'
+    else
+      'https'
+    end
+  end
+  
   
 
   # def bar_report_tag(data, options = {}, raphael_options = {})
