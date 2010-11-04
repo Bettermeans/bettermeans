@@ -5,7 +5,7 @@
                          :include => [:project, :author]) unless user.projects.empty?
                           %>
 
-<% unless news.nil? %>
+<% unless news.nil? || news.length == 0 %>
 <h2><%=l(:label_news_latest)%></h2>
 
 <div class="gt-content-box padded">

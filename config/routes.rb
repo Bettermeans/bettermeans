@@ -24,6 +24,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.signin 'login', :controller => 'account', :action => 'login'
   map.signout 'logout', :controller => 'account', :action => 'logout'
+  map.connect 'accounts/rpx_token',:controller => 'account', :action => 'rpx_token'
+  
   
   map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
   map.connect 'help/:ctrl/:page', :controller => 'help' #What's this?
@@ -193,7 +195,6 @@ ActionController::Routing::Routes.draw do |map|
     users.with_options :conditions => {:method => :post} do |user_actions|
       user_actions.connect 'users', :action => 'add'
       user_actions.connect 'users/new', :action => 'add'
-      user_actions.connect 'users/rpx_token', :action => 'rpx_token'
       user_actions.connect 'users/:id/edit', :action => 'edit'
       user_actions.connect 'users/:id/memberships', :action => 'edit_membership'
       user_actions.connect 'users/:id/memberships/:membership_id', :action => 'edit_membership'

@@ -38,7 +38,6 @@ Redmine::AccessControl.map do |map|
   map.permission :send_invitations, {:invitations => [:new, :create]}, :require => :loggedin
   map.permission :manage_invitations, {:invitations => [:index, :destroy, :update]}, :require => :loggedin
   map.permission :transfer_credits, {:credit_transfers => [:index, :create]}, :require => :loggedin
-  
   map.project_module :issue_tracking do |map|
     # Issues
     map.permission :view_issues, {:projects => :roadmap, 
