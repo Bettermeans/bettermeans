@@ -490,7 +490,25 @@ module ApplicationHelper
     if @project.nil? 
       # h(Setting.app_title)
     elsif @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
-      "New project workstream"
+      unless @parent.nil?
+        b = []
+        ancestors = (@parent.root? ? [] : @parent.ancestors.visible)
+        if ancestors.any?
+          root = ancestors.shift
+          b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root}, :class => 'root')
+          if ancestors.size > 2
+            b << '&#8230;'
+            ancestors = ancestors[-2, 2]
+          end
+          b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p}, :class => 'ancestor') }
+        end
+        b << link_to(h(@parent), {:controller => 'projects', :action => 'show', :id => @parent}, :class => 'ancestor')
+        b << "New project workstream"
+        b = b.join(' &#187; ')
+        b
+      else
+        "New project workstream"
+      end
     else
       b = []
       # b << link_to(h(@project.enterprise.name), {:controller => 'enterprises', :action => 'show', :id => @project.enterprise.id, :jump => current_menu_item}, :class => 'root')
