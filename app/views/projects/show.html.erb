@@ -75,12 +75,20 @@
 
 <%= project_image @project %>
 
-<% if !@project.is_public %>
+<% @show_header = true %>
+<% if !@project.is_public 
+    @show_header = false
+%>
   <h4><%= privacy @project %>This is a private workstream <%= help_bubble :help_this_workstream_is_private %></h4>
-<% end %>
-<% if @project.volunteer? %>
+<% 
+ end %>
+<% if @project.volunteer?
+    @show_header = false
+%>
   <h4><%= volunteering @project %>This is a volunteer-run workstream<%= help_bubble :help_volunteer %></h4>
-<% elsif !t @project.has_image? %>
+<% end %>
+
+<% if (!t @project.has_image?) && @show_header%>
 <h2 class="gt-table-head">&nbsp;</h2>
 <% end %>
 
