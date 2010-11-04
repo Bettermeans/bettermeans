@@ -1,5 +1,3 @@
-<%= help_section("project_new") %>
-
 <h2><%=l(:label_project_new)%></h2>
 
 <% labelled_tabular_form_for :project, @project, :url => { :action => "add" }, :html => { :multipart => true }  do |f| %>
@@ -10,4 +8,9 @@
 <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
 </div>
 <%= javascript_tag "$('#project_name').focus();" %>
+<% end %>
+
+<% content_for :sidebar do %>
+<h2 class="gt-table-head">&nbsp;</h2>
+<%= help_section("project_new") %>
 <% end %>
