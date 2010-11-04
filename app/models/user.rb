@@ -448,9 +448,9 @@ class User < ActiveRecord::Base
   
   # Return true if the user is allowed to see motion
   def allowed_to_see_motion?(motion)
-    logger.info { "current position #{position_for(motion.project)}" }
-    logger.info { "visibilitly level #{motion.visibility_level.to_f}" }
-    logger.info { "allowed #{position_for(motion.project) <= motion.visibility_level.to_f}" }
+    # logger.info { "current position #{position_for(motion.project)}" }
+    # logger.info { "visibilitly level #{motion.visibility_level.to_f}" }
+    # logger.info { "allowed #{position_for(motion.project) <= motion.visibility_level.to_f}" }
     position_for(motion.project) <= motion.visibility_level.to_f
   end  
   
@@ -464,8 +464,8 @@ class User < ActiveRecord::Base
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project, options={})
-    puts ("running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}")
-    logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
+    # puts ("running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}")
+    #     logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     if project
       # No action allowed on archived projects
       return false unless project.active?

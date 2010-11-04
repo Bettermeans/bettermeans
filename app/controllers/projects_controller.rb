@@ -105,7 +105,8 @@ class ProjectsController < ApplicationController
       end
     else
       @project.enabled_module_names = params[:enabled_modules]
-      @project.is_public = params[:project][:is_public] || Setting.default_projects_public?
+      @project.is_public = params[:project][:is_public] || false
+      @project.volunteer = params[:project][:volunteer] || false
       @project.owner_id = User.current.id if params[:parent_id] == "" || params[:parent_id].nil?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
 
@@ -275,6 +276,9 @@ class ProjectsController < ApplicationController
     if request.post?
       old_attributes = @project.attributes
       @project.attributes = params[:project]
+      @project.is_public = params[:project][:is_public] || false
+      @project.volunteer = params[:project][:volunteer] || false
+      
       
       if (old_attributes["is_public"] != (params[:project]["is_public"] == "1"))
         description = (params[:project]["is_public"] == "1") ? "publicised" : "privatized"
