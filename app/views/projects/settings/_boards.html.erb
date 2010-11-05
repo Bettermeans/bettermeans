@@ -30,7 +30,7 @@
 </table>
 <% else %>
 <p class="nodata"><%= l(:label_no_data) %></p>
-</div>
 <% end %>
+</div>
 
 <p><%= link_to_if_authorized l(:label_board_new), {:controller => 'boards', :action => 'new', :project_id => @project}, :class=>"gt-btn-gray-large"%></p>
