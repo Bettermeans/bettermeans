@@ -1,4 +1,3 @@
-<%= help_section("project_team") %>
 
 <h2 class="gt-table-head"><%=l(:label_team)%></h2>	
 
@@ -7,8 +6,11 @@
 
 <div class="splitcontentleft">
 <%= render :partial => 'team_list', :locals => {:project => @project} %>
-</div
->
+</div>
+
+<div class="splitcontentright">
+  <%= help_section("project_team") %>
+</div>
 
 <% content_for :sidebar do %>
 <%= project_image @project %>

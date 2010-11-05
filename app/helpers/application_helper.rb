@@ -16,7 +16,8 @@ module ApplicationHelper
   extend Forwardable
   def_delegators :wiki_helper
     
-  def help_section(name)
+  def help_section(name, popup=false)
+    logger.info { "helping #{popup}" }
     return if User.current.anonymous?
     
     help_section = HelpSection.first(:conditions => {:user_id => User.current.id, :name => name})
@@ -29,7 +30,11 @@ module ApplicationHelper
       )
     end
     
-    render :partial => 'help_sections/show', :locals => {:help_section => help_section} if help_section.show #&& false
+    if popup 
+      render :partial => 'help_sections/show_popup', :locals => {:help_section => help_section} if help_section.show #&& false
+    else
+      render :partial => 'help_sections/show', :locals => {:help_section => help_section} if help_section.show #&& false
+    end
   end
 
   # Return true if user is authorized for controller/action, otherwise false
