@@ -269,6 +269,7 @@ class ProjectsController < ApplicationController
     @member ||= @project.all_members.new
     @trackers = Tracker.all
     @wiki ||= @project.wiki
+    @allow_logo_selection = true
   end
   
   # Edit @project

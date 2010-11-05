@@ -15,6 +15,7 @@
 <p><label><%= l(:field_description) %></label><%= f.textile_editor :description, :rows => 5, :class => 'wiki-edit' %></p>
 <%= textile_editor_initialize(:framework => :jquery) %>
 
+<% if @allow_logo_selection %>
 <div class="clear">
 <p>
     <label><%= l(:field_logo) %></label>
@@ -25,6 +26,7 @@
     </div>
 </p>
 </div>
+<% end %>
 
 <div class="gt-cols-3">
 <div class="gt-sidebar-left">
