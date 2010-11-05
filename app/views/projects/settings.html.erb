@@ -1,5 +1,9 @@
-<%= help_section("project_settings") %>
 <h2><%=l(:label_settings)%></h2>
 <%= render_tabs project_settings_tabs %>
 
 <% html_title(l(:label_settings)) -%>
+
+<% content_for :sidebar do %>
+<h2 class="gt-table-head">&nbsp;</h2>
+<%= help_section("project_settings") %>
+<% end %>
