@@ -136,7 +136,7 @@
   var credits_to_points_array = <%= Setting::CREDITS_TO_POINTS.to_json %>;
   var currentUserLogin = '<%= User.current.login %>';
   var currentUserId = '<%= User.current.id %>';
-  var currentUserIsCitizen = '<%= User.current.core_member_of?(@project) %>';
+  var currentUserIsCore = '<%= User.current.core_member_of?(@project) %>';
   var currentUserIsMember = '<%= User.current.member_of?(@project) %>';
   var point_factor = <%= Setting::POINT_FACTOR.to_json %>;  
   var startable_priority_tiers = <%= Setting::NUMBER_OF_STARTABLE_PRIORITY_TIERS %>;
