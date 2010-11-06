@@ -265,7 +265,8 @@ module ApplicationHelper
     elsif @project
       s = ' &#187; ' + @project.name
     else
-      s = '<span id="logo_app"><a href="/" title="BetterMeans">BetterMeans</a></span>'
+      #s = '<span id="logo_app"><a href="/" title="BetterMeans">BetterMeans</a></span>'
+      s = ''
       
       # s = h(Setting::APP_TITLE)
     end
