@@ -1,9 +1,9 @@
 <div id="help_section_container" style="display:none">
 <div class="help-section" id="help_section" style="margin-bottom:0;width:630px;">
-<h3><%= title %></h3>
+<h3><%= l("help_section_#{help_section.name}").split("|")[0] %></h3>
   
 <p>
-  <%= l("help_section_#{help_section.name}") %>
+  <%= l("help_section_#{help_section.name}").split("|")[1] %>
 </p>
 <a href="javascript:;" onclick="$.fancybox.close();" class="help-section-link">Close</a>
 <%= link_to_remote "Don't show again", {:url => {:controller => :help_sections, :action => :dont_show, :id => help_section.id}}, :class => "help-section-link", :onclick=>"$.fancybox.close();" %>
