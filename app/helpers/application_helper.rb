@@ -1159,6 +1159,7 @@ module ApplicationHelper
   end
   
   def render_journal_details(journal)
+    return unless journal
     html = ""
     if journal && journal.details && journal.details.count > 0
       html = "<ul>"
