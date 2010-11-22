@@ -1160,7 +1160,7 @@ module ApplicationHelper
   
   def render_journal_details(journal)
     html = ""
-    html = "<ul>" if journal.details.count > 0
+    html = "<ul>" if journal.details && journal.details.count > 0
     for detail in journal.details
       html << "<li>#{show_detail(detail)}</li>"
     end
