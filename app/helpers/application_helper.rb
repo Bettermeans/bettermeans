@@ -1160,11 +1160,13 @@ module ApplicationHelper
   
   def render_journal_details(journal)
     html = ""
-    html = "<ul>" if journal && journal.details.count > 0
-    for detail in journal.details
-      html << "<li>#{show_detail(detail)}</li>"
+    if journal && journal.details && journal.details.count > 0
+      html = "<ul>"
+      for detail in journal.details
+        html << "<li>#{show_detail(detail)}</li>"
+      end
+      html << "</ul>"
     end
-    html << "</ul>"  if journal.details.count > 0
     
     content = ""
     content << textilizable(journal, :notes)
