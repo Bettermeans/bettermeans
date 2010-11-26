@@ -793,7 +793,7 @@ class Project < ActiveRecord::Base
     activity_total = 0
     my_line.sort.each do |v|
       logger.info { "activity total #{activity_total} weight #{weight}  value #{v[1]}" }
-      activity_total = activity_total +  (weight * v[1])
+      activity_total = activity_total +  (weight**1.7 * v[1])
       weight = weight + 1
     end
     self.activity_total = activity_total
