@@ -56,6 +56,7 @@ class MemberRole < ActiveRecord::Base
   private
   
   def remove_member_if_empty
+    return unless member
     if member.roles.empty?
       member.destroy
     end# unless role_id == Role::BUILTIN_CORE_MEMBER #We don't destory the member if the role being removed is the core_member role since we're going to add a contributor role    
@@ -78,6 +79,7 @@ class MemberRole < ActiveRecord::Base
   
   #refreshes memberships for all private workstreams
   def refresh_memberships
+    return unless member
     return unless self.role.level == Role::LEVEL_ENTERPRISE    
     self.member.project.root.self_and_descendants.each(&:refresh_active_members)
   end

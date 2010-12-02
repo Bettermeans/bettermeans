@@ -13,6 +13,7 @@ namespace :custom do
 
   task :refresh_active_members => :environment do
     Project.all.each do |project|
+      puts "Refreshing #{project.id}: #{project.name}"
       project.refresh_active_members
     end
       
