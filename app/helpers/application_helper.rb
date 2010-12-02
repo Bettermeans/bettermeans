@@ -255,7 +255,7 @@ module ApplicationHelper
               '<option value="" disabled="disabled">---</option>'
       else
         s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
-              "<option value='#{url_for(:controller => 'projects', :action => 'show', :id => @project)}' selected=\"yes\"> &#187; #{ @project.name }</option>" +
+              "<option value='#{url_for(:controller => 'projects', :action => 'show', :id => @project)}' selected=\"yes\"> #{@project.root? ? "" : "&#187;"} #{ h @project.name }</option>" +
               '<option value="" disabled="disabled">---</option>'
       end
       s << s_options
