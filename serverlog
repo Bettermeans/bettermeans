@@ -5,3 +5,6 @@ LOG:  record with zero length at 0/E959350
 LOG:  redo is not required
 LOG:  database system is ready to accept connections
 LOG:  autovacuum launcher started
+WARNING:  pgstat wait timeout
+WARNING:  pgstat wait timeout
+WARNING:  pgstat wait timeout
