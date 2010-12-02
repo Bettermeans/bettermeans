@@ -31,7 +31,7 @@
        	  </td>
          </tr>
        	<% end %>
-       	<% if User.current.allowed_to?(:send_invitations, project) %>
+       	<% if User.current.allowed_to?(:send_invitations, project) && project.root? %>
       	<tr><td colspan=3 style="text-align:center">
       	 <%= link_to l(:label_invitation_others), new_project_invitation_url(project) %>
       	</td></tr>

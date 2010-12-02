@@ -13,7 +13,7 @@ if @users_by_role.any?
     	  <td><%= @users_by_role[role].sort.collect{|u| link_to_user u}.join(", ") %></td>
       </tr>
     	<% end %>
-    	<% if User.current.allowed_to?(:send_invitations, @project) %>
+    	<% if User.current.allowed_to?(:send_invitations, @project)  && @project.root? %>
     	<tr><td colspan=2 style="text-align:center">
     	 <%= link_to l(:label_invitation_others), new_project_invitation_url(@project) %>
     	</td></tr>
