@@ -50,15 +50,16 @@ class AccountController < ApplicationController
         @user = User.new(newdata)
         
         #try and find a good login
-        if !User.find_by_login(data[:username])
-          @user.login = data[:username]
-        elsif !User.find_by_login(name)
-          @user.login = name
+        login = data[:username].gsub(/ /,"_")
+        if !User.find_by_login(login)
+          @user.login = login
+        elsif !User.find_by_login(name.replace.gsub(/ /,"_"))
+          @user.login = name.gsub(/ /,"_")
         else
           @user.login = data[:email]
         end
         
-        raise "Couldn't create new account" unless @user.save
+        raise "Couldn't create new account #{@user.inspect}" unless @user.save
       end
     end
     
