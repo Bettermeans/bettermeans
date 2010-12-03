@@ -2273,13 +2273,13 @@ img.private-workstream, img.volunteer-workstream{
 }
 
 .help-section p{
-/*	font-size: 130%;*/
+	font-size: 115%;
 	margin-bottom: 0px;
 }
 
 .help-section a.help-section-link{
 	float:right;
-	padding: 0em 1em 0em 1em;
+	padding: 3px 1em 0em 1em;
 	font-weight: bold;
 }
 
