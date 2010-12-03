@@ -180,7 +180,8 @@ class AccountController < ApplicationController
     if user.save
       token.destroy
       flash.now[:notice] = l(:notice_account_activated)
-      render :action => 'login', :layout => 'blank'
+      successful_authentication(@user)    
+      # render :action => 'login', :layout => 'blank'
     else
       render :action => 'login', :layout => 'blank'
     end
