@@ -167,7 +167,7 @@ class User < ActiveRecord::Base
       @account = User.create_recurly_account(id)
     end
     
-    cc.gsub!(/[^0-9]/,'')
+    cc.gsub!(/[^0-9]/,'') if cc
 
     if cc && cc.length > 14
       @account.billing_info = Recurly::BillingInfo.create(
