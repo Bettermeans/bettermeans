@@ -772,7 +772,7 @@ module ApplicationHelper
     if project.volunteer?
       return '♥'
     else
-      return '$'
+      return '●'
     end
   end
   
