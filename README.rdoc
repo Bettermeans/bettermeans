@@ -1,6 +1,6 @@
 = BetterMeans
 
-BetterMeans help you start a new kind of company. An Open Enterprise.
+BetterMeans is giving birth to a new kind of company. An Open Enterprise.
 More details can be found at http://bettermeans.com and here http://bettermeans.org
 
 ----
@@ -39,20 +39,18 @@ All other the data in the dev database is real! Don't spam our user's emails (ma
 Please respect our user's privacy, and use the data in the db only for development purposes. (goes without saying I know)
 ----
 
-= Getting started:
+= Getting started
 
 sudo gem install bundler
-
-#If you're on an old version of Rubygems (before 1.3.6)
-sudo gem update --system  
-
+sudo gem update --system  #If you're on an old version of Rubygems (before 1.3.6)
+git clone git@github.com:kabuks/bettermeans.git
+Rename database.yml.example to database.yml
 bundle install
 
-Rename database.yml.example to database.yml
-
+ok, you're ready to change the world!
 
 ----
-= Known issues:
+= Known issues
 
 Attachments, and logging in via the janrain plugin (e.g. google, twitter...etc) won't work on the local environment.
 
@@ -65,4 +63,3 @@ To create a new dev db from production:
 1. Load the production db in your local db
 2. rake custom:trim_database_for_dev
 3. pg_dump redmine_dev -c -O -x -f bettermeans_dev_db.sql
-
