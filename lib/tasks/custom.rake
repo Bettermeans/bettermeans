@@ -88,6 +88,41 @@ namespace :custom do
     PersonalWelcome.deliver
   end
   
-  
+  #Used to trim a production database for development
+  task :trim_database_for_dev => :environment do
+    if ENV['reset_safe'] == 'true'
+      puts "Trimming database"
+      puts "Changing passwords"
+      User.update_all(:hashed_password => "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8")
+      
+      puts "Deleting projects"
+      Project.all.each do |p|
+        # puts "Root id #{p.root.id}"
+        unless p.root && (p.root.id == 20 || p.root.id == 43)
+          p.destroy
+          puts "Deleted #{p.id}"
+        end
+      end
+      
+      puts "Deleting users"
+      @p = Project.find(20) #bettermeans
+      @p.name = "LOCAL BETTERMEANS" #changing title so there's not confusion when working with local db
+      @p.save
+      
+      @q = Project.find(43) #green museum
+      User.all.each do |u| 
+        unless u.community_member_of?(@p) || u.community_member_of?(@q) || u.id == User.sysadmin.id 
+          puts "Deleting user #{u.id}"
+          u.destroy 
+        end
+      end
+      
+      puts "done."
+    else
+      puts "wont reset. we're not in development"
+      puts "to allow reset use: export reset_safe=true"
+    end
+    
+  end
 
 end
