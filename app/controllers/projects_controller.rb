@@ -128,7 +128,7 @@ class ProjectsController < ApplicationController
         end
 
         flash.now[:notice] = l(:notice_successful_create)
-        redirect_to :controller => 'projects', :action => 'show', :id => @project
+        redirect_to :controller => 'projects', :action => 'dashboard', :id => @project
       end
     end	
   end

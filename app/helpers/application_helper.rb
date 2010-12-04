@@ -323,30 +323,16 @@ module ApplicationHelper
     end
     
     sorted = sort2d(sorted)
-    
     traverse_sorted(sorted, &block)
     sorted
   end
   
   def sort2d(ar)
-    
-    puts "sorting #{ar.length} our class #{ar[0][0].class}"
     ar.sort! {|a,b| a[0][0][0] <=> b[0][0][0]}
     
     if ar[0][0].class.to_s != "String"
-      puts "STILL sorting our class #{ar[0][0].class}"
       ar.each {|sub| sub = sort2d(sub)} 
     end
-    
-    # puts "sorting #{ar.length} our class #{ar[0][0].class}"
-    # 
-    #     if ar[0][0].class.to_s != "String"
-    #       puts "STILL sorting our class #{ar[0][0].class}"
-    #       ar.each {|sub| sub = sort2d(sub)} 
-    #     end
-    #     
-    #     ar.sort! {|a,b| a[0][0] <=> b[0][0]}
-    #     
   end
   
   def traverse_sorted(ar, &block)
