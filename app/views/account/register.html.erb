@@ -6,7 +6,6 @@
 
 <div class="gt-login-box">
 
-<%= url_for(:controller=>:accounts, :action=>:rpx_token, :only_path => false, :protocol => login_protocol()) %>
   <%=RPXNow.embed_code('bettermeans', url_for(:controller=>:accounts, :action=>:rpx_token, :only_path => false, :protocol => login_protocol()))%>
 <% form_tag({:action => 'register'}, :class => "tabular") do %>
 <%= error_messages_for 'user' %>
