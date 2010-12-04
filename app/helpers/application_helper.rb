@@ -243,7 +243,7 @@ module ApplicationHelper
       projects = User.current.projects.all
     else
       project_ids = User.current.projects.collect{|p| p.id}.join(",")
-      projects = Project.find(:all, :conditions => "(parent_id in (#{project_ids}) OR id in (#{project_ids})) AND (status=#{Project::STATUS_ACTIVE})")
+      projects = project_ids ? Project.find(:all, :conditions => "(parent_id in (#{project_ids}) OR id in (#{project_ids})) AND (status=#{Project::STATUS_ACTIVE})") : []
     end
     
     current_project_in_list = false #when true, it means that dropdown already contains current project
