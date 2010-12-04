@@ -32,7 +32,7 @@ class UserPreference < ActiveRecord::Base
       super
     else
       h = read_attribute(:others).dup || DEFAULTS
-      h.has_key?(attr_name) ? h.update(attr_name => value) :  h.store(attr_name,value)
+      h.update(attr_name => value)
       write_attribute(:others, h)
       value
     end
