@@ -9,7 +9,7 @@ module RedmineS3
         unloadable # Send unloadable so it will not be unloaded in development
         attr_accessor :s3_access_key_id, :s3_secret_acces_key, :s3_bucket, :s3_bucket
         after_validation :put_to_s3
-        before_destroy   :delete_from_s3
+        # before_destroy   :delete_from_s3
       end
     end
     
