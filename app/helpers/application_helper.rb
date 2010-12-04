@@ -280,7 +280,7 @@ module ApplicationHelper
   
   def project_tree_options_for_select(projects, options = {})
     s = ''
-    project_tree(projects) do |project, level|
+    project_tree_sorted(projects) do |project, level|
       name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
       tag_options = {:value => project.id, :selected => ((project == options[:selected]) ? 'selected' : nil)}
       tag_options.merge!(yield(project)) if block_given?
@@ -302,20 +302,50 @@ module ApplicationHelper
   end
   
   def project_tree_sorted(projects, &block)
-    # ancestors = []
-    # all = []
-    # projects.sort_by(&:lft).each do |project|
-    #   if (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
-    #   else
-    #     if
-    #   end
-    #   last_object = 
-    #   while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
-    #     ancestors.pop
-    #   end
-    #   yield project, ancestors.size
-    #   ancestors << project
-    # end
+    ancestors = []
+    sorted = [] #nested array for alphabetical sorting
+    last_array = sorted
+    projects.sort_by(&:lft).each do |project|
+      
+      while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+        ancestors.pop
+      end
+
+      if ancestors.size == 0
+        sorted << [[project.name, ancestors.size,project]]
+      else
+        sorted_string = "sorted" + ".last" * ancestors.size
+        eval(sorted_string) << [[project.name, ancestors.size,project]]
+      end
+      
+      # yield project, ancestors.size
+      ancestors << project
+    end
+    
+    sorted = sort2d(sorted)
+    
+    traverse_sorted(sorted, &block)
+    sorted
+  end
+  
+  def sort2d(ar)
+    puts "sorting #{ar.length} our class #{ar[0][0].class}"
+
+    if ar[0][0].class.to_s != "String"
+      puts "STILL sorting our class #{ar[0][0].class}"
+      ar.each {|sub| sub = sort2d(sub)} 
+    end
+    
+    ar.sort! {|a,b| a[0][0] <=> b[0][0]}
+    
+  end
+  
+  def traverse_sorted(ar, &block)
+    unless ar[0].class.to_s != "String"
+      yield ar[2], ar[1]
+    else
+      ar.each {|sub| sub = traverse_sorted(sub, &block)} 
+    end
   end
   
   def show_detail(detail, no_html=false)
