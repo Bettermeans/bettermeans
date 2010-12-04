@@ -239,7 +239,13 @@ module ApplicationHelper
   # Renders the project quick-jump box
   def render_project_jump_box
     # Retrieve them now to avoid a COUNT query
-    projects = User.current.projects.all
+    if User.current.pref[:active_only_jumps]
+      projects = User.current.projects.all
+    else
+      project_ids = User.current.projects.collect{|p| p.id}.join(",")
+      projects = Project.find(:all, :conditions => "parent_id in (#{project_ids}) OR id in (#{project_ids})")
+    end
+    
     current_project_in_list = false #when true, it means that dropdown already contains current project
     if projects.any?
       s_options = ""
