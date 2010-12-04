@@ -14,12 +14,10 @@ class Issue < ActiveRecord::Base
   belongs_to :hourly_type
     
   has_many :journals, :as => :journalized, :dependent => :destroy, :order => "#{Journal.table_name}.created_at ASC"  
-  has_many :time_entries, :dependent => :delete_all
   
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   
-  has_many :commit_requests, :dependent => :delete_all
   has_many :issue_votes, :dependent => :delete_all
   has_many :todos, :dependent => :delete_all
   

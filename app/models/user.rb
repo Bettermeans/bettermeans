@@ -570,7 +570,7 @@ class User < ActiveRecord::Base
   end
   
   def self.sysadmin
-    User.find(:first,:conditions => {:login => "admin"})
+    User.find_by_login("admin")
   end
   
   #total owned public projects

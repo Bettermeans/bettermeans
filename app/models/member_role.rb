@@ -80,8 +80,8 @@ class MemberRole < ActiveRecord::Base
   #refreshes memberships for all private workstreams
   def refresh_memberships
     return unless member
-    return unless self.role.level == Role::LEVEL_ENTERPRISE    
-    self.member.project.root.self_and_descendants.each(&:refresh_active_members)
+    return unless role.level == Role::LEVEL_ENTERPRISE
+    member.project.root.self_and_descendants.each(&:refresh_active_members) if member.project
   end
   
   # #Removes all contributor roles for this member if the current role being added is core
