@@ -52,8 +52,9 @@ class MyController < ApplicationController
       @user.pref.attributes = params[:pref]
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref[:daily_digest] = (params[:daily_digest] == '1')
-      logger.info { "user pref #{@user.pref.inspect}" }
+      @user.pref[:hide_mail] = (params[:hide_mail] == '1')
       @user.pref[:no_emails] = (params[:no_emails] == '1')
+      logger.info { "user pref #{@user.pref.inspect}" }
       if @user.save
         @user.pref.save
         @user.reload
