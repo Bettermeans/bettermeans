@@ -243,7 +243,7 @@ module ApplicationHelper
       projects = User.current.projects.all
     else
       project_ids = User.current.projects.collect{|p| p.id}.join(",")
-      projects = Project.find(:all, :conditions => "parent_id in (#{project_ids}) OR id in (#{project_ids})")
+      projects = Project.find(:all, :conditions => "(parent_id in (#{project_ids}) OR id in (#{project_ids})) AND (status=#{Project::STATUS_ACTIVE})")
     end
     
     current_project_in_list = false #when true, it means that dropdown already contains current project
@@ -299,6 +299,23 @@ module ApplicationHelper
       yield project, ancestors.size
       ancestors << project
     end
+  end
+  
+  def project_tree_sorted(projects, &block)
+    # ancestors = []
+    # all = []
+    # projects.sort_by(&:lft).each do |project|
+    #   if (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+    #   else
+    #     if
+    #   end
+    #   last_object = 
+    #   while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+    #     ancestors.pop
+    #   end
+    #   yield project, ancestors.size
+    #   ancestors << project
+    # end
   end
   
   def show_detail(detail, no_html=false)
