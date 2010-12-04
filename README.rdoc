@@ -41,13 +41,14 @@ Please respect our user's privacy, and use the data in the db only for developme
 
 = Getting started
 
-sudo gem install bundler
+sudo gem install bundler  #If you don't already have it installed
 sudo gem update --system  #If you're on an old version of Rubygems (before 1.3.6)
 git clone git@github.com:kabuks/bettermeans.git
 Rename database.yml.example to database.yml
 bundle install
+rake bootstrap
 
-ok, you're ready to change the world!
+that's it. now you're ready to change the world!
 
 ----
 = Known issues
@@ -63,3 +64,10 @@ To create a new dev db from production:
 1. Load the production db in your local db
 2. rake custom:trim_database_for_dev
 3. pg_dump redmine_dev -c -O -x -f bettermeans_dev_db.sql
+
+----
+= Random tidbits
+
+To see activity on bettermeans, checkout the stats page:
+https://secure.bettermeans.com/admin/user_stats
+
