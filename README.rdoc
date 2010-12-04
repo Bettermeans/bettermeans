@@ -4,6 +4,8 @@ BetterMeans help you start a new kind of company. An Open Enterprise.
 More details can be found at http://bettermeans.com and here http://bettermeans.org
 
 ----
+= License
+Code is copyright bettermeans, llc. All rights reserved.
 
 Our codebase is based largely on Redmine. Which is GPL licensed.
 However, bettermeans is not redistributing the code yet, and choosing not to open source the changes to it as they are privately hosted.
@@ -20,7 +22,7 @@ Thanks for joining us! May our work be used for the greater good of all beings.
 
 ----
 
-Dev notes:
+= Dev notes:
 
 We use bundler to wrap up the dev environment. 
 To learn more about it check it out here: http://gembundler.com/
@@ -33,7 +35,7 @@ Our tests are broken. Help us write great tests and catch up on our testing envi
 
 ----
 
-Getting started:
+= Getting started:
 
 sudo gem install bundler
 
@@ -46,12 +48,14 @@ Rename database.yml.example to database.yml
 
 
 ----
-Known issues:
+= Known issues:
 
 Attachments, and logging in via the janrain plugin (e.g. google, twitter...etc) won't work on the local environment.
 
 ----
+= Creating a db from production
 
+You shouldn't need to. But if you do....
 To create a new dev db from production:
 
 1. Load the production db in your local db
