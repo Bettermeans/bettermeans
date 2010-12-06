@@ -2,17 +2,6 @@ class HelpSectionsController < ApplicationController
   before_filter :authorize, :except => :dont_show
   ssl_required :all  
   
-  # GET /help_sections
-  # GET /help_sections.xml
-  def index
-    @help_sections = HelpSection.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @help_sections }
-    end
-  end
-
   # GET /help_sections/1
   # GET /help_sections/1.xml
   def show
