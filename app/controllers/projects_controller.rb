@@ -300,7 +300,9 @@ class ProjectsController < ApplicationController
   
   def modules
     @project.enabled_module_names = params[:enabled_modules]
-    redirect_to :action => 'settings', :id => @project, :tab => 'modules'
+    @project.attributes = params[:project]
+    @project.save
+    redirect_with_flash :notice, l(:notice_successful_update), :action => 'settings', :id => @project, :tab => 'modules'
   end
 
   def archive
