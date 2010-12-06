@@ -259,8 +259,6 @@ module Redmine
         end
 
         if project
-          logger.info("checking if #{user.name} is allowed to #{node.url} for #{project.name}")
-          logger.info { "#{user && user.allowed_to?(node.url, project)} is the answer" }
           return user && user.allowed_to?(node.url, project)
         else
           # outside a project, all menu items allowed
