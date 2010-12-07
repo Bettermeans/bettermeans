@@ -1994,7 +1994,7 @@ function click_start(dataId,source,data){
 	//Login required	
 	if (!is_user_logged_in()){return false;}
 
-	if ($(".action_button_finish").get().length >= MAX_REQUESTS_PER_PERSON){
+	if ($(".action_button_finish").get().length + 1 >= MAX_REQUESTS_PER_PERSON){
 		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " items at a time");
 		return false;
 	}
@@ -3243,7 +3243,7 @@ html = html + '	                  </td>';
 html = html + '	                </tr>';
 html = html + '	                <tr>';
 html = html + '	                <td>';
-html = html + '	                <a href="" onclick="alert(\'You can attach files after you create the request is created\')">Attach files</a>';
+html = html + '	                <a href="" onclick="alert(\'You can attach files after you create the request\')">Attach files</a>';
 html = html + '	                </td>';
 html = html + '	                </tr>';
 html = html + '	              </tbody>';
