@@ -1994,7 +1994,7 @@ function click_start(dataId,source,data){
 	//Login required	
 	if (!is_user_logged_in()){return false;}
 
-	if ($(".action_button_finish").get().length + 1 >= MAX_REQUESTS_PER_PERSON){
+	if (($(".action_button_finish").get().length - 1) >= MAX_REQUESTS_PER_PERSON){
 		$.jGrowl("Sorry, you're only allowed to own " + MAX_REQUESTS_PER_PERSON + " items at a time");
 		return false;
 	}
