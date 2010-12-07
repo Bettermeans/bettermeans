@@ -348,6 +348,8 @@ class IssuesController < ApplicationController
       render_error 'Can not estimate hourly items'
       return false;
     end
+
+    @journal = @issue.init_journal(User.current, params["notes"])    
     
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :points => params[:points]
     @issue.update_estimate_total @iv.isbinding
