@@ -9,8 +9,10 @@ gem 'rpx_now'
 gem 'recurly'
 gem 'fleximage'
 gem 'reportable'
-gem 'comma'
+gem 'comma', :require => "comma", :git => "https://github.com/crafterm/comma.git"
 gem 'fastercsv'
+gem 'test-unit', '1.2.3'
+gem 'ruby-debug'
 
 group :test do
   gem 'cucumber', '0.4.3'

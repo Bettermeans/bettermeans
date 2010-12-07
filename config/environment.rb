@@ -58,25 +58,6 @@ Rails::Initializer.run do |config|
   #Added this to bypass error
   config.action_controller.session = { :key => "_bettermeans_session", :secret => "95fd75499b43ada8cfbc538558d74312asdf" }
 
-  config.gem 'rubytree', :lib => 'tree'
-  
-  config.gem "rpx_now"
-  
-  config.after_initialize do # so rake gems:install works
-    RPXNow.api_key = ENV['RPXNOW_KEY']
-  end
-  
-  config.gem "recurly"
-  
-  config.gem "fleximage"
-
-  config.gem 'reportable', :lib => 'saulabs/reportable'  
-  
-  config.gem 'crafterm-comma', :lib => 'comma'
-  
-  config.gem 'fastercsv'
-  
-    
   # Load any local configuration that is kept out of source control
   # (e.g. gems, patches).
   if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
