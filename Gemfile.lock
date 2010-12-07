@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/crafterm/comma.git
+  revision: 0c4d57b7d87db722b64d2847bdf1c6fb3fcb93c6
+  specs:
+    comma (0.4.0)
+      activesupport (>= 2.2.2)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -16,8 +23,7 @@ GEM
       mime-types
       xml-simple
     builder (2.1.2)
-    comma (0.4.1)
-      activesupport (>= 2.2.2)
+    columnize (0.3.1)
     cucumber (0.4.3)
       builder (= 2.1.2)
       diff-lcs (= 1.1.2)
@@ -30,7 +36,11 @@ GEM
     fleximage (1.0.4)
       aws-s3
       rmagick
+    hoe (2.7.0)
+      rake (>= 0.8.7)
+      rubyforge (>= 2.0.4)
     json_pure (1.4.6)
+    linecache (0.43)
     mime-types (1.16)
     mocha (0.9.9)
       rake
@@ -61,10 +71,19 @@ GEM
     rspec-rails (1.2.9)
       rack (>= 1.0.0)
       rspec (>= 1.2.9)
+    ruby-debug (0.10.3)
+      columnize (>= 0.1)
+      ruby-debug-base (~> 0.10.3.0)
+    ruby-debug-base (0.10.3)
+      linecache (>= 0.3)
+    rubyforge (2.0.4)
+      json_pure (>= 1.1.7)
     rubytree (0.8.1)
     shoulda (2.11.3)
     sqlite3-ruby (1.3.2)
     term-ansicolor (1.0.4)
+    test-unit (1.2.3)
+      hoe (>= 1.5.1)
     treetop (1.4.2)
       polyglot (>= 0.2.5)
     webrat (0.5.3)
@@ -76,7 +95,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  comma
+  comma!
   cucumber (= 0.4.3)
   factory_girl
   fastercsv
@@ -91,7 +110,9 @@ DEPENDENCIES
   rpx_now
   rspec (= 1.2.9)
   rspec-rails (= 1.2.9)
+  ruby-debug
   rubytree
   shoulda
   sqlite3-ruby
+  test-unit (= 1.2.3)
   webrat (= 0.5.3)
