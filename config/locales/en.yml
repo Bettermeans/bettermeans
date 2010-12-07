@@ -181,6 +181,7 @@ en:
   gui_validation_error: 1 error
   gui_validation_error_plural: "%{count} errors"
   
+  field_points : "Avg estimated credits"
   field_logo : "Logo"
   field_image_file: "Upload local file"
   field_image_file_url: "or image URL"

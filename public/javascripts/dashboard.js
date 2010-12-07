@@ -724,7 +724,7 @@ function generate_estimate_flyover(dataId){
 	
 	var you_voted = "You haven't estimated yet";
 	var title = '';
-	var user_estimate = -1;
+	var user_estimate = -100;
 	var total_people_estimating = 0;
 	
 	for(i=0; i < item.issue_votes.length; i++){
@@ -732,19 +732,27 @@ function generate_estimate_flyover(dataId){
 		total_people_estimating++ ;
 		
 		if (currentUserLogin == item.issue_votes[i].user.login){			
-			if (credits_enabled){
+			
+			var user_estimate_text = "";
+			if (item.issue_votes[i].points == -1){
 				user_estimate = item.issue_votes[i].points;
+				user_estimate_text = "Don't know";
+			}
+			else if (credits_enabled){
+				user_estimate = item.issue_votes[i].points;
+				user_estimate_text = user_estimate + " credits";
 			}
 			else{
-				user_estimate = convert_points_to_complexity(item.issue_votes[i].points);
+				user_estimate = convert_points_to_complexity(item.issue_votes[i].points); 
+				user_estimate_text = user_estimate;
 			}
 			
-			you_voted = "Your estimate " + user_estimate + " - " + humane_date(item.issue_votes[i].updated_at);
+			you_voted = "Your estimate " + user_estimate_text + " - " + humane_date(item.issue_votes[i].updated_at);
 		}
 	}
 	
 	//If user estimated, or item is in progress, we can see the average
-	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (user_estimate != -1)){
+	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (user_estimate != -100)){
 		if (credits == null){
 			title = 'No binding estimates yet';
 		}
@@ -761,10 +769,14 @@ function generate_estimate_flyover(dataId){
 	
 	var history = '';
 	//Show history if user estimated, or if item is no longer available for estimation
-	if ((user_estimate != -1)||((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))){
+	if ((user_estimate != -100)||((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))){
 		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 4) continue;
-			if (credits_enabled){
+			
+			if (user_estimate == -1){
+				history = history + 'Don\'t know - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
+			}
+			else if (credits_enabled){
 				history = history + item.issue_votes[i].points + ' cr - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
 			}
 			else{
@@ -783,9 +795,12 @@ function generate_estimate_flyover(dataId){
 	var buttons = '';
 	
 	if (!((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {	
-		user_estimate = -1 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
+		user_estimate == -100 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
+
+		buttons = buttons + generate_estimate_button(-1,-1, item.id, dataId, (user_estimate != -100));
+		
 		for(i = 0; i < point_factor.length; i++ ){
-			buttons = buttons + generate_estimate_button(i,point_factor[i] * credit_base, item.id, dataId);
+			buttons = buttons + generate_estimate_button(i,point_factor[i] * credit_base, item.id, dataId, (user_estimate != -100));
 		}
 		buttons = buttons + generate_custom_estimate_button(dataId,user_estimate);
 	}
@@ -832,6 +847,10 @@ function generate_custom_estimate_button(dataId,user_estimate){
 }
 
 function convert_points_to_complexity(points){
+	if (points == -1){
+		return "Don't know";
+	}
+	
 	if (points > complexity_description.length - 1){
 		points = complexity_description.length - 1;
 	}
@@ -839,16 +858,23 @@ function convert_points_to_complexity(points){
 }
 
 
-function generate_estimate_button(points,credits, itemId, dataId){
+function generate_estimate_button(points,credits, itemId, dataId, comment){
 	var label = '';
-	if (credits_enabled){
+	if (credits == -1){
+		label = "Don't know";
+	}
+	else if (credits_enabled){
 		label = credits + ' Credits';
 	}
 	else{
 		label = convert_points_to_complexity(points);
 	}
 	var html = '<div>';
-	html = html + '<img src="/images/dice_' + Math.round(points) + '.png" width="18" height="18" alt="' + label + '" class="dice" onclick="send_item_action(' + dataId + ',\'estimate\',\'&points=' + credits + '\')">';	
+	var onclick = 'click_estimate(' + dataId + ',this,\'' + '&points=' + credits + '\',' + comment + ');return false;';
+	
+	html = html + '<img src="/images/dice_' + Math.round(points) + '.png" width="18" height="18" alt="' + label + '" class="dice" onclick="' + onclick + '">';		
+	
+	
 	html = html + ' ' + label;
 	html = html + '</div>';
 	return html;
@@ -2015,15 +2041,30 @@ function click_reject(dataId,source,data){
 	if (!is_user_logged_in()){return;}
 
 	$('#' + source.id).parent().hide();
-	comment_prompt(dataId,source,data,'reject',true);
+	comment_prompt(dataId,source,data,'reject',true,"Please explain your rejection");
 }
+
+function click_estimate(dataId,source,data,comment){
+	//Login required	
+	if (!is_user_logged_in()){return;}
+
+	// $('#' + source.id).parent().hide();
+	if (comment == true){
+		comment_prompt(dataId,source,data,'estimate',false,"Please explain why you're changing your estimate (optional)");
+	}
+	else{
+		send_item_action(dataId,'estimate',data);
+	}
+
+}
+
 
 function click_finish(dataId,source,data){
 	//Login required	
 	if (!is_user_logged_in()){return;}
 
 	$('#' + source.id).parent().hide();
-	comment_prompt(dataId,source,data,'finish',true);
+	comment_prompt(dataId,source,data,'finish',true,"Tell your team what was accomplished. Include links to help them see the work, and accept it.");
 }
 
 function click_restart(dataId,source,data){
@@ -2050,9 +2091,9 @@ function click_agree(dataId,source,data){
 					break;	
 		case "&points=0":	send_item_action(dataId,'agree',data);
 					break;	
-		case "&points=-1":	comment_prompt(dataId,source,data,'agree',false);
+		case "&points=-1":	comment_prompt(dataId,source,data,'agree',false, "Please explain why you disagree (optional)");
 					break;	
-		case "&points=-9999":	comment_prompt(dataId,source,data,'agree',true);
+		case "&points=-9999":	comment_prompt(dataId,source,data,'agree',true, "Please explain why you're blocking");
 					break;	
 	}
 }
@@ -2078,9 +2119,9 @@ function click_accept(dataId,source,data){
 					break;	
 		case "&points=0":	send_item_action(dataId,'accept',data);
 					break;	
-		case "&points=-1":	comment_prompt(dataId,source,data,'accept',false);
+		case "&points=-1":	comment_prompt(dataId,source,data,'accept',false,"Please explain your rejection (optional)");
 					break;	
-		case "&points=-9999":	comment_prompt(dataId,source,data,'accept',true);
+		case "&points=-9999":	comment_prompt(dataId,source,data,'accept',true,"Please explaing your blocking");
 					break;	
 	}
 }
@@ -2098,7 +2139,7 @@ function click_cancel(dataId,source,data){
 	if (!is_user_logged_in()){return;}
 
 	$('#' + source.id).parent().hide();
-	comment_prompt(dataId,source,data,'cancel',true);
+	comment_prompt(dataId,source,data,'cancel',true,"Please explain why you're canceling");
 }
 
 function click_leave(dataId,source,data){
@@ -2157,12 +2198,15 @@ function cancel_comment_prompt(dataId,source,data,action){
 }
 
 
-function comment_prompt(dataId,source,data,action,required){
+function comment_prompt(dataId,source,data,action,required,message){
 	
 	var title = required ? 'required' : 'optional';
 
 	var content = '';
 	content = content + '<div id="comment_prompt"><h2>Comment</h2><br>';
+	if (message){
+		content = content + message + '<br><br>';
+	}
         content = content + '<p><textarea id="prompt_comment_' + dataId + '" class="comment_prompt_text" rows="10" ></textarea></p><br>';
 		content = content + '<p>';
         content = content + '<input type="submit" onclick="submit_comment_prompt(' + dataId + ',\'' + data + '\',\'' + action + '\')" value="Submit"></input>';

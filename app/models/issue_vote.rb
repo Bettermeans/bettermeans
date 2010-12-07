@@ -1,7 +1,7 @@
 class IssueVote < ActiveRecord::Base
   belongs_to :user
   belongs_to :issue
-  before_create :remove_similar_estimates
+  before_create :remove_similar
   before_save :set_binding
   # after_create :update_issue_totals
   # after_update :update_issue_totals
@@ -30,8 +30,14 @@ class IssueVote < ActiveRecord::Base
       end
   end
   
-  def remove_similar_estimates
-    IssueVote.delete_all(:issue_id => issue_id, :user_id => user_id, :vote_type => vote_type)
+  def remove_similar    
+    deleted = IssueVote.delete_all(:issue_id => issue_id, :user_id => user_id, :vote_type => vote_type)
+        
+    #log activity for estimate change
+    if deleted > 0 && vote_type == ESTIMATE_VOTE_TYPE
+      self.issue.save
+      LogActivityStreams.write_single_activity_stream(self.user,:name,self.issue,:subject,"changed their estimate for",:issues, 0, nil,{})
+    end
   end
   
   def set_binding
