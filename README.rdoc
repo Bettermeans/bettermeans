@@ -71,3 +71,5 @@ To create a new dev db from production:
 To see activity on bettermeans, checkout the stats page:
 https://secure.bettermeans.com/admin/user_stats
 
+Admin console is here (there are no visible links to it):
+http://localhost:3000/admin

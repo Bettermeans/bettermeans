@@ -1,0 +1,13 @@
+      <table border="0" class="gt-table gt-user-table" id="my_projects_table">
+   	      <% my_projects.each do |p| %>
+   	      <tr><td>
+   	      <%= link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
+          <% if !p.active? %>
+            <%= link_to_remote(l(:label_unarchive_project_brackets), :url => {:controller => 'projects', :action => 'unarchive', :id => p}, :confirm => l(:text_confirm_unarchive_project)) %>
+          <% end %>
+   	        <% array = p.activity_line_show(30) %>
+   	        </td><td>
+   	        <span class="spark right" max="<%=  p.activity_line_max %>"><%= p.activity_line_show(30) %></span>
+   	        </td></tr>
+   	      <% end %>
+      </table>
