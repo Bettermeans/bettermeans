@@ -11,7 +11,7 @@ class Invitation < ActiveRecord::Base
     self.role_id = Role.contributor.id
   end
   
-  def deliver(note=nil)
+  def deliver(note="")
     return unless self.status == PENDING
     
     # Mailer.send_later(:invitation_add,self)
@@ -23,7 +23,7 @@ class Invitation < ActiveRecord::Base
     
     Notification.create :recipient_id => recipient.id,
                               :variation => 'invitation',
-                              :params => {:role_name => self.role.name, :project_name => self.project.name, :project_id => self.project_id, :token => self.token}, 
+                              :params => {:role_name => self.role.name, :project_name => self.project.name, :project_id => self.project_id, :token => self.token, :note => note}, 
                               :sender_id => self.user_id,
                               :source_id => self.id if recipient
     

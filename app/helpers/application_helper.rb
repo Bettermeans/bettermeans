@@ -465,7 +465,7 @@ module ApplicationHelper
       content_tag('acronym', text, :title => format_time(time))
     end
   end
-
+  
   def since_tag(time)
     text = distance_of_time_in_words(Time.now, time).gsub(/about/,"")
     content_tag('acronym', text, :title => format_time(time))
