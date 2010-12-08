@@ -937,6 +937,7 @@ en:
   label_motions_active : "Active Motions"
   label_motions_view_all : "View all Motions"
   label_new_role : "New role: %{role_name}"
+  label_new_invitation : "Invitation to join %{project_name} as a %{role_name}"
   
   label_drop_from_core_team : "Remove from Core"
   label_nominate_to_core_team : "Nominate to Core"
@@ -976,6 +977,7 @@ en:
   label_memberrole: "a membership"
   
   
+  button_accept_invitation : Accept Invitation
   button_working : working...
   button_change_plan: Change Plan
   button_update_billing: Update billing
@@ -1167,6 +1169,7 @@ en:
   text_issue_edit_footer : "You can comment on this issue via email, by replying to this email directly."
   text_message_edit_footer : "You can reply to this message via email, by replying to this email directly."
   text_invitation_note_default : "Hi, please join me in working on this workstream."
+  text_you_are_invited : "You are being invited to join"
   
   default_role_administrator: Administrator
   default_role_citizen: Core Member
