@@ -1232,7 +1232,7 @@ module ApplicationHelper
   end
   
   def name_for_activity_stream(as)
-    (as.tracker_name) ? "a #{as.tracker_name.downcase}" : l("label_#{as.object_type.downcase}")
+    (as.tracker_name) ? "a #{as.tracker_name.downcase}" : "a " + l("label_#{as.object_type.downcase}")
   end
   
   def class_for_activity_stream(as)
