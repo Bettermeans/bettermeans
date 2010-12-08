@@ -19,7 +19,7 @@ class Invitation < ActiveRecord::Base
   def accept
     return unless self.status == PENDING
     
-    @user = User.find_by_mail(self.mail)
+    @user = User.find_by_mail(self.new_mail)
     return unless @user
     
     puts "ok"

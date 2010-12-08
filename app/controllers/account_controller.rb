@@ -33,18 +33,23 @@ class AccountController < ApplicationController
   def rpx_token
     raise "hackers?" unless data = RPXNow.user_data(params[:token])
     
+    if session[:invitation_token]
+      invitation = Invitation.find_by_token(session[:invitation_token])
+      invitation_mail = invitation.mail if invitation
+    end
+    
     logger.info { "all data #{data.inspect}" }
     @user = User.find_by_identifier(data[:identifier])
-    logger.info { "found our user! #{@user}" }
+    logger.info { "did we find user #{@user}" }
     if !@user
       @user = User.find_by_mail(data[:email]) if data[:email]
       
       if @user
         @user.identifier = data[:identifier]
         @user.save
-      else
+      else #couldn't find user, we create one        
         name = data[:name] || data[:username]
-        mail = data[:email] || "#{(0...8).map{65.+(rand(25)).chr}.join}_noemail@bettermeans.com" #twitter accounts don't give email so we generate a random one
+        mail = data[:email] || invitation_mail || "#{(0...8).map{65.+(rand(25)).chr}.join}_noemail@bettermeans.com" #twitter accounts don't give email so we generate a random one
         newdata = {:firstname => name, :mail => mail, :identifier => data[:identifier]}
         logger.info { "new data #{newdata.inspect}" }
         @user = User.new(newdata)
@@ -53,13 +58,27 @@ class AccountController < ApplicationController
         login = data[:username].gsub(/ /,"_")
         if !User.find_by_login(login)
           @user.login = login
-        elsif !User.find_by_login(name.replace.gsub(/ /,"_"))
+        elsif !User.find_by_login(name.gsub(/ /,"_"))
           @user.login = name.gsub(/ /,"_")
         else
           @user.login = data[:email]
+        end        
+        
+        if invitation
+          invitation.new_mail = @user.mail
+          invitation.save
+          session[:invitation_token] = nil
         end
         
-        raise "Couldn't create new account #{@user.inspect}" unless @user.save
+        # @user.hashed_password = "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" #just testing
+        raise "Couldn't create new account #{@user.inspect} data #{data.inspect}" unless @user.save
+                          
+      end
+    else
+      if invitation
+        invitation.new_mail = @user.mail
+        invitation.save
+        session[:invitation_token] = nil
       end
     end
     
@@ -127,8 +146,10 @@ class AccountController < ApplicationController
       end
       
       if params[:invitation_token]
+        session[:invitation_token] = params[:invitation_token]
         invitation = Invitation.find_by_token params[:invitation_token]
         @user.mail = invitation.mail if invitation
+        flash.now[:notice] = "Sign up to activate your inviation. <a href='/' target='_blank'>Click here to learn more about bettermeans.</a>"
       end
     else
       @user = User.new(params[:user])
@@ -250,6 +271,8 @@ class AccountController < ApplicationController
   def successful_authentication(user)
     # Valid user
     self.logged_user = user
+    user.activate_invitations
+    
     
     Track.log(Track::LOGIN)
     
@@ -275,8 +298,10 @@ class AccountController < ApplicationController
   end
   
   def inactive_user
+    logger.info { "inactive user!!!!" }
     flash.now[:error] = l(:notice_account_inactive_user)
-    render :layout => 'blank'
+    render_error(l(:notice_account_inactive_user))
+    # render :layout => 'blank'
   end
   
 
@@ -287,6 +312,8 @@ class AccountController < ApplicationController
     
     if invitation_token
       invitation = Invitation.find_by_token invitation_token
+      invitation.new_mail = user.mail
+      invitation.save
     end
     
     if invitation && invitation.mail == user.mail
