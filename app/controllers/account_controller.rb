@@ -13,16 +13,24 @@ class AccountController < ApplicationController
   # Login request and validation
   def login
     
+    logger.info { "authenticating and accepting invitation #{session[:invitation_token]}" }
+    
+    
     if request.get?
       # Logout user
+      @invitation_token = session[:invitation_token]
       self.logged_user = nil
+      session[:invitation_token] = @invitation_token
       render :layout => 'blank'
     else
+      session[:invitation_token] = params[:invitation_token] || session[:invitation_token]
+      @invitation_token = session[:invitation_token]
+      logger.info { "1 authenticating and accepting invitation #{session[:invitation_token]}" }
       # Authenticate user
       if Setting.openid? && using_open_id?
         open_id_authenticate(params[:openid_url])
       else
-        password_authentication
+        password_authentication(@invitation_token)
       end
     end
   end
@@ -36,6 +44,8 @@ class AccountController < ApplicationController
     if session[:invitation_token]
       invitation = Invitation.find_by_token(session[:invitation_token])
       invitation_mail = invitation.mail if invitation
+      @invitation_token = session[:invitation_token]
+      logger.info { "we have an invitation here #{invitation.inspect} session token #{session[:invitation_token]}" }
     end
     
     logger.info { "all data #{data.inspect}" }
@@ -67,7 +77,6 @@ class AccountController < ApplicationController
         if invitation
           invitation.new_mail = @user.mail
           invitation.save
-          session[:invitation_token] = nil
         end
         
         # @user.hashed_password = "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" #just testing
@@ -78,13 +87,12 @@ class AccountController < ApplicationController
       if invitation
         invitation.new_mail = @user.mail
         invitation.save
-        session[:invitation_token] = nil
       end
     end
     
     logger.info { "WE ARE HERE! Almost authenticating for user #{@user.inspect}" }
 
-    successful_authentication(@user)    
+    successful_authentication(@user,@invitation_token)    
   end
   
 
@@ -211,7 +219,7 @@ class AccountController < ApplicationController
   
   private
 
-  def password_authentication
+  def password_authentication(invitation_token=nil)
     user = User.try_to_login(params[:username], params[:password])
 
     if user.nil?
@@ -222,7 +230,7 @@ class AccountController < ApplicationController
       inactive_user
     else
       # Valid user
-      successful_authentication(user)
+      successful_authentication(user,invitation_token)
     end
   end
 
@@ -268,11 +276,17 @@ class AccountController < ApplicationController
     end
   end
   
-  def successful_authentication(user)
+  def successful_authentication(user, invitation_token = nil)
+    logger.info { "successful authentication baby" }
     # Valid user
     self.logged_user = user
-    user.activate_invitations
+    logger.info { "session token #{session[:invitation_token]}" }
     
+    if invitation_token
+      logger.info { "accepting invitation #{invitation_token}" }
+      invitation = Invitation.find_by_token(invitation_token)
+      invitation.accept(user) if invitation
+    end    
     
     Track.log(Track::LOGIN)
     

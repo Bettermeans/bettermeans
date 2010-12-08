@@ -41,6 +41,7 @@
   	  
 			<% form_tag({:action=> "login"}, :class => "gt-form") do %>
         <%= back_url_hidden_field_tag %>
+        <%= hidden_field_tag 'invitation_token', @invitation_token %>
 				<!-- form row -->
 				<div class="gt-form-row">
 				  <label for="username" class="gt-login-label"><%=l(:field_login)%></label>
