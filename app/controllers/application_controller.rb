@@ -260,7 +260,7 @@ class ApplicationController < ActionController::Base
   #replaces newline characters with more binary-compatible ones
   def cleanup_newline(text)
     return text unless text and !text.empty?
-    text.gsub(/\r\n?/, "\n")
+    text.gsub(/\r?\n/, "\r\n")
   end
   
 
