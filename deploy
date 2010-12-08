@@ -1,0 +1,3 @@
+git push heroku
+heroku rake db:migrate
+git push github
