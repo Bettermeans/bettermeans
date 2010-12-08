@@ -4,7 +4,7 @@
 
 class AccountController < ApplicationController
   
-  skip_before_filter :verify_authenticity_token, :only => [:rpx_token] # RPX does not pass Rails form tokens...
+  skip_before_filter :verify_authenticity_token, :only => [:rpx_token, :register] # RPX does not pass Rails form tokens...
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required
@@ -116,7 +116,7 @@ class AccountController < ApplicationController
         if @user.save
           @token.destroy
           flash.now[:notice] = l(:notice_account_password_updated)
-          render :action => 'login', :layout => 'blank'
+          render :action => 'login', :layout => 'static'
           return
         end 
       end
@@ -134,7 +134,7 @@ class AccountController < ApplicationController
         if token.save
           Mailer.send_later(:deliver_lost_password,token)
           flash.now[:notice] = l(:notice_account_lost_email_sent)
-          render :action => 'login', :layout => 'blank'
+          render :action => 'login', :layout => 'static'
           return
         end
       end
@@ -210,9 +210,9 @@ class AccountController < ApplicationController
       token.destroy
       flash.now[:notice] = l(:notice_account_activated)
       successful_authentication(user)    
-      # render :action => 'login', :layout => 'blank'
+      # render :action => 'login', :layout => 'static'
     else
-      render :action => 'login', :layout => 'blank'
+      render :action => 'login', :layout => 'static'
     end
     
   end
@@ -324,7 +324,8 @@ class AccountController < ApplicationController
   # Pass a block for behavior when a user fails to save
   def register_by_email_activation(user, invitation_token = nil)
     
-    unless invitation_token.nil?
+    unless invitation_token.empty? || invitation_token.nil?
+      logger.info { "invitation token #{invitation_token} is nil #{invitation_token.nil?}" }
       invitation = Invitation.find_by_token invitation_token
       invitation.new_mail = user.mail
       invitation.save
@@ -339,7 +340,7 @@ class AccountController < ApplicationController
       Mailer.send_later(:deliver_register,token)
       flash.now[:success] = l(:notice_account_register_done)
       # self.logged_user = user
-      render :action => 'login', :layout => 'blank'
+      render :action => 'login', :layout => 'static'
       return true
     else
       yield if block_given?
@@ -379,6 +380,6 @@ class AccountController < ApplicationController
 
   def account_pending
     flash.now[:notice] = l(:notice_account_pending)
-    render :action => 'login', :layout => 'blank'
+    render :action => 'login', :layout => 'static'
   end
 end
