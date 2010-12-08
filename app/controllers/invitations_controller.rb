@@ -65,8 +65,7 @@ class InvitationsController < ApplicationController
       @invitation.project_id = @project.id
       @invitation.user_id = User.current.id
       if @invitation.save
-        logger.info { "note: #{params[:note].inspect} cleaned #{cleanup_newline(params[:note]).inspect}" }
-        @invitation.deliver(cleanup_newline(params[:note]))
+        @invitation.deliver(simple_format_without_paragraph(params[:note]))
         success = true
       end
     end
