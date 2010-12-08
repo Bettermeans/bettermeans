@@ -1,6 +1,6 @@
  	      <% subprojects.each do |p| %>
  	      <tr><td>
- 	      <%= link_to(("&nbsp;&nbsp;&#187;&nbsp;" * level) + h(p), :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
+ 	      <%= ("&nbsp;&nbsp;&#187;&nbsp;" * level) + link_to(h(p), :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
  	        <% array = p.activity_line_show(30) %>
  	        </td><td>
  	        <span class="spark right" max="<%=  p.activity_line_max %>"><%= p.activity_line_show(30) %></span>
