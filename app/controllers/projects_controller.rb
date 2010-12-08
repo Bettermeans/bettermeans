@@ -284,7 +284,7 @@ class ProjectsController < ApplicationController
       if (old_attributes["is_public"] != (params[:project]["is_public"] == "1"))
         description = (params[:project]["is_public"] == "1") ? "publicised" : "privatized"
           LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, description, :workstreams, 0, nil,{})
-      end
+      end      
       
       if validate_parent_id && @project.save
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
@@ -307,6 +307,8 @@ class ProjectsController < ApplicationController
 
   def archive
     if @project.active? && request.post? && @project.archive
+      project_id_override = @project.parent ? @project.parent.id : @project.id #archived projects don't show up in activity stream, so we log the activity to its parent if it exists
+      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_archived), :workstreams, 0, nil,{:project_id => project_id_override})
       redirect_with_flash :notice, l(:notice_successful_update), :controller => "welcome", :action => 'index'
     else
       render_error(l(:error_general))
@@ -315,6 +317,7 @@ class ProjectsController < ApplicationController
   
   def unarchive
     if !@project.active? && request.post? && @project.unarchive
+      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_unarchived), :workstreams, 0, nil,{})
     
       respond_to do |wants|
       
@@ -343,6 +346,8 @@ class ProjectsController < ApplicationController
     @project_to_destroy = @project
     if request.post?
       if @project_to_destroy.destroy
+        project_id_override = @project.parent ? @project.parent.id : @project.id #deleted projects don't show up in activity stream, so we log the activity to its parent if it exists
+        LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_deleted), :workstreams, 0, nil,{:project_id => project_id_override})
         redirect_with_flash :notice, l(:notice_successful_delete), :controller => "welcome", :action => 'index'
       else
         render_error(l(:error_general))
