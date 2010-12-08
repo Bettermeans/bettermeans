@@ -256,6 +256,13 @@ class ApplicationController < ActionController::Base
     end
     attached
   end
+  
+  #replaces newline characters with more binary-compatible ones
+  def cleanup_newline(text)
+    return text unless text and !text.empty?
+    text.gsub(/\r\n?/, "\n")
+  end
+  
 
   # Returns the number of objects that should be displayed
   # on the paginated list
