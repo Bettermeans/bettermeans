@@ -160,6 +160,7 @@ en:
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
+  error_general: 'Something went wrong.'
   
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
   
@@ -394,7 +395,11 @@ en:
   project_module_files: Files
   project_module_wiki: Wiki
   project_module_boards: Discussions
-  
+
+  label_unarchive_project: Un-archive workstream
+  label_unarchive_project_brackets: (unarchive)
+  label_archive_project: Archive workstream
+  label_delete_project: Delete workstream
   label_note_to_recipient: Note for recipient (optional)
   label_amount_to_transfer: Amount to Transfer
   label_select_recipient: Select Recipient
@@ -1063,6 +1068,9 @@ en:
   field_joined_by: Joined by
   field_item_url: Permalink
   
+  text_confirm_delete_project: "Are you sure you want to delete this workstream? This action cannot be undone!"
+  text_confirm_archive_project: "Are you sure you want to archive this workstream? Nobody will be able to see it anymore. You can unarchive it in the future."
+  text_confirm_unarchive_project: "Are you sure you want to unarchive this workstream?"
   text_included_note: note
   text_failed_to_transfer: Failed to transfer credits.<br>
   text_your_gravatar: We use <a href="http://gravatar.com" target="blank">Gravatar</a> to display your profile picture. <br>To add/update your picture <a href="http://gravatar.com" target="blank">create an account here</a> using the same email you used to signup for BetterMeans
