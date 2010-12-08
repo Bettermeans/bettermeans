@@ -1,9 +1,10 @@
 class MotionsController < ApplicationController
-  
+
   before_filter :find_project, :only => [:new,:index,:create,:show, :edit, :eligible_users]
   before_filter :find_motion, :only => [:show, :edit, :destroy, :update, :reply]
   before_filter :check_visibility_permission, :only => [:show]
   before_filter :require_admin, :only => [:edit, :update, :destroy]
+  before_filter :authorize, :except => [:check_visibility_permission]
   ssl_required :all  
   
   
@@ -88,8 +89,10 @@ class MotionsController < ApplicationController
 
     respond_to do |format|
       if @motion.concerned_user == User.current
-        flash.now[:notice] = 'Cannot create motion for yourself'
-        format.html { render :action => "index" }
+        format.html { redirect_with_flash :error, 'Cannot create a motion concerning yourself', :action => 'index' }
+        format.xml  { render :xml => @motion.errors, :status => :unprocessable_entity }
+      elsif !@motion.concerned_user
+        format.html { redirect_with_flash :error, 'Who does this motion apply to? You need to select the user that this motion is concerned with.', :action => 'index' }
         format.xml  { render :xml => @motion.errors, :status => :unprocessable_entity }
       elsif @motion.save
         flash.now[:notice] = 'Motion was successfully created.'

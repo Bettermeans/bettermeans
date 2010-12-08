@@ -113,8 +113,8 @@ Redmine::AccessControl.map do |map|
   
   map.project_module :motions do |map|
     map.permission :manage_motion, {:motions => [:edit, :destroy]}, :require => :admin
-    map.permission :browse_motion, {:motions => [:index, :view]}, :require => :loggedin
-    map.permission :create_motion, {:motions => [:create, :new]}, :require => :loggedin
+    map.permission :browse_motion, {:motions => [:index, :view, :show]}, :require => :loggedin
+    map.permission :create_motion, {:motions => [:create, :new, :eligible_users]}, :require => :loggedin
     map.permission :vote_motion, {:motions => :reply, :motion_vote => :create}, :require => :loggedin
   end
 
