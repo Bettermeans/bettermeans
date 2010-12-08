@@ -1,7 +1,12 @@
+
+
+
       <table border="0" class="gt-table gt-user-table" id="my_projects_table">
-   	      <% my_projects.each do |p| %>
+          <%   project_tree_sorted(my_projects) do |p, level|
+              name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
+           %>
    	      <tr><td>
-   	      <%= link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
+   	      <%= link_to(name_prefix + h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
           <% if !p.active? %>
             <%= link_to_remote(l(:label_unarchive_project_brackets), :url => {:controller => 'projects', :action => 'unarchive', :id => p}, :confirm => l(:text_confirm_unarchive_project)) %>
           <% end %>
