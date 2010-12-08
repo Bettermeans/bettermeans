@@ -115,7 +115,7 @@ class AccountController < ApplicationController
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save
           @token.destroy
-          flash.now[:notice] = l(:notice_account_password_updated)
+          flash.now[:success] = l(:notice_account_password_updated)
           render :action => 'login', :layout => 'static'
           return
         end 
@@ -133,7 +133,7 @@ class AccountController < ApplicationController
         token = Token.new(:user => user, :action => "recovery")
         if token.save
           Mailer.send_later(:deliver_lost_password,token)
-          flash.now[:notice] = l(:notice_account_lost_email_sent)
+          flash.now[:success] = l(:notice_account_lost_email_sent)
           render :action => 'login', :layout => 'static'
           return
         end
@@ -208,7 +208,7 @@ class AccountController < ApplicationController
     user.status = User::STATUS_ACTIVE
     if user.save
       token.destroy
-      flash.now[:notice] = l(:notice_account_activated)
+      flash.now[:success] = l(:notice_account_activated)
       successful_authentication(user)    
       # render :action => 'login', :layout => 'static'
     else
