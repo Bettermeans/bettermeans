@@ -19,7 +19,8 @@ class ProjectsController < ApplicationController
   before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add, :index_active, :index_latest ]
   before_filter :find_optional_project, :only => [:activity, :add]
   # before_filter :authorize, :except => [ :index, :list, :add ]
-  #BUGBUG: why aren't these actions being authorized!!!
+  
+  #BUGBUG: why aren't these actions being authorized!!! archive can be removed, unarchive doesn't seem to work when removed from here
   before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :hourly_types ]
   
   before_filter :authorize_global, :only => :add
@@ -157,6 +158,46 @@ class ProjectsController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     redirect_to :controller => 'admin', :action => 'projects'
+  end
+  
+  def reset_invitation_token
+    @project.invitation_token = Token.generate_token_value
+    @project.save
+    
+    respond_to do |wants|
+      wants.js do
+        render :update do |page|
+          page.replace "generic-invitation", :partial => 'invitations/generic_invitation', :locals => {:project => @project} 
+          page.visual_effect :highlight, "generic-link", :duration => 6
+          page.visual_effect :highlight, "generic-invitation", :duration => 2
+          page.call '$.jGrowl', l(:notice_successful_update)
+        end
+      end
+    end
+  end
+  
+  def join
+    #check token
+    if params[:token] != @project.invitation_token
+      render_error(l(:error_old_invite))
+      return
+    else
+      #add as contributor
+      if @project.root?
+        unless User.current.community_member_of? @project
+          User.current.add_to_project @project, Role.contributor.id 
+          msg = "Invitation accepted. You are now a contributor of #{@project.name}"
+          redirect_with_flash :success, msg, :controller => :projects, :action => :show, :id => @project.id
+        else
+          msg = "You're already on the #{@project.name} team. Invitation ignored"
+          redirect_with_flash :error, msg, :controller => :projects, :action => :show, :id => @project.id
+        end
+        
+      # else
+      #   @user.add_to_project @project, Role.active.id
+      #   @user.add_to_project @project.root, self.role_id unless @user.community_member_of? @project.root
+      end
+    end
   end
 	
   # Show @project
