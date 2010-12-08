@@ -33,27 +33,19 @@ class Invitation < ActiveRecord::Base
     return unless self.status == PENDING
     
     if user && !user.anonymous?
-      logger.info { "user from parameters" }
       @user = user
     elsif self.new_mail && !self.new_mail.empty?
-      logger.info { "userd new mail" }
       @user = User.find_by_mail(self.new_mail)
     else
-      logger.info { "used mail" }
       @user = User.find_by_mail(self.mail)
     end
-    logger.info { "User #{@user}" }  
     return unless @user && !@user.anonymous?
     
-    logger.info { "ok" } 
     if self.project.root?
-      puts "#{@user.inspect }is a community member of #{self.project.inspect}" if @user.community_member_of? self.project
       @user.add_to_project self.project, self.role_id unless @user.community_member_of? self.project
-      logger.info "added to project #{@user.inspect}"
     else
       @user.add_to_project self.project, Role.active.id
       @user.add_to_project self.project.root, self.role_id unless @user.community_member_of? self.project.root
-      logger.info "already part of project"
     end
     
     @user.add_to_project self.project, Role.clearance.id unless self.project.is_public?

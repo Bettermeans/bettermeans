@@ -1,12 +1,14 @@
-<h2>Invite others to contribute to <%= @project.name %></h2>
+<h2><%= l(:text_invite_others_to_contribute)  %>&nbsp;<%= @project.name %><%= help_bubble(:text_generic_invitation_long) %></h2>
+  <%= render :partial => 'generic_invitation', :locals => {:project => @project} %>
+<h2><%= l(:text_invite_others_to_contribute_personal)  %><%= help_bubble(:text_personal_invitation) %></h2>
 <% form_tag({:action => 'create', :project => @project}, :method => 'post') do %>
 <div class="gt-left-col">
 
-<label>Enter up to 50 emails, one email per line </label>
+<label><%= l(:text_email_instruction) %></label>
 <%= text_area_tag :emails, @emails, :class => 'wiki-edit', :rows => 20, :colums => 60 %><br>
 </div>
 <div class="gt-right-col">
-  <label>Personalize your invitation</label>
+  <label><%= l(:text_personalize_invitations) %></label>
   <%= text_area_tag :note, @note, :class => 'wiki-edit', :rows => 20, :colums => 60 %>
   <p>
     <%= submit_tag 'Send Invitations' %>

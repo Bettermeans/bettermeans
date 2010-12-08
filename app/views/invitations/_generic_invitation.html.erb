@@ -1,0 +1,8 @@
+<div class="clip-notice" id="generic-invitation">
+  <div class="generic-link-reset">
+  <%= link_to_remote(l(:text_reset_link), :url => {:controller => 'projects', :action => 'reset_invitation_token', :id => project.id}, :confirm => "Are you sure? This will render all previous global invitations inactive. This action cannot be undone.") %><%= help_bubble(:help_reset_link) %>  </div>  
+  <div class="generic-link-text">
+  <p><%= l(:text_generic_invitation) %></p>
+  <span id="generic-link"><strong><%= url_for(:controller => 'projects', :action => 'join', :id => project.id, :token => project.invitation_token, :only_path => false) %><br></strong></span>
+  </div>
+</div>
