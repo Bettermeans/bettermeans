@@ -29,7 +29,7 @@ class RolesController < ApplicationController
       if !params[:copy_workflow_from].blank? && (copy_from = Role.find_by_id(params[:copy_workflow_from]))
         @role.workflows.copy(copy_from)
       end
-      flash.now[:notice] = l(:notice_successful_create)
+      flash.now[:success] = l(:notice_successful_create)
       redirect_to :action => 'index'
     end
     @permissions = @role.setable_permissions
@@ -39,7 +39,7 @@ class RolesController < ApplicationController
   def edit
     @role = Role.find(params[:id])
     if request.post? and @role.update_attributes(params[:role])
-      flash.now[:notice] = l(:notice_successful_update)
+      flash.now[:success] = l(:notice_successful_update)
       redirect_to :action => 'index'
     end
     @permissions = @role.setable_permissions
@@ -62,7 +62,7 @@ class RolesController < ApplicationController
         role.permissions = params[:permissions][role.id.to_s]
         role.save
       end
-      flash.now[:notice] = l(:notice_successful_update)
+      flash.now[:success] = l(:notice_successful_update)
       redirect_to :action => 'index'
     end
   end

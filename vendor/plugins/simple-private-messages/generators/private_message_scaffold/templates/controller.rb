@@ -33,7 +33,7 @@ class <%= plural_camel_case_name %>Controller < ApplicationController
     @<%= singular_lower_case_name %>.recipient = <%= singular_camel_case_parent %>.find_by_login(params[:<%= singular_lower_case_name %>][:to])
 
     if @<%= singular_lower_case_name %>.save
-      flash.now[:notice] = "Message sent"
+      flash.now[:success] = "Message sent"
       redirect_to user_<%= plural_lower_case_name %>_path(@<%= singular_lower_case_parent %>)
     else
       render :action => :new
@@ -47,7 +47,7 @@ class <%= plural_camel_case_name %>Controller < ApplicationController
           @<%= singular_lower_case_name %> = <%= singular_camel_case_name %>.find(:first, :conditions => ["<%= plural_lower_case_name %>.id = ? AND (sender_id = ? OR recipient_id = ?)", id, @<%= singular_lower_case_parent %>, @<%= singular_lower_case_parent %>])
           @<%= singular_lower_case_name %>.mark_deleted(@<%= singular_lower_case_parent %>) unless @<%= singular_lower_case_name %>.nil?
         }
-        flash.now[:notice] = "Messages deleted"
+        flash.now[:success] = "Messages deleted"
       end
       redirect_to user_<%= singular_lower_case_name %>_path(@<%= singular_lower_case_parent %>, @<%= plural_lower_case_name %>)
     end

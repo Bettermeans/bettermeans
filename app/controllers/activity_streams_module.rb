@@ -52,7 +52,7 @@ module ActivityStreamsModule
 
     respond_to do |format|
       if @activity_stream.save
-        flash.now[:notice] = 'ActivityStream was successfully created.'
+        flash.now[:success] = 'ActivityStream was successfully created.'
         format.html { redirect_to(@activity_stream) }
         format.xml  { render :xml => @activity_stream, :status => :created, :location => @activity_stream }
       else
@@ -69,7 +69,7 @@ module ActivityStreamsModule
 
     respond_to do |format|
       if @activity_stream.update_attributes(params[:activity_stream])
-        flash.now[:notice] = 'ActivityStream was successfully updated.'
+        flash.now[:success] = 'ActivityStream was successfully updated.'
         format.html { redirect_to(@activity_stream) }
         format.xml  { head :ok }
       else
@@ -86,11 +86,11 @@ module ActivityStreamsModule
 
     respond_to do |format|
       if (current_user.admin? || (current_user.id == @activity_stream.actor_id && @activity_stream.actor_type == ACTIVITY_STREAM_USER_MODEL)) && @activity_stream.soft_destroy
-        flash.now[:notice] = 'Activity Removed.'
+        flash.now[:success] = 'Activity Removed.'
         format.html { redirect_to "#{request.protocol}#{request.host_with_port}#{params[:ref]}" }
         format.xml  { head :ok }
       else
-        flash.now[:notice] = 'Unexpected Error removing ActivityStream.'
+        flash.now[:error] = 'Unexpected Error removing ActivityStream.'
         format.html {redirect_to "#{request.protocol}#{request.host_with_port}#{params[:ref]}"}
         format.xml  { head :error }
       end
