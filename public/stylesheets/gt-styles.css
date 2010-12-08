@@ -2303,3 +2303,7 @@ img.private-workstream, img.volunteer-workstream{
 	text-align:center;
 	vertical-align:middle;
 }
+
+.notification h4{
+	padding-bottom:10px;
+}

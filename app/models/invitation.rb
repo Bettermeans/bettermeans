@@ -12,31 +12,57 @@ class Invitation < ActiveRecord::Base
   end
   
   def deliver(note=nil)
-    # Mailer.send_later(:invitation_add,self)
-    Mailer.send_later(:deliver_invitation_add,self,note)
-  end
-  
-  def accept
     return unless self.status == PENDING
     
-    @user = User.find_by_mail(self.new_mail)
-    return unless @user
+    # Mailer.send_later(:invitation_add,self)
+    Mailer.send_later(:deliver_invitation_add,self,note)
     
-    puts "ok"
+    # add notification here
+    # todo: don't send email, once notifications are auto-sending emails
+    recipient = User.find_by_mail(self.mail)
+    
+    Notification.create :recipient_id => recipient.id,
+                              :variation => 'invitation',
+                              :params => {:role_name => self.role.name, :project_name => self.project.name, :project_id => self.project_id, :token => self.token}, 
+                              :sender_id => self.user_id,
+                              :source_id => self.id if recipient
+    
+  end
+  
+  def accept(user=nil)
+    return unless self.status == PENDING
+    
+    if user && !user.anonymous?
+      logger.info { "user from parameters" }
+      @user = user
+    elsif self.new_mail && !self.new_mail.empty?
+      logger.info { "userd new mail" }
+      @user = User.find_by_mail(self.new_mail)
+    else
+      logger.info { "used mail" }
+      @user = User.find_by_mail(self.mail)
+    end
+    logger.info { "User #{@user}" }  
+    return unless @user && !@user.anonymous?
+    
+    logger.info { "ok" } 
     if self.project.root?
       puts "#{@user.inspect }is a community member of #{self.project.inspect}" if @user.community_member_of? self.project
       @user.add_to_project self.project, self.role_id unless @user.community_member_of? self.project
-      puts "added to project"
+      logger.info "added to project #{@user.inspect}"
     else
       @user.add_to_project self.project, Role.active.id
       @user.add_to_project self.project.root, self.role_id unless @user.community_member_of? self.project.root
-      puts "already part of project"
+      logger.info "already part of project"
     end
     
     @user.add_to_project self.project, Role.clearance.id unless self.project.is_public?
     
+    self.new_mail = @user.mail if @user.mail
     self.status = ACCEPTED
     self.save!
+    
+    Notification.delete_all(:variation => 'invitation', :source_id => self.id)
   end
   
 end

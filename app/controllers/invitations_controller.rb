@@ -84,15 +84,21 @@ class InvitationsController < ApplicationController
   
   def accept
     @invitation = Invitation.find(params[:id])
+    
     if @invitation.token != params[:token] || @invitation.status != Invitation::PENDING
       redirect_with_flash :error, "Old or bad invitation", :controller => :projects, :action => :show, :id => @invitation.project_id 
       return
     end
-
-    @user = User.find_by_mail(@invitation.mail)
+    
+    if @invitation.new_mail && !@invitation.new_mail.empty?
+      @user = User.find_by_mail(@invitation.new_mail)
+    else
+      @user = User.find_by_mail(@invitation.mail)
+    end
+        
     respond_to do |wants|
       wants.html {  
-        if @user
+        if @user && !@user.anonymous?
           self.logged_user = @user
           @invitation.accept
           msg = "Invitation accepted. You are now a #{@invitation.role.name} of #{@invitation.project.name}."
