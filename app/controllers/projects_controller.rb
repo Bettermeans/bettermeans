@@ -23,7 +23,7 @@ class ProjectsController < ApplicationController
   before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :hourly_types ]
   
   before_filter :authorize_global, :only => :add
-  before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
+  before_filter :require_admin, :only => [ :copy ]
   accept_key_auth :activity
   
   after_filter :only => [:add, :edit, :archive, :unarchive, :destroy] do |controller|
@@ -306,25 +306,47 @@ class ProjectsController < ApplicationController
   end
 
   def archive
-    if request.post?
-      unless @project.archive
-        flash.now[:error] = l(:error_can_not_archive_project)
-      end
+    if @project.active? && request.post? && @project.archive
+      redirect_with_flash :notice, l(:notice_successful_update), :controller => "welcome", :action => 'index'
+    else
+      render_error(l(:error_general))
     end
-    redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
   end
   
   def unarchive
-    @project.unarchive if request.post? && !@project.active?
-    redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
+    if !@project.active? && request.post? && @project.unarchive
+    
+      respond_to do |wants|
+      
+        wants.js do
+          @my_projects = User.current.owned_projects
+          
+          render :update do |page|
+            page.replace "my_projects_table", :partial => 'welcome/my_projects', :locals => {:my_projects => @my_projects}
+            page.call '$.jGrowl', l(:notice_successful_update)
+          end
+        end
+      end
+    else
+      respond_to do |wants|      
+        wants.js do
+          render :update do |page|
+            page.call '$.jGrowl', l(:error_general)
+          end
+        end
+      end
+    end
   end
   
   # Delete @project
   def destroy
     @project_to_destroy = @project
-    if request.post? and params[:confirm]
-      @project_to_destroy.destroy
-      redirect_to :controller => 'admin', :action => 'projects'
+    if request.post?
+      if @project_to_destroy.destroy
+        redirect_with_flash :notice, l(:notice_successful_delete), :controller => "welcome", :action => 'index'
+      else
+        render_error(l(:error_general))
+      end
     end
     # hide project in layout
     @project = nil
