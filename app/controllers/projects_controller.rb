@@ -128,7 +128,7 @@ class ProjectsController < ApplicationController
           User.current.add_to_project(@project, Role::BUILTIN_ACTIVE)
         end
 
-        flash.now[:notice] = l(:notice_successful_create)
+        flash.now[:success] = l(:notice_successful_create)
         redirect_to :controller => 'projects', :action => 'dashboard', :id => @project
       end
     end	
@@ -152,7 +152,7 @@ class ProjectsController < ApplicationController
       @project.enabled_module_names = params[:enabled_modules]
       if validate_parent_id && @project.copy(@source_project, :only => params[:only])
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-        flash.now[:notice] = l(:notice_successful_create)
+        flash.now[:success] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
       end		
     end
@@ -330,7 +330,7 @@ class ProjectsController < ApplicationController
       if validate_parent_id && @project.save
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         @project.refresh_active_members
-        flash.now[:notice] = l(:notice_successful_update)
+        flash.now[:success] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
       else
         settings

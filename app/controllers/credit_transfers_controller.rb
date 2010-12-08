@@ -31,7 +31,7 @@ class CreditTransfersController < ApplicationController
     total_transferred = Credit.transfer User.current, recipient, project, Float(params[:amount]), params[:note]
 
     respond_to do |format|
-      flash.now[:notice] = "Successfully transferred #{total_transferred} credits to #{recipient.name}"
+      flash.now[:success] = "Successfully transferred #{total_transferred} credits to #{recipient.name}"
       format.html { redirect_to :action => "index" }
       flash.keep
     end

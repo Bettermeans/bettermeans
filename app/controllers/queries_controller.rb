@@ -20,7 +20,7 @@ class QueriesController < ApplicationController
     @query.group_by ||= params[:group_by]
     
     if request.post? && params[:confirm] && @query.save
-      flash.now[:notice] = l(:notice_successful_create)
+      flash.now[:success] = l(:notice_successful_create)
       redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :query_id => @query
       return
     end
@@ -39,7 +39,7 @@ class QueriesController < ApplicationController
       @query.column_names = nil if params[:default_columns]
       
       if @query.save
-        flash.now[:notice] = l(:notice_successful_update)
+        flash.now[:success] = l(:notice_successful_update)
         redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :query_id => @query
       end
     end
