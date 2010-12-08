@@ -21,7 +21,7 @@ class AccountController < ApplicationController
       @invitation_token = session[:invitation_token]
       self.logged_user = nil
       session[:invitation_token] = @invitation_token
-      render :layout => 'blank'
+      render :layout => 'static'
     else
       session[:invitation_token] = params[:invitation_token] || session[:invitation_token]
       @invitation_token = session[:invitation_token]
