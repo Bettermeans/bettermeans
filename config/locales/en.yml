@@ -493,7 +493,7 @@ en:
   label_auth_source: Authentication mode
   label_auth_source_new: New authentication mode
   label_auth_source_plural: Authentication modes
-  label_subproject_plural: Workstreams
+  label_subproject_plural: Sub workstreams
   label_subproject_new: New sub workstream
   label_and_its_subprojects: "%{value} and its sub workstreams"
   label_min_max_length: Min - Max length
