@@ -100,8 +100,8 @@ class InvitationsController < ApplicationController
           return
         else
           #redirect to register, with an invitation token parameter
-          redirect_with_flash :notice, "Sign up to activate your inviation", :controller => :account, :action => :register, :invitation_token => @invitation.token
-          return
+          session[:invitation] = @invitation.token
+          redirect_to :controller => :account, :action => :register, :invitation_token => @invitation.token
         end
         }
     end

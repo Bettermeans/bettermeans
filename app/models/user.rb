@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
   validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }, :case_sensitive => false
   # Login must contain lettres, numbers, underscores only
-  validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
+  validates_format_of :login, :with => /^[a-z0-9_@\.]*$/i
   validates_length_of :login, :maximum => 30
   validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i
   validates_length_of :firstname, :lastname, :maximum => 30
@@ -113,7 +113,7 @@ class User < ActiveRecord::Base
   end
   
   def activate_invitations
-    Invitation.all(:conditions => {:mail => self.mail}).each do |invite|
+    Invitation.all(:conditions => {:new_mail => self.mail}).each do |invite|
       invite.accept
     end
   end
