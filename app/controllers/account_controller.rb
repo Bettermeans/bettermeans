@@ -324,7 +324,7 @@ class AccountController < ApplicationController
   # Pass a block for behavior when a user fails to save
   def register_by_email_activation(user, invitation_token = nil)
     
-    if invitation_token
+    unless invitation_token.nil?
       invitation = Invitation.find_by_token invitation_token
       invitation.new_mail = user.mail
       invitation.save
