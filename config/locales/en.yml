@@ -628,6 +628,8 @@ en:
   label_copied: copied
   label_renamed: renamed
   label_deleted: deleted
+  label_archived: archived
+  label_unarchived: un-archived
   label_project_description: Description
   label_message: Discussion
   label_latest_revision: Latest revision
