@@ -21,7 +21,7 @@
     <% else %>
     <td><%= link_to_remote l(:button_resend), 
       :url => {:controller => :invitations, :action => :resend, :id => invitation, :project_id => @project},
-      :html => {:class => "icon icon-cr-offer"}
+      :html => {:class => "icon icon-cr-offer", :id => "resend-#{invitation.id}"}
      %>
     <%#= prompt_input_to_remote(invitation.id, l(:button_resend), "Personalize your reminder", l(:text_resend_invite_message), "", {:controller => :invitations, :action => :resend, :id => invitation, :project_id => @project}, false, html_options = {:class => "icon icon-cr-offer", :id => "resend-#{invitation.id}"}) %>
     &nbsp;&nbsp;&nbsp;&nbsp;
