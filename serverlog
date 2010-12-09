@@ -8,3 +8,13 @@ LOG:  autovacuum launcher started
 WARNING:  pgstat wait timeout
 WARNING:  pgstat wait timeout
 WARNING:  pgstat wait timeout
+ERROR:  operator does not exist: boolean = integer at character 40
+HINT:  No operator matches the given name and argument type(s). You might need to add explicit type casts.
+STATEMENT:  select * from projects where is_public = 1
+ERROR:  column "t" does not exist at character 42
+STATEMENT:  select * from projects where is_public = t
+ERROR:  column "parent" does not exist at character 52
+STATEMENT:  select * from projects where is_public = false and parent is null
+WARNING:  pgstat wait timeout
+WARNING:  pgstat wait timeout
+WARNING:  pgstat wait timeout
