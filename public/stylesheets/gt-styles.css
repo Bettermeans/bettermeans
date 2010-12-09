@@ -2365,3 +2365,11 @@ img.private-workstream, img.volunteer-workstream{
 .generic-link-text{
 	padding:10px;
 }
+
+.notification-unresponded{
+	padding-left: 20px;
+	background-position: 0% 20%;
+	background-repeat: no-repeat;
+	background-image: url(/images/email.png);
+	font-weight:bold;
+}
