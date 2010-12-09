@@ -41,6 +41,7 @@ class InvitationsController < ApplicationController
     end
     
     @note = l(:text_invitation_note_default)
+    @roles = Role.find(:all, :conditions => {:level => 1}, :order => "position DESC")
 
     respond_to do |format|
       format.html # new.html.erb
@@ -82,6 +83,8 @@ class InvitationsController < ApplicationController
       if success
         @emails = nil
         @note = params[:note]
+        @roles = Role.find(:all, :conditions => {:level => 1}, :order => "position DESC")
+        
         flash.now[:success] = "#{@email_array.length} invitation(s)  successfully sent to<br>" + @email_array.join(", ")
         format.html { render :action => "new" }
         format.xml  { render :xml => @invitation, :status => :created, :location => @invitation }

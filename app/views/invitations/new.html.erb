@@ -1,15 +1,26 @@
 <h2><%= l(:text_invite_others_to_contribute)  %>&nbsp;<%= @project.name %><%= help_bubble(:text_generic_invitation_long) %></h2>
   <%= render :partial => 'generic_invitation', :locals => {:project => @project} %>
+  <br><br>
 <h2><%= l(:text_invite_others_to_contribute_personal)  %><%= help_bubble(:text_personal_invitation) %></h2>
 <% form_tag({:action => 'create', :project => @project}, :method => 'post') do %>
 <div class="gt-left-col">
 
-<label><%= l(:text_email_instruction) %></label>
-<%= text_area_tag :emails, @emails, :class => 'wiki-edit', :rows => 20, :colums => 60 %><br>
+  <label><%= l(:text_email_instruction) %></label>
+  <%= text_area_tag :emails, @emails, :class => 'wiki-edit', :rows => 10, :colums => 60 %><br><br >
+  <label><%= l(:text_personalize_invitations) %></label>
+  <%= text_area_tag :note, @note, :class => 'wiki-edit', :rows => 10, :colums => 60 %>
+  
+  
 </div>
 <div class="gt-right-col">
-  <label><%= l(:text_personalize_invitations) %></label>
-  <%= text_area_tag :note, @note, :class => 'wiki-edit', :rows => 20, :colums => 60 %>
+  <label><%= l(:text_invite_role_instruction) %> <%= collection_select( :invitation, :role_id, @roles, :id, :name, :selected => Role.contributor.id ) %></label>
+  
+  <%= observe_field(:invitation_role_id, :frequency => 0.25, :function => "update_description();") %>
+  
+  <%#= select(:invitation, :role_id, @roles.collect{|role| [role.name, role.id]}, :selected => Role.contributor.id) %>
+  <div class="gt-content-box padded" id="role-description">
+  </div>
+  
   <p>
     <%= submit_tag 'Send Invitations' %>
   </p>
@@ -41,3 +52,23 @@
 <% end %>
 
 <%#= link_to 'Back', invitations_path %>
+
+<script type="text/javascript">
+  <% @roles.each do |r| %>
+    var <%= r.name.gsub(/ /,"_")  %>_description = "<%= l("text_role_invitation_description_#{r.name}") %>";
+  <% end  %>
+  
+  $(document).ready(function(){
+    update_description();
+  });
+  
+  function update_description(){
+    var id = $('#invitation_role_id').val();
+    var name = $('#invitation_role_id option[value=\'' +  id + '\']').text();
+    var html = "";
+    html = html + "<strong>" + name + "</strong><br><br>";
+    html = html + eval(name.replace(" ","_") + '_description') + "<br><br>";
+    
+    $('#role-description').html(html);
+  }
+</script>
