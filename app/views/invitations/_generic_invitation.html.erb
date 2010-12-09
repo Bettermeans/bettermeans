@@ -4,5 +4,7 @@
   <div class="generic-link-text">
   <p><%= l(:text_generic_invitation) %></p>
   <span id="generic-link"><strong><%= url_for(:controller => 'projects', :action => 'join', :id => project.id, :token => project.invitation_token, :only_path => false) %><br></strong></span>
+  <br>
+  <p><%= l(:text_generic_invitation_2) %></p>
   </div>
 </div>
