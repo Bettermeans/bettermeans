@@ -308,7 +308,7 @@ class AccountController < ApplicationController
 
   def invalid_credentials
     flash.now[:error] = l(:notice_account_invalid_creditentials)
-    render :layout => 'blank'
+    render :layout => 'static'
   end
   
   def inactive_user
