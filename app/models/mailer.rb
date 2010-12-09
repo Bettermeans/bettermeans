@@ -91,6 +91,21 @@ class Mailer < ActionMailer::Base
          :footer => Setting.emails_footer_nospam,
          :ignore_bcc_setting => true
     render_multipart('invitation_add', body)
+    @ignore_bcc_setting = true
+  end
+
+  def invitation_remind(invitation,note)
+    from invitation.user.mail
+    subject "Reminder: Invitation to join #{invitation.project.name}"
+    recipients invitation.mail
+    body :user => invitation.user,
+         :project => invitation.project,
+         :note => note,
+         :invitation_url => url_for(:controller => :invitations, :action => "accept", :id => invitation.id, :token => invitation.token),
+         :footer => Setting.emails_footer_nospam,
+         :ignore_bcc_setting => true
+    render_multipart('invitation_remind', body)
+    @ignore_bcc_setting = true
   end
 
   def reminder(user, issues, days)
@@ -171,13 +186,17 @@ class Mailer < ActionMailer::Base
     references message.parent unless message.parent.nil?
     
     recipient_list = message.recipients
+    logger.info { "recipient_list #{recipient_list}" }
     recipient_list.delete message.author.mail if message.author.pref[:no_self_notified]
-    recipients recipient_list
+    logger.info { "recipient_list #{recipient_list}" }
+    recipients recipient_list    
     
-    recipients(message.recipients)
     
     all_recipients = (message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients
-    all_recipients.delete(message.author) if message.author.pref[:no_self_notified] || message.author.pref[:no_emails]
+    logger.info { "all_recipient_list #{all_recipients}" }
+    
+    all_recipients.delete(message.author.mail) if message.author.pref[:no_self_notified] || message.author.pref[:no_emails]
+    logger.info { "all_recipient_list #{all_recipients}" }
     cc(all_recipients)
     
     subject "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"

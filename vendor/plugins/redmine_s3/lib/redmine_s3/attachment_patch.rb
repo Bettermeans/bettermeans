@@ -29,8 +29,10 @@ module RedmineS3
       end
 
       def delete_from_s3
-        logger.debug("Deleting #{RedmineS3::Connection.uri}/#{disk_filename}")
-        RedmineS3::Connection.delete(disk_filename)
+        if ENV['RACK_ENV'] == 'production'
+          logger.debug("Deleting #{RedmineS3::Connection.uri}/#{disk_filename}")
+          RedmineS3::Connection.delete(disk_filename)
+        end
       end
     end
   end

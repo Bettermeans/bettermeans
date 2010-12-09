@@ -75,7 +75,7 @@ module ActivityStreamPreferencesModule
     @activities.each_value { |a| a.destroy }
 
     respond_to do |format|
-      flash.now[:notice] = 'Activity Stream Preferences were successfully updated.'
+      flash.now[:success] = 'Activity Stream Preferences were successfully updated.'
       format.html do
         if current_user.admin? && params[ACTIVITY_STREAM_USER_MODEL_ID.to_sym] != current_user.id.to_s
           redirect_to(activity_stream_preferences_path(ACTIVITY_STREAM_USER_MODEL_ID => @user_id))

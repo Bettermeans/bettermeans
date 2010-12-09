@@ -1,0 +1,29 @@
+<!-- Notification sent to users when someone invites them to a workstream -->
+<tr class="notification notification-new-role" id="notification_<%= @notification.id %>">
+      <td class="gt-avatar">
+        <%= avatar_from_id(@notification.sender_id, :size => '53') %>
+      </td>
+      <td>
+<h4><%= link_to l("label_new_invitation", :role_name => role_name, :project_name => project_name), {:controller => "projects", :action => "team", :id => project_id},{:target => "_blank"} %> </h4>
+<%= l(:text_you_are_invited) %> <%= link_to project_name, {:controller => "projects", :action => "show", :id => project_id} %>. <br><br>
+<%= l("text_role_description_#{role_name}", :enterprise => project_name) %>
+<p class="gt-table-action-list">
+<%= link_to(l(:button_view), {:controller => "projects", :action => "team", :id => project_id}, {:id =>'cr_button', :class => 'icon icon-cr-offer', :target => "_blank"})%>
+&nbsp;
+<%= link_to(l(:button_accept_invitation), {:controller => "invitations", :action => "accept", :id => @notification.source_id, :token => token}, {:id =>'cr_button', :class => 'icon icon-cr-accept'})%>
+&nbsp;
+<%= link_to_remote(l(:button_ignore), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_ignored}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
+</p>
+    </td>
+    <td>
+			<!-- Categories Sub Table -->
+			<table border="0" class="gt-table-categories">
+				<tr>
+					<td><%= link_to_user_from_id(@notification.sender_id) %></td>
+				</tr>
+				<tr>
+					<td><%= since_tag(@notification.created_at) %> ago</td>
+				</tr>
+			</table>
+		</td>
+</tr>

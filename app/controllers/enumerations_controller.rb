@@ -32,7 +32,7 @@ class EnumerationsController < ApplicationController
     @enumeration = Enumeration.new(params[:enumeration])
     @enumeration.type = params[:enumeration][:type]
     if @enumeration.save
-      flash.now[:notice] = l(:notice_successful_create)
+      flash.now[:success] = l(:notice_successful_create)
       redirect_to :action => 'list', :type => @enumeration.type
     else
       render :action => 'new'
@@ -47,7 +47,7 @@ class EnumerationsController < ApplicationController
     @enumeration = Enumeration.find(params[:id])
     @enumeration.type = params[:enumeration][:type] if params[:enumeration][:type]
     if @enumeration.update_attributes(params[:enumeration])
-      flash.now[:notice] = l(:notice_successful_update)
+      flash.now[:success] = l(:notice_successful_update)
       redirect_to :action => 'list', :type => @enumeration.type
     else
       render :action => 'edit'

@@ -49,19 +49,26 @@ class MyController < ApplicationController
       @user.attributes = params[:user]
       logger.info { "@user.attributes #{@user.attributes.inspect}" }
       @user.mail_notification = (params[:notification_option] == 'all')
+      
+      logger.info { "params[:pref] #{params[:pref].inspect}" }
       @user.pref.attributes = params[:pref]
+      logger.info { "@user.pref.attributes #{@user.pref.inspect}" }
+      logger.info { "params[:active_only_jumps] #{params[:active_only_jumps]}  and boolean #{params[:active_only_jumps] == '1'}" }
+      
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref[:daily_digest] = (params[:daily_digest] == '1')
-      logger.info { "user pref #{@user.pref.inspect}" }
       @user.pref[:no_emails] = (params[:no_emails] == '1')
+      @user.pref[:hide_mail] = (params[:pref][:hide_mail] == '1')
+      @user.pref[:active_only_jumps] = (params[:pref][:active_only_jumps] == '1')
+      
+      logger.info { "user pref #{@user.pref.inspect}" }
       if @user.save
         @user.pref.save
         @user.reload
         @user.save_billing cc, params[:ccverify], request.remote_ip
         @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
         set_language_if_valid @user.language
-        flash.now[:notice] = l(:notice_account_updated)
-        redirect_to :action => 'account'
+        redirect_with_flash :notice, l(:notice_account_updated), :action => 'account'
         return
       end
     end
@@ -115,7 +122,7 @@ class MyController < ApplicationController
           return
         else
           @user.save
-          flash.now[:notice] = "Your plan was successfully canceled"
+          flash.now[:success] = "Your plan was successfully canceled"
           # redirect_to :action => 'account'
           @user.reload
           return
@@ -145,10 +152,10 @@ class MyController < ApplicationController
           return
         else
           @user.save
-          flash.now[:notice] = "Plan successfully changed to #{@new_plan.name}"
+          flash.now[:success] = "Plan successfully changed to #{@new_plan.name}"
         end
       else
-        flash.now[:notice] = l(:notice_account_updated) + " No changes were made to your plan"
+        flash.now[:success] = l(:notice_account_updated) + " No changes were made to your plan"
       end
       @user.reload
       
@@ -169,7 +176,7 @@ class MyController < ApplicationController
       if @user.check_password?(params[:password])
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save
-          flash.now[:notice] = l(:notice_account_password_updated)
+          flash.now[:success] = l(:notice_account_password_updated)
           redirect_to :action => 'account'
         end
       else
@@ -186,7 +193,7 @@ class MyController < ApplicationController
         User.current.reload
       end
       User.current.rss_key
-      flash.now[:notice] = l(:notice_feeds_access_key_reseted)
+      flash.now[:success] = l(:notice_feeds_access_key_reseted)
     end
     redirect_to :action => 'account'
   end
@@ -199,7 +206,7 @@ class MyController < ApplicationController
         User.current.reload
       end
       User.current.api_key
-      flash.now[:notice] = l(:notice_api_access_key_reseted)
+      flash.now[:success] = l(:notice_api_access_key_reseted)
     end
     redirect_to :action => 'account'
   end

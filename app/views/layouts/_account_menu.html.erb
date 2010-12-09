@@ -1,7 +1,7 @@
 <% if User.current.logged? %>
-  welcome <strong><%= link_to_user(User.current, :format => :username) %></strong>
+<%= render :partial => "notifications/unresponded" %>    
+  <%= link_to_user(User.current, :format => :username) %>
   <span class="gt-util-separator">|</span>
-  <%= render :partial => "notifications/unresponded" %>    
   <%#= link_to "home", :home %>
   <!-- <span class="gt-util-separator">|</span> -->
   <!-- <%#= link_to "my page", {:controller => :my, :action => :page} %>
@@ -16,6 +16,9 @@
   <span class="gt-util-separator">|</span>
   <%= link_to "sign up", {:controller => :account, :action => :register} %>
 <% end %>
+<span class="gt-util-separator">|</span>
+<a href="http://help.bettermeans.com/home" target="blank">help</a>
+
 
 <!-- 
   menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_enterprise_plural

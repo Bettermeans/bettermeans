@@ -172,13 +172,19 @@ class IssuesController < ApplicationController
       if @issue.save
         attach_files(@issue, params[:attachments])
         
+        #adding self-agree vote
+        @iv = IssueVote.create :issue_id => @issue.id, :user_id => User.current.id, :points => 1, :vote_type => IssueVote::AGREE_VOTE_TYPE
+        @issue.update_agree_total @iv.isbinding
+        
         #dealing with the estimate
         if params[:estimate] && params[:estimate] != ""  #-2 means that nothing was chosen
           @iv = IssueVote.create :issue_id => @issue.id, :user_id => User.current.id, :points => params[:estimate].to_i, :vote_type => IssueVote::ESTIMATE_VOTE_TYPE
           @issue.update_estimate_total @iv.isbinding
-          @issue.save
         end
-        # flash.now[:notice] = l(:notice_successful_create)
+        
+        @issue.save
+        
+        # flash.now[:success] = l(:notice_successful_create)
         @issue.reload
         
         respond_to do |format|
@@ -226,7 +232,7 @@ class IssuesController < ApplicationController
       if @issue.save
         # if !journal.new_record?
         #   # Only send notification if something was actually changed
-        #   # flash.now[:notice] = l(:notice_successful_update)
+        #   # flash.now[:success] = l(:notice_successful_update)
         # end
         @issue.reload
         respond_to do |format|
@@ -342,6 +348,8 @@ class IssuesController < ApplicationController
       render_error 'Can not estimate hourly items'
       return false;
     end
+
+    @journal = @issue.init_journal(User.current, params["notes"])    
     
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :points => params[:points]
     @issue.update_estimate_total @iv.isbinding
@@ -539,7 +547,7 @@ class IssuesController < ApplicationController
         end
       end
       if unsaved_issue_ids.empty?
-        flash.now[:notice] = l(:notice_successful_update) unless @issues.empty?
+        flash.now[:success] = l(:notice_successful_update) unless @issues.empty?
       else
         flash.now[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
                                                          :total => @issues.size,
@@ -590,7 +598,7 @@ class IssuesController < ApplicationController
       end
       @project.project.refresh_issue_count
       if unsaved_issue_ids.empty?
-        # flash.now[:notice] = l(:notice_successful_update) unless @issues.empty?
+        # flash.now[:success] = l(:notice_successful_update) unless @issues.empty?
       else
         flash.now[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
                                                          :total => @issues.size,

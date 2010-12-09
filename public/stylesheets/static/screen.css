@@ -657,9 +657,9 @@ button.classy span,a.button.classy span{display:block;height:34px;padding:0 13px
 	width: 430px;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 30px;
-	margin-bottom: 10px;
-	font-size: 161.6%;
+/*	margin-top: 30px;*/
+	margin-bottom: 5px;
+	font-size: 140%;
 	font-weight: bold;
 	color: #0e2029;
 }

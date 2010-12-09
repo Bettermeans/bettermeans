@@ -172,6 +172,19 @@ module ApplicationHelper
     html_options[:onclick] = "promptToRemote('#{text}', '#{param}', '#{url_for(url)}'); return false;"
     link_to name, {}, html_options
   end
+
+  #id is the id of the element sending the request
+  #name is the text on the link
+  #title of the command prompt
+  #message bellow title in prompt
+  #params to be passed with url
+  #url to submit to after input is collected
+  #required input or just optional
+  #html_options for this link  
+  def prompt_input_to_remote(id, name, title, message, param, url, required, html_options = {})
+    html_options[:onclick] = "comment_prompt_to_remote('#{id}', '#{title}', '#{message}', '#{param}', '#{url_for(url)}', #{required}); return false;"
+    link_to name, {}, html_options
+  end
   
   def format_activity_title(text)
     h(truncate_single_line(text, :length => 100))
@@ -239,7 +252,13 @@ module ApplicationHelper
   # Renders the project quick-jump box
   def render_project_jump_box
     # Retrieve them now to avoid a COUNT query
-    projects = User.current.projects.all
+    if User.current.pref[:active_only_jumps]
+      projects = User.current.projects.all
+    else
+      project_ids = User.current.projects.collect{|p| p.id}.join(",")
+      projects = project_ids.any? ? Project.find(:all, :conditions => "(parent_id in (#{project_ids}) OR id in (#{project_ids})) AND (status=#{Project::STATUS_ACTIVE})") : []
+    end
+    
     current_project_in_list = false #when true, it means that dropdown already contains current project
     if projects.any?
       s_options = ""
@@ -274,7 +293,7 @@ module ApplicationHelper
   
   def project_tree_options_for_select(projects, options = {})
     s = ''
-    project_tree(projects) do |project, level|
+    project_tree_sorted(projects) do |project, level|
       name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
       tag_options = {:value => project.id, :selected => ((project == options[:selected]) ? 'selected' : nil)}
       tag_options.merge!(yield(project)) if block_given?
@@ -292,6 +311,48 @@ module ApplicationHelper
       end
       yield project, ancestors.size
       ancestors << project
+    end
+  end
+  
+  def project_tree_sorted(projects, &block)
+    ancestors = []
+    sorted = [] #nested array for alphabetical sorting
+    last_array = sorted
+    projects.sort_by(&:lft).each do |project|
+      
+      while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+        ancestors.pop
+      end
+
+      if ancestors.size == 0
+        sorted << [[project.name, ancestors.size,project]]
+      else
+        sorted_string = "sorted" + ".last" * ancestors.size
+        eval(sorted_string) << [[project.name, ancestors.size,project]]
+      end
+      
+      # yield project, ancestors.size
+      ancestors << project
+    end
+    
+    sorted = sort2d(sorted)
+    traverse_sorted(sorted, &block)
+    sorted
+  end
+  
+  def sort2d(ar)
+    ar.sort! {|a,b| a[0][0][0] <=> b[0][0][0]}
+    
+    if ar[0][0].class.to_s != "String"
+      ar.each {|sub| sub = sort2d(sub)} 
+    end
+  end
+  
+  def traverse_sorted(ar, &block)
+    unless ar[0].class.to_s != "String"
+      yield ar[2], ar[1]
+    else
+      ar.each {|sub| sub = traverse_sorted(sub, &block)} 
     end
   end
   
@@ -417,7 +478,7 @@ module ApplicationHelper
       content_tag('acronym', text, :title => format_time(time))
     end
   end
-
+  
   def since_tag(time)
     text = distance_of_time_in_words(Time.now, time).gsub(/about/,"")
     content_tag('acronym', text, :title => format_time(time))
@@ -772,7 +833,7 @@ module ApplicationHelper
     if project.volunteer?
       return '♥'
     else
-      return '$'
+      return '●'
     end
   end
   
@@ -1184,7 +1245,7 @@ module ApplicationHelper
   end
   
   def name_for_activity_stream(as)
-    (as.tracker_name) ? "a #{as.tracker_name.downcase}" : l("label_#{as.object_type.downcase}")
+    (as.tracker_name) ? "a #{as.tracker_name.downcase}" : "a " + l("label_#{as.object_type.downcase}")
   end
   
   def class_for_activity_stream(as)

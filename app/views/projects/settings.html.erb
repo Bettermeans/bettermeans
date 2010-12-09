@@ -7,4 +7,23 @@
 <h2 class="gt-table-head">&nbsp;</h2>
 <h2 class="gt-table-head">&nbsp;</h2>
 <%= help_section("project_settings") %>
+
+<div class="gt-sidebar-nav gt-sidebar-nav-blue">
+  <h3>Manage Workstream</h3>
+  <ul>
+  <li>
+    <% if @project.active? %>
+    <%= link_to(l(:label_archive_project), {:controller => 'projects', :action => 'archive', :id => @project}, {:confirm => l(:text_confirm_archive_project), :method => :post}) %>
+    <% else %>
+    <%= link_to(l(:label_unarchive_project), {:controller => 'projects', :action => 'unarchive', :id => @project}, {:confirm => l(:text_confirm_unarchive_project), :method => :post}) %>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to(l(:label_delete_project), {:controller => 'projects', :action => 'destroy', :id => @project}, {:confirm => l(:text_confirm_delete_project), :method => :post}) %>
+    
+  </li>
+  <li>
+  </li>
+  </ul>
+</div>
 <% end %>

@@ -44,7 +44,7 @@ class NotificationsController < ApplicationController
 
     respond_to do |format|
       if @notification.save
-        flash.now[:notice] = 'Notification was successfully created.'
+        flash.now[:success] = 'Notification was successfully created.'
         format.html { redirect_to(@notification) }
         format.xml  { render :xml => @notification, :status => :created, :location => @notification }
       else
@@ -78,7 +78,7 @@ class NotificationsController < ApplicationController
         format.js {render :action => "hide"}
         format.xml  { head :ok }
       else
-        flash.now[:notice] = 'Error ignoring notification'
+        flash.now[:success] = 'Error ignoring notification'
         format.js {render :action => "error"}
         format.xml  { render :xml => @notification.errors, :status => :unprocessable_entity }
       end
