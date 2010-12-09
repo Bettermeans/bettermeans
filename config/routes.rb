@@ -97,6 +97,9 @@ ActionController::Routing::Routes.draw do |map|
     invitations_routes.with_options :conditions => {:method => :get} do |invitations_views|
       invitations_views.connect 'invitations/:id', :action => 'accept'
     end
+    invitations_routes.with_options :conditions => {:method => :post} do |invitations_actions|
+      invitations_actions.connect 'projects/:project_id/invitations/:id/:action', :action => /destroy|resend/
+    end
   end
   
   
