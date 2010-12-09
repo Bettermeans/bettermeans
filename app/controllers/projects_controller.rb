@@ -386,9 +386,9 @@ class ProjectsController < ApplicationController
   def destroy
     @project_to_destroy = @project
     if request.post?
+      project_id_override = @project.parent ? @project.parent.id : @project.id #deleted projects don't show up in activity stream, so we log the activity to its parent if it exists
+      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_deleted), :workstreams, 0, nil,{:project_id => project_id_override})
       if @project_to_destroy.destroy
-        project_id_override = @project.parent ? @project.parent.id : @project.id #deleted projects don't show up in activity stream, so we log the activity to its parent if it exists
-        LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_deleted), :workstreams, 0, nil,{:project_id => project_id_override})
         redirect_with_flash :notice, l(:notice_successful_delete), :controller => "welcome", :action => 'index'
       else
         render_error(l(:error_general))
