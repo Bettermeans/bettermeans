@@ -397,6 +397,7 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
 
+  label_track_invites: Track sent invites
   label_unarchive_project: Un-archive workstream
   label_unarchive_project_brackets: (unarchive)
   label_archive_project: Archive workstream
@@ -990,6 +991,7 @@ en:
   button_uncheck_all: Uncheck all
   button_delete: Delete
   button_create: Create
+  button_resend: Resend
   button_create_and_continue: Create and continue
   button_test: Test
   button_edit: Edit
@@ -1073,6 +1075,7 @@ en:
   field_joined_by: Joined by
   field_item_url: Permalink
   
+  text_resend_invite_message: "Add a personal comment to the invitation reminder"
   text_reset_link: "Reset invitation code"
   text_personalize_invitations: "Personalize your invitation"
   text_email_instruction: "Enter up to 50 emails, one email per line"
