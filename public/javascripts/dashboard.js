@@ -3287,7 +3287,7 @@ html = html + '	                  </td>';
 html = html + '	                </tr>';
 html = html + '	                <tr>';
 html = html + '	                <td>';
-html = html + '	                <a href="" onclick="alert(\'You can attach files after you create the request\')">Attach files</a>';
+html = html + '	                <a href="" onclick="alert(\'You can attach files after you create the request\');return false;">Attach files</a>';
 html = html + '	                </td>';
 html = html + '	                </tr>';
 html = html + '	              </tbody>';
