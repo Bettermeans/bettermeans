@@ -84,6 +84,22 @@ class User < ActiveRecord::Base
   reportable :daily_registrations, :aggregation => :count, :limit => 14
   reportable :weekly_registrations, :aggregation => :count, :grouping => :week, :limit => 20
   
+  # ===============
+  # = CSV support =
+  # ===============
+  comma do  # implicitly named :default
+     id
+     login
+     firstname
+     lastname 
+     mail     
+     last_login_on
+     created_at
+     updated_at
+     plan_id
+     trial_expires_on
+     active_subscription
+  end
   
   def <=>(user)
     if self.class.name == user.class.name
