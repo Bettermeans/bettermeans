@@ -4,7 +4,7 @@
 
 class AccountController < ApplicationController
   
-  skip_before_filter :verify_authenticity_token, :only => [:rpx_token] # RPX does not pass Rails form tokens...
+  skip_before_filter :verify_authenticity_token, :only => [:rpx_token, :register] # RPX does not pass Rails form tokens...
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required
@@ -13,16 +13,24 @@ class AccountController < ApplicationController
   # Login request and validation
   def login
     
+    logger.info { "authenticating and accepting invitation #{session[:invitation_token]}" }
+    
+    
     if request.get?
       # Logout user
+      @invitation_token = session[:invitation_token]
       self.logged_user = nil
-      render :layout => 'blank'
+      session[:invitation_token] = @invitation_token
+      render :layout => 'static'
     else
+      session[:invitation_token] = params[:invitation_token] || session[:invitation_token]
+      @invitation_token = session[:invitation_token]
+      logger.info { "1 authenticating and accepting invitation #{session[:invitation_token]}" }
       # Authenticate user
       if Setting.openid? && using_open_id?
         open_id_authenticate(params[:openid_url])
       else
-        password_authentication
+        password_authentication(@invitation_token)
       end
     end
   end
@@ -33,38 +41,58 @@ class AccountController < ApplicationController
   def rpx_token
     raise "hackers?" unless data = RPXNow.user_data(params[:token])
     
+    if session[:invitation_token]
+      invitation = Invitation.find_by_token(session[:invitation_token])
+      invitation_mail = invitation.mail if invitation
+      @invitation_token = session[:invitation_token]
+      logger.info { "we have an invitation here #{invitation.inspect} session token #{session[:invitation_token]}" }
+    end
+    
     logger.info { "all data #{data.inspect}" }
     @user = User.find_by_identifier(data[:identifier])
-    logger.info { "found our user! #{@user}" }
+    logger.info { "did we find user #{@user}" }
     if !@user
       @user = User.find_by_mail(data[:email]) if data[:email]
       
       if @user
         @user.identifier = data[:identifier]
         @user.save
-      else
+      else #couldn't find user, we create one        
         name = data[:name] || data[:username]
-        mail = data[:email] || "#{(0...8).map{65.+(rand(25)).chr}.join}_noemail@bettermeans.com" #twitter accounts don't give email so we generate a random one
+        mail = data[:email] || invitation_mail || "#{(0...8).map{65.+(rand(25)).chr}.join}_noemail@bettermeans.com" #twitter accounts don't give email so we generate a random one
         newdata = {:firstname => name, :mail => mail, :identifier => data[:identifier]}
         logger.info { "new data #{newdata.inspect}" }
         @user = User.new(newdata)
         
         #try and find a good login
-        if !User.find_by_login(data[:username])
-          @user.login = data[:username]
-        elsif !User.find_by_login(name)
-          @user.login = name
+        login = data[:username].gsub(/ /,"_")
+        if !User.find_by_login(login)
+          @user.login = login
+        elsif !User.find_by_login(name.gsub(/ /,"_"))
+          @user.login = name.gsub(/ /,"_")
         else
           @user.login = data[:email]
+        end        
+        
+        if invitation
+          invitation.new_mail = @user.mail
+          invitation.save
         end
         
-        raise "Couldn't create new account" unless @user.save
+        # @user.hashed_password = "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" #just testing
+        raise "Couldn't create new account #{@user.inspect} data #{data.inspect}" unless @user.save
+                          
+      end
+    else
+      if invitation
+        invitation.new_mail = @user.mail
+        invitation.save
       end
     end
     
     logger.info { "WE ARE HERE! Almost authenticating for user #{@user.inspect}" }
 
-    successful_authentication(@user)    
+    successful_authentication(@user,@invitation_token)    
   end
   
 
@@ -87,8 +115,8 @@ class AccountController < ApplicationController
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save
           @token.destroy
-          flash.now[:notice] = l(:notice_account_password_updated)
-          render :action => 'login', :layout => 'blank'
+          flash.now[:success] = l(:notice_account_password_updated)
+          render :action => 'login', :layout => 'static'
           return
         end 
       end
@@ -105,8 +133,8 @@ class AccountController < ApplicationController
         token = Token.new(:user => user, :action => "recovery")
         if token.save
           Mailer.send_later(:deliver_lost_password,token)
-          flash.now[:notice] = l(:notice_account_lost_email_sent)
-          render :action => 'login', :layout => 'blank'
+          flash.now[:success] = l(:notice_account_lost_email_sent)
+          render :action => 'login', :layout => 'static'
           return
         end
       end
@@ -126,8 +154,10 @@ class AccountController < ApplicationController
       end
       
       if params[:invitation_token]
+        session[:invitation_token] = params[:invitation_token]
         invitation = Invitation.find_by_token params[:invitation_token]
         @user.mail = invitation.mail if invitation
+        flash.now[:notice] = "Sign up to activate your inviation. <a href='/' target='_blank'>Click here to learn more about bettermeans.</a>"
       end
     else
       @user = User.new(params[:user])
@@ -178,17 +208,18 @@ class AccountController < ApplicationController
     user.status = User::STATUS_ACTIVE
     if user.save
       token.destroy
-      flash.now[:notice] = l(:notice_account_activated)
-      render :action => 'login', :layout => 'blank'
+      flash.now[:success] = l(:notice_account_activated)
+      successful_authentication(user)    
+      # render :action => 'login', :layout => 'static'
     else
-      render :action => 'login', :layout => 'blank'
+      render :action => 'login', :layout => 'static'
     end
     
   end
   
   private
 
-  def password_authentication
+  def password_authentication(invitation_token=nil)
     user = User.try_to_login(params[:username], params[:password])
 
     if user.nil?
@@ -199,7 +230,7 @@ class AccountController < ApplicationController
       inactive_user
     else
       # Valid user
-      successful_authentication(user)
+      successful_authentication(user,invitation_token)
     end
   end
 
@@ -245,9 +276,17 @@ class AccountController < ApplicationController
     end
   end
   
-  def successful_authentication(user)
+  def successful_authentication(user, invitation_token = nil)
+    logger.info { "successful authentication baby" }
     # Valid user
     self.logged_user = user
+    logger.info { "session token #{session[:invitation_token]}" }
+    
+    if invitation_token
+      logger.info { "accepting invitation #{invitation_token}" }
+      invitation = Invitation.find_by_token(invitation_token)
+      invitation.accept(user) if invitation
+    end    
     
     Track.log(Track::LOGIN)
     
@@ -269,12 +308,14 @@ class AccountController < ApplicationController
 
   def invalid_credentials
     flash.now[:error] = l(:notice_account_invalid_creditentials)
-    render :layout => 'blank'
+    render :layout => 'static'
   end
   
   def inactive_user
+    logger.info { "inactive user!!!!" }
     flash.now[:error] = l(:notice_account_inactive_user)
-    render :layout => 'blank'
+    render_error(l(:notice_account_inactive_user))
+    # render :layout => 'blank'
   end
   
 
@@ -283,8 +324,11 @@ class AccountController < ApplicationController
   # Pass a block for behavior when a user fails to save
   def register_by_email_activation(user, invitation_token = nil)
     
-    if invitation_token
+    unless invitation_token.empty? || invitation_token.nil?
+      logger.info { "invitation token #{invitation_token} is nil #{invitation_token.nil?}" }
       invitation = Invitation.find_by_token invitation_token
+      invitation.new_mail = user.mail
+      invitation.save
     end
     
     if invitation && invitation.mail == user.mail
@@ -296,7 +340,7 @@ class AccountController < ApplicationController
       Mailer.send_later(:deliver_register,token)
       flash.now[:success] = l(:notice_account_register_done)
       # self.logged_user = user
-      render :action => 'login', :layout => 'blank'
+      render :action => 'login', :layout => 'static'
       return true
     else
       yield if block_given?
@@ -336,6 +380,6 @@ class AccountController < ApplicationController
 
   def account_pending
     flash.now[:notice] = l(:notice_account_pending)
-    render :action => 'login', :layout => 'blank'
+    render :action => 'login', :layout => 'static'
   end
 end

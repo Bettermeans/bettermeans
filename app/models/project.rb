@@ -33,7 +33,8 @@ class Project < ActiveRecord::Base
   has_many :members, :class_name => 'Member', 
                            :include => [:user,:roles], 
                            :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER}",
-                            :order => "firstname ASC"
+                            :order => "firstname ASC",
+                            :dependent => :destroy
 
   has_many :board_members, :class_name => 'Member', 
                             :include => [:user,:roles], 
@@ -57,7 +58,8 @@ class Project < ActiveRecord::Base
                                :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}"
                                
   has_many :users, :through => :all_members
-  
+
+  has_many :credit_distributions, :dependent => :delete_all
   has_many :enabled_modules, :dependent => :delete_all
   has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
   has_many :issues, :dependent => :destroy, :order => "#{Issue.table_name}.created_at DESC", :include => [:status, :tracker]
@@ -73,11 +75,10 @@ class Project < ActiveRecord::Base
   has_many :credits, :dependent => :delete_all, :order => 'created_at ASC'
   has_many :retros, :dependent => :delete_all
   has_many :reputations, :dependent => :delete_all
-  has_many :credit_disributions
-  has_many :motions
-  has_many :hourly_types
-  has_many :activity_streams #TODO: include sub workstreams here!
-  has_many :invitations
+  has_many :motions, :dependent => :delete_all
+  has_many :hourly_types, :dependent => :delete_all
+  has_many :activity_streams, :dependent => :delete_all #TODO: include sub workstreams here!
+  has_many :invitations, :dependent => :delete_all
 
   acts_as_nested_set :order => 'name', :dependent => :destroy
   acts_as_attachable :view_permission => :view_files,
@@ -507,7 +508,11 @@ class Project < ActiveRecord::Base
     #adding active members that are in new list that aren't already active
     existing_active_members = self.active_members.collect(&:user_id)
     u.keys.each do |user_id|
-      User.find(user_id).add_to_project(self, Role.active.id) unless existing_active_members.include? user_id
+      begin
+        user = User.find(user_id)
+        user.add_to_project(self, Role.active.id) unless existing_active_members.include? user_id 
+      rescue #user not found (when deleting users)
+      end
     end
     
     unless self.is_public?

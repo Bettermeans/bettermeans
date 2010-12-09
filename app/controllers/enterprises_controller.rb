@@ -46,7 +46,7 @@ class EnterprisesController < ApplicationController
 
     respond_to do |format|
       if @enterprise.save
-        flash.now[:notice] = 'Enterprise was successfully created.'
+        flash.now[:success] = 'Enterprise was successfully created.'
         format.html { redirect_to(@enterprise) }
         format.xml  { render :xml => @enterprise, :status => :created, :location => @enterprise }
       else
@@ -63,7 +63,7 @@ class EnterprisesController < ApplicationController
 
     respond_to do |format|
       if @enterprise.update_attributes(params[:enterprise])
-        flash.now[:notice] = 'Enterprise was successfully updated.'
+        flash.now[:success] = 'Enterprise was successfully updated.'
         format.html { redirect_to(@enterprise) }
         format.xml  { head :ok }
       else

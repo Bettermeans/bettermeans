@@ -73,7 +73,7 @@ class RetroRatingsController < ApplicationController
 
     respond_to do |format|
       if @retro_rating.update_attributes(params[:retro_rating])
-        flash.now[:notice] = 'RetroRating was successfully updated.'
+        flash.now[:success] = 'RetroRating was successfully updated.'
         format.html { redirect_to(@retro_rating) }
         format.xml  { head :ok }
       else

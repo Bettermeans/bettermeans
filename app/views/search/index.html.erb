@@ -12,7 +12,7 @@
 <% @object_types.each do |t| %>
 <label><%= check_box_tag t, 1, @scope.include?(t) %> <%= type_label(t) %></label>
 <% end %>
-<%= submit_tag l(:button_search), :name => 'submit', :class => "gt-btn-gray-large", :disable_with => l(:button_working) %>
+<%= submit_tag l(:button_search), :name => 'submit', :class => "gt-btn-gray-large"%>
 
 </p>
 </div>

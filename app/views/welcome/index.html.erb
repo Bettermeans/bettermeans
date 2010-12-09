@@ -5,16 +5,7 @@
     <h2 class="gt-table-head"><%=l(:label_my_projects)%></h2>
   	<% if @my_projects.length > 0 %>
   	<div class="gt-content-box">    
-      <table border="0" class="gt-table gt-user-table">
-   	      <% @my_projects.each do |p| %>
-   	      <tr><td>
-   	      <%= link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
-   	        <% array = p.activity_line_show(30) %>
-   	        </td><td>
-   	        <span class="spark right" max="<%=  p.activity_line_max %>"><%= p.activity_line_show(30) %></span>
-   	        </td></tr>
-   	      <% end %>
-      </table>
+      <%= render :partial => 'my_projects', :locals => {:my_projects => @my_projects} %>
     </div>
     <div class="gt-table-buttons">
       <%= link_to l(:label_project_new), {:controller => :projects, :action => :add}, :class => "gt-btn-blue-large"%>
@@ -50,16 +41,7 @@
     <h2 class="gt-table-head"><%=l(:label_projects_i_belong_to)%></h2>
   	<% if @belong_to_projects.length > 0 %>
   	<div class="gt-content-box">    
-      <table border="0" class="gt-table gt-user-table">
-   	      <% @belong_to_projects.each do |p| %>
-   	      <tr><td>
-   	      <%= link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
-   	        <% array = p.activity_line_show(30) %>
-   	        </td><td>
-   	        <span class="spark right" max="<%=  p.activity_line_max %>"><%= p.activity_line_show(30) %></span>
-   	        </td></tr>
-   	      <% end %>
-      </table>
+      <%= render :partial => 'belong_to_projects', :locals => {:belong_to_projects => @belong_to_projects} %>
     </div>
     <div class="gt-table-buttons">
       <%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}, :class => "gt-btn-blue-large"%>
