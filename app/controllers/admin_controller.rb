@@ -62,6 +62,11 @@ class AdminController < ApplicationController
     redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
   end
   
+  def user_data_dump
+    @users = User.find(:all, :conditions => {:status => 1})
+    render :csv => @users
+  end
+  
   def info
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @checklist = [
