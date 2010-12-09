@@ -172,6 +172,19 @@ module ApplicationHelper
     html_options[:onclick] = "promptToRemote('#{text}', '#{param}', '#{url_for(url)}'); return false;"
     link_to name, {}, html_options
   end
+
+  #id is the id of the element sending the request
+  #name is the text on the link
+  #title of the command prompt
+  #message bellow title in prompt
+  #params to be passed with url
+  #url to submit to after input is collected
+  #required input or just optional
+  #html_options for this link  
+  def prompt_input_to_remote(id, name, title, message, param, url, required, html_options = {})
+    html_options[:onclick] = "comment_prompt_to_remote('#{id}', '#{title}', '#{message}', '#{param}', '#{url_for(url)}', #{required}); return false;"
+    link_to name, {}, html_options
+  end
   
   def format_activity_title(text)
     h(truncate_single_line(text, :length => 100))

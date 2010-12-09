@@ -202,14 +202,6 @@ function setPredecessorFieldsVisibility() {
     }
 }
 
-function promptToRemote(text, param, url) {
-    value = prompt(text + ':');
-    if (value) {
-        new Ajax.Request(url + '?' + param + '=' + encodeURIComponent(value), {asynchronous:true, evalScripts:true});
-        return false;
-    }
-}
-
 function collapseScmEntry(id) {
     var els = document.getElementsByClassName(id, 'browser');
 	for (var i = 0; i < els.length; i++) {
@@ -405,6 +397,62 @@ function humane_date(date_str){
 
       return date_str;
   };
+
+
+function promptToRemote(text, param, url) {
+    value = prompt(text + ':');
+    if (value) {
+        new Ajax.Request(url + '?' + param + '=' + encodeURIComponent(value), {asynchronous:true, evalScripts:true});
+        return false;
+    }
+}
+
+//param must start with &
+function send_remote(url,param,note){
+	$.ajax({
+	   type: "POST",
+	   dataType: "json",
+	   url: url,
+	   data: '&note=' + note + param,
+		timeout: 30000 //30 seconds
+	 });
+}
+
+function comment_prompt_to_remote(dataId,title,message,param,url,required){
+
+	var content = '';
+	var note = "$('#prompt_comment_" + dataId + "').val()" ;
+	content = content + '<div id="comment_prompt"><h2>' + title + '</h2><br>';
+	if (message){
+		content = content + message + '<br><br>';
+	}
+        content = content + '<p><textarea id="prompt_comment_' + dataId + '" class="comment_prompt_text" rows="10" ></textarea></p><br>';
+		content = content + '<p>';
+        content = content + '<input type="submit" onclick="send_remote(\'' + url + '\',\'' + param + '\',' + note + ');$.fancybox.close();" value="Submit"></input>';
+		if (!required){
+        	content = content + '<input type="submit" onclick="$.fancybox.close();send_remote(\'' + url + '\',\'' + param + '\',\'\');" value="No Comment"></input>';
+		}
+        content = content + '<input type="submit" onclick="$.fancybox.close();return false;" value="Cancel"></input>';
+		content = content + '</p><br><br></div>';
+
+	$.fancybox(
+		{
+				'content'			: content,
+				'width'				: 'auto',
+				'height'			: 'auto',
+				'title'				: title,
+		        'autoScale'     	: false,
+		        'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				'scrolling'			: 'no',
+				'showCloseButton' : false,
+				'modal' : true,
+				'href'	: '#comment_prompt'
+		});	
+
+	$('#prompt_comment_' + dataId).focus();
+}
+
 
 
 $.fn.mybubbletip = function(tip, options) {

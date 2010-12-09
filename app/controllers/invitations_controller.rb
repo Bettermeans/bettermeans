@@ -7,11 +7,17 @@ class InvitationsController < ApplicationController
   # GET /invitations
   # GET /invitations.xml
   def index
-    @invitations = Invitation.all
-
+    @all_invites, @invitations = paginate :invitations,
+                                   :per_page => 30,
+                                   :conditions => {:user_id => User.current.id, :project_id => @project.id},
+                                   :order => "created_at DESC"    
+    
+    # @invitations = Invitation.find(:all, :conditions => {:user_id => User.current.id, :project_id => @project.id}, :order => "created_at desc")
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @invitations }
+      format.html { render :layout => false if request.xhr? }
+      format.xml  { render :xml => @invitations.to_xml }
+      format.json { render :json => @invitation.to_json }
+      # format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end
 
@@ -120,17 +126,22 @@ class InvitationsController < ApplicationController
 
   # PUT /invitations/1
   # PUT /invitations/1.xml
-  def update
+  def resend
     @invitation = Invitation.find(params[:id])
 
     respond_to do |format|
-      if @invitation.update_attributes(params[:invitation])
-        flash[:notice] = 'Invitation was successfully updated.'
-        format.html { redirect_to(@invitation) }
-        format.xml  { head :ok }
+      if Invitation.resend(params[:note])
+        format.js do
+          render :update do |page|
+            page.call '$.jGrowl', l(:notice_successful_update)
+          end
+        end
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @invitation.errors, :status => :unprocessable_entity }
+        format.js do
+          render :update do |page|
+            page.call '$.jGrowl', l(:error_general)
+          end
+        end
       end
     end
   end
@@ -142,8 +153,13 @@ class InvitationsController < ApplicationController
     @invitation.destroy
 
     respond_to do |format|
-      format.html { redirect_to(invitations_url) }
-      format.xml  { head :ok }
+      format.js do
+        render :update do |page|
+          page.visual_effect :highlight, "row-#{@invitation.id}", :duration => 3
+          page.remove "row-#{@invitation.id}"
+          page.call '$.jGrowl', l(:notice_successful_delete)
+        end
+      end
     end
   end
   

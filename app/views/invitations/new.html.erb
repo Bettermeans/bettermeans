@@ -18,8 +18,26 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <h2 class="gt-table-head">&nbsp;</h2>
-  <%= help_section "invitation_new" %>
+<% end %>
+
+<% content_for :sidebar do %>
+<h2 class="gt-table-head">&nbsp;</h2>
+<%= help_section "invitation_new" %>
+<div class="gt-sidebar-nav gt-sidebar-nav-blue">
+  <h3>Quick Links</h3>
+  <ul>
+    <li>
+      <%= link_to l(:label_login), {:controller => :account, :action => :login} unless User.current.logged? %>
+    </li>
+    <li>
+      <%= link_to l(:label_dashboard), {:controller => :projects, :action => :dashboard, :id => @project} %>
+    </li>
+  	<% if User.current.allowed_to?(:manage_invitations, @project) %>
+      <li><%= link_to(l(:label_track_invites), {:controller => :invitations, :action => :index}) %>
+      </li>
+    <% end %>
+  </ul>
+</div>
 <% end %>
 
 <%#= link_to 'Back', invitations_path %>
