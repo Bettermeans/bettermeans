@@ -177,7 +177,8 @@ class Mailer < ActionMailer::Base
     recipients(message.recipients)
     
     all_recipients = (message.root.watcher_recipients + message.board.watcher_recipients).uniq - @recipients
-    all_recipients.delete(message.author) if message.author.pref[:no_self_notified] || message.author.pref[:no_emails]
+    
+    all_recipients.delete(message.author.mail) if message.author.pref[:no_self_notified] || message.author.pref[:no_emails]
     cc(all_recipients)
     
     subject "[#{message.board.project.name} - #{message.board.name} - msg#{message.root.id}] #{message.subject}"
