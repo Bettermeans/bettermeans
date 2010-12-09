@@ -19,12 +19,17 @@
     <%if invitation.status == Invitation::ACCEPTED %>
       <td><div class="icon icon-cr-accept"><%= format_time_ago invitation.updated_at  %></div></td>
     <% else %>
-    <td><%= prompt_input_to_remote(invitation.id, l(:button_resend), "Personalize your reminder", l(:text_resend_invite_message), "", {:controller => :invitations, :action => :resend, :id => invitation, :project_id => @project}, false, html_options = {:class => "icon icon-cr-offer"}) %>
+    <td><%= link_to_remote l(:button_resend), 
+      :url => {:controller => :invitations, :action => :resend, :id => invitation, :project_id => @project},
+      :html => {:class => "icon icon-cr-offer"}
+     %>
+    <%#= prompt_input_to_remote(invitation.id, l(:button_resend), "Personalize your reminder", l(:text_resend_invite_message), "", {:controller => :invitations, :action => :resend, :id => invitation, :project_id => @project}, false, html_options = {:class => "icon icon-cr-offer", :id => "resend-#{invitation.id}"}) %>
     &nbsp;&nbsp;&nbsp;&nbsp;
-      <a class="icon icon-del"><%= link_to_remote l(:button_delete), 
+      <%= link_to_remote l(:button_delete), 
         :url => {:controller => :invitations, :action => :destroy, :id => invitation, :project_id => @project},
-        :confirm => "Are you sure?"
-       %></a>
+        :confirm => "Are you sure?",
+        :html => {:class => "icon icon-del"}
+       %>
        </td>
     <% end %>
     <td><%#= link_to 'Destroy', invitation, :confirm => 'Are you sure?', :method => :delete %></td>
@@ -62,3 +67,16 @@
 <% end %>
 
 <%#= link_to 'New invitation', new_invitation_path %>
+
+<script type="text/javascript">
+function send_remote(url,param,note){
+  console.log("whatever");
+	$.ajax({
+	   type: "POST",
+	   dataType: "json",
+	   url: url,
+	   data: '&note=' + note + param,
+		timeout: 30000 //30 seconds
+	 });
+}
+</script>

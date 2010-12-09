@@ -130,16 +130,23 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.find(params[:id])
 
     respond_to do |format|
-      if Invitation.resend(params[:note])
+      if @invitation.resend(params[:note])
+        logger.info { "1" }
+        
         format.js do
+          logger.info { "format" }
+          
           render :update do |page|
+            logger.info { "ID BABY #{@invitation.id}" }
+            page.visual_effect :highlight, "row-#{@invitation.id}", :duration => 3
+            page.replace "resend-#{@invitation.id}", "Resent!"
             page.call '$.jGrowl', l(:notice_successful_update)
           end
         end
       else
         format.js do
           render :update do |page|
-            page.call '$.jGrowl', l(:error_general)
+            page.parent.call '$.jGrowl', l(:error_general)
           end
         end
       end
