@@ -94,6 +94,20 @@ class Mailer < ActionMailer::Base
     @ignore_bcc_setting = true
   end
 
+  def invitation_remind(invitation,note)
+    from invitation.user.mail
+    subject "Reminder: Invitation to join #{invitation.project.name}"
+    recipients invitation.mail
+    body :user => invitation.user,
+         :project => invitation.project,
+         :note => note,
+         :invitation_url => url_for(:controller => :invitations, :action => "accept", :id => invitation.id, :token => invitation.token),
+         :footer => Setting.emails_footer_nospam,
+         :ignore_bcc_setting => true
+    render_multipart('invitation_remind', body)
+    @ignore_bcc_setting = true
+  end
+
   def reminder(user, issues, days)
     set_language_if_valid user.language
     recipients user.mail
