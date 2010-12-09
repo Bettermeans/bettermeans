@@ -409,13 +409,14 @@ function promptToRemote(text, param, url) {
 
 //param must start with &
 function send_remote(url,param,note){
-	$.ajax({
-	   type: "POST",
-	   dataType: "json",
-	   url: url,
-	   data: '&note=' + note + param,
-		timeout: 30000 //30 seconds
-	 });
+	top.send_remote(url,param,note)
+	// top.$.ajax({
+	//    type: "POST",
+	//    dataType: "json",
+	//    url: url,
+	//    data: '&note=' + note + param,
+	// 	timeout: 30000 //30 seconds
+	//  });
 }
 
 function comment_prompt_to_remote(dataId,title,message,param,url,required){
@@ -428,7 +429,7 @@ function comment_prompt_to_remote(dataId,title,message,param,url,required){
 	}
         content = content + '<p><textarea id="prompt_comment_' + dataId + '" class="comment_prompt_text" rows="10" ></textarea></p><br>';
 		content = content + '<p>';
-        content = content + '<input type="submit" onclick="send_remote(\'' + url + '\',\'' + param + '\',' + note + ');$.fancybox.close();" value="Submit"></input>';
+        content = content + '<input type="submit" onclick="$.fancybox.close();send_remote(\'' + url + '\',\'' + param + '\',' + note + ');" value="Submit"></input>';
 		if (!required){
         	content = content + '<input type="submit" onclick="$.fancybox.close();send_remote(\'' + url + '\',\'' + param + '\',\'\');" value="No Comment"></input>';
 		}

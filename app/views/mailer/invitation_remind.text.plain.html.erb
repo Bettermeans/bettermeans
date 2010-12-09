@@ -1,0 +1,16 @@
+<%= @user.name %> just sent you a reminder that your'e invited to work with them on <%= @project.name %>
+
+<% if @note %>
+--------------------
+<%= @note %>
+--------------------
+<% end %>
+
+To accept their invitation follow this link:
+<%= @invitation_url %>
+
+Good luck!
+the folks at bettermeans
+
+open, democratic project management
+http://bettermeans.com

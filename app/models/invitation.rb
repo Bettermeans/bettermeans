@@ -31,7 +31,7 @@ class Invitation < ActiveRecord::Base
   def resend(note="")
     return unless self.status == PENDING
     Mailer.send_later(:deliver_invitation_remind,self,note)
-    recipient = User.find_by_mail(self.mail)
+    return true
   end
   
   def status_name
