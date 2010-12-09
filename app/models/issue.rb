@@ -14,12 +14,10 @@ class Issue < ActiveRecord::Base
   belongs_to :hourly_type
     
   has_many :journals, :as => :journalized, :dependent => :destroy, :order => "#{Journal.table_name}.created_at ASC"  
-  has_many :time_entries, :dependent => :delete_all
   
   has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
   has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
   
-  has_many :commit_requests, :dependent => :delete_all
   has_many :issue_votes, :dependent => :delete_all
   has_many :todos, :dependent => :delete_all
   
@@ -471,9 +469,9 @@ class Issue < ActiveRecord::Base
   
   def update_estimate_total(binding)
     if binding
-      self.points =   IssueVote.average(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :isbinding=> true})
+      self.points =   IssueVote.average(:points, :conditions => " issue_id = #{self.id} AND  vote_type = #{IssueVote::ESTIMATE_VOTE_TYPE} AND isbinding= true AND points != -1")
     else
-      self.points_nonbind =   IssueVote.average(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :isbinding=> false})
+      self.points_nonbind =   IssueVote.average(:points, :conditions => " issue_id = #{self.id} AND  vote_type = #{IssueVote::ESTIMATE_VOTE_TYPE} AND isbinding= false AND points != -1")
     end
   end
 
@@ -666,6 +664,8 @@ class Issue < ActiveRecord::Base
   # Called after_save
   def create_journal
     if @current_journal
+      
+      logger.info { "creating journal..." }
       # attributes changes
       (Issue.column_names - %w(id description lock_version created_at updated_at pri accept reject accept_total agree disagree agree_total retro_id accept_nonbind reject_nonbind accept_total_nonbind agree_nonbind disagree_nonbind agree_total_nonbind points_nonbind pri_nonbind)).each {|c|
         @current_journal.details << JournalDetail.new(:property => 'attr',

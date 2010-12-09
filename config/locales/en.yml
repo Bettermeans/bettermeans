@@ -151,6 +151,7 @@ en:
   notice_issue_done_ratios_updated: Issue done ratios updated.
   notice_this_is_your_profie: "This is your public profile. To manage your account <a href='/my/account'>click here</a>"
   
+  error_old_invite : "Old or bad invitation"
   error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_issue_not_found_in_project: 'The item was not found or does not belong to this workstream'
   error_no_tracker_in_project: 'No issue type is associated to this workstream. Please check the Workstream settings.'
@@ -160,6 +161,7 @@ en:
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
+  error_general: 'Something went wrong.'
   
   warning_attachments_not_saved: "%{count} file(s) could not be saved."
   
@@ -181,6 +183,7 @@ en:
   gui_validation_error: 1 error
   gui_validation_error_plural: "%{count} errors"
   
+  field_points : "Avg estimated credits"
   field_logo : "Logo"
   field_image_file: "Upload local file"
   field_image_file_url: "or image URL"
@@ -251,6 +254,7 @@ en:
   field_done_ratio: % Done
   field_auth_source: Authentication mode
   field_hide_mail: Hide my email address
+  field_active_only_jumps: Only show workstreams I'm active in top jump menu
   field_comments: Comment
   field_wiki_comments: Revision notes
   field_url: URL
@@ -392,7 +396,12 @@ en:
   project_module_files: Files
   project_module_wiki: Wiki
   project_module_boards: Discussions
-  
+
+  label_track_invites: Track sent invites
+  label_unarchive_project: Un-archive workstream
+  label_unarchive_project_brackets: (unarchive)
+  label_archive_project: Archive workstream
+  label_delete_project: Delete workstream
   label_note_to_recipient: Note for recipient (optional)
   label_amount_to_transfer: Amount to Transfer
   label_select_recipient: Select Recipient
@@ -486,7 +495,7 @@ en:
   label_auth_source: Authentication mode
   label_auth_source_new: New authentication mode
   label_auth_source_plural: Authentication modes
-  label_subproject_plural: Workstreams
+  label_subproject_plural: Sub workstreams
   label_subproject_new: New sub workstream
   label_and_its_subprojects: "%{value} and its sub workstreams"
   label_min_max_length: Min - Max length
@@ -621,6 +630,8 @@ en:
   label_copied: copied
   label_renamed: renamed
   label_deleted: deleted
+  label_archived: archived
+  label_unarchived: un-archived
   label_project_description: Description
   label_message: Discussion
   label_latest_revision: Latest revision
@@ -928,6 +939,7 @@ en:
   label_motions_active : "Active Motions"
   label_motions_view_all : "View all Motions"
   label_new_role : "New role: %{role_name}"
+  label_new_invitation : "Invitation to join %{project_name} as a %{role_name}"
   
   label_drop_from_core_team : "Remove from Core"
   label_nominate_to_core_team : "Nominate to Core"
@@ -967,6 +979,7 @@ en:
   label_memberrole: "a membership"
   
   
+  button_accept_invitation : Accept Invitation
   button_working : working...
   button_change_plan: Change Plan
   button_update_billing: Update billing
@@ -978,6 +991,7 @@ en:
   button_uncheck_all: Uncheck all
   button_delete: Delete
   button_create: Create
+  button_resend: Resend
   button_create_and_continue: Create and continue
   button_test: Test
   button_edit: Edit
@@ -1061,6 +1075,16 @@ en:
   field_joined_by: Joined by
   field_item_url: Permalink
   
+  text_invite_role_instruction: Invite people to this role
+  text_resend_invite_message: "Add a personal comment to the invitation reminder"
+  text_reset_link: "Reset invitation code"
+  text_personalize_invitations: "Personalize your invitation"
+  text_email_instruction: "Enter up to 50 emails, one email per line"
+  text_invite_others_to_contribute: "Invite anyone to contribute to"
+  text_invite_others_to_contribute_personal: "OR - Send personalized, individual invitations"
+  text_confirm_delete_project: "Are you sure you want to delete this workstream? This action cannot be undone!"
+  text_confirm_archive_project: "Are you sure you want to archive this workstream? Nobody will be able to see it anymore. You can unarchive it in the future."
+  text_confirm_unarchive_project: "Are you sure you want to unarchive this workstream?"
   text_included_note: note
   text_failed_to_transfer: Failed to transfer credits.<br>
   text_your_gravatar: We use <a href="http://gravatar.com" target="blank">Gravatar</a> to display your profile picture. <br>To add/update your picture <a href="http://gravatar.com" target="blank">create an account here</a> using the same email you used to signup for BetterMeans
@@ -1155,6 +1179,18 @@ en:
   text_issue_edit_footer : "You can comment on this issue via email, by replying to this email directly."
   text_message_edit_footer : "You can reply to this message via email, by replying to this email directly."
   text_invitation_note_default : "Hi, please join me in working on this workstream."
+  text_you_are_invited : "You are being invited to join"
+  text_generic_invitation : "This link allows anybody to get started as a <strong>contributor</strong> to this workstream."
+  text_generic_invitation_2 : "You can also use the form below to send personalized invitations for folks to join as other roles"
+  text_generic_invitation_long : "The link below allows anybody to become a contributor to this workstream.<br><br>It can be used an infinite amount of times. And doesn't expire until you change it.<br>Send it out via email, or post it somewhere where folks can follow it to join your workstream."
+  text_personal_invitation : "Use the form below to send personalized invitations to potential team members.<br><br>This is the better way to go since people are more likely to respond to an exclusive invite, and don't need to validate their email.<br><br> This is also the more secure option since each invitation can be used only once and expires after a while."
+  
+  text_role_invitation_description_Administrator : "Admins have the most power.<br><br> An Admin can bypass governance rules and directly add/remove members and workstreams, and all their votes are binding.<br><br> Use this role sparingly as you are setting up your structures. Then transition to using other roles for day to day collaboration."
+  text_role_invitation_description_Contributor : "This the first level of participation in an open enterprise.<br><br>Contributors' votes on all matters will be visible to everyone, and will be non-binding.<br><br> Meaning a contributor's voice is hear, but their voting doesn't directly affect the items they are weighing in on.<br><br> A contributor can earn credits and contribute to a workstream."
+  text_role_invitation_description_Member : "Members are at the heart of an open enterprise.<br><br> All members' votes are binding.<br><br>In addition members can nominate contributors for membership, and vote on Core Team elections.<br><br> Only invite members whose principles and values are aligned with yours."
+  text_role_invitation_description_Core Team : "A member of the Core Team has binding votes in all matters, and is very similar to a member.<br><br> The main difference is a Core Team member can vote on the election of new members.<br><br> Essentially, they are the custodians of the organization's principles, and hold the bar for membership.<br><br> Core Team Members are accountable to all members, and their role is to represent their voice."
+  text_role_invitation_description_Board : "As a board member,all your votes are binding, and you have equal priveleges to a Core Team Member.<br><br> Being on the board though, indicates a lesser commitment to being involved in day to day work."
+  
   
   default_role_administrator: Administrator
   default_role_citizen: Core Member
@@ -1195,6 +1231,7 @@ en:
   enumeration_activities: Activities (time tracking)
   enumeration_system_activity: System Activity
   
+  help_reset_link : Resetting this link changes the invitation code. This deactivates the previous link(s) and prevents anybody from signing in using it.<br><br>This action does not affect the personalized invitations you sent out.
   help_how_do_i_join_a_team : How do I join this team?
   help_how_do_i_join_a_team_title : Joining a Team
   help_how_do_i_join_a_team_description : "There are two levels of team membership: Contributor, and Core Team. <br /><br /><strong>Becoming a contributor</strong><br />Before getting on a core team you must first contribute to the team. </br>You become a contributor for a workstream by requesting and getting ownership of an existing tasks. <br /> Another way to become a contributor, is to be a core team member of any sub workstream.<br /><br /><strong>Become a core team member</strong><br />Once you are a contributor, you may request (or be invited) to join the Core Team by an existing Core Team member. <br /><br /> You can also join a workstream's core team directly if your a core team member of its parent workstream."
@@ -1233,7 +1270,7 @@ en:
   help_section_project_news: "<strong>Check out or report on the latest news here.</strong> News is used to broadcast events to your team. For example winning a bid, or a new product release."
   help_section_project_discussion: "Like so many discussion boards before it, you can talk about stuff here. If you have an idea that you are not yet ready to propose as a motion or work item and want to talk to folks about it, <strong>start a new topic.</strong> You might use the discussion board to discuss general strategy, new possible workstream, new target audience, or anything that comes to mind."
   help_section_project_activity: "<strong>Stay current on what's hot in your work using the activity stream.</strong> The activity stream is a very useful way of seeing what is the latest activity in your workstreams and subworkstreams. Any updates or comments or new items or status changes to items basically when anything changes in your workstream, it will appear here. For more information, <a href= 'http://help.bettermeans.com/faq/activity-stream' target='blank'> click here. </a>"
-  help_section_project_team: "<strong>How great is your team!</strong><br><br>I bet you are also excited about making it even better.<br><br>Use this page to track the roles people are playing for this workstream. Remember, these roles apply to all sub workstreams as well.<br><br>You can also use the link on the left to invite more team members. <a href='http://help.bettermeans.com/how-to/invitations' target='blank'> Learn more about invitations here</a>.<br><br> There are no job titles in an Open Enterprise, but there are levels of engagement that each come with different voting privileges, <a href= 'http://help.bettermeans.com/faq/membership' target='blank'> learn more about that here.</a><br><br> "
+  help_section_project_team: "<strong>How great is your team!</strong><br><br>I bet you are also excited about making it even better.<br><br>Use this page to track the roles people are playing for this workstream. Remember, these roles apply to all sub workstreams as well.<br><br>You can also use the links on the right to invite more team members. <a href='http://help.bettermeans.com/how-to/invitations' target='blank'> Learn more about invitations here</a>.<br><br> There are no job titles in an Open Enterprise, but there are levels of engagement that each come with different voting privileges, <a href= 'http://help.bettermeans.com/faq/membership' target='blank'> learn more about that here.</a><br><br> "
   help_section_project_credits: "<strong>This page tracks all the credits for your project.</strong> Credits are a way of tracking relative contribution. They are an indicator of what peers have given each other. <br>Credits can be used in many ways depending on how your organization or project runs. They can represent actual money in which case this is an accounts payable page, or they could represent relative contribution in which case this is a contribution tracking page. To learn more about how credits can work, <a href= 'http://help.bettermeans.com/faq/credits' target='blank'> click here.</a>"
   help_section_my_account: "<strong>This is your account page</strong> Unlike your public profile that is viewable by anyone in the BetterMeans community, this page is private to you. Here you can do important things like change your password, email settings and other preferences. You can also see your current usage levels and if needed you can change your subscription plan with BetterMeans. If you have questions about your account, please email billing@bettermeans.com"
   help_section_welcome_index: "Welcome on board!|<strong>Get started by creating your own project workstream, or browsing around and contributing to existing ones</strong><br><br>We highly recommend this overview of how things work on bettermeans:<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br>You can also <a href='http://help.bettermeans.com/home' target='blank'>visit our help site for a more infor</a> and answers to frequently asked questions.<br><br>Please don't forget to send as all the feedback you have!<br><br><br>"

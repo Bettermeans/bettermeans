@@ -2,17 +2,6 @@ class HelpSectionsController < ApplicationController
   before_filter :authorize, :except => :dont_show
   ssl_required :all  
   
-  # GET /help_sections
-  # GET /help_sections.xml
-  def index
-    @help_sections = HelpSection.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @help_sections }
-    end
-  end
-
   # GET /help_sections/1
   # GET /help_sections/1.xml
   def show
@@ -62,7 +51,7 @@ class HelpSectionsController < ApplicationController
 
     respond_to do |format|
       if @help_section.save
-        flash.now[:notice] = 'HelpSection was successfully created.'
+        flash.now[:success] = 'HelpSection was successfully created.'
         format.html { redirect_to(@help_section) }
         format.xml  { render :xml => @help_section, :status => :created, :location => @help_section }
       else
@@ -79,7 +68,7 @@ class HelpSectionsController < ApplicationController
 
     respond_to do |format|
       if @help_section.update_attributes(params[:help_section])
-        flash.now[:notice] = 'HelpSection was successfully updated.'
+        flash.now[:success] = 'HelpSection was successfully updated.'
         format.html { redirect_to(@help_section) }
         format.xml  { head :ok }
       else

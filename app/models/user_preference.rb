@@ -8,13 +8,15 @@ class UserPreference < ActiveRecord::Base
   
   attr_protected :others
   
+  DEFAULTS = {:no_self_notified=>true, :daily_digest=>true, :no_emails=>false,  :comments_sorting=>"asc", :active_only_jumps=>false}
+  
   def initialize(attributes = nil)
     super
-    self.others ||= {:no_self_notified=>true, :daily_digest=>true, :no_emails=>false, :comments_sorting=>"asc"}
+    self.others ||= DEFAULTS
   end
   
   def before_save
-    self.others ||= {:no_self_notified=>true, :daily_digest=>true, :no_emails=>false, :comments_sorting=>"asc"}
+    self.others ||= DEFAULTS
   end
   
   def [](attr_name)
@@ -29,7 +31,7 @@ class UserPreference < ActiveRecord::Base
     if attribute_present? attr_name
       super
     else
-      h = read_attribute(:others).dup || {:no_self_notified=>true, :daily_digest=>true, :no_emails=>false,  :comments_sorting=>"asc"}
+      h = read_attribute(:others).dup || DEFAULTS
       h.update(attr_name => value)
       write_attribute(:others, h)
       value

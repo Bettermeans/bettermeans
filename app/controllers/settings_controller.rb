@@ -34,7 +34,7 @@ class SettingsController < ApplicationController
         value.delete_if {|v| v.blank? } if value.is_a?(Array)
         Setting[name] = value
       end
-      flash.now[:notice] = l(:notice_successful_update)
+      flash.now[:success] = l(:notice_successful_update)
       redirect_to :action => 'edit', :tab => params[:tab]
       return
     end
@@ -50,7 +50,7 @@ class SettingsController < ApplicationController
     @plugin = Redmine::Plugin.find(params[:id])
     if request.post?
       Setting["plugin_#{@plugin.id}"] = params[:settings]
-      flash.now[:notice] = l(:notice_successful_update)
+      flash.now[:success] = l(:notice_successful_update)
       redirect_to :action => 'plugin', :id => @plugin.id
     end
     @partial = @plugin.settings[:partial]

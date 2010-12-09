@@ -47,7 +47,7 @@ class NewsController < ApplicationController
     if request.post?
       @news.attributes = params[:news]
       if @news.save
-        flash.now[:notice] = l(:notice_successful_create)
+        flash.now[:success] = l(:notice_successful_create)
         redirect_to :controller => 'news', :action => 'index', :project_id => @project
       end
     end
@@ -55,7 +55,7 @@ class NewsController < ApplicationController
   
   def edit
     if request.post? and @news.update_attributes(params[:news])
-      flash.now[:notice] = l(:notice_successful_update)
+      flash.now[:success] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @news
     end
   end
@@ -64,7 +64,7 @@ class NewsController < ApplicationController
     @comment = Comment.new(params[:comment])
     @comment.author = User.current
     if @news.comments << @comment
-      flash.now[:notice] = l(:label_comment_added)
+      flash.now[:success] = l(:label_comment_added)
       redirect_to :action => 'show', :id => @news
     else
       show

@@ -1,5 +1,5 @@
 <% if Notification.unresponded? %>
-<span id="notification">
+<span id="notification" class="notification-unresponded">
 <%=link_to pluralize(Notification.unresponded_count,l(:label_new_notification)), {:controller => 'notifications', :action => 'index'} %>
 <span class="gt-util-separator">|</span>
 </span>
