@@ -9,7 +9,7 @@ class Invitation < ActiveRecord::Base
   def before_create
     #todo: check for dupes?
     self.token = Token.generate_token_value
-    self.role_id = Role.contributor.id
+    self.role_id = Role.contributor.id unless self.role_id
   end
   
   def deliver(note="")
