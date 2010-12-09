@@ -14,7 +14,6 @@ class Invitation < ActiveRecord::Base
   def deliver(note="")
     return unless self.status == PENDING
     
-    # Mailer.send_later(:invitation_add,self)
     Mailer.send_later(:deliver_invitation_add,self,note)
     
     # add notification here
