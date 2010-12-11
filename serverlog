@@ -54,3 +54,7 @@ STATEMENT:  UPDATE "activity_streams" SET indirect_object_description = 'random 
 	's 's 's
 	
 	homie's' WHERE "id" IN (SELECT "id" FROM "activity_streams" WHERE ("activity_streams"."indirect_object_id" = 9028 AND "activity_streams"."object_type" = E'Issue' AND "activity_streams"."actor_id" = 3 AND "activity_streams"."indirect_object_type" = E'Journal')  ORDER BY created_at DESC LIMIT 1)
+LOG:  checkpoints are occurring too frequently (25 seconds apart)
+HINT:  Consider increasing the configuration parameter "checkpoint_segments".
+LOG:  checkpoints are occurring too frequently (28 seconds apart)
+HINT:  Consider increasing the configuration parameter "checkpoint_segments".
