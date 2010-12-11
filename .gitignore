@@ -20,4 +20,5 @@
 /config/database.yml
 /nbproject
 redmine.tmproj
+serverlog
 .DS_Store
