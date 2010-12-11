@@ -482,7 +482,7 @@ en:
   label_logout: Sign out
   label_help: Help
   label_reported_issues: Reported items
-  label_assigned_to_me_issues: Items owned by me
+  label_assigned_to_me_issues: Items I own
   label_last_login: Last connection
   label_registered_on: Registered on
   label_activity: Activity

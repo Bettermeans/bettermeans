@@ -27,10 +27,11 @@ class User < ActiveRecord::Base
   has_many :projects, :through => :memberships
   has_many :owned_projects, :class_name => 'Project', :foreign_key => 'owner_id', :include => [:all_members]
   has_many :invitations
+  
   # has_many :belongs_to_projects, :through => :memberships, :class_name => 'Project', :foreign_key=> 'project_id', :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.owner_id <> #{self.id}, :order => #{Project.table_name}.name"
   
+  has_many :activity_streams, :foreign_key => 'actor_id', :dependent => :delete_all
   
-
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   has_one :api_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='api'"
@@ -537,17 +538,14 @@ class User < ActiveRecord::Base
   
   #Adds user to that project as that role
   def add_to_project(project, role_id, options={})
-    puts "adding to project role_id #{role_id} project #{project.inspect}"
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     if m.nil? 
-      puts "user isn't a member"
       #User isn't a member let's create a membership
       member_role = Role.find(:first, :conditions => {:id => role_id})
       m = Member.new(:user => self, :roles => [member_role])
       p = Project.find(project)
       result = p.all_members << m
     else
-      puts "already a member"
       #User is already a member, we just add a role (but make sure role doesn't exist already)
       MemberRole.create! :member_id => m.id, :role_id => role_id if MemberRole.first(:conditions => {:member_id => m.id, :role_id => role_id}) == nil
     end
