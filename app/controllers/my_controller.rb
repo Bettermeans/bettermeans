@@ -34,6 +34,11 @@ class MyController < ApplicationController
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
   end
+  
+  def projects
+    @my_projects = User.current.owned_projects
+    @belong_to_projects = User.current.belongs_to_projects
+  end
 
   # Edit user's account
   def account

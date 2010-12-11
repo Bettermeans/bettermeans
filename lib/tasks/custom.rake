@@ -92,30 +92,38 @@ namespace :custom do
   task :trim_database_for_dev => :environment do
     if ENV['reset_safe'] == 'true'
       puts "Trimming database"
-      puts "Changing passwords"
-      User.update_all(:hashed_password => "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8")
       
-      puts "Deleting projects"
-      Project.all.each do |p|
-        # puts "Root id #{p.root.id}"
-        unless p.root && (p.root.id == 20 || p.root.id == 43)
-          p.destroy
-          puts "Deleted #{p.id}"
-        end
-      end
+      puts "Deleting old notifications"
+      Notification.delete_all
       
+
       puts "Deleting users"
       @p = Project.find(20) #bettermeans
       @p.name = "LOCAL BETTERMEANS" #changing title so there's not confusion when working with local db
       @p.save
       
       @q = Project.find(43) #green museum
+
       User.all.each do |u| 
         unless u.community_member_of?(@p) || u.community_member_of?(@q) || u.id == User.sysadmin.id 
           puts "Deleting user #{u.id}"
           u.destroy 
         end
       end
+      
+      puts "Deleting projects"
+      Project.all.each do |p|
+        next unless p.root?
+        unless p.id == @q.id # || p.id == @p.id
+          puts "Deleting project #{p.id}"
+          p.destroy
+          puts "done."
+        end
+      end
+      
+      puts "Changing passwords"
+      User.update_all(:hashed_password => "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8")
+      
       
       puts "done."
     else
