@@ -2582,9 +2582,13 @@ function update_panel_count(name, skip_button){
 		else{
 			count = $("#" + name + "_start_of_list > *").length;
 		}
-		if (name == 'new'){
-			count = count - 1; //accounting for add new item link
-		}
+		// if (name == 'new'){
+		// 	count = count - 1; //accounting for add new item link
+		// 	if (count < 0){
+		// 		count = 0;
+		// 	}
+		// }
+
 		$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\([0-9]*\)/,"(" + count + ")"));
 		if (!skip_button){
 			$("#" + name + '_panel_toggle_count').html($("#" + name + '_panel_toggle_count').html().replace(/\([0-9]*\)/,"(" + count + ")"));
