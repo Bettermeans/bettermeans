@@ -61,9 +61,14 @@ Attachments, and logging in via the janrain plugin (e.g. google, twitter...etc) 
 You shouldn't need to. But if you do....
 To create a new dev db from production:
 
-1. Load the production db in your local db
-2. rake custom:trim_database_for_dev
-3. pg_dump redmine_dev -c -O -x -f bettermeans_dev_db.sql
+heroku db:pull
+export reset_safe=true
+rake custom:trim_database_for_dev
+script/plugin install https://github.com/rhalff/seed_dump.git
+rake db:seed:dump
+
+To generate a pg_dump:
+pg_dump redmine_dev -c -O -x -f bettermeans_dev_db.sql
 
 ----
 = Random tidbits
