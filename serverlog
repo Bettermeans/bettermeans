@@ -18,3 +18,39 @@ STATEMENT:  select * from projects where is_public = false and parent is null
 WARNING:  pgstat wait timeout
 WARNING:  pgstat wait timeout
 WARNING:  pgstat wait timeout
+LOG:  unexpected EOF on client connection
+LOG:  autovacuum launcher shutting down
+LOG:  received smart shutdown request
+LOG:  shutting down
+LOG:  database system is shut down
+LOG:  database system was shut down at 2010-12-10 15:03:31 PST
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+ERROR:  syntax error at or near "s" at character 91
+STATEMENT:  UPDATE "activity_streams" SET indirect_object_description = 'random comment
+	edited hello 's' WHERE "id" IN (SELECT "id" FROM "activity_streams" WHERE ("activity_streams"."indirect_object_id" = 9028 AND "activity_streams"."object_type" = E'Issue' AND "activity_streams"."actor_id" = 3 AND "activity_streams"."indirect_object_type" = E'Journal')  ORDER BY created_at DESC LIMIT 1)
+ERROR:  column "random comment
+	edited hello 's" does not exist at character 61
+STATEMENT:  UPDATE "activity_streams" SET indirect_object_description = "random comment
+	edited hello 's" WHERE "id" IN (SELECT "id" FROM "activity_streams" WHERE ("activity_streams"."indirect_object_id" = 9028 AND "activity_streams"."object_type" = E'Issue' AND "activity_streams"."actor_id" = 3 AND "activity_streams"."indirect_object_type" = E'Journal')  ORDER BY created_at DESC LIMIT 1)
+ERROR:  syntax error at or near "s" at character 91
+STATEMENT:  UPDATE "activity_streams" SET indirect_object_description = 'random comment
+	edited hello 's' WHERE "id" IN (SELECT "id" FROM "activity_streams" WHERE ("activity_streams"."indirect_object_id" = 9028 AND "activity_streams"."object_type" = E'Issue' AND "activity_streams"."actor_id" = 3 AND "activity_streams"."indirect_object_type" = E'Journal')  ORDER BY created_at DESC LIMIT 1)
+ERROR:  syntax error at or near "s" at character 91
+STATEMENT:  UPDATE "activity_streams" SET indirect_object_description = 'random comment
+	edited hello 's' WHERE "id" IN (SELECT "id" FROM "activity_streams" WHERE ("activity_streams"."indirect_object_id" = 9028 AND "activity_streams"."object_type" = E'Issue' AND "activity_streams"."actor_id" = 3 AND "activity_streams"."indirect_object_type" = E'Journal')  ORDER BY created_at DESC LIMIT 1)
+ERROR:  syntax error at or near "s" at character 91
+STATEMENT:  UPDATE "activity_streams" SET indirect_object_description = 'random comment
+	edited hello 's' WHERE "id" IN (SELECT "id" FROM "activity_streams" WHERE ("activity_streams"."indirect_object_id" = 9028 AND "activity_streams"."object_type" = E'Issue' AND "activity_streams"."actor_id" = 3 AND "activity_streams"."indirect_object_type" = E'Journal')  ORDER BY created_at DESC LIMIT 1)
+ERROR:  syntax error at or near "s" at character 91
+STATEMENT:  UPDATE "activity_streams" SET indirect_object_description = 'random comment
+	edited hello 's
+	
+	's 's 's' WHERE "id" IN (SELECT "id" FROM "activity_streams" WHERE ("activity_streams"."indirect_object_id" = 9028 AND "activity_streams"."object_type" = E'Issue' AND "activity_streams"."actor_id" = 3 AND "activity_streams"."indirect_object_type" = E'Journal')  ORDER BY created_at DESC LIMIT 1)
+ERROR:  syntax error at or near "s" at character 91
+STATEMENT:  UPDATE "activity_streams" SET indirect_object_description = 'random comment
+	edited hello 's
+	
+	's 's 's
+	
+	homie's' WHERE "id" IN (SELECT "id" FROM "activity_streams" WHERE ("activity_streams"."indirect_object_id" = 9028 AND "activity_streams"."object_type" = E'Issue' AND "activity_streams"."actor_id" = 3 AND "activity_streams"."indirect_object_type" = E'Journal')  ORDER BY created_at DESC LIMIT 1)
