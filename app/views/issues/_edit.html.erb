@@ -7,11 +7,11 @@
     <%= error_messages_for 'time_entry' %>
     <div class="gt-content-box">
     <% if @edit_allowed %>
-        <fieldset class="tabular"><legend><%= l(:label_change_properties) %>
-        <% if !@issue.new_record? && !@issue.errors.any? %>
-        <small>(<%= link_to l(:label_more), {}, :onclick => '$("#issue_descr_fields").show(); return false;' %>)</small>
-        <% end %>
-        </legend>
+        <!-- <fieldset class="tabular"><legend><%#= l(:label_change_properties) %>
+        <%# if !@issue.new_record? && !@issue.errors.any? %>
+        <small>(<%#= link_to l(:label_more), {}, :onclick => '$("#issue_descr_fields").show(); return false;' %>)</small>
+        <%# end %>
+        </legend> -->
         <%= render :partial => 'form', :locals => {:f => f} %>
         </fieldset>
     <% end %>

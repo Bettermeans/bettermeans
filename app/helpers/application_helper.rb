@@ -251,6 +251,7 @@ module ApplicationHelper
   
   # Renders the project quick-jump box
   def render_project_jump_box
+    return if @project && @project.new_record?
     # Retrieve them now to avoid a COUNT query
     if User.current.pref[:active_only_jumps]
       projects = User.current.projects.all
