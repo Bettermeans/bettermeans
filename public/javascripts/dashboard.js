@@ -1407,7 +1407,7 @@ try{
 	$('#comment_' + journalId + '_text_container').html(new_text).show();
 	$('#comment_' + journalId + '_subject_submit_container').html('');
 	
-	var data = "commit=Update&id=" + journalId + "&issue_id=" + D[dataId].id + "&journal[notes]=" + new_text;
+	var data = "commit=Update&id=" + journalId + "&issue_id=" + D[dataId].id + "&journal[notes]=" + escape(new_text);
 	
 	var url = url_for({ controller: 'journals',
 	                           action    : 'edit_from_dashboard'
