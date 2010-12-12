@@ -48,21 +48,30 @@ Rename database.yml.example to database.yml
 bundle install
 
 #for postgresql db (recommended since it mirror our production env)
-psql redmine_development < db/pgdump.sql
+psql bettermeans_development < db/pgdump.sql
 rake db:migrate
 
-#for my sql development (much much slower, not recommended)
+#for my sql development (not recommended)
 rake db:create
 rake db:schema:load
-rake db:seed
+#rake db:seed (coming soon)
 rake db:migrate
 
 that's it. now you're ready to change the world!
-
 ----
 = Known issues
 
-Attachments, and logging in via the janrain plugin (e.g. google, twitter...etc) won't work on the local environment.
+Attachments doesn't work in dev environment
+Logging in via the janrain plugin (e.g. google, twitter...etc) won't work in dev environment (if you need to work with this, drop me a message, there's an involved workaround)
+
+----
+= Random tidbits
+
+To see activity on bettermeans, checkout the stats page:
+https://secure.bettermeans.com/admin/user_stats
+
+Admin console is here (there are no visible links to it):
+http://localhost:3000/admin
 
 ----
 = Creating a db from production
@@ -74,17 +83,8 @@ heroku db:pull # Load production database
 export reset_safe=true #local variable to guard against accidentally running this in production
 rake custom:trim_database_for_dev # trims fat from db
 rake db:schema:dump 
-rake db:seed:dump MODELS=activity_stream,activity_stream_preference,activity_stream_total,user,project,tracker,issue,issue_observer,issue_priority,issue_relation,issue_status,issue_vote,board,credit,credit_distribution,credit_transfer,daily_digest,document,document_observer,attachment,auth_source,auth_source_ldap,enabled_module,enterprise,enumeration,help_section,hourly_type,invitation,journal,journal_detail,journal_observer,mail,mailer,role,member,member_role,comment,message,message_observer,motion,motion_vote,news,news_observer,open_id_authentication_association,open_id_authentication_nonces,personal_welcome,plan,plugin_schema_info,query,quote,reputation,retro,retro_rating,setting,share,todo,token,track,user_preference,watcher,wiki,wiki_content,wiki_content_observer,wiki_page,wiki_redirect,workflow
+rake db:seed:dump MODELS=tracker,issue_priority,issue_status,enumeration,role,plan,setting
 # Uses https://github.com/rhalff/seed_dump
 
 To generate a pg_dump:
-pg_dump redmine_dev -c -d -O -x -f bettermeans_dev_db.sql
-
-----
-= Random tidbits
-
-To see activity on bettermeans, checkout the stats page:
-https://secure.bettermeans.com/admin/user_stats
-
-Admin console is here (there are no visible links to it):
-http://localhost:3000/admin
+pg_dump bettermeans_development -c -O -x -f db/pgdump.sql
