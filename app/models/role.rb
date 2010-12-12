@@ -175,6 +175,11 @@ class Role < ActiveRecord::Base
     find(:first, :conditions => {:builtin => BUILTIN_ADMINISTRATOR}) || raise('Missing Administrator builtin role.')
   end
 
+  # Return the builtin 'board' role 
+  def self.board
+    find(:first, :conditions => {:builtin => BUILTIN_BOARD}) || raise('Missing Board builtin role.')
+  end
+
 
   # Return the builtin 'contributor' role 
   def self.contributor
