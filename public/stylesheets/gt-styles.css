@@ -859,7 +859,7 @@ tt {
 	text-decoration: none;
 }
 
-.flash {
+/*.flash {
 	border: 3px solid #aaa;
 	padding: 1em;
 	background-color: #fff;
@@ -892,6 +892,44 @@ tt {
 	padding: .5em 1em;
 	color: #fff;
 }
+*/
+
+/* new look and feel for flash messages */
+.error, .notice, .success {
+	padding:.8em;
+	margin-bottom:1em;
+	border:1px solid #ddd;
+	clear: both;
+	text-align:center;
+}
+.error {
+	background:#FBE3E4;
+	color:#8a1f11;
+	border-color:#FBC2C4;
+}
+.notice {
+	background: #f5f5f5 url(/images/static/clip.png) no-repeat 10px 50% ;
+	color:#595959;
+	border-color:#d9d9d9;
+	text-shadow: 1px 1px #fff;
+	padding:1.4em;
+}
+.success {
+	background:#E6EFC2;
+	color:#264409;
+	border-color:#C6D880;
+}
+.error a {
+	color:#8a1f11;
+}
+.notice a {
+	color:#514721;
+}
+.success a {
+	color:#264409;
+}
+
+
 
 /* @end */
 
@@ -2302,4 +2340,36 @@ img.private-workstream, img.volunteer-workstream{
 	padding: 10px;
 	text-align:center;
 	vertical-align:middle;
+}
+
+.notification h4{
+	padding-bottom:10px;
+}
+
+.clip-notice {
+	padding:.8em;
+	margin-bottom:1em;
+	border:1px solid #ddd;
+	clear: both;
+	background: #f5f5f5 url(/images/static/clip.png) no-repeat 10px 50% ;
+	color:#595959;
+	border-color:#d9d9d9;
+	text-shadow: 1px 1px #fff;
+	padding:1.4em 1.4em 1.4em 4em;
+/*	text-align:center;*/
+}
+
+.generic-link-reset{
+	float:right;
+}
+.generic-link-text{
+	padding:10px;
+}
+
+.notification-unresponded{
+	padding-left: 20px;
+	background-position: 0% 20%;
+	background-repeat: no-repeat;
+	background-image: url(/images/email.png);
+	font-weight:bold;
 }

@@ -154,7 +154,9 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
+    logger.info { "authorizing #{ctrl} #{action} for #{User.current.inspect} and project #{@project.inspect}" }
     allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project, :global => global)
+    logger.info { "allowed: #{allowed}" }
     allowed ? true : deny_access
   end
 
@@ -249,10 +251,24 @@ class ApplicationController < ActionController::Base
         a.new_record? ? (unsaved << a) : (attached << a)
       end
       if unsaved.any?
-        flash.now[:warning] = l(:warning_attachments_not_saved, unsaved.size)
+        flash.now[:error] = l(:warning_attachments_not_saved, unsaved.size)
       end
     end
     attached
+  end
+  
+  #replaces newline characters with more binary-compatible ones
+  def cleanup_newline(text)
+    return text unless text and !text.empty?
+    text.gsub(/\r?\n/, "\r\n")
+  end
+  
+  # Same as Rails' simple_format helper without using paragraphs
+  def simple_format_without_paragraph(text)
+    text.to_s.
+      gsub(/\r\n?/, "\n").                    # \r\n and \r -> \n
+      gsub(/\n\n+/, "<br /><br />").          # 2+ newline  -> 2 br
+      gsub(/([^\n]\n)(?=[^\n])/, '\1<br />')  # 1 newline   -> br
   end
 
   # Returns the number of objects that should be displayed

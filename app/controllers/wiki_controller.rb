@@ -96,7 +96,7 @@ class WikiController < ApplicationController
     # used to display the *original* title if some AR validation errors occur
     @original_title = @page.pretty_title
     if request.post? && @page.update_attributes(params[:wiki_page])
-      flash.now[:notice] = l(:notice_successful_update)
+      flash.now[:success] = l(:notice_successful_update)
       redirect_to :action => 'index', :id => @project, :page => @page.title
     end
   end

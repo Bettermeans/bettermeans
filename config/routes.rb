@@ -97,6 +97,9 @@ ActionController::Routing::Routes.draw do |map|
     invitations_routes.with_options :conditions => {:method => :get} do |invitations_views|
       invitations_views.connect 'invitations/:id', :action => 'accept'
     end
+    invitations_routes.with_options :conditions => {:method => :post} do |invitations_actions|
+      invitations_actions.connect 'projects/:project_id/invitations/:id/:action', :action => /destroy|resend/
+    end
   end
   
   
@@ -230,7 +233,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/index_active', :action => 'index_active'
       project_views.connect 'projects/update_scale', :action => 'update_scale'
       project_views.connect 'projects/:id', :action => 'show'
-      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|hourly_types|map/
+      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|hourly_types|map|join|reset_invitation_code/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'

@@ -1,3 +1,10 @@
+<div id="inner-page">
+  <div class="container">
+   <%= render :partial => '/home/header', :locals => {:page => 'login'} %>
+    <div class="clear span-12 last" id="main-inner">
+      <%= render_flash_messages %>
+
+
 <!--[if lt IE 7]>
 <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>
   <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='http://www.ie6nomore.com/files/theme/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>
@@ -16,7 +23,7 @@
 
 		<!-- login form head -->
 		<div class="gt-login-hd">
-			&nbsp;&nbsp;&nbsp;&nbsp;You're back, that makes us happy
+			&nbsp;&nbsp;&nbsp;&nbsp;You're here, that makes us happy
 		</div>
 		
 		<!-- login box -->
@@ -41,6 +48,7 @@
   	  
 			<% form_tag({:action=> "login"}, :class => "gt-form") do %>
         <%= back_url_hidden_field_tag %>
+        <%= hidden_field_tag 'invitation_token', @invitation_token %>
 				<!-- form row -->
 				<div class="gt-form-row">
 				  <label for="username" class="gt-login-label"><%=l(:field_login)%></label>
@@ -70,3 +78,4 @@
 			<% end %><!-- /login form -->
 		</div><!-- /login box -->    
 <%= javascript_tag "$('#username').focus();" %>
+</div></div></div>

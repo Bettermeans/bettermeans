@@ -68,12 +68,12 @@ class VotesController < ApplicationController
     
     respond_to do |format|
       if User.current.vote(@voteable, params[:vote])      
-        # flash.now[:notice] = 'Vote was successfully saved.'        
+        # flash.now[:success] = 'Vote was successfully saved.'        
         format.js  { render :action => "create", :vote => @vote, :voteable_type => params[:voteable_type] }
         format.html { redirect_to([@voteable.author, @voteable]) }
         format.xml  { render :xml => @voteable, :status => :created, :location => @voteable }
       else
-        # flash.now[:notice] = 'Error saving vote'        
+        # flash.now[:error] = 'Error saving vote'        
         format.js  { render :action => "error" }
         format.html { render :action => "new" }
         format.xml  { render :xml => @vote.errors, :status => :unprocessable_entity }
@@ -118,7 +118,7 @@ class VotesController < ApplicationController
 
   def ownership_violation
     respond_to do |format|
-      flash.now[:notice] = 'You cannot edit or delete votes that you do not own!'
+      flash.now[:error] = 'You cannot edit or delete votes that you do not own!'
       format.html do
         redirect_to user_path(User.current)
       end

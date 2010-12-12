@@ -19,11 +19,12 @@ class ProjectsController < ApplicationController
   before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add, :index_active, :index_latest ]
   before_filter :find_optional_project, :only => [:activity, :add]
   # before_filter :authorize, :except => [ :index, :list, :add ]
-  #BUGBUG: why aren't these actions being authorized!!!
+  
+  #BUGBUG: why aren't these actions being authorized!!! archive can be removed, unarchive doesn't seem to work when removed from here
   before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :hourly_types ]
   
   before_filter :authorize_global, :only => :add
-  before_filter :require_admin, :only => [ :copy, :archive, :unarchive, :destroy ]
+  before_filter :require_admin, :only => [ :copy ]
   accept_key_auth :activity
   
   after_filter :only => [:add, :edit, :archive, :unarchive, :destroy] do |controller|
@@ -127,7 +128,7 @@ class ProjectsController < ApplicationController
           User.current.add_to_project(@project, Role::BUILTIN_ACTIVE)
         end
 
-        flash.now[:notice] = l(:notice_successful_create)
+        flash.now[:success] = l(:notice_successful_create)
         redirect_to :controller => 'projects', :action => 'dashboard', :id => @project
       end
     end	
@@ -151,12 +152,52 @@ class ProjectsController < ApplicationController
       @project.enabled_module_names = params[:enabled_modules]
       if validate_parent_id && @project.copy(@source_project, :only => params[:only])
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
-        flash.now[:notice] = l(:notice_successful_create)
+        flash.now[:success] = l(:notice_successful_create)
         redirect_to :controller => 'admin', :action => 'projects'
       end		
     end
   rescue ActiveRecord::RecordNotFound
     redirect_to :controller => 'admin', :action => 'projects'
+  end
+  
+  def reset_invitation_token
+    @project.invitation_token = Token.generate_token_value
+    @project.save
+    
+    respond_to do |wants|
+      wants.js do
+        render :update do |page|
+          page.replace "generic-invitation", :partial => 'invitations/generic_invitation', :locals => {:project => @project} 
+          page.visual_effect :highlight, "generic-link", :duration => 6
+          page.visual_effect :highlight, "generic-invitation", :duration => 2
+          page.call '$.jGrowl', l(:notice_successful_update)
+        end
+      end
+    end
+  end
+  
+  def join
+    #check token
+    if params[:token] != @project.invitation_token
+      render_error(l(:error_old_invite))
+      return
+    else
+      #add as contributor
+      if @project.root?
+        unless User.current.community_member_of? @project
+          User.current.add_to_project @project, Role.contributor.id 
+          msg = "Invitation accepted. You are now a contributor of #{@project.name}"
+          redirect_with_flash :success, msg, :controller => :projects, :action => :show, :id => @project.id
+        else
+          msg = "You're already on the #{@project.name} team. Invitation ignored"
+          redirect_with_flash :error, msg, :controller => :projects, :action => :show, :id => @project.id
+        end
+        
+      # else
+      #   @user.add_to_project @project, Role.active.id
+      #   @user.add_to_project @project.root, self.role_id unless @user.community_member_of? @project.root
+      end
+    end
   end
 	
   # Show @project
@@ -284,12 +325,12 @@ class ProjectsController < ApplicationController
       if (old_attributes["is_public"] != (params[:project]["is_public"] == "1"))
         description = (params[:project]["is_public"] == "1") ? "publicised" : "privatized"
           LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, description, :workstreams, 0, nil,{})
-      end
+      end      
       
       if validate_parent_id && @project.save
         @project.set_allowed_parent!(params[:project]['parent_id']) if params[:project].has_key?('parent_id')
         @project.refresh_active_members
-        flash.now[:notice] = l(:notice_successful_update)
+        flash.now[:success] = l(:notice_successful_update)
         redirect_to :action => 'settings', :id => @project
       else
         settings
@@ -306,25 +347,52 @@ class ProjectsController < ApplicationController
   end
 
   def archive
-    if request.post?
-      unless @project.archive
-        flash.now[:error] = l(:error_can_not_archive_project)
-      end
+    if @project.active? && request.post? && @project.archive
+      project_id_override = @project.parent ? @project.parent.id : @project.id #archived projects don't show up in activity stream, so we log the activity to its parent if it exists
+      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_archived), :workstreams, 0, nil,{:project_id => project_id_override})
+      redirect_with_flash :notice, l(:notice_successful_update), :controller => "welcome", :action => 'index'
+    else
+      render_error(l(:error_general))
     end
-    redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
   end
   
   def unarchive
-    @project.unarchive if request.post? && !@project.active?
-    redirect_to(url_for(:controller => 'admin', :action => 'projects', :status => params[:status]))
+    if !@project.active? && request.post? && @project.unarchive
+      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_unarchived), :workstreams, 0, nil,{})
+    
+      respond_to do |wants|
+      
+        wants.js do
+          @my_projects = User.current.owned_projects
+          
+          render :update do |page|
+            page.replace "my_projects_table", :partial => 'welcome/my_projects', :locals => {:my_projects => @my_projects}
+            page.call '$.jGrowl', l(:notice_successful_update)
+          end
+        end
+      end
+    else
+      respond_to do |wants|      
+        wants.js do
+          render :update do |page|
+            page.call '$.jGrowl', l(:error_general)
+          end
+        end
+      end
+    end
   end
   
   # Delete @project
   def destroy
     @project_to_destroy = @project
-    if request.post? and params[:confirm]
-      @project_to_destroy.destroy
-      redirect_to :controller => 'admin', :action => 'projects'
+    if request.post?
+      project_id_override = @project.parent ? @project.parent.id : @project.id #deleted projects don't show up in activity stream, so we log the activity to its parent if it exists
+      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_deleted), :workstreams, 0, nil,{:project_id => project_id_override})
+      if @project_to_destroy.destroy
+        redirect_with_flash :notice, l(:notice_successful_delete), :controller => "welcome", :action => 'index'
+      else
+        render_error(l(:error_general))
+      end
     end
     # hide project in layout
     @project = nil

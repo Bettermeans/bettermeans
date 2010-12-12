@@ -14,9 +14,10 @@ module LogActivityStreams
   def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
   # If there are identical activities within 8 hours, up count
   as = find_identical(actor, object, verb, activity);
-
+  puts { "writing activity" }
   if as && !(as.object_type.downcase == 'issue' && as.indirect_object_description != nil) #if action was found, and action is NOT a comment on an issue)
     as.count += 1
+    puts { "action found" }
   else
     as = ActivityStream.new
     as.verb = verb.to_s
@@ -27,7 +28,8 @@ module LogActivityStreams
     as.object = object
     as.object_name_method = object_name.to_s
     as.status = status
-    as.project_id = object.send('project_id')
+    puts { "options: #{options[:project_id]} and combo #{options[:project_id] || object.send('project_id')}" }
+    as.project_id = options[:project_id] || object.send('project_id')
     as.project_name = Project.find(as.project_id).name
     
     

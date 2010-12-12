@@ -27,10 +27,11 @@ class User < ActiveRecord::Base
   has_many :projects, :through => :memberships
   has_many :owned_projects, :class_name => 'Project', :foreign_key => 'owner_id', :include => [:all_members]
   has_many :invitations
+  
   # has_many :belongs_to_projects, :through => :memberships, :class_name => 'Project', :foreign_key=> 'project_id', :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.owner_id <> #{self.id}, :order => #{Project.table_name}.name"
   
+  has_many :activity_streams, :foreign_key => 'actor_id', :dependent => :delete_all
   
-
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   has_one :api_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='api'"
@@ -73,7 +74,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
   validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }, :case_sensitive => false
   # Login must contain lettres, numbers, underscores only
-  validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
+  validates_format_of :login, :with => /^[a-z0-9_@\.]*$/i
   validates_length_of :login, :maximum => 30
   validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i
   validates_length_of :firstname, :lastname, :maximum => 30
@@ -84,6 +85,22 @@ class User < ActiveRecord::Base
   reportable :daily_registrations, :aggregation => :count, :limit => 14
   reportable :weekly_registrations, :aggregation => :count, :grouping => :week, :limit => 20
   
+  # ===============
+  # = CSV support =
+  # ===============
+  comma do  # implicitly named :default
+     id
+     login
+     firstname
+     lastname 
+     mail     
+     last_login_on
+     created_at
+     updated_at
+     plan_id
+     trial_expires_on
+     active_subscription
+  end
   
   def <=>(user)
     if self.class.name == user.class.name
@@ -113,7 +130,7 @@ class User < ActiveRecord::Base
   end
   
   def activate_invitations
-    Invitation.all(:conditions => {:mail => self.mail}).each do |invite|
+    Invitation.all(:conditions => {:new_mail => self.mail}).each do |invite|
       invite.accept
     end
   end
@@ -521,17 +538,14 @@ class User < ActiveRecord::Base
   
   #Adds user to that project as that role
   def add_to_project(project, role_id, options={})
-    puts "adding to project role_id #{role_id} project #{project.inspect}"
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     if m.nil? 
-      puts "user isn't a member"
       #User isn't a member let's create a membership
       member_role = Role.find(:first, :conditions => {:id => role_id})
       m = Member.new(:user => self, :roles => [member_role])
       p = Project.find(project)
       result = p.all_members << m
     else
-      puts "already a member"
       #User is already a member, we just add a role (but make sure role doesn't exist already)
       MemberRole.create! :member_id => m.id, :role_id => role_id if MemberRole.first(:conditions => {:member_id => m.id, :role_id => role_id}) == nil
     end

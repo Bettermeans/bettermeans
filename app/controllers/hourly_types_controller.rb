@@ -7,7 +7,7 @@ class HourlyTypesController < ApplicationController
     @hourly_type = HourlyType.new(params[:hourly_type])
     @hourly_type.project = @project
     if request.post? && @hourly_type.save
-      flash.now[:notice] = l(:notice_successful_create)
+      flash.now[:success] = l(:notice_successful_create)
       redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'hourly_types'
     end
   end  

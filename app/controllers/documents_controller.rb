@@ -41,14 +41,14 @@ class DocumentsController < ApplicationController
     @document = @project.documents.build(params[:document])    
     if request.post? and @document.save	
       attach_files(@document, params[:attachments])
-      flash.now[:notice] = l(:notice_successful_create)
+      flash.now[:success] = l(:notice_successful_create)
       redirect_to :action => 'index', :project_id => @project
     end
   end
   
   def edit
     if request.post? and @document.update_attributes(params[:document])
-      flash.now[:notice] = l(:notice_successful_update)
+      flash.now[:success] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document
     end
   end  
