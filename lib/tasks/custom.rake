@@ -114,7 +114,7 @@ namespace :custom do
       puts "Deleting projects"
       Project.all.each do |p|
         next unless p.root?
-        unless p.id == @q.id # || p.id == @p.id
+        unless p.id == @q.id || p.id == @p.id
           puts "Deleting project #{p.id}"
           p.destroy
           puts "done."

@@ -180,7 +180,7 @@ class IssuesController < ApplicationController
           @issue.update_estimate_total @iv.isbinding
         end
         
-        @issue.save
+        @issue.save if !@issue.update_status
         
         # flash.now[:success] = l(:notice_successful_create)
         @issue.reload
