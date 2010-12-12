@@ -34,6 +34,11 @@ class MyController < ApplicationController
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
   end
+  
+  def projects
+    @my_projects = User.current.owned_projects
+    @belong_to_projects = User.current.belongs_to_projects
+  end
 
   # Edit user's account
   def account
@@ -122,7 +127,7 @@ class MyController < ApplicationController
           return
         else
           @user.save
-          flash.now[:notice] = "Your plan was successfully canceled"
+          flash.now[:success] = "Your plan was successfully canceled"
           # redirect_to :action => 'account'
           @user.reload
           return
@@ -152,10 +157,10 @@ class MyController < ApplicationController
           return
         else
           @user.save
-          flash.now[:notice] = "Plan successfully changed to #{@new_plan.name}"
+          flash.now[:success] = "Plan successfully changed to #{@new_plan.name}"
         end
       else
-        flash.now[:notice] = l(:notice_account_updated) + " No changes were made to your plan"
+        flash.now[:success] = l(:notice_account_updated) + " No changes were made to your plan"
       end
       @user.reload
       
@@ -176,7 +181,7 @@ class MyController < ApplicationController
       if @user.check_password?(params[:password])
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save
-          flash.now[:notice] = l(:notice_account_password_updated)
+          flash.now[:success] = l(:notice_account_password_updated)
           redirect_to :action => 'account'
         end
       else
@@ -193,7 +198,7 @@ class MyController < ApplicationController
         User.current.reload
       end
       User.current.rss_key
-      flash.now[:notice] = l(:notice_feeds_access_key_reseted)
+      flash.now[:success] = l(:notice_feeds_access_key_reseted)
     end
     redirect_to :action => 'account'
   end
@@ -206,7 +211,7 @@ class MyController < ApplicationController
         User.current.reload
       end
       User.current.api_key
-      flash.now[:notice] = l(:notice_api_access_key_reseted)
+      flash.now[:success] = l(:notice_api_access_key_reseted)
     end
     redirect_to :action => 'account'
   end

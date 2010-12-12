@@ -78,7 +78,7 @@ class AccountTest < ActionController::IntegrationTest
     
     post "account/lost_password", :token => token.value, :new_password => 'newpass', :new_password_confirmation => 'newpass'
     assert_redirected_to "/login"
-    assert_equal 'Password was successfully updated.', flash.now[:notice]
+    assert_equal 'Password was successfully updated.', flash.now[:success]
     
     log_user('jsmith', 'newpass')
     assert_equal 0, Token.count    

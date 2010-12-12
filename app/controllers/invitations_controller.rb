@@ -7,11 +7,17 @@ class InvitationsController < ApplicationController
   # GET /invitations
   # GET /invitations.xml
   def index
-    @invitations = Invitation.all
-
+    @all_invites, @invitations = paginate :invitations,
+                                   :per_page => 30,
+                                   :conditions => {:user_id => User.current.id, :project_id => @project.id},
+                                   :order => "created_at DESC"    
+    
+    # @invitations = Invitation.find(:all, :conditions => {:user_id => User.current.id, :project_id => @project.id}, :order => "created_at desc")
     respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @invitations }
+      format.html { render :layout => false if request.xhr? }
+      format.xml  { render :xml => @invitations.to_xml }
+      format.json { render :json => @invitation.to_json }
+      # format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end
 
@@ -29,7 +35,13 @@ class InvitationsController < ApplicationController
   # GET /invitations/new
   # GET /invitations/new.xml
   def new
+    unless @project.root?
+      render_error("Project is not root. No invitations needed here.") 
+      return
+    end
+    
     @note = l(:text_invitation_note_default)
+    @roles = Role.find(:all, :conditions => {:level => 1}, :order => "position DESC")
 
     respond_to do |format|
       format.html # new.html.erb
@@ -60,7 +72,7 @@ class InvitationsController < ApplicationController
       @invitation.project_id = @project.id
       @invitation.user_id = User.current.id
       if @invitation.save
-        @invitation.deliver(params[:note])
+        @invitation.deliver(simple_format_without_paragraph(params[:note]))
         success = true
       end
     end
@@ -71,7 +83,9 @@ class InvitationsController < ApplicationController
       if success
         @emails = nil
         @note = params[:note]
-        flash.now[:notice] = "#{@email_array.length} invitation(s)  successfully sent to<br>" + @email_array.join(", ")
+        @roles = Role.find(:all, :conditions => {:level => 1}, :order => "position DESC")
+        
+        flash.now[:success] = "#{@email_array.length} invitation(s)  successfully sent to<br>" + @email_array.join(", ")
         format.html { render :action => "new" }
         format.xml  { render :xml => @invitation, :status => :created, :location => @invitation }
       else
@@ -84,15 +98,21 @@ class InvitationsController < ApplicationController
   
   def accept
     @invitation = Invitation.find(params[:id])
+    
     if @invitation.token != params[:token] || @invitation.status != Invitation::PENDING
-      redirect_with_flash :error, "Old or bad invitation", :controller => :projects, :action => :show, :id => @invitation.project_id 
+      redirect_with_flash :error, l(:error_bad_invite), :controller => :projects, :action => :show, :id => @invitation.project_id 
       return
     end
-
-    @user = User.find_by_mail(@invitation.mail)
+    
+    if @invitation.new_mail && !@invitation.new_mail.empty?
+      @user = User.find_by_mail(@invitation.new_mail)
+    else
+      @user = User.find_by_mail(@invitation.mail)
+    end
+        
     respond_to do |wants|
       wants.html {  
-        if @user
+        if @user && !@user.anonymous?
           self.logged_user = @user
           @invitation.accept
           msg = "Invitation accepted. You are now a #{@invitation.role.name} of #{@invitation.project.name}."
@@ -100,8 +120,8 @@ class InvitationsController < ApplicationController
           return
         else
           #redirect to register, with an invitation token parameter
-          redirect_with_flash :notice, "Sign up to activate your inviation", :controller => :account, :action => :register, :invitation_token => @invitation.token
-          return
+          session[:invitation] = @invitation.token
+          redirect_to :controller => :account, :action => :register, :invitation_token => @invitation.token
         end
         }
     end
@@ -109,17 +129,29 @@ class InvitationsController < ApplicationController
 
   # PUT /invitations/1
   # PUT /invitations/1.xml
-  def update
+  def resend
     @invitation = Invitation.find(params[:id])
 
     respond_to do |format|
-      if @invitation.update_attributes(params[:invitation])
-        flash[:notice] = 'Invitation was successfully updated.'
-        format.html { redirect_to(@invitation) }
-        format.xml  { head :ok }
+      if @invitation.resend(params[:note])
+        logger.info { "1" }
+        
+        format.js do
+          logger.info { "format" }
+          
+          render :update do |page|
+            logger.info { "ID BABY #{@invitation.id}" }
+            page.visual_effect :highlight, "row-#{@invitation.id}", :duration => 3
+            page.replace "resend-#{@invitation.id}", "Resent!"
+            page.call '$.jGrowl', l(:notice_successful_update)
+          end
+        end
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @invitation.errors, :status => :unprocessable_entity }
+        format.js do
+          render :update do |page|
+            page.parent.call '$.jGrowl', l(:error_general)
+          end
+        end
       end
     end
   end
@@ -131,8 +163,13 @@ class InvitationsController < ApplicationController
     @invitation.destroy
 
     respond_to do |format|
-      format.html { redirect_to(invitations_url) }
-      format.xml  { head :ok }
+      format.js do
+        render :update do |page|
+          page.visual_effect :highlight, "row-#{@invitation.id}", :duration => 3
+          page.remove "row-#{@invitation.id}"
+          page.call '$.jGrowl', l(:notice_successful_delete)
+        end
+      end
     end
   end
   

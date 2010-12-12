@@ -55,7 +55,7 @@ class BoardsController < ApplicationController
     @board = Board.new(params[:board])
     @board.project = @project
     if request.post? && @board.save
-      flash.now[:notice] = l(:notice_successful_create)
+      flash.now[:success] = l(:notice_successful_create)
       redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'
     end
   end

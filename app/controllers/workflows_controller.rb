@@ -24,7 +24,7 @@ class WorkflowsController < ApplicationController
         }
       }
       if @role.save
-        flash.now[:notice] = l(:notice_successful_update)
+        flash.now[:success] = l(:notice_successful_update)
         redirect_to :action => 'edit', :role_id => @role, :tracker_id => @tracker
       end
     end
@@ -63,7 +63,7 @@ class WorkflowsController < ApplicationController
         flash.now[:error] = l(:error_workflow_copy_target)
       else
         Workflow.copy(@source_tracker, @source_role, @target_trackers, @target_roles)
-        flash.now[:notice] = l(:notice_successful_update)
+        flash.now[:success] = l(:notice_successful_update)
         redirect_to :action => 'copy', :source_tracker_id => @source_tracker, :source_role_id => @source_role
       end
     end

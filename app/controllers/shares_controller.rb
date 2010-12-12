@@ -47,7 +47,7 @@ class SharesController < ApplicationController
 
     respond_to do |format|
       if @share.save
-        flash.now[:notice] = 'Share was successfully created.'
+        flash.now[:success] = 'Share was successfully created.'
         format.html { redirect_to(@share) }
         format.xml  { render :xml => @share, :status => :created, :location => @share }
       else
@@ -64,7 +64,7 @@ class SharesController < ApplicationController
 
     respond_to do |format|
       if @share.update_attributes(params[:share])
-        flash.now[:notice] = 'Share was successfully updated.'
+        flash.now[:success] = 'Share was successfully updated.'
         format.html { redirect_to(@share) }
         format.xml  { head :ok }
       else
