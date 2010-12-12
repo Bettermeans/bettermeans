@@ -109,7 +109,7 @@ class Project < ActiveRecord::Base
   validates_presence_of :name, :identifier
   validates_uniqueness_of :identifier
   validates_associated :wiki
-  validates_length_of :name, :maximum => 30
+  validates_length_of :name, :maximum => 50
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..20
   # donwcase letters, digits, dashes but not digits only
