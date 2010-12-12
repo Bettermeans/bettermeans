@@ -377,9 +377,6 @@ module ApplicationHelper
       when 'assigned_to_id'
         u = User.find_by_id(detail.value) and value = u.name if detail.value
         u = User.find_by_id(detail.old_value) and old_value = u.name if detail.old_value
-      when 'priority_id'
-        e = IssuePriority.find_by_id(detail.value) and value = e.name if detail.value
-        e = IssuePriority.find_by_id(detail.old_value) and old_value = e.name if detail.old_value
       when 'estimated_hours'
         value = "%0.02f" % detail.value.to_f unless detail.value.blank?
         old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?

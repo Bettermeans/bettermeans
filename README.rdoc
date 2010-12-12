@@ -83,7 +83,7 @@ heroku db:pull # Load production database
 export reset_safe=true #local variable to guard against accidentally running this in production
 rake custom:trim_database_for_dev # trims fat from db
 rake db:schema:dump 
-rake db:seed:dump MODELS=tracker,issue_priority,issue_status,enumeration,role,plan,setting
+rake db:seed:dump MODELS=tracker,issue_statuss,enumeration,role,plan,setting
 # Uses https://github.com/rhalff/seed_dump
 
 To generate a pg_dump:

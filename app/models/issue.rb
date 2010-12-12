@@ -9,7 +9,6 @@ class Issue < ActiveRecord::Base
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
-  belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :retro
   belongs_to :hourly_type
     
@@ -68,7 +67,7 @@ class Issue < ActiveRecord::Base
   
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
   
-  validates_presence_of :subject, :project, :tracker, :author, :status #,:priority,
+  validates_presence_of :subject, :project, :tracker, :author, :status
   validates_length_of :subject, :maximum => 255
   validates_numericality_of :estimated_hours, :allow_nil => true
   validates_numericality_of :num_hours, :allow_nil => true # refers to the estimated number of hours for an hourly work item
@@ -158,7 +157,6 @@ class Issue < ActiveRecord::Base
     if new_record?
       # set default values for new records only
       self.status ||= IssueStatus.default
-      # self.priority ||= IssuePriority.default
     end
   end
   
@@ -246,11 +244,6 @@ class Issue < ActiveRecord::Base
     return issue
   end
   
-  def priority_id=(pid)
-    self.priority = nil
-    write_attribute(:priority_id, pid)
-  end
-
   def tracker_id=(tid)
     self.tracker = nil
     write_attribute(:tracker_id, tid)
@@ -449,7 +442,7 @@ class Issue < ActiveRecord::Base
   
   # Returns a string of css classes that apply to the issue
   def css_classes
-    s = "issue status-#{status.position} priority-#{priority.nil? ? 2 : priority.position}" #BUGBUG 2 is hardcoded
+    s = "issue status-#{status.position}"
     s << ' closed' if closed?
     s << ' overdue' if overdue?
     s << ' created-by-me' if User.current.logged? && author_id == User.current.id
@@ -701,7 +694,6 @@ end
 #  due_date             :date
 #  status_id            :integer         default(0), not null
 #  assigned_to_id       :integer
-#  priority_id          :integer         default(0), not null
 #  author_id            :integer         default(0), not null
 #  lock_version         :integer         default(0), not null
 #  created_at           :datetime
