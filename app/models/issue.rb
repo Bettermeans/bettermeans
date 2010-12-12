@@ -69,8 +69,6 @@ class Issue < ActiveRecord::Base
   
   validates_presence_of :subject, :project, :tracker, :author, :status
   validates_length_of :subject, :maximum => 255
-  validates_numericality_of :estimated_hours, :allow_nil => true
-  validates_numericality_of :num_hours, :allow_nil => true # refers to the estimated number of hours for an hourly work item
 
   named_scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
@@ -268,17 +266,17 @@ class Issue < ActiveRecord::Base
   
   
   def validate
-    if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
-      errors.add :due_date, :not_a_date
-    end
-    
-    if self.due_date and self.start_date and self.due_date < self.start_date
-      errors.add :due_date, :greater_than_start_date
-    end
-    
-    if start_date && soonest_start && start_date < soonest_start
-      errors.add :start_date, :invalid
-    end
+    # if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
+    #   errors.add :due_date, :not_a_date
+    # end
+    # 
+    # if self.due_date and self.start_date and self.due_date < self.start_date
+    #   errors.add :due_date, :greater_than_start_date
+    # end
+    # 
+    # if start_date && soonest_start && start_date < soonest_start
+    #   errors.add :start_date, :invalid
+    # end
     
     # Checks that the issue can not be added/moved to a disabled tracker
     # if project && (tracker_id_changed? || project_id_changed?)
@@ -301,28 +299,7 @@ class Issue < ActiveRecord::Base
   #     self.done_ratio = status.default_done_ratio
   #   end
   # end
-  
-  def after_save
-    # Reload is needed in order to get the right status
-    reload
     
-    # Update start/due dates of following issues
-    relations_from.each(&:set_issue_to_dates)
-    
-    # Close duplicates if the issue was closed
-    if @issue_before_change && !@issue_before_change.closed? && self.closed?
-      duplicates.each do |duplicate|
-        # Reload is need in case the duplicate was updated by a previous duplicate
-        duplicate.reload
-        # Don't re-close it if it's already closed
-        next if duplicate.closed?
-        # Same user and notes
-        duplicate.init_journal(@current_journal.user, @current_journal.notes)
-        duplicate.update_attribute :status, self.status
-      end
-    end    
-  end
-  
   def init_journal(user, notes = "")
     @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
     @issue_before_change = self.clone
@@ -377,6 +354,7 @@ class Issue < ActiveRecord::Base
   
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user)
+    logger.info { "New statuses allowed" }
     statuses = status.find_new_statuses_allowed_to(user.roles_for_project(project), tracker)
     statuses << status unless statuses.empty?
     statuses = statuses.uniq.sort
@@ -644,6 +622,25 @@ class Issue < ActiveRecord::Base
   end
   
   def after_save
+    # Reload is needed in order to get the right status
+    reload
+    
+    # Update start/due dates of following issues
+    relations_from.each(&:set_issue_to_dates)
+    
+    # Close duplicates if the issue was closed
+    if @issue_before_change && !@issue_before_change.closed? && self.closed?
+      duplicates.each do |duplicate|
+        # Reload is need in case the duplicate was updated by a previous duplicate
+        duplicate.reload
+        # Don't re-close it if it's already closed
+        next if duplicate.closed?
+        # Same user and notes
+        duplicate.init_journal(@current_journal.user, @current_journal.notes)
+        duplicate.update_attribute :status, self.status
+      end
+    end    
+    
     update_last_item_stamp #TODO: should be before save!
     create_journal
   end

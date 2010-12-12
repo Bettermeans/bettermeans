@@ -1850,7 +1850,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 					tally = tally + 'BLOCK';
 				}
 				else{
-					tally = tally + item.agree + ' - ' + item.disagree;
+					tally = tally + (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
 				}
 				tally = tally + '</div>';
 			}
@@ -1903,7 +1903,7 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 		tally = tally + 'BLOCK';
 	}
 	else{
-		tally = tally + item.accept + ' - ' + item.reject;
+		tally = tally + (item.accept + item.accept_nonbind) + ' - ' + (item.reject + item.reject_nonbind);
 	}
 	tally = tally + '</div>';
 	
@@ -1968,17 +1968,17 @@ function pri_button(dataId){
 	for(var i=0; i < item.issue_votes.length; i++){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 3)){
 			if (item.issue_votes[i].points == 1){
-				return generate_pri_button(dataId,'up',item.pri);
+				return generate_pri_button(dataId,'up',(item.pri + item.pri_nonbind));
 			}
 			else if (item.issue_votes[i].points == -1){
-				return generate_pri_button(dataId,'down',item.pri);
+				return generate_pri_button(dataId,'down',(item.pri + item.pri_nonbind));
 			}
 			else if (item.issue_votes[i].points == 0){
-				return generate_pri_button(dataId,'neutral',item.pri);
+				return generate_pri_button(dataId,'neutral',(item.pri + item.pri_nonbind));
 			}
 		}
 	}
-	return generate_pri_button(dataId,'none',item.pri);
+	return generate_pri_button(dataId,'none',(item.pri + item.pri_nonbind));
 }
 
 function generate_pri_button(dataId,direction,pri){
@@ -2025,7 +2025,7 @@ function click_start(dataId,source,data){
 	}
 
 	if (!has_current_user_estimated(D[dataId])){
-		$.jGrowl("Sorry, you can't start an item before estimating it first");
+		$.jGrowl("Sorry, you can't start an item before estimating it first. <br><br>Click on the dice with the question mark on it, to estimate the complexity/size of this item.");
 		return false;
 	}
 	

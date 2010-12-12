@@ -348,8 +348,12 @@ class IssuesController < ApplicationController
     @journal = @issue.init_journal(User.current, params["notes"])    
     
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :points => params[:points]
+    logger.info { "before update #{@issue.inspect}" }
     @issue.update_estimate_total @iv.isbinding
-    @issue.save if !@issue.update_status
+    logger.info { "after update #{@issue.inspect}" }
+    logger.info { "start saving" }
+    @issue.save #if !@issue.update_status
+    logger.info { "done saving" }
     @issue.reload
     
     respond_to do |format|
