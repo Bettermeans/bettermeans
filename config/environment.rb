@@ -58,11 +58,58 @@ Rails::Initializer.run do |config|
   #Added this to bypass error
   config.action_controller.session = { :key => "_bettermeans_session", :secret => "95fd75499b43ada8cfbc538558d74312asdf" }
 
+  config.gem 'rubytree', :lib => 'tree'
+  
+  config.gem "rpx_now"
+  
+  config.after_initialize do # so rake gems:install works
+    RPXNow.api_key = ENV['RPXNOW_KEY']
+  end
+  
+  config.gem "recurly"
+  
+  config.gem "fleximage"
+
+  config.gem 'reportable', :lib => 'saulabs/reportable'  
+  
+  config.gem 'crafterm-comma', :lib => 'comma'
+  
+  config.gem 'fastercsv'
+  
+    
   # Load any local configuration that is kept out of source control
   # (e.g. gems, patches).
   if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
   end  
+  
+  class Hash
+    def +(hash2)
+      hash2.each do |key, value|
+        if self.has_key? key
+          self[key] += value 
+        else
+          self[key] = value
+        end
+      end
+    end
+    
+    def to_array_conditions
+      @new_conditions = []
+      @new_conditions[0] = self.map {|k,v| v.class.to_s == "Array" ? "#{k} in (?)" : "#{k} = ?"}.join(" AND ")
+      self.values.each do |v|
+        v.class.to_s == "Array" ? @new_conditions.push(v.flatten) : @new_conditions.push("#{v}")
+      end
+      @new_conditions
+      #[self.each.map {|k,v| v.type.to_s == "Array" ? "#{k} in (?)" : "#{k} = ?"}.join(" AND "), self.values.map {|v| v.type.to_s == "Array" ? v.flatten : "#{v}"}]
+
+      
+      # [self.keys.map{|k| "#{k} = ?" }.join(" AND "), self.values].flatten
+      
+    end
+  end
+  
+    
 end
 
 
