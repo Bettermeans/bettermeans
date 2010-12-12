@@ -469,9 +469,9 @@ class Issue < ActiveRecord::Base
   
   def update_estimate_total(binding)
     if binding
-      self.points =   IssueVote.average(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :isbinding=> true})
+      self.points =   IssueVote.average(:points, :conditions => " issue_id = #{self.id} AND  vote_type = #{IssueVote::ESTIMATE_VOTE_TYPE} AND isbinding= true AND points != -1")
     else
-      self.points_nonbind =   IssueVote.average(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::ESTIMATE_VOTE_TYPE, :isbinding=> false})
+      self.points_nonbind =   IssueVote.average(:points, :conditions => " issue_id = #{self.id} AND  vote_type = #{IssueVote::ESTIMATE_VOTE_TYPE} AND isbinding= false AND points != -1")
     end
   end
 
@@ -664,6 +664,8 @@ class Issue < ActiveRecord::Base
   # Called after_save
   def create_journal
     if @current_journal
+      
+      logger.info { "creating journal..." }
       # attributes changes
       (Issue.column_names - %w(id description lock_version created_at updated_at pri accept reject accept_total agree disagree agree_total retro_id accept_nonbind reject_nonbind accept_total_nonbind agree_nonbind disagree_nonbind agree_total_nonbind points_nonbind pri_nonbind)).each {|c|
         @current_journal.details << JournalDetail.new(:property => 'attr',

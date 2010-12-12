@@ -49,6 +49,7 @@
     })();
 
   </script>
+  
 <%= yield %>
 
 <%= render :partial => '/home/footer' %>
@@ -71,7 +72,7 @@
 				$(this).children('a').children('span').fadeOut(200);
 			});
 			
-			$("#videolink").fancybox({
+			$(".videolink").fancybox({
                           'titleShow'     : true,
                           'transitionIn'  : 'elastic',
                           'transitionOut' : 'elastic',

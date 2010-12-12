@@ -35,9 +35,10 @@ Redmine::AccessControl.map do |map|
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
   map.permission :manage_members, {:projects => :settings, :members => [:new, :edit, :destroy, :autocomplete_for_member]}, :require => :member
   map.permission :credits, {:credits => [:add, :edit, :update]}, :require => :admin
-  map.permission :send_invitations, {:invitations => [:new, :create]}, :require => :loggedin
-  map.permission :manage_invitations, {:invitations => [:index, :destroy, :update]}, :require => :loggedin
+  map.permission :send_invitations, {:invitations => [:new, :create, :resend, :index], :projects => [:reset_invitation_token]}, :require => :loggedin
+  map.permission :manage_invitations, {:invitations => [:index, :destroy, :resend, :update]}, :require => :loggedin
   map.permission :transfer_credits, {:credit_transfers => [:index, :create]}, :require => :loggedin
+  map.permission :join_from_generic_invitation, {:projects => :join}, :require => :loggedin
   map.project_module :issue_tracking do |map|
     # Issues
     map.permission :view_issues, {:projects => :roadmap, 
@@ -112,8 +113,8 @@ Redmine::AccessControl.map do |map|
   
   map.project_module :motions do |map|
     map.permission :manage_motion, {:motions => [:edit, :destroy]}, :require => :admin
-    map.permission :browse_motion, {:motions => [:index, :view]}, :require => :loggedin
-    map.permission :create_motion, {:motions => [:create, :new]}, :require => :loggedin
+    map.permission :browse_motion, {:motions => [:index, :view, :show]}, :require => :loggedin
+    map.permission :create_motion, {:motions => [:create, :new, :eligible_users]}, :require => :loggedin
     map.permission :vote_motion, {:motions => :reply, :motion_vote => :create}, :require => :loggedin
   end
 

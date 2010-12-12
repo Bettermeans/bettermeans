@@ -40,7 +40,7 @@ class AdminController < ApplicationController
     if request.post?
       begin
         Redmine::DefaultData::Loader::load(params[:lang])
-        flash.now[:notice] = l(:notice_default_data_loaded)
+        flash.now[:success] = l(:notice_default_data_loaded)
       rescue Exception => e
         flash.now[:error] = l(:error_can_t_load_default_data, e.message)
       end
@@ -54,12 +54,17 @@ class AdminController < ApplicationController
     ActionMailer::Base.raise_delivery_errors = true
     begin
       @test = Mailer.deliver_test(User.current)
-      flash.now[:notice] = l(:notice_email_sent, User.current.mail)
+      flash.now[:success] = l(:notice_email_sent, User.current.mail)
     rescue Exception => e
       flash.now[:error] = l(:notice_email_error, e.message)
     end
     ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
     redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
+  end
+  
+  def user_data_dump
+    @users = User.find(:all, :conditions => {:status => 1})
+    render :csv => @users
   end
   
   def info

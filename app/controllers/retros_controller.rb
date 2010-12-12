@@ -261,7 +261,7 @@ class RetrosController < ApplicationController
 
     respond_to do |format|
       if @retro.save
-        flash.now[:notice] = 'Retro was successfully created.'
+        flash.now[:success] = 'Retro was successfully created.'
         format.html { redirect_to(@retro) }
         format.xml  { render :xml => @retro, :status => :created, :location => @retro }
       else
@@ -278,7 +278,7 @@ class RetrosController < ApplicationController
 
     respond_to do |format|
       if @retro.update_attributes(params[:retro])
-        flash.now[:notice] = 'Retro was successfully updated.'
+        flash.now[:success] = 'Retro was successfully updated.'
         format.html { redirect_to(@retro) }
         format.xml  { head :ok }
       else

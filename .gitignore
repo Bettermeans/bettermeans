@@ -1,3 +1,6 @@
+/db/*.sqlite3
+/log/*.log
+/tmp/**/*
 /config/additional_environment.rb
 /config/database.yml
 /config/email.yml
@@ -20,4 +23,5 @@
 /config/database.yml
 /nbproject
 redmine.tmproj
+serverlog
 .DS_Store

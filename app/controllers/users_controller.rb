@@ -75,7 +75,7 @@ class UsersController < ApplicationController
       @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless @user.auth_source_id
       if @user.save
         Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
-        flash.now[:notice] = l(:notice_successful_create)
+        flash.now[:success] = l(:notice_successful_create)
         redirect_to(params[:continue] ? {:controller => 'users', :action => 'add'} : 
                                         {:controller => 'users', :action => 'edit', :id => @user})
         return
@@ -100,7 +100,7 @@ class UsersController < ApplicationController
         elsif @user.active? && params[:send_information] && !params[:password].blank? && @user.auth_source_id.nil?
           Mailer.deliver_account_information(@user, params[:password])
         end
-        flash.now[:notice] = l(:notice_successful_update)
+        flash.now[:success] = l(:notice_successful_update)
         redirect_to :back
       end
     end

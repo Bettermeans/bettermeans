@@ -15,7 +15,7 @@ class Member < ActiveRecord::Base
   after_destroy :unwatch_from_permission_change
   
   def name
-    self.user.name
+    self.user.name if self.user
   end
 
   def name_and_id
