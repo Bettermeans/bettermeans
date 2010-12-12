@@ -772,7 +772,7 @@ function generate_estimate_flyover(dataId){
 		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 4) continue;
 			
-			if (user_estimate == -1){
+			if (item.issue_votes[i].points == -1){
 				history = history + 'Don\'t know - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
 			}
 			else if (credits_enabled){
@@ -1529,6 +1529,11 @@ function generate_item_estimate_button(dataId,points){
 	var current_user_voted = has_current_user_estimated(item);
 	
 	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (current_user_voted)){
+		
+		//If no binding points, then current user is non-binding and has voted so we show them a different symbol so they can track what they estimated, and what they didn't estimate
+		if (points == "No" && current_user_voted){
+			points = "wait";
+		}
 		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';		
 	}
 	else{
@@ -1577,7 +1582,10 @@ function generate_item(dataId){
 	html = html + '<div id="item_content_' + dataId + '" class="' + item.status.name.replace(" ","-").toLowerCase() + ' hoverable" style="">';
 	html = html + '<div class="storyPreviewHeader">';
 	html = html + '<div id="item_content_buttons_' + dataId + '" class="storyPreviewButtons">';
-	html = html + buttons_for(dataId);
+	if (currentUserId != ANONYMOUS_USER_ID){ 
+		html = html + buttons_for(dataId);
+	}
+	
 	html = html + '</div>';
 
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
@@ -1585,7 +1593,9 @@ function generate_item(dataId){
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
 	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ item.id +');return false;">'; 
 	
-	html = html + generate_item_estimate_button(dataId,points);
+	if (currentUserId != ANONYMOUS_USER_ID){ 
+		html = html + generate_item_estimate_button(dataId,points);
+	}
 	
 	// if (show_comment(item)){
 	// html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png" onclick="show_details_flyover('+ dataId +',this.id);return false;">'; 
@@ -1741,6 +1751,7 @@ function generate_notice(noticeHtml, noticeId){
 
 
 function buttons_for(dataId,expanded){
+	if (currentUserId == ANONYMOUS_USER_ID){ return "";}
 	var item = D[dataId];
 	var html = '';
     	
