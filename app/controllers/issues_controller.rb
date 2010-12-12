@@ -81,7 +81,7 @@ class IssuesController < ApplicationController
       
       @issue_count = @query.issue_count
       @issue_pages = Paginator.new self, @issue_count, limit, params['page']
-      @issues = @query.issues(:include => [:assigned_to, :tracker, :priority],
+      @issues = @query.issues(:include => [:assigned_to, :tracker],
                               :order => sort_clause, 
                               :offset => @issue_pages.current.offset, 
                               :limit => limit)
@@ -123,7 +123,6 @@ class IssuesController < ApplicationController
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
     @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
     
-    # @priorities = IssuePriority.all
     respond_to do |format|
       format.html { render :template => 'issues/show.html.erb', :layout => 'issue_blank' }
       # format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
@@ -148,7 +147,6 @@ class IssuesController < ApplicationController
     end
     @issue.author = User.current
     
-    @issue.priority = IssuePriority.default
 
     default_status = IssueStatus.default
     unless default_status
@@ -201,7 +199,6 @@ class IssuesController < ApplicationController
         return
       end	
     end	
-    @priorities = IssuePriority.all
 
     render :layout => !request.xhr?
   end
@@ -212,7 +209,6 @@ class IssuesController < ApplicationController
   
   def edit
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-    @priorities = IssuePriority.all
     @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
     
     @notes = params[:notes]
@@ -528,14 +524,12 @@ class IssuesController < ApplicationController
     if request.post?
       tracker = params[:tracker_id].blank? ? nil : @project.trackers.find_by_id(params[:tracker_id])
       status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
-      priority = params[:priority_id].blank? ? nil : IssuePriority.find_by_id(params[:priority_id])
       assigned_to = (params[:assigned_to_id].blank? || params[:assigned_to_id] == 'none') ? nil : User.find_by_id(params[:assigned_to_id])
       
       unsaved_issue_ids = []      
       @issues.each do |issue|
         journal = issue.init_journal(User.current, params[:notes])
         issue.tracker = tracker if tracker
-        issue.priority = priority if priority
         issue.assigned_to = assigned_to if assigned_to || params[:assigned_to_id] == 'none'
         issue.start_date = params[:start_date] unless params[:start_date].blank?
         issue.due_date = params[:due_date] unless params[:due_date].blank?
@@ -629,12 +623,12 @@ class IssuesController < ApplicationController
     if @query.valid?
       events = []
       # Issues that have start and due dates
-      events += @query.issues(:include => [:tracker, :assigned_to, :priority],
+      events += @query.issues(:include => [:tracker, :assigned_to],
                               :order => "start_date, due_date",
                               :conditions => ["(((start_date>=? and start_date<=?) or (due_date>=? and due_date<=?) or (start_date<? and due_date>?)) and start_date is not null and due_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
                               )
       # Issues that don't have a due date but that are assigned to a version with a date
-      events += @query.issues(:include => [:tracker, :assigned_to, :priority],
+      events += @query.issues(:include => [:tracker, :assigned_to],
                               :order => "start_date, effective_date",
                               :conditions => ["(((start_date>=? and start_date<=?) or (effective_date>=? and effective_date<=?) or (start_date<? and effective_date>?)) and start_date is not null and due_date is null and effective_date is not null)", @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to, @gantt.date_from, @gantt.date_to]
                               )
@@ -665,7 +659,7 @@ class IssuesController < ApplicationController
     retrieve_query
     if @query.valid?
       events = []
-      events += @query.issues(:include => [:tracker, :assigned_to, :priority],
+      events += @query.issues(:include => [:tracker, :assigned_to],
                               :conditions => ["((start_date BETWEEN ? AND ?) OR (due_date BETWEEN ? AND ?))", @calendar.startdt, @calendar.enddt, @calendar.startdt, @calendar.enddt]
                               )
                                      
@@ -696,7 +690,6 @@ class IssuesController < ApplicationController
       @trackers = @project.trackers
     end
     
-    @priorities = IssuePriority.all.reverse
     @statuses = IssueStatus.find(:all, :order => 'position')
     @back = params[:back_url] || request.env['HTTP_REFERER']
     
@@ -712,7 +705,6 @@ class IssuesController < ApplicationController
     end
     @issue.attributes = params[:issue]
     @allowed_statuses = ([@issue.status] + @issue.status.find_new_statuses_allowed_to(User.current.roles_for_project(@project), @issue.tracker)).uniq
-    @priorities = IssuePriority.all
     
     render :partial => 'attributes'
   end
@@ -732,7 +724,7 @@ class IssuesController < ApplicationController
   
 private
   def find_issue
-    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority])
+    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author])
     @project = @issue.project
     render_404 if @issue.is_gift? && @issue.assigned_to_id == User.current.id
   rescue ActiveRecord::RecordNotFound

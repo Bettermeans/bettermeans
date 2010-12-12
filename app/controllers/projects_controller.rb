@@ -116,16 +116,14 @@ class ProjectsController < ApplicationController
 
         if @parent.nil?          
           # Add current user as a admin and core team member
-          # User.current.add_to_project(self, Role::BUILTIN_ADMINISTRATOR)
-          # User.current.add_to_project(self, Role::BUILTIN_CORE_MEMBER)
-          r = Role.find(Role::BUILTIN_CORE_MEMBER)
-          r2 = Role.find(Role::BUILTIN_ADMINISTRATOR)
+          r = Role.core_member
+          r2 = Role.administrator
           m = Member.new(:user => User.current, :roles => [r,r2])
           @project.all_members << m
         else
           @project.set_parent!(@parent.id)  # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
           @project.refresh_active_members
-          User.current.add_to_project(@project, Role::BUILTIN_ACTIVE)
+          User.current.add_to_project(@project, Role.active)
         end
 
         flash.now[:success] = l(:notice_successful_create)
