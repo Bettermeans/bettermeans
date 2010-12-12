@@ -511,24 +511,24 @@ class User < ActiveRecord::Base
   #Adds current user to core team of project
   def add_as_core(project, options={})
     #Add as core member of current project
-    add_to_project project, Role::BUILTIN_CORE_MEMBER       
-    drop_from_project(project, Role::BUILTIN_CONTRIBUTOR)
-    drop_from_project(project, Role::BUILTIN_MEMBER)
+    add_to_project project, Role.core_member
+    drop_from_project(project, Role.contributor)
+    drop_from_project(project, Role.member)
   end
   
   def add_as_member(project, options={})
     #Add as core member of current project
-    add_to_project project, Role::BUILTIN_MEMBER       
-    drop_from_project(project, Role::BUILTIN_CONTRIBUTOR)
-    drop_from_project(project, Role::BUILTIN_CORE_MEMBER)
+    add_to_project project, Role.member
+    drop_from_project(project, Role.contributor)
+    drop_from_project(project, Role.member)
   end
   
 
   #Adds current user as contributor of project
   def add_as_contributor(project, options={})
-      add_to_project project, Role::BUILTIN_CONTRIBUTOR
-      drop_from_project(project, Role::BUILTIN_CORE_MEMBER)
-      drop_from_project(project, Role::BUILTIN_MEMBER)
+      add_to_project project, Role.contributor
+      drop_from_project(project, Role.core_member)
+      drop_from_project(project, Role.member)
   end
   
   #Adds current user as contributor of project if they aren't a binding member
@@ -537,25 +537,25 @@ class User < ActiveRecord::Base
   end
   
   #Adds user to that project as that role
-  def add_to_project(project, role_id, options={})
+  def add_to_project(project, role, options={})
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     if m.nil? 
       #User isn't a member let's create a membership
-      member_role = Role.find(:first, :conditions => {:id => role_id})
+      member_role = Role.find(:first, :conditions => {:id => role.id})
       m = Member.new(:user => self, :roles => [member_role])
       p = Project.find(project)
       result = p.all_members << m
     else
       #User is already a member, we just add a role (but make sure role doesn't exist already)
-      MemberRole.create! :member_id => m.id, :role_id => role_id if MemberRole.first(:conditions => {:member_id => m.id, :role_id => role_id}) == nil
+      MemberRole.create! :member_id => m.id, :role_id => role.id if MemberRole.first(:conditions => {:member_id => m.id, :role_id => role.id}) == nil
     end
   end
   
   #Drops user from role of that project
-  def drop_from_project(project, role_id, options={})
+  def drop_from_project(project, role, options={})
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     m.member_roles.each {|r|
-      r.destroy if r.role_id == role_id
+      r.destroy if r.role_id == role.id
     } unless m.nil?
   end
   

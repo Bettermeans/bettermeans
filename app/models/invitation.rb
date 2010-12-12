@@ -59,13 +59,13 @@ class Invitation < ActiveRecord::Base
     return unless @user && !@user.anonymous?
     
     if self.project.root?
-      @user.add_to_project self.project, self.role_id unless @user.community_member_of? self.project
+      @user.add_to_project self.project, self.role unless @user.community_member_of? self.project
     else
-      @user.add_to_project self.project, Role.active.id
-      @user.add_to_project self.project.root, self.role_id unless @user.community_member_of? self.project.root
+      @user.add_to_project self.project, Role.active
+      @user.add_to_project self.project.root, self.role unless @user.community_member_of? self.project.root
     end
     
-    @user.add_to_project self.project, Role.clearance.id unless self.project.is_public?
+    @user.add_to_project self.project, Role.clearance unless self.project.is_public?
     
     self.new_mail = @user.mail if @user.mail
     self.status = ACCEPTED

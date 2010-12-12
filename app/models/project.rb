@@ -510,7 +510,7 @@ class Project < ActiveRecord::Base
     u.keys.each do |user_id|
       begin
         user = User.find(user_id)
-        user.add_to_project(self, Role.active.id) unless existing_active_members.include? user_id 
+        user.add_to_project(self, Role.active) unless existing_active_members.include? user_id 
       rescue #user not found (when deleting users)
       end
     end
@@ -518,12 +518,12 @@ class Project < ActiveRecord::Base
     unless self.is_public?
       #giving clearance to all active members
       self.active_members.each do |m|
-        User.find(m.user_id).add_to_project(self, Role.clearance.id)
+        User.find(m.user_id).add_to_project(self, Role.clearance)
       end
       
       #giving all root binding members clearance
       self.root.binding_members.each do |m|
-        User.find(m.user_id).add_to_project(self, Role.clearance.id)
+        User.find(m.user_id).add_to_project(self, Role.clearance)
       end
     end
   end
