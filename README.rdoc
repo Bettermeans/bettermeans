@@ -47,12 +47,10 @@ git clone git@github.com:kabuks/bettermeans.git
 Rename database.yml.example to database.yml
 bundle install
 rake bootstrap
-rake db:migrate
 
-#for a larger data set on postgresql db, skip rake tasks and load from dump file. This recommended since it mirrors our production env.
+#for a larger data set on postgresql db, skip rake bootstrap and load from dump file. 
+#This recommended since it mirrors our production env.
 psql bettermeans_development < db/pgdump.sql
-rake db:migrate
-
 
 that's it. now you're ready to change the world!
 ----
@@ -78,7 +76,7 @@ To create a new dev db from production:
 
 heroku db:pull # Load production database
 export reset_safe=true
-rake custom:trim_database_for_dev
+rake custom:trim_db
 rake db:schema:dump 
 rake db:seed:dump MODELS=tracker,issue_statuss,enumeration,role,plan,setting
 # Uses https://github.com/rhalff/seed_dump
