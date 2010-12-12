@@ -3,7 +3,6 @@ var R = []; //all retrospectives
 var local_D = null;
 var local_R = null;
 var MAX_REQUESTS_PER_PERSON = 4;
-var ANONYMOUS_USER_ID = 2;
 var TIMER_INTERVAL = 15000; //15 seconds
 var INACTIVITY_THRESHOLD = 300000; //5 minutes
 var timer_active = false;
