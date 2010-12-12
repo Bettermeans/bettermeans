@@ -127,9 +127,3 @@ settings = Setting.create([
   { :name => "new_project_user_role_id", :updated_at => "Tue Jun 08 15:20:43 -0700 2010", :value => "7" },
   { :name => "self_registration", :updated_at => "Wed Jun 30 14:21:01 -0700 2010", :value => "3" }
 ])
-
-user = User.new :firstname => "Redmine",:lastname => "Admin",:mail => "admin@example.net",:mail_notification => true,:language => "en",:status => 1
-user.admin = true
-user.hashed_password = "d033e22ae348aeb5660fc2140aec35850c4da997"
-user.login = "admin"
-user.save
