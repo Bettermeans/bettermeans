@@ -77,8 +77,8 @@ You shouldn't need to. But if you do....
 To create a new dev db from production:
 
 heroku db:pull # Load production database
-export reset_safe=true #local variable to guard against accidentally running this in production
-rake custom:trim_database_for_dev # trims fat from db
+export reset_safe=true
+rake custom:trim_database_for_dev
 rake db:schema:dump 
 rake db:seed:dump MODELS=tracker,issue_statuss,enumeration,role,plan,setting
 # Uses https://github.com/rhalff/seed_dump
