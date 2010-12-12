@@ -183,7 +183,7 @@ class ProjectsController < ApplicationController
       #add as contributor
       if @project.root?
         unless User.current.community_member_of? @project
-          User.current.add_to_project @project, Role.contributor.id 
+          User.current.add_to_project @project, Role.contributor
           msg = "Invitation accepted. You are now a contributor of #{@project.name}"
           redirect_with_flash :success, msg, :controller => :projects, :action => :show, :id => @project.id
         else
