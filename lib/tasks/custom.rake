@@ -92,15 +92,16 @@ namespace :custom do
   task :trim_db => :environment do
     if ENV['reset_safe'] == 'true'
       puts "Trimming database"
+
+      @p = Project.find(20) #bettermeans
+      @p.name = "LOCAL BETTERMEANS" #changing title so there's not confusion when working with local db
+      @p.save
       
       # puts "Deleting old notifications"
       # Notification.delete_all
       # 
       # 
       # puts "Deleting users"
-      # @p = Project.find(20) #bettermeans
-      # @p.name = "LOCAL BETTERMEANS" #changing title so there's not confusion when working with local db
-      # @p.save
       # 
       # @q = Project.find(43) #green museum
       # 
