@@ -1,3 +1,8 @@
+<% content_for :mainmenu do %>
+  <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :myaccount} %>
+<% end %>
+
+
 <%= help_section("my_account") %>
 <h2><%=l(:label_my_account)%></h2>
 <%= error_messages_for 'user' %>
