@@ -1,0 +1,69 @@
+<div class="splitcontentleft">
+  	
+    <h2 class="gt-table-head"><%=l(:label_projects_i_started)%></h2>
+  	<% if @my_projects.length > 0 %>
+  	<div class="gt-content-box">    
+      <%= render :partial => 'my_projects', :locals => {:my_projects => @my_projects} %>
+    </div>
+    <div class="gt-table-buttons">
+      <%= link_to l(:label_project_new), {:controller => :projects, :action => :add}, :class => "gt-btn-blue-large"%>
+    </div>
+    <% else %>
+    <div class="gt-content-box centered padded">
+      <h4><%= l(:help_no_my_workstreams) %></h4>
+      <p class='nodata'>
+         	 <h3> <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'})%> </h3>
+     	  </p>
+    </div>    
+    <% end %>
+</div>
+
+<div class="splitcontentright">
+  
+  
+    <h2 class="gt-table-head"><%=l(:label_projects_i_belong_to)%></h2>
+  	<% if @belong_to_projects.length > 0 %>
+  	<div class="gt-content-box">    
+      <%= render :partial => 'belong_to_projects', :locals => {:belong_to_projects => @belong_to_projects} %>
+    </div>
+    <div class="gt-table-buttons">
+      <%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}, :class => "gt-btn-blue-large"%>
+    </div>
+    <% else %>
+    <div class="gt-content-box padded centered">
+      <h4><%= l(:help_no_workstreams_i_belong_to) %></h4>
+      
+      <p class='nodata'>
+         	  <h3><%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}%></h3>
+      </p>
+    </div>
+    <% end %>
+</div>	
+<%= help_section("welcome_index",true) %>
+
+<% content_for :sidebar do %>
+<h2 class="gt-table-head">&nbsp;</h2>
+<div class="gt-sidebar-nav gt-sidebar-nav-blue">
+  <h3>Quick Links</h3>
+  <ul>
+  <li>
+    <%= link_to l(:label_home), {:controller => 'welcome', :action => 'index'} %>
+  </li>
+  <li>
+    <%= link_to l(:label_my_account), {:controller => 'my', :action => 'account'} %>
+  </li>
+  <li>
+    <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
+  </li>
+  <li>
+    <%= link_to l(:label_browse_workstreams), {:controller => 'projects', :action => 'index'} %>
+  </li>
+  </ul>
+</div>
+<% end %>
+
+<script>
+  $('document').ready(function(){
+    display_sparks();
+  });
+</script>

@@ -303,7 +303,7 @@ en:
   setting_text_formatting: Text formatting
   setting_wiki_compression: Wiki history compression
   setting_feeds_limit: Feed content limit
-  setting_default_projects_public: New project workstreams are public by default
+  setting_default_projects_public: New workstreams are public by default
   setting_autofetch_changesets: Autofetch commits
   setting_commit_ref_keywords: Referencing keywords
   setting_commit_fix_keywords: Fixing keywords
@@ -331,7 +331,7 @@ en:
   setting_openid: Allow OpenID login and registration
   setting_password_min_length: Minimum password length
   setting_new_project_user_role_id: Role given to a non-admin user who creates a workstream
-  setting_default_projects_modules: Default enabled modules for new project workstreams
+  setting_default_projects_modules: Default enabled modules for new workstreams
   setting_issue_done_ratio: Calculate the item done ratio with
   setting_issue_done_ratio_issue_field: Use the item field
   setting_issue_done_ratio_issue_status: Use the item status
@@ -339,7 +339,7 @@ en:
   setting_rest_api_enabled: Enable REST web service
   
   permission_view_project : View workstream
-  permission_add_project: Create project workstream
+  permission_add_project: Create workstream
   permission_add_subprojects: Create sub workstream
   permission_edit_project: Edit workstream
   permission_select_project_modules: Select workstream modules
@@ -410,7 +410,7 @@ en:
   label_select_project: Select Project Workstream
   label_previous_credit_transfers: Your History
   label_data_dump: Data Dump
-  text_data_dump: Download a local copy of all issues that belong to project workstreams that you own
+  text_data_dump: Download a local copy of all issues that belong to workstreams that you own
   label_issues: datadump.csv
   label_type_of_workstream: Workstream Options
   label_your_gravatar: Profile Picture
@@ -421,7 +421,7 @@ en:
   label_user_new: New user
   label_user_anonymous: Anonymous
   label_project: Workstream
-  label_project_new: New project workstream
+  label_project_new: New workstream
   label_project_plural: Workstreams
   label_x_projects:
     zero:  no workstreams
@@ -474,9 +474,10 @@ en:
   label_home: Home
   label_my_page: My page
   label_my_account: My account
-  label_my_projects: Workstreams I started
+  label_my_projects: My projects
   label_projects_i_belong_to: Workstreams I belong to
-  label_activities_i_belong_to: Relevant activity
+  label_projects_i_started: Workstreams I started
+  label_activities_i_belong_to: Recent activity
   label_administration: Administration
   label_login: Sign in
   label_logout: Sign out
@@ -1264,7 +1265,7 @@ en:
   help_revision_notes: "Optional: Add notes to this revision of the wiki. These notes will appear in the version history of the wiki"
 
   
-  help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br> If you want to start a new project workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/how-to/create-a-workstream' target='blank'>click here.</a><br> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/getting-started/joining-an-existing-workstream' target='blank'>click here.</a><br>We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com/home' target='blank'> the tour</a> before you begin."
+  help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br> If you want to start a new workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/how-to/create-a-workstream' target='blank'>click here.</a><br> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/getting-started/joining-an-existing-workstream' target='blank'>click here.</a><br>We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com/home' target='blank'> the tour</a> before you begin."
   help_section_project_dashboard: "Welcome to your dashboard!|<strong>This is where the magic happens.</strong> Here you get a full view of all the work within a workstream. Each workstream and subworkstream has its own dashboard. <br><br><strong>Get started by adding a new item</strong> (click on the New Item Link at the top of the New column).<br><br>You can also <strong>offer new ideas/requests, comment, agree and disagree with ideas, prioritize, and estimate</strong>.<br><br>Click on the little key next to the New Item button for a little cheat sheet that shows the meaning of all the icons you see in the Dashboard. As you get rolling with your work, explore <strong>the filters and the search functions on the upper right corner.</strong><br><br> To learn more about voting and how it works in the dashboard <a href= 'http://help.bettermeans.com/faq/voting' target='blank'> checkout our help section</a>, or this 9 minute tour of the site.<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br><br>"
   help_section_project_wiki: "<strong>Wikis are great tools for collaboration and therefore each workstream has a wiki.</strong> You can start building your wiki here and you can create multiple pages by clicking <a href='wiki'>Start Page</a> (in blue to the right). Wikis are essentially online documents and everyone that has access can not only read but also edit and contribute to online. <br>Note the different action buttons (on the right in grey), these will be helpful when working on the Wiki."
   help_section_project_news: "<strong>Check out or report on the latest news here.</strong> News is used to broadcast events to your team. For example winning a bid, or a new product release."
@@ -1273,12 +1274,12 @@ en:
   help_section_project_team: "<strong>How great is your team!</strong><br><br>I bet you are also excited about making it even better.<br><br>Use this page to track the roles people are playing for this workstream. Remember, these roles apply to all sub workstreams as well.<br><br>You can also use the links on the right to invite more team members. <a href='http://help.bettermeans.com/how-to/invitations' target='blank'> Learn more about invitations here</a>.<br><br> There are no job titles in an Open Enterprise, but there are levels of engagement that each come with different voting privileges, <a href= 'http://help.bettermeans.com/faq/membership' target='blank'> learn more about that here.</a><br><br> "
   help_section_project_credits: "<strong>This page tracks all the credits for your project.</strong> Credits are a way of tracking relative contribution. They are an indicator of what peers have given each other. <br>Credits can be used in many ways depending on how your organization or project runs. They can represent actual money in which case this is an accounts payable page, or they could represent relative contribution in which case this is a contribution tracking page. To learn more about how credits can work, <a href= 'http://help.bettermeans.com/faq/credits' target='blank'> click here.</a>"
   help_section_my_account: "<strong>This is your account page</strong> Unlike your public profile that is viewable by anyone in the BetterMeans community, this page is private to you. Here you can do important things like change your password, email settings and other preferences. You can also see your current usage levels and if needed you can change your subscription plan with BetterMeans. If you have questions about your account, please email billing@bettermeans.com"
-  help_section_welcome_index: "Welcome on board!|<strong>Get started by creating your own project workstream, or browsing around and contributing to existing ones</strong><br><br>We highly recommend this overview of how things work on bettermeans:<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br>You can also <a href='http://help.bettermeans.com/home' target='blank'>visit our help site for a more infor</a> and answers to frequently asked questions.<br><br>Please don't forget to send as all the feedback you have!<br><br><br>"
+  help_section_welcome_index: "Welcome on board!|<strong>Get started by creating your own workstream, or browsing around and contributing to existing ones</strong><br><br>We highly recommend this overview of how things work on bettermeans:<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br>You can also <a href='http://help.bettermeans.com/home' target='blank'>visit our help site for a more infor</a> and answers to frequently asked questions.<br><br>Please don't forget to send as all the feedback you have!<br><br><br>"
   help_section_project_map: "This is the map"
   help_section_project_settings: "Use settings sparingly. If you're admin and core team, make sure to use core team tools when possible in order for things to stay democratic."
   help_section_motion_new: "Motions are used to make large important decisions that are project-wide. Notice the dropdown menu with the different types of motions. This is a democratic mechanism to make decisions together. To learn more about motions <a href= 'http://help.bettermeans.com/how-to/motions' >click here</a>"
   help_section_project_new: "A Workstream is our lingo for a group or set of work.<br><br> A workstream could be a <strong>department</strong> of your organization or it could be a <strong>specific project</strong> that you are working on by your self or with others. In creating a workstreams there are a few important things to pay attention to:<br><br><ul><li> <strong>Public</strong>: A public workstream means that anyone can see your work and can comment and contribute. If you do not want to have this transparency with the community, you can uncheck this box and you are then creating a private workstream. As the creator, you control who has access, but also note that you have to pay for private workstreams. <a href= 'http://help.bettermeans.com/faq/private-vs-public-workstreams' target='blank'> Read more about tradeoffs. </a> </li><li> <strong>Volunteer</strong>: This is a signal to everyone working with you that all work in this workstream is fully volunteer.</li><li> <strong>Credits</strong>: Credits are a more open and democratic way of valuing work and awarding compensation. We are really excited about offering this as an option and we strongly encourage you to <a href= 'http://help.bettermeans.com/faq/credits' target='blank'> learn more about credits. </a></li></ul> Still have questions, <a href= 'http://help.bettermeans.com/how-to/create-a-workstream' target='blank'> click here.</a><br><br>"
-  help_section_invitation_new: "Use invitations to enroll team members to join your project workstream.<br><br> When you send someone an invitation, they will be prompted to create a bettermeans account (if they don't have one already), and <strong>automatically added as a contributor</strong> to your workstream.<br><br>You can only invite people to a root workstream. Their membership in a workstream applies to all sub work streams as well. In other words,<strong> a person can't belong to a sub workstream, and not belong to its parent workstream.</strong><br><br> <a href='http://help.bettermeans.com/how-to/invitations' target='blank'>Learn more in our help section.</a><br><br><br>"
+  help_section_invitation_new: "Use invitations to enroll team members to join your workstream.<br><br> When you send someone an invitation, they will be prompted to create a bettermeans account (if they don't have one already), and <strong>automatically added as a contributor</strong> to your workstream.<br><br>You can only invite people to a root workstream. Their membership in a workstream applies to all sub work streams as well. In other words,<strong> a person can't belong to a sub workstream, and not belong to its parent workstream.</strong><br><br> <a href='http://help.bettermeans.com/how-to/invitations' target='blank'>Learn more in our help section.</a><br><br><br>"
   help_section_browse_workstreams: "<strong>Welcome to the BetterMeans Community.</strong> Unlike your home page, this page is the overview of the whole BetterMeans platform. You can look around at other public workstreams and comment and join other people's projects. To learn more about the BetterMeans platform, <a href='http://help.bettermeans.com/home' target='blank'>click here.</a>"
   help_section_retrospective_show: "<strong>This is a retrospective.</strong> In a retrospective compensation is awarded by your peers and your own self-assessment. This is an opportunity to be fairly compensated for your contribution. <br>You want to look at all of the completed items and then give your best assessment of what percentage you think each person contributed. You also have a chance to say how sure you are using the slider at the bottom. For more information about retrospectives, <a href='http://help.bettermeans.com/how-to/retrospectives' target='blank'>click here.</a>"
   
