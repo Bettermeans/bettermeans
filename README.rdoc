@@ -1,6 +1,7 @@
 = BetterMeans
 
 BetterMeans is giving birth to a new kind of company. An Open Enterprise.
+
 More details can be found at http://bettermeans.com and here http://bettermeans.org
 
 
