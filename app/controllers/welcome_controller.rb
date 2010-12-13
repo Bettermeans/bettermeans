@@ -13,20 +13,24 @@ class WelcomeController < ApplicationController
     # @projects = Project.latest User.current, 10, false
     # @enterprises = Project.latest User.current, 10, true
     # @activities_by_item = ActivityStream.fetch(nil, nil, true, 50)    
-    @my_projects = User.current.owned_projects
-    @belong_to_projects = User.current.belongs_to_projects
+    @my_projects = User.current.projects
+    @active_projects = User.current.active_memberships.collect(&:project)
     
-    @news = News.find(:all,
-                             :limit => 10,
-                             :order => "#{News.table_name}.created_at DESC",
-                             :conditions => "#{News.table_name}.project_id in (#{User.current.projects.collect{|m| m.id}.join(',')}) AND (created_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_LATEST_NEWS * -1)}')",
-                             :include => [:project, :author]) unless User.current.projects.empty?
+    # redirect_to :controller => "my", :action => "projects" if @my_project.nil?
     
-    @assigned_issues = Issue.visible.open.find(:all, 
-                                    :conditions => {:assigned_to_id => User.current.id},
-                                    # :limit => 10, 
-                                    :include => [ :status, :project, :tracker ], 
-                                    :order => "#{Issue.table_name}.updated_at DESC")
+    unless @my_projects.nil?
+      @news = News.find(:all,
+                               :limit => 10,
+                               :order => "#{News.table_name}.created_at DESC",
+                               :conditions => "#{News.table_name}.project_id in (#{User.current.projects.collect{|m| m.id}.join(',')}) AND (created_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_LATEST_NEWS * -1)}')",
+                               :include => [:project, :author]) unless User.current.projects.empty?
+    
+      @assigned_issues = Issue.visible.open.find(:all, 
+                                      :conditions => {:assigned_to_id => User.current.id},
+                                      # :limit => 10, 
+                                      :include => [ :status, :project, :tracker ], 
+                                      :order => "#{Issue.table_name}.updated_at DESC")
+    end
   end
   
   def robots
