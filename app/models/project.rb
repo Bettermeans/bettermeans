@@ -475,7 +475,7 @@ class Project < ActiveRecord::Base
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
   # Also refreshes members with clearance
   def refresh_active_members
-    return if self.root?
+    # return if self.root?
     return unless self.active?
     
     u = {}

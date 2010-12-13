@@ -24,28 +24,25 @@ Thanks for joining us! May our work be used for the greater good of all beings.
 
 = Dev notes
 
-We use bundler to wrap up the dev environment. 
+We are working on using bundler to wrap up the dev environment. 
 To learn more about it check it out here: http://gembundler.com/
-
-All projects are deleted from production with the exception of "bettermeans" and "greenmuseum"
-The bettermeans projects is renamed to "LOCAL BETTERMEANS" to avoid confusion with the production dashboards.
 
 Our tests are broken. Help us write great tests and catch up on our testing environment!
 
 == Dev database
 
+The bettermeans projects is renamed to "LOCAL BETTERMEANS" to avoid confusion with the production dashboards.
 All passwords in included dev db are set to: "password"
-All other the data in the dev database is real! Don't spam our user's emails (make sure your dev email is NOT configured), and test email only with local accounts that you create.
+All private workstreams are removed.
+
+All other the data in the dev database is real!
 Please respect our user's privacy, and use the data in the db only for development purposes. (goes without saying I know)
 ----
 
 = Getting started
 
-sudo gem install bundler  #If you don't already have it installed
-sudo gem update --system  #If you're on an old version of Rubygems (before 1.3.6)
 git clone git@github.com:kabuks/bettermeans.git
 Rename database.yml.example to database.yml
-bundle install
 rake bootstrap
 
 #for a larger data set on postgresql db, skip rake bootstrap and load from dump file. 
