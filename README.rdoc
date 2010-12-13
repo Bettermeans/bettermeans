@@ -9,66 +9,70 @@ More details can be found at http://bettermeans.com and here http://bettermeans.
 = Getting started
 
 git clone git@github.com:kabuks/bettermeans.git
+
 Rename database.yml.example to database.yml
+
 rake bootstrap
 
-#for a larger data set on postgresql db, skip rake bootstrap and load from dump file. 
-#This recommended since it mirrors our production env.
+#for a larger data set on postgresql db, skip rake bootstrap and load from dump file. This recommended since it mirrors our production env.
+
 psql bettermeans_development < db/pgdump.sql
 
-that's it. now you're ready to change the world.
-Here's to making a dent in things together!
+That's it. Now you're ready to change the world. Here's to making a dent in things together!
 ----
 
 = Dev notes
 
-Platform workstream:
-http://bettermeans.com/projects/2/dashboard
+Platform workstream: http://bettermeans.com/projects/2/dashboard
 
-We are working on using bundler to wrap up the dev environment. 
-To learn more about it check it out here: http://gembundler.com/
+We are working on using bundler to wrap up the dev environment. To learn more about it check it out here: http://gembundler.com/
 
 Our tests are broken. Help us write great tests and catch up on our testing environment!
 
 == Dev database
 
 The bettermeans projects is renamed to "LOCAL BETTERMEANS" to avoid confusion with the production dashboards.
+
 All passwords in included dev db are set to: "password"
+
 All private workstreams are removed.
 
-All other the data in the dev database is real!
-Please respect our user's privacy, and use the data in the db only for development purposes. (goes without saying I know)
+All other the data in the dev database is real! Please respect our user's privacy, and use the data in the db only for development purposes. (goes without saying I know)
 ----
 
 = Known issues
 
 Attachments doesn't work in dev environment
+
 Logging in via the janrain plugin (e.g. google, twitter...etc) won't work in dev environment (if you need to work with this, drop me a message, there's an involved workaround)
 
 ----
 = Random tidbits
 
-To see activity on bettermeans, checkout the stats page:
-https://secure.bettermeans.com/admin/user_stats
+To see activity on bettermeans, checkout the stats page: https://secure.bettermeans.com/admin/user_stats
 
-Admin console is here (there are no visible links to it):
-http://localhost:3000/admin
+Admin console is here (there are no visible links to it): http://localhost:3000/admin
 
 ----
 = Creating a db from production
 
 You shouldn't need to. But if you do....
+
 To create a new dev db from production:
 
 heroku db:pull # Load production database
+
 export reset_safe=true
+
 rake custom:trim_db
+
 rake db:schema:dump 
+
 rake db:seed:dump MODELS=tracker,issue_statuss,enumeration,role,plan,setting
+
 # Uses https://github.com/rhalff/seed_dump
 
-To generate a pg_dump:
-pg_dump bettermeans_development -c -O -x -f db/pgdump.sql
+To generate a pg_dump: pg_dump bettermeans_development -c -O -x -f db/pgdump.sql
 
 ----
 = License
@@ -85,4 +89,5 @@ these terms of use: http://bettermeans.com/front/user_agreement.html
 and operating agreement: http://bettermeans.com/front/open_enterprise_governance_model.html
 
 Please read them carefully. 
+
 Thanks for joining us! May our work be used for the greater good of all beings.
