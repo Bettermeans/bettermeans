@@ -1,3 +1,7 @@
+<% content_for :mainmenu do %>
+  <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :myprojects} %>
+<% end %>
+
 <div class="splitcontentleft">
   	
     <h2 class="gt-table-head"><%=l(:label_projects_i_started)%></h2>
@@ -39,7 +43,7 @@
     </div>
     <% end %>
 </div>	
-<%= help_section("welcome_index",true) %>
+<%#= help_section("welcome_index",true) %>
 
 <% content_for :sidebar do %>
 <h2 class="gt-table-head">&nbsp;</h2>
