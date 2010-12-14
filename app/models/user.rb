@@ -495,6 +495,7 @@ class User < ActiveRecord::Base
       # #Check if user is a citizen of the enterprise, and the citizen role is allowed to take that action
       # return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
       roles = roles_for_project(project)
+      puts roles
       return false unless roles
       roles.detect {|role| (project.is_public? || role.community_member?) && role.allowed_to?(action)}
     elsif options[:global]
