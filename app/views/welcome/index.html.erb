@@ -11,8 +11,8 @@
 <% if (@news.nil? || @news.length == 0) && @assigned_issues.length == 0 %>
 <div>
   <% if @my_projects.length == 0 %>
+  <h2 class="gt-table-head">&nbsp;</h2>
   <div class="gt-content-box centered padded">
-    <h2 class="gt-table-head">&nbsp;</h2>
     <h4><%= l(:help_no_workstreams) %></h4>
     <p class='nodata'>
        	 <h3> <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'})%> </h3>
