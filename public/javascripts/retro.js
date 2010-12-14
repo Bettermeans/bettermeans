@@ -25,7 +25,7 @@ $('document').ready(function(){
 		value: 0,
 		min: 0,
 		max: 100,
-		step: 2,
+		step: 1,
 		slide: function(event, ui) {
 			var user_id = $("#" + this.id).attr("user_id");
 			$("#user_" + user_id + "_percentage").html(ui.value + '%');

@@ -37,7 +37,7 @@
   <br>
   <% if (@retro.status_id == Retro::STATUS_INPROGRESS) %>
   <div id="slider_<%= user_id%>" class="slider slider-per" user_id="<%= user_id%>" per="<%= user_retro["given_percentage"] %>"></div>
-  <% end %>
+<% end %>
   </td><td class="percentage closed">
     <label id="user_<%= user_id%>_percentage"><%= @team_hash[user_id] ||=0 %>%</label>
   </td><td class="percentage closed">
