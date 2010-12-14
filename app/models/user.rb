@@ -416,7 +416,7 @@ class User < ActiveRecord::Base
     project = child_project.root
     roles = []
     # No role on archived projects
-    return roles unless child_project && child_project.active?
+    return roles unless project && project.active?
     if logged?
       # Find project membership
       membership = memberships.detect {|m| m.project_id == project.id}
@@ -482,11 +482,11 @@ class User < ActiveRecord::Base
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project, options={})
-    # puts ("running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}")
+    logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     #     logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     if project
       # No action allowed on archived projects
-      return false unless project.active?
+      return false unless project.active? || action[:action] == "unarchive"
       # No action allowed on disabled modules
       return false unless project.allows_to?(action)
       # Admin users are authorized for anything else
@@ -497,7 +497,6 @@ class User < ActiveRecord::Base
       roles = roles_for_project(project)
       return false unless roles
       roles.detect {|role| (project.is_public? || role.community_member?) && role.allowed_to?(action)}
-      
     elsif options[:global]
       # Admin users are always authorized
       return true if admin?

@@ -1,4 +1,4 @@
-<h3>Workstreams I'm active in<%= link_to l(:label_view_all), {:controller => "my", :action => "projects"}, :class => "floating-h-link" %></h3>
+<h3><%= l(:label_projects_active_in) %> <%= link_to l(:label_view_all), {:controller => "my", :action => "projects"}, :class => "floating-h-link" %></h3>
 <table border="0" class="gt-table gt-user-table" id="my_projects_table">
     <%   project_tree_sorted(active_projects) do |p, level|
         name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
