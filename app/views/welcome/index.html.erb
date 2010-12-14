@@ -12,18 +12,13 @@
 <div>
   <% if @my_projects.length == 0 %>
   <div class="gt-content-box centered padded">
-    <h4><%= l(:help_no_my_workstreams) %></h4>
+    <h4><%= l(:help_no_workstreams) %></h4>
     <p class='nodata'>
        	 <h3> <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'})%> </h3>
+       	 or
+       	 <h3><%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}%></h3>
    	  </p>
   </div>    
-  <div class="gt-content-box padded centered">
-    <h4><%= l(:help_no_workstreams_i_belong_to) %></h4>
-    
-    <p class='nodata'>
-       	  <h3><%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}%></h3>
-    </p>
-  </div>
   <% end %>
 <% else %>
 <div class="splitcontentleft">
@@ -72,7 +67,7 @@
   </ul>
 </div>
 
-<%= render :partial => 'active_projects', :locals => {:ative_projects => @active_projects} if @active_projects %>
+<%= render :partial => 'active_projects', :locals => {:ative_projects => @active_projects} if @active_projects.length > 0 %>
 
 <% end %>
 

@@ -39,6 +39,7 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
+    logger.info { "authorize for #{controller} #{action} #{@project.name}" }
     User.current.allowed_to?({:controller => controller, :action => action}, @project)
   end
 

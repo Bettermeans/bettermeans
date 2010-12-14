@@ -397,6 +397,8 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
 
+  label_projects_active_in: Workstreams I'm active in
+  label_projects_all : All my workstreams
   label_view_all : View all
   label_track_invites: Track sent invites
   label_unarchive_project: Un-archive workstream
@@ -1252,7 +1254,10 @@ en:
   help_volunteer: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br><br> That's not to say good karma won't come your way!<br><br>This is our small contribution to the volunteer world. Please report any abuse to abuse@bettermeans.com"
   help_volunteer_credits: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br><br> Credits are being used here to track user contribution, and show who did what for this workstream over time. These credits are not a promise for any rewards, or payment"
   help_no_my_workstreams: "You haven't created any workstreams yet."
-  help_no_workstreams_i_belong_to: "You are not yet a member of any workstreams yet."
+  help_no_workstreams_i_belong_to: "You are not yet a member of any workstreams that you didn't start."
+  help_no_workstreams_active: "You have not been recently active in any workstreams."
+  help_no_workstreams: "You haven't yet gotten involved in any workstreams.<br> Create or join something to get started..."
+  help_no_workstreams_archived: "You have no archived workstreams."
   help_activities_i_belong_to: "This activity stream shows all activity in workstreams that you own and/or belong to"
   help_this_workstream_is_private: "This is private workstream. When a workstream is made private, all binding members (i.e. members, core team, board, and admins) are given permanent clearance to it. Also, all active contributors to the workstream are given clearance.<br><br> If you want to manage users' clearance to a private workstream, use the members tab under settings."
 

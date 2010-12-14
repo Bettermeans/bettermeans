@@ -1,0 +1,16 @@
+    <!-- <h2 class="gt-table-head"><%#=table_head%></h2> -->
+  	<% if @my_projects.length > 0 %>
+  	<div class="gt-content-box">    
+      <%= render :partial => 'my_projects', :locals => {:my_projects => my_projects, :table_id => table_id}  %>
+    </div>
+    <div class="gt-table-buttons">
+      <%= table_bottom_link %>
+    </div>
+    <% else %>
+    <div class="gt-content-box centered padded">
+      <h4><%= no_data_help %></h4>
+      <p class='nodata'>
+         	 <h3> <%= no_data_link %> </h3>
+     	  </p>
+    </div>    
+    <% end %>
