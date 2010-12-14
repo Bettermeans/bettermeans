@@ -36,8 +36,11 @@ class MyController < ApplicationController
   end
   
   def projects
+    project_ids = User.current.projects.collect{|p| p.id}.join(",")
+    @all_projects = project_ids.any? ? Project.find(:all, :conditions => "(parent_id in (#{project_ids}) OR id in (#{project_ids})) AND (status=#{Project::STATUS_ACTIVE})") : []
     @my_projects = User.current.owned_projects
     @belong_to_projects = User.current.belongs_to_projects
+    @active_projects = User.current.active_memberships.collect(&:project)
   end
 
   # Edit user's account
