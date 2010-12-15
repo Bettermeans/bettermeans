@@ -499,9 +499,13 @@ class Project < ActiveRecord::Base
     #removing active members that aren't in new list
     self.active_members.each do |m|
       if u[m.user_id].nil?
-        a = m.role_ids
-        a.delete Role.active.id 
-        m.role_ids = a
+        m.roles.each do |mr|
+          mr.destroy if mr.id = Role.active.id
+        end
+        
+        # a = m.role_ids
+        # a.delete Role.active.id 
+        # m.role_ids = a
       end
     end
     

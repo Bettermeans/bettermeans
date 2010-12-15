@@ -7,7 +7,7 @@ class MemberRole < ActiveRecord::Base
   belongs_to :member
   belongs_to :role
   
-  after_create :send_notification, :refresh_memberships, :log_activity
+  after_create :send_notification, :log_activity #, :refresh_memberships
 
   after_destroy :remove_member_if_empty, :refresh_memberships
   
@@ -96,8 +96,6 @@ class MemberRole < ActiveRecord::Base
   #     m.save
   #   end
   # end
-  
-
   
   
 end
