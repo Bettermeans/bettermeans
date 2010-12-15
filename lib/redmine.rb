@@ -63,8 +63,8 @@ Redmine::AccessControl.map do |map|
     map.permission :pull_commitment, {:issues => [:assign]} #Can pull request. i.e. ask to be the person that the task is commited to.
     map.permission :view_commit_requests, {:commit_requests => [:edit, :show]} #Can view ownereship requests
     map.permission :view_member_roles, {:member_roles => [:show]} #Can view member roles
-    map.permission :estimate_issues, {:issues => :estimate} #Can estimate issue
-    map.permission :accept_issues, {:issues => [:accept, :reject]} #can accept or reject issues
+    map.permission :estimate_issues, {:issues => :estimate}, :public => true #Can estimate issue
+    map.permission :accept_issues, {:issues => [:accept, :reject]}, :public => true #can accept or reject issues
     map.permission :start_issues, {:issues => [:start,:finish,:release], :retro_ratings => :create} #can start issues
     # Queries
     map.permission :manage_public_queries, {:queries => [:new, :edit, :destroy]}, :require => :member

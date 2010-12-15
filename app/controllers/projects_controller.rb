@@ -116,16 +116,14 @@ class ProjectsController < ApplicationController
 
         if @parent.nil?          
           # Add current user as a admin and core team member
-          # User.current.add_to_project(self, Role::BUILTIN_ADMINISTRATOR)
-          # User.current.add_to_project(self, Role::BUILTIN_CORE_MEMBER)
-          r = Role.find(Role::BUILTIN_CORE_MEMBER)
-          r2 = Role.find(Role::BUILTIN_ADMINISTRATOR)
+          r = Role.core_member
+          r2 = Role.administrator
           m = Member.new(:user => User.current, :roles => [r,r2])
           @project.all_members << m
         else
           @project.set_parent!(@parent.id)  # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
           @project.refresh_active_members
-          User.current.add_to_project(@project, Role::BUILTIN_ACTIVE)
+          User.current.add_to_project(@project, Role.active)
         end
 
         flash.now[:success] = l(:notice_successful_create)
@@ -185,7 +183,7 @@ class ProjectsController < ApplicationController
       #add as contributor
       if @project.root?
         unless User.current.community_member_of? @project
-          User.current.add_to_project @project, Role.contributor.id 
+          User.current.add_to_project @project, Role.contributor
           msg = "Invitation accepted. You are now a contributor of #{@project.name}"
           redirect_with_flash :success, msg, :controller => :projects, :action => :show, :id => @project.id
         else
@@ -350,7 +348,7 @@ class ProjectsController < ApplicationController
     if @project.active? && request.post? && @project.archive
       project_id_override = @project.parent ? @project.parent.id : @project.id #archived projects don't show up in activity stream, so we log the activity to its parent if it exists
       LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_archived), :workstreams, 0, nil,{:project_id => project_id_override})
-      redirect_with_flash :notice, l(:notice_successful_update), :controller => "welcome", :action => 'index'
+      redirect_with_flash :notice, l(:notice_successful_update), :controller => "my", :action => 'projects'
     else
       render_error(l(:error_general))
     end
@@ -366,8 +364,9 @@ class ProjectsController < ApplicationController
           @my_projects = User.current.owned_projects
           
           render :update do |page|
-            page.replace "my_projects_table", :partial => 'welcome/my_projects', :locals => {:my_projects => @my_projects}
+            page.replace params[:table_id], :partial => 'my/my_projects', :locals => {:my_projects => @my_projects, :table_id => params[:table_id]}
             page.call '$.jGrowl', l(:notice_successful_update)
+            page.call 'display_sparks'
           end
         end
       end

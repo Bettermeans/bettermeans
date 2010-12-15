@@ -155,3 +155,13 @@ start_of_week:
   default: ''
 rest_api_enabled:
   default: 0
+enabled_scm:
+  default: ''
+sys_api_enabled:
+  default: true
+repositories_encodings:
+  default: ''
+repository_log_display_limit:
+  default: ''
+autofetch_changesets:
+  default: true

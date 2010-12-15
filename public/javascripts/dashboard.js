@@ -3,7 +3,6 @@ var R = []; //all retrospectives
 var local_D = null;
 var local_R = null;
 var MAX_REQUESTS_PER_PERSON = 4;
-var ANONYMOUS_USER_ID = 2;
 var TIMER_INTERVAL = 15000; //15 seconds
 var INACTIVITY_THRESHOLD = 300000; //5 minutes
 var timer_active = false;
@@ -773,7 +772,7 @@ function generate_estimate_flyover(dataId){
 		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 4) continue;
 			
-			if (user_estimate == -1){
+			if (item.issue_votes[i].points == -1){
 				history = history + 'Don\'t know - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
 			}
 			else if (credits_enabled){
@@ -1407,7 +1406,7 @@ try{
 	$('#comment_' + journalId + '_text_container').html(new_text).show();
 	$('#comment_' + journalId + '_subject_submit_container').html('');
 	
-	var data = "commit=Update&id=" + journalId + "&issue_id=" + D[dataId].id + "&journal[notes]=" + new_text;
+	var data = "commit=Update&id=" + journalId + "&issue_id=" + D[dataId].id + "&journal[notes]=" + escape(new_text);
 	
 	var url = url_for({ controller: 'journals',
 	                           action    : 'edit_from_dashboard'
@@ -1530,6 +1529,11 @@ function generate_item_estimate_button(dataId,points){
 	var current_user_voted = has_current_user_estimated(item);
 	
 	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (current_user_voted)){
+		
+		//If no binding points, then current user is non-binding and has voted so we show them a different symbol so they can track what they estimated, and what they didn't estimate
+		if (points == "No" && current_user_voted){
+			points = "wait";
+		}
 		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';		
 	}
 	else{
@@ -1541,7 +1545,7 @@ function generate_item_estimate_button(dataId,points){
 }
 
 function add_new_link(){
-	$("#new_start_of_list").prepend(generate_new_link());
+	$("#new_list").prepend(generate_new_link());
 }
 
 function remove_new_link(){
@@ -1578,7 +1582,10 @@ function generate_item(dataId){
 	html = html + '<div id="item_content_' + dataId + '" class="' + item.status.name.replace(" ","-").toLowerCase() + ' hoverable" style="">';
 	html = html + '<div class="storyPreviewHeader">';
 	html = html + '<div id="item_content_buttons_' + dataId + '" class="storyPreviewButtons">';
-	html = html + buttons_for(dataId);
+	if (currentUserId != ANONYMOUS_USER_ID){ 
+		html = html + buttons_for(dataId);
+	}
+	
 	html = html + '</div>';
 
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
@@ -1586,7 +1593,9 @@ function generate_item(dataId){
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
 	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ item.id +');return false;">'; 
 	
-	html = html + generate_item_estimate_button(dataId,points);
+	if (currentUserId != ANONYMOUS_USER_ID){ 
+		html = html + generate_item_estimate_button(dataId,points);
+	}
 	
 	// if (show_comment(item)){
 	// html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png" onclick="show_details_flyover('+ dataId +',this.id);return false;">'; 
@@ -1742,6 +1751,7 @@ function generate_notice(noticeHtml, noticeId){
 
 
 function buttons_for(dataId,expanded){
+	if (currentUserId == ANONYMOUS_USER_ID){ return "";}
 	var item = D[dataId];
 	var html = '';
     	
@@ -1851,7 +1861,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 					tally = tally + 'BLOCK';
 				}
 				else{
-					tally = tally + item.agree + ' - ' + item.disagree;
+					tally = tally + (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
 				}
 				tally = tally + '</div>';
 			}
@@ -1904,7 +1914,7 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 		tally = tally + 'BLOCK';
 	}
 	else{
-		tally = tally + item.accept + ' - ' + item.reject;
+		tally = tally + (item.accept + item.accept_nonbind) + ' - ' + (item.reject + item.reject_nonbind);
 	}
 	tally = tally + '</div>';
 	
@@ -1969,17 +1979,17 @@ function pri_button(dataId){
 	for(var i=0; i < item.issue_votes.length; i++){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 3)){
 			if (item.issue_votes[i].points == 1){
-				return generate_pri_button(dataId,'up',item.pri);
+				return generate_pri_button(dataId,'up',(item.pri + item.pri_nonbind));
 			}
 			else if (item.issue_votes[i].points == -1){
-				return generate_pri_button(dataId,'down',item.pri);
+				return generate_pri_button(dataId,'down',(item.pri + item.pri_nonbind));
 			}
 			else if (item.issue_votes[i].points == 0){
-				return generate_pri_button(dataId,'neutral',item.pri);
+				return generate_pri_button(dataId,'neutral',(item.pri + item.pri_nonbind));
 			}
 		}
 	}
-	return generate_pri_button(dataId,'none',item.pri);
+	return generate_pri_button(dataId,'none',(item.pri + item.pri_nonbind));
 }
 
 function generate_pri_button(dataId,direction,pri){
@@ -2026,7 +2036,7 @@ function click_start(dataId,source,data){
 	}
 
 	if (!has_current_user_estimated(D[dataId])){
-		$.jGrowl("Sorry, you can't start an item before estimating it first");
+		$.jGrowl("Sorry, you can't start an item before estimating it first. <br><br>Click on the dice with the question mark on it, to estimate the complexity/size of this item.");
 		return false;
 	}
 	
@@ -2582,9 +2592,7 @@ function update_panel_count(name, skip_button){
 		else{
 			count = $("#" + name + "_start_of_list > *").length;
 		}
-		if (name == 'new'){
-			count = count - 1; //accounting for add new item link
-		}
+
 		$("#" + name + '_panel_title').html($("#" + name + '_panel_title').html().replace(/\([0-9]*\)/,"(" + count + ")"));
 		if (!skip_button){
 			$("#" + name + '_panel_toggle_count').html($("#" + name + '_panel_toggle_count').html().replace(/\([0-9]*\)/,"(" + count + ")"));

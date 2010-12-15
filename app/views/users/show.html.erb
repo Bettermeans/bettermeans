@@ -5,12 +5,6 @@
 <h2><%= avatar @user %> <%=h @user.name %></h2>
 
 <div class="splitcontentleft">
-<%= render :partial => "reputation" %>
-<br><br>
-<%= render :partial => "membership" %>
-</div>
-
-<div class="splitcontentright">
   <h2 class="gt-table-head">Recent Activity</h2>
   <div class="gt-content-box">
   <%= render :partial => "activity_streams/activity_stream_list", :locals => {
@@ -21,6 +15,12 @@
       :max_created_at => nil
       } %>
   </div>
+</div>
+
+<div class="splitcontentright">
+  <%= render :partial => "reputation" %>
+  <br><br>
+  <%= render :partial => "membership" %>
 </div>
 
 <% html_title @user.name %>
