@@ -39,6 +39,7 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
+    logger.info { "authorize for #{controller} #{action} #{@project.name}" }
     User.current.allowed_to?({:controller => controller, :action => action}, @project)
   end
 
@@ -251,6 +252,7 @@ module ApplicationHelper
   
   # Renders the project quick-jump box
   def render_project_jump_box
+    return if @project && @project.new_record?
     # Retrieve them now to avoid a COUNT query
     if User.current.pref[:active_only_jumps]
       projects = User.current.projects.all
@@ -376,9 +378,6 @@ module ApplicationHelper
       when 'assigned_to_id'
         u = User.find_by_id(detail.value) and value = u.name if detail.value
         u = User.find_by_id(detail.old_value) and old_value = u.name if detail.old_value
-      when 'priority_id'
-        e = IssuePriority.find_by_id(detail.value) and value = e.name if detail.value
-        e = IssuePriority.find_by_id(detail.old_value) and old_value = e.name if detail.old_value
       when 'estimated_hours'
         value = "%0.02f" % detail.value.to_f unless detail.value.blank?
         old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?

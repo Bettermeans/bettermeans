@@ -41,7 +41,6 @@ class InvitationsController < ApplicationController
     end
     
     @note = l(:text_invitation_note_default)
-    @roles = Role.find(:all, :conditions => {:level => 1}, :order => "position DESC")
 
     respond_to do |format|
       format.html # new.html.erb

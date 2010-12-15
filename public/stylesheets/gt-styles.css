@@ -2373,3 +2373,10 @@ img.private-workstream, img.volunteer-workstream{
 	background-image: url(/images/email.png);
 	font-weight:bold;
 }
+
+.floating-h-link{
+	font-size:60%;
+	padding-left:13px;
+	padding-top:5px;
+	vertical-align:top;
+}

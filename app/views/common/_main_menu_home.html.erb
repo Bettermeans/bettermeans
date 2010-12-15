@@ -1,0 +1,20 @@
+<ul>
+  <li>
+    <%= link_to l(:label_my_page), {:controller => "welcome", :action => "index"}, :class => (active_page == :mypage ? 'gt-active' : '') %>
+  </li>
+</ul>
+<ul>
+  <li>
+    <%= link_to l(:label_my_projects), {:controller => "my", :action => "projects"}, :class => (active_page == :myprojects ? 'gt-active' : '') %>
+  </li>
+</ul>
+<ul>
+  <li>
+    <%= link_to l(:label_my_account), {:controller => "my", :action => "account"}, :class => (active_page == :myaccount ? 'gt-active' : '') %>
+  </li>
+</ul>
+<ul>
+  <li>
+    <%= link_to l(:label_project_new), {:controller => "projects", :action => "add"}, :class => (active_page == :newproject ? 'gt-active' : '') %>
+  </li>
+</ul>

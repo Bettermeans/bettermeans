@@ -80,13 +80,11 @@ class AccountController < ApplicationController
         end
         
         # @user.hashed_password = "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" #just testing
-        session["ERROR_user"] = @user.inspect
-        session["ERROR_data"] = data.inspect
-        raise "Couldn't create new account #{@user.inspect} data #{data.inspect}" unless @user.save        
-        session["ERROR_user"] = nil
-        session["ERROR_data"] = nil
-        
-                          
+        unless @user.save
+          session[:debug_user] = @user.inspect
+          session[:debug_data] = data.inspect if data
+          raise "Couldn't create new account" 
+        end
       end
     else
       if invitation

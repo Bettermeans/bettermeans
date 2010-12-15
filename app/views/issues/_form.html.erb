@@ -1,4 +1,4 @@
-<div id="issue_descr_fields" <%= 'style="display:none"' unless @issue.new_record? || @issue.errors.any? %>>
+<div id="issue_descr_fields" <%#= 'style="display:none"' unless @issue.new_record? || @issue.errors.any? %>>
 <p>
 <% if @project.credits_enabled? %>
 <%= f.select :tracker_id, Tracker.all.collect {|t| [t.name, t.id]}, :required => true %>
