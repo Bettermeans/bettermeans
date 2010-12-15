@@ -15,13 +15,8 @@
   </div>
 </div>
 
-<!-- <script> -->
-  <!-- // Event.observe(window, 'load', function() { displayTabsButtons(); });
-  // Event.observe(window, 'resize', function() { displayTabsButtons(); });  -->
-<!-- </script> -->
-
 <% tabs.each do |tab| -%>
-  <%= content_tag('div', render(:partial => tab[:partial], :locals => {:tab => tab} ), 
+  <%= content_tag('div', render(:partial => tab[:partial], :locals => tab[:locals] ), 
                        :id => "tab-content-#{tab[:name]}",
                        :class => "tab-content #{(tab[:name] != selected_tab ? 'hidden' : nil)}") %>
 <% end -%>

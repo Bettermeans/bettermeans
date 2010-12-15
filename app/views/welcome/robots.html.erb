@@ -3,6 +3,7 @@ Disallow: /boards
 Disallow: /issues
 Disallow: /activity
 Disallow: /projects
+Disallow: /news
 <% @projects.each do |p| -%>
 Disallow: /projects/<%= p.to_param %>/issues
 Disallow: /projects/<%= p.to_param %>/activity

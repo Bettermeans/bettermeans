@@ -39,6 +39,7 @@ module UsersHelper
     tabs
   end
   
+  
   def reputation_value(reputation_type, reputation_value)
     case reputation_type
     when Reputation::VARIATION_SELF_BIAS

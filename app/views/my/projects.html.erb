@@ -1,0 +1,36 @@
+<% content_for :mainmenu do %>
+  <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :myprojects} %>
+<% end %>
+
+<%= render_tabs my_projects_tabs %>
+
+<% content_for :sidebar do %>
+<h2 class="gt-table-head">&nbsp;</h2>
+<div class="gt-sidebar-nav gt-sidebar-nav-blue">
+  <h3>Quick Links</h3>
+  <ul>
+  <li>
+    <%= link_to l(:label_home), {:controller => 'welcome', :action => 'index'} %>
+  </li>
+  <li>
+    <%= link_to l(:label_my_account), {:controller => 'my', :action => 'account'} %>
+  </li>
+  <li>
+    <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
+  </li>
+  <li>
+    <%= link_to l(:label_browse_workstreams), {:controller => 'projects', :action => 'index'} %>
+  </li>
+  </ul>
+</div>
+<% end %>
+
+<script>
+  $('document').ready(function(){
+    display_sparks();
+  });
+  
+  $('.tab-top').click(function(){
+    display_sparks();
+  })
+</script>
