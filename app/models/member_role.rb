@@ -81,7 +81,7 @@ class MemberRole < ActiveRecord::Base
   def refresh_memberships
     return unless member
     return unless role.level == Role::LEVEL_ENTERPRISE
-    member.project.root.self_and_descendants.each(&:refresh_active_members) if member.project
+    member.project.root.descendants.each(&:refresh_active_members) if member.project
   end
   
   # #Removes all contributor roles for this member if the current role being added is core
