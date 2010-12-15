@@ -7,7 +7,7 @@ class MemberRole < ActiveRecord::Base
   belongs_to :member
   belongs_to :role
   
-  after_create :send_notification, :log_activity #, :refresh_memberships
+  after_create :send_notification, :log_activity , :refresh_memberships
 
   after_destroy :remove_member_if_empty, :refresh_memberships
   
