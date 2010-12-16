@@ -10,8 +10,8 @@ class CreditsController < ApplicationController
   # GET /credits.xml
   def index
     @project = Project.find(params[:project_id]) unless params[:project_id].nil?
-    @credits = @project.credits
     
+    @credits = @project.credits
     @active_credits = @credits.find_all{|credit| credit.enabled == true }.group_by{|credit| credit.owner_id}
     
     
