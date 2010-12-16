@@ -40,7 +40,7 @@ class InvitationsController < ApplicationController
       return
     end
     
-    @note = l(:text_invitation_note_default)
+    @note = l(:text_invitation_note_default, {:user => User.current.name, :project => @project.name})
 
     respond_to do |format|
       format.html # new.html.erb
