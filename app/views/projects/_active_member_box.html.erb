@@ -1,9 +1,9 @@
-<!-- Shows active members -->
 <% 
 @members_active = @project.active_members
 if @members_active.any? 
   %>
-<h2 class="gt-table-head"><%=l(:label_active_team)%></h2>	
+<!-- Shows active members -->
+<h2 class="gt-table-head"><%=l(:label_active_team)%><%= help_bubble(:text_active_team_explanation) %></h2>	
 <div class="members gt-content-box">
   <table border="0" class="gt-table gt-user-table">
 		<tbody>
@@ -12,7 +12,11 @@ if @members_active.any?
     	  <td class="gt-avatar"><%= avatar(member.user) %></td>
     	  <td>
     	    <h4><%= link_to_user member.user %></h4>
-    	    <%= member.user.roles_for_project(@project).collect {|role| role.name}.join(", ") %>
+    	    <%
+    	      roles =  member.user.roles_for_project(@project).collect{|role| role.name }
+    	      roles.delete(Role.active.name)
+    	      %>
+    	    <%= roles.join(",") %>
     	  </td>
       </tr>
     	<% end %>
@@ -22,11 +26,10 @@ if @members_active.any?
     	</td></tr>
     	</li>
     	<% end %>
+    	<tr><td colspan=3 style="text-align:center">
+    	 <%= link_to l(:label_team_view_all_enterprise), {:controller => 'projects', :action => 'team', :id => @project.root} %>
+    	</td></tr>
 	  </tbody>
 	</table>
 </div>
-<div class="gt-table-buttons">
-	<%= link_to l(:label_team_view_all_enterprise), {:controller => 'projects', :action => 'team', :id => @project.root} , :class => "gt-btn-blue-large" %>
-</div>
-
 <% end %>

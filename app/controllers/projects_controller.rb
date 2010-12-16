@@ -426,6 +426,10 @@ class ProjectsController < ApplicationController
 
   def credits
     @credits = @project.fetch_credits(params[:with_subprojects])
+    
+    @credits_pages, @creditss = @project.fetch_credits(params[:with_subprojects])
+    
+    
     @active_credits = @credits.find_all{|credit| credit.enabled == true && credit.settled_on.nil? == true }.group_by{|credit| credit.owner_id}
     @oustanding_credits = @credits.find_all{|credit| credit.settled_on.nil? == true }.group_by{|credit| credit.owner_id}
     @total_credits = @credits.group_by{|credit| credit.owner_id}
