@@ -359,6 +359,14 @@ function display_sparks(){
 	});
 }
 
+//hides right column, and expands left one if right column is empty
+function hide_empty_right_column(){
+	if ($('.gt-right-col').html().length < 100){
+		$('.gt-right-col').hide();
+		$('.gt-left-col').width('100%');
+	}
+}
+
 function humane_date(date_str){
 		
       var time_formats = [

@@ -200,15 +200,21 @@ module ApplicationHelper
   end
   
   def make_expandable(newhtml,length=400)
-    return newhtml if newhtml.length < length
+    return newhtml if newhtml.gsub(/<\/?[^>]*>/,  "").length < length
     id = rand(100000)
-    string = newhtml
-    h = truncate(string,length,"")
-    h << "<a href='' onclick='$(\"##{id.to_s}\").replaceWith($(\"##{id.to_s}\").html());$(this).remove();return false;'> ...<strong>read more</strong></a>"
+    h = ""
     h << "<div class='hidden' id=#{id.to_s}>"
-    h << string[length..string.length]
+    h << newhtml
+    h << "</div>"
+    h << "<div id=truncated_#{id.to_s}>"
+    h << newhtml.truncate_html(length)
+    h << "..."
+    # h << truncate(newhtml,length,"")
+    h << "<a href='' onclick='$(\"#truncated_#{id.to_s}\").remove();$(\"##{id.to_s}\").show();return false;'><strong> see more</strong></a>"
     h << "</div>"
   end
+  
+  
 
   def due_date_distance_in_words(date)
     if date
