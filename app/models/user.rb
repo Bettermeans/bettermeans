@@ -485,8 +485,8 @@ class User < ActiveRecord::Base
     logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     #     logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     if project
-      # No action allowed on archived projects
-      return false unless project.active? || action[:action] == "unarchive"
+      # No action allowed on archived projects except unarchive
+      return false unless project.active? || (action && action[:action] && action[:action] == "unarchive")
       # No action allowed on disabled modules
       return false unless project.allows_to?(action)
       # Admin users are authorized for anything else
