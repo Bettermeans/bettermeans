@@ -65,7 +65,7 @@ class AccountController < ApplicationController
         @user = User.new(newdata)
         
         #try and find a good login
-        login = data[:username].gsub(/ /,"_")
+        login = data[:username].gsub(/ /,"_").gsub(/'|\"|<|>/,"_")
         if !User.find_by_login(login)
           @user.login = login
         elsif !User.find_by_login(name.gsub(/ /,"_"))
