@@ -1,7 +1,4 @@
-
-<h2 class="gt-table-head"><%=l(:label_team)%></h2>	
-
-
+<%= help_section("project_team") %>
 <%= error_messages_for 'member' %>
 
 <div class="splitcontentleft">
@@ -9,7 +6,7 @@
 </div>
 
 <div class="splitcontentright">
-  <%= help_section("project_team") %>
+  <%= render :partial => "active_member_box" %>
 </div>
 
 <% content_for :sidebar do %>

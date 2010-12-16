@@ -52,6 +52,11 @@ class Project < ActiveRecord::Base
                            :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_BOARD} OR #{Role.table_name}.builtin=#{Role::BUILTIN_ADMINISTRATOR}",
                             :order => "firstname ASC"
 
+  has_many :enterprise_members, :class_name => 'Member', 
+                          :include => [:user,:roles], 
+                          :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_CONTRIBUTOR} OR #{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_BOARD} OR #{Role.table_name}.builtin=#{Role::BUILTIN_ADMINISTRATOR}",
+                           :order => "firstname ASC"
+
 
   has_many :member_users, :class_name => 'Member', 
                                :include => :user,

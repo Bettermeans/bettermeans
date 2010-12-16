@@ -1,15 +1,18 @@
-<% roles = Role.find_all_givable(Role::LEVEL_PROJECT)
-   members = project.member_users.find(:all, :include => [:roles, :user]).sort 
+<h2 class="gt-table-head"><%=l(:label_team)%></h2>	
+
+<% 
+   members = project.enterprise_members.find(:all, :include => [:roles, :user]).sort 
    %>
    
-   <!-- Shows active members -->
    <% 
    if members.any? 
      %>
+   <!-- Shows active members -->
    <div class="members gt-content-box">
      <table border="0" class="gt-table gt-user-table">
    		<tbody>
        	<% members.each do |member| %>
+      	
        	<tr>
        	  <td class="gt-avatar"><%= avatar(member.user) %></td>
        	  <td><h4><%= link_to_user member.user %></h4>
