@@ -352,7 +352,7 @@ class IssuesController < ApplicationController
     @issue.update_estimate_total @iv.isbinding
     logger.info { "after update #{@issue.inspect}" }
     logger.info { "start saving" }
-    @issue.save #if !@issue.update_status
+    @issue.save if !@issue.update_status
     logger.info { "done saving" }
     @issue.reload
     
