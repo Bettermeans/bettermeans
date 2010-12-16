@@ -397,6 +397,7 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
 
+  label_projects_recent: Recent workstreams
   label_projects_active_in: Workstreams I'm active in
   label_projects_all : All my workstreams
   label_view_all : View all
