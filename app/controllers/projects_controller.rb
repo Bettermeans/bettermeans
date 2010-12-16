@@ -111,12 +111,10 @@ class ProjectsController < ApplicationController
       @project.owner_id = User.current.id if params[:parent_id] == "" || params[:parent_id].nil?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
       
-      logger.info { "1111" }
 
       if validate_parent_id && @project.save
         LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, :created, :workstreams, 0, nil,{:object_description_method => :description})
         
-        logger.info { "22222" }
 
         if @parent.nil?          
           # Add current user as a admin and core team member
@@ -125,18 +123,14 @@ class ProjectsController < ApplicationController
           m = Member.new(:user => User.current, :roles => [r,r2])
           @project.all_members << m
           
-          logger.info { "333333" }
         else
           @project.set_parent!(@parent.id)  # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
           @project.refresh_active_members
           User.current.add_to_project(@project, Role.active)
         end
         
-        logger.info { "444444" }
 
-        flash.now[:success] = l(:notice_successful_create)
-        
-        logger.info { "55555" }
+        flash.now[:success] = l(:notice_successful_create)        
         redirect_to :controller => 'projects', :action => 'dashboard', :id => @project.id
       else
         redirect_with_flash :error, "Couldn't create project", :controller => "my", :action => "projects"
