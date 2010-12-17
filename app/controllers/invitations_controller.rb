@@ -113,6 +113,7 @@ class InvitationsController < ApplicationController
       wants.html {  
         if @user && !@user.anonymous?
           self.logged_user = @user
+          Track.log(Track::LOGIN,request.env['REMOTE_ADDR'])
           @invitation.accept
           msg = "Invitation accepted. You are now a #{@invitation.role.name} of #{@invitation.project.name}."
           redirect_with_flash :success, msg, :controller => :projects, :action => :show, :id => @invitation.project_id
