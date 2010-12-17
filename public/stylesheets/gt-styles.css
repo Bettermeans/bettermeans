@@ -1186,6 +1186,7 @@ table.activity-item td.cr-note { background-image: url(/images/tag_blue.png); }
 table.activity-item td.team-offer { background-image: url(/images/user_new.png); }  
 table.activity-item td.member-role { background-image: url(/images/users.png); }
 table.activity-item td.memberrole { background-image: url(/images/users.png); }
+table.activity-item td.motion { background-image: url(/images/weather_lightning.png); }
 
 /*Sub Table*/
 table.activity-sub {margin-left: 7px; margin-top: 0px;}
@@ -1763,7 +1764,7 @@ padding-bottom: 3px;
 .icon-dashboard { background-image: url(/images/lightning.png); }
 .icon-activate { background-image: url(/images/true.png); }
 .icon-deactivate { background-image: url(/images/false.png); }
-
+.icon-motion{ background-image: url(/images/weather_lightning.png); }
 
 .icon-file { background-image: url(/images/files/default.png); }
 .icon-file.text-plain { background-image: url(/images/files/text.png); }
