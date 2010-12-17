@@ -428,6 +428,7 @@ class ProjectsController < ApplicationController
 
   def team
       @days = Setting.activity_days_default.to_i    
+      @hide_view_team_link = true #hides the link to this page from the active box
   end
 
   def credits

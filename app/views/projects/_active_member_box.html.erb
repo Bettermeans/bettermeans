@@ -26,9 +26,11 @@ if @members_active.any?
     	</td></tr>
     	</li>
     	<% end %>
+    	<% unless @hide_view_team_link %>
     	<tr><td colspan=3 style="text-align:center">
     	 <%= link_to l(:label_team_view_all_enterprise), {:controller => 'projects', :action => 'team', :id => @project.root} %>
     	</td></tr>
+    	<% end %>
 	  </tbody>
 	</table>
 </div>
