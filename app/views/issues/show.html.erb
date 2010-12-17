@@ -129,33 +129,10 @@
     <%= javascript_tag 'showAndScrollTo("update", "attachments_1_file");' %>
   <% end %>
 
-<script>
-  var item = <%=@issue.to_dashboard %>;
-  var credit_base = '<%= @issue.project.dpp %>';
-  var projectId = '<%= @issue.project.identifier %>';
-  var credits_to_points_array = <%= Setting::CREDITS_TO_POINTS.to_json %>;
-  var currentUserLogin = '<%= User.current.login %>';
-  var currentUserId = '<%= User.current.id %>';
-  var currentUserIsCore = '<%= User.current.core_member_of?(@project) %>';
-  var currentUserIsMember = '<%= User.current.member_of?(@project) %>';
-  var point_factor = <%= Setting::POINT_FACTOR.to_json %>;  
-  var startable_priority_tiers = <%= Setting::NUMBER_OF_STARTABLE_PRIORITY_TIERS %>;
-  var credits_enabled = <%= @project.credits_enabled? %>;
-  var ISSUE_COUNT = <%= @project.issue_count %>
-  var ANONYMOUS_USER_ID = <%= User.anonymous.id %>;
+<%= render :partial => 'projects/dashboard_javascript_variables', :locals => {:project => @project} %>
 
-  var standard_trackers = function() {
-      var trackers = <%= Tracker.all.to_json %>
+<script type="text/javascript">
 
-      var trackers_object = {};
-
-      for(var i=0; i<trackers.length; i++) {
-	  trackers_object[trackers[i].name] = trackers[i];
-      }
-
-      return trackers_object;
-
-  }();
   
   $('document').ready(function(){
     show_item(<%= @issue.startable? %>);
