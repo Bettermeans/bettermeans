@@ -1666,6 +1666,12 @@ text-decoration:underline !important;
 	display: none;
 }
 
+.spark-top{
+	padding-top:5px;
+	padding-right:5px;
+	padding-left:5px;
+}
+
 .project-summary h5{
 	font-size: 100%;
 	margin-bottom: 5px;

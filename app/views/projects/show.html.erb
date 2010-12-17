@@ -52,7 +52,7 @@
 </div>
 
 <div class="gt-left-col">
-  <h2 class="gt-table-head"><%=l(:label_activity_latest)%></h2>  
+  <h2 class="gt-table-head"><%=l(:label_activity_latest)%><div class="spark right spark-top" max="<%= @project.activity_line_max %>"><%= @project.activity_line_show(30) %></div></h2>  
   <div class="activity gt-content-box">
     <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
       :user_id => params[:user_id],
@@ -122,12 +122,10 @@
 <%= textilizable @project.description %>	
 <%# unless @project.homepage.blank? %><%#=l(:field_homepage)%><!-- : --> <%#= link_to(h(@project.homepage), @project.homepage) %><%# end %>
 </div>
-<br><br>
-<div class="gt-sidebar-content">
+<!-- <div class="gt-sidebar-content">
 <h3>30-day Activity Timeline</h3>
-<div class="spark" max="<%= @project.activity_line_max %>"><%= @project.activity_line_show(30) %></div>
-</div>
-<br><br>
+<div class="spark" max="<%= @project.activity_line_max %>"><%#= @project.activity_line_show(30) %></div>
+</div> -->
 <% if User.current.allowed_to?(:view_issues, @project) %>
     <div class="gt-sidebar-nav gt-sidebar-nav-gray">
     <h3><%=l(:label_issue_tracking)%></h3>
@@ -145,10 +143,10 @@
             <% end %>
     </ul>
     </div>
-    <div class="gt-table-buttons">
-      <%= link_to l(:label_issue_view_all), {:controller => 'issues', :action => 'index', :project_id => @project}, :class => "gt-btn-blue-medium right" %>
-      <%= link_to l(:label_dashboard), {:controller => 'projects', :action => 'dashboard', :project_id => @project}, :class => "gt-btn-blue-medium right" %>
-    </div>
+    <!-- <div class="gt-table-buttons">
+      <%#= link_to l(:label_issue_view_all), {:controller => 'issues', :action => 'index', :project_id => @project}, :class => "gt-btn-blue-medium right" %>
+      <%#= link_to l(:label_dashboard), {:controller => 'projects', :action => 'dashboard', :project_id => @project}, :class => "gt-btn-blue-medium right" %>
+    </div> -->
     <% end %>
     
     <% if @project.credits_enabled? %>
