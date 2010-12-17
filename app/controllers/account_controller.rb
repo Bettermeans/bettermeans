@@ -291,7 +291,7 @@ class AccountController < ApplicationController
       invitation.accept(user) if invitation
     end    
     
-    Track.log(Track::LOGIN)
+    Track.log(Track::LOGIN,request.env['REMOTE_ADDR'])
     
     # generate a key and set cookie if autologin
     if params[:autologin] && Setting.autologin?
