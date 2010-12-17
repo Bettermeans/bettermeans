@@ -254,7 +254,7 @@ en:
   field_done_ratio: % Done
   field_auth_source: Authentication mode
   field_hide_mail: Hide my email address
-  field_active_only_jumps: Top jump menu shows only workstreams I'm active in
+  field_active_only_jumps: "Show only workstreams I'm active in for top jump menu"
   field_comments: Comment
   field_wiki_comments: Revision notes
   field_url: URL
