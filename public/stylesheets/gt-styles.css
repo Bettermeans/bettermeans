@@ -802,6 +802,7 @@ h6 {
 	margin-bottom: 10px;
 	font-weight: bold;
 }
+
 /* @end */
 
 /* @group Text Styles */
@@ -1664,6 +1665,18 @@ text-decoration:underline !important;
 .spark {
 	display: none;
 }
+
+.project-summary h5{
+	font-size: 100%;
+	margin-bottom: 5px;
+	font-weight: bold;
+	color: #777;
+}
+
+.project-summary .spark{
+	margin-top: 12px;
+}
+
 
 /***** Icons *****/
 .icon {
