@@ -70,6 +70,7 @@ class ApplicationController < ActionController::Base
       # auto-login feature starts a new session
       user = User.try_to_autologin(cookies[:autologin])
       session[:user_id] = user.id if user
+      Track.log(Track::LOGIN,request.env['REMOTE_ADDR']) if user
       user
     # elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
     #   # RSS key authentication does not start a session

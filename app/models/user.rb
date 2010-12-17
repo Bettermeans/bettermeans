@@ -290,7 +290,6 @@ class User < ActiveRecord::Base
       token = tokens.first
       if (token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
         token.user.update_attribute(:last_login_on, Time.now)
-        Track.log(Track::LOGIN,request.env['REMOTE_ADDR'])
         token.user
       end
     end
