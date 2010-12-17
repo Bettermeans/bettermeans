@@ -100,7 +100,12 @@ class Role < ActiveRecord::Base
   
   # Return true if the role belongs to the community in any way
   def community_member?
-    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_ACTIVE || builtin == BUILTIN_CLEARANCE
+    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_ACTIVE  || builtin == BUILTIN_BOARD || builtin == BUILTIN_CLEARANCE
+  end
+
+  # Return true if the role belongs to the enterprise (i.e. contributor, member, coreateam, admin, or board)
+  def enterprise_member?
+    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_BOARD
   end
 
   # Return true if the role is a binding member role

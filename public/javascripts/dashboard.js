@@ -3350,16 +3350,21 @@ $("#new_items").scrollTo( '#new_item_wrapper', 800);
 }
 
 function is_item_editable(dataId) {
+	if (!currentUserCanEditIssue){
+		return false;
+	}
   return !(D[dataId].status.name == 'Committed' ||
 	   D[dataId].status.name == 'Done'      ||
 	   D[dataId].status.name == 'Accepted'      ||
 	   D[dataId].status.name == 'Rejected'      ||
 	   D[dataId].status.name == 'Canceled'  ||
 	   D[dataId].status.name == 'Archived');
-
 }
 
 function is_item_todos_editable(dataId) {
+	if (!currentUserCanEditIssue){
+		return false;
+	}
   return !(
 	   D[dataId].status.name == 'Done'      ||
 	   D[dataId].status.name == 'Accepted'      ||
@@ -3424,16 +3429,18 @@ html = html + '	      <div id="edit_details_' + dataId + '" class="storyDetails"
 html = html + '	          <table class="storyDetailsTable">';
 html = html + '	            <tbody>';
 html = html + '	              <tr>';
-html = html + '	                <td>';
-html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input id="edit_save_button' + dataId + '" value="Save" type="submit" onclick="save_edit_item(' + dataId + ');return false;">';
-html = html + '	                  </div>';
-html = html + '	                </td>';
-html = html + '	                <td>';
-html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input id="edit_cancel_button' + dataId + '" value="Cancel" type="submit" onclick="collapse_item(' + dataId + ');return false;">';
-html = html + '	                  </div>';
-html = html + '	                </td>';
+if (item_editable){
+	html = html + '	                <td>';
+	html = html + '	                  <div class="storyDetailsButton">';
+	html = html + '	                    <input id="edit_save_button' + dataId + '" value="Save" type="submit" onclick="save_edit_item(' + dataId + ');return false;">';
+	html = html + '	                  </div>';
+	html = html + '	                </td>';
+	html = html + '	                <td>';
+	html = html + '	                  <div class="storyDetailsButton">';
+	html = html + '	                    <input id="edit_cancel_button' + dataId + '" value="Cancel" type="submit" onclick="collapse_item(' + dataId + ');return false;">';
+	html = html + '	                  </div>';
+	html = html + '	                </td>';	
+}
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
 html = html + '	                    <input id="edit_full_screen_button" value="Full Screen" type="submit" onclick="full_screen(' + dataId + ');return false;">';
