@@ -14,17 +14,15 @@ if @users_by_role.any?
     	  <td><%= make_expandable(@users_by_role[role].sort.collect{|u| link_to_user u}.join(", "), 250) %></td>
       </tr>
     	<% end %>
-    	<% if User.current.allowed_to?(:send_invitations, @project)  && @project.root? %>
-    	<tr><td colspan=2 style="text-align:center">
-    	 <%= link_to l(:label_invitation_others), new_project_invitation_url(@project) %>
+    	<tr><td colspan=2 class="gt-table-links">
+    	 <%= link_to l(:label_team_view_all), {:controller => 'projects', :action => 'team', :project_id => @project} %> 
+     	<% if User.current.allowed_to?(:send_invitations, @project)  && @project.root? %>
+    	 | <%= link_to l(:label_invitation_others), new_project_invitation_url(@project) %>
+     	<% end %>
     	</td></tr>
     	</li>
-    	<% end %>
 	  </tbody>
 	</table>
-</div>
-<div class="gt-table-buttons">
-	<%= link_to l(:label_team_view_all), {:controller => 'projects', :action => 'team', :project_id => @project} , :class => "gt-btn-blue-large" %>
 </div>
 
 <% end %>

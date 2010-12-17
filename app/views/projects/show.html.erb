@@ -26,16 +26,20 @@
   
   <% if @news.any? && authorize_for('news', 'index') %>
   <h2 class="gt-table-head"><%=l(:label_news_latest)%></h2>  
-  <div class="news gt-content-box padded">
+  <div class="news gt-content-box">
     <table border="0" class="gt-table gt-user-table">
 			<tbody>
 	      <%= render :partial => 'news/news', :collection => @news %>
+	      <tr>
+	        <td colspan="2" class="gt-table-links">
+	          <%= link_to l(:label_news_view_all), {:controller => 'news', :action => 'index', :project_id => @project} %>
+        	</td>
+        </tr>
 	    </tbody>
 	  </table>
   </div>  
-  <div class="gt-table-buttons">
-		<%= link_to l(:label_news_view_all), {:controller => 'news', :action => 'index', :project_id => @project} , :class => "gt-btn-blue-large" %>
-	</div>
+  <!-- <div class="gt-table-buttons">
+  </div> -->
   <% end %>
   
 

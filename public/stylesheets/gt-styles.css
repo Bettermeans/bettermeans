@@ -1677,6 +1677,14 @@ text-decoration:underline !important;
 	margin-top: 12px;
 }
 
+.gt-table-links{
+	text-align: center;
+}
+
+.activity-sub .author, .activity-sub .verb{
+	font-weight: bold;
+}
+
 
 /***** Icons *****/
 .icon {
