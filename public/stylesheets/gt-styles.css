@@ -1685,6 +1685,24 @@ text-decoration:underline !important;
 	font-weight: bold;
 }
 
+.gt-activity-details{
+	padding-left: 0px!important;
+}
+
+.gt-activity-table tr:hover {
+	background-color: #EBEBEB;
+}
+.gt-activity-table tr:hover td {
+	background-color: #EBEBEB;
+/*	background-color: #f4f7f8;*/
+/*	background-color: none!important;*/
+}
+
+.activity-sub tr:hover td {
+	background-color: #f4f7f8;
+/*	background-color: none!important;*/
+}
+
 
 /***** Icons *****/
 .icon {
