@@ -65,7 +65,9 @@ class ApplicationController < ActionController::Base
   def find_current_user
     if session[:user_id]
       # existing session
-      (User.active.find(session[:user_id]) rescue nil)
+      user = (User.active.find(session[:user_id]) rescue nil)
+      Track.log(Track::LOGIN,request.env['REMOTE_ADDR']) if user
+      user
     elsif cookies[:autologin] && Setting.autologin?
       # auto-login feature starts a new session
       user = User.try_to_autologin(cookies[:autologin])
@@ -82,6 +84,7 @@ class ApplicationController < ActionController::Base
       else
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|
+          #TODO: track login here: Track.log(Track::LOGIN,request.env['REMOTE_ADDR'])
           User.try_to_login(username, password) || User.find_by_api_key(username)
         end
       end
