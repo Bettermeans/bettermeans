@@ -277,7 +277,6 @@ class User < ActiveRecord::Base
       end
     end    
     user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
-    Track.log(Track::LOGIN,request.env['REMOTE_ADDR'])
     user
   rescue => text
     raise text
