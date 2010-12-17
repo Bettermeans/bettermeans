@@ -5,7 +5,7 @@
     </td>
     <td>
     <span class="author"><%= link_to as.actor_name, self.send("#{as.actor_type.downcase}_path", as.actor_id) %></span>
-    <span class='verb'><%= as.verb.tr('_', ' ') %> this.<%= action_times(as.count) %></span>
+    <span class='verb'><%= as.verb.tr('_', ' ') %> this<%= action_times(as.count) %> <%= since_tag(as.created_at) %> ago</span>
       <% if as.indirect_object_id -%>
       <span class='long-words'>
         <p>
@@ -15,8 +15,8 @@
       <% end %>
       
   </td>
-  <td  style="width:20%">
-				<strong><%= since_tag(as.created_at) %> ago</strong>
-  </td>
+  <!-- <td  style="width:20%">
+        <strong><%#= since_tag(as.created_at) %> ago</strong>
+  </td> -->
   
 </tr>
