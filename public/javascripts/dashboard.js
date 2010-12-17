@@ -2436,6 +2436,50 @@ function is_item_touched_by_user(item){
 
 function search_for(text){
 	text = text.toLowerCase();
+	if (text.length > 1){
+		for(var i = 0; i < D.length; i++ )
+		{
+			if ((text.length == 0) || (D[i].subject.toLowerCase().indexOf(text) > -1))
+			{
+				$("#item_" + i).show().removeHighlight();
+				if (text.length > 0){
+					$("#item_content_details_" + i).texthighlight(text);
+				}
+			}
+			else if (D[i].description.toLowerCase().indexOf(text) > -1)
+			{
+				$("#item_" + i).show().removeHighlight();
+			}
+			else 
+			{
+				$("#item_" + i).hide().removeHighlight();
+			}			
+			if (String(D[i].id) == text){
+				$("#item_" + i).show();
+			}
+		}
+	}
+	
+	if ((text.length == 1)&&($('#filtered_message').is(":visible"))){
+		for(var x = 0; x < D.length; x++ )
+		{
+			$("#item_" + x).show().removeHighlight();
+		}
+	}
+	
+	if (text.length > 0){
+		$('#filtered_message').show();
+		$('#filter_detail').html('  "' + text + '"');
+		update_panel_counts();
+	}
+	else{
+		clear_filters();
+	}
+
+}
+
+function search_for_old(text){
+	text = text.toLowerCase();
 	for(var i = 0; i < D.length; i++ )
 	{
 		var subject = D[i].subject.toLowerCase();
