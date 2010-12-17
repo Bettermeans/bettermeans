@@ -10,7 +10,7 @@
     activities_by_item = ActivityStream.fetch(user_id,project_id, with_subprojects, limit, max_created_at)
     %>
 <span id="activity_stream_list">    
- <table border="0" class="gt-table gt-user-table">
+ <table border="0" class="gt-table gt-user-table gt-activity-table">
     <tbody>
       <% unless (defined? show_refresh) && !show_refresh %>
       <tr>
