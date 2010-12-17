@@ -1,6 +1,6 @@
 <% if assigned_issues.length > 0 %>
 
-<h2><%=l(:label_assigned_to_me_issues)%> (<%= assigned_issues.length%>)</h2>
+<h2 class="gt-table-head"><%=l(:label_assigned_to_me_issues)%> (<%= assigned_issues.length%>)</h2>
 
 <div class="gt-content-box">
 <%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %>
