@@ -100,7 +100,10 @@ class ApplicationController < ActionController::Base
 
   # Sets the logged in user
   def logged_user=(user)
+    #resetting session, but keeping client_ip
+    ip = session[:client_ip] if session[:client_ip]
     reset_session
+    session[:client_ip] = ip
     if user && user.is_a?(User)
       User.current = user
       session[:user_id] = user.id
