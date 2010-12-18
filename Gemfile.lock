@@ -47,6 +47,7 @@ GEM
     mysql (2.8.1)
     nokogiri (1.4.4)
     object_daddy (0.4.3)
+    pg (0.10.0)
     pickle (0.3.4)
     polyglot (0.2.9)
     rack (1.0.1)
@@ -103,6 +104,7 @@ DEPENDENCIES
   mocha
   mysql
   object_daddy
+  pg
   pickle
   rails (= 2.3.5)
   recurly
