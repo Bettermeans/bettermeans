@@ -30,7 +30,7 @@ class WelcomeController < ApplicationController
       @assigned_issues = Issue.visible.open.find(:all, 
                                       :conditions => {:assigned_to_id => User.current.id},
                                       # :limit => 10, 
-                                      :include => [ :status, :project, :tracker ], 
+                                      :include => [:project, :tracker ], 
                                       :order => "#{Issue.table_name}.updated_at DESC")
     end
   end
