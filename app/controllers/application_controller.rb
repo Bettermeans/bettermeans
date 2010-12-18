@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   helper Redmine::MenuManager::MenuHelper
 
   def set_user_ip
-    session[:client_ip] = request.env['REMOTE_ADDR'] unless session[:client_ip]
+    session[:client_ip] = request.headers['X-Real-Ip'] unless session[:client_ip]
   end
   
   def user_setup
