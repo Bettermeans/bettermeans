@@ -11,20 +11,12 @@
 			<!-- Categories Sub Table -->
 			<table border="0" class="gt-table-categories">
 				<tr>
-					<th>Author:</th>
-					<td><%= link_to_user(news.author) %></td>
-				</tr>
-				<tr>
-					<th>Created:</th>
-					<td><%= since_tag(news.created_at) %> ago</td>
-				</tr>
-        <% if news.comments_count > 0 %>
-				<tr>
-					<th>Response:</th>
-					<td><%= "#{l(:label_x_comments, :count => news.comments_count)}" %>
+					<td><%= link_to_user(news.author) %>, <%= since_tag(news.created_at) %> ago
+					  <% if news.comments_count > 0 %>
+    					, <%=link_to l(:label_x_comments, :count => news.comments_count), :controller => 'news', :action => 'show', :id => news %>
+    				<% end %>
           </td>
 				</tr>
-				<% end %>
 			</table>
 		</td>
 	</tr>

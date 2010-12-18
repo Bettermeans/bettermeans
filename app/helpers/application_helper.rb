@@ -39,6 +39,7 @@ module ApplicationHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action)
+    logger.info { "authorize for #{controller} #{action} #{@project.name}" }
     User.current.allowed_to?({:controller => controller, :action => action}, @project)
   end
 
@@ -199,15 +200,21 @@ module ApplicationHelper
   end
   
   def make_expandable(newhtml,length=400)
-    return newhtml if newhtml.length < length
+    return newhtml if newhtml.gsub(/<\/?[^>]*>/,  "").length < length
     id = rand(100000)
-    string = newhtml
-    h = truncate(string,length,"")
-    h << "<a href='' onclick='$(\"##{id.to_s}\").replaceWith($(\"##{id.to_s}\").html());$(this).remove();return false;'> ...<strong>read more</strong></a>"
+    h = ""
     h << "<div class='hidden' id=#{id.to_s}>"
-    h << string[length..string.length]
+    h << newhtml
+    h << "</div>"
+    h << "<div id=truncated_#{id.to_s}>"
+    h << newhtml.truncate_html(length)
+    h << "..."
+    # h << truncate(newhtml,length,"")
+    h << "<a href='' onclick='$(\"#truncated_#{id.to_s}\").remove();$(\"##{id.to_s}\").show();return false;'><strong> see more</strong></a>"
     h << "</div>"
   end
+  
+  
 
   def due_date_distance_in_words(date)
     if date
@@ -377,9 +384,6 @@ module ApplicationHelper
       when 'assigned_to_id'
         u = User.find_by_id(detail.value) and value = u.name if detail.value
         u = User.find_by_id(detail.old_value) and old_value = u.name if detail.old_value
-      when 'priority_id'
-        e = IssuePriority.find_by_id(detail.value) and value = e.name if detail.value
-        e = IssuePriority.find_by_id(detail.old_value) and old_value = e.name if detail.old_value
       when 'estimated_hours'
         value = "%0.02f" % detail.value.to_f unless detail.value.blank?
         old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?

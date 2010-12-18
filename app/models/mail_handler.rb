@@ -347,7 +347,7 @@ class MailHandler < ActiveRecord::Base
       user.save ? user : nil
     end
   end
-
+  
   private
   
   # Removes the email body of text after the truncation configurations.
@@ -357,6 +357,9 @@ class MailHandler < ActiveRecord::Base
       regex = Regexp.new("^(#{ delimiters.join('|') })\s*[\r\n].*", Regexp::MULTILINE)
       body = body.gsub(regex, '')
     end
+    
+    index = body.index(/^.*#{Setting.mail_from_raw}.*$/)
+    body = body[0..index - 2] if index
     body.strip
   end
 end

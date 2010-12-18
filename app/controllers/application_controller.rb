@@ -9,6 +9,9 @@ require 'ruby-debug'
 class ApplicationController < ActionController::Base
   include Redmine::I18n
   include LogActivityStreams
+  
+  before_filter :set_user_ip
+  
   include SslRequirement
 
   layout 'gooey'
@@ -35,6 +38,10 @@ class ApplicationController < ActionController::Base
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
+
+  def set_user_ip
+    session[:client_ip] = request.headers['X-Real-Ip'] unless session[:client_ip]
+  end
   
   def user_setup
     # Check the settings cache for each request
@@ -65,11 +72,14 @@ class ApplicationController < ActionController::Base
   def find_current_user
     if session[:user_id]
       # existing session
-      (User.active.find(session[:user_id]) rescue nil)
+      user = (User.active.find(session[:user_id]) rescue nil)
+      # Track.log(Track::LOGIN,request.env['REMOTE_ADDR']) if user
+      user
     elsif cookies[:autologin] && Setting.autologin?
       # auto-login feature starts a new session
       user = User.try_to_autologin(cookies[:autologin])
       session[:user_id] = user.id if user
+      Track.log(Track::LOGIN,session[:client_ip]) if user
       user
     # elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
     #   # RSS key authentication does not start a session
@@ -81,6 +91,7 @@ class ApplicationController < ActionController::Base
       else
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|
+          #TODO: track login here: Track.log(Track::LOGIN,session[:client_ip])
           User.try_to_login(username, password) || User.find_by_api_key(username)
         end
       end
@@ -89,7 +100,10 @@ class ApplicationController < ActionController::Base
 
   # Sets the logged in user
   def logged_user=(user)
+    #resetting session, but keeping client_ip
+    ip = session[:client_ip] if session[:client_ip]
     reset_session
+    session[:client_ip] = ip
     if user && user.is_a?(User)
       User.current = user
       session[:user_id] = user.id
