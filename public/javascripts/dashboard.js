@@ -354,7 +354,7 @@ function retros_ready(html,load_remaining_panels){
 function insert_retros(){
 	$('.retrospective').remove();
 	for(var i = 0; i < R.length; i++ ){
-		add_retro(i,"bottom",false);	
+		add_retro(i,"top",false);	
 	}
 }
 
