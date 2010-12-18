@@ -397,6 +397,9 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
 
+  label_my_issues: My items
+  label_joined_issues: Items I joined
+  label_joined: Joined
   label_projects_recent: Recent workstreams
   label_projects_active_in: Workstreams I'm active in
   label_projects_all : All my workstreams
@@ -488,6 +491,7 @@ en:
   label_help: Help
   label_reported_issues: Reported items
   label_assigned_to_me_issues: Items I own
+  label_assigned: Own
   label_last_login: Last connection
   label_registered_on: Registered on
   label_activity: Activity
@@ -685,6 +689,7 @@ en:
   label_copy_workflow_from: Copy workflow from
   label_permissions_report: Permissions report
   label_watched_issues: Watched items
+  label_watched: Watched
   label_related_issues: Related items
   label_applied_status: Applied status
   label_loading: Working...
