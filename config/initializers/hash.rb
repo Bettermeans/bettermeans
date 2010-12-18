@@ -11,9 +11,9 @@ class Hash
 
   def to_array_conditions
     new_conditions = []
-    new_conditions[0] = self.map {|k,v| v.class.is_a?(Array) ? "#{k} in (?)" : "#{k} = ?"}.join(" AND ")
+    new_conditions[0] = self.map {|k,v| v.is_a?(Array) ? "#{k} in (?)" : "#{k} = ?"}.join(" AND ")
     self.values.each do |v|
-      v.type.to_s == "Array" ? new_conditions.push(v.flatten) : new_conditions.push("#{v}")
+      v.is_a?(Array) ? new_conditions.push(v.flatten) : new_conditions.push("#{v}")
     end
     new_conditions
   end
