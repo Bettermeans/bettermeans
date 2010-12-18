@@ -1,12 +1,5 @@
-<% news = News.find(:all,
-                         :limit => 10,
-                         :order => "#{News.table_name}.created_at DESC",
-                         :conditions => "#{News.table_name}.project_id in (#{user.projects.collect{|m| m.id}.join(',')}) AND (created_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_LATEST_NEWS * -1)}')",
-                         :include => [:project, :author]) unless user.projects.empty?
-                          %>
-
 <% unless news.nil? || news.length == 0 %>
-<h2><%=l(:label_news_latest)%></h2>
+<h2 class="gt-table-head"><%=l(:label_news_latest)%></h2>
 
 <div class="gt-content-box padded">
 

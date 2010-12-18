@@ -52,6 +52,11 @@ class Project < ActiveRecord::Base
                            :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_BOARD} OR #{Role.table_name}.builtin=#{Role::BUILTIN_ADMINISTRATOR}",
                             :order => "firstname ASC"
 
+  has_many :enterprise_members, :class_name => 'Member', 
+                          :include => [:user,:roles], 
+                          :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_CONTRIBUTOR} OR #{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_BOARD} OR #{Role.table_name}.builtin=#{Role::BUILTIN_ADMINISTRATOR}",
+                           :order => "firstname ASC"
+
 
   has_many :member_users, :class_name => 'Member', 
                                :include => :user,
@@ -109,11 +114,11 @@ class Project < ActiveRecord::Base
   validates_presence_of :name, :identifier
   validates_uniqueness_of :identifier
   validates_associated :wiki
-  validates_length_of :name, :maximum => 30
+  validates_length_of :name, :maximum => 50
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..20
   # donwcase letters, digits, dashes but not digits only
-  validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-]*$/, :if => Proc.new { |p| p.identifier_changed? }
+  # validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-]*$/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, :in => %w( new )
 
@@ -475,7 +480,7 @@ class Project < ActiveRecord::Base
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
   # Also refreshes members with clearance
   def refresh_active_members
-    return if self.root?
+    # return if self.root?
     return unless self.active?
     
     u = {}
@@ -510,7 +515,7 @@ class Project < ActiveRecord::Base
     u.keys.each do |user_id|
       begin
         user = User.find(user_id)
-        user.add_to_project(self, Role.active.id) unless existing_active_members.include? user_id 
+        user.add_to_project(self, Role.active) unless existing_active_members.include? user_id 
       rescue #user not found (when deleting users)
       end
     end
@@ -518,12 +523,12 @@ class Project < ActiveRecord::Base
     unless self.is_public?
       #giving clearance to all active members
       self.active_members.each do |m|
-        User.find(m.user_id).add_to_project(self, Role.clearance.id)
+        User.find(m.user_id).add_to_project(self, Role.clearance)
       end
       
       #giving all root binding members clearance
       self.root.binding_members.each do |m|
-        User.find(m.user_id).add_to_project(self, Role.clearance.id)
+        User.find(m.user_id).add_to_project(self, Role.clearance)
       end
     end
   end
@@ -693,6 +698,7 @@ class Project < ActiveRecord::Base
   def before_validation_on_create
     self.enterprise_id = self.parent.enterprise_id unless self.parent.nil?
     self.identifier = Project.next_identifier
+    logger.info { "identifier #{self.identifier}" }
     if self.credits_enabled?
       self.trackers = Tracker.all
     else

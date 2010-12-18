@@ -3,7 +3,6 @@ var R = []; //all retrospectives
 var local_D = null;
 var local_R = null;
 var MAX_REQUESTS_PER_PERSON = 4;
-var ANONYMOUS_USER_ID = 2;
 var TIMER_INTERVAL = 15000; //15 seconds
 var INACTIVITY_THRESHOLD = 300000; //5 minutes
 var timer_active = false;
@@ -773,7 +772,7 @@ function generate_estimate_flyover(dataId){
 		for(i = 0; i < item.issue_votes.length; i++ ){
 			if (item.issue_votes[i].vote_type != 4) continue;
 			
-			if (user_estimate == -1){
+			if (item.issue_votes[i].points == -1){
 				history = history + 'Don\'t know - ' + item.issue_votes[i].user.firstname + ' ' + item.issue_votes[i].user.lastname;
 			}
 			else if (credits_enabled){
@@ -1530,6 +1529,11 @@ function generate_item_estimate_button(dataId,points){
 	var current_user_voted = has_current_user_estimated(item);
 	
 	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (current_user_voted)){
+		
+		//If no binding points, then current user is non-binding and has voted so we show them a different symbol so they can track what they estimated, and what they didn't estimate
+		if (points == "No" && current_user_voted){
+			points = "wait";
+		}
 		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';		
 	}
 	else{
@@ -1578,7 +1582,10 @@ function generate_item(dataId){
 	html = html + '<div id="item_content_' + dataId + '" class="' + item.status.name.replace(" ","-").toLowerCase() + ' hoverable" style="">';
 	html = html + '<div class="storyPreviewHeader">';
 	html = html + '<div id="item_content_buttons_' + dataId + '" class="storyPreviewButtons">';
-	html = html + buttons_for(dataId);
+	if (currentUserId != ANONYMOUS_USER_ID){ 
+		html = html + buttons_for(dataId);
+	}
+	
 	html = html + '</div>';
 
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
@@ -1586,7 +1593,9 @@ function generate_item(dataId){
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
 	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ item.id +');return false;">'; 
 	
-	html = html + generate_item_estimate_button(dataId,points);
+	if (currentUserId != ANONYMOUS_USER_ID){ 
+		html = html + generate_item_estimate_button(dataId,points);
+	}
 	
 	// if (show_comment(item)){
 	// html = html + '<img id="flyovericon_' + dataId + '"  class="flyoverIcon hoverCommentsIcon clickable" src="/images/story_flyover_icon.png" onclick="show_details_flyover('+ dataId +',this.id);return false;">'; 
@@ -1742,6 +1751,7 @@ function generate_notice(noticeHtml, noticeId){
 
 
 function buttons_for(dataId,expanded){
+	if (currentUserId == ANONYMOUS_USER_ID){ return "";}
 	var item = D[dataId];
 	var html = '';
     	
@@ -1781,6 +1791,7 @@ function buttons_for(dataId,expanded){
 			html = html + '<div id="committed_tally_' + dataId + '" class="action_button_tally">' + item.assigned_to.firstname + '</div>';
 		
 			if (is_part_of_team(item)){
+				html = html + dash_button('finish',dataId);
 				html = html + dash_button('leave',dataId);
 			}
 			else if (is_item_joinable(item)){
@@ -1851,7 +1862,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 					tally = tally + 'BLOCK';
 				}
 				else{
-					tally = tally + item.agree + ' - ' + item.disagree;
+					tally = tally + (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
 				}
 				tally = tally + '</div>';
 			}
@@ -1904,7 +1915,7 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 		tally = tally + 'BLOCK';
 	}
 	else{
-		tally = tally + item.accept + ' - ' + item.reject;
+		tally = tally + (item.accept + item.accept_nonbind) + ' - ' + (item.reject + item.reject_nonbind);
 	}
 	tally = tally + '</div>';
 	
@@ -1969,17 +1980,17 @@ function pri_button(dataId){
 	for(var i=0; i < item.issue_votes.length; i++){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 3)){
 			if (item.issue_votes[i].points == 1){
-				return generate_pri_button(dataId,'up',item.pri);
+				return generate_pri_button(dataId,'up',(item.pri + item.pri_nonbind));
 			}
 			else if (item.issue_votes[i].points == -1){
-				return generate_pri_button(dataId,'down',item.pri);
+				return generate_pri_button(dataId,'down',(item.pri + item.pri_nonbind));
 			}
 			else if (item.issue_votes[i].points == 0){
-				return generate_pri_button(dataId,'neutral',item.pri);
+				return generate_pri_button(dataId,'neutral',(item.pri + item.pri_nonbind));
 			}
 		}
 	}
-	return generate_pri_button(dataId,'none',item.pri);
+	return generate_pri_button(dataId,'none',(item.pri + item.pri_nonbind));
 }
 
 function generate_pri_button(dataId,direction,pri){
@@ -2026,7 +2037,7 @@ function click_start(dataId,source,data){
 	}
 
 	if (!has_current_user_estimated(D[dataId])){
-		$.jGrowl("Sorry, you can't start an item before estimating it first");
+		$.jGrowl("Sorry, you can't start an item before estimating it first. <br><br>Click on the dice with the question mark on it, to estimate the complexity/size of this item.");
 		return false;
 	}
 	
@@ -2426,6 +2437,50 @@ function is_item_touched_by_user(item){
 
 function search_for(text){
 	text = text.toLowerCase();
+	if (text.length > 1){
+		for(var i = 0; i < D.length; i++ )
+		{
+			if ((text.length == 0) || (D[i].subject.toLowerCase().indexOf(text) > -1))
+			{
+				$("#item_" + i).show().removeHighlight();
+				if (text.length > 0){
+					$("#item_content_details_" + i).texthighlight(text);
+				}
+			}
+			else if (D[i].description.toLowerCase().indexOf(text) > -1)
+			{
+				$("#item_" + i).show().removeHighlight();
+			}
+			else 
+			{
+				$("#item_" + i).hide().removeHighlight();
+			}			
+			if (String(D[i].id) == text){
+				$("#item_" + i).show();
+			}
+		}
+	}
+	
+	if ((text.length == 1)&&($('#filtered_message').is(":visible"))){
+		for(var x = 0; x < D.length; x++ )
+		{
+			$("#item_" + x).show().removeHighlight();
+		}
+	}
+	
+	if (text.length > 0){
+		$('#filtered_message').show();
+		$('#filter_detail').html('  "' + text + '"');
+		update_panel_counts();
+	}
+	else{
+		clear_filters();
+	}
+
+}
+
+function search_for_old(text){
+	text = text.toLowerCase();
 	for(var i = 0; i < D.length; i++ )
 	{
 		var subject = D[i].subject.toLowerCase();
@@ -2731,7 +2786,7 @@ function collapse_item(dataId){
 	return false;
 }
 
-function save_new_item(){
+function save_new_item(prioritize){
     if (($('#new_title_input').val() == default_new_title) || ($('#new_title_input').val() == ''))
     {
 	alert('Please enter a title');
@@ -2741,7 +2796,8 @@ function save_new_item(){
         "&issue[tracker_id]=" + $('#new_story_type').val() + 
         "&issue[subject]=" + $('#new_title_input').val() + 
         "&issue[description]=" + $('#new_description').val() +
-        "&estimate=" + $('#new_story_complexity').val();
+        "&estimate=" + $('#new_story_complexity').val() + 
+        "&prioritize=" + prioritize;
     
     if((credits_enabled) && ($('#new_story_type').val() == standard_trackers.Gift.id)){
 	data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
@@ -2855,6 +2911,7 @@ function item_added(item){
 	ITEMHASH["item" + item.id] = D.length - 1;
 	add_item(D.length-1,"top",false);
 	keyboard_shortcuts = true;
+	show_start_buttons();
 	update_panel_counts();
 	remove_new_link();
 	add_new_link();
@@ -3210,7 +3267,12 @@ html = html + '	            <tbody>';
 html = html + '	              <tr>';
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input id="new_save_button" value="Save" type="submit" onclick="save_new_item();return false;">';
+html = html + '	                    <input id="new_save_button" value="Create" type="submit" onclick="save_new_item(false);return false;">';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	                <td>';
+html = html + '	                  <div class="storyDetailsButton">';
+html = html + '	                    <input id="new_save_button" value="Create & Prioritize" type="submit" onclick="save_new_item(true);return false;">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
@@ -3340,16 +3402,21 @@ $("#new_items").scrollTo( '#new_item_wrapper', 800);
 }
 
 function is_item_editable(dataId) {
+	if (!currentUserCanEditIssue){
+		return false;
+	}
   return !(D[dataId].status.name == 'Committed' ||
 	   D[dataId].status.name == 'Done'      ||
 	   D[dataId].status.name == 'Accepted'      ||
 	   D[dataId].status.name == 'Rejected'      ||
 	   D[dataId].status.name == 'Canceled'  ||
 	   D[dataId].status.name == 'Archived');
-
 }
 
 function is_item_todos_editable(dataId) {
+	if (!currentUserCanEditIssue){
+		return false;
+	}
   return !(
 	   D[dataId].status.name == 'Done'      ||
 	   D[dataId].status.name == 'Accepted'      ||
@@ -3414,16 +3481,18 @@ html = html + '	      <div id="edit_details_' + dataId + '" class="storyDetails"
 html = html + '	          <table class="storyDetailsTable">';
 html = html + '	            <tbody>';
 html = html + '	              <tr>';
-html = html + '	                <td>';
-html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input id="edit_save_button' + dataId + '" value="Save" type="submit" onclick="save_edit_item(' + dataId + ');return false;">';
-html = html + '	                  </div>';
-html = html + '	                </td>';
-html = html + '	                <td>';
-html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input id="edit_cancel_button' + dataId + '" value="Cancel" type="submit" onclick="collapse_item(' + dataId + ');return false;">';
-html = html + '	                  </div>';
-html = html + '	                </td>';
+if (item_editable){
+	html = html + '	                <td>';
+	html = html + '	                  <div class="storyDetailsButton">';
+	html = html + '	                    <input id="edit_save_button' + dataId + '" value="Save" type="submit" onclick="save_edit_item(' + dataId + ');return false;">';
+	html = html + '	                  </div>';
+	html = html + '	                </td>';
+	html = html + '	                <td>';
+	html = html + '	                  <div class="storyDetailsButton">';
+	html = html + '	                    <input id="edit_cancel_button' + dataId + '" value="Cancel" type="submit" onclick="collapse_item(' + dataId + ');return false;">';
+	html = html + '	                  </div>';
+	html = html + '	                </td>';	
+}
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
 html = html + '	                    <input id="edit_full_screen_button" value="Full Screen" type="submit" onclick="full_screen(' + dataId + ');return false;">';

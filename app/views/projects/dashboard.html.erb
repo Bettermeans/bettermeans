@@ -186,42 +186,16 @@
 </div>
 <% end %>
 
+<%= render :partial => 'projects/dashboard_javascript_variables', :locals => {:project => @project} %>
 
-<script>
-  var projectId = '<%= @project.identifier %>';
-  var currentUser = '<%= User.current.name %>';
-  var currentUserLogin = '<%= User.current.login %>';
-  var currentUserId = '<%= User.current.id %>';
-  var currentUserIsCore = '<%= User.current.core_member_of?(@project) %>';
-  var currentUserIsMember = '<%= User.current.member_of?(@project) %>';
+<script type="text/javascript">
   var show_issue_id = '<%= @show_issue_id %>';
   var show_retro_id = '<%= @show_retro_id %>';
-  var credit_base = '<%= @credit_base %>';
-  var point_factor = <%= Setting::POINT_FACTOR.to_json %>;
-  var credits_to_points_array = <%= Setting::CREDITS_TO_POINTS.to_json %>;
-  var startable_priority_tiers = <%= Setting::NUMBER_OF_STARTABLE_PRIORITY_TIERS %>;
-  var credits_enabled = <%= @project.credits_enabled? %>
-  var ISSUE_COUNT = <%= @project.issue_count %>
-
-  var standard_trackers = function() {
-      var trackers = <%= @project.credits_enabled? ? Tracker.all.to_json : Tracker.no_credits.to_json %>
-
-      var trackers_object = {};
-
-      for(var i=0; i<trackers.length; i++) {
-	  trackers_object[trackers[i].name] = trackers[i];
-      }
-
-      return trackers_object;
-
-  }();
-
-  var hourly_types = <%= @project.hourly_types.to_json(:methods => :name_with_rates) %>
 
   $('document').ready(function(){
       start();
   });
-  
+
 </script>
 
 

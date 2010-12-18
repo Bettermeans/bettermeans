@@ -16,15 +16,6 @@ class Enumeration < ActiveRecord::Base
   validates_uniqueness_of :name, :scope => [:type, :project_id]
   validates_length_of :name, :maximum => 30
   
-  # Backwards compatiblity named_scopes.
-  # Can be removed post-0.9
-  named_scope :priorities, :conditions => { :type => "IssuePriority" }, :order => 'position' do
-    ActiveSupport::Deprecation.warn("Enumeration#priorities is deprecated, use the IssuePriority class. (#{Redmine::Info.issue(3007)})")
-    def default
-      find(:first, :conditions => { :is_default => true })
-    end
-  end
-
   named_scope :values, lambda {|type| { :conditions => { :type => type }, :order => 'position' } } do
     def default
       find(:first, :conditions => { :is_default => true })
@@ -125,9 +116,6 @@ private
   end
 
 end
-
-# Force load the subclasses in development mode
-require_dependency 'issue_priority'
 
 
 # == Schema Information

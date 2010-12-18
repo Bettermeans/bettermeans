@@ -40,8 +40,7 @@ class InvitationsController < ApplicationController
       return
     end
     
-    @note = l(:text_invitation_note_default)
-    @roles = Role.find(:all, :conditions => {:level => 1}, :order => "position DESC")
+    @note = l(:text_invitation_note_default, {:user => User.current.name, :project => @project.name})
 
     respond_to do |format|
       format.html # new.html.erb
@@ -114,6 +113,7 @@ class InvitationsController < ApplicationController
       wants.html {  
         if @user && !@user.anonymous?
           self.logged_user = @user
+          Track.log(Track::LOGIN,request.env['REMOTE_ADDR'])
           @invitation.accept
           msg = "Invitation accepted. You are now a #{@invitation.role.name} of #{@invitation.project.name}."
           redirect_with_flash :success, msg, :controller => :projects, :action => :show, :id => @invitation.project_id

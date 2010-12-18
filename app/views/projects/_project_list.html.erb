@@ -3,28 +3,7 @@
 				  <% for project in projects %>
 				  <tr>
       			<td>
-      			<h4><%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %></h4>
-      			<p><%= textilizable project.short_description, :project => project %></p>
-            <!-- <p class="gt-table-edit"><a href="">Edit</a></p> -->
-						</td>
-						<td>
-  						<!-- Categories Sub Table -->
-  						<table border="0" class="gt-table-categories">
-  							<tr>
-  								<td colspan="2"><span class="spark right" max="<%= project.activity_line_max %>"><%= project.activity_line_show(30) %></span></td>
-  							</tr>
-  							<tr>
-  								<td colspan="2">&nbsp;</td>
-  							</tr>
-  							<tr>
-  								<th>Created:</th>
-  								<td><%= since_tag(project.created_at) %> ago</td>
-  							</tr>
-  							<tr>
-  								<th>Team:</th>
-  								<td><%= project.all_members.count %> members</td>
-  							</tr>
-  						</table>
+              <%= render :partial => 'project_summary', :locals => {:project => project} %>
   					</td>
       		</tr>
       		<% end %>

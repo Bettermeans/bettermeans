@@ -328,6 +328,11 @@ function h(s) {
 function display_sparks(){
 	$('.spark').each(function(){
 	$(this).show();
+	
+	if(!$(this).attr('max')){
+		return;
+	}
+	
 	var max = parseFloat($(this).attr('max'));
 	if (max > 15){
 		max = 15;
@@ -337,8 +342,13 @@ function display_sparks(){
 	}
 	
 	$(this).sparkline('html', {type: 'bar' , barColor: 'grey', chartRangeMax: max, height: 15});
+
+	if ($(this).is(":visible")){
+		$(this).removeAttr("max"); //so we don't sparkline it again		
+	}
+
 	
-	$(this).removeClass("spark");
+	// $(this).removeClass("spark");
 	
 	// if (isNaN(max)){
 	// 		$(this).sparkline('html', {type: 'bar' , barColor: 'grey'});
@@ -347,6 +357,14 @@ function display_sparks(){
 	// 		$(this).sparkline('html', {type: 'bar' , barColor: 'grey', height: max});
 	// 	}
 	});
+}
+
+//hides right column, and expands left one if right column is empty
+function hide_empty_right_column(){
+	if ($('.gt-right-col').html().length < 100){
+		$('.gt-right-col').hide();
+		$('.gt-left-col').width('100%');
+	}
 }
 
 function humane_date(date_str){

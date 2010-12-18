@@ -34,6 +34,8 @@ per_page_options:
   default: '25,50,100'
 mail_from:
   default: BetterMeans<administrator@bettermeans.com>
+mail_from_raw:
+  default: administrator@bettermeans.com
 bcc_recipients:
   default: 1
 plain_text_mail:
@@ -91,7 +93,7 @@ notified_events:
   - news_added
   - message_posted
 mail_handler_body_delimiters:
-  default: ''
+  default: administrator@bettermeans.com
 mail_handler_api_enabled:
   default: 1
 mail_handler_api_key:
@@ -155,3 +157,13 @@ start_of_week:
   default: ''
 rest_api_enabled:
   default: 0
+enabled_scm:
+  default: ''
+sys_api_enabled:
+  default: true
+repositories_encodings:
+  default: ''
+repository_log_display_limit:
+  default: ''
+autofetch_changesets:
+  default: true

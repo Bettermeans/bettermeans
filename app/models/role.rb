@@ -100,7 +100,12 @@ class Role < ActiveRecord::Base
   
   # Return true if the role belongs to the community in any way
   def community_member?
-    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_ACTIVE || builtin == BUILTIN_CLEARANCE
+    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_ACTIVE  || builtin == BUILTIN_BOARD || builtin == BUILTIN_CLEARANCE
+  end
+
+  # Return true if the role belongs to the enterprise (i.e. contributor, member, coreateam, admin, or board)
+  def enterprise_member?
+    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_BOARD
   end
 
   # Return true if the role is a binding member role
@@ -173,6 +178,11 @@ class Role < ActiveRecord::Base
   # Return the builtin 'administrator' role 
   def self.administrator
     find(:first, :conditions => {:builtin => BUILTIN_ADMINISTRATOR}) || raise('Missing Administrator builtin role.')
+  end
+
+  # Return the builtin 'board' role 
+  def self.board
+    find(:first, :conditions => {:builtin => BUILTIN_BOARD}) || raise('Missing Board builtin role.')
   end
 
 

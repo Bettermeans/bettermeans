@@ -1,27 +1,26 @@
-<tr>
-  <td class="gt-avatar <%= User.current.logged? && User.current.id == as.actor_id ? 'me' : nil %>"><%= avatar(as.actor_email, :size => '53') %>
+<tr class="gt-activity-header">
+  <td colspan="2">
+    <h4 class="long-words"><%= link_to as.actor_name, self.send("#{as.actor_type.downcase}_path", as.actor_id) %>&nbsp;<span class='verb'><%= as.verb.tr('_', ' ') %></span>&nbsp;<%= link_to_activity(as) %><%= action_times(as.count) %><% if @project.nil? || @project.id != as.project_id %>&nbsp;in&nbsp;<%=link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %><% end %>
+    </h4>
+  </td>
+</tr>
+<tr class="gt-activity-detail">
+  <td class="gt-avatar <%= User.current.logged? && User.current.id == as.actor_id ? 'me' : nil %>"><%= avatar(as.actor_email, :size => '44') %>
     </td>
-    <td>
-<h4 class="long-words"><%= link_to as.actor_name, self.send("#{as.actor_type.downcase}_path", as.actor_id) %>&nbsp;<span class='verb'><%= as.verb.tr('_', ' ') %></span>&nbsp;<%= link_to_activity(as) %><%= action_times(as.count) %><% if @project.nil? || @project.id != as.project_id %>&nbsp;in&nbsp;<%=link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %><% end %>
-</h4>
-<%# if as.indirect_object_id-%>
-<!-- <p class="description"> -->
-  <%#= render :partial => 'activity_streams/indirect_object', :locals => {:as => as} %>
-<!-- </p> -->
-<%# end %>
-<table class="gt-table gt-user-table activity-item">
-  <tbody>
-    <tr>
-      <td class="<%= as.object_type.downcase %> border">&nbsp;</td>
-      <td class="long-words">
-        <h5><%= link_to title_for_activity_stream(as) , url_for_activity_stream(as), :class => class_for_activity_stream(as) %></h5>
-        <span>
-          <%= format_activity_description(as.object_description) %>
-        </span>
-      </td>
-    <tr>
-  </tbody> 
-</table>
+    <td class="gt-activity-details">
+      <table class="gt-table gt-user-table activity-item">
+        <tbody>
+          <tr>
+            <!-- <td class="<%#= as.object_type.downcase %> border">&nbsp;</td> -->
+            <td class="long-words">
+              <h5 class="<%= as.object_type.downcase %> border"><%= link_to title_for_activity_stream(as) , url_for_activity_stream(as), :class => class_for_activity_stream(as) %></h5>
+              <span>
+                <%= format_activity_description(as.object_description) %>
+              </span>
+            </td>
+          <tr>
+        </tbody> 
+      </table>
 <div class="activity-tag">
 &nbsp;&nbsp;<%= since_tag(as.created_at) %> ago in 
 <%# if @project.nil? || @project.id != as.project_id %>
