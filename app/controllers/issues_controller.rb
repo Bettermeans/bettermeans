@@ -179,6 +179,12 @@ class IssuesController < ApplicationController
           @iv = IssueVote.create :issue_id => @issue.id, :user_id => User.current.id, :points => params[:estimate].to_i, :vote_type => IssueVote::ESTIMATE_VOTE_TYPE
           @issue.update_estimate_total @iv.isbinding
         end
+
+        #dealing with prioritizing
+        if params[:prioritize] == "true"
+          @iv = IssueVote.create :issue_id => @issue.id, :user_id => User.current.id, :points => 1, :vote_type => IssueVote::PRI_VOTE_TYPE
+          @issue.update_pri_total @iv.isbinding
+        end
         
         @issue.save if !@issue.update_status
         
