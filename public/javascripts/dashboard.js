@@ -1791,6 +1791,7 @@ function buttons_for(dataId,expanded){
 			html = html + '<div id="committed_tally_' + dataId + '" class="action_button_tally">' + item.assigned_to.firstname + '</div>';
 		
 			if (is_part_of_team(item)){
+				html = html + dash_button('finish',dataId);
 				html = html + dash_button('leave',dataId);
 			}
 			else if (is_item_joinable(item)){
