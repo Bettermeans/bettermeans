@@ -13,6 +13,7 @@ gem 'comma', :require => "comma", :git => "https://github.com/crafterm/comma.git
 gem 'fastercsv'
 gem 'test-unit', '1.2.3'
 gem 'ruby-debug'
+gem 'pg'
 
 group :test do
   gem 'cucumber', '0.4.3'
@@ -25,4 +26,3 @@ group :test do
   gem 'object_daddy'
   gem 'mocha'
 end
-
