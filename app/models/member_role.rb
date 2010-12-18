@@ -7,7 +7,7 @@ class MemberRole < ActiveRecord::Base
   belongs_to :member
   belongs_to :role
   
-  after_create :send_notification, :refresh_memberships, :log_activity
+  after_create :send_notification, :log_activity , :refresh_memberships
 
   after_destroy :remove_member_if_empty, :refresh_memberships
   
@@ -81,7 +81,7 @@ class MemberRole < ActiveRecord::Base
   def refresh_memberships
     return unless member
     return unless role.level == Role::LEVEL_ENTERPRISE
-    member.project.root.self_and_descendants.each(&:refresh_active_members) if member.project
+    member.project.root.descendants.each(&:refresh_active_members) if member.project
   end
   
   # #Removes all contributor roles for this member if the current role being added is core
@@ -96,8 +96,6 @@ class MemberRole < ActiveRecord::Base
   #     m.save
   #   end
   # end
-  
-
   
   
 end

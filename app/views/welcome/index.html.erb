@@ -1,79 +1,58 @@
-<div class="splitcontentleft">
-  <%#= textilizable Setting.welcome_text %>
+<% content_for :mainmenu do %>
+  <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :mypage} %>
+<% end %>
 
-  	
-    <h2 class="gt-table-head"><%=l(:label_my_projects)%></h2>
-  	<% if @my_projects.length > 0 %>
-  	<div class="gt-content-box">    
-      <%= render :partial => 'my_projects', :locals => {:my_projects => @my_projects} %>
-    </div>
-    <div class="gt-table-buttons">
-      <%= link_to l(:label_project_new), {:controller => :projects, :action => :add}, :class => "gt-btn-blue-large"%>
-    </div>
-    <% else %>
-    <div class="gt-content-box centered padded">
-      <h4><%= l(:help_no_my_workstreams) %></h4>
-      <p class='nodata'>
-         	 <h3> <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'})%> </h3>
-     	  </p>
-    </div>    
-    <% end %>
-    
-    <%= render :partial => "my/blocks/issuesassignedtome", :locals => { :user => User.current } %>
-
-    <%= render :partial => "my/blocks/news", :locals => { :user => User.current } %>
-  
-  
-<!--   <h2 class="gt-table-head"><%#=l(:label_activity_latest)%></h2>  
-  <div class="activity gt-content-box">
-    <%#= render :partial => 'activity_streams/activity_stream_list', :locals => {:activities_by_item => @activities_by_item} %>
-  </div>  
-  <div class="gt-table-buttons">
-    <%#= link_to l(:label_activity_view_all), {:controller => 'projects', :action => 'activity'} , :class => "gt-btn-blue-large" %>
-  </div>
-   -->
-  
+<% if Notification.unresponded? %>
+<div class="flash notice">
+  <%=link_to l(:label_waiting_for_you, :notifications => pluralize(Notification.unresponded_count,l(:label_new_notification))) , {:controller => 'notifications', :action => 'index'} %>
 </div>
+<% end %>
 
-<div class="splitcontentright">
-  
-  
-    <h2 class="gt-table-head"><%=l(:label_projects_i_belong_to)%></h2>
-  	<% if @belong_to_projects.length > 0 %>
-  	<div class="gt-content-box">    
-      <%= render :partial => 'belong_to_projects', :locals => {:belong_to_projects => @belong_to_projects} %>
-    </div>
-    <div class="gt-table-buttons">
-      <%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}, :class => "gt-btn-blue-large"%>
-    </div>
-    <% else %>
-    <div class="gt-content-box padded centered">
-      <h4><%= l(:help_no_workstreams_i_belong_to) %></h4>
-      
-      <p class='nodata'>
-         	  <h3><%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}%></h3>
-      </p>
-    </div>
-    <% end %>
-    
-    <% unless (@belong_to_projects.length + @my_projects.length) == 0 %>
+<% if (@news.nil? || @news.length == 0) && @assigned_issues.length == 0 %>
+<div>
+  <% if @my_projects.length == 0 %>
+  <h2 class="gt-table-head">&nbsp;</h2>
+  <div class="gt-content-box centered padded">
+    <h4><%= l(:help_no_workstreams) %></h4>
+    <p class='nodata'>
+       	 <h3> <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'})%> </h3>
+       	 or
+       	 <h3><%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}%></h3>
+   	  </p>
+  </div>    
+  <% end %>
+<% else %>
+<div class="splitcontentleft">
+<% end %>
+    <% unless (@my_projects.length) == 0 %>
     <h2 class="gt-table-head"><%=l(:label_activities_i_belong_to)%><%= help_bubble :help_activities_i_belong_to %></h2>
     <div class="activity gt-content-box">
       <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
         :user_id => User.current.id,
         :project_id => nil,
         :with_subprojects => "custom",
-        :limit => 50,
+        :limit => 30,
         :max_created_at => nil
       } %>
     </div>
     <% end %>
-    
-    
-  
-<%#= render :partial => 'list_workstreams', :locals => {:workstreams => @enterprises} %>
-  
+</div>
+
+<% unless (@news.nil? || @news.length == 0) && @assigned_issues.length == 0  && @watched_issues.length == 0 && @joined_issues.length == 0 %>
+<div class="splitcontentright">
+  <%#= render :partial => "my/blocks/issuesassignedtome", :locals => {:assigned_issues => @assigned_issues } %>
+  <%#= render :partial => "my/blocks/issueswatched", :locals => {:user => User.current}%>
+  <% unless  @assigned_issues.length == 0  && @watched_issues.length == 0 && @joined_issues.length == 0  %>
+  <h2 class="gt-table-head"><%=l(:label_my_issues)%></h2>
+  <div class="gt-content-box">
+    <%= render_tabs my_issues_tabs %>
+  </div>
+  <% end %>
+
+  <%= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
 </div>	
+<% end %>
+
 <%= help_section("welcome_index",true) %>
 
 <% content_for :sidebar do %>
@@ -82,16 +61,22 @@
   <h3>Quick Links</h3>
   <ul>
   <li>
+    <%= link_to l(:label_my_projects), {:controller => 'my', :action => 'projects'} %>
+  </li>
+  <li>
+    <%= link_to l(:label_my_account), {:controller => 'my', :action => 'account'} %>
+  </li>
+  <li>
     <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
   </li>
   <li>
     <%= link_to l(:label_browse_workstreams), {:controller => 'projects', :action => 'index'} %>
   </li>
-  <li>
-    <%= link_to l(:label_my_account), {:controller => 'my', :action => 'account'} %>
-  </li>
   </ul>
 </div>
+
+<%= render :partial => 'active_projects', :locals => {:active_projects => @my_projects} if @my_projects.length > 0 %>
+
 <% end %>
 
 <%# content_for :header_tags do %>

@@ -1,7 +1,79 @@
 = BetterMeans
 
 BetterMeans is giving birth to a new kind of company. An Open Enterprise.
+
 More details can be found at http://bettermeans.com and here http://bettermeans.org
+
+
+----
+
+= Getting started
+
+git clone git@github.com:kabuks/bettermeans.git
+
+Rename database.yml.example to database.yml
+
+rake bootstrap
+
+#for a larger data set on postgresql db, skip rake bootstrap and load from dump file. This recommended since it mirrors our production env.
+
+psql bettermeans_development < db/pgdump.sql
+
+That's it. Now you're ready to change the world. Here's to making a dent in things together!
+----
+
+= Dev notes
+
+Platform workstream: http://bettermeans.com/projects/2/dashboard
+
+We are working on using bundler to wrap up the dev environment. To learn more about it check it out here: http://gembundler.com/
+
+Our tests are broken. Help us write great tests and catch up on our testing environment!
+
+== Dev database
+
+The bettermeans projects is renamed to "LOCAL BETTERMEANS" to avoid confusion with the production dashboards.
+
+All passwords in included dev db are set to: "password"
+
+All private workstreams are removed.
+
+All other the data in the dev database is real! Please respect our user's privacy, and use the data in the db only for development purposes. (goes without saying I know)
+----
+
+= Known issues
+
+Attachments doesn't work in dev environment
+
+Logging in via the janrain plugin (e.g. google, twitter...etc) won't work in dev environment (if you need to work with this, drop me a message, there's an involved workaround)
+
+----
+= Random tidbits
+
+To see activity on bettermeans, checkout the stats page: https://secure.bettermeans.com/admin/user_stats
+
+Admin console is here (there are no visible links to it): http://localhost:3000/admin
+
+----
+= Creating a db from production
+
+You shouldn't need to. But if you do....
+
+To create a new dev db from production:
+
+heroku db:pull # Load production database
+
+export reset_safe=true
+
+rake custom:trim_db
+
+rake db:schema:dump 
+
+rake db:seed:dump MODELS=tracker,issue_statuss,enumeration,role,plan,setting
+
+# Uses https://github.com/rhalff/seed_dump
+
+To generate a pg_dump: pg_dump bettermeans_development -c -O -x -f db/pgdump.sql
 
 ----
 = License
@@ -18,73 +90,5 @@ these terms of use: http://bettermeans.com/front/user_agreement.html
 and operating agreement: http://bettermeans.com/front/open_enterprise_governance_model.html
 
 Please read them carefully. 
+
 Thanks for joining us! May our work be used for the greater good of all beings.
-
-----
-
-= Dev notes
-
-We use bundler to wrap up the dev environment. 
-To learn more about it check it out here: http://gembundler.com/
-
-All projects are deleted from production with the exception of "bettermeans" and "greenmuseum"
-The bettermeans projects is renamed to "LOCAL BETTERMEANS" to avoid confusion with the production dashboards.
-
-Our tests are broken. Help us write great tests and catch up on our testing environment!
-
-== Dev database
-
-All passwords in included dev db are set to: "password"
-All other the data in the dev database is real! Don't spam our user's emails (make sure your dev email is NOT configured), and test email only with local accounts that you create.
-Please respect our user's privacy, and use the data in the db only for development purposes. (goes without saying I know)
-----
-
-= Getting started
-
-sudo gem install bundler  #If you don't already have it installed
-sudo gem update --system  #If you're on an old version of Rubygems (before 1.3.6)
-git clone git@github.com:kabuks/bettermeans.git
-Rename database.yml.example to database.yml
-bundle install
-
-#for postgresql db (recommended since it mirror our production env)
-psql bettermeans_development < db/pgdump.sql
-rake db:migrate
-
-#for my sql development (not recommended)
-rake db:create
-rake db:schema:load
-#rake db:seed (coming soon)
-rake db:migrate
-
-that's it. now you're ready to change the world!
-----
-= Known issues
-
-Attachments doesn't work in dev environment
-Logging in via the janrain plugin (e.g. google, twitter...etc) won't work in dev environment (if you need to work with this, drop me a message, there's an involved workaround)
-
-----
-= Random tidbits
-
-To see activity on bettermeans, checkout the stats page:
-https://secure.bettermeans.com/admin/user_stats
-
-Admin console is here (there are no visible links to it):
-http://localhost:3000/admin
-
-----
-= Creating a db from production
-
-You shouldn't need to. But if you do....
-To create a new dev db from production:
-
-heroku db:pull # Load production database
-export reset_safe=true #local variable to guard against accidentally running this in production
-rake custom:trim_database_for_dev # trims fat from db
-rake db:schema:dump 
-rake db:seed:dump MODELS=tracker,issue_priority,issue_status,enumeration,role,plan,setting
-# Uses https://github.com/rhalff/seed_dump
-
-To generate a pg_dump:
-pg_dump bettermeans_development -c -O -x -f db/pgdump.sql

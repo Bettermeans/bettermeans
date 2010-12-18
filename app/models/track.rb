@@ -7,10 +7,10 @@ class Track < ActiveRecord::Base
   
   LOGIN = 1
 
-  reportable :daily_logins, :aggregation => :count, :limit => 14 #, :conditions => ["code = ?", LOGIN]
+  reportable :daily_logins, :aggregation => :count, :limit => 14, :conditions => ["code = ?", LOGIN]
   reportable :weekly_logins, :aggregation => :count, :grouping => :week, :limit => 20, :conditions => ["code = ?", LOGIN]
   
-  def self.log(code)
-    Track.send_later(:create, {:user_id => User.current.id, :code => code})
+  def self.log(code, ip="")
+    Track.send_later(:create, {:user_id => User.current.id, :code => code, :ip => ip})
   end
 end

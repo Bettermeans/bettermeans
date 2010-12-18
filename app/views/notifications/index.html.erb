@@ -1,3 +1,7 @@
+<% content_for :mainmenu do %>
+  <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :notifications} %>
+<% end %>
+
 <h2 class="gt-table-head icon22 icon22-projects"><%=l(:label_notifications)%></h2>
 <div class="gt-content-box">
 <table border="0" class="gt-table gt-user-table">

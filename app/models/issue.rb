@@ -9,7 +9,6 @@ class Issue < ActiveRecord::Base
   belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
-  belongs_to :priority, :class_name => 'IssuePriority', :foreign_key => 'priority_id'
   belongs_to :retro
   belongs_to :hourly_type
     
@@ -68,10 +67,8 @@ class Issue < ActiveRecord::Base
   
   DONE_RATIO_OPTIONS = %w(issue_field issue_status)
   
-  validates_presence_of :subject, :project, :tracker, :author, :status #,:priority,
+  validates_presence_of :subject, :project, :tracker, :author, :status
   validates_length_of :subject, :maximum => 255
-  validates_numericality_of :estimated_hours, :allow_nil => true
-  validates_numericality_of :num_hours, :allow_nil => true # refers to the estimated number of hours for an hourly work item
 
   named_scope :visible, lambda {|*args| { :include => :project,
                                           :conditions => Project.allowed_to_condition(args.first || User.current, :view_issues) } }
@@ -158,7 +155,6 @@ class Issue < ActiveRecord::Base
     if new_record?
       # set default values for new records only
       self.status ||= IssueStatus.default
-      # self.priority ||= IssuePriority.default
     end
   end
   
@@ -246,11 +242,6 @@ class Issue < ActiveRecord::Base
     return issue
   end
   
-  def priority_id=(pid)
-    self.priority = nil
-    write_attribute(:priority_id, pid)
-  end
-
   def tracker_id=(tid)
     self.tracker = nil
     write_attribute(:tracker_id, tid)
@@ -275,17 +266,17 @@ class Issue < ActiveRecord::Base
   
   
   def validate
-    if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
-      errors.add :due_date, :not_a_date
-    end
-    
-    if self.due_date and self.start_date and self.due_date < self.start_date
-      errors.add :due_date, :greater_than_start_date
-    end
-    
-    if start_date && soonest_start && start_date < soonest_start
-      errors.add :start_date, :invalid
-    end
+    # if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
+    #   errors.add :due_date, :not_a_date
+    # end
+    # 
+    # if self.due_date and self.start_date and self.due_date < self.start_date
+    #   errors.add :due_date, :greater_than_start_date
+    # end
+    # 
+    # if start_date && soonest_start && start_date < soonest_start
+    #   errors.add :start_date, :invalid
+    # end
     
     # Checks that the issue can not be added/moved to a disabled tracker
     # if project && (tracker_id_changed? || project_id_changed?)
@@ -308,28 +299,7 @@ class Issue < ActiveRecord::Base
   #     self.done_ratio = status.default_done_ratio
   #   end
   # end
-  
-  def after_save
-    # Reload is needed in order to get the right status
-    reload
     
-    # Update start/due dates of following issues
-    relations_from.each(&:set_issue_to_dates)
-    
-    # Close duplicates if the issue was closed
-    if @issue_before_change && !@issue_before_change.closed? && self.closed?
-      duplicates.each do |duplicate|
-        # Reload is need in case the duplicate was updated by a previous duplicate
-        duplicate.reload
-        # Don't re-close it if it's already closed
-        next if duplicate.closed?
-        # Same user and notes
-        duplicate.init_journal(@current_journal.user, @current_journal.notes)
-        duplicate.update_attribute :status, self.status
-      end
-    end    
-  end
-  
   def init_journal(user, notes = "")
     @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
     @issue_before_change = self.clone
@@ -384,6 +354,7 @@ class Issue < ActiveRecord::Base
   
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user)
+    logger.info { "New statuses allowed" }
     statuses = status.find_new_statuses_allowed_to(user.roles_for_project(project), tracker)
     statuses << status unless statuses.empty?
     statuses = statuses.uniq.sort
@@ -449,7 +420,7 @@ class Issue < ActiveRecord::Base
   
   # Returns a string of css classes that apply to the issue
   def css_classes
-    s = "issue status-#{status.position} priority-#{priority.nil? ? 2 : priority.position}" #BUGBUG 2 is hardcoded
+    s = "issue status-#{status.position}"
     s << ' closed' if closed?
     s << ' overdue' if overdue?
     s << ' created-by-me' if User.current.logged? && author_id == User.current.id
@@ -651,6 +622,25 @@ class Issue < ActiveRecord::Base
   end
   
   def after_save
+    # Reload is needed in order to get the right status
+    reload
+    
+    # Update start/due dates of following issues
+    relations_from.each(&:set_issue_to_dates)
+    
+    # Close duplicates if the issue was closed
+    if @issue_before_change && !@issue_before_change.closed? && self.closed?
+      duplicates.each do |duplicate|
+        # Reload is need in case the duplicate was updated by a previous duplicate
+        duplicate.reload
+        # Don't re-close it if it's already closed
+        next if duplicate.closed?
+        # Same user and notes
+        duplicate.init_journal(@current_journal.user, @current_journal.notes)
+        duplicate.update_attribute :status, self.status
+      end
+    end    
+    
     update_last_item_stamp #TODO: should be before save!
     create_journal
   end
@@ -667,7 +657,7 @@ class Issue < ActiveRecord::Base
       
       logger.info { "creating journal..." }
       # attributes changes
-      (Issue.column_names - %w(id description lock_version created_at updated_at pri accept reject accept_total agree disagree agree_total retro_id accept_nonbind reject_nonbind accept_total_nonbind agree_nonbind disagree_nonbind agree_total_nonbind points_nonbind pri_nonbind)).each {|c|
+      (Issue.column_names - %w(id lock_version created_at updated_at pri accept reject accept_total agree disagree agree_total retro_id accept_nonbind reject_nonbind accept_total_nonbind agree_nonbind disagree_nonbind agree_total_nonbind points_nonbind pri_nonbind)).each {|c|
         @current_journal.details << JournalDetail.new(:property => 'attr',
                                                       :prop_key => c,
                                                       :old_value => @issue_before_change.send(c),
@@ -701,7 +691,6 @@ end
 #  due_date             :date
 #  status_id            :integer         default(0), not null
 #  assigned_to_id       :integer
-#  priority_id          :integer         default(0), not null
 #  author_id            :integer         default(0), not null
 #  lock_version         :integer         default(0), not null
 #  created_at           :datetime

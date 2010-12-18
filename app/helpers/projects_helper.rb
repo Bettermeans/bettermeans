@@ -30,27 +30,27 @@ module ProjectsHelper
     content << link_to(l(:label_nominate_to_core_team), project_motions_path(project, "motion[variation]" => Motion::VARIATION_NEW_CORE, "motion[concerned_user_id]" => member.user_id), 
                                            :class => 'icon icon-cr-offer',
                                            :confirm => "Are you sure you want to start a motion to nominate #{member.name} to the Core Team?",
-                                           :method => :post) << '&nbsp;&nbsp;&nbsp;&nbsp;' if member.roles.first.id  == Role::BUILTIN_MEMBER
+                                           :method => :post) << '&nbsp;&nbsp;&nbsp;&nbsp;' if member.roles.first.id  == Role.member.id
                                            
     
     #Link to drop from core if user is a core member
     content << link_to(l(:label_drop_from_core_team), project_motions_path(project, "motion[variation]" => Motion::VARIATION_FIRE_CORE, "motion[concerned_user_id]" => member.user_id), 
                                           :method => :post,
                                           :confirm => "Are you sure you want to start a motion to remove #{member.name} from the Core Team and make her a Member?",
-                                           :class => 'icon icon-cr-decline') << '  ' if member.roles.first.id  == Role::BUILTIN_CORE_MEMBER
+                                           :class => 'icon icon-cr-decline') << '  ' if member.roles.first.id  == Role.core_member.id
 
 
     #Link to nominate to member if user is contributor, and current user is a binding member
     content << link_to(l(:label_nominate_to_member), project_motions_path(project, "motion[variation]" => Motion::VARIATION_NEW_MEMBER, "motion[concerned_user_id]" => member.user_id), 
                                           :method => :post,
                                           :confirm => "Are you sure you want to start a motion to nominate #{member.name} as a Member?",
-                                           :class => 'icon icon-cr-offer') << '  ' if member.roles.first.id  == Role::BUILTIN_CONTRIBUTOR
+                                           :class => 'icon icon-cr-offer') << '  ' if member.roles.first.id  == Role.contributor.id
     
     #Link to drop from member if user is member, and current user is binding member
     content << link_to(l(:label_drop_from_member), project_motions_path(project, "motion[variation]" => Motion::VARIATION_FIRE_MEMBER, "motion[concerned_user_id]" => member.user_id), 
                                           :confirm => "Are you sure you want to start a motion to remove the membership of #{member.name}",
                                           :method => :post,
-                                           :class => 'icon icon-cr-decline') << '  ' if member.roles.first.id  == Role::BUILTIN_MEMBER
+                                           :class => 'icon icon-cr-decline') << '  ' if member.roles.first.id  == Role.member.id
  
     content << "</p"
   end

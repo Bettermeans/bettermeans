@@ -24,6 +24,7 @@ class User < ActiveRecord::Base
   has_many :members, :foreign_key => 'user_id', :dependent => :destroy
   has_many :memberships, :class_name => 'Member', :foreign_key => 'user_id', :include => [ :project, :roles ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name"
   has_many :core_memberships, :class_name => 'Member', :foreign_key => 'user_id', :include => [ :project, :roles ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}", :order => "#{Project.table_name}.name"
+  has_many :active_memberships, :class_name => 'Member', :foreign_key => 'user_id', :include => [ :project, :roles ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Role.table_name}.builtin=#{Role::BUILTIN_ACTIVE}", :order => "#{Project.table_name}.name"
   has_many :projects, :through => :memberships
   has_many :owned_projects, :class_name => 'Project', :foreign_key => 'owner_id', :include => [:all_members]
   has_many :invitations
@@ -276,7 +277,6 @@ class User < ActiveRecord::Base
       end
     end    
     user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
-    Track.log(Track::LOGIN)
     user
   rescue => text
     raise text
@@ -290,7 +290,6 @@ class User < ActiveRecord::Base
       token = tokens.first
       if (token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
         token.user.update_attribute(:last_login_on, Time.now)
-        Track.log(Track::LOGIN)
         token.user
       end
     end
@@ -415,7 +414,7 @@ class User < ActiveRecord::Base
     project = child_project.root
     roles = []
     # No role on archived projects
-    return roles unless child_project && child_project.active?
+    return roles unless project && project.active?
     if logged?
       # Find project membership
       membership = memberships.detect {|m| m.project_id == project.id}
@@ -432,7 +431,7 @@ class User < ActiveRecord::Base
     roles
   end
   
-  # Return true if the user is a member of project
+  # Return true if the user is a communitymember of project
   def community_member_of?(project)
     !roles_for_project(project.root).detect {|role| role.community_member?}.nil?
   end
@@ -481,11 +480,12 @@ class User < ActiveRecord::Base
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project, options={})
-    # puts ("running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}")
+    logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     #     logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     if project
-      # No action allowed on archived projects
-      return false unless project.active?
+      # No action allowed on archived projects except unarchive
+      puts "action #{action.inspect}"
+      return false unless project.active? || (action.class.to_s == "Hash" && action[:action] == "unarchive")
       # No action allowed on disabled modules
       return false unless project.allows_to?(action)
       # Admin users are authorized for anything else
@@ -494,9 +494,9 @@ class User < ActiveRecord::Base
       # #Check if user is a citizen of the enterprise, and the citizen role is allowed to take that action
       # return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
       roles = roles_for_project(project)
+      puts roles
       return false unless roles
       roles.detect {|role| (project.is_public? || role.community_member?) && role.allowed_to?(action)}
-      
     elsif options[:global]
       # Admin users are always authorized
       return true if admin?
@@ -511,24 +511,24 @@ class User < ActiveRecord::Base
   #Adds current user to core team of project
   def add_as_core(project, options={})
     #Add as core member of current project
-    add_to_project project, Role::BUILTIN_CORE_MEMBER       
-    drop_from_project(project, Role::BUILTIN_CONTRIBUTOR)
-    drop_from_project(project, Role::BUILTIN_MEMBER)
+    add_to_project project, Role.core_member
+    drop_from_project(project, Role.contributor)
+    drop_from_project(project, Role.member)
   end
   
   def add_as_member(project, options={})
     #Add as core member of current project
-    add_to_project project, Role::BUILTIN_MEMBER       
-    drop_from_project(project, Role::BUILTIN_CONTRIBUTOR)
-    drop_from_project(project, Role::BUILTIN_CORE_MEMBER)
+    add_to_project project, Role.member
+    drop_from_project(project, Role.contributor)
+    drop_from_project(project, Role.member)
   end
   
 
   #Adds current user as contributor of project
   def add_as_contributor(project, options={})
-      add_to_project project, Role::BUILTIN_CONTRIBUTOR
-      drop_from_project(project, Role::BUILTIN_CORE_MEMBER)
-      drop_from_project(project, Role::BUILTIN_MEMBER)
+      add_to_project project, Role.contributor
+      drop_from_project(project, Role.core_member)
+      drop_from_project(project, Role.member)
   end
   
   #Adds current user as contributor of project if they aren't a binding member
@@ -537,25 +537,25 @@ class User < ActiveRecord::Base
   end
   
   #Adds user to that project as that role
-  def add_to_project(project, role_id, options={})
+  def add_to_project(project, role, options={})
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     if m.nil? 
       #User isn't a member let's create a membership
-      member_role = Role.find(:first, :conditions => {:id => role_id})
+      member_role = Role.find(:first, :conditions => {:id => role.id})
       m = Member.new(:user => self, :roles => [member_role])
       p = Project.find(project)
       result = p.all_members << m
     else
       #User is already a member, we just add a role (but make sure role doesn't exist already)
-      MemberRole.create! :member_id => m.id, :role_id => role_id if MemberRole.first(:conditions => {:member_id => m.id, :role_id => role_id}) == nil
+      MemberRole.create! :member_id => m.id, :role_id => role.id if MemberRole.first(:conditions => {:member_id => m.id, :role_id => role.id}) == nil
     end
   end
   
   #Drops user from role of that project
-  def drop_from_project(project, role_id, options={})
+  def drop_from_project(project, role, options={})
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     m.member_roles.each {|r|
-      r.destroy if r.role_id == role_id
+      r.destroy if r.role_id == role.id
     } unless m.nil?
   end
   

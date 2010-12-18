@@ -13,6 +13,7 @@
   
 </div>
 <div class="gt-right-col">
+  <% @roles = Role.find(:all, :conditions => {:level => 1}, :order => "position DESC") %>
   <label><%= l(:text_invite_role_instruction) %> <%= collection_select( :invitation, :role_id, @roles, :id, :name, :selected => Role.contributor.id ) %></label>
   
   <%= observe_field(:invitation_role_id, :frequency => 0.25, :function => "update_description();") %>
@@ -55,7 +56,7 @@
 
 <script type="text/javascript">
   <% @roles.each do |r| %>
-    var <%= r.name.gsub(/ /,"_")  %>_description = "<%= l("text_role_invitation_description_#{r.name}") %>";
+    var <%= r.name.gsub(/ /,"_")  %>_description = "<%= l("text_role_invitation_description_#{r.name.gsub(/ /,"_")}") %>";
   <% end  %>
   
   $(document).ready(function(){
