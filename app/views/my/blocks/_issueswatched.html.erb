@@ -1,17 +1,5 @@
-<% watched_issues = Issue.visible.find(:all, 
-                               :include => [:project, :tracker, :watchers],
-                               # :limit => 10, 
-                               :conditions => ["#{Watcher.table_name}.user_id = ?", user.id],
-                               :order => "#{Issue.table_name}.updated_at DESC") %>
 <% unless watched_issues.length == 0  %>
-<h2 class="gt-table-head"><%=l(:label_watched_issues)%> (<%= Issue.visible.count(:include => :watchers,
-                               												 									:conditions => ["#{Watcher.table_name}.user_id = ?", user.id]) %>)
-</h2>
-<div class="gt-content-box">
-
   <%= render :partial => 'issues/list_very_simple', :locals => { :issues => watched_issues } %>
-</div>
-
 <% end %>
 
 

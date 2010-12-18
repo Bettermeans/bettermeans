@@ -31,7 +31,20 @@ class WelcomeController < ApplicationController
                                       :conditions => {:assigned_to_id => User.current.id},
                                       # :limit => 10, 
                                       :include => [:project, :tracker ], 
-                                      :order => "#{Issue.table_name}.updated_at DESC")
+                                      :order => "#{Issue.table_name}.subject ASC")
+                                      
+      @watched_issues = Issue.visible.find(:all, 
+                                       :include => [:project, :tracker, :watchers],
+                                       # :limit => 10, 
+                                       :conditions => ["#{Watcher.table_name}.user_id = ?", User.current.id],
+                                       :order => "#{Issue.table_name}.subject ASC")
+
+       @joined_issues = Issue.visible.find(:all, 
+                                        :include => [:project, :tracker, :issue_votes],
+                                        # :limit => 10, 
+                                        :conditions => ["#{IssueVote.table_name}.user_id = ? AND #{IssueVote.table_name}.vote_type = ?", User.current.id, IssueVote::JOIN_VOTE_TYPE],
+                                        :order => "#{Issue.table_name}.subject ASC")
+                                      
     end
   end
   

@@ -2,8 +2,10 @@
 
 <div class="tabs">
   <ul>
+    
   <% tabs.each do |tab| -%>
-    <li><%= link_to l(tab[:label]), { :tab => tab[:name] },
+    <% tab[:label_ending] ||=""  %>
+    <li><%= link_to (l(tab[:label])+ tab[:label_ending]), { :tab => tab[:name] },
                                     :id => "tab-#{tab[:name]}",
                                     :class => "tab-top #{(tab[:name] != selected_tab ? nil : 'selected')}",
                                     :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;" %></li>
