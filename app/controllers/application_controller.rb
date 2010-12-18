@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
     if session[:user_id]
       # existing session
       user = (User.active.find(session[:user_id]) rescue nil)
-      Track.log(Track::LOGIN,request.env['REMOTE_ADDR']) if user
+      # Track.log(Track::LOGIN,request.env['REMOTE_ADDR']) if user
       user
     elsif cookies[:autologin] && Setting.autologin?
       # auto-login feature starts a new session
