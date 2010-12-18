@@ -25,3 +25,5 @@
 redmine.tmproj
 serverlog
 .DS_Store
+*.swp
+*.swo
