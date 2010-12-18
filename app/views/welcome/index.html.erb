@@ -41,6 +41,7 @@
 <% unless (@news.nil? || @news.length == 0) && @assigned_issues.length == 0 %>
 <div class="splitcontentright">
   <%= render :partial => "my/blocks/issuesassignedtome", :locals => {:assigned_issues => @assigned_issues } %>
+  <%= render :partial => "my/blocks/issueswatched", :locals => {:user => User.current}%>
 
   <%= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
 </div>	
