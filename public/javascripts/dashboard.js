@@ -2910,6 +2910,7 @@ function item_added(item){
 	ITEMHASH["item" + item.id] = D.length - 1;
 	add_item(D.length-1,"top",false);
 	keyboard_shortcuts = true;
+	show_start_buttons();
 	update_panel_counts();
 	remove_new_link();
 	add_new_link();
