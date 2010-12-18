@@ -2785,7 +2785,7 @@ function collapse_item(dataId){
 	return false;
 }
 
-function save_new_item(){
+function save_new_item(prioritize){
     if (($('#new_title_input').val() == default_new_title) || ($('#new_title_input').val() == ''))
     {
 	alert('Please enter a title');
@@ -2795,7 +2795,8 @@ function save_new_item(){
         "&issue[tracker_id]=" + $('#new_story_type').val() + 
         "&issue[subject]=" + $('#new_title_input').val() + 
         "&issue[description]=" + $('#new_description').val() +
-        "&estimate=" + $('#new_story_complexity').val();
+        "&estimate=" + $('#new_story_complexity').val() + 
+        "&prioritize=" + prioritize;
     
     if((credits_enabled) && ($('#new_story_type').val() == standard_trackers.Gift.id)){
 	data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
@@ -3264,7 +3265,12 @@ html = html + '	            <tbody>';
 html = html + '	              <tr>';
 html = html + '	                <td>';
 html = html + '	                  <div class="storyDetailsButton">';
-html = html + '	                    <input id="new_save_button" value="Save" type="submit" onclick="save_new_item();return false;">';
+html = html + '	                    <input id="new_save_button" value="Create" type="submit" onclick="save_new_item(false);return false;">';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	                <td>';
+html = html + '	                  <div class="storyDetailsButton">';
+html = html + '	                    <input id="new_save_button" value="Create & Prioritize" type="submit" onclick="save_new_item(true);return false;">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td>';
