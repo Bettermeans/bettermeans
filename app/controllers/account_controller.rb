@@ -182,7 +182,7 @@ class AccountController < ApplicationController
         if @user.save
           session[:auth_source_registration] = nil
           self.logged_user = @user
-          Track.log(Track::LOGIN,request.env['REMOTE_ADDR'])
+          Track.log(Track::LOGIN,session[:client_ip])
           redirect_with_flash :notice, l(:notice_account_activated), :controller => 'my', :action => 'account'
         end
       else
@@ -284,7 +284,7 @@ class AccountController < ApplicationController
     logger.info { "successful authentication baby" }
     # Valid user
     self.logged_user = user
-    Track.log(Track::LOGIN,request.env['REMOTE_ADDR'])
+    Track.log(Track::LOGIN,session[:client_ip])
     
     if invitation_token
       logger.info { "accepting invitation #{invitation_token}" }
@@ -360,7 +360,7 @@ class AccountController < ApplicationController
     user.last_login_on = Time.now
     if user.save
       self.logged_user = user
-      Track.log(Track::LOGIN,request.env['REMOTE_ADDR'])
+      Track.log(Track::LOGIN,session[:client_ip])
       redirect_with_flash :success, l(:notice_account_activated), :controller => 'welcome', :action => 'index'
       return true
     else
