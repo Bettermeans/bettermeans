@@ -42,7 +42,7 @@ class WelcomeController < ApplicationController
        @joined_issues = Issue.visible.find(:all, 
                                         :include => [:project, :tracker, :issue_votes],
                                         # :limit => 10, 
-                                        :conditions => ["#{IssueVote.table_name}.user_id = ? AND #{IssueVote.table_name}.vote_type = ?", User.current.id, IssueVote::JOIN_VOTE_TYPE],
+                                        :conditions => ["#{IssueVote.table_name}.user_id = ? AND #{IssueVote.table_name}.vote_type = ? AND #{Issue.table_name}.assigned_to_id != ? AND #{Issue.table_name}.status_id = ?", User.current.id, IssueVote::JOIN_VOTE_TYPE, User.current.id, IssueStatus.assigned.id],
                                         :order => "#{Issue.table_name}.subject ASC")
                                       
     end
