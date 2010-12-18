@@ -11,12 +11,12 @@ module WelcomeHelper
              :label_ending => " (#{@assigned_issues.length})",
              :locals => {:issues => @assigned_issues}
             },
-            # {:name => 'joined', 
-            #  :partial => 'issues/list_very_simple', 
-            #  :label => :label_joined, 
-            #  :label_ending => " (#{@joined_issues.length})",
-            #  :locals => {:issues => @joined_issues}
-            # },
+            {:name => 'joined', 
+             :partial => 'issues/list_very_simple', 
+             :label => :label_joined, 
+             :label_ending => " (#{@joined_issues.length})",
+             :locals => {:issues => @joined_issues}
+            },
             {:name => 'watched', 
              :partial => 'issues/list_very_simple', 
              :label => :label_watched, 
