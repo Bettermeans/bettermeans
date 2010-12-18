@@ -14,6 +14,7 @@ module TreeNodePatch
       def initialize(name, content = nil)
         old_initilize(name, content)
         @last_items_count = 0
+        @childrenHash ||= {} #TODO: Shereef to review - is this due to different rubytree versions?
         extend(InstanceMethods)
       end
     end
