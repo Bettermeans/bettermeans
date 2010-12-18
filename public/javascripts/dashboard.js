@@ -332,6 +332,7 @@ function load_retros(){
 			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
 			$("#loading").hide();
 			$("#loading_error").show();
+			enable_refresh_button();
 			},
 			timeout: 30000 //30 seconds
 		 });
@@ -1788,13 +1789,12 @@ function buttons_for(dataId,expanded){
 			html = html + dash_button('release',dataId,false,{label:'giveup'});
 		}
 		else if (item.assigned_to != null){
-			html = html + '<div id="committed_tally_' + dataId + '" class="action_button_tally">' + item.assigned_to.firstname + '</div>';
-		
 			if (is_part_of_team(item)){
 				html = html + dash_button('finish',dataId);
 				html = html + dash_button('leave',dataId);
 			}
 			else if (is_item_joinable(item)){
+				html = html + '<div id="committed_tally_' + dataId + '" class="action_button_tally">' + item.assigned_to.firstname + '</div>';
 				html = html + dash_button('join',dataId);
 			}
 		}
