@@ -342,6 +342,7 @@ en:
   permission_add_project: Create workstream
   permission_add_subprojects: Create sub workstream
   permission_edit_project: Edit workstream
+  permission_move_project: Move workstream
   permission_select_project_modules: Select workstream modules
   permission_manage_members: Manage members
   permission_manage_versions: Manage deliverables
@@ -409,6 +410,7 @@ en:
   label_unarchive_project_brackets: (unarchive)
   label_archive_project: Archive workstream
   label_delete_project: Delete workstream
+  label_move_project: Move workstream
   label_note_to_recipient: Note for recipient (optional)
   label_amount_to_transfer: Amount to Transfer
   label_select_recipient: Select Recipient
