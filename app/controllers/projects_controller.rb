@@ -402,6 +402,27 @@ class ProjectsController < ApplicationController
     # hide project in layout
     @project = nil
   end
+
+  #move project
+  def move
+    redirect_to(:action => 'settings') and return if @project.root?
+
+    #TODO @project.allowed_parents should be used but it isn't working correctly currently
+    @allowed_projects = []
+    disallowed_projects = @project.self_and_descendants
+    @project.root.self_and_descendants.each {|p| @allowed_projects << p if p.visible_to(User.current) && !disallowed_projects.include?(p) }
+
+    if request.post?
+      if (parent = Project.find params[:parent_id]) && @allowed_projects.include?(parent)
+        @project.set_parent!(parent)
+        flash[:success] = l(:notice_successful_update)
+        LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_moved), :workstreams, 0, nil,{:project_id => @project.id})
+        redirect_to @project
+      else
+        render_403 and return
+      end
+    end
+  end
 	
   def add_file
     if request.post?
