@@ -52,4 +52,8 @@ Spec::Runner.configure do |config|
   # == Notes
   #
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
+  def login
+    @user = Factory.create(:user) 
+    User.stub(:current).and_return @user
+  end
 end

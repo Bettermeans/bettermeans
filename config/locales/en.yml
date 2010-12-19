@@ -277,6 +277,7 @@ en:
   field_default_value: Default value
   field_comments_sorting: Display comments
   field_parent_title: Parent page
+  field_parent_project: Parent workstream
   field_editable: Editable
   field_watcher: Watcher
   field_identity_url: OpenID URL
@@ -642,6 +643,7 @@ en:
   label_copied: copied
   label_renamed: renamed
   label_deleted: deleted
+  label_moved: moved
   label_archived: archived
   label_unarchived: un-archived
   label_project_description: Description
