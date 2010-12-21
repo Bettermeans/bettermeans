@@ -87,12 +87,10 @@ class Credit < ActiveRecord::Base
   #newest credits are transfered first
   #returns total paid
   def self.transfer(sender,recipient,project,amount, note)
-    puts "starting tranfer"
     remaining_amount = amount
     
     Credit.find(:all,:conditions => {:project_id => project.id, :settled_on => nil, :owner_id => sender.id}, :order => 'issued_on DESC').each do |credit|
       #Looping once for each day
-      puts "remining #{remaining_amount} credit amount #{credit.amount}"
       if remaining_amount >= credit.amount
         credit.owner_id = recipient.id
         credit.save
