@@ -514,11 +514,15 @@ function rdata_ready(html,rdataId){
 }
 
 
-function show_item_fancybox(itemId){
+function show_item_fancybox(dataId){
+	var itemId = D[dataId].id;
 	var url = url_for({ controller: 'issues',
 	                           action    : 'show',
 								id		: itemId
 	                          });
+	
+    url = url + '?dataId=' + dataId;
+	
 	
 	show_fancybox(url,'loading data...');
 }
@@ -1592,7 +1596,7 @@ function generate_item(dataId){
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
-	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ item.id +');return false;">'; 
+	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ dataId +');return false;">'; 
 	
 	if (currentUserId != ANONYMOUS_USER_ID){ 
 		html = html + generate_item_estimate_button(dataId,points);
@@ -3898,6 +3902,8 @@ function show_issue_full(itemId,update){
 								id		: itemId,
 								update : update
 	                          });
+
+
 	if (update == 'true'){
 		url = url + '?update=true';
 	}
