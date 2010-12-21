@@ -484,7 +484,6 @@ class User < ActiveRecord::Base
     #     logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     if project
       # No action allowed on archived projects except unarchive
-      puts "action #{action.inspect}"
       return false unless project.active? || (action.class.to_s == "Hash" && action[:action] == "unarchive")
       # No action allowed on disabled modules
       return false unless project.allows_to?(action)
@@ -494,7 +493,6 @@ class User < ActiveRecord::Base
       # #Check if user is a citizen of the enterprise, and the citizen role is allowed to take that action
       # return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
       roles = roles_for_project(project)
-      puts roles
       return false unless roles
       roles.detect {|role| (project.is_public? || role.community_member?) && role.allowed_to?(action)}
     elsif options[:global]
