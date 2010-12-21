@@ -138,7 +138,6 @@ class Retro < ActiveRecord::Base
       # self_bias = (@user_self[user_id] - score) / (0.01 * score) unless @user_self[user_id].nil? || @user_self[user_id].nan? || score == 0
       self_bias = (@user_self[user_id] - score) * @confidence_array[user_id] / 100 unless @user_self[user_id].nil? || @user_self[user_id].nan?
       
-      puts("user: #{user_id} score: #{score} self assessment: #{@user_self[user_id]} self bias: #{self_bias}")
       @user_final[user_id] = score
       RetroRating.create :rater_id => RetroRating::FINAL_AVERAGE, :ratee_id => user_id, :score => score, :retro_id => self.id, :confidence => @confidence_array[user_id]
       RetroRating.create :rater_id => RetroRating::SELF_BIAS, :ratee_id => user_id, :score => self_bias, :retro_id => self.id, :confidence => @confidence_array[user_id] unless self_bias.nil? || self_bias.nan? 
