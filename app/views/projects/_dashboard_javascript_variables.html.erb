@@ -1,7 +1,9 @@
 <script type="text/javascript">
-  <%  if @issue   %>
+  <%  if params[:dataId] && @issue %>
+    var item = parent.D[<%= params[:dataId] %>];
+  <% elsif @issue %>
     var item = <%=@issue.to_dashboard%>;
-  <% end %>
+  <% end  %>
   var credit_base = '<%= project.dpp %>';
   var projectId = '<%= project.identifier %>';
   var credits_to_points_array = <%= Setting::CREDITS_TO_POINTS.to_json %>;

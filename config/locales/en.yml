@@ -436,8 +436,8 @@ en:
     other: "%{count} workstreams"
   label_project_all: All Workstreams
   label_project_latest: Latest Workstreams
-  label_enterprise_latest: Latest Workstreams #Latest Open Enterprises
-  label_enterprise_active: Most Active Workstreams #Latest Open Enterprises
+  label_enterprise_latest: Latest Public Workstreams
+  label_enterprise_active: Most Active Public Workstreams
   label_enterprise_plural: Open enterprises
   label_issue: Item
   label_issue_new: New item
