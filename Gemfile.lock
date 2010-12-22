@@ -44,10 +44,8 @@ GEM
     mime-types (1.16)
     mocha (0.9.9)
       rake
-    mysql (2.8.1)
     nokogiri (1.4.4)
     object_daddy (0.4.3)
-    pg (0.10.0)
     pickle (0.3.4)
     polyglot (0.2.9)
     rack (1.0.1)
@@ -81,7 +79,6 @@ GEM
       json_pure (>= 1.1.7)
     rubytree (0.8.1)
     shoulda (2.11.3)
-    sqlite3-ruby (1.3.2)
     term-ansicolor (1.0.4)
     test-unit (1.2.3)
       hoe (>= 1.5.1)
@@ -102,9 +99,7 @@ DEPENDENCIES
   fastercsv
   fleximage
   mocha
-  mysql
   object_daddy
-  pg
   pickle
   rails (= 2.3.5)
   recurly
@@ -115,6 +110,5 @@ DEPENDENCIES
   ruby-debug
   rubytree
   shoulda
-  sqlite3-ruby
   test-unit (= 1.2.3)
   webrat (= 0.5.3)
