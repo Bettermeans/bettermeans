@@ -414,7 +414,7 @@ class ProjectsController < ApplicationController
 
     if request.post?
       if (parent = Project.find params[:parent_id]) && @allowed_projects.include?(parent)
-        @project.set_parent!(parent)
+        @project.move_to_child_of(parent)
         flash[:success] = l(:notice_successful_update)
         LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_moved), :workstreams, 0, nil,{:project_id => @project.id})
         redirect_to @project
