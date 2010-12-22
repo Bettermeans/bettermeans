@@ -385,6 +385,7 @@ class Project < ActiveRecord::Base
   
   # Sets the parent of the project
   # Argument can be either a Project, a String, a Fixnum or nil
+  # WARNING: This doesn't move the children for the project, if moving a project use: move_to_child_of
   def set_parent!(p)
     unless p.nil? || p.is_a?(Project)
       if p.to_s.blank?

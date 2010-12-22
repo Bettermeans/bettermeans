@@ -11,7 +11,9 @@ More details can be found at http://bettermeans.com and here http://bettermeans.
 
 git clone git@github.com:kabuks/bettermeans.git
 
-Rename database.yml.example to database.yml
+#Rename database.yml.example to database.yml and set your local dev db u/p
+
+bundler install
 
 rake bootstrap
 
