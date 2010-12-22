@@ -14,7 +14,7 @@ module TreeNodePatch
       def initialize(name, content = nil)
         old_initilize(name, content)
         @last_items_count = 0
-        @childrenHash ||= {} #TODO: Shereef to review - is this due to different rubytree versions?
+        @childrenHash ||= {}
         extend(InstanceMethods)
       end
     end
@@ -25,7 +25,7 @@ module TreeNodePatch
     # parent is set to be the receiver.  The child is added as the first child in
     # the current list of children for the receiver node.
     def prepend(child)
-      raise "Child already added" if @childrenHash.has_key?(child.name)
+      raise "Child already added" if @childrenHash && @childrenHash.has_key?(child.name)
 
       @childrenHash[child.name]  = child
       @children = [child] + @children
@@ -38,7 +38,7 @@ module TreeNodePatch
     # parent is set to be the receiver.  The child is added at the position
     # into the current list of children for the receiver node.
     def add_at(child, position)
-      raise "Child already added" if @childrenHash.has_key?(child.name)
+      raise "Child already added" if @childrenHash && @childrenHash.has_key?(child.name)
 
       @childrenHash[child.name]  = child
       @children = @children.insert(position, child)
@@ -48,7 +48,7 @@ module TreeNodePatch
     end
 
     def add_last(child)
-      raise "Child already added" if @childrenHash.has_key?(child.name)
+      raise "Child already added" if @childrenHash && @childrenHash.has_key?(child.name)
 
       @childrenHash[child.name]  = child
       @children <<  child
@@ -62,7 +62,7 @@ module TreeNodePatch
     # parent is set to be the receiver.  The child is added as the last child in
     # the current list of children for the receiver node.
     def add(child)
-      raise "Child already added" if @childrenHash.has_key?(child.name)
+      raise "Child already added" if @childrenHash && @childrenHash.has_key?(child.name)
 
       @childrenHash[child.name]  = child
       position = @children.size - @last_items_count
