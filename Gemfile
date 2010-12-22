@@ -2,8 +2,8 @@ source :gemcutter
 
 gem "rails", "2.3.5"
 
-gem "sqlite3-ruby", :require => "sqlite3"
-gem 'mysql'
+# gem "sqlite3-ruby", :require => "sqlite3"
+# gem 'mysql'
 gem 'rubytree'
 gem 'rpx_now'
 gem 'recurly'
@@ -13,7 +13,7 @@ gem 'comma', :require => "comma", :git => "https://github.com/crafterm/comma.git
 gem 'fastercsv'
 gem 'test-unit', '1.2.3'
 gem 'ruby-debug'
-gem 'pg'
+# gem 'pg'
 
 group :test do
   gem 'cucumber', '0.4.3'
