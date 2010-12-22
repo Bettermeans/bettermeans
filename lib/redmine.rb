@@ -33,6 +33,7 @@ Redmine::AccessControl.map do |map|
   map.permission :add_project, {:projects => [:add, :new, :copy]}, :require => :loggedin
   map.permission :add_subprojects, {:projects => [:add, :new]}, :require => :loggedin
   map.permission :edit_project, {:projects => [:settings, :edit, :copy, :archive, :unarchive, :destroy, :update_scale]}, :require => :member
+  map.permission :move_project, {:projects => [:move]}, :require => :member
   map.permission :select_project_modules, {:projects => :modules}, :require => :member
   map.permission :manage_members, {:projects => :settings, :members => [:new, :edit, :destroy, :autocomplete_for_member]}, :require => :member
   map.permission :credits, {:credits => [:add, :edit, :update]}, :require => :admin

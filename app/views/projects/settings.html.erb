@@ -20,8 +20,12 @@
   </li>
   <li>
     <%= link_to(l(:label_delete_project), {:controller => 'projects', :action => 'destroy', :id => @project}, {:confirm => l(:text_confirm_delete_project), :method => :post}) %>
-    
   </li>
+  <% unless @project.root? %>
+  <li id='move_project_link'>
+    <%= link_to(l(:label_move_project), {:controller => 'projects', :action => 'move', :id => @project}) %>
+  </li>
+  <% end %>
   <li>
   </li>
   </ul>

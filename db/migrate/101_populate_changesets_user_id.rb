@@ -1,5 +1,7 @@
 class PopulateChangesetsUserId < ActiveRecord::Migration
   def self.up
+    return
+
     committers = Changeset.connection.select_values("SELECT DISTINCT committer FROM #{Changeset.table_name}")
     committers.each do |committer|
       next if committer.blank?
@@ -13,6 +15,8 @@ class PopulateChangesetsUserId < ActiveRecord::Migration
   end
 
   def self.down
+    return
+
     Changeset.update_all('user_id = NULL')
   end
 end
