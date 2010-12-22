@@ -5,18 +5,10 @@
 #   (on OS X: gem install mysql -- --include=/usr/local/lib)
 # And be sure to use new-style password hashing:
 #   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
-
-# production:
-#   adapter: mysql
-#   database: redmine
-#   host: localhost
-#   username: redmine
-#   password: tree
-#   encoding: utf8
  
 production:
   adapter: mysql
-  database: redmine_development
+  database: bettermeans_production
   host: localhost
   username: root
   password: tree
@@ -24,21 +16,21 @@ production:
 
 development:
   adapter: postgresql
-  database: redmine_development_19
+  database: bettermeans_development
   host: localhost
   username: postgres
   password: tree
 
 test: &TEST
     adapter: postgresql
-    database: redmine_test
+    database: bettermeans_test
     host: localhost
     username: postgres
     password: tree
 
 test_pgsql:
   adapter: postgresql
-  database: redmine_test
+  database: bettermeans_test
   host: localhost
   username: postgres
   password: "postgres"
