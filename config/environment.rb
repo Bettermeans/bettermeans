@@ -57,6 +57,12 @@ Rails::Initializer.run do |config|
   
   #Added this to bypass error
   config.action_controller.session = { :key => "_bettermeans_session", :secret => "95fd75499b43ada8cfbc538558d74312asdf" }
+  
+  # config.gem "rpx_now"
+  
+  config.after_initialize do # so rake gems:install works
+     RPXNow.api_key = ENV['RPXNOW_KEY']
+  end
 
   # Load any local configuration that is kept out of source control
   # (e.g. gems, patches).
