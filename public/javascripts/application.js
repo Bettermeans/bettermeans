@@ -324,6 +324,12 @@ function h(s) {
   return escaped;
 }
 
+function text_only(text){
+	text = "<p>" + text + "</p>";
+	text = $(text).text();
+	return text;
+}
+
 
 function display_sparks(){
 	$('.spark').each(function(){

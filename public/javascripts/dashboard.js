@@ -1206,7 +1206,7 @@ function generate_comments_section(dataId){
 	html = html + '	                    <div>';
 	html = html + '	                      <textarea class = "textAreaFocus" id="new_comment_' + dataId + '" rows="1" cols="20" name="story[comment]"></textarea>     ';
 	html = html + '	                    <div>';
-	html = html + '	                    <input value="Post Comment" type="submit" onclick="post_comment(' + dataId + '); return false;">';
+	html = html + '	                    <input value="Post Comment" type="submit" id="post_comment_button_' + dataId + '" onclick="post_comment(' + dataId + '); return false;">';
 	html = html + '	                        (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
 	html = html + '	                      </div>';
 	html = html + '	                    </div>';
@@ -1406,12 +1406,12 @@ function edit_comment_cancel(journalId,dataId){
 function edit_comment_post(journalId,dataId){
 try{
 	keyboard_shortcuts = true;
-	var new_text = $('#comment_' + journalId + '_subject_input').val().replace(/<br>/g, "\n");
+	var new_text = $('#comment_' + journalId + '_subject_input').val(); //.replace(/<br>/g, "\n");
 	
-	$('#comment_' + journalId + '_text_container').html(new_text).show();
+	$('#comment_' + journalId + '_text_container').html(h(new_text).replace(/\r\n/g,"<br>").replace(/\n/g,"<br>")).show();
 	$('#comment_' + journalId + '_subject_submit_container').html('');
 	
-	var data = "commit=Update&id=" + journalId + "&issue_id=" + D[dataId].id + "&journal[notes]=" + escape(new_text);
+	var data = "commit=Update&id=" + journalId + "&issue_id=" + D[dataId].id + "&journal[notes]=" + encodeURIComponent(new_text);
 	
 	var url = url_for({ controller: 'journals',
 	                           action    : 'edit_from_dashboard'
@@ -1445,12 +1445,12 @@ try{
 	keyboard_shortcuts = true;
 	
 	
-	$('#task_' + todoId + '_subject_text').html($('#task_' + todoId + '_subject_input').val()).show();
+	$('#task_' + todoId + '_subject_text').html(h($('#task_' + todoId + '_subject_input').val())).show();
 	$('#task_' + todoId + '_subject_input').hide();
 	$('#task_' + todoId + '_subject_submit_container').html('');
 	
 	var item = D[dataId];	
-	var data = "commit=Update&id=" + todoId + "&issue_id=" + item.id + "&todo[subject]=" + $('#task_' + todoId + '_subject_input').val();
+	var data = "commit=Update&id=" + todoId + "&issue_id=" + item.id + "&todo[subject]=" + encodeURIComponent($('#task_' + todoId + '_subject_input').val());
 	
 	if ($('#task_' + todoId + '_complete').attr("checked") == true){
 		$('#task_' + todoId  + '_subject').addClass('completed');
@@ -2798,8 +2798,8 @@ function save_new_item(prioritize){
     }
     var data = "commit=Create&project_id=" + projectId + 
         "&issue[tracker_id]=" + $('#new_story_type').val() + 
-        "&issue[subject]=" + $('#new_title_input').val() + 
-        "&issue[description]=" + $('#new_description').val() +
+        "&issue[subject]=" + encodeURIComponent($('#new_title_input').val()) + 
+        "&issue[description]=" + encodeURIComponent($('#new_description').val()) +
         "&estimate=" + $('#new_story_complexity').val() + 
         "&prioritize=" + prioritize;
     
@@ -2860,8 +2860,8 @@ function save_edit_item(dataId){
         "&project_id=" + projectId + 
         "&id=" + D[dataId].id + 
         "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + 
-        "&issue[subject]=" + $('#edit_title_input_' + dataId).val() + 
-        "&issue[description]=" + $('#edit_description_' + dataId).val();
+        "&issue[subject]=" + encodeURIComponent($('#edit_title_input_' + dataId).val()) + 
+        "&issue[description]=" + encodeURIComponent($('#edit_description_' + dataId).val());
 
     if((credits_enabled) && ($("#edit_story_type_" + dataId).val() == standard_trackers.Hourly.id)) {
 	var num_hours = $("#num_hours_" + dataId).val();
@@ -3011,6 +3011,7 @@ function item_updated(item, dataId){
 }
 
 function comment_added(item, dataId){
+	$("#post_comment_button_" + dataId).show();
 	D[dataId] = item; 
 	$('#comments_container_' + dataId).replaceWith(generate_comments_section(dataId,false));
 }
@@ -3682,7 +3683,8 @@ function generate_todo_section_lightbox(dataId){
 	
 }
 
-function post_comment(dataId,from_prompt,action){
+function post_comment(dataId,from_prompt,action){	
+	
 
 //Login required	
 if (!is_user_logged_in()){return false;}
@@ -3690,6 +3692,7 @@ if (!is_user_logged_in()){return false;}
 	
 try{
 	var text = "";
+	
 	
 	if (from_prompt){
 		text = $("#prompt_comment_" + dataId).val();
@@ -3703,14 +3706,16 @@ try{
 		text = $("#new_comment_" + dataId).val();
 	}
 	
+	
 	if ((text == null) || (text.length < 2) || (text == new_comment_text)){
 		return false;
 	}
 	else
 	{
+		$("#post_comment_button_" + dataId).hide();
 		var item = D[dataId];
 		try{
-			$("#notesTable_" + item.id).append(generate_comment(currentUser,text.replace(/\n/g,"<br>"),'1 second ago','new'));
+			$("#notesTable_" + item.id).append(generate_comment(currentUser,text,'1 second ago','new'));
 			$('#new_comment_' + dataId).val('');
 		}
 		catch(err){
@@ -3720,7 +3725,7 @@ try{
 		$("#new_comment_" + dataId).height(35);
 		
 		
-		var data = "commit=Create&issue_id=" + item.id + "&comment=" + text;
+		var data = "commit=Create&issue_id=" + item.id + "&comment=" + encodeURIComponent(text);
 		
 		var url = url_for({ controller: 'comments',
 	                           action    : 'create'
@@ -3735,6 +3740,7 @@ try{
 				comment_added(html,dataId);
 			},
 		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+			$("#post_comment_button_" + dataId).show();
 			handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
 			},
 			timeout: 30000 //30 seconds
@@ -3766,7 +3772,7 @@ try{
 		$('#new_todo_' + dataId).val('');
 		
 		
-		var data = "commit=Create&issue_id=" + item.id + "&todo[subject]=" + text;
+		var data = "commit=Create&issue_id=" + item.id + "&todo[subject]=" + encodeURIComponent(text);
 		data = data + '&todo[author_id]=' + currentUserId;
 		
 		
@@ -3813,7 +3819,7 @@ try{
 		else
 		{
 			$('#task_' + todoId  + '_subject').removeClass('completed');
-			$('#task_' + todoId  + '_subject_text').html($('#task_' + todoId  + '_subject_input').val());
+			$('#task_' + todoId  + '_subject_text').html(h($('#task_' + todoId  + '_subject_input').val()));
 			data = data + '&todo[completed_on]=';
 			data = data + '&todo[owner_login]=';
 			data = data + '&todo[owner_id]=';

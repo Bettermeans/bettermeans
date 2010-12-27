@@ -505,7 +505,7 @@ class Project < ActiveRecord::Base
     #removing active members that aren't in new list
     self.active_members.each do |m|
       if u[m.user_id].nil?
-        new_m = Member.find(m.id)
+        new_m = Member.find(m.id)  #for some amazing reason, I have to reload the member to get all its roles! Otherwise, I only get the active roles
         a = new_m.role_ids
         a.delete Role.active.id 
         new_m.role_ids = a
