@@ -88,6 +88,31 @@ namespace :custom do
     PersonalWelcome.deliver
   end
   
+  #temporary task to re-assign admins that have been lost
+  task :fix_owners => :environment do
+    Project.all.each do |p|
+      next unless p.administrators == [] && p.root?
+      p.owner.add_to_project(p, Role.administrator)
+      p.owner.add_to_project(p, Role.core_member)
+      
+      p.all_members.each do |ms|
+        if ms.created_at > Time.now.advance(:minutes => -2)
+          ms.created_at = p.created_at
+          ms.save
+        end
+        
+        ms.member_roles.each do |mr|
+          if mr.created_at > Time.now.advance(:minutes => -2)
+            mr.created_at = p.created_at
+            mr.save
+          end
+        end
+      end
+        
+      puts "fixed #{p.id} #{p.name}"
+    end
+  end
+  
   #Used to trim a production database for development
   task :trim_db => :environment do
     if ENV['reset_safe'] == 'true'
