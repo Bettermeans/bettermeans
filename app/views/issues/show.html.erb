@@ -149,7 +149,7 @@
     html = html +  '                        <div class="contextual hidden" id="new_comment_edit">';
     html = html +  '<a title="Edit" class="icon icon-edit icon-edit-new" id="new_comment_edit_link" href="#">Edit</a>';
     html = html +  '                            </div> ';
-    html = html +                          '<p>' + text + '</p>';
+    html = html +                          '<p>' + h(text).replace(/\r\n/g,"<br>").replace(/\n/g,"<br>") + '</p>';
     html = html +  '                    </div> ';
     html = html +  '              </div>';
     html = html +  '          </div>';
@@ -167,7 +167,6 @@
   }
   
   function post_comment(){
-
     // try{
   	  var text = $("#add-comment-textarea").val();
 
@@ -179,7 +178,7 @@
         $("#comments").append(generate_comment(text));
         $("#add-comment-textarea").val('');
 
-    		var data = "commit=Create&issue_id=<%= @issue.id %>&comment=" + text;
+    		var data = "commit=Create&issue_id=<%= @issue.id %>&comment=" + encodeURIComponent(text);
 
     		var url = url_for({ controller: 'comments',
     	                           action    : 'create'
@@ -214,6 +213,19 @@
     //  return false;
     // }
   }
+  
+  function show_item(startable){
+  	timer_active = false;
+  	D = [];
+  	D.push(item);
+  	$("#item_header").html(generate_item_lightbox(0));
+  	$("#todo_wrapper").replaceWith(generate_todo_section_lightbox(0));
+  	if (startable){
+  		$("#item_content_buttons_start_button_0").show();
+  	}
+
+  }
+  
   
   
 </script>
