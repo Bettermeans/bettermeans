@@ -122,14 +122,11 @@ function generate_comment(object_id, text){
   html = html +  '      </td>';
   html = html +  '      <td>';
   html = html +  '        <span class="author"><%= link_to User.current.name, "user_path", :id => User.current.id %></span>';
-  html = html +  '        <span class="verb">Updated this.</span>';
+  html = html +  '        <span class="verb">Updated this seconds ago</span>';
   html = html +  '          <span class="long-words"><p>';
   html = html +  text;
   html = html +  '          </p></span>';
   html = html +  '      </td>';
-  html = html +  '    <td  style="width:20%">';
-  html = html +  '  				<strong>Just now</strong>';
-  html = html +  '    </td>';
   html = html +  '  </tr>';
   return html;
 }
