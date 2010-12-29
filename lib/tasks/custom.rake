@@ -89,7 +89,7 @@ namespace :custom do
   end
   
   #temporary task to re-assign admins that have been lost
-  task :fix_owners => :environment do
+  task :run_once_fix_owners => :environment do
     Project.all.each do |p|
       next unless p.administrators == [] && p.root?
       p.owner.add_to_project(p, Role.administrator)
@@ -113,6 +113,18 @@ namespace :custom do
     end
   end
   
+  #fixing the dropped member roles by re-adding all accepted invitations
+  task :run_once_fix_invitations => :environment do
+    Invitation.all.each do |i|
+      next if i.status == 0
+      unless i.user.enterprise_member_of?(i.project)
+        puts "Adding #{i.user.name} #{i.user.id} to project #{i.project.name} #{i.project.id} as #{i.role.name}" 
+        i.user.add_to_project(i.project,i.role)
+      end
+    end
+  end
+  
+
   #Used to trim a production database for development
   task :trim_db => :environment do
     if ENV['reset_safe'] == 'true'
