@@ -435,6 +435,11 @@ class User < ActiveRecord::Base
   def community_member_of?(project)
     !roles_for_project(project.root).detect {|role| role.community_member?}.nil?
   end
+
+  # Return true if the user is an enterprise member of project
+  def enterprise_member_of?(project)
+    !roles_for_project(project.root).detect {|role| role.enterprise_member?}.nil?
+  end
   
   
   # Return true if the user is a member of project
@@ -536,6 +541,7 @@ class User < ActiveRecord::Base
   
   #Adds user to that project as that role
   def add_to_project(project, role, options={})
+    project = project.root if role.enterprise_member?
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     if m.nil? 
       #User isn't a member let's create a membership
