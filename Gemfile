@@ -9,12 +9,9 @@ gem 'fleximage'
 gem 'reportable'
 gem 'comma', :require => "comma", :git => "https://github.com/crafterm/comma.git"
 gem 'fastercsv'
-gem 'test-unit', '1.2.3'
-gem 'ruby-debug'
-gem "sqlite3-ruby", :require => "sqlite3"
-gem 'pg'
 
 group :test do
+  gem 'test-unit', '1.2.3'
   gem 'cucumber', '0.4.3'
   gem 'webrat', '0.5.3'
   gem 'rspec', '1.2.9'
@@ -24,4 +21,14 @@ group :test do
   gem 'shoulda'
   gem 'object_daddy'
   gem 'mocha'
+end
+
+group :development do
+  gem 'ruby-debug'
+  gem "sqlite3-ruby", :require => "sqlite3"
+  if (Gem.available?('pg'))
+    gem 'pg'
+  else
+    gem 'mysql2'
+  end
 end
