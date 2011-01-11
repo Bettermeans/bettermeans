@@ -477,9 +477,9 @@ class User < ActiveRecord::Base
   
   # Returns position level for user's role in project's enterprise (the lower number, the higher in heirarchy the user)
   def position_for(project)
-    logger.info { "#{self.id} position for #{project.id}" }
-    logger.info { "roles #{roles_for_project(project.root)}"}
-    logger.info { "roles #{roles_for_project(project.root).select {|r| r.enterprise_member? || r.platform_member?}.inspect}" }
+    # logger.info { "#{self.id} position for #{project.id}" }
+    # logger.info { "roles #{roles_for_project(project.root)}"}
+    # logger.info { "roles #{roles_for_project(project.root).select {|r| r.enterprise_member? || r.platform_member?}.inspect}" }
     roles_for_project(project.root).sort{|x,y| x.position <=> y.position}.first.position
   end
     
