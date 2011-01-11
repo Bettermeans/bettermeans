@@ -12,8 +12,11 @@ gem 'fastercsv'
 gem 'test-unit', '1.2.3'
 gem 'ruby-debug'
 gem "sqlite3-ruby", :require => "sqlite3"
-gem 'mysql'
-gem 'pg'
+if (Gem.available?('pg'))
+  gem 'pg'
+else
+  gem 'mysql2'
+end
 
 group :test do
   gem 'cucumber', '0.4.3'
