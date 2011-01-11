@@ -469,15 +469,15 @@ class User < ActiveRecord::Base
   
   # Return true if the user is allowed to see motion
   def allowed_to_see_motion?(motion)
-    # logger.info { "current position #{position_for(motion.project)}" }
-    # logger.info { "visibilitly level #{motion.visibility_level.to_f}" }
-    # logger.info { "allowed #{position_for(motion.project) <= motion.visibility_level.to_f}" }
+    logger.info { "current position #{position_for(motion.project)}" }
+    logger.info { "visibilitly level #{motion.visibility_level.to_f}" }
+    logger.info { "allowed #{position_for(motion.project) <= motion.visibility_level.to_f}" }
     position_for(motion.project) <= motion.visibility_level.to_f
   end  
   
   # Returns position level for user's role in project's enterprise (the lower number, the higher in heirarchy the user)
   def position_for(project)
-    roles_for_project(project.root).first.position
+    roles_for_project(project.root).select {|r| r.enterprise_member? || r.platform_member?}.sort {|x,y| x.position <=> y.position}.first.position
   end
     
   # Return true if the user is allowed to do the specified action on project
@@ -485,7 +485,7 @@ class User < ActiveRecord::Base
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project, options={})
-    logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
+    # logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     #     logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     if project
       # No action allowed on archived projects except unarchive
@@ -523,7 +523,7 @@ class User < ActiveRecord::Base
     #Add as core member of current project
     add_to_project project, Role.member
     drop_from_project(project, Role.contributor)
-    drop_from_project(project, Role.member)
+    drop_from_project(project, Role.core_member)
   end
   
 

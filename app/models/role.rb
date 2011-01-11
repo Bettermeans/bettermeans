@@ -109,6 +109,11 @@ class Role < ActiveRecord::Base
     # builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_BOARD
   end
 
+  # Return true if the role belongs to the platform (i.e. anonymous, or non member)
+  def platform_member?
+    level == LEVEL_PLATFORM
+  end
+
   # Return true if the role is a binding member role
   def binding_member?
     builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR

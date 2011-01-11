@@ -113,6 +113,14 @@ namespace :custom do
     end
   end
   
+  #one time fix to add members again, after they've been lost
+  task :run_once_rerun_membership_motions => :environment do
+    Motion.find(:all, :conditions => ["created_at > ?", Time.parse('11/1/2010')], :order => "created_at ASC").each do |m|
+      m.execute_action
+    end
+  end
+  
+  
   #fixing the dropped member roles by re-adding all accepted invitations
   task :run_once_fix_invitations => :environment do
     Invitation.all.each do |i|
