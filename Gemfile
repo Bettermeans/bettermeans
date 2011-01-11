@@ -2,6 +2,7 @@ source :gemcutter
 
 gem "rails", "2.3.5"
 
+gem 'ruby-debug'
 gem 'rubytree'
 gem 'rpx_now'
 gem 'recurly'
@@ -24,7 +25,6 @@ group :test do
 end
 
 group :development do
-  gem 'ruby-debug'
   gem "sqlite3-ruby", :require => "sqlite3"
   gem 'pg'
   gem 'mysql2'
