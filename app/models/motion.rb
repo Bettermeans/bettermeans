@@ -167,7 +167,7 @@ class Motion < ActiveRecord::Base
       when VARIATION_GENERAL
       when VARIATION_EXTRAORDINARY
       when VARIATION_NEW_MEMBER
-        return if !self.concerned_user.contributor_of?(self.project)
+        # return if !self.concerned_user.contributor_of?(self.project)
         self.concerned_user.add_as_member(self.project)
       when VARIATION_NEW_CORE
         return if !self.concerned_user.member_of?(self.project)
@@ -176,7 +176,7 @@ class Motion < ActiveRecord::Base
         return if !self.concerned_user.member_of?(self.project)
         self.concerned_user.add_as_contributor(self.project)
       when VARIATION_FIRE_CORE
-        return if !self.concerned_user.core_member_of?(self.project)
+        # return if !self.concerned_user.core_member_of?(self.project)
         self.concerned_user.add_as_member(self.project)
       when VARIATION_BOARD_PUBLIC
       when VARIATION_BOARD_PRIVATE
