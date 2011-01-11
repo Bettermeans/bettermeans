@@ -26,9 +26,6 @@ end
 group :development do
   gem 'ruby-debug'
   gem "sqlite3-ruby", :require => "sqlite3"
-  if (Gem.available?('pg'))
-    gem 'pg'
-  else
-    gem 'mysql2'
-  end
+  gem 'pg'
+  gem 'mysql2'
 end
