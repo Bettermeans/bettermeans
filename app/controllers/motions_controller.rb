@@ -11,8 +11,8 @@ class MotionsController < ApplicationController
   # GET /motions
   # GET /motions.xml
   def index
-    @motions = @project.motions.viewable_by(User.current.position_for(@project))
-
+    # @motions = @project.motions.viewable_by(User.current.position_for(@project))
+    @motions = @project.motions
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @motions }
@@ -27,6 +27,7 @@ class MotionsController < ApplicationController
       render_404
       return false
     end
+    logger.info { "user ok" }
     
     @topic = @motion.topic
     @board = @topic.board
