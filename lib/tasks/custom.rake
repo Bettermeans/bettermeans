@@ -115,7 +115,7 @@ namespace :custom do
   
   #one time fix to add members again, after they've been lost
   task :run_once_rerun_membership_motions => :environment do
-    Motion.find(:all, :conditions => ["created_at > ?", Time.parse('11/1/2010')], :order => "created_at ASC").each do |m|
+    Motion.find(:all, :conditions => ["created_at > ?", Time.parse('10/1/2010')], :order => "created_at ASC").each do |m|
       m.execute_action
     end
   end
