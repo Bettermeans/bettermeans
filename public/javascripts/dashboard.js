@@ -551,6 +551,19 @@ function show_estimate_flyover(dataId,callingElement){
 	});	
 }
 
+function show_points_flyover(dataId,callingElement){
+	$('#flyover_points_' + dataId).remove();
+	generate_points_flyover(dataId);		
+		
+	$('#' + callingElement).bubbletip($('#flyover_points_' + dataId), {
+		deltaDirection: 'right',
+		delayShow: 0,
+		delayHide: 100,
+		offsetLeft: 0
+	});	
+}
+
+
 function show_pri_flyover(dataId,callingElement){
 
 	$('#flyover_pri_' + dataId).remove();
@@ -810,6 +823,25 @@ function generate_estimate_flyover(dataId){
 	return generate_flyover(dataId,'estimate',title,you_voted,action_header,buttons,history);
 	
 }
+
+function generate_points_flyover(dataId){
+	var item = D[dataId];
+	var i = 0; //counter
+	var credits = item.points;
+	
+	var you_voted = "This is a read only value, and cannot be voted on.";
+	
+	var	title = item.points + ' credits';
+	
+	var history = '';
+	
+	var action_header = '';
+	var buttons = '';
+	
+	return generate_flyover(dataId,'points',title,you_voted,action_header,buttons,history);
+	
+}
+
 
 function prompt_for_number(message,default_data){
 	var amount=prompt(message,default_data);
@@ -1510,6 +1542,11 @@ function credits_to_points(credits,base){
 }
 
 function has_current_user_estimated(item){
+	
+	if (item.tracker.id == standard_trackers.Expense.id){
+		return true;
+	}
+
 	//Checking wether or not current user estimated this item voted
 	for(i=0; i < item.issue_votes.length; i++){
 		if (item.issue_votes[i].vote_type != 4) continue;
@@ -1525,22 +1562,25 @@ function generate_item_estimate_button(dataId,points){
 	var item = D[dataId];
 	var html = '';
 	
-	if (!is_item_estimatable(item)){
-		return '';
+	if (is_item_estimatable(item)){
+		var onclick = "show_estimate_flyover("+ dataId +",this.id);return false;";
+	}
+	else{
+		var onclick = "show_points_flyover("+ dataId +",this.id);return false;";
 	}
 	
 	var current_user_voted = has_current_user_estimated(item);
 	
-	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (current_user_voted)){
+	if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open')) || (current_user_voted) || (!is_item_estimatable(item))){
 		
 		//If no binding points, then current user is non-binding and has voted so we show them a different symbol so they can track what they estimated, and what they didn't estimate
 		if (points == "No" && current_user_voted){
 			points = "wait";
 		}
-		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';		
+		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_' + points + '.png" alt="' + points + ' credits" onclick=' + onclick + '>';		
 	}
 	else{
-		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_No.png" alt="Credits hidden until you estimate" onclick="show_estimate_flyover('+ dataId +',this.id);return false;">';		
+		html = html + '<img id="diceicon_' + dataId + '"  class="storyPoints hoverDiceIcon clickable" src="/images/dice_No.png" alt="Credits hidden until you estimate" onclick=' + onclick + '>';		
 	}
 	
 	return html;
@@ -1891,10 +1931,15 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 							break;	
 			}
 		}
-	}	
+	}
+	
+	//no need to estimate if this is an expense
+	if (item.tracker.id == standard_trackers.Expense.id){
+		user_estimated = true; 
+	}
 	
 	if (include_start_button && user_estimated && user_voted){
-		tally = dash_button('start',dataId,true); //no room to show tally if start button is included and user esetimated and voted
+		tally = dash_button('start',dataId,true); //no room to show tally if start button is included and user estimated and voted
 	}
 	
 	if ((!user_estimated) && user_voted){
@@ -2841,7 +2886,7 @@ function save_new_item(prioritize){
             "&issue[num_hours]=" + parseInt(num_hours,10);
     }
 
-	if ($('#new_story_type').val() == standard_trackers.Expense.id){ //BUGBUG hardcoded value
+	if ($('#new_story_type').val() == standard_trackers.Expense.id){
 		data = data + "&issue[points]=" + $('#new_expense_amount_new').val();
 	}
 
