@@ -71,6 +71,11 @@ class Motion < ActiveRecord::Base
     
   end
   
+  # true if variation requires a concerned user to be specified
+  def concerns_someone?
+    return (self.variation == VARIATION_NEW_MEMBER || self.variation == VARIATION_NEW_CORE || self.variation == VARIATION_FIRE_MEMBER || self.variation == VARIATION_FIRE_CORE)
+  end
+  
   #Checks if motion has reached end date, calculates vote and takes action
   def close
     return if !active?
