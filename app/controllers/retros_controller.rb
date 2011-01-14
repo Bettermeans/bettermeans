@@ -79,6 +79,7 @@ class RetrosController < ApplicationController
     #Adding users that have joined the issues and calculating total points for each user
     @retro.issues.each do |issue|
       points = issue.points.to_f / (issue_team_sizes[issue.id])
+      next if issue.assigned_to_id == User.sysadmin.id
       @user_retro_hash[issue.assigned_to_id]["total_points"]+=points
       @max_points = @user_retro_hash[issue.assigned_to_id]["total_points"] if @user_retro_hash[issue.assigned_to_id]["total_points"] > @max_points
       
