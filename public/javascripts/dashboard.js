@@ -2026,10 +2026,20 @@ function dash_button(type,dataId,hide,options_param){
 	                                  options['data'];
 	var hide_style = '';
 	var onclick = 'click_' + action + '(' + dataId + ',this,\'' + data + '\');return false;';
+	var ondblclick = '';
+	
+	if (type == "agree_root"){
+		ondblclick =  'click_agree(' + dataId + ',this,\'&points=1\')";return false;';
+	}
+
+	if (type == "accept_root"){
+		ondblclick =  'click_accept(' + dataId + ',this,\'&points=1\')";return false;';
+	}
+	
 	
 	if (hide){ hide_style = "style=display:none;"; }
 	html = '';
-	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable" onclick="' + onclick + '">';
+	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable" onDblclick="' + ondblclick + '"  onclick="' + onclick + '">';
 	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="action_button action_button_' + cssclass + '" ' + hide_style + '>';
 	html = html + label + '</div></a>';
 	return html;
