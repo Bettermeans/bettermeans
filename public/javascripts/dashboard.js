@@ -1858,6 +1858,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	for(var i=0; i < item.issue_votes.length; i++){
 		//bugbug: hardcoded issue vote (4)
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 4)){
+			console.log("we are in")
 			user_estimated = true;
 		}
 		
@@ -1891,14 +1892,16 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 							cssclass = 'block';
 							break;	
 			}
-			
-			break;
 		}
 	}	
 	
 	if (include_start_button && user_estimated && user_voted){
 		tally = dash_button('start',dataId,true); //no room to show tally if start button is included and user esetimated and voted
 	}
+	
+	console.log("estimated: " + user_estimated);
+	console.log("voted: " + user_voted);
+	console.log("data id:" + dataId);
 	
 	if ((!user_estimated) && user_voted){
 		tally = dash_button('estimate',dataId,false); //no room to show tally if estimate button is included
