@@ -117,8 +117,7 @@ function load_dashboard(){
 	timer_active = false; //now that data is loaded, we can start timer
 	start_timer();
 	
-	$(document).keyup(function(e)
-	{
+	$(document).keyup(function(e){
 		last_activity = new Date();
 		start_timer();
 		if (searching){
@@ -2842,7 +2841,7 @@ function save_new_item(prioritize){
             "&issue[num_hours]=" + parseInt(num_hours,10);
     }
 
-	if ($('#new_story_type').val() == 10){ //BUGBUG hardcoded value
+	if ($('#new_story_type').val() == standard_trackers.Expense.id){ //BUGBUG hardcoded value
 		data = data + "&issue[points]=" + $('#new_expense_amount_new').val();
 	}
 
@@ -3130,6 +3129,7 @@ function hourly_type_selected(dataId) {
 function expense_type_selected() {
 	var amount = prompt_for_expense_amount("0.0", "new");
     $("#new_expense").show();
+	$("#complexity_row").hide();
 }
 
 
@@ -3143,6 +3143,7 @@ function new_story_type_changed() {
     $("#new_expense").hide();
     $("#new_assigned_to").hide();
     $("#hourly_fields").hide(); 
+	$("#complexity_row").show();
 
     var selection = $("#new_story_type").val();
     
@@ -3197,19 +3198,28 @@ function generate_tracker_dropdown(dont_show_gift) {
     var html='';
     for(var name in standard_trackers) {	
 
-	var tracker = standard_trackers[name];
+		var tracker = standard_trackers[name];
 
-	if((credits_enabled) && (tracker.id == standard_trackers.Gift.id && dont_show_gift))
-	    continue;
+		if((credits_enabled) && (tracker.id == standard_trackers.Gift.id && dont_show_gift))
+		    continue;
 
-	if((credits_enabled) && (tracker.id == standard_trackers.Hourly.id && hourly_types.length == 0))
-	    continue;
+		if((credits_enabled) && (tracker.id == standard_trackers.Hourly.id && hourly_types.length == 0))
+		    continue;
 
-	var selected_text = (tracker.id == standard_trackers.Feature.id ? 'selected="true"' : '');
+		if((!credits_enabled) && (tracker.id == standard_trackers.Hourly.id))
+		    continue;
 
-	html += '<option ' + selected_text + ' value="' +  tracker.id + '">';
-	html += tracker.name;
-	html += '</option>';
+		if((!credits_enabled) && (tracker.id == standard_trackers.Expense.id))
+		    continue;
+
+		if((!credits_enabled) && (tracker.id == standard_trackers.Gift.id))
+		    continue;
+
+		var selected_text = (tracker.id == standard_trackers.Feature.id ? 'selected="true"' : '');
+
+		html += '<option ' + selected_text + ' value="' +  tracker.id + '">';
+		html += tracker.name;
+		html += '</option>';
     }   
 
     return html;
@@ -3217,7 +3227,7 @@ function generate_tracker_dropdown(dont_show_gift) {
 
 function generate_complexity_row(){
 	var html = '';
-	html = html + '	              <tr>';
+	html = html + '	              <tr id="complexity_row">';
 	html = html + '	                <td class="letContentExpand" colspan="1">';
 	html = html + '	                  <div>';
 	html = html + '	                    <select id="new_story_complexity" class="storyDetailsField" name="new_story_complexity" >';
@@ -3542,7 +3552,7 @@ html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
 html = html + '	                    <select id="edit_story_type_' + dataId + '" class="storyDetailsField" ';
 html = html + '                             name="edit_story_type" onChange="edit_story_type_changed(' + dataId + '); return false;" ' + disabled + '>';    
-html = html +                         generate_tracker_dropdown(credits_enabled && (D[dataId].tracker.id != standard_trackers.Gift.id)); // Don't show gift, if item isn't already a gift. 
+html = html +                         generate_tracker_dropdown((D[dataId].tracker.id != standard_trackers.Gift.id)); // Don't show gift, if item isn't already a gift. 
                                                                                                    // Disallows features, bugs...etc. to be turned into a gift item
 html = html + '	                    </select>';
 html = html + '	                  </div>';

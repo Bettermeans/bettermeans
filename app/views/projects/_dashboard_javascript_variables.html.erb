@@ -5,7 +5,7 @@
     var item = <%=@issue.to_dashboard%>;
   <% end  %>
   var credit_base = '<%= project.dpp %>';
-  var projectId = '<%= project.identifier %>';
+  var projectId = '<%= project.id %>';
   var credits_to_points_array = <%= Setting::CREDITS_TO_POINTS.to_json %>;
   var currentUserLogin = '<%= User.current.login %>';
   var currentUserId = '<%= User.current.id %>';

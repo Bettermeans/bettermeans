@@ -88,7 +88,7 @@ class InvitationsController < ApplicationController
         format.html { render :action => "new" }
         format.xml  { render :xml => @invitation, :status => :created, :location => @invitation }
       else
-        flash.now[:error] = "Failed to send invitations. Make sure emails are porerply formatted, and are each on a seperate line"
+        flash.now[:error] = "Failed to send invitations. Make sure emails are properly formatted, and are each on a seperate line"
         format.html { render :action => "new" }
         format.xml  { render :xml => @invitation.errors, :status => :unprocessable_entity }
       end
