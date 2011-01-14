@@ -706,6 +706,8 @@ class Project < ActiveRecord::Base
   def before_validation_on_create
     self.enterprise_id = self.parent.enterprise_id unless self.parent.nil?
     self.identifier = Project.next_identifier
+    self.invitation_token = Token.generate_token_value
+    
     logger.info { "identifier #{self.identifier}" }
     if self.credits_enabled?
       self.trackers = Tracker.all
