@@ -2849,7 +2849,15 @@ function expand_item(dataId){
     }
 }
 
-function collapse_item(dataId){
+function collapse_item(dataId,check_for_save){
+	//save subject and title if they changed
+	if(check_for_save){
+		if (($('#edit_title_input_' + dataId).val() != D[dataId].subject) || ($('#edit_description_' + dataId).val() != D[dataId].description)){
+			save_edit_item(dataId);
+			return;
+		}
+	}
+	
 	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
 	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 5000);
 	keyboard_shortcuts = true;
@@ -3554,7 +3562,7 @@ html = html + '	<div class="item" id="edit_item_' + dataId + '">';
 html = html + '	  <div class="storyItem underEdit" id="editItem_content_' + dataId + '">';
 // html = html + '	   <form action="#">';
 html = html + '	    <div class="storyPreviewHeader">';
-html = html + ' 		<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_expanded.png" title="Collapse" alt="Collapse" onclick="collapse_item(' + dataId + ');return false;">';
+html = html + ' 		<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_expanded.png" title="Collapse" alt="Collapse" onclick="collapse_item(' + dataId + ',true);return false;">';
 html = html + '<div id="icon_set_' + dataId + '" class="left">&nbsp;</div>';
 html = html + '	      <div class="storyPreviewInput">';
 html = html + '	        <input id="edit_title_input_' + dataId + '" class="titleInputField" name="title_input" value="' + h(D[dataId].subject) + '" type="text" ' + readonly + '>';
@@ -3573,7 +3581,7 @@ if (item_editable){
 	html = html + '	                </td>';
 	html = html + '	                <td>';
 	html = html + '	                  <div class="storyDetailsButton">';
-	html = html + '	                    <input id="edit_cancel_button' + dataId + '" value="Cancel" type="submit" onclick="collapse_item(' + dataId + ');return false;">';
+	html = html + '	                    <input id="edit_cancel_button' + dataId + '" value="Cancel" type="submit" onclick="collapse_item(' + dataId + ',false);return false;">';
 	html = html + '	                  </div>';
 	html = html + '	                </td>';	
 }
