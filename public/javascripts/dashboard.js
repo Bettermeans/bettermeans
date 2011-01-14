@@ -2292,6 +2292,8 @@ function filter_select(){
 					break;	
 		case "all":	hide_inactive(99999);
 					break;						
+		case "all_top":	hide_inactive(99999);
+					break;						
 		case "unagreed":	show_unvoted({'New':1,'Open':1,'Estimate':1}, 1);
 					break;						
 		case "unaccepted":	show_unvoted({'Done':1},2);
@@ -2324,7 +2326,7 @@ function filter_select(){
 					break;						
 	}	
 	
-	if (selection != "all"){
+	if (selection != "all" && selection != "all_top"){
 		$('#filtered_message').show();
 		$('#filter_detail').html($("#filter_select :selected").text());
 	}
@@ -2526,8 +2528,8 @@ function search_for_old(text){
 function clear_filters(){
 	$('#filtered_message').hide();
 	$('#fast_search').val('');
-	$('#filter_select').val('Filter (show all)');
 	$('#fast_search').val(''); //clearing fast search
+	$("#filter_select option[value='all_top']").attr('selected', 'selected');	//clearing select
 	hide_inactive(99999);
 	update_panel_counts();
 		
@@ -2535,6 +2537,7 @@ function clear_filters(){
 	{
 		$("#item_" + i).show().removeHighlight();
 	}
+	
 }
 
 function send_item_action(dataId,action,extradata){
