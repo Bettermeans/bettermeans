@@ -1736,7 +1736,7 @@ function display_retro(rdataId){
 function generate_notice(noticeHtml, noticeId){
 	$('#notice_' + noticeId).remove();
 	var html =  '';
-	html = html + '	<div id="notice_' + noticeId + '" class="item notice">';
+	html = html + '	<div id="notice_' + noticeId + '" class="item panel_notice">';
 	html = html + '	<div id="notice_' + noticeId + '_content" class="iterationHeader">';
 	html = html + '	<table>';
 	html = html + '	<tbody>';
