@@ -46,13 +46,29 @@ class Motion < ActiveRecord::Base
   
   before_create :set_values, :create_forum_topic
   after_create :announce
+  after_save :close
   
   def active?
     self.state == STATE_ACTIVE
   end
   
   def ended?
-    Time.now > self.ends_on
+    
+    return true if Time.now > self.ends_on
+    
+    case self.motion_type
+    when TYPE_CONSENSUS #if we don't have a disagreement, and have more than half binding agreement, we're a go
+      if self.disagree == 0 && self.agree_total > self.project.role_and_above_count(self.binding_level).to_f / 2
+        return true;
+      end
+    when TYPE_MAJORITY #if have majority binding agreement, and no blocking, we're a go
+      if self.disagree < 500 && self.agree_total > self.project.role_and_above_count(self.binding_level).to_f / 2
+          return true;
+      end
+    end
+
+    return false
+    
   end
   
   #Checks if motion has reached end date, calculates vote and takes action

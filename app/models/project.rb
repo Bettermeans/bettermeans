@@ -478,6 +478,12 @@ class Project < ActiveRecord::Base
     self.root.core_member_list.count + self.root.member_list.count  + self.root.member_list.count
   end
   
+  # returns count of all users for this role and higher roles
+  def role_and_above_count(position)
+    all_members.count(:all, :conditions => "roles.position <= #{position}", :group => "user_id").length
+  end
+  
+  
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
   # Also refreshes members with clearance
   def refresh_active_members
