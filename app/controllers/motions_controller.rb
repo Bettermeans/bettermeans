@@ -92,7 +92,7 @@ class MotionsController < ApplicationController
       if @motion.concerned_user == User.current
         format.html { redirect_with_flash :error, 'Cannot create a motion concerning yourself', :action => 'index' }
         format.xml  { render :xml => @motion.errors, :status => :unprocessable_entity }
-      elsif !@motion.concerned_user
+      elsif !@motion.concerned_user && @motion.concerns_someone?
         format.html { redirect_with_flash :error, 'Who does this motion apply to? You need to select the user that this motion is concerned with.', :action => 'index' }
         format.xml  { render :xml => @motion.errors, :status => :unprocessable_entity }
       elsif @motion.save
