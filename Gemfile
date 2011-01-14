@@ -10,6 +10,8 @@ gem 'fleximage'
 gem 'reportable'
 gem 'comma', :require => "comma", :git => "https://github.com/crafterm/comma.git"
 gem 'fastercsv'
+gem "SystemTimer", :require => "system_timer", :platforms => :ruby_18
+gem "rack-timeout"
 
 group :test do
   gem 'test-unit', '1.2.3'
