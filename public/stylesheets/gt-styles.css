@@ -1218,6 +1218,7 @@ div.activity-tag {
 	color: #ddd;
 	float: right;
 	display: inline;
+	font-size:85%;
 }
 
 .new_request_button{
@@ -1574,7 +1575,8 @@ text-decoration:underline !important;
 }
 
 .action_button_estimate{
-	background: url(/images/bb_sky.png) no-repeat; 
+	background: url(/images/bb_orange.png) no-repeat; 
+/*	background: url(/images/bb_sky.png) no-repeat; */
 /*	background: url(/images/bb_blue.png) no-repeat; */
 }
 
@@ -1620,6 +1622,7 @@ text-decoration:underline !important;
 	vertical-align:middle;
 	cursor:pointer;
 	float: right;
+	font-size:85%;
 }
 
 .action_button_retro{

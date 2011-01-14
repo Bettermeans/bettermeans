@@ -1899,7 +1899,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	}
 	
 	if ((!user_estimated) && user_voted){
-		tally = dash_button('estimate',dataId,false); //no room to show tally if estimate button is included
+		tally = dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
 	}
 	
 	html = html + tally + dash_button('agree_root',dataId,false,{label:label,cssclass:cssclass});
