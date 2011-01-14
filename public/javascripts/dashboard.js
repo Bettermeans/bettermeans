@@ -541,7 +541,6 @@ function show_details_flyover(dataId,callingElement,delayshow){
 }
 
 function show_estimate_flyover(dataId,callingElement){
-
 	$('#flyover_estimate_' + dataId).remove();
 	generate_estimate_flyover(dataId);		
 		
@@ -874,7 +873,7 @@ function generate_estimate_button(points,credits, itemId, dataId, comment){
 		label = convert_points_to_complexity(points);
 	}
 	var html = '<div>';
-	var onclick = 'click_estimate(' + dataId + ',this,\'' + '&points=' + credits + '\',' + comment + ');return false;';
+	var onclick = 'click_estimate_from_flyover(' + dataId + ',this,\'' + '&points=' + credits + '\',' + comment + ');return false;';
 	
 	html = html + '<img src="/images/dice_' + Math.round(points) + '.png" width="18" height="18" alt="' + label + '" class="dice" onclick="' + onclick + '">';		
 	
@@ -1853,23 +1852,29 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	var label = 'agree?';
 	var cssclass = 'root';
 	var user_voted = false;
+	var user_estimated = false;
 	
 	
 	for(var i=0; i < item.issue_votes.length; i++){
+		//bugbug: hardcoded issue vote (4)
+		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 4)){
+			user_estimated = true;
+		}
+		
+		//bugbug: hardcoded issue vote (1)
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
 			user_voted = true;
 			tally = '';
-			if (!include_start_button || expanded){
-				tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button_tally" onclick="click_agree_root(' + dataId + ',this,\'false\');return false;">';
-				if (item.disagree > 5000){
-					html = '';//removing start button from blocked item
-					tally = tally + 'BLOCK';
-				}
-				else{
-					tally = tally + (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
-				}
-				tally = tally + '</div>';
+
+			tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button_tally" onclick="click_agree_root(' + dataId + ',this,\'false\');return false;">';
+			if (item.disagree > 5000){
+				html = '';//removing start button from blocked item
+				tally = tally + 'BLOCK';
 			}
+			else{
+				tally = tally + (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
+			}
+			tally = tally + '</div>';
 			
 			switch(String(item.issue_votes[i].points))
 			{
@@ -1891,12 +1896,13 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 		}
 	}	
 	
-	
-	if (include_start_button){
-		html = html + dash_button('start',dataId,true);
+	if (include_start_button && user_estimated && user_voted){
+		tally = dash_button('start',dataId,true); //no room to show tally if start button is included and user esetimated and voted
 	}
 	
-	if (!user_voted){html = '';};//removing start button if pereson hasn't voted yet
+	if ((!user_estimated) && user_voted){
+		tally = dash_button('estimate',dataId,false); //no room to show tally if estimate button is included
+	}
 	
 	html = html + tally + dash_button('agree_root',dataId,false,{label:label,cssclass:cssclass});
 	
@@ -2059,7 +2065,14 @@ function click_reject(dataId,source,data){
 	comment_prompt(dataId,source,data,'reject',true,"Please explain your rejection");
 }
 
+
+//This is the estimate button clicked from the dashboard
 function click_estimate(dataId,source,data,comment){
+	show_estimate_flyover(dataId,'diceicon_' + dataId);
+}
+
+//This is the actual die clicked from the estimate flyover
+function click_estimate_from_flyover(dataId,source,data,comment){
 	//Login required	
 	if (!is_user_logged_in()){return;}
 
