@@ -368,11 +368,11 @@ border:0 none;
 vertical-align:top;
 }
 
-.notice {
+.panel_notice {
 background-color: crimson;	
 }
 
-.notice .iterationHeader {
+.panel_notice .iterationHeader {
 background:none;
 color:white;
 cursor:default;
