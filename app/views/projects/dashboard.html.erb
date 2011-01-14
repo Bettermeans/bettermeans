@@ -222,13 +222,19 @@
 
 <div id="help_feature" style="display:none;">
   <div class="tip" style="width:300px">
+    <% if @project.credits_enabled? %>
     <strong>There are 6 types of requests:</strong><br><br>
-    A <strong>Feature</strong> is a request that provides verifiable value to the team's customer. Usually it is requested by the customer. The customer can be an internal customer to the enterprise.<br><br> 
-    A <strong>Chore</strong> is a request that does not provide verifiable value to the team's customer but is deemed necessary by the team in order to keep moving forward. Usually it is not requested by the customer, but internally by the team.<br><br>
-    A <strong>Bug</strong> is a request that describes a problem in some previously accepted request.<br><br>
-    A <strong>Gift</strong> is a request to give a single user a gift of a certain amount of credits. This is usually for a contribution that hasn't yet been recognized.<br>Gift items (and their author, description, votes, comments...etc.) are not visible by the gift recipient. When the gift is delivered, all they will be told is the value of the gift and the workstream it's a part of.<br><br> 
-    An <strong>Expense</strong> is used for actual expense items. They have a fixed value, and cannot be estimated or joined. Expenses are immediately reimbursed after they are accepted, and the don't show up in retrospectives.'<br>
-    A <strong>Recurring</strong> request occurs for repeating needs. Once a recurring request is finished, a new copy of the request is generated and added to the open pane. Recurring requests are included in retrospectives.'<br>
+    <% else %>
+    <strong>There are 4 types of requests:</strong><br><br>
+    <% end %>
+    A <strong>Feature</strong> provides verifiable value to the team's customer. Usually it is requested by the customer. The customer can be an internal customer to the enterprise.<br><br> 
+    A <strong>Chore</strong> is used internally by the team to track items that don't directly provide value to the team's customer.<br><br>
+    A <strong>Bug</strong> describes a problem in some previously accepted feature or chore.<br><br>
+    A <strong>Recurring</strong> request occurs for repeating needs. Once a recurring request is finished, a new copy of the request is generated and added to the open panel<br><br>
+    <% if @project.credits_enabled? %>
+    A <strong>Gift</strong> gives a single user a gift of a certain amount of credits.<br>Gift items are not visible by the gift recipient until it's approved.<br><br> 
+    An <strong>Expense</strong> as a fixed value, and cannot be estimated or joined. Expenses are immediately reimbursed after they are accepted, and they don't show up in retrospectives.'<br>
+    <% end %>
   </div>
 </div>
 
