@@ -223,17 +223,17 @@
 <div id="help_feature" style="display:none;">
   <div class="tip" style="width:300px">
     <% if @project.credits_enabled? %>
-    <strong>There are 6 types of requests:</strong><br><br>
+      <strong>There are 6 types of requests:</strong><br><br>
     <% else %>
-    <strong>There are 4 types of requests:</strong><br><br>
+      <strong>There are 4 types of requests:</strong><br><br>
     <% end %>
     A <strong>Feature</strong> provides verifiable value to the team's customer. Usually it is requested by the customer. The customer can be an internal customer to the enterprise.<br><br> 
     A <strong>Chore</strong> is used internally by the team to track items that don't directly provide value to the team's customer.<br><br>
     A <strong>Bug</strong> describes a problem in some previously accepted feature or chore.<br><br>
     A <strong>Recurring</strong> request occurs for repeating needs. Once a recurring request is finished, a new copy of the request is generated and added to the open panel<br><br>
     <% if @project.credits_enabled? %>
-    A <strong>Gift</strong> gives a single user a gift of a certain amount of credits.<br>Gift items are not visible by the gift recipient until it's approved.<br><br> 
-    An <strong>Expense</strong> as a fixed value, and cannot be estimated or joined. Expenses are immediately reimbursed after they are accepted, and they don't show up in retrospectives.'<br>
+      A <strong>Gift</strong> gives a single user a gift of a certain amount of credits.<br>Gift items are not visible by the gift recipient until it's approved.<br><br> 
+      An <strong>Expense</strong> as a fixed value, and cannot be estimated or joined. Expenses are immediately reimbursed after they are accepted, and they don't show up in retrospectives.'<br>
     <% end %>
   </div>
 </div>
