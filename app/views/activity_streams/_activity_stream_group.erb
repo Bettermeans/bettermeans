@@ -3,7 +3,7 @@
       <tbody>
       <% for as in asg.to_a.reverse %>
         <%= render :partial => 'activity_streams/activity_stream_sub', :locals => {:as => as} %> 
-      <% end %>
+      <% end unless asg.length == 1 && !asg[0].indirect_object_id %>
       </tbody>
     </table>
     <%  if User.current.logged? and (asg[0].object_type.downcase == "issue" || asg[0].object_type.downcase == "message") %>
