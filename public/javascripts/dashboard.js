@@ -2894,6 +2894,11 @@ function save_new_item(prioritize){
             "&issue[num_hours]=" + parseInt(num_hours,10);
     }
 
+	// for(var i=0; i<files.length; i++){
+	// 	data = data + "&attachments[" + i + "]=" + encodeURIComponent(files[i]);
+	// }
+
+
 	if ($('#new_story_type').val() == standard_trackers.Expense.id){
 		data = data + "&issue[points]=" + $('#new_expense_amount_new').val();
 	}
