@@ -271,6 +271,28 @@ class ApplicationController < ActionController::Base
     attached
   end
   
+  def attach_temp_files(obj, attachments)
+    attached = []
+    unsaved = []
+    logger.info { "attaching temp #{attachments.inspect}" }
+    if attachments && attachments.is_a?(Hash)
+      attachments.each_value do |attachment|
+        logger.info { "atatchment #{attachment}" }
+        file = Tempfile.open(attachment)
+        next unless file && file.size > 0
+        a = Attachment.create(:container => obj, 
+                              :file => file,
+                              :description => '',
+                              :author => User.current)
+        a.new_record? ? (unsaved << a) : (attached << a)
+      end
+      if unsaved.any?
+        flash.now[:error] = l(:warning_attachments_not_saved, unsaved.size)
+      end
+    end
+    attached
+  end
+  
   #replaces newline characters with more binary-compatible ones
   def cleanup_newline(text)
     return text unless text and !text.empty?
