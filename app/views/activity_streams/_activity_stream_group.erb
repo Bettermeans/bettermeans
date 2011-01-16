@@ -1,4 +1,4 @@
-<%= render :partial => 'activity_streams/activity_stream', :locals => {:as => asg[0]} %> 
+<%= render :partial => 'activity_streams/activity_stream', :locals => {:as => asg[0], :refresh_link => refresh_link} %> 
     <table class="gt-table gt-user-table activity-sub" id="comments_table_<%= asg[0].object_id %>">
       <tbody>
       <% for as in asg.to_a.reverse %>

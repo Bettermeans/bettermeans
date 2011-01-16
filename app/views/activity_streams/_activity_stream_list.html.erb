@@ -9,29 +9,23 @@
    <% 
     activities_by_item = ActivityStream.fetch(user_id,project_id, with_subprojects, limit, max_created_at)
     %>
+    <%link = link_to_remote "Refresh", {
+                                :url => {:controller => :activity_streams, 
+                                        :action => :index,
+                                        :user_id => user_id,
+                                        :project_id => project_id,
+                                        :with_subprojects => with_subprojects,
+                                        :limit => limit,
+                                        :max_created_at => nil,
+                                        :refresh => true
+                                        },
+                                :method => :get, :class => "right"
+                                } unless (defined? show_refresh) && !show_refresh %>
 <span id="activity_stream_list">    
  <table border="0" class="gt-table gt-user-table gt-activity-table">
     <tbody>
-      <% unless (defined? show_refresh) && !show_refresh %>
-      <tr>
-        <td colspan="2" style="text-align:right">
-          <%= link_to_remote "Refresh", {
-                                      :url => {:controller => :activity_streams, 
-                                              :action => :index,
-                                              :user_id => user_id,
-                                              :project_id => project_id,
-                                              :with_subprojects => with_subprojects,
-                                              :limit => limit,
-                                              :max_created_at => nil,
-                                              :refresh => true
-                                              },
-                                      :method => :get, :class => "right"
-                                      } unless (defined? show_refresh) && !show_refresh %>
-        </td>
-      </tr>
-      <% end %>
-      <% activities_by_item.each do |key, value| %>
-      <%= render :partial => 'activity_streams/activity_stream_group', :locals => {:asg_name => key, :asg => value} %> 
+      <% activities_by_item.each_with_index do |asg, count| %>
+        <%= render :partial => 'activity_streams/activity_stream_group', :locals => {:asg => asg[1], :refresh_link => (count == 0 ? link : nil)} %> 
       <% end %>
     </tbody>
   </table>

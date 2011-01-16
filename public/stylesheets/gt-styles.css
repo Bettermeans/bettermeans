@@ -1777,6 +1777,18 @@ text-decoration:underline !important;
 /*	background-color: none!important;*/
 }
 
+.gt-activity-table td {
+	border-top:none;
+}
+
+.gt-activity-table td.refresh {
+	padding-top:1px;
+	padding-right:1px;
+	padding-bottom:0px;
+	text-align:right;
+}
+
+
 .activity-sub tr:hover td {
 	background-color: #f4f7f8;
 /*	background-color: none!important;*/
@@ -1787,6 +1799,10 @@ text-decoration:underline !important;
 	padding-top:3px;
 	padding-right:5px;
 	padding-bottom:3px;
+}
+
+.gt-activity-detail td.main{
+	padding-bottom:20px;
 }
 
 .gt-activity-detail td.gt-avatar{
