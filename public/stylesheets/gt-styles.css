@@ -306,6 +306,34 @@ body {
 	padding: 15px;
 }
 
+.no-border td {
+	border-top: 0px;
+}
+
+.project-table td {
+    border-top-style: none;
+    border-top-width: 0px;
+    padding-bottom: 2px;
+    padding-left: 15px;
+    padding-right: 10px;
+    padding-top: 3px;
+}
+
+.project-browse-table td {
+    border-top-style: none;
+    border-top-width: 0px;
+    padding-bottom: 20px;
+    padding-left: 15px;
+    padding-right: 10px;
+    padding-top: 15px;
+}
+
+.project-table {
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+
 /*Custom indentation*/
 .gt-content-box h3 {
 	margin: 10px;
@@ -440,7 +468,6 @@ body {
 }
 .gt-user-table p {
 	margin-bottom: inherit;
-
 }
 
 
@@ -1764,6 +1791,7 @@ padding-bottom: 3px;
 .icon-package { background-image: url(/images/package.png); }
 .icon-home { background-image: url(/images/home.png); }
 .icon-user { background-image: url(/images/user.png); }
+.icon-users { background-image: url(/images/group.png); }
 .icon-projects { background-image: url(/images/projects.png); }
 .icon-help { background-image: url(/images/help.png); }
 .icon-attachment  { background-image: url(/images/attachment.png); }
