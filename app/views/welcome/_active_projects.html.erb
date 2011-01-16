@@ -1,4 +1,4 @@
-<div class="gt-content-box">
+<div class="gt-content-box active-projects">
   <h3><%= l(:label_projects_recent) %> <%= link_to l(:label_view_all), {:controller => "my", :action => "projects"}, :class => "floating-h-link" %></h3>
   <table class="gt-table gt-user-table project-table" id="my_projects_table">
       <%   project_tree_sorted(active_projects) do |p, level|

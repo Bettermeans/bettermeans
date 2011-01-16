@@ -324,9 +324,9 @@ body {
     padding-top: 3px;
 }
 
-#my_projects_table{
-	padding-top:0px!important;
-	margin-top:0px!important;
+.active-projects h3 {
+	padding-bottom:0px!important;
+	margin-bottom:0px!important;
 }
 
 .issues {
