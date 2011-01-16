@@ -1,23 +1,20 @@
+<div class="gt-content-box">
 <% if issues && issues.any? %>
 <% form_tag({}) do %>
 	<table class="gt-table issues">		
-    <!-- <thead><tr> -->
-    <!-- <th>#</th> -->
-    <!-- <th><%#=l(:field_project)%></th> -->
-    <!-- <th><%#=l(:field_tracker)%></th> -->
-    <!-- <th><%#=l(:field_subject)%></th> -->
-    <!-- </tr></thead> -->
 		<tbody>	
 		<% for issue in issues %>
 		<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
 			<td class="id">
-			  <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
-				<%= link_to "#{h(issue.tracker)} ##{issue.id}", {:controller => 'issues', :action => 'show', :id => issue}, {:class => "fancyframe"} %><br>
-        <%= link_to(h(issue.project), :controller => 'projects', :action => 'show', :id => issue.project) %>
+			  <%#= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
+				<%= link_to(h(issue.project), :controller => 'projects', :action => 'show', :id => issue.project) %>
+			</td>
+  		<td class="icon icon-<%= issue.tracker.to_s.downcase %> id">
+        <%= link_to "#{h(issue.tracker)} ##{issue.id}", {:controller => 'issues', :action => 'show', :id => issue}, {:class => "fancyframe"} %>
 			</td>
       <!-- <td class="project"></td> -->
 			<td class="subject">
-        <%= link_to h(truncate(issue.subject, :length => 60)),  {:controller => 'issues', :action => 'show', :id => issue}, :class => "fancyframe" %>
+        <%= link_to h(truncate(issue.subject, :length => 120)),  {:controller => 'issues', :action => 'show', :id => issue}, :class => "fancyframe" %>
       </td>
 		</tr>
 		<% end %>
@@ -27,3 +24,4 @@
 <% else %>
 	<p class="nodata"><%= l(:label_no_data) %></p>
 <% end %>
+</div>

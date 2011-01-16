@@ -8,7 +8,7 @@
 </div>
 <% end %>
 
-<% if (@news.nil? || @news.length == 0) && @assigned_issues.length == 0 %>
+<% if (@news.nil? || @news.length == 0)%>
 <div>
   <% if @my_projects.length == 0 %>
   <h2 class="gt-table-head">&nbsp;</h2>
@@ -38,17 +38,8 @@
     <% end %>
 </div>
 
-<% unless (@news.nil? || @news.length == 0) && @assigned_issues.length == 0  && @watched_issues.length == 0 && @joined_issues.length == 0 %>
+<% unless (@news.nil? || @news.length == 0)%>
 <div class="splitcontentright">
-  <%#= render :partial => "my/blocks/issuesassignedtome", :locals => {:assigned_issues => @assigned_issues } %>
-  <%#= render :partial => "my/blocks/issueswatched", :locals => {:user => User.current}%>
-  <% unless  @assigned_issues.length == 0  && @watched_issues.length == 0 && @joined_issues.length == 0  %>
-  <h2 class="gt-table-head"><%=l(:label_my_issues)%></h2>
-  <div class="gt-content-box">
-    <%= render_tabs my_issues_tabs %>
-  </div>
-  <% end %>
-
   <%= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
 </div>	
 <% end %>
