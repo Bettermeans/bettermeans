@@ -9,7 +9,7 @@
    <% 
     activities_by_item = ActivityStream.fetch(user_id,project_id, with_subprojects, limit, max_created_at)
     %>
-    <%link = link_to_remote "Refresh", {
+    <%link = link_to_remote "refresh", {
                                 :url => {:controller => :activity_streams, 
                                         :action => :index,
                                         :user_id => user_id,
