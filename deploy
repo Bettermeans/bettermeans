@@ -1,10 +1,13 @@
 echo pushing to heroku...
 git push heroku
-heroku pgbackups
-echo migrating db...
-heroku rake db:migrate
+
 echo pushing to github...
 git push github
+
+echo migrating db...
+heroku rake db:migrate
+
 echo backing up db after new code...
+heroku pgbackups
 heroku rake backup
 
