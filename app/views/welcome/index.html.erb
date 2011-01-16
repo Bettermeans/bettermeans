@@ -2,13 +2,14 @@
   <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :mypage} %>
 <% end %>
 
+<%= help_section("welcome_index",true) %>
+
 <% if Notification.unresponded? %>
 <div class="flash notice">
   <%=link_to l(:label_waiting_for_you, :notifications => pluralize(Notification.unresponded_count,l(:label_new_notification))) , {:controller => 'notifications', :action => 'index'} %>
 </div>
 <% end %>
 
-<% if (@news.nil? || @news.length == 0)%>
 <div>
   <% if @my_projects.length == 0 %>
   <h2 class="gt-table-head">&nbsp;</h2>
@@ -20,11 +21,7 @@
        	 <h3><%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}%></h3>
    	  </p>
   </div>    
-  <% end %>
-<% else %>
-<div class="splitcontentleft">
-<% end %>
-    <% unless (@my_projects.length) == 0 %>
+  <% else %>
     <h2 class="gt-table-head"><%=l(:label_activities_i_belong_to)%><%= help_bubble :help_activities_i_belong_to %></h2>
     <div class="activity gt-content-box">
       <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
@@ -38,13 +35,6 @@
     <% end %>
 </div>
 
-<% unless (@news.nil? || @news.length == 0)%>
-<div class="splitcontentright">
-  <%= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
-</div>	
-<% end %>
-
-<%= help_section("welcome_index",true) %>
 
 <% content_for :sidebar do %>
 <h2 class="gt-table-head">&nbsp;</h2>
@@ -65,6 +55,12 @@
   </li>
   </ul>
 </div>
+
+<% unless (@news.nil? || @news.length == 0)%>
+<div class="splitcontentright">
+  <%= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
+</div>	
+<% end %>
 
 <%= render :partial => 'active_projects', :locals => {:active_projects => @my_projects} if @my_projects.length > 0 %>
 
