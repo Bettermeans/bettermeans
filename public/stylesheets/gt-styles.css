@@ -2454,7 +2454,8 @@ form input[type="text"].verification-code {
 	text-align: center;
 	width: 100%;
 	font-size: 120%;
-	padding: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 img.private-workstream, img.volunteer-workstream{
