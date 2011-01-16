@@ -16,7 +16,7 @@
   <% if @subprojects.any? %>
   <h2 class="gt-table-head"><%=l(:label_subproject_plural)%></h2>
 	<div class="gt-content-box">    
-    <table border="0" class="gt-table gt-user-table">
+    <table border="0" class="gt-table gt-user-table project-table">
         <%= render :partial => 'subprojects', :locals => {:subprojects => @subprojects, :level => 0} %>
     </table>
   </div>
@@ -52,7 +52,7 @@
 </div>
 
 <div class="gt-left-col">
-  <h2 class="gt-table-head"><%=l(:label_activity_latest)%><div class="spark right spark-top" max="<%= @project.activity_line_max %>"><%= @project.activity_line_show(30) %></div></h2>  
+  <h2 class="gt-table-head"><%=l(:label_activity_latest)%></h2>  
   <div class="activity gt-content-box">
     <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
       :user_id => params[:user_id],
@@ -69,7 +69,7 @@
 </div>
 
 <% content_for :sidebar do %>
-
+<h2 class="gt-table-head">&nbsp;</h2>
 <%= project_image @project %>
 
 <% @show_header = true %>
