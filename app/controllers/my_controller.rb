@@ -42,6 +42,26 @@ class MyController < ApplicationController
     @belong_to_projects = User.current.belongs_to_projects
     @active_projects = User.current.active_memberships.collect(&:project)
   end
+  
+  def issues
+    @assigned_issues = Issue.visible.open.find(:all, 
+                                    :conditions => {:assigned_to_id => User.current.id},
+                                    # :limit => 10, 
+                                    :include => [:project, :tracker ], 
+                                    :order => "#{Issue.table_name}.subject ASC")
+                                    
+    @watched_issues = Issue.visible.find(:all, 
+                                     :include => [:project, :tracker, :watchers],
+                                     # :limit => 10, 
+                                     :conditions => ["#{Watcher.table_name}.user_id = ?", User.current.id],
+                                     :order => "#{Issue.table_name}.subject ASC")
+
+     @joined_issues = Issue.visible.find(:all, 
+                                      :include => [:project, :tracker, :issue_votes],
+                                      # :limit => 10, 
+                                      :conditions => ["#{IssueVote.table_name}.user_id = ? AND #{IssueVote.table_name}.vote_type = ? AND #{Issue.table_name}.assigned_to_id != ? AND #{Issue.table_name}.status_id = ?", User.current.id, IssueVote::JOIN_VOTE_TYPE, User.current.id, IssueStatus.assigned.id],
+                                      :order => "#{Issue.table_name}.subject ASC")
+  end
 
   # Edit user's account
   def account

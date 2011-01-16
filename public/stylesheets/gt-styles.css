@@ -324,6 +324,26 @@ body {
     padding-top: 3px;
 }
 
+#my_projects_table{
+	padding-top:0px!important;
+	margin-top:0px!important;
+}
+
+.issues {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	
+}
+
+.issues td {
+    border-top-style: none;
+    border-top-width: 0px;
+}
+
+.issues td.id {
+	padding-left:20px;
+}
+
 .project-browse-table td {
     border-top-style: none;
     border-top-width: 0px;
@@ -1853,6 +1873,13 @@ padding-bottom: 3px;
 .icon-file.application-pdf { background-image: url(/images/files/pdf.png); }
 .icon-file.application-zip { background-image: url(/images/files/zip.png); }
 .icon-file.application-x-gzip { background-image: url(/images/files/zip.png); }
+
+.icon-feature{ background-image: url(/images/feature_icon.png); }
+.icon-bug{ background-image: url(/images/bug_icon.png); }
+.icon-chore{ background-image: url(/images/chore_icone.png); }
+.icon-recurring{ background-image: url(/images/recurring_icon.png); }
+.icon-gift{ background-image: url(/images/gift_icon.png); }
+.icon-expense{ background-image: url(/images/expense_icon.png); }
 
 
 /***** Ajax indicator ******/
