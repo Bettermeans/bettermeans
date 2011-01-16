@@ -310,6 +310,11 @@ body {
 	border-top: 0px;
 }
 
+.project-table {
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
 .project-table td {
     border-top-style: none;
     border-top-width: 0px;
@@ -328,9 +333,21 @@ body {
     padding-top: 15px;
 }
 
-.project-table {
+
+.project-browse-table h4 {
+	font-size: 135%;
+	color: #365b6d;
 	margin-bottom: 10px;
-	margin-top: 10px;
+	display:inline;
+}
+
+.project-browse-table .spark-container{
+	text-align:center;
+	padding-top:5px;
+}
+
+h5 .icon{
+	padding-bottom: 0px;
 }
 
 
