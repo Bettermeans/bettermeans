@@ -22,7 +22,7 @@
    	  </p>
   </div>    
   <% else %>
-    <h2 class="gt-table-head"><%=l(:label_activities_i_belong_to)%><%= help_bubble :help_activities_i_belong_to %></h2>
+    <!-- <h2 class="gt-table-head"><%#=l(:label_activities_i_belong_to)%><%#= help_bubble :help_activities_i_belong_to %></h2> -->
     <div class="activity gt-content-box">
       <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
         :user_id => User.current.id,
@@ -37,7 +37,7 @@
 
 
 <% content_for :sidebar do %>
-<h2 class="gt-table-head">&nbsp;</h2>
+<!-- <h2 class="gt-table-head">&nbsp;</h2> -->
 <div class="gt-sidebar-nav gt-sidebar-nav-blue">
   <h3>Quick Links</h3>
   <ul>
@@ -56,11 +56,9 @@
   </ul>
 </div>
 
-<% unless (@news.nil? || @news.length == 0)%>
-<div class="splitcontentright">
-  <%= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
-</div>	
-<% end %>
+<!-- <div class="splitcontentright">
+  <%#= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
+</div>   -->
 
 <%= render :partial => 'active_projects', :locals => {:active_projects => @my_projects} if @my_projects.length > 0 %>
 
