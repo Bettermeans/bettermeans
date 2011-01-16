@@ -44,7 +44,6 @@ GEM
     mime-types (1.16)
     mocha (0.9.10)
       rake
-    mysql2 (0.2.6)
     nokogiri (1.4.4)
     object_daddy (0.4.3)
     pg (0.10.0)
@@ -102,7 +101,6 @@ DEPENDENCIES
   fastercsv
   fleximage
   mocha
-  mysql2
   object_daddy
   pg
   pickle
