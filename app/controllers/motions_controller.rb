@@ -22,12 +22,10 @@ class MotionsController < ApplicationController
   # GET /motions/1
   # GET /motions/1.xml
   def show
-    logger.info { "showing motion" }
     if @motion.concerned_user_id == User.current.id
       render_404
       return false
     end
-    logger.info { "user ok" }
     
     @topic = @motion.topic
     @board = @topic.board
@@ -157,6 +155,7 @@ class MotionsController < ApplicationController
   
   def find_motion
     @motion = Motion.find(params[:id])
+    @project = @motion.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
