@@ -4,7 +4,6 @@
 
 
 <%= help_section("my_account") %>
-<h2><%=l(:label_my_account)%></h2>
 <%= error_messages_for 'user' %>
 
 <% form_for :user, @user, :url => { :action => "account" }, 
@@ -92,7 +91,6 @@
 <% end %>
 
 <% content_for :sidebar do %>
-<h2>&nbsp;</h2>
 <h3>&nbsp;</h3>
 <%= render :partial => 'sidebar' %>
 <% end %>

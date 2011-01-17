@@ -1,7 +1,11 @@
 <div class="project-summary">
-<h4><%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %><span class="spark right" max="<%= project.activity_line_max %>"><%= project.activity_line_show(30) %></span>
+<h4><%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %>
+  <h5 class="right"><span class="icon icon-users"><%= project.all_members.count %></span>&nbsp;&nbsp;<span class="icon icon-time"><%= since_tag(project.created_at) %> ago</span> </h5>
 </h4>
-<h5><%= project.all_members.count %> members. created <%= since_tag(project.created_at) %> ago </h5>
-<p><%= make_expandable((textilizable project.short_description, :project => project),250) %></p>
+<p><%= make_expandable((textilizable project.description, :project => project),250) %></p>
+<div class="spark-container">
+<span class="spark" max="<%= project.activity_line_max %>"><%= project.activity_line_show(60) %></span>
+</div>
+
 <!-- <p class="gt-table-edit"><a href="">Edit</a></p> -->
 </div>

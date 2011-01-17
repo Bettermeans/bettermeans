@@ -306,6 +306,71 @@ body {
 	padding: 15px;
 }
 
+.no-border td {
+	border-top: 0px;
+}
+
+.project-table {
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.project-table td {
+    border-top-style: none;
+    border-top-width: 0px;
+    padding-bottom: 2px;
+    padding-left: 15px;
+    padding-right: 10px;
+    padding-top: 3px;
+}
+
+#my_projects_table{
+	padding-top:0px!important;
+	margin-top:0px!important;
+}
+
+.issues {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	
+}
+
+.issues td {
+    border-top-style: none;
+    border-top-width: 0px;
+}
+
+.issues td.id {
+	padding-left:20px;
+}
+
+.project-browse-table td {
+    border-top-style: none;
+    border-top-width: 0px;
+    padding-bottom: 20px;
+    padding-left: 15px;
+    padding-right: 10px;
+    padding-top: 15px;
+}
+
+
+.project-browse-table h4 {
+	font-size: 135%;
+	color: #365b6d;
+	margin-bottom: 10px;
+	display:inline;
+}
+
+.project-browse-table .spark-container{
+	text-align:center;
+	padding-top:5px;
+}
+
+h5 .icon{
+	padding-bottom: 0px;
+}
+
+
 /*Custom indentation*/
 .gt-content-box h3 {
 	margin: 10px;
@@ -440,7 +505,6 @@ body {
 }
 .gt-user-table p {
 	margin-bottom: inherit;
-
 }
 
 
@@ -1713,6 +1777,18 @@ text-decoration:underline !important;
 /*	background-color: none!important;*/
 }
 
+.gt-activity-table td {
+	border-top:none;
+}
+
+.gt-activity-table td.refresh {
+	padding-top:1px;
+	padding-right:1px;
+	padding-bottom:0px;
+	text-align:right;
+}
+
+
 .activity-sub tr:hover td {
 	background-color: #f4f7f8;
 /*	background-color: none!important;*/
@@ -1725,10 +1801,15 @@ text-decoration:underline !important;
 	padding-bottom:3px;
 }
 
+.gt-activity-detail td.main{
+	padding-bottom:20px;
+}
+
 .gt-activity-detail td.gt-avatar{
 	border-top:none;
 	padding-top:6px;
 	padding-right:0px;
+	padding-bottom:6px;
 }
 
 
@@ -1763,6 +1844,7 @@ padding-bottom: 3px;
 .icon-package { background-image: url(/images/package.png); }
 .icon-home { background-image: url(/images/home.png); }
 .icon-user { background-image: url(/images/user.png); }
+.icon-users { background-image: url(/images/group.png); }
 .icon-projects { background-image: url(/images/projects.png); }
 .icon-help { background-image: url(/images/help.png); }
 .icon-attachment  { background-image: url(/images/attachment.png); }
@@ -1807,6 +1889,13 @@ padding-bottom: 3px;
 .icon-file.application-pdf { background-image: url(/images/files/pdf.png); }
 .icon-file.application-zip { background-image: url(/images/files/zip.png); }
 .icon-file.application-x-gzip { background-image: url(/images/files/zip.png); }
+
+.icon-feature{ background-image: url(/images/feature_icon.png); }
+.icon-bug{ background-image: url(/images/bug_icon.png); }
+.icon-chore{ background-image: url(/images/chore_icon.png); }
+.icon-recurring{ background-image: url(/images/recurring_icon.png); }
+.icon-gift{ background-image: url(/images/gift_icon.png); }
+.icon-expense{ background-image: url(/images/expense_icon.png); }
 
 
 /***** Ajax indicator ******/
@@ -2365,7 +2454,8 @@ form input[type="text"].verification-code {
 	text-align: center;
 	width: 100%;
 	font-size: 120%;
-	padding: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 img.private-workstream, img.volunteer-workstream{

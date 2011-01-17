@@ -7,6 +7,30 @@ module MyHelper
     amount == -1 ? 'unlimited' : amount
   end
   
+  def my_issues_tabs
+    tabs = [
+            {:name => 'assigned', 
+             :partial => 'issues/list_very_simple', 
+             :label => :label_assigned_to_me_issues, 
+             :label_ending => " (#{@assigned_issues.length})",
+             :locals => {:issues => @assigned_issues}
+            },
+            {:name => 'joined', 
+             :partial => 'issues/list_very_simple', 
+             :label => :label_joined_issues, 
+             :label_ending => " (#{@joined_issues.length})",
+             :locals => {:issues => @joined_issues}
+            },
+            {:name => 'watched', 
+             :partial => 'issues/list_very_simple', 
+             :label => :label_watched_issues, 
+             :label_ending => " (#{@watched_issues.length})",
+             :locals => {:issues => @watched_issues}
+            }
+          ]
+  end
+  
+  
   def my_projects_tabs
     tabs = [
             {:name => 'all', 

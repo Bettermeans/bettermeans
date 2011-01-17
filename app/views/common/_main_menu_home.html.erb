@@ -5,6 +5,11 @@
 </ul>
 <ul>
   <li>
+    <%= link_to l(:label_my_issues), {:controller => "my", :action => "issues"}, :class => (active_page == :myissues ? 'gt-active' : '') %>
+  </li>
+</ul>
+<ul>
+  <li>
     <%= link_to l(:label_my_projects), {:controller => "my", :action => "projects"}, :class => (active_page == :myprojects ? 'gt-active' : '') %>
   </li>
 </ul>
