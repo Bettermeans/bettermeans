@@ -94,7 +94,7 @@
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>
 <p><%= toggle_link l(:button_comment), "reply", {:focus => 'message_content', :class => 'gt-btn-gray-large'} %></p>
 <div id="reply" style="display:none;">
-<% form_for :reply, @reply, :url => {:action => 'reply', :id => @motion}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
+<% form_for :reply, @reply, :url => {:action => 'reply', :id => @motion, :project_id => @project}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'messages/form', :locals => {:f => f, :replying => true} %>
   <div class="gt-table-buttons">
   <%= submit_tag l(:button_submit), :disable_with => l(:button_working) %>
