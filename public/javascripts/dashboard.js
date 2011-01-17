@@ -618,6 +618,10 @@ function is_visible(item){
 	return true;
 }
 
+function is_startable(item){
+	return ((item.pri > (highest_pri - startable_priority_tiers))||(item.pri == 0));
+}
+
 function add_item(dataId,position,scroll,panelid){
 	
 	if (!is_visible(D[dataId])) {return;}
@@ -1561,12 +1565,13 @@ function has_current_user_estimated(item){
 function generate_item_estimate_button(dataId,points){
 	var item = D[dataId];
 	var html = '';
+	var onclick = "";
 	
 	if (is_item_estimatable(item)){
-		var onclick = "show_estimate_flyover("+ dataId +",this.id);return false;";
+		onclick = "show_estimate_flyover("+ dataId +",this.id);return false;";
 	}
 	else{
-		var onclick = "show_points_flyover("+ dataId +",this.id);return false;";
+		onclick = "show_points_flyover("+ dataId +",this.id);return false;";
 	}
 	
 	var current_user_voted = has_current_user_estimated(item);
@@ -2854,7 +2859,7 @@ function collapse_item(dataId,check_for_save){
 	if(check_for_save){
 		if (($('#edit_title_input_' + dataId).val() != D[dataId].subject) || ($('#edit_description_' + dataId).val() != D[dataId].description)){
 			save_edit_item(dataId);
-			return;
+			return false;
 		}
 	}
 	
@@ -3052,6 +3057,16 @@ function item_actioned(item, dataId, action){
 		adjust_button_container_widths();
 		save_local_data();
 		update_panel_counts();
+	}
+	
+	//show/hide startable button if item is open
+	if (item.status.name == "Open"){
+		if (is_startable(item) == true){
+			$("#item_content_buttons_start_button_" + dataId).show();
+		}
+		else{
+			$("#item_content_buttons_start_button_" + dataId).hide();
+		}
 	}
 	
 	return false;
