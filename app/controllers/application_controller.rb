@@ -229,6 +229,11 @@ class ApplicationController < ActionController::Base
     render :text => '', :layout => !request.xhr?, :status => 500
   end
   
+  def render_message(msg)
+    flash.now[:notice] = msg
+    render :text => '', :layout => !request.xhr?
+  end
+  
   def invalid_authenticity_token
     render_error "Invalid form authenticity token."
   end

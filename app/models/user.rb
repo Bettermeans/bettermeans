@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   STATUS_ACTIVE     = 1
   STATUS_REGISTERED = 2
   STATUS_LOCKED     = 3
+  STATUS_CANCELED   = 4
   
   USER_FORMATS = {
     :firstname_lastname => '#{firstname} #{lastname}',
@@ -310,6 +311,14 @@ class User < ActiveRecord::Base
 
   def registered?
     self.status == STATUS_REGISTERED
+  end
+  
+  def lock
+    self.update_attribute(:status, STATUS_LOCKED)
+  end
+
+  def cancel
+    self.update_attribute(:status, STATUS_CANCELED)
   end
     
   def locked?

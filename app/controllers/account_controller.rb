@@ -7,7 +7,7 @@ class AccountController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => [:rpx_token, :register] # RPX does not pass Rails form tokens...
 
   # prevents login action to be filtered by check_if_login_required application scope filter
-  skip_before_filter :check_if_login_required
+  skip_before_filter :check_if_login_required, :except => [:cancel]
   ssl_required :all
 
   # Login request and validation
@@ -25,7 +25,7 @@ class AccountController < ApplicationController
     else
       session[:invitation_token] = params[:invitation_token] || session[:invitation_token]
       @invitation_token = session[:invitation_token]
-      logger.info { "1 authenticating and accepting invitation #{session[:invitation_token]}" }
+      # logger.info { "1 authenticating and accepting invitation #{session[:invitation_token]}" }
       # Authenticate user
       if Setting.openid? && using_open_id?
         open_id_authenticate(params[:openid_url])
@@ -219,6 +219,11 @@ class AccountController < ApplicationController
       render :action => 'login', :layout => 'static'
     end
     
+  end
+  
+  def cancel
+    User.current.cancel
+    render_message(l(:notice_account_canceled))
   end
   
   private
