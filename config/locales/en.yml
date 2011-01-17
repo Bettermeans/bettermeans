@@ -123,6 +123,7 @@ en:
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '7'
   
+  notice_account_canceled: Your account is now canceled. Thanks for trying us out.<br><br>We would love your feedback on how we can do better.<br><br><a href="mailto:feedback@bettermeans.com">feedback@bettermeans.com</a>
   notice_account_inactive_user: Account has not yet been activated. Please check your email for activation link
   notice_account_updated: Account was successfully updated.
   notice_account_invalid_creditentials: Invalid user or password
@@ -975,6 +976,8 @@ en:
   
   label_all_activity: "Browse all activity"
   
+  label_cancel_account: "Cancel my account"
+  
   field_b_first_name: "First name"
   field_b_last_name: "Last name"
   field_b_address1: "Street Address"
@@ -1098,6 +1101,7 @@ en:
   text_invite_others_to_contribute: "Invite anyone to contribute to"
   text_invite_others_to_contribute_personal: "OR - Send personalized, individual invitations"
   text_confirm_delete_project: "Are you sure you want to delete this workstream? This action cannot be undone!"
+  text_confirm_cancel_account: "Are you sure you want to cancel your account? This action cannot be undone!"
   text_confirm_archive_project: "Are you sure you want to archive this workstream? Nobody will be able to see it anymore. You can unarchive it in the future."
   text_confirm_unarchive_project: "Are you sure you want to unarchive this workstream?"
   text_included_note: note
