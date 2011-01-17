@@ -1,6 +1,6 @@
 <%= help_section("project_activity") %>
 
-<h2 class="gt-table-head"><%= @author.nil? ? l(:label_activity) : l(:label_user_activity, link_to_user(@author)) %></h2>
+<h2 class="gt-table-head"><%= @author.nil? ? l(:label_activity) : l(:label_user_activity, link_to_user(@author)) %><div class="spark right spark-top" max="<%= @project.activity_line_max %>"><%= @project.activity_line_show(60) %></div></h2>
 <!-- <p class="subtitle"><%#= l(:label_date_from_to, :start => format_date(@date_to - @days), :end => format_date(@date_to-1)) %></p>
 <br> -->
 <div class="gt-content-box">
@@ -41,3 +41,9 @@
 -->
 <% end %> 
 <% html_title(l(:label_activity), @author) -%>
+
+<script>
+  $('document').ready(function(){
+    display_sparks();
+  });
+</script>

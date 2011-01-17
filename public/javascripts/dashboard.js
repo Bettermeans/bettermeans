@@ -181,7 +181,7 @@ function load_dashboard_data(){
 		load_dashboard_data_for_statuses('4','inprogress');
 		load_dashboard_data_for_statuses('8,14,13','done');
 		load_dashboard_data_for_statuses('9','canceled'); 
-		load_dashboard_data_for_statuses('12','archived'); 
+		// load_dashboard_data_for_statuses('12','archived'); 
 	}
 	
 	ok_to_save_local_data = true;
@@ -449,7 +449,7 @@ function display_panels(){
 	insert_panel(0,'inprogress','In Progress',true);
 	insert_panel(0,'done','Done',true);
 	insert_panel(0,'canceled','Canceled',false);
-	insert_panel(0,'archived','Archived',false);
+	// insert_panel(0,'archived','Archived',false);
 }
 
 function wipe_panels(){
@@ -650,9 +650,9 @@ function add_item(dataId,position,scroll,panelid){
 		panelid = 'canceled';
 		break;
 		case 'Archived':
-		panelid = 'archived';
+		panelid = 'canceled';
 		break;
-		default : panelid = 'archived';
+		default : panelid = 'canceled';
 		}
 	}
 	
@@ -2695,7 +2695,7 @@ function update_panel_counts(){
 	update_panel_count('inprogress');
 	update_panel_count('done');
 	update_panel_count('canceled');
-	update_panel_count('archived');
+	// update_panel_count('archived');
 	
 	adjust_button_container_widths();
 	

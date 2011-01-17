@@ -1,9 +1,9 @@
-<%= render :partial => 'activity_streams/activity_stream', :locals => {:as => asg[0]} %> 
+<%= render :partial => 'activity_streams/activity_stream', :locals => {:as => asg[0], :refresh_link => refresh_link} %> 
     <table class="gt-table gt-user-table activity-sub" id="comments_table_<%= asg[0].object_id %>">
       <tbody>
       <% for as in asg.to_a.reverse %>
         <%= render :partial => 'activity_streams/activity_stream_sub', :locals => {:as => as} %> 
-      <% end %>
+      <% end unless asg.length == 1 && !asg[0].indirect_object_id %>
       </tbody>
     </table>
     <%  if User.current.logged? and (asg[0].object_type.downcase == "issue" || asg[0].object_type.downcase == "message") %>

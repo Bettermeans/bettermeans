@@ -1,8 +1,8 @@
 <div class="gt-content-box">
   <h3><%= l(:label_projects_recent) %> <%= link_to l(:label_view_all), {:controller => "my", :action => "projects"}, :class => "floating-h-link" %></h3>
-  <table border="0" class="gt-table gt-user-table" id="my_projects_table">
+  <table class="gt-table gt-user-table project-table" id="my_projects_table">
       <%   project_tree_sorted(active_projects) do |p, level|
-          name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
+          name_prefix = (level > 0 ? ('&nbsp;' * 4 * level + '&#187; ') : '')
        %>
       <tr><td>
       <%=name_prefix + link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
