@@ -563,6 +563,10 @@ function show_points_flyover(dataId,callingElement){
 	});	
 }
 
+function hide_bubbletips(){
+	$('.bubbletip').hide();
+}
+
 
 function show_pri_flyover(dataId,callingElement){
 
@@ -2052,7 +2056,8 @@ function pri_button(dataId){
 
 function generate_pri_button(dataId,direction,pri){
 	// var html = '<div id="pri_container_' + D[dataId].id + '" class="pri_container">';
-	var html = '<div id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button pri_button_' + direction + '" onclick="show_pri_flyover(' + dataId + ',this.id);return false;">' + pri + '</div>';	
+	var ondblclick =  'hide_bubbletips();click_pri(' + dataId + ',this,1);hide_bubbletips();return false;';
+	var html = '<div id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button pri_button_' + direction + '" onclick="show_pri_flyover(' + dataId + ',this.id);return false;" onDblclick = ' + ondblclick + '>' + pri + '</div>';	
 	// html = html + '</div>';
 	return html;
 }
@@ -2246,8 +2251,8 @@ function click_join(dataId,source,data){
 function click_pri(dataId,source,points){
 	//Login required	
 	if (!is_user_logged_in()){return;}
-
-	// $('#pri_container_' + D[dataId].id).hide();
+	$(".bubbletip").hide();
+	$('#pri_container_' + D[dataId].id).hide();
 	send_item_action(dataId,'prioritize','&points=' + points);
 }
 
