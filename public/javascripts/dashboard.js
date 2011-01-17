@@ -623,7 +623,12 @@ function is_visible(item){
 }
 
 function is_startable(item){
-	return ((item.pri > (highest_pri - startable_priority_tiers))||(item.pri == 0));
+	if (item.status.name == "Open"){
+		return ((item.pri > (highest_pri - startable_priority_tiers))||(item.pri == 0));
+	}
+	else{
+		return false;
+	}
 }
 
 function add_item(dataId,position,scroll,panelid){
@@ -3065,13 +3070,11 @@ function item_actioned(item, dataId, action){
 	}
 	
 	//show/hide startable button if item is open
-	if (item.status.name == "Open"){
-		if (is_startable(item) == true){
-			$("#item_content_buttons_start_button_" + dataId).show();
-		}
-		else{
-			$("#item_content_buttons_start_button_" + dataId).hide();
-		}
+	if (is_startable(item) == true){
+		$("#item_content_buttons_start_button_" + dataId).show();
+	}
+	else{
+		$("#item_content_buttons_start_button_" + dataId).hide();
 	}
 	
 	return false;
