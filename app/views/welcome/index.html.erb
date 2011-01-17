@@ -2,16 +2,16 @@
   <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :mypage} %>
 <% end %>
 
+<%= help_section("welcome_index",true) %>
+
 <% if Notification.unresponded? %>
 <div class="flash notice">
   <%=link_to l(:label_waiting_for_you, :notifications => pluralize(Notification.unresponded_count,l(:label_new_notification))) , {:controller => 'notifications', :action => 'index'} %>
 </div>
 <% end %>
 
-<% if (@news.nil? || @news.length == 0) && @assigned_issues.length == 0 %>
 <div>
   <% if @my_projects.length == 0 %>
-  <h2 class="gt-table-head">&nbsp;</h2>
   <div class="gt-content-box centered padded">
     <h4><%= l(:help_no_workstreams) %></h4>
     <p class='nodata'>
@@ -20,12 +20,8 @@
        	 <h3><%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}%></h3>
    	  </p>
   </div>    
-  <% end %>
-<% else %>
-<div class="splitcontentleft">
-<% end %>
-    <% unless (@my_projects.length) == 0 %>
-    <h2 class="gt-table-head"><%=l(:label_activities_i_belong_to)%><%= help_bubble :help_activities_i_belong_to %></h2>
+  <% else %>
+    <!-- <h2 class="gt-table-head"><%#=l(:label_activities_i_belong_to)%><%#= help_bubble :help_activities_i_belong_to %></h2> -->
     <div class="activity gt-content-box">
       <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
         :user_id => User.current.id,
@@ -38,25 +34,9 @@
     <% end %>
 </div>
 
-<% unless (@news.nil? || @news.length == 0) && @assigned_issues.length == 0  && @watched_issues.length == 0 && @joined_issues.length == 0 %>
-<div class="splitcontentright">
-  <%#= render :partial => "my/blocks/issuesassignedtome", :locals => {:assigned_issues => @assigned_issues } %>
-  <%#= render :partial => "my/blocks/issueswatched", :locals => {:user => User.current}%>
-  <% unless  @assigned_issues.length == 0  && @watched_issues.length == 0 && @joined_issues.length == 0  %>
-  <h2 class="gt-table-head"><%=l(:label_my_issues)%></h2>
-  <div class="gt-content-box">
-    <%= render_tabs my_issues_tabs %>
-  </div>
-  <% end %>
-
-  <%= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
-</div>	
-<% end %>
-
-<%= help_section("welcome_index",true) %>
 
 <% content_for :sidebar do %>
-<h2 class="gt-table-head">&nbsp;</h2>
+<!-- <h2 class="gt-table-head">&nbsp;</h2> -->
 <div class="gt-sidebar-nav gt-sidebar-nav-blue">
   <h3>Quick Links</h3>
   <ul>
@@ -74,6 +54,10 @@
   </li>
   </ul>
 </div>
+
+<!-- <div class="splitcontentright">
+  <%#= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
+</div>   -->
 
 <%= render :partial => 'active_projects', :locals => {:active_projects => @my_projects} if @my_projects.length > 0 %>
 
