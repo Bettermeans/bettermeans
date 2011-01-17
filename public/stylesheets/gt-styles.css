@@ -1261,7 +1261,7 @@ table.activity-sub table.gt-table-categories tr {border-top:0px;}
 
 div.activity-tag {
 /*	padding: 2px 2px 2px 2px;*/
-	padding-bottom:2px;
+	padding-bottom:10px;
 /*	text-align: right;*/
 	font-style:italic;
 }
