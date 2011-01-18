@@ -124,3 +124,7 @@
 <h3><%= render_title_date %></h3>
 <%= render :partial => "motion_votes/vote", :locals => {:motion => @motion} %>
 <% end %>
+
+<script type="text/javascript">
+  projectId = <%= @project.id %>;
+</script>
