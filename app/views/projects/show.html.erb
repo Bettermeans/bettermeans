@@ -119,7 +119,7 @@
 <div class="gt-sidebar-content">
 
 <h3><%=l(:label_project_description)%></h3>
-<%= textilizable @project.description %>	
+<%= make_expandable ((textilizable @project.description), 200) %>	
 <%# unless @project.homepage.blank? %><%#=l(:field_homepage)%><!-- : --> <%#= link_to(h(@project.homepage), @project.homepage) %><%# end %>
 </div>
 <!-- <div class="gt-sidebar-content">
