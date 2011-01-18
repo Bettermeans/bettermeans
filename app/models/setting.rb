@@ -82,13 +82,13 @@ class Setting < ActiveRecord::Base
       "Type" => Motion::TYPE_CONSENSUS,
       "Days" => 5
     },
-    Motion::VARIATION_BOARD_PUBLIC => {
-      "Title" => "Public Board Motion",
-      "Binding" => Motion::BINDING_BOARD,
-      "Visible" => Motion::VISIBLE_USER,
-      "Type" => Motion::TYPE_CONSENSUS,
-      "Days" => 5
-    },
+    # Motion::VARIATION_BOARD_PUBLIC => {
+    #   "Title" => "Public Board Motion",
+    #   "Binding" => Motion::BINDING_BOARD,
+    #   "Visible" => Motion::VISIBLE_USER,
+    #   "Type" => Motion::TYPE_CONSENSUS,
+    #   "Days" => 5
+    # },
     Motion::VARIATION_BOARD_PRIVATE => {
       "Title" => "Closed Board Motion",
       "Binding" => Motion::BINDING_BOARD,
