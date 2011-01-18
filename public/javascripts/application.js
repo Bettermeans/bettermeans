@@ -137,7 +137,6 @@ function addFileField() {
 }
 
 function showTab(name) {
-	// console.log(name);
 	$('.tab-content').hide();
 	$('.tab-top').removeClass("selected");
 	$('#tab-content-' + name).show();
@@ -1754,7 +1753,7 @@ stop: null
 		   					//cache the data for later
 		   					community_members[projectId] = data;
 		   					//map the data into a response that will be understood by the autocomplete widget
-		       			response($.ui.autocomplete.filter(community_members[projectId], w.substring(1, w.length)));
+		       				response($.ui.autocomplete.filter(community_members[projectId], w.substring(1, w.length)));
 		   				}
 		   			});
 		   		}
@@ -1774,7 +1773,14 @@ stop: null
 		       replaceWordBeforeCaret(this, '@' + loginFromName(ui.item.value) + ' ');              
 		       return false;                   
 		     }
-		   });
+		   })
+			.data( "autocomplete" )._renderItem = function( ul, item ) {
+				console.log(item);
+				return $( "<li></li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a>" + item.label + "</a>" )
+					.appendTo( ul );
+			};
        });
      },
      destroy : function( ) {
@@ -1795,14 +1801,7 @@ stop: null
   };
 
   $.fn.mentions = function( projectId ) {
-
-     return methods['init'].apply( this, Array.prototype.slice.call( arguments, 0 ));
-    // } else if ( typeof method === 'object' || ! method ) {
-    //   return methods.init.apply( this, arguments );
-    // } else {
-    //   $.error( 'Method ' +  method + ' does not exist on jQuery.mentions' );
-    // }    
-
+   	return methods['init'].apply( this, Array.prototype.slice.call( arguments, 0 ));
   };
 
 })( jQuery );
