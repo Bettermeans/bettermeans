@@ -4,9 +4,9 @@
       </td>
       <td>
   <h4>
-<%= l("label_someone_joined_your_issue", :joiner => link_to_user_from_id(joiner_id)) %>
+<%= l("label_someone_joined_your_issue", :joiner => link_to_user_from_id(@notification.sender_id)) %>
   </h4>
-<%= l(:text_joiner_is_now_working_with_you, :joiner => link_to_user_from_id(joiner_id), :issue => link_to_issue_from_id(issue_id)) %>
+<%= l(:text_joiner_is_now_working_with_you, :joiner => link_to_user_from_id(@notification.sender_id), :issue => link_to_issue_from_id(issue_id)) %>
 <p class="gt-table-action-list">
 <%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
 </p>

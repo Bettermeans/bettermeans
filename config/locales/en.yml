@@ -884,12 +884,15 @@ en:
   label_someone_added_you_to_their_issue : "{{sender}} added you to an issue they own"
   label_someone_removed_you_from_their_issue : "{{sender}} removed you from an issue they own"
   label_someone_left_your_issue : "{{joiner}} left an issue assigned to you"
+  label_someone_mentioned_you : "{{mentioner}} mentioned you"
   label_agree : "Agree"
   label_disagree : "Disagree"
   label_block : "Block"
   label_neutral : "Neutral"
   label_history : "History"
   label_select : "Select"
+  label_no_mention_learn_more : "You have no unread mentions.<br><br>Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br><br>For example if somebody adds this comment to an issue:<br><strong>'I think @{{login}} should take a look at this'</strong><br>it would appear in your mentions"
+  label_mentions : "Mentions"
   
   label_version_sharing_none: Not shared
   label_version_sharing_descendants: With workstreams
