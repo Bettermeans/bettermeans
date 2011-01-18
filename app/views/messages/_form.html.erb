@@ -4,7 +4,7 @@
 <div class="gt-content-box">
 <!--[form:message]-->
 <p><label><%= l(:field_subject) %></label><br />
-<%= f.text_field :subject, :size => 120 %>
+<%= f.text_field :subject, :size => 120, :id => 'message_subject' %>
 
 <% if !replying && User.current.allowed_to?(:edit_messages, @project) %>
     <label><%= f.check_box :sticky %> Sticky</label>
@@ -17,7 +17,7 @@
   <%= f.select :board_id, @project.boards.collect {|b| [b.name, b.id]} %></p>
 <% end %>
 
-<p><%= f.textile_editor :content, :cols => 80, :rows => 15, :class => 'wiki-edit', :id => 'message_content' %></p>
+<p><%= f.textile_editor :content, :cols => 80, :rows => 15, :class => 'wiki-edit autocomplete-mentions', :id => 'message_content' %></p>
 <%= textile_editor_initialize(:framework => :jquery) %>
 <!--[eoform:message]-->
 
@@ -26,70 +26,8 @@
 </p>
 </div>
 
-	<script>
-	$(function() {
-		var availableTags = [
-			"ActionScript",
-			"AppleScript",
-			"Asp",
-			"BASIC",
-			"C",
-			"C++",
-			"Clojure",
-			"COBOL",
-			"ColdFusion",
-			"Erlang",
-			"Fortran",
-			"Groovy",
-			"Haskell",
-			"Java",
-			"JavaScript",
-			"Lisp",
-			"Perl",
-			"PHP",
-			"Python",
-			"Ruby",
-			"Scala",
-			"Scheme"
-		];
-		function split( val ) {
-			return val.split( /,\s*/ );
-		}
-		function extractLast( term ) {
-			return split( term ).pop();
-		}
-
-		$( "#message_content" )
-			// don't navigate away from the field on tab when selecting an item
-			.bind( "keydown", function( event ) {
-				if ( event.keyCode === $.ui.keyCode.TAB &&
-						$( this ).data( "autocomplete" ).menu.active ) {
-					event.preventDefault();
-				}
-			})
-      .autocomplete({
-       minLength: 0,
-       source: function( request, response ) {
-         // delegate back to autocomplete, but extract the last term
-         response( $.ui.autocomplete.filter(
-           availableTags, extractLast( request.term ) ) );
-       },
-       focus: function() {
-         // prevent value inserted on focus
-         return false;
-       },
-       select: function( event, ui ) {
-         var terms = split( this.value );
-         // remove the current input
-         terms.pop();
-         // add the selected item
-         terms.push( ui.item.value );
-         // add placeholder to get the comma-and-space at the end
-         terms.push( "" );
-         this.value = terms.join( ", " );
-         return false;
-       }
-      });
-	});
-	</script>
-
+<script>
+$(function(){
+  bind_autocomplete_mentions(<%= @project.id %>);
+});
+</script>
