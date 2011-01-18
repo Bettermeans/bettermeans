@@ -1,7 +1,7 @@
 <%= error_messages_for 'news' %>
 <div class="gt-content-box tabular">
 <p><%= f.text_field :title, :required => true, :size => 60 %></p>
-<p><%= f.text_area :summary, :cols => 60, :rows => 2 %></p>
-<p><label>Description</label><%= f.textile_editor :description, :required => true, :cols => 60, :rows => 15, :class => 'wiki-edit' %></p>
+<p><%= f.text_area :summary, :cols => 60, :rows => 2, "autocomplete-mentions-projectid" => @project.id %></p>
+<p><label>Description</label><%= f.textile_editor :description, :required => true, :cols => 60, :rows => 15, :class => 'wiki-edit', "autocomplete-mentions-projectid" => @project.id %></p>
 </div>
 
