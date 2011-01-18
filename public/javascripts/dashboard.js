@@ -563,6 +563,10 @@ function show_points_flyover(dataId,callingElement){
 	});	
 }
 
+function hide_bubbletips(){
+	$('.bubbletip').hide();
+}
+
 
 function show_pri_flyover(dataId,callingElement){
 
@@ -616,6 +620,15 @@ function is_visible(item){
 	}
 	
 	return true;
+}
+
+function is_startable(item){
+	if (item.status.name == "Open"){
+		return ((item.pri > (highest_pri - startable_priority_tiers))||(item.pri == 0));
+	}
+	else{
+		return false;
+	}
 }
 
 function add_item(dataId,position,scroll,panelid){
@@ -1561,12 +1574,13 @@ function has_current_user_estimated(item){
 function generate_item_estimate_button(dataId,points){
 	var item = D[dataId];
 	var html = '';
+	var onclick = "";
 	
 	if (is_item_estimatable(item)){
-		var onclick = "show_estimate_flyover("+ dataId +",this.id);return false;";
+		onclick = "show_estimate_flyover("+ dataId +",this.id);return false;";
 	}
 	else{
-		var onclick = "show_points_flyover("+ dataId +",this.id);return false;";
+		onclick = "show_points_flyover("+ dataId +",this.id);return false;";
 	}
 	
 	var current_user_voted = has_current_user_estimated(item);
@@ -2047,7 +2061,8 @@ function pri_button(dataId){
 
 function generate_pri_button(dataId,direction,pri){
 	// var html = '<div id="pri_container_' + D[dataId].id + '" class="pri_container">';
-	var html = '<div id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button pri_button_' + direction + '" onclick="show_pri_flyover(' + dataId + ',this.id);return false;">' + pri + '</div>';	
+	var ondblclick =  'hide_bubbletips();click_pri(' + dataId + ',this,1);hide_bubbletips();return false;';
+	var html = '<div id="item_content_buttons_pri_button_' + dataId + '" class="clickable pri_button pri_button_' + direction + '" onclick="show_pri_flyover(' + dataId + ',this.id);return false;" onDblclick = ' + ondblclick + '>' + pri + '</div>';	
 	// html = html + '</div>';
 	return html;
 }
@@ -2241,8 +2256,8 @@ function click_join(dataId,source,data){
 function click_pri(dataId,source,points){
 	//Login required	
 	if (!is_user_logged_in()){return;}
-
-	// $('#pri_container_' + D[dataId].id).hide();
+	$(".bubbletip").hide();
+	$('#pri_container_' + D[dataId].id).hide();
 	send_item_action(dataId,'prioritize','&points=' + points);
 }
 
@@ -2854,7 +2869,7 @@ function collapse_item(dataId,check_for_save){
 	if(check_for_save){
 		if (($('#edit_title_input_' + dataId).val() != D[dataId].subject) || ($('#edit_description_' + dataId).val() != D[dataId].description)){
 			save_edit_item(dataId);
-			return;
+			return false;
 		}
 	}
 	
@@ -2893,6 +2908,11 @@ function save_new_item(prioritize){
 	    "&issue[hourly_type_id]=" + $("#hourly_type").val() +
             "&issue[num_hours]=" + parseInt(num_hours,10);
     }
+
+	// for(var i=0; i<files.length; i++){
+	// 	data = data + "&attachments[" + i + "]=" + encodeURIComponent(files[i]);
+	// }
+
 
 	if ($('#new_story_type').val() == standard_trackers.Expense.id){
 		data = data + "&issue[points]=" + $('#new_expense_amount_new').val();
@@ -3047,6 +3067,14 @@ function item_actioned(item, dataId, action){
 		adjust_button_container_widths();
 		save_local_data();
 		update_panel_counts();
+	}
+	
+	//show/hide startable button if item is open
+	if (is_startable(item) == true){
+		$("#item_content_buttons_start_button_" + dataId).show();
+	}
+	else{
+		$("#item_content_buttons_start_button_" + dataId).hide();
 	}
 	
 	return false;

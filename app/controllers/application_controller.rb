@@ -229,6 +229,11 @@ class ApplicationController < ActionController::Base
     render :text => '', :layout => !request.xhr?, :status => 500
   end
   
+  def render_message(msg)
+    flash.now[:notice] = msg
+    render :text => '', :layout => !request.xhr?
+  end
+  
   def invalid_authenticity_token
     render_error "Invalid form authenticity token."
   end
@@ -261,6 +266,28 @@ class ApplicationController < ActionController::Base
         a = Attachment.create(:container => obj, 
                               :file => file,
                               :description => attachment['description'].to_s.strip,
+                              :author => User.current)
+        a.new_record? ? (unsaved << a) : (attached << a)
+      end
+      if unsaved.any?
+        flash.now[:error] = l(:warning_attachments_not_saved, unsaved.size)
+      end
+    end
+    attached
+  end
+  
+  def attach_temp_files(obj, attachments)
+    attached = []
+    unsaved = []
+    logger.info { "attaching temp #{attachments.inspect}" }
+    if attachments && attachments.is_a?(Hash)
+      attachments.each_value do |attachment|
+        logger.info { "atatchment #{attachment}" }
+        file = Tempfile.open(attachment)
+        next unless file && file.size > 0
+        a = Attachment.create(:container => obj, 
+                              :file => file,
+                              :description => '',
                               :author => User.current)
         a.new_record? ? (unsaved << a) : (attached << a)
       end

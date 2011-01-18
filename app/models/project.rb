@@ -703,6 +703,11 @@ class Project < ActiveRecord::Base
     user.team_points_for(project)
   end
   
+  #highest priority for open items in this project
+  def highest_pri()
+    self.issues.maximum(:pri, :conditions => {:status_id => IssueStatus.open.id }) || -9999
+  end
+  
   def before_validation_on_create
     self.enterprise_id = self.parent.enterprise_id unless self.parent.nil?
     self.identifier = Project.next_identifier
