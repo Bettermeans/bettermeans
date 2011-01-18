@@ -2544,7 +2544,10 @@ img.private-workstream, img.volunteer-workstream{
 	vertical-align:top;
 }
 
-.ui-menu .ui-menu-item{
+.ui-menu-item img{
+	vertical-align: middle;
+	padding-right: 5px;
+	
 }
 
 .ui-menu ul li{

@@ -508,28 +508,28 @@ $.fn.mybubbletip = function(tip, options) {
 };
 
 (function($) {
-  $.fn.getGravatar = function(options) {
-    //debug(this);
-    // build main options before element iteration
-    var opts = $.extend({}, $.fn.getGravatar.defaults, options);
-    // iterate and reformat each matched element
-    return this.each(function() {
-      $this = $(this);
-      // build element specific options
-      var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
-var t = "";
-//check to see if we're working with an text input first
-      if($this.is("input[type='text']")){
-//do an initial check of the value
-$.fn.getGravatar.getUrl(o, $this.val());
+	  $.fn.getGravatar = function(options) {
+	    //debug(this);
+	    // build main options before element iteration
+	    var opts = $.extend({}, $.fn.getGravatar.defaults, options);
+	    // iterate and reformat each matched element
+	    return this.each(function() {
+	      $this = $(this);
+	      // build element specific options
+  	      	var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
+			var t = "";
+			//check to see if we're working with an text input first
+			      if($this.is("input[type='text']")){
+			//do an initial check of the value
+			$.fn.getGravatar.getUrl(o, $this.val());
 
-//do our ajax call for the MD5 hash every time a key is released
-$this.keyup(function(){
-clearTimeout(t);
-var email = $this.val();
-t = setTimeout(function(){$.fn.getGravatar.getUrl(o, email);}, 500);
-});
-}
+			//do our ajax call for the MD5 hash every time a key is released
+			$this.keyup(function(){
+			clearTimeout(t);
+			var email = $this.val();
+			t = setTimeout(function(){$.fn.getGravatar.getUrl(o, email);}, 500);
+		});
+		}
     });
   };
   //
@@ -1704,11 +1704,6 @@ stop: null
 	     setCaretPosition(e, p + word.length);                     
 	 };
 
-	 //get login and removes name
-	 function loginFromName(word){
-	   return word.split('(')[0];
-	 }
-
   var methods = {
      init : function( options ) {
 	
@@ -1770,15 +1765,14 @@ stop: null
 		       return true;
 		     },
 		     select: function(event, ui) {             
-		       replaceWordBeforeCaret(this, '@' + loginFromName(ui.item.value) + ' ');              
+		       replaceWordBeforeCaret(this, '@' + ui.item.value + ' ');              
 		       return false;                   
 		     }
 		   })
 			.data( "autocomplete" )._renderItem = function( ul, item ) {
-				console.log(item);
 				return $( "<li></li>" )
 					.data( "item.autocomplete", item )
-					.append( "<a>" + item.label + "</a>" )
+					.append( "<a><img src='https://secure.gravatar.com/avatar.php?gravatar_id="+ item.mail_hash +"&size=17/>" + item.label + "</a>" )
 					.appendTo( ul );
 			};
        });
@@ -1808,6 +1802,7 @@ stop: null
 
 
 function bind_autocomplete_mentions(){
+	$("input[autocomplete-mentions-projectid]").mentions(-1); 
 	$("textarea[autocomplete-mentions-projectid]").mentions(-1); 
 
 	if (typeof projectId != "undefined"){
