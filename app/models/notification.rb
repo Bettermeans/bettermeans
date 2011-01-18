@@ -20,6 +20,11 @@ class Notification < ActiveRecord::Base
     self.save
   end
   
+  #returns true if notification is of a mention type
+  def mention?
+    self.variation == "mention"
+  end
+  
   # Returns true or false based on if this user has any notifications that haven't been responded to
   def self.unresponded?
     self.unresponded_count > 0 ? true : false    

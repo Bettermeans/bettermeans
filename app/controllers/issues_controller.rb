@@ -168,6 +168,7 @@ class IssuesController < ApplicationController
       # Check that the user is allowed to apply the requested status
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
       if @issue.save
+        parse_mentions(@issue)
         attach_files(@issue, params[:attachments])
         
         #adding self-agree vote
@@ -434,11 +435,10 @@ class IssuesController < ApplicationController
     @issue.save
     @issue.reload
     
-    admin = User.sysadmin
     Notification.create :recipient_id => @issue.assigned_to_id,
                         :variation => 'issue_joined',
-                        :params => {:issue_id => @issue.id, :joiner_id => User.current.id}, 
-                        :sender_id => admin.id,
+                        :params => {:issue_id => @issue.id}, 
+                        :sender_id => User.current.id,
                         :source_id => @issue.id
     
     
