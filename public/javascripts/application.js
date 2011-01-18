@@ -2,12 +2,13 @@
    Copyright (C) 2006-2008  Shereef Bishay */
 
 var jumpbox_text = "";
-var community_members = []; //used by @mention autocomplete 
+var community_members = {}; //used by @mention autocomplete 
 
 function initialize(){
 	arm_fancybox();
 	prep_jumpbox();
 	break_long_words();
+	bind_autocomplete_mentions();
 }
 
 function break_long_words(){
@@ -1649,120 +1650,168 @@ stop: null
 	    };
 
 
-//Auto complete code for @mentions
-//To attach to a textarea add this class: autocomplete-mentions and the script below
-// <script>
-// $(function(){
-//   bind_autocomplete_mentions(<%= @project.id %>);
-// });
-// </script>
-
- function getCaretPosition(e) {    
-     if (typeof e.selectionStart == 'number') {
-         return e.selectionStart;
-     } else if (document.selection) {
-         var range = document.selection.createRange();
-         var rangeLength = range.text.length;
-         range.moveStart('character', -e.value.length);
-         return range.text.length - rangeLength;
-     }
- };   
-
- function setCaretPosition(e, start, end) {
-     if (e.createTextRange) {
-         var r = e.createTextRange();
-         r.moveStart('character', start);
-         r.moveEnd('character', (end || start));
-         r.select();
-     } else if (e.selectionStart) {
-         e.focus();
-         e.setSelectionRange(start, (end || start));
-     }
- };
-
- function getWordBeforeCaretPosition(e) {    
-     var s = e.value;
-     var i = getCaretPosition(e) - 1;
-     while (i >= 0 && s[i] != ' ') {
-         i = i - 1;
-     }             
-     return i + 1;    
- };
-
- function getWordBeforeCaret(e) {  
-   var p = getWordBeforeCaretPosition(e);
-   var c = getCaretPosition(e);  
-   return e.value.substring(p, c);    
- };
-
- function replaceWordBeforeCaret(e, word) {
-     var p = getWordBeforeCaretPosition(e);
-     var c = getCaretPosition(e);        
-     e.value = e.value.substring(0, p) + word + e.value.substring(c);
-     setCaretPosition(e, p + word.length);                     
- };
- 
- //get login and removes name
- function loginFromName(word){
-   return word.split('(')[0];
- }
-
-function bind_autocomplete_mentions(projectId){
+(function( $ ){
 	
-	$( ".autocomplete-mentions" )
-   .bind("keydown", function(event) {
-     if (event.keyCode === $.ui.keyCode.TAB && $(this).data("autocomplete").menu.active ) {
-       event.preventDefault();
-     }
-   })
-   .autocomplete({
-     minLength: 0,
-	 open: function(){
-		$(".ui-menu").width('auto');
-	},
-     source: function(request, response) {                 
-       var w = getWordBeforeCaret(this.element[0]);  
-       if (w[0] != '@') {
-         this.close();
-         return false;
-       }             
+	//Auto complete code for @mentions
+	//To attach to a textarea add this class: autocomplete-mentions and the script below
+	// <script type="text/javascript">
+	// projectId = <%= @project.id %>;
+	// </script>
+	//or just directly run $('#widget').mentions(projectId);
+	//or add a property to the text area autocomplete-mentions-projectid="<%= as.project_id %>"
 
-   		if (community_members.length > 0) {
-   			//map the data into a response that will be understood by the autocomplete widget
-   			response($.ui.autocomplete.filter(community_members, w.substring(1, w.length)));
-   		}
-   		//get the data from the server
-   		else {
-   			$.ajax({
-   				url: "/projects/" + projectId + "/community_members_array",
-   				dataType: "json",
-   				success: function(data) {
-   					//cache the data for later
-   					community_members = data;
-   					//map the data into a response that will be understood by the autocomplete widget
-       			response($.ui.autocomplete.filter(community_members, w.substring(1, w.length)));
-   				}
-   			});
-   		}
-   	},
-	delay: 0,
-     position: {
-         my: "left top",
-         at: "right top"
-     },
-     focus: function() {
-       return false;
-     },           
-     search: function(event, ui) {
-       return true;
-     },
-     select: function(event, ui) {             
-       replaceWordBeforeCaret(this, '@' + loginFromName(ui.item.value) + ' ');              
-       return false;                   
-     }
-   }); 
- 
+	 function getCaretPosition(e) {    
+	     if (typeof e.selectionStart == 'number') {
+	         return e.selectionStart;
+	     } else if (document.selection) {
+	         var range = document.selection.createRange();
+	         var rangeLength = range.text.length;
+	         range.moveStart('character', -e.value.length);
+	         return range.text.length - rangeLength;
+	     }
+	 };   
+
+	 function setCaretPosition(e, start, end) {
+	     if (e.createTextRange) {
+	         var r = e.createTextRange();
+	         r.moveStart('character', start);
+	         r.moveEnd('character', (end || start));
+	         r.select();
+	     } else if (e.selectionStart) {
+	         e.focus();
+	         e.setSelectionRange(start, (end || start));
+	     }
+	 };
+
+	 function getWordBeforeCaretPosition(e) {    
+	     var s = e.value;
+	     var i = getCaretPosition(e) - 1;
+	     while (i >= 0 && s[i] != ' ') {
+	         i = i - 1;
+	     }             
+	     return i + 1;    
+	 };
+
+	 function getWordBeforeCaret(e) {  
+	   var p = getWordBeforeCaretPosition(e);
+	   var c = getCaretPosition(e);  
+	   return e.value.substring(p, c);    
+	 };
+
+	 function replaceWordBeforeCaret(e, word) {
+	     var p = getWordBeforeCaretPosition(e);
+	     var c = getCaretPosition(e);        
+	     e.value = e.value.substring(0, p) + word + e.value.substring(c);
+	     setCaretPosition(e, p + word.length);                     
+	 };
+
+	 //get login and removes name
+	 function loginFromName(word){
+	   return word.split('(')[0];
+	 }
+
+  var methods = {
+     init : function( options ) {
 	
+       return this.each(function(){
+
+         var $this = $(this),
+            data = $this.data('mentions');
+
+		if (options < 0){
+			var projectId = $this.attr("autocomplete-mentions-projectid");
+		}
+		else{
+			var projectId = options;
+		}
+			$this.bind("keydown", function(event) {
+		     if (event.keyCode === $.ui.keyCode.TAB && $(this).data("autocomplete").menu.active ) {
+		       event.preventDefault();
+		     }
+		   	})
+		   .autocomplete({
+		     minLength: 0,
+			 open: function(){
+				$(".ui-menu").width('auto');
+			},
+		     source: function(request, response) {                 
+		       var w = getWordBeforeCaret(this.element[0]);  
+		       if (w[0] != '@') {
+		         this.close();
+		         return false;
+		       }             
+
+		   		if (typeof community_members[projectId] != "undefined") {
+		   			//map the data into a response that will be understood by the autocomplete widget
+		   			response($.ui.autocomplete.filter(community_members[projectId], w.substring(1, w.length)));
+		   		}
+		   		//get the data from the server
+		   		else {
+		   			$.ajax({
+		   				url: "/projects/" + projectId + "/community_members_array",
+		   				dataType: "json",
+		   				success: function(data) {
+		   					//cache the data for later
+		   					community_members[projectId] = data;
+		   					//map the data into a response that will be understood by the autocomplete widget
+		       			response($.ui.autocomplete.filter(community_members[projectId], w.substring(1, w.length)));
+		   				}
+		   			});
+		   		}
+		   	},
+			delay: 0,
+		     position: {
+		         my: "left top",
+		         at: "right top"
+		     },
+		     focus: function() {
+		       return false;
+		     },           
+		     search: function(event, ui) {
+		       return true;
+		     },
+		     select: function(event, ui) {             
+		       replaceWordBeforeCaret(this, '@' + loginFromName(ui.item.value) + ' ');              
+		       return false;                   
+		     }
+		   });
+       });
+     },
+     destroy : function( ) {
+
+       return this.each(function(){
+
+         var $this = $(this),
+             data = $this.data('mentions');
+
+         // Namespacing FTW
+         $(window).unbind('.mentions');
+         data.mentions.remove();
+         $this.removeData('mentions');
+
+       })
+
+     }
+  };
+
+  $.fn.mentions = function( projectId ) {
+
+     return methods['init'].apply( this, Array.prototype.slice.call( arguments, 0 ));
+    // } else if ( typeof method === 'object' || ! method ) {
+    //   return methods.init.apply( this, arguments );
+    // } else {
+    //   $.error( 'Method ' +  method + ' does not exist on jQuery.mentions' );
+    // }    
+
+  };
+
+})( jQuery );
+
+
+function bind_autocomplete_mentions(){
+	$("textarea[autocomplete-mentions-projectid]").mentions(-1); 
+
+	if (typeof projectId != "undefined"){
+		$( ".autocomplete-mentions" ).mentions(projectId); 
+	}
 };
-
-
