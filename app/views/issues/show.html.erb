@@ -199,7 +199,6 @@
     		     var new_journal_id = issue.journals[issue.journals.length-1].id
     		     var onclick = "$.ajax({type: 'GET', url: '/journals/edit/" + new_journal_id + "'});return false;";
     		     $("#journal-new-notes").attr('id','journal-' + new_journal_id + '-notes'); //updated id
-    		     
      		     $('#new_comment_edit_link').attr('onclick',onclick);
     			},
           //         error:   function (XMLHttpRequest, textStatus, errorThrown) {
