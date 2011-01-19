@@ -33,7 +33,11 @@ class JournalsController < ApplicationController
   end
   
   def update_activity_stream(notes)
-    ActivityStream.update_all(["indirect_object_description = ?", notes], {:indirect_object_id => @journal.id, :indirect_object_type => "Journal", :object_type => "Issue", :actor_id => User.current.id}, :order => 'created_at DESC', :limit => 1)
+    ActivityStream.update_all(["indirect_object_description = ?", notes], {:indirect_object_id => @journal.id, 
+                                                                            :indirect_object_type => "Journal", 
+                                                                            :object_type => "Issue", 
+                                                                            :actor_id => User.current.id}, 
+                                                                          :order => 'created_at DESC', :limit => 1)
   end
   
 private

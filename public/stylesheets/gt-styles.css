@@ -2553,3 +2553,10 @@ img.private-workstream, img.volunteer-workstream{
 .ui-menu ul li{
 	list-style-type: none;
 }
+
+.small-text {
+	font-size: 85%;
+	font-weight: bold;
+	color: #666666;
+	border: none;
+}
