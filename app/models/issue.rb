@@ -252,7 +252,9 @@ class Issue < ActiveRecord::Base
   def mention(mentioner_id, mentioned_id, mention_text)
     Notification.create :recipient_id => mentioned_id,
                         :variation => 'mention',
-                        :params => {:mention_text => self.description, :url_prefix => "issues/show", :title => self.subject}, 
+                        :params => {:mention_text => self.description, 
+                                    :url => {:controller => "issues", :action => "show", :id => self.id}, 
+                                    :title => self.subject}, 
                         :sender_id => mentioner_id,
                         :source_id => self.id,
                         :source_type => "Issue"
@@ -673,9 +675,6 @@ class Issue < ActiveRecord::Base
                                                       :value => send(c)) unless send(c)==@issue_before_change.send(c)
       }
       @current_journal.save      
-      
-      # parse_mentions(@current_journal)
-      
     end
   end
   

@@ -30,8 +30,9 @@ class Mention
     #Send mention to issue
     object.send(:mention,mentioner_id,user.id,mention_text_subsection)
     #change to send_later
-  rescue
-    #nothing todo here, it's just that we didn't find the user
+  # rescue
+    #nothing todo here, it's just that we didn't find the user, or failed to insert
+    puts { "Failed to send metion to #{object.inspect} with login #{mentioned_login}" }
   end
   
 end
