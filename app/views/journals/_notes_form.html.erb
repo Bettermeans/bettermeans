@@ -3,8 +3,8 @@
                                               :rows => (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min) %>
     <!-- <div class="gt-table-buttons"> -->
     <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
-    <!-- <p class="gt-cancel">
-    <%#= link_to l(:button_cancel), '#', :onclick => "Element.remove('journal-#{@journal.id}-form'); " +
-                                                    "Element.show('journal-#{@journal.id}-notes'); return false;" %></p> -->
+     <span class="">
+    <%= link_to l(:button_cancel), '#', :onclick => "$('#journal-#{@journal.id}-form').remove(); " +
+                                                    "$('#journal-#{@journal.id}-notes').show(); return false;" %></span>
     <!-- </div> -->
 <% end %>
