@@ -2831,9 +2831,9 @@ function expand_item(dataId){
 
 	$('#edit_story_type_' + dataId).val(D[dataId].tracker.id);
 	$('#new_comment_' + dataId).watermark('watermark',new_comment_text);
-	$('#new_comment_' + dataId).autogrow();
+	$('#new_comment_' + dataId).autogrow().mentions(projectId);
 	$('#new_todo_' + dataId).watermark('watermark',new_todo_text);
-	$('#edit_description_' + dataId).autogrow();
+	$('#edit_description_' + dataId).autogrow().mentions(projectId);
 	$('#help_image_description_' + dataId).mybubbletip($('#help_description'), {
 		deltaDirection: 'right',
 		delayShow: 300,
@@ -3118,6 +3118,8 @@ function comment_added(item, dataId){
 	$("#post_comment_button_" + dataId).show();
 	D[dataId] = item; 
 	$('#comments_container_' + dataId).replaceWith(generate_comments_section(dataId,false));
+	$('#new_comment_' + dataId).watermark('watermark',new_comment_text);
+	$('#new_comment_' + dataId).autogrow().mentions(projectId);
 }
 
 function todo_added(item, dataId){
@@ -3506,7 +3508,7 @@ show_panel('new');
 $("#item_new_link").hide();
 $("#new_items").prepend(html);
 $("#new_title_input").val(default_new_title).select();	
-$("#new_description").autogrow();
+$("#new_description").autogrow().mentions(projectId);
 make_text_boxes_toggle_keyboard_shortcuts();
 
 $('#help_image_description_new').mybubbletip($('#help_description'), {
@@ -3822,7 +3824,6 @@ function generate_todo_section_lightbox(dataId){
 }
 
 function post_comment(dataId,from_prompt,action){	
-	
 
 //Login required	
 if (!is_user_logged_in()){return false;}

@@ -2,12 +2,13 @@
    Copyright (C) 2006-2008  Shereef Bishay */
 
 var jumpbox_text = "";
+var community_members = {}; //used by @mention autocomplete 
 
 function initialize(){
 	arm_fancybox();
-		
 	prep_jumpbox();
 	break_long_words();
+	bind_autocomplete_mentions();
 }
 
 function break_long_words(){
@@ -136,7 +137,6 @@ function addFileField() {
 }
 
 function showTab(name) {
-	// console.log(name);
 	$('.tab-content').hide();
 	$('.tab-top').removeClass("selected");
 	$('#tab-content-' + name).show();
@@ -508,28 +508,28 @@ $.fn.mybubbletip = function(tip, options) {
 };
 
 (function($) {
-  $.fn.getGravatar = function(options) {
-    //debug(this);
-    // build main options before element iteration
-    var opts = $.extend({}, $.fn.getGravatar.defaults, options);
-    // iterate and reformat each matched element
-    return this.each(function() {
-      $this = $(this);
-      // build element specific options
-      var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
-var t = "";
-//check to see if we're working with an text input first
-      if($this.is("input[type='text']")){
-//do an initial check of the value
-$.fn.getGravatar.getUrl(o, $this.val());
+	  $.fn.getGravatar = function(options) {
+	    //debug(this);
+	    // build main options before element iteration
+	    var opts = $.extend({}, $.fn.getGravatar.defaults, options);
+	    // iterate and reformat each matched element
+	    return this.each(function() {
+	      $this = $(this);
+	      // build element specific options
+  	      	var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
+			var t = "";
+			//check to see if we're working with an text input first
+			      if($this.is("input[type='text']")){
+			//do an initial check of the value
+			$.fn.getGravatar.getUrl(o, $this.val());
 
-//do our ajax call for the MD5 hash every time a key is released
-$this.keyup(function(){
-clearTimeout(t);
-var email = $this.val();
-t = setTimeout(function(){$.fn.getGravatar.getUrl(o, email);}, 500);
-});
-}
+			//do our ajax call for the MD5 hash every time a key is released
+			$this.keyup(function(){
+			clearTimeout(t);
+			var email = $this.val();
+			t = setTimeout(function(){$.fn.getGravatar.getUrl(o, email);}, 500);
+		});
+		}
     });
   };
   //
@@ -1647,3 +1647,176 @@ stop: null
 	        return this;
 
 	    };
+
+
+(function( $ ){
+	
+	//Auto complete code for @mentions
+	//To attach to a textarea add this class: autocomplete-mentions and the script below
+	// <script type="text/javascript">
+	// projectId = <%= @project.id %>;
+	// </script>
+	//or just directly run $('#widget').mentions(projectId);
+	//or add a property to the text area autocomplete-mentions-projectid="<%= as.project_id %>"
+	// "autocomplete-mentions-projectid" => @project.id
+
+	 function getCaretPosition(e) {    
+	     if (typeof e.selectionStart == 'number') {
+	         return e.selectionStart;
+	     } else if (document.selection) {
+	         var range = document.selection.createRange();
+	         var rangeLength = range.text.length;
+	         range.moveStart('character', -e.value.length);
+	         return range.text.length - rangeLength;
+	     }
+	 };   
+
+	 function setCaretPosition(e, start, end) {
+	     if (e.createTextRange) {
+	         var r = e.createTextRange();
+	         r.moveStart('character', start);
+	         r.moveEnd('character', (end || start));
+	         r.select();
+	     } else if (e.selectionStart) {
+	         e.focus();
+	         e.setSelectionRange(start, (end || start));
+	     }
+	 };
+
+	 function getWordBeforeCaretPosition(e) {    
+	     var s = e.value;
+	     var i = getCaretPosition(e) - 1;
+	     while (i >= 0 && s[i] != ' ') {
+	         i = i - 1;
+	     }             
+	     return i + 1;    
+	 };
+
+	 function getWordBeforeCaret(e) {  
+	   var p = getWordBeforeCaretPosition(e);
+	   var c = getCaretPosition(e);  
+	   return e.value.substring(p, c);    
+	 };
+
+	 function replaceWordBeforeCaret(e, word) {
+	     var p = getWordBeforeCaretPosition(e);
+	     var c = getCaretPosition(e);        
+	     e.value = e.value.substring(0, p) + word + e.value.substring(c);
+	     setCaretPosition(e, p + word.length);                     
+	 };
+
+  var methods = {
+     init : function( options ) {
+	
+       return this.each(function(){
+
+         var $this = $(this),
+            data = $this.data('mentions');
+
+		if (options < 0){
+			var projectId = $this.attr("autocomplete-mentions-projectid");
+		}
+		else{
+			var projectId = options;
+		}
+			$this.bind("keydown", function(event) {
+		     if (event.keyCode === $.ui.keyCode.TAB && $(this).data("autocomplete").menu.active ) {
+		       event.preventDefault();
+		     }
+		   	})
+		   .autocomplete({
+		     minLength: 0,
+			 open: function(){
+				$(".ui-menu").width('auto');
+			},
+		     source: function(request, response) {                 
+		       var w = getWordBeforeCaret(this.element[0]);  
+		       if (w[0] != '@') {
+		         this.close();
+		         return false;
+		       }             
+
+		   		if (typeof community_members[projectId] != "undefined") {
+		   			//map the data into a response that will be understood by the autocomplete widget
+		   			response($.ui.autocomplete.filter(community_members[projectId], w.substring(1, w.length)));
+		   		}
+		   		//get the data from the server
+		   		else {
+		   			$.ajax({
+		   				url: "/projects/" + projectId + "/community_members_array",
+		   				dataType: "json",
+		   				success: function(data) {
+		   					//cache the data for later
+		   					community_members[projectId] = data;
+		   					//map the data into a response that will be understood by the autocomplete widget
+		       				response($.ui.autocomplete.filter(community_members[projectId], w.substring(1, w.length)));
+		   				}
+		   			});
+		   		}
+		   	},
+			delay: 0,
+		     position: {
+		         my: "left top",
+		         at: "right top"
+		     },
+		     focus: function() {
+		       return false;
+		     },           
+		     search: function(event, ui) {
+		       return true;
+		     },
+		     select: function(event, ui) {             
+		       replaceWordBeforeCaret(this, '@' + ui.item.value + ' ');              
+		       return false;                   
+		     }
+		   })
+			.data( "autocomplete" )._renderItem = function( ul, item ) {
+				return $( "<li></li>" )
+					.data( "item.autocomplete", item )
+					.append( "<img src='http://gravatar.com/avatar.php?gravatar_id=" + item.mail_hash + "&size=17/>")
+					.append( "<a>" + item.label + "</a>" )
+					// .append( "<img src='https://secure.gravatar.com/avatar.php?gravatar_id=" + item.mail_hash + "&size=17/>")
+					// .append( "<a><img src='http://secure.gravatar.com/avatar.php?gravatar_id=" + item.mail_hash + "&size=17/>" + item.label + "</a>" )
+					.appendTo( ul );
+			};
+		
+		//Replace with code below to show gravatars in dropdown. Works only in firefox
+		// .data("autocomplete")._renderItem = function( ul, item ) {
+		// 		return $( "<li><a><img src='https://secure.gravatar.com/avatar.php?gravatar_id=" + item.mail_hash + "&size=17/>" + item.label + "</a></li>" )
+		// 			.data( "item.autocomplete", item )
+		// 			.appendTo( ul );
+		// 	};
+       });
+     },
+     destroy : function( ) {
+
+       return this.each(function(){
+
+         var $this = $(this),
+             data = $this.data('mentions');
+
+         // Namespacing FTW
+         $(window).unbind('.mentions');
+         data.mentions.remove();
+         $this.removeData('mentions');
+
+       })
+
+     }
+  };
+
+  $.fn.mentions = function( projectId ) {
+   	return methods['init'].apply( this, Array.prototype.slice.call( arguments, 0 ));
+  };
+
+})( jQuery );
+
+
+function bind_autocomplete_mentions(){
+	$("input[autocomplete-mentions-projectid]").mentions(-1); 
+	$("textarea[autocomplete-mentions-projectid]").mentions(-1); 
+
+	if (typeof projectId != "undefined"){
+		$( ".autocomplete-mentions" ).mentions(projectId); 
+	}
+};

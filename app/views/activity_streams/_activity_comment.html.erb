@@ -3,7 +3,7 @@
     <%= avatar(User.current, :size => "24") %>
     </td>
     <td colspan=2>
-      <textarea id="input_comment_textarea_<%= as.object_id %>" rows="3" cols="30" style="width:100%" class="autogrow"></textarea>
+      <textarea id="input_comment_textarea_<%= as.object_id %>" rows="3" cols="30" style="width:100%" class="autogrow" autocomplete-mentions-projectid="<%= as.project_id %>" ></textarea>
       <input type="submit" onclick="post_comment(<%= as.object_id %>,'<%= as.object_type.downcase %>');return false;" value="Comment"/>
     </td>
 </tr>

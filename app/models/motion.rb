@@ -215,6 +215,7 @@ class Motion < ActiveRecord::Base
                           :params => {:motion_title => self.title, :motion_description => self.description, :enterprise_id => self.project.root.id}, 
                           :sender_id => self.author_id,
                           :source_id => self.id,
+                          :source_type => "Motion",
                           :expiration => self.ends_on if user.allowed_to_see_motion?(self) unless self.concerned_user_id == user.id
     end
   end

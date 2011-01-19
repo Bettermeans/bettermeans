@@ -168,6 +168,7 @@ class IssuesController < ApplicationController
       # Check that the user is allowed to apply the requested status
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
       if @issue.save
+        Mention.parse(@issue, User.current.id)
         attach_files(@issue, params[:attachments])
         
         #adding self-agree vote
@@ -232,6 +233,8 @@ class IssuesController < ApplicationController
       attachments.each {|a| @journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
       
       if @issue.save
+        Mention.parse(@issue, User.current.id)
+        
         # if !journal.new_record?
         #   # Only send notification if something was actually changed
         #   # flash.now[:success] = l(:notice_successful_update)
@@ -434,12 +437,12 @@ class IssuesController < ApplicationController
     @issue.save
     @issue.reload
     
-    admin = User.sysadmin
     Notification.create :recipient_id => @issue.assigned_to_id,
                         :variation => 'issue_joined',
-                        :params => {:issue_id => @issue.id, :joiner_id => User.current.id}, 
-                        :sender_id => admin.id,
-                        :source_id => @issue.id
+                        :params => {:issue_id => @issue.id}, 
+                        :sender_id => User.current.id,
+                        :source_id => @issue.id,
+                        :source_type => "Issue"
     
     
     respond_to do |format|
@@ -457,7 +460,8 @@ class IssuesController < ApplicationController
                         :variation => 'issue_team_member_added',
                         :params => {:issue_id => @issue.id, :joiner_id => params[:issue_vote][:user_id]}, 
                         :sender_id => User.current.id,
-                        :source_id => @issue.id
+                        :source_id => @issue.id,
+                        :source_type => "Issue"
     
     
     respond_to do |format|
@@ -477,7 +481,8 @@ class IssuesController < ApplicationController
                         :variation => 'issue_team_member_removed',
                         :params => {:issue_id => @issue.id, :joiner_id => params[:user_id]}, 
                         :sender_id => User.current.id,
-                        :source_id => @issue.id
+                        :source_id => @issue.id,
+                        :source_type => "Issue"
     
     respond_to do |format|
       format.js do
@@ -500,7 +505,8 @@ class IssuesController < ApplicationController
                         :variation => 'issue_left',
                         :params => {:issue => @issue, :joiner => User.current}, 
                         :sender_id => admin.id,
-                        :source_id => @issue.id
+                        :source_id => @issue.id,
+                        :source_type => "Issue"
     
     
     respond_to do |format|
