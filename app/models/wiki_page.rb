@@ -21,9 +21,7 @@ class WikiPage < ActiveRecord::Base
                      :include => [{:wiki => :project}, :content],
                      :project_key => "#{Wiki.table_name}.project_id"
 
-  attr_accessor :redirect_existing_links
-  
-  after_save :send_mentions
+  attr_accessor :redirect_existing_links  
   
   validates_presence_of :title
   validates_format_of :title, :with => /^[^,\.\/\?\;\|\s]*$/
