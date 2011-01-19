@@ -43,7 +43,7 @@ class Notification < ActiveRecord::Base
   
   def remove_mention_duplicates
     return unless mention?
-    Notification.update_all("state = #{STATE_ARCHIVED}", :conditions => {:variation => 'mention', :recipient_id => self.recipient_id, :source_id => self.source_id, :source_type => self.source_type})
+    Notification.update_all(["state = ?", STATE_ARCHIVED], {:variation => 'mention', :recipient_id => self.recipient_id, :source_id => self.source_id, :source_type => self.source_type})
   end
     
   # # -1 is deactivated
