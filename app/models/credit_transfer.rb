@@ -14,7 +14,8 @@ class CreditTransfer < ActiveRecord::Base
                         :variation => 'credits_transferred',
                         :params => {:amount => self.amount, :note => self.note, :project => self.project, :sender_name => sender.name}, 
                         :sender_id => self.sender_id,
-                        :source_id => self.id     
+                        :source_id => self.id,     
+                        :source_type => "CreditTransfer"
     
   end
 end
