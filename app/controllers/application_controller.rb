@@ -346,11 +346,7 @@ class ApplicationController < ActionController::Base
     return tmp
   rescue
     nil
-  end
-  
-  def parse_mentions(object)
-    
-  end
+  end  
   
   # Returns a string that can be used as filename value in Content-Disposition header
   def filename_for_content_disposition(name)
