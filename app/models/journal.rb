@@ -31,7 +31,7 @@ class Journal < ActiveRecord::Base
                                     :url => {:controller => self.journalized_type.to_s.pluralize.downcase, :action => "show", :id => self.journalized_id}, 
                                     :title => self.issue.subject}, 
                         :sender_id => mentioner_id,
-                        :source_id => self.journalized_id,
+                        :source_id => self.id,
                         :source_type => "Journal(#{self.journalized_type})"
   end
   

@@ -1658,6 +1658,7 @@ stop: null
 	// </script>
 	//or just directly run $('#widget').mentions(projectId);
 	//or add a property to the text area autocomplete-mentions-projectid="<%= as.project_id %>"
+	// "autocomplete-mentions-projectid" => @project.id
 
 	 function getCaretPosition(e) {    
 	     if (typeof e.selectionStart == 'number') {
@@ -1772,9 +1773,19 @@ stop: null
 			.data( "autocomplete" )._renderItem = function( ul, item ) {
 				return $( "<li></li>" )
 					.data( "item.autocomplete", item )
-					.append( "<a><img src='https://secure.gravatar.com/avatar.php?gravatar_id="+ item.mail_hash +"&size=17/>" + item.label + "</a>" )
+					.append( "<img src='http://gravatar.com/avatar.php?gravatar_id=" + item.mail_hash + "&size=17/>")
+					.append( "<a>" + item.label + "</a>" )
+					// .append( "<img src='https://secure.gravatar.com/avatar.php?gravatar_id=" + item.mail_hash + "&size=17/>")
+					// .append( "<a><img src='http://secure.gravatar.com/avatar.php?gravatar_id=" + item.mail_hash + "&size=17/>" + item.label + "</a>" )
 					.appendTo( ul );
 			};
+		
+		//Replace with code below to show gravatars in dropdown. Works only in firefox
+		// .data("autocomplete")._renderItem = function( ul, item ) {
+		// 		return $( "<li><a><img src='https://secure.gravatar.com/avatar.php?gravatar_id=" + item.mail_hash + "&size=17/>" + item.label + "</a></li>" )
+		// 			.data( "item.autocomplete", item )
+		// 			.appendTo( ul );
+		// 	};
        });
      },
      destroy : function( ) {

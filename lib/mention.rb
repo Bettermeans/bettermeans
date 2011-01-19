@@ -24,15 +24,13 @@ class Mention
     #Find user or abort
     user = User.find_by_login(mentioned_login)
     
+    return if user.nil?
+    
     #Find better sub-section of text that includes user login
     mention_text_subsection = mention_text
     
     #Send mention to issue
     object.send(:mention,mentioner_id,user.id,mention_text_subsection)
-    #change to send_later
-  # rescue
-    #nothing todo here, it's just that we didn't find the user, or failed to insert
-    puts { "Failed to send metion to #{object.inspect} with login #{mentioned_login}" }
   end
   
 end
