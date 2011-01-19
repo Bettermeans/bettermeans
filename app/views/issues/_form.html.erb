@@ -16,8 +16,12 @@
                    :cols => 60,
                    :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
                    :accesskey => accesskey(:edit),
-                   :class => 'wiki-edit' %></p>
+                   :class => 'wiki-edit autocomplete-mentions' %></p>
 </div>
+
+<script type="text/javascript">
+projectId = <%= @project.id %>;
+</script>
 
 <!-- <div id="attributes" class="attributes"> -->
 	<%#= render :partial => 'attributes' %>

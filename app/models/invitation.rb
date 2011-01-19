@@ -25,7 +25,8 @@ class Invitation < ActiveRecord::Base
                               :variation => 'invitation',
                               :params => {:role_name => self.role.name, :project_name => self.project.name, :project_id => self.project_id, :token => self.token, :note => note}, 
                               :sender_id => self.user_id,
-                              :source_id => self.id if recipient
+                              :source_id => self.id, 
+                              :source_type => "Invitation" if recipient
     
   end
   
