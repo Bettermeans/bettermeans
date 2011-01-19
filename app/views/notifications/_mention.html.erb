@@ -1,32 +1,27 @@
 <tr class="notification notification-issue-mentioned" id="notification_<%= @mention.id %>">
-      <!-- <td class="gt-avatar">
-        <%#= avatar_from_id(@mention.sender_id, :size => '53') %>
-      </td> -->
-      <td>
-  <!-- <h4>
-<%#= l("label_someone_mentioned_you", :mentioner => link_to_user_from_id(@mention.sender_id)) %>
-  </h4> -->
-  <%= make_expandable mention_text %><br><br>
+  <td class="gt-avatar">
+		<!-- Categories Sub Table -->
+		<table border="0" class="gt-table-categories">
+		  <tr>
+		    <td>
+          <%= avatar_from_id(@mention.sender_id, :size => '53') %>
+        </td>
+	    </tr>
+			<tr>
+				<td><%= link_to_user_from_id(@mention.sender_id) %></td>
+			</tr>
+			<tr>
+				<td><%= since_tag(@mention.created_at) %> ago</td>
+			</tr>
+		</table>
+	</td>
+  <td>
   <%= link_to (truncate(title,30),{:url => "/#{url_prefix}/#{id}"}) %>
+  <br><br>
+  <%= make_expandable mention_text %>
 <%#= l(:text_joiner_is_now_working_with_you, :joiner => link_to_user_from_id(@mention.sender_id), :issue => link_to_issue_from_id(issue_id)) %>
 <p class="gt-table-action-list">
 <%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => @mention.id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
 </p>
     </td>
-    <td>
-			<!-- Categories Sub Table -->
-			<table border="0" class="gt-table-categories">
-			  <tr>
-			    <td class="gt-avatar">
-            <%= avatar_from_id(@mention.sender_id, :size => '53') %>
-          </td>
-		    </tr>
-				<tr>
-					<td><%= link_to_user_from_id(@mention.sender_id) %></td>
-				</tr>
-				<tr>
-					<td><%= since_tag(@mention.created_at) %> ago</td>
-				</tr>
-			</table>
-		</td>
 </tr>

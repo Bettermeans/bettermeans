@@ -8,6 +8,7 @@ require 'redmine/plugin'
 require 'redmine/wiki_formatting'
 require 'float' #todo: there's a more appropriate place for this
 require 'string'
+require 'mention'
 
 begin
   require_library_or_gem 'RMagick' unless Object.const_defined?(:Magick)
