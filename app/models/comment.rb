@@ -31,7 +31,6 @@ class Comment < ActiveRecord::Base
                         :source_id => self.id,
                         :source_type => "Comment(#{self.commented_type})"
   end
-    
 end
 
 
