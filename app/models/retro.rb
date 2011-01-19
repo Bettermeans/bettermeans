@@ -175,7 +175,7 @@ class Retro < ActiveRecord::Base
                           :variation => 'retro_started',
                           :params => {:project => project}, 
                           :sender_id => admin.id,
-                          :source_type => "Retro"
+                          :source_type => "Retro",
                           :source_id => self.id    
     end
   end
