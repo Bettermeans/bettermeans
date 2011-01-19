@@ -29,6 +29,7 @@ class Message < ActiveRecord::Base
   validates_length_of :subject, :maximum => 255
   
   after_create :add_author_as_watcher
+  after_save :send_mentions
   
   def project_id
     board.project.id
@@ -49,6 +50,22 @@ class Message < ActiveRecord::Base
     end
     board.reset_counters!
   end
+  
+  def send_mentions
+    Mention.parse(self, self.author_id)
+  end
+  
+  def mention(mentioner_id, mentioned_id, mention_text)
+    Notification.create :recipient_id => mentioned_id,
+                        :variation => 'mention',
+                        :params => {:mention_text => self.content, 
+                                    :url => {:controller => "messages", :action => "show", :board_id => self.board_id}, 
+                                    :title => self.subject}, 
+                        :sender_id => mentioner_id,
+                        :source_id => self.id,
+                        :source_type => "Message"
+  end
+  
   
   def after_update
     if board_id_changed?
