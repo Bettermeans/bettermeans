@@ -69,6 +69,7 @@ class RetrosController < ApplicationController
     #Adding users that have issues assigned to them and calculating total points for each user
     issue_group = @retro.issues.group_by{|issue| issue.assigned_to_id}
     issue_group.each_value {|issues| @total_points += issues.collect(&:points).sum }
+    issue_group.delete(nil)
     issue_group.keys.sort.each do |assigned_to_id|
       next if (@user_retro_hash.has_key? assigned_to_id)  || assigned_to_id == User.sysadmin.id
       @user_retro_hash.store assigned_to_id, new_user_retro.dup
