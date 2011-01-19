@@ -14,7 +14,7 @@
 	</td>
   <td>
     <span class="icon icon-time right small-text"<%= since_tag(@mention.created_at) %> ago</span>
-  <%= link_to (truncate(title,30),{:url => url}) %>
+  <%= link_to (truncate(title,50),url, {:class => "#{@mention.source_type == 'Issue' || @mention.source_type == 'Journal(Issue)' ? 'fancyframe' : ''}"}) %>
   <br><br>
   <%= make_expandable mention_text %>
 <%#= l(:text_joiner_is_now_working_with_you, :joiner => link_to_user_from_id(@mention.sender_id), :issue => link_to_issue_from_id(issue_id)) %>

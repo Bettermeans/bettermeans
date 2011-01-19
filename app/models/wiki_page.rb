@@ -23,6 +23,8 @@ class WikiPage < ActiveRecord::Base
 
   attr_accessor :redirect_existing_links
   
+  after_save :send_mentions
+  
   validates_presence_of :title
   validates_format_of :title, :with => /^[^,\.\/\?\;\|\s]*$/
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
