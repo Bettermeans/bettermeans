@@ -741,8 +741,12 @@ module ApplicationHelper
     #     export:some/file -> Force the download of the file
     #  Forum messages:
     #     message#1218 -> Link to message with id 1218
-    text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
+    #  User mentions:
+    #    @userlogin -> Link to user with login:userlogin
+    # text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
+    text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(@)([a-zA-Z0-9]+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
       leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
+    
       link = nil
       if esc.nil?
         if sep == '#'
@@ -770,6 +774,8 @@ module ApplicationHelper
                                                  :class => 'message'
             end
           end
+        elsif sep == '@'
+          link = link_to("@#{oid}", {:only_path => only_path, :controller => 'users', :action => 'show', :id => 0, :login => oid})
         elsif sep == ':'
           # removes the double quotes if any
           name = oid.gsub(%r{^"(.*)"$}, "\\1")
@@ -1160,7 +1166,7 @@ module ApplicationHelper
     # html << link_to(image_tag("question_mark.gif", :class=> "help_question_mark", :id=>"help_image_#{name}"), {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
 
     html = link_to(image_tag("question_mark.gif", :class=> "help_question_mark", :id=>"help_image_#{name}"), {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
-    html << content_tag(:span, l(name), :class => 'tip hidden', :id=>"tip_#{name}")
+    html << content_tag(:span, l(name, options), :class => 'tip hidden', :id=>"tip_#{name}")
     
     # <img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="help_question_mark">
     # <div id="help_panel_canceled" style="display:none;">

@@ -3,9 +3,8 @@
 <% form_for :content, @content, :url => {:action => 'edit', :page => @page.title}, :html => {:id => 'wiki_form'} do |f| %>
 <%= f.hidden_field :version %>
 <%= error_messages_for 'content' %>
-
-<p><%= f.textile_editor :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit) %></p>
-<p><label><%= l(:field_wiki_comments) %><%= help_bubble :help_revision_notes %></label><br /><%= f.text_field :comments, :size => 120 %></p>
+<p><%= f.textile_editor :text, :cols => 100, :rows => 25, :class => 'wiki-edit', :accesskey => accesskey(:edit), "autocomplete-mentions-projectid" => @project.id %></p>
+<p><label><%= l(:field_wiki_comments) %><%= help_bubble :help_revision_notes %></label><br /><%= f.text_field :comments, :size => 120, "autocomplete-mentions-projectid" => @project.id %></p>
 <div class="gt-table-buttons">
 <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
 <p class="gt-cancel">   <%= link_to_remote l(:label_preview), 

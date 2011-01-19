@@ -249,6 +249,17 @@ class Issue < ActiveRecord::Base
     result
   end
   
+  def mention(mentioner_id, mentioned_id, mention_text)
+    Notification.create :recipient_id => mentioned_id,
+                        :variation => 'mention',
+                        :params => {:mention_text => self.description, 
+                                    :url => {:controller => "issues", :action => "show", :id => self.id}, 
+                                    :title => self.subject}, 
+                        :sender_id => mentioner_id,
+                        :source_id => self.id,
+                        :source_type => "Issue"
+  end
+  
   # Overrides attributes= so that tracker_id gets assigned first
   def attributes_with_tracker_first=(new_attributes, *args)
     return if new_attributes.nil?

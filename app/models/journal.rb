@@ -13,12 +13,28 @@ class Journal < ActiveRecord::Base
   has_many :details, :class_name => "JournalDetail", :dependent => :delete_all
   attr_accessor :indice
       
-  after_save :update_issue_timestamp
+  after_save :update_issue_timestamp, :send_mentions
   
   def update_issue_timestamp
     issue.updated_at = DateTime.now
     issue.save
   end
+  
+  def send_mentions
+    Mention.parse(self, self.user_id)
+  end
+  
+  def mention(mentioner_id, mentioned_id, mention_text)
+    Notification.create :recipient_id => mentioned_id,
+                        :variation => 'mention',
+                        :params => {:mention_text => self.notes, 
+                                    :url => {:controller => self.journalized_type.to_s.pluralize.downcase, :action => "show", :id => self.journalized_id}, 
+                                    :title => self.issue.subject}, 
+                        :sender_id => mentioner_id,
+                        :source_id => self.id,
+                        :source_type => "Journal(#{self.journalized_type})"
+  end
+  
   
   def save(*args)
     # Do not save an empty journal

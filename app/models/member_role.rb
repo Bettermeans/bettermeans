@@ -68,6 +68,7 @@ class MemberRole < ActiveRecord::Base
                               :variation => 'new_role',
                               :params => {:role_name => self.role.name, :project_name => self.member.project.root.name, :enterprise_id => self.member.project.root.id}, 
                               :sender_id => User.sysadmin.id,
+                              :source_type => "MemberRole",
                               :source_id => self.id if self.role.level == Role::LEVEL_ENTERPRISE    
   end
   

@@ -1011,7 +1011,7 @@ ul {
 	margin-bottom: 20px;
 }
 ul li {
-	list-style-type: disc;
+	list-style-type: none;
 	margin-left: 2px;
 	margin-bottom: 2px;
 }
@@ -2542,4 +2542,28 @@ img.private-workstream, img.volunteer-workstream{
 	padding-left:13px;
 	padding-top:5px;
 	vertical-align:top;
+}
+
+.ui-menu .ui-menu-item a{
+	float: left;
+}
+
+
+
+.ui-menu-item img{
+	vertical-align: middle;
+	padding-top: 3px;
+	float: left;
+	
+}
+
+.ui-menu ul li{
+	list-style-type: none;
+}
+
+.small-text {
+	font-size: 85%;
+	font-weight: bold;
+	color: #666666;
+	border: none;
 }

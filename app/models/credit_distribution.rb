@@ -20,7 +20,8 @@ class CreditDistribution < ActiveRecord::Base
                         :variation => 'credits_distributed',
                         :params => {:project_name => project.name, :credit_distribution => self.attributes, :enterprise_id => self.project.root.id}, 
                         :sender_id => admin.id,
-                        :source_id => self.id     
+                        :source_id => self.id,     
+                        :source_type => "Credit"
   end
 end
 

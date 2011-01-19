@@ -4,6 +4,9 @@ class NotificationsController < ApplicationController
   # GET /notifications.xml
   def index
     @notifications = Notification.unresponded    
+    @mentions = @notifications.select {|n| n.mention?}
+    @notifications = @notifications.select {|n| !n.mention?}
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @notifications }
