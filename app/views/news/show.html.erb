@@ -55,58 +55,60 @@
 
 <br />
 
-<h3 class="comments"><%= l(:label_comment_plural) %></h3>
-<div class="gt-content-box">
-<table class="gt-table gt-user-table" border="0">  
-  <tbody>
+<% if @comments.any? %>
+  <h3 class="comments"><%= l(:label_comment_plural) %></h3>
+  <div class="gt-content-box">
+  <table class="gt-table gt-user-table" border="0">  
+    <tbody>
 
-<% @comments.each do |comment| %>
-<% next if comment.new_record? %>
+  <% @comments.each do |comment| %>
+  <% next if comment.new_record? %>
 
- <tr>
-   <td class="gt-avatar <%= User.current.logged? && User.current.id == comment.author ? 'me' : nil %>">
-     <%= avatar(comment.author, :size => '53') %>
-   </td>
-   <td>
-     <div class="comment reply" id="<%= "comment-#{comment.id}" %>">
-       <%= textilizable comment.comments %>
-     </div>
+   <tr>
+     <td class="gt-avatar <%= User.current.logged? && User.current.id == comment.author ? 'me' : nil %>">
+       <%= avatar(comment.author, :size => '53') %>
+     </td>
+     <td>
+       <div class="comment reply" id="<%= "comment-#{comment.id}" %>">
+         <%= textilizable comment.comments %>
+       </div>
      
-   </td>
-   <td class="side">
-     <table border="0" class="gt-table-categories">
- 			<tr>
-         <!-- <th>Repeated:</th> -->
- 				<td><%= link_to_user(comment.author) %></td>
- 			</tr>
- 			<tr>
-         <!-- <th>Logged time:</th> -->
- 				<td><%= since_tag(comment.created_at) %> ago</td>
- 			</tr>
-      <tr><td>
-        <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment},
-                                                           :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %>
-        </td>
-        </tr>
- 		</table>
-   </td>
-</tr>
-<% end if @comments.any? %>
-    </tbody>
-  </table>
-</div>
+     </td>
+     <td class="side">
+       <table border="0" class="gt-table-categories">
+   			<tr>
+           <!-- <th>Repeated:</th> -->
+   				<td><%= link_to_user(comment.author) %></td>
+   			</tr>
+   			<tr>
+           <!-- <th>Logged time:</th> -->
+   				<td><%= since_tag(comment.created_at) %> ago</td>
+   			</tr>
+        <tr><td>
+          <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment},
+                                                             :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %>
+          </td>
+          </tr>
+   		</table>
+     </td>
+  </tr>
+  <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
 
 <% if authorize_for 'news', 'add_comment' %>
-<p><%= toggle_link l(:label_comment_add), "add_comment_form", {:focus => "comment_comments", :class => "gt-btn-gray-large"} %></p>
-<% form_tag({:action => 'add_comment', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
-<div class="gt-content-box">
-    <%= textile_editor 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %>
-</div>
-<div class="gt-table-buttons">
-<%= submit_tag l(:button_add), :disable_with => l(:button_working) %>
-</div>
-<%= textile_editor_initialize(:framework => :jquery) %>
-<% end %>
+  <p><%= toggle_link l(:label_comment_add), "add_comment_form", {:focus => "comment_comments", :class => "gt-btn-gray-large"} %></p>
+  <% form_tag({:action => 'add_comment', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
+  <div class="gt-content-box">
+      <%= textile_editor 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit', "autocomplete-mentions-projectid" => @project.id %>
+  </div>
+  <div class="gt-table-buttons">
+  <%= submit_tag l(:button_add), :disable_with => l(:button_working) %>
+  </div>
+  <%= textile_editor_initialize(:framework => :jquery) %>
+  <% end %>
 <% end %>
 
 <% html_title @news.title -%>

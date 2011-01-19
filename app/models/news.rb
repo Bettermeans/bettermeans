@@ -10,6 +10,8 @@ class News < ActiveRecord::Base
   validates_presence_of :title, :description
   validates_length_of :title, :maximum => 60
   validates_length_of :summary, :maximum => 255
+  
+  after_save :send_mentions
 
   acts_as_searchable :columns => ['title', 'summary', "#{table_name}.description"], :include => :project
 
@@ -32,6 +34,22 @@ class News < ActiveRecord::Base
   def self.latest(user = User.current, count = 5)
     find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news) + " (created_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_LATEST_NEWS * -1)}')", :include => [ :author, :project ], :order => "#{News.table_name}.created_at DESC")	
   end
+  
+  def send_mentions
+    Mention.parse(self, self.author_id)
+  end
+  
+  def mention(mentioner_id, mentioned_id, mention_text)
+    Notification.create :recipient_id => mentioned_id,
+                        :variation => 'mention',
+                        :params => {:mention_text => self.description, 
+                                    :url => {:controller => "news", :action => "show", :id => self.id}, 
+                                    :title => self.title}, 
+                        :sender_id => mentioner_id,
+                        :source_id => self.id,
+                        :source_type => "News"
+  end
+  
 end
 
 

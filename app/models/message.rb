@@ -59,7 +59,7 @@ class Message < ActiveRecord::Base
     Notification.create :recipient_id => mentioned_id,
                         :variation => 'mention',
                         :params => {:mention_text => self.content, 
-                                    :url => {:controller => "messages", :action => "show", :board_id => self.board_id}, 
+                                    :url => {:controller => "messages", :action => "show", :board_id => self.board_id, :id => self.id}, 
                                     :title => self.subject}, 
                         :sender_id => mentioner_id,
                         :source_id => self.id,
