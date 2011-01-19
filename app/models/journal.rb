@@ -27,10 +27,12 @@ class Journal < ActiveRecord::Base
   def mention(mentioner_id, mentioned_id, mention_text)
     Notification.create :recipient_id => mentioned_id,
                         :variation => 'mention',
-                        :params => {:mention_text => self.notes, :url_prefix => "issues/show", :title => self.issue.subject}, 
+                        :params => {:mention_text => self.notes, 
+                                    :url => {:controller => "issues", :action => "show", :id => self.issue_id}, 
+                                    :title => self.issue.subject}, 
                         :sender_id => mentioner_id,
-                        :source_id => self.issue_id,
-                        :source_type => "Journal"
+                        :source_id => self.journalized_id,
+                        :source_type => "Journal(#{self.journalized_type})"
   end
   
   
