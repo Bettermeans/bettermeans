@@ -13,7 +13,7 @@ class Journal < ActiveRecord::Base
   has_many :details, :class_name => "JournalDetail", :dependent => :delete_all
   attr_accessor :indice
       
-  after_save :update_issue_timestamp, :send_mentions
+  after_save :update_issue_timestamp, :send_mentions, :parse_relations
   
   def update_issue_timestamp
     issue.updated_at = DateTime.now
@@ -35,6 +35,27 @@ class Journal < ActiveRecord::Base
                         :source_type => "Journal(#{self.journalized_type})"
   end
   
+  def parse_relations
+    self.send_later(:parse_relations_delayed)
+  end
+  
+  #parses issue ids in body of journal, and adds related issues
+  def parse_relations_delayed
+    text = self.notes
+    text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(@)([a-zA-Z0-9._@]+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
+      leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
+      link = nil
+      if esc.nil?
+        if sep == '#'
+          @relation = IssueRelation.new
+          @relation.issue_from_id = self.journalized_id
+          @relation.issue_to_id = oid
+          @relation.relation_type = IssueRelation::TYPE_RELATES
+          @relation.save
+        end
+      end
+    end
+  end  
   
   def save(*args)
     # Do not save an empty journal
