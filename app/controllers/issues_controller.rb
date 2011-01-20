@@ -62,8 +62,6 @@ class IssuesController < ApplicationController
     :indirect_object_phrase => 'GENERATEDETAILS' } #special value generates details for each property change
   
   log_activity_streams :current_user, :name, :restarted, :@issue, :subject, :restart, :issues, {}
-  # log_activity_streams :current_user, :name, :ed, :@issue, :subject, :, :issues, {}
-  # log_activity_streams :current_user, :name, :ed, :@issue, :subject, :, :issues, {}
            
   def index
     retrieve_query
