@@ -648,7 +648,7 @@ class Issue < ActiveRecord::Base
         next if duplicate.closed?
         # Same user and notes
         duplicate.init_journal(@current_journal.user, @current_journal.notes)
-        duplicate.update_attribute :status, self.status
+        duplicate.update_attribute :status, IssueStatus.archived
       end
     end    
     
