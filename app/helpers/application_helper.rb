@@ -132,6 +132,10 @@ module ApplicationHelper
   
   def link_to_issue_from_id(issue_id, options={})
     link_to_issue(Issue.find(issue_id), options)
+  rescue
+    css_class = "fancyframe" #loads fancybox
+    s = link_to "Issue ##{issue_id}", {:controller => "issues", :action => "show", :id => issue_id}, 
+                                                 :class => css_class
   end
 
   # Generates a link to an attachment.
