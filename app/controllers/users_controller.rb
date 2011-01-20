@@ -39,6 +39,10 @@ class UsersController < ApplicationController
   def show
     if params[:login]
       @user = User.active.find_by_login(params[:login])
+      if @user.nil?
+        render_404
+        return
+      end
     else
       @user = User.active.find(params[:id])
     end
