@@ -2327,6 +2327,7 @@ function comment_prompt(dataId,source,data,action,required,message){
 		});	
 	
 	$('#new_comment_' + dataId).focus();
+	$( "#prompt_comment_" + dataId ).mentions(projectId); 
 }
 
 
