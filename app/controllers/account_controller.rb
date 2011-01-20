@@ -12,19 +12,15 @@ class AccountController < ApplicationController
 
   # Login request and validation
   def login
-    
-    logger.info { "authenticating and accepting invitation #{session[:invitation_token]}" }
-    
+    session[:invitation_token] = params[:invitation_token] || session[:invitation_token]
+    @invitation_token = session[:invitation_token]
     
     if request.get?
       # Logout user
-      @invitation_token = session[:invitation_token]
       self.logged_user = nil
       session[:invitation_token] = @invitation_token
       render :layout => 'static'
     else
-      session[:invitation_token] = params[:invitation_token] || session[:invitation_token]
-      @invitation_token = session[:invitation_token]
       # logger.info { "1 authenticating and accepting invitation #{session[:invitation_token]}" }
       # Authenticate user
       if Setting.openid? && using_open_id?
