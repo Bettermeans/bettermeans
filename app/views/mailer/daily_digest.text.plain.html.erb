@@ -1,6 +1,6 @@
 Here's the list of system updates for work items you're involved with...
 
-<% @journals.group_by{|j| j.issue_id}.each_pair do |issue_id, details| %>
+<% @journals.group_by{|j| j.journalized_id}.each_pair do |issue_id, details| %>
 <% issue = Issue.find(issue_id) %>
 <%= "#{issue.tracker.name} ##{issue.id}: #{issue.subject}" %>
 <%= url_for(:controller => 'projects', :action => 'dashboard', :show_issue_id => issue.id, :only_path => false) %>
