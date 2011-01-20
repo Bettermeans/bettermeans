@@ -95,7 +95,7 @@ module LogActivityStreams
       object_name, action, activity, options={})
 
       self.after_filter do |c|
-        c.send_later(:write_activity_stream_log, actor_method, actor_name, verb, object_method, object_name, action, activity, options)
+        c.send(:write_activity_stream_log, actor_method, actor_name, verb, object_method, object_name, action, activity, options)
       end
 
     end
