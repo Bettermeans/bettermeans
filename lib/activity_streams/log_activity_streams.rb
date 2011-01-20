@@ -11,6 +11,11 @@ module LogActivityStreams
   
   include ActivityStreamsHelper
   
+  # def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
+  #   self.send_later(:write_single_activity_stream_delayed,actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
+  # end
+  
+  # def self.write_single_activity_stream_delayed(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
   def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
   # If there are identical activities within 8 hours, up count
   as = find_identical(actor, object, verb, activity);
@@ -90,7 +95,7 @@ module LogActivityStreams
       object_name, action, activity, options={})
 
       self.after_filter do |c|
-        c.send(:write_activity_stream_log, actor_method, actor_name, verb, object_method, object_name, action, activity, options)
+        c.send_later(:write_activity_stream_log, actor_method, actor_name, verb, object_method, object_name, action, activity, options)
       end
 
     end
