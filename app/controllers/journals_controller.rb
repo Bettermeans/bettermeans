@@ -26,9 +26,9 @@ class JournalsController < ApplicationController
   def edit_from_dashboard
     if @journal.update_attributes(params[:journal])
       update_activity_stream(params[:journal][:notes])
-      respond_to do |format|
-        format.js {render :json => @journal.issue.to_dashboard}
-      end
+    end
+    respond_to do |format|
+      format.js {render :json => @journal.issue.to_dashboard}
     end
   end
   
