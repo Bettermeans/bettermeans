@@ -293,7 +293,6 @@ class Mailer < ActionMailer::Base
   end
 
   def register(token)
-    set_language_if_valid(token.user.language)
     recipients token.user.mail
     subject l(:mail_subject_register, Setting.app_title)
     body :token => token,

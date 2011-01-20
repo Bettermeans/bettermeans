@@ -82,7 +82,14 @@ class MemberRole < ActiveRecord::Base
   def refresh_memberships
     return unless member
     return unless role.level == Role::LEVEL_ENTERPRISE
-    member.project.root.descendants.each(&:refresh_active_members) if member.project
+    MemberRole.send_later(:refresh_memberships_delayed,self)
+  end
+
+  #refreshes memberships for all private workstreams
+  def self.refresh_memberships_delayed(member_role)
+    return unless member_role.member
+    return unless member_role.role.level == Role::LEVEL_ENTERPRISE
+    member_role.member.project.root.descendants.each(&:refresh_active_members) if member_role.member.project
   end
   
   # #Removes all contributor roles for this member if the current role being added is core
