@@ -1659,120 +1659,120 @@ div.projects h3 { background: url(/images/projects.png) no-repeat 0% 50%; paddin
 }
 
 /*flyover*/
-.storyDetails {padding: 6px 17px 7px; background-color: #fff8d7}
-.storyDetails .elementResizerHandle {display: block}
-.storyDetailsTable {padding-top: 10px; border-spacing: 0px 0; border-collapse: separate}
-.storyDetailsTable td.letContentExpand {width: 1px;border-bottom:none;}
-.storyDetailsTable td {border-bottom:none;}
-.storyDetailsTable .created_by {text-align:right; line-height:1.3em;}
-.storyDetailsButton {padding: 0px;}
-.storyDetailsActionButton {text-align: right; padding: 0px;}
-.storyDetails .section {color:#333; font-weight:normal; font-size:0.95em; line-height: 14px; margin-top: 15px}
-.storyDetails .section .header {font-weight:bold; color:#3F3D35; font-size: 115%; margin-bottom: 0}
-.storyDetails .section textArea, .storyDetails .section input[type=text].tasksTextArea {width: 95%; overflow:auto; padding: 3px; font-weight:bold; margin-top: 5px; font-size: 104%; max-width:500px;}
-.storyDetails .storyDescriptionTable textArea {margin-top: 3px}
-.storyDetails .storyDescriptionTable {width: 100%}
-.storyDetails .tasksTable {width: 100%}
+.gt-Sd {padding: 6px 17px 7px; background-color: #fff8d7}
+.gt-Sd .elementResizerHandle {display: block}
+.gt-SdTable {padding-top: 10px; border-spacing: 0px 0; border-collapse: separate}
+.gt-SdTable td.letContentExpand {width: 1px;border-bottom:none;}
+.gt-SdTable td {border-bottom:none;}
+.gt-SdTable .created_by {text-align:right; line-height:1.3em;}
+.gt-SdButton {padding: 0px;}
+.gt-SdActionButton {text-align: right; padding: 0px;}
+.gt-Sd .section {color:#333; font-weight:normal; font-size:0.95em; line-height: 14px; margin-top: 15px}
+.gt-Sd .section .header {font-weight:bold; color:#3F3D35; font-size: 115%; margin-bottom: 0}
+.gt-Sd .section textArea, .gt-Sd .section input[type=text].tasksTextArea {width: 95%; overflow:auto; padding: 3px; font-weight:bold; margin-top: 5px; font-size: 104%; max-width:500px;}
+.gt-Sd .storyDescriptionTable textArea {margin-top: 3px}
+.gt-Sd .storyDescriptionTable {width: 100%}
+.gt-Sd .tasksTable {width: 100%}
 .tasksTextArea {margin-top: 3px; width: 95%; overflow:auto; max-width:500px;}
-.storyDetails .section textArea.textAreaFocus, .storyDetails input[type=text].textAreaFocus {font-weight:normal; width: 95%}
-.storyDetails .section .italic {font-style:italic; color:#7C7B76; font-size:0.85em}
-.storyDetails .section .specialhighlight {color: #333; font-weight:bold; font-size: 103%;}
-.storyDetails .section input[type='submit'] {margin-top: 4px; display: block}
-.storyDetails .section .storyDescriptionTable .descriptionHeaderEdit {font-size: 8pt; width:1px; padding-right: 4px}
-.storyDetails .section .storyDescriptionTable .lastCell {padding-left: 4px}
-.storyDetails .section .notesTable {width: 100% }
-.storyDetails .section .notesTable .italic {margin-left:8px }
-.storyDetails .section tr.noteTextRow + tr.noteInfoRow > td.noteInfo {padding-top:7px }
-.storyDetails .section .notesTable tr:first-child td, .storyDetails .section .tasksTable tr:first-child td {padding-top: 4px; padding-bottom:4px;}
-.storyDetails .section .tasksTable tr:hover td {background-color:#EBE29C}
-.storyDetails .section .tasksTable td {padding:3px 5px 0px 0px}
-.storyDetails .section .taskDescription input {width:100%}
-.storyDetails .section .taskDescription {width:90%}
-.storyDetails .section .taskDescription:hover {cursor: pointer}
-.storyDetails .section .task_editing {margin-left: 8px}
-.storyDetails .section .task_editing + .task_editing {margin-left: 5px}
-.storyDetails .section .tasksTable .completed {color: #999}
-.storyDetails .section table td {border-bottom:none;}
-.storyDetails .section table td.resource_details_cell {vertical-align: top; padding-left: 15px}
-.storyDetails .section table td.imageCell {text-align: center; width: 75px}
-.storyDetails .section .resource_image {cursor:pointer}
-.storyDetails .section table span.resource_row_span{ padding-right: 0.5em}
-.storyDetails .section .attachments a.cancelLink {padding-left: 1em}
-.storyDetails .section .attachments .attachmentHint {font-size: 90%; color: #ff6600; font-weight: bold}
-.storyDetails .section.storyIdTable {border-spacing: 0px 0; border-collapse: separate; width: 100%}
-.storyDetails .section.storyIdTable .storyId {font-size: 110%; padding-left: 4px}
+.gt-Sd .section textArea.textAreaFocus, .gt-Sd input[type=text].textAreaFocus {font-weight:normal; width: 95%}
+.gt-Sd .section .italic {font-style:italic; color:#7C7B76; font-size:0.85em}
+.gt-Sd .section .specialhighlight {color: #333; font-weight:bold; font-size: 103%;}
+.gt-Sd .section input[type='submit'] {margin-top: 4px; display: block}
+.gt-Sd .section .storyDescriptionTable .descriptionHeaderEdit {font-size: 8pt; width:1px; padding-right: 4px}
+.gt-Sd .section .storyDescriptionTable .lastCell {padding-left: 4px}
+.gt-Sd .section .notesTable {width: 100% }
+.gt-Sd .section .notesTable .italic {margin-left:8px }
+.gt-Sd .section tr.noteTextRow + tr.noteInfoRow > td.noteInfo {padding-top:7px }
+.gt-Sd .section .notesTable tr:first-child td, .gt-Sd .section .tasksTable tr:first-child td {padding-top: 4px; padding-bottom:4px;}
+.gt-Sd .section .tasksTable tr:hover td {background-color:#EBE29C}
+.gt-Sd .section .tasksTable td {padding:3px 5px 0px 0px}
+.gt-Sd .section .taskDescription input {width:100%}
+.gt-Sd .section .taskDescription {width:90%}
+.gt-Sd .section .taskDescription:hover {cursor: pointer}
+.gt-Sd .section .task_editing {margin-left: 8px}
+.gt-Sd .section .task_editing + .task_editing {margin-left: 5px}
+.gt-Sd .section .tasksTable .completed {color: #999}
+.gt-Sd .section table td {border-bottom:none;}
+.gt-Sd .section table td.resource_details_cell {vertical-align: top; padding-left: 15px}
+.gt-Sd .section table td.imageCell {text-align: center; width: 75px}
+.gt-Sd .section .resource_image {cursor:pointer}
+.gt-Sd .section table span.resource_row_span{ padding-right: 0.5em}
+.gt-Sd .section .attachments a.cancelLink {padding-left: 1em}
+.gt-Sd .section .attachments .attachmentHint {font-size: 90%; color: #ff6600; font-weight: bold}
+.gt-Sd .section.storyIdTable {border-spacing: 0px 0; border-collapse: separate; width: 100%}
+.gt-Sd .section.storyIdTable .storyId {font-size: 110%; padding-left: 4px}
 .help.flyover {background:url(/images/bg_gradient_comments_hover.gif) #FFF repeat-x scroll left top; border:1px solid #5593D8; -moz-border-radius: 8px; -webkit-border-radius: 8px; padding: 8px}
 .help.flyover .storyTitle {font-size: 1em; font-weight: bold; margin: 3px 0}
-.overlayContentWrapper.storyFlyover.flyover {padding: 0}
-/*.storyFlyover.flyover {background: url('/images/flyover_gray_gradient.png') #FDFDFD top left repeat-x; padding: -15px;}*/
-.storyFlyover.flyover .storyTitle {background: url('/images/flyover_blue_gradient.png') #FFF top left repeat-x; font-size: 1.15em; font-weight: bold; margin-top:0.3em; padding-bottom:0.75em; padding-left:0.5em; padding-top:0.2em;}
-.storyFlyover.flyover .flyoverContent {font-size: 0.9em; background: #fff; padding: 0; -moz-border-radius-bottomleft: 8px; -webkit-border-bottom-left-radius: 8px; -moz-border-radius-bottomright: 8px; -webkit-border-bottom-right-radius: 8px}
-.storyFlyover.flyover .flyoverContent.storyDetails .section {margin-bottom: 12px; margin-top: 0px}
-.storyFlyover.flyover .flyoverContent.storyDetails .section + .section {margin-top: 13px; margin-bottom: 4px}
-.storyFlyover.flyover .flyoverContent.storyDetails .section .header{ background: url('/images/flyover_blue_gradient.png') #FFF top left repeat-x; padding-left: 1em; line-height: 1.7em; font-size: 106%; color: #333; font-weight: bold; letter-spacing: 0.01em; margin-bottom:5px}
-.storyFlyover.flyover .storyDetails .section .notesTable tr:first-child td, .storyFlyover.flyover .storyDetails .section .tasksTable tr:first-child td {padding-top: auto}
-.storyFlyover.flyover .flyoverContent.storyDetails table, .storyFlyover.flyover .flyoverContent.storyDetails .descriptionText {margin: 0 1.9em 0 1.9em; border-bottom:none;}
-.storyFlyover.flyover .flyoverContent.storyDetails .tasksTable td {width: auto; padding: 2px 0px; border-bottom:none;}
-.storyFlyover.flyover .flyoverContent.storyDetails .tasksTable td.taskPosition {width: 4%}
-.storyFlyover.flyover .flyoverContent.storyDetails .tasksTable tr:hover td {background-color: inherit}
-.storyFlyover.flyover .flyoverContent.storyDetails .tasksTable .taskDescription:hover {cursor: auto}
-.storyFlyover.flyover .flyoverContent.storyDetails .section table td.resource_details_cell {padding-top: 8px}
-.storyFlyover.flyover .storyId, .storyFlyover.flyover .metaInfo {color:#888888; font-size:0.85em;}
-.storyFlyover.flyover .storyId {font-weight: normal; margin-right: 12px}
-.storyFlyover.flyover .metaInfo {margin: -0.6em 1.1em 0.5em; padding:2px;}
-.storyFlyover.flyover .metaInfo .infoSection {color: #666666; font-weight: bold}
-.storyFlyover.flyover .metaInfo .infoSection img {display: block; padding-top: 1px; padding-right: 3px}
-.storyFlyover.flyover .metaInfo .infoSection img.estimateIcon {margin-top: 4px; margin-right: 3px}
-.storyFlyover.flyover .metaInfo .infoSection .text {vertical-align: middle}
-.storyFlyover.flyover .metaInfo .infoSection + .infoSection {margin-right: 6px}
-.storyFlyover.flyover .flyoverContent.storyDetails .section .notesTable {width: auto}
+.overlayContentWrapper.gt-Sfo.flyover {padding: 0}
+/*.gt-Sfo.flyover {background: url('/images/flyover_gray_gradient.png') #FDFDFD top left repeat-x; padding: -15px;}*/
+.gt-Sfo.flyover .storyTitle {background: url('/images/flyover_blue_gradient.png') #FFF top left repeat-x; font-size: 1.15em; font-weight: bold; margin-top:0.3em; padding-bottom:0.75em; padding-left:0.5em; padding-top:0.2em;}
+.gt-Sfo.flyover .gt-Ifc {font-size: 0.9em; background: #fff; padding: 0; -moz-border-radius-bottomleft: 8px; -webkit-border-bottom-left-radius: 8px; -moz-border-radius-bottomright: 8px; -webkit-border-bottom-right-radius: 8px}
+.gt-Sfo.flyover .gt-Ifc.gt-Sd .section {margin-bottom: 12px; margin-top: 0px}
+.gt-Sfo.flyover .gt-Ifc.gt-Sd .section + .section {margin-top: 13px; margin-bottom: 4px}
+.gt-Sfo.flyover .gt-Ifc.gt-Sd .section .header{ background: url('/images/flyover_blue_gradient.png') #FFF top left repeat-x; padding-left: 1em; line-height: 1.7em; font-size: 106%; color: #333; font-weight: bold; letter-spacing: 0.01em; margin-bottom:5px}
+.gt-Sfo.flyover .gt-Sd .section .notesTable tr:first-child td, .gt-Sfo.flyover .gt-Sd .section .tasksTable tr:first-child td {padding-top: auto}
+.gt-Sfo.flyover .gt-Ifc.gt-Sd table, .gt-Sfo.flyover .gt-Ifc.gt-Sd .descriptionText {margin: 0 1.9em 0 1.9em; border-bottom:none;}
+.gt-Sfo.flyover .gt-Ifc.gt-Sd .tasksTable td {width: auto; padding: 2px 0px; border-bottom:none;}
+.gt-Sfo.flyover .gt-Ifc.gt-Sd .tasksTable td.taskPosition {width: 4%}
+.gt-Sfo.flyover .gt-Ifc.gt-Sd .tasksTable tr:hover td {background-color: inherit}
+.gt-Sfo.flyover .gt-Ifc.gt-Sd .tasksTable .taskDescription:hover {cursor: auto}
+.gt-Sfo.flyover .gt-Ifc.gt-Sd .section table td.resource_details_cell {padding-top: 8px}
+.gt-Sfo.flyover .storyId, .gt-Sfo.flyover .metaInfo {color:#888888; font-size:0.85em;}
+.gt-Sfo.flyover .storyId {font-weight: normal; margin-right: 12px}
+.gt-Sfo.flyover .metaInfo {margin: -0.6em 1.1em 0.5em; padding:2px;}
+.gt-Sfo.flyover .metaInfo .infoSection {color: #666666; font-weight: bold}
+.gt-Sfo.flyover .metaInfo .infoSection img {display: block; padding-top: 1px; padding-right: 3px}
+.gt-Sfo.flyover .metaInfo .infoSection img.estimateIcon {margin-top: 4px; margin-right: 3px}
+.gt-Sfo.flyover .metaInfo .infoSection .text {vertical-align: middle}
+.gt-Sfo.flyover .metaInfo .infoSection + .infoSection {margin-right: 6px}
+.gt-Sfo.flyover .gt-Ifc.gt-Sd .section .notesTable {width: auto}
 
 /*.noteText {line-height: 11px;}*/
 
 .overlay {overflow: hidden; font-size: 0.9em;margin-left: -12px; margin-top: -12px;}
 .overlayContentWrapper {padding: 0 1em}
 
-.storyDetailsRow .fieldLabel {margin-left: 5px}
-.storyDetailsDiv div {display: block; float: left}
-.storyButtonsRow, .storyDetailsRow {clear: both; width: 400px}
+.gt-SdRow .fieldLabel {margin-left: 5px}
+.gt-SdDiv div {display: block; float: left}
+.storyButtonsRow, .gt-SdRow {clear: both; width: 400px}
 .storyButtonsRow {margin-top: 10px; margin-bottom: 10px}
 .storyButtonsRow div {margin-right: 10px}
 .storyDeadlineField {font: normal 12px verdana, sans-serif; line-height: 20px}
 .spacerCell {width:99%}
 .emphasizedFieldLabel {display:inline;}
 .fieldLabel {display:inline; color:gray}
-.storyDetailsField, .storyDeadlineField, .storyDetailsTextField {width: 150px; margin-top: 1px; margin-bottom: 1px; margin-right: 8px;}
-.storyDetailsTextField{ width: 146px}
-.storyDetailsStoryLink {width: 95%; margin-top: 1px; margin-bottom: 1px; margin-right: 10px; padding: 5px}
-.storyDetails .storyLabels {padding-left: 5px}
+.gt-SdField, .storyDeadlineField, .gt-SdTextField {width: 150px; margin-top: 1px; margin-bottom: 1px; margin-right: 8px;}
+.gt-SdTextField{ width: 146px}
+.gt-SdStoryLink {width: 95%; margin-top: 1px; margin-bottom: 1px; margin-right: 10px; padding: 5px}
+.gt-Sd .storyLabels {padding-left: 5px}
 .dateChangeLink {margin-left: 3px}
 .inlinePopup {background-color: #ffffff; border: green 2px solid; overflow: auto; width: 20em; margin: 5px; text-align: center; z-index: 3000}
 .stateChangeButton, .disabledStateChangeButton {margin-left: 4px; vertical-align: bottom}
 .disabledStateChangeButton {opacity: 0.6; -moz-opacity: 0.6; filter: alpha(opacity=60)}
 .stateChangeButton {cursor: pointer; width: auto}
 .estimateButton {border-bottom: 1px solid #888; margin-left: 4px; padding-bottom: 2px; vertical-align: bottom; cursor: pointer}
-.toggleExpandedButton, .iterationHeaderToggleExpandedButton {vertical-align: middle; cursor: pointer; margin-right: 4px; padding-top: 2px; float: left}
-.iterationHeaderToggleExpandedButton {display: inline; width:11px; height:16px}
-.iterationHeaderInfo {margin-left: 19px}
+.toggleExpandedButton, .gt-IihToggleExpandedButton {vertical-align: middle; cursor: pointer; margin-right: 4px; padding-top: 2px; float: left}
+.gt-IihToggleExpandedButton {display: inline; width:11px; height:16px}
+.gt-IihInfo {margin-left: 19px}
 
-.iterationHeader {
+.gt-Iih {
 background:url("/images/bg_iteration.png") repeat-x scroll center top #747474;
 color:white;
 cursor:default;
 padding-left:0;
 padding-right:0;
 }
-.iterationHeader a.date_label {
+.gt-Iih a.date_label {
 color:#FFFFFF !important;
 cursor:pointer;
 }
-.iterationHeader a.date_label.overridden {
+.gt-Iih a.date_label.overridden {
 color:#FFCC44 !important;
 }
-.iterationHeader a.date_label:hover {
+.gt-Iih a.date_label:hover {
 text-decoration:underline !important;
 }
-.iterationHeaderInfo {
+.gt-IihInfo {
 -moz-user-select:none;
 }
 
