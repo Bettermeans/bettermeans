@@ -75,7 +75,7 @@ class MemberRole < ActiveRecord::Base
   def log_activity
     # def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
     return if role.active? || role.clearance? #don't log active memberships
-    LogActivityStreams.write_single_activity_stream(User.sysadmin,:name,self,:name,:created,:memberships, 0, nil,{})
+    LogActivityStreams.write_single_activity_stream(User.sysadmin,:name,self,:name,:created,:memberships, 0, self.member.user,{:indirect_object_phrase => self.member.user.name})
   end
   
   #refreshes memberships for all private workstreams
