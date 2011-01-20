@@ -2867,12 +2867,12 @@ function expand_item(dataId){
 
 function collapse_item(dataId,check_for_save){
 	//save subject and title if they changed
-	if(check_for_save){
-		if (($('#edit_title_input_' + dataId).val() != D[dataId].subject) || ($('#edit_description_' + dataId).val() != D[dataId].description)){
-			save_edit_item(dataId);
-			return false;
-		}
-	}
+	// if(check_for_save){
+	// 	if (($('#edit_title_input_' + dataId).val() != D[dataId].subject) || ($('#edit_description_' + dataId).val() != D[dataId].description)){
+	// 		save_edit_item(dataId);
+	// 		return false;
+	// 	}
+	// }
 	
 	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
 	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 5000);
