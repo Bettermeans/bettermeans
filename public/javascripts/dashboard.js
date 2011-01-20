@@ -3021,7 +3021,7 @@ function item_added(item){
 
 function item_actioned(item, dataId, action){
 	
-	collapse_item(dataId);
+	collapse_item(dataId,false);
 	var pre_status = D[dataId].status.name;
 	
 	var status_changed = (pre_status != item.status.name);
@@ -4037,7 +4037,7 @@ function update_todo_count(dataId){
 //View item history
 function full_screen(dataId,update){
 	show_issue_full(D[dataId].id,update);
-	collapse_item(dataId);
+	collapse_item(dataId,false);
 }
 
 //Full page view in fancy box of a single issue
