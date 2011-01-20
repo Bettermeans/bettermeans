@@ -160,7 +160,7 @@ class AccountController < ApplicationController
         session[:invitation_token] = params[:invitation_token]
         invitation = Invitation.find_by_token params[:invitation_token]
         @user.mail = invitation.mail if invitation
-        flash.now[:notice] = "Sign up to activate your inviation. <a href='/' target='_blank'>Click here to learn more about bettermeans.</a>"
+        flash.now[:notice] = "Sign up below to activate your inviation.<br><br><a href='/login?invitation_token=#{params[:invitation_token]}'>Login here if you already have an account.</a>"
       end
     else
       @user = User.new(params[:user])
