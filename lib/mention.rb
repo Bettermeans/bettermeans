@@ -7,7 +7,7 @@ class Mention
     #loop through properties and only search for mentions in text fields
     object.attributes.each_value do |text|
       next if text.class.to_s != 'String'
-      text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(@)([a-zA-Z0-9]+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
+      text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(@)([a-zA-Z0-9._@]+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
         leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
     
         link = nil
