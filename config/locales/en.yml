@@ -997,7 +997,7 @@ en:
   label_b_expiration: "Expiration Date"
   label_b_verification_code: "Verification Code"
   
-  label_memberrole: "a membership"
+  label_memberrole: "membership"
   
   
   button_accept_invitation : Accept Invitation
