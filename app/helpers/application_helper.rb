@@ -205,6 +205,7 @@ module ApplicationHelper
   end
   
   def make_expandable(newhtml,length=400)
+    return if newhtml.nil?
     return newhtml if newhtml.gsub(/<\/?[^>]*>/,  "").length < length
     id = rand(100000)
     h = ""
