@@ -9,11 +9,11 @@ More details can be found at http://bettermeans.com and here http://bettermeans.
 
 = Getting started
 
-git clone git@github.com:kabuks/bettermeans.git
+git clone git@github.com:bettermeans/bettermeans.git
 
 #Rename database.yml.example to database.yml and set your local dev db u/p
 
-bundler install
+bundle install
 
 rake bootstrap
 
@@ -62,6 +62,7 @@ Logging in via the janrain plugin (e.g. google, twitter...etc) won't work in dev
 To see activity on bettermeans, checkout the stats page: https://secure.bettermeans.com/admin/user_stats
 
 Admin console is here (there are no visible links to it): http://localhost:3000/admin
+Login is admin/password
 
 ----
 = Creating a db from production
@@ -85,14 +86,14 @@ rake db:seed:dump MODELS=tracker,issue_statuss,enumeration,role,plan,setting
 To generate a pg_dump: pg_dump bettermeans_development -c -O -x -f db/pgdump.sql
 
 ----
-= License
+= License and legalese
 Code is copyright bettermeans, llc. All rights reserved.
 
 Our codebase is based largely on Redmine. Which is GPL licensed.
 However, bettermeans is not redistributing the code yet, and choosing not to open source the changes to it as they are privately hosted.
 Our hope is to eventually figure out a business model that can support our livelihood and open source the code. Until then we are keeping the codebase closed.
 
-By contributing to this codebase, you agree to keep the code private to bettermeans, and to not share it in any way outside the context of bettermeans.
+By accessing / contributing to this codebase, you agree to keep the code private to bettermeans, and to not share it in any way outside the context of bettermeans.
 
 You are also agreeing to working in bettermeans according to 
 these terms of use: http://bettermeans.com/front/user_agreement.html
@@ -100,4 +101,4 @@ and operating agreement: http://bettermeans.com/front/open_enterprise_governance
 
 Please read them carefully. 
 
-Thanks for joining us! May our work be used for the greater good of all beings.
+Thanks for joining us! May our work be used for the greater good of everyone.
