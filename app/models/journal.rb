@@ -39,9 +39,15 @@ class Journal < ActiveRecord::Base
     self.send_later(:parse_relations_delayed)
   end
   
+  def issue_id
+    self.journalized_id
+  end  
+  
   #parses issue ids in body of journal, and adds related issues
   def parse_relations_delayed
     text = self.notes
+    return if text.nil?
+    
     text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(@)([a-zA-Z0-9._@]+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
       leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
       link = nil
