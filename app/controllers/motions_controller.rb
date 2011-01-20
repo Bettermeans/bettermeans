@@ -23,7 +23,7 @@ class MotionsController < ApplicationController
   # GET /motions/1.xml
   def show
     if @motion.concerned_user_id == User.current.id
-      render_404
+      render_403
       return false
     end
     
@@ -163,7 +163,7 @@ class MotionsController < ApplicationController
   
   def check_visibility_permission
     if !User.current.allowed_to_see_motion?(@motion)
-       render_404 #showing 404 b/c user shouldn't even know there's a motion here that they can't see
+       render_403 
        return false
     end
     return true
