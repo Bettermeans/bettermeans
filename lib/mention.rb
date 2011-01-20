@@ -9,8 +9,6 @@ class Mention
       next if text.class.to_s != 'String'
       text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(@)([a-zA-Z0-9._@]+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
         leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
-    
-        link = nil
         if esc.nil?
           if sep == '@'
             send_mention(object,mentioner_id,oid,text)
