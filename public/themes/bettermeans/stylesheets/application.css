@@ -1704,7 +1704,6 @@ div.projects h3 { background: url(/images/projects.png) no-repeat 0% 50%; paddin
 .help.flyover {background:url(/images/bg_gradient_comments_hover.gif) #FFF repeat-x scroll left top; border:1px solid #5593D8; -moz-border-radius: 8px; -webkit-border-radius: 8px; padding: 8px}
 .help.flyover .storyTitle {font-size: 1em; font-weight: bold; margin: 3px 0}
 .overlayContentWrapper.gt-Sfo.flyover {padding: 0}
-/*.gt-Sfo.flyover {background: url('/images/flyover_gray_gradient.png') #FDFDFD top left repeat-x; padding: -15px;}*/
 .gt-Sfo.flyover .storyTitle {background: url('/images/flyover_blue_gradient.png') #FFF top left repeat-x; font-size: 1.15em; font-weight: bold; margin-top:0.3em; padding-bottom:0.75em; padding-left:0.5em; padding-top:0.2em;}
 .gt-Sfo.flyover .gt-Ifc {font-size: 0.9em; background: #fff; padding: 0; -moz-border-radius-bottomleft: 8px; -webkit-border-bottom-left-radius: 8px; -moz-border-radius-bottomright: 8px; -webkit-border-bottom-right-radius: 8px}
 .gt-Sfo.flyover .gt-Ifc.gt-Sd .section {margin-bottom: 12px; margin-top: 0px}

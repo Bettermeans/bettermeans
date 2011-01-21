@@ -170,7 +170,7 @@ class Motion < ActiveRecord::Base
                  :content => self.description,
                  :author_id => self.author_id
                  
-    self.update_attribute(:topic_id,motion_topic.id)
+    self.topic_id = motion_topic.id
     
   end
   
