@@ -171,6 +171,7 @@ class Motion < ActiveRecord::Base
                  :author_id => self.author_id
                  
     self.topic_id = motion_topic.id
+    self.save
     
   end
   
