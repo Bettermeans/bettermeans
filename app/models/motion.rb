@@ -44,8 +44,8 @@ class Motion < ActiveRecord::Base
     {:conditions => "visibility_level >= #{level}", :order => "updated_at DESC"}
   }
   
-  before_create :set_values, :create_forum_topic
-  after_create :announce
+  before_create :set_values
+  after_create :announce,:create_forum_topic
   after_save :close
   
   def active?
@@ -170,8 +170,7 @@ class Motion < ActiveRecord::Base
                  :content => self.description,
                  :author_id => self.author_id
                  
-    self.topic_id = motion_topic.id
-    self.save
+    self.update_attribute(:topic_id,motion_topic.id)
     
   end
   
