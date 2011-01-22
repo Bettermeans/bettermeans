@@ -58,7 +58,7 @@ class InvitationsController < ApplicationController
   def create
     
     #can't invite someone to anything other than contributor if you're not admin
-    if params[:invitation][:role_id] != Role.contributor.id && !User.current.admin_of?(@project)
+    if params[:invitation][:role_id] != Role.contributor.id.to_s && !User.current.admin_of?(@project)
       render_403
       return
     end
