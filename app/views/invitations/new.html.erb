@@ -13,7 +13,7 @@
   
 </div>
 <div class="gt-right-col">
-  <% @roles = Role.find(:all, :conditions => ["level = ? AND position >= ?", Role::LEVEL_ENTERPRISE, User.current.position_for(@project)], :order => "position DESC") %>
+  <% @roles = Role.find(:all, :conditions => ["level = ? AND position >= ?", Role::LEVEL_ENTERPRISE, User.current.admin_of?(@project) ? Role.administrator.position : Role.contributor.position], :order => "position DESC") %>
   <label><%= l(:text_invite_role_instruction) %> <%= collection_select( :invitation, :role_id, @roles, :id, :name, :selected => Role.contributor.id ) %></label>
   
   <%= observe_field(:invitation_role_id, :frequency => 0.25, :function => "update_description();") %>

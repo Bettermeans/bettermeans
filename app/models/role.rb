@@ -118,6 +118,11 @@ class Role < ActiveRecord::Base
   def binding_member?
     builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR
   end
+
+  # Return true if the role is admin
+  def admin?
+    builtin == BUILTIN_ADMINISTRATOR
+  end  
   
   # Return true if the role is a project core team member
   def core_member?
