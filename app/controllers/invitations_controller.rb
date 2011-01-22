@@ -57,8 +57,8 @@ class InvitationsController < ApplicationController
   # POST /invitations.xml
   def create
     
-    #can't invite someone on a higher level
-    if Role.find(params[:invitation][:role_id]).position < User.current.position_for(@project) 
+    #can't invite someone to anything other than contributor if you're not admin
+    if params[:invitation][:role_id] != Role.contributor.id && !User.current.admin_of?(@project)
       render_403
       return
     end
