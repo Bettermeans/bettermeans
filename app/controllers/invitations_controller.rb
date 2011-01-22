@@ -56,6 +56,13 @@ class InvitationsController < ApplicationController
   # POST /invitations
   # POST /invitations.xml
   def create
+    
+    #can't invite someone on a higher level
+    if Role.find(params[:invitation][:role_id]).position < User.current.position_for(@project) 
+      render_403
+      return
+    end
+    
     success = false
     @emails = params[:emails]
     @email_array = @emails.gsub(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i) {|s| s}.collect
