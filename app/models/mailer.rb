@@ -69,6 +69,7 @@ class Mailer < ActionMailer::Base
   end
   
   def daily_digest(recipient,journals)
+    @journals = journals
     @author = User.sysadmin
     recipients recipient
     s = "Daily Digest - "
