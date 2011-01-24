@@ -449,6 +449,11 @@ class User < ActiveRecord::Base
   def enterprise_member_of?(project)
     !roles_for_project(project.root).detect {|role| role.enterprise_member?}.nil?
   end
+
+  # Return true if the user is admin of project
+   def admin_of?(project)
+     !roles_for_project(project.root).detect {|role| role.admin?}.nil?
+   end
   
   
   # Return true if the user is a member of project

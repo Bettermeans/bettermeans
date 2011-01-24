@@ -56,6 +56,13 @@ class InvitationsController < ApplicationController
   # POST /invitations
   # POST /invitations.xml
   def create
+    
+    #can't invite someone to anything other than contributor if you're not admin
+    if params[:invitation][:role_id] != Role.contributor.id.to_s && !User.current.admin_of?(@project)
+      render_403
+      return
+    end
+    
     success = false
     @emails = params[:emails]
     @email_array = @emails.gsub(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i) {|s| s}.collect
