@@ -178,7 +178,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   # menu.push :shares, { :controller => 'projects', :action => 'shares' }#, :caption => :label_share_plural
   menu.push :credits, { :controller => 'projects', :action => 'credits' }, 
       :if => Proc.new { |p| p.credits_enabled? }
-  menu.push :activity, { :controller => 'projects', :action => 'activity' }
+  # menu.push :activity, { :controller => 'projects', :action => 'activity' }
   menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id, :caption => :label_boards
   menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }#, 
               # :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
