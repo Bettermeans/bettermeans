@@ -68,9 +68,10 @@
 	<%#= f.link_to 'Atom', :url => {:project_id => @project, :key => User.current.rss_key} %>
 <%# end %>
 
-<% content_for :sidebar do %>
+<% content_for :actionmenu do %>
+<h2>&nbsp;</h2>
 <div class="gt-sidebar-nav gt-sidebar-nav-blue">
-  <!-- <h3><%=l(:label_quick_links)%></h3> -->
+  <h3><%=l(:label_quick_links)%></h3>
   <ul>
   <li>
     <%= link_to_if_authorized(l(:label_news_new),
