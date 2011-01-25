@@ -13,7 +13,7 @@
   
 </div>
 <div class="gt-right-col">
-  <% @roles = Role.find(:all, :conditions => ["level = ? AND position >= ?", Role::LEVEL_ENTERPRISE, User.current.admin_of?(@project) ? Role.administrator.position : Role.contributor.position], :order => "position DESC") %>
+  <% @roles = Role.find(:all, :conditions => {:level => 1}, :order => "position DESC") %>
   <label><%= l(:text_invite_role_instruction) %> <%= collection_select( :invitation, :role_id, @roles, :id, :name, :selected => Role.contributor.id ) %></label>
   
   <%= observe_field(:invitation_role_id, :frequency => 0.25, :function => "update_description();") %>
@@ -23,7 +23,7 @@
   </div>
   
   <p>
-    <%= submit_tag 'Send Invitations', :disable_with => "working..." %>
+    <%= submit_tag 'Send Invitations' %>
   </p>
   
 </div>
@@ -36,7 +36,7 @@
 <h2 class="gt-table-head">&nbsp;</h2>
 <%= help_section "invitation_new" %>
 <div class="gt-sidebar-nav gt-sidebar-nav-blue">
-  <h3>Quick Links</h3>
+  <h3><%=l(:label_quick_links)%></h3>
   <ul>
     <li>
       <%= link_to l(:label_login), {:controller => :account, :action => :login} unless User.current.logged? %>

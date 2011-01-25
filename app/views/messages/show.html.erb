@@ -4,7 +4,7 @@
 <% content_for :actionmenu do %>
  <h2 class="gt-table-head">&nbsp;</h2>
  <div class="gt-sidebar-nav gt-sidebar-nav-blue">
-   <h3>Quick Links</h3>
+   <h3><%=l(:label_quick_links)%></h3>
    <ul>
    <li>
      <%= watcher_tag(@topic, User.current) %>
