@@ -1148,7 +1148,7 @@ function generate_agree_flyover(dataId){
 		user_agree_id < 0 ? action_header = 'Vote' : action_header = 'Change your vote:';
 		if (points != 1) {buttons = buttons + dash_button('agree',dataId,points == 1,{action:'agree',data:'&points=1'}) + '<br>';}
 		if (points != 0) {buttons = buttons + dash_button('neutral',dataId,points == 0,{action:'agree',data:'&points=0'}) + '<br>';}
-		if (points != -1) {buttons = buttons + dash_button('against',dataId,points == -1,{action:'agree',data:'&points=-1'}) + '<br>';}
+		if (points != -1) {buttons = buttons + dash_button('disagree',dataId,points == -1,{action:'agree',data:'&points=-1'}) + '<br>';}
 		if (points != -9999) {buttons = buttons + dash_button('block',dataId,false,{action:'agree',data:'&points=-9999'}) + '<br>';}
 	}
 	
@@ -1937,8 +1937,8 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 				case "0":	label = 'neutral';
 							cssclass = 'neutral';
 							break;	
-				case "-1":	label = 'against';
-							cssclass = 'against';
+				case "-1":	label = 'disagreed';
+							cssclass = 'disagree';
 							break;	
 				case "-9999": label = 'blocked';
 							cssclass = 'block';
