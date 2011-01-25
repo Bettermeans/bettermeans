@@ -278,11 +278,11 @@ body {
 	font-size: 100%;
 	padding: 7px 10px;
 	color: #333;
-	border-bottom: 1px solid #ccc;
+	border-bottom: 1px solid #e4e4e4;
 }
 .gt-table td {
 	padding: 7px 10px;
-	border-top: 1px solid #ccc;
+	border-top: 1px solid #e4e4e4;
 	color: #333;
 	vertical-align: top;
 	word-wrap: break-word; 
@@ -1831,7 +1831,7 @@ text-decoration:underline !important;
 }
 
 .gt-activity-detail td{
-	border-top:none;
+	border-bottom: 1px solid #e4e4e4;
 	padding-top:3px;
 	padding-right:5px;
 	padding-bottom:3px;
