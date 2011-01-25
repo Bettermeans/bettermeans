@@ -97,15 +97,20 @@ body {
 	display: inline;
 }
 
-/* Left Sidebar, 2 Column */
+/* Lef action menu, Right Sidebar, 2 Column */
 .gt-cols-2 .gt-sidebar {
-	width: 30%;
+	width: 28%;
+	float: right;
+	display: inline;
+}
+.gt-cols-2 .gt-actionmenu {
+	width: 10%;
 	float: left;
 	display: inline;
 }
 .gt-cols-2 .gt-content {
-	width: 65%;
-	float: right;
+	width: 59%;
+	float: left;
 	display: inline;
 }
 
@@ -124,6 +129,19 @@ body {
 .gt-cols-3 .gt-sidebar {
 	width: 31%;
 	float: right;
+	display: inline;
+}
+
+/* Action menu, and no sidebar */
+.gt-cols-3 .gt-actionmenu {
+	width: 10%;
+	margin-right: 3.5%;
+	float: left;
+	display: inline;
+}
+.gt-cols-3 .gt-content {
+	width: 88%;
+	float: left;
 	display: inline;
 }
 
@@ -176,6 +194,10 @@ body {
 }
 .gt-footer p {
 	margin: 0;
+}
+
+.gt-actionmenu{
+	margin-right:20px;
 }
 /* @end */
 
@@ -654,6 +676,12 @@ h5 .icon{
 	padding: 3px 3px;
 }
 
+.gt-avatar-box{
+	padding: 5px;
+	text-align:center;
+	float: left;
+}
+
 /* Buttons */
 .gt-btn-gray-mini, .gt-btn-gray-small, .gt-btn-gray-medium, .gt-btn-gray-large, .gt-btn-blue-mini, .gt-btn-blue-small, .gt-btn-blue-medium, .gt-btn-blue-large {
 	display: block;
@@ -778,6 +806,9 @@ h5 .icon{
 	display: block;
 	padding: .6em .6em .6em 1.8em;
 }
+.gt-actionmenu .gt-sidebar-nav ul li a, .gt-sidebar-nav ul li p {
+	padding-left: 1em;
+}
 .gt-sidebar-nav ul li p {
 	color: #eee;
 	text-decoration: none;
@@ -843,7 +874,7 @@ h2 {
 h2.gt-table-head, h2.gt-form-head {
 	margin-bottom: 6px;
 }
-h3 {
+h3, .gt-sidebar h2 {
 	font-size: 138.5%;
 	color: #365b6d;
 	margin-bottom: 10px;
@@ -1828,6 +1859,7 @@ padding-top: 2px;
 padding-bottom: 3px;
 }
 
+.icon-news { background-image: url(/images/news.png); }
 .icon-add { background-image: url(/images/add.png); }
 .icon-bullet-add { background-image: url(/images/bullet_add.png); }
 .icon-bullet-delete { background-image: url(/images/bullet_delete.png); }
@@ -2566,4 +2598,15 @@ img.private-workstream, img.volunteer-workstream{
 	font-weight: bold;
 	color: #666666;
 	border: none;
+}
+
+.show-more td{
+/*	padding-bottom: 0px;*/
+	padding-top: 10px;
+	text-align: center;
+	border-top:  1px solid #ccc;
+}
+.show-more a{
+	font-weight:bold;
+	font-size: 85%;
 }

@@ -22,16 +22,17 @@ class WelcomeController < ApplicationController
     
     unless @my_projects.nil?
       @news = News.find(:all,
-                               :limit => 10,
+                               :limit => 30,
                                :order => "#{News.table_name}.created_at DESC",
                                :conditions => "#{News.table_name}.project_id in (#{User.current.projects.collect{|m| m.id}.join(',')}) AND (created_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_LATEST_NEWS * -1)}')",
                                :include => [:project, :author]) unless User.current.projects.empty?
     
-      # @assigned_issues = Issue.visible.open.find(:all, 
-      #                                 :conditions => {:assigned_to_id => User.current.id},
-      #                                 # :limit => 10, 
-      #                                 :include => [:project, :tracker ], 
-      #                                 :order => "#{Issue.table_name}.subject ASC")
+      @assigned_issues = Issue.visible.open.find(:all, 
+                                      :conditions => ["#{IssueVote.table_name}.user_id = ? AND #{IssueVote.table_name}.vote_type = ? AND #{Issue.table_name}.assigned_to_id != ? AND #{Issue.table_name}.status_id = ?", User.current.id, IssueVote::JOIN_VOTE_TYPE, User.current.id, IssueStatus.assigned.id],
+                                      # :conditions => {:assigned_to_id => User.current.id},
+                                      # :limit => 10, 
+                                      :include => [:project, :tracker, :issue_votes ], 
+                                      :order => "#{Project.table_name}.name ASC")
       #                                 
       # @watched_issues = Issue.visible.find(:all, 
       #                                  :include => [:project, :tracker, :watchers],

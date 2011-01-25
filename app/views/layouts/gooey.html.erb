@@ -131,7 +131,25 @@
 <!-- / head -->
 
 <!-- body -->
-<%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? 'gt-bd gt-cols clearfix' : 'gt-bd clearfix')}, true) %>
+<% 
+
+if (has_content?(:actionmenu))
+  cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-2 clearfix' : 'gt-bd gt-cols-3 clearfix'
+elsif
+  cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols clearfix' : 'gt-bd clearfix'
+end
+
+
+ %>
+<%= tag('div', {:id => 'main', :class => cssclass }, true) %>
+
+
+  <!-- sidebar -->
+  <% if (has_content?(:actionmenu)) %>
+      <div class="gt-actionmenu">
+          <%= yield :actionmenu %>
+      </div>
+  <%   end   %>
 	
 	<!-- main content -->
 	<div class="gt-content" id="content">
