@@ -135,12 +135,12 @@ body {
 /* Action menu, and no sidebar */
 .gt-cols-3 .gt-actionmenu {
 	width: 10%;
-	margin-right: 3.5%;
+	margin-right: 20px;
 	float: left;
 	display: inline;
 }
 .gt-cols-3 .gt-content {
-	width: 88%;
+	width: 85%;
 	float: left;
 	display: inline;
 }
@@ -807,7 +807,7 @@ h5 .icon{
 	padding: .6em .6em .6em 1.8em;
 }
 .gt-actionmenu .gt-sidebar-nav ul li a, .gt-sidebar-nav ul li p {
-	padding-left: 1em;
+	padding-left: 1.6em;
 }
 .gt-sidebar-nav ul li p {
 	color: #eee;
@@ -816,6 +816,9 @@ h5 .icon{
 }
 .gt-sidebar-nav ul li a.icon {
 	margin-left: 1.8em;
+}
+.gt-actionmenu .gt-sidebar-nav ul li a.icon {
+	margin-left: 1em;
 }
 
 .gt-sidebar-nav a:link, .gt-sidebar-nav a:visited {
