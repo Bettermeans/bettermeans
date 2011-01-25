@@ -7,7 +7,7 @@
 <% content_for :sidebar do %>
 <h2 class="gt-table-head">&nbsp;</h2>
 <div class="gt-sidebar-nav gt-sidebar-nav-blue">
-  <h3>Quick Links</h3>
+  <h3><%=l(:label_quick_links)%></h3>
   <ul>
   <li>
     <%= link_to l(:label_home), {:controller => 'welcome', :action => 'index'} %>
