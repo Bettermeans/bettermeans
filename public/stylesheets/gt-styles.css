@@ -2355,7 +2355,7 @@ form p {
 
 /*Tabs*/
 
-.tabs {height: 2.6em; border-bottom: 1px solid #bbbbbb; margin-bottom:1.2em; position:relative; overflow:hidden;}
+.tabs {height: 2.6em; border-bottom: 1px none #bbbbbb; margin-bottom:0em; position:relative; overflow:hidden;}
 .tabs ul {margin:0; position:absolute; bottom:-2px; padding-left:1em; width: 2000px;}
 .tabs>ul { bottom:-1px; } /* others */
 .tabs ul li {
