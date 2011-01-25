@@ -1,22 +1,32 @@
-  <tr>
-		<td>
-		<h4>  
-		  <%= link_to(h(news.project.name), :controller => 'projects', :action => 'show', :id => news.project) + ': ' unless @project %>
-      <%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
-    </h4>
-		<p><%=h news.summary %></p>
-    <!-- <p class="gt-table-edit"><a href="">Edit</a></p> -->
-		</td>
-		<td>
-			<!-- Categories Sub Table -->
-			<table border="0" class="gt-table-categories">
-				<tr>
-					<td><%= link_to_user(news.author) %>, <%= since_tag(news.created_at) %> ago
-					  <% if news.comments_count > 0 %>
-    					, <%=link_to l(:label_x_comments, :count => news.comments_count), :controller => 'news', :action => 'show', :id => news %>
-    				<% end %>
-          </td>
-				</tr>
-			</table>
-		</td>
-	</tr>
+<% 
+  count = 0
+ %>
+ <table border="0" class="gt-table gt-user-table">
+   <tbody>
+     <% @news.each do |news_item|
+       count = count + 1
+        %>
+       <tr class="news-row <%= "hidden" if count > max_count %>">
+     		<td>
+     		  <span class="small-text right">&nbsp;&nbsp;<%= link_to_user(news_item.author) %>, <%= since_tag(news_item.created_at) %> ago
+ 					  <% if news_item.comments_count > 0 %>
+     					, <%=link_to l(:label_x_comments, :count => news_item.comments_count), :controller => 'news', :action => 'show', :id => news %>
+     				<% end %>
+   				</span>
+     		  <p><strong>
+     		  <%= link_to(h(news_item.project.name), :controller => 'projects', :action => 'show', :id => news_item.project) + ': ' unless @project %>
+           <%= link_to h(news_item.title), :controller => 'news', :action => 'show', :id => news %></strong>&nbsp;<%=h news_item.summary %>
+          </p>
+         <!-- <p class="gt-table-edit"><a href="">Edit</a></p> -->
+     		</td>
+     	</tr>
+     <% end %>
+     <tr class="news-show-more show-more <%= "hidden" unless count > max_count %>">
+       <td colspan="2">
+         <a href="" onclick="$('.news-row').show();$('.news-show-more').hide();return false;">... show <%= count - max_count %> more ...</a>
+       </td>
+     </tr>
+     
+   </tbody>
+ </table>
+ 

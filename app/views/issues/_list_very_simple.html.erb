@@ -6,15 +6,14 @@
 		<% for issue in issues %>
 		<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
 			<td class="id">
+		  <% unless defined? no_workstream %>
 			  <%#= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
 				<%= link_to(h(issue.project), :controller => 'projects', :action => 'show', :id => issue.project) %>
-			</td>
+			<% end %>
+		  </td>
   		<td class="icon icon-<%= issue.tracker.to_s.downcase %> id">
-        <%= link_to "#{h(issue.tracker)} ##{issue.id}", {:controller => 'issues', :action => 'show', :id => issue}, {:class => "fancyframe"} %>
-			</td>
-      <!-- <td class="project"></td> -->
-			<td class="subject">
-        <%= link_to h(truncate(issue.subject, :length => 120)),  {:controller => 'issues', :action => 'show', :id => issue}, :class => "fancyframe" %>
+        <%#= link_to "#{h(issue.tracker)} ", {:controller => 'issues', :action => 'show', :id => issue}, {:class => "fancyframe"} %>
+        <%= link_to "#{issue.id} - " + h(truncate(issue.subject, :length => 120)) ,  {:controller => 'issues', :action => 'show', :id => issue}, :class => "fancyframe" %>
       </td>
 		</tr>
 		<% end %>
