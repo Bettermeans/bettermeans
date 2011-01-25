@@ -1878,6 +1878,7 @@ padding-bottom: 3px;
 .icon-user { background-image: url(/images/user.png); }
 .icon-users { background-image: url(/images/group.png); }
 .icon-projects { background-image: url(/images/projects.png); }
+.icon-issues { background-image: url(/images/ticket.png); }
 .icon-help { background-image: url(/images/help.png); }
 .icon-attachment  { background-image: url(/images/attachment.png); }
 .icon-history  { background-image: url(/images/history.png); }
