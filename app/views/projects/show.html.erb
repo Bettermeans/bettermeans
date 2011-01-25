@@ -42,6 +42,9 @@
     <!-- <h3>Quick Links</h3> -->
     <ul>
       <li>
+        <%= link_to l(:label_dashboard), {:controller => :projects, :action => :dashboard, :id => @project} %>
+      </li>
+      <li>
         <%= link_to l(:label_login), {:controller => :account, :action => :login} unless User.current.logged? %>
       </li>
   	<% if User.current.allowed_to?(:add_subprojects, @project) %>
