@@ -2,53 +2,6 @@
 <%= help_section("project_show") %>
 	
 <div class="gt-right-col">
-  
-  <% if @motions.any? %>
-  <h2><%=l(:label_motions_active)%></h2>  
-  <div class="motions gt-content-box padded">
-    <%= render :partial => 'motions/motions', :collection => @motions %>
-  </div>  
-  <div class="gt-table-buttons">
-		<%= link_to l(:label_motions_view_all), {:controller => 'motions', :action => 'index', :project_id => @project} , :class => "gt-btn-blue-large" %>
-	</div>
-  <% end %>
-  
-  <% if @subprojects.any? %>
-  <h2 class="gt-table-head"><%=l(:label_subproject_plural)%></h2>
-	<div class="gt-content-box">    
-    <table border="0" class="gt-table gt-user-table project-table">
-        <%= render :partial => 'subprojects', :locals => {:subprojects => @subprojects, :level => 0} %>
-    </table>
-  </div>
-  <div class="gt-table-buttons">
-  </div>
-  <% end %>
-  
-  <% if @news.any? && authorize_for('news', 'index') %>
-  <h2 class="gt-table-head"><%=l(:label_news_latest)%></h2>  
-  <div class="news gt-content-box">
-    <table border="0" class="gt-table gt-user-table">
-			<tbody>
-	      <%= render :partial => 'news/news', :collection => @news %>
-	      <tr>
-	        <td colspan="2" class="gt-table-links">
-	          <%= link_to l(:label_news_view_all), {:controller => 'news', :action => 'index', :project_id => @project} %>
-        	</td>
-        </tr>
-	    </tbody>
-	  </table>
-  </div>  
-  <!-- <div class="gt-table-buttons">
-  </div> -->
-  <% end %>
-  
-
-  <% if @project.enterprise? %>
-    <%= render :partial => "member_box" %>
-  <% else %>
-    <%= render :partial => "active_member_box" %>
-    <%= render :partial => "clearance_member_box" unless @project.is_public %>    
-  <% end %>
 </div>
 
 <div class="gt-left-col">
@@ -61,72 +14,98 @@
       :limit => 20,
       :max_created_at => nil
     } %>
-  </div>
-  <div class="gt-table-buttons">
-    <%= link_to l(:label_activity_view_all), {:controller => 'projects', :action => 'activity', :project_id => @project}, :class => "gt-btn-blue-large" %>    
+  </div>  
+</div>
+
+<% content_for :actionmenu do %>
+  <h2 class="gt-table-head">&nbsp;</h2>
+  <%= project_image @project %>
+
+  <% @show_header = true %>
+  <% if !@project.is_public 
+      @show_header = false
+  %>
+    <h4><%= privacy @project %>This is a private workstream <%= help_bubble :help_this_workstream_is_private %></h4>
+  <% 
+   end %>
+  <% if @project.volunteer?
+      @show_header = false
+  %>
+    <h4><%= volunteering @project %>This is a volunteer-run workstream<%= help_bubble :help_volunteer %></h4>
+  <% end %>
+
+  <% if (!t @project.has_image?) && @show_header%>
+  <h2 class="gt-table-head">&nbsp;</h2>
+  <% end %>
+
+  <div class="gt-sidebar-nav gt-sidebar-nav-blue">
+    <!-- <h3>Quick Links</h3> -->
+    <ul>
+      <li>
+        <%= link_to l(:label_login), {:controller => :account, :action => :login} unless User.current.logged? %>
+      </li>
+  	<% if User.current.allowed_to?(:add_subprojects, @project) %>
+  	<li>
+  		<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
+  	</li>
+  	<% end %>
+  	<% if User.current.allowed_to?(:send_invitations, @project) && @project.root? %>
+  	<li>
+  		<%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
+  	</li>
+  	<% end %>
+  	<li>
+    <%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project} %>
+    </li>
+    </ul>
   </div>
   
-</div>
+  
+<% end %>
+
 
 <% content_for :sidebar do %>
-<h2 class="gt-table-head">&nbsp;</h2>
-<%= project_image @project %>
-
-<% @show_header = true %>
-<% if !@project.is_public 
-    @show_header = false
-%>
-  <h4><%= privacy @project %>This is a private workstream <%= help_bubble :help_this_workstream_is_private %></h4>
-<% 
- end %>
-<% if @project.volunteer?
-    @show_header = false
-%>
-  <h4><%= volunteering @project %>This is a volunteer-run workstream<%= help_bubble :help_volunteer %></h4>
+<% if @project.description.length > 0 %>
+  <div class="gt-sidebar-content">
+  <h2><%=h @project.name %></h2>
+  <%= make_expandable ((textilizable @project.description), 80) %>	
+  </div>
 <% end %>
 
-<% if (!t @project.has_image?) && @show_header%>
-<h2 class="gt-table-head">&nbsp;</h2>
+<%  if @subprojects.any? %>
+  <h2 class="icon icon-projects"><%= l(:label_subproject_plural) %></h2>
+  <div class="gt-content-box active-projects">
+  <%= render :partial => 'projects/projects_list_simple', :locals => {:projects => @subprojects} %>
+  </div>
 <% end %>
 
-<div class="gt-sidebar-nav gt-sidebar-nav-blue">
-  <h3>Quick Links</h3>
-  <ul>
-    <li>
-      <%= link_to l(:label_login), {:controller => :account, :action => :login} unless User.current.logged? %>
-    </li>
-  <% if User.current.allowed_to?(:view_issues, @project) %>
-  <li>
-    <%= link_to l(:label_dashboard), {:controller => :projects, :action => :dashboard, :id => @project} %>
-  </li>
-  <% end %>
-	<% if User.current.allowed_to?(:add_subprojects, @project) %>
-	<li>
-		<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
-	</li>
-	<% end %>
-	<% if User.current.allowed_to?(:send_invitations, @project) && @project.root? %>
-	<li>
-		<%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
-	</li>
-	<% end %>
-	<li>
-  <%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project} %>
-  </li>
-  </ul>
+<% if @motions.any? %>
+<h2 class="icon icon-motion"><%=l(:label_motions_active)%></h2>  
+<div class="motions gt-content-box">
+  <%= render :partial => 'motions/motions', :locals =>{:motions => @motions, :max_count => 2} %>
+</div>  
+<% end %>
+
+<% if @news.any? && authorize_for('news', 'index') %>
+<h2 class="icon icon-news"><%=l(:label_news_latest)%></h2>  
+<div class="news gt-content-box">
+  <%= render :partial => 'news/news', :locals => {:max_count => 2} %>
 </div>
+<% end %>
+
+
+<% if @project.enterprise? %>
+  <%= render :partial => "member_box" %>
+<% else %>
+  <%= render :partial => "active_member_box_simple" %>
+  <%= render :partial => "clearance_member_box" unless @project.is_public %>    
+<% end %>
   
-<div class="gt-sidebar-content">
-
-<h3><%=l(:label_project_description)%></h3>
-<%= make_expandable ((textilizable @project.description), 300) %>	
-<%# unless @project.homepage.blank? %><%#=l(:field_homepage)%><!-- : --> <%#= link_to(h(@project.homepage), @project.homepage) %><%# end %>
-</div>
 <!-- <div class="gt-sidebar-content">
 <h3>30-day Activity Timeline</h3>
 <div class="spark" max="<%= @project.activity_line_max %>"><%#= @project.activity_line_show(30) %></div>
 </div> -->
-<% if User.current.allowed_to?(:view_issues, @project) %>
+<% if User.current.allowed_to?(:view_issues, @project) && false %>
     <div class="gt-sidebar-nav gt-sidebar-nav-gray">
     <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
@@ -143,13 +122,9 @@
             <% end %>
     </ul>
     </div>
-    <!-- <div class="gt-table-buttons">
-      <%#= link_to l(:label_issue_view_all), {:controller => 'issues', :action => 'index', :project_id => @project}, :class => "gt-btn-blue-medium right" %>
-      <%#= link_to l(:label_dashboard), {:controller => 'projects', :action => 'dashboard', :project_id => @project}, :class => "gt-btn-blue-medium right" %>
-    </div> -->
-    <% end %>
+<% end %>
     
-    <% if @project.credits_enabled? && false%>
+<% if @project.credits_enabled? && false%>
     
       <div class="gt-sidebar-content">
         <h3><%= l(:label_dpp_scale) %><span><%= help_bubble :help_dpp %></span></h3>

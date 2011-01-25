@@ -211,7 +211,7 @@ class ProjectsController < ApplicationController
       redirect_to_project_menu_item(@project, params[:jump]) && return
     end
     
-    @subprojects = @project.children.active.find(:all, :order => 'name ASC')
+    @subprojects = @project.descendants.active
     @news = @project.news.find(:all, :conditions => " (created_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_LATEST_NEWS * -1)}')", :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_at DESC")
     @trackers = @project.rolled_up_trackers
     

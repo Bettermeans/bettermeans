@@ -31,7 +31,7 @@
   </table>
   <% unless activities_by_item.empty? %>
   <div id="activity_stream_bottom" class="activity-bottom">
-    <%= link_to_remote "Load more", {
+    <%= link_to_remote "... show more ...", {
                                 :url => {:controller => :activity_streams, 
                                         :action => :index,
                                         :user_id => user_id,

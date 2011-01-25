@@ -1,9 +1,6 @@
-<% unless news.nil? || news.length == 0 %>
-<h2 class="gt-table-head"><%=l(:label_news_latest)%></h2>
-
-<div class="gt-content-box padded">
-
-<%= render :partial => 'news/news', :collection => news %>
-                                     
+<% if @news.any? %>
+<h2 class="gt-table-head icon icon-news"><%=l(:label_news_latest)%></h2>
+<div class="news gt-content-box">
+  <%= render :partial => 'news/news', :locals => {:max_count => 1} %>
 </div>
 <% end %>
