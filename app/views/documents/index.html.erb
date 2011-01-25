@@ -31,8 +31,8 @@
 
 <% html_title(l(:label_document_plural)) -%>
 
-<% content_for :sidebar do %>
-<div class="gt-sidebar-nav gt-sidebar-nav-gray">
+<% content_for :actionmenu do %>
+<div class="gt-sidebar-nav gt-sidebar-nav-blue">
   <ul>
   <li>
     <%= link_to_if_authorized l(:label_document_new),
@@ -43,7 +43,7 @@
   </li>
 </div>
 <% form_tag({}, :method => :get) do %>
-<div class="gt-sidebar-nav gt-sidebar-nav-blue">
+<div class="gt-sidebar-nav gt-sidebar-nav-gray">
   <h3><%= l(:label_sort_by, '') %></h3>
   <ul>
   <li>

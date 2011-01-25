@@ -134,13 +134,13 @@ body {
 
 /* Action menu, and no sidebar */
 .gt-cols-3 .gt-actionmenu {
-	width: 10%;
+	width: 15%;
 	margin-right: 20px;
 	float: left;
 	display: inline;
 }
 .gt-cols-3 .gt-content {
-	width: 85%;
+	width: 80%;
 	float: left;
 	display: inline;
 }
