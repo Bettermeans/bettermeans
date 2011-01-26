@@ -1,4 +1,4 @@
-<% @page_header_name = "Account" %>
+<%# @page_header_name = "Account" %>
 <% content_for :mainmenu do %>
   <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :myaccount} %>
 <% end %>
@@ -90,6 +90,18 @@
 
 </div>
 <% end %>
+
+<% content_for :actionmenu do %>
+<ul>
+  <li>
+    <%= link_to l(:button_change_password), :action => 'password' %>
+  </li>
+  <li>
+    <%= link_to l(:label_cancel_account), {:controller => 'account', :action => 'cancel'}, :confirm => l(:text_confirm_cancel_account) %>
+  </li>
+</ul>
+<% end %>
+
 
 <% content_for :sidebar do %>
 <h3>&nbsp;</h3>
