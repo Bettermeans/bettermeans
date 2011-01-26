@@ -1,5 +1,5 @@
 <% count = 0
-   max_count = 5
+   max_count ||= 5
  %>
   <table class="gt-table gt-user-table project-table" id="my_projects_table">
       <%   project_tree_sorted(projects) do |p, level|
@@ -17,7 +17,7 @@
       <% end %>
       <tr class="active-project-show-more show-more <%= "hidden" unless count > max_count %>">
         <td>
-          <a href="" onclick="$('.active-project-row').show();$('.active-project-show-more').hide();return false;">... show <%= count - max_count %> more ...</a>
+          <a href="" onclick="$('.active-project-row').show();$('.active-project-show-more').hide();return false;">Show <%= count - max_count %> more ...</a>
         </td>
       </tr>
   </table>

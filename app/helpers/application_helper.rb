@@ -283,7 +283,7 @@ module ApplicationHelper
         { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
       end
       
-      if current_project_in_list || !@project
+      if current_project_in_list || !@project || true
         s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
               "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
               '<option value="" disabled="disabled">---</option>'
@@ -310,7 +310,7 @@ module ApplicationHelper
     s = ''
     project_tree_sorted(projects) do |project, level|
       name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
-      tag_options = {:value => project.id, :selected => ((project == options[:selected]) ? 'selected' : nil)}
+      tag_options = {:value => project.id, :selected => ((project == options[:selected] && false) ? 'selected' : nil)}
       tag_options.merge!(yield(project)) if block_given?
       s << content_tag('option', name_prefix + h(project), tag_options)
     end
@@ -567,10 +567,12 @@ module ApplicationHelper
   
   def page_header_title
     if @project.nil? 
+      'Home' + (@page_header_name.nil? ? '' :  ' &#187; ' + @page_header_name)
       # h(Setting.app_title)
     elsif @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
       unless @parent.nil?
         b = []
+        b << "Workstreams"
         ancestors = (@parent.root? ? [] : @parent.ancestors.visible)
         if ancestors.any?
           root = ancestors.shift
@@ -590,6 +592,7 @@ module ApplicationHelper
       end
     else
       b = []
+      b << link_to(l(:label_project_plural), {:controller => 'projects', :action => 'index'}, :class => 'root')
       # b << link_to(h(@project.enterprise.name), {:controller => 'enterprises', :action => 'show', :id => @project.enterprise.id, :jump => current_menu_item}, :class => 'root')
     
       ancestors = (@project.root? ? [] : @project.ancestors.visible)
@@ -603,11 +606,20 @@ module ApplicationHelper
         end
         # b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
         b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p}, :class => 'ancestor') }
+        b.push link_to(h(@project), {:controller => 'projects', :action => 'show', :id => @project}, :class => 'ancestor')
       end
       # b << content_tag('span', h(@project), :id => "last_header")
       b = b.join(' &#187; ')
       
       # b << "&nbsp;&nbsp;" << link_to("jump", nil, :class => 'root', :onclick => "jump_to_workstream();return false();", :id => "last_header_button")
+    end
+  end
+  
+  def page_header_name
+    if @project.nil?
+      @page_header_name
+    else
+      h(@project.name)
     end
   end
 

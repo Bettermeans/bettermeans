@@ -32,7 +32,6 @@
 <% html_title(l(:label_document_plural)) -%>
 
 <% content_for :actionmenu do %>
-<div class="gt-sidebar-nav gt-sidebar-nav-blue">
   <ul>
   <li>
     <%= link_to_if_authorized l(:label_document_new),
@@ -41,22 +40,25 @@
                               :onclick => '$("#add-document").show(); $("#document_title").focus(); return false;' %>
     
   </li>
-</div>
-<% form_tag({}, :method => :get) do %>
-<div class="gt-sidebar-nav gt-sidebar-nav-gray">
-  <h3><%= l(:label_sort_by, '') %></h3>
-  <ul>
-  <li>
-    <a style="color:#fff"><%= radio_button_tag 'sort_by', 'date', (@sort_by == 'date'), :onclick => 'this.form.submit();' %> <%= l(:label_date) %></a>
-  </li>
-  <li>
-    <a style="color:#fff"><%= radio_button_tag 'sort_by', 'title', (@sort_by == 'title'), :onclick => 'this.form.submit();' %> <%= l(:field_title) %></a>
-  </li>
-  <li>
-    <a style="color:#fff"><%= radio_button_tag 'sort_by', 'author', (@sort_by == 'author'), :onclick => 'this.form.submit();' %> <%= l(:field_author) %></a>
-  </li>
   </ul>
-</div>
 <% end %>
 
+<% content_for :sidebar do %>
+  <% form_tag({}, :method => :get) do %>
+  <div class="gt-sidebar-nav gt-sidebar-nav-gray">
+    <h3><%= l(:label_sort_by, '') %></h3>
+    <ul>
+    <li>
+      <a style="color:#fff"><%= radio_button_tag 'sort_by', 'date', (@sort_by == 'date'), :onclick => 'this.form.submit();' %> <%= l(:label_date) %></a>
+    </li>
+    <li>
+      <a style="color:#fff"><%= radio_button_tag 'sort_by', 'title', (@sort_by == 'title'), :onclick => 'this.form.submit();' %> <%= l(:field_title) %></a>
+    </li>
+    <li>
+      <a style="color:#fff"><%= radio_button_tag 'sort_by', 'author', (@sort_by == 'author'), :onclick => 'this.form.submit();' %> <%= l(:field_author) %></a>
+    </li>
+    </ul>
+  </div>
+  <% end %>
 <% end %>
+
