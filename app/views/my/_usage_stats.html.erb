@@ -1,6 +1,6 @@
 <% plan = User.current.plan %>
 <div class="gt-sidebar-nav gt-sidebar-nav-gray">
-  <h3>Your current plan: <%= plan.name %> Plan</h3>
+  <h3><%= plan.name %> Plan</h3>
   <ul>
     <% if @user.trial_expires_on && @user.trial_expires_on >= Date.today %>
     <li><p><span style="float:right;width:35%"><%= distance_of_date_in_words(Date.today, @user.trial_expires_on)  %> </span><span style="float:right;width:65%">Trial Expires in</span></p>
