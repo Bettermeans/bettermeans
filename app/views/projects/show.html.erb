@@ -18,7 +18,6 @@
 </div>
 
 <% content_for :actionmenu do %>
-  <h2 class="gt-table-head">&nbsp;</h2>
   <%= project_image @project %>
 
   <% @show_header = true %>
@@ -38,12 +37,7 @@
   <h2 class="gt-table-head">&nbsp;</h2>
   <% end %>
 
-  <div class="gt-sidebar-nav gt-sidebar-nav-blue">
-    <h3><%=l(:label_quick_links)%></h3>
     <ul>
-      <li>
-        <%= link_to l(:label_dashboard), {:controller => :projects, :action => :dashboard, :id => @project} %>
-      </li>
       <li>
         <%= link_to l(:label_login), {:controller => :account, :action => :login} unless User.current.logged? %>
       </li>
@@ -61,7 +55,6 @@
     <%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project} %>
     </li>
     </ul>
-  </div>
   
   
 <% end %>

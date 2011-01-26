@@ -61,7 +61,7 @@ function prep_jumpbox(){
 function adjust_jumpbox_width(){
 	jumpbox_width = $('#widthcalc').html($('#jumpbox :selected').text()).width();
 	if (jumpbox_width > 10){
-		$('#jumpbox').width(jumpbox_width + 50);
+		$('#jumpbox').width(jumpbox_width + 35);
 	}
 }
 
