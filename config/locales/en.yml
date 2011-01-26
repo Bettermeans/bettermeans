@@ -417,6 +417,7 @@ en:
   label_amount_to_transfer: Amount to Transfer
   label_select_recipient: Select Recipient
   label_credit_transfers: Credit Transfers
+  label_credit_transfer: "Transfer credits"
   label_new_credit_transfer: New Transfer
   label_select_project: Select Project Workstream
   label_previous_credit_transfers: Your History
@@ -744,7 +745,7 @@ en:
   label_updated_time_by: "Updated by {{author}} {{age}} ago"
   label_created_time_by: "Created {{age}} ago by"
   label_updated_time: "Updated {{value}} ago"
-  label_jump_to_a_project: Jump to a workstream...
+  label_jump_to_a_project: WORKSTREAMS
   label_file_plural: Files
   label_changeset_plural: Changesets
   label_default_columns: Default columns

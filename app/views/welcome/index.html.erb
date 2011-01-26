@@ -1,3 +1,4 @@
+<% @page_header_name = "My Page" %>
 <% content_for :mainmenu do %>
   <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :mypage} %>
 <% end %>
@@ -10,7 +11,7 @@
 </div>
 <% end %>
 
-<div>
+<div class="gt-left-col">
   <% if @my_projects.length == 0 %>
   <div class="gt-content-box centered padded">
     <h4><%= l(:help_no_workstreams) %></h4>
@@ -21,7 +22,7 @@
    	  </p>
   </div>    
   <% else %>
-    <h2 class="gt-table-head"><%=l(:label_activities_i_belong_to)%><%#= help_bubble :help_activities_i_belong_to %></h2>
+    <h2 class="gt-table-head icon icon-activity"><%=l(:label_activities_i_belong_to)%><%#= help_bubble :help_activities_i_belong_to %></h2>
     <div class="activity gt-content-box">
       <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
         :user_id => User.current.id,
@@ -34,39 +35,34 @@
     <% end %>
 </div>
 
+<div class="gt-right-col">
+  <%  if @my_projects.length > 0 %>
+    <h2 class="icon icon-projects"><%= l(:label_projects_recent) %> <%= link_to l(:label_view_all), {:controller => "my", :action => "projects"}, :class => "floating-h-link" %></h2>
+    <div class="gt-content-box active-projects">
+    <%= render :partial => 'projects/projects_list_simple', :locals => {:projects => @my_projects, :max_count => 10} %>
+    </div>
+  <% end %>
+
+  <%= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
+
+  <%  if @assigned_issues.length > 0 %>
+    <h2 class="icon icon-issues"><%= l(:label_my_issues) %></h2>
+    <%= render :partial => "issues/list_very_simple", :locals => {:issues => @assigned_issues, :no_workstream => true} %>
+  <% end  %>
+</div>
 
 <% content_for :actionmenu do %>
-<h2 class="gt-table-head">&nbsp;</h2>
-  <div class="gt-sidebar-nav gt-sidebar-nav-blue">
-    <h3><%=l(:label_quick_links)%></h3>
     <ul>    
     <li>
       <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
     </li>
+    </ul>
+    <ul>
     <li>
       <%= link_to l(:label_browse_workstreams), {:controller => 'projects', :action => 'index'} %>
     </li>
     </ul>
   </div>
-<% end %>
-
-
-<% content_for :sidebar do %>
-<!-- <h2 class="gt-table-head">&nbsp;</h2> -->
-<%  if @my_projects.length > 0 %>
-  <h2 class="icon icon-projects"><%= l(:label_projects_recent) %> <%= link_to l(:label_view_all), {:controller => "my", :action => "projects"}, :class => "floating-h-link" %></h2>
-  <div class="gt-content-box active-projects">
-  <%= render :partial => 'projects/projects_list_simple', :locals => {:projects => @my_projects} %>
-  </div>
-<% end %>
-
-<%= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
-
-<%  if @assigned_issues.length > 0 %>
-  <h2 class="icon icon-issues"><%= l(:label_my_issues) %></h2>
-  <%= render :partial => "issues/list_very_simple", :locals => {:issues => @assigned_issues, :no_workstream => true} %>
-<% end  %>
-
 <% end %>
 
 <%# content_for :header_tags do %>
