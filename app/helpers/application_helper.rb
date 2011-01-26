@@ -265,7 +265,6 @@ module ApplicationHelper
   
   # Renders the project quick-jump box
   def render_project_jump_box
-    return if @project && @project.new_record?
     # Retrieve them now to avoid a COUNT query
     if User.current.pref[:active_only_jumps]
       projects = User.current.projects.all
@@ -567,12 +566,12 @@ module ApplicationHelper
   
   def page_header_title
     if @project.nil? 
-      'Home' + (@page_header_name.nil? ? '' :  ' &#187; ' + @page_header_name)
+      link_to(User.current.name, {:controller => 'welcome', :action => 'index'}) + (@page_header_name.nil? ? '' :  ' &#187; ' + @page_header_name)
       # h(Setting.app_title)
     elsif @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
+      b = []
+      b << link_to(l(:label_project_plural), {:controller => 'projects', :action => 'index'}, :class => 'root')
       unless @parent.nil?
-        b = []
-        b << "Workstreams"
         ancestors = (@parent.root? ? [] : @parent.ancestors.visible)
         if ancestors.any?
           root = ancestors.shift
@@ -584,11 +583,13 @@ module ApplicationHelper
           b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p}, :class => 'ancestor') }
         end
         b << link_to(h(@parent), {:controller => 'projects', :action => 'show', :id => @parent}, :class => 'ancestor')
-        b << "New project workstream"
+        b << "New sub workstream"
         b = b.join(' &#187; ')
         b
       else
-        "New project workstream"
+        b << l(:label_project_new)
+        b = b.join(' &#187; ')
+        b
       end
     else
       b = []
@@ -616,8 +617,11 @@ module ApplicationHelper
   end
   
   def page_header_name
-    if @project.nil?
-      @page_header_name
+    logger.info { "@page #{@page_header_name} #{@page_header_name.nil?}" }
+    if @project.nil? || @project.new_record?
+      @page_header_name.nil? ? "Home" : @page_header_name
+    elsif @project.new_record?
+      l(:label_project_new)
     else
       h(@project.name)
     end

@@ -6,12 +6,6 @@
   <li><p><span style="float:right;width:70%"><%= format_time(@user.created_at) %></span><span style="float:right;width:30%"><%=l(:field_created_at)%></span></p>
   </li>
   <li>
-    <%= link_to l(:button_change_password), :action => 'password' %>
-  </li>
-  <li>
-    <%= link_to l(:label_cancel_account), {:controller => 'account', :action => 'cancel'}, :confirm => l(:text_confirm_cancel_account) %>
-  </li>
-  <li>
     <%#= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
   </li>
   </ul>

@@ -1,10 +1,4 @@
-<% content_for :mainmenu do %>
-  <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :newproject} %>
-<% end %>
-
-
-<h2><%=l(:label_project_new)%></h2>
-
+<% @page_header_name = l(:label_project_new) %>
 <% labelled_tabular_form_for :project, @project, :url => { :action => "add" }, :html => { :multipart => true }  do |f| %>
 
 <%= render :partial => 'form', :locals => { :f => f, :include_modules => true } %>
@@ -16,6 +10,5 @@
 <% end %>
 
 <% content_for :sidebar do %>
-<h2 class="gt-table-head">&nbsp;</h2>
 <%= help_section("project_new") %>
 <% end %>

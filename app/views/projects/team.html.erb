@@ -10,31 +10,12 @@
 </div>
 
 <% content_for :actionmenu do %>
-<%= project_image @project %>
-
-<div class="gt-sidebar-nav gt-sidebar-nav-blue">
-  <h3><%=l(:label_quick_links)%></h3>
   <ul>
-  <li>
-    <%= link_to l(:label_login), {:controller => :account, :action => :login} unless User.current.logged? %>
-  </li>
-  <li>
-    <%= link_to l(:label_dashboard), {:controller => :projects, :action => :dashboard, :id => @project} %>
-  </li>
-	<% if User.current.allowed_to?(:add_subprojects, @project) %>
-	<li>
-		<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
-	</li>
-	<% end %>
 	<% if User.current.allowed_to?(:send_invitations, @project) %>
 	<li>
 		<%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
 	</li>
 	<% end %>
-	<li>
-  <%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project} %>
-  </li>
   </ul>
-</div>
 <% end %>
 <% html_title(l(:label_team)) %>
