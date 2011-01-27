@@ -614,8 +614,8 @@ module ApplicationHelper
       b.push link_to(h(@project), {:controller => 'projects', :action => 'show', :id => @project}, :class => 'ancestor')
       # b << content_tag('span', h(@project), :id => "last_header")
       b = b.join(' &#187; ')
-      image = project_image(@project)
-      b = b + image if image
+      # image = project_image(@project)
+      # b = b + image if image
       
       # b << "&nbsp;&nbsp;" << link_to("jump", nil, :class => 'root', :onclick => "jump_to_workstream();return false();", :id => "last_header_button")
     end
