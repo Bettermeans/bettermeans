@@ -46,8 +46,8 @@
   <%= render :partial => "my/blocks/news", :locals => {:news => @news, :maxcount => 2 } %>  
 
   <%  if @assigned_issues.length > 0 %>
-    <h2 class="icon icon-issues"><%= l(:label_my_issues) %></h2>
-    <%= render :partial => "issues/list_very_simple", :locals => {:issues => @assigned_issues, :no_workstream => true} %>
+    <h2 class="icon icon-issues"><%= l(:label_my_issues) %><%= link_to l(:label_view_all), {:controller => "my", :action => "issues"}, :class => "floating-h-link" %></h2>
+    <%= render :partial => "issues/list_very_simple", :locals => {:issues => @assigned_issues} %>
   <% end  %>
 </div>
 
