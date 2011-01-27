@@ -16,7 +16,6 @@
 </div>
 
 <% content_for :actionmenu do %>
-  <%= project_image @project %>
 <ul>
   <li>
     <%= link_to l(:label_login), {:controller => :account, :action => :login} unless User.current.logged? %>

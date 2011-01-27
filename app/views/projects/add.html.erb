@@ -1,4 +1,4 @@
-<% @page_header_name = l(:label_project_new) %>
+<% @page_header_name = @parent ? l(:label_subproject_new) : l(:label_project_new) %>
 <% labelled_tabular_form_for :project, @project, :url => { :action => "add" }, :html => { :multipart => true }  do |f| %>
 
 <%= render :partial => 'form', :locals => { :f => f, :include_modules => true } %>

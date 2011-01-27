@@ -16,7 +16,6 @@ class WelcomeController < ApplicationController
     @my_projects = User.current.projects
     # @my_projects = User.current.memberships.collect(&:project)
     # @my_projects = User.current.active_memberships.collect(&:project)
-    logger.info { "my projects #{@my_projects.inspect}" }
     
     # redirect_to :controller => "my", :action => "projects" if @my_project.nil?
     
