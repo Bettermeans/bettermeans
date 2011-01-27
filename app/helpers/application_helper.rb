@@ -292,6 +292,9 @@ module ApplicationHelper
               '<option value="" disabled="disabled">---</option>'
       end
       s << s_options
+      s << '<option value="" disabled="disabled">---</option>'
+      s << "<option value='#{url_for({:controller => :projects, :action => :index})}'>#{l(:label_browse_workstreams)}</option>"
+      s << "<option value='#{url_for({:controller => :projects, :action => :new})}'>#{l(:label_project_new)}</option>"
       s << '</select>'
       s << '<span id="widthcalc" style="display:none;"></span>'
       # s << current_project_in_list.to_s
@@ -566,7 +569,7 @@ module ApplicationHelper
   
   def page_header_title
     if @project.nil? 
-      link_to(User.current.name, {:controller => 'welcome', :action => 'index'}) + (@page_header_name.nil? ? '' :  ' &#187; ' + @page_header_name)
+      link_to(@page_header_name.nil? ? User.current.name : "Bettermeans", {:controller => 'welcome', :action => 'index'}) + (@page_header_name.nil? ? '' :  ' &#187; ' + @page_header_name)
       # h(Setting.app_title)
     elsif @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
       b = []
@@ -611,6 +614,8 @@ module ApplicationHelper
       b.push link_to(h(@project), {:controller => 'projects', :action => 'show', :id => @project}, :class => 'ancestor')
       # b << content_tag('span', h(@project), :id => "last_header")
       b = b.join(' &#187; ')
+      image = project_image(@project)
+      b = b + image if image
       
       # b << "&nbsp;&nbsp;" << link_to("jump", nil, :class => 'root', :onclick => "jump_to_workstream();return false();", :id => "last_header_button")
     end

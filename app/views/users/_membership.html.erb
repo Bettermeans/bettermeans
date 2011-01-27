@@ -1,9 +1,9 @@
 <% unless @memberships.empty? %>
+<h3 class="icon icon-users"><%=l(:label_project_plural)%></h3>
 <div class="gt-content-box padded">
-<h3><%=l(:label_project_plural)%></h3>
 <ul>
 <% for membership in @memberships %>
-	<li><%= link_to(h(membership.project.name_with_ancestors), :controller => 'projects', :action => 'show', :id => membership.project) %><%= volunteering membership.project %><%= privacy membership.project %>
+	<li><%= link_to(h(membership.project.name_with_ancestors), :controller => 'projects', :action => 'show', :id => membership.project) %><%= volunteering membership.project %><%= privacy membership.project %>&nbsp;
    <%=h membership.roles.sort.collect(&:to_s).join(', ') %><%#= format_date(membership.created_at) %></li>
 <% end %>
 </ul>
