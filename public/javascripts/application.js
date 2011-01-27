@@ -1826,9 +1826,9 @@ function help_popup(){
 	'content'			: $('#help_section_container').html(),
 	'padding'		: 0,
 	'margin'  : 0,
-	// 'title'      : 'Help Tips',
-	'transitionIn'	: 'elastic',
-	'transitionOut'	: 'elastic',
+	'title'      : 'Help Tip'
+	// 'transitionIn'	: 'elastic',
+	// 'transitionOut'	: 'elastic',
 	// 'scrolling' : 'no'
 	});	
 };

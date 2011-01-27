@@ -1,4 +1,4 @@
-<h2 class="gt-table-head"><%=l(:label_team)%></h2>	
+<h2 class="gt-table-head icon icon-users"><%=l(:label_team)%></h2>	
 
 <% 
    members = project.enterprise_members.find(:all, :include => [:roles, :user]).sort 

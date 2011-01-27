@@ -392,9 +392,10 @@ font-size: 0.8em;
 }
 */
 .filtered-message {
-text-align:center;
+/*text-align:center;*/
 width:100%;
-align:center;
+/*align:center;*/
+float:left;
 }
 
 #comment_prompt {
