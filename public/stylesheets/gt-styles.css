@@ -827,8 +827,17 @@ h5 .icon{
 
 .gt-actionmenu ul li a{
 	-moz-border-radius: 5px;
-	margin-left:1px;
+	margin-left:5px;
 }
+
+.gt-actionmenu ul li a.icon {
+background-position: 5px 50%;
+background-repeat: no-repeat;
+padding-left: 23px;
+padding-top: 2px;
+padding-bottom: 3px;
+}
+
 
 .gt-nav-sub ul li:first-child a{
 	-moz-border-radius-topleft: 5px;
@@ -1947,6 +1956,7 @@ h2.icon {
 .icon-user { background-image: url(/images/user.png); }
 .icon-users { background-image: url(/images/group.png); }
 .icon-projects { background-image: url(/images/projects.png); }
+.icon-project { background-image: url(/images/projects.png); }
 .icon-issues { background-image: url(/images/ticket.png); }
 .icon-help { background-image: url(/images/help.png); }
 .icon-attachment  { background-image: url(/images/attachment.png); }

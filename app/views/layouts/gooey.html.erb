@@ -128,11 +128,14 @@
 		      <ul><li><a href="#" style="opacity:0;">.</a></li></ul> <!-- placeholder to maintain height of bar -->
 	      <% end %>
 		  <% end %>
+      <div class="gt-actionmenu">
 		  <% if (has_content?(:actionmenu)) %>
-          <div class="gt-actionmenu">
               <%= yield :actionmenu %>
-          </div>
       <%   end   %>
+      <% if (has_content?(:help_section)) %>
+        <ul><li>Tip</li></ul>
+      <% end %>
+      </div>
 		  </div>
       
 		</div><!-- / navigation -->
@@ -178,7 +181,10 @@ end
       </div>
   <%   end   %>
 	<!-- / sidebar -->
-	
+
+<div class="help-section" style="display:none" id="help_section">
+<%= yield :help_section  %>	
+</div>
 </div>
 <!-- / body -->
 

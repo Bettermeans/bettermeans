@@ -1,33 +1,30 @@
-<h2><%=l(:label_settings)%></h2>
 <%= render_tabs project_settings_tabs %>
 
 <% html_title(l(:label_settings)) -%>
 
-<% content_for :sidebar do %>
-<h2 class="gt-table-head">&nbsp;</h2>
-<h2 class="gt-table-head">&nbsp;</h2>
-<%= help_section("project_settings") %>
-
-<div class="gt-sidebar-nav gt-sidebar-nav-blue">
-  <h3>Manage Workstream</h3>
-  <ul>
-  <li>
-    <% if @project.active? %>
-    <%= link_to(l(:label_archive_project), {:controller => 'projects', :action => 'archive', :id => @project}, {:confirm => l(:text_confirm_archive_project), :method => :post}) %>
-    <% else %>
-    <%= link_to(l(:label_unarchive_project), {:controller => 'projects', :action => 'unarchive', :id => @project}, {:confirm => l(:text_confirm_unarchive_project), :method => :post}) %>
-    <% end %>
-  </li>
-  <li>
-    <%= link_to(l(:label_delete_project), {:controller => 'projects', :action => 'destroy', :id => @project}, {:confirm => l(:text_confirm_delete_project), :method => :post}) %>
-  </li>
-  <% unless @project.root? %>
-  <li id='move_project_link'>
-    <%= link_to(l(:label_move_project), {:controller => 'projects', :action => 'move', :id => @project}) %>
-  </li>
+<% content_for :actionmenu do %>
+<ul>
+<li>
+  <% if @project.active? %>
+  <%= link_to(l(:label_archive_project), {:controller => 'projects', :action => 'archive', :id => @project}, {:confirm => l(:text_confirm_archive_project), :method => :post}) %>
+  <% else %>
+  <%= link_to(l(:label_unarchive_project), {:controller => 'projects', :action => 'unarchive', :id => @project}, {:confirm => l(:text_confirm_unarchive_project), :method => :post}) %>
   <% end %>
-  <li>
-  </li>
-  </ul>
-</div>
+</li>
+<li>
+  <%= link_to(l(:label_delete_project), {:controller => 'projects', :action => 'destroy', :id => @project}, {:confirm => l(:text_confirm_delete_project), :method => :post}) %>
+</li>
+<% unless @project.root? %>
+<li id='move_project_link'>
+  <%= link_to(l(:label_move_project), {:controller => 'projects', :action => 'move', :id => @project}) %>
+</li>
+<% end %>
+<li>
+</li>
+</ul>
+<% end %>
+
+
+<% content_for :sidebar do %>
+<%= help_section("project_settings") %>
 <% end %>

@@ -43,7 +43,7 @@
     </div>
   <% end %>
 
-  <%= render :partial => "my/blocks/news", :locals => {:news => @news } %>  
+  <%= render :partial => "my/blocks/news", :locals => {:news => @news, :maxcount => 2 } %>  
 
   <%  if @assigned_issues.length > 0 %>
     <h2 class="icon icon-issues"><%= l(:label_my_issues) %></h2>
