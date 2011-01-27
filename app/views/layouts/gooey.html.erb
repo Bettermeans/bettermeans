@@ -152,6 +152,11 @@
 		
 		</div>
 	</div><!-- /navbar -->			
+	<% if (has_content?(:secondnav)) %>
+	  <div class="gt-second-navbar">
+	  <%= yield :secondnav %>		
+	  </div>
+	<% end %>
 </div><!-- /leaf watermark -->
 </div>
 <!-- / head -->

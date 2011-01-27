@@ -633,7 +633,8 @@ en:
   label_day: day
   label_day_plural: days
   label_browse: Browse
-  label_browse_workstreams: Browse workstreams
+  label_browse_workstreams: Browse bettermeans
+  label_browse_activity: Browse activity
   label_modification: "{{count}} change"
   label_modification_plural: "{{count}} changes"
   label_branch: Branch

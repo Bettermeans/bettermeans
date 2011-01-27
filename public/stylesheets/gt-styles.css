@@ -835,6 +835,7 @@ h5 .icon{
 
 .gt-actionmenu ul li a{
 	-moz-border-radius: 5px;
+	-moz-border-radius: 5px;
 	border-bottom-left-radius: 5px 5px;
 	border-bottom-right-radius: 5px 5px;
 	border-top-left-radius: 5px 5px;
@@ -1248,9 +1249,9 @@ ul li {
 	float: right;
 	display: inline;
 }
-.gt-navbar .gt-search-narrow {
-	width: 50%;
-	float:right;
+.gt-search-narrow {
+	width: 150px;
+	float:left;
 }
 
 .gt-navbar .gt-search-container {
@@ -1260,9 +1261,14 @@ ul li {
 	float: right;
 	display: inline;	
 }
+.gt-second-navbar{
+	margin-right: 20px;
+	margin-left: 15px;
+	margin-top: 10px;
+}
 
 .dash-filter {
-	float: right;
+	float: left;
 	margin-left: 5px;
 }
 /* @end */
@@ -1415,17 +1421,21 @@ div.activity-tag {
 }
 
 .panel_button_top{
-	width:90px;
+/*	width:90px;
 	height:21px;
-	line-height:23px;
+	line-height:23px;*/
 	text-align:center;
 	vertical-align:middle;
 	cursor:pointer;
-	color: #111;
+	color: #eee;
 	font-weight: normal;
 /*	float: right;*/
 	display: block;
-	background: url(/images/bb_white.png) no-repeat; 
+	background-color: #555;
+	padding: 2px 4px 2px 4px;
+	border-radius: 5px;
+	-moz-border-radius: 5px; 
+	-webkit-border-radius: 5px;
 }
 
 
@@ -1942,7 +1952,7 @@ text-decoration:underline !important;
 /***** Icons *****/
 .icon {
 background-position: 0% 50%;
-background-repeat: no-repeat;
+background-repeat: no-repeat!important;
 padding-left: 20px;
 padding-top: 2px;
 padding-bottom: 3px;
@@ -1951,6 +1961,9 @@ padding-bottom: 3px;
 h2.icon {
 	padding-bottom:0px;
 }
+.icon-x {background: url(/images/cross.png); }
+.icon-refresh {background: url(/images/refresh.png);}
+.icon-key {background: url(/images/key.png); }
 .icon-news { background-image: url(/images/news.png); }
 .icon-add { background-image: url(/images/add.png); }
 .icon-bullet-add { background-image: url(/images/bullet_add.png); }
@@ -2592,13 +2605,14 @@ img.private-workstream, img.volunteer-workstream{
 }
 
 .help-section {
-	border: 3px solid #aaa;
+/*	border: 3px solid #aaa;*/
 	padding: 1em 1em 1em 1em;
-	margin-bottom: 1.5em;
+/*	margin-bottom: 1.5em;*/
 	background-color: #F6EABB;
 /*	background-color: #FEFF6F;*/
 /*	width: 100%;*/
 	display: block;
+	width: 600px;
 }
 
 .help-section h3{

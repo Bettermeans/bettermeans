@@ -1,3 +1,4 @@
+<% @page_header_name = l(:label_browse_workstreams) %>
 <%= help_section "browse_workstreams" %>
 <!-- <h2><%#=l(:label_browse_workstreams)%></h2> -->
 
@@ -29,31 +30,17 @@
 	<% end %>
 </div>	
 
-
-<% content_for :sidebar do %>
-<h2 class="gt-table-head">&nbsp;</h2>
-<div class="gt-sidebar-nav gt-sidebar-nav-blue">
-  <h3><%=l(:label_quick_links)%></h3>
-  <ul>
-  <li>
-    <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
-  </li>
-  <li>
-    <%= link_to l(:label_all_activity), {:controller => 'projects', :action => 'activity', :id => nil} %>
-  </li>
-  </ul>
-  
-  <!-- <div class="gt-content-box">
-    <%#= render :partial => 'activity_streams/activity_stream_list', :locals => {
-      :user_id => nil,
-      :project_id => nil,
-      :with_subprojects => true,
-      :limit => 100,
-      :max_created_at => nil
-    } %>
-    
-  </div> -->
-</div>
+<% content_for :actionmenu do %>
+    <ul>    
+    <li>
+      <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project}, :class => "icon icon-add" %>
+    </li>
+    </ul>
+    <ul>
+    <!-- <li>
+      <%#= link_to l(:label_all_activity), {:controller => 'projects', :action => 'activity', :id => nil}, :class => "icon icon-activity" %>
+    </li> -->
+    </ul>
 <% end %>
 
 <%# content_for :header_tags do %>
