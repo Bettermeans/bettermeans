@@ -34,17 +34,7 @@
     <a href="#" onclick="load_dashboard();return false;">Load Dashboard</a>
   </td></tr></table>
 </div>
-<!-- <div id='quote' style="display:none;text-align:center;width:100%">
-  <table class="centeredTable"><tr><td>
-  <%# @quote = Quote.random  %>
-  <%#= @quote.body  %><br>
-  ~<%#= @quote.author  %>
-  </td></tr></table>
-</div> -->
-<div id='filtered_message' style="display:none;" class="filtered-message">
-  Filtered results&nbsp;<span id="filter_detail" style="font-weight:bold;"></span>
-  &nbsp;&nbsp;&nbsp;&nbsp;<a onclick="clear_filters();return false;" class="clickable bold">Clear</a>
-</div>
+
 <div id='panels' style="display: none;">
   <table id='main_table' class='dashboard' style='height: 100%;'>
     <tr id='main_row'>
@@ -53,8 +43,17 @@
   </table>
 </div>
 
-<% content_for :searchbar do %>
+<% content_for :secondnav do %>
+
+<div id="panel_buttons">
+</div>
+
 <div class="gt-search-container">
+  <div class="gt-search gt-search-narrow">
+    <div class="gt-search-inner">
+      <input id="fast_search" type="text" class="gt-search-text fast-search" autocomplete="off" size="20" name="searchString" value="" onblur="searching = false;" onfocus = "searching = true;">
+    </div>
+  </div>
   <div class="dash-filter">
     <select id="filter_select" class="filter-search" onchange="filter_select();return false;">
       <option selected="selected" value="all_top">
@@ -142,49 +141,40 @@
       <% end %>
     </select>
   </div>
-  
-<div class="gt-search gt-search-narrow">
-  <div class="gt-search-inner">
-    <input id="fast_search" type="text" class="gt-search-text fast-search" autocomplete="off" size="20" name="searchString" value="" onblur="searching = false;" onfocus = "searching = true;">
-    <!-- <table class="searchField">
-      <tbody>
-        <tr>
-          <td>
-            <a onclick="$(\'searchString\').focus(); return false;" href="#"><img src="/images/search_left.png" alt="Search" title=""></a>
-          </td>
-          <td class="field">
-            
-          </td>
-          <td style="vertical-align:top;">
-            <img src="/images/search_right.png">
-          </td>
-        </tr>
-      </tbody>
-    </table> -->
-  </div>
-  </div>
+</div>  
+
+<div id='filtered_message' style="display:none;" class="filtered-message">
+  Filtered results&nbsp;<span id="filter_detail" style="font-weight:bold;"></span>
+  &nbsp;&nbsp;&nbsp;&nbsp;<a onclick="clear_filters();return false;" class="clickable bold icon icon-x">Clear</a>
 </div>
 
-  <a id="dash_key" onclick="return false;" class="dashboard-button">
-    <div class="dash_key_button"></div>
-  </a>
-
-  <a id="new_request" onclick="new_item();return false;" class="dashboard-button">
-    <div class="new_request_button">New Item</div>
-  </a>
-
-  <a id="refresh_data" onclick="refresh_local_data();return false;" class="dashboard-button">
-    <div class="refresh_button"></div>
-  </a>
-
-  
   
 <% end %>
 
-<% content_for :buttonbar do %>
-<div id="panel_buttons">
-</div>
-<% end %>
+<% content_for :actionmenu do -%>
+<ul>
+  <li>
+    <a id="refresh_data" onclick="refresh_local_data();return false;"  href="#" class="icon icon-refresh">
+      Refresh
+    </a>
+  </li>
+  <li>
+    <a id="new_request" onclick="new_item();return false;" href="#" class="icon icon-add">
+      New Item
+    </a>
+  </li>
+  <li>
+    <a id="dash_key" onclick="return false;"  href="#"  class="icon icon-key">
+      Key
+    </a>    
+  </li>
+</ul>
+
+  
+<% end -%>
+
+<%# content_for :buttonbar do %>
+<%# end %>
 
 <%= render :partial => 'projects/dashboard_javascript_variables', :locals => {:project => @project} %>
 

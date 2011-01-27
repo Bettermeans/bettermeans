@@ -13,7 +13,7 @@
   <ul>
 	<% if User.current.allowed_to?(:send_invitations, @project) %>
 	<li>
-		<%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
+		<%= link_to l(:label_invitation_new), new_project_invitation_url(@project), :class => "icon icon-users" %>
 	</li>
 	<% end %>
   </ul>
