@@ -94,10 +94,10 @@
 <% content_for :actionmenu do %>
 <ul>
   <li>
-    <%= link_to l(:button_change_password), :action => 'password' %>
+    <%= link_to l(:button_change_password), {:action => 'password'}, :class => "icon icon-edit" %>
   </li>
   <li>
-    <%= link_to l(:label_cancel_account), {:controller => 'account', :action => 'cancel'}, :confirm => l(:text_confirm_cancel_account) %>
+    <%= link_to l(:label_cancel_account), {:controller => 'account', :action => 'cancel'}, :confirm => l(:text_confirm_cancel_account), :class => "icon icon-del" %>
   </li>
 </ul>
 <% end %>

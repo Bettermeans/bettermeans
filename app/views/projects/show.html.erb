@@ -23,16 +23,16 @@
   </li>
 <% if User.current.allowed_to?(:add_subprojects, @project) %>
 <li>
-	<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
+	<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'add', :parent_id => @project}, :class => "icon icon-add" %>
 </li>
 <% end %>
 <% if User.current.allowed_to?(:send_invitations, @project) && @project.root? %>
 <li>
-	<%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
+	<%= link_to l(:label_invitation_new), new_project_invitation_url(@project), :class => "icon icon-users" %>
 </li>
 <% end %>
 <li>
-<%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project} %>
+<%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project}, :class => "icon icon-motion" %>
 </li>
 </ul>
 <% end %>
@@ -116,6 +116,5 @@
 <script>
   $('document').ready(function(){
     display_sparks();
-    hide_empty_right_column();
   });
 </script>
