@@ -800,7 +800,7 @@ h5 .icon{
 	font-size: 100%;
 	float: left;
 	display: inline;
-	color: #fff!important;
+	color: #eee!important;
 	background-color: #365B6D;
 /*	background-color: #1a5472;*/
 	margin-right: 1px;
@@ -811,8 +811,8 @@ h5 .icon{
 	text-decoration: none;
 }
 .gt-nav-sub a:visited:hover, .gt-nav-sub a:hover, .gt-nav a.gt-active:link, .gt-nav a.gt-active:visited, .gt-nav .gt-active a:link, .gt-nav .gt-active a:visited {
-	background-color: #002F49;
-	color: #fff;
+	background-color: #000;
+	color: #fff!important;
 	text-decoration: none;
 }
 
