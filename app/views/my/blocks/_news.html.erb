@@ -1,6 +1,9 @@
-<% if @news.any? %>
+<% 
+maxcount ||= 1
+if @news.any? 
+  %>
 <h2 class="gt-table-head icon icon-news"><%=l(:label_news_latest)%></h2>
 <div class="news gt-content-box">
-  <%= render :partial => 'news/news', :locals => {:max_count => 1} %>
+  <%= render :partial => 'news/news', :locals => {:max_count => maxcount} %>
 </div>
 <% end %>

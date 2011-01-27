@@ -69,9 +69,6 @@
 <%# end %>
 
 <% content_for :actionmenu do %>
-<h2>&nbsp;</h2>
-<div class="gt-sidebar-nav gt-sidebar-nav-blue">
-  <h3><%=l(:label_quick_links)%></h3>
   <ul>
   <li>
     <%= link_to_if_authorized(l(:label_news_new),
@@ -80,7 +77,6 @@
                               :onclick => '$("#add-news").show(); $("#news_title").focus(); return false;') if @project %>
   </li>
   </ul>
-</div>
 <% end %>
 
 <%# content_for :header_tags do %>
