@@ -820,33 +820,47 @@ h5 .icon{
 	background-color: #e58508!important;
 }
 
-
 .gt-actionmenu a:visited:hover, .gt-actionmenu a:hover {
-	background-color: #f09621!important;
+	background-color: #C27006!important;
 }
+
+.gt-actionmenu ul li a.top-help-tip {
+	background-color: #777!important;
+}
+
+.gt-actionmenu ul li a.top-help-tip:hover {
+	background-color: #444	!important;
+}
+
 
 .gt-actionmenu ul li a{
 	-moz-border-radius: 5px;
-	margin-left:5px;
+	border-bottom-left-radius: 5px 5px;
+	border-bottom-right-radius: 5px 5px;
+	border-top-left-radius: 5px 5px;
+	border-top-right-radius: 5px 5px;
+	margin-left:1px;
 }
 
 .gt-actionmenu ul li a.icon {
-background-position: 5px 50%;
-background-repeat: no-repeat;
-padding-left: 23px;
-padding-top: 2px;
-padding-bottom: 3px;
+	background-position: 5px 50%;
+	background-repeat: no-repeat;
+	padding-left: 23px;
 }
 
 
 .gt-nav-sub ul li:first-child a{
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-bottomleft: 5px;
+	border-bottom-left-radius: 5px 5px;
+	border-top-left-radius: 5px 5px;
 }
 
 .gt-nav-sub ul li:last-child a{
 	-moz-border-radius-topright: 5px;
 	-moz-border-radius-bottomright: 5px;
+	border-bottom-right-radius: 5px 5px;
+	border-top-right-radius: 5px 5px;
 }
 
 /* Sidebar Navigation */
