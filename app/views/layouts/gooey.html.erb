@@ -67,7 +67,7 @@
 	
 		<!-- logo -->
 		<div class="gt-logo">
-      <a href="/" style="text-decoration:none;">
+      <a href="/" style="text-decoration:none;" class="left">
         <img src="/images/header_logo.png"></a>
       </a>
       <div class="gt-logo-links">
@@ -133,7 +133,11 @@
               <%= yield :actionmenu %>
       <%   end   %>
       <% if (has_content?(:help_section)) %>
-        <ul><li>Tip</li></ul>
+        <ul>
+          <li>
+            <a class="top-help-tip icon icon-help" href='' onclick="help_popup(); return false;">Tip</a>
+          </li>
+        </ul>
       <% end %>
       </div>
 		  </div>
@@ -182,8 +186,10 @@ end
   <%   end   %>
 	<!-- / sidebar -->
 
-<div class="help-section" style="display:none" id="help_section">
-<%= yield :help_section  %>	
+<div id="help_section_container" style="display:none">
+  <div class="help-section" id="help_section">
+    <%= yield :help_section  %>	
+  </div>
 </div>
 </div>
 <!-- / body -->
