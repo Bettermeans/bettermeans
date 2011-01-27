@@ -17,23 +17,23 @@ module ApplicationHelper
   def_delegators :wiki_helper
     
   def help_section(name, popup=false)
-    logger.info { "helping #{popup}" }
-    return if User.current.anonymous?
-    
-    help_section = HelpSection.first(:conditions => {:user_id => User.current.id, :name => name})
-
-    if help_section.nil?
-      help_section = HelpSection.create(
-      :user_id => User.current.id,
-      :name => name,
-      :show => true
-      )
-    end
-    
     if popup 
+      return if User.current.anonymous?
+
+      help_section = HelpSection.first(:conditions => {:user_id => User.current.id, :name => name})
+
+      if help_section.nil?
+        help_section = HelpSection.create(
+        :user_id => User.current.id,
+        :name => name,
+        :show => true
+        )
+      end
       render :partial => 'help_sections/show_popup', :locals => {:help_section => help_section} if help_section.show #&& false
+      # render :partial => 'help_sections/show_popup', :locals => {:name => name}
     else
-      render :partial => 'help_sections/show', :locals => {:help_section => help_section} if help_section.show #&& false
+      # render :partial => 'help_sections/show', :locals => {:help_section => help_section} if help_section.show #&& false
+      render :partial => 'help_sections/show', :locals => {:name => name}
     end
   end
 
@@ -607,8 +607,8 @@ module ApplicationHelper
         end
         # b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
         b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p}, :class => 'ancestor') }
-        b.push link_to(h(@project), {:controller => 'projects', :action => 'show', :id => @project}, :class => 'ancestor')
       end
+      b.push link_to(h(@project), {:controller => 'projects', :action => 'show', :id => @project}, :class => 'ancestor')
       # b << content_tag('span', h(@project), :id => "last_header")
       b = b.join(' &#187; ')
       
@@ -617,13 +617,15 @@ module ApplicationHelper
   end
   
   def page_header_name
-    logger.info { "@page #{@page_header_name} #{@page_header_name.nil?}" }
     if @project.nil? || @project.new_record?
-      @page_header_name.nil? ? "Home" : @page_header_name
+      @page_header_name.nil? ? avatar(User.current, :size => 20) + "&nbsp;Home" : @page_header_name
     elsif @project.new_record?
       l(:label_project_new)
     else
-      h(@project.name)
+      html = h(@project.name)
+      html << privacy(@project) 
+      html << volunteering(@project)
+      html
     end
   end
 
@@ -852,11 +854,11 @@ module ApplicationHelper
   end
   
   def privacy(project)
-    image_tag("icon_privacy.png", {:id => "privacy-#{project.id}",:class => "private-workstream"}) unless project.is_public
+    project.is_public ? "" : help_bubble(:help_this_workstream_is_private, {:image =>"icon_privacy.png"})
   end
   
   def volunteering(project)
-    image_tag("icon_volunteer.png", {:id => "volunteering-#{project.id}",:class => "volunteer-workstream"}) if project.volunteer
+    project.volunteer ? help_bubble(:help_volunteer, {:image => "icon_volunteer.png"}) : ""
   end
   
   def year_hash
@@ -1186,8 +1188,10 @@ module ApplicationHelper
   def help_bubble(name, options={})
     # html = content_tag(:div, l(name), :class => 'tip hidden', :id=>"tip_#{name}")
     # html << link_to(image_tag("question_mark.gif", :class=> "help_question_mark", :id=>"help_image_#{name}"), {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
-
-    html = link_to(image_tag("question_mark.gif", :class=> "help_question_mark", :id=>"help_image_#{name}"), {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
+    
+    imagename = options[:image] || "question_mark.gif"
+    image = image_tag(imagename, :class=> "help_question_mark", :id=>"help_image_#{name}")
+    html = link_to(image, {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
     html << content_tag(:span, l(name, options), :class => 'tip hidden', :id=>"tip_#{name}")
     
     # <img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="help_question_mark">

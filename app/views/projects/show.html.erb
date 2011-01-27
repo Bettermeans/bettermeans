@@ -1,11 +1,9 @@
 <!-- <h1><%#=l(:label_overview)%></h1>  -->
 <%= help_section("project_show") %>
-	
-<div class="gt-right-col">
-</div>
 
-<div class="gt-left-col">
-  <h2 class="gt-table-head"><%=l(:label_activity_latest)%></h2>  
+
+<div>
+  <h2 class="gt-table-head icon icon-activity"><%=l(:label_activity_latest)%></h2>  
   <div class="activity gt-content-box">
     <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
       :user_id => params[:user_id],
@@ -19,51 +17,31 @@
 
 <% content_for :actionmenu do %>
   <%= project_image @project %>
-
-  <% @show_header = true %>
-  <% if !@project.is_public 
-      @show_header = false
-  %>
-    <h4><%= privacy @project %>This is a private workstream <%= help_bubble :help_this_workstream_is_private %></h4>
-  <% 
-   end %>
-  <% if @project.volunteer?
-      @show_header = false
-  %>
-    <h4><%= volunteering @project %>This is a volunteer-run workstream<%= help_bubble :help_volunteer %></h4>
-  <% end %>
-
-  <% if (!t @project.has_image?) && @show_header%>
-  <h2 class="gt-table-head">&nbsp;</h2>
-  <% end %>
-
-    <ul>
-      <li>
-        <%= link_to l(:label_login), {:controller => :account, :action => :login} unless User.current.logged? %>
-      </li>
-  	<% if User.current.allowed_to?(:add_subprojects, @project) %>
-  	<li>
-  		<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
-  	</li>
-  	<% end %>
-  	<% if User.current.allowed_to?(:send_invitations, @project) && @project.root? %>
-  	<li>
-  		<%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
-  	</li>
-  	<% end %>
-  	<li>
-    <%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project} %>
-    </li>
-    </ul>
-  
-  
+<ul>
+  <li>
+    <%= link_to l(:label_login), {:controller => :account, :action => :login} unless User.current.logged? %>
+  </li>
+<% if User.current.allowed_to?(:add_subprojects, @project) %>
+<li>
+	<%= link_to l(:label_subproject_new), {:controller => 'projects', :action => 'add', :parent_id => @project} %>
+</li>
+<% end %>
+<% if User.current.allowed_to?(:send_invitations, @project) && @project.root? %>
+<li>
+	<%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
+</li>
+<% end %>
+<li>
+<%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project} %>
+</li>
+</ul>
 <% end %>
 
 
 <% content_for :sidebar do %>
 <% if @project.description.length > 0 %>
   <div class="gt-sidebar-content">
-  <h2><%=h @project.name %></h2>
+  <h2 class="icon icon-project"><%=h @project.name %></h2>
   <%= make_expandable ((textilizable @project.description), 80) %>	
   </div>
 <% end %>

@@ -74,9 +74,7 @@
     <%#= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@project}: #{@board}") %>
 <%# end %>
 
-<% content_for :sidebar do %>
-<h2>&nbsp;</h2>
-<div class="gt-sidebar-nav gt-sidebar-nav-gray">
+<% content_for :actionmenu do %>
   <ul>
   <li>
     <%= link_to_if_authorized l(:label_topic_new),
@@ -88,5 +86,4 @@
     <%= watcher_tag(@board, User.current) %>
   </li>
   </ul>
-</div>
 <% end %>
