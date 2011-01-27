@@ -1,11 +1,12 @@
+<% @page_header_name = @user.name %>
 <div class="contextual">
 <%= link_to(l(:button_edit), {:controller => 'users', :action => 'edit', :id => @user}, :class => 'icon icon-edit') if User.current.admin? %>
 </div>
 
-<h2><%= avatar @user %> <%=h @user.name %></h2>
+<!-- <h2><%#= avatar @user %> <%#=h @user.name %></h2> -->
 
 <div class="splitcontentleft">
-  <h2 class="gt-table-head">Recent Activity</h2>
+  <h2 class="gt-table-head icon icon-activity">Recent Activity</h2>
   <div class="gt-content-box padded">
   <%= render :partial => "activity_streams/activity_stream_list", :locals => {
       :user_id => @user.id,
@@ -19,7 +20,6 @@
 
 <div class="splitcontentright">
   <%= render :partial => "reputation" %>
-  <br><br>
   <%= render :partial => "membership" %>
 </div>
 
