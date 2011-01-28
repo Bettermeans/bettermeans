@@ -622,6 +622,7 @@ module ApplicationHelper
   end
   
   def page_header_name
+    begin
     if @project.nil? || @project.new_record?
       @page_header_name.nil? ? avatar(User.current, :size => 20) + "&nbsp;Home" : @page_header_name
     elsif @project.new_record?
@@ -631,6 +632,9 @@ module ApplicationHelper
       html << privacy(@project) 
       html << volunteering(@project)
       html
+    end
+    rescue
+      "Home"
     end
   end
 
