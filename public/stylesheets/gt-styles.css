@@ -355,6 +355,11 @@ body {
     padding-top: 3px;
 }
 
+#my_projects_table td{
+	font-weight: bold;
+	font-size: 110%;
+}
+
 .active-projects h3 {
 	padding-bottom:0px!important;
 	margin-bottom:0px!important;
