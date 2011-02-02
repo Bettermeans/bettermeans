@@ -818,7 +818,7 @@ h5 .icon{
 .gt-nav-sub a:visited:hover, .gt-nav-sub a:hover, .gt-nav a.gt-active:link, .gt-nav a.gt-active:visited, .gt-nav .gt-active a:link, .gt-nav .gt-active a:visited {
 	background-color: #000;
 	color: #fff!important;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 .gt-actionmenu a:visited, .gt-actionmenu a {
