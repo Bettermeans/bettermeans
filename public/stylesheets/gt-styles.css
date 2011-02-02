@@ -22,8 +22,8 @@ Misc - anything that doesn't fit elsewhere
 html {
 /*	background-color: #e2eaee;*/
 /*	background-color: #f3f3f3;*/
-/*	background-color: #e2eaee;*/
-	background-color: #fff;
+	background-color: #e2eaee;
+/*	background-color: #fff;*/
 }
 body {
 	font-family: Helvetica, sans-serif;
@@ -269,7 +269,7 @@ body {
 
 /* Default List Table */
 .gt-content-box {
-/*	background-color: #fff;*/
+	background-color: #fff;
 /*	background-color: #f0f0f0;*/
 	border: 1px solid #ccc;
 	border-radius: 5px;
@@ -944,9 +944,10 @@ h5 .icon{
 
 /* @group Headings */
 h1 {
-	font-size: 182%;
+/*	font-size: 182%;*/
+	font-size: 210%;
 	color: #0e2029;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	line-height:1.5em;
 }
 
