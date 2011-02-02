@@ -48,7 +48,7 @@
 <%  if @subprojects.any? %>
   <h2 class="icon icon-projects"><%= l(:label_subproject_plural) %></h2>
   <div class="gt-content-box active-projects">
-  <%= render :partial => 'projects/projects_list_simple', :locals => {:projects => @subprojects} %>
+  <%= render :partial => 'projects/projects_list_simple', :locals => {:projects => @subprojects, :max_count => 7} %>
   </div>
 <% end %>
 
