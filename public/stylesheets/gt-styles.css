@@ -2472,25 +2472,29 @@ line-height:1.3em;
 padding:4px 6px 4px 6px;
 border: 1px solid #ccc;
 border-bottom: 0px solid #bbbbbb;
-background-color: #eeeeee;
-color:#777;
+/*background-color: #eeeeee;*/
+/*color:#777;*/
+background-color: #555;
+color: #EEE;
 font-weight:bold;
 }
 
 .tabs ul li a:hover {
-background-color: #ffffdd;
+/*background-color: #ffffdd;*/
+background-color: #888;
 text-decoration:none;
 }
 
 .tabs ul li a.selected {
-background-color: #555;
+background-color: #fff;
 border: 1px solid #bbbbbb;
 border-bottom: none;
-color: #EEE;
+/*color: #EEE;*/
+color:#777
 }
 
 .tabs ul li a.selected:hover {
-background-color: #888;
+background-color: #eeeeee;
 }
 
 div.tabs-buttons { position:absolute; right: 0; width: 48px; height: 24px; background: white; bottom: -1px;  }
