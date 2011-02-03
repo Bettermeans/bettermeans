@@ -1,7 +1,6 @@
 <span id="motion_votes">
   <div id="your_vote">
     <% user_vote = motion.motion_votes.belong_to_user(User.current.id).first %>
-
     <% if user_vote.nil? %>
     <%= l :label_you_havent_voted %>
     <% else %>
