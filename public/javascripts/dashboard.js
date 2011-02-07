@@ -2278,7 +2278,7 @@ function submit_comment_prompt(dataId,data,action){
 	}
 	else{
 		// post_comment(dataId,true,action);
-		data = data + '&notes=' + text;
+		data = data + '&notes=' + encodeURIComponent(text);
 		send_item_action(dataId,action,data);
 		$.fancybox.close();
 	}
@@ -3825,7 +3825,7 @@ function generate_todo_section_lightbox(dataId){
 }
 
 function post_comment(dataId,from_prompt,action){	
-
+	
 //Login required	
 if (!is_user_logged_in()){return false;}
 
