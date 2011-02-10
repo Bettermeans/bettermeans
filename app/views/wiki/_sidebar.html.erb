@@ -1,9 +1,10 @@
 <div class="gt-sidebar-nav gt-sidebar-nav-blue">
 <h3><%= l(:label_wiki) %></h3>
 <ul>
-  <li>
-<%= link_to l(:field_start_page), {:action => 'index', :page => nil} %>
-</li><li>
+  <!-- <li>
+<%#= link_to l(:field_start_page), {:action => 'index', :page => nil} %>
+</li> -->
+<li>
 <%= link_to l(:label_index_by_title), {:action => 'special', :page => 'Page_index'} %>
 </li><li>
 <%= link_to l(:label_index_by_date), {:action => 'special', :page => 'Date_index'} %>
