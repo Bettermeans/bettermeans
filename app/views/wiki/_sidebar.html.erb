@@ -2,11 +2,38 @@
 <h3><%= l(:label_wiki) %></h3>
 <ul>
   <li>
-<%= link_to l(:field_start_page), {:action => 'index', :page => nil} %>
-</li><li>
+    <a href="#" onclick="show_prompt_for_new_page(); return false"><%= l(:label_new_page) %></a>
+  </li>
+  <li>
+  <%= link_to l(:field_start_page), {:action => 'index', :page => nil} %>
+  </li>
+    
+<li>
 <%= link_to l(:label_index_by_title), {:action => 'special', :page => 'Page_index'} %>
 </li><li>
 <%= link_to l(:label_index_by_date), {:action => 'special', :page => 'Date_index'} %>
 </li></ul>
 
 </div>
+
+<script type="text/javascript">
+function show_prompt_for_new_page()
+{
+var name=prompt("Choose a name for your new page","New Page Name");
+if (name!=null && name!="")
+  {
+    var location = []
+    location = window.location.href.replace("#","").split('/');
+    for (var i=0; i < location.length; i++){
+      if (location[i] == 'wiki'){
+        for (var j=location.length - 1 ; j > i; j--){
+          location.pop();
+        }
+        break;
+      }
+    }
+    location.push(name.replace(" ", "_"));    
+    window.location.href = location.join("/");
+  }
+}
+</script>

@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
   # before_filter :authorize, :except => [ :index, :list, :add ]
   
   #BUGBUG: why aren't these actions being authorized!!! archive can be removed, unarchive doesn't seem to work when removed from here
-  before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :community_members_array, :hourly_types ]
+  before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :community_members_array, :hourly_types]
   
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy ]
@@ -108,7 +108,6 @@ class ProjectsController < ApplicationController
       @project.enabled_module_names = params[:enabled_modules]
       @project.is_public = params[:project][:is_public] || false
       @project.volunteer = params[:project][:volunteer] || false
-      @project.owner_id = User.current.id if params[:parent_id] == "" || params[:parent_id].nil?
       @project.homepage = url_for(:controller => 'projects', :action => 'wiki', :id => @project)
       
 
@@ -122,9 +121,12 @@ class ProjectsController < ApplicationController
           r2 = Role.administrator
           m = Member.new(:user => User.current, :roles => [r,r2])
           @project.all_members << m
+          @project.update_attribute(:owner_id, User.current.id)
+          
           
         else
           @project.set_parent!(@parent.id)  # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
+          @project.set_owner
           @project.refresh_active_members
           User.current.add_to_project(@project, Role.active)
         end
@@ -203,9 +205,9 @@ class ProjectsController < ApplicationController
       end
     end
   end
-	
+  
   # Show @project
-  def show
+  def overview
     if params[:jump]
       # try to redirect to the requested menu item
       redirect_to_project_menu_item(@project, params[:jump]) && return
@@ -229,9 +231,8 @@ class ProjectsController < ApplicationController
     @motions = @project.motions.viewable_by(User.current.position_for(@project)).allactive
     
     # @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], 30)    
-    
-    
   end
+
   
   def hourly_types
     render :json => @project.hourly_types.inject({}) { |hash, hourly_type|
