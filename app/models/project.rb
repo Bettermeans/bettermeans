@@ -713,13 +713,11 @@ class Project < ActiveRecord::Base
     self.identifier = Project.next_identifier
     self.invitation_token = Token.generate_token_value
     
-    logger.info { "identifier #{self.identifier}" }
     if self.credits_enabled?
       self.trackers = Tracker.all
     else
       self.trackers = Tracker.no_credits
     end
-    self.owner_id = User.current.id if self.parent_id.nil?
     return true
   end
     
@@ -727,22 +725,25 @@ class Project < ActiveRecord::Base
   
   #Setup default forum for workstream
   def after_create
+    logger.info { "entering after create" }
     #Send notification of request or invitation to recipient
      Board.create! :project_id => id,
                   :name => Setting.forum_name,                        
                   :description => Setting.forum_description + name              
                       
-    self.set_owner
     self.refresh_activity_line
     self.save!
     return true
   end
   
   def set_owner
+    logger.info { "parent id #{self.parent_id} and root #{self.root?} and root #{root?} and parent id #{parent_id} self #{self.inspect}" }
+    
     if !self.root?
-      self.owner_id = self.root.owner_id 
-      self.save
+      self.update_attribute(:owner_id,self.root.owner_id) #unless self.owner_id == self.root.owner_id
+      logger.info { "XXXXXXXXXXupdated attribute baby" }
     elsif owner_id.nil?
+      self.owner_id = User.current.id if self.parent_id.nil?
       admins = self.administrators.sort {|x,y| x.created_at <=> y.created_at}
       if admins.length > 0
         self.owner_id = admins[0].user_id
@@ -753,6 +754,7 @@ class Project < ActiveRecord::Base
         self.save
       end
     end
+    logger.info { "we didn't get the root. sorry." }
   end
   
   
