@@ -259,7 +259,7 @@ en:
   field_comments: Comment
   field_wiki_comments: Revision notes
   field_url: URL
-  field_start_page: Start page
+  field_start_page: Home page
   field_subproject: Sub workstream
   field_hours: Hours
   field_activity: Activity
@@ -400,6 +400,7 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
 
+  label_new_page: New page
   label_my_issues: My items
   label_joined_issues: Items I joined
   label_joined: Joined
