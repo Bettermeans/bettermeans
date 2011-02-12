@@ -29,7 +29,7 @@ REDMINE_SUPPORTED_SCM = %w( Subversion Darcs Mercurial Cvs Bazaar Git Filesystem
 
 # Permissions
 Redmine::AccessControl.map do |map|
-  map.permission :view_project, {:projects => [:show, :activity, :team, :shares, :map, :activity, :mypris, :community_members, :hourly_types]}, :public => true
+  map.permission :view_project, {:projects => [:overview, :activity, :team, :shares, :map, :activity, :mypris, :community_members, :hourly_types]}, :public => true
   map.permission :search_project, {:search => :index}, :public => true
   map.permission :add_project, {:projects => [:add, :new, :copy]}, :require => :loggedin
   map.permission :add_subprojects, {:projects => [:add, :new]}, :require => :loggedin
@@ -171,7 +171,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 end
 
 Redmine::MenuManager.map :project_menu do |menu|
-  menu.push :overview, { :controller => 'projects', :action => 'show' }
+  menu.push :overview, { :controller => 'projects', :action => 'overview' }
   menu.push :dashboard, { :controller => 'projects', :action => 'dashboard' }, :caption => :label_dashboard
   menu.push :team, { :controller => 'projects', :action => 'team' },
       :if => Proc.new { |p| p.root? }
