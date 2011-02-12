@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
   # before_filter :authorize, :except => [ :index, :list, :add ]
   
   #BUGBUG: why aren't these actions being authorized!!! archive can be removed, unarchive doesn't seem to work when removed from here
-  before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :community_members_array, :hourly_types ]
+  before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :community_members_array, :hourly_types]
   
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy ]
@@ -205,9 +205,9 @@ class ProjectsController < ApplicationController
       end
     end
   end
-	
+  
   # Show @project
-  def show
+  def overview
     if params[:jump]
       # try to redirect to the requested menu item
       redirect_to_project_menu_item(@project, params[:jump]) && return
@@ -231,9 +231,8 @@ class ProjectsController < ApplicationController
     @motions = @project.motions.viewable_by(User.current.position_for(@project)).allactive
     
     # @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], 30)    
-    
-    
   end
+
   
   def hourly_types
     render :json => @project.hourly_types.inject({}) { |hash, hourly_type|
