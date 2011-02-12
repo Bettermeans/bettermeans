@@ -9,7 +9,7 @@ More details can be found at http://bettermeans.com and here http://bettermeans.
 
 = Getting started
 
-git clone git@github.com:bettermeans/bettermeans.git
+git clone git@github.com:Bettermeans/bettermeans.git
 
 #Rename database.yml.example to database.yml and set your local dev db u/p
 
