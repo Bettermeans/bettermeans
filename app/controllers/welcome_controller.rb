@@ -14,7 +14,7 @@ class WelcomeController < ApplicationController
     # @enterprises = Project.latest User.current, 10, true
     # @activities_by_item = ActivityStream.fetch(nil, nil, true, 50)    
     # @my_projects = User.current.projects
-    @my_projects = User.current.recent_projects(20)
+    @my_projects = User.current.recent_projects(10)
     # @my_projects = User.current.memberships.collect(&:project)
     # @my_projects = User.current.active_memberships.collect(&:project)
     
