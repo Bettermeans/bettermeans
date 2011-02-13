@@ -92,7 +92,7 @@ function start(){
 	
 	$("#dash_key").mybubbletip('#help_key', {deltaDirection: 'right', bindShow: 'click'});
 	
-	$('#fast_search').watermark('watermark','Fast Search');
+	$('#fast_search').watermark('watermark','Quick Filter');
 	//Checking for single issue display
 	if (show_issue_id){
 		show_issue_full(show_issue_id);
