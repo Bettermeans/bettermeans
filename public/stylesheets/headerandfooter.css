@@ -41,7 +41,7 @@ ul#topnav {
 	width: 690px;  /*Change this if you want a bigger nav*/
 	font-size: 1.2em;
 	text-align:center;
-	margin: 19px 0 19px 120px;
+	margin: 19px 0 19px 200px;
 	list-style: none;
 }
 /*ul#topnav .subnav {display:none}*/
@@ -55,7 +55,7 @@ ul#topnav li a {
 	float:left;
 	cursor: pointer;
 	color:#fff;
-	font-size: .8em;
+	font-size: .7em;
 	text-shadow:1px 1px #111;
 	padding:0;
 }
