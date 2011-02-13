@@ -501,7 +501,7 @@ class IssuesController < ApplicationController
     Notification.create :recipient_id => @issue.assigned_to_id,
                         :variation => 'issue_left',
                         :params => {:issue => @issue, :joiner => User.current}, 
-                        :sender_id => admin.id,
+                        :sender_id => User.current.id,
                         :source_id => @issue.id,
                         :source_type => "Issue"
     
