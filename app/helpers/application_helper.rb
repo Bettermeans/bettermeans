@@ -292,6 +292,25 @@ module ApplicationHelper
       # s << current_project_in_list.to_s
   end
   
+  def sub_workstream_project_box(project)
+      return '' if project.nil?
+      projects = project.descendants.active
+      return '' if projects.length == 0
+    
+      
+      s = '<select id="project_jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
+            "<option value='/projects' selected=\"yes\">#{pluralize(projects.length,l(:label_subproject)).downcase}</option>" +
+            '<option value="" disabled="disabled">---</option>'
+      if projects.any?
+        s_options = ""
+        s_options << project_tree_options_for_select(projects) do |p|
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
+        end
+        s << s_options
+      end
+      s << '</select>'
+  end
+  
   def project_tree_options_for_select(projects, options = {})
     s = ''
     project_tree_sorted(projects) do |project, level|
