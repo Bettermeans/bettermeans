@@ -484,11 +484,14 @@ class User < ActiveRecord::Base
   # Return true if the user is allowed to see motion
   def allowed_to_see_motion?(motion)
     return true if User.current == User.sysadmin
-    logger.info { "current position #{position_for(motion.project)}" }
-    logger.info { "visibilitly level #{motion.visibility_level.to_f}" }
-    logger.info { "allowed #{position_for(motion.project) <= motion.visibility_level.to_f}" }
     position_for(motion.project) <= motion.visibility_level.to_f
   end  
+  
+  # Return true if the user is a allowed to see project
+  def allowed_to_see_project?(project)
+    roles_for_project(project).detect {|role| role.binding_member? || role.clearance?}
+  end
+  
   
   # Returns position level for user's role in project's enterprise (the lower number, the higher in heirarchy the user)
   def position_for(project)
@@ -517,7 +520,7 @@ class User < ActiveRecord::Base
       # return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
       roles = roles_for_project(project)
       return false unless roles
-      roles.detect {|role| (project.is_public? || role.community_member?) && role.allowed_to?(action)}
+      roles.detect {|role| (project.is_public? || role.binding_member? || role.clearance?) && role.allowed_to?(action)}
     elsif options[:global]
       # Admin users are always authorized
       return true if admin?
