@@ -1618,11 +1618,11 @@ div.projects h3 { background: url(/images/projects.png) no-repeat 0% 50%; paddin
 
 
 /*Flyovers*/
-.storyPreviewHeader {
+.itemCollapsedHeader {
 	padding:1px 4px;
 }
 
-.storyPreviewButtons {
+.itemCollapsedButtons {
 	float:right;
 	padding-bottom:1px;
 	padding-top:2px;
@@ -1630,31 +1630,31 @@ div.projects h3 { background: url(/images/projects.png) no-repeat 0% 50%; paddin
 	text-align:right;
 }
 
-.storyPreviewHeader .icons, .storyPreviewHeader .storyPreviewText {
+.itemCollapsedHeader .icons, .itemCollapsedHeader .itemCollapsedText {
 	padding-bottom:1px;
 	padding-top:1px;
 }
 
-.storyPreviewText {
+.itemCollapsedText {
 	padding-left:80px;
 }
 
-.storyPreviewInput {
+.itemCollapsedInput {
 	padding-left:20px;
 }
-.storyPreviewText, .storyLabels {
+.itemCollapsedText, .storyLabels {
 	-moz-user-select:none;
 }
 
 
-.underEdit .storyPreviewHeader {
+.underEdit .itemCollapsedHeader {
 	background-color:#FFEDA1;
 }
 
 .unstarted, .newStory {
 	background-color:white;
 }
-.unestimatedText .storyPreviewHeader {
+.unestimatedText .itemCollapsedHeader {
 	font-style:italic;
 }
 
