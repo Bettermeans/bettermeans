@@ -4,3 +4,4 @@ LOG:  record with zero length at 0/71CD438
 LOG:  redo is not required
 LOG:  database system is ready to accept connections
 LOG:  autovacuum launcher started
+FATAL:  role "postgres" does not exist
