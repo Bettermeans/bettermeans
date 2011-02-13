@@ -476,7 +476,7 @@ function adjust_button_container_widths(){
 	
 	if (jQuery.browser.msie) {  
 	
-		$.each($('.storyPreviewButtons'), function(){
+		$.each($('.itemCollapsedButtons'), function(){
 
 		var $sum = 0;
 	
@@ -1615,9 +1615,9 @@ function generate_new_link(){
 	
 	html = html + '<div id="item_new_link" class="item">';
 	html = html + '<div id="item_content_new_link" class="newlink hoverable" style="">';
-	html = html + '<div class="storyPreviewHeader">';
+	html = html + '<div class="itemCollapsedHeader">';
 
-	html = html + '<div id="item_content_details_new_link" class="storyPreviewTextNewLink" onDblclick="new_item();return false;" style="cursor: default;">'; 
+	html = html + '<div id="item_content_details_new_link" class="itemCollapsedTextNewLink" onDblclick="new_item();return false;" style="cursor: default;">'; 
 	
 	html = html + '<a href="#" onclick="new_item();return false;">Add New Item</a>';
 	html = html + '</div>';
@@ -1637,8 +1637,8 @@ function generate_item(dataId){
 	
 	html = html + '<div id="item_' + dataId + '" class="item points_' + points + ' pri_' + item.pri + '">';
 	html = html + '<div id="item_content_' + dataId + '" class="' + item.status.name.replace(" ","-").toLowerCase() + ' hoverable" style="">';
-	html = html + '<div class="storyPreviewHeader">';
-	html = html + '<div id="item_content_buttons_' + dataId + '" class="storyPreviewButtons">';
+	html = html + '<div class="itemCollapsedHeader">';
+	html = html + '<div id="item_content_buttons_' + dataId + '" class="itemCollapsedButtons">';
 	if (currentUserId != ANONYMOUS_USER_ID){ 
 		html = html + buttons_for(dataId);
 	}
@@ -1663,9 +1663,9 @@ function generate_item(dataId){
 	html = html + '</div>';
 
 
-	html = html + '<div id="item_content_details_' + dataId + '" class="storyPreviewText" onDblclick="expand_item(' + dataId + ');return false;" style="cursor: default;">'; 
+	html = html + '<div id="item_content_details_' + dataId + '" class="itemCollapsedText" onDblclick="expand_item(' + dataId + ');return false;" style="cursor: default;">'; 
 	
-	html = html + h(item.subject);
+	html = html + '<a href="#" onclick="show_item_fancybox(' + dataId + ');return false;">' + h(item.subject) + '</a>';
 	html = html + '</div>';
 	html = html + '</div>';
 	html = html + '</div>';
@@ -1682,7 +1682,7 @@ function generate_item_lightbox(dataId){
 	
 	html = html + '<div id="item_lightbox_' + dataId + '" class="item_lightbox points_' + points + ' pri_' + item.pri + '">';
 	html = html + '<div id="item_content_' + dataId + '" class="' + item.status.name.replace(" ","-").toLowerCase() + ' hoverable" style="">';
-	html = html + '<div id="item_content_buttons_' + dataId + '" class="storyPreviewButtons">';
+	html = html + '<div id="item_content_buttons_' + dataId + '" class="itemCollapsedButtons">';
 	html = html + buttons_for(dataId);
 	html = html + '</div>';
 
@@ -3378,8 +3378,8 @@ html = '';
 html = html + '	<div class="item" id="new_item_wrapper">';
 html = html + '	  <div class="storyItem unscheduled unestimatedText underEdit" id="icebox_itemList_storynewStory_content">';
 html = html + '	   <form action="#">';
-html = html + '	    <div class="storyPreviewHeader">';
-html = html + '	      <div class="storyPreviewInput">';
+html = html + '	    <div class="itemCollapsedHeader">';
+html = html + '	      <div class="itemCollapsedInput">';
 html = html + '	        <input id="new_title_input" class="titleInputField" name="title_input" value="" type="text">';
 html = html + '	      </div>';
 html = html + '	    </div>';
@@ -3615,10 +3615,10 @@ var html = '';
 html = html + '	<div class="item" id="edit_item_' + dataId + '">';
 html = html + '	  <div class="storyItem underEdit" id="editItem_content_' + dataId + '">';
 // html = html + '	   <form action="#">';
-html = html + '	    <div class="storyPreviewHeader">';
+html = html + '	    <div class="itemCollapsedHeader">';
 html = html + ' 		<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_expanded.png" title="Collapse" alt="Collapse" onclick="collapse_item(' + dataId + ',true);return false;">';
 html = html + '<div id="icon_set_' + dataId + '" class="left">&nbsp;</div>';
-html = html + '	      <div class="storyPreviewInput">';
+html = html + '	      <div class="itemCollapsedInput">';
 html = html + '	        <input id="edit_title_input_' + dataId + '" class="titleInputField" name="title_input" value="' + h(D[dataId].subject) + '" type="text" ' + readonly + '>';
 html = html + '	      </div>';
 html = html + '	    </div>';
