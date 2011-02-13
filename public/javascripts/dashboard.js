@@ -2248,9 +2248,11 @@ function click_leave(dataId,source,data){
 function click_join(dataId,source,data){
 	//Login required	
 	if (!is_user_logged_in()){return;}
-
-	$('#' + source.id).parent().hide();
-	send_item_action(dataId,'join');
+	
+	if(confirm("By joining an item, you are declaring that you want to help get it done.\n\n Are you sure you want to do this?")){
+		$('#' + source.id).parent().hide();
+		send_item_action(dataId,'join');
+	}
 }
 
 function click_pri(dataId,source,points){
