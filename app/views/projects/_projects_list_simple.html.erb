@@ -8,16 +8,19 @@
        %>
       <tr class="active-project-row <%= "hidden" if count > max_count %>">
         <td>
-          <%=link_to(name_prefix + h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
+          <%=name_prefix + link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
           <% if !p.active? %>
             <%= link_to_remote(l(:label_unarchive_project_brackets), :url => {:controller => 'projects', :action => 'unarchive', :id => p}, :confirm => l(:text_confirm_unarchive_project)) %>
           <% end %>
         </td>
+        <td>
+          <span class="spark" max="<%= p.activity_line_max %>"><%= p.activity_line_show(30) %></span>
+        </td>
       </tr>
       <% end %>
       <tr class="active-project-show-more show-more <%= "hidden" unless count > max_count %>">
-        <td>
-          <a href="" onclick="$('.active-project-row').show();$('.active-project-show-more').hide();return false;">Show <%= count - max_count %> more ...</a>
+        <td colspan="2">
+          <a href="" onclick="$('.active-project-row').show();$('.active-project-show-more').hide();display_sparks();return false;">Show <%= count - max_count %> more ...</a>
         </td>
       </tr>
   </table>
