@@ -641,7 +641,7 @@ class User < ActiveRecord::Base
   #returns list of recent projects with a max count
   def recent_projects(max = 10)
     project_ids = ActivityStream.find_by_sql("SELECT project_id FROM Activity_Streams WHERE actor_id = #{self.id} AND updated_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_RECENT_PROJECTS * -1)}' GROUP BY project_id ORDER BY MAX(updated_at) DESC LIMIT #{max}").collect {|a| a.project_id}.join(",")
-    return nil unless project_ids
+    return [] unless project_ids.length > 0
     Project.find(:all, :conditions => "id in (#{project_ids})")
   end
   
