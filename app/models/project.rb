@@ -224,7 +224,7 @@ class Project < ActiveRecord::Base
     return true if user.admin?
     return false unless active?
     return true if is_public
-    return true if user.community_member_of?(self)
+    return true if user.allowed_to_see_project?(self)
     return false
   end
   
