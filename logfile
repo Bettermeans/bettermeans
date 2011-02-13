@@ -202,3 +202,5 @@ ERROR:  syntax error at or near "activity_streams" at character 205
 STATEMENT:  SELECT max("activity_streams".updated_at) AS max_updated_at, project_id,ActivityStream.find_by_sql("SELECT  project_id :updated_at AS project_id_activitystream_find_by_sql_select_project_id_updated FROM "activity_streams" WHERE ("activity_streams"."actor_id" = 3)  GROUP BY project_id,ActivityStream.find_by_sql("SELECT  project_id :updated_at  ORDER BY updated_at DESC 
 ERROR:  column "project_ids" does not exist at character 40
 STATEMENT:  SELECT * FROM "projects" WHERE (id in (project_ids)) 
+ERROR:  syntax error at or near ")" at character 40
+STATEMENT:  SELECT * FROM "projects" WHERE (id in ()) 
