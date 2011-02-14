@@ -25,6 +25,8 @@ class Setting < ActiveRecord::Base
   
   DAYS_FOR_LATEST_NEWS = 45 #Number of days before a news item expires
   
+  DAYS_FOR_RECENT_PROJECTS = 60 #Number of days workstreams appear if they were part of recent activity
+  
   ACTIVITY_LINE_LENGTH = 90 #number of days for activity sparklines
   
   ACTIVITY_STREAM_LENGTH = 40 #number of actions to show before paginating

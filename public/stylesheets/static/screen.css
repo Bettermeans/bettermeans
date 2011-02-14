@@ -47,28 +47,30 @@ h1,h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-size:3em;
+	font-size:2em;
 	line-height:1;
-	margin-bottom:0.5em;
-	font-weight:bold;
-	text-shadow: 1px 1px #eee;
-	color: #999;
-	text-align: center;
+	margin-bottom:0.4em;
+	text-shadow: 1px 1px #9E9E9F;
+	font-weight: bold;
+	color: #2f2f2f;
 	
 	 }
-
+#main-inner h1{
+	text-align: center;
+}
 h2 {
-	color: #365b6d;
+	color: #02293C;
 	font-weight:bold;
-	font-size:2em;
-	margin-bottom:0.75em;
+	font-size:1.5em;
+	margin-bottom:0.4em;
 	line-height: 110%;
 }
 h3 {
-	font-size:1.5em;
+	font-size:1em;
 /*	line-height:1.15;*/
 	line-height: 110%;
-	margin-bottom:0.5em;
+	font-weight: bold;
+	color: #022356;
 }
 h4 {
 	font-size:1.2em;
@@ -872,7 +874,7 @@ div.paint {
 	background-position:0 0;
 	background-repeat:no-repeat;
 	float:left;
-	height:91px;
+	height:115px;
 	margin-bottom:0;
 	margin-left:200px;
 	margin-right:0;
@@ -881,8 +883,26 @@ div.paint {
 	width:600px;
 }
 
-div.paint p{
-	color:#777;
+div.side-paint {
+	-moz-background-clip:border;
+	-moz-background-origin:padding;
+	-moz-background-size:auto auto;
+	background-attachment:scroll;
+	background-color:transparent;
+	background-image:url("/images/static/paint_orange.png");
+	background-position:0 0;
+	background-repeat:no-repeat;
+	height:115px;
+	margin-bottom:0;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:2px;
+	text-align:center;
+	width:450px;
+}
+
+div.paint p,div.side-paint p{
+	color:#fff;
 	font-size:22px;
 	font-style:italic;
 	line-height:normal;
@@ -894,10 +914,22 @@ div.paint p{
 	font-family: georgia, times, "times new roman";
 }
 
-div.paint p a{
-	color:#fff;
+div.paint p a,div.side-paint p a{
+	color:#666;
 }
 
 .span-6 h2{
 	text-align:center;
+}
+
+#homebanner{
+	height: 300px;
+	background-image:url("/images/static/HomePageMain.png");
+	background-repeat:no-repeat;
+	background-position: right center;
+	margin-bottom: 44px;
+}
+
+#topsection{
+	background-color: #444;
 }

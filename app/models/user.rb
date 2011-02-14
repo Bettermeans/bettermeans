@@ -484,11 +484,14 @@ class User < ActiveRecord::Base
   # Return true if the user is allowed to see motion
   def allowed_to_see_motion?(motion)
     return true if User.current == User.sysadmin
-    logger.info { "current position #{position_for(motion.project)}" }
-    logger.info { "visibilitly level #{motion.visibility_level.to_f}" }
-    logger.info { "allowed #{position_for(motion.project) <= motion.visibility_level.to_f}" }
     position_for(motion.project) <= motion.visibility_level.to_f
   end  
+  
+  # Return true if the user is a allowed to see project
+  def allowed_to_see_project?(project)
+    roles_for_project(project).detect {|role| role.binding_member? || role.clearance?}
+  end
+  
   
   # Returns position level for user's role in project's enterprise (the lower number, the higher in heirarchy the user)
   def position_for(project)
@@ -517,7 +520,7 @@ class User < ActiveRecord::Base
       # return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
       roles = roles_for_project(project)
       return false unless roles
-      roles.detect {|role| (project.is_public? || role.community_member?) && role.allowed_to?(action)}
+      roles.detect {|role| (project.is_public? || role.binding_member? || role.clearance?) && role.allowed_to?(action)}
     elsif options[:global]
       # Admin users are always authorized
       return true if admin?
@@ -635,6 +638,19 @@ class User < ActiveRecord::Base
     self.projects.does_not_belong_to(self.id)
   end
   
+  #returns list of recent projects with a max count
+  def recent_projects(max = 10)
+    project_ids = ActivityStream.find_by_sql("SELECT project_id FROM Activity_Streams WHERE actor_id = #{self.id} AND updated_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_RECENT_PROJECTS * -1)}' GROUP BY project_id ORDER BY MAX(updated_at) DESC LIMIT #{max}").collect {|a| a.project_id}.join(",")
+    return [] unless project_ids.length > 0
+    Project.find(:all, :conditions => "id in (#{project_ids})")
+  end
+  
+  #returns list of recent items with a max count of 10
+  def recent_items(max = 10)
+    item_ids = ActivityStream.find_by_sql("SELECT object_id FROM Activity_Streams WHERE actor_id = #{self.id} AND object_type = 'Issue' GROUP BY object_id ORDER BY MAX(updated_at) DESC LIMIT #{max}").collect {|a| a["object_id"]}.join(",")
+    return nil unless item_ids
+    Issue.find(:all, :conditions => "id in (#{item_ids})")
+  end
   
   protected
   

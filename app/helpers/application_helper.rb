@@ -273,39 +273,42 @@ module ApplicationHelper
       projects = project_ids.any? ? Project.find(:all, :conditions => "(parent_id in (#{project_ids}) OR id in (#{project_ids})) AND (status=#{Project::STATUS_ACTIVE})") : []
     end
     
-    current_project_in_list = false #when true, it means that dropdown already contains current project
-    if projects.any?
-      s_options = ""
-      s_options << project_tree_options_for_select(projects, :selected => @project) do |p|
-        current_project_in_list = true if @project && p.id == @project.id
-        # { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
-        { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
-      end
       
-      if current_project_in_list || !@project || true
-        s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
-              "<option value=''>#{ l(:label_jump_to_a_project) }</option>" +
-              '<option value="" disabled="disabled">---</option>'
-      else
-        s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
-              "<option value='#{url_for(:controller => 'projects', :action => 'show', :id => @project)}' selected=\"yes\"> #{@project.root? ? "" : "&#187;"} #{ h @project.name }</option>" +
-              '<option value="" disabled="disabled">---</option>'
+      s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
+            "<option value='/projects' selected=\"yes\">#{l(:label_jump_to_a_project)}</option>" +
+            '<option value="" disabled="disabled">---</option>'
+      if projects.any?
+        s_options = ""
+        s_options << project_tree_options_for_select(projects, :selected => @project) do |p|
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
+        end
+        s << s_options
+        s << '<option value="" disabled="disabled">---</option>'
       end
-      s << s_options
-      s << '<option value="" disabled="disabled">---</option>'
       s << "<option value='#{url_for({:controller => :projects, :action => :index})}'>#{l(:label_browse_workstreams)}</option>"
       s << "<option value='#{url_for({:controller => :projects, :action => :new})}'>#{l(:label_project_new)}</option>"
       s << '</select>'
       s << '<span id="widthcalc" style="display:none;"></span>'
       # s << current_project_in_list.to_s
-    elsif @project
-      s = ' &#187; ' + @project.name
-    else
-      #s = '<span id="logo_app"><a href="/" title="BetterMeans">BetterMeans</a></span>'
-      s = ''
+  end
+  
+  def sub_workstream_project_box(project)
+      return '' if project.nil?
+      projects = project.descendants.active
+      return '' if projects.length == 0
+    
       
-      # s = h(Setting::APP_TITLE)
-    end
+      s = '<select id="project_jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
+            "<option value='/projects' selected=\"yes\">#{pluralize(projects.length,l(:label_subproject)).downcase}</option>" +
+            '<option value="" disabled="disabled">---</option>'
+      if projects.any?
+        s_options = ""
+        s_options << project_tree_options_for_select(projects) do |p|
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
+        end
+        s << s_options
+      end
+      s << '</select>'
   end
   
   def project_tree_options_for_select(projects, options = {})
