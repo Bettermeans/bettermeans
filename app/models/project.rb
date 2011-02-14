@@ -762,16 +762,23 @@ class Project < ActiveRecord::Base
   def ready_for_retro?
     return false if !credits_enabled?
     
-    total_unretroed = Issue.sum(:points, :conditions => {:status_id => IssueStatus.accepted.id,:retro_id => Retro::NOT_STARTED_ID, :project_id => id})
-    return true if total_unretroed >= Setting::RETRO_CREDIT_THRESHOLD
+    total_unretroed = Issue.sum(:points, 
+                                :conditions => {
+                                  :status_id => IssueStatus.accepted.id,
+                                  :retro_id => Retro::NOT_STARTED_ID, 
+                                  :project_id => id})
+    return true if total_unretroed >= retro_credit_threshold
     
     #Getting most recent issue that's not part of retrospective
-    first_issue = Issue.first(:conditions => {:project_id => self.id, :status_id => IssueStatus.accepted, :retro_id => Retro::NOT_STARTED_ID}, :order => "updated_at asc")
+    first_issue = Issue.first(:conditions => {
+                                :project_id => self.id, 
+                                :status_id => IssueStatus.accepted, 
+                                :retro_id => retro_credit_threshold}, 
+                              :order => "updated_at asc")
     return false if first_issue == nil 
-    return true if (first_issue.updated_at.advance :days => Setting::RETRO_DAY_THRESHOLD) < Time.now
+    return true if (first_issue.updated_at.advance :days => retro_credit_threshold) < Time.now
     
     return false
-    
   end
   
   #Starts a new retrospective for this project
