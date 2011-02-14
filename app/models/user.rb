@@ -488,8 +488,14 @@ class User < ActiveRecord::Base
   end  
   
   # Return true if the user is a allowed to see project
+  #If root project is public, then we check that user has been given explicit clearance
+  #If root project is private, then all contributors have access
   def allowed_to_see_project?(project)
-    roles_for_project(project).detect {|role| role.binding_member? || role.clearance?}
+    if project.root.is_public?
+      roles_for_project(project).detect {|role| role.binding_member? || role.clearance?}
+    else
+      roles_for_project(project).detect {|role| role.community_member?}
+    end
   end
   
   
