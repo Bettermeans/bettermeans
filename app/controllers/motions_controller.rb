@@ -27,6 +27,8 @@ class MotionsController < ApplicationController
       return false
     end
     
+    @motion.create_forum_topic if @motion.topic.nil?
+    
     @topic = @motion.topic
     @board = @topic.board
     @replies = @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}])
