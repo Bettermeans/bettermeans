@@ -510,7 +510,7 @@ class Issue < ActiveRecord::Base
       
       
       if self.status == IssueStatus.accepted 
-        self.assigned_to.add_as_contributor_if_new(self.project) unless self.assigned_to_id.nil?
+        self.assigned_to.add_as_contributor_if_new(self.project) unless self.assigned_to.nil?
         if self.is_gift? 
           self.retro_id = Retro::NOT_NEEDED_ID
           self.give_credits
