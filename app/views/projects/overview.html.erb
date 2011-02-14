@@ -45,13 +45,6 @@
   </div>
 <% end %>
 
-<%  if @subprojects.any? %>
-  <h2 class="icon icon-projects"><%= l(:label_subproject_plural) %></h2>
-  <div class="gt-content-box active-projects">
-  <%= render :partial => 'projects/projects_list_simple', :locals => {:projects => @subprojects, :max_count => 7} %>
-  </div>
-<% end %>
-
 <% if @motions.any? %>
 <h2 class="icon icon-motion"><%=l(:label_motions_active)%></h2>  
 <div class="motions gt-content-box">
@@ -72,6 +65,13 @@
 <% else %>
   <%= render :partial => "active_member_box_simple" %>
   <%= render :partial => "clearance_member_box" unless @project.is_public %>    
+<% end %>
+
+<%  if @subprojects.any? %>
+  <h2 class="icon icon-projects"><%= l(:label_subproject_plural) %></h2>
+  <div class="gt-content-box active-projects">
+  <%= render :partial => 'projects/projects_list_simple', :locals => {:projects => @subprojects, :max_count => 7} %>
+  </div>
 <% end %>
   
 <!-- <div class="gt-sidebar-content">

@@ -101,7 +101,7 @@
 		  <div class="gt-nav-header">
     		<span class="gt-nav-breadcrumbs"><%= page_header_title %></span>
     		<br>
-    		<h1><%= page_header_name %></h1>
+    		<h1><%= page_header_name %><%= sub_workstream_project_box(@project) %></h1>
     		<% if (!has_content?(:searchbar)) %>
       <div class="gt-search gt-search-wide">
         		  <div class="gt-search-inner">

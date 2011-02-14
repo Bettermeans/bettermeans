@@ -1260,12 +1260,12 @@ ul li {
 	float:left;
 }
 
-.gt-navbar .gt-search-container {
-	width: 30%;
+.gt-search-container {
+	width: 600px;
 	margin-top: 9px;
 	margin-right: 9px;
-	float: right;
-	display: inline;	
+	margin-left: auto;
+	margin-right: auto;
 }
 .gt-second-navbar{
 	margin-right: 20px;
@@ -1501,11 +1501,19 @@ div.activity-tag {
 }
 
 /*Flyovers*/
-.storyPreviewHeader {
+.itemCollapsedHeader {
 	padding:4px 4px;
 }
 
-.storyPreviewButtons {
+.itemCollapsedHeader a:link, .itemCollapsedHeader a:visited{
+	text-decoration: none;
+}
+
+.itemCollapsedHeader a:hover{
+	text-decoration: underline;
+}
+
+.itemCollapsedButtons {
 	float:right;
 	padding-bottom:1px;
 	padding-top:0px;
@@ -1519,24 +1527,24 @@ div.activity-tag {
 	
 }
 
-.storyPreviewHeader .icons, .storyPreviewHeader .storyPreviewText {
+.itemCollapsedHeader .icons, .itemCollapsedHeader .itemCollapsedText {
 	padding-bottom:1px;
 	padding-top:1px;
 }
 
-.storyPreviewText {
+.itemCollapsedText {
 	padding-left:60px;
 }
 
-.storyPreviewTextNewLink{
+.itemCollapsedTextNewLink{
 	text-align: center;
 	font-weight: bold;
 }
 
-.storyPreviewInput {
+.itemCollapsedInput {
 	padding-left:20px;
 }
-.storyPreviewText, .storyLabels {
+.itemCollapsedText, .storyLabels {
 	-moz-user-select:none;
 }
 
@@ -1546,11 +1554,11 @@ div.activity-tag {
 }
 
 
-.underEdit .storyPreviewHeader {
+.underEdit .itemCollapsedHeader {
 	background-color:#FFEDA1;
 }
 
-.newlink .storyPreviewHeader {
+.newlink .itemCollapsedHeader {
 	background-color:#FFEDA1;
 }
 
@@ -1559,7 +1567,7 @@ div.activity-tag {
 .unstarted, .newStory {
 	background-color:white;
 }
-.unestimatedText .storyPreviewHeader {
+.unestimatedText .itemCollapsedHeader {
 	font-style:italic;
 }
 
@@ -2565,8 +2573,14 @@ wbr:after { content: "\00200B" } /*opera compatibility with wbr*/
 #jumpbox{
 	background: #323232;
 	font-weight: bold;
-/*	font-size: 90%;*/
-	background: transparent;
+}
+
+#project_jumpbox{
+	font-weight: bold;
+	font-size: 0.5em;
+	margin-left: 1em;
+	vertical-align: middle;
+/*	background: transparent;*/
 }
 
 .activity-comment {
