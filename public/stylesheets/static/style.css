@@ -1557,6 +1557,31 @@ p.free-plan{
 	text-align: center;
 }
 
+.signup-button {
+	width: 185px;
+	background: url(/images/gt/btn-blue-large.png) no-repeat 0 0 transparent;
+	height: 36px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 7px;
+    text-align: center;
+    width: 185px;
+}
+
+.signup-area a{
+	color: #fff;
+}
+
+.signup-account{
+	font-size: 80%;
+	margin-top: 26px;
+}
+
+
 .learnMore .box {
 	background-color: #FFF;
 }

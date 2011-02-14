@@ -115,10 +115,11 @@ class IssuesController < ApplicationController
   # end
   
   def show
-    @item = @issue.to_dashboard
+    # @item = @issue.to_dashboard
     @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_at ASC")
     @journals.each_with_index {|j,i| j.indice = i+1}
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
+    @edit_allowed = true
     @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
     
     respond_to do |format|

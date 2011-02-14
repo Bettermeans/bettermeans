@@ -181,7 +181,7 @@ class ApplicationController < ActionController::Base
   # used as a before_filter for actions that do not require any particular permission on the project
   def check_project_privacy
     if @project && @project.active?
-      if @project.is_public? || User.current.community_member_of?(@project) || User.current.admin?
+      if @project.is_public? || User.current.allowed_to_see_project?(@project) || User.current.admin?
         true
       else
         User.current.logged? ? render_403 : require_login

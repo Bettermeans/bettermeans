@@ -72,6 +72,8 @@ function show_fancybox(url,message){
 		        'autoScale'     	: false,
 		        'transitionIn'		: 'none',
 				'transitionOut'		: 'none',
+		        'speedIn'			: '0',
+				'speedOut'			: '0',
 				'type'				: 'iframe',
 				'href'				: url
 		});
