@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
   # before_filter :authorize, :except => [ :index, :list, :add ]
   
   #BUGBUG: why aren't these actions being authorized!!! archive can be removed, unarchive doesn't seem to work when removed from here
-  before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :community_members_array, :hourly_types]
+  before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :community_members_array, :hourly_types, :join]
   
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy ]
