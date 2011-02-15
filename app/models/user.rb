@@ -506,8 +506,8 @@ class User < ActiveRecord::Base
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project, options={})
-    # logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
-    #     logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
+    logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
+        logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     if project
       # No action allowed on archived projects except unarchive
       return false unless project.active? || (action.class.to_s == "Hash" && action[:action] == "unarchive")
@@ -520,7 +520,7 @@ class User < ActiveRecord::Base
       # return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
       roles = roles_for_project(project)
       return false unless roles
-      roles.detect {|role| (project.is_public? || role.binding_member? || role.clearance?) && role.allowed_to?(action)}
+      allowed_to_see_project?(project)
     elsif options[:global]
       # Admin users are always authorized
       return true if admin?
