@@ -1722,56 +1722,56 @@ stop: null
 			var projectId = options;
 		}
 			$this.bind("keydown", function(event) {
-		     if (event.keyCode === $.ui.keyCode.TAB && $(this).data("autocomplete").menu.active ) {
-		       event.preventDefault();
-		     }
-		   	})
-		   .autocomplete({
-		     minLength: 0,
+					     if (event.keyCode === $.ui.keyCode.TAB && $(this).data("autocomplete").menu.active ) {
+					       event.preventDefault();
+					     }
+					   	})
+					   .autocomplete({
+					     minLength: 0,
 			 open: function(){
 				$(".ui-menu").width('auto');
 			},
-		     source: function(request, response) {                 
-		       var w = getWordBeforeCaret(this.element[0]);  
-		       if (w[0] != '@') {
-		         this.close();
-		         return false;
-		       }             
-
-		   		if (typeof community_members[projectId] != "undefined") {
-		   			//map the data into a response that will be understood by the autocomplete widget
-		   			response($.ui.autocomplete.filter(community_members[projectId], w.substring(1, w.length)));
-		   		}
-		   		//get the data from the server
-		   		else {
-		   			$.ajax({
-		   				url: "/projects/" + projectId + "/community_members_array",
-		   				dataType: "json",
-		   				success: function(data) {
-		   					//cache the data for later
-		   					community_members[projectId] = data;
-		   					//map the data into a response that will be understood by the autocomplete widget
-		       				response($.ui.autocomplete.filter(community_members[projectId], w.substring(1, w.length)));
-		   				}
-		   			});
-		   		}
-		   	},
+					     source: function(request, response) {                 
+					       var w = getWordBeforeCaret(this.element[0]);  
+					       if (w[0] != '@') {
+					         this.close();
+					         return false;
+					       }             
+			
+					   		if (typeof community_members[projectId] != "undefined") {
+					   			//map the data into a response that will be understood by the autocomplete widget
+					   			response($.ui.autocomplete.filter(community_members[projectId], w.substring(1, w.length)));
+					   		}
+					   		//get the data from the server
+					   		else {
+					   			$.ajax({
+					   				url: "/projects/" + projectId + "/community_members_array",
+					   				dataType: "json",
+					   				success: function(data) {
+					   					//cache the data for later
+					   					community_members[projectId] = data;
+					   					//map the data into a response that will be understood by the autocomplete widget
+					       				response($.ui.autocomplete.filter(community_members[projectId], w.substring(1, w.length)));
+					   				}
+					   			});
+					   		}
+					   	},
 			delay: 0,
-		     position: {
-		         my: "left top",
-		         at: "right top"
-		     },
-		     focus: function() {
-		       return false;
-		     },           
-		     search: function(event, ui) {
-		       return true;
-		     },
-		     select: function(event, ui) {             
-		       replaceWordBeforeCaret(this, '@' + ui.item.value + ' ');              
-		       return false;                   
-		     }
-		   })
+					     position: {
+					         my: "left top",
+					         at: "right top"
+					     },
+					     focus: function() {
+					       return false;
+					     },           
+					     search: function(event, ui) {
+					       return true;
+					     },
+					     select: function(event, ui) {             
+					       replaceWordBeforeCaret(this, '@' + ui.item.value + ' ');              
+					       return false;                   
+					     }
+					   })
 			.data( "autocomplete" )._renderItem = function( ul, item ) {
 				return $( "<li></li>" )
 					.data( "item.autocomplete", item )
