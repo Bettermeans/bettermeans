@@ -2319,8 +2319,8 @@ function comment_prompt(dataId,source,data,action,required,message){
 				'width'				: 'auto',
 				'height'			: 'auto',
 				'title'				: title,
-		        'autoScale'     	: false,
-		        'transitionIn'		: 'none',
+						        'autoScale'     	: false,
+						        'transitionIn'		: 'none',
 				'transitionOut'		: 'none',
 				'scrolling'			: 'no',
 				'showCloseButton' : false,
@@ -2890,6 +2890,13 @@ function save_new_item(prioritize){
 	alert('Please enter a title');
 	return false;
     }
+
+    if (($('#new_story_type').val() == standard_trackers.Gift.id ) && ( $('#assigned_to_select').val() == null))
+    {
+	alert('You don\'t yet have anyone else on your team to send a gift to. Please change the type of item you are adding.');
+	return false;
+    }
+
     var data = "commit=Create&project_id=" + projectId + 
         "&issue[tracker_id]=" + $('#new_story_type').val() + 
         "&issue[subject]=" + encodeURIComponent($('#new_title_input').val()) + 
