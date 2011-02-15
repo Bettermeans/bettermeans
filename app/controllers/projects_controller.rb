@@ -251,8 +251,9 @@ class ProjectsController < ApplicationController
   
   def community_members_array
     array = []
-    @project.root.all_members.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash })}
-    render :json => array.to_json
+    @project.root.member_users.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash })}
+    @project.member_users.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash }) }
+    render :json => array.sort{|x,y| x[:label] <=> y[:label]}.uniq.to_json
   end
   
   def dashboard
