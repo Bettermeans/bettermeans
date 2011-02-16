@@ -35,8 +35,7 @@
 	left: 0;
 	width: 40px;
 	height: 480px;
-	background: transparent url('/images/fancybox/fancy_loading.png') no-repeat;
-/*	background-image: url('/images/fancybox/fancybox.png');*/
+	background-image: url('/images/fancybox/fancybox.png');
 }
 
 #fancybox-overlay {

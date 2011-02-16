@@ -17,21 +17,23 @@ function break_long_words(){
 
 function arm_fancybox(){
 	$("a.fancyframe").fancybox({
-			'speedIn'		:	600, 
-			'speedOut'		:	200, 
+			'speedIn'		:	100, 
+			'speedOut'		:	100, 
 			'overlayShow'	:	false,
 			'width'				: '90%',
 			'height'			: '95%',
 	        'autoScale'     	: false,
-			// 	        'transitionIn'		: 'none',
-			// 'transitionOut'		: 'none',
+			'moddal'			: false,
+			'hideOnOverlayClick' : true,
+			'transitionIn'		: 'none',
+			'transitionOut'		: 'none',
 			'type'				: 'iframe'
 		}).click(function(){
+			$.fancybox.showActivity();
 			$('#fancybox-frame').load(function(){
-				 	$('#fancy-loading').hide();
+					$.fancybox.hideActivity();
 					$("#fancybox-frame").contents().find("a[href*=/]").not("a[target*=top]").attr('target', '_blank');
 				});
-			$('#fancybox-inner').prepend("<div id='fancy-loading' class='loading'>loading...</div>");
 		});
 }
 
