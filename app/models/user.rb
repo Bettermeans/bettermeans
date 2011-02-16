@@ -491,6 +491,7 @@ class User < ActiveRecord::Base
   #If root project is public, then we check that user has been given explicit clearance
   #If root project is private, then all contributors have access
   def allowed_to_see_project?(project)
+    return true if project.is_public?
     if project.root.is_public?
       roles_for_project(project).detect {|role| role.binding_member? || role.clearance?}
     else
@@ -526,7 +527,7 @@ class User < ActiveRecord::Base
       # return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
       roles = roles_for_project(project)
       return false unless roles
-      allowed_to_see_project?(project)
+      roles.detect {|role| role.allowed_to?(action)} && allowed_to_see_project?(project)
     elsif options[:global]
       # Admin users are always authorized
       return true if admin?
