@@ -60,7 +60,8 @@ class Project < ActiveRecord::Base
 
   has_many :member_users, :class_name => 'Member', 
                                :include => :user,
-                               :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}"
+                               :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}",
+                               :order => "firstname ASC"
                                
   has_many :users, :through => :all_members
 
