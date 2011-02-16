@@ -1,7 +1,6 @@
 <!-- <h1><%#=l(:label_overview)%></h1>  -->
 <%= help_section("project_show") %>
 
-
 <div>
   <h2 class="gt-table-head icon icon-activity"><%=l(:label_activity_latest)%></h2>  
   <div class="activity gt-content-box">
@@ -33,6 +32,13 @@
 <li>
 <%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project}, :class => "icon icon-motion" %>
 </li>
+<% if @project && @project.module_enabled?issue_tracking %>
+<li>
+    <a id="new_request" onclick="new_item();return false;" href="#" class="icon icon-add">
+      New Item
+    </a>
+  </li>
+<% end %>
 </ul>
 <% end %>
 
