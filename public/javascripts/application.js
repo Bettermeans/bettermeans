@@ -17,9 +17,9 @@ function break_long_words(){
 
 function arm_fancybox(){
 	$("a.fancyframe").fancybox({
-			'speedIn'		:	100, 
-			'speedOut'		:	100, 
-			'overlayShow'	:	false,
+			'speedIn'		:	0, 
+			'speedOut'		:	0, 
+			'overlayShow'	:	true,
 			'width'				: '90%',
 			'height'			: '95%',
 	        'autoScale'     	: false,
