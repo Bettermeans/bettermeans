@@ -32,7 +32,7 @@
 <li>
 <%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project}, :class => "icon icon-motion" %>
 </li>
-<% if @project && @project.module_enabled?(issue_tracking) %>
+<% if @project && @project.module_enabled?(:issue_tracking) %>
 <li>
     <a id="new_request" onclick="new_item();return false;" href="#" class="icon icon-add">
       New Item
