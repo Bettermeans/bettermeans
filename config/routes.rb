@@ -141,8 +141,6 @@ ActionController::Routing::Routes.draw do |map|
       issues_views.connect 'projects/:project_id/issues/gantt', :action => 'gantt'
       issues_views.connect 'projects/:project_id/issues/calendar', :action => 'calendar'
       issues_views.connect 'projects/:project_id/issues/:copy_from/copy', :action => 'new'
-      # issues_views.connect 'issues/:id', :controller => :action => 'show', :id => /\d+/
-      # issues_views.connect 'issues/:id.:format', :action => 'show', :id => /\d+/
       issues_views.connect 'issues/:id/edit', :action => 'edit', :id => /\d+/
       issues_views.connect 'issues/:id/move', :action => 'move', :id => /\d+/
       issues_views.connect 'issues/:id/show', :action => 'show', :id => /\d+/
@@ -151,8 +149,8 @@ ActionController::Routing::Routes.draw do |map|
       issues_actions.connect 'projects/:project_id/issues', :action => 'new'
       issues_actions.connect 'issues/:id/quoted', :action => 'reply', :id => /\d+/
       issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy|start|finish|release|cancel|restart|prioritize|agree|disagree|estimate|accept|reject|join|leave|add_team_member/, :id => /\d+/
+      issues_actions.connect 'issues/:container_id/attachments/create', :controller => 'attachments', :action => 'create'
     end
-    # issues_routes.connect 'issues/:action'
   end
   
   map.with_options  :controller => 'issue_relations', :conditions => {:method => :post} do |relations|
@@ -284,6 +282,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
   map.connect 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/
   map.connect 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/
+
    
   map.resources :groups
   
