@@ -14,6 +14,15 @@ module AttachmentsHelper
       render :partial => 'attachments/links', :locals => {:attachments => container.attachments, :options => options}
     end
   end
+
+  def link_to_attachments_table(container, options = {})
+    options.assert_valid_keys(:author)
+    
+    if container.attachments.any?
+      options = {:deletable => container.attachments_deletable?, :author => true}.merge(options)
+      render :partial => 'attachments/table', :locals => {:attachments => container.attachments, :options => options}
+    end
+  end
   
   def to_utf8(str)
     str

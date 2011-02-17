@@ -11,18 +11,18 @@ class Attachment < ActiveRecord::Base
   validates_presence_of :container, :filename, :author
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
+  
+  after_validation :put_to_s3
+  before_destroy   :delete_from_s3
+  
 
   acts_as_event :title => :filename,
                 :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id, :filename => o.filename}}
-  # 
-  # acts_as_activity_provider :type => 'documents',
-  #                           :permission => :view_documents,
-  #                           :author_key => :author_id,
-  #                           :find_options => {:select => "#{Attachment.table_name}.*", 
-  #                                             :joins => "LEFT JOIN #{Document.table_name} ON #{Attachment.table_name}.container_type='Document' AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " +
-  #                                                       "LEFT JOIN #{Project.table_name} ON #{Document.table_name}.project_id = #{Project.table_name}.id"}
 
   cattr_accessor :storage_path
+  unloadable # Send unloadable so it will not be unloaded in development
+  attr_accessor :s3_access_key_id, :s3_secret_acces_key, :s3_bucket, :s3_bucket
+  
   @@storage_path = "#{RAILS_ROOT}/files"
   
   def validate
@@ -30,6 +30,25 @@ class Attachment < ActiveRecord::Base
       errors.add(:base, :too_long, :count => Setting.attachment_max_size.to_i.kilobytes)
     end
   end
+  
+  def put_to_s3
+    if @temp_file && (@temp_file.size > 0)
+      logger.debug("Uploading to #{RedmineS3::Connection.uri}/#{disk_filename}")
+      RedmineS3::Connection.put(disk_filename, @temp_file.read)
+      RedmineS3::Connection.publicly_readable!(disk_filename)
+      md5 = Digest::MD5.new
+      self.digest = md5.hexdigest
+    end
+    @temp_file = nil # so that the model's original after_save block skips writing to the fs
+  end
+
+  def delete_from_s3
+    if ENV['RACK_ENV'] == 'production'
+      logger.debug("Deleting #{RedmineS3::Connection.uri}/#{disk_filename}")
+      RedmineS3::Connection.delete(disk_filename)
+    end
+  end
+  
 
   def file=(incoming_file)
     unless incoming_file.nil?
@@ -50,6 +69,7 @@ class Attachment < ActiveRecord::Base
   # Copies the temporary file to its final location
   # and computes its MD5 hash
   def before_save
+    logger.debug("entering before save")
     if @temp_file && (@temp_file.size > 0)
       logger.debug("saving '#{self.diskfile}'")
       md5 = Digest::MD5.new
