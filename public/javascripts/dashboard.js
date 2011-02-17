@@ -2825,6 +2825,24 @@ function recalculate_widths(){
 
 function expand_item(dataId){
 	$('#item_' + dataId).replaceWith(generate_item_edit(dataId));
+	
+	//arming file upload
+	$('#file_upload_' + dataId).fileUploadUI({
+        uploadTable: $('#files_' + dataId),
+        downloadTable: $('#files_' + dataId),
+        buildUploadRow: function (files, index) {
+            return $('<tr><td>' + files[index].name + '<\/td>' +
+                    '<td class="file_upload_progress"><div><\/div><\/td>' +
+                    '<td class="file_upload_cancel">' +
+                    '<button class="ui-state-default ui-corner-all" title="Cancel">' +
+                    '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+                    '<\/button><\/td><\/tr>');
+        },
+        buildDownloadRow: function (attachment) {
+            return $('<tr><td><a class="icon icon-attachment" href="/attachments/' + attachment.id + '/' + attachment.filename + '">' + attachment.filename + '</a> (' + attachment.filesize + ' Bytes)<\/td><\/tr>');
+        }
+    });
+    
 	$.fn.getGravatar.getUrl({
 	        avatarContainer: '#gravatar_' + dataId,
 	        avatarSize:27
@@ -3734,10 +3752,14 @@ html = html + generate_todo_section(dataId);
 
 //comments
 html = html + generate_comments_section(dataId);
+html = html + generate_attachments_section(dataId);
 
 // request id
-html = html + '	                <tr><td>&nbsp;</td></tr>';
-html = html + '	                <tr><td>';
+html = html + '	          <div class="section">';
+html = html + '	            <table class="storyDescriptionTable">';
+html = html + '	              <tbody>';
+html = html + '	                <tr>';
+html = html + '	                  <td>';
 html = html + '	  <div class="header">';
 html = html + '	    Item ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
 html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif"  class="help_question_mark">';
@@ -3756,11 +3778,12 @@ html = html + '	            </table>';
 html = html + '	            <table>';
 html = html + '	                <tr>';
 html = html + '	                <td align="right">';
-html = html + '	                <a href="" onclick="full_screen(' + dataId + ',\'true\');return false;">Attach files</a>';
+
+// html = html + '	                <a href="" onclick="full_screen(' + dataId + ',\'true\');return false;">Attach files</a>';
 
 if (currentUserIsCore == 'true' || currentUserIsMember == 'true'){
-html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Relations</a>';
-html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Add Team Members</a>';
+html = html + '	                <a href="" onclick="full_screen(' + dataId + ');return false;">Relations</a>';
+// html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Add Team Members</a>';
 html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Move</a>';
 }
 
@@ -3771,6 +3794,40 @@ html = html + '	          </div>';
 
 return html;
 }
+
+
+function generate_attachments_section(dataId){
+
+	var html = '';
+	html = html + '	          <div id="attachment_section_' + dataId + '" class="section">';
+	html = html + '	            <table class="storyDescriptionTable">';
+	html = html + '	              <tbody>';
+	html = html + '	                <tr><td colspan="5">';
+	html = html + '					  <div class="header">';
+	html = html + '	   					 Attachments';
+	html = html + '	 				 </div>';
+	html = html + '	                </td></tr>';
+	for(var i = 0; i < D[dataId].attachments.length; i++ ){
+		attachment = D[dataId].attachments[i];
+		html = html + '	                <tr><td colspan="5">';
+		html = html + '	                <a class="icon icon-attachment" href="/attachments/' + attachment.id + '/' + attachment.filename + '">' + attachment.filename + '</a>';
+		html = html + '	                </td></tr>';
+	}
+	html = html + '	                <tr><td colspan="5">';
+	html = html + '	                <table id="files_' + dataId + '" class="attachments"></table>';
+	html = html + '	                <form id="file_upload_' + dataId + '" action="/issues/' + D[dataId].id + '/attachments/create?container_type=Issue" method="POST" enctype="multipart/form-data">';
+	html = html + '	                <input type="file" name="file" multiple>';
+	html = html + '	                <button>Upload</button>';
+	html = html + '	                <a class="icon icon-attachment" href="#">Attach files</a>';
+	html = html + '	                </form>';
+	html = html + '	                </td></tr>';
+	html = html + '	              </tbody>';
+	html = html + '	            </table>';
+	html = html + '	          </div>';
+	return html;
+	
+}
+
 
 function generate_todo_section(dataId){
 
