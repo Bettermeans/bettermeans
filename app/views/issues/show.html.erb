@@ -22,7 +22,7 @@
                       <form id="file_upload" action="<%= url_for({:controller => :attachments, :action => :create, :container_id => @issue.id, :container_type => "Issue"}) %>" method="POST" enctype="multipart/form-data">
                           <input type="file" name="file" multiple>
                           <button>Upload</button>
-                          <div>Upload files</div>
+                          <a class="icon icon-attachment" href="#">Upload files</a>
                       </form>
                     </p>
                     
