@@ -276,6 +276,7 @@ class ProjectsController < ApplicationController
                          .to_json(:include => { :journals =>    { :only => [:id, :notes, :created_at, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                                                 :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                                                 :status =>      { :only => :name },
+                                                :attachments => { :only => [:id, :filename]},
                                                 :todos =>       { :only => [:id, :subject, :completed_on, :owner_login] },
                                                 :tracker =>     { :only => [:name,:id] },
                                                 :author =>      { :only => [:firstname, :lastname, :login, :mail_hash] },

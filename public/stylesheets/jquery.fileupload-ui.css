@@ -4,17 +4,39 @@
   direction: ltr;
   cursor: pointer;
   text-align: center;
-  color: #333;
+  text-decoration: none;
+  color: black;
+  font-size: 12px;
   font-weight: bold;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  border-radius: 5px;
   width: 100px;
   height: 20px;
   line-height: 20px;
-  background: orange;
-  border: 1px solid grey;
+  border: 1px solid #006;
+  border-color: #FFFFFF #666666 #666666 #FFFFFF;
+  padding: 0.1em 0.5em 0.1em 0.5em;
+  background-color: #F0F0F0;
+  background-position: 0.5em;
+  /*border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -webkit-box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);
+    -moz-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 1px 0px rgba(255, 255, 255, 0.3);*/
+  cursor:pointer!important;
 }
+
+.file_upload a, .file_upload a:visited{
+	text-decoration:none;
+	color: black;
+	font-weight:normal;
+}
+
+/*.file_upload{
+	border: 1px solid #006;
+	border-color: #FFFFFF #666666 #666666 #FFFFFF;
+	background-color: #ECE9D8 border-style: solid;
+}
+*/
 
 .file_upload_small {
   width: 200px;
