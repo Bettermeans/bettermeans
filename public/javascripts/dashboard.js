@@ -1828,19 +1828,16 @@ function is_cancelable(dataId){
 	}
 		
 	if (currentUserId != item.author_id){
-		console.log("not author")
 		return false;
 	}
 	else{
 		for (var i = 0; i < item.issue_votes.length; i ++){
 			if(item.issue_votes[i].user_id != currentUserId){
-				console.log("vote thats not yorus")
 				return false;
 			}
 		}		
 		for (var j = 0; j < item.journals.length; j ++){
 			if((item.journals[j].user_id != currentUserId)&&(item.journals[j].user_id != adminUserId)){
-				console.log("comment not yours")
 				return false;
 			}
 		}		
@@ -1876,11 +1873,7 @@ function buttons_for(dataId,expanded){
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,true,expanded);
 		if (is_cancelable(dataId)){
-			console.log("open")
 			html = html + dash_button('cancel',dataId);
-		}
-		else{
-			console.log("not cancelable")
 		}
 	break;
 	case 'Committed':
