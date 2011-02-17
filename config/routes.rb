@@ -233,7 +233,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id', :action => 'overview'
       project_views.connect 'projects/:id/show', :action => 'overview'
       project_views.connect 'projects/:id/overview', :action => 'overview'
-      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|community_members_array|hourly_types|map|join|overview|reset_invitation_code|overview/
+      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|community_members_array|issue_search|hourly_types|map|join|overview|reset_invitation_code|overview/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
