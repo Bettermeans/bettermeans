@@ -1815,18 +1815,32 @@ function generate_notice(noticeHtml, noticeId){
 }
 
 function is_cancelable(dataId){
-	item = D[dataId]
+	item = D[dataId];
+	
+	if (currentUserIsCore == 'true'){
+		var today = new Date();
+		var one_day=1000*60*60*24;
+		var updated = new Date(item.updated_at).getTime();
+		var days = (today.getTime() - updated)/one_day;
+		if (days > 30){
+			return true;
+		}
+	}
+		
 	if (currentUserId != item.author_id){
+		console.log("not author")
 		return false;
 	}
 	else{
 		for (var i = 0; i < item.issue_votes.length; i ++){
 			if(item.issue_votes[i].user_id != currentUserId){
+				console.log("vote thats not yorus")
 				return false;
 			}
 		}		
 		for (var j = 0; j < item.journals.length; j ++){
-			if(item.journals[j].user_id != currentUserId){
+			if((item.journals[j].user_id != currentUserId)&&(item.journals[j].user_id != adminUserId)){
+				console.log("comment not yours")
 				return false;
 			}
 		}		
@@ -1854,21 +1868,20 @@ function buttons_for(dataId,expanded){
 	case 'Estimate':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,false,expanded);
+		if (is_cancelable(dataId)){
+			html = html + dash_button('cancel',dataId);
+		}
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,true,expanded);
-		
-		if (currentUserIsCore == 'true'){
-			var today = new Date();
-			var one_day=1000*60*60*24;
-			var updated = new Date(item.updated_at).getTime();
-			var days = (today.getTime() - updated)/one_day;
-			if (days > 30){
-				html = html + dash_button('cancel',dataId);
-			}
-		}		
-
+		if (is_cancelable(dataId)){
+			console.log("open")
+			html = html + dash_button('cancel',dataId);
+		}
+		else{
+			console.log("not cancelable")
+		}
 	break;
 	case 'Committed':
 		if (item.assigned_to_id == currentUserId){
