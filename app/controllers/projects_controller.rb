@@ -258,7 +258,7 @@ class ProjectsController < ApplicationController
   
   def issue_search
     term = params[:searchTerm]
-    render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND (subject like '%#{term}%' OR CAST(id as varchar) like '%#{term}%')").to_json(:only => [:id, :subject, :description])
+    render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND (subject ilike '%#{term}%' OR CAST(id as varchar) ilike '%#{term}%')").to_json(:only => [:id, :subject, :description])
     # @project.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash })}
     # @project.member_users.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash }) }
     # render :json => array.sort{|x,y| x[:label] <=> y[:label]}.uniq.to_json
