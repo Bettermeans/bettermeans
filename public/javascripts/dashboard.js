@@ -1814,6 +1814,26 @@ function generate_notice(noticeHtml, noticeId){
 	return html;	
 }
 
+function is_cancelable(dataId){
+	item = D[dataId]
+	if (currentUserId != item.author_id){
+		return false;
+	}
+	else{
+		for (var i = 0; i < item.issue_votes.length; i ++){
+			if(item.issue_votes[i].user_id != currentUserId){
+				return false;
+			}
+		}		
+		for (var j = 0; j < item.journals.length; j ++){
+			if(item.journals[j].user_id != currentUserId){
+				return false;
+			}
+		}		
+	}
+	return true;
+}
+
 
 function buttons_for(dataId,expanded){
 	if (currentUserId == ANONYMOUS_USER_ID){ return "";}
@@ -1827,6 +1847,9 @@ function buttons_for(dataId,expanded){
 		html = html + dash_button('start', dataId);
 	    else
 		html = html + agree_buttons_root(dataId, false, expanded);
+		if (is_cancelable(dataId)){
+			html = html + dash_button('cancel',dataId);
+		}
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
