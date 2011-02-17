@@ -4,6 +4,7 @@
   <% elsif @issue %>
     var item = <%=@issue.to_dashboard%>;
   <% end  %>
+  var adminUserId = '<%= User.sysadmin.id %>';
   var credit_base = '<%= project.dpp %>';
   var projectId = '<%= project.id %>';
   var credits_to_points_array = <%= Setting::CREDITS_TO_POINTS.to_json %>;
