@@ -21,7 +21,7 @@ class ProjectsController < ApplicationController
   # before_filter :authorize, :except => [ :index, :list, :add ]
   
   #BUGBUG: why aren't these actions being authorized!!! archive can be removed, unarchive doesn't seem to work when removed from here
-  before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :community_members_array, :hourly_types, :join]
+  before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :community_members_array, :issue_search, :hourly_types, :join]
   
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy ]
@@ -255,6 +255,15 @@ class ProjectsController < ApplicationController
     @project.member_users.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash }) }
     render :json => array.sort{|x,y| x[:label] <=> y[:label]}.uniq.to_json
   end
+  
+  def issue_search
+    term = params[:searchTerm]
+    render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND (subject like '%#{term}%' OR CAST(id as varchar) like '%#{term}%')").to_json(:only => [:id, :subject, :description])
+    # @project.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash })}
+    # @project.member_users.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash }) }
+    # render :json => array.sort{|x,y| x[:label] <=> y[:label]}.uniq.to_json
+  end
+  
   
   def dashboard
     @kufta = "whatever"

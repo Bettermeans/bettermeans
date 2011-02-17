@@ -1730,9 +1730,9 @@ stop: null
 					   	})
 					   .autocomplete({
 					     minLength: 0,
-			 open: function(){
-				$(".ui-menu").width('auto');
-			},
+			 			open: function(){
+								$(".ui-menu").width('auto');
+							},
 					     source: function(request, response) {                 
 					       var w = getWordBeforeCaret(this.element[0]);  
 					       if (w[0] != '@') {
@@ -1825,6 +1825,53 @@ function bind_autocomplete_mentions(){
 	}
 };
 
+function bind_relations_autocomplete(projectId){
+	$(".issue-relation").autocomplete({
+	     	minLength: 2,
+	     	// source: // "/projects/" + projectId + "/community_members_array",
+			// source: function( request, response ) {
+			// 	$.ajax({
+			// 		url: "http://ws.geonames.org/searchJSON",
+			// 		dataType: "jsonp",
+			// 		data: {
+			// 			featureClass: "P",
+			// 			style: "full",
+			// 			maxRows: 12,
+			// 			name_startsWith: request.term
+			// 		},
+			// 		success: function( data ) {
+			// 			console.log(data);
+			// 			response( $.map( data.geonames, function( item ) {
+			// 				return {
+			// 					label: item.name + (item.adminName1 ? ", " + item.adminName1 : "") + ", " + item.countryName,
+			// 					value: item.name
+			// 				}
+			// 			}));
+			// 		}
+			// 	});
+			// },
+			source: function( request, response ) {
+				$.ajax({
+					url: "/projects/" + projectId + "/issue_search",
+					dataType: "json",
+					data: {
+						// maxRows: 12,
+						searchTerm: request.term
+					},
+					success: function( data ) {
+						response( $.map( data, function( item ) {
+							return {
+								label: item.id + ' - ' + item.subject,
+								value: item.id
+							}
+						}));
+					}
+				});
+			},
+			delay: 0
+	   		})
+}
+
 function help_popup(){
 	$.fancybox({
 	'content'			: $('#help_section_container').html(),
@@ -1836,3 +1883,5 @@ function help_popup(){
 	// 'scrolling' : 'no'
 	});	
 };
+
+
