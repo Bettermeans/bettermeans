@@ -253,6 +253,12 @@ class ApplicationController < ActionController::Base
     self.class.read_inheritable_attribute('accept_key_auth_actions') || []
   end
   
+  def attach_files_for_new_issue(issue,attachment_ids)
+    if attachment_ids
+      Attachment.update_all("container_id = #{issue.id}" , "id in (#{attachment_ids}) and container_id = 0" )
+    end
+  end
+  
   # TODO: move to model
   def attach_files(obj, attachments)
     attached = []
