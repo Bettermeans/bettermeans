@@ -21,6 +21,7 @@ var loaded_panels = 0; //keeps track of how many panels have had their data load
 var local_store = null; //local persistant storage
 var ok_to_save_local_data = false;
 var complexity_description = ['Real Easy','.','.','Average','.','.','Super Hard'];
+var new_attachments = []; //stores ids of attachments to a new item
 
 $(window).bind('resize', function() {
 	resize();
@@ -224,7 +225,14 @@ function get_local_data(){
 		if (local_R == null) {local_R = [];}
 		
 		last_data_pull = new Date(store.get('last_data_pull_' + projectId));
-		return true;
+
+		//refresh local data since latest code update that require data structure to be updated
+		if (Date.parse(LAST_LOCAL_DB_CHANGE) > last_data_pull){
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 	catch(err){
 		return false;
@@ -2921,6 +2929,11 @@ function save_new_item(prioritize){
         "&issue[description]=" + encodeURIComponent($('#new_description').val()) +
         "&estimate=" + $('#new_story_complexity').val() + 
         "&prioritize=" + prioritize;
+
+	if (new_attachments.length > 0){
+		data = data + "&attachments=" + new_attachments.join(",");
+		new_attachments = [];
+	}
     
     if((credits_enabled) && ($('#new_story_type').val() == standard_trackers.Gift.id)){
 	data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
@@ -3393,6 +3406,8 @@ function generate_complexity_dropdown() {
 
 function new_item(){
 
+new_attachments = [];
+
 //Login required	
 if (!is_user_logged_in()){return;}
 
@@ -3404,7 +3419,7 @@ $("#new_item_wrapper").remove();
 html = '';	
 html = html + '	<div class="item" id="new_item_wrapper">';
 html = html + '	  <div class="storyItem unscheduled unestimatedText underEdit" id="icebox_itemList_storynewStory_content">';
-html = html + '	   <form action="#">';
+// html = html + '	   <form action="#">';
 html = html + '	    <div class="itemCollapsedHeader">';
 html = html + '	      <div class="itemCollapsedInput">';
 html = html + '	        <input id="new_title_input" class="titleInputField" name="title_input" value="" type="text">';
@@ -3495,11 +3510,16 @@ html = html + '	                      </div>';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
-html = html + '	                <tr>';
-html = html + '	                <td>';
-html = html + '	                <a href="" onclick="alert(\'You can attach files after you create the request\');return false;">Attach files</a>';
-html = html + '	                </td>';
-html = html + '	                </tr>';
+
+html = html + '	                <tr><td colspan="5">';
+html = html + '	                <table id="files_new" class="attachments"></table>';
+html = html + '	                <form id="file_upload_new" action="/issues/0/attachments/create?container_type=Issue" method="POST" enctype="multipart/form-data">';
+html = html + '	                <input type="file" name="file" multiple>';
+html = html + '	                <button>Upload</button>';
+html = html + '	                <a class="icon icon-attachment" href="#">Attach files</a>';
+html = html + '	                </form>';
+html = html + '	                </td></tr>';
+
 html = html + '	              </tbody>';
 html = html + '	            </table>';
 html = html + '	          <table class="gt-SdTable">';
@@ -3528,13 +3548,15 @@ html = html + '	          </table>';
 html = html + '	          </div>';
 html = html + '	      </div>';
 html = html + '	    </div>';
-html = html + '    </form>';
+// html = html + '    </form>';
 html = html + '	  </div>';
 html = html + '	</div>';
+
 
 show_panel('new');
 $("#item_new_link").hide();
 $("#new_items").prepend(html);
+
 $("#new_title_input").val(default_new_title).select();	
 $("#new_description").autogrow().mentions(projectId);
 make_text_boxes_toggle_keyboard_shortcuts();
@@ -3568,6 +3590,26 @@ $('#help_image_complexity').mybubbletip($(complexity_help_id), {
 	delayHide: 100,
 	offsetTop: 0,
 	bindShow: 'click'
+});
+
+//arming file upload
+$('#file_upload_new').fileUploadUI({
+    uploadTable: $('#files_new'),
+    downloadTable: $('#files_new'),
+    buildUploadRow: function (files, index) {
+        return $('<tr><td>' + files[index].name + '<\/td>' +
+                '<td class="file_upload_progress"><div><\/div><\/td>' +
+                '<td class="file_upload_cancel">' +
+                '<button class="ui-state-default ui-corner-all" title="Cancel">' +
+                '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+                '<\/button><\/td><\/tr>');
+    },
+    buildDownloadRow: function (attachment) {
+        return $('<tr><td><a class="icon icon-attachment" href="/attachments/' + attachment.id + '/' + attachment.filename + '">' + attachment.filename + '</a> (' + attachment.filesize + ' Bytes)<\/td><\/tr>');
+    },
+	onComplete: function (event, files, index, xhr, handler){
+		new_attachments.push(handler.parseResponse(xhr).id);
+	}
 });
 
 $("#new_items").scrollTo( '#new_item_wrapper', 800);
