@@ -17,6 +17,7 @@
   var ISSUE_COUNT = <%= project.issue_count %>
   var ANONYMOUS_USER_ID = <%= User.anonymous.id %>;
   var currentUserCanEditIssue = <%= User.current.allowed_to?({:action => :edit_issues}, project) != nil %>;
+  var LAST_LOCAL_DB_CHANGE = "2/18/2011" //latest code update that requires local data structure to be refreshed
 
   var standard_trackers = function() {
       var trackers = <%= Tracker.all.to_json %>
