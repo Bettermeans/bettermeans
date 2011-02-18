@@ -87,7 +87,7 @@ class MotionsController < ApplicationController
     @motion.project_id = @project.id
     @motion.author_id = User.current.id
     @motion.params = params[:param]
-
+    
     respond_to do |format|
       if @motion.concerned_user == User.current
         format.html { redirect_with_flash :error, 'Cannot create a motion concerning yourself', :action => 'index' }
