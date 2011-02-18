@@ -400,6 +400,11 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussions
 
+  title_member_nomination : "Motion to elect {{user}} as a member"
+  title_core_member_nomination : "Motion to elect {{user}} to the Core Team"
+  title_core_member_removal : "Motion to remove {{user}} from the Core Team"
+  title_member_removal : "Motion to remove {{user}} as a member"
+
   label_new_page: New page
   label_my_issues: My items
   label_joined_issues: Joined

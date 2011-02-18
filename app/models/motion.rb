@@ -45,7 +45,7 @@ class Motion < ActiveRecord::Base
   }
   
   before_create :set_values
-  after_create :announce,:create_forum_topic
+  after_create :send_announce,:create_forum_topic
   after_save :close
   
   def active?
@@ -111,6 +111,7 @@ class Motion < ActiveRecord::Base
   
   def set_values
     self.title = Setting::MOTIONS[self.variation]["Title"]
+    self.title = self.generate_title
     self.binding_level = Setting::MOTIONS[self.variation]["Binding"]
     self.visibility_level = Setting::MOTIONS[self.variation]["Visible"]
     self.motion_type = Setting::MOTIONS[self.variation]["Type"]
@@ -119,6 +120,30 @@ class Motion < ActiveRecord::Base
     self.author = User.sysadmin if self.author.nil? 
     self.description = self.generate_description
   end
+  
+  def generate_title
+     case self.variation
+       when VARIATION_GENERAL
+         self.title
+       when VARIATION_EXTRAORDINARY
+         self.title
+       when VARIATION_NEW_MEMBER
+         l(:title_member_nomination, :user => self.concerned_user.name)
+       when VARIATION_NEW_CORE
+         l(:title_core_member_nomination, :user => self.concerned_user.name)
+       when VARIATION_FIRE_MEMBER
+         l(:title_member_removal, :user => self.concerned_user.name)
+       when VARIATION_FIRE_CORE
+         l(:title_core_member_removal, :user => self.concerned_user.name)
+       when VARIATION_BOARD_PUBLIC
+         self.title
+       when VARIATION_BOARD_PRIVATE
+         self.title
+       when VARIATION_HOURLY_TYPE
+         self.title
+     end
+  end
+  
   
   def generate_description
     content = ""
@@ -203,6 +228,10 @@ class Motion < ActiveRecord::Base
       when VARIATION_BOARD_PRIVATE
       when VARIATION_HOURLY_TYPE
     end
+  end
+  
+  def send_announce
+    self.send_later :announce
   end
   
   def announce
