@@ -9,6 +9,12 @@ module MyHelper
   
   def my_issues_tabs
     tabs = [
+            {:name => 'recent', 
+             :partial => 'issues/list_very_simple', 
+             :label => :label_recent_issues, 
+             :label_ending => " (#{@recent_issues.length})",
+             :locals => {:issues => @recent_issues}
+            },
             {:name => 'assigned', 
              :partial => 'issues/list_very_simple', 
              :label => :label_assigned_to_me_issues, 
@@ -20,6 +26,12 @@ module MyHelper
              :label => :label_joined_issues, 
              :label_ending => " (#{@joined_issues.length})",
              :locals => {:issues => @joined_issues}
+            },
+            {:name => 'added', 
+             :partial => 'issues/list_very_simple', 
+             :label => :label_added_issues, 
+             :label_ending => " (#{@added_issues.length})",
+             :locals => {:issues => @added_issues}
             },
             {:name => 'watched', 
              :partial => 'issues/list_very_simple', 
