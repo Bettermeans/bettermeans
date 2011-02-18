@@ -19,8 +19,12 @@
     </td></tr>  
     
 <% 
-  @user_retro_hash.keys.each do |user_id|
-    user_retro = @user_retro_hash[user_id]
+  @user_retro_hash.sort
+  @user_retro_hash = @user_retro_hash.sort{|x,y| y[1]["total_points"].round <=> x[1]["total_points"].round }
+  @user_retro_hash.each do |x|
+    user_id = x[0]
+    user_retro = x[1]
+    # user_retro = @user_retro_hash[user_id]
 %>
   <tr><td class="avatar">
     <%= avatar_from_id(user_id) %><br>
