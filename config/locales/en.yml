@@ -402,7 +402,7 @@ en:
 
   label_new_page: New page
   label_my_issues: My items
-  label_joined_issues: Items I joined
+  label_joined_issues: Joined
   label_joined: Joined
   label_projects_recent: Recent workstreams
   label_projects_active_in: Workstreams I'm active in
@@ -498,7 +498,9 @@ en:
   label_logout: Sign out
   label_help: Help
   label_reported_issues: Reported items
-  label_assigned_to_me_issues: Items I own
+  label_assigned_to_me_issues: Started
+  label_added_issues: Created
+  label_recent_issues: Recent
   label_assigned: Own
   label_last_login: Last connection
   label_registered_on: Signed up on
@@ -699,7 +701,7 @@ en:
   label_options: Options
   label_copy_workflow_from: Copy workflow from
   label_permissions_report: Permissions report
-  label_watched_issues: Watched items
+  label_watched_issues: Watched
   label_watched: Watched
   label_related_issues: Related items
   label_applied_status: Applied status
