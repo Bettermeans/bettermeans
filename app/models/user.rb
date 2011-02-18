@@ -656,7 +656,9 @@ class User < ActiveRecord::Base
   def recent_items(max = 10)
     item_ids = ActivityStream.find_by_sql("SELECT object_id FROM Activity_Streams WHERE actor_id = #{self.id} AND object_type = 'Issue' GROUP BY object_id ORDER BY MAX(updated_at) DESC LIMIT #{max}").collect {|a| a["object_id"]}.join(",")
     return nil unless item_ids
-    Issue.find(:all, :conditions => "id in (#{item_ids})")
+    Issue.find(:all, :conditions => "id in (#{item_ids})",
+              :include => [:project, :tracker ], 
+              :order => "#{Issue.table_name}.updated_at DESC")
   end
   
   protected
