@@ -498,7 +498,7 @@ en:
   label_logout: Sign out
   label_help: Help
   label_reported_issues: Reported items
-  label_assigned_to_me_issues: Started
+  label_assigned_to_me_issues: Committed
   label_added_issues: Created
   label_recent_issues: Recent
   label_assigned: Own
