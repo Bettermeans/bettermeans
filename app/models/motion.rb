@@ -103,6 +103,8 @@ class Motion < ActiveRecord::Base
         end
     end
     
+    self.ends_on = DateTime.now
+    
     self.save
     announce_passed if self.state == STATE_PASSED
     execute_action if self.state == STATE_PASSED
