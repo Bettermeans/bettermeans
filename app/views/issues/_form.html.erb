@@ -16,6 +16,7 @@
                    :cols => 60,
                    :rows => (@issue.description.blank? ? 10 : [[10, @issue.description.length / 50].max, 100].min),
                    :accesskey => accesskey(:edit),
+                   :id => "issue_description",
                    :class => 'wiki-edit autocomplete-mentions' %></p>
 </div>
 
