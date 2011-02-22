@@ -19,8 +19,7 @@
     </td></tr>  
     
 <% 
-  @user_retro_hash.sort
-  @user_retro_hash = @user_retro_hash.sort{|x,y| y[1]["total_points"].round <=> x[1]["total_points"].round }
+  @user_retro_hash = @user_retro_hash.sort_by {|x| [ x[1]["total_points"] , x[1]["total_ideas"] , x[1]["total_journals"] ] }.reverse
   @user_retro_hash.each do |x|
     user_id = x[0]
     user_retro = x[1]
