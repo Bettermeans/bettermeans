@@ -12,7 +12,8 @@ Factory.define :user do |f|
   f.password "password"
   f.sequence(:mail) { |n| "username#{n}@testing.com" }
   f.sequence(:firstname) { |n| "first#{n}" }
-  f.sequence(:lastname) { |n| "last#{n}" } 
+  f.sequence(:lastname) { |n| "last#{n}" }
+  
 end
 
 Factory.define :tracker do |f|
@@ -45,6 +46,6 @@ Factory.define :issue do |f|
   # f.status Factory.attributes_for(:issue_status)
   f.association :status, :factory => :issue_status
   f.association :priority, :factory => :issue_priority
-  f.priority IssuePriority.find(4)
+  #f.priority IssuePriority.find(4)
   # f.priority Factory.attributes_for(:issue_priority)
 end
