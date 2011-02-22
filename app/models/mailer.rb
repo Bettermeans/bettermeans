@@ -341,6 +341,14 @@ class Mailer < ActionMailer::Base
     super(mail)
   end
   
+  def email_update_activation(email_update)
+    recipients email_update.mail
+    subject l(:mail_subject_email_update_activation, Setting.app_title)
+    body :activation_url => url_for(:controller => 'email_updates', :action => 'activate', :token => email_update.token)
+    render_multipart('email_update_activation', body)
+  end
+  
+  
 
   # Sends reminders to issue assignees
   # Available options:

@@ -102,6 +102,16 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   
+  map.with_options :controller => 'email_updates' do |email_updates_routes|
+    email_updates_routes.with_options :conditions => {:method => :get} do |invitations_views|
+      email_updates_routes.connect 'email_updates/activate', :action => 'activate'
+    end
+  end
+  
+  map.resources :email_updates
+  
+  
+  
   
   map.with_options :controller => 'boards' do |board_routes|
     board_routes.with_options :conditions => {:method => :get} do |board_views|

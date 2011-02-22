@@ -153,6 +153,7 @@ en:
   notice_this_is_your_profie: "This is your public profile. To manage your account <a href='/my/account'>click here</a>"
   
   error_old_invite : "Old or bad invitation"
+  error_bad_email_update : "Poorly formed email update"
   error_can_t_load_default_data: "Default configuration could not be loaded: {{value}}"
   error_issue_not_found_in_project: 'The item was not found or does not belong to this workstream'
   error_no_tracker_in_project: 'No issue type is associated to this workstream. Please check the Workstream settings.'
@@ -173,6 +174,7 @@ en:
   mail_body_account_information_external: "You can use your {{value}} account to log in."
   mail_body_account_information: Your account information
   mail_subject_account_activation_request: "{{value}} account activation request"
+  mail_subject_email_update_activation: "{{value}} new email activation"
   mail_body_account_activation_request: "A new user ({{value}}) has registered. The account is pending your approval:"
   mail_subject_reminder: "{{count}} item(s) due in the next days"
   mail_body_reminder: "{{count}} item(s) that are owned by you are due in the next {{days}} days:" #updated
@@ -405,6 +407,7 @@ en:
   title_core_member_removal : "Motion to remove {{user}} from the Core Team"
   title_member_removal : "Motion to remove {{user}} as a member"
 
+  label_email_update: Your new email address
   label_new_page: New page
   label_my_issues: My items
   label_joined_issues: Joined
@@ -697,6 +700,7 @@ en:
   label_f_hour_plural: "{{value}} hours"
   label_time_tracking: Time tracking
   label_change_plural: Changes
+  label_change : Change
   label_statistics: Statistics
   label_commits_per_month: Commits per month
   label_commits_per_author: Commits per author
@@ -1221,6 +1225,7 @@ en:
   text_generic_invitation_long : "The link below allows anybody to become a contributor to this workstream.<br><br>It can be used an infinite amount of times. And doesn't expire until you change it.<br>Send it out via email, or post it somewhere where folks can follow it to join your workstream."
   text_personal_invitation : "Use the form below to send personalized invitations to potential team members.<br><br>This is the better way to go since people are more likely to respond to an exclusive invite, and don't need to validate their email.<br><br> This is also the more secure option since each invitation can be used only once and expires after a while."
   text_active_team_explanation : "<strong>Active Members (for this workstream)</strong><br><br>Active members are people that have been involved in this specific workstream in the past 2 weeks. <br><br> Contributors, members, and core team roles are defined at the parent(root) workstream and apply to all it's sub workstreams.<br><br>For example: if someone is a core team member of a workstream then they will have the same role for all sub workstreams. However, they might be active in some and not others."
+  text_email_updated : "Email successfully updated"
       
   text_role_invitation_description_Administrator : "Admins have the most power.<br><br> An Admin can bypass governance rules and directly add/remove members and workstreams, and all their votes are binding.<br><br> Use this role sparingly as you are setting up your structures. Then transition to using other roles for day to day collaboration."
   text_role_invitation_description_Contributor : "This the first level of participation in an open enterprise.<br><br>Contributors' votes on all matters will be visible to everyone, and will be non-binding.<br><br> Meaning a contributor's voice is here, but their voting doesn't directly affect the items they are weighing in on.<br><br> A contributor can earn credits and contribute to a workstream."
