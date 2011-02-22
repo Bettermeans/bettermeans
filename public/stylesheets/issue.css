@@ -440,6 +440,10 @@ p, li {
 	font-size: 125%;
 }
 
+p {
+	margin-bottom: 1em;
+}
+
 #todo_lightbox .header {
 	font-size: 125%;
 }
