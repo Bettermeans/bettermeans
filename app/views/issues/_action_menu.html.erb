@@ -1,4 +1,4 @@
-<%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit action-state-button', :accesskey => accesskey(:edit)) %>
+<%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "issue_description"); return false;', :class => 'icon icon-edit action-state-button', :accesskey => accesskey(:edit)) if @issue.editable? %>
 <%= link_to_if_anon(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'ask_for_login(); return false;', :class => 'icon icon-edit action-state-button', :accesskey => accesskey(:edit)) %>
 <%= link_to(l(:button_dashboard), {:controller => 'projects', :action => 'dashboard', :id => @issue.project_id}, :class => 'icon icon-dashboard  action-state-button') %>
 <%#= link_to_if_authorized l(:button_duplicate), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-duplicate' %>
