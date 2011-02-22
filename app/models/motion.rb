@@ -13,7 +13,7 @@ class Motion < ActiveRecord::Base
   VISIBLE_CORE = 2 #Only core & board
   VISIBLE_MEMBER = 3 #All members, core and board
   VISIBLE_CONTRIBUTER = 4 #Everyone who is a part of the enterprise
-  VISIBLE_USER = 5 #Everyone on the platform
+  VISIBLE_USER = 10 #Everyone on the platform
   
   BINDING_BOARD = 1 #Only board votes are binding
   BINDING_CORE = 2 #Only core & board votes are binding
