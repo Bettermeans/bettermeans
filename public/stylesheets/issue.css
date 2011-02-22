@@ -441,7 +441,7 @@ p, li {
 }
 
 p {
-	margin-bottom: 1em;
+	margin-bottom: 0.6em;
 }
 
 #todo_lightbox .header {

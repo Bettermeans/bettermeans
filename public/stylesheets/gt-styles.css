@@ -540,7 +540,7 @@ h5 .icon{
   background: #fff;
 }
 .gt-user-table p {
-	margin-bottom: 1em;
+	margin-bottom: 0.6em;
 }
 
 
@@ -1017,7 +1017,7 @@ em {
 	font-style: italic;
 }
 p {
-	margin-bottom: 1em;
+	margin-bottom: 0.6em;
 	line-height: 130%;
 }
 q {
