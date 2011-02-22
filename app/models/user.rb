@@ -513,8 +513,8 @@ class User < ActiveRecord::Base
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project, options={})
-    # logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
-    #     logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
+    logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
+        logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     if project
       # No action allowed on archived projects except unarchive
       return false unless project.active? || (action.class.to_s == "Hash" && action[:action] == "unarchive")
