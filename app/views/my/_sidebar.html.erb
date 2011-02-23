@@ -25,19 +25,19 @@
 (<%#= link_to l(:button_reset), {:action => 'reset_rss_key'}, :method => :post %>)
 </p> -->
 
-<% if Setting.rest_api_enabled? %>
-<h3><%= l(:label_api_access_key) %></h3>
+<!-- <%# if Setting.rest_api_enabled? %>
+<h3><%#= l(:label_api_access_key) %></h3>
 <p>
-  <%= link_to_function(l(:button_show), "$('api-access-key').toggle();")%>
+  <%#= link_to_function(l(:button_show), "$('api-access-key').toggle();")%>
   <pre id='api-access-key' class='autoscroll'><%= @user.api_key %></pre>
 </p>
-<%= javascript_tag("$('api-access-key').hide();") %>
+<%#= javascript_tag("$('api-access-key').hide();") %>
 <p>
-<% if @user.api_token %>
-<%= l(:label_api_access_key_created_at, distance_of_time_in_words(Time.now, @user.api_token.created_at)) %>
-<% else %>
-<%= l(:label_missing_api_access_key) %>
-<% end %>
-(<%= link_to l(:button_reset), {:action => 'reset_api_key'}, :method => :post %>)
+<%# if @user.api_token %>
+<%#= l(:label_api_access_key_created_at, distance_of_time_in_words(Time.now, @user.api_token.created_at)) %>
+<%# else %>
+<%#= l(:label_missing_api_access_key) %>
+<%# end %>
+(<%#= link_to l(:button_reset), {:action => 'reset_api_key'}, :method => :post %>)
 </p>
-<% end %>
+<%# end %> -->
