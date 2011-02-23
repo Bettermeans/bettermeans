@@ -3,12 +3,43 @@
 #
 
 class AttachmentsController < ApplicationController
-  before_filter :find_project
-  before_filter :file_readable, :read_authorize, :except => :destroy
+  before_filter :find_project, :except => :create
+  before_filter :read_authorize, :except => [:destroy, :create]
   before_filter :delete_authorize, :only => :destroy
   ssl_required :all
   
   verify :method => :post, :only => :destroy
+  
+  unloadable # Send unloadable so it will not be unloaded in development
+  
+  before_filter :redirect_to_s3, :except => [:destroy, :create]
+  
+  
+  def create
+    logger.info { "params #{params.inspect}" }
+    if params[:file]
+      file = params[:file]
+      logger.info { "file #{file.inspect}" }
+      # next unless file && file.size > 0
+      a = Attachment.create(:container_id => params[:container_id],
+                            :container_type => params[:container_type],
+                            :file => file,
+                            # :description => attachment['description'].to_s.strip,
+                            :author => User.current)
+      logger.info { "created attachment #{a.inspect}" }
+    end
+    logger.info {"done with create" }
+    
+    render :json => a.to_json
+  end
+  
+  def redirect_to_s3
+    if @attachment.container.is_a?(Project)
+      @attachment.increment_download
+    end
+    redirect_to("#{RedmineS3::Connection.uri}/#{@attachment.disk_filename}")
+  end
+  
   
   def show
     if @attachment.is_diff?

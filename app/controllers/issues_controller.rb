@@ -168,7 +168,7 @@ class IssuesController < ApplicationController
       @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
       if @issue.save
         Mention.parse(@issue, User.current.id)
-        attach_files(@issue, params[:attachments])
+        attach_files_for_new_issue(@issue, params[:attachments])
         
         #adding self-agree vote
         @iv = IssueVote.create :issue_id => @issue.id, :user_id => User.current.id, :points => 1, :vote_type => IssueVote::AGREE_VOTE_TYPE

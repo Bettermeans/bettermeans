@@ -21,6 +21,7 @@ var loaded_panels = 0; //keeps track of how many panels have had their data load
 var local_store = null; //local persistant storage
 var ok_to_save_local_data = false;
 var complexity_description = ['Real Easy','.','.','Average','.','.','Super Hard'];
+var new_attachments = []; //stores ids of attachments to a new item
 
 $(window).bind('resize', function() {
 	resize();
@@ -224,7 +225,14 @@ function get_local_data(){
 		if (local_R == null) {local_R = [];}
 		
 		last_data_pull = new Date(store.get('last_data_pull_' + projectId));
-		return true;
+
+		//refresh local data since latest code update that require data structure to be updated
+		if (Date.parse(LAST_LOCAL_DB_CHANGE) > last_data_pull){
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 	catch(err){
 		return false;
@@ -1806,6 +1814,37 @@ function generate_notice(noticeHtml, noticeId){
 	return html;	
 }
 
+function is_cancelable(dataId){
+	item = D[dataId];
+	
+	if (currentUserIsCore == 'true'){
+		var today = new Date();
+		var one_day=1000*60*60*24;
+		var updated = new Date(item.updated_at).getTime();
+		var days = (today.getTime() - updated)/one_day;
+		if (days > 30){
+			return true;
+		}
+	}
+		
+	if (currentUserId != item.author_id){
+		return false;
+	}
+	else{
+		for (var i = 0; i < item.issue_votes.length; i ++){
+			if(item.issue_votes[i].user_id != currentUserId){
+				return false;
+			}
+		}		
+		for (var j = 0; j < item.journals.length; j ++){
+			if((item.journals[j].user_id != currentUserId)&&(item.journals[j].user_id != adminUserId)){
+				return false;
+			}
+		}		
+	}
+	return true;
+}
+
 
 function buttons_for(dataId,expanded){
 	if (currentUserId == ANONYMOUS_USER_ID){ return "";}
@@ -1819,25 +1858,23 @@ function buttons_for(dataId,expanded){
 		html = html + dash_button('start', dataId);
 	    else
 		html = html + agree_buttons_root(dataId, false, expanded);
+		if (is_cancelable(dataId)){
+			html = html + dash_button('cancel',dataId);
+		}
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,false,expanded);
+		if (is_cancelable(dataId)){
+			html = html + dash_button('cancel',dataId);
+		}
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,true,expanded);
-		
-		if (currentUserIsCore == 'true'){
-			var today = new Date();
-			var one_day=1000*60*60*24;
-			var updated = new Date(item.updated_at).getTime();
-			var days = (today.getTime() - updated)/one_day;
-			if (days > 30){
-				html = html + dash_button('cancel',dataId);
-			}
-		}		
-
+		if (is_cancelable(dataId)){
+			html = html + dash_button('cancel',dataId);
+		}
 	break;
 	case 'Committed':
 		if (item.assigned_to_id == currentUserId){
@@ -2825,6 +2862,24 @@ function recalculate_widths(){
 
 function expand_item(dataId){
 	$('#item_' + dataId).replaceWith(generate_item_edit(dataId));
+	
+	//arming file upload
+	$('#file_upload_' + dataId).fileUploadUI({
+        uploadTable: $('#files_' + dataId),
+        downloadTable: $('#files_' + dataId),
+        buildUploadRow: function (files, index) {
+            return $('<tr><td>' + files[index].name + '<\/td>' +
+                    '<td class="file_upload_progress"><div><\/div><\/td>' +
+                    '<td class="file_upload_cancel">' +
+                    '<button class="ui-state-default ui-corner-all" title="Cancel">' +
+                    '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+                    '<\/button><\/td><\/tr>');
+        },
+        buildDownloadRow: function (attachment) {
+            return $('<tr><td><a class="icon icon-attachment" href="/attachments/' + attachment.id + '/' + attachment.filename + '">' + attachment.filename + '</a> (' + attachment.filesize + ' Bytes)<\/td><\/tr>');
+        }
+    });
+    
 	$.fn.getGravatar.getUrl({
 	        avatarContainer: '#gravatar_' + dataId,
 	        avatarSize:27
@@ -2903,6 +2958,11 @@ function save_new_item(prioritize){
         "&issue[description]=" + encodeURIComponent($('#new_description').val()) +
         "&estimate=" + $('#new_story_complexity').val() + 
         "&prioritize=" + prioritize;
+
+	if (new_attachments.length > 0){
+		data = data + "&attachments=" + new_attachments.join(",");
+		new_attachments = [];
+	}
     
     if((credits_enabled) && ($('#new_story_type').val() == standard_trackers.Gift.id)){
 	data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
@@ -3375,6 +3435,8 @@ function generate_complexity_dropdown() {
 
 function new_item(){
 
+new_attachments = [];
+
 //Login required	
 if (!is_user_logged_in()){return;}
 
@@ -3386,7 +3448,7 @@ $("#new_item_wrapper").remove();
 html = '';	
 html = html + '	<div class="item" id="new_item_wrapper">';
 html = html + '	  <div class="storyItem unscheduled unestimatedText underEdit" id="icebox_itemList_storynewStory_content">';
-html = html + '	   <form action="#">';
+// html = html + '	   <form action="#">';
 html = html + '	    <div class="itemCollapsedHeader">';
 html = html + '	      <div class="itemCollapsedInput">';
 html = html + '	        <input id="new_title_input" class="titleInputField" name="title_input" value="" type="text">';
@@ -3477,11 +3539,16 @@ html = html + '	                      </div>';
 html = html + '	                    </div>';
 html = html + '	                  </td>';
 html = html + '	                </tr>';
-html = html + '	                <tr>';
-html = html + '	                <td>';
-html = html + '	                <a href="" onclick="alert(\'You can attach files after you create the request\');return false;">Attach files</a>';
-html = html + '	                </td>';
-html = html + '	                </tr>';
+
+html = html + '	                <tr><td colspan="5">';
+html = html + '	                <table id="files_new" class="attachments"></table>';
+html = html + '	                <form id="file_upload_new" action="/issues/0/attachments/create?container_type=Issue" method="POST" enctype="multipart/form-data">';
+html = html + '	                <input type="file" name="file" multiple>';
+html = html + '	                <button>Upload</button>';
+html = html + '	                <a class="icon icon-attachment" href="#">Attach files</a>';
+html = html + '	                </form>';
+html = html + '	                </td></tr>';
+
 html = html + '	              </tbody>';
 html = html + '	            </table>';
 html = html + '	          <table class="gt-SdTable">';
@@ -3510,13 +3577,15 @@ html = html + '	          </table>';
 html = html + '	          </div>';
 html = html + '	      </div>';
 html = html + '	    </div>';
-html = html + '    </form>';
+// html = html + '    </form>';
 html = html + '	  </div>';
 html = html + '	</div>';
+
 
 show_panel('new');
 $("#item_new_link").hide();
 $("#new_items").prepend(html);
+
 $("#new_title_input").val(default_new_title).select();	
 $("#new_description").autogrow().mentions(projectId);
 make_text_boxes_toggle_keyboard_shortcuts();
@@ -3550,6 +3619,26 @@ $('#help_image_complexity').mybubbletip($(complexity_help_id), {
 	delayHide: 100,
 	offsetTop: 0,
 	bindShow: 'click'
+});
+
+//arming file upload
+$('#file_upload_new').fileUploadUI({
+    uploadTable: $('#files_new'),
+    downloadTable: $('#files_new'),
+    buildUploadRow: function (files, index) {
+        return $('<tr><td>' + files[index].name + '<\/td>' +
+                '<td class="file_upload_progress"><div><\/div><\/td>' +
+                '<td class="file_upload_cancel">' +
+                '<button class="ui-state-default ui-corner-all" title="Cancel">' +
+                '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+                '<\/button><\/td><\/tr>');
+    },
+    buildDownloadRow: function (attachment) {
+        return $('<tr><td><a class="icon icon-attachment" href="/attachments/' + attachment.id + '/' + attachment.filename + '">' + attachment.filename + '</a> (' + attachment.filesize + ' Bytes)<\/td><\/tr>');
+    },
+	onComplete: function (event, files, index, xhr, handler){
+		new_attachments.push(handler.parseResponse(xhr).id);
+	}
 });
 
 $("#new_items").scrollTo( '#new_item_wrapper', 800);
@@ -3734,10 +3823,14 @@ html = html + generate_todo_section(dataId);
 
 //comments
 html = html + generate_comments_section(dataId);
+html = html + generate_attachments_section(dataId);
 
 // request id
-html = html + '	                <tr><td>&nbsp;</td></tr>';
-html = html + '	                <tr><td>';
+html = html + '	          <div class="section">';
+html = html + '	            <table class="storyDescriptionTable">';
+html = html + '	              <tbody>';
+html = html + '	                <tr>';
+html = html + '	                  <td>';
 html = html + '	  <div class="header">';
 html = html + '	    Item ID: <span style="font-weight:normal;">' + D[dataId].id + '</span>';
 html = html + '	                      <img id="help_image_requestid_' + dataId + '" src="/images/question_mark.gif"  class="help_question_mark">';
@@ -3756,11 +3849,12 @@ html = html + '	            </table>';
 html = html + '	            <table>';
 html = html + '	                <tr>';
 html = html + '	                <td align="right">';
-html = html + '	                <a href="" onclick="full_screen(' + dataId + ',\'true\');return false;">Attach files</a>';
+
+// html = html + '	                <a href="" onclick="full_screen(' + dataId + ',\'true\');return false;">Attach files</a>';
 
 if (currentUserIsCore == 'true' || currentUserIsMember == 'true'){
-html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Relations</a>';
-html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Add Team Members</a>';
+html = html + '	                <a href="" onclick="full_screen(' + dataId + ');return false;">Relations</a>';
+// html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Add Team Members</a>';
 html = html + '	                | <a href="" onclick="full_screen(' + dataId + ');return false;">Move</a>';
 }
 
@@ -3771,6 +3865,40 @@ html = html + '	          </div>';
 
 return html;
 }
+
+
+function generate_attachments_section(dataId){
+
+	var html = '';
+	html = html + '	          <div id="attachment_section_' + dataId + '" class="section">';
+	html = html + '	            <table class="storyDescriptionTable">';
+	html = html + '	              <tbody>';
+	html = html + '	                <tr><td colspan="5">';
+	html = html + '					  <div class="header">';
+	html = html + '	   					 Attachments';
+	html = html + '	 				 </div>';
+	html = html + '	                </td></tr>';
+	for(var i = 0; i < D[dataId].attachments.length; i++ ){
+		attachment = D[dataId].attachments[i];
+		html = html + '	                <tr><td colspan="5">';
+		html = html + '	                <a class="icon icon-attachment" href="/attachments/' + attachment.id + '/' + attachment.filename + '">' + attachment.filename + '</a>';
+		html = html + '	                </td></tr>';
+	}
+	html = html + '	                <tr><td colspan="5">';
+	html = html + '	                <table id="files_' + dataId + '" class="attachments"></table>';
+	html = html + '	                <form id="file_upload_' + dataId + '" action="/issues/' + D[dataId].id + '/attachments/create?container_type=Issue" method="POST" enctype="multipart/form-data">';
+	html = html + '	                <input type="file" name="file" multiple>';
+	html = html + '	                <button>Upload</button>';
+	html = html + '	                <a class="icon icon-attachment" href="#">Attach files</a>';
+	html = html + '	                </form>';
+	html = html + '	                </td></tr>';
+	html = html + '	              </tbody>';
+	html = html + '	            </table>';
+	html = html + '	          </div>';
+	return html;
+	
+}
+
 
 function generate_todo_section(dataId){
 

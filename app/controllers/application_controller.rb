@@ -168,6 +168,7 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
+    return true if params[:format] == "png"
     allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project, :global => global)
     allowed ? true : deny_access
   end
@@ -251,6 +252,12 @@ class ApplicationController < ActionController::Base
   
   def accept_key_auth_actions
     self.class.read_inheritable_attribute('accept_key_auth_actions') || []
+  end
+  
+  def attach_files_for_new_issue(issue,attachment_ids)
+    if attachment_ids
+      Attachment.update_all("container_id = #{issue.id}" , "id in (#{attachment_ids}) and container_id = 0" )
+    end
   end
   
   # TODO: move to model
