@@ -102,6 +102,16 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
   
+  map.with_options :controller => 'email_updates' do |email_updates_routes|
+    email_updates_routes.with_options :conditions => {:method => :get} do |invitations_views|
+      email_updates_routes.connect 'email_updates/activate', :action => 'activate'
+    end
+  end
+  
+  map.resources :email_updates
+  
+  
+  
   
   map.with_options :controller => 'boards' do |board_routes|
     board_routes.with_options :conditions => {:method => :get} do |board_views|
@@ -141,8 +151,6 @@ ActionController::Routing::Routes.draw do |map|
       issues_views.connect 'projects/:project_id/issues/gantt', :action => 'gantt'
       issues_views.connect 'projects/:project_id/issues/calendar', :action => 'calendar'
       issues_views.connect 'projects/:project_id/issues/:copy_from/copy', :action => 'new'
-      # issues_views.connect 'issues/:id', :controller => :action => 'show', :id => /\d+/
-      # issues_views.connect 'issues/:id.:format', :action => 'show', :id => /\d+/
       issues_views.connect 'issues/:id/edit', :action => 'edit', :id => /\d+/
       issues_views.connect 'issues/:id/move', :action => 'move', :id => /\d+/
       issues_views.connect 'issues/:id/show', :action => 'show', :id => /\d+/
@@ -151,8 +159,8 @@ ActionController::Routing::Routes.draw do |map|
       issues_actions.connect 'projects/:project_id/issues', :action => 'new'
       issues_actions.connect 'issues/:id/quoted', :action => 'reply', :id => /\d+/
       issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy|start|finish|release|cancel|restart|prioritize|agree|disagree|estimate|accept|reject|join|leave|add_team_member/, :id => /\d+/
+      issues_actions.connect 'issues/:container_id/attachments/create', :controller => 'attachments', :action => 'create'
     end
-    # issues_routes.connect 'issues/:action'
   end
   
   map.with_options  :controller => 'issue_relations', :conditions => {:method => :post} do |relations|
@@ -235,7 +243,7 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id', :action => 'overview'
       project_views.connect 'projects/:id/show', :action => 'overview'
       project_views.connect 'projects/:id/overview', :action => 'overview'
-      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|community_members_array|hourly_types|map|join|overview|reset_invitation_code|overview/
+      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|community_members_array|issue_search|hourly_types|map|join|overview|reset_invitation_code|overview/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
@@ -284,6 +292,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
   map.connect 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/
   map.connect 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/
+
    
   map.resources :groups
   

@@ -1,0 +1,13 @@
+<% content_for :mainmenu do %>
+  <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :myaccount} %>
+<% end %>
+
+<h2><%= l(:label_email_update)  %></h2>
+<% form_for(@email_update) do |f| %>
+<div class="gt-left-col">
+  <%= f.text_field :mail %>
+  <p>
+    <%= submit_tag l(:button_submit), :disable_with => l(:button_working) %>
+  </p>
+  </div>
+<% end %>

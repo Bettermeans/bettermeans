@@ -10,14 +10,22 @@
                 <div class="issue-body">
                     <p>
                       <%= textilizable @issue, :description, :attachments => @issue.attachments %>
-                      <br>
                     </p>
-                    <!-- <p><a target="_blank" class="view-on-github" href="http://github.com/{{repo_identifier}}/issues/{{number}}">View on github</a></p> -->
+                    <p>
+                      <div id="todo_wrapper"></div>
+                    </p>
+
+                    <p>
+                      <strong><%=l(:label_attachment_plural)%></strong>                    
+                      <%= link_to_attachments_table @issue %>
+                      <table id="files" class="attachments"></table>
+                      <form id="file_upload" action="<%= url_for({:controller => :attachments, :action => :create, :container_id => @issue.id, :container_type => "Issue"}) %>" method="POST" enctype="multipart/form-data">
+                          <input type="file" name="file" multiple>
+                          <button>Upload</button>
+                          <a class="icon icon-attachment" href="#">Upload files</a>
+                      </form>
+                    </p>
                     
-                    <%= link_to_attachments @issue %>
-                    
-                    <hr />
-                    <div id="todo_wrapper"></div>
                     
                     <% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
                     <div id="relations">
@@ -139,6 +147,22 @@
     highest_pri = <%= @project.highest_pri %>
     show_item(<%= @issue.startable? %>);
     initialize();
+    
+    $('#file_upload').fileUploadUI({
+        uploadTable: $('#files'),
+        downloadTable: $('#files'),
+        buildUploadRow: function (files, index) {
+            return $('<tr><td>' + files[index].name + '<\/td>' +
+                    '<td class="file_upload_progress"><div><\/div><\/td>' +
+                    '<td class="file_upload_cancel">' +
+                    '<button class="ui-state-default ui-corner-all" title="Cancel">' +
+                    '<span class="ui-icon ui-icon-cancel">Cancel<\/span>' +
+                    '<\/button><\/td><\/tr>');
+        },
+        buildDownloadRow: function (attachment) {
+            return $('<tr><td><a class="icon icon-attachment" href="/attachments/' + attachment.id + '/' + attachment.filename + '">' + attachment.filename + '</a> (' + attachment.filesize + ' Bytes)<\/td><\/tr>');
+        }
+    });
   });
   
   function generate_comment(text){
