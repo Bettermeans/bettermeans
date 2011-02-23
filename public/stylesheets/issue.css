@@ -440,6 +440,14 @@ p, li {
 	font-size: 125%;
 }
 
+p {
+	margin-bottom: 0.6em;
+}
+
+#todo_lightbox .header {
+	font-size: 125%;
+}
+
 fieldset {
 	border: none;
 }

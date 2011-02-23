@@ -16,7 +16,7 @@
 <div class="gt-content-box tabular">
 <p><%= f.text_field :firstname, :required => true %></p>
 <p><%= f.text_field :lastname, :required => true %></p>
-<p><%= f.text_field :mail, :required => true, :readonly => true, :disabled => true %></p>
+<p><%= f.text_field :mail, :required => true, :readonly => true, :disabled => true %> <%= link_to l(:label_change), :controller => :email_updates, :action => :new %></p>
 <p><%= f.select :language, lang_options_for_select %></p>
 <div class="gt-table-buttons-inside">
 <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
