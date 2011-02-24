@@ -16,6 +16,9 @@ function break_long_words(){
 }
 
 function arm_fancybox(){
+	if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i))) {
+	   return;
+	}
 	$("a.fancyframe").fancybox({
 			'speedIn'		:	0, 
 			'speedOut'		:	0, 
