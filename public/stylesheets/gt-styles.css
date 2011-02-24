@@ -20,10 +20,10 @@ Misc - anything that doesn't fit elsewhere
 
 /* @group HTML, Body */
 html {
-/*	background-color: #e2eaee;*/
 /*	background-color: #f3f3f3;*/
-	background-color: #e2eaee;
-/*	background-color: #fff;*/
+/*	background-color: #e2eaee;*/
+	background-color: #FFF0DD;
+	
 }
 body {
 	font-family: Helvetica, sans-serif;
@@ -1095,11 +1095,12 @@ tt {
 	border-color:#FBC2C4;
 }
 .notice {
-	background: #FAFFBD url(/images/static/clip.png) no-repeat 10px 50% ;
+	background: #Fff url(/images/static/clip.png) no-repeat 10px 50% ;
 	color:#595959;
-	border-color:#d9d9d9;
+	border-color:#222;
 	text-shadow: 1px 1px #fff;
 	padding:1.4em;
+	font-weight:bold;
 }
 .success {
 	background:#E6EFC2;
