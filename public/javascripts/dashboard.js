@@ -199,6 +199,7 @@ function refresh_local_data(){
 	display_panels();
 	recalculate_widths();
 	load_dashboard_data();
+	enable_refresh_button();
 }
 
 function save_local_data(){
@@ -299,6 +300,7 @@ function data_ready(html,name){
 		$('#inprogress_close').addClass('closePanel').removeClass('closePanelLoading');
 		$('#done_close').addClass('closePanel').removeClass('closePanelLoading');
 		loaded_panels = 6;
+		enable_refresh_button();
 	}
 	else{
 		$('#' + name + '_close').addClass('closePanel').removeClass('closePanelLoading');
@@ -308,6 +310,9 @@ function data_ready(html,name){
 	prepare_item_lookup_array(); //TODO: move this somewhere else for efficiency. it should only run once
 	if (loaded_panels == 4 && credits_enabled){
 		load_retros();
+	}
+	else if (loaded_panels == 4){
+		enable_refresh_button();
 	}
 }
 
