@@ -805,7 +805,7 @@ h5 .icon{
 	font-size: 100%;
 	float: left;
 	display: inline;
-	color: #eee!important;
+	color: #fff!important;
 	background-color: #365B6D;
 /*	background-color: #1a5472;*/
 	margin-right: 1px;
@@ -822,11 +822,14 @@ h5 .icon{
 }
 
 .gt-actionmenu a:visited, .gt-actionmenu a {
-	background-color: #e58508!important;
+	background-color: #F28900!important;
+	
+/*	background-color: #e58508!important;*/
 }
 
 .gt-actionmenu a:visited:hover, .gt-actionmenu a:hover {
-	background-color: #C27006!important;
+/*	background-color: #C27006!important;*/
+	background-color: #CF5D07!important;
 }
 
 .gt-actionmenu ul li a.top-help-tip {
