@@ -738,11 +738,9 @@ class Project < ActiveRecord::Base
   end
   
   def set_owner
-    logger.info { "parent id #{self.parent_id} and root #{self.root?} and root #{root?} and parent id #{parent_id} self #{self.inspect}" }
     
     if !self.root?
       self.update_attribute(:owner_id,self.root.owner_id) #unless self.owner_id == self.root.owner_id
-      logger.info { "XXXXXXXXXXupdated attribute baby" }
     elsif owner_id.nil?
       self.owner_id = User.current.id if self.parent_id.nil?
       admins = self.administrators.sort {|x,y| x.created_at <=> y.created_at}
@@ -755,7 +753,6 @@ class Project < ActiveRecord::Base
         self.save
       end
     end
-    logger.info { "we didn't get the root. sorry." }
   end
   
   
