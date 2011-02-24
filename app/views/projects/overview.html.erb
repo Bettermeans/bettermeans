@@ -34,10 +34,8 @@
 </li>
 <% if @project && @project.module_enabled?(:issue_tracking) %>
 <li>
-    <a id="new_request" onclick="new_item();return false;" href="#" class="icon icon-add">
-      New Item
-    </a>
-  </li>
+	<%= render_new_item_jump_box %>
+</li>
 <% end %>
 </ul>
 <% end %>
