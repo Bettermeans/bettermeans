@@ -4,12 +4,15 @@
      %>
       <tr><td>
       <%=name_prefix + link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
-    <% if !p.active? %>
+    <% if p.archived? %>
       <% if User.current.allowed_to?({:controller => 'projects', :action => 'unarchive'}, p) %>
         <%= link_to_remote(l(:label_unarchive_project_brackets), :url => {:controller => 'projects', :action => 'unarchive', :id => p, :table_id => table_id}, :confirm => l(:text_confirm_unarchive_project)) %>
       <% else  %>
         (archived)
       <% end %>
+    <% end %>
+    <% if p.locked? %>
+       <%= link_to "(locked)", {:controller => 'my', :action => 'upgrade'}  %>
     <% end %>
         <!-- </td><td> -->
         <span class="spark right" max="<%=  p.activity_line_max %>"><%= p.activity_line_show(60) %></span>
