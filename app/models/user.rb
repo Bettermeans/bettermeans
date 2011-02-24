@@ -666,11 +666,16 @@ class User < ActiveRecord::Base
   end
   
   def public_contributor_total
-    self.owned_projects.find_all{|p| p.root? && p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
+    @all_users = []
+    self.owned_projects.find_all{|p| p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
+    @all_users.length
   end
   
   def private_contributor_total
-    self.owned_projects.find_all{|p| p.root? && !p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
+    # self.owned_projects.find_all{|p| p.root? && !p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
+    @all_users = []
+    self.owned_projects.find_all{|p| !p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
+    @all_users.length
   end
   
   def project_storage_total
