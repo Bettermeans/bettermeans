@@ -350,7 +350,7 @@ class Issue < ActiveRecord::Base
   
   # Returns true if the issue is overdue
   def overdue?
-    !due_date.nil? && (due_date < Date.today) && !status.is_closed?
+    !due_date.nil? && (due_date < DateTime.now) && !status.is_closed?
   end
   
   # Users the issue can be assigned to

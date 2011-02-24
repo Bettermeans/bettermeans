@@ -236,6 +236,44 @@ class User < ActiveRecord::Base
     super
   end
   
+  #detects if usage is over, and sets date of going over
+  def update_usage_over()
+    is_over = self.project_storage_total > self.plan.storage_max || self.private_project_total > self.plan.private_workstream_max || self.private_contributor_total > self.plan.contributor_max
+    if is_over && !self.usage_over_at
+      Notification.create :recipient_id => self.id,
+                          :variation => 'usage_over',
+                          :sender_id => User.sysadmin.id,
+                          :source_id => self.id,
+                          :source_type => "User"
+      
+      self.update_attribute(:usage_over_at, DateTime.now) 
+    end
+    
+    if !is_over && self.usage_over_at
+      Notification.delete_all(:variation => 'usage_over', :source_id => self.id)
+      self.update_attribute(:usage_over_at, nil) 
+    end
+    
+  end
+  
+  #detects if trial expired, and sets date of trial expiring
+  def update_trial_expiration()
+    return if self.plan.free?
+    return if self.trial_expired_at 
+    return if !self.trial_expires_on
+    
+    if DateTime.now > self.trial_expires_on    
+      Notification.create :recipient_id => self.id,
+                          :variation => 'trial_expired',
+                          :sender_id => User.sysadmin.id,
+                          :source_id => self.id,
+                          :source_type => "User"
+
+      self.update_attribute(:trial_expired_at, DateTime.now) 
+    end
+    
+  end
+  
   def identity_url=(url)
     if url.blank?
       write_attribute(:identity_url, '')
