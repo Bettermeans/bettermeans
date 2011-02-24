@@ -2583,6 +2583,18 @@ wbr:after { content: "\00200B" } /*opera compatibility with wbr*/
 /*	background: transparent;*/
 }
 
+#new_item_jumpbox {
+	background-image: url(/images/add.png);
+	background-repeat: no-repeat;
+	background-position: 4px 3px;
+	text-indent: 16px;
+	height: 22px;
+	border: none;
+	background-color: #E58508;
+	font-weight: bold;
+	color: #FFF;
+}
+
 .activity-comment {
 	width:95%;
 	color:#bbb;
