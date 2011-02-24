@@ -258,11 +258,10 @@ class User < ActiveRecord::Base
   
   #detects if trial expired, and sets date of trial expiring
   def update_trial_expiration()
-    return if self.plan.free?
-    return if self.trial_expired_at 
+    return if self.plan.free? && !self.trial_expired_at 
     return if !self.trial_expires_on
-    
-    if DateTime.now > self.trial_expires_on    
+    logger.info { "1" }
+    if DateTime.now > self.trial_expires_on && !self.trial_expired_at 
       Notification.create :recipient_id => self.id,
                           :variation => 'trial_expired',
                           :sender_id => User.sysadmin.id,
@@ -271,7 +270,11 @@ class User < ActiveRecord::Base
 
       self.update_attribute(:trial_expired_at, DateTime.now) 
     end
-    
+    logger.info { "3" }
+    if DateTime.now <= self.trial_expires_on && self.trial_expired_at 
+      Notification.delete_all(:variation => 'trial_expired', :source_id => self.id)
+      self.update_attribute(:trial_expired_at, nil) 
+    end
   end
   
   def identity_url=(url)
