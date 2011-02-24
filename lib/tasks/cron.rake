@@ -34,6 +34,8 @@ task :cron => :environment do
       Rake::Task['start_retros'].invoke
       Rake::Task['custom:calculate_reputation'].invoke
       Rake::Task['custom:calculate_project_storage'].invoke
+      Rake::Task['custom:detect_users_over_limit'].invoke
+      Rake::Task['custom:detect_trial_expiration'].invoke
       
     end
     puts "done."

@@ -1,0 +1,29 @@
+<!-- Notification sent to users by admin when their trial expires -->
+  <tr class="notification notification-trial-expired" id="notification_<%= @notification.id %>">
+      <td class="gt-avatar">
+        <%= avatar_from_id(@notification.sender_id, :size => '53') %>
+      </td>
+      <td>
+  <h4>
+<%= link_to l(:label_trial_expired),  {:controller => "my", :action => "upgrade"} %> 
+</h4>
+<%= l(:text_trial_expired) %>
+
+<p class="gt-table-action-list">
+<%= link_to(l(:button_update_billing), {:controller => "my", :action => "upgrade"}, {:id =>'cr_button', :class => 'icon icon-cr-offer'})%>
+&nbsp;
+<%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => @notification.id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
+</p>
+    </td>
+        <td>
+    			<!-- Categories Sub Table -->
+    			<table border="0" class="gt-table-categories">
+    				<tr>
+    					<td><%= link_to_user_from_id(@notification.sender_id) %></td>
+    				</tr>
+    				<tr>
+    					<td><%= since_tag(@notification.created_at) %> ago</td>
+    				</tr>
+    			</table>
+    		</td>
+    </tr>
