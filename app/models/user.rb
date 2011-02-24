@@ -212,19 +212,18 @@ class User < ActiveRecord::Base
         @user.b_cc_type = @account.billing_info.credit_card.attributes["type"]
         @user.b_cc_last_four = "XXXX - " + @account.billing_info.credit_card.attributes["last_four"] + " " + @account.billing_info.credit_card.attributes["type"]
         @user.save
-      
-      # else
-      #   @account.billing_info = Recurly::BillingInfo.create(
-      #     :account_code => @account.account_code,
-      #     :first_name => @account.first_name,
-      #     :last_name => @account.last_name,
-      #     :address1 => @user.b_address1,
-      #     :zip => @user.b_zip,
-      #     :country => @user.b_country,
-      #     :city => "none",
-      #     :state => "none",
-      #     :phone => @user.b_phone,
-      #     :ip_address => ip)
+      else
+        @account.billing_info = Recurly::BillingInfo.create(
+          :account_code => @account.account_code,
+          :first_name => @account.first_name,
+          :last_name => @account.last_name,
+          :address1 => @user.b_address1,
+          :zip => @user.b_zip,
+          :country => @user.b_country,
+          :city => "none",
+          :state => "none",
+          :phone => @user.b_phone,
+          :ip_address => ip)
     end
     
     return @account
