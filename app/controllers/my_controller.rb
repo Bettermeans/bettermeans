@@ -163,6 +163,9 @@ class MyController < ApplicationController
           @user.trial_expires_on = nil
           @user.trial_expired_at = nil
           @user.save
+          @user.update_usage_over()
+          @user.update_trial_expiration()
+          @user.lock_workstreams
           flash.now[:success] = "Your plan was successfully canceled"
           # redirect_to :action => 'account'
           @user.reload
@@ -196,6 +199,9 @@ class MyController < ApplicationController
           return
         else
           @user.save
+          @user.update_usage_over()
+          @user.update_trial_expiration()
+          @user.unlock_workstreams
           flash.now[:success] = "Plan successfully changed to #{@new_plan.name}"
         end
       else

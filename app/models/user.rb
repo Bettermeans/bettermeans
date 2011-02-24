@@ -236,9 +236,24 @@ class User < ActiveRecord::Base
     super
   end
   
+  #detects if usage is way over, or trial has expired for a while, and locks out private workstreams belonging to user
+  def lock_workstreams()
+    if self.usage_over_at.advance(:days => WORKSTREAM_LOCK_THRESHOLD.days.from_now) > DateTime.now || self.trial_expired_at.advance(:days => WORKSTREAM_LOCK_THRESHOLD.days.from_now) > DateTime.now
+      self.owned_projects.each {|p| p.lock}
+    end
+  end
+
+  def unlock_workstreams()
+    unless self.usage_over_at.advance(:days => WORKSTREAM_LOCK_THRESHOLD.days.from_now) > DateTime.now || self.trial_expired_at.advance(:days => WORKSTREAM_LOCK_THRESHOLD.days.from_now) > DateTime.now
+      self.owned_projects.each {|p| p.unlock}
+    end
+  end
+  
   #detects if usage is over, and sets date of going over
   def update_usage_over()
     is_over = self.project_storage_total > self.plan.storage_max || self.private_project_total > self.plan.private_workstream_max || self.private_contributor_total > self.plan.contributor_max
+    self.lock_workstreams if is_over
+
     if is_over && !self.usage_over_at
       Notification.create :recipient_id => self.id,
                           :variation => 'usage_over',
@@ -246,22 +261,35 @@ class User < ActiveRecord::Base
                           :source_id => self.id,
                           :source_type => "User"
       
-      self.update_attribute(:usage_over_at, DateTime.now) 
+      self.update_attribute(:usage_over_at, DateTime.now)
     end
     
     if !is_over && self.usage_over_at
       Notification.delete_all(:variation => 'usage_over', :source_id => self.id)
       self.update_attribute(:usage_over_at, nil) 
+      self.unlock_workstreams
     end
     
   end
   
   #detects if trial expired, and sets date of trial expiring
   def update_trial_expiration()
-    return if self.plan.free? && !self.trial_expired_at 
-    return if !self.trial_expires_on
-    logger.info { "1" }
-    if DateTime.now > self.trial_expires_on && !self.trial_expired_at 
+    return if self.plan.free?
+    
+    if !self.trial_expires_on
+      if self.trial_expired_at
+        self.update_attribute(:trial_expired_at, nil)
+        self.unlock_workstreams 
+      end
+      return
+    end
+    
+    if self.trial_expired_at 
+      self.lock_workstreams
+      return
+    end
+    
+    if DateTime.now > self.trial_expires_on    
       Notification.create :recipient_id => self.id,
                           :variation => 'trial_expired',
                           :sender_id => User.sysadmin.id,
@@ -269,11 +297,6 @@ class User < ActiveRecord::Base
                           :source_type => "User"
 
       self.update_attribute(:trial_expired_at, DateTime.now) 
-    end
-    logger.info { "3" }
-    if DateTime.now <= self.trial_expires_on && self.trial_expired_at 
-      Notification.delete_all(:variation => 'trial_expired', :source_id => self.id)
-      self.update_attribute(:trial_expired_at, nil) 
     end
   end
   
@@ -669,11 +692,16 @@ class User < ActiveRecord::Base
   end
   
   def public_contributor_total
-    self.owned_projects.find_all{|p| p.root? && p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
+    @all_users = []
+    self.owned_projects.find_all{|p| p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
+    @all_users.length
   end
   
   def private_contributor_total
-    self.owned_projects.find_all{|p| p.root? && !p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
+    # self.owned_projects.find_all{|p| p.root? && !p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
+    @all_users = []
+    self.owned_projects.find_all{|p| !p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
+    @all_users.length
   end
   
   def project_storage_total
