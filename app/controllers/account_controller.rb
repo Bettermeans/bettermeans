@@ -167,7 +167,7 @@ class AccountController < ApplicationController
         @user.plan_id = Plan.find_by_code(Plan::FREE_CODE).id
       end
       
-      @user.trial_expires_on = 30.days.from_now if @user.plan_id && @user.plan_id > 1 #TODO: clean this. no good depending on id of plan
+      @user.trial_expires_on = 30.days.from_now if @user.plan_id && !@user.plan.free?
         
       @user.admin = false
       @user.status = User::STATUS_REGISTERED
