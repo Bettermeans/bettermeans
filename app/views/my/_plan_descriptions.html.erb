@@ -4,12 +4,12 @@
     <li>
       <p style="width:100;">
         <span style="float:right;width:20%"><strong>Storage</strong></span>
-        <span style="float:right;width:25%"><strong>Contributors</strong></span>
         <span style="float:right;width:25%"><strong>Workstreams</strong></span>
+        <span style="float:right;width:25%"><strong>Contributors</strong></span>
         <span style="float:right;width:30%"><strong>Plan</strong></span>
       </p>
     </li>
-    <% Plan.all.each do |plan| %>
+    <% Plan.find(:all, :order => "CODE asc").each do |plan| %>
     <li>
       <p style="width:100;">
       <span style="float:right;width:20%"><%= describe plan.storage_max %> GB</span>
