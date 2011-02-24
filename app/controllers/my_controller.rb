@@ -121,11 +121,14 @@ class MyController < ApplicationController
     if request.post?
       cc = params[:user][:b_cc_last_four]
       cc.gsub!(/[^0-9]/,'')
+      logger.info { "length #{cc.length} #{cc}" }
       if cc.length > 14
         params[:user][:b_cc_last_four] = ("XXXX-") + params[:user][:b_cc_last_four][cc.length-4,cc.length-1]
       else
         params[:user].delete :b_cc_last_four
       end
+      
+      logger.info { "inspect #{params.inspect}" }
       
       @new_plan = Plan.find(params[:user][:plan_id])
       @user.attributes = params[:user]
@@ -133,10 +136,15 @@ class MyController < ApplicationController
       @user.save
           
       account = User.update_recurly_billing @user.id, cc, params[:ccverify], request.remote_ip
-        
-      if (defined? account.billing_info) && account.billing_info.errors && account.billing_info.errors.any?
-        flash.now[:error] = account.billing_info.errors[:base].collect {|v| "#{v}"}.join('<br>')
-        return
+      
+      # logger.info { account.billing_info.errors.inspect }
+      # logger.info { "count #{account.billing_info.errors.length}" }
+
+      if defined? account.billing_info && defined? account.billing_info.errors
+        if account.billing_info.errors.length > 0
+          flash.now[:error] = account.billing_info.errors[:base].collect {|v| "#{v}"}.join('<br>')
+          return
+        end
       end
               
       if @new_plan.code == Plan::FREE_CODE && @new_plan.code != @selected_plan.code
@@ -192,7 +200,6 @@ class MyController < ApplicationController
       end
       @user.reload
       
-      # redirect_to :action => 'account'
       return
     end    
   end
