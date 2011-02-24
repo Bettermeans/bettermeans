@@ -123,7 +123,6 @@ class ProjectsController < ApplicationController
           @project.all_members << m
           @project.update_attribute(:owner_id, User.current.id)
           
-          
         else
           @project.set_parent!(@parent.id)  # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
           @project.set_owner
