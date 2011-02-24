@@ -739,6 +739,7 @@ private
   def find_issue
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author])
     @project = @issue.project
+    render_message l(:text_project_locked) if @project.locked?
     render_404 if @issue.is_gift? && @issue.assigned_to_id == User.current.id
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -762,6 +763,7 @@ private
   
   def find_project
     @project = Project.find(params[:project_id])
+    render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end

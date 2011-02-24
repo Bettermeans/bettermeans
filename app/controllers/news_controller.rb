@@ -91,12 +91,14 @@ private
   def find_news
     @news = News.find(params[:id])
     @project = @news.project
+    render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
   
   def find_project
     @project = Project.find(params[:project_id])
+    render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -104,6 +106,7 @@ private
   def find_optional_project
     return true unless params[:project_id]
     @project = Project.find(params[:project_id])
+    render_message l(:text_project_locked) if @project.locked?
     authorize
   rescue ActiveRecord::RecordNotFound
     render_404

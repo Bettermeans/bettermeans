@@ -330,6 +330,10 @@ class Project < ActiveRecord::Base
   def active?
     self.status == STATUS_ACTIVE
   end
+
+  def archived?
+    self.status == STATUS_ARCHIVED
+  end
   
   def locked?
     self.status == STATUS_LOCKED
