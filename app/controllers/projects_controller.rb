@@ -306,8 +306,10 @@ class ProjectsController < ApplicationController
     
     if params[:include_subworkstreams]
       project_ids = [@project.sub_project_array_visible_to(User.current).join(",")]
+      total_count = (@project.issue_count + @project.issue_count_sub).to_s
     else
       project_ids = [@project.id]
+      total_count = @project.issue_count.to_s
     end
     
     time_delta = params[:seconds].to_f.round
@@ -324,7 +326,7 @@ class ProjectsController < ApplicationController
                                                   :tracker =>     { :only => [:name,:id] },
                                                   :author =>      { :only => [:firstname, :lastname, :login, :mail_hash] },
                                                   :assigned_to => { :only => [:firstname, :lastname, :login] }})
-    elsif params[:issuecount] != @project.issue_count.to_s
+    elsif params[:issuecount] != total_count
       render :json =>  Issue.find(:all, :conditions => {:project_id => @project.id}).collect {|i| i.id}
     else
       render :text => 'no'
