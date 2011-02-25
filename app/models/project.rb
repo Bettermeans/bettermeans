@@ -235,7 +235,7 @@ class Project < ActiveRecord::Base
   #     Projects.visible_by(admin)        => "projects.status = 1"
   #     Projects.visible_by(normal_user)  => "projects.status = 1 AND projects.is_public = 1"
   def self.visible_by(user=nil)
-    user ||= User.current
+    user ||= User.anonymous
     if user && user.admin?
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     elsif user && user.memberships.any?
