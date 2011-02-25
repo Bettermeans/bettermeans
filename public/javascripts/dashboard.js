@@ -86,6 +86,9 @@ $.fn.keyboard_sensitive = function() {
 
 function start(){
 	disable_refresh_button();
+	arm_checkboxes();
+	set_sub_toggle();	
+	
 	timer_active = true; //stop timer from starting until data loads
 	$('.help-section-link').bind('click',function() {
 	  resize();
@@ -108,7 +111,22 @@ function start(){
 	else{
 		load_dashboard();
 	}
-	arm_checkboxes();
+}
+
+//Chooses setting of sub workstream toggle button and adds events to it
+function set_sub_toggle(){
+	if (true){
+		$("#toggle_sub_on").click();
+	}
+	else{
+		$("#toggle_sub_off").click();
+	}
+	$("#toggle_sub_on").click(function(){
+		refresh_local_data();	
+	});
+	$("#toggle_sub_off").click(function(){
+		refresh_local_data();	
+	});
 }
 
 function load_dashboard(){
@@ -250,7 +268,10 @@ function load_dashboard_data_for_statuses(status_ids,name){
 	
 	// var url = url + '?status_ids=1,4,6,8,10,11,13,14';
 	url = url + '?status_ids=' + status_ids;
-	url = url + '&include_subworkstreams=true';
+	
+	if ($('#include_subworkstreams_checkbox').attr("checked") == true){
+		url = url + "&include_subworkstreams=true";
+	}
 	
 	
 	$.ajax({
@@ -1775,11 +1796,18 @@ function display_retro(rdataId){
 	
 	$('#done_itemList_' + retro.id + '_toggle_expanded_button').attr('src','/images/iteration_expander_open.png');
 	
+	var url = 'retros/' + retro.id + '/dashdata';
+	
+	if ($('#include_subworkstreams_checkbox').attr("checked") == true){
+		url = url + "&include_subworkstreams=true";
+	}
+	
+	
 	$.ajax({
 	   type: "GET",
 	   dataType: "json",
 	   contentType: "application/json",
-	   url: 'retros/' + retro.id + '/dashdata',
+	   url: url,
 	   success:  	function(html){
 			$('#new_retro_wrapper_' + rdataId).hide();
 			rdata_ready(html,rdataId);
@@ -4206,6 +4234,10 @@ function new_dash_data(){
 	var data = "seconds=" + (((new Date).getTime() - last_data_pull.getTime())/1000);
 	
 	data = data + "&issuecount=" + ISSUE_COUNT;
+	
+	if ($('#include_subworkstreams_checkbox').attr("checked") == true){
+		data = data + "&include_subworkstreams=true";
+	}
 	
 
 	var url = url_for({ controller: 'projects',
