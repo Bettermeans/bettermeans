@@ -1,5 +1,5 @@
 <div class="project-summary">
-<h4><%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %>
+<h4><%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %><%= volunteering project %><%= privacy project %>
   <h5 class="right"><span class="icon icon-users"><%= project.all_members.count %></span>&nbsp;&nbsp;<span class="icon icon-time"><%= since_tag(project.created_at) %> ago</span> </h5>
 </h4>
 <p><%= make_expandable((textilizable project.description, :project => project),250) %></p>

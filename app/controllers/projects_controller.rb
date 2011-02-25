@@ -47,15 +47,14 @@ class ProjectsController < ApplicationController
   # Lists visible projects
   def index
     # @news = News.latest User.current
-    # @projects = Project.latest User.current, 10, false
-    @latest_enterprises = Project.latest User.current, 10, true
-    @active_enterprises = Project.most_active User.current, 10, true
+    @latest_enterprises = Project.latest nil, 10, true
+    @active_enterprises = Project.most_active nil, 10, true
     # @activities_by_item = ActivityStream.fetch(nil, nil, true, 100)
   end
   
   def index_latest
     limit = 10
-    @latest_enterprises = Project.latest User.current, limit, true, Integer(params[:offset])
+    @latest_enterprises = Project.latest nil, limit, true, Integer(params[:offset])
     
     respond_to do |wants|
       wants.js do
@@ -72,7 +71,7 @@ class ProjectsController < ApplicationController
   
   def index_active
     limit = 10
-    @active_enterprises = Project.most_active User.current, limit, true, Integer(params[:offset])
+    @active_enterprises = Project.most_active nil, limit, true, Integer(params[:offset])
     
     respond_to do |wants|
       wants.js do
