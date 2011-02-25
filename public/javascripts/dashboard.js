@@ -1943,8 +1943,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	var html = '';
 	var item = D[dataId];
 	
-	var tally = '';
-	var label = 'agree?';
+	var tally = 'agree?';
 	var cssclass = 'root';
 	var user_voted = false;
 	var user_estimated = false;
@@ -1961,29 +1960,22 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 			user_voted = true;
 			tally = '';
 
-			tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button_tally" onclick="click_agree_root(' + dataId + ',this,\'false\');return false;">';
 			if (item.disagree > 5000){
-				html = '';//removing start button from blocked item
-				tally = tally + 'BLOCK';
+				include_start_button = false;
+				tally = 'Blocked';
 			}
 			else{
-				tally = tally + (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
+				tally = (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
 			}
-			tally = tally + '</div>';
-			
 			switch(String(item.issue_votes[i].points))
 			{
-				case "1":	label = 'agreed';
-							cssclass = 'agree';
+				case "1":	cssclass = 'agree';
 							break;	
-				case "0":	label = 'neutral';
-							cssclass = 'neutral';
+				case "0":	cssclass = 'neutral';
 							break;	
-				case "-1":	label = 'disagreed';
-							cssclass = 'disagree';
+				case "-1":	cssclass = 'disagree';
 							break;	
-				case "-9999": label = 'blocked';
-							cssclass = 'block';
+				case "-9999": cssclass = 'block';
 							break;	
 			}
 		}
@@ -1995,14 +1987,14 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	}
 	
 	if (include_start_button && user_estimated && user_voted){
-		tally = dash_button('start',dataId,true); //no room to show tally if start button is included and user estimated and voted
+		html = html + dash_button('start',dataId,true); //add start button if user estimated and voted
 	}
 	
 	if ((!user_estimated) && user_voted){
-		tally = dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
+		html = html + dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
 	}
 	
-	html = html + tally + dash_button('agree_root',dataId,false,{label:label,cssclass:cssclass});
+	html = html + dash_button('agree_root',dataId,false,{label:tally,cssclass:cssclass});
 	
 	return html;
 }
@@ -2140,9 +2132,9 @@ function dash_button(type,dataId,hide,options_param){
 	
 	if (hide){ hide_style = "style=display:none;"; }
 	html = '';
-	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable" onDblclick="' + ondblclick + '"  onclick="' + onclick + '">';
-	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="action_button action_button_' + cssclass + '" ' + hide_style + '>';
-	html = html + label + '</div></a>';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" onclick="' + onclick + '" class="action_button action_button_' + cssclass + '" ' + hide_style + '>';
+	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable" onDblclick="' + ondblclick + '"  onclick="return false;">';
+	html = html + label + '</a></div>';
 	return html;
 }
 
@@ -2177,7 +2169,7 @@ function click_reject(dataId,source,data){
 
 //This is the estimate button clicked from the dashboard
 function click_estimate(dataId,source,data,comment){
-	show_estimate_flyover(dataId,'diceicon_' + dataId);
+	show_estimate_flyover(dataId,source.id);
 }
 
 //This is the actual die clicked from the estimate flyover
