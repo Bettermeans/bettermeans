@@ -108,6 +108,7 @@ function start(){
 	else{
 		load_dashboard();
 	}
+	arm_checkboxes();
 }
 
 function load_dashboard(){
