@@ -249,6 +249,8 @@ function load_dashboard_data_for_statuses(status_ids,name){
 	
 	// var url = url + '?status_ids=1,4,6,8,10,11,13,14';
 	url = url + '?status_ids=' + status_ids;
+	url = url + '&include_subworkstreams=true';
+	
 	
 	$.ajax({
 	   type: "GET",
