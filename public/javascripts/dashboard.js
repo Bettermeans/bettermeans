@@ -2004,27 +2004,15 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	var html = '';
 	var item = D[dataId];
 	
-	var tally = '';
+	var tally = 'accept?';
 	
-	tally = '';
-	
-	
-	// tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button_tally" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">';
-	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button_tally">';
 	if (item.reject > 5000){
-		tally = tally + 'BLOCK';
+		tally = 'Blocked';
 	}
 	else{
-		tally = tally + (item.accept + item.accept_nonbind) + ' - ' + (item.reject + item.reject_nonbind);
-	}
-	tally = tally + '</div>';
-	
-	
-	if (item.assigned_to_id == currentUserId){
-		return tally + dash_button('start',dataId,false,{label:'takeback', cssclass:'takeback'});
+		tally = (item.accept + item.accept_nonbind) + ' - ' + (item.reject + item.reject_nonbind);
 	}
 	
-	var label = 'accept?';
 	var cssclass = 'root';
 	var user_voted = false;
 	
@@ -2032,32 +2020,15 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	for(var i=0; i < item.issue_votes.length; i++){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 2)){
 			user_voted = true;
-			// tally = '';
-			// 	if (!include_start_button || expanded){
-			// 		tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally">';
-			// 		if (item.disagree > 5000){
-			// 			html = '';//removing start button from blocked item
-			// 			tally = tally + 'BLOCK';
-			// 		}
-			// 		else{
-			// 			tally = tally + item.agree + ' - ' + item.disagree;
-			// 		}
-			// 		tally = tally + '</div>';
-			// 	}
-			// 			
 			switch(String(item.issue_votes[i].points))
 			{
-				case "1":	label = 'accepted';
-							cssclass = 'accept';
+				case "1":	cssclass = 'accept';
 							break;	
-				case "0":	label = 'neutral';
-							cssclass = 'neutral';
+				case "0":	cssclass = 'neutral';
 							break;	
-				case "-1":	label = 'rejected';
-							cssclass = 'reject';
+				case "-1":	cssclass = 'reject';
 							break;	
-				case "-9999": label = 'blocked';
-							cssclass = 'block';
+				case "-9999": cssclass = 'block';
 							break;	
 			}
 			
@@ -2066,10 +2037,15 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	}	
 	
 	if (!user_voted){
-		tally = '';
+		tally = "accept?"
 	}
 	
-	html = html + tally + dash_button('accept_root',dataId,false,{label:label,cssclass:cssclass});
+	html = dash_button('accept_root',dataId,false,{label:tally,cssclass:cssclass});
+	
+	if (item.assigned_to_id == currentUserId){
+		html = html + dash_button('start',dataId,false,{label:'takeback', cssclass:'takeback'});
+	}
+	
 	
 	return html;
 }
