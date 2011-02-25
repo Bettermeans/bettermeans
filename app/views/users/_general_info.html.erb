@@ -1,5 +1,6 @@
 <span class="left" style="padding-right:10px"><%= avatar @user %></span>
 <ul>
+    <li><%=l(:field_login)%>: <%= @user.login %></li>
 	<% unless @user.pref.hide_mail %>
 		<li><%=l(:field_mail)%>: <%= mail_to(h(@user.mail), nil, :encode => 'javascript') %></li>
 	<% end %>
