@@ -615,12 +615,12 @@ class Issue < ActiveRecord::Base
   end
   
   def after_create
-    logger.info { "refreshing issue count" }
-    self.project.refresh_issue_count
+    self.project.send_later :refresh_issue_count
   end
-  
-  
-  
+
+  def update_last_item_stamp
+    self.project.send_later :update_last_item
+  end  
 
   private
   
@@ -655,11 +655,6 @@ class Issue < ActiveRecord::Base
     
     update_last_item_stamp #TODO: should be before save!
     create_journal
-  end
-    
-  def update_last_item_stamp
-    project.last_item_updated_on = DateTime.now
-    project.save!
   end
   
   # Saves the changes in a Journal
