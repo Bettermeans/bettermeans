@@ -307,16 +307,18 @@ class ProjectsController < ApplicationController
     if params[:include_subworkstreams]
       project_ids = [@project.sub_project_array_visible_to(User.current).join(",")]
       total_count = (@project.issue_count + @project.issue_count_sub).to_s
+      last_update = @project.last_item_sub_updated_on
     else
       project_ids = [@project.id]
       total_count = @project.issue_count.to_s
+      last_update = @project.last_item_updated_on
     end
     
     time_delta = params[:seconds].to_f.round
     
     conditions = "project_id in (#{project_ids}) AND updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'"
     
-    if @project.last_item_updated_on.advance(:seconds => time_delta) > DateTime.now
+    if last_update.advance(:seconds => time_delta) > DateTime.now
       render :json => Issue.find(:all, :conditions => conditions)  \
                            .to_json(:include => { :journals =>    { :only => [:id, :notes, :created_at, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                                                   :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}},
@@ -327,7 +329,7 @@ class ProjectsController < ApplicationController
                                                   :author =>      { :only => [:firstname, :lastname, :login, :mail_hash] },
                                                   :assigned_to => { :only => [:firstname, :lastname, :login] }})
     elsif params[:issuecount] != total_count
-      render :json =>  Issue.find(:all, :conditions => {:project_id => @project.id}).collect {|i| i.id}
+      render :json =>  Issue.find(:all, :conditions => "project_id in (#{project_ids})").collect {|i| i.id}
     else
       render :text => 'no'
     end

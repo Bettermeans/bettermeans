@@ -868,6 +868,17 @@ class Project < ActiveRecord::Base
     self.parent.refresh_issue_count_sub unless self.root?
   end
   
+  def update_last_item
+    self.update_attribute(:last_item_updated_on, DateTime.now)
+    self.parent.update_last_item_sub unless self.root?
+  end
+  
+  def update_last_item_sub
+    self.update_attribute(:last_item_sub_updated_on, DateTime.now)
+    self.parent.update_last_item_sub unless self.root?
+  end
+  
+  
   private  
   # Copies wiki from +project+
   def copy_wiki(project)
