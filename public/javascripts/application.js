@@ -40,6 +40,21 @@ function arm_fancybox(){
 		});
 }
 
+function arm_checkboxes(){
+	$(".cb-enable").click(function(){
+        var parent = $(this).parents('.switch');
+        $('.cb-disable',parent).removeClass('selected');
+        $(this).addClass('selected');
+        $('.checkbox',parent).attr('checked', true);
+    });
+    $(".cb-disable").click(function(){
+        var parent = $(this).parents('.switch');
+        $('.cb-enable',parent).removeClass('selected');
+        $(this).addClass('selected');
+        $('.checkbox',parent).attr('checked', false);
+    });
+}
+
 function prep_jumpbox(){
 	jumpbox_text = $('#jumpbox :selected').text();
 	$('#jumpbox :selected').text($.trim($('#jumpbox :selected').text()));
