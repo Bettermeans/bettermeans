@@ -115,16 +115,28 @@ function start(){
 
 //Chooses setting of sub workstream toggle button and adds events to it
 function set_sub_toggle(){
-	if (true){
+	var include = $.cookie('include_sub' + currentUserId);
+	if (include == null){
+		include = 'true';
+	}
+	
+	console.log("include:" + include)
+	
+	if (include == 'true'){
 		$("#toggle_sub_on").click();
+		console.log("included")
 	}
 	else{
 		$("#toggle_sub_off").click();
+		console.log("not included")
 	}
+	
 	$("#toggle_sub_on").click(function(){
+		$.cookie('include_sub' + currentUserId, 'true', { expires: 365 });
 		refresh_local_data();	
 	});
 	$("#toggle_sub_off").click(function(){
+		$.cookie('include_sub' + currentUserId, 'false', { expires: 365 });
 		refresh_local_data();	
 	});
 }
@@ -133,9 +145,6 @@ function load_dashboard(){
 	//prepares ui for page
 	prepare_page();
 	load_dashboard_data();
-	// load_buttons();
-	timer_active = false; //now that data is loaded, we can start timer
-	start_timer();
 	
 	$(document).keyup(function(e){
 		last_activity = new Date();
@@ -196,6 +205,9 @@ function load_dashboard_data(){
 		D = [];
 		R = [];
 		keyboard_shortcuts = false;
+		
+		ISSUE_COUNT = 0;
+		
 		load_dashboard_data_for_statuses('10,11','new');
 		load_dashboard_data_for_statuses('1,6','open');
 		load_dashboard_data_for_statuses('4','inprogress');
@@ -209,16 +221,23 @@ function load_dashboard_data(){
 }
 
 function refresh_local_data(){
+	stop_timer(timer);
 	disable_refresh_button();
 	clear_filters();
+	try{
 	store.set('D_' + projectId, null);
 	store.set('R_' + projectId, null);
 	store.set('lata_data_pull_' + projectId, null);
+	}
+	catch(err){
+		return false;
+	}
 	wipe_panels();
 	display_panels();
 	recalculate_widths();
 	load_dashboard_data();
-	enable_refresh_button();
+	// enable_refresh_button();
+	
 }
 
 function save_local_data(){
@@ -284,6 +303,7 @@ function load_dashboard_data_for_statuses(status_ids,name){
 	   url: url,
 	   success:  	function(html){
 			last_data_pull = new Date();
+			ISSUE_COUNT = ISSUE_COUNT + html.length;
 			data_ready(html,name);
 		},
 	   error: 	function (xhr, textStatus, errorThrown) {
@@ -325,6 +345,8 @@ function data_ready(html,name){
 		$('#done_close').addClass('closePanel').removeClass('closePanelLoading');
 		loaded_panels = 6;
 		enable_refresh_button();
+		timer_active = false; //now that data is loaded, we can start timer
+		start_timer();
 	}
 	else{
 		$('#' + name + '_close').addClass('closePanel').removeClass('closePanelLoading');
@@ -334,9 +356,12 @@ function data_ready(html,name){
 	prepare_item_lookup_array(); //TODO: move this somewhere else for efficiency. it should only run once
 	if (loaded_panels == 4 && credits_enabled){
 		load_retros();
+		start_timer();
 	}
 	else if (loaded_panels == 4){
 		enable_refresh_button();
+		start_timer();
+		
 	}
 }
 
@@ -4275,8 +4300,11 @@ function new_dash_data_response(data){
 	
 	//checking if this is a response with different item count
 	if (data[0].tracker == undefined){
+		
 		//we're getting a list of issue ids as a result of an issue moving that we didn't know about
+		
 		ISSUE_COUNT = data.length;
+		
 		for(var x=0; x < data.length; x++){
 			delete ITEMHASH["item" + String(data[x])];
 		}
