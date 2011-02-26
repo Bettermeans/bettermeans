@@ -22,6 +22,7 @@ var local_store = null; //local persistant storage
 var ok_to_save_local_data = false;
 var complexity_description = ['Real Easy','.','.','Average','.','.','Super Hard'];
 var new_attachments = []; //stores ids of attachments to a new item
+var timer_started = false;
 
 $(window).bind('resize', function() {
 	resize();
@@ -89,7 +90,7 @@ function start(){
 	arm_checkboxes();
 	set_sub_toggle();	
 	
-	timer_active = true; //stop timer from starting until data loads
+	timer_active = false; //stop timer from starting until data loads
 	$('.help-section-link').bind('click',function() {
 	  resize();
 	});
@@ -145,6 +146,7 @@ function load_dashboard(){
 	//prepares ui for page
 	prepare_page();
 	load_dashboard_data();
+	start_timer();
 	
 	$(document).keyup(function(e){
 		last_activity = new Date();
@@ -195,8 +197,8 @@ function load_dashboard_data(){
 			retros_ready(local_R);
 			load_retros();
 		}
-		start_timer();
 		ISSUE_COUNT = -1; //we are loading from local data, so we set the counter past 10 to refresh moved items
+		timer_active = true;
 		new_dash_data();
 		local_D = null;
 		local_R = null;
@@ -221,7 +223,8 @@ function load_dashboard_data(){
 }
 
 function refresh_local_data(){
-	stop_timer(timer);
+	$("#loading_error").hide();
+	timer_active = false;
 	disable_refresh_button();
 	clear_filters();
 	try{
@@ -345,8 +348,7 @@ function data_ready(html,name){
 		$('#done_close').addClass('closePanel').removeClass('closePanelLoading');
 		loaded_panels = 6;
 		enable_refresh_button();
-		timer_active = false; //now that data is loaded, we can start timer
-		start_timer();
+		timer_active = true;
 	}
 	else{
 		$('#' + name + '_close').addClass('closePanel').removeClass('closePanelLoading');
@@ -356,12 +358,11 @@ function data_ready(html,name){
 	prepare_item_lookup_array(); //TODO: move this somewhere else for efficiency. it should only run once
 	if (loaded_panels == 4 && credits_enabled){
 		load_retros();
-		start_timer();
+		timer_active = true;
 	}
 	else if (loaded_panels == 4){
 		enable_refresh_button();
-		start_timer();
-		
+		timer_active = true;
 	}
 }
 
@@ -479,18 +480,21 @@ function prepare_page(){
 }
 
 function start_timer(){
-	if (timer_active){
-		return;
+	if (timer_started == true){
+		return false;
+	}
+	else{
+		timer_started = true;
 	}
 	
-	timer_active = true;
+	console.log("creating a timer")
 	$.timer(TIMER_INTERVAL, function (timer) {
 		timer_beat(timer);
 	});
 }
 
 function stop_timer(timer){
-	// timer_active = false;
+	timer_started = false;
 	timer.stop();
 }
 
@@ -4234,26 +4238,24 @@ function show_retro_full(retroId){
 }
 
 function timer_beat(timer){
+	console.log("active:" + timer_active)
 	//check that I haven't been inactive for too long
 	if (((new Date).getTime() - last_activity.getTime()) > INACTIVITY_THRESHOLD){
 		stop_timer(timer);
-		timer_active = false;
 	}
-	else{
-		poll_server(timer);		
+	else if (timer_active == true){
+		new_dash_data();
 	}
-}
-
-//Polls server for new data
-function poll_server(timer){
-	stop_timer(timer);
-	timer_active = false;
-	
-	new_dash_data();
-	
 }
 
 function new_dash_data(){
+	if (timer_active == false){
+		return;
+	}
+	else{
+		timer_active = false;
+	}
+	
 	replace_reloading_images_for_panels();
 	
 	var data = "seconds=" + (((new Date).getTime() - last_data_pull.getTime())/1000);
@@ -4279,20 +4281,21 @@ function new_dash_data(){
 	   success:  	function(html){
 			$('#ajax-indicator').hide();
 			last_data_pull = new Date();
-			start_timer();
 			new_dash_data_response(html);
 		},
 	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 			$('#ajax-indicator').hide();
 			last_data_pull = new Date();
-			start_timer();
 			save_local_data();
+			timer_active = true;
 		},
 		timeout: 30000 //30 seconds
 	 });
 }
 
 function new_dash_data_response(data){
+	timer_active = true;
+
 	if (data == null) {
 		save_local_data();
 		return;

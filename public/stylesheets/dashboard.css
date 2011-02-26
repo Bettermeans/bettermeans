@@ -478,3 +478,11 @@ table.dash_key tr td{
 	line-height:2em;
 	padding: 8px;
 }
+
+#loading_error {
+	font-weight: bold;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	width: 500px;
+}
