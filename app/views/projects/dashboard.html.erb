@@ -49,11 +49,13 @@
 <% content_for :secondnav do %>
 
 <div id="panel_buttons">
+  <% if @project.children.any? %>
   <div class="field switch">
       <label class="cb-enable" id="toggle_sub_on"><span>Include sub workstreams</span></label>
       <label class="cb-disable" id="toggle_sub_off"><span>Don't include</span></label>
       <input type="checkbox" id="include_subworkstreams_checkbox" class="checkbox" />
   </div>
+  <% end %>
 </div>
 <div class="gt-search-container">
   <div class="gt-search gt-search-narrow">

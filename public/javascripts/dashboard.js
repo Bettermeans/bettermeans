@@ -121,15 +121,11 @@ function set_sub_toggle(){
 		include = 'true';
 	}
 	
-	console.log("include:" + include)
-	
 	if (include == 'true'){
 		$("#toggle_sub_on").click();
-		console.log("included")
 	}
 	else{
 		$("#toggle_sub_off").click();
-		console.log("not included")
 	}
 	
 	$("#toggle_sub_on").click(function(){
@@ -233,7 +229,7 @@ function refresh_local_data(){
 	store.set('lata_data_pull_' + projectId, null);
 	}
 	catch(err){
-		return false;
+		return;
 	}
 	wipe_panels();
 	display_panels();
@@ -247,9 +243,11 @@ function save_local_data(){
 	if (ok_to_save_local_data == false) {return false;}
 	
 	try{
+		
 		store.set('D_' + projectId,JSON.stringify(D));
 		store.set('R_' + projectId,JSON.stringify(R));
 		store.set('last_data_pull_' + projectId,last_data_pull);
+		store.set('includes_sub_workstreams' + projectId, ($('#include_subworkstreams_checkbox').attr("checked") == true));
 		return true;
 	}
 	catch(err){
@@ -259,6 +257,14 @@ function save_local_data(){
 
 function get_local_data(){
 	try{
+		
+		includes_subs = store.get('includes_sub_workstreams' + projectId);
+		
+		//don't use local data if stored includes subs but requested data doesn't, or vise versa
+		if (includes_subs != String($('#include_subworkstreams_checkbox').attr("checked") == true)){
+			return false; 
+		}
+		
 		local_D = JSON.parse(store.get('D_' + projectId));
 		
 		if (local_D == null) {return false;}
@@ -481,13 +487,12 @@ function prepare_page(){
 
 function start_timer(){
 	if (timer_started == true){
-		return false;
+		return;
 	}
 	else{
 		timer_started = true;
 	}
 	
-	console.log("creating a timer")
 	$.timer(TIMER_INTERVAL, function (timer) {
 		timer_beat(timer);
 	});
@@ -2097,7 +2102,7 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	}	
 	
 	if (!user_voted){
-		tally = "accept?"
+		tally = "accept?";
 	}
 	
 	html = dash_button('accept_root',dataId,false,{label:tally,cssclass:cssclass});
@@ -4238,7 +4243,6 @@ function show_retro_full(retroId){
 }
 
 function timer_beat(timer){
-	console.log("active:" + timer_active)
 	//check that I haven't been inactive for too long
 	if (((new Date).getTime() - last_activity.getTime()) > INACTIVITY_THRESHOLD){
 		stop_timer(timer);
