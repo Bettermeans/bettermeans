@@ -1194,7 +1194,7 @@ en:
   text_ownership_offer_declined : "Ownership offer declined"
   text_your_offer_was_declined_for : "Your offer was declined for "
   text_loading_dashboard : "Loading dashboard data..."
-  text_loading_dashboard_error : "Failed to load data... please check your internet connectivity and refresh"
+  text_loading_dashboard_error : "Failed to load data... please check your internet connectivity and <a href='#' onclick='refresh_local_data();return false;'>refresh</a>"
   text_retro_started_for : "A retrospective for the "
   text_retro_started : " workstream has started. <br/>You have 3 days to give your team feedback on their contribution"
   text_retro_ended_for : "A retrospective for the"
