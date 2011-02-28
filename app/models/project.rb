@@ -858,9 +858,26 @@ class Project < ActiveRecord::Base
   end
   
   def refresh_issue_count
-    self.issue_count = Issue.count(:conditions => {:project_id => self.id})
-    self.save
+    self.update_attribute(:issue_count,Issue.count(:conditions => {:project_id => self.id}) )
+    self.parent.refresh_issue_count_sub unless self.root?
   end
+  
+  def refresh_issue_count_sub
+    count_sub = self.children.inject(0){|sum,p| sum + p.issue_count + p.issue_count_sub}
+    self.update_attribute(:issue_count_sub, count_sub)
+    self.parent.refresh_issue_count_sub unless self.root?
+  end
+  
+  def update_last_item
+    self.update_attribute(:last_item_updated_on, DateTime.now)
+    self.parent.update_last_item_sub unless self.root?
+  end
+  
+  def update_last_item_sub
+    self.update_attribute(:last_item_sub_updated_on, DateTime.now)
+    self.parent.update_last_item_sub unless self.root?
+  end
+  
   
   private  
   # Copies wiki from +project+
