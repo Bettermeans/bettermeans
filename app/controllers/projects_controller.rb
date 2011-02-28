@@ -273,10 +273,16 @@ class ProjectsController < ApplicationController
   #TODO: optimize this query, it's WAY too heavy, and we need fewer columns, and it's executing hundreds of queries!
   def dashdata
     
-    if params[:status_ids]
-      @conditions = "project_id = #{@project.id} AND (retro_id < 0 OR retro_id is null) AND status_id in (#{params[:status_ids]})"
+    if params[:include_subworkstreams]
+      project_ids = [@project.sub_project_array_visible_to(User.current).join(",")]
     else
-      @conditions = "project_id = #{@project.id} AND (retro_id < 0 OR retro_id is null)"
+      project_ids = [@project.id]
+    end
+    
+    if params[:status_ids]
+      @conditions = "project_id in (#{project_ids}) AND (retro_id < 0 OR retro_id is null) AND status_id in (#{params[:status_ids]})"
+    else
+      @conditions = "project_id in (#{project_ids}) AND (retro_id < 0 OR retro_id is null)"
     end
     
     render :json => Issue.find(:all, :conditions => @conditions)  \
