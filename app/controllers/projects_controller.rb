@@ -318,9 +318,9 @@ class ProjectsController < ApplicationController
     
     conditions = "project_id in (#{project_ids}) AND updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'"
     
-    if last_update.advance(:seconds => time_delta) > DateTime.now
-      render :json => Issue.find(:all, :conditions => conditions)  \
-                           .to_json(:include => { :journals =>    { :only => [:id, :notes, :created_at, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}},
+    if (last_update.advance(:seconds => time_delta) > DateTime.now)
+      
+      render :json => Issue.find(:all, :conditions => conditions).to_json(:include => { :journals =>    { :only => [:id, :notes, :created_at, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                                                   :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                                                   :status =>      { :only => :name },
                                                   :attachments => { :only => [:id, :filename]},
