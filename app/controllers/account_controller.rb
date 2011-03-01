@@ -21,7 +21,7 @@ class AccountController < ApplicationController
       session[:invitation_token] = @invitation_token
       render :layout => 'static'
     else
-      # logger.info { "1 authenticating and accepting invitation #{session[:invitation_token]}" }
+      logger.info { "1 authenticating and accepting invitation #{session[:invitation_token]}" }
       # Authenticate user
       if Setting.openid? && using_open_id?
         open_id_authenticate(params[:openid_url])
@@ -90,8 +90,16 @@ class AccountController < ApplicationController
     end
     
     logger.info { "WE ARE HERE! Almost authenticating for user #{@user.inspect}" }
-
-    successful_authentication(@user,@invitation_token)    
+    
+    @user.update_attribute(:status, User::STATUS_ACTIVE) if @user.status == User::STATUS_REGISTERED
+    @user.reload
+    
+    if @user.active?
+      successful_authentication(@user,@invitation_token)    
+    else
+      inactive_user
+    end
+    
   end
   
 
@@ -228,6 +236,7 @@ class AccountController < ApplicationController
 
   def password_authentication(invitation_token=nil)
     user = User.try_to_login(params[:username], params[:password])
+    logger.info { "user #{user.inspect}" }
 
     if user.nil?
       invalid_credentials
@@ -237,7 +246,12 @@ class AccountController < ApplicationController
       inactive_user
     else
       # Valid user
-      successful_authentication(user,invitation_token)
+      logger.info { "valid user" }
+      if user.active?
+        successful_authentication(user,invitation_token)
+      else
+        account_pending
+      end
     end
   end
 
@@ -284,7 +298,7 @@ class AccountController < ApplicationController
   end
   
   def successful_authentication(user, invitation_token = nil)
-    logger.info { "successful authentication baby" }
+    logger.info { "successful authentication baby #{user.inspect}" }
     # Valid user
     self.logged_user = user
     Track.log(Track::LOGIN,session[:client_ip])
