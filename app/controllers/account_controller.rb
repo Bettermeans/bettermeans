@@ -91,15 +91,11 @@ class AccountController < ApplicationController
     
     logger.info { "WE ARE HERE! Almost authenticating for user #{@user.inspect}" }
     
-    @user.update_attribute(:status, User::STATUS_ACTIVE) if @user.status == User::STATUS_REGISTERED
-    @user.reload
-    
-    if @user.active?
-      successful_authentication(@user,@invitation_token)    
-    else
-      inactive_user
+    unless @user.active?
+      @user.reactivate
+      msg = l(:notice_account_reactivated)
     end
-    
+    successful_authentication(@user,@invitation_token,msg)    
   end
   
 
@@ -297,7 +293,7 @@ class AccountController < ApplicationController
     end
   end
   
-  def successful_authentication(user, invitation_token = nil)
+  def successful_authentication(user, invitation_token = nil, msg=nil)
     logger.info { "successful authentication baby #{user.inspect}" }
     # Valid user
     self.logged_user = user
@@ -316,7 +312,11 @@ class AccountController < ApplicationController
       cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
     end
     # redirect_back_or_default :controller => 'my', :action => 'page'
-    redirect_back_or_default :controller => 'welcome', :action => 'index'
+    if msg
+      render_message(msg)
+    else
+      redirect_back_or_default :controller => 'welcome', :action => 'index'
+    end
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes

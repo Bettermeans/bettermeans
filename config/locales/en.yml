@@ -123,6 +123,7 @@ en:
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '7'
   
+  notice_account_reactivated: Your account has been reactivated.<br> Welcome back!<br><br> <a href="/">Home</a>
   notice_account_canceled: Your account is now canceled. Thanks for trying us out.<br><br>We would love your feedback on how we can do better.<br><br><a href="mailto:feedback@bettermeans.com">feedback@bettermeans.com</a>
   notice_account_inactive_user: Account has not yet been activated. Please check your email for activation link
   notice_account_updated: Account was successfully updated.
