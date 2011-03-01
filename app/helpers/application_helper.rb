@@ -582,14 +582,14 @@ module ApplicationHelper
         ancestors = (@parent.root? ? [] : @parent.ancestors.visible)
         if ancestors.any?
           root = ancestors.shift
-          b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root}, :class => 'root')
+          b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root, :jump => current_menu_item }, :class => 'root')
           if ancestors.size > 2
             b << '&#8230;'
             ancestors = ancestors[-2, 2]
           end
-          b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p}, :class => 'ancestor') }
+          b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
         end
-        b << link_to(h(@parent), {:controller => 'projects', :action => 'show', :id => @parent}, :class => 'ancestor')
+        b << link_to(h(@parent), {:controller => 'projects', :action => 'show', :id => @parent, :jump => current_menu_item}, :class => 'ancestor')
         b << "New sub workstream"
         b = b.join(' &#187; ')
         b
@@ -607,15 +607,15 @@ module ApplicationHelper
       if ancestors.any?
         root = ancestors.shift
         # b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root, :jump => current_menu_item}, :class => 'root')
-        b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root}, :class => 'root')
+        b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root, :jump => current_menu_item}, :class => 'root')
         if ancestors.size > 2
           b << '&#8230;'
           ancestors = ancestors[-2, 2]
         end
         # b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
-        b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p}, :class => 'ancestor') }
+        b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
       end
-      b.push link_to(h(@project), {:controller => 'projects', :action => 'show', :id => @project}, :class => 'ancestor')
+      b.push link_to(h(@project), {:controller => 'projects', :action => 'show', :id => @project, :jump => current_menu_item}, :class => 'ancestor')
       # b << content_tag('span', h(@project), :id => "last_header")
       b = b.join(' &#187; ')
       # image = project_image(@project)
