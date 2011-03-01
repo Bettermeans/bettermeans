@@ -280,7 +280,7 @@ module ApplicationHelper
       if projects.any?
         s_options = ""
         s_options << project_tree_options_for_select(projects, :selected => @project) do |p|
-          { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }          
         end
         s << s_options
         s << '<option value="" disabled="disabled">---</option>'
@@ -294,22 +294,23 @@ module ApplicationHelper
   
   def sub_workstream_project_box(project)
       return '' if project.nil?
-      projects = project.descendants.active
-      return '' if projects.length == 0
+      @project_descendants = project.descendants.active
+      return '' if @project_descendants.length == 0
     
       
       s = '<select id="project_jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
-            "<option value='/projects' selected=\"yes\">#{pluralize(projects.length,l(:label_subproject)).downcase}</option>" +
+            "<option value='/projects' selected=\"yes\">#{pluralize(@project_descendants.length,l(:label_subproject)).downcase}</option>" +
             '<option value="" disabled="disabled">---</option>'
-      if projects.any?
+      if @project_descendants.any?
         s_options = ""
-        s_options << project_tree_options_for_select(projects) do |p|
-          { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
+        s_options << project_tree_options_for_select(@project_descendants) do |p|
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }          
         end
         s << s_options
       end
       s << '</select>'
   end
+  
   
   def project_tree_options_for_select(projects, options = {})
     s = ''
@@ -581,14 +582,14 @@ module ApplicationHelper
         ancestors = (@parent.root? ? [] : @parent.ancestors.visible)
         if ancestors.any?
           root = ancestors.shift
-          b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root}, :class => 'root')
+          b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root, :jump => current_menu_item }, :class => 'root')
           if ancestors.size > 2
             b << '&#8230;'
             ancestors = ancestors[-2, 2]
           end
-          b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p}, :class => 'ancestor') }
+          b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
         end
-        b << link_to(h(@parent), {:controller => 'projects', :action => 'show', :id => @parent}, :class => 'ancestor')
+        b << link_to(h(@parent), {:controller => 'projects', :action => 'show', :id => @parent, :jump => current_menu_item}, :class => 'ancestor')
         b << "New sub workstream"
         b = b.join(' &#187; ')
         b
@@ -606,15 +607,15 @@ module ApplicationHelper
       if ancestors.any?
         root = ancestors.shift
         # b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root, :jump => current_menu_item}, :class => 'root')
-        b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root}, :class => 'root')
+        b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root, :jump => current_menu_item}, :class => 'root')
         if ancestors.size > 2
           b << '&#8230;'
           ancestors = ancestors[-2, 2]
         end
         # b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
-        b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p}, :class => 'ancestor') }
+        b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
       end
-      b.push link_to(h(@project), {:controller => 'projects', :action => 'show', :id => @project}, :class => 'ancestor')
+      b.push link_to(h(@project), {:controller => 'projects', :action => 'show', :id => @project, :jump => current_menu_item}, :class => 'ancestor')
       # b << content_tag('span', h(@project), :id => "last_header")
       b = b.join(' &#187; ')
       # image = project_image(@project)

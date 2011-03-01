@@ -121,39 +121,47 @@ class MyController < ApplicationController
     if request.post?
       cc = params[:user][:b_cc_last_four]
       cc.gsub!(/[^0-9]/,'')
+      logger.info { "length #{cc.length} #{cc}" }
       if cc.length > 14
         params[:user][:b_cc_last_four] = ("XXXX-") + params[:user][:b_cc_last_four][cc.length-4,cc.length-1]
       else
         params[:user].delete :b_cc_last_four
       end
       
+      logger.info { "inspect #{params.inspect}" }
+      
       @new_plan = Plan.find(params[:user][:plan_id])
       @user.attributes = params[:user]
       @user.plan_id = @new_plan.id
-      @user.save
           
       account = User.update_recurly_billing @user.id, cc, params[:ccverify], request.remote_ip
-        
-      if (defined? account.billing_info) && account.billing_info.errors && account.billing_info.errors.any?
-        flash.now[:error] = account.billing_info.errors[:base].collect {|v| "#{v}"}.join('<br>')
-        return
+      
+      @user.save
+
+      if defined? account.billing_info && defined? account.billing_info.errors
+        if account.billing_info.errors.length > 0
+          flash.now[:error] = account.billing_info.errors[:base].collect {|v| "#{v}"}.join('<br>')
+          return
+        end
       end
               
       if @new_plan.code == Plan::FREE_CODE && @new_plan.code != @selected_plan.code
         begin
           sub = Recurly::Subscription.find(@user.id.to_s)
           sub.cancel(@user.id.to_s)
-        rescue ActiveResource::ResourceNotFound
-          sub = Recurly::Subscription.create(
-            :account_code => account.account_code,
-            :plan_code => @new_plan.code, 
-            :quantity => 1,
-            :account => account
-          )
+        # rescue ActiveResource::ResourceNotFound
+        #   sub = Recurly::Subscription.create(
+        #     :account_code => account.account_code,
+        #     :plan_code => @new_plan.code, 
+        #     :quantity => 1,
+        #     :account => account
+        #   )
         rescue Exception => e
           flash.now[:error] = e.message
           return
         else
+          @user.trial_expires_on = nil
+          @user.trial_expired_at = nil
           @user.save
           flash.now[:success] = "Your plan was successfully canceled"
           # redirect_to :action => 'account'
@@ -162,11 +170,13 @@ class MyController < ApplicationController
         end
       elsif @new_plan.code != @selected_plan.code
         begin
+          @user.update_attribute(:trial_expires_on, @user.created_at.advance(:days => 30))
           sub = Recurly::Subscription.find(@user.id.to_s)
           begin
           sub.change('now', :plan_code => @new_plan.code, :quantity => 1)
           rescue Exception => e
             flash.now[:error] = e.message
+            @user.reload
             return
           end
         rescue ActiveResource::ResourceNotFound
@@ -182,6 +192,7 @@ class MyController < ApplicationController
         
         if sub.errors && sub.errors.any?
           flash.now[:error] = sub.errors.collect {|k, v| "#{v}"}.join('<br>')
+          @user.reload
           return
         else
           @user.save
@@ -192,7 +203,6 @@ class MyController < ApplicationController
       end
       @user.reload
       
-      # redirect_to :action => 'account'
       return
     end    
   end

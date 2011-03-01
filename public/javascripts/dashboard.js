@@ -22,6 +22,7 @@ var local_store = null; //local persistant storage
 var ok_to_save_local_data = false;
 var complexity_description = ['Real Easy','.','.','Average','.','.','Super Hard'];
 var new_attachments = []; //stores ids of attachments to a new item
+var timer_started = false;
 
 $(window).bind('resize', function() {
 	resize();
@@ -86,7 +87,10 @@ $.fn.keyboard_sensitive = function() {
 
 function start(){
 	disable_refresh_button();
-	timer_active = true; //stop timer from starting until data loads
+	arm_checkboxes();
+	set_sub_toggle();	
+	
+	timer_active = false; //stop timer from starting until data loads
 	$('.help-section-link').bind('click',function() {
 	  resize();
 	});
@@ -110,12 +114,34 @@ function start(){
 	}
 }
 
+//Chooses setting of sub workstream toggle button and adds events to it
+function set_sub_toggle(){
+	var include = $.cookie('include_sub' + currentUserId);
+	if (include == null){
+		include = 'true';
+	}
+	
+	if (include == 'true'){
+		$("#toggle_sub_on").click();
+	}
+	else{
+		$("#toggle_sub_off").click();
+	}
+	
+	$("#toggle_sub_on").click(function(){
+		$.cookie('include_sub' + currentUserId, 'true', { expires: 365 });
+		refresh_local_data();	
+	});
+	$("#toggle_sub_off").click(function(){
+		$.cookie('include_sub' + currentUserId, 'false', { expires: 365 });
+		refresh_local_data();	
+	});
+}
+
 function load_dashboard(){
 	//prepares ui for page
 	prepare_page();
 	load_dashboard_data();
-	// load_buttons();
-	timer_active = false; //now that data is loaded, we can start timer
 	start_timer();
 	
 	$(document).keyup(function(e){
@@ -167,8 +193,8 @@ function load_dashboard_data(){
 			retros_ready(local_R);
 			load_retros();
 		}
-		start_timer();
 		ISSUE_COUNT = -1; //we are loading from local data, so we set the counter past 10 to refresh moved items
+		timer_active = true;
 		new_dash_data();
 		local_D = null;
 		local_R = null;
@@ -177,6 +203,9 @@ function load_dashboard_data(){
 		D = [];
 		R = [];
 		keyboard_shortcuts = false;
+		
+		ISSUE_COUNT = 0;
+		
 		load_dashboard_data_for_statuses('10,11','new');
 		load_dashboard_data_for_statuses('1,6','open');
 		load_dashboard_data_for_statuses('4','inprogress');
@@ -190,24 +219,35 @@ function load_dashboard_data(){
 }
 
 function refresh_local_data(){
+	$("#loading_error").hide();
+	timer_active = false;
 	disable_refresh_button();
 	clear_filters();
+	try{
 	store.set('D_' + projectId, null);
 	store.set('R_' + projectId, null);
 	store.set('lata_data_pull_' + projectId, null);
+	}
+	catch(err){
+		return;
+	}
 	wipe_panels();
 	display_panels();
 	recalculate_widths();
 	load_dashboard_data();
+	// enable_refresh_button();
+	
 }
 
 function save_local_data(){
 	if (ok_to_save_local_data == false) {return false;}
 	
 	try{
+		
 		store.set('D_' + projectId,JSON.stringify(D));
 		store.set('R_' + projectId,JSON.stringify(R));
 		store.set('last_data_pull_' + projectId,last_data_pull);
+		store.set('includes_sub_workstreams' + projectId, ($('#include_subworkstreams_checkbox').attr("checked") == true));
 		return true;
 	}
 	catch(err){
@@ -217,6 +257,14 @@ function save_local_data(){
 
 function get_local_data(){
 	try{
+		
+		includes_subs = store.get('includes_sub_workstreams' + projectId);
+		
+		//don't use local data if stored includes subs but requested data doesn't, or vise versa
+		if (includes_subs != String($('#include_subworkstreams_checkbox').attr("checked") == true)){
+			return false; 
+		}
+		
 		local_D = JSON.parse(store.get('D_' + projectId));
 		
 		if (local_D == null) {return false;}
@@ -249,6 +297,11 @@ function load_dashboard_data_for_statuses(status_ids,name){
 	// var url = url + '?status_ids=1,4,6,8,10,11,13,14';
 	url = url + '?status_ids=' + status_ids;
 	
+	if ($('#include_subworkstreams_checkbox').attr("checked") == true){
+		url = url + "&include_subworkstreams=true";
+	}
+	
+	
 	$.ajax({
 	   type: "GET",
 	   dataType: "json",
@@ -259,6 +312,7 @@ function load_dashboard_data_for_statuses(status_ids,name){
 	   url: url,
 	   success:  	function(html){
 			last_data_pull = new Date();
+			ISSUE_COUNT = ISSUE_COUNT + html.length;
 			data_ready(html,name);
 		},
 	   error: 	function (xhr, textStatus, errorThrown) {
@@ -299,6 +353,8 @@ function data_ready(html,name){
 		$('#inprogress_close').addClass('closePanel').removeClass('closePanelLoading');
 		$('#done_close').addClass('closePanel').removeClass('closePanelLoading');
 		loaded_panels = 6;
+		enable_refresh_button();
+		timer_active = true;
 	}
 	else{
 		$('#' + name + '_close').addClass('closePanel').removeClass('closePanelLoading');
@@ -308,6 +364,11 @@ function data_ready(html,name){
 	prepare_item_lookup_array(); //TODO: move this somewhere else for efficiency. it should only run once
 	if (loaded_panels == 4 && credits_enabled){
 		load_retros();
+		timer_active = true;
+	}
+	else if (loaded_panels == 4){
+		enable_refresh_button();
+		timer_active = true;
 	}
 }
 
@@ -425,18 +486,20 @@ function prepare_page(){
 }
 
 function start_timer(){
-	if (timer_active){
+	if (timer_started == true){
 		return;
 	}
+	else{
+		timer_started = true;
+	}
 	
-	timer_active = true;
 	$.timer(TIMER_INTERVAL, function (timer) {
 		timer_beat(timer);
 	});
 }
 
 function stop_timer(timer){
-	// timer_active = false;
+	timer_started = false;
 	timer.stop();
 }
 
@@ -1767,11 +1830,18 @@ function display_retro(rdataId){
 	
 	$('#done_itemList_' + retro.id + '_toggle_expanded_button').attr('src','/images/iteration_expander_open.png');
 	
+	var url = 'retros/' + retro.id + '/dashdata';
+	
+	if ($('#include_subworkstreams_checkbox').attr("checked") == true){
+		url = url + "&include_subworkstreams=true";
+	}
+	
+	
 	$.ajax({
 	   type: "GET",
 	   dataType: "json",
 	   contentType: "application/json",
-	   url: 'retros/' + retro.id + '/dashdata',
+	   url: url,
 	   success:  	function(html){
 			$('#new_retro_wrapper_' + rdataId).hide();
 			rdata_ready(html,rdataId);
@@ -1938,8 +2008,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	var html = '';
 	var item = D[dataId];
 	
-	var tally = '';
-	var label = 'agree?';
+	var tally = 'agree?';
 	var cssclass = 'root';
 	var user_voted = false;
 	var user_estimated = false;
@@ -1956,29 +2025,22 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 			user_voted = true;
 			tally = '';
 
-			tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button_tally" onclick="click_agree_root(' + dataId + ',this,\'false\');return false;">';
 			if (item.disagree > 5000){
-				html = '';//removing start button from blocked item
-				tally = tally + 'BLOCK';
+				include_start_button = false;
+				tally = 'Blocked';
 			}
 			else{
-				tally = tally + (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
+				tally = (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
 			}
-			tally = tally + '</div>';
-			
 			switch(String(item.issue_votes[i].points))
 			{
-				case "1":	label = 'agreed';
-							cssclass = 'agree';
+				case "1":	cssclass = 'agree';
 							break;	
-				case "0":	label = 'neutral';
-							cssclass = 'neutral';
+				case "0":	cssclass = 'neutral';
 							break;	
-				case "-1":	label = 'disagreed';
-							cssclass = 'disagree';
+				case "-1":	cssclass = 'disagree';
 							break;	
-				case "-9999": label = 'blocked';
-							cssclass = 'block';
+				case "-9999": cssclass = 'block';
 							break;	
 			}
 		}
@@ -1990,14 +2052,14 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	}
 	
 	if (include_start_button && user_estimated && user_voted){
-		tally = dash_button('start',dataId,true); //no room to show tally if start button is included and user estimated and voted
+		html = html + dash_button('start',dataId,true); //add start button if user estimated and voted
 	}
 	
 	if ((!user_estimated) && user_voted){
-		tally = dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
+		html = html + dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
 	}
 	
-	html = html + tally + dash_button('agree_root',dataId,false,{label:label,cssclass:cssclass});
+	html = html + dash_button('agree_root',dataId,false,{label:tally,cssclass:cssclass});
 	
 	return html;
 }
@@ -2007,27 +2069,15 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	var html = '';
 	var item = D[dataId];
 	
-	var tally = '';
+	var tally = 'accept?';
 	
-	tally = '';
-	
-	
-	// tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button_tally" onclick="click_accept_root(' + dataId + ',this,\'false\');return false;">';
-	tally = tally + '<div id="accept_tally_' + dataId + '" class="action_button_tally">';
 	if (item.reject > 5000){
-		tally = tally + 'BLOCK';
+		tally = 'Blocked';
 	}
 	else{
-		tally = tally + (item.accept + item.accept_nonbind) + ' - ' + (item.reject + item.reject_nonbind);
-	}
-	tally = tally + '</div>';
-	
-	
-	if (item.assigned_to_id == currentUserId){
-		return tally + dash_button('start',dataId,false,{label:'takeback', cssclass:'takeback'});
+		tally = (item.accept + item.accept_nonbind) + ' - ' + (item.reject + item.reject_nonbind);
 	}
 	
-	var label = 'accept?';
 	var cssclass = 'root';
 	var user_voted = false;
 	
@@ -2035,32 +2085,15 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	for(var i=0; i < item.issue_votes.length; i++){
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 2)){
 			user_voted = true;
-			// tally = '';
-			// 	if (!include_start_button || expanded){
-			// 		tally = tally + '<div id="agree_tally_' + dataId + '" class="action_button action_button_tally">';
-			// 		if (item.disagree > 5000){
-			// 			html = '';//removing start button from blocked item
-			// 			tally = tally + 'BLOCK';
-			// 		}
-			// 		else{
-			// 			tally = tally + item.agree + ' - ' + item.disagree;
-			// 		}
-			// 		tally = tally + '</div>';
-			// 	}
-			// 			
 			switch(String(item.issue_votes[i].points))
 			{
-				case "1":	label = 'accepted';
-							cssclass = 'accept';
+				case "1":	cssclass = 'accept';
 							break;	
-				case "0":	label = 'neutral';
-							cssclass = 'neutral';
+				case "0":	cssclass = 'neutral';
 							break;	
-				case "-1":	label = 'rejected';
-							cssclass = 'reject';
+				case "-1":	cssclass = 'reject';
 							break;	
-				case "-9999": label = 'blocked';
-							cssclass = 'block';
+				case "-9999": cssclass = 'block';
 							break;	
 			}
 			
@@ -2069,10 +2102,15 @@ function accept_buttons_root(dataId,include_start_button,expanded){
 	}	
 	
 	if (!user_voted){
-		tally = '';
+		tally = "accept?";
 	}
 	
-	html = html + tally + dash_button('accept_root',dataId,false,{label:label,cssclass:cssclass});
+	html = dash_button('accept_root',dataId,false,{label:tally,cssclass:cssclass});
+	
+	if (item.assigned_to_id == currentUserId){
+		html = html + dash_button('start',dataId,false,{label:'takeback', cssclass:'takeback'});
+	}
+	
 	
 	return html;
 }
@@ -2135,9 +2173,9 @@ function dash_button(type,dataId,hide,options_param){
 	
 	if (hide){ hide_style = "style=display:none;"; }
 	html = '';
-	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable" onDblclick="' + ondblclick + '"  onclick="' + onclick + '">';
-	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="action_button action_button_' + cssclass + '" ' + hide_style + '>';
-	html = html + label + '</div></a>';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" onclick="' + onclick + '" class="action_button action_button_' + cssclass + '" ' + hide_style + '>';
+	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable" onDblclick="' + ondblclick + '"  onclick="return false;">';
+	html = html + label + '</a></div>';
 	return html;
 }
 
@@ -2172,7 +2210,7 @@ function click_reject(dataId,source,data){
 
 //This is the estimate button clicked from the dashboard
 function click_estimate(dataId,source,data,comment){
-	show_estimate_flyover(dataId,'diceicon_' + dataId);
+	show_estimate_flyover(dataId,source.id);
 }
 
 //This is the actual die clicked from the estimate flyover
@@ -4208,28 +4246,29 @@ function timer_beat(timer){
 	//check that I haven't been inactive for too long
 	if (((new Date).getTime() - last_activity.getTime()) > INACTIVITY_THRESHOLD){
 		stop_timer(timer);
-		timer_active = false;
 	}
-	else{
-		poll_server(timer);		
+	else if (timer_active == true){
+		new_dash_data();
 	}
-}
-
-//Polls server for new data
-function poll_server(timer){
-	stop_timer(timer);
-	timer_active = false;
-	
-	new_dash_data();
-	
 }
 
 function new_dash_data(){
+	if (timer_active == false){
+		return;
+	}
+	else{
+		timer_active = false;
+	}
+	
 	replace_reloading_images_for_panels();
 	
 	var data = "seconds=" + (((new Date).getTime() - last_data_pull.getTime())/1000);
 	
 	data = data + "&issuecount=" + ISSUE_COUNT;
+	
+	if ($('#include_subworkstreams_checkbox').attr("checked") == true){
+		data = data + "&include_subworkstreams=true";
+	}
 	
 
 	var url = url_for({ controller: 'projects',
@@ -4246,20 +4285,21 @@ function new_dash_data(){
 	   success:  	function(html){
 			$('#ajax-indicator').hide();
 			last_data_pull = new Date();
-			start_timer();
 			new_dash_data_response(html);
 		},
 	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 			$('#ajax-indicator').hide();
 			last_data_pull = new Date();
-			start_timer();
 			save_local_data();
+			timer_active = true;
 		},
 		timeout: 30000 //30 seconds
 	 });
 }
 
 function new_dash_data_response(data){
+	timer_active = true;
+
 	if (data == null) {
 		save_local_data();
 		return;
@@ -4267,8 +4307,11 @@ function new_dash_data_response(data){
 	
 	//checking if this is a response with different item count
 	if (data[0].tracker == undefined){
+		
 		//we're getting a list of issue ids as a result of an issue moving that we didn't know about
+		
 		ISSUE_COUNT = data.length;
+		
 		for(var x=0; x < data.length; x++){
 			delete ITEMHASH["item" + String(data[x])];
 		}

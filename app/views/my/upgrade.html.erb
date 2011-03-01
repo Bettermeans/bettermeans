@@ -1,25 +1,30 @@
+<% content_for :mainmenu do %>
+  <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :myaccount} %>
+<% end %>
 <% form_for :user, @user, :url => { :action => "upgrade" }, 
                           :builder => TabularFormBuilder, 
                           :lang => current_language,
                           :html => { :id => 'my_upgrade_form' } do |f| %>
-                          
-<h3><%=l(:label_select_plan)%></h3>
-<!-- <div class="gt-content-box"> -->
-<%= render :partial => 'plan_descriptions', :locals => {:current_plan => User.current.plan} %>
-  
-<!-- </div> -->
 
-<h3><%=l(:label_billing_information)%></h3>
-<div class="gt-content-box tabular">
-<%= render :partial => 'billing_form', :locals => {:f => f} %>
+<div class="gt-left-col">                          
+  <h3><%=l(:label_select_plan)%></h3>
+  <!-- <div class="gt-content-box"> -->
+  <%= render :partial => 'plan_descriptions', :locals => {:current_plan => User.current.plan} %>
   <div class="gt-table-buttons-inside" id="change_plan_button">
   <%= submit_tag l(:button_change_plan), :disable_with => "changing plan..." %>
-  <%= submit_tag l(:button_update_billing), :disable_with => "updating..." %>
   </div>
+  <h3><%= l(:label_current_plan) %></h3>
+  <%= render :partial => "usage_stats" %>
 </div>
 
-<% end %>
-
-<% content_for :sidebar do %>
-<%= render :partial => "usage_stats" %>
+<!-- </div> -->
+<div class="gt-right-col">
+  <h3><%=l(:label_billing_information)%></h3>
+  <div class="gt-content-box tabular">
+  <%= render :partial => 'billing_form', :locals => {:f => f} %>
+    <div class="gt-table-buttons-inside" id="change_plan_button">
+    <%= submit_tag l(:button_update_billing), :disable_with => "updating..." %>
+    </div>
+  </div>
+</div>
 <% end %>

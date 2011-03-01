@@ -235,7 +235,7 @@ class Project < ActiveRecord::Base
   #     Projects.visible_by(admin)        => "projects.status = 1"
   #     Projects.visible_by(normal_user)  => "projects.status = 1 AND projects.is_public = 1"
   def self.visible_by(user=nil)
-    user ||= User.current
+    user ||= User.anonymous
     if user && user.admin?
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     elsif user && user.memberships.any?
@@ -738,11 +738,9 @@ class Project < ActiveRecord::Base
   end
   
   def set_owner
-    logger.info { "parent id #{self.parent_id} and root #{self.root?} and root #{root?} and parent id #{parent_id} self #{self.inspect}" }
     
     if !self.root?
       self.update_attribute(:owner_id,self.root.owner_id) #unless self.owner_id == self.root.owner_id
-      logger.info { "XXXXXXXXXXupdated attribute baby" }
     elsif owner_id.nil?
       self.owner_id = User.current.id if self.parent_id.nil?
       admins = self.administrators.sort {|x,y| x.created_at <=> y.created_at}
@@ -755,7 +753,6 @@ class Project < ActiveRecord::Base
         self.save
       end
     end
-    logger.info { "we didn't get the root. sorry." }
   end
   
   
@@ -861,9 +858,26 @@ class Project < ActiveRecord::Base
   end
   
   def refresh_issue_count
-    self.issue_count = Issue.count(:conditions => {:project_id => self.id})
-    self.save
+    self.update_attribute(:issue_count,Issue.count(:conditions => {:project_id => self.id}) )
+    self.parent.refresh_issue_count_sub unless self.root?
   end
+  
+  def refresh_issue_count_sub
+    count_sub = self.children.inject(0){|sum,p| sum + p.issue_count + p.issue_count_sub}
+    self.update_attribute(:issue_count_sub, count_sub)
+    self.parent.refresh_issue_count_sub unless self.root?
+  end
+  
+  def update_last_item
+    self.update_attribute(:last_item_updated_on, DateTime.now)
+    self.parent.update_last_item_sub unless self.root?
+  end
+  
+  def update_last_item_sub
+    self.update_attribute(:last_item_sub_updated_on, DateTime.now)
+    self.parent.update_last_item_sub unless self.root?
+  end
+  
   
   private  
   # Copies wiki from +project+

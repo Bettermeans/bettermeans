@@ -407,6 +407,8 @@ en:
   title_core_member_removal : "Motion to remove {{user}} from the Core Team"
   title_member_removal : "Motion to remove {{user}} as a member"
 
+  label_usage_over : "Your usage is over your plan's limits"
+  label_trial_expired : "Your trial period has expired"
   label_email_update: Your new email address
   label_new_page: New page
   label_my_issues: My items
@@ -436,7 +438,8 @@ en:
   label_type_of_workstream: Workstream Options
   label_your_gravatar: Profile Picture
   label_team_with_access: Members with clearance (to this workstream)
-  label_select_plan: Select Plan
+  label_select_plan: Select New Plan
+  label_current_plan: Current Usage
   label_user: User
   label_user_plural: Users
   label_user_new: New user
@@ -1018,6 +1021,8 @@ en:
   label_memberrole: "membership"
   
   
+  button_upgrade : Upgrade
+  button_update_billing : Update Billing
   button_accept_invitation : Accept Invitation
   button_working : working...
   button_change_plan: Change Plan
@@ -1190,7 +1195,7 @@ en:
   text_ownership_offer_declined : "Ownership offer declined"
   text_your_offer_was_declined_for : "Your offer was declined for "
   text_loading_dashboard : "Loading dashboard data..."
-  text_loading_dashboard_error : "Failed to load data... please check your internet connectivity and refresh"
+  text_loading_dashboard_error : "Failed to load data... please check your internet connectivity and <a href='#' onclick='refresh_local_data();return false;'>refresh</a>"
   text_retro_started_for : "A retrospective for the "
   text_retro_started : " workstream has started. <br/>You have 3 days to give your team feedback on their contribution"
   text_retro_ended_for : "A retrospective for the"
@@ -1219,7 +1224,7 @@ en:
   text_member_removal : "This motion is to remove {{user}} as a member of {{enterprise}}. If the motion passes {{user}} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
   text_issue_edit_footer : "You can comment on this issue via email, by replying to this email directly."
   text_message_edit_footer : "You can reply to this message via email, by replying to this email directly."
-  text_invitation_note_default : "Hey,\r\n\r\nWe've been using bettermeans.com to work on {{project}}.\r\n\r\nBettermeans let's us work together as equals, and is a transparent, democratic way to get things done together. \r\n\r\nPlease accept this invitation to join us.\r\n\r\nWarm regards\r\n{{user}}"
+  text_invitation_note_default : "Hey,\r\n\r\nWe've been using bettermeans.com to work on {{project}}.\r\n\r\nBettermeans lets us work together as equals, and is a transparent, democratic way to get things done together. \r\n\r\nPlease accept this invitation to join us.\r\n\r\nWarm regards\r\n{{user}}"
   text_you_are_invited : "You are being invited to join"
   text_generic_invitation : "This link allows anybody to get started as a <strong>contributor</strong> to this workstream."
   text_generic_invitation_2 : "You can also use the form below to send personalized invitations for folks to join as other roles"
@@ -1227,6 +1232,8 @@ en:
   text_personal_invitation : "Use the form below to send personalized invitations to potential team members.<br><br>This is the better way to go since people are more likely to respond to an exclusive invite, and don't need to validate their email.<br><br> This is also the more secure option since each invitation can be used only once and expires after a while."
   text_active_team_explanation : "<strong>Active Members (for this workstream)</strong><br><br>Active members are people that have been involved in this specific workstream in the past 2 weeks. <br><br> Contributors, members, and core team roles are defined at the parent(root) workstream and apply to all it's sub workstreams.<br><br>For example: if someone is a core team member of a workstream then they will have the same role for all sub workstreams. However, they might be active in some and not others."
   text_email_updated : "Email successfully updated"
+  text_usage_over : "You have exceed your usage for your current plan.<br> Please upgrade as soon as possible."
+  text_trial_expired : "Your trial period has expired.<br> Please update your billing info so we can start charging you."
       
   text_role_invitation_description_Administrator : "Admins have the most power.<br><br> An Admin can bypass governance rules and directly add/remove members and workstreams, and all their votes are binding.<br><br> Use this role sparingly as you are setting up your structures. Then transition to using other roles for day to day collaboration."
   text_role_invitation_description_Contributor : "This the first level of participation in an open enterprise.<br><br>Contributors' votes on all matters will be visible to everyone, and will be non-binding.<br><br> Meaning a contributor's voice is here, but their voting doesn't directly affect the items they are weighing in on.<br><br> A contributor can earn credits and contribute to a workstream."
@@ -1328,6 +1335,7 @@ en:
   help_section_invitation_new: "Use invitations to enroll team members to join your workstream.<br><br> When you send someone an invitation, they will be prompted to create a bettermeans account (if they don't have one already), and <strong>automatically added as a contributor</strong> to your workstream.<br><br>You can only invite people to a root workstream. Their membership in a workstream applies to all sub work streams as well. In other words,<strong> a person can't belong to a sub workstream, and not belong to its parent workstream.</strong><br><br> <a href='http://help.bettermeans.com/how-to/invitations' target='blank'>Learn more in our help section.</a><br><br><br>"
   help_section_browse_workstreams: "<strong>Welcome to the BetterMeans Community.</strong> Unlike your home page, this page is the overview of the whole BetterMeans platform. You can look around at other public workstreams and comment and join other people's projects. To learn more about the BetterMeans platform, <a href='http://help.bettermeans.com/home' target='blank'>click here.</a>"
   help_section_retrospective_show: "<strong>This is a retrospective.</strong> In a retrospective compensation is awarded by your peers and your own self-assessment. This is an opportunity to be fairly compensated for your contribution. <br>You want to look at all of the completed items and then give your best assessment of what percentage you think each person contributed. You also have a chance to say how sure you are using the slider at the bottom. For more information about retrospectives, <a href='http://help.bettermeans.com/how-to/retrospectives' target='blank'>click here.</a>"
+  help_section_free: Keep your work open and inclusive, and we won't charge you a dime no matter how large you grow.
   
   # help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around…<br> If you are starting a new workstream and are not sure what to do next or just want some tips for getting started <a href= 'http://sites.google.com/a/bettermeans.com/help/getting-started/starting-a-new-workstream’ target='blank'>visit here.</a><br> If you are joining an existing workstream and you are a bit lost in what you are looking at, we are here to help, <a href= 'http://sites.google.com/a/bettermeans.com/help/getting-started/joining-an-existing-workstream’ target='blank'>visit here.</a><br>We would recommend following the links above and/or taking <a href= 'http://sites.google.com/a/bettermeans.com/help/home’ target='blank'> the tour</a>, it will help you to get oriented to this cool new way of working together."
   # help_section_project_dashboard: "<strong>This is your project's dashboard </strong> and this is where the magic happens. In our opinion, this is where you can get the best view of all the work within a workstream. Each workstream and subworkstream has its own dashboard. From the dashboard you can offer new ideas/requests, comment, agree and disagree with ideas, prioritize, estimate… we know it’s a lot - to learn more about all this <a href= 'http://sites.google.com/a/bettermeans.com/help/faq/voting’ target='blank'> visit here </a>. We also want to offer a little cheat sheet, click here for a key that tells you the meaning of all the symbols you see in the Dashboard. As you get rolling with your work, some helpful tools will be the filters and the search functions on the upper right corner of the dashboard, be sure to play around with those."

@@ -181,5 +181,19 @@ namespace :custom do
     end
     
   end
+  
+  #detecting users that are overusing their plans and need to upgrade
+  task :detect_users_over_limit => :environment do
+    User.active.each do |u|
+      u.update_usage_over
+    end
+  end
 
+  #detecting users whose trials have expired and need to pay
+  task :detect_trial_expiration => :environment do
+    User.active.each do |u|
+      u.update_trial_expiration
+    end
+  end
+  
 end
