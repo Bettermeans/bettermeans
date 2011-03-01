@@ -80,6 +80,7 @@ class MyController < ApplicationController
         params[:user][:b_cc_last_four] = ("XXXX-") + params[:user][:b_cc_last_four][cc.length-4,cc.length-1] if cc.length > 14
       end
       @user.attributes = params[:user]
+      @user.login = params[:user][:login]
       logger.info { "@user.attributes #{@user.attributes.inspect}" }
       @user.mail_notification = (params[:notification_option] == 'all')
       
