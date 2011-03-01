@@ -280,7 +280,7 @@ module ApplicationHelper
       if projects.any?
         s_options = ""
         s_options << project_tree_options_for_select(projects, :selected => @project) do |p|
-          { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }          
         end
         s << s_options
         s << '<option value="" disabled="disabled">---</option>'
@@ -304,12 +304,13 @@ module ApplicationHelper
       if @project_descendants.any?
         s_options = ""
         s_options << project_tree_options_for_select(@project_descendants) do |p|
-          { :value => url_for(:controller => 'projects', :action => 'show', :id => p) }
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }          
         end
         s << s_options
       end
       s << '</select>'
   end
+  
   
   def project_tree_options_for_select(projects, options = {})
     s = ''
