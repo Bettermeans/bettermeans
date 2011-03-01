@@ -29,7 +29,7 @@
 <div id='loading' class='loading'>
   <%= l(:text_loading_dashboard) %>
 </div>
-<div id='loading_error' style='display:none;text-weight:bold;'>
+<div id='loading_error' class="hidden">
   <%= l(:text_loading_dashboard_error) %>
 </div>
 <div id='load_dashboard' style="display:none;text-align:center;width:100%">
@@ -49,8 +49,14 @@
 <% content_for :secondnav do %>
 
 <div id="panel_buttons">
+  <% if @project.children.any? %>
+  <div class="field switch">
+      <label class="cb-enable" id="toggle_sub_on"><span>Include sub workstreams</span></label>
+      <label class="cb-disable" id="toggle_sub_off"><span>Don't include</span></label>
+      <input type="checkbox" id="include_subworkstreams_checkbox" class="checkbox" />
+  </div>
+  <% end %>
 </div>
-
 <div class="gt-search-container">
   <div class="gt-search gt-search-narrow">
     <div class="gt-search-inner">
@@ -167,7 +173,7 @@
     </a>
   </li>
   <li>
-    <a id="dash_key" onclick="return false;"  href="#"  class="icon icon-key">
+    <a id="dash_key" onclick="return false;"  href="#"  class="top-help-tip icon icon-help">
       Key
     </a>    
   </li>

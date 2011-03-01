@@ -234,7 +234,8 @@ class ApplicationController < ActionController::Base
   end
   
   def invalid_authenticity_token
-    render_error "Invalid form authenticity token."
+    # render_error "Invalid form authenticity token."
+    redirect_back_or_default(home_path)
   end
   
   def render_feed(items, options={})    
