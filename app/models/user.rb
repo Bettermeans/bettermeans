@@ -212,19 +212,18 @@ class User < ActiveRecord::Base
         @user.b_cc_type = @account.billing_info.credit_card.attributes["type"]
         @user.b_cc_last_four = "XXXX - " + @account.billing_info.credit_card.attributes["last_four"] + " " + @account.billing_info.credit_card.attributes["type"]
         @user.save
-      
-      # else
-      #   @account.billing_info = Recurly::BillingInfo.create(
-      #     :account_code => @account.account_code,
-      #     :first_name => @account.first_name,
-      #     :last_name => @account.last_name,
-      #     :address1 => @user.b_address1,
-      #     :zip => @user.b_zip,
-      #     :country => @user.b_country,
-      #     :city => "none",
-      #     :state => "none",
-      #     :phone => @user.b_phone,
-      #     :ip_address => ip)
+      else
+        @account.billing_info = Recurly::BillingInfo.create(
+          :account_code => @account.account_code,
+          :first_name => @account.first_name,
+          :last_name => @account.last_name,
+          :address1 => @user.b_address1,
+          :zip => @user.b_zip,
+          :country => @user.b_country,
+          :city => "none",
+          :state => "none",
+          :phone => @user.b_phone,
+          :ip_address => ip)
     end
     
     return @account
@@ -235,6 +234,44 @@ class User < ActiveRecord::Base
   def reload(*args)
     @name = nil
     super
+  end
+  
+  #detects if usage is over, and sets date of going over
+  def update_usage_over()
+    is_over = self.project_storage_total > self.plan.storage_max || self.private_project_total > self.plan.private_workstream_max || self.private_contributor_total > self.plan.contributor_max
+    if is_over && !self.usage_over_at
+      Notification.create :recipient_id => self.id,
+                          :variation => 'usage_over',
+                          :sender_id => User.sysadmin.id,
+                          :source_id => self.id,
+                          :source_type => "User"
+      
+      self.update_attribute(:usage_over_at, DateTime.now) 
+    end
+    
+    if !is_over && self.usage_over_at
+      Notification.delete_all(:variation => 'usage_over', :source_id => self.id)
+      self.update_attribute(:usage_over_at, nil) 
+    end
+    
+  end
+  
+  #detects if trial expired, and sets date of trial expiring
+  def update_trial_expiration()
+    return if self.plan.free?
+    return if self.trial_expired_at 
+    return if !self.trial_expires_on
+    
+    if DateTime.now > self.trial_expires_on    
+      Notification.create :recipient_id => self.id,
+                          :variation => 'trial_expired',
+                          :sender_id => User.sysadmin.id,
+                          :source_id => self.id,
+                          :source_type => "User"
+
+      self.update_attribute(:trial_expired_at, DateTime.now) 
+    end
+    
   end
   
   def identity_url=(url)
@@ -629,11 +666,16 @@ class User < ActiveRecord::Base
   end
   
   def public_contributor_total
-    self.owned_projects.find_all{|p| p.root? && p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
+    @all_users = []
+    self.owned_projects.find_all{|p| p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
+    @all_users.length
   end
   
   def private_contributor_total
-    self.owned_projects.find_all{|p| p.root? && !p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
+    # self.owned_projects.find_all{|p| p.root? && !p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
+    @all_users = []
+    self.owned_projects.find_all{|p| !p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
+    @all_users.length
   end
   
   def project_storage_total

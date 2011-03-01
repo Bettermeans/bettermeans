@@ -20,10 +20,10 @@ Misc - anything that doesn't fit elsewhere
 
 /* @group HTML, Body */
 html {
-/*	background-color: #e2eaee;*/
 /*	background-color: #f3f3f3;*/
 	background-color: #e2eaee;
-/*	background-color: #fff;*/
+/*	background-color: #FFF0DD;*/
+	
 }
 body {
 	font-family: Helvetica, sans-serif;
@@ -805,7 +805,7 @@ h5 .icon{
 	font-size: 100%;
 	float: left;
 	display: inline;
-	color: #eee!important;
+	color: #fff!important;
 	background-color: #365B6D;
 /*	background-color: #1a5472;*/
 	margin-right: 1px;
@@ -822,11 +822,14 @@ h5 .icon{
 }
 
 .gt-actionmenu a:visited, .gt-actionmenu a {
-	background-color: #e58508!important;
+	background-color: #F28900!important;
+	
+/*	background-color: #e58508!important;*/
 }
 
 .gt-actionmenu a:visited:hover, .gt-actionmenu a:hover {
-	background-color: #C27006!important;
+/*	background-color: #C27006!important;*/
+	background-color: #CF5D07!important;
 }
 
 .gt-actionmenu ul li a.top-help-tip {
@@ -1095,11 +1098,12 @@ tt {
 	border-color:#FBC2C4;
 }
 .notice {
-	background: #FAFFBD url(/images/static/clip.png) no-repeat 10px 50% ;
+	background: #Fff url(/images/static/clip.png) no-repeat 10px 50% ;
 	color:#595959;
-	border-color:#d9d9d9;
+	border-color:#222;
 	text-shadow: 1px 1px #fff;
 	padding:1.4em;
+	font-weight:bold;
 }
 .success {
 	background:#E6EFC2;
@@ -1115,7 +1119,6 @@ tt {
 .success a {
 	color:#264409;
 }
-
 
 
 /* @end */
@@ -2894,3 +2897,16 @@ li.sfHover > a > .sf-sub-indicator {
 .sf-shadow ul.sf-shadow-off {
 	background: transparent;
 }
+
+/*** iphone switch http://devgrow.com/iphone-style-switches/ ***/
+
+.cb-enable, .cb-disable, .cb-enable span, .cb-disable span { background: url(/images/switch.gif) repeat-x; display: block; float: left; }
+.cb-enable span, .cb-disable span { line-height: 30px; display: block; background-repeat: no-repeat; font-weight: bold; }
+.cb-enable span { background-position: left -90px; padding: 0 10px; }
+.cb-disable span { background-position: right -180px;padding: 0 10px; }
+.cb-disable.selected { background-position: 0 -30px; }
+.cb-disable.selected span { background-position: right -210px; color: #fff; }
+.cb-enable.selected { background-position: 0 -60px; }
+.cb-enable.selected span { background-position: left -150px; color: #fff; }
+.switch label { cursor: pointer; }
+.switch input { display: none; }
