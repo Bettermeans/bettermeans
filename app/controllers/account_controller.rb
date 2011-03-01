@@ -145,6 +145,8 @@ class AccountController < ApplicationController
     redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
     if request.get?
       session[:auth_source_registration] = nil
+      self.logged_user = nil
+      
       @user = User.new(:language => Setting.default_language)
       if params[:plan] && params[:plan].is_a?(Numeric)
         @plan_id = Plan.find_by_code(params[:plan]).id 
