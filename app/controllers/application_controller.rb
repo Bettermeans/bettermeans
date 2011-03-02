@@ -135,7 +135,7 @@ class ApplicationController < ActionController::Base
   end
   
   def data_admin_logged_in?
-    return true if User.current == User.find(2)
+    return true if User.current == User.find_by_login("shereef") || User.current == User.find_by_login("adelegb") || User.current == User.find_by_login("chirag")
     return false
   end
   
