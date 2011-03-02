@@ -4316,6 +4316,8 @@ function new_dash_data_response(data){
 		
 		for(var x=0; x < data.length; x++){
 			delete ITEMHASH["item" + String(data[x])];
+			delete ITEMHASH["item" + String(data[x])]; //handling duplicates
+			delete ITEMHASH["item" + String(data[x])]; //handling duplicates
 		}
 		
 		for(var idt in ITEMHASH){
