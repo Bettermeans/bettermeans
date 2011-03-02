@@ -4297,10 +4297,12 @@ function new_dash_data(){
 	 });
 }
 
+var DDD
+
 function new_dash_data_response(data){
 	timer_active = true;
 
-	if (data == null) {
+	if ((data == null) || (data.length == 0)) {
 		save_local_data();
 		return;
 	}
