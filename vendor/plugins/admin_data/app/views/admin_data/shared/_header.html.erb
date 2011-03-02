@@ -1,0 +1,23 @@
+<div id="header">
+    <h1>
+      <%= link_to 'admin_data', admin_data_index_path %>
+    </h1>  
+
+    <ul id='subnav'>
+      <li>
+        <%= link_to 'Home', admin_data_index_path %>
+      </li>
+
+      <li>
+        <%= link_to 'Migration Information', admin_data_migration_information_path %>
+      </li>
+
+    </ul>
+
+    <div id='model_drop_down'>
+      <%= render '/admin_data/shared/drop_down_klasses', :drop_down_for_klasses => drop_down_for_klasses %>
+    </div>
+
+    <div class='clear'></div>
+
+</div>
