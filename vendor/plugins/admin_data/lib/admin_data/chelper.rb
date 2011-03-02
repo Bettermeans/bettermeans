@@ -5,22 +5,22 @@ module AdminData::Chelper
   end
 
   def admin_data_is_allowed_to_view?
-    return true if Rails.env.development?
+    # return true if Rails.env.development?
     AdminData::Config.setting[:is_allowed_to_view].call(self)
   end
 
   def admin_data_is_allowed_to_view_model?
-    return true if Rails.env.development?
+    # return true if Rails.env.development?
     AdminData::Config.setting[:is_allowed_to_view_model].call(self)
   end
 
   def admin_data_is_allowed_to_update?
-    return true if Rails.env.development?
+    # return true if Rails.env.development?
     AdminData::Config.setting[:is_allowed_to_update].call(self)
   end
 
   def admin_data_is_allowed_to_update_model?
-    return true if Rails.env.development?
+    # return true if Rails.env.development?
     AdminData::Config.setting[:is_allowed_to_update_model].call(self)
   end
 

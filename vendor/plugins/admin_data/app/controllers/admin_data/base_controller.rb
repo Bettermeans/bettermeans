@@ -21,23 +21,23 @@ class AdminData::BaseController < ApplicationController
   end
 
   def ensure_is_allowed_to_view
-    render :text => '<h2>not authorized</h2>', :status => :unauthorized unless admin_data_is_allowed_to_view?
+    render :text => '<h2>not authorized</h2>', :status => :unauthorized, :layout => true unless admin_data_is_allowed_to_view?
   end
 
   def ensure_is_allowed_to_view_model
-    render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_view_model?
+    render :text => 'not authorized', :status => :unauthorized, :layout => true unless admin_data_is_allowed_to_view_model?
   end
 
   def ensure_is_allowed_to_update
-    render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update?
+    render :text => 'not authorized', :status => :unauthorized, :layout => true unless admin_data_is_allowed_to_update?
   end
 
   def ensure_is_allowed_to_update_model
-    render :text => 'not authorized', :status => :unauthorized unless admin_data_is_allowed_to_update_model?
+    render :text => 'not authorized', :status => :unauthorized, :layout => true unless admin_data_is_allowed_to_update_model?
   end
 
   def ensure_is_allowed_to_view_feed
-    render :text => 'not authorized', :status => :unauthorized unless AdminData::Util.is_allowed_to_view_feed?(self)
+    render :text => 'not authorized', :status => :unauthorized, :layout => true unless AdminData::Util.is_allowed_to_view_feed?(self)
   end
 
   def get_class_from_params
