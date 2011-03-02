@@ -4297,8 +4297,6 @@ function new_dash_data(){
 	 });
 }
 
-var DDD
-
 function new_dash_data_response(data){
 	timer_active = true;
 
