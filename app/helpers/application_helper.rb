@@ -310,7 +310,7 @@ module ApplicationHelper
       end
       if User.current.allowed_to?(:add_subprojects, project)
         s << '<option value="" disabled="disabled">---</option>'
-        s << "<option value='#{url_for({:controller => :projects, :action => :new, :project_id => project.id})}'>#{l(:label_subproject_new)}</option>"
+        s << "<option value='#{url_for({:controller => :projects, :action => :new, :parent_id => project.id})}'>#{l(:label_subproject_new)}</option>"
       end
       
       s << '</select>'
