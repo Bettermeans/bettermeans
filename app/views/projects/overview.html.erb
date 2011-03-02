@@ -33,9 +33,9 @@
 <%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project}, :class => "icon icon-motion" %>
 </li>
 <% if @project && @project.module_enabled?(:issue_tracking) %>
-<li>
-	<%= render_new_item_jump_box %>
-</li>
+<!-- <li>
+  <%#= render_new_item_jump_box %>
+</li> -->
 <% end %>
 </ul>
 <% end %>
