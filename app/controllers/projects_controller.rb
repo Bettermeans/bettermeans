@@ -314,9 +314,8 @@ class ProjectsController < ApplicationController
     end
     
     time_delta = params[:seconds].to_f.round
-    
-    
-    conditions = "project_id in (#{project_ids}) AND updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'"
+
+    conditions = "project_id in (#{project_ids}) AND updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}' AND (retro_id < 0 OR retro_id is null)"
     
     if (last_update.advance(:seconds => time_delta) > DateTime.now)
       
