@@ -1820,7 +1820,9 @@ text-decoration:underline !important;
 }
 
 .action_button_cancel{
-	background: url(/images/bb_red.png) no-repeat; 
+	width:20px!important;
+	background: url(/images/cancel16.png) no-repeat; 
+	background-position: 0px 3px!important;
 }
 
 .action_button_tally{
