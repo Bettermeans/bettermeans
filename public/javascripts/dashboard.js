@@ -1929,21 +1929,21 @@ function buttons_for(dataId,expanded){
 	    else
 		html = html + agree_buttons_root(dataId, false, expanded);
 		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId);
+			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
 		}
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,false,expanded);
 		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId);
+			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
 		}
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,true,expanded);
 		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId);
+			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
 		}
 	break;
 	case 'Committed':
