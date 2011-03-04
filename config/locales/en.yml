@@ -498,6 +498,7 @@ en:
   label_login_with_open_id_option: or login with OpenID
   label_password_lost: Lost password
   label_home: Home
+  label_my_home: My Home
   label_my_page: Summary
   label_new_project: New Workstream
   label_my_account: Account
