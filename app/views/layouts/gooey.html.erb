@@ -67,11 +67,11 @@
 	
 		<!-- logo -->
 		<div class="gt-logo">
-      <a href="/" style="text-decoration:none;" class="left">
+      <a href="/projects" style="text-decoration:none;" class="left">
         <img src="/images/header_logo.png"></a>
       </a>
       <div class="gt-logo-links">
-  		  <%= link_to("HOME", {:controller => 'welcome', :action => 'index'}, :class => 'root') %>&nbsp;
+  		  <%= link_to(l(:label_my_home).upcase, {:controller => 'welcome', :action => 'index'}, :class => 'root') %>&nbsp;
   			<%= render_project_jump_box %>
 			</div>
 		</div>
