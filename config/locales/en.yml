@@ -766,7 +766,7 @@ en:
   label_updated_time_by: "Updated by {{author}} {{age}} ago"
   label_created_time_by: "Created {{age}} ago by"
   label_updated_time: "Updated {{value}} ago"
-  label_jump_to_a_project: WORKSTREAMS
+  label_jump_to_a_project: MY WORKSTREAMS
   label_file_plural: Files
   label_changeset_plural: Changesets
   label_default_columns: Default columns
