@@ -3,7 +3,6 @@
 #
 
 class UsersController < ApplicationController
-  layout 'admin'
   
   before_filter :require_admin, :except => [:show, :rpx_token]
   ssl_required :all  
