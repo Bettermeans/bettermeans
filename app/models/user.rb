@@ -345,6 +345,17 @@ class User < ActiveRecord::Base
   def active?
     self.status == STATUS_ACTIVE
   end
+  
+  def reactivate
+    self.update_attribute(:status, User::STATUS_ACTIVE)
+    newmail = []
+    self.mail.split('.').each do |s|
+      break if s == 'canceled'
+      newmail.push(s)
+    end
+    newmail = newmail.join(".")
+    self.update_attribute(:mail, newmail) if self.mail != newmail
+  end
 
   def registered?
     self.status == STATUS_REGISTERED
@@ -356,6 +367,7 @@ class User < ActiveRecord::Base
 
   def cancel
     self.update_attribute(:status, STATUS_CANCELED)
+    self.update_attribute(:mail, self.mail + ".canceled.#{rand(1000)}")
   end
     
   def locked?

@@ -134,6 +134,11 @@ class ApplicationController < ActionController::Base
     set_language_if_valid(lang)
   end
   
+  def data_admin_logged_in?
+    return true if User.current == User.find_by_login("shereef") || User.current == User.find_by_login("adelegb") || User.current == User.find_by_login("crabari")
+    return false
+  end
+  
   def require_login
     if !User.current.logged?
       # Extract only the basic url parameters on non-GET requests

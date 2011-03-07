@@ -314,8 +314,7 @@ class ProjectsController < ApplicationController
     end
     
     time_delta = params[:seconds].to_f.round
-    
-    
+
     conditions = "project_id in (#{project_ids}) AND updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'"
     
     if (last_update.advance(:seconds => time_delta) > DateTime.now)
@@ -329,7 +328,7 @@ class ProjectsController < ApplicationController
                                                   :author =>      { :only => [:firstname, :lastname, :login, :mail_hash] },
                                                   :assigned_to => { :only => [:firstname, :lastname, :login] }})
     elsif params[:issuecount] != total_count
-      render :json =>  Issue.find(:all, :conditions => "project_id in (#{project_ids})").collect {|i| i.id}
+      render :json =>  Issue.find(:all, :conditions => "project_id in (#{project_ids})  AND (retro_id < 0 OR retro_id is null)").collect {|i| i.id}
     else
       render :text => 'no'
     end
