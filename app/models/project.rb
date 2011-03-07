@@ -858,7 +858,7 @@ class Project < ActiveRecord::Base
   end
   
   def refresh_issue_count
-    self.update_attribute(:issue_count,Issue.count(:conditions => {:project_id => self.id}) )
+    self.update_attribute(:issue_count,Issue.count(:conditions => ["project_id = ?  AND (retro_id < 0 OR retro_id is null)", self.id]) )
     self.parent.refresh_issue_count_sub unless self.root?
   end
   

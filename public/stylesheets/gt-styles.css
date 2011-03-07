@@ -1820,7 +1820,9 @@ text-decoration:underline !important;
 }
 
 .action_button_cancel{
-	background: url(/images/bb_red.png) no-repeat; 
+	width:20px!important;
+	background: url(/images/cancel16.png) no-repeat; 
+	background-position: 0px 3px!important;
 }
 
 .action_button_tally{
@@ -2584,6 +2586,18 @@ wbr:after { content: "\00200B" } /*opera compatibility with wbr*/
 	margin-left: 1em;
 	vertical-align: middle;
 /*	background: transparent;*/
+}
+
+#new_item_jumpbox {
+	background-image: url(/images/add.png);
+	background-repeat: no-repeat;
+	background-position: 4px 3px;
+	text-indent: 16px;
+	height: 22px;
+	border: none;
+	background-color: #E58508;
+	font-weight: bold;
+	color: #FFF;
 }
 
 .activity-comment {

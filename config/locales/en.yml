@@ -123,6 +123,7 @@ en:
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '7'
   
+  notice_account_reactivated: Your account has been reactivated.<br> Welcome back!<br><br> <a href="/">Home</a>
   notice_account_canceled: Your account is now canceled. Thanks for trying us out.<br><br>We would love your feedback on how we can do better.<br><br><a href="mailto:feedback@bettermeans.com">feedback@bettermeans.com</a>
   notice_account_inactive_user: Account has not yet been activated. Please check your email for activation link
   notice_account_updated: Account was successfully updated.
@@ -497,6 +498,7 @@ en:
   label_login_with_open_id_option: or login with OpenID
   label_password_lost: Lost password
   label_home: Home
+  label_my_home: My Home
   label_my_page: Summary
   label_new_project: New Workstream
   label_my_account: Account
@@ -528,6 +530,7 @@ en:
   label_subproject : Sub workstream
   label_subproject_plural: Sub workstreams
   label_subproject_new: New sub workstream
+  label_new_item_in: New item in
   label_and_its_subprojects: "{{value}} and its sub workstreams"
   label_waiting_for_you: "{{notifications}} waiting for you"
   label_min_max_length: Min - Max length
@@ -763,7 +766,7 @@ en:
   label_updated_time_by: "Updated by {{author}} {{age}} ago"
   label_created_time_by: "Created {{age}} ago by"
   label_updated_time: "Updated {{value}} ago"
-  label_jump_to_a_project: WORKSTREAMS
+  label_jump_to_a_project: MY WORKSTREAMS
   label_file_plural: Files
   label_changeset_plural: Changesets
   label_default_columns: Default columns
