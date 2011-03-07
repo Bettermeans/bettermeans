@@ -1929,21 +1929,21 @@ function buttons_for(dataId,expanded){
 	    else
 		html = html + agree_buttons_root(dataId, false, expanded);
 		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId);
+			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
 		}
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,false,expanded);
 		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId);
+			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
 		}
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,true,expanded);
 		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId);
+			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
 		}
 	break;
 	case 'Committed':
@@ -4300,7 +4300,7 @@ function new_dash_data(){
 function new_dash_data_response(data){
 	timer_active = true;
 
-	if (data == null) {
+	if ((data == null) || (data.length == 0)) {
 		save_local_data();
 		return;
 	}
@@ -4314,6 +4314,8 @@ function new_dash_data_response(data){
 		
 		for(var x=0; x < data.length; x++){
 			delete ITEMHASH["item" + String(data[x])];
+			delete ITEMHASH["item" + String(data[x])]; //handling duplicates
+			delete ITEMHASH["item" + String(data[x])]; //handling duplicates
 		}
 		
 		for(var idt in ITEMHASH){

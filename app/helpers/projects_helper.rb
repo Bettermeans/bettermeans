@@ -99,5 +99,23 @@ module ProjectsHelper
     s
   end
   
+  # Renders the "add item" quick jump box.
+  def render_new_item_jump_box
+      s = '<select id="new_item_jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
+            "<option value='/projects/#{@project.id}' selected=\"yes\">#{l(:label_new_item_in)}</option>" +
+            "<option value='#{url_for(:controller => 'issues', :action => 'new', :project_id => @project)}'>#{@project}</option>" +
+            '<option value="" disabled="disabled">---</option>'
+      if @subprojects.any?
+        s_options = ""
+        s_options << project_tree_options_for_select(@subprojects, :selected => @project) do |p|
+          { :value => url_for(:controller => 'issues', :action => 'new', :project_id => p) }
+        end
+        s << s_options
+        s << '<option value="" disabled="disabled">---</option>'
+      end
+      s << '</select>'
+      s << '<span id="widthcalc" style="display:none;"></span>'
+  end
+  
   
 end

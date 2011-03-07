@@ -1,0 +1,55 @@
+<div id="main">
+
+  <% admin_data_breadcrum do %>
+    <%= link_to @klass, admin_data_search_path(:klass => @klass.name) %> 
+  <% end %>
+  
+  <%= render 'admin_data/shared/flash_message', :model => @model %>
+  
+  <div class="block" id="block-tables">
+    <div class="secondary-navigation">
+      <%= render 'admin_data/shared/secondary_navigation', :klass => @klass %>
+      <div class="clear"></div>
+    </div>          
+    <div class="content rounded">          
+      <h2 class="title"></h2>
+      <div class="inner">
+        <h1 class='table_name'>Table name : <%=@klass.send(:table_name)%></h1>
+        <h2>Columns</h2>
+        <table class="table colorize">
+          <tr>
+            <th>Column Name</th>
+            <th>Type</th>
+            <th>Null</th>
+            <th>Default</th>
+          </tr>
+          <% @klass.columns.each do |column| %>
+            <tr>
+              <td><%=column.name%></td>
+              <td><%=column.type%></td>
+              <td><%=column.null%></td>
+              <td><%= AdminData::Util.string_representation_of_data(column.default) if column.has_default?%></td>
+            </tr>
+          <% end %>  
+        </table>
+
+        <h2>Index</h2>            
+        <% if @indexes.size == 0 %>
+          <p>No index was found </p>
+        <% else %>  
+          <table class="table colorize">
+            <tr>
+              <th>Info</th>
+            </tr>
+            <% @indexes.each do |index| %>
+              <tr>
+                <td><%= index %></td>
+              </tr>
+            <% end %>  
+          </table>
+        <% end %>
+        
+      </div>
+    </div>
+  </div>
+</div>

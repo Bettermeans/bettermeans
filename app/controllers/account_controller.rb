@@ -21,7 +21,7 @@ class AccountController < ApplicationController
       session[:invitation_token] = @invitation_token
       render :layout => 'static'
     else
-      # logger.info { "1 authenticating and accepting invitation #{session[:invitation_token]}" }
+      logger.info { "1 authenticating and accepting invitation #{session[:invitation_token]}" }
       # Authenticate user
       if Setting.openid? && using_open_id?
         open_id_authenticate(params[:openid_url])
@@ -90,8 +90,12 @@ class AccountController < ApplicationController
     end
     
     logger.info { "WE ARE HERE! Almost authenticating for user #{@user.inspect}" }
-
-    successful_authentication(@user,@invitation_token)    
+    
+    unless @user.active?
+      @user.reactivate
+      msg = l(:notice_account_reactivated)
+    end
+    successful_authentication(@user,@invitation_token,msg)    
   end
   
 
@@ -145,6 +149,8 @@ class AccountController < ApplicationController
     redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
     if request.get?
       session[:auth_source_registration] = nil
+      self.logged_user = nil
+      
       @user = User.new(:language => Setting.default_language)
       if params[:plan] && params[:plan].is_a?(Numeric)
         @plan_id = Plan.find_by_code(params[:plan]).id 
@@ -226,6 +232,7 @@ class AccountController < ApplicationController
 
   def password_authentication(invitation_token=nil)
     user = User.try_to_login(params[:username], params[:password])
+    logger.info { "user #{user.inspect}" }
 
     if user.nil?
       invalid_credentials
@@ -235,7 +242,12 @@ class AccountController < ApplicationController
       inactive_user
     else
       # Valid user
-      successful_authentication(user,invitation_token)
+      logger.info { "valid user" }
+      if user.active?
+        successful_authentication(user,invitation_token)
+      else
+        account_pending
+      end
     end
   end
 
@@ -281,8 +293,8 @@ class AccountController < ApplicationController
     end
   end
   
-  def successful_authentication(user, invitation_token = nil)
-    logger.info { "successful authentication baby" }
+  def successful_authentication(user, invitation_token = nil, msg=nil)
+    logger.info { "successful authentication baby #{user.inspect}" }
     # Valid user
     self.logged_user = user
     Track.log(Track::LOGIN,session[:client_ip])
@@ -300,7 +312,11 @@ class AccountController < ApplicationController
       cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
     end
     # redirect_back_or_default :controller => 'my', :action => 'page'
-    redirect_back_or_default :controller => 'welcome', :action => 'index'
+    if msg
+      render_message(msg)
+    else
+      redirect_back_or_default :controller => 'welcome', :action => 'index'
+    end
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes
