@@ -29,3 +29,4 @@ serverlog
 *.swp
 *.swo
 .rvmrc
+.redcar/
