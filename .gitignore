@@ -9,7 +9,7 @@
 /coverage
 /db/*.db
 /db/*.sqlite3
-/db/schema.rb
+!/db/schema.rb
 /files/*
 /log/*.log*
 /log/mongrel_debug
