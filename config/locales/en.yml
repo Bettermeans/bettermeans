@@ -498,6 +498,7 @@ en:
   label_login_with_open_id_option: or login with OpenID
   label_password_lost: Lost password
   label_home: Home
+  label_my_home: My Home
   label_my_page: Summary
   label_new_project: New Workstream
   label_my_account: Account
@@ -765,7 +766,7 @@ en:
   label_updated_time_by: "Updated by {{author}} {{age}} ago"
   label_created_time_by: "Created {{age}} ago by"
   label_updated_time: "Updated {{value}} ago"
-  label_jump_to_a_project: WORKSTREAMS
+  label_jump_to_a_project: MY WORKSTREAMS
   label_file_plural: Files
   label_changeset_plural: Changesets
   label_default_columns: Default columns
