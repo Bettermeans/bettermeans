@@ -1,0 +1,7 @@
+<% if AdminData::Util.belongs_to_what(klass).size > 0 %>
+  <p class='belongs_to'>
+    <strong>belongs_to :</strong> 
+    &nbsp;      
+    <%= admin_data_belongs_to_data(model, klass) %>
+  </p> 
+<% end %>  
