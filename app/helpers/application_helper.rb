@@ -634,7 +634,7 @@ module ApplicationHelper
     begin
     if @project.nil? || @project.new_record?
       # @page_header_name.nil? ? avatar(User.current, :size => 20) + "&nbsp;Home" : @page_header_name
-      @page_header_name.nil? ? "Home" : @page_header_name
+      @page_header_name.nil? ? l(:label_my_home) : @page_header_name
     elsif @project.new_record?
       l(:label_project_new)
     else
