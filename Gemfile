@@ -5,7 +5,7 @@ gem "rails", "2.3.5"
 gem 'ruby-debug'
 gem 'rubytree'
 gem 'rpx_now'
-gem 'recurly'
+gem 'recurly', "0.3.3"
 gem 'fleximage'
 gem 'reportable'
 gem 'comma', :require => "comma", :git => "https://github.com/crafterm/comma.git"
