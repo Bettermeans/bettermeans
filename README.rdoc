@@ -30,6 +30,9 @@ That's it. Now you're ready to change the world. Here's to making a dent in thin
 Make sure you install rubytree gem's older version, not just the latest: rubytree -v 0.7.0
 We're running Ruby 1.8.7 in dev and production
 
+If you encounter an error like "uninitialized constant ActiveSupport::Dependencies::Mutex", then you need to get the correct rubygems version.
+Currently this is 1.3.7.
+
 ----
 
 = Dev notes
