@@ -9,8 +9,7 @@ ActionController::Base.allow_rescue = false
 require 'cucumber'
 require 'cucumber/formatter/unicode'
 require 'cucumber/rails/rspec'
-require "#{Rails.root}/spec/factories"
-
+#require "#{Rails.root}/spec/factories"
 
 require 'webrat'
 require 'webrat/core/matchers' 
@@ -18,4 +17,8 @@ require 'webrat/core/matchers'
 Webrat.configure do |config|
   config.mode = :rails
   config.open_error_files = true # Set to true if you want error pages to pop up in the browser
+end
+
+After do 
+  User.delete @logged_in_as if @logged_in_as 
 end
