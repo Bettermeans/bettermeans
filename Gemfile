@@ -19,10 +19,10 @@ group :test do
   gem 'cucumber', '0.4.3'
   gem 'webrat', '0.5.3'
   gem 'rspec', '1.2.9'
+  gem 'rspec-core'
   gem 'rspec-rails', '1.2.9'
   gem 'pickle', "0.3.4"
   gem 'factory_girl', "1.3.3"
-  gem 'shoulda', "2.11.3"
   gem 'object_daddy', "0.4.3"
   gem 'mocha', "0.9.12"
 end
