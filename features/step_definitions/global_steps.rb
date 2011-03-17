@@ -26,3 +26,7 @@ Given /^Login in as ([^\"]*) with password ([^\"]*)$/ do |username, password|
   fill_in "password", :with => password
   click_button "login"
 end
+
+After do
+  User.delete @logged_in_as if @logged_in_as 
+end
