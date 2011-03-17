@@ -1,19 +1,17 @@
 def create_account(username, password)
-  fail "Missing username" if username.empty?
-  
   new_user = User.new
   new_user.login = username    
   new_user.firstname = username
   new_user.lastname = username
   new_user.password = password 
-  new_user.mail = "xxx@xxx.com"
+  new_user.mail = "#{username}@xxx.com"
 
-  new_user.save(:validate => true)
+  new_user.save!
   new_user
 end
 
-Given /^I am logged in as ([^\"]*)$/ do |username|
-  @logged_in_as = create_account username,username
+Given /^I am logged in as "([^\"]*)"$/ do |username|
+  @user = create_account username,username
   
   Then "Login in as #{username} with password #{username}"
   
@@ -28,5 +26,5 @@ Given /^Login in as ([^\"]*) with password ([^\"]*)$/ do |username, password|
 end
 
 After do
-  User.delete @logged_in_as if @logged_in_as 
+  User.delete @user if @user
 end
