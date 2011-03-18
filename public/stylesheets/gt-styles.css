@@ -21,9 +21,10 @@ Misc - anything that doesn't fit elsewhere
 /* @group HTML, Body */
 html {
 /*	background-color: #f3f3f3;*/
-	background-color: #e2eaee;
+/*	background-color: #e2eaee;*/
 /*	background-color: #FFF0DD;*/
-	
+	background-color: #F9FCE2;
+
 }
 body {
 	font-family: Helvetica, sans-serif;
@@ -822,14 +823,14 @@ h5 .icon{
 }
 
 .gt-actionmenu a:visited, .gt-actionmenu a {
-	background-color: #F28900!important;
+	background-color: #CF5D07!important;
 	
 /*	background-color: #e58508!important;*/
 }
 
 .gt-actionmenu a:visited:hover, .gt-actionmenu a:hover {
 /*	background-color: #C27006!important;*/
-	background-color: #CF5D07!important;
+	background-color: #953404!important;
 }
 
 .gt-actionmenu ul li a.top-help-tip {
@@ -1100,7 +1101,8 @@ tt {
 .notice {
 	background: #Fff url(/images/static/clip.png) no-repeat 10px 50% ;
 	color:#595959;
-	border-color:#222;
+	border: 1px solid #ccc;
+	border-radius: 5px;
 	text-shadow: 1px 1px #fff;
 	padding:1.4em;
 	font-weight:bold;
