@@ -24,8 +24,12 @@ Given /I have one private workstream/ do
   member = Member.new(:user => @user, :roles => [Role.administrator])
   project = new_private_project("[#{Time.now.to_i}] My private")
   project.members << member
-  
+    
   projects << project
+end
+
+Given /^there is one public workstream I am not a member of$/ do
+  projects << new_public_project("[#{Time.now.to_i}] Any public workstream")  
 end
 
 Given /^there is one public workstream I am a member of$/ do
