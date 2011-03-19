@@ -14,6 +14,10 @@ def new_public_project(name)
   result
 end
 
+def add_me_as_a_member_of(project)  
+  project.members << Member.new(:user => @user, :roles => [Role.administrator])
+end
+
 def projects; @projects ||= []; end
 
 Given /^there is one private workstream I am not a member of$/ do
@@ -21,19 +25,16 @@ Given /^there is one private workstream I am not a member of$/ do
 end
 
 Given /I have one private workstream/ do
-  member = Member.new(:user => @user, :roles => [Role.administrator])
   project = new_private_project("[#{Time.now.to_i}] My private")
-  project.members << member
+  
+  add_me_as_a_member_of project
     
   projects << project
 end
 
-Given /^there is one public workstream I am not a member of$/ do
-  projects << new_public_project("[#{Time.now.to_i}] Any public workstream")  
-end
-
-Given /^there is one public workstream I am a member of$/ do
-  projects << new_public_project("[#{Time.now.to_i}] Any public workstream")  
+Given /^there is one public workstream I am(\snot)? a member of$/ do |not_a_member|
+  projects << project = new_public_project("[#{Time.now.to_i}] Any public workstream")  
+  add_me_as_a_member_of project unless not_a_member
 end
 
 Then /^it shows in the Latest Public Workstreams list$/ do
@@ -43,7 +44,15 @@ Then /^it shows in the Latest Public Workstreams list$/ do
 end
 
 Then /^it does not show in the Latest Public Workstreams list$/ do
-    assert_not_contain @projects.first.name
+  project_summary_selector = "div.project-summary"  
+  
+  has_project_summary = have_selector(project_summary_selector).matches?(response_body)
+  
+  if has_project_summary  
+    within project_summary_selector do |scope|     
+      scope.should_not contain @projects.first.name
+    end
+  end
 end
 
 After do
