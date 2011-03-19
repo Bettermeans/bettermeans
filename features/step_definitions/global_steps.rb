@@ -10,6 +10,10 @@ def create_account(username, password)
   new_user
 end
 
+Given /^I am logged in$/ do 
+  Given "I am logged in as \"any_example_user\""
+end
+
 Given /^I am logged in as "([^\"]*)"$/ do |username|
   @user = create_account username,username
   
@@ -23,6 +27,10 @@ Given /^Login in as ([^\"]*) with password ([^\"]*)$/ do |username, password|
   fill_in "username", :with => username
   fill_in "password", :with => password
   click_button "login"
+end
+
+When /^I go to Browse Bettermeans$/ do
+  visit url_for(:controller => 'projects', :action => 'index')
 end
 
 After do

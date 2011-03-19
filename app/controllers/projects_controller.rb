@@ -47,7 +47,7 @@ class ProjectsController < ApplicationController
   # Lists visible projects
   def index
     # @news = News.latest User.current
-    @latest_enterprises = Project.latest nil, 10, true
+    @latest_enterprises = Project.latest User.current, 10, true
     @active_enterprises = Project.most_active nil, 10, true
     # @activities_by_item = ActivityStream.fetch(nil, nil, true, 100)
   end
