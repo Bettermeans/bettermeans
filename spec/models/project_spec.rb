@@ -36,13 +36,26 @@ describe Project,"#visible_by" do
       
       result = Project.visible_by user
       
-      result.should eql "projects.status=1 AND (projects.is_public = 't' or projects.id IN (#{membership.project_id}))"
+      result.should eql "projects.status=1 AND " + 
+        "(projects.is_public = 't' or projects.id IN (#{membership.project_id}))"
     end
   end
   
-  describe User.anonymous do 
-    it "has zero memberships" do 
-      User.anonymous.memberships.any?.should be_false
+  describe "given user is not admin and has no memberships" do 
+    it "returns project status and publicity filter" do
+      a_user_that_is_not_admin_and_has_no_memberships = fake_user, false, []
+      result = Project.visible_by User.anonymous
+      result.should eql "projects.status=1 AND projects.is_public = 't'"
     end
   end
 end
+
+describe User.anonymous," user type" do 
+    it "has zero memberships" do 
+      User.anonymous.memberships.any?.should be_false
+    end
+    
+    it "is not admin" do 
+      User.anonymous.admin?.should be_false
+    end
+  end
