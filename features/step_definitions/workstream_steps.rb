@@ -1,24 +1,35 @@
-Given /^I am a ([^\"]*) of project "([^\"]*)"$/ do |role, project|
-  Given "#{user.username} is a #{role} of project \"#{project}\""  
+def new_private_project(name)
+  result = Project.new()
+  result.name = name
+  result.is_public = false
+  result.save!  
+  result
 end
 
+def new_public_project(name)
+  result = Project.new()
+  result.name = name
+  result.is_public = true
+  result.save!  
+  result
+end
 
-Given /([^\"]*) is a ([^\"]*) of project "([^\"]*)"$/ do |user, role, project|
-  @project = Project.find(:first, :conditions => {:name => project})
-  @role = Role.find(:first, :conditions => {:name => role})
-  m = Member.new(:user => User.find(:first, :conditions => {:login => user}), :roles => [@role])
-  @project.all_members << m  
+def projects; @projects ||= []; end
+
+Given /^there is one private workstream I am not a member of$/ do
+  projects << new_private_project("[#{Time.now.to_i}] Someone else's private")
 end
 
 Given /I have one private workstream/ do
   member = Member.new(:user => @user, :roles => [Role.administrator])
-  project = Project.new()
-  project.name = "Private #{Time.now.to_s}"
-  project.is_public = false
-  project.save!
+  project = new_private_project("[#{Time.now.to_i}] My private")
   project.members << member
-  @projects = []
-  @projects << project
+  
+  projects << project
+end
+
+Given /^there is one public workstream I am a member of$/ do
+  projects << new_public_project("[#{Time.now.to_i}] Any public workstream")  
 end
 
 Then /^it shows in the Latest Public Workstreams list$/ do
@@ -33,6 +44,6 @@ end
 
 After do
   if @projects
-    #@projects.each {|project| project.delete}
+    @projects.each {|project| project.delete}
   end
 end
