@@ -8,7 +8,7 @@ gem 'rpx_now', "0.6.24"
 gem 'recurly', "0.3.3"
 gem 'fleximage', "1.0.4"
 gem 'reportable', "1.1.2"
-gem 'comma', :require => "comma", :git => "https://github.com/crafterm/comma.git"
+gem 'comma'#, :require => "comma", :git => "https://github.com/crafterm/comma.git"
 gem 'fastercsv', "1.5.4"
 gem "SystemTimer", "1.2.2", :require => "system_timer", :platforms => :ruby_18
 gem "rack-timeout", "0.0.1"
