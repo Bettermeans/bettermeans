@@ -1,21 +1,11 @@
-def create_account(username, password)
-  new_user = User.new
-  new_user.login = username    
-  new_user.firstname = username
-  new_user.lastname = username
-  new_user.password = password 
-  new_user.mail = "#{username}@xxx.com"
-
-  new_user.save!
-  new_user
-end
-
 Given /^I am logged in$/ do 
   Given "I am logged in as \"any_example_user\""
 end
 
 Given /^I am logged in as "([^\"]*)"$/ do |username|
-  @user = create_account username,username
+  @user = ensure_account username,username
+  
+  teardown { User.delete @user if @user }
   
   Then "Login in as #{username} with password #{username}"
   
@@ -33,6 +23,24 @@ When /^I go to Browse Bettermeans$/ do
   visit url_for(:controller => 'projects', :action => 'index')
 end
 
-After do
-  User.delete @user if @user
+def ensure_account(username, password)
+  result = User.find_by_login(username)
+  
+  result = create_account(username, password) unless result
+  
+  result
+end
+
+def create_account(username, password)
+  new_user = User.new
+  new_user.login = username    
+  new_user.firstname = username
+  new_user.lastname = username
+  new_user.password = password 
+  new_user.admin = false 
+  new_user.mail = "#{username}@xxx.com"
+
+  new_user.save!  
+  
+  new_user
 end
