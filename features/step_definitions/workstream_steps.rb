@@ -21,13 +21,15 @@ Given /^the anonymous user is a member$/ do
 end
 
 Then /^it shows in the Latest Public Workstreams list$/ do
-  within "div.project-summary" do |scope|     
+  project_summary_selector = "div.splitcontentright"
+    
+  within project_summary_selector do |scope|     
     scope.should contain @projects.first.name
   end
 end
 
 Then /^it does not show in the Latest Public Workstreams list$/ do
-  project_summary_selector = "div.project-summary"  
+  project_summary_selector = "div.splitcontentright"  
   
   has_project_summary = have_selector(project_summary_selector).matches?(response_body)
   
@@ -35,6 +37,22 @@ Then /^it does not show in the Latest Public Workstreams list$/ do
     within project_summary_selector do |scope|     
       scope.should_not contain @projects.first.name
     end
+  end
+end
+
+Then /^it shows in the Most Active Public Workstreams list$/ do
+  project_summary_selector = "div.splitcontentleft"
+    
+  within project_summary_selector do |scope|     
+    scope.should contain @projects.first.name
+  end
+end
+
+Then /^it does not show in the Most Active Public Workstreams list$/ do
+  project_summary_selector = "div.splitcontentleft"
+    
+  within project_summary_selector do |scope|     
+    scope.should_not contain @projects.first.name
   end
 end
 
