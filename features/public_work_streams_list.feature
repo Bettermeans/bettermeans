@@ -1,60 +1,46 @@
-Feature:(#6137) The Latest Public Workstreams list only shows public and my private workstreams
+Feature:(#6137) Browse Bettermeans only shows public and my private workstreams
 
 Background: 
   Given I am logged in
   And I am not an administrator
   
-Scenario: Private workstreams that I am a member of show in Latest Public Workstreams
-  Given I have one private workstream
+Scenario: I can see any public workstreams
+  Given I belong to a public workstream
   When I go to Browse Bettermeans
-  Then it shows in the Latest Public Workstreams list
-  And it shows in the Most Active Public Workstreams list
-  
-Scenario: Private workstreams that I am not a member of do not show in Latest Public Workstreams
-  Given there is one private workstream I am not a member of
+  Then I see it
+  Given a public workstream that I do not belong to
   When I go to Browse Bettermeans
-  Then it does not show in the Latest Public Workstreams list
-  And it does not show in the Most Active Public Workstreams list
+  Then I see it
   
-Scenario: Public workstreams that I am a member of show in Latest Public Workstreams
-  Given there is one public workstream I am a member of
+Scenario: I cannot see private workstreams unless I am a member
+  Given a private workstream that I do not belong to
   When I go to Browse Bettermeans
-  Then it shows in the Latest Public Workstreams list
-  And it shows in the Most Active Public Workstreams list
-  
-Scenario: Public workstreams that I am not a member of show in Latest Public Workstreams
-  Given there is one public workstream I am not a member of
+  Then I do not see it
+  Given I belong to a private workstream 
   When I go to Browse Bettermeans
-  Then it shows in the Latest Public Workstreams list
-  And it shows in the Most Active Public Workstreams list
-  
-Scenario: Private workstreams that I am not a member of but Anonymous is do not show in Latest Public Workstreams
-  Given there is one private workstream I am not a member of
-  And the anonymous user is a member
+  Then I see it
+
+Scenario: I cannot see private workstreams that I do not belong to but Anonymous does
+  Given a private workstream that I do not belong to
+  But the anonymous user is a member
   When I go to Browse Bettermeans
-  Then it does not show in the Latest Public Workstreams list
-  And it does not show in the Most Active Public Workstreams list
+  Then I do not see it
   
-Scenario: Administrators can see private workstreams they are not a members of
+Scenario: Administrators can see all private workstreams
   Given I am an administrator
-  And there is one private workstream I am not a member of
+  And a private workstream that I do not belong to
   When I go to Browse Bettermeans
-  Then it shows in the Latest Public Workstreams list
-  And it shows in the Most Active Public Workstreams list
+  Then I see it
   
 Scenario: Anonymous users can see all public workstreams
   Given I am not logged in
-  And there is one private workstream I am not a member of
+  And a private workstream that I do not belong to
   And the anonymous user is a member
   When I go to Browse Bettermeans
-  Then it shows in the Latest Public Workstreams list
-  And it shows in the Most Active Public Workstreams list
+  Then I see it
   
-Scenario: Anonymous users cannot see any private workstreams they are not members of
+Scenario: Anonymous users cannot see any private workstreams they do not belong to
   Given I am not logged in
-  And there is one private workstream I am not a member of
+  And a private workstream that I do not belong to
   When I go to Browse Bettermeans
-  Then it does not show in the Latest Public Workstreams list
-  And it does not show in the Most Active Public Workstreams list
-
-#Feature:(#6137) The Most Active Public Workstreams list must behave like the Latest Public Workstreams list
+  Then I do not see it

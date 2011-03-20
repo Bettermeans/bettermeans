@@ -1,30 +1,42 @@
-Given /^there is one private workstream I am not a member of$/ do
+Given /^I belong to a public workstream$/ do
+  Given "a public workstream that I do not belong to"
+  add_me_as_a_member_of projects.last
+end
+
+Given /^a public workstream that I do not belong to$/ do
+  projects << project = new_public_project("[#{Time.now.to_i}] Any public workstream")  
+end
+
+Given /^a private workstream that I do not belong to$/ do
   projects << new_private_project("[#{Time.now.to_i}] Someone else's private")
 end
 
-Given /I have one private workstream/ do
-  project = new_private_project("[#{Time.now.to_i}] #{@user.login}'s private")
+Given /^I belong to a private workstream$/ do
+  projects << new_private_project("[#{Time.now.to_i}] Someone else's private")
   
-  add_me_as_a_member_of project
-    
-  projects << project  
-end
-
-Given /^there is one public workstream I am(\snot)? a member of$/ do |not_a_member|
-  projects << project = new_public_project("[#{Time.now.to_i}] Any public workstream")  
-  add_me_as_a_member_of project unless not_a_member
+  add_me_as_a_member_of projects.last
 end
 
 Given /^the anonymous user is a member$/ do
-  fail("No project yet, can't add anonymous as a member") unless projects.first
-  add_as_member User.anonymous, projects.first
+  fail("No project yet, can't add anonymous as a member") unless projects.last
+  add_as_member User.anonymous, projects.last
+end
+
+Then /^I see it$/ do; Then "it is visible"; end
+
+Then /^I do not see it$/ do; Then "it is not visible"; end
+
+Then /^it is(\snot)? visible$/ do |not_visible|
+  show_or_not = not_visible ? "does not show" : "shows" 
+  Then "it #{show_or_not} in the Latest Public Workstreams list"
+  Then "it #{show_or_not} in the Most Active Public Workstreams list"
 end
 
 Then /^it shows in the Latest Public Workstreams list$/ do
   project_summary_selector = "div.splitcontentright"
     
   within project_summary_selector do |scope|     
-    scope.should contain @projects.first.name
+    scope.should contain @projects.last.name
   end
 end
 
@@ -35,7 +47,7 @@ Then /^it does not show in the Latest Public Workstreams list$/ do
   
   if has_project_summary  
     within project_summary_selector do |scope|     
-      scope.should_not contain @projects.first.name
+      scope.should_not contain @projects.last.name
     end
   end
 end
@@ -44,7 +56,7 @@ Then /^it shows in the Most Active Public Workstreams list$/ do
   project_summary_selector = "div.splitcontentleft"
     
   within project_summary_selector do |scope|     
-    scope.should contain @projects.first.name
+    scope.should contain @projects.last.name
   end
 end
 
@@ -52,7 +64,7 @@ Then /^it does not show in the Most Active Public Workstreams list$/ do
   project_summary_selector = "div.splitcontentleft"
     
   within project_summary_selector do |scope|     
-    scope.should_not contain @projects.first.name
+    scope.should_not contain @projects.last.name
   end
 end
 
