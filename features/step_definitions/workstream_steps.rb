@@ -3,7 +3,7 @@ Given /^there is one private workstream I am not a member of$/ do
 end
 
 Given /I have one private workstream/ do
-  project = new_private_project("[#{Time.now.to_i}] My private")
+  project = new_private_project("[#{Time.now.to_i}] #{@user.login}'s private")
   
   add_me_as_a_member_of project
     

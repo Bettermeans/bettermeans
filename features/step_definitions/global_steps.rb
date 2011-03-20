@@ -1,5 +1,5 @@
 Given /^I am logged in$/ do 
-  Given "I am logged in as \"any_example_user\""
+  Given "I am logged in as \"brian_dennehy\""
 end
 
 Given /^I am logged in as "([^\"]*)"$/ do |username|

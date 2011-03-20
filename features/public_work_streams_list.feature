@@ -30,7 +30,7 @@ Scenario: Private workstreams that I am not a member of but Anonymous is do not 
   When I go to Browse Bettermeans
   Then it does not show in the Latest Public Workstreams list
   
-Scenario: Administrators can see anyone's private workstreams
+Scenario: Administrators can see private workstreams they are not a member of
   Given I am an administrator
   And there is one private workstream I am not a member of
   When I go to Browse Bettermeans
