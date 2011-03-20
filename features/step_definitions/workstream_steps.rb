@@ -7,14 +7,14 @@ Given /^a public workstream that I do not belong to$/ do
   projects << project = new_public_project("[#{Time.now.to_i}] Any public workstream")  
 end
 
-Given /^a private workstream that I do not belong to$/ do
-  projects << new_private_project("[#{Time.now.to_i}] Someone else's private")
-end
-
 Given /^I belong to a private workstream$/ do
   projects << new_private_project("[#{Time.now.to_i}] Someone else's private")
   
   add_me_as_a_member_of projects.last
+end
+
+Given /^a private workstream that I do not belong to$/ do
+  projects << new_private_project("[#{Time.now.to_i}] Someone else's private")
 end
 
 Given /^the anonymous user is a member$/ do
@@ -68,34 +68,29 @@ Then /^it does not show in the Most Active Public Workstreams list$/ do
   end
 end
 
-def new_private_project(name)
-  result = Project.new()
+def new_public_project(name); new_project name, true; end
+
+def new_private_project(name); new_project name, false; end
+
+def new_project(name, _public=false)
+  result = Project.new
   result.name = name
-  result.is_public = false
+  result.is_public = _public
   result.save!  
   result
 end
 
-def new_public_project(name)
-  result = Project.new()
-  result.name = name
-  result.is_public = true
-  result.save!  
-  result
-end
-
-def add_me_as_a_member_of(project)  
-  add_as_member @user, project
-end
+def add_me_as_a_member_of(project); add_as_member @user, project; end
 
 def add_as_member(user, project)
   project.members << Member.new(:user => user, :roles => [Role.administrator])
 end
 
-def projects; @projects ||= []; end
-
-After do
-  if @projects
-    @projects.each {|project| project.delete} unless skip_teardown?
+def projects 
+  unless @projects
+    @projects = []
+    teardown { @projects.each {|project| project.delete} }
   end
+  
+  @projects
 end
