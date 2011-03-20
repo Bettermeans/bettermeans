@@ -12,6 +12,12 @@ Given /^I am logged in as "([^\"]*)"$/ do |username|
   assert_not_contain "Invalid user or password"
 end
 
+Given /^I am(\snot)? an administrator$/ do |not_an_adminstrator|
+  is_admin = not_an_adminstrator.nil? or not_an_adminstrator
+  @user.admin = is_admin
+  @user.save!
+end
+
 Given /^Login in as ([^\"]*) with password ([^\"]*)$/ do |username, password|
   visit url_for(:controller => 'account', :action => 'login')
   fill_in "username", :with => username
