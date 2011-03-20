@@ -14,7 +14,7 @@ end
 
 Given /^I am not logged in$/ do
   visit url_for(:controller => 'account', :action => 'logout')
-  @user = nil
+  @user = User.anonymous
 end
 
 Given /^I am(\snot)? an administrator$/ do |not_an_adminstrator|
