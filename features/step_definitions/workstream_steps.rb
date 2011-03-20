@@ -20,6 +20,12 @@ Given /^the anonymous user is a member$/ do
   add_as_member User.anonymous, projects.first
 end
 
+Then /^it is(\snot)? visible$/ do |not_visible|
+  show_or_not = not_visible ? "does not show" : "shows" 
+  Then "it #{show_or_not} in the Latest Public Workstreams list"
+  Then "it #{show_or_not} in the Most Active Public Workstreams list"
+end
+
 Then /^it shows in the Latest Public Workstreams list$/ do
   project_summary_selector = "div.splitcontentright"
     
