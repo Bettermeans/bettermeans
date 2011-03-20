@@ -2,6 +2,7 @@ Feature:(#6137) The Latest Public Workstreams list only shows public and my priv
 
 Background: 
   Given I am logged in
+  And I am not an administrator
   
 Scenario: Private workstreams that I am a member of show in Latest Public Workstreams
   Given I have one private workstream
@@ -23,13 +24,18 @@ Scenario: Public workstreams that I am not a member of show in Latest Public Wor
   When I go to Browse Bettermeans
   Then it shows in the Latest Public Workstreams list
   
-Scenario: Anonymous user is a member of a private project that I am not
+Scenario: Private workstreams that I am not a member of but Anonymous is do not show in Latest Public Workstreams
   Given there is one private workstream I am not a member of
   And the anonymous user is a member
   When I go to Browse Bettermeans
   Then it does not show in the Latest Public Workstreams list
   
 Scenario: Administrators can see anyone's private workstreams
+  Given I am an administrator
+  And there is one private workstream I am not a member of
+  When I go to Browse Bettermeans
+  Then it shows in the Latest Public Workstreams list
+  
 Scenario: Anonymous user can see all public workstreams
 Scenario: Anonymous user can see any private workstreams it is a member of
 
