@@ -6,6 +6,7 @@ class Project < ActiveRecord::Base
   
   # Project statuses
   STATUS_ACTIVE     = 1
+  STATUS_LOCKED     = 2 #private workstream, and user is overdue
   STATUS_ARCHIVED   = 9
   
   
@@ -328,6 +329,22 @@ class Project < ActiveRecord::Base
   
   def active?
     self.status == STATUS_ACTIVE
+  end
+
+  def archived?
+    self.status == STATUS_ARCHIVED
+  end
+  
+  def locked?
+    self.status == STATUS_LOCKED
+  end
+  
+  def lock
+    self.update_attribute(:status, STATUS_LOCKED) if active? && !locked?
+  end
+
+  def unlock
+    self.update_attribute(:status, STATUS_ACTIVE) if locked?
   end
   
   def enterprise?

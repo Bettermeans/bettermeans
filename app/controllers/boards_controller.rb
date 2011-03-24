@@ -74,6 +74,7 @@ class BoardsController < ApplicationController
 private
   def find_project
     @project = Project.find(params[:project_id])
+    render_message l(:text_project_locked) if @project.locked?
     @board = @project.boards.find(params[:id]) if params[:id]
   rescue ActiveRecord::RecordNotFound
     render_404
