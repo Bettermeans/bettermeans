@@ -4,7 +4,7 @@
 
 class Setting < ActiveRecord::Base
   
-  APP_TITLE = "BetterMeans.com"
+  APP_TITLE = "Bettermeans.com"
   
   TEXT_FORMATTING = "textile"
 
@@ -30,6 +30,10 @@ class Setting < ActiveRecord::Base
   ACTIVITY_LINE_LENGTH = 90 #number of days for activity sparklines
   
   ACTIVITY_STREAM_LENGTH = 40 #number of actions to show before paginating
+  
+  WORKSTREAM_LOCK_THRESHOLD = 30 #number of days overdue before workstreams are locked
+  
+  GLOBAL_OVERUSE_THRESHOLD = 7 #number of days before which a global flash message is issued saying that user is over limits
 
 
   #Factor by which dollars per point is multiplies e.g. a 5 point issue is worth $(POINT_FACTOR[5] * dpp)

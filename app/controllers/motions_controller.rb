@@ -151,6 +151,7 @@ class MotionsController < ApplicationController
   
   def find_project
     @project = Project.find(params[:project_id]).root
+    render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -158,6 +159,7 @@ class MotionsController < ApplicationController
   def find_motion
     @motion = Motion.find(params[:id])
     @project = @motion.project
+    render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end

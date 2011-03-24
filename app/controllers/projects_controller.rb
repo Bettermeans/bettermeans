@@ -518,6 +518,8 @@ private
     else
       @project = Project.find(params[:id])
     end
+    render_message l(:text_project_locked) if @project.locked?
+    
   rescue ActiveRecord::RecordNotFound
     render_404
   end
