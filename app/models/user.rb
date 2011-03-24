@@ -153,8 +153,7 @@ class User < ActiveRecord::Base
         :last_name => @user.lastname,
         :email => @user.mail,
         :username => @user.login)
-      logger.info { "created account #{@account.inspect}" }
-      put "created account #{@account.inspect}"
+      puts "created account #{@account.inspect}"
     end
   end
   
