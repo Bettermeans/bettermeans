@@ -106,7 +106,7 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.find(params[:id])
     
     if @invitation.token != params[:token] || @invitation.status != Invitation::PENDING
-      redirect_with_flash :error, l(:error_bad_invite), :controller => :projects, :action => :show, :id => @invitation.project_id 
+      redirect_with_flash :error, l(:error_old_invite), :controller => :projects, :action => :show, :id => @invitation.project_id 
       return
     end
     
