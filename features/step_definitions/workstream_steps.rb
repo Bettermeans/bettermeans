@@ -7,6 +7,12 @@ Given /^a public workstream that I do not belong to$/ do
   projects << project = new_public_project("[#{Time.now.to_i}] Any public workstream")  
 end
 
+Given /^there are more than (\d+) workstreams available$/ do |count|
+  for i in 1..(count.to_i + 1) do
+    projects << new_public_project("[#{Time.now.to_i}] Workstream (#{i})")        
+  end
+end
+
 Given /a public workstream that is a child of another public workstream/ do
   projects << parent = new_public_project("[#{Time.now.to_i}] Parent")  
   projects << child = new_public_project("[#{Time.now.to_i}] Child")
