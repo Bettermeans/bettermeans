@@ -31,6 +31,9 @@ Scenario: Administrators can see all private workstreams
   And a private workstream that I do not belong to
   When I go to Browse Bettermeans
   Then I see it
+  Given I belong to a private workstream
+  When I go to Browse Bettermeans
+  Then I see it
   
 Scenario: Anonymous users can see all public workstreams
   Given I am not logged in
@@ -50,4 +53,7 @@ Scenario: Anonymous users cannot see any private workstreams at all
   When I go to Browse Bettermeans
   Then I do not see it
   
-Scenario: It only returns root workstreams
+Scenario: It only shows root workstreams
+  Given a public workstream that is a child of another public workstream
+  When I go to Browse Bettermeans
+  Then I do not see it
