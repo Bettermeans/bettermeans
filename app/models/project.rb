@@ -221,6 +221,40 @@ class Project < ActiveRecord::Base
     end
   end	
   
+  def self.latest_public(user, count=10, offset=0)
+    fail "The \"user\" argument is required." unless user
+    
+    filter = user.admin? ? 
+      "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" :     
+      "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " + 
+      "#{Project.table_name}.is_public = #{connection.quoted_true}"
+    
+    all_roots.find(
+      :all, 
+      :limit => count, 
+      :conditions => filter, 
+      :order => "created_at DESC", 
+      :offset => offset
+    )	    
+  end
+  
+  def self.most_active_public(user, count=10, offset=0)
+    fail "The \"user\" argument is required." unless user
+    
+    filter = user.admin? ? 
+      "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" :     
+      "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " + 
+      "#{Project.table_name}.is_public = #{connection.quoted_true}"
+      
+    all_roots.find(
+      :all, 
+      :limit => count, 
+      :conditions => filter, 
+      :order => "activity_total DESC", 
+      :offset => offset
+    )	  
+  end
+  
   # returns most active projects
   # non public projects will be returned only if user is a member of those
   def self.most_active(user=nil, count=10, root=false, offset=0)
