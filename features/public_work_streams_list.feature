@@ -59,3 +59,6 @@ Scenario: It only shows root workstreams
   Then I do not see it
   
 Scenario: It only shows the top 10 workstreams
+  Given there are more than 10 workstreams available
+  When I go to Browse Bettermeans
+  Then I only see 10
