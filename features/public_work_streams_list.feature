@@ -57,3 +57,5 @@ Scenario: It only shows root workstreams
   Given a public workstream that is a child of another public workstream
   When I go to Browse Bettermeans
   Then I do not see it
+  
+Scenario: It only shows the top 10 workstreams
