@@ -7,6 +7,16 @@ Given /^a public workstream that I do not belong to$/ do
   projects << project = new_public_project("[#{Time.now.to_i}] Any public workstream")  
 end
 
+Given /a public workstream that is a child of another public workstream/ do
+  projects << parent = new_public_project("[#{Time.now.to_i}] Parent")  
+  projects << child = new_public_project("[#{Time.now.to_i}] Child")
+  
+  child.move_to_child_of parent
+  child.parent_id.should(eql(parent.id), 
+    "Failed to add project <#{child.name}> as child of <#{parent.name}>"
+  ) 
+end
+
 Given /^I belong to a private workstream$/ do
   projects << new_private_project("[#{Time.now.to_i}] Someone else's private")
   
