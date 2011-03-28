@@ -696,7 +696,8 @@ function is_visible(item){
 
 function is_startable(item){
 	if (item.status.name == "Open"){
-		return ((item.pri > (highest_pri - startable_priority_tiers))||(item.pri == 0));
+		return true;
+		// return ((item.pri > (highest_pri - startable_priority_tiers))||(item.pri == 0));
 	}
 	else{
 		return false;
@@ -2053,7 +2054,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	}
 	
 	if (include_start_button && user_estimated && user_voted){
-		html = html + dash_button('start',dataId,true); //add start button if user estimated and voted
+		html = html + dash_button('start',dataId,false); //add start button if user estimated and voted
 	}
 	
 	if ((!user_estimated) && user_voted){
@@ -2878,18 +2879,18 @@ function sort_panel(name){
 		    $('#' + name + '_start_of_list').append(this);
 		    });
 		
-		if (name == "open"){
-			show_start_buttons();
-		}
+		// if (name == "open"){
+		// 	show_start_buttons();
+		// }
 }
 
-function show_start_buttons(){
-	$(".action_button_start").hide();
-	for (var i=0; i < startable_priority_tiers; i++){
-		$(".pri_" + (highest_pri - i)).find(".action_button_start").show();
-	}
-	$(".points_0").find(".action_button_start").show();
-}
+// function show_start_buttons(){
+// 	$(".action_button_start").hide();
+// 	for (var i=0; i < startable_priority_tiers; i++){
+// 		$(".pri_" + (highest_pri - i)).find(".action_button_start").show();
+// 	}
+// 	$(".points_0").find(".action_button_start").show();
+// }
 
 
 function recalculate_widths(){
@@ -2973,7 +2974,7 @@ function collapse_item(dataId,check_for_save){
 	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
 	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 5000);
 	keyboard_shortcuts = true;
-	show_start_buttons();
+	// show_start_buttons();
 	adjust_button_container_widths();
 	return false;
 }
@@ -3120,7 +3121,7 @@ function item_added(item){
 	ITEMHASH["item" + item.id] = D.length - 1;
 	add_item(D.length-1,"top",false);
 	keyboard_shortcuts = true;
-	show_start_buttons();
+	// show_start_buttons();
 	update_panel_counts();
 	remove_new_link();
 	add_new_link();
@@ -3151,7 +3152,7 @@ function item_actioned(item, dataId, action){
 	else if ((!status_changed) || (item.status.name == 'Accepted' && action != "data_refresh") || (item.status.name == 'Rejected' && action != "data_refresh"))
 	{
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
-		show_start_buttons();
+		// show_start_buttons();
 		//tODO: highlight the right item here
 	}
 	else
