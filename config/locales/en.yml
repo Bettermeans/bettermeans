@@ -1234,7 +1234,7 @@ en:
   text_personal_invitation : "Use the form below to send personalized invitations to potential team members.<br><br>This is the better way to go since people are more likely to respond to an exclusive invite, and don't need to validate their email.<br><br> This is also the more secure option since each invitation can be used only once and expires after a while."
   text_active_team_explanation : "<strong>Active Members (for this workstream)</strong><br><br>Active members are people that have been involved in this specific workstream in the past 2 weeks. <br><br> Contributors, members, and core team roles are defined at the parent(root) workstream and apply to all it's sub workstreams.<br><br>For example: if someone is a core team member of a workstream then they will have the same role for all sub workstreams. However, they might be active in some and not others."
   text_email_updated : "Email successfully updated"
-  text_usage_over : "You have exceed your usage for your current plan.<br> Please upgrade as soon as possible."
+  text_usage_over : "You have exceeded your usage for your current plan.<br> Please upgrade as soon as possible."
   text_trial_expired : "Your trial period has expired.<br> Please update your billing info so we can start charging you."
       
   text_role_invitation_description_Administrator : "Admins have the most power.<br><br> An Admin can bypass governance rules and directly add/remove members and workstreams, and all their votes are binding.<br><br> Use this role sparingly as you are setting up your structures. Then transition to using other roles for day to day collaboration."
