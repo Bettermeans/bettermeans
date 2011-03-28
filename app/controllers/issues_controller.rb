@@ -343,10 +343,10 @@ class IssuesController < ApplicationController
   end
   
   def estimate
-    if (@issue.status != IssueStatus.open) && (@issue.status != IssueStatus.newstatus) && (@issue.status != IssueStatus.estimate)  
-          render_error 'Can not estimate request unless it is new, open, or in estimation' 
-          return false;
-    end
+    # if (@issue.status != IssueStatus.open) && (@issue.status != IssueStatus.newstatus) && (@issue.status != IssueStatus.estimate)  
+    #       render_error 'Can not estimate request unless it is new, open, or in estimation' 
+    #       return false;
+    # end
     
     if(@issue.is_hourly?)
       render_error 'Can not estimate hourly items'
