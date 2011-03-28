@@ -13,6 +13,7 @@ gem 'fastercsv'
 gem "SystemTimer", :require => "system_timer", :platforms => :ruby_18
 gem "rack-timeout"
 gem 'will_paginate'
+gem 'acts-as-taggable-on'
 
 group :test do
   gem 'test-unit', '1.2.3'
