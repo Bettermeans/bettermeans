@@ -514,12 +514,12 @@ function prepare_item_lookup_array(){
 // Loads all items in their perspective panels, and sets up panels
 function display_panels(){
 	loaded_panels = 0;
-	insert_panel(0,'new','New',true);
+	insert_panel(0,'new','Open',true);
 	add_new_link();
 	// insert_panel(0,'estimate','In Estimation',true);
-	insert_panel(0,'open','Open',true);
+	// insert_panel(0,'open','Open',true);
 	insert_panel(0,'inprogress','In Progress',true);
-	insert_panel(0,'done','Done',true);
+	insert_panel(0,'done','Done',false);
 	insert_panel(0,'canceled','Canceled',false);
 	// insert_panel(0,'archived','Archived',false);
 }
@@ -530,7 +530,7 @@ function wipe_panels(){
 }
 
 function sort_panels(){
-	sort_panel('open');
+	// sort_panel('open');
 	sort_panel('new');
 	sort_panel('inprogress');
 }
@@ -718,7 +718,7 @@ function add_item(dataId,position,scroll,panelid){
 		panelid= 'new';
 		break;
 		case 'Open':
-		panelid= 'open';
+		panelid= 'new';
 		break;
 		case 'Committed':
 		panelid = 'inprogress';
@@ -1816,14 +1816,14 @@ function generate_retro(rdataId){
 	return html;	
 }
 
-function retro_status(retro){
-	if (retro.status_id == 1){
-		return "open";
-	}
-	else{
-		return "done";
-	}
-}
+// function retro_status(retro){
+// 	if (retro.status_id == 1){
+// 		return "open";
+// 	}
+// 	else{
+// 		return "done";
+// 	}
+// }
 
 function display_retro(rdataId){
 	
@@ -2839,21 +2839,21 @@ function sort_panel(name){
 		var listitems = $('#' + name + '_start_of_list').children().get();
 
  		//Setting highest_pri to priority of first item in open panel
-		if ((name == "open") && (listitems.length > 0)){
-			var first_item_id = listitems[0].id.replace(/item_/g,'');
-			// var first_item_data_id = ITEMHASH["item" + first_item_id];
-			//BUGBUG: listitems.length could be greater than 0 if it has only one item that's being edited
-			highest_pri = D[first_item_id].pri;
-			}
+		// if ((name == "open") && (listitems.length > 0)){
+		// 	var first_item_id = listitems[0].id.replace(/item_/g,'');
+		// 	// var first_item_data_id = ITEMHASH["item" + first_item_id];
+		// 	//BUGBUG: listitems.length could be greater than 0 if it has only one item that's being edited
+		// 	highest_pri = D[first_item_id].pri;
+		// 	}
 		
 		listitems.sort(function(a, b) {
 		   var compA = a.id.replace(/item_/g,'');
 		   var compB = b.id.replace(/item_/g,'');
 					
-		   if (name == "open"){
-				if (D[compA].pri > highest_pri) { highest_pri = D[compA].pri;}
-		   		if (D[compB].pri > highest_pri) { highest_pri = D[compB].pri;}
-		   }
+			// 		   if (name == "open"){
+			// if (D[compA].pri > highest_pri) { highest_pri = D[compA].pri;}
+			// 		   		if (D[compB].pri > highest_pri) { highest_pri = D[compB].pri;}
+			// 		   }
 		
 		   if (compA == 'new_link') {
 				return -1;
@@ -2861,9 +2861,9 @@ function sort_panel(name){
 			else if (compB == 'new_link') {
 					return 1;
 			}
-			  else if (D[compA].pri > D[compB].pri) {
+			  else if (D[compA].agree_total > D[compB].agree_total) {
 			return -1;
-			} else if (D[compA].pri < D[compB].pri) {
+			} else if (D[compA].agree_total < D[compB].agree_total) {
 				return 1;
 			} else if (new Date(D[compA].created_at) > new Date(D[compB].created_at)) {
 				return 1;
@@ -3168,11 +3168,16 @@ function item_actioned(item, dataId, action){
 	
 	//we don't sort panels on data refresh
 	if (action != "data_refresh"){
-		if (action == "open" || item.status.name == "Open" || pre_status == "Open") {sort_panel("open");}
-		if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
-			sort_panel(item.status.name.toLowerCase());
+		if (action == "add") {	
+			sort_panel('new');
 			$("#" + item.status.name.toLowerCase() + "_items").scrollTo('#item_' + dataId, 300);
 		}
+		
+		// if (action == "open" || item.status.name == "Open" || pre_status == "Open") {sort_panel("open");}
+		// if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
+		// 	sort_panel(item.status.name.toLowerCase());
+		// 	$("#" + item.status.name.toLowerCase() + "_items").scrollTo('#item_' + dataId, 300);
+		// }
 		
 		adjust_button_container_widths();
 		save_local_data();
@@ -4357,8 +4362,8 @@ function new_dash_data_response(data){
 		}
 	}
 	
-	sort_panel('open');
-	sort_panel('inprogress');
+	// sort_panel('open');
+	// sort_panel('inprogress');
 	adjust_button_container_widths();
 	update_panel_counts();
 	save_local_data();
@@ -4393,7 +4398,7 @@ function handle_error (xhr, textStatus, errorThrown, dataId, action) {
 		update_lightbox_lock_version(dataId);
 		
 		
-		sort_panel('open');
+		// sort_panel('open');
 		$('#featureicon_' + dataId).attr("src", "/images/error.png");
 		$.jGrowl("Sorry, couldn't " + action + " item:<br>" + h(D[dataId].subject) , { header: 'Error', position: 'bottom-right' });
 		
