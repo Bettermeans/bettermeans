@@ -1,7 +1,7 @@
 var D = []; //all data
 var R = []; //all retrospectives
 var local_D = null;
-var local_R = null;
+// var local_R = null;
 var MAX_REQUESTS_PER_PERSON = 4;
 var TIMER_INTERVAL = 15000; //15 seconds
 var INACTIVITY_THRESHOLD = 300000; //5 minutes
@@ -183,21 +183,21 @@ function load_dashboard_data(){
 	$("#loading").hide();
 	
 	get_local_data();
-	if (local_R == null){
-		local_R = [];
-	}
+	// if (local_R == null){
+	// 	local_R = [];
+	// }
 	
 	if (local_D != null){
 		data_ready(local_D,'all');
-		if (credits_enabled){
-			retros_ready(local_R);
-			load_retros();
-		}
+		// if (credits_enabled){
+		// 	retros_ready(local_R);
+		// 	load_retros();
+		// }
 		ISSUE_COUNT = -1; //we are loading from local data, so we set the counter past 10 to refresh moved items
 		timer_active = true;
 		new_dash_data();
 		local_D = null;
-		local_R = null;
+		// local_R = null;
 	}
 	else{
 		D = [];
@@ -269,8 +269,8 @@ function get_local_data(){
 		
 		if (local_D == null) {return false;}
 		
-		local_R = JSON.parse(store.get('R_' + projectId));
-		if (local_R == null) {local_R = [];}
+		// local_R = JSON.parse(store.get('R_' + projectId));
+		// if (local_R == null) {local_R = [];}
 		
 		last_data_pull = new Date(store.get('last_data_pull_' + projectId));
 
@@ -362,11 +362,11 @@ function data_ready(html,name){
 	}
 	update_panel_counts();
 	prepare_item_lookup_array(); //TODO: move this somewhere else for efficiency. it should only run once
-	if (loaded_panels == 4 && credits_enabled){
-		load_retros();
-		timer_active = true;
-	}
-	else if (loaded_panels == 4){
+	// if (loaded_panels == 4 && credits_enabled){
+	// 	load_retros();
+	// 	timer_active = true;
+	// }
+	if (loaded_panels == 4){
 		enable_refresh_button();
 		timer_active = true;
 	}
@@ -377,36 +377,37 @@ function replace_reloading_images_for_panels(){
 }
 
 
-function load_retros(){
-		if (!credits_enabled){
-			return false;
-		}
-		var url = url_for({ controller: 'projects',
-								id		: projectId
-	                          });
-		url = url + '/retros/index_json';
-	    		
-		$.ajax({
-		   type: "GET",
-		   dataType: "json",
-		   contentType: "application/json",
-		   url: url,
-		   success:  	function(html){
-				retros_ready(html);
-				enable_refresh_button();
-			},
-		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
-			// typically only one of textStatus or errorThrown will have info
-			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
-			$("#loading").hide();
-			$("#loading_error").show();
-			enable_refresh_button();
-			},
-			timeout: 30000 //30 seconds
-		 });
-		return true;
-}
-
+// function load_retros(){
+// 	
+// 		if (!credits_enabled){
+// 			return false;
+// 		}
+// 		var url = url_for({ controller: 'projects',
+// 								id		: projectId
+// 			                          });
+// 		url = url + '/retros/index_json';
+// 			    		
+// 		$.ajax({
+// 		   type: "GET",
+// 		   dataType: "json",
+// 		   contentType: "application/json",
+// 		   url: url,
+// 		   success:  	function(html){
+// 				retros_ready(html);
+// 				enable_refresh_button();
+// 			},
+// 		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+// 			// typically only one of textStatus or errorThrown will have info
+// 			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+// 			$("#loading").hide();
+// 			$("#loading_error").show();
+// 			enable_refresh_button();
+// 			},
+// 			timeout: 30000 //30 seconds
+// 		 });
+// 		return true;
+// }
+// 
 function enable_refresh_button(){
 	$('#refresh_data').show();
 }
