@@ -19,6 +19,7 @@ GEM
     activeresource (2.3.5)
       activesupport (= 2.3.5)
     activesupport (2.3.5)
+    acts-as-taggable-on (2.0.6)
     aws-s3 (0.6.2)
       builder
       mime-types
@@ -97,6 +98,7 @@ PLATFORMS
 
 DEPENDENCIES
   SystemTimer
+  acts-as-taggable-on
   comma!
   cucumber (= 0.4.3)
   factory_girl
