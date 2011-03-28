@@ -894,7 +894,7 @@ function generate_estimate_flyover(dataId){
 	var action_header = '';
 	var buttons = '';
 	
-	if (!((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {	
+	// if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {	
 		user_estimate == -100 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
 
 		buttons = buttons + generate_estimate_button(-1,-1, item.id, dataId, (user_estimate != -100));
@@ -903,7 +903,7 @@ function generate_estimate_flyover(dataId){
 			buttons = buttons + generate_estimate_button(i,point_factor[i] * credit_base, item.id, dataId, (user_estimate != -100));
 		}
 		buttons = buttons + generate_custom_estimate_button(dataId,user_estimate);
-	}
+	// }
 	
 	return generate_flyover(dataId,'estimate',title,you_voted,action_header,buttons,history);
 	
