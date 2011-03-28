@@ -143,6 +143,7 @@ class Issue < ActiveRecord::Base
   end
   
   def updated_status
+    return IssueStatus.canceled if self.status == IssueStatus.canceled
     return IssueStatus.accepted if ready_for_accepted?
     return IssueStatus.rejected if ready_for_rejected?
     return IssueStatus.done if self.status == IssueStatus.done || (ready_for_open? && is_gift?)
