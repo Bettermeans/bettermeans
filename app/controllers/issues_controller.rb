@@ -361,7 +361,7 @@ class IssuesController < ApplicationController
     logger.info { "after update #{@issue.inspect}" }
     logger.info { "start saving" }
     @issue.save if !@issue.update_status
-    logger.info { "done saving" }
+    logger.info { "done saving #{@issue.inspect}" }
     @issue.reload
     
     respond_to do |format|
