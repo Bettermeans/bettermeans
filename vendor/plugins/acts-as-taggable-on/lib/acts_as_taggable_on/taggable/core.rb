@@ -21,7 +21,7 @@ module ActsAsTaggableOn::Taggable
 
           class_eval do
             has_many context_taggings, :as => :taggable, :dependent => :destroy, :include => :tag, :class_name => "ActsAsTaggableOn::Tagging",
-            :conditions => ["#{ActsAsTaggableOn::Tagging.table_name}.tag_id = #{ActsAsTaggableOn::Tag.table_name}.id AND #{ActsAsTaggableOn::Tagging.table_name}.context = ?", tags_type]
+                     :conditions => ["#{ActsAsTaggableOn::Tagging.table_name}.tagger_id IS NULL AND #{ActsAsTaggableOn::Tagging.table_name}.context = ?", tags_type]
             has_many context_tags, :through => context_taggings, :source => :tag, :class_name => "ActsAsTaggableOn::Tag"
           end
 
@@ -68,7 +68,7 @@ module ActsAsTaggableOn::Taggable
       def tagged_with(tags, options = {})
         tag_list = ActsAsTaggableOn::TagList.from(tags)
 
-        return {} if tag_list.empty?
+        return self if tag_list.empty?
 
         joins = []
         conditions = []
