@@ -1,20 +1,47 @@
-div.tagsinput { border:0px solid #CCC; background: transparent; padding:5px; width:300px; height:100px; }
+div.tagsinput, div.tagsoutput { 
+	border:0px solid #CCC; 
+	background: transparent; 
+	padding:5px; 
+	width:300px; 
+	height:100px; }
+	
 div.tagsinput span.tag { 
-	border: 1px solid #a5d24a; 
+	border: 1px solid #73A1D0; 
 	-moz-border-radius:2px; 
 	-webkit-border-radius:2px; 
 	display: block; 
 	float: left; 
-	padding: 0px 5px 5px 5px; 
+	padding: 1px 5px 1px 5px; 
 	text-decoration:none; 
-	background: #cde69c; 
-	color: #638421; 
+	background: #B2CCE5; 
+	color: #white; 
 	margin-right: 5px; 
 	margin-bottom:5px;
 	font-family: helvetica;  
 	font-size:13px; 
-	height: 16px;}
-div.tagsinput span.tag a { font-weight: bold; color: #82ad2b; text-decoration:none; font-size: 11px;  } 
-div.tagsinput input { width:80px; margin:0px; font-family: helvetica; font-size: 13px; border:1px solid transparent; padding:5px; background: transparent; color: #000; outline:0px;  margin-right:5px; margin-bottom:5px; }
-div.tagsinput div { display:block; float: left; } 
+	height: 16px;
+	line-height: 17px;
+}
+
+div.tagsoutput span.tag { 
+	border: 1px solid #73A1D0; 
+	-moz-border-radius:2px; 
+	-webkit-border-radius:2px; 
+	display: block; 
+	float: left; 
+	padding: 0px 5px 0px 5px; 
+	text-decoration:none; 
+	background: ##B2CCE5; 
+	color: #white; 
+	margin-right: 5px; 
+	margin-bottom:5px;
+	font-family: helvetica;  
+	font-size:13px; 
+	height: 16px;
+	line-height: 17px;
+	}
+	
+div.tagsinput span.tag a, div.tagsoutput span.tag a  { font-weight: bold; color: #91928E; text-decoration:none; font-size: 11px;  } 
+div.tagsinput input, div.tagsoutput input  { width:80px; margin:0px; font-family: helvetica; font-size: 13px; border:1px solid transparent; padding:5px; background: transparent; color: #000; outline:0px;  margin-right:5px; margin-bottom:5px; }
+div.tagsinput div, div.tagsoutput div  { display:block; float: left; } 
 .tags_clear { clear: both; width: 100%; height: 0px; }

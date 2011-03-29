@@ -55,7 +55,7 @@ Redmine::AccessControl.map do |map|
                                   }
                 
     map.permission :add_issues, {:issues => [:new, :update_form]}
-    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :cancel, :restart, :prioritize, :agree, :disagree, :estimate, :join, :leave, :add_team_member, :remove_team_member]}
+    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :cancel, :restart, :prioritize, :agree, :disagree, :estimate, :join, :leave, :add_team_member, :remove_team_member, :update_tags]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
     map.permission :add_issue_notes, {:issues => [:reply], :comments => :create, :todos => [:create,:update,:destroy]}
     map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin
