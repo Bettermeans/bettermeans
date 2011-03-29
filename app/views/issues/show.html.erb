@@ -8,8 +8,8 @@
             <div class="issue-content-wrapper">
               <span id="item_header"><h3 class="issue-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @issue.subject %></h3></span>
                 <div class="issue-body">
-                  <p><%= tags @issue, false %></p>
-                  <p><%= tags @issue, true %></p>
+                  <!-- <p><%#= tags @issue, false %></p>
+                  <p><%#= tags @issue, true %></p> -->
                     <p>
                       <%= textilizable @issue, :description, :attachments => @issue.attachments %>
                     </p>
