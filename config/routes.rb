@@ -158,7 +158,7 @@ ActionController::Routing::Routes.draw do |map|
     issues_routes.with_options :conditions => {:method => :post} do |issues_actions|
       issues_actions.connect 'projects/:project_id/issues', :action => 'new'
       issues_actions.connect 'issues/:id/quoted', :action => 'reply', :id => /\d+/
-      issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy|start|finish|release|cancel|restart|prioritize|agree|disagree|estimate|accept|reject|join|leave|add_team_member/, :id => /\d+/
+      issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy|start|finish|release|cancel|restart|prioritize|agree|disagree|estimate|accept|reject|join|leave|add_team_member|update_tags/, :id => /\d+/
       issues_actions.connect 'issues/:container_id/attachments/create', :controller => 'attachments', :action => 'create'
     end
   end

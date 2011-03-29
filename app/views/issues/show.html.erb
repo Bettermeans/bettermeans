@@ -6,10 +6,10 @@
 
         <div class="issue-content">
             <div class="issue-content-wrapper">
-              <span id="item_header"><h3 class="issue-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @issue.subject %></h3></span>
+              <span id="item_header"><h3 class="issue-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @issue.subject %></h3>
+                </span>
+              
                 <div class="issue-body">
-                  <!-- <p><%#= tags @issue, false %></p>
-                  <p><%#= tags @issue, true %></p> -->
                     <p>
                       <%= textilizable @issue, :description, :attachments => @issue.attachments %>
                     </p>
@@ -48,9 +48,15 @@
                   <% end %>
                   <div class="issue-image-paperclip-placeholder"></div>
                 </div>
+                
                 <div class="issue-meta-box first-box">
                     <h3 class="issue-meta-title"><%= l(:label_project) %></h3>
                     <span class="issue-meta-content"><%= link_to(@issue.project.name, {:controller => 'projects', :action => 'show', :id => @issue.project_id}) %> - <%= @issue.tracker.name %> #<%= @issue.id %></span>
+                </div>
+                <div class="issue-meta-box first-box">
+                    <h3 class="issue-meta-title"><%=l(:field_tags)%></h3>
+                    <span class="issue-meta-content"><table style="width:100%" id="issue_tags_container"><tr><td><%= tags @issue, true %></td></tr></table>
+                    </span>
                 </div>
                 <div class="issue-meta-box first-box">
                     <h3 class="issue-meta-title"><%=l(:field_status)%></h3>
@@ -150,7 +156,16 @@
     show_item(<%= @issue.startable? %>);
     initialize();
     
-    $('.issue-tags').tagsInput();
+    $('.issue-tags').tagsInput({
+       // 'autocomplete_url': url_to_autocomplete_api,
+       // 'autocomplete': { option: value, option: value},
+       'issue_id':'<%= @issue.id %>',
+       'height':'20px',
+       'width':$('#issue_tags_container').width(),
+       'defaultText':'add a tag'
+    });
+    
+    // $('.issue-tags').tagsInput();
     
     $('#file_upload').fileUploadUI({
         uploadTable: $('#files'),

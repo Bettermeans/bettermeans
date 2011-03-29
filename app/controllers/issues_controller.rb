@@ -7,7 +7,7 @@ class IssuesController < ApplicationController
   default_search_scope :issues
   ssl_required :all  
   
-  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member, :remove_team_member, :move]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member, :remove_team_member, :move, :update_tags]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu, :datadump, :temp]
@@ -342,6 +342,16 @@ class IssuesController < ApplicationController
     end
   end
   
+  def update_tags
+    logger.info { "params tags #{params[:tags]}" }
+    @issue.update_attribute(:tag_list, params[:tags])
+    respond_to do |format|
+      format.js {render :nothing => true}
+      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
+    end
+  end
+  
+
   def estimate
     # if (@issue.status != IssueStatus.open) && (@issue.status != IssueStatus.newstatus) && (@issue.status != IssueStatus.estimate)  
     #       render_error 'Can not estimate request unless it is new, open, or in estimation' 

@@ -17,10 +17,12 @@
 (function($) {
 
 	var delimiter = new Array();
+	var issue_id = null;
 	
 	jQuery.fn.addTag = function(value,options) {
 		
 			var options = jQuery.extend({focus:false},options);
+			
 			this.each(function() { 
 				id = $(this).attr('id');
 	
@@ -43,7 +45,11 @@
 				}
 				jQuery.fn.tagsInput.updateTagsField(this,tagslist);
 		
-			});		
+			});
+			
+			if (options['send_to_server'] != false){
+				update_issue_tags($(this).attr('value'));
+			}
 			
 			return false;
 		};
@@ -66,15 +72,34 @@
 				
 				jQuery.fn.tagsInput.importTags(this,str);
 			});
+			
+			update_issue_tags($(this).attr('value'));
 					
 			return false;
 	
 		};
 	
+	function update_issue_tags(tags){
+		console.log("issue " + issue_id + "  tag " + tags);
+		var url = url_for({ controller: 'issues',
+	                           action    : 'update_tags',
+								id		: issue_id
+	                          });
+		var data = 'tags=' + tags;
+
+		$.ajax({
+		   type: "POST",
+		   dataType: "json",
+		   url: url,
+		   data: data
+		 });
+	}
 	
 	jQuery.fn.tagsInput = function(options) { 
 	
 		var settings = jQuery.extend({defaultText:'add a tag',width:'300px',height:'100px','hide':true,'delimiter':',',autocomplete:{selectFirst:false}},options);
+		
+		issue_id = settings.issue_id;
 	
 		this.each(function() { 
 			if (settings.hide) { 
@@ -189,7 +214,7 @@
 			id = $(obj).attr('id');
 			var tags = val.split(delimiter[id]);
 			for (i=0; i<tags.length; i++) { 
-				$(obj).addTag(tags[i],{focus:false});
+				$(obj).addTag(tags[i],{focus:false, send_to_server:false});
 			}
 		};
 			
