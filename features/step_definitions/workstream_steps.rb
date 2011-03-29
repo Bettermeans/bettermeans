@@ -51,7 +51,7 @@ end
 Then /^it shows in the Latest Public Workstreams list$/ do
   project_summary_selector = "div.splitcontentright"
     
-  within project_summary_selector do |scope|     
+  within project_summary_selector do |scope|  
     scope.should contain @projects.last.name
   end
 end
@@ -82,6 +82,12 @@ Then /^it does not show in the Most Active Public Workstreams list$/ do
   within project_summary_selector do |scope|     
     scope.should_not contain @projects.last.name
   end
+end
+
+Then /I only see (\d+)/ do |expected_count|
+  view = BrowseBettermeansView.new @integration_session
+  view.latest_public_workstreams.size.should eql expected_count.to_i
+  view.most_active_public_workstreams.size.should eql expected_count.to_i
 end
 
 def new_public_project(name); new_project name, true; end
