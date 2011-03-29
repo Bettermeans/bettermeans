@@ -2,6 +2,10 @@ ENV["RAILS_ENV"] ||= "cucumber"
 require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
 require 'cucumber/rails/world'
 
+dir = File.expand_path File.dirname(__FILE__)
+
+Dir.glob(File.join dir, "views","*.rb").each { |file| require file }
+
 Cucumber::Rails::World.use_transactional_fixtures = false
 
 ActionController::Base.allow_rescue = false
