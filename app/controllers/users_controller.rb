@@ -36,15 +36,16 @@ class UsersController < ApplicationController
   end
   
   def show
-    if params[:login]
-      @user = User.active.find_by_login(params[:login])
-      if @user.nil?
-        render_404
-        return
-      end
-    else
-      @user = User.active.find(params[:id])
-    end
+    @user = User.find(params[:id])
+    # if params[:login]
+    #   @user = User.active.find_by_login(params[:login])
+    #   if @user.nil?
+    #     render_404
+    #     return
+    #   end
+    # else
+    #   @user = User.active.find(params[:id])
+    # end
     
     # show only public projects and private projects that the logged in user is also a member of
     @memberships = @user.memberships.select do |membership|
