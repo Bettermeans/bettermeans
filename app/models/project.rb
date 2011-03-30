@@ -147,7 +147,7 @@ class Project < ActiveRecord::Base
   end
   
   def all_tags(term = '')
-    ActsAsTaggableOn::Tag.find_by_sql(["select name from tags inner join taggings on taggings.tag_id = tags.id where taggings.project_id = ? and name like '%#{term}%'",self.id]).map{|t| t.name}.sort
+    ActsAsTaggableOn::Tag.find_by_sql(["select name from tags inner join taggings on taggings.tag_id = tags.id where taggings.project_id = ? and name like '%#{term}%'",self.id]).map{|t| t.name}.uniq.sort
   end
   
   def graph_data

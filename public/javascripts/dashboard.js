@@ -1786,11 +1786,11 @@ function generate_item_lightbox(dataId){
 	html = html + '</div>';
 
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
-	html = html + '<h3 style="border:none"><img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '">'; 
+	html = html + '<h3 style="border:none;padding-left:11px">'; 
 
 	html = html + generate_item_estimate_button(dataId,points);
 
-	html = html + '&nbsp;&nbsp;&nbsp;' + h(item.subject);
+	html = html + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + h(item.subject);
 	html = html + '&nbsp;<span id="icon_set_' + dataId + '">&nbsp;';
 	html = html + '</span>';
 	html = html + '</h3>';
@@ -2498,7 +2498,9 @@ function filter_select(){
 		case "recurring":	show_tracker(standard_trackers.Recurring.id);
 					break;						
 		case "hourly":	show_tracker(standard_trackers.Hourly.id);
-					break;						
+					break;	
+		default: show_tag(selection);
+			break;					
 	}	
 	
 	if (selection != "all" && selection != "all_top"){
@@ -2542,6 +2544,22 @@ function show_tracker(tracker_id){
 	
 	for(var i = 0; i < D.length; i++ ){
 		if (D[i].tracker.id == tracker_id){
+			$("#item_" + i).show();
+		}
+		else{
+			$("#item_" + i).hide();
+		}
+	}	
+}
+
+//Hides all items except those with the tag
+function show_tag(tag){
+	
+	for(var i = 0; i < D.length; i++ ){
+		if (D[i].tags_copy == null){
+			$("#item_" + i).hide();
+		}
+		else if (D[i].tags_copy.indexOf(tag) != -1){
 			$("#item_" + i).show();
 		}
 		else{
@@ -2640,6 +2658,10 @@ function search_for(text){
 				}
 			}
 			else if (D[i].description.toLowerCase().indexOf(text) > -1)
+			{
+				$("#item_" + i).show().removeHighlight();
+			}
+			else if (D[i].tags_copy != null && D[i].tags_copy.toLowerCase().indexOf(text) > -1)
 			{
 				$("#item_" + i).show().removeHighlight();
 			}

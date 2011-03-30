@@ -122,31 +122,16 @@
       <option value="60">
         &nbsp;&nbsp;» two months
       </option>
-      <option value="all">
-        Only show&nbsp;&nbsp;»
-      </option>
-      <option value="features">
-        &nbsp;&nbsp;»&nbsp;Features
-      </option>
-      <option value="chores">
-        &nbsp;&nbsp;»&nbsp;Chores
-      </option>
-      <option value="bugs">
-        &nbsp;&nbsp;»&nbsp;Bugs
-      </option>
-      <option value="recurring">
-        &nbsp;&nbsp;»&nbsp;Recurring
-      </option>
-      <% if @project.credits_enabled? %>
-        <option value="expenses">
-          &nbsp;&nbsp;»&nbsp;Expenses
+      <% tags = @project.all_tags %>
+      <% unless tags.empty? %>
+        <option value="all">
+          Tagged with&nbsp;&nbsp;»
         </option>
-        <option value="gifts">
-          &nbsp;&nbsp;»&nbsp;Gifts
+        <% tags.each do |t| %>
+        <option value="<%= t %>">
+          &nbsp;&nbsp;»&nbsp;<%= t %>
         </option>
-        <option value="hourly">
-          &nbsp;&nbsp;»&nbsp;Hourly
-        </option>
+        <% end %>
       <% end %>
     </select>
   </div>
