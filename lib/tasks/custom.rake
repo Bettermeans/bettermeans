@@ -209,9 +209,11 @@ namespace :custom do
   task :run_once_features_to_task => :environment do
     Issue.all.each do |i|
       begin
-      puts("Upgrading issue #{i.id}")
       tag = i.tracker.name.downcase
-      i.update_attribute(:tag_list,i.tag_list.add(tag))
+      unless tag == "feature"
+        puts("Upgrading issue #{i.id}  #{tag}")
+        i.update_attribute(:tag_list,i.tag_list.add(tag))
+      end
       i.update_attribute(:tags_copy, i.tags.join(","))
       rescue
         puts("FAILED TO UPGRADE issue #{i.id}")
