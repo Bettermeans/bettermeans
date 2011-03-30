@@ -165,7 +165,10 @@ class IssuesController < ApplicationController
       end
       
       # Check that the user is allowed to apply the requested status
-      @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
+      # @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
+      @issue.status = requested_status
+      @issue.tag_list = @issue.tags_copy if @issue.tags_copy
+      
       if @issue.save
         Mention.parse(@issue, User.current.id)
         attach_files_for_new_issue(@issue, params[:attachments])
@@ -343,8 +346,7 @@ class IssuesController < ApplicationController
   end
   
   def update_tags
-    @issue.update_attribute(:tag_list, params[:tags])
-    @issue.update_attribute(:tags_copy, params[:tags])
+    @issue.update_tags(params[:tags])
     
     # @issue.send_later(:update_attribute,:tag_list, params[:tags])    
     # @issue.send_later(:update_attribute,:tags_copy, params[:tags])

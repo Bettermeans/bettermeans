@@ -264,6 +264,12 @@ class Issue < ActiveRecord::Base
                         :source_type => "Issue"
   end
   
+  def update_tags(tags)
+    self.update_attribute(:tag_list, tags)
+    self.update_attribute(:tags_copy, self.tags.map {|t|t.name}.join(","))
+    update_last_item_stamp
+  end
+  
   # Overrides attributes= so that tracker_id gets assigned first
   def attributes_with_tracker_first=(new_attributes, *args)
     return if new_attributes.nil?

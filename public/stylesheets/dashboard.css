@@ -486,3 +486,8 @@ table.dash_key tr td{
 	margin-right: auto;
 	width: 500px;
 }
+
+.dash-item-title{
+	float:left;
+	padding-right:5px;
+}

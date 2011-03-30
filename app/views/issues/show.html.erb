@@ -55,7 +55,7 @@
                 </div>
                 <div class="issue-meta-box first-box">
                     <h3 class="issue-meta-title"><%=l(:field_tags)%></h3>
-                    <span class="issue-meta-content"><table style="width:100%" id="issue_tags_container"><tr><td><%= tags @issue, true %></td></tr></table>
+                    <span class="issue-meta-content"><table style="width:100%" id="issue_tags_container"><tr><td><%= tags @issue, authorize_for('issues', 'edit') %></td></tr></table>
                     </span>
                 </div>
                 <div class="issue-meta-box first-box">
