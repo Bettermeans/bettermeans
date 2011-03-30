@@ -81,6 +81,7 @@
 		};
 	
 	function update_issue_tags(tags){
+		if (issue_id == null){return;}
 		var url = url_for({ controller: 'issues',
 	                           action    : 'update_tags',
 								id		: issue_id

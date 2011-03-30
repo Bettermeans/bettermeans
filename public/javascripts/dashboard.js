@@ -2888,13 +2888,6 @@ function expand_item(dataId){
 		offsetLeft: 0,
 		bindShow: 'click'
 	});
-	$('#help_image_feature_' + dataId).mybubbletip($('#help_feature'), {
-		deltaDirection: 'up',
-		delayShow: 300,
-		delayHide: 100,
-		offsetTop: 0,
-		bindShow: 'click'
-	});
 	$('#help_image_requestid_' + dataId).mybubbletip($('#help_requestid'), {
 		deltaDirection: 'right',
 		delayShow: 300,
@@ -2902,6 +2895,15 @@ function expand_item(dataId){
 		offsetLeft: 0,
 		bindShow: 'click'
 	});
+	$('#issue_tags_edit_' + dataId).tagsInput({
+	   'autocomplete_url': 'http://localhost:3000/projects/' + projectId + '/all_tags',
+	   'autocomplete':{selectFirst:true,width:'100px',autoFill:true},
+	   'issue_id':D[dataId].id,
+	   'height':'20px',
+	   'width':$('#edit_title_input_' + dataId).width() - 30,
+	   'defaultText':'add a tag'
+	});
+	
 	make_text_boxes_toggle_keyboard_shortcuts();
 	$('#item_' + dataId).parent().parent().scrollTo('#item_' + dataId, 500);
 
@@ -3541,15 +3543,11 @@ html = html + '	            <tbody>';
 html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
-html = html + '	                    <select id="edit_story_type_' + dataId + '" class="gt-SdField" ';
-html = html + '                             name="edit_story_type" onChange="edit_story_type_changed(' + dataId + '); return false;" ' + disabled + '>';    
-// html = html +                         generate_tracker_dropdown((D[dataId].tracker.id != standard_trackers.Gift.id)); // Don't show gift, if item isn't already a gift. 
-                                                                                                   // Disallows features, bugs...etc. to be turned into a gift item
-html = html + '	                    </select>';
+html = html + '						<input type="text" id="issue_tags_edit_' + dataId + '" size="60" value="' + D[dataId].tags_copy + '"></input>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon">';
-html = html + '	                    <img id="help_image_feature_' + dataId + '" src="/images/question_mark.gif" class="help_question_mark">';
+// html = html + '	                    <img id="help_image_tag_' + dataId + '" src="/images/question_mark.gif" class="help_question_mark">';
 html = html + '	                </td>';
 html = html + '	                <td class="lastCell created_by">';
 html = html + '        				<img id="gravatar_' + dataId +'" display="hidden" class="gravatar right" src=""/>';
