@@ -1404,6 +1404,11 @@ div.activity-tag {
 	color: #fff;
 }
 
+a.action_link_votes{
+	color: #333!important;
+}
+
+
 .action_button{
 	width:60px;
 	height:21px;
@@ -1503,6 +1508,15 @@ div.activity-tag {
 	background: url(/images/bb_red.png) no-repeat; 
 	float:left;
 	padding-top:2px;
+}
+
+.action_button_votes{
+	text-align: left;
+	margin-right:1px;
+}
+
+.action_button_votes a.vote_arrow{
+	margin-right:3px;
 }
 
 /*Flyovers*/
