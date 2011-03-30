@@ -46,6 +46,8 @@ div.tagsdash {
 	margin-top:0px;
 	padding-top:1px;
 	padding-left:0px!important;
+	padding-right:1px!important;
+	padding-bottom:0px!important;
 }
 	
 div.tagsinput span.tag a, div.tagsoutput span.tag a  { font-weight: bold; color: #91928E; text-decoration:none; font-size: 11px;  } 
