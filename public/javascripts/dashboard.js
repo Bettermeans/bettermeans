@@ -1658,6 +1658,10 @@ function generate_item(dataId){
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
+	if (is_cancelable(dataId)){
+		html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
+	}
+	
 	// html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ dataId +');return false;">'; 
 	
 	if (currentUserId != ANONYMOUS_USER_ID){ 
@@ -1890,23 +1894,14 @@ function buttons_for(dataId,expanded){
 	case 'New':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId, true, expanded);
-		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
-		}
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,true,expanded);
-		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
-		}
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,true,expanded);
-		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
-		}
 	break;
 	case 'Committed':
 		if (item.assigned_to_id == currentUserId){
@@ -2163,14 +2158,18 @@ function votes_button(dataId,votes_total,user_voted){
 	if (votes_total < -9000){ label = 'blocked'};
 	var cssclass = '';
 	var onclick = 'click_agree_root(' + dataId + ',this,\'\');return false;';
-	
-	if (type == "agree_root"){
-		ondblclick =  'click_agree(' + dataId + ',this,\'&points=1\')";return false;';
+
+	if (user_voted == false){
+			var	onarrowclick =  'click_agree(' + dataId + ',this,\'&points=1\')";return false;';
 	}
+	else{
+			var onarrowclick = 'click_agree_root(' + dataId + ',this,\'\');return false;';
+	}
+
 
 	html = '';
 	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="action_button action_button_votes">';
-	html = html + '<a id="item_action_link_vote' + dataId + '" onclick="' + ondblclick + '" class="vote_arrow"><img src="/images/upvote_' + user_voted + '.png"/></a>';
+	html = html + '<a id="item_action_link_vote' + dataId + '" onclick="' + onarrowclick + '" class="vote_arrow"><img src="/images/upvote_' + user_voted + '.png"/></a>';
 	
 	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link_votes clickable" onclick="' + onclick + '">';
 	html = html + label + '</a>';

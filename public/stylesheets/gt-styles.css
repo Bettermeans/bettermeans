@@ -1838,7 +1838,7 @@ text-decoration:underline !important;
 
 .action_button_cancel{
 	width:20px!important;
-	background: url(/images/cancel16.png) no-repeat; 
+	background: url(/images/dash_cancel.png) no-repeat; 
 	background-position: 0px 3px!important;
 }
 
