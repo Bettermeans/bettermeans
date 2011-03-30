@@ -47,7 +47,7 @@
 		
 			});
 			
-			if (options['send_to_server'] != false){
+			if (options.send_to_server || (options.send_to_server != false && options.focus != false)){
 				update_issue_tags($(this).attr('value'));
 			}
 			
@@ -80,7 +80,6 @@
 		};
 	
 	function update_issue_tags(tags){
-		console.log("issue " + issue_id + "  tag " + tags);
 		var url = url_for({ controller: 'issues',
 	                           action    : 'update_tags',
 								id		: issue_id
@@ -155,6 +154,7 @@
 			});
 					
 			if (settings.autocomplete_url != undefined) { 
+				console.log(settings.autocomplete_url)
 				$(data.fake_input).autocomplete(settings.autocomplete_url,settings.autocomplete).bind('result',data,function(event,data,formatted) { 
 					if (data) {
 						d = data + "";	
@@ -164,9 +164,9 @@
 				
 		
 				$(data.fake_input).bind('blur',data,function(event) { 
-					if ($(event.data.fake_input).val() != $(event.data.fake_input).attr('default')) {
-						$(event.data.real_input).addTag($(event.data.fake_input).val(),{focus:false});						
-					}
+					if (($(event.data.fake_input).val() != $(event.data.fake_input).attr('default'))&&($(event.data.fake_input).val() != '')) {
+						$(event.data.real_input).addTag($(event.data.fake_input).val(),{focus:false, send_to_server:true});						
+					} 
 
 					$(event.data.fake_input).val($(event.data.fake_input).attr('default'));
 					$(event.data.fake_input).css('color','#666666');

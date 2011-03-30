@@ -146,6 +146,10 @@ class Project < ActiveRecord::Base
     self.id
   end
   
+  def all_tags
+    ActsAsTaggableOn::Tag.find_by_sql("select name from tags inner join taggings on taggings.tag_id = tags.id where taggings.project_id = #{self.id}").map{|t| t.name}
+  end
+  
   def graph_data
     valid_kids = children.select{|c| c.active?}
     if valid_kids.size > 0

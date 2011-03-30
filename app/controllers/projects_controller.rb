@@ -262,6 +262,10 @@ class ProjectsController < ApplicationController
     # render :json => array.sort{|x,y| x[:label] <=> y[:label]}.uniq.to_json
   end
   
+  def all_tags
+    render :json => @project.all_tags.to_json
+  end
+  
   
   def dashboard
     @credit_base = @project.dpp
