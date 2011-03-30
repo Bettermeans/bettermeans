@@ -263,7 +263,7 @@ class ProjectsController < ApplicationController
   end
   
   def all_tags
-    render :json => @project.all_tags.to_json
+    render :json => @project.all_tags(params[:term]).to_json
   end
   
   

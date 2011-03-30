@@ -18,6 +18,7 @@
 
 	var delimiter = new Array();
 	var issue_id = null;
+	var cache = undefined;
 	
 	jQuery.fn.addTag = function(value,options) {
 		
@@ -154,13 +155,53 @@
 			});
 					
 			if (settings.autocomplete_url != undefined) { 
-				console.log(settings.autocomplete_url)
-				$(data.fake_input).autocomplete(settings.autocomplete_url,settings.autocomplete).bind('result',data,function(event,data,formatted) { 
-					if (data) {
-						d = data + "";	
-						$(event.data.real_input).addTag(d,{focus:true});
-					}
-				});;
+				$(data.fake_input).autocomplete({
+							source: function( request, response ) {
+								var term = request.term;
+
+						   		if (typeof cache != "undefined") {
+						   			//map the data into a response that will be understood by the autocomplete widget
+						   			response($.ui.autocomplete.filter(cache, term.substring(1, term.length)));
+						   		}
+						   		//get the data from the server
+						   		else {
+						   			$.ajax({
+						   				url: settings.autocomplete_url,
+						   				dataType: "json",
+						   				success: function(data) {
+						   					//cache the data for later
+						   					cache = data;
+						   					//map the data into a response that will be understood by the autocomplete widget
+						       				response($.ui.autocomplete.filter(cache, term.substring(1, term.length)));
+						   				}
+						   			});
+						   		}
+							},
+
+										// 	if ( term in cache ) {
+										// 		response($.ui.autocomplete.filter(cache, term.substring(1, term.length)));
+										// 		// response( cache[ term ] );
+										// 		return;
+										// 	}
+										// 
+										// 	lastXhr = $.getJSON( settings.autocomplete_url, request, function( data, status, xhr ) {
+										// 		cache[ term ] = data;
+										// 		if ( xhr === lastXhr ) {
+										// 			response( data );
+										// 		}
+										// 	});
+										// },
+							minLength: 0,
+							data: data,
+							});
+
+				$(data.fake_input).bind( "autocompleteselect", data, function(event, ui) {
+								if (ui.item) {
+									d = ui.item.value + "";	
+									$(event.data.real_input).addTag(d,{focus:true});
+									event.preventDefault();
+								}
+							});
 				
 		
 				$(data.fake_input).bind('blur',data,function(event) { 
