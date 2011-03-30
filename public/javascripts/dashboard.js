@@ -1967,7 +1967,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	
 	var tally = 'agree?';
 	var cssclass = 'root';
-	var user_voted = false;
+	var user_voted = 'false';
 	var user_estimated = false;
 	
 	
@@ -2004,7 +2004,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	}
 	
 	if (include_start_button){
-		html = html + dash_button('start',dataId,false); //add start button if user estimated and voted
+		html = html + dash_button('start',dataId,false); //add start button 
 	}
 	
 	// if ((!user_estimated) && user_voted){
@@ -2159,7 +2159,7 @@ function votes_button(dataId,votes_total,user_voted){
 	var cssclass = '';
 	var onclick = 'click_agree_root(' + dataId + ',this,\'\');return false;';
 
-	if (user_voted == false){
+	if (user_voted == 'false'){
 			var	onarrowclick =  'click_agree(' + dataId + ',this,\'&points=1\')";return false;';
 	}
 	else{
