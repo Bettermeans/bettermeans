@@ -4041,7 +4041,7 @@ function new_dash_data_response(data){
 	}
 	
 	//checking if this is a response with different item count
-	if (data[0].tags_count == undefined){
+	if (data[0].tags_copy == undefined){
 		
 		//we're getting a list of issue ids as a result of an issue moving that we didn't know about
 		
