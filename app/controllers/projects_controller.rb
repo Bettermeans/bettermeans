@@ -296,7 +296,9 @@ class ProjectsController < ApplicationController
                                                 :todos =>       { :only => [:id, :subject, :completed_on, :owner_login] },
                                                 :tracker =>     { :only => [:name,:id] },
                                                 :author =>      { :only => [:firstname, :lastname, :login, :mail_hash] },
-                                                :assigned_to => { :only => [:firstname, :lastname, :login] }})
+                                                :assigned_to => { :only => [:firstname, :lastname, :login] },
+                                                :tags_copy => {}
+                                                })
   end
   
   #Checks to see if any items have changed in this project (in the last params[:seconds]). If it has, returns only items that have changed
@@ -329,7 +331,9 @@ class ProjectsController < ApplicationController
                                                   :todos =>       { :only => [:id, :subject, :completed_on, :owner_login] },
                                                   :tracker =>     { :only => [:name,:id] },
                                                   :author =>      { :only => [:firstname, :lastname, :login, :mail_hash] },
-                                                  :assigned_to => { :only => [:firstname, :lastname, :login] }})
+                                                  :assigned_to => { :only => [:firstname, :lastname, :login] },
+                                                  :tags_copy => {}
+                                                  })
     elsif params[:issuecount] != total_count
       render :json =>  Issue.find(:all, :conditions => "project_id in (#{project_ids})  AND (retro_id < 0 OR retro_id is null)").collect {|i| i.id}
     else
