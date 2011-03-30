@@ -631,7 +631,7 @@ class Issue < ActiveRecord::Base
   end
 
   def update_last_item_stamp
-    self.project.send_later :update_last_item
+    self.project.send_later("update_last_item")
   end  
 
   private
