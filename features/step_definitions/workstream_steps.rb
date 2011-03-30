@@ -85,7 +85,7 @@ Then /^it does not show in the Most Active Public Workstreams list$/ do
 end
 
 Then /I only see (\d+)/ do |expected_count|
-  view = BrowseBettermeansView.new @integration_session
+  view = BrowseBettermeansView.new self
   view.latest_public_workstreams.size.should eql expected_count.to_i
   view.most_active_public_workstreams.size.should eql expected_count.to_i
 end
