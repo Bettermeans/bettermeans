@@ -1721,7 +1721,7 @@ function generate_item(dataId){
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
-	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ dataId +');return false;">'; 
+	// html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ dataId +');return false;">'; 
 	
 	if (currentUserId != ANONYMOUS_USER_ID){ 
 		html = html + generate_item_estimate_button(dataId,points);
@@ -1737,9 +1737,10 @@ function generate_item(dataId){
 
 
 	html = html + '<div id="item_content_details_' + dataId + '" class="itemCollapsedText" onDblclick="expand_item(' + dataId + ');return false;" style="cursor: default;">'; 
-	
-	html = html + '<a href="#" onclick="show_item_fancybox(' + dataId + ');return false;">' + h(item.subject) + '</a>';
+	html = html + '<span>'
+	html = html + '<a href="#" class="dash-item-title" onclick="show_item_fancybox(' + dataId + ');return false;">' + h(item.subject) + '</a>';
 	html = html + generate_tags(item.tags_copy);
+	html = html + '</span><div class="clear"></div>';
 	html = html + '</div>';
 	html = html + '</div>';
 	html = html + '</div>';
@@ -1753,7 +1754,7 @@ function generate_tags(tag_list){
 	html = html + '<div class="tagsoutput tagsdash">';
 	
 	var tag_array = tag_list.split(',');
-	for(var j = 1; j < tag_array.length; j++ ){
+	for(var j = 0; j < tag_array.length; j++ ){
 		html = html + '<span class="tag">';
 		html = html + tag_array[j];
 		html = html + '</span>';
@@ -3011,16 +3012,12 @@ function save_new_item(prioritize){
 	return false;
     }
 
-    if (($('#new_story_type').val() == standard_trackers.Gift.id ) && ( $('#assigned_to_select').val() == null))
-    {
-	alert('You don\'t yet have anyone else on your team to send a gift to. Please change the type of item you are adding.');
-	return false;
-    }
 
     var data = "commit=Create&project_id=" + projectId + 
-        "&issue[tracker_id]=" + $('#new_story_type').val() + 
+        // "&issue[tracker_id]=" + $('#new_story_type').val() + 
         "&issue[subject]=" + encodeURIComponent($('#new_title_input').val()) + 
         "&issue[description]=" + encodeURIComponent($('#new_description').val()) +
+        "&issue[tags_copy]=" + encodeURIComponent($('#new_tags').val()) + 
         "&estimate=" + $('#new_story_complexity').val() + 
         "&prioritize=" + prioritize;
 
@@ -3070,6 +3067,8 @@ function save_new_item(prioritize){
 	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 		// typically only one of textStatus or errorThrown will have info
 		// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+		remove_new_link();
+		add_new_link();
 		handle_error(XMLHttpRequest, textStatus, errorThrown, false, "add");
 		},
 		timeout: 30000 //30 seconds
@@ -3460,6 +3459,7 @@ function generate_complexity_row(){
 	html = html + '	                </td>';
 	html = html + '	                <td class="gt-SdLabelIcon" colspan="1">';
 	html = html + '	                  <div class="gt-SdLabelIcon">';
+	html = html + '	                    <img src="/images/dice_NO.png" id="new_story_type_image" name="new_story_type_image">';
 	html = html + '	                  </div>';
 	html = html + '	                </td>';
 	html = html + '	                <td class="helpIcon lastCell" colspan="1">';
@@ -3528,24 +3528,6 @@ html = html + '	    <div>';
 html = html + '	      <div id="new_details" class="gt-Sd">';
 html = html + '	          <table class="gt-SdTable">';
 html = html + '	            <tbody>';
-							'gt-form-text issue-tags'
-html = html + '	              <tr>';
-html = html + '	                <td class="letContentExpand" colspan="1">';
-html = html + '	                  <div>';
-html = html + '	        <input id="new_tags" class="issue-tags" name="new_tas" value="" type="text" size="30">';
-html = html + '	                  </div>';
-html = html + '	                </td>';
-html = html + '	                <td class="gt-SdLabelIcon" colspan="1">';
-html = html + '	                  <div class="gt-SdLabelIcon">';
-// html = html + '	                    <img src="/images/feature_icon.png" id="new_story_type_image" name="new_story_type_image">';
-html = html + '	                  </div>';
-html = html + '	                </td>';
-html = html + '	                <td class="helpIcon lastCell" colspan="1">';
-html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
-html = html + '	                    <img id="help_image_tags_new" src="/images/question_mark.gif"  class="help_question_mark">';
-html = html + '	                  </div>';
-html = html + '	                </td>';
-html = html + '	              </tr>';
 							
 // html = html + '	              <tr>';
 // html = html + '	                <td class="letContentExpand" colspan="1">';
@@ -3572,6 +3554,23 @@ html = html + '	              </tr>';
 // html = html + '	                </td>';
 // html = html + '	              </tr>';
 html = html + generate_complexity_row();
+html = html + '	              <tr>';
+html = html + '	                <td class="letContentExpand" colspan="1">';
+html = html + '	                  <div>';
+html = html + '	        <input id="new_tags" class="issue-tags" name="new_tas" value="" type="text" size="30">';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	                <td class="gt-SdLabelIcon" colspan="1">';
+html = html + '	                  <div class="gt-SdLabelIcon">';
+html = html + '	                    <img src="/images/tag_blue.png" id="new_story_type_image" name="new_story_type_image">';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	                <td class="helpIcon lastCell" colspan="1">';
+html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
+html = html + '	                    <img id="help_image_tags_new" src="/images/question_mark.gif"  class="help_question_mark">';
+html = html + '	                  </div>';
+html = html + '	                </td>';
+html = html + '	              </tr>';
 html = html + '	            </tbody>';
 html = html + '	          </table>';
 html = html +             generate_hourly_fields();
