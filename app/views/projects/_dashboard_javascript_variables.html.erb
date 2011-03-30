@@ -20,19 +20,4 @@
   var currentUserCanEditIssue = <%= User.current.allowed_to?({:action => :edit_issues}, project) != nil %>;
   var LAST_LOCAL_DB_CHANGE = "2/18/2011" //latest code update that requires local data structure to be refreshed
 
-  var standard_trackers = function() {
-      var trackers = <%= Tracker.all.to_json %>
-
-      var trackers_object = {};
-
-      for(var i=0; i<trackers.length; i++) {
-	  trackers_object[trackers[i].name] = trackers[i];
-      }
-
-      return trackers_object;
-
-  }();
-
-  var hourly_types = <%= project.hourly_types.to_json(:methods => :name_with_rates) %>
-
 </script>

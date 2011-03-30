@@ -687,10 +687,6 @@ function show_accept_flyover(dataId,callingElement){
 function is_visible(item){
 	if (item == null) {return false;}
 	
-	if (credits_enabled && item.tracker.id == standard_trackers.Gift.id && item.assigned_to_id == currentUserId){
-		return false;
-	}
-	
 	return true;
 }
 
@@ -761,61 +757,6 @@ function add_item(dataId,position,scroll,panelid){
 		$("#" + panelid + "_items").scrollTo('#item_' + dataId, 100);
 	}
 	
-}
-
-function generate_details_flyover(dataId){
-	var item = D[dataId];
-	
-	var points;
-	item.points == null ? points = 'No' : points = credits_to_points(item.points,credit_base);
-	
-	var html = '';
-	
-	html = html + '<div id="flyover_' + dataId + '" class="overlay" style="display:none;">';
-	html = html + '<div style="border: 0pt none ; margin: 0pt;">';
-	html = html + '<div class="overlayContentWrapper gt-Sfo flyover" style="width: 475px; max-height:600px">';
-	html = html + '<div class="storyTitle">';
-	html = html + h(item.subject);
-	html = html + '</div>';
-	html = html + '	      <div class="sectionDivider">';
-	html = html + '	      <div style="height: auto;">';
-	html = html + '	        <div class="metaInfo">';
-	html = html + '	          <div class="left">';
-	html = html + 'Added by ' + item.author.firstname + ' ' + item.author.lastname + ' ' + humane_date(item.created_at);
-	html = html + '	          </div>';
-	html = html + '<div class="right infoSection">';
-	html = html + '	            <img class="estimateIcon left" width="18" src="/images/dice_' + points + '.png" alt="Estimate: ' + points + ' credits" title="Estimate: ' + points + ' credits">';
-	html = html + '	            <div class="left text">';
-	html = html + '	              ' + points + ' cr';
-	html = html + '	            </div>';
-	html = html + '	            <div class="clear"></div>';
-	html = html + '	          </div>';
-	html = html + '	          <div class="right infoSection">';
-	html = html + '	            <img class="left" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '">';
-	html = html + '	            <div class="left text">';
-	html = html + 	              item.tracker.name;
-	html = html + '	            </div>';
-	html = html + '	            <div class="clear"></div>';
-	html = html + '	          </div>';
-	html = html + '	          <div class="clear"></div>';
-	html = html + '	        </div>';
-	html = html + '	        <div class="gt-Ifc gt-Sd">';
-	html = html + '	          <div class="storyId right">';
-	html = html + '	            <span>ID:</span> <span>' + item.id + '</span>';
-	html = html + '	          </div>';
-	html = html + '	<div class="section">';
-	html = html + generate_details_flyover_description(item);
-	html = html + generate_comments(dataId,true);
-	html = html + '</div>';
-	html = html + '	        </div>';
-	html = html + '	      </div>';
-	html = html + '	    </div>';
-	html = html + '	  </div>';
-	html = html + '	</div>';
-	
-	$('#flyovers').append(html);
-	
-	return html;
 }
 
 function generate_estimate_flyover(dataId){
@@ -1629,10 +1570,6 @@ function credits_to_points(credits,base){
 
 function has_current_user_estimated(item){
 	
-	if (item.tracker.id == standard_trackers.Expense.id){
-		return true;
-	}
-
 	//Checking wether or not current user estimated this item voted
 	for(i=0; i < item.issue_votes.length; i++){
 		if (item.issue_votes[i].vote_type != 4) continue;
@@ -1952,9 +1889,6 @@ function buttons_for(dataId,expanded){
 	switch (item.status.name){
 	case 'New':
 		html = html + pri_button(dataId);
-	    if ((typeof standard_trackers.Hourly != 'undefined') && (item.tracker.id == standard_trackers.Hourly.id))
-		html = html + dash_button('start', dataId);
-	    else
 		html = html + agree_buttons_root(dataId, false, expanded);
 		if (is_cancelable(dataId)){
 			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
@@ -2072,11 +2006,6 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 							break;	
 			}
 		}
-	}
-	
-	//no need to estimate if this is an expense
-	if (item.tracker.id == standard_trackers.Expense.id){
-		user_estimated = true; 
 	}
 	
 	if (include_start_button && user_estimated && user_voted){
@@ -2485,20 +2414,6 @@ function filter_select(){
 					break;						
 		case "untouched_by_me":	show_hide_touched(false);
 					break;						
-		case "features":	show_tracker(standard_trackers.Feature.id);
-					break;						
-		case "chores":	show_tracker(standard_trackers.Chore.id);
-					break;						
-		case "bugs":	show_tracker(standard_trackers.Bug.id);
-					break;						
-		case "expense":	show_tracker(standard_trackers.Expense.id);
-					break;						
-		case "gift":	show_tracker(standard_trackers.Gift.id);
-					break;						
-		case "recurring":	show_tracker(standard_trackers.Recurring.id);
-					break;						
-		case "hourly":	show_tracker(standard_trackers.Hourly.id);
-					break;	
 		default: show_tag(selection);
 			break;					
 	}	
@@ -2535,19 +2450,6 @@ function show_hide_touched(show){
 		}
 		else{
 			show ? $("#item_" + i).hide() : $("#item_" + i).show();
-		}
-	}	
-}
-
-//Hides all items except those with tracker_id
-function show_tracker(tracker_id){
-	
-	for(var i = 0; i < D.length; i++ ){
-		if (D[i].tracker.id == tracker_id){
-			$("#item_" + i).show();
-		}
-		else{
-			$("#item_" + i).hide();
 		}
 	}	
 }
@@ -2975,7 +2877,6 @@ function expand_item(dataId){
 			D[dataId].author.mail_hash
 	);
 
-	$('#edit_story_type_' + dataId).val(D[dataId].tracker.id);
 	$('#new_comment_' + dataId).watermark('watermark',new_comment_text);
 	$('#new_comment_' + dataId).autogrow().mentions(projectId);
 	$('#new_todo_' + dataId).watermark('watermark',new_todo_text);
@@ -3004,10 +2905,6 @@ function expand_item(dataId){
 	make_text_boxes_toggle_keyboard_shortcuts();
 	$('#item_' + dataId).parent().parent().scrollTo('#item_' + dataId, 500);
 
-    if((credits_enabled) && (D[dataId].tracker.id == standard_trackers.Hourly.id)) {
-	$("#hourly_type_" + dataId).val(D[dataId].hourly_type_id);
-	$("#num_hours_" + dataId).val(D[dataId].num_hours);
-    }
 }
 
 function collapse_item(dataId,check_for_save){
@@ -3048,30 +2945,6 @@ function save_new_item(prioritize){
 		new_attachments = [];
 	}
     
-    if((credits_enabled) && ($('#new_story_type').val() == standard_trackers.Gift.id)){
-	data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
-    }
-
-    if((credits_enabled) && ($("#new_story_type").val() == standard_trackers.Hourly.id)) {
-	var num_hours = $("#num_hours").val();	
-
-	if(!ensure_numericality_of_num_hours(num_hours))
-	    return false;
-
-        data = data + 
-	    "&issue[hourly_type_id]=" + $("#hourly_type").val() +
-            "&issue[num_hours]=" + parseInt(num_hours,10);
-    }
-
-	// for(var i=0; i<files.length; i++){
-	// 	data = data + "&attachments[" + i + "]=" + encodeURIComponent(files[i]);
-	// }
-
-
-	if ($('#new_story_type').val() == standard_trackers.Expense.id){
-		data = data + "&issue[points]=" + $('#new_expense_amount_new').val();
-	}
-
     var url = url_for({ controller: 'issues',
                            action    : 'new'
                           });
@@ -3111,20 +2984,8 @@ function save_edit_item(dataId){
     var data = "commit=Submit&lock_version=" + D[dataId].lock_version + 
         "&project_id=" + projectId + 
         "&id=" + D[dataId].id + 
-        "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + 
         "&issue[subject]=" + encodeURIComponent($('#edit_title_input_' + dataId).val()) + 
         "&issue[description]=" + encodeURIComponent($('#edit_description_' + dataId).val());
-
-    if((credits_enabled) && ($("#edit_story_type_" + dataId).val() == standard_trackers.Hourly.id)) {
-	var num_hours = $("#num_hours_" + dataId).val();
-
-	if(!ensure_numericality_of_num_hours(num_hours))
-	    return false;
-
-        data = data + 
-	    "&issue[hourly_type_id]=" + $("#hourly_type_" + dataId).val() +
-            "&issue[num_hours]=" + parseInt(num_hours,10);
-    }
 
     var url = url_for({ controller: 'issues',
                         action    : 'edit'
@@ -3306,120 +3167,6 @@ function ensure_numericality_of_num_hours(num_hours) {
     return true;
 }
 
-function generate_hourly_fields(dataId, disable_fields) {
-
-    var hourly_fields_id = "hourly_fields";
-    var hourly_type_id   = "hourly_type";
-    var num_hours_id     = "num_hours";
-
-
-    if(dataId != undefined) {
-	hourly_fields_id += "_" + dataId;
-	hourly_type_id   += "_" + dataId;
-	num_hours_id     += "_" + dataId;
-    }
-
-    var visible = '';
-    
-    if((dataId == null) || !(credits_enabled && D[dataId].tracker.id == standard_trackers.Hourly.id)){
-		visible = 'class="hidden"';
-	}
-	
-
-    var readonly = disable_fields ? 'readonly' : '';
-    var disabled = disable_fields ? 'disabled' : '';
-
-    html = "";
-    html = html + '<div id="' + hourly_fields_id + '" ' + visible + '>';
-    html = html + '  <table class="gt-SdTable">';
-    html = html + '   <tbody>';
-    html = html + '    <tr>';
-    html = html + '      <td class="letContentExpand" colspan="1">';
-    html = html + '       <div>';
-    html = html + '         <select id="' + hourly_type_id + '" class="gt-SdField" name="' + hourly_type_id + '" ' + disabled + '>';    
-    for(var i in hourly_types) {
-	html = html + '<option value="' + hourly_types[i].id + '">' + hourly_types[i].name_with_rates + '</option>';
-    }
-    html = html + '	     </select>';
-    html = html + '	   </div>';
-    html = html + '	  </td>';    
-    html = html + '    </tr>';
-    html = html + '    <tr>';
-    html = html + '      <td class="letContentExpand" colspan="1">';
-    html = html + '       <div>';
-    html = html + '         Estimated no. of hours:';
-    html = html + '         <input type="text" id="' + num_hours_id + '" name="' + num_hours_id + '" size="2"' + readonly +  '/>';
-    html = html + '	  </div>';
-    html = html + '	 </td>';    
-    html = html + '     </tr>';
-    html = html + '   </tbody>';
-    html = html + ' </table>';
-    html = html + '</div>';
-
-    return html;
-}
-
-function hourly_type_selected(dataId) {
-    var hourly_fields_id = "hourly_fields";
-
-    if(dataId != undefined) {
-	hourly_fields_id += "_" + dataId;
-    }
-
-    $("#" + hourly_fields_id).show();
-
-}
-
-function expense_type_selected() {
-	var amount = prompt_for_expense_amount("0.0", "new");
-    $("#new_expense").show();
-	$("#complexity_row").hide();
-}
-
-
-function gift_type_selected() {
-    $("#new_assigned_to").show();
-    $("#assigned_to_select").ajaxAddOption('/projects/' + projectId + '/community_members', {}, false, sortoptions);
-}
-
-function new_story_type_changed() {    
-	
-    $("#new_expense").hide();
-    $("#new_assigned_to").hide();
-    $("#hourly_fields").hide(); 
-	$("#complexity_row").show();
-
-    var selection = $("#new_story_type").val();
-    
-	if (credits_enabled){
-	    if(selection == standard_trackers.Hourly.id) {
-		hourly_type_selected();
-	    }
-	    else if(selection == standard_trackers.Gift.id) {
-		gift_type_selected();
-	    }
-		else if(selection == standard_trackers.Expense.id) {
-			expense_type_selected();
-		}
-	}
-}
-
-function edit_story_type_changed(dataId) {
-
-    if((credits_enabled) && ($("#edit_story_type_" + dataId).val() == standard_trackers.Hourly.id)) {
-	hourly_type_selected(dataId);
-    }
-    else {
-	$("#hourly_fields_" + dataId).hide();
-    }
-}
-
-function prompt_for_expense_amount(points,dataId)
-{
-	var amount=prompt_for_number("Please enter expense amount in dollars:",points);
-	$("#item_expense_amount_" + dataId).html(generate_expense_amount_editor(amount,dataId));
-}
-
 function isNumeric(form_value) 
 { 
     if (form_value.match(/^[-+]?\d+(\.\d+)?$/) == null) 
@@ -3436,37 +3183,6 @@ function sortoptions(sort)
 	$this.removeOption("1"); //removing administrator
 	$this.removeOption(currentUserId); //removing self
 	$this.sortOptions();
-}
-
-function generate_tracker_dropdown(dont_show_gift) {
-    var html='';
-    for(var name in standard_trackers) {	
-
-		var tracker = standard_trackers[name];
-
-		if((credits_enabled) && (tracker.id == standard_trackers.Gift.id && dont_show_gift))
-		    continue;
-
-		if((credits_enabled) && (tracker.id == standard_trackers.Hourly.id && hourly_types.length == 0))
-		    continue;
-
-		if((!credits_enabled) && (tracker.id == standard_trackers.Hourly.id))
-		    continue;
-
-		if((!credits_enabled) && (tracker.id == standard_trackers.Expense.id))
-		    continue;
-
-		if((!credits_enabled) && (tracker.id == standard_trackers.Gift.id))
-		    continue;
-
-		var selected_text = (tracker.id == standard_trackers.Feature.id ? 'selected="true"' : '');
-
-		html += '<option ' + selected_text + ' value="' +  tracker.id + '">';
-		html += tracker.name;
-		html += '</option>';
-    }   
-
-    return html;
 }
 
 function generate_complexity_row(){
@@ -3550,31 +3266,6 @@ html = html + '	    <div>';
 html = html + '	      <div id="new_details" class="gt-Sd">';
 html = html + '	          <table class="gt-SdTable">';
 html = html + '	            <tbody>';
-							
-// html = html + '	              <tr>';
-// html = html + '	                <td class="letContentExpand" colspan="1">';
-// html = html + '	                  <div>';
-// html = html + '	                    <select id="new_story_type" class="gt-SdField" name="new_story_type"  onChange="new_story_type_changed(); return false;">';
-// html = html +                         generate_tracker_dropdown();
-// html = html + '	                    </select>';
-// html = html + '	                  </div>';
-// html = html + '	                </td>';
-// html = html + '	                <td class="gt-SdLabelIcon" colspan="1">';
-// html = html + '	                  <div class="gt-SdLabelIcon">';
-// // html = html + '	                    <img src="/images/feature_icon.png" id="new_story_type_image" name="new_story_type_image">';
-// html = html + '	                  </div>';
-// html = html + '	                </td>';
-// html = html + '	                <td class="helpIcon lastCell" colspan="1">';
-// html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
-// html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif"  class="help_question_mark">';
-// html = html + '	                  </div>';
-// html = html + '	                </td>';
-// html = html + '	              </tr>';
-// html = html + '	              <tr id="new_expense" class="hidden">';
-// html = html + '	                <td class="letContentExpand" colspan="1">';
-// html = html + generate_expense_amount_editor('0','new');
-// html = html + '	                </td>';
-// html = html + '	              </tr>';
 html = html + generate_complexity_row();
 html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
@@ -3595,7 +3286,6 @@ html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
 html = html + '	          </table>';
-html = html +             generate_hourly_fields();
 html = html + '	          <div class="section">';
 html = html + '	            <table class="storyDescriptionTable">';
 html = html + '	              <tbody>';
@@ -3772,20 +3462,16 @@ function is_item_todos_editable(dataId) {
 
 
 function is_item_joinable(item) {
-  if (!credits_enabled){return true;}
-  return !(item.tracker.id == standard_trackers.Expense.id);
+	return true;
 }
 
 function is_item_estimatable(item) {
-  if (!credits_enabled){return true;}
-  return !(item.tracker.id == standard_trackers.Expense.id || item.tracker.id == standard_trackers.Hourly.id);
+  return (!credits_enabled);
 }
 
 
 function is_tracker_editable(dataId) {
-  if (!credits_enabled){return true;}
-  return !(D[dataId].tracker.id == standard_trackers.Gift.id || D[dataId].tracker.id == standard_trackers.Expense.id);
-
+	return true;
 }
 
 function generate_expense_amount_editor(points,dataId){
@@ -3857,7 +3543,7 @@ html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
 html = html + '	                    <select id="edit_story_type_' + dataId + '" class="gt-SdField" ';
 html = html + '                             name="edit_story_type" onChange="edit_story_type_changed(' + dataId + '); return false;" ' + disabled + '>';    
-html = html +                         generate_tracker_dropdown((D[dataId].tracker.id != standard_trackers.Gift.id)); // Don't show gift, if item isn't already a gift. 
+// html = html +                         generate_tracker_dropdown((D[dataId].tracker.id != standard_trackers.Gift.id)); // Don't show gift, if item isn't already a gift. 
                                                                                                    // Disallows features, bugs...etc. to be turned into a gift item
 html = html + '	                    </select>';
 html = html + '	                  </div>';
@@ -3873,22 +3559,11 @@ html = html + '	              </tr>';
 html = html + '	              <tr id="assigned_to_' + dataId + '">';
 html = html + '	                <td class="letContentExpand" colspan="3">';
 html = html + '	                <div id="assigned_to_text_' + dataId + '">';
-
-if (credits_enabled) {
-	if (D[dataId].assigned_to_id != null && D[dataId].tracker.id == standard_trackers.Gift.id ){
-		html = html + 'for: ' + D[dataId].assigned_to.firstname + " " + D[dataId].assigned_to.lastname ;
-		};
-	if (D[dataId].tracker.id == standard_trackers.Expense.id ){
-		html = html + generate_expense_amount_editor(D[dataId].points, dataId);;
-		};
-}
-	
 html = html + '</div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
 html = html + '	          </table>';
-html = html +             generate_hourly_fields(dataId, !item_editable);
 html = html + '	          <div class="section">';
 html = html + '	            <table class="storyDescriptionTable">';
 html = html + '	              <tbody>';
@@ -4368,7 +4043,7 @@ function new_dash_data_response(data){
 	}
 	
 	//checking if this is a response with different item count
-	if (data[0].tracker == undefined){
+	if (data[0].tags_count == undefined){
 		
 		//we're getting a list of issue ids as a result of an issue moving that we didn't know about
 		
