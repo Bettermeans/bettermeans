@@ -344,7 +344,10 @@ class IssuesController < ApplicationController
   
   def update_tags
     @issue.update_attribute(:tag_list, params[:tags])
+    @issue.update_attribute(:tags_copy, params[:tags])
+    
     # @issue.send_later(:update_attribute,:tag_list, params[:tags])    
+    # @issue.send_later(:update_attribute,:tags_copy, params[:tags])
     respond_to do |format|
       format.js {render :nothing => true}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
