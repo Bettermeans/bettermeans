@@ -593,7 +593,9 @@ class Issue < ActiveRecord::Base
                               :todos => {:only => [:id, :subject, :completed_on, :owner_login]}, 
                               :tracker => {:only => [:name,:id]}, 
                               :author => {:only => [:firstname, :lastname, :login, :mail_hash]}, 
-                              :assigned_to => {:only => [:firstname, :lastname, :login]}})
+                              :assigned_to => { :only => [:firstname, :lastname, :login] },
+                              :tags_copy => {}
+                              })
   end
   
   #returns dollar amount based on points for this issue

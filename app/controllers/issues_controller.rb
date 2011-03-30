@@ -343,8 +343,8 @@ class IssuesController < ApplicationController
   end
   
   def update_tags
-    logger.info { "params tags #{params[:tags]}" }
     @issue.update_attribute(:tag_list, params[:tags])
+    # @issue.send_later(:update_attribute,:tag_list, params[:tags])    
     respond_to do |format|
       format.js {render :nothing => true}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
