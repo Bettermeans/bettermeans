@@ -346,7 +346,7 @@ class IssuesController < ApplicationController
   end
   
   def update_tags
-    @issue.update_tags(params[:tags])
+    @issue.send_later(:update_tags,params[:tags])
     
     # @issue.send_later(:update_attribute,:tag_list, params[:tags])    
     # @issue.send_later(:update_attribute,:tags_copy, params[:tags])
