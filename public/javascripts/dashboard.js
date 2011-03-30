@@ -1131,7 +1131,7 @@ function generate_agree_flyover(dataId){
 	
 	if (user_agree_id == -1){
 		title = "You haven't voted yet";
-		you_voted = "Totals are hidden until you vote";
+		you_voted = "Details are hidden until you vote to avoid group think";
 	}
 	else {
 		you_voted = item.agree + ' agree / ' + item.disagree + ' disagree (binding)<br>';		
@@ -1889,14 +1889,14 @@ function buttons_for(dataId,expanded){
 	switch (item.status.name){
 	case 'New':
 		html = html + pri_button(dataId);
-		html = html + agree_buttons_root(dataId, false, expanded);
+		html = html + agree_buttons_root(dataId, true, expanded);
 		if (is_cancelable(dataId)){
 			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
 		}
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
-		html = html + agree_buttons_root(dataId,false,expanded);
+		html = html + agree_buttons_root(dataId,true,expanded);
 		if (is_cancelable(dataId)){
 			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
 		}
@@ -1984,7 +1984,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 		
 		//bugbug: hardcoded issue vote (1)
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
-			user_voted = true;
+			user_voted = item.issue_votes[i].points;
 			tally = '';
 
 			if (item.disagree > 5000){
@@ -2008,18 +2008,75 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 		}
 	}
 	
-	if (include_start_button && user_estimated && user_voted){
+	if (include_start_button){
 		html = html + dash_button('start',dataId,false); //add start button if user estimated and voted
 	}
 	
-	if ((!user_estimated) && user_voted){
-		html = html + dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
-	}
-	
-	html = html + dash_button('agree_root',dataId,false,{label:tally,cssclass:cssclass});
+	// if ((!user_estimated) && user_voted){
+	// 	html = html + dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
+	// }
+	var total_votes = item.agree + item.agree_nonbind - item.disagree - item.disagree_nonbind
+	html = html + votes_button(dataId,total_votes, user_voted);
 	
 	return html;
 }
+
+
+
+// function agree_buttons_root(dataId,include_start_button,expanded){
+// 	var html = '';
+// 	var item = D[dataId];
+// 	
+// 	var tally = 'agree?';
+// 	var cssclass = 'root';
+// 	var user_voted = false;
+// 	var user_estimated = false;
+// 	
+// 	
+// 	for(var i=0; i < item.issue_votes.length; i++){
+// 		//bugbug: hardcoded issue vote (4)
+// 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 4)){
+// 			user_estimated = true;
+// 		}
+// 		
+// 		//bugbug: hardcoded issue vote (1)
+// 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
+// 			user_voted = true;
+// 			tally = '';
+// 
+// 			if (item.disagree > 5000){
+// 				include_start_button = false;
+// 				tally = 'Blocked';
+// 			}
+// 			else{
+// 				tally = (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
+// 			}
+// 			switch(String(item.issue_votes[i].points))
+// 			{
+// 				case "1":	cssclass = 'agree';
+// 							break;	
+// 				case "0":	cssclass = 'neutral';
+// 							break;	
+// 				case "-1":	cssclass = 'disagree';
+// 							break;	
+// 				case "-9999": cssclass = 'block';
+// 							break;	
+// 			}
+// 		}
+// 	}
+// 	
+// 	if (include_start_button && user_estimated && user_voted){
+// 		html = html + dash_button('start',dataId,false); //add start button if user estimated and voted
+// 	}
+// 	
+// 	if ((!user_estimated) && user_voted){
+// 		html = html + dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
+// 	}
+// 	
+// 	html = html + dash_button('agree_root',dataId,false,{label:tally,cssclass:cssclass});
+// 	
+// 	return html;
+// }
 
 function accept_buttons_root(dataId,include_start_button,expanded){
 	
@@ -2098,6 +2155,29 @@ function generate_pri_button(dataId,direction,pri){
 	// html = html + '</div>';
 	return html;
 }
+
+function votes_button(dataId,votes_total,user_voted){
+	var type = 'agree_root';
+	var label = votes_total + ' vote';
+	if (votes_total != 1){ label = label + 's'}else{ label = label + ' '};
+	if (votes_total < -9000){ label = 'blocked'};
+	var cssclass = '';
+	var onclick = 'click_agree_root(' + dataId + ',this,\'\');return false;';
+	
+	if (type == "agree_root"){
+		ondblclick =  'click_agree(' + dataId + ',this,\'&points=1\')";return false;';
+	}
+
+	html = '';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="action_button action_button_votes">';
+	html = html + '<a id="item_action_link_vote' + dataId + '" onclick="' + ondblclick + '" class="vote_arrow"><img src="/images/upvote_' + user_voted + '.png"/></a>';
+	
+	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link_votes clickable" onclick="' + onclick + '">';
+	html = html + label + '</a>';
+	html = html + '</div>';
+	return html;
+}
+
 
 
 //Generates a button type for item id
@@ -3468,6 +3548,7 @@ function is_item_joinable(item) {
 }
 
 function is_item_estimatable(item) {
+  return true;
   return (!credits_enabled);
 }
 
@@ -4043,23 +4124,23 @@ function new_dash_data_response(data){
 	//checking if this is a response with different item count
 	if (data[0].tags_copy == undefined){
 		
-		//we're getting a list of issue ids as a result of an issue moving that we didn't know about
-		
-		ISSUE_COUNT = data.length;
-		
-		for(var x=0; x < data.length; x++){
-			delete ITEMHASH["item" + String(data[x])];
-			delete ITEMHASH["item" + String(data[x])]; //handling duplicates
-			delete ITEMHASH["item" + String(data[x])]; //handling duplicates
-		}
-		
-		for(var idt in ITEMHASH){
-			D.splice(ITEMHASH[idt],1);
-			$("#item_" + ITEMHASH[idt]).remove();
-		}
-		
-		prepare_item_lookup_array();
-		save_local_data();
+		// //we're getting a list of issue ids as a result of an issue moving that we didn't know about
+		// 
+		// ISSUE_COUNT = data.length;
+		// 
+		// for(var x=0; x < data.length; x++){
+		// 	delete ITEMHASH["item" + String(data[x])];
+		// 	delete ITEMHASH["item" + String(data[x])]; //handling duplicates
+		// 	delete ITEMHASH["item" + String(data[x])]; //handling duplicates
+		// }
+		// 
+		// for(var idt in ITEMHASH){
+		// 	D.splice(ITEMHASH[idt],1);
+		// 	$("#item_" + ITEMHASH[idt]).remove();
+		// }
+		// 
+		// prepare_item_lookup_array();
+		// save_local_data();
 		return;
 	}
 	
