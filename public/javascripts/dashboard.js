@@ -1739,11 +1739,36 @@ function generate_item(dataId){
 	html = html + '<div id="item_content_details_' + dataId + '" class="itemCollapsedText" onDblclick="expand_item(' + dataId + ');return false;" style="cursor: default;">'; 
 	
 	html = html + '<a href="#" onclick="show_item_fancybox(' + dataId + ');return false;">' + h(item.subject) + '</a>';
+	html = html + generate_tags(item.tags_copy);
 	html = html + '</div>';
 	html = html + '</div>';
 	html = html + '</div>';
 	html = html + '</div>';
 	return html;
+}
+
+function generate_tags(tag_list){
+	if (!tag_list){return '';}
+	html = '';
+	html = html + '<div class="tagsoutput tagsdash">';
+	
+	var tag_array = tag_list.split(',');
+	for(var j = 1; j < tag_array.length; j++ ){
+		html = html + '<span class="tag">';
+		html = html + tag_array[j];
+		html = html + '</span>';
+	}
+	
+	// $.each(, function() {
+	//     $('#' + name + '_start_of_list').append(this);
+	//     });
+	
+	html = html + '</div>';
+	return html;
+
+	// issue.tag_list.each {|t| html = html + content_tag('span', t, :class => "tag")}
+	//     content_tag('div', html, :class => "tagsoutput")
+    
 }
 
 //Generates html for item header in lightbox
@@ -3501,37 +3526,13 @@ html = html + '	      </div>';
 html = html + '	    </div>';
 html = html + '	    <div>';
 html = html + '	      <div id="new_details" class="gt-Sd">';
-// html = html + '	          <table class="gt-SdTable">';
-// html = html + '	            <tbody>';
-// html = html + '	              <tr>';
-// html = html + '	                <td>';
-// html = html + '	                  <div class="gt-SdButton">';
-// html = html + '	                    <input id="new_save_button" value="Create" type="submit" onclick="save_new_item(false);return false;">';
-// html = html + '	                  </div>';
-// html = html + '	                </td>';
-// html = html + '	                <td>';
-// html = html + '	                  <div class="gt-SdButton">';
-// html = html + '	                    <input id="new_save_button" value="Create & Prioritize" type="submit" onclick="save_new_item(true);return false;">';
-// html = html + '	                  </div>';
-// html = html + '	                </td>';
-// html = html + '	                <td>';
-// html = html + '	                  <div class="gt-SdButton">';
-// html = html + '	                    <input id="new_cancel_button" value="Cancel" type="submit" onclick="cancel_new_item();return false;">';
-// html = html + '	                  </div>';
-// html = html + '	                </td>';
-// html = html + '	                <td>';
-// html = html + '	                </td>';
-// html = html + '	              </tr>';
-// html = html + '	            </tbody>';
-// html = html + '	          </table>';
 html = html + '	          <table class="gt-SdTable">';
 html = html + '	            <tbody>';
+							'gt-form-text issue-tags'
 html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
-html = html + '	                    <select id="new_story_type" class="gt-SdField" name="new_story_type"  onChange="new_story_type_changed(); return false;">';
-html = html +                         generate_tracker_dropdown();
-html = html + '	                    </select>';
+html = html + '	        <input id="new_tags" class="issue-tags" name="new_tas" value="" type="text" size="30">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="gt-SdLabelIcon" colspan="1">';
@@ -3541,20 +3542,35 @@ html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
-html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif"  class="help_question_mark">';
+html = html + '	                    <img id="help_image_tags_new" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
-html = html + '	              <tr id="new_expense" class="hidden">';
-html = html + '	                <td class="letContentExpand" colspan="1">';
-html = html + generate_expense_amount_editor('0','new');
-html = html + '	                </td>';
-html = html + '	              </tr>';
-html = html + '	              <tr id="new_assigned_to" class="hidden">';
-html = html + '	                <td class="letContentExpand" colspan="1">';
-html = html + '	                <div><select id="assigned_to_select"><option value="0">loading...</option></select></div>';
-html = html + '	                </td>';
-html = html + '	              </tr>';
+							
+// html = html + '	              <tr>';
+// html = html + '	                <td class="letContentExpand" colspan="1">';
+// html = html + '	                  <div>';
+// html = html + '	                    <select id="new_story_type" class="gt-SdField" name="new_story_type"  onChange="new_story_type_changed(); return false;">';
+// html = html +                         generate_tracker_dropdown();
+// html = html + '	                    </select>';
+// html = html + '	                  </div>';
+// html = html + '	                </td>';
+// html = html + '	                <td class="gt-SdLabelIcon" colspan="1">';
+// html = html + '	                  <div class="gt-SdLabelIcon">';
+// // html = html + '	                    <img src="/images/feature_icon.png" id="new_story_type_image" name="new_story_type_image">';
+// html = html + '	                  </div>';
+// html = html + '	                </td>';
+// html = html + '	                <td class="helpIcon lastCell" colspan="1">';
+// html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
+// html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif"  class="help_question_mark">';
+// html = html + '	                  </div>';
+// html = html + '	                </td>';
+// html = html + '	              </tr>';
+// html = html + '	              <tr id="new_expense" class="hidden">';
+// html = html + '	                <td class="letContentExpand" colspan="1">';
+// html = html + generate_expense_amount_editor('0','new');
+// html = html + '	                </td>';
+// html = html + '	              </tr>';
 html = html + generate_complexity_row();
 html = html + '	            </tbody>';
 html = html + '	          </table>';
@@ -3651,6 +3667,14 @@ $('#help_image_feature_new').mybubbletip($('#help_feature'), {
 	bindShow: 'click'
 });
 
+$('#help_image_tags_new').mybubbletip($('#help_tags'), {
+	deltaDirection: 'up',
+	delayShow: 300,
+	delayHide: 100,
+	offsetTop: 0,
+	bindShow: 'click'
+});
+
 if (credits_enabled){
 	complexity_help_id = "#help_complexity_credits";
 }
@@ -3687,6 +3711,16 @@ $('#file_upload_new').fileUploadUI({
 });
 
 $("#new_items").scrollTo( '#new_item_wrapper', 800);
+
+$('#new_tags').tagsInput({
+   'autocomplete_url': 'http://localhost:3000/projects/' + projectId + '/all_tags',
+   'autocomplete':{selectFirst:true,width:'100px',autoFill:true},
+   'issue_id':null,
+   'height':'20px',
+   'width':$('#issue_tags_container').width(),
+   'defaultText':'add a tag'
+});
+
 
 }
 
