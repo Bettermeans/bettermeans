@@ -51,7 +51,7 @@
                 
                 <div class="issue-meta-box first-box">
                     <h3 class="issue-meta-title"><%= l(:label_project) %></h3>
-                    <span class="issue-meta-content"><%= link_to(@issue.project.name, {:controller => 'projects', :action => 'show', :id => @issue.project_id}) %> - <%= @issue.tracker.name %> #<%= @issue.id %></span>
+                    <span class="issue-meta-content"><%= link_to(@issue.project.name, {:controller => 'projects', :action => 'show', :id => @issue.project_id}) %> - #<%= @issue.id %></span>
                 </div>
                 <div class="issue-meta-box first-box">
                     <h3 class="issue-meta-title"><%=l(:field_tags)%></h3>
@@ -131,7 +131,7 @@
 <% end %>
 
 
-<% html_title "#{@issue.tracker.name} ##{@issue.id}: #{@issue.subject}" %>
+<% html_title "##{@issue.id}: #{@issue.subject}" %>
 
 <% content_for :header_tags do %>
     <%#= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>
