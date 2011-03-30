@@ -487,7 +487,8 @@ table.dash_key tr td{
 	width: 500px;
 }
 
-.dash-item-title{
+a.dash-item-title, a.dash-item-title a:visited{
 	float:left;
 	padding-right:5px;
+	color: #000!important;
 }
