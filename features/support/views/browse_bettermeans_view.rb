@@ -1,32 +1,24 @@
-require 'webrat'
-require 'webrat/core/matchers'
+require File.join(File.dirname(__FILE__), "view")
 
-class BrowseBettermeansView
-  include Webrat::Locators 
-  
-  def initialize(response) 
-    @response = response
-    
-    # TODO: For some reason, scope.dom contains duplicates
+class BrowseBettermeansView < View
+  def initialize(session)    
     @xpath = ".//div[@class='gt-content-box']/table/tbody/tr/td/" + 
         "div[@class='project-summary']"  
+    
+    @title_xpath = "#{@xpath}/h4/a/text()"
+        
+    super session
   end
   
-  def latest_public_workstreams
-    session.within "div.splitcontentleft" do |scope|                 
-      xpath(scope.dom, @xpath)      
+  def latest_public_workstreams    
+    session.within "div.splitcontentleft" do |scope|
+      xpath(scope.dom, @title_xpath).map {|_|_.content}      
     end    
   end
 
   def most_active_public_workstreams
     session.within "div.splitcontentright" do |scope|             
-      xpath(scope.dom, @xpath)      
+      xpath(scope.dom, @title_xpath).map {|_|_.content}      
     end 
   end
-  
-  private
-  
-  def session; @session ||= Webrat::Session.new adapter; end
-  def adapter; Webrat.adapter_class.new @response; end
-  def xpath(dom, xpath); Webrat::XML.xpath_search(dom, xpath); end
 end
