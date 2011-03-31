@@ -60,10 +60,10 @@ class Invitation < ActiveRecord::Base
     return unless @user && !@user.anonymous?
     
     if self.project.root?
-      @user.add_to_project self.project, self.role unless @user.community_member_of? self.project
+      @user.add_to_project self.project, self.role #unless @user.community_member_of? self.project
     else
       @user.add_to_project self.project, Role.active
-      @user.add_to_project self.project.root, self.role unless @user.community_member_of? self.project.root
+      @user.add_to_project self.project.root, self.role #unless @user.community_member_of? self.project.root
     end
     
     @user.add_to_project self.project, Role.clearance unless self.project.is_public?
