@@ -1766,7 +1766,8 @@ text-decoration:underline !important;
 }
 
 .action_button_start{
-	background: url(/images/bb_sky.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat; 
+/*	background: url(/images/bb_sky.png) no-repeat; */
 }
 
 .action_button_start_no_hide{
@@ -1778,11 +1779,13 @@ text-decoration:underline !important;
 }
 
 .action_button_finish{
-	background: url(/images/bb_sky.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat; 
+/*	background: url(/images/bb_sky.png) no-repeat; */
 }
 
 .action_button_join{
-	background: url(/images/bb_sky.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat; 
+/*	background: url(/images/bb_sky.png) no-repeat; */
 }
 
 .action_button_accept{
@@ -1825,15 +1828,18 @@ text-decoration:underline !important;
 }
 
 .action_button_release{
-	background: url(/images/bb_red.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat; 
+/*	background: url(/images/bb_red.png) no-repeat; */
 }
 
 .action_button_leave{
-	background: url(/images/bb_red.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat; 
+/*	background: url(/images/bb_red.png) no-repeat; */
 }
 
 .action_button_takeback{
-	background: url(/images/bb_red.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat; 
+/*	background: url(/images/bb_red.png) no-repeat; */
 }
 
 .action_button_cancel{

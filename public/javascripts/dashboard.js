@@ -2168,7 +2168,7 @@ function votes_button(dataId,votes_total,user_voted){
 
 
 	html = '';
-	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="action_button action_button_votes">';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="action_button action_button_votes" total_votes="' + votes_total + '">';
 	html = html + '<a id="item_action_link_vote' + dataId + '" onclick="' + onarrowclick + '" class="vote_arrow"><img src="/images/upvote_' + user_voted + '.png"/></a>';
 	
 	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link_votes clickable" onclick="' + onclick + '">';
@@ -2224,7 +2224,7 @@ function click_start(dataId,source,data){
 		return false;
 	}
 
-	if (!has_current_user_estimated(D[dataId])){
+	if (credits_enabled && !has_current_user_estimated(D[dataId])){
 		$.jGrowl("Sorry, you can't start an item before estimating it first. <br><br>Click on the dice with the question mark on it, to estimate the complexity/size of this item.");
 		return false;
 	}
@@ -2270,7 +2270,7 @@ function click_finish(dataId,source,data){
 	if (!is_user_logged_in()){return;}
 
 	$('#' + source.id).parent().hide();
-	comment_prompt(dataId,source,data,'finish',true,"Tell your team what was accomplished. Include links to help them see the work, and accept it.");
+	comment_prompt(dataId,source,data,'finish',false,"Tell your team what was accomplished. Include links to help them see the work, and accept it.");
 }
 
 function click_restart(dataId,source,data){
@@ -2289,7 +2289,20 @@ function click_agree(dataId,source,data){
 	//Login required	
 	if (!is_user_logged_in()){return;}
 
-	$('#item_content_buttons_' + dataId).hide();
+	// $('#item_content_buttons_' + dataId).hide();
+	
+	var item = D[dataId];
+	var user_voted = 0;
+	for(var i=0; i < item.issue_votes.length; i++){
+		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
+			user_voted = item.issue_votes[i].points;
+		}
+	}
+	
+	var user_new_voted = parseInt(data.split('=')[1])
+	var votes_total = item.agree + item.agree_nonbind - item.disagree - item.disagree_nonbind - user_voted + user_new_voted
+	$('#item_content_buttons_agree_root_button_' + dataId).html(votes_button(dataId, votes_total, user_new_voted));
+	
 	
 	switch(data)
 	{
@@ -2345,7 +2358,7 @@ function click_cancel(dataId,source,data){
 	if (!is_user_logged_in()){return;}
 
 	$('#' + source.id).parent().hide();
-	comment_prompt(dataId,source,data,'cancel',true,"Please explain why you're canceling");
+	comment_prompt(dataId,source,data,'cancel',false,"Please explain why you're canceling");
 }
 
 function click_leave(dataId,source,data){
@@ -3124,7 +3137,7 @@ function item_actioned(item, dataId, action){
 	var status_changed = (pre_status != item.status.name);
 
 	// New and estimate status are the same as far as the dashboard is concerned
-	if ((item.status.name == 'Estimate' && pre_status == 'New')||(item.status.name == 'New' && pre_status == 'Estimate'))
+	if ((item.status.name == 'Estimate' && pre_status == 'New')||(item.status.name == 'New' && pre_status == 'Estimate')||(item.status.name == 'Open' && pre_status == 'New')||(item.status.name == 'New' && pre_status == 'Open'))
 	{
 		status_changed = false;
 	}
