@@ -23,7 +23,7 @@ padding:0;
 
 /*html>body #content { min-height: 200px; overflow: auto; height: 600px; } */
 
-html > body #content {
+/*html > body #content {
 	min-height: 200px;
 	overflow-y: hidden;
 	overflow-x: visible;
@@ -39,10 +39,9 @@ body  {
 	margin:0px 0px 0px 0px;
 	max-width: 9999999px;
 	padding-top: 0px;
-/*	float: left;*/
 	width:100%;
 }
-
+*/
 #main_table{
 	margin-top: 13px;
 	float: left;
@@ -80,9 +79,9 @@ vertical-aling:center;
 
 .items {
 	height:100%;
-	overflow-x:hidden;
+/*	overflow-x:hidden;
 	overflow-y:auto;
-	position:relative;
+*/	position:relative;
 	color:#000000;
 }
 
@@ -147,14 +146,13 @@ border-spacing:16px 0;
 	min-height:300px;
 }*/
 
-#content {
+/*#content {
 	font-family:Arial,Verdana,sans-serif;
 	margin: 0px 0px 0px 0px;
 	padding: 6px 10px 0px 6px;
 	border: none;
-/*	overflow-y: none;*/
 }
-
+*/
 
 #footer {
 	background-color:#FFFFFF;

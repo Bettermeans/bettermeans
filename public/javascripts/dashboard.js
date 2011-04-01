@@ -2778,10 +2778,10 @@ function show_comment(item){
 
 //resize heights of container and panels
 function resize(){
-	panel_height = $(window).height() - $('.gt-hd').height() - $('#help_section:visible').height() + 28;// + $('.gt-footer').height() ;
-	// panel_height = $(window).height() - $('.gt-hd').height() + 28;// + $('.gt-footer').height() ;
-	// $("#content").height(panel_height - 35);
-	$(".list").height(panel_height - 75);
+	// panel_height = $(window).height() - $('.gt-hd').height() - $('#help_section:visible').height() + 28;// + $('.gt-footer').height() ;
+	// // panel_height = $(window).height() - $('.gt-hd').height() + 28;// + $('.gt-footer').height() ;
+	// // $("#content").height(panel_height - 35);
+	// $(".list").height(panel_height - 75);
 	$("#panels").show();
 	recalculate_widths();
 }

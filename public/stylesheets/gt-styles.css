@@ -1248,10 +1248,16 @@ ul li {
 
 /* Search Box */
 .gt-search {
+	background: url(/images/gt/search-box-left.png) no-repeat 0 0px;
+	height: 22px;
+	padding: 0 0 0 20px;
+}
+.gt-search-top {
 	background: url(/images/gt/search-box-left.png) no-repeat 0 10px;
 	height: 22px;
 	padding: 0 0 0 20px;
 }
+
 .gt-search-inner {
 	height: 20px;
 	background: url(/images/gt/search-box-right.png) no-repeat 100% 0;
@@ -1728,7 +1734,7 @@ text-decoration:underline !important;
 .lastCell {width:95%}
 .item {border-top: 1px solid #6E6E6E}
 .item.proxy {font-size: 0.8em}
-.items, .search {height: 100%; overflow-y: auto; overflow-x: hidden; position: relative}
+/*.items, .search {height: 100%; overflow-y: auto; overflow-x: hidden; position: relative}*/
 .no_xscroll {overflow-x: hidden; padding-bottom: 15px}
 .no_yscroll {overflow-y: hidden; padding-right: 15px}
 .helpIcon {padding: 2px;}

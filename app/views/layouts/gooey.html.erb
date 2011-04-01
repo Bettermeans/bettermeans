@@ -97,7 +97,7 @@
 		
     <!-- search -->
     	<% if (!has_content?(:searchbar)) %>
-    <div class="gt-search gt-search-wide">
+    <div class="gt-search gt-search-top gt-search-wide">
       		  <div class="gt-search-inner">
       		  <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
             <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
@@ -160,10 +160,6 @@ cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-3 clearfix' : 'gt-bd gt-cols
       </ul>
     <% end %>
     </div>
-		<% if (!has_content?(:topbuttons)) %>
-		<% else %>
-		  <%= yield :topbuttons %>		
-		<% end %>
 
   	<% if (has_content?(:secondnav)) %>
   	  <div class="gt-second-navbar">
@@ -184,6 +180,10 @@ cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-3 clearfix' : 'gt-bd gt-cols
     
 		  <%= render_global_messages %>
   		<%= render_flash_messages %>
+  		<% if (!has_content?(:topbuttons)) %>
+  		<% else %>
+  		  <%= yield :topbuttons %>		
+  		<% end %>
       <%= yield %>
 	</div>
 	<!-- / main content -->
