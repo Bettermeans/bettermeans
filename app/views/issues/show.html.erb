@@ -157,7 +157,7 @@
     initialize();
     
     $('.issue-tags').tagsInput({
-       'autocomplete_url': 'http://localhost:3000/projects/<%= @issue.project.id %>/all_tags',
+       'autocomplete_url': '/projects/<%= @issue.project.id %>/all_tags',
        'autocomplete':{selectFirst:true,width:'100px',autoFill:true},
        'issue_id':'<%= @issue.id %>',
        'height':'20px',
