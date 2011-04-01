@@ -2903,9 +2903,9 @@ function sort_panel(name){
 			else if (compB == 'new_link') {
 					return 1;
 			}
-			  else if (D[compA].agree_total + D[compA].agree_total_nonbind > D[compB].agree_total + D[compA].agree_total_nonbind) {
+			  else if (D[compA].agree_total + D[compA].agree_total_nonbind > D[compB].agree_total + D[compB].agree_total_nonbind) {
 			return -1;
-			} else if (D[compA].agree_total + D[compA].agree_total_nonbind < D[compB].agree_total + D[compA].agree_total_nonbind) {
+			} else if (D[compA].agree_total + D[compA].agree_total_nonbind < D[compB].agree_total + D[compB].agree_total_nonbind) {
 				return 1;
 			} else if (new Date(D[compA].created_at) > new Date(D[compB].created_at)) {
 				return 1;
