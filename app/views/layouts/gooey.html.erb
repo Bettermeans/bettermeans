@@ -12,6 +12,7 @@
 
 <%= stylesheet_link_tag 'reset-fonts' %>
 <%= stylesheet_link_tag 'jquery.fancybox-1.3.4' %>
+<%= stylesheet_link_tag 'jquery.tagsinput' %>
 <%= stylesheet_link_tag 'jquery-ui-1.8.8.custom' %>
 <%= stylesheet_link_tag 'gt-styles' %>
 <%= stylesheet_link_tag 'headerandfooter.css' %>
@@ -28,7 +29,11 @@
 <%= javascript_include_tag  'jquery.scrollTo-min' %>
 <%= javascript_include_tag  'jquery.fancybox-1.3.4.pack' %>
 <%= javascript_include_tag  'jquery.sparkline.min' %>
+<%= javascript_include_tag  'jquery.tagsinput' %>
 <%= javascript_include_tag  'store' %>
+ 
+
+
 <!--[if IE]>
     <style type="text/css">
       * html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
@@ -39,6 +44,10 @@
 <%= yield :header_tags -%>
 </head>
 <body>
+  <!--[if IE]>  
+  <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='/images/static/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>      <div style='width: 75px; float: left;'><img src='/images/static/ie6nomore-warning.jpg' alt='Warning!'/></div>      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an unsupported browser</div>        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using bettermeans, please upgrade to a modern web browser.</div>      </div>      <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='/images/static/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>            <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='/images/static/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>      <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='/images/static/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>    </div>  </div>
+  <![endif]-->
+  
   <script type="text/javascript">
 
     var _gaq = _gaq || [];
@@ -67,8 +76,8 @@
 	
 		<!-- logo -->
 		<div class="gt-logo">
-      <a href="/projects" style="text-decoration:none;" class="left">
-        <img src="/images/header_logo.png"></a>
+      <a href="/" style="text-decoration:none;" class="left">
+        <img src="/images/static/header_logo.png"></a>
       </a>
       <div class="gt-logo-links">
   		  <%= link_to(l(:label_my_home).upcase, {:controller => 'welcome', :action => 'index'}, :class => 'root') %>&nbsp;
@@ -177,6 +186,7 @@ end
 
 	<!-- main content -->
 	<div class="gt-content" id="content">
+		  <%= render_global_messages %>
   		<%= render_flash_messages %>
       <%= yield %>
 	</div>

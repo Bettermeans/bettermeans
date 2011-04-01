@@ -153,6 +153,7 @@ class User < ActiveRecord::Base
         :last_name => @user.lastname,
         :email => @user.mail,
         :username => @user.login)
+      puts "created account #{@account.inspect}"
     end
   end
   
@@ -236,22 +237,49 @@ class User < ActiveRecord::Base
     super
   end
   
+  def lock_workstreams?
+    (self.usage_over_at && self.usage_over_at.advance(:days => -1 * Setting::WORKSTREAM_LOCK_THRESHOLD) > DateTime.now) || (self.trial_expired_at && self.trial_expired_at.advance(:days => -1 *  Setting::WORKSTREAM_LOCK_THRESHOLD) > DateTime.now)
+  end
+  
+  #detects if usage is way over, or trial has expired for a while, and locks out private workstreams belonging to user
+  def lock_workstreams()
+    if self.lock_workstreams?
+      self.owned_projects.each {|p| p.lock unless p.is_public?}
+    end
+  end
+
+  def unlock_workstreams()
+    unless self.lock_workstreams?
+      self.owned_projects.each {|p| p.unlock unless p.is_public?}
+    end
+  end
+  
+  def usage_over?()
+    self.project_storage_total > self.plan.storage_max || self.private_project_total > self.plan.private_workstream_max || self.private_contributor_total > self.plan.contributor_max
+  end
+  
   #detects if usage is over, and sets date of going over
   def update_usage_over()
-    is_over = self.project_storage_total > self.plan.storage_max || self.private_project_total > self.plan.private_workstream_max || self.private_contributor_total > self.plan.contributor_max
+    is_over = self.usage_over?
+
+    self.lock_workstreams if is_over
+
     if is_over && !self.usage_over_at
+      logger.info { "we are over" }
       Notification.create :recipient_id => self.id,
                           :variation => 'usage_over',
                           :sender_id => User.sysadmin.id,
                           :source_id => self.id,
                           :source_type => "User"
       
-      self.update_attribute(:usage_over_at, DateTime.now) 
+      self.update_attribute(:usage_over_at, DateTime.now)
     end
     
     if !is_over && self.usage_over_at
+      logger.info { "we are not over" }
       Notification.delete_all(:variation => 'usage_over', :source_id => self.id)
       self.update_attribute(:usage_over_at, nil) 
+      self.unlock_workstreams
     end
     
   end
@@ -259,8 +287,19 @@ class User < ActiveRecord::Base
   #detects if trial expired, and sets date of trial expiring
   def update_trial_expiration()
     return if self.plan.free?
-    return if self.trial_expired_at 
-    return if !self.trial_expires_on
+    
+    if !self.trial_expires_on
+      if self.trial_expired_at
+        self.update_attribute(:trial_expired_at, nil)
+        self.unlock_workstreams 
+      end
+      return
+    end
+    
+    if self.trial_expired_at 
+      self.lock_workstreams
+      return
+    end
     
     if DateTime.now > self.trial_expires_on    
       Notification.create :recipient_id => self.id,
@@ -271,7 +310,6 @@ class User < ActiveRecord::Base
 
       self.update_attribute(:trial_expired_at, DateTime.now) 
     end
-    
   end
   
   def identity_url=(url)
@@ -562,11 +600,11 @@ class User < ActiveRecord::Base
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project, options={})
-    logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
-        logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
+    # logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
+    #     logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     if project
       # No action allowed on archived projects except unarchive
-      return false unless project.active? || (action.class.to_s == "Hash" && action[:action] == "unarchive")
+      return false unless project.active? || project.locked? || (action.class.to_s == "Hash" && action[:action] == "unarchive")
       # No action allowed on disabled modules
       return false unless project.allows_to?(action)
       # Admin users are authorized for anything else
@@ -670,23 +708,25 @@ class User < ActiveRecord::Base
   
   #total owned public projects
   def public_project_total
-    self.owned_projects.find_all{|p| p.is_public && p.active? }.length
+    self.owned_projects.find_all{|p| p.is_public  && (p.active? || p.locked?) }.length
   end
   
   def private_project_total
-    self.owned_projects.find_all{|p| !p.is_public && p.active? }.length
+    self.owned_projects.find_all{|p| !p.is_public && (p.active? || p.locked?) }.length
   end
   
   def public_contributor_total
     @all_users = []
-    self.owned_projects.find_all{|p| p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
+    # self.owned_projects.find_all{|p| p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
+    self.owned_projects.find_all{|p| p.is_public && (p.active? || p.locked?) }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
     @all_users.length
   end
   
   def private_contributor_total
     # self.owned_projects.find_all{|p| p.root? && !p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
     @all_users = []
-    self.owned_projects.find_all{|p| !p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
+    # self.owned_projects.find_all{|p| !p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
+    self.owned_projects.find_all{|p| !p.is_public && (p.active? || p.locked?) }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}} 
     @all_users.length
   end
   

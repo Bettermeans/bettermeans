@@ -207,6 +207,8 @@ private
   
   def find_wiki
     @project = Project.find(params[:id])
+    render_message l(:text_project_locked) if @project.locked?
+    
     @wiki = @project.wiki
     render_404 unless @wiki
   rescue ActiveRecord::RecordNotFound

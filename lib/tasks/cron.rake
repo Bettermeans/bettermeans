@@ -36,6 +36,7 @@ task :cron => :environment do
       Rake::Task['custom:calculate_project_storage'].invoke
       Rake::Task['custom:detect_users_over_limit'].invoke
       Rake::Task['custom:detect_trial_expiration'].invoke
+      Rake::Task['custom:refresh_project_issue_counts'].invoke
       
     end
     puts "done."

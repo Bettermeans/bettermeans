@@ -304,10 +304,12 @@ class RetrosController < ApplicationController
   def find_retro
     @retro = Retro.find(params[:id])
     @project = @retro.project
+    render_message l(:text_project_locked) if @project.locked?
   end
   
   
   def find_project
       @project = Project.find(params[:project_id])
+      render_message l(:text_project_locked) if @project.locked?
   end
 end

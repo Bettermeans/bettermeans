@@ -133,7 +133,7 @@ class MyController < ApplicationController
       
       @new_plan = Plan.find(params[:user][:plan_id])
       @user.attributes = params[:user]
-      @user.plan_id = @new_plan.id
+      @user.plan_id = @user.plan.id #not upgrading yet
           
       account = User.update_recurly_billing @user.id, cc, params[:ccverify], request.remote_ip
       
@@ -145,7 +145,7 @@ class MyController < ApplicationController
           return
         end
       end
-              
+      
       if @new_plan.code == Plan::FREE_CODE && @new_plan.code != @selected_plan.code
         begin
           sub = Recurly::Subscription.find(@user.id.to_s)
@@ -163,7 +163,11 @@ class MyController < ApplicationController
         else
           @user.trial_expires_on = nil
           @user.trial_expired_at = nil
+          @user.plan_id = @new_plan.id
           @user.save
+          @user.update_usage_over()
+          @user.update_trial_expiration()
+          @user.lock_workstreams
           flash.now[:success] = "Your plan was successfully canceled"
           # redirect_to :action => 'account'
           @user.reload
@@ -171,7 +175,7 @@ class MyController < ApplicationController
         end
       elsif @new_plan.code != @selected_plan.code
         begin
-          @user.update_attribute(:trial_expires_on, @user.created_at.advance(:days => 30))
+          # @user.update_attribute(:trial_expires_on, @user.created_at.advance(:days => 30))
           sub = Recurly::Subscription.find(@user.id.to_s)
           begin
           sub.change('now', :plan_code => @new_plan.code, :quantity => 1)
@@ -181,14 +185,24 @@ class MyController < ApplicationController
             return
           end
         rescue ActiveResource::ResourceNotFound
+          begin
           trial_expiration = @user.trial_expires_on || -1.days.from_now
+          logger.info { "trial #{trial_expiration}" }
           sub = Recurly::Subscription.create(
             :account_code => account.account_code,
             :plan_code => @new_plan.code, 
             :quantity => 1,
-            :account => account,
-            :trial_ends_at => trial_expiration
+            :account => account
+            # , :trial_ends_at => trial_expiration
           )
+          rescue Exception => e
+              flash.now[:error] = e.message
+              @user.reload
+              return
+          end
+        else
+          @user.trial_expires_on = nil
+          @user.trial_expired_at = nil
         end
         
         if sub.errors && sub.errors.any?
@@ -196,7 +210,11 @@ class MyController < ApplicationController
           @user.reload
           return
         else
+          @user.plan_id = @new_plan.id
           @user.save
+          @user.update_usage_over()
+          @user.update_trial_expiration()
+          @user.unlock_workstreams
           flash.now[:success] = "Plan successfully changed to #{@new_plan.name}"
         end
       else

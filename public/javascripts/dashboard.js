@@ -1,7 +1,7 @@
 var D = []; //all data
 var R = []; //all retrospectives
 var local_D = null;
-var local_R = null;
+// var local_R = null;
 var MAX_REQUESTS_PER_PERSON = 4;
 var TIMER_INTERVAL = 15000; //15 seconds
 var INACTIVITY_THRESHOLD = 300000; //5 minutes
@@ -183,21 +183,21 @@ function load_dashboard_data(){
 	$("#loading").hide();
 	
 	get_local_data();
-	if (local_R == null){
-		local_R = [];
-	}
+	// if (local_R == null){
+	// 	local_R = [];
+	// }
 	
 	if (local_D != null){
 		data_ready(local_D,'all');
-		if (credits_enabled){
-			retros_ready(local_R);
-			load_retros();
-		}
+		// if (credits_enabled){
+		// 	retros_ready(local_R);
+		// 	load_retros();
+		// }
 		ISSUE_COUNT = -1; //we are loading from local data, so we set the counter past 10 to refresh moved items
 		timer_active = true;
 		new_dash_data();
 		local_D = null;
-		local_R = null;
+		// local_R = null;
 	}
 	else{
 		D = [];
@@ -269,8 +269,8 @@ function get_local_data(){
 		
 		if (local_D == null) {return false;}
 		
-		local_R = JSON.parse(store.get('R_' + projectId));
-		if (local_R == null) {local_R = [];}
+		// local_R = JSON.parse(store.get('R_' + projectId));
+		// if (local_R == null) {local_R = [];}
 		
 		last_data_pull = new Date(store.get('last_data_pull_' + projectId));
 
@@ -362,11 +362,11 @@ function data_ready(html,name){
 	}
 	update_panel_counts();
 	prepare_item_lookup_array(); //TODO: move this somewhere else for efficiency. it should only run once
-	if (loaded_panels == 4 && credits_enabled){
-		load_retros();
-		timer_active = true;
-	}
-	else if (loaded_panels == 4){
+	// if (loaded_panels == 4 && credits_enabled){
+	// 	load_retros();
+	// 	timer_active = true;
+	// }
+	if (loaded_panels == 4){
 		enable_refresh_button();
 		timer_active = true;
 	}
@@ -377,36 +377,37 @@ function replace_reloading_images_for_panels(){
 }
 
 
-function load_retros(){
-		if (!credits_enabled){
-			return false;
-		}
-		var url = url_for({ controller: 'projects',
-								id		: projectId
-	                          });
-		url = url + '/retros/index_json';
-	    		
-		$.ajax({
-		   type: "GET",
-		   dataType: "json",
-		   contentType: "application/json",
-		   url: url,
-		   success:  	function(html){
-				retros_ready(html);
-				enable_refresh_button();
-			},
-		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
-			// typically only one of textStatus or errorThrown will have info
-			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
-			$("#loading").hide();
-			$("#loading_error").show();
-			enable_refresh_button();
-			},
-			timeout: 30000 //30 seconds
-		 });
-		return true;
-}
-
+// function load_retros(){
+// 	
+// 		if (!credits_enabled){
+// 			return false;
+// 		}
+// 		var url = url_for({ controller: 'projects',
+// 								id		: projectId
+// 			                          });
+// 		url = url + '/retros/index_json';
+// 			    		
+// 		$.ajax({
+// 		   type: "GET",
+// 		   dataType: "json",
+// 		   contentType: "application/json",
+// 		   url: url,
+// 		   success:  	function(html){
+// 				retros_ready(html);
+// 				enable_refresh_button();
+// 			},
+// 		   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
+// 			// typically only one of textStatus or errorThrown will have info
+// 			// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+// 			$("#loading").hide();
+// 			$("#loading_error").show();
+// 			enable_refresh_button();
+// 			},
+// 			timeout: 30000 //30 seconds
+// 		 });
+// 		return true;
+// }
+// 
 function enable_refresh_button(){
 	$('#refresh_data').show();
 }
@@ -513,12 +514,12 @@ function prepare_item_lookup_array(){
 // Loads all items in their perspective panels, and sets up panels
 function display_panels(){
 	loaded_panels = 0;
-	insert_panel(0,'new','New',true);
+	insert_panel(0,'new','Open',true);
 	add_new_link();
 	// insert_panel(0,'estimate','In Estimation',true);
-	insert_panel(0,'open','Open',true);
+	// insert_panel(0,'open','Open',true);
 	insert_panel(0,'inprogress','In Progress',true);
-	insert_panel(0,'done','Done',true);
+	insert_panel(0,'done','Done',false);
 	insert_panel(0,'canceled','Canceled',false);
 	// insert_panel(0,'archived','Archived',false);
 }
@@ -529,7 +530,7 @@ function wipe_panels(){
 }
 
 function sort_panels(){
-	sort_panel('open');
+	// sort_panel('open');
 	sort_panel('new');
 	sort_panel('inprogress');
 }
@@ -686,16 +687,13 @@ function show_accept_flyover(dataId,callingElement){
 function is_visible(item){
 	if (item == null) {return false;}
 	
-	if (credits_enabled && item.tracker.id == standard_trackers.Gift.id && item.assigned_to_id == currentUserId){
-		return false;
-	}
-	
 	return true;
 }
 
 function is_startable(item){
 	if (item.status.name == "Open"){
-		return ((item.pri > (highest_pri - startable_priority_tiers))||(item.pri == 0));
+		return true;
+		// return ((item.pri > (highest_pri - startable_priority_tiers))||(item.pri == 0));
 	}
 	else{
 		return false;
@@ -716,7 +714,7 @@ function add_item(dataId,position,scroll,panelid){
 		panelid= 'new';
 		break;
 		case 'Open':
-		panelid= 'open';
+		panelid= 'new';
 		break;
 		case 'Committed':
 		panelid = 'inprogress';
@@ -759,61 +757,6 @@ function add_item(dataId,position,scroll,panelid){
 		$("#" + panelid + "_items").scrollTo('#item_' + dataId, 100);
 	}
 	
-}
-
-function generate_details_flyover(dataId){
-	var item = D[dataId];
-	
-	var points;
-	item.points == null ? points = 'No' : points = credits_to_points(item.points,credit_base);
-	
-	var html = '';
-	
-	html = html + '<div id="flyover_' + dataId + '" class="overlay" style="display:none;">';
-	html = html + '<div style="border: 0pt none ; margin: 0pt;">';
-	html = html + '<div class="overlayContentWrapper gt-Sfo flyover" style="width: 475px; max-height:600px">';
-	html = html + '<div class="storyTitle">';
-	html = html + h(item.subject);
-	html = html + '</div>';
-	html = html + '	      <div class="sectionDivider">';
-	html = html + '	      <div style="height: auto;">';
-	html = html + '	        <div class="metaInfo">';
-	html = html + '	          <div class="left">';
-	html = html + 'Added by ' + item.author.firstname + ' ' + item.author.lastname + ' ' + humane_date(item.created_at);
-	html = html + '	          </div>';
-	html = html + '<div class="right infoSection">';
-	html = html + '	            <img class="estimateIcon left" width="18" src="/images/dice_' + points + '.png" alt="Estimate: ' + points + ' credits" title="Estimate: ' + points + ' credits">';
-	html = html + '	            <div class="left text">';
-	html = html + '	              ' + points + ' cr';
-	html = html + '	            </div>';
-	html = html + '	            <div class="clear"></div>';
-	html = html + '	          </div>';
-	html = html + '	          <div class="right infoSection">';
-	html = html + '	            <img class="left" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '">';
-	html = html + '	            <div class="left text">';
-	html = html + 	              item.tracker.name;
-	html = html + '	            </div>';
-	html = html + '	            <div class="clear"></div>';
-	html = html + '	          </div>';
-	html = html + '	          <div class="clear"></div>';
-	html = html + '	        </div>';
-	html = html + '	        <div class="gt-Ifc gt-Sd">';
-	html = html + '	          <div class="storyId right">';
-	html = html + '	            <span>ID:</span> <span>' + item.id + '</span>';
-	html = html + '	          </div>';
-	html = html + '	<div class="section">';
-	html = html + generate_details_flyover_description(item);
-	html = html + generate_comments(dataId,true);
-	html = html + '</div>';
-	html = html + '	        </div>';
-	html = html + '	      </div>';
-	html = html + '	    </div>';
-	html = html + '	  </div>';
-	html = html + '	</div>';
-	
-	$('#flyovers').append(html);
-	
-	return html;
 }
 
 function generate_estimate_flyover(dataId){
@@ -893,7 +836,7 @@ function generate_estimate_flyover(dataId){
 	var action_header = '';
 	var buttons = '';
 	
-	if (!((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {	
+	// if (((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {	
 		user_estimate == -100 ? action_header = 'Make an estimate' : action_header = 'Change your estimate';
 
 		buttons = buttons + generate_estimate_button(-1,-1, item.id, dataId, (user_estimate != -100));
@@ -902,7 +845,7 @@ function generate_estimate_flyover(dataId){
 			buttons = buttons + generate_estimate_button(i,point_factor[i] * credit_base, item.id, dataId, (user_estimate != -100));
 		}
 		buttons = buttons + generate_custom_estimate_button(dataId,user_estimate);
-	}
+	// }
 	
 	return generate_flyover(dataId,'estimate',title,you_voted,action_header,buttons,history);
 	
@@ -1188,7 +1131,7 @@ function generate_agree_flyover(dataId){
 	
 	if (user_agree_id == -1){
 		title = "You haven't voted yet";
-		you_voted = "Totals are hidden until you vote";
+		you_voted = "Details are hidden until you vote to avoid group think";
 	}
 	else {
 		you_voted = item.agree + ' agree / ' + item.disagree + ' disagree (binding)<br>';		
@@ -1627,10 +1570,6 @@ function credits_to_points(credits,base){
 
 function has_current_user_estimated(item){
 	
-	if (item.tracker.id == standard_trackers.Expense.id){
-		return true;
-	}
-
 	//Checking wether or not current user estimated this item voted
 	for(i=0; i < item.issue_votes.length; i++){
 		if (item.issue_votes[i].vote_type != 4) continue;
@@ -1719,7 +1658,11 @@ function generate_item(dataId){
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
 	html = html + '<img id="item_content_icons_editButton_' + dataId + '" class="toggleExpandedButton" src="/images/story_collapsed.png" title="Expand" alt="Expand" onclick="expand_item(' + dataId + ');return false;">';
 	html = html + '<div id="icon_set_' + dataId + '" class="left">';
-	html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ dataId +');return false;">'; 
+	if (is_cancelable(dataId)){
+		html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
+	}
+	
+	// html = html + '<img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon clickable" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '"  onclick=" show_item_fancybox('+ dataId +');return false;">'; 
 	
 	if (currentUserId != ANONYMOUS_USER_ID){ 
 		html = html + generate_item_estimate_button(dataId,points);
@@ -1735,13 +1678,39 @@ function generate_item(dataId){
 
 
 	html = html + '<div id="item_content_details_' + dataId + '" class="itemCollapsedText" onDblclick="expand_item(' + dataId + ');return false;" style="cursor: default;">'; 
-	
-	html = html + '<a href="#" onclick="show_item_fancybox(' + dataId + ');return false;">' + h(item.subject) + '</a>';
+	html = html + '<span>'
+	html = html + '<a href="#" class="dash-item-title" onclick="show_item_fancybox(' + dataId + ');return false;">' + h(item.subject) + '</a>';
+	html = html + generate_tags(item.tags_copy);
+	html = html + '</span><div class="clear"></div>';
 	html = html + '</div>';
 	html = html + '</div>';
 	html = html + '</div>';
 	html = html + '</div>';
 	return html;
+}
+
+function generate_tags(tag_list){
+	if (!tag_list){return '';}
+	html = '';
+	html = html + '<div class="tagsoutput tagsdash">';
+	
+	var tag_array = tag_list.split(',');
+	for(var j = 0; j < tag_array.length; j++ ){
+		html = html + '<span class="tag">';
+		html = html + tag_array[j];
+		html = html + '</span>';
+	}
+	
+	// $.each(, function() {
+	//     $('#' + name + '_start_of_list').append(this);
+	//     });
+	
+	html = html + '</div>';
+	return html;
+
+	// issue.tag_list.each {|t| html = html + content_tag('span', t, :class => "tag")}
+	//     content_tag('div', html, :class => "tagsoutput")
+    
 }
 
 //Generates html for item header in lightbox
@@ -1758,11 +1727,11 @@ function generate_item_lightbox(dataId){
 	html = html + '</div>';
 
 	html = html + '<div id="icons_' + dataId + '" class="icons">'; //The id of this div is used to lookup the item to generate the flyover
-	html = html + '<h3 style="border:none"><img id="featureicon_' + dataId + '" itemid="' + item.id + '" class="storyTypeIcon hoverDetailsIcon" src="/images/' + item.tracker.name.toLowerCase() + '_icon.png" alt="' + item.tracker.name + '">'; 
+	html = html + '<h3 style="border:none;padding-left:11px">'; 
 
 	html = html + generate_item_estimate_button(dataId,points);
 
-	html = html + '&nbsp;&nbsp;&nbsp;' + h(item.subject);
+	html = html + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + h(item.subject);
 	html = html + '&nbsp;<span id="icon_set_' + dataId + '">&nbsp;';
 	html = html + '</span>';
 	html = html + '</h3>';
@@ -1814,14 +1783,14 @@ function generate_retro(rdataId){
 	return html;	
 }
 
-function retro_status(retro){
-	if (retro.status_id == 1){
-		return "open";
-	}
-	else{
-		return "done";
-	}
-}
+// function retro_status(retro){
+// 	if (retro.status_id == 1){
+// 		return "open";
+// 	}
+// 	else{
+// 		return "done";
+// 	}
+// }
 
 function display_retro(rdataId){
 	
@@ -1924,27 +1893,15 @@ function buttons_for(dataId,expanded){
 	switch (item.status.name){
 	case 'New':
 		html = html + pri_button(dataId);
-	    if ((typeof standard_trackers.Hourly != 'undefined') && (item.tracker.id == standard_trackers.Hourly.id))
-		html = html + dash_button('start', dataId);
-	    else
-		html = html + agree_buttons_root(dataId, false, expanded);
-		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
-		}
+		html = html + agree_buttons_root(dataId, true, expanded);
 	break;
 	case 'Estimate':
 		html = html + pri_button(dataId);
-		html = html + agree_buttons_root(dataId,false,expanded);
-		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
-		}
+		html = html + agree_buttons_root(dataId,true,expanded);
 	break;
 	case 'Open':
 		html = html + pri_button(dataId);
 		html = html + agree_buttons_root(dataId,true,expanded);
-		if (is_cancelable(dataId)){
-			html = html + dash_button('cancel',dataId,false,{label:'&nbsp;'});
-		}
 	break;
 	case 'Committed':
 		if (item.assigned_to_id == currentUserId){
@@ -2010,7 +1967,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 	
 	var tally = 'agree?';
 	var cssclass = 'root';
-	var user_voted = false;
+	var user_voted = 'false';
 	var user_estimated = false;
 	
 	
@@ -2022,7 +1979,7 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 		
 		//bugbug: hardcoded issue vote (1)
 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
-			user_voted = true;
+			user_voted = item.issue_votes[i].points;
 			tally = '';
 
 			if (item.disagree > 5000){
@@ -2046,23 +2003,75 @@ function agree_buttons_root(dataId,include_start_button,expanded){
 		}
 	}
 	
-	//no need to estimate if this is an expense
-	if (item.tracker.id == standard_trackers.Expense.id){
-		user_estimated = true; 
+	if (include_start_button){
+		html = html + dash_button('start',dataId,false); //add start button 
 	}
 	
-	if (include_start_button && user_estimated && user_voted){
-		html = html + dash_button('start',dataId,true); //add start button if user estimated and voted
-	}
-	
-	if ((!user_estimated) && user_voted){
-		html = html + dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
-	}
-	
-	html = html + dash_button('agree_root',dataId,false,{label:tally,cssclass:cssclass});
+	// if ((!user_estimated) && user_voted){
+	// 	html = html + dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
+	// }
+	var total_votes = item.agree + item.agree_nonbind - item.disagree - item.disagree_nonbind
+	html = html + votes_button(dataId,total_votes, user_voted);
 	
 	return html;
 }
+
+
+
+// function agree_buttons_root(dataId,include_start_button,expanded){
+// 	var html = '';
+// 	var item = D[dataId];
+// 	
+// 	var tally = 'agree?';
+// 	var cssclass = 'root';
+// 	var user_voted = false;
+// 	var user_estimated = false;
+// 	
+// 	
+// 	for(var i=0; i < item.issue_votes.length; i++){
+// 		//bugbug: hardcoded issue vote (4)
+// 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 4)){
+// 			user_estimated = true;
+// 		}
+// 		
+// 		//bugbug: hardcoded issue vote (1)
+// 		if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
+// 			user_voted = true;
+// 			tally = '';
+// 
+// 			if (item.disagree > 5000){
+// 				include_start_button = false;
+// 				tally = 'Blocked';
+// 			}
+// 			else{
+// 				tally = (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
+// 			}
+// 			switch(String(item.issue_votes[i].points))
+// 			{
+// 				case "1":	cssclass = 'agree';
+// 							break;	
+// 				case "0":	cssclass = 'neutral';
+// 							break;	
+// 				case "-1":	cssclass = 'disagree';
+// 							break;	
+// 				case "-9999": cssclass = 'block';
+// 							break;	
+// 			}
+// 		}
+// 	}
+// 	
+// 	if (include_start_button && user_estimated && user_voted){
+// 		html = html + dash_button('start',dataId,false); //add start button if user estimated and voted
+// 	}
+// 	
+// 	if ((!user_estimated) && user_voted){
+// 		html = html + dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
+// 	}
+// 	
+// 	html = html + dash_button('agree_root',dataId,false,{label:tally,cssclass:cssclass});
+// 	
+// 	return html;
+// }
 
 function accept_buttons_root(dataId,include_start_button,expanded){
 	
@@ -2141,6 +2150,33 @@ function generate_pri_button(dataId,direction,pri){
 	// html = html + '</div>';
 	return html;
 }
+
+function votes_button(dataId,votes_total,user_voted){
+	var type = 'agree_root';
+	var label = votes_total + ' vote';
+	if (votes_total != 1){ label = label + 's'}else{ label = label + ' '};
+	if (votes_total < -9000){ label = 'blocked'};
+	var cssclass = '';
+	var onclick = 'click_agree_root(' + dataId + ',this,\'\');return false;';
+
+	if (user_voted == 'false'){
+			var	onarrowclick =  'click_agree(' + dataId + ',this,\'&points=1\')";return false;';
+	}
+	else{
+			var onarrowclick = 'click_agree_root(' + dataId + ',this,\'\');return false;';
+	}
+
+
+	html = '';
+	html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" class="action_button action_button_votes">';
+	html = html + '<a id="item_action_link_vote' + dataId + '" onclick="' + onarrowclick + '" class="vote_arrow"><img src="/images/upvote_' + user_voted + '.png"/></a>';
+	
+	html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link_votes clickable" onclick="' + onclick + '">';
+	html = html + label + '</a>';
+	html = html + '</div>';
+	return html;
+}
+
 
 
 //Generates a button type for item id
@@ -2457,20 +2493,8 @@ function filter_select(){
 					break;						
 		case "untouched_by_me":	show_hide_touched(false);
 					break;						
-		case "features":	show_tracker(standard_trackers.Feature.id);
-					break;						
-		case "chores":	show_tracker(standard_trackers.Chore.id);
-					break;						
-		case "bugs":	show_tracker(standard_trackers.Bug.id);
-					break;						
-		case "expense":	show_tracker(standard_trackers.Expense.id);
-					break;						
-		case "gift":	show_tracker(standard_trackers.Gift.id);
-					break;						
-		case "recurring":	show_tracker(standard_trackers.Recurring.id);
-					break;						
-		case "hourly":	show_tracker(standard_trackers.Hourly.id);
-					break;						
+		default: show_tag(selection);
+			break;					
 	}	
 	
 	if (selection != "all" && selection != "all_top"){
@@ -2509,11 +2533,14 @@ function show_hide_touched(show){
 	}	
 }
 
-//Hides all items except those with tracker_id
-function show_tracker(tracker_id){
+//Hides all items except those with the tag
+function show_tag(tag){
 	
 	for(var i = 0; i < D.length; i++ ){
-		if (D[i].tracker.id == tracker_id){
+		if (D[i].tags_copy == null){
+			$("#item_" + i).hide();
+		}
+		else if (D[i].tags_copy.indexOf(tag) != -1){
 			$("#item_" + i).show();
 		}
 		else{
@@ -2612,6 +2639,10 @@ function search_for(text){
 				}
 			}
 			else if (D[i].description.toLowerCase().indexOf(text) > -1)
+			{
+				$("#item_" + i).show().removeHighlight();
+			}
+			else if (D[i].tags_copy != null && D[i].tags_copy.toLowerCase().indexOf(text) > -1)
 			{
 				$("#item_" + i).show().removeHighlight();
 			}
@@ -2837,21 +2868,21 @@ function sort_panel(name){
 		var listitems = $('#' + name + '_start_of_list').children().get();
 
  		//Setting highest_pri to priority of first item in open panel
-		if ((name == "open") && (listitems.length > 0)){
-			var first_item_id = listitems[0].id.replace(/item_/g,'');
-			// var first_item_data_id = ITEMHASH["item" + first_item_id];
-			//BUGBUG: listitems.length could be greater than 0 if it has only one item that's being edited
-			highest_pri = D[first_item_id].pri;
-			}
+		// if ((name == "open") && (listitems.length > 0)){
+		// 	var first_item_id = listitems[0].id.replace(/item_/g,'');
+		// 	// var first_item_data_id = ITEMHASH["item" + first_item_id];
+		// 	//BUGBUG: listitems.length could be greater than 0 if it has only one item that's being edited
+		// 	highest_pri = D[first_item_id].pri;
+		// 	}
 		
 		listitems.sort(function(a, b) {
 		   var compA = a.id.replace(/item_/g,'');
 		   var compB = b.id.replace(/item_/g,'');
 					
-		   if (name == "open"){
-				if (D[compA].pri > highest_pri) { highest_pri = D[compA].pri;}
-		   		if (D[compB].pri > highest_pri) { highest_pri = D[compB].pri;}
-		   }
+			// 		   if (name == "open"){
+			// if (D[compA].pri > highest_pri) { highest_pri = D[compA].pri;}
+			// 		   		if (D[compB].pri > highest_pri) { highest_pri = D[compB].pri;}
+			// 		   }
 		
 		   if (compA == 'new_link') {
 				return -1;
@@ -2859,9 +2890,9 @@ function sort_panel(name){
 			else if (compB == 'new_link') {
 					return 1;
 			}
-			  else if (D[compA].pri > D[compB].pri) {
+			  else if (D[compA].agree_total > D[compB].agree_total) {
 			return -1;
-			} else if (D[compA].pri < D[compB].pri) {
+			} else if (D[compA].agree_total < D[compB].agree_total) {
 				return 1;
 			} else if (new Date(D[compA].created_at) > new Date(D[compB].created_at)) {
 				return 1;
@@ -2877,18 +2908,18 @@ function sort_panel(name){
 		    $('#' + name + '_start_of_list').append(this);
 		    });
 		
-		if (name == "open"){
-			show_start_buttons();
-		}
+		// if (name == "open"){
+		// 	show_start_buttons();
+		// }
 }
 
-function show_start_buttons(){
-	$(".action_button_start").hide();
-	for (var i=0; i < startable_priority_tiers; i++){
-		$(".pri_" + (highest_pri - i)).find(".action_button_start").show();
-	}
-	$(".points_0").find(".action_button_start").show();
-}
+// function show_start_buttons(){
+// 	$(".action_button_start").hide();
+// 	for (var i=0; i < startable_priority_tiers; i++){
+// 		$(".pri_" + (highest_pri - i)).find(".action_button_start").show();
+// 	}
+// 	$(".points_0").find(".action_button_start").show();
+// }
 
 
 function recalculate_widths(){
@@ -2925,7 +2956,6 @@ function expand_item(dataId){
 			D[dataId].author.mail_hash
 	);
 
-	$('#edit_story_type_' + dataId).val(D[dataId].tracker.id);
 	$('#new_comment_' + dataId).watermark('watermark',new_comment_text);
 	$('#new_comment_' + dataId).autogrow().mentions(projectId);
 	$('#new_todo_' + dataId).watermark('watermark',new_todo_text);
@@ -2937,13 +2967,6 @@ function expand_item(dataId){
 		offsetLeft: 0,
 		bindShow: 'click'
 	});
-	$('#help_image_feature_' + dataId).mybubbletip($('#help_feature'), {
-		deltaDirection: 'up',
-		delayShow: 300,
-		delayHide: 100,
-		offsetTop: 0,
-		bindShow: 'click'
-	});
 	$('#help_image_requestid_' + dataId).mybubbletip($('#help_requestid'), {
 		deltaDirection: 'right',
 		delayShow: 300,
@@ -2951,13 +2974,18 @@ function expand_item(dataId){
 		offsetLeft: 0,
 		bindShow: 'click'
 	});
+	$('#issue_tags_edit_' + dataId).tagsInput({
+	   'autocomplete_url': 'http://localhost:3000/projects/' + projectId + '/all_tags',
+	   'autocomplete':{selectFirst:true,width:'100px',autoFill:true},
+	   'issue_id':D[dataId].id,
+	   'height':'20px',
+	   'width':$('#edit_title_input_' + dataId).width() - 30,
+	   'defaultText':'add a tag'
+	});
+	
 	make_text_boxes_toggle_keyboard_shortcuts();
 	$('#item_' + dataId).parent().parent().scrollTo('#item_' + dataId, 500);
 
-    if((credits_enabled) && (D[dataId].tracker.id == standard_trackers.Hourly.id)) {
-	$("#hourly_type_" + dataId).val(D[dataId].hourly_type_id);
-	$("#num_hours_" + dataId).val(D[dataId].num_hours);
-    }
 }
 
 function collapse_item(dataId,check_for_save){
@@ -2972,7 +3000,7 @@ function collapse_item(dataId,check_for_save){
 	$("#edit_item_" + dataId).replaceWith(generate_item(dataId));
 	$("#item_content_" + dataId).effect("highlight", {mode: 'show'}, 5000);
 	keyboard_shortcuts = true;
-	show_start_buttons();
+	// show_start_buttons();
 	adjust_button_container_widths();
 	return false;
 }
@@ -2984,16 +3012,12 @@ function save_new_item(prioritize){
 	return false;
     }
 
-    if (($('#new_story_type').val() == standard_trackers.Gift.id ) && ( $('#assigned_to_select').val() == null))
-    {
-	alert('You don\'t yet have anyone else on your team to send a gift to. Please change the type of item you are adding.');
-	return false;
-    }
 
     var data = "commit=Create&project_id=" + projectId + 
-        "&issue[tracker_id]=" + $('#new_story_type').val() + 
+        // "&issue[tracker_id]=" + $('#new_story_type').val() + 
         "&issue[subject]=" + encodeURIComponent($('#new_title_input').val()) + 
         "&issue[description]=" + encodeURIComponent($('#new_description').val()) +
+        "&issue[tags_copy]=" + encodeURIComponent($('#new_tags').val()) + 
         "&estimate=" + $('#new_story_complexity').val() + 
         "&prioritize=" + prioritize;
 
@@ -3002,30 +3026,6 @@ function save_new_item(prioritize){
 		new_attachments = [];
 	}
     
-    if((credits_enabled) && ($('#new_story_type').val() == standard_trackers.Gift.id)){
-	data = data + "&issue[assigned_to_id]=" + $('#assigned_to_select').val();
-    }
-
-    if((credits_enabled) && ($("#new_story_type").val() == standard_trackers.Hourly.id)) {
-	var num_hours = $("#num_hours").val();	
-
-	if(!ensure_numericality_of_num_hours(num_hours))
-	    return false;
-
-        data = data + 
-	    "&issue[hourly_type_id]=" + $("#hourly_type").val() +
-            "&issue[num_hours]=" + parseInt(num_hours,10);
-    }
-
-	// for(var i=0; i<files.length; i++){
-	// 	data = data + "&attachments[" + i + "]=" + encodeURIComponent(files[i]);
-	// }
-
-
-	if ($('#new_story_type').val() == standard_trackers.Expense.id){
-		data = data + "&issue[points]=" + $('#new_expense_amount_new').val();
-	}
-
     var url = url_for({ controller: 'issues',
                            action    : 'new'
                           });
@@ -3043,6 +3043,8 @@ function save_new_item(prioritize){
 	   error: 	function (XMLHttpRequest, textStatus, errorThrown) {
 		// typically only one of textStatus or errorThrown will have info
 		// possible valuees for textstatus "timeout", "error", "notmodified" and "parsererror
+		remove_new_link();
+		add_new_link();
 		handle_error(XMLHttpRequest, textStatus, errorThrown, false, "add");
 		},
 		timeout: 30000 //30 seconds
@@ -3063,20 +3065,8 @@ function save_edit_item(dataId){
     var data = "commit=Submit&lock_version=" + D[dataId].lock_version + 
         "&project_id=" + projectId + 
         "&id=" + D[dataId].id + 
-        "&issue[tracker_id]=" + $('#edit_story_type_' + dataId).val() + 
         "&issue[subject]=" + encodeURIComponent($('#edit_title_input_' + dataId).val()) + 
         "&issue[description]=" + encodeURIComponent($('#edit_description_' + dataId).val());
-
-    if((credits_enabled) && ($("#edit_story_type_" + dataId).val() == standard_trackers.Hourly.id)) {
-	var num_hours = $("#num_hours_" + dataId).val();
-
-	if(!ensure_numericality_of_num_hours(num_hours))
-	    return false;
-
-        data = data + 
-	    "&issue[hourly_type_id]=" + $("#hourly_type_" + dataId).val() +
-            "&issue[num_hours]=" + parseInt(num_hours,10);
-    }
 
     var url = url_for({ controller: 'issues',
                         action    : 'edit'
@@ -3119,7 +3109,7 @@ function item_added(item){
 	ITEMHASH["item" + item.id] = D.length - 1;
 	add_item(D.length-1,"top",false);
 	keyboard_shortcuts = true;
-	show_start_buttons();
+	// show_start_buttons();
 	update_panel_counts();
 	remove_new_link();
 	add_new_link();
@@ -3150,7 +3140,7 @@ function item_actioned(item, dataId, action){
 	else if ((!status_changed) || (item.status.name == 'Accepted' && action != "data_refresh") || (item.status.name == 'Rejected' && action != "data_refresh"))
 	{
 		$('#item_' + dataId).replaceWith(generate_item(dataId));
-		show_start_buttons();
+		// show_start_buttons();
 		//tODO: highlight the right item here
 	}
 	else
@@ -3166,11 +3156,16 @@ function item_actioned(item, dataId, action){
 	
 	//we don't sort panels on data refresh
 	if (action != "data_refresh"){
-		if (action == "open" || item.status.name == "Open" || pre_status == "Open") {sort_panel("open");}
-		if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
-			sort_panel(item.status.name.toLowerCase());
+		if (action == "add") {	
+			sort_panel('new');
 			$("#" + item.status.name.toLowerCase() + "_items").scrollTo('#item_' + dataId, 300);
 		}
+		
+		// if (action == "open" || item.status.name == "Open" || pre_status == "Open") {sort_panel("open");}
+		// if ((action == "deprioritize")||(action == "prioritize")||(item.status.name == "Open")) {	
+		// 	sort_panel(item.status.name.toLowerCase());
+		// 	$("#" + item.status.name.toLowerCase() + "_items").scrollTo('#item_' + dataId, 300);
+		// }
 		
 		adjust_button_container_widths();
 		save_local_data();
@@ -3253,120 +3248,6 @@ function ensure_numericality_of_num_hours(num_hours) {
     return true;
 }
 
-function generate_hourly_fields(dataId, disable_fields) {
-
-    var hourly_fields_id = "hourly_fields";
-    var hourly_type_id   = "hourly_type";
-    var num_hours_id     = "num_hours";
-
-
-    if(dataId != undefined) {
-	hourly_fields_id += "_" + dataId;
-	hourly_type_id   += "_" + dataId;
-	num_hours_id     += "_" + dataId;
-    }
-
-    var visible = '';
-    
-    if((dataId == null) || !(credits_enabled && D[dataId].tracker.id == standard_trackers.Hourly.id)){
-		visible = 'class="hidden"';
-	}
-	
-
-    var readonly = disable_fields ? 'readonly' : '';
-    var disabled = disable_fields ? 'disabled' : '';
-
-    html = "";
-    html = html + '<div id="' + hourly_fields_id + '" ' + visible + '>';
-    html = html + '  <table class="gt-SdTable">';
-    html = html + '   <tbody>';
-    html = html + '    <tr>';
-    html = html + '      <td class="letContentExpand" colspan="1">';
-    html = html + '       <div>';
-    html = html + '         <select id="' + hourly_type_id + '" class="gt-SdField" name="' + hourly_type_id + '" ' + disabled + '>';    
-    for(var i in hourly_types) {
-	html = html + '<option value="' + hourly_types[i].id + '">' + hourly_types[i].name_with_rates + '</option>';
-    }
-    html = html + '	     </select>';
-    html = html + '	   </div>';
-    html = html + '	  </td>';    
-    html = html + '    </tr>';
-    html = html + '    <tr>';
-    html = html + '      <td class="letContentExpand" colspan="1">';
-    html = html + '       <div>';
-    html = html + '         Estimated no. of hours:';
-    html = html + '         <input type="text" id="' + num_hours_id + '" name="' + num_hours_id + '" size="2"' + readonly +  '/>';
-    html = html + '	  </div>';
-    html = html + '	 </td>';    
-    html = html + '     </tr>';
-    html = html + '   </tbody>';
-    html = html + ' </table>';
-    html = html + '</div>';
-
-    return html;
-}
-
-function hourly_type_selected(dataId) {
-    var hourly_fields_id = "hourly_fields";
-
-    if(dataId != undefined) {
-	hourly_fields_id += "_" + dataId;
-    }
-
-    $("#" + hourly_fields_id).show();
-
-}
-
-function expense_type_selected() {
-	var amount = prompt_for_expense_amount("0.0", "new");
-    $("#new_expense").show();
-	$("#complexity_row").hide();
-}
-
-
-function gift_type_selected() {
-    $("#new_assigned_to").show();
-    $("#assigned_to_select").ajaxAddOption('/projects/' + projectId + '/community_members', {}, false, sortoptions);
-}
-
-function new_story_type_changed() {    
-	
-    $("#new_expense").hide();
-    $("#new_assigned_to").hide();
-    $("#hourly_fields").hide(); 
-	$("#complexity_row").show();
-
-    var selection = $("#new_story_type").val();
-    
-	if (credits_enabled){
-	    if(selection == standard_trackers.Hourly.id) {
-		hourly_type_selected();
-	    }
-	    else if(selection == standard_trackers.Gift.id) {
-		gift_type_selected();
-	    }
-		else if(selection == standard_trackers.Expense.id) {
-			expense_type_selected();
-		}
-	}
-}
-
-function edit_story_type_changed(dataId) {
-
-    if((credits_enabled) && ($("#edit_story_type_" + dataId).val() == standard_trackers.Hourly.id)) {
-	hourly_type_selected(dataId);
-    }
-    else {
-	$("#hourly_fields_" + dataId).hide();
-    }
-}
-
-function prompt_for_expense_amount(points,dataId)
-{
-	var amount=prompt_for_number("Please enter expense amount in dollars:",points);
-	$("#item_expense_amount_" + dataId).html(generate_expense_amount_editor(amount,dataId));
-}
-
 function isNumeric(form_value) 
 { 
     if (form_value.match(/^[-+]?\d+(\.\d+)?$/) == null) 
@@ -3385,37 +3266,6 @@ function sortoptions(sort)
 	$this.sortOptions();
 }
 
-function generate_tracker_dropdown(dont_show_gift) {
-    var html='';
-    for(var name in standard_trackers) {	
-
-		var tracker = standard_trackers[name];
-
-		if((credits_enabled) && (tracker.id == standard_trackers.Gift.id && dont_show_gift))
-		    continue;
-
-		if((credits_enabled) && (tracker.id == standard_trackers.Hourly.id && hourly_types.length == 0))
-		    continue;
-
-		if((!credits_enabled) && (tracker.id == standard_trackers.Hourly.id))
-		    continue;
-
-		if((!credits_enabled) && (tracker.id == standard_trackers.Expense.id))
-		    continue;
-
-		if((!credits_enabled) && (tracker.id == standard_trackers.Gift.id))
-		    continue;
-
-		var selected_text = (tracker.id == standard_trackers.Feature.id ? 'selected="true"' : '');
-
-		html += '<option ' + selected_text + ' value="' +  tracker.id + '">';
-		html += tracker.name;
-		html += '</option>';
-    }   
-
-    return html;
-}
-
 function generate_complexity_row(){
 	var html = '';
 	html = html + '	              <tr id="complexity_row">';
@@ -3428,6 +3278,7 @@ function generate_complexity_row(){
 	html = html + '	                </td>';
 	html = html + '	                <td class="gt-SdLabelIcon" colspan="1">';
 	html = html + '	                  <div class="gt-SdLabelIcon">';
+	html = html + '	                    <img src="/images/dice_NO.png" id="new_story_type_image" name="new_story_type_image">';
 	html = html + '	                  </div>';
 	html = html + '	                </td>';
 	html = html + '	                <td class="helpIcon lastCell" colspan="1">';
@@ -3494,64 +3345,28 @@ html = html + '	      </div>';
 html = html + '	    </div>';
 html = html + '	    <div>';
 html = html + '	      <div id="new_details" class="gt-Sd">';
-// html = html + '	          <table class="gt-SdTable">';
-// html = html + '	            <tbody>';
-// html = html + '	              <tr>';
-// html = html + '	                <td>';
-// html = html + '	                  <div class="gt-SdButton">';
-// html = html + '	                    <input id="new_save_button" value="Create" type="submit" onclick="save_new_item(false);return false;">';
-// html = html + '	                  </div>';
-// html = html + '	                </td>';
-// html = html + '	                <td>';
-// html = html + '	                  <div class="gt-SdButton">';
-// html = html + '	                    <input id="new_save_button" value="Create & Prioritize" type="submit" onclick="save_new_item(true);return false;">';
-// html = html + '	                  </div>';
-// html = html + '	                </td>';
-// html = html + '	                <td>';
-// html = html + '	                  <div class="gt-SdButton">';
-// html = html + '	                    <input id="new_cancel_button" value="Cancel" type="submit" onclick="cancel_new_item();return false;">';
-// html = html + '	                  </div>';
-// html = html + '	                </td>';
-// html = html + '	                <td>';
-// html = html + '	                </td>';
-// html = html + '	              </tr>';
-// html = html + '	            </tbody>';
-// html = html + '	          </table>';
 html = html + '	          <table class="gt-SdTable">';
 html = html + '	            <tbody>';
+html = html + generate_complexity_row();
 html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
-html = html + '	                    <select id="new_story_type" class="gt-SdField" name="new_story_type"  onChange="new_story_type_changed(); return false;">';
-html = html +                         generate_tracker_dropdown();
-html = html + '	                    </select>';
+html = html + '	        <input id="new_tags" class="issue-tags" name="new_tas" value="" type="text" size="30">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="gt-SdLabelIcon" colspan="1">';
 html = html + '	                  <div class="gt-SdLabelIcon">';
-// html = html + '	                    <img src="/images/feature_icon.png" id="new_story_type_image" name="new_story_type_image">';
+html = html + '	                    <img src="/images/tag_blue.png" id="new_story_type_image" name="new_story_type_image">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon lastCell" colspan="1">';
 html = html + '	                  <div class="helpIcon" id="story_newStory_details_help_story_types">';
-html = html + '	                    <img id="help_image_feature_new" src="/images/question_mark.gif"  class="help_question_mark">';
+html = html + '	                    <img id="help_image_tags_new" src="/images/question_mark.gif"  class="help_question_mark">';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
-html = html + '	              <tr id="new_expense" class="hidden">';
-html = html + '	                <td class="letContentExpand" colspan="1">';
-html = html + generate_expense_amount_editor('0','new');
-html = html + '	                </td>';
-html = html + '	              </tr>';
-html = html + '	              <tr id="new_assigned_to" class="hidden">';
-html = html + '	                <td class="letContentExpand" colspan="1">';
-html = html + '	                <div><select id="assigned_to_select"><option value="0">loading...</option></select></div>';
-html = html + '	                </td>';
-html = html + '	              </tr>';
-html = html + generate_complexity_row();
 html = html + '	            </tbody>';
 html = html + '	          </table>';
-html = html +             generate_hourly_fields();
 html = html + '	          <div class="section">';
 html = html + '	            <table class="storyDescriptionTable">';
 html = html + '	              <tbody>';
@@ -3644,6 +3459,14 @@ $('#help_image_feature_new').mybubbletip($('#help_feature'), {
 	bindShow: 'click'
 });
 
+$('#help_image_tags_new').mybubbletip($('#help_tags'), {
+	deltaDirection: 'up',
+	delayShow: 300,
+	delayHide: 100,
+	offsetTop: 0,
+	bindShow: 'click'
+});
+
 if (credits_enabled){
 	complexity_help_id = "#help_complexity_credits";
 }
@@ -3681,6 +3504,16 @@ $('#file_upload_new').fileUploadUI({
 
 $("#new_items").scrollTo( '#new_item_wrapper', 800);
 
+$('#new_tags').tagsInput({
+   'autocomplete_url': 'http://localhost:3000/projects/' + projectId + '/all_tags',
+   'autocomplete':{selectFirst:true,width:'100px',autoFill:true},
+   'issue_id':null,
+   'height':'20px',
+   'width':$('#issue_tags_container').width(),
+   'defaultText':'add a tag'
+});
+
+
 }
 
 function is_item_editable(dataId) {
@@ -3710,20 +3543,17 @@ function is_item_todos_editable(dataId) {
 
 
 function is_item_joinable(item) {
-  if (!credits_enabled){return true;}
-  return !(item.tracker.id == standard_trackers.Expense.id);
+	return true;
 }
 
 function is_item_estimatable(item) {
-  if (!credits_enabled){return true;}
-  return !(item.tracker.id == standard_trackers.Expense.id || item.tracker.id == standard_trackers.Hourly.id);
+  return true;
+  return (!credits_enabled);
 }
 
 
 function is_tracker_editable(dataId) {
-  if (!credits_enabled){return true;}
-  return !(D[dataId].tracker.id == standard_trackers.Gift.id || D[dataId].tracker.id == standard_trackers.Expense.id);
-
+	return true;
 }
 
 function generate_expense_amount_editor(points,dataId){
@@ -3793,15 +3623,11 @@ html = html + '	            <tbody>';
 html = html + '	              <tr>';
 html = html + '	                <td class="letContentExpand" colspan="1">';
 html = html + '	                  <div>';
-html = html + '	                    <select id="edit_story_type_' + dataId + '" class="gt-SdField" ';
-html = html + '                             name="edit_story_type" onChange="edit_story_type_changed(' + dataId + '); return false;" ' + disabled + '>';    
-html = html +                         generate_tracker_dropdown((D[dataId].tracker.id != standard_trackers.Gift.id)); // Don't show gift, if item isn't already a gift. 
-                                                                                                   // Disallows features, bugs...etc. to be turned into a gift item
-html = html + '	                    </select>';
+html = html + '						<input type="text" id="issue_tags_edit_' + dataId + '" size="60" value="' + D[dataId].tags_copy + '"></input>';
 html = html + '	                  </div>';
 html = html + '	                </td>';
 html = html + '	                <td class="helpIcon">';
-html = html + '	                    <img id="help_image_feature_' + dataId + '" src="/images/question_mark.gif" class="help_question_mark">';
+// html = html + '	                    <img id="help_image_tag_' + dataId + '" src="/images/question_mark.gif" class="help_question_mark">';
 html = html + '	                </td>';
 html = html + '	                <td class="lastCell created_by">';
 html = html + '        				<img id="gravatar_' + dataId +'" display="hidden" class="gravatar right" src=""/>';
@@ -3811,22 +3637,11 @@ html = html + '	              </tr>';
 html = html + '	              <tr id="assigned_to_' + dataId + '">';
 html = html + '	                <td class="letContentExpand" colspan="3">';
 html = html + '	                <div id="assigned_to_text_' + dataId + '">';
-
-if (credits_enabled) {
-	if (D[dataId].assigned_to_id != null && D[dataId].tracker.id == standard_trackers.Gift.id ){
-		html = html + 'for: ' + D[dataId].assigned_to.firstname + " " + D[dataId].assigned_to.lastname ;
-		};
-	if (D[dataId].tracker.id == standard_trackers.Expense.id ){
-		html = html + generate_expense_amount_editor(D[dataId].points, dataId);;
-		};
-}
-	
 html = html + '</div>';
 html = html + '	                </td>';
 html = html + '	              </tr>';
 html = html + '	            </tbody>';
 html = html + '	          </table>';
-html = html +             generate_hourly_fields(dataId, !item_editable);
 html = html + '	          <div class="section">';
 html = html + '	            <table class="storyDescriptionTable">';
 html = html + '	              <tbody>';
@@ -4306,25 +4121,25 @@ function new_dash_data_response(data){
 	}
 	
 	//checking if this is a response with different item count
-	if (data[0].tracker == undefined){
+	if (data[0].tags_copy == undefined){
 		
-		//we're getting a list of issue ids as a result of an issue moving that we didn't know about
-		
-		ISSUE_COUNT = data.length;
-		
-		for(var x=0; x < data.length; x++){
-			delete ITEMHASH["item" + String(data[x])];
-			delete ITEMHASH["item" + String(data[x])]; //handling duplicates
-			delete ITEMHASH["item" + String(data[x])]; //handling duplicates
-		}
-		
-		for(var idt in ITEMHASH){
-			D.splice(ITEMHASH[idt],1);
-			$("#item_" + ITEMHASH[idt]).remove();
-		}
-		
-		prepare_item_lookup_array();
-		save_local_data();
+		// //we're getting a list of issue ids as a result of an issue moving that we didn't know about
+		// 
+		// ISSUE_COUNT = data.length;
+		// 
+		// for(var x=0; x < data.length; x++){
+		// 	delete ITEMHASH["item" + String(data[x])];
+		// 	delete ITEMHASH["item" + String(data[x])]; //handling duplicates
+		// 	delete ITEMHASH["item" + String(data[x])]; //handling duplicates
+		// }
+		// 
+		// for(var idt in ITEMHASH){
+		// 	D.splice(ITEMHASH[idt],1);
+		// 	$("#item_" + ITEMHASH[idt]).remove();
+		// }
+		// 
+		// prepare_item_lookup_array();
+		// save_local_data();
 		return;
 	}
 	
@@ -4355,8 +4170,8 @@ function new_dash_data_response(data){
 		}
 	}
 	
-	sort_panel('open');
-	sort_panel('inprogress');
+	// sort_panel('open');
+	// sort_panel('inprogress');
 	adjust_button_container_widths();
 	update_panel_counts();
 	save_local_data();
@@ -4391,7 +4206,7 @@ function handle_error (xhr, textStatus, errorThrown, dataId, action) {
 		update_lightbox_lock_version(dataId);
 		
 		
-		sort_panel('open');
+		// sort_panel('open');
 		$('#featureicon_' + dataId).attr("src", "/images/error.png");
 		$.jGrowl("Sorry, couldn't " + action + " item:<br>" + h(D[dataId].subject) , { header: 'Error', position: 'bottom-right' });
 		
