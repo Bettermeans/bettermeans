@@ -70,18 +70,13 @@ end
 
 Then /^it shows in the Most Active Public Workstreams list$/ do
   project_summary_selector = "div.splitcontentleft"
-    
-  within project_summary_selector do |scope|     
-    scope.should contain @projects.last.name
-  end
+  new_view.latest_public_workstreams.should include @projects.last.name   
 end
 
 Then /^it does not show in the Most Active Public Workstreams list$/ do
   project_summary_selector = "div.splitcontentleft"
     
-  within project_summary_selector do |scope|     
-    scope.should_not contain @projects.last.name
-  end
+  new_view.latest_public_workstreams.should_not include @projects.last.name
 end
 
 Then /I only see (\d+)/ do |expected_count|

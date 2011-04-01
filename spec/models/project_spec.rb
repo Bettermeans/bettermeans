@@ -59,11 +59,7 @@ describe Project,"#latest_public" do
     Project.should_not_receive(:all_children)
       
     Project.latest_public fake_admin
-  end
-  
-  it "requires user argument" do
-    lambda{Project.latest_public nil}.should raise_error "The \"user\" argument is required."
-  end
+  end  
   
   def fake_admin
     result = mock("A fake admin")
@@ -81,11 +77,7 @@ describe Project,"#most_active_public" do
     Project.should_not_receive(:all_children)
       
     Project.most_active_public fake_admin
-  end
-  
-  it "requires user argument" do
-    lambda{Project.most_active_public nil}.should raise_error "The \"user\" argument is required."
-  end
+  end  
   
   def fake_admin
     result = mock("A fake admin")

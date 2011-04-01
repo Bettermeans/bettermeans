@@ -26,14 +26,14 @@ Scenario: I cannot see private workstreams that I do not belong to but Anonymous
   When I go to Browse Bettermeans
   Then I do not see it
   
-Scenario: Administrators can see all private workstreams
+Scenario: Administrators cannot see any private workstreams
   Given I am an administrator
   And a private workstream that I do not belong to
   When I go to Browse Bettermeans
-  Then I see it
+  Then I do not see it
   Given I belong to a private workstream
   When I go to Browse Bettermeans
-  Then I see it
+  Then I do not see it
   
 Scenario: Anonymous users can see all public workstreams
   Given I am not logged in

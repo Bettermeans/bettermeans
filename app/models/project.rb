@@ -221,12 +221,8 @@ class Project < ActiveRecord::Base
     end
   end	
   
-  def self.latest_public(user, count=10, offset=0)
-    fail "The \"user\" argument is required." unless user
-    
-    filter = user.admin? ? 
-      "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" :     
-      "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " + 
+  def self.latest_public(count=10, offset=0)    
+    filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " + 
       "#{Project.table_name}.is_public = #{connection.quoted_true}"
     
     all_roots.find(
@@ -238,12 +234,8 @@ class Project < ActiveRecord::Base
     )	    
   end
   
-  def self.most_active_public(user, count=10, offset=0)
-    fail "The \"user\" argument is required." unless user
-    
-    filter = user.admin? ? 
-      "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}" :     
-      "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " + 
+  def self.most_active_public(count=10, offset=0)
+    filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " + 
       "#{Project.table_name}.is_public = #{connection.quoted_true}"
       
     all_roots.find(
