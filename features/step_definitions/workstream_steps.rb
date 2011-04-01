@@ -49,33 +49,18 @@ Then /^it is(\snot)? visible$/ do |not_visible|
 end
 
 Then /^it shows in the Latest Public Workstreams list$/ do
-  project_summary_selector = "div.splitcontentright"
-    
-  within project_summary_selector do |scope|  
-    scope.should contain @projects.last.name
-  end
+  @view.latest_public_workstreams.should include @projects.last.name
 end
 
 Then /^it does not show in the Latest Public Workstreams list$/ do
-  project_summary_selector = "div.splitcontentright"  
-  
-  has_project_summary = have_selector(project_summary_selector).matches?(response_body)
-  
-  if has_project_summary  
-    within project_summary_selector do |scope|     
-      scope.should_not contain @projects.last.name
-    end
-  end
+  @view.latest_public_workstreams.should_not include @projects.last.name
 end
 
 Then /^it shows in the Most Active Public Workstreams list$/ do
-  project_summary_selector = "div.splitcontentleft"
   @view.latest_public_workstreams.should include @projects.last.name   
 end
 
 Then /^it does not show in the Most Active Public Workstreams list$/ do
-  project_summary_selector = "div.splitcontentleft"
-    
   @view.latest_public_workstreams.should_not include @projects.last.name
 end
 
