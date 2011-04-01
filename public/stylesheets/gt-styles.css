@@ -66,9 +66,15 @@ body {
 .gt-leaf{
 	margin-right: 6px;
 }
-.gt-hd .gt-leaf-watermark {
-	background: url(/images/gt/leaves-watermark.png) no-repeat 99% 0;
+.gt-hd .gt-hd-container {
 }
+
+.gt-hd .gt-fixed-wrap {
+	width:980px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
 .gt-hd .gt-logo select {
 	background-color: transparent;
 	border: 0px;
@@ -90,6 +96,9 @@ body {
 .gt-bd {
 	padding: 25px 35px;
 	min-height: 300px;
+	width: 980px;
+	margin-left:auto;
+	margin-right:auto;
 }
 
 /* Standard 2 Column */
