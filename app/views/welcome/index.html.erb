@@ -11,7 +11,6 @@
 </div>
 <% end %>
 
-<div class="gt-left-col">
   <% if @my_projects.length == 0 %>
   <div class="gt-content-box centered padded">
     <h4><%= l(:help_no_workstreams) %></h4>
@@ -22,7 +21,7 @@
   </div>    
   <% else %>
     <h2 class="gt-table-head icon icon-activity"><%=l(:label_activities_i_belong_to)%><%#= help_bubble :help_activities_i_belong_to %></h2>
-    <div class="activity gt-content-box">
+    <div class="activity">
       <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
         :user_id => User.current.id,
         :project_id => nil,
@@ -32,23 +31,24 @@
       } %>
     </div>
     <% end %>
-</div>
 
-<div class="gt-right-col">
-  <%  if @my_projects.length > 0 %>
-    <h2 class="icon icon-projects"><%= l(:label_projects_recent) %> <%= link_to l(:label_view_all), {:controller => "my", :action => "projects"}, :class => "floating-h-link" %></h2>
-    <div class="gt-content-box active-projects">
-    <%= render :partial => 'projects/projects_list_simple', :locals => {:projects => @my_projects, :max_count => 10} %>
-    </div>
-  <% end %>
+<% content_for :sidebar do %>
+<%  if @my_projects.length > 0 %>
+  <h2 class="icon icon-projects"><%= l(:label_projects_recent) %> <%= link_to l(:label_view_all), {:controller => "my", :action => "projects"}, :class => "floating-h-link" %></h2>
+  <div class="gt-content-box active-projects">
+  <%= render :partial => 'projects/projects_list_simple', :locals => {:projects => @my_projects, :max_count => 10} %>
+  </div>
+<% end %>
 
-  <%= render :partial => "my/blocks/news", :locals => {:news => @news, :maxcount => 2 } %>  
+<%= render :partial => "my/blocks/news", :locals => {:news => @news, :maxcount => 2 } %>  
 
-  <%  if @assigned_issues.length > 0 %>
-    <h2 class="icon icon-issues"><%= l(:label_my_issues) %><%= link_to l(:label_view_all), {:controller => "my", :action => "issues"}, :class => "floating-h-link" %></h2>
-    <%= render :partial => "issues/list_very_simple", :locals => {:issues => @assigned_issues} %>
-  <% end  %>
-</div>
+<%  if @assigned_issues.length > 0 %>
+  <h2 class="icon icon-issues"><%= l(:label_my_issues) %><%= link_to l(:label_view_all), {:controller => "my", :action => "issues"}, :class => "floating-h-link" %></h2>
+  <%= render :partial => "issues/list_very_simple", :locals => {:issues => @assigned_issues} %>
+<% end  %>
+  
+<% end %>
+
 
 <% content_for :actionmenu do %>
     <ul>    

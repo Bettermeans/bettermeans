@@ -4,7 +4,6 @@
 <% end %>
 
 <h2 class="gt-table-head icon22 icon22-projects"><%=l(:label_notifications)%></h2>
-<div class="gt-content-box">
 <table border="0" class="gt-table gt-user-table">
   <tbody>
     <% if @notifications.empty? %>
@@ -17,11 +16,9 @@
     <% end %>
   </tbody>
 </table>
-</div>
 
 <% content_for :sidebar do %>
   <h2 class="gt-table-head icon22 icon22-projects"><%=l(:label_mentions)%> <%= help_bubble(:help_mentions,{:login => User.current.login}) %></h2>
-  <div class="gt-content-box">
   <table border="0" class="gt-table gt-user-table">
     <tbody>
       <% if @mentions.empty? %>
@@ -34,5 +31,4 @@
       <% end %>
     </tbody>
   </table>
-  </div>
 <% end %>
