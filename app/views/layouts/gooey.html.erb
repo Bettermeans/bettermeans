@@ -117,25 +117,6 @@
 	
 	</div><!-- /head top -->
 	
-	<!-- navbar -->
-	<div class="gt-navbar clearfix">
-	
-		<div class="gt-fixed-wrap clearfix">
-		  
-		  
-		<!-- navigation -->
-		<div class="gt-nav">
-		  <div class="gt-nav-header">
-    		<span class="gt-nav-breadcrumbs"><%= page_header_title %></span>
-    		<br>
-    		<h1><%= page_header_name %><%= sub_workstream_project_box(@project) %></h1>
-  		</div>
-      
-		</div><!-- / navigation -->
-
-		
-		</div>
-	</div><!-- /navbar -->			
 </div><!-- /leaf watermark -->
 </div>
 <!-- / head -->
@@ -149,7 +130,7 @@
 #   cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols clearfix' : 'gt-bd clearfix'
 # end
 
-cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-2 clearfix' : 'gt-bd gt-cols-3 clearfix'
+cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-3 clearfix' : 'gt-bd gt-cols-2 clearfix'
 
 
  %>
@@ -166,6 +147,7 @@ cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-2 clearfix' : 'gt-bd gt-cols
 	      <ul><li><a href="#" style="opacity:0;">.</a></li></ul> <!-- placeholder to maintain height of bar -->
       <% end %>
 	  <% end %>
+	  </div>
     <div class="gt-actionmenu">
 	  <% if (has_content?(:actionmenu)) %>
             <%= yield :actionmenu %>
@@ -178,7 +160,6 @@ cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-2 clearfix' : 'gt-bd gt-cols
       </ul>
     <% end %>
     </div>
-	  </div>
 		<% if (!has_content?(:topbuttons)) %>
 		<% else %>
 		  <%= yield :topbuttons %>		
@@ -192,7 +173,15 @@ cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-2 clearfix' : 'gt-bd gt-cols
     </div>
 
 	<!-- main content -->
+	<div class="gt-content-header">
+	  <div class="gt-content-header-main">
+  		<span class="gt-nav-breadcrumbs"><%= page_header_title %></span>
+	    <h1><%= page_header_name %><%= sub_workstream_project_box(@project) %></h1>
+	    </div>
+	</div>
 	<div class="gt-content" id="content">
+	  <div class="gt-content-top-border">&nbsp;</div>
+    
 		  <%= render_global_messages %>
   		<%= render_flash_messages %>
       <%= yield %>

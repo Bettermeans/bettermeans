@@ -21,7 +21,7 @@ Misc - anything that doesn't fit elsewhere
 /* @group HTML, Body */
 html {
 /*	background-color: #f3f3f3;*/
-	background-color: #e2eaee;
+/*	background-color: #e2eaee;*/
 /*	background-color: #FFF0DD;*/
 /*	background-color: #F9FCE2;
 */
@@ -94,7 +94,7 @@ body {
 
 /* Body Styles */
 .gt-bd {
-	padding: 25px 35px;
+	padding: 5px 5px;
 	min-height: 300px;
 	width: 980px;
 	margin-left:auto;
@@ -114,33 +114,55 @@ body {
 }
 
 /* Lef action menu, Right Sidebar, 2 Column */
-.gt-cols-2 .gt-sidebar {
+.gt-cols-3 .gt-sidebar {
 	width: 263px;
 	float: right;
 	display: inline;
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: #bbb;
+	padding-top: 10px;
 }
-.gt-cols-2 .gt-sidemenu {
-	width: 147px;
-	margin-right: 10px;
-	float: left;
-	display: inline;
-}
-.gt-cols-2 .gt-content {
+.gt-cols-3 .gt-content {
 	width: 550px;
 	margin-right: 10px;
-	float: left;
-	display: inline;
 }
 
 /* Action menu, and no sidebar */
-.gt-cols-3 .gt-sidemenu {
-	width: 147px;
-	margin-right: 10px;
+.gt-cols-2 .gt-content {
+	width: 823px;
+}
+
+.gt-content-header{
+	width: 823px;
+	float: left;
+	padding-left: 10px;
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-left-color: #bbb;
+}
+
+.gt-content{
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-left-color: #bbb;
 	float: left;
 	display: inline;
+	padding-left: 10px;
 }
-.gt-cols-3 .gt-content {
-	width: 823px;
+
+.gt-content-top-border{
+	border-top-style: solid;
+	border-top-width: 1px;
+	border-top-color: #bbb;
+	height: 10px;
+	width: 100%;
+	display: block;
+}
+
+.gt-sidemenu {
+	width: 145px;
+/*	margin-right: 10px;*/
 	float: left;
 	display: inline;
 }
@@ -197,9 +219,8 @@ body {
 }
 
 .gt-actionmenu{
-	margin-right:35px;
-	margin-left:35px;
-	float:right;
+	margin: 0;
+	padding: 0;
 }
 /* @end */
 
@@ -230,7 +251,7 @@ body {
 
 /* Utility Box Styles */
 .gt-util-box {
-	margin-right: 20px;
+	margin-right: 10px;
 	color: #eee;
 	font-size: 93%;
 	float: right;
@@ -247,8 +268,9 @@ body {
 	text-decoration: underline;
 }
 .gt-util-box-inner {
-	padding: .35em 2em;
+	padding: .35em 0em;
 	float:right;
+	margin-top:10px;
 }
 .gt-util-separator {
 	padding: 0 .35em;
@@ -770,55 +792,54 @@ h5 .icon{
 .gt-nav {
 	margin: 0 0 0 0px;
 	width: 100%;
-	float: left;
-	display: inline;
 }
 .gt-nav h1 {
 	display:inline;
 }
 .gt-nav-sub{
 	width:100%;
+	padding-bottom: 2px;
+	margin-bottom: 10px;
+	margin-top: 5px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #bbb;
+	
 }
 .gt-nav-sub ul {
 	margin: 0;
 	padding: 0;
-	float: left;
-	display: inline;
 }
 .gt-nav-sub ul li {
 	margin: 0;
-	padding: 0;
-	float: left;
-	display: inline;
+	padding: 0px 2px 2px 2px;
+	width: 145px;
+	display: list-item;
 }
 .gt-nav-sub ul li a, .gt-nav ul li a:visited {
-	display: block;
-	padding: 0 1em;
+	padding: 1px 2px 2px 5px;
 	font-weight: bold;
-	line-height: 22px;
-	font-size: 100%;
-	float: left;
+	line-height: 15px;
+	font-size: 13px;
 	display: inline;
-	color: #fff!important;
-	background-color: #365B6D;
-/*	background-color: #1a5472;*/
+	color: #333!important;
+	background-color: #fff;
 	margin-right: 1px;
+	text-decoration: none;
+	display: block;
 }
 
 .gt-nav a:link, .gt-nav a:visited {
-/*	color: #a6cbdc;*/
 	text-decoration: none;
 }
-.gt-nav-sub a:visited:hover, .gt-nav-sub a:hover, .gt-nav a.gt-active:link, .gt-nav a.gt-active:visited, .gt-nav .gt-active a:link, .gt-nav .gt-active a:visited {
-	background-color: #000;
+.gt-nav-sub a:visited:hover, .gt-nav-sub a:hover, .gt-nav a.gt-active:link, .gt-nav a.gt-active:visited, .gt-nav .gt-active a:link, .gt-nav .gt-active a:visited, .gt-nav-sub a.gt-active {
+	background-color: #365B6D;
 	color: #fff!important;
-	text-decoration: underline;
+	text-decoration: none;
 }
 
 .gt-actionmenu a:visited, .gt-actionmenu a {
 	background-color: #CF5D07!important;
-	
-/*	background-color: #e58508!important;*/
 }
 
 .gt-actionmenu a:visited:hover, .gt-actionmenu a:hover {
@@ -835,7 +856,7 @@ h5 .icon{
 }
 
 
-.gt-actionmenu ul li a{
+/*.gt-actionmenu ul li a{
 	-moz-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-bottom-left-radius: 5px 5px;
@@ -844,6 +865,7 @@ h5 .icon{
 	border-top-right-radius: 5px 5px;
 	margin-left:1px;
 }
+*/
 
 .gt-actionmenu ul li a.icon {
 	background-position: 5px 50%;
@@ -852,7 +874,7 @@ h5 .icon{
 }
 
 
-.gt-nav-sub ul li:first-child a{
+/*.gt-nav-sub ul li:first-child a{
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-bottomleft: 5px;
 	border-bottom-left-radius: 5px 5px;
@@ -865,7 +887,7 @@ h5 .icon{
 	border-bottom-right-radius: 5px 5px;
 	border-top-right-radius: 5px 5px;
 }
-
+*/
 /* Sidebar Navigation */
 .gt-sidebar-nav {
 	margin-bottom: 20px;
@@ -963,10 +985,8 @@ h2.gt-table-head, h2.gt-form-head {
 h3, .gt-sidebar h2 {
 	font-size: 138.5%;
 	color: #0e2029;
-/*	color: #365b6d;*/
 	margin-bottom: 5px;
 	font-weight: bold;
-/*	margin-left: 2px;*/
 }
 h4 {
 	font-size: 123.1%;
