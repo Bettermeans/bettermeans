@@ -3,7 +3,7 @@
  %>
   <table class="gt-table gt-user-table project-table" id="my_projects_table">
       <%   project_tree_sorted(projects) do |p, level|
-          name_prefix = (level > 0 ? ('&nbsp;' * 4 * level + '&#187; ') : '')
+          name_prefix = (level > 0 ? ( '&#187; ') : '')
           count = count + 1
        %>
       <tr class="active-project-row <%= "hidden" if count > max_count %>">
@@ -11,11 +11,10 @@
           <%=name_prefix + link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
           <% if !p.active? %>
             <%= link_to_remote(l(:label_unarchive_project_brackets), :url => {:controller => 'projects', :action => 'unarchive', :id => p}, :confirm => l(:text_confirm_unarchive_project)) %>
-          <% end %>
+          <% end %><br>  <span class="spark" max="<%= p.activity_line_max %>"><%= p.activity_line_show(45) %></span>
+          
         </td>
-        <td>
-          <span class="spark" max="<%= p.activity_line_max %>"><%= p.activity_line_show(30) %></span>
-        </td>
+      </tr>
       </tr>
       <% end %>
       <tr class="active-project-show-more show-more <%= "hidden" unless count > max_count %>">
