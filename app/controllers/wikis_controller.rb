@@ -26,6 +26,7 @@ class WikisController < ApplicationController
 private
   def find_project
     @project = Project.find(params[:id])
+    render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end

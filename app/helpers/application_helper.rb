@@ -253,6 +253,16 @@ module ApplicationHelper
     end
     s
   end
+
+  def render_global_messages
+    s = ''
+    if User.current.logged? && User.current.trial_expired_at && User.current.trial_expired_at < (-1 * Setting::GLOBAL_OVERUSE_THRESHOLD).days.from_now
+      s << content_tag('div', link_to(l(:text_trial_expired), {:controller => 'my', :action => 'upgrade'}), :class => "flash error")
+    elsif User.current.logged? && User.current.usage_over_at && User.current.usage_over_at < (-1 * Setting::GLOBAL_OVERUSE_THRESHOLD).days.from_now
+      s << content_tag('div', link_to(l(:text_usage_over), {:controller => 'my', :action => 'upgrade'}), :class => "flash error")
+    end
+    s
+  end
   
   # Renders tabs and their content
   def render_tabs(tabs)

@@ -33,6 +33,15 @@ namespace :custom do
       issue.update_status
     end
   end
+  
+  #sanity checks all project issue counts
+  task :refresh_project_issue_counts => :environment do
+    Project.all.each do |p|
+      p.refresh_issue_count
+    end
+  end
+
+  
 
 # loops through active motions and makes a decision on them
   task :close_motions => :environment do
@@ -195,5 +204,22 @@ namespace :custom do
       u.update_trial_expiration
     end
   end
+  
+  #moving from features to tags
+  task :run_once_features_to_task => :environment do
+    Issue.all.each do |i|
+      begin
+      tag = i.tracker.name.downcase
+      unless tag == "feature"
+        puts("Upgrading issue #{i.id}  #{tag}")
+        i.update_attribute(:tag_list,i.tag_list.add(tag))
+      end
+      i.update_attribute(:tags_copy, i.tags.join(","))
+      rescue
+        puts("FAILED TO UPGRADE issue #{i.id}")
+      end
+    end  
+  end
+  
   
 end

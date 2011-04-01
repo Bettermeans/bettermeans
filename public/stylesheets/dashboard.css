@@ -224,19 +224,20 @@ background-repeat:repeat-y;
 }
 
 .committed {
-	background-color:#ddd;	
+	background-color:#fff;	
 /*	background-color:#EFEFEF;*/
 	/*background-color:#D8EECE;*/
 }
 
 .open {
-	background-color:#eee;
+	background-color:#fff;
+/*	background-color:#eee;*/
 /*	background-color: #e2eaee;*/
 /*	background-color:#F6EABB;*/
 }
 
 .canceled {
-	background-color:#CCCCCC;
+	background-color:#fff;
 /*	background-color:#999999;	*/
 }
 
@@ -485,4 +486,10 @@ table.dash_key tr td{
 	margin-left: auto;
 	margin-right: auto;
 	width: 500px;
+}
+
+a.dash-item-title, a.dash-item-title a:visited{
+	float:left;
+	padding-right:5px;
+	color: #000!important;
 }

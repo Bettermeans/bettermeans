@@ -23,7 +23,8 @@ html {
 /*	background-color: #f3f3f3;*/
 	background-color: #e2eaee;
 /*	background-color: #FFF0DD;*/
-	
+/*	background-color: #F9FCE2;
+*/
 }
 body {
 	font-family: Helvetica, sans-serif;
@@ -822,14 +823,14 @@ h5 .icon{
 }
 
 .gt-actionmenu a:visited, .gt-actionmenu a {
-	background-color: #F28900!important;
+	background-color: #CF5D07!important;
 	
 /*	background-color: #e58508!important;*/
 }
 
 .gt-actionmenu a:visited:hover, .gt-actionmenu a:hover {
 /*	background-color: #C27006!important;*/
-	background-color: #CF5D07!important;
+	background-color: #953404!important;
 }
 
 .gt-actionmenu ul li a.top-help-tip {
@@ -1100,7 +1101,8 @@ tt {
 .notice {
 	background: #Fff url(/images/static/clip.png) no-repeat 10px 50% ;
 	color:#595959;
-	border-color:#222;
+	border: 1px solid #ccc;
+	border-radius: 5px;
 	text-shadow: 1px 1px #fff;
 	padding:1.4em;
 	font-weight:bold;
@@ -1402,6 +1404,11 @@ div.activity-tag {
 	color: #fff;
 }
 
+a.action_link_votes{
+	color: #333!important;
+}
+
+
 .action_button{
 	width:60px;
 	height:21px;
@@ -1503,6 +1510,15 @@ div.activity-tag {
 	padding-top:2px;
 }
 
+.action_button_votes{
+	text-align: left;
+	margin-right:1px;
+}
+
+.action_button_votes a.vote_arrow{
+	margin-right:3px;
+}
+
 /*Flyovers*/
 .itemCollapsedHeader {
 	padding:4px 4px;
@@ -1537,6 +1553,7 @@ div.activity-tag {
 
 .itemCollapsedText {
 	padding-left:60px;
+	padding-right:160px;
 }
 
 .itemCollapsedTextNewLink{
@@ -1821,7 +1838,7 @@ text-decoration:underline !important;
 
 .action_button_cancel{
 	width:20px!important;
-	background: url(/images/cancel16.png) no-repeat; 
+	background: url(/images/dash_cancel.png) no-repeat; 
 	background-position: 0px 3px!important;
 }
 

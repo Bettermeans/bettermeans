@@ -27,6 +27,8 @@ class Issue < ActiveRecord::Base
                      # sort by id so that limited eager loading doesn't break with postgresql
                      :order_column => "#{table_name}.id"
 
+  acts_as_taggable
+
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
                 :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
@@ -88,9 +90,10 @@ class Issue < ActiveRecord::Base
   def ready_for_open?
     return false if points.nil? || agree_total < 1
     return true if agree - disagree > points_from_credits / 2
-    return true if agree_total > 0 && (self.created_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
-    return true if agree_total > (project.active_binding_members_count / 2)
-    return true if agree_total > 0 && (self.status == IssueStatus.open)
+    return true if agree_total > 0
+    # return true if agree_total > 0 && (self.created_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
+    # return true if agree_total > (project.active_binding_members_count / 2)
+    # return true if agree_total > 0 && (self.status == IssueStatus.open)
     return false
   end
   
@@ -106,7 +109,7 @@ class Issue < ActiveRecord::Base
     return true if self.status == IssueStatus.accepted
     return false if points.nil? || accept_total < 1
     return true if accept_total > 0 && (self.updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
-    return true if accept_total > (project.binding_members_count / 2)
+    # return true if accept_total > (project.binding_members_count / 2)
     return false
   end
   
@@ -142,6 +145,7 @@ class Issue < ActiveRecord::Base
   end
   
   def updated_status
+    return IssueStatus.canceled if self.status == IssueStatus.canceled
     return IssueStatus.accepted if ready_for_accepted?
     return IssueStatus.rejected if ready_for_rejected?
     return IssueStatus.done if self.status == IssueStatus.done || (ready_for_open? && is_gift?)
@@ -258,6 +262,12 @@ class Issue < ActiveRecord::Base
                         :sender_id => mentioner_id,
                         :source_id => self.id,
                         :source_type => "Issue"
+  end
+  
+  def update_tags(tags)
+    self.update_attribute(:tag_list, tags)
+    self.update_attribute(:tags_copy, self.tags.map {|t|t.name}.join(","))
+    update_last_item_stamp
   end
   
   # Overrides attributes= so that tracker_id gets assigned first
@@ -589,7 +599,9 @@ class Issue < ActiveRecord::Base
                               :todos => {:only => [:id, :subject, :completed_on, :owner_login]}, 
                               :tracker => {:only => [:name,:id]}, 
                               :author => {:only => [:firstname, :lastname, :login, :mail_hash]}, 
-                              :assigned_to => {:only => [:firstname, :lastname, :login]}})
+                              :assigned_to => { :only => [:firstname, :lastname, :login] }
+                              },
+                              :except => :tags)
   end
   
   #returns dollar amount based on points for this issue
@@ -619,7 +631,7 @@ class Issue < ActiveRecord::Base
   end
 
   def update_last_item_stamp
-    self.project.send_later :update_last_item
+    self.project.send_later("update_last_item")
   end  
 
   private
@@ -664,7 +676,7 @@ class Issue < ActiveRecord::Base
       
       logger.info { "creating journal..." }
       # attributes changes
-      (Issue.column_names - %w(id lock_version created_at updated_at pri accept reject accept_total agree disagree agree_total retro_id accept_nonbind reject_nonbind accept_total_nonbind agree_nonbind disagree_nonbind agree_total_nonbind points_nonbind pri_nonbind)).each {|c|
+      (Issue.column_names - %w(id lock_version created_at updated_at pri accept reject accept_total agree disagree agree_total retro_id accept_nonbind reject_nonbind accept_total_nonbind agree_nonbind disagree_nonbind agree_total_nonbind points_nonbind pri_nonbind tags)).each {|c|
         @current_journal.details << JournalDetail.new(:property => 'attr',
                                                       :prop_key => c,
                                                       :old_value => @issue_before_change.send(c),
