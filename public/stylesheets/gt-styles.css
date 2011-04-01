@@ -46,7 +46,7 @@ body {
 	background-color: #323232;
 }
 .gt-hd .gt-logo {
-	margin-left: 35px;
+	margin-left: 0px;
 	margin-bottom: 0;
 	padding-top: 5px;
 	color: #fff;
@@ -115,48 +115,32 @@ body {
 
 /* Lef action menu, Right Sidebar, 2 Column */
 .gt-cols-2 .gt-sidebar {
-	width: 28%;
+	width: 263px;
 	float: right;
 	display: inline;
 }
-.gt-cols-2 .gt-actionmenu {
-	width: 10%;
+.gt-cols-2 .gt-sidemenu {
+	width: 147px;
+	margin-right: 10px;
 	float: left;
 	display: inline;
 }
 .gt-cols-2 .gt-content {
-	width: 59%;
+	width: 550px;
+	margin-right: 10px;
 	float: left;
-	display: inline;
-}
-
-/* 3 Equal Columns Layout */
-.gt-cols-3 .gt-sidebar-left {
-	width: 31%;
-	margin-right: 3.5%;
-	float: left;
-	display: inline;
-}
-.gt-cols-3 .gt-content {
-	width: 31%;
-	float: left;
-	display: inline;
-}
-.gt-cols-3 .gt-sidebar {
-	width: 31%;
-	float: right;
 	display: inline;
 }
 
 /* Action menu, and no sidebar */
-.gt-cols-3 .gt-actionmenu {
-	width: 15%;
-	margin-right: 20px;
+.gt-cols-3 .gt-sidemenu {
+	width: 147px;
+	margin-right: 10px;
 	float: left;
 	display: inline;
 }
 .gt-cols-3 .gt-content {
-	width: 80%;
+	width: 823px;
 	float: left;
 	display: inline;
 }
@@ -1244,7 +1228,7 @@ ul li {
 
 /* Search Box */
 .gt-search {
-	background: url(/images/gt/search-box-left.png) no-repeat 0 0;
+	background: url(/images/gt/search-box-left.png) no-repeat 0 10px;
 	height: 22px;
 	padding: 0 0 0 20px;
 }
@@ -1262,12 +1246,14 @@ ul li {
 	margin-top: 2px;
 	width: 95%;
 }
-.gt-navbar .gt-search-wide {
-	width: 20%;
-	margin-bottom: 9px;
-	margin-right: 35px;
-	float: right;
-	display: inline;
+.gt-search-wide {
+	width: 200px;
+	margin-bottom: 2px;
+	margin-right: 5px;
+	margin-left: 7px;
+	float: left;
+	display: block;	
+	padding-top:10px;
 }
 .gt-search-narrow {
 	width: 150px;

@@ -80,11 +80,10 @@
         <img src="/images/static/header_logo.png"></a>
       </a>
       <div class="gt-logo-links">
-  		  <%= link_to(l(:label_my_home).upcase, {:controller => 'welcome', :action => 'index'}, :class => 'root') %>&nbsp;
-  			<%= render_project_jump_box %>
+  		  <%#= link_to(l(:label_my_home).upcase, {:controller => 'welcome', :action => 'index'}, :class => 'root') %>
+  			<%#= render_project_jump_box %>
 			</div>
 		</div>
-		
 		<!-- / logo -->
 		
 		<!-- utility box -->
@@ -95,6 +94,25 @@
 			<%= yield :buttonbar %>
 		</div>
 		<!-- / utility box -->		
+		
+    <!-- search -->
+    	<% if (!has_content?(:searchbar)) %>
+    <div class="gt-search gt-search-wide">
+      		  <div class="gt-search-inner">
+      		  <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+            <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+            <%= hidden_field_tag(:scope, 'subprojects') %>
+            <%#= link_to "#{l(:label_search)}:", {:controller => 'search', :action => 'index', :id => @project}, :id=> "search-label", :accesskey => accesskey(:search) %>
+            <%= text_field_tag 'q', @question, :size => 20, :class => 'gt-search-text', :onfocus => "javascript:if(this.value=='Search')this.value='';", :onblur=> "javascript:if(this.value=='')this.value='Search';", :accesskey => accesskey(:quick_search) %>
+
+            <% end %>
+      		  </div>
+      		</div>
+      		<% else %>
+      		  <%= yield :searchbar %>		
+  		<% end %>
+    <!-- /search -->
+    
 		</div>
 	
 	</div><!-- /head top -->
@@ -111,61 +129,13 @@
     		<span class="gt-nav-breadcrumbs"><%= page_header_title %></span>
     		<br>
     		<h1><%= page_header_name %><%= sub_workstream_project_box(@project) %></h1>
-    		<% if (!has_content?(:searchbar)) %>
-      <div class="gt-search gt-search-wide">
-        		  <div class="gt-search-inner">
-        		  <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
-              <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
-              <%= hidden_field_tag(:scope, 'subprojects') %>
-              <%#= link_to "#{l(:label_search)}:", {:controller => 'search', :action => 'index', :id => @project}, :id=> "search-label", :accesskey => accesskey(:search) %>
-              <%= text_field_tag 'q', @question, :size => 20, :class => 'gt-search-text', :onfocus => "javascript:if(this.value=='Search')this.value='';", :onblur=> "javascript:if(this.value=='')this.value='Search';", :accesskey => accesskey(:quick_search) %>
-
-              <% end %>
-        		  </div>
-        		</div>
-        		<% else %>
-        		  <%= yield :searchbar %>		
-    		<% end %>
   		</div>
-  		<div class="gt-nav-sub">
-		  <% if @project && !@project.new_record? %>
-		    <%= render_main_menu(@project) %>
-		  <% else %>
-		  	<% if (has_content?(:mainmenu)) %>
-		      <%= yield :mainmenu %>
-	      <% else %>
-		      <ul><li><a href="#" style="opacity:0;">.</a></li></ul> <!-- placeholder to maintain height of bar -->
-	      <% end %>
-		  <% end %>
-      <div class="gt-actionmenu">
-		  <% if (has_content?(:actionmenu)) %>
-              <%= yield :actionmenu %>
-      <%   end   %>
-      <% if (has_content?(:help_section)) %>
-        <ul>
-          <li>
-            <a class="top-help-tip icon icon-help" href='' onclick="help_popup(); return false;">Tip</a>
-          </li>
-        </ul>
-      <% end %>
-      </div>
-		  </div>
       
 		</div><!-- / navigation -->
 
-		<!-- search -->
-		<% if (!has_content?(:topbuttons)) %>
-		<% else %>
-		  <%= yield :topbuttons %>		
-		<% end %>
 		
 		</div>
 	</div><!-- /navbar -->			
-	<% if (has_content?(:secondnav)) %>
-	  <div class="gt-second-navbar">
-	  <%= yield :secondnav %>		
-	  </div>
-	<% end %>
 </div><!-- /leaf watermark -->
 </div>
 <!-- / head -->
@@ -173,16 +143,53 @@
 <!-- body -->
 <% 
 
-if (has_content?(:actionmenu) && false)
-  cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-2 clearfix' : 'gt-bd gt-cols-3 clearfix'
-elsif
-  cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols clearfix' : 'gt-bd clearfix'
-end
+# if (has_content?(:actionmenu) && false)
+#   cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-2 clearfix' : 'gt-bd gt-cols-3 clearfix'
+# elsif
+#   cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols clearfix' : 'gt-bd clearfix'
+# end
+
+cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-2 clearfix' : 'gt-bd gt-cols-3 clearfix'
 
 
  %>
 <%= tag('div', {:id => 'main', :class => cssclass }, true) %>
 
+  <div class="gt-sidemenu">
+		<div class="gt-nav-sub">
+	  <% if @project && !@project.new_record? %>
+	    <%= render_main_menu(@project) %>
+	  <% else %>
+	  	<% if (has_content?(:mainmenu)) %>
+	      <%= yield :mainmenu %>
+      <% else %>
+	      <ul><li><a href="#" style="opacity:0;">.</a></li></ul> <!-- placeholder to maintain height of bar -->
+      <% end %>
+	  <% end %>
+    <div class="gt-actionmenu">
+	  <% if (has_content?(:actionmenu)) %>
+            <%= yield :actionmenu %>
+    <%   end   %>
+    <% if (has_content?(:help_section)) %>
+      <ul>
+        <li>
+          <a class="top-help-tip icon icon-help" href='' onclick="help_popup(); return false;">Tip</a>
+        </li>
+      </ul>
+    <% end %>
+    </div>
+	  </div>
+		<% if (!has_content?(:topbuttons)) %>
+		<% else %>
+		  <%= yield :topbuttons %>		
+		<% end %>
+
+  	<% if (has_content?(:secondnav)) %>
+  	  <div class="gt-second-navbar">
+  	  <%= yield :secondnav %>		
+  	  </div>
+  	<% end %>
+    </div>
 
 	<!-- main content -->
 	<div class="gt-content" id="content">
