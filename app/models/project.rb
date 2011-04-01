@@ -208,11 +208,49 @@ class Project < ActiveRecord::Base
   # non public projects will be returned only if user is a member of those
   def self.latest(user=nil, count=10, root=false,offset=0)
     if root
-      all_roots.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_at DESC", :offset => offset)	
+      all_roots.find(
+        :all, 
+        :limit => count, 
+        :conditions => visible_by(user), 
+        :order => "created_at DESC", 
+        :offset => offset
+      )	
     else
-      all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "created_at DESC", :offset => offset)	
+      all_children.find(
+        :all, 
+        :limit => count, 
+        :conditions => visible_by(user), 
+        :order => "created_at DESC", 
+        :offset => offset
+      )	
     end
   end	
+  
+  def self.latest_public(count=10, offset=0)    
+    filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " + 
+      "#{Project.table_name}.is_public = #{connection.quoted_true}"
+    
+    all_roots.find(
+      :all, 
+      :limit => count, 
+      :conditions => filter, 
+      :order => "created_at DESC", 
+      :offset => offset
+    )	    
+  end
+  
+  def self.most_active_public(count=10, offset=0)
+    filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " + 
+      "#{Project.table_name}.is_public = #{connection.quoted_true}"
+      
+    all_roots.find(
+      :all, 
+      :limit => count, 
+      :conditions => filter, 
+      :order => "activity_total DESC", 
+      :offset => offset
+    )	  
+  end
   
   # returns most active projects
   # non public projects will be returned only if user is a member of those
