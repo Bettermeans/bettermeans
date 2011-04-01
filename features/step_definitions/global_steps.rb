@@ -32,6 +32,8 @@ end
 
 When /^I go to Browse Bettermeans$/ do
   visit url_for(:controller => 'projects', :action => 'index')
+  adapter = Webrat.adapter_class.new self
+  @view = BrowseBettermeansView.new webrat_session
 end
 
 def ensure_account(username, password)

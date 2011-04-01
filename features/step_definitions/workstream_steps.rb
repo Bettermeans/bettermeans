@@ -70,19 +70,18 @@ end
 
 Then /^it shows in the Most Active Public Workstreams list$/ do
   project_summary_selector = "div.splitcontentleft"
-  new_view.latest_public_workstreams.should include @projects.last.name   
+  @view.latest_public_workstreams.should include @projects.last.name   
 end
 
 Then /^it does not show in the Most Active Public Workstreams list$/ do
   project_summary_selector = "div.splitcontentleft"
     
-  new_view.latest_public_workstreams.should_not include @projects.last.name
+  @view.latest_public_workstreams.should_not include @projects.last.name
 end
 
 Then /I only see (\d+)/ do |expected_count|
-  view = new_view
-  view.latest_public_workstreams.size.should eql expected_count.to_i
-  view.most_active_public_workstreams.size.should eql expected_count.to_i
+  @view.latest_public_workstreams.size.should eql expected_count.to_i
+  @view.most_active_public_workstreams.size.should eql expected_count.to_i
 end
 
 def new_public_project(name); new_project name, true; end
@@ -110,9 +109,4 @@ def projects
   end
   
   @projects
-end
-
-def new_view
-  adapter = Webrat.adapter_class.new self
-  BrowseBettermeansView.new webrat_session #Webrat::Session.new adapter
 end
