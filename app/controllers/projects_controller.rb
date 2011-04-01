@@ -42,14 +42,10 @@ class ProjectsController < ApplicationController
   include ProjectsHelper
   
   log_activity_streams :current_user, :name, :edited, :@project, :name, :edit, :workstreams, {:object_description_method => :description}
-  
-  
-  # Lists visible projects
-  def index
-    # @news = News.latest User.current
-    @latest_enterprises = Project.latest nil, 10, true
-    @active_enterprises = Project.most_active nil, 10, true
-    # @activities_by_item = ActivityStream.fetch(nil, nil, true, 100)
+    
+  def index    
+    @latest_enterprises = Project.latest_public
+    @active_enterprises = Project.most_active_public
   end
   
   def index_latest
