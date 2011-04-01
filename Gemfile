@@ -28,7 +28,7 @@ group :test do
 end
 
 group :development do
-  gem "sqlite3-ruby", "1.3.3", :require => "sqlite3"
-  gem 'pg', "0.10.1"
-  gem 'mysql2', "0.2.6"
+  gem "sqlite3-ruby", :require => "sqlite3"
+  gem 'pg'
+  # gem 'mysql2'
 end

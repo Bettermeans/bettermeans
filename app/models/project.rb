@@ -6,6 +6,7 @@ class Project < ActiveRecord::Base
   
   # Project statuses
   STATUS_ACTIVE     = 1
+  STATUS_LOCKED     = 2 #private workstream, and user is overdue
   STATUS_ARCHIVED   = 9
   
   
@@ -143,6 +144,10 @@ class Project < ActiveRecord::Base
   
   def project_id
     self.id
+  end
+  
+  def all_tags(term = '')
+    ActsAsTaggableOn::Tag.find_by_sql(["select name from tags inner join taggings on taggings.tag_id = tags.id where taggings.project_id = ? and name like '%#{term}%'",self.id]).map{|t| t.name}.uniq.sort
   end
   
   def graph_data
@@ -366,6 +371,22 @@ class Project < ActiveRecord::Base
   
   def active?
     self.status == STATUS_ACTIVE
+  end
+
+  def archived?
+    self.status == STATUS_ARCHIVED
+  end
+  
+  def locked?
+    self.status == STATUS_LOCKED
+  end
+  
+  def lock
+    self.update_attribute(:status, STATUS_LOCKED) if active? && !locked?
+  end
+
+  def unlock
+    self.update_attribute(:status, STATUS_ACTIVE) if locked?
   end
   
   def enterprise?

@@ -1029,6 +1029,10 @@ table.retrospective td.subtitle { width: 5em; vertical-align: top; border-left-w
 	color: #fff;
 }
 
+a.action_link_votes{
+	color: #333!important;
+}
+
 .action_button{
 	width:60px;
 	height:21px;

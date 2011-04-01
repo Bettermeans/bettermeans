@@ -29,7 +29,7 @@ REDMINE_SUPPORTED_SCM = %w( Subversion Darcs Mercurial Cvs Bazaar Git Filesystem
 
 # Permissions
 Redmine::AccessControl.map do |map|
-  map.permission :view_project, {:projects => [:overview, :activity, :team, :shares, :map, :activity, :mypris, :community_members, :hourly_types]}, :public => true
+  map.permission :view_project, {:projects => [:overview, :activity, :team, :shares, :map, :activity, :mypris, :community_members, :hourly_types, :all_tags]}, :public => true
   map.permission :search_project, {:search => :index}, :public => true
   map.permission :add_project, {:projects => [:add, :new, :copy]}, :require => :loggedin
   map.permission :add_subprojects, {:projects => [:add, :new]}, :require => :loggedin
@@ -55,7 +55,7 @@ Redmine::AccessControl.map do |map|
                                   }
                 
     map.permission :add_issues, {:issues => [:new, :update_form]}
-    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :cancel, :restart, :prioritize, :agree, :disagree, :estimate, :join, :leave, :add_team_member, :remove_team_member]}
+    map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :cancel, :restart, :prioritize, :agree, :disagree, :estimate, :join, :leave, :add_team_member, :remove_team_member, :update_tags]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
     map.permission :add_issue_notes, {:issues => [:reply], :comments => :create, :todos => [:create,:update,:destroy]}
     map.permission :edit_issue_notes, {:journals => :edit}, :require => :loggedin

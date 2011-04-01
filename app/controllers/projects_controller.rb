@@ -258,9 +258,12 @@ class ProjectsController < ApplicationController
     # render :json => array.sort{|x,y| x[:label] <=> y[:label]}.uniq.to_json
   end
   
+  def all_tags
+    render :json => @project.all_tags(params[:term]).to_json
+  end
+  
   
   def dashboard
-    @kufta = "whatever"
     @credit_base = @project.dpp
     @show_issue_id = params[:show_issue_id] #Optional parameter to start the dashboard off showing an issue
     @show_retro_id = params[:show_retro_id] #Optional parameter to start the dashboard off showing a retrospective
@@ -289,7 +292,9 @@ class ProjectsController < ApplicationController
                                                 :todos =>       { :only => [:id, :subject, :completed_on, :owner_login] },
                                                 :tracker =>     { :only => [:name,:id] },
                                                 :author =>      { :only => [:firstname, :lastname, :login, :mail_hash] },
-                                                :assigned_to => { :only => [:firstname, :lastname, :login] }})
+                                                :assigned_to => { :only => [:firstname, :lastname, :login] }
+                                                },
+                                                :except => :tags)
   end
   
   #Checks to see if any items have changed in this project (in the last params[:seconds]). If it has, returns only items that have changed
@@ -322,7 +327,9 @@ class ProjectsController < ApplicationController
                                                   :todos =>       { :only => [:id, :subject, :completed_on, :owner_login] },
                                                   :tracker =>     { :only => [:name,:id] },
                                                   :author =>      { :only => [:firstname, :lastname, :login, :mail_hash] },
-                                                  :assigned_to => { :only => [:firstname, :lastname, :login] }})
+                                                  :assigned_to => { :only => [:firstname, :lastname, :login] }
+                                                  },
+                                                  :except => :tags)
     elsif params[:issuecount] != total_count
       render :json =>  Issue.find(:all, :conditions => "project_id in (#{project_ids})  AND (retro_id < 0 OR retro_id is null)").collect {|i| i.id}
     else
@@ -514,6 +521,8 @@ private
     else
       @project = Project.find(params[:id])
     end
+    render_message l(:text_project_locked) if @project.locked?
+    
   rescue ActiveRecord::RecordNotFound
     render_404
   end

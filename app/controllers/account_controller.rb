@@ -147,16 +147,20 @@ class AccountController < ApplicationController
   # User self-registration
   def register
     redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
+    
+    if params[:plan]# && params[:plan].is_a?(Numeric)
+      @plan_id = Plan.find_by_code(params[:plan]).id 
+    elsif params[:plan_id]# && params[:plan].is_a?(Numeric)
+      @plan_id = params[:plan_id]
+    else
+      @plan_id = Plan.find_by_code(Plan::FREE_CODE).id
+    end
+    
     if request.get?
       session[:auth_source_registration] = nil
       self.logged_user = nil
       
       @user = User.new(:language => Setting.default_language)
-      if params[:plan] && params[:plan].is_a?(Numeric)
-        @plan_id = Plan.find_by_code(params[:plan]).id 
-      else
-        @plan_id = Plan.find_by_code(Plan::FREE_CODE).id
-      end
       
       if params[:invitation_token]
         session[:invitation_token] = params[:invitation_token]
@@ -166,12 +170,10 @@ class AccountController < ApplicationController
       end
     else
       @user = User.new(params[:user])
+      logger.info { "params plan #{params[:plan]}" }
+      
+      @user.plan_id = @plan_id
 
-      if params[:plan] && params[:plan].is_a?(Numeric)
-        @user.plan_id = Plan.find_by_code(params[:plan]).id 
-      else
-        @user.plan_id = Plan.find_by_code(Plan::FREE_CODE).id
-      end
       
       @user.trial_expires_on = 30.days.from_now if @user.plan_id && !@user.plan.free?
         

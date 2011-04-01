@@ -7,7 +7,7 @@ class IssuesController < ApplicationController
   default_search_scope :issues
   ssl_required :all  
   
-  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member, :remove_team_member, :move]
+  before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member, :remove_team_member, :move, :update_tags]
   before_filter :find_issues, :only => [:bulk_edit, :move, :destroy]
   before_filter :find_project, :only => [:new, :update_form, :preview]
   before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :context_menu, :datadump, :temp]
@@ -165,7 +165,10 @@ class IssuesController < ApplicationController
       end
       
       # Check that the user is allowed to apply the requested status
-      @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
+      # @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
+      @issue.status = requested_status
+      @issue.tag_list = @issue.tags_copy if @issue.tags_copy
+      
       if @issue.save
         Mention.parse(@issue, User.current.id)
         attach_files_for_new_issue(@issue, params[:attachments])
@@ -342,11 +345,23 @@ class IssuesController < ApplicationController
     end
   end
   
-  def estimate
-    if (@issue.status != IssueStatus.open) && (@issue.status != IssueStatus.newstatus) && (@issue.status != IssueStatus.estimate)  
-          render_error 'Can not estimate request unless it is new, open, or in estimation' 
-          return false;
+  def update_tags
+    @issue.send_later(:update_tags,params[:tags])
+    
+    # @issue.send_later(:update_attribute,:tag_list, params[:tags])    
+    # @issue.send_later(:update_attribute,:tags_copy, params[:tags])
+    respond_to do |format|
+      format.js {render :nothing => true}
+      format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
     end
+  end
+  
+
+  def estimate
+    # if (@issue.status != IssueStatus.open) && (@issue.status != IssueStatus.newstatus) && (@issue.status != IssueStatus.estimate)  
+    #       render_error 'Can not estimate request unless it is new, open, or in estimation' 
+    #       return false;
+    # end
     
     if(@issue.is_hourly?)
       render_error 'Can not estimate hourly items'
@@ -361,7 +376,7 @@ class IssuesController < ApplicationController
     logger.info { "after update #{@issue.inspect}" }
     logger.info { "start saving" }
     @issue.save if !@issue.update_status
-    logger.info { "done saving" }
+    logger.info { "done saving #{@issue.inspect}" }
     @issue.reload
     
     respond_to do |format|
@@ -739,6 +754,7 @@ private
   def find_issue
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author])
     @project = @issue.project
+    render_message l(:text_project_locked) if @project.locked?
     render_404 if @issue.is_gift? && @issue.assigned_to_id == User.current.id
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -762,6 +778,7 @@ private
   
   def find_project
     @project = Project.find(params[:project_id])
+    render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
