@@ -119,5 +119,5 @@ end
 
 def new_view
   adapter = Webrat.adapter_class.new self
-  BrowseBettermeansView.new Webrat::Session.new adapter
+  BrowseBettermeansView.new webrat_session #Webrat::Session.new adapter
 end
