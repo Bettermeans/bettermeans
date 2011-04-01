@@ -1,23 +1,20 @@
-<tr class="gt-activity-header">
-  <td colspan="2">
-    <h4 class="long-words">
-    <%= link_to as.actor_name, {:controller => :users, :action => :show, :id => as.actor_id} %>
-    <span class='verb'>
-      <%= as.verb.tr('_', ' ') %>
-    </span>
-    <%= link_to_activity(as) %>
-    <%= action_times(as.count) %>
-    <% if @project.nil? || @project.id != as.project_id %>
-      in
-      <%=link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %><% end %>
-      <span class="right"><%= refresh_link %></span>
-    </h4>
-  </td>
-</tr>
 <tr class="gt-activity-detail">
   <td class="gt-avatar <%= User.current.logged? && User.current.id == as.actor_id ? 'me' : nil %>"><%= avatar(as.actor_email, :size => '44') %>
     </td>
     <td class="gt-activity-details main">
+      <h4 class="long-words gt-activity-header">
+      <%= link_to as.actor_name, {:controller => :users, :action => :show, :id => as.actor_id} %>
+      <span class='verb'>
+        <%= as.verb.tr('_', ' ') %>
+      </span>
+      <%= link_to_activity(as) %>
+      <%= action_times(as.count) %>
+      <% if @project.nil? || @project.id != as.project_id %>
+        in
+        <%=link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %><% end %>
+        <span class="right"><%= refresh_link %></span>
+      </h4>
+      
       <table class="gt-table gt-user-table activity-item">
         <tbody>
           <tr>

@@ -323,6 +323,7 @@ body {
 	font-size: 108%;
 	color: #365b6d;
 	margin-bottom: 0;
+	padding-left: 10px;
 }
 .gt-table a:link, .gt-table a:visited {
 	color: #365b6d;
@@ -1017,13 +1018,13 @@ h3, .gt-sidebar h2 {
 	font-weight: bold;
 }
 h4 {
-	font-size: 123.1%;
+	font-size: 108%;
 	color: #333;
 	margin-bottom: 5px;
 	font-weight: bold;
 }
 h5 {
-	font-size: 123.1%;
+	font-size: 108%;
 	color: #333;
 	margin-bottom: 5px;
 }
@@ -1140,7 +1141,7 @@ tt {
 	border-color:#FBC2C4;
 }
 .notice {
-	background: #Fff url(/images/static/clip.png) no-repeat 10px 50% ;
+	background: #FBF90E url(/images/static/clip.png) no-repeat 10px 50% ;
 	color:#595959;
 	border: 1px solid #ccc;
 	border-radius: 5px;
@@ -1982,7 +1983,7 @@ text-decoration:underline !important;
 }
 
 .activity-sub .author, .activity-sub .verb{
-	font-weight: bold;
+/*	font-weight: bold;*/
 }
 
 .gt-activity-details{
