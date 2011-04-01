@@ -851,6 +851,11 @@ h5 .icon{
 	float:right;
 }
 
+.gt-actionmenu ul li{
+	display: block;
+}
+
+
 .gt-actionmenu a:visited:hover, .gt-actionmenu a:hover {
 /*	background-color: #C27006!important;*/
 	background-color: #953404!important;
@@ -989,11 +994,19 @@ h1 {
 h2 {
 	font-size: 130%;
 	color: #0e2029;
-/*	color: #365b6d;*/
 	margin-bottom: 5px;
 	font-weight: bold;
 /*	margin-left: 2px;*/
 }
+
+.gt-sidemenu h2 {
+	font-size: 100%;
+/*	color: #0e2029;*/
+	color: #365b6d;
+	margin-bottom: 5px;
+	font-weight: bold;
+}
+
 h2.gt-table-head, h2.gt-form-head {
 	margin-bottom: 5px;
 }
@@ -1309,8 +1322,8 @@ ul li {
 	margin-right: auto;
 }
 .gt-second-navbar{
-	margin-right: 20px;
-	margin-left: 15px;
+	margin-right: 5px;
+	margin-left: 5px;
 	margin-top: 10px;
 }
 

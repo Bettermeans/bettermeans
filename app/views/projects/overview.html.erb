@@ -3,7 +3,7 @@
 
 <div>
   <h2 class="gt-table-head icon icon-activity"><%=l(:label_activity_latest)%></h2>  
-  <div class="activity gt-content-box">
+  <div class="activity">
     <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
       :user_id => params[:user_id],
       :project_id => @project.id,
@@ -40,6 +40,16 @@
 </ul>
 <% end %>
 
+<% content_for :secondnav do %>
+<% if @project.enterprise? %>
+  <%= render :partial => "member_box_simple" %>
+<% else %>
+  <%= render :partial => "active_member_box_simple" %>
+  <%= render :partial => "clearance_member_box_simple" unless @project.is_public %>    
+<% end %>
+
+<% end %>
+
 
 <% content_for :sidebar do %>
 <% if @project.description.length > 0 %>
@@ -69,15 +79,6 @@
   <%= render :partial => 'projects/projects_list_simple', :locals => {:projects => @subprojects, :max_count => 7} %>
   </div>
 <% end %>
-
-
-<% if @project.enterprise? %>
-  <%= render :partial => "member_box" %>
-<% else %>
-  <%= render :partial => "active_member_box_simple" %>
-  <%= render :partial => "clearance_member_box" unless @project.is_public %>    
-<% end %>
-
   
 <!-- <div class="gt-sidebar-content">
 <h3>30-day Activity Timeline</h3>

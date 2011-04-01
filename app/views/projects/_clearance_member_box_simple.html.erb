@@ -1,0 +1,29 @@
+<!-- Shows members with clearance-->
+<% 
+@members_active = @project.clearance_members
+if @members_active.any? 
+  %>
+<h2 class="gt-table-head"><%=l(:label_team_with_access)%></h2>	
+<div class="members gt-content-box">
+  <table border="0" class="gt-table gt-user-table">
+		<tbody>
+    	<% @members_active.each do |member| %>
+    	<tr>
+    	  <td class="gt-avatar"><%= avatar(member.user) %></td>
+    	  <td><h4><%= link_to_user member.user %></h4></td>
+      </tr>
+    	<% end %>
+    	<% if User.current.allowed_to?(:send_invitations, @project)  && @project.root? %>
+    	<tr><td colspan=2 style="text-align:center">
+    	 <%= link_to l(:label_invitation_others), new_project_invitation_url(@project) %>
+    	</td></tr>
+    	</li>
+    	<% end %>
+	  </tbody>
+	</table>
+</div>
+<div class="gt-table-buttons">
+	<%= link_to l(:label_team_view_all_enterprise), {:controller => 'projects', :action => 'team', :id => @project.root} , :class => "gt-btn-blue-large" %>
+</div>
+
+<% end %>

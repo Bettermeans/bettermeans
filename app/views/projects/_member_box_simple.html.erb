@@ -1,0 +1,28 @@
+<!-- Shows enterprise members -->
+<% 
+@users_by_role = @project.root.users_by_role
+if @users_by_role.any? 
+  %>
+<h2 class="gt-table-head icon icon-users"><%=l(:label_team)%></h2>	
+<div class="members gt-content-box">
+  <table border="0" class="gt-table gt-user-table">
+		<tbody>
+    	<% @users_by_role.keys.sort.each do |role| %>
+    	<% next if role.level != Role::LEVEL_ENTERPRISE %>
+    	<tr>
+    	  <th><%=h role %><%= help_bubble("text_role_invitation_description_#{role.name.gsub(/ /,'_')}") %></th>
+    	  <td><%= make_expandable(@users_by_role[role].sort.collect{|u| link_to_user u}.join(", "), 250) %></td>
+      </tr>
+    	<% end %>
+    	<tr><td colspan=2 class="gt-table-links">
+    	 <%= link_to l(:label_team_view_all), {:controller => 'projects', :action => 'team', :project_id => @project} %> 
+     	<% if User.current.allowed_to?(:send_invitations, @project)  && @project.root? %>
+    	 | <%= link_to l(:label_invitation_others), new_project_invitation_url(@project) %>
+     	<% end %>
+    	</td></tr>
+    	</li>
+	  </tbody>
+	</table>
+</div>
+
+<% end %>
