@@ -37,13 +37,8 @@ GEM
     json_pure (1.5.1)
     linecache (0.43)
     mime-types (1.16)
-<<<<<<< HEAD
-    mocha (0.9.10)
-      rake
-=======
     mocha (0.9.12)
     mysql2 (0.2.6)
->>>>>>> 56daf528fa50159cdb3d38b556f67d1a6516e53f
     nokogiri (1.4.4)
     object_daddy (0.4.3)
     pg (0.10.1)
@@ -100,26 +95,15 @@ DEPENDENCIES
   SystemTimer (= 1.2.2)
   comma
   cucumber (= 0.4.3)
-<<<<<<< HEAD
-  factory_girl
-  fastercsv
-  fleximage
-  mocha
-  object_daddy
-  pg
-  pickle
-  rack-timeout
-=======
   factory_girl (= 1.3.3)
   fastercsv (= 1.5.4)
   fleximage (= 1.0.4)
   mocha (= 0.9.12)
-  mysql2 (= 0.2.6)
+  mysql2
   object_daddy (= 0.4.3)
-  pg (= 0.10.1)
+  pg
   pickle (= 0.3.4)
   rack-timeout (= 0.0.1)
->>>>>>> 56daf528fa50159cdb3d38b556f67d1a6516e53f
   rails (= 2.3.5)
   recurly (= 0.3.3)
   reportable (= 1.1.2)
@@ -129,7 +113,7 @@ DEPENDENCIES
   rspec-rails (= 1.2.9)
   ruby-debug (= 0.10.4)
   rubytree (= 0.7.0)
-  sqlite3-ruby (= 1.3.3)
+  sqlite3-ruby
   test-unit (= 1.2.3)
   webrat (= 0.5.3)
   will_paginate (= 2.3.15)
