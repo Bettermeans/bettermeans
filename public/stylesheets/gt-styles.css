@@ -142,6 +142,10 @@ body {
 	border-left-color: #bbb;
 }
 
+.gt-content-header-main{
+	float:left;
+}
+
 .gt-content{
 	border-left-style: solid;
 	border-left-width: 1px;
@@ -218,10 +222,6 @@ body {
 	margin: 0;
 }
 
-.gt-actionmenu{
-	margin: 0;
-	padding: 0;
-}
 /* @end */
 
 /* @group Modules */
@@ -838,8 +838,17 @@ h5 .icon{
 	text-decoration: none;
 }
 
-.gt-actionmenu a:visited, .gt-actionmenu a {
-	background-color: #CF5D07!important;
+.gt-actionmenu{
+	margin-right:5px;
+	margin-left:5px;
+	margin-top:30px;
+	float:right;
+	padding: 0;
+}
+
+
+.gt-actionmenu ul {
+	float:right;
 }
 
 .gt-actionmenu a:visited:hover, .gt-actionmenu a:hover {
@@ -856,7 +865,7 @@ h5 .icon{
 }
 
 
-/*.gt-actionmenu ul li a{
+.gt-actionmenu a, .gt-actionmenu a:visited{
 	-moz-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-bottom-left-radius: 5px 5px;
@@ -864,8 +873,14 @@ h5 .icon{
 	border-top-left-radius: 5px 5px;
 	border-top-right-radius: 5px 5px;
 	margin-left:1px;
+	background-color: #CF5D07!important;
+	color: #fff!important;
+	padding-right: 7px;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	text-decoration:none!important;
 }
-*/
+
 
 .gt-actionmenu ul li a.icon {
 	background-position: 5px 50%;

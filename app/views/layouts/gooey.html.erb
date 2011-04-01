@@ -148,18 +148,6 @@ cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-3 clearfix' : 'gt-bd gt-cols
       <% end %>
 	  <% end %>
 	  </div>
-    <div class="gt-actionmenu">
-	  <% if (has_content?(:actionmenu)) %>
-            <%= yield :actionmenu %>
-    <%   end   %>
-    <% if (has_content?(:help_section)) %>
-      <ul>
-        <li>
-          <a class="top-help-tip icon icon-help" href='' onclick="help_popup(); return false;">Tip</a>
-        </li>
-      </ul>
-    <% end %>
-    </div>
 
   	<% if (has_content?(:secondnav)) %>
   	  <div class="gt-second-navbar">
@@ -174,6 +162,20 @@ cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-3 clearfix' : 'gt-bd gt-cols
   		<span class="gt-nav-breadcrumbs"><%= page_header_title %></span>
 	    <h1><%= page_header_name %><%= sub_workstream_project_box(@project) %></h1>
 	    </div>
+	    
+	    <div class="gt-actionmenu">
+  	  <% if (has_content?(:actionmenu)) %>
+              <%= yield :actionmenu %>
+      <%   end   %>
+      <% if (has_content?(:help_section)) %>
+        <ul>
+          <li>
+            <a class="top-help-tip icon icon-help" href='' onclick="help_popup(); return false;">Tip</a>
+          </li>
+        </ul>
+      <% end %>
+      </div>
+      
 	</div>
 	<div class="gt-content" id="content">
 	  <div class="gt-content-top-border">&nbsp;</div>
