@@ -44,8 +44,8 @@ class ProjectsController < ApplicationController
   log_activity_streams :current_user, :name, :edited, :@project, :name, :edit, :workstreams, {:object_description_method => :description}
     
   def index    
-    @latest_enterprises = Project.latest_public User.current
-    @active_enterprises = Project.most_active_public User.current
+    @latest_enterprises = Project.latest_public
+    @active_enterprises = Project.most_active_public
   end
   
   def index_latest
