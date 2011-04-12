@@ -50,7 +50,7 @@ class ProjectsController < ApplicationController
   
   def index_latest
     limit = 10
-    @latest_enterprises = Project.latest nil, limit, true, Integer(params[:offset])
+    @latest_enterprises = Project.latest_public(limit, params[:offset])
     
     respond_to do |wants|
       wants.js do
