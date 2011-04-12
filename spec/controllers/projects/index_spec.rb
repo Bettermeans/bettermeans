@@ -7,7 +7,7 @@ describe ProjectsController, "#index" do
     controller.index
   end
   
-  it "finds the most active public workstreams for the current user" do 
+  it "finds the most active public workstreams" do 
     Project.should_receive(:most_active_public)
     
     controller.index
