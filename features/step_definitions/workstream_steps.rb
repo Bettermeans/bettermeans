@@ -57,11 +57,11 @@ Then /^it does not show in the Latest Public Workstreams list$/ do
 end
 
 Then /^it shows in the Most Active Public Workstreams list$/ do
-  @view.latest_public_workstreams.should include @projects.last.name   
+  @view.most_active_public_workstreams.should include @projects.last.name   
 end
 
 Then /^it does not show in the Most Active Public Workstreams list$/ do
-  @view.latest_public_workstreams.should_not include @projects.last.name
+  @view.most_active_public_workstreams.should_not include @projects.last.name
 end
 
 Then /I only see (\d+)/ do |expected_count|
