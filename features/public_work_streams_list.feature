@@ -1,4 +1,4 @@
-Feature:(#6137) Browse Bettermeans only shows public and my private workstreams
+Feature:(#6137) Browse Bettermeans only shows public workstreams
 
 Background: 
   Given I am logged in
