@@ -1,16 +1,6 @@
 require 'spec_helper'                                                                                                                                        
 
 describe ProjectsController do
-  before(:each) do
-    login
-    User.stub_chain(:current, :allowed_to?).and_return true
-    @root = Factory.create(:project, :name => 'root')
-    @parent = Factory.create(:project, :name => 'parent')
-    @project = Factory.create(:project, :name => 'project')
-    @parent.set_parent!(@root)
-    @project.set_parent!(@parent)
-  end
-  
   describe "#index" do 
     it "finds the latest public workstreams" do             
       Project.should_receive(:latest_public)
