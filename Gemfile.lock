@@ -44,6 +44,8 @@ GEM
     pickle (0.3.4)
     polyglot (0.2.9)
     rack (1.0.1)
+    rack-test (0.5.7)
+      rack (>= 1.0)
     rack-timeout (0.0.1)
     rails (2.3.5)
       actionmailer (= 2.3.5)
@@ -81,9 +83,10 @@ GEM
       hoe (>= 1.5.1)
     treetop (1.4.2)
       polyglot (>= 0.2.5)
-    webrat (0.5.3)
+    webrat (0.7.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
+      rack-test (>= 0.5.3)
     will_paginate (2.3.15)
     xml-simple (1.0.14)
 
@@ -113,5 +116,5 @@ DEPENDENCIES
   rubytree (= 0.7.0)
   sqlite3-ruby
   test-unit (= 1.2.3)
-  webrat (= 0.5.3)
+  webrat (= 0.7.3)
   will_paginate (= 2.3.15)
