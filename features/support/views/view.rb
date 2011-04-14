@@ -7,5 +7,5 @@ class View
 
   require "webrat"
   
-  def xpath(dom, xpath); Webrat::XML.xpath_search(dom, xpath); end
+  def xpath(dom, xpath); dom.xpath(xpath); end
 end
