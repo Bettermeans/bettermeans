@@ -19,6 +19,7 @@ require 'webrat/core/matchers'
 
 require "features/support/webkit_session"
 require "features/extensions/webrat.rb"
+require "features/extensions/capybara-webkit.rb"
 
 Webrat.configure do |config|
   config.mode = :webkit
