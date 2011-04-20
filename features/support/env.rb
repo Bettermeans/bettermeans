@@ -17,9 +17,17 @@ require 'cucumber/rails/rspec'
 require 'webrat'
 require 'webrat/core/matchers' 
 
+require "features/support/webkit_session"
+require "features/extensions/webrat.rb"
+
 Webrat.configure do |config|
-  config.mode = :rails
+  config.mode = :webkit
   config.open_error_files = true
+end
+
+if Webrat.configuration.mode == :webkit
+  include Webrat::Methods
+  include Webrat::Matchers  
 end
 
 Cucumber::Rails::World.class_eval do 
