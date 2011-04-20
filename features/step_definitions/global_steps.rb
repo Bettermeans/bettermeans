@@ -13,7 +13,7 @@ Given /^I am logged in as "([^\"]*)"$/ do |username|
 end
 
 Given /^I am not logged in$/ do
-  visit url_for(:controller => 'account', :action => 'logout')
+  visit "http://localhost:3000/logout"
   @user = User.anonymous
 end
 
@@ -24,15 +24,14 @@ Given /^I am(\snot)? an administrator$/ do |not_an_adminstrator|
 end
 
 Given /^Login in as ([^\"]*) with password ([^\"]*)$/ do |username, password|
-  visit url_for(:controller => 'account', :action => 'login')
+  visit "http://localhost:3000/login"
   fill_in "username", :with => username
   fill_in "password", :with => password
   click_button "login"
 end
 
 When /^I go to Browse Bettermeans$/ do
-  visit url_for(:controller => 'projects', :action => 'index')
-  adapter = Webrat.adapter_class.new self
+  visit "http://localhost:3000/projects"
   @view = BrowseBettermeansView.new webrat_session
 end
 
