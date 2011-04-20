@@ -16,7 +16,7 @@
                                           :action => "index_#{index_type}",
                                           :offset => offset
                                           },
-                                  :method => :get
-                                  } unless projects.last.nil? %>
+                                          :method => :get
+                                  }, {:id => "#{index_type}_load_more"} unless projects.last.nil? %>
                                   </div>
 		</span>
