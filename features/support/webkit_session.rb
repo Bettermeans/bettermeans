@@ -1,7 +1,17 @@
 class WebkitSession
   require 'capybara-webkit'  
   
-  def click(what); find(what).click; end
+  %w[link].each do |name|
+    define_method "click_#{name}".to_sym do |what|
+      click what
+    end
+  end
+  
+  def click(what) 
+    the_thing = find_first(what)
+        
+    the_thing.click
+  end
     
   def get(url) 
     instance.reset!
@@ -29,19 +39,37 @@ class WebkitSession
     field.first.click
   end  
   
+  def find_first(what)
+    result = find what
+    
+    fail "Unable to locate element <#{what}>" unless result
+    fail "Too many results for <#{what}>. Expected 1, got <#{result.size}>." unless 
+      result.size === 1
+    
+    result.first
+  end
+  
   def find(what)
     result = find_by_id_or_name what
     return result if result.size > 0
     
     result = find_by "value", what
     return result if result.size > 0
-  end
+    
+    result = find_by "text", what
+    return result if result.size > 0
+    
+    result = find_by "innerText", what
+    return result if result.size > 0
+    
+    fail "Unable to locate element <#{what}>" if result.nil?
+  end  
   
   def find_by_id_or_name(what)
     result = find_by "id", what
     return result if result.size > 0
     find_by "name", what
-  end
+  end  
     
   def url; instance.current_url; end
   
