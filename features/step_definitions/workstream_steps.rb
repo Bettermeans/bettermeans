@@ -38,6 +38,11 @@ Given /^the anonymous user is a member$/ do
   add_as_member User.anonymous, projects.last
 end
 
+When /I load more/ do
+  @view.load_more_latest_public_workstreams  
+  @view.load_more_most_active_public_workstreams  
+end
+
 Then /^I see it$/ do; Then "it is visible"; end
 
 Then /^I do not see it$/ do; Then "it is not visible"; end
@@ -64,7 +69,7 @@ Then /^it does not show in the Most Active Public Workstreams list$/ do
   @view.most_active_public_workstreams.should_not include @projects.last.name
 end
 
-Then /I only see (\d+)/ do |expected_count|
+Then /I(\sonly)? see (\d+)/ do |_,expected_count|
   @view.latest_public_workstreams.size.should eql expected_count.to_i
   @view.most_active_public_workstreams.size.should eql expected_count.to_i
 end
