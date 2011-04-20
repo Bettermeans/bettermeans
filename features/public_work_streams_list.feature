@@ -62,3 +62,9 @@ Scenario: It only shows the top 10 workstreams
   Given there are more than 10 workstreams available
   When I go to Browse Bettermeans
   Then I only see 10
+  
+Scenario: [TEMP] paging example
+  Given there are more than 10 workstreams available
+  When I go to Browse Bettermeans
+  And I load more
+  Then I see 11
