@@ -21,4 +21,16 @@ class BrowseBettermeansView < View
       xpath(scope.dom, @title_xpath).map {|_|_.content}      
     end 
   end
+  
+  def load_more_latest_public_workstreams
+    session.within "div.splitcontentleft" do |scope|      
+      click_link "latest_load_more"
+    end 
+  end
+  
+  def load_more_most_active_public_workstreams
+    session.within "div.splitcontentright" do |scope|      
+      click_link "latest_load_more"
+    end 
+  end
 end
