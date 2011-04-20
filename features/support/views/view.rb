@@ -3,9 +3,7 @@ class View
   
   protected
   
-  attr_reader :session
-
-  require "webrat"
+  attr_reader :session  
   
   def xpath(dom, xpath); dom.xpath(xpath); end
 end
