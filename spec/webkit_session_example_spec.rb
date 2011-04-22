@@ -33,10 +33,23 @@ describe WebkitSession,"#find" do
   
   it "tries to find elements by id, name and value" do
     element_identifier = "xxx"
+    
     @driver.should_receive(:find).with("//*[@id='#{element_identifier}']").and_return [] 
     @driver.should_receive(:find).with("//*[@name='#{element_identifier}']").and_return [] 
     @driver.should_receive(:find).with("//*[@value='#{element_identifier}']").and_return [] 
+    
     session.find element_identifier
+  end
+  
+  it "returns nil if element cannot be found by id, name or value" do 
+    element_identifier = "xxx"
+    
+    @driver.should_receive(:find).with("//*[@id='#{element_identifier}']").and_return [] 
+    @driver.should_receive(:find).with("//*[@name='#{element_identifier}']").and_return [] 
+    @driver.should_receive(:find).with("//*[@value='#{element_identifier}']").and_return [] 
+    
+    result = session.find element_identifier
+    result.should be_nil
   end
   
   def session; @session ||= WebkitSession.new @driver; end
