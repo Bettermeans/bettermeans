@@ -40,7 +40,7 @@ class WebkitSession
     result = find what
     
     fail "Unable to locate element <#{what}>" unless result
-    fail "Too many results for <#{what}>. Expected 1, got <#{result.size}>." unless 
+    fail "Too many elements found. Expected <1>. Got <#{result.size}>." unless 
       result.size === 1
     
     result.first
@@ -80,7 +80,7 @@ class WebkitSession
   def driver; @driver end
 
   def find_by(attribute, value)
-    driver.find("//*[@#{attribute}='#{value}']" );
+    driver.find("//*[@#{attribute}='#{value}']");
   end
     
   def current_scope; scopes.last || page_scope; end
