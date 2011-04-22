@@ -53,12 +53,6 @@ class WebkitSession
     result = find_by "value", what
     return result if result.size > 0
     
-    result = find_by "text", what
-    return result if result.size > 0
-    
-    result = find_by "innerText", what
-    return result if result.size > 0
-    
     fail "Unable to locate element <#{what}>" if result.nil?
   end  
   
