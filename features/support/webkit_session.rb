@@ -1,6 +1,11 @@
 class WebkitSession
   require 'capybara-webkit'  
   
+  def initialize(driver=Capybara::Driver::Webkit.new(nil)) #todo: inject without default
+    @driver = driver
+    @scope_factory = WebratScopeFactory
+  end
+  
   %w[link].each do |name|
     define_method "click_#{name}".to_sym do |what|
       click what
@@ -14,14 +19,14 @@ class WebkitSession
   end
     
   def get(url) 
-    instance.reset!
+    driver.reset!
     clear_scope    
-    instance.visit url
+    driver.visit url
   end
   
   alias visit :get
   
-  def response_body; instance.body; end  
+  def response_body; driver.body; end  
   
   def fill_in(what, options = {:with => ""})
     field = find what
@@ -71,12 +76,12 @@ class WebkitSession
     find_by "name", what
   end  
     
-  def url; instance.current_url; end
+  def url; driver.current_url; end
   
   def select; end
   
   def within(selector)
-    scopes.push(Webrat::Scope.from_scope(self, current_scope, selector))
+    scopes.push(@scope_factory.from_scope(self, current_scope, selector))
     ret = yield(current_scope)
     scopes.pop
     return ret
@@ -85,21 +90,31 @@ class WebkitSession
   def xml_content_type?; false; end
   
   private
+  
+  def driver; @driver end
 
   def find_by(attribute, value)
-    instance.find("//*[@#{attribute}='#{value}']" );
+    driver.find("//*[@#{attribute}='#{value}']" );
   end
-  
-  def instance; @instance ||= Capybara::Driver::Webkit.new nil; end
-  
+    
   def current_scope; scopes.last || page_scope; end
   def clear_scope; clear_page_scope; clear_dom_scope; end
   def clear_page_scope; @_page_scope = nil; end 
   def clear_dom_scope; @scopes = nil; end
   
   def page_scope
-    @_page_scope ||= Webrat::Scope.from_page(self, Object.new, response_body)
+    @_page_scope ||= @scope_factory.from_page(self, response_body)
   end
   
   def scopes; @scopes ||= []; end
+end
+
+class WebratScopeFactory
+  def self.from_page(session, response_body)
+    Webrat::Scope.from_page(session, Object.new, response_body)
+  end
+  
+  def self.from_scope(session, scope, selector)
+    Webrat::Scope.from_scope(session, scope, selector)
+  end
 end
