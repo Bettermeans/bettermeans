@@ -6,7 +6,7 @@ class WebkitSession
     @scope_factory = WebratScopeFactory
   end
   
-  %w[link].each do |name|
+  %w[link button].each do |name|
     define_method "click_#{name}".to_sym do |what|
       click what
     end
@@ -34,14 +34,6 @@ class WebkitSession
     fail("Could not find text field with id \"#{what}\"") unless field.size == 1
     
     field.first.set options[:with]
-  end
-  
-  def click_button(what)
-    field = find what
-    
-    fail("Could not find text field with id \"#{what}\"") unless field.size == 1
-    
-    field.first.click
   end  
   
   def find_first(what)
