@@ -30,7 +30,18 @@ class BrowseBettermeansView < View
     click_link "active_load_more"      
   end
   
+  require 'features/support/garcon_dsl'
+  include GarconDsl
+  
   def wait_until_loaded
-    sleep 5
+    wait.for(5.seconds).until { is_hidden? loading_screen }      
   end
+  
+  def loading_screen
+    xpath(session.current_dom, "//*[@id='ajax-indicator']").first
+  end
+  
+  private 
+  
+  def is_hidden?(element); element["style"] =~ /display\: none/; end
 end
