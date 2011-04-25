@@ -75,6 +75,8 @@ class WebkitSession
   
   def xml_content_type?; false; end
   
+  def current_dom; current_scope.dom; end  
+
   private
   
   def driver; @driver end
@@ -82,14 +84,14 @@ class WebkitSession
   def find_by(attribute, value)
     driver.find("//*[@#{attribute}='#{value}']");
   end
-    
+  
   def current_scope; scopes.last || page_scope; end
   def clear_scope; clear_page_scope; clear_dom_scope; end
   def clear_page_scope; @_page_scope = nil; end 
   def clear_dom_scope; @scopes = nil; end
   
   def page_scope
-    @_page_scope ||= @scope_factory.from_page(self, response_body)
+    @scope_factory.from_page(self, response_body)
   end
   
   def scopes; @scopes ||= []; end
