@@ -67,4 +67,5 @@ Scenario: [TEMP] paging example
   Given there are more than 10 workstreams available
   When I go to Browse Bettermeans
   And I load more
+  And I wait until loaded
   Then I see 11
