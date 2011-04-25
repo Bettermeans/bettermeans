@@ -9,3 +9,14 @@ Webrat.module_eval do
     end
   end
 end
+
+Webrat::Scope.class_eval do
+  # Eliminates response caching so ajax can work
+  def dom # :nodoc:
+    if @selector
+      return scoped_dom
+    else
+      return page_dom
+    end
+  end
+end
