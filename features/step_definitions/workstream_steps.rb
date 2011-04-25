@@ -8,7 +8,11 @@ Given /^a public workstream that I do not belong to$/ do
 end
 
 Given /^there are more than (\d+) workstreams available$/ do |count|
-  for i in 1..(count.to_i + 1) do
+  Given "there are #{count.to_i + 1} workstreams available"
+end
+
+Given /^there are (\d+) workstreams available$/ do |count|
+  for i in 1..(count.to_i) do
     projects << new_public_project("[#{Time.now.to_i}] Workstream (#{i})")        
   end
 end
