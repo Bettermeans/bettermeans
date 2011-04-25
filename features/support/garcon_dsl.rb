@@ -2,13 +2,13 @@ module GarconDsl
   def wait; GarconBuilder.new; end
 
   class GarconBuilder
-    def for(timeout = 10.seconds)
+    def for(timeout = 10)
       @timeout = timeout
       self
     end
 
     def until(&block)
-      Garcon.new(1.second, @timeout).wait &block
+      Garcon.new(1, @timeout).wait &block
     end
   end
 
@@ -25,7 +25,7 @@ module GarconDsl
       done = false
 
       while !done do
-        elapsed = Time.now-started_at
+        elapsed = (Time.now-started_at).seconds
         timeout elapsed
         done = block.call
         sleep @polling_period
@@ -34,7 +34,7 @@ module GarconDsl
 
     private
 
-    def timeout(elapsed)
+    def timeout(elapsed)      
       fail("Timed out after waiting for <#{elapsed}>.") if elapsed > @timeout
     end
   end
