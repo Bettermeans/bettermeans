@@ -35,6 +35,10 @@ When /^I go to Browse Bettermeans$/ do
   @view = BrowseBettermeansView.new webrat_session
 end
 
+When /^I wait until/ do
+  @view.wait_until_loaded
+end
+
 def ensure_account(username, password)
   result = User.find_by_login(username)
   
