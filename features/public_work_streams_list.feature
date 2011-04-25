@@ -63,9 +63,11 @@ Scenario: It only shows the top 10 workstreams
   When I go to Browse Bettermeans
   Then I only see 10
   
-Scenario: [TEMP] paging example
-  Given there are more than 10 workstreams available
+Scenario: I cannot see any private workstreams when I load more
+  Given there are 10 workstreams available
+  And a private workstream that I do not belong to
+  And I belong to a private workstream
   When I go to Browse Bettermeans
   And I load more
   And I wait until loaded
-  Then I see 11
+  Then I only see 10
