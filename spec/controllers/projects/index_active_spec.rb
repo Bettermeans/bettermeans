@@ -6,17 +6,17 @@ describe ProjectsController,"#index_active" do
     controller.params[:offset] = 5
   end
   
-  it "finds the 10 most active workstreams only" do             
-    Project.should_receive(:most_active).with(10, anything)
+  it "finds the 10 most active public workstreams only" do             
+    Project.should_receive(:most_active_public).with(10, anything)
     Project.should_not_receive(:latest_public)
         
     controller.index_active
   end
   
-  it "returns most active workstreams (as active_enterprises)" do      
+  it "returns most active public workstreams (as active_enterprises)" do      
     expected_most_active = "xxx"
     
-    Project.should_receive(:most_active).with(10, anything).and_return expected_most_active 
+    Project.should_receive(:most_active_public).with(10, anything).and_return expected_most_active 
     
     controller.index_active
     
@@ -28,7 +28,7 @@ describe ProjectsController,"#index_active" do
         
     controller.params[:offset] = expected_offset
         
-    Project.should_receive(:most_active).with(anything, expected_offset)
+    Project.should_receive(:most_active_public).with(anything, expected_offset)
         
     controller.index_active  
   end
