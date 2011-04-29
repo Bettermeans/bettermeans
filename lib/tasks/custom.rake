@@ -221,5 +221,18 @@ namespace :custom do
     end  
   end
   
+  #moving from features to tags
+  task :run_once_fix_retros => :environment do
+    Retro.all.each do |r|
+      if r.status_id == 3 && r.total_points > 0
+        dist = CreditDistribution.find_by_retro_id(r.id)
+        unless dist
+          puts("retro #{r.id} for #{r.project.name}")
+          r.update_attribute(:status_id, 2)
+          r.distribute_credits
+        end
+      end
+    end  
+  end
   
 end
