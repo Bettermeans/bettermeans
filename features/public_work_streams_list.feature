@@ -71,3 +71,10 @@ Scenario: I cannot see any private workstreams when I load more
   And I load more
   And I wait until loaded
   Then I only see 10
+  
+Scenario: I can see public workstreams when I load more
+  Given there are 11 workstreams available
+  When I go to Browse Bettermeans
+  And I load more
+  And I wait until loaded
+  Then I see 11
