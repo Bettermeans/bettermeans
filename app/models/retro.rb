@@ -84,6 +84,7 @@ class Retro < ActiveRecord::Base
     announce_close
     self.status_id = STATUS_COMPLETE
     self.save
+    self.distribute_credits
   end
   
   def calculate_ratings
