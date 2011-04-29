@@ -12,6 +12,8 @@ Given /^there are more than (\d+) workstreams available$/ do |count|
 end
 
 Given /^there are (\d+) workstreams available$/ do |count|
+  Project.delete_all
+  
   for i in 1..(count.to_i) do
     projects << new_public_project("[#{Time.now.to_i}] Workstream (#{i})")        
   end
