@@ -35,6 +35,11 @@ When /^I go to Browse Bettermeans$/ do
   @view = BrowseBettermeansView.new webrat_session
 end
 
+When /^I go to dash data$/ do
+  the_project = projects.last
+  visit "http://localhost:3000/projects/#{the_project.id}/new_dashdata?seconds=14.714&issuecount=18&include_subworkstreams=true"
+end
+
 When /^I wait until/ do
   @view.wait_until_loaded
 end
