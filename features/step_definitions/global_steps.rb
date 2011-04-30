@@ -37,11 +37,15 @@ end
 
 When /^I go to dash data$/ do
   the_project = projects.last
-  visit "http://localhost:3000/projects/#{the_project.id}/new_dashdata?seconds=14.714&issuecount=18&include_subworkstreams=true"
+  visit "http://localhost:3000/projects/#{the_project.id}/new_dashdata?include_subworkstreams=true"
 end
 
 When /^I wait until/ do
   @view.wait_until_loaded
+end
+
+Then /^I do not see an error screen/ do
+  webrat_session.response_body.should_not contain "Action Controller: Exception caught"
 end
 
 def ensure_account(username, password)
