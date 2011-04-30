@@ -319,12 +319,12 @@ class ProjectsController < ApplicationController
       total_count = @project.issue_count.to_s
       last_update = @project.last_item_updated_on
     end
-        
-    time_delta = params[:seconds].to_f.round
     
-    if (last_update.advance(:seconds => time_delta) > DateTime.now)
+    seconds_ago = params[:seconds].to_f.round
+
+    if (last_update.advance(:seconds => seconds_ago) > DateTime.now)      
       conditions = "project_id in (#{project_ids}) AND " + 
-        "updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'"
+        "updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * seconds_ago)}'"
       
       render :json => Issue.find(:all, :conditions => conditions).to_json(
         :include => { 
