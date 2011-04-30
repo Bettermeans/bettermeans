@@ -92,8 +92,4 @@ describe ProjectsController,"#new_dash_data" do
   def given_project_has_issue_count(how_many)
     @project.stub(:issue_count).and_return(how_many)     
   end
-  
-  it "returns empty array if no items have changed within the requested number of seconds"
-  it "checks sub workstreams if the :include_subworkstreams parameter is supplied"
-  it "does what if the project has no items at all"
 end
