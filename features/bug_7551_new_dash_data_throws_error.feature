@@ -1,4 +1,4 @@
-Feature: (#7551) New dash data does not throw error when the include_subworkstreams parameter is supplied
+Feature: (#7551) New dash data throws error when the include_subworkstreams parameter is supplied
 
 Background: 
   Given I am logged in
