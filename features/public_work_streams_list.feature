@@ -62,7 +62,8 @@ Scenario: It only shows the top 10 workstreams
   Given there are more than 10 workstreams available
   When I go to Browse Bettermeans
   Then I only see 10
-  
+
+@ajax  
 Scenario: I cannot see any private workstreams when I load more
   Given there are 10 workstreams available
   And a private workstream that I do not belong to
@@ -71,7 +72,8 @@ Scenario: I cannot see any private workstreams when I load more
   And I load more
   And I wait until loaded
   Then I only see 10
-  
+
+@ajax  
 Scenario: I can see public workstreams when I load more
   Given there are 11 workstreams available
   When I go to Browse Bettermeans
