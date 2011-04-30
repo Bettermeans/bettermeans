@@ -26,11 +26,6 @@ Webrat.configure do |config|
   config.open_error_files = true
 end
 
-if Webrat.configuration.mode == :webkit
-  include Webrat::Methods
-  include Webrat::Matchers  
-end
-
 Cucumber::Rails::World.class_eval do 
   def skip_teardown?; ENV.include? "SKIP_TEARDOWN"; end
   def teardown(&block) 
