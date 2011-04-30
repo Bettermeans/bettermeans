@@ -299,9 +299,7 @@ class ProjectsController < ApplicationController
   
   # Checks to see if any items have changed in this project (in the last params[:seconds]). 
   # If it has, returns only items that have changed
-  def new_dashdata
-    project_ids,total_count,last_update = nil,nil,nil
-    
+  def new_dashdata    
     if @project.last_item_updated_on.nil?
       @project.last_item_updated_on = DateTime.now      
       @project.save
@@ -324,22 +322,32 @@ class ProjectsController < ApplicationController
         
     time_delta = params[:seconds].to_f.round
 
-    conditions = "project_id in (#{project_ids}) AND updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'"
+    conditions = "project_id in (#{project_ids}) AND " + 
+      "updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'"
     
     if (last_update.advance(:seconds => time_delta) > DateTime.now)
-      
-      render :json => Issue.find(:all, :conditions => conditions).to_json(:include => { :journals =>    { :only => [:id, :notes, :created_at, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}},
-                                                  :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}},
-                                                  :status =>      { :only => :name },
-                                                  :attachments => { :only => [:id, :filename]},
-                                                  :todos =>       { :only => [:id, :subject, :completed_on, :owner_login] },
-                                                  :tracker =>     { :only => [:name,:id] },
-                                                  :author =>      { :only => [:firstname, :lastname, :login, :mail_hash] },
-                                                  :assigned_to => { :only => [:firstname, :lastname, :login] }
-                                                  },
-                                                  :except => :tags)
+      render :json => Issue.find(:all, :conditions => conditions).to_json(
+        :include => { 
+          :journals => { 
+            :only => [:id, :notes, :created_at, :user_id], 
+            :include => { 
+              :user => { :only => [:firstname, :lastname, :login] }
+            }
+          },
+          :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}},
+          :status =>      { :only => :name },
+          :attachments => { :only => [:id, :filename]},
+          :todos =>       { :only => [:id, :subject, :completed_on, :owner_login] },
+          :tracker =>     { :only => [:name,:id] },
+          :author =>      { :only => [:firstname, :lastname, :login, :mail_hash] },
+          :assigned_to => { :only => [:firstname, :lastname, :login] }
+        },
+        :except => :tags
+      )
     elsif params[:issuecount] != total_count
-      render :json =>  Issue.find(:all, :conditions => "project_id in (#{project_ids})  AND (retro_id < 0 OR retro_id is null)").collect {|i| i.id}
+      render :json =>  Issue.find(:all, 
+        :conditions => "project_id in (#{project_ids}) AND (retro_id < 0 OR retro_id is null)"
+      ).collect {|i| i.id}
     else
       render :text => 'no'
     end
