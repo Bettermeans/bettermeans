@@ -297,23 +297,31 @@ class ProjectsController < ApplicationController
                                                 :except => :tags)
   end
   
-  #Checks to see if any items have changed in this project (in the last params[:seconds]). If it has, returns only items that have changed
+  # Checks to see if any items have changed in this project (in the last params[:seconds]). 
+  # If it has, returns only items that have changed
   def new_dashdata
+    project_ids,total_count,last_update = nil,nil,nil
+    
     if @project.last_item_updated_on.nil?
-      @project.last_item_updated_on = DateTime.now
+      @project.last_item_updated_on = DateTime.now      
       @project.save
     end
-    
+      
     if params[:include_subworkstreams]
+      if @project.last_item_sub_updated_on.nil?
+        @project.last_item_sub_updated_on = DateTime.now      
+        @project.save
+      end
+    
       project_ids = [@project.sub_project_array_visible_to(User.current).join(",")]
       total_count = (@project.issue_count + @project.issue_count_sub).to_s
       last_update = @project.last_item_sub_updated_on
-    else
+    else      
       project_ids = [@project.id]
       total_count = @project.issue_count.to_s
       last_update = @project.last_item_updated_on
     end
-    
+        
     time_delta = params[:seconds].to_f.round
 
     conditions = "project_id in (#{project_ids}) AND updated_at >= '#{@project.last_item_updated_on.advance(:seconds => -1 * time_delta)}'"
