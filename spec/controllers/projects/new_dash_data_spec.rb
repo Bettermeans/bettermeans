@@ -18,31 +18,20 @@ describe ProjectsController,"#new_dash_data" do
     @when_william_married_kate = Time.utc 2011,"apr",29,10,00
   end
   
-  it "sets the project's last_item_updated_on to DateTime.now and then saves it if it does not have one" do
-    given_the_time_now_is @when_william_married_kate    
-    given_the_project_last_had_an_item_updated_at nil
+  context "given we are not including sub workstreams" do
+    it "sets the project's last_item_updated_on to now and then saves it if it does not have one" do
+      given_the_time_now_is @when_william_married_kate    
+      given_the_project_last_had_an_item_updated_at nil
     
-    @project.should_receive(:save).once
+      @project.should_receive(:save).once
         
-    get :new_dashdata
+      get :new_dashdata
     
-    @project.last_item_updated_on.should eql @when_william_married_kate
-  end
-  
-  it "does not fail when the last_item_updated_on is not defined" do    
-    given_project_has_issue_count 0
-    given_the_project_last_had_an_item_updated_at nil
-    get(:new_dashdata).status.to_i.should eql 200
+      @project.last_item_updated_on.should eql @when_william_married_kate
+    end
   end
   
   context "given we are including sub workstreams" do
-    it "does not fail when last_item_sub_updated_on is not defined and I include sub workstreams" do    
-      @project.last_item_sub_updated_on = nil
-      @project.stub(:sub_project_array_visible_to).and_return []
-      @project.stub(:issue_count_sub).and_return 0
-      get(:new_dashdata, :include_subworkstreams => true).status.to_i.should eql 200    
-    end
-  
     it "sets the project's last_item_sub_updated_on to DateTime.now and then saves it if it does not have one" do
       given_the_time_now_is @when_william_married_kate    
     
