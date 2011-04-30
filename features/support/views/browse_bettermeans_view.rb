@@ -23,11 +23,11 @@ class BrowseBettermeansView < View
   end
   
   def load_more_latest_public_workstreams
-    click_link "latest_load_more"
+    session.click_link "latest_load_more"
   end
   
   def load_more_most_active_public_workstreams
-    click_link "active_load_more"      
+    session.click_link "active_load_more"      
   end
   
   require 'features/support/garcon_dsl'
