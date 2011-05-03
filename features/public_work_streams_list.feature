@@ -1,4 +1,4 @@
-Feature:(#6137) Browse Bettermeans only shows public and my private workstreams
+Feature:(#6137) Browse Bettermeans only shows public workstreams
 
 Background: 
   Given I am logged in
@@ -62,3 +62,21 @@ Scenario: It only shows the top 10 workstreams
   Given there are more than 10 workstreams available
   When I go to Browse Bettermeans
   Then I only see 10
+
+@ajax  
+Scenario: I cannot see any private workstreams when I load more
+  Given there are 10 workstreams available
+  And a private workstream that I do not belong to
+  And I belong to a private workstream
+  When I go to Browse Bettermeans
+  And I load more
+  And I wait until loaded
+  Then I only see 10
+
+@ajax  
+Scenario: I can see public workstreams when I load more
+  Given there are 11 workstreams available
+  When I go to Browse Bettermeans
+  And I load more
+  And I wait until loaded
+  Then I see 11
