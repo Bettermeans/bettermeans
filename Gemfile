@@ -17,7 +17,7 @@ gem 'will_paginate', "2.3.15"
 group :test do
   gem 'test-unit', '1.2.3'
   gem 'cucumber', '0.4.3'
-  gem 'webrat', '0.5.3'
+  gem 'webrat', '0.7.3'
   gem 'rspec', '1.2.9'
   gem 'rspec-core'
   gem 'rspec-rails', '1.2.9'
@@ -25,6 +25,7 @@ group :test do
   gem 'factory_girl', "1.3.3"
   gem 'object_daddy', "0.4.3"
   gem 'mocha', "0.9.12"
+  gem 'capybara-webkit', '0.1.1'
 end
 
 group :development do

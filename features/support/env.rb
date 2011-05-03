@@ -17,6 +17,10 @@ require 'cucumber/rails/rspec'
 require 'webrat'
 require 'webrat/core/matchers' 
 
+require "features/support/webkit_session"
+require "features/extensions/webrat.rb"
+require "features/extensions/capybara-webkit.rb"
+
 Webrat.configure do |config|
   config.mode = :rails
   config.open_error_files = true
@@ -28,6 +32,15 @@ Cucumber::Rails::World.class_eval do
     (@teardowns ||= []) << block
   end
 end
+
+Before do |scenario|
+  default_mode = :rails
+  
+  Webrat.configure do |config|
+    config.mode = scenario.source_tag_names.include?("@ajax") ? :webkit : default_mode
+    config.open_error_files = true
+  end
+end  
 
 After do
   unless skip_teardown? 
