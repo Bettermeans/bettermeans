@@ -202,28 +202,6 @@ class Project < ActiveRecord::Base
   def identifier_frozen?
     errors[:identifier].nil? && !(new_record? || identifier.blank?)
   end
-
-  # returns latest created projects
-  # non public projects will be returned only if user is a member of those
-  def self.latest(user=nil, count=10, root=false,offset=0)
-    if root
-      all_roots.find(
-        :all, 
-        :limit => count, 
-        :conditions => visible_by(user), 
-        :order => "created_at DESC", 
-        :offset => offset
-      )	
-    else
-      all_children.find(
-        :all, 
-        :limit => count, 
-        :conditions => visible_by(user), 
-        :order => "created_at DESC", 
-        :offset => offset
-      )	
-    end
-  end	
   
   def self.latest_public(count=10, offset=0)    
     filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " + 
