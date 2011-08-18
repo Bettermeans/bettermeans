@@ -1,6 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Shereef Bishay
-#
+# Copyright (C) 2006-2011  See readme for details and license#
 
 class Token < ActiveRecord::Base
   belongs_to :user
