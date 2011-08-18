@@ -92,18 +92,11 @@ To generate a pg_dump: pg_dump bettermeans_development -c -O -x -f db/pgdump.sql
 
 ----
 = License and legalese
-Code is copyright bettermeans, llc. All rights reserved.
 
-Our codebase is based largely on Redmine. Which is GPL licensed.
-However, bettermeans is not redistributing the code yet, and choosing not to open source the changes to it as they are privately hosted.
-Our hope is to eventually figure out a business model that can support our livelihood and open source the code. Until then we are keeping the codebase closed.
+Our codebase is based largely on an early fork of Redmine. 
 
-By accessing / contributing to this codebase, you agree to keep the code private to bettermeans, and to not share it in any way outside the context of bettermeans.
-
-You are also agreeing to working in bettermeans according to 
-these terms of use: http://bettermeans.com/front/user_agreement.html
-and operating agreement: http://bettermeans.com/front/open_enterprise_governance_model.html
-
-Please read them carefully. 
+Redmine is open source and released under the terms of the GNU General Public License v2 (GPL).
+All redmine code is Copyright (C) 2006-2011  Jean-Philippe Lang
+All non-redmine code is Copyright (C) Shereef Bishay
 
 Thanks for joining us! May our work be used for the greater good of everyone.

@@ -1,6 +1,5 @@
 # Redmine - project management software
-# Copyright (C) 2006-2009  Shereef Bishay
-#
+# Copyright (C) 2006-2011  See readme for details and license#
 
 module GroupsHelper
   # Options for the new membership projects combo-box
