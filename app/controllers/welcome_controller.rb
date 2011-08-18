@@ -9,8 +9,6 @@ class WelcomeController < ApplicationController
 
   def index
     # @news = News.latest User.current
-    # @projects = Project.latest User.current, 10, false
-    # @enterprises = Project.latest User.current, 10, true
     # @activities_by_item = ActivityStream.fetch(nil, nil, true, 50)    
     # @my_projects = User.current.projects
     @my_projects = User.current.recent_projects(10)

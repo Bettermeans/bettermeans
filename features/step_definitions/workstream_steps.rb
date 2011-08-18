@@ -8,7 +8,13 @@ Given /^a public workstream that I do not belong to$/ do
 end
 
 Given /^there are more than (\d+) workstreams available$/ do |count|
-  for i in 1..(count.to_i + 1) do
+  Given "there are #{count.to_i + 1} workstreams available"
+end
+
+Given /^there are (\d+) workstreams available$/ do |count|
+  Project.delete_all
+  
+  for i in 1..(count.to_i) do
     projects << new_public_project("[#{Time.now.to_i}] Workstream (#{i})")        
   end
 end
@@ -38,6 +44,11 @@ Given /^the anonymous user is a member$/ do
   add_as_member User.anonymous, projects.last
 end
 
+When /I load more/ do
+  @view.load_more_latest_public_workstreams  
+  @view.load_more_most_active_public_workstreams  
+end
+
 Then /^I see it$/ do; Then "it is visible"; end
 
 Then /^I do not see it$/ do; Then "it is not visible"; end
@@ -57,14 +68,14 @@ Then /^it does not show in the Latest Public Workstreams list$/ do
 end
 
 Then /^it shows in the Most Active Public Workstreams list$/ do
-  @view.latest_public_workstreams.should include @projects.last.name   
+  @view.most_active_public_workstreams.should include @projects.last.name   
 end
 
 Then /^it does not show in the Most Active Public Workstreams list$/ do
-  @view.latest_public_workstreams.should_not include @projects.last.name
+  @view.most_active_public_workstreams.should_not include @projects.last.name
 end
 
-Then /I only see (\d+)/ do |expected_count|
+Then /I(\sonly)? see (\d+)/ do |_,expected_count|
   @view.latest_public_workstreams.size.should eql expected_count.to_i
   @view.most_active_public_workstreams.size.should eql expected_count.to_i
 end
