@@ -1,6 +1,5 @@
 # BetterMeans - Work 2.0
-# Copyright (C) 2006  Shereef Bishay
-#
+# Copyright (C) 2006-2011  See readme for details and license#
 
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
