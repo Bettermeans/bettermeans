@@ -16,9 +16,9 @@ task :cron => :environment do
       Rake::Task['custom:deliver_daily_digest'].invoke
     end
 
-    if Time.now.hour == 17 || Time.now.hour == 9
-      Rake::Task['custom:deliver_personal_welcome'].invoke
-    end
+    # if Time.now.hour == 17 || Time.now.hour == 9
+    #   Rake::Task['custom:deliver_personal_welcome'].invoke
+    # end
 
     # # Credit distribution
     # last_distribution = CreditDistribution.first(:order => "updated_at DESC")
