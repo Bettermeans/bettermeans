@@ -60,6 +60,11 @@ All private workstreams are removed.
 All other the data in the dev database is real! Please respect our user's privacy, and use the data in the db only for development purposes. (goes without saying I know)
 ----
 
+= Translating
+
+You can find language specific translation groups at: https://www.transifex.net/projects/p/bettermeans
+----
+
 = Known issues
 
 Attachments doesn't work in dev environment
