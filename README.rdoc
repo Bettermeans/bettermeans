@@ -38,6 +38,8 @@ Currently this is 1.3.7.
 = Dev notes
 
 Platform workstream: http://bettermeans.com/projects/2/dashboard
+IRC: #bettermeans irc.feenode.net
+mailinglist: bettermeans@librelist.org (or build in workstream forum)
 
 We are working on using bundler to wrap up the dev environment. To learn more about it check it out here: http://gembundler.com/
 
