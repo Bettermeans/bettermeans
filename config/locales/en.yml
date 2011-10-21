@@ -8,12 +8,12 @@ en:
       short: "%b %d"
       long: "%B %d, %Y"
       
-    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
-    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    day_names: [Domingo, Segunda, Terça, Quarta, Quinta, Sexta, Sábado]
+    abbr_day_names: [Dom, Seg, Ter, Qua, Qui, Sex, Sáb]
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
-    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    month_names: [~, Janeiro, Fevereiro, Março, Abril, Maio, Junho, Julho, Agosto, Setembro, Outubro, Novembro, Dezembro]
+    abbr_month_names: [~, Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez]
     # Used in date_select and datime_select.
     order:
       - :year
@@ -31,37 +31,37 @@ en:
       
   datetime:
     distance_in_words:
-      half_a_minute: "half a minute"
+      half_a_minute: "meio minuto"
       less_than_x_seconds:
-        one:   "less than 1 second"
-        other: "less than {{count}} seconds"
+        one:   "menos de 1 segundo"
+        other: "menos de {{count}} segundos"
       x_seconds:
-        one:   "1 second"
-        other: "{{count}} seconds"
+        one:   "1 segundo"
+        other: "{{count}} segundos"
       less_than_x_minutes:
-        one:   "less than a minute"
-        other: "less than {{count}} minutes"
+        one:   "menos de um minuto"
+        other: "menos de {{count}} minutos"
       x_minutes:
-        one:   "1 minute"
-        other: "{{count}} minutes"
+        one:   "1 minuto"
+        other: "{{count}} minutos"
       about_x_hours:
-        one:   "about 1 hour"
-        other: "about {{count}} hours"
+        one:   "cerca de 1 hora"
+        other: "cerca de {{count}} horas"
       x_days:
-        one:   "1 day"
-        other: "{{count}} days"
+        one:   "1 dia"
+        other: "{{count}} dias"
       about_x_months:
-        one:   "about 1 month"
-        other: "about {{count}} months"
+        one:   "cerca de 1 mês"
+        other: "cerca de {{count}} meses"
       x_months:
-        one:   "1 month"
-        other: "{{count}} months"
+        one:   "1 mês"
+        other: "{{count}} meses"
       about_x_years:
-        one:   "about 1 year"
-        other: "about {{count}} years"
+        one:   "cerca de 1 ano"
+        other: "cerca de {{count}} anos"
       over_x_years:
-        one:   "over 1 year"
-        other: "over {{count}} years"
+        one:   "mais de 1 ano"
+        other: "mais de {{count}} anos"
 
   number:
     human:
@@ -83,22 +83,22 @@ en:
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
+      sentence_connector: "e"
       skip_last_comma: false
       
   activerecord:
     errors:
       messages:
-        inclusion: "is not included in the list"
-        exclusion: "is reserved"
-        invalid: "is invalid"
-        confirmation: "doesn't match confirmation"
-        accepted: "must be accepted"
-        empty: "can't be empty"
-        blank: "can't be blank"
-        too_long: "is too long (maximum is {{count}} characters)"
-        too_short: "is too short (minimum is {{count}} characters)"
-        wrong_length: "is the wrong length (should be {{count}} characters)"
+        inclusion: "não está incluído na lista"
+        exclusion: "está reservado"
+        invalid: "é inválido"
+        confirmation: "não se confirma"
+        accepted: "deve ser aceite"
+        empty: "não pode ser vazio"
+        blank: "não pode ser em branco"
+        too_long: "é muito comprido (o máximo é {{count}} caracteres)"
+        too_short: "é demasiado curto (mínimo é {{count}} caracteres)"
+        wrong_length: "é de comprimento errado (deve ser {{count}} caracteres)"
         taken: "has already been taken"
         not_a_number: "is not a number"
         not_a_date: "is not a valid date"
@@ -115,19 +115,19 @@ en:
 
   actionview_instancetag_blank_option: Please select
   
-  general_text_No: 'No'
-  general_text_Yes: 'Yes'
-  general_text_no: 'no'
-  general_text_yes: 'yes'
-  general_lang_name: 'English'
+  general_text_No: 'Não'
+  general_text_Yes: 'Sim'
+  general_text_no: 'não'
+  general_text_yes: 'sim'
+  general_lang_name: 'Português'
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '7'
   
-  notice_account_reactivated: Your account has been reactivated.<br> Welcome back!<br><br> <a href="/">Home</a>
-  notice_account_canceled: Your account is now canceled. Thanks for trying us out.<br><br>We would love your feedback on how we can do better.<br><br><a href="mailto:feedback@bettermeans.com">feedback@bettermeans.com</a>
+  notice_account_reactivated: A sua conta foi reactivada.<br> Bem-vindo!<br><br> <a href="/">Home</a>
+  notice_account_canceled: A usa conta foi cancelada. Obrigado por ter tenatdo connosco.<br><br>Gostaríamos de ter os seus comentários relativamente ao que podemos melhorar.<br><br><a href="mailto:feedback@bettermeans.com">feedback@bettermeans.com</a>
   notice_account_inactive_user: Account has not yet been activated. Please check your email for activation link
   notice_account_updated: Account was successfully updated.
   notice_account_invalid_creditentials: Invalid user or password
@@ -138,15 +138,15 @@ en:
   notice_can_t_change_password: This account uses an external authentication source. Impossible to change the password.
   notice_account_lost_email_sent: An email with instructions to choose a new password has been sent to you.
   notice_account_activated: Your account has been activated. You can now log in.
-  notice_successful_create: Successful creation.
-  notice_successful_update: Successful update.
-  notice_successful_delete: Successful deletion.
-  notice_successful_connection: Successful connection.
+  notice_successful_create: Criação bem sucedida.
+  notice_successful_update: Actualização bem sucedida.
+  notice_successful_delete: Eliminação bem sucedida.
+  notice_successful_connection: Conexão bem sucedida.
   notice_file_not_found: The page you were trying to access doesn't exist or has been removed.
   notice_locking_conflict: Data has been updated by another user.
   notice_not_authorized: You are not authorized to access this page.
-  notice_email_sent: "An email was sent to {{value}}"
-  notice_email_error: "An error occurred while sending mail ({{value}})"
+  notice_email_sent: "Um email foi enviado para {{value}}"
+  notice_email_error: "Um erro ocorreu ao enviar correio ({{value}})"
   notice_feeds_access_key_reseted: Your RSS access key was reset.
   notice_failed_to_save_issues: "Failed to save {{count}} item(s) on {{total}} selected: {{ids}}."
   notice_no_issue_selected: "No item is selected! Please, check the items you want to edit."
@@ -163,20 +163,20 @@ en:
   error_no_tracker_in_project: 'No issue type is associated to this workstream. Please check the Workstream settings.'
   error_no_default_issue_status: 'No default item status is defined. Please check your configuration (Go to "Administration -> Item statuses").'
   error_can_not_reopen_issue_on_closed_version: 'An item assigned to a closed deliverable can not be reopened'
-  error_can_not_archive_project: This project can not be archived
+  error_can_not_archive_project: Este projecto não pode ser arquivado
   error_issue_done_ratios_not_updated: "Issue done ratios not updated."
   error_workflow_copy_source: 'Please select a source tracker or role'
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
-  error_general: 'Something went wrong.'
+  error_general: 'Alguma coisa correu mal.'
   
   warning_attachments_not_saved: "{{count}} file(s) could not be saved."
   
-  mail_subject_lost_password: "Your {{value}} password"
-  mail_body_lost_password: 'To change your password, click on the following link:'
+  mail_subject_lost_password: "A sua {{value}} palavra-chave"
+  mail_body_lost_password: 'Para alterar a sua palavra-chave, click na ligação abaixo:'
   mail_subject_register: "Your {{value}} account activation"
   mail_body_register: 'To activate your account, click on the following link:'
   mail_body_account_information_external: "You can use your {{value}} account to log in."
-  mail_body_account_information: Your account information
+  mail_body_account_information: Informação da sua conta
   mail_subject_account_activation_request: "{{value}} account activation request"
   mail_subject_email_update_activation: "{{value}} new email activation"
   mail_body_account_activation_request: "A new user ({{value}}) has registered. The account is pending your approval:"
@@ -185,7 +185,7 @@ en:
   mail_subject_wiki_content_added: "'{{page}}' wiki page has been added"
   mail_body_wiki_content_added: "The '{{page}}' wiki page has been added by {{author}}."
   mail_subject_wiki_content_updated: "'{{page}}' wiki page has been updated"
-  mail_body_wiki_content_updated: "The '{{page}}' wiki page has been updated by {{author}}."
+  mail_body_wiki_content_updated: "A página wiki '{{page}}' foi actualizada por {{author}}."
   
   gui_validation_error: 1 error
   gui_validation_error_plural: "{{count}} errors"
