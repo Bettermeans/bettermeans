@@ -39,6 +39,11 @@ Currently this is 1.3.7.
 
 Platform workstream: http://bettermeans.com/projects/2/dashboard
 
+IRC: #bettermeans irc.feenode.net
+
+mailinglist: bettermeans@librelist.org (or build in workstream forum)
+
+
 We are working on using bundler to wrap up the dev environment. To learn more about it check it out here: http://gembundler.com/
 
 Our tests are broken. Help us write great tests and catch up on our testing environment!
@@ -53,6 +58,11 @@ All passwords in included dev db are set to: "password"
 All private workstreams are removed.
 
 All other the data in the dev database is real! Please respect our user's privacy, and use the data in the db only for development purposes. (goes without saying I know)
+----
+
+= Translating
+
+You can find language specific translation groups at: https://www.transifex.net/projects/p/bettermeans
 ----
 
 = Known issues
