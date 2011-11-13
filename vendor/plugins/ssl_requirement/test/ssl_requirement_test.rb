@@ -46,7 +46,7 @@ class SslRequirementController < ActionController::Base
   end
   
   def set_flash
-    flash.now[:foo] = "bar"
+    flash[:foo] = "bar"
   end
 end
 
@@ -61,14 +61,14 @@ class SslRequirementTest < Test::Unit::TestCase
     get :set_flash
     get :b
     assert_response :redirect
-    assert_equal "bar", flash.now[:foo]
+    assert_equal "bar", flash[:foo]
   end
   
   def test_not_redirecting_to_https_does_not_preserve_the_flash
     get :set_flash
     get :d
     assert_response :success
-    assert_nil flash.now[:foo]
+    assert_nil flash[:foo]
   end
   
   def test_redirect_to_http_preserves_flash
@@ -76,7 +76,7 @@ class SslRequirementTest < Test::Unit::TestCase
     @request.env['HTTPS'] = "on"
     get :d
     assert_response :redirect
-    assert_equal "bar", flash.now[:foo]
+    assert_equal "bar", flash[:foo]
   end
   
   def test_not_redirecting_to_http_does_not_preserve_the_flash
@@ -84,7 +84,7 @@ class SslRequirementTest < Test::Unit::TestCase
     @request.env['HTTPS'] = "on"
     get :a
     assert_response :success
-    assert_nil flash.now[:foo]
+    assert_nil flash[:foo]
   end
   
   def test_required_without_ssl
