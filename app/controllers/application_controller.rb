@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
   before_filter :set_user_ip
   
   include SslRequirement
+  # don't require ssl in development
+  skip_before_filter :ensure_proper_protocol if Rails.env.development?
 
   layout 'gooey'
   
@@ -48,13 +50,7 @@ class ApplicationController < ActionController::Base
     # Find the current user
     User.current = find_current_user
   end
-  
-  def ssl_required?
-    # return false
-    return false if local_request? || RAILS_ENV == 'test' || RAILS_ENV == 'development'
-    super
-  end
-  
+ 
   def redirect_with_flash(flash_type,msg,*params)
     flash[flash_type] = msg
     redirect_to(*params)
