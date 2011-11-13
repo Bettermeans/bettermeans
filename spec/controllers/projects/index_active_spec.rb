@@ -5,6 +5,7 @@ describe ProjectsController,"#index_active" do
     login
     controller.stub(:respond_to)
     controller.params[:offset] = 5
+    @request.env['HTTPS'] = 'on'
   end
   
   it "finds the 10 most active public workstreams only" do             
