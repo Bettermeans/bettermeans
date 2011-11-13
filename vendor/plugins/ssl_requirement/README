@@ -35,15 +35,6 @@ Example:
 You can overwrite the protected method ssl_required? to rely on other things
 than just the declarative specification. Say, only premium accounts get SSL.
 
-For SSL domains that differ from the domain of the redirecting site, add the 
-following code to development.rb / test.rb / production.rb:
-
-# Redirects to https://secure.example.com instead of the default 
-# https://www.example.com.
-config.after_initialize do
-  SslRequirement.ssl_host = 'secure.example.com'
-end
-
 P.S.: Beware when you include the SslRequirement module. At the time of
 inclusion, it'll add the before_filter that validates the declarations. Some
 times you'll want to run other before_filters before that. They should then be
