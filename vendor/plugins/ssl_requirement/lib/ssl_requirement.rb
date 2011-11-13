@@ -19,12 +19,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 module SslRequirement
-  mattr_reader :ssl_host
-  
-  def self.ssl_host=(host)
-    @@ssl_host = host
-  end
-  
   def self.included(controller)
     controller.extend(ClassMethods)
     controller.before_filter(:ensure_proper_protocol)
@@ -53,14 +47,19 @@ module SslRequirement
 
   private
     def ensure_proper_protocol
+      # return true
       return true if ssl_allowed?
 
-      if ssl_required? && !request.ssl?
-        redirect_to "https://" + (ssl_host || request.host) + request.request_uri
+      if ssl_required? && (!request.ssl? || request.host_with_port != "secure.bettermeans.com")
+        new_url = "secure.bettermeans.com" + request.request_uri
+        old_url = request.host_with_port + request.request_uri
+        redirect_to "https://" + new_url if new_url != old_url
         flash.keep
         return false
       elsif request.ssl? && !ssl_required?
-        redirect_to "http://" + request.host + request.request_uri
+        new_url = "http://bettermeans.com" + request.request_uri
+        old_url = "http://" + request.host_with_port + request.request_uri
+        redirect_to new_url if new_url != old_url
         flash.keep
         return false
       end
