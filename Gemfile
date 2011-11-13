@@ -13,6 +13,7 @@ gem 'fastercsv', '1.5.4'
 gem 'SystemTimer', '1.2.2', :require => 'system_timer', :platforms => :ruby_18
 gem 'rack-timeout', '0.0.1'
 gem 'will_paginate', '2.3.15'
+gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
 
 group :test do
   gem 'test-unit', '1.2.3'

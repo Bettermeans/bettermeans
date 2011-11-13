@@ -3,6 +3,7 @@ require 'spec_helper'
 describe ProjectsController do
   before(:each) do
     login
+    @request.env['HTTPS'] = 'on'
     User.stub_chain(:current, :allowed_to?).and_return true
     @root = Factory.create(:project, :name => 'root')
     @parent = Factory.create(:project, :name => 'parent')

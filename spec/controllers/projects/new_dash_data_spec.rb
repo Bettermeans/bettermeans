@@ -3,6 +3,7 @@ require 'spec_helper'
 describe ProjectsController,"#new_dash_data" do
   before :each do
     login
+    @request.env['HTTPS'] = 'on'
     
     controller.stub(:respond_to)
     controller.params[:offset] = 5

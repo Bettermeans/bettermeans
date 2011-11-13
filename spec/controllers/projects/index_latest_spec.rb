@@ -3,6 +3,7 @@ require 'spec_helper'
 describe ProjectsController,"#index_latest" do
   before :each do
     login
+    @request.env['HTTPS'] = 'on'
     controller.stub(:respond_to) # TODO: pretty lame to have to do this. Hidden collaborators.
     controller.params[:offset] = 5
   end
