@@ -3291,7 +3291,7 @@ function generate_complexity_row(){
 	html = html + '	                </td>';
 	html = html + '	                <td class="gt-SdLabelIcon" colspan="1">';
 	html = html + '	                  <div class="gt-SdLabelIcon">';
-	html = html + '	                    <img src="/images/dice_NO.png" id="new_story_type_image" name="new_story_type_image">';
+	html = html + '	                    <img src="/images/dice_No.png" id="new_story_type_image" name="new_story_type_image">';
 	html = html + '	                  </div>';
 	html = html + '	                </td>';
 	html = html + '	                <td class="helpIcon lastCell" colspan="1">';
