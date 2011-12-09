@@ -48,6 +48,9 @@ We are working on using bundler to wrap up the dev environment. To learn more ab
 
 Our tests are broken. Help us write great tests and catch up on our testing environment!
 
+== Testing
+
+capybara-webkit depends on a WebKit implementation from Qt as explained in https://github.com/thoughtbot/capybara-webkit/wiki/Installing-QT
 
 == Dev database
 
