@@ -110,6 +110,6 @@ Our codebase is based largely on an early fork of Redmine.
 
 Redmine is open source and released under the terms of the GNU General Public License v2 (GPL).
 All redmine code is Copyright (C) 2006-2011  Jean-Philippe Lang
-All non-redmine code is Copyright (C) Shereef Bishay
+All non-redmine code is Copyright (C) Shereef Bishay, and is dual-licensed: you may use either the GNU General Public License v2 (GPL), or the MIT License (see http://www.opensource.org/licenses/mit-license.php).
 
 Thanks for joining us! May our work be used for the greater good of everyone.
