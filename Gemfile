@@ -1,6 +1,8 @@
 source :gemcutter
 
 gem 'rails', '~> 2.3.5'
+gem 'mysql'
+
 
 gem 'ruby-debug', '0.10.4'
 gem 'rubytree', '0.7.0'
@@ -32,5 +34,5 @@ end
 group :development do
   gem 'sqlite3-ruby', :require => 'sqlite3'
   gem 'pg'
-  gem 'mysql2'
+
 end
