@@ -28,5 +28,4 @@ serverlog
 .DS_Store
 *.swp
 *.swo
-.rvmrc
 .redcar/
