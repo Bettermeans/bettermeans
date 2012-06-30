@@ -26,7 +26,7 @@ group :test do
   gem 'factory_girl', "1.3.3"
   gem 'object_daddy', "0.4.3"
   gem 'mocha', "0.9.12"
-  gem 'capybara-webkit', '0.1.1'
+  gem 'capybara-webkit'
 end
 
 group :development do
