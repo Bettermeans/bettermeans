@@ -8,7 +8,7 @@ gem 'rpx_now', '0.6.24'
 gem 'recurly', '0.3.3'
 gem 'fleximage', '1.0.4'
 gem 'reportable', '1.1.2'
-gem 'comma'#, :require => 'comma', :git => 'https://github.com/crafterm/comma.git'
+gem 'comma', :git => 'https://github.com/crafterm/comma.git', :ref => 'rails2'
 gem 'fastercsv', '1.5.4'
 gem 'SystemTimer', '1.2.2', :require => 'system_timer', :platforms => :ruby_18
 gem 'rack-timeout', '0.0.1'
@@ -32,5 +32,5 @@ end
 group :development do
   gem 'sqlite3-ruby', :require => 'sqlite3'
   gem 'pg'
-  gem 'mysql2'
+  gem 'mysql2', :git => 'https://github.com/brianmario/mysql2.git', :ref => '0.2.x'
 end
