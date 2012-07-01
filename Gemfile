@@ -1,5 +1,7 @@
 source :gemcutter
 
+gem 'rake', '0.8.7'
+
 gem 'rails', '2.3.5'
 
 gem 'ruby-debug', '0.10.4'
