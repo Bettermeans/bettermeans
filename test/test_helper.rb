@@ -2,13 +2,14 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 ENV["RAILS_ENV"] ||= "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+require File.expand_path(File.dirname(__FILE__) + "/../config/environment.rb")
 require 'test_help'
-require File.expand_path(File.dirname(__FILE__) + '/helper_testcase')
+require File.expand_path(File.dirname(__FILE__) + '/helper_testcase.rb')
 require File.join(RAILS_ROOT,'test', 'mocks', 'open_id_authentication_mock.rb')
 
-require File.expand_path(File.dirname(__FILE__) + '/object_daddy_helpers')
+require File.expand_path(File.dirname(__FILE__) + '/object_daddy_helpers.rb')
 include ObjectDaddyHelpers
+require 'shoulda'
 
 class ActiveSupport::TestCase
   # Transactional fixtures accelerate your tests by wrapping each test method

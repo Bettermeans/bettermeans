@@ -670,7 +670,7 @@ class ProjectsControllerTest < ActionController::TestCase
     assert_template 'show'
   end
 
-
+=begin
   # A hook that is manually registered later
   class ProjectBasedTemplate < Redmine::Hook::ViewListener
     def view_layouts_base_html_head(context)
@@ -689,4 +689,5 @@ class ProjectsControllerTest < ActionController::TestCase
     
     Redmine::Hook.clear_listeners
   end
+=end
 end
