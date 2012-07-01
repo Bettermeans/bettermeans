@@ -1,7 +1,7 @@
 # BetterMeans - Work 2.0
 # Copyright (C) 2006-2011  See readme for details and license#
 
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../test_helper.rb'
 
 class UserTest < ActiveSupport::TestCase
   fixtures :users, :members, :projects, :roles, :member_roles
@@ -113,7 +113,7 @@ class UserTest < ActiveSupport::TestCase
     assert_kind_of AnonymousUser, anon
   end
 
-  should_have_one :rss_token
+  #should_have_one :rss_token
 
   def test_rss_key
     assert_nil @jsmith.rss_token
@@ -125,7 +125,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   
-  should_have_one :api_token
+  #should_have_one :api_token
 
   context "User#api_key" do
     should "generate a new one if the user doesn't have one" do
