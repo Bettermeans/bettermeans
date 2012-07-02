@@ -5,7 +5,6 @@
 <title><%=h html_title %></title>
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
 <meta name="keywords" content="issue,bug,tracker" />
-<%#= stylesheet_link_tag 'application', :media => 'all' %>
 <%= stylesheet_link_tag 'reset-fonts' %>
 <%= stylesheet_link_tag 'gt-styles' %>
 <%= stylesheet_link_tag 'jquery.fancybox-1.3.4' %>
@@ -14,13 +13,11 @@
 <%= stylesheet_link_tag 'issue' %>
 <%= stylesheet_link_tag 'jquery.fileupload-ui' %>
 <%= stylesheet_link_tag 'jquery.tagsinput' %>
-<%#= stylesheet_link_tag 'jquery.ui.autocomplete' %>
 
 <style type="text/css">
   body {   background:none;   }
   html {
     background-color: #e2eaee;
-/*    background-color: #F9FCE2;*/
   }
 </style>
 
@@ -31,7 +28,6 @@
 
 
 <%= javascript_include_tag :defaults %>
-<%#= javascript_include_tag  'jquery-ui-1.8.8.custom.min' %>
 <%= javascript_include_tag  'jquery.jgrowl_minimized.js' %>
 <%= javascript_include_tag  'jquery.scrollTo-min' %>
 <%= javascript_include_tag  'jquery.fancybox-1.3.4.pack' %>
@@ -42,7 +38,6 @@
 <%= javascript_include_tag 'jquery.fileupload-ui.js' %>
 <%= javascript_include_tag  'jquery.tagsinput.js' %>
 
-<%#= javascript_include_tag 'issue' %>
 <!--[if IE]>
     <style type="text/css">
       * html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }

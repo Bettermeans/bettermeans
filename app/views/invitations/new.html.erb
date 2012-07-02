@@ -18,7 +18,6 @@
 
   <%= observe_field(:invitation_role_id, :frequency => 0.25, :function => "update_description();") %>
 
-  <%#= select(:invitation, :role_id, @roles.collect{|role| [role.name, role.id]}, :selected => Role.contributor.id) %>
   <div class="gt-content-box padded" id="role-description">
   </div>
 
@@ -51,8 +50,6 @@
   </ul>
 </div>
 <% end %>
-
-<%#= link_to 'Back', invitations_path %>
 
 <script type="text/javascript">
   <% @roles.each do |r| %>

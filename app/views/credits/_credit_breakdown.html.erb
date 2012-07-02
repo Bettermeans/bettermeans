@@ -13,7 +13,6 @@ group_credits.keys.sort.each do |owner_id|
   total_amount = group_credits[owner_id].collect(&:amount).sum.round.to_i
   percentage_points = total_points == 0 ? 0  : (total_amount / total_points * 100).round_to(1).to_i
   pie_data << percentage_points.round.to_i
-#  pie_labels << User.find(owner_id).login + " #{number_to_currency total_amount, :unit => '$', :separator => ".", :delimiter => ",", :precision => 0}(#{percentage_points})%"
   pie_labels << User.find(owner_id).firstname + " #{number_to_currency total_amount, :unit => unit, :separator => ".", :delimiter => ",", :precision => 0}"
 end
  %>
@@ -23,6 +22,4 @@ end
                 :data => pie_data, :labels => pie_labels )
   %>"/>
 
-
-<%#= credits_group.each_value {|credits| total_points += credits.collect(&:points).sum }%>
 </div>

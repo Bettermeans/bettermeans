@@ -4,7 +4,7 @@
 <ul>
 <% for membership in @memberships %>
   <li><%= link_to(h(membership.project.name_with_ancestors), :controller => 'projects', :action => 'show', :id => membership.project) %><%= volunteering membership.project %><%= privacy membership.project %>&nbsp;
-   <%=h membership.roles.sort.collect(&:to_s).join(', ') %><%#= format_date(membership.created_at) %></li>
+   <%=h membership.roles.sort.collect(&:to_s).join(', ') %></li>
 <% end %>
 </ul>
 </div>

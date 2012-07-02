@@ -117,12 +117,6 @@
     </div>
 </div>
 
-
-<%# other_formats_links do |f| %>
-  <%#= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-  <%#= f.link_to 'PDF' %>
-<%# end %>
-
 <% if authorize_for('issues', 'edit') %>
   <div id="update" style="display:none;">
   <h3><%= l(:button_update) %></h3>
@@ -134,7 +128,6 @@
 <% html_title "##{@issue.id}: #{@issue.subject}" %>
 
 <% content_for :header_tags do %>
-    <%#= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>
     <%= stylesheet_link_tag 'scm' %>
 <% end %>
 

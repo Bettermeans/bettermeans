@@ -1,9 +1,6 @@
 <%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "issue_description"); return false;', :class => 'icon icon-edit action-state-button', :accesskey => accesskey(:edit)) if @issue.editable? %>
 <%= link_to_if_anon(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'ask_for_login(); return false;', :class => 'icon icon-edit action-state-button', :accesskey => accesskey(:edit)) %>
 <%= link_to(l(:button_dashboard), {:controller => 'projects', :action => 'dashboard', :id => @issue.project_id}, :class => 'icon icon-dashboard  action-state-button') %>
-<%#= link_to_if_authorized l(:button_duplicate), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-duplicate' %>
-<%#= link_to_if_authorized l(:button_copy), {:controller => 'issues', :action => 'move', :id => @issue, :copy_options => {:copy => 't'} }, :class => 'icon icon-copy' %>
 <%= link_to_if_authorized l(:button_move), {:controller => 'issues', :action => 'move', :id => @issue }, :class => 'icon icon-move action-state-button', :target => '_top' %>
-<%#= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
 <% replace_watcher ||= 'watcher' %>
 <%= watcher_tag(@issue, User.current, {:id => replace_watcher, :replace => ['watcher','watcher2']}) %>
