@@ -13,6 +13,7 @@ task :cleanup do
     rake
     rb
     rhtml
+    rjs
     rxml
     scss
     js
