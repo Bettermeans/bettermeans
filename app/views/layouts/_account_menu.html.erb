@@ -2,10 +2,6 @@
 <%= render :partial => "notifications/unresponded" %>
   <%= link_to_user(User.current, :format => :username) %>
   <span class="gt-util-separator">|</span>
-  <%#= link_to "home", :home %>
-  <!-- <span class="gt-util-separator">|</span> -->
-  <!-- <%#= link_to "my page", {:controller => :my, :action => :page} %>
-  <span class="gt-util-separator">|</span> -->
   <%= link_to "account", {:controller => :my, :action => :account} %>
   <span class="gt-util-separator">|</span>
   <%= link_to "sign out", :signout %>
@@ -18,11 +14,3 @@
 <% end %>
 <span class="gt-util-separator">|</span>
 <a href="http://help.bettermeans.com" target="blank">help</a>
-
-
-<!--
-  menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_enterprise_plural
-  menu.push :activity, { :controller => 'activity', :action => 'index' }
-  menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
-  #menu.push :help, Redmine::Info.help_url, :last => true
-end -->

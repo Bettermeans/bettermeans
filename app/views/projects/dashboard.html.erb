@@ -22,10 +22,8 @@
 </div>
 <![endif]-->
 
-<!-- <div style="background-color:#fff" id="dash_main"> -->
 <div id="dash_main">
   <%= help_section("project_dashboard",true) %>
-<!-- todo: do we need this link? -->
 <div id='loading' class='loading'>
   <%= l(:text_loading_dashboard) %>
 </div>
@@ -323,7 +321,6 @@
      <img src="/images/gift_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Gift<br>
      <img src="/images/expense_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Expense<br>
      <img src="/images/recurring_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Recurring<br>
-     <!-- <img src="/images/hourly_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;<br> -->
      <br><strong>Estimation</strong><br>
      <img src="/images/dice_No.png" class="storyPoints hoverDiceIcon">&nbsp;Estimate needed<br>
      <img src="/images/dice_4.png" class="storyPoints hoverDiceIcon">&nbsp;Average estimate<br>
@@ -370,12 +367,5 @@
 </div>
 
 <% content_for :footer do %>
-<!-- footer -->
-<!-- <div class="gt-footer">
-  <div class="gt-footer-inner">
-  <p>Powered by <a href="http://BetterMeans.com" target="new">BetterMeans.com</a> <%#= Date.today.year %>  <a href="http://creativecommons.org/licenses/by-sa/3.0/" target="new">[cc] CreativeCommons Attribution-Share Alike</a></p>
-  </div>
-</div> -->
-<!-- /footer -->
 
 <% end %>

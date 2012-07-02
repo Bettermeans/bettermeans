@@ -146,23 +146,12 @@
     </tr>
     <% end %>
 
-    <!-- <form action="index.html" method="POST">
-    <p class="main">
-      <label>Username: </label>
-      <input gtbfieldid="1" name="username" value="username">
-      <label>Password: </label>
-      <input name="password" value="asdf1234" type="password">
-    </p> -->
-
     <p class="space">
       <% if Setting.autologin? %>
       <span><label for="autologin"><%= check_box_tag 'autologin', 1, false, :tabindex => 4 %> <%= l(:label_stay_logged_in) %></label>
         <input type="submit" name="login" class="login" value="<%=l(:button_login)%> &#187;" tabindex="5"/>
       </span>
       <% end %>
-
-      <%# if Setting.lost_password? %>
-      <%# end %>
     </p>
 
     <%= link_to l(:label_register), { :controller => 'account', :action => 'register' }, :class => "lost" %>

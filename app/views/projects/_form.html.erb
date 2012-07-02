@@ -2,7 +2,6 @@
 <% include_modules ||= false %>
 
 <div class="gt-content-box">
-<!--[form:project]-->
 <%= hidden_field_tag 'parent_id', params[:parent_id]%>
 
 <% unless @parent.nil? %>
@@ -93,4 +92,3 @@
     });
   });
 </script>
-<!--[eoform:project]-->

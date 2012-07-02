@@ -1,4 +1,3 @@
-<%# @page_header_name = "Account" %>
 <% content_for :mainmenu do %>
   <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :myaccount} %>
 <% end %>
@@ -61,11 +60,10 @@
 <h3><%=l(:label_preferences)%></h3>
 <div class="gt-content-box tabular">
 <% fields_for :pref, @user.pref, :builder => TabularFormBuilder, :lang => current_language do |pref_fields| %>
-<p><%#= pref_fields.check_box :hide_mail %></p>
+<p></p>
 <p><label><%= check_box_tag 'pref[hide_mail]', 1, @user.pref[:hide_mail] %> <%= l(:field_hide_mail) %></label></p>
 <p><label><%= check_box_tag 'pref[active_only_jumps]', 1, @user.pref[:active_only_jumps] %> <%= l(:field_active_only_jumps) %></label></p>
 <p><%= pref_fields.select :time_zone, ActiveSupport::TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :include_blank => true %></p>
-<!-- <p><%#= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']] %></p> -->
 <% end %>
 <div class="gt-table-buttons-inside">
 <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>

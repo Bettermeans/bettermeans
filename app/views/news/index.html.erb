@@ -41,7 +41,6 @@
     <%= textilizable(news.description) %>
   </td>
   <td>
-    <!-- Categories Sub Table -->
     <table border="0" class="gt-table-categories">
       <tr>
         <td><%= link_to_user_from_id(news.author) %></td>
@@ -56,10 +55,9 @@
 <% end %>
   </tbody>
 </table>
-<!-- Table Controls -->
 <div class="gt-table-controls gt-table-controls-btm clearfix">
   <p class="gt-table-pager"><%= pagination_links_full @news_pages %></p>
-</div><!-- /Table Controls -->
+</div>
 <% end %>
 </div>
 

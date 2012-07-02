@@ -39,11 +39,9 @@
     <td class="side">
       <table border="0" class="gt-table-categories">
         <tr>
-          <!-- <th>Repeated:</th> -->
           <td><%= link_to_user(@news.author) %></td>
         </tr>
         <tr>
-          <!-- <th>Logged time:</th> -->
           <td><%= since_tag(@news.created_at) %> ago</td>
         </tr>
       </table>
@@ -77,11 +75,9 @@
      <td class="side">
        <table border="0" class="gt-table-categories">
          <tr>
-           <!-- <th>Repeated:</th> -->
            <td><%= link_to_user(comment.author) %></td>
          </tr>
          <tr>
-           <!-- <th>Logged time:</th> -->
            <td><%= since_tag(comment.created_at) %> ago</td>
          </tr>
         <tr><td>

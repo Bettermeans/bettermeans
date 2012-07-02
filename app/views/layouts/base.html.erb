@@ -20,7 +20,7 @@
 
 <%= javascript_include_tag :defaults %>
 <%#= javascript_include_tag  'jquery-ui-1.8.8.custom.min' %>
-<%= javascript_include_tag  'jquery.jgrowl_minimized.js' %> <!-- TODO: include this in defaults -->
+<%= javascript_include_tag  'jquery.jgrowl_minimized.js' %>
 <%= javascript_include_tag  'jquery.scrollTo-min' %>
 <%= javascript_include_tag  'jquery.fancybox-1.3.4.pack' %>
 <%= javascript_include_tag  'jquery.sparkline.min' %>
@@ -31,7 +31,6 @@
       body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
     </style>
 <![endif]-->
-<!-- page specific tags -->
 <%= yield :header_tags -%>
 </head>
 <body>

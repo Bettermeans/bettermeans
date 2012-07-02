@@ -23,7 +23,6 @@
 <% end %>
 
     <h2><%=h @topic.subject %></h2>
-    <!-- <p><span class="author"><%#= authoring @topic.created_at, @topic.author %></span></p> -->
 
 <div class="message gt-content-box" id="top">
 <table class="gt-table gt-user-table" border="0">
@@ -41,11 +40,9 @@
     <td class="side">
       <table border="0" class="gt-table-categories">
         <tr>
-          <!-- <th>Repeated:</th> -->
           <td><%= link_to_user(@topic.author) %></td>
         </tr>
         <tr>
-          <!-- <th>Logged time:</th> -->
           <td><%= since_tag(@topic.created_at) %> ago</td>
         </tr>
       </table>
@@ -73,8 +70,6 @@
            <div class="message reply" id="<%= "message-#{message.id}" %>">
            <h4>
              <%= link_to h(message.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :anchor => "message-#{message.id}" } %>
-
-             <%#= authoring message.created_at, message.author %>
            </h4>
            <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
            <%= link_to_attachments message, :author => false %>
@@ -84,11 +79,9 @@
          <td class="side">
            <table border="0" class="gt-table-categories">
              <tr>
-               <!-- <th>Repeated:</th> -->
                <td><%= link_to_user(message.author) %></td>
              </tr>
              <tr>
-               <!-- <th>Logged time:</th> -->
                <td><%= since_tag(message.created_at) %> ago</td>
              </tr>
             <tr><td>

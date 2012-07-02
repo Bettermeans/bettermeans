@@ -9,7 +9,6 @@
 <div class="user_retrospective gt-content-box">
   <table class="retrospective">
     <tr><td class="avatar">
-      <!-- </td><td class="name"> -->
     </td><td class="title">
     </td><td class="title private hidden">&nbsp;&nbsp;&nbsp;&nbsp;Your <%= help_bubble :help_your_assessment %><br>assessment
     </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Team's<%= help_bubble :help_team_assessment %><br>assessment
@@ -23,13 +22,11 @@
   @user_retro_hash.each do |x|
     user_id = x[0]
     user_retro = x[1]
-    # user_retro = @user_retro_hash[user_id]
 %>
   <tr><td class="avatar">
     <%= avatar_from_id(user_id) %><br>
     <%= link_to_user_from_id(user_id) %>
 
-    <!-- </td><td class="name"> -->
   </td><td class="stats">
     <strong><%= user_retro["total_points"].round %> credits (<%= user_retro["percentage_points"] %>%)</strong> <br>
     <%= user_retro["total_ideas"] %> ideas <br>
@@ -93,10 +90,6 @@
       <%= render :partial => "issue_details", :locals => { :issue => issue } %>
     <% end %>
     </table>
-    <!-- <br> -->
-    <%# user_retro["journals"].each do |journal| %>
-    <%#= journal.inspect %>
-    <%# end %>
     <br>
   </div>
 
@@ -104,7 +97,6 @@
 
 
 <% content_for :sidebar do %>
-<!-- <h3><%#= l(:label_activity) %></h3> -->
 <br><br>
 <div style="overflow-x:auto;" align="center" class="gt-content-box">
   <% @chart_width = @point_totals.length*70 + 50

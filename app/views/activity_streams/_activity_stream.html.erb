@@ -21,7 +21,6 @@
       <table class="gt-table gt-user-table activity-item">
         <tbody>
           <tr>
-            <!-- <td class="<%#= as.object_type.downcase %> border">&nbsp;</td> -->
             <td class="long-words">
               <h5 class="<%= as.object_type.downcase %> border"><%= link_to title_for_activity_stream(as) , url_for_activity_stream(as), :class => class_for_activity_stream(as) %></h5>
               <span>
@@ -33,9 +32,7 @@
       </table>
 <div class="activity-tag">
 &nbsp;&nbsp;<%= since_tag(as.created_at) %> ago in
-<%# if @project.nil? || @project.id != as.project_id %>
-  <%= link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %>
-<%# end %>
+<%= link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %>
 <%= link_to " - #{as.tracker_name} ##{as.object_id}", url_for_activity_stream(as), {:class => class_for_activity_stream(as)} if as.tracker_name%>
 
 </div>

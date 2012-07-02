@@ -22,7 +22,6 @@
       :url => {:controller => :invitations, :action => :resend, :id => invitation, :project_id => @project},
       :html => {:class => "icon icon-cr-offer", :id => "resend-#{invitation.id}"}
      %>
-    <%#= prompt_input_to_remote(invitation.id, l(:button_resend), "Personalize your reminder", l(:text_resend_invite_message), "", {:controller => :invitations, :action => :resend, :id => invitation, :project_id => @project}, false, html_options = {:class => "icon icon-cr-offer", :id => "resend-#{invitation.id}"}) %>
     &nbsp;&nbsp;&nbsp;&nbsp;
       <%= link_to_remote l(:button_delete),
         :url => {:controller => :invitations, :action => :destroy, :id => invitation, :project_id => @project},
@@ -31,15 +30,13 @@
        %>
        </td>
     <% end %>
-    <td><%#= link_to 'Destroy', invitation, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </tbody>
 </table>
-<!-- Table Controls -->
 <div class="gt-table-controls gt-table-controls-btm clearfix">
   <p class="gt-table-pager"><%= pagination_links_full @all_invites %></p>
-</div><!-- /Table Controls -->
+</div>
 
 
 <br />

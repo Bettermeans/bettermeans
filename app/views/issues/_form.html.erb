@@ -1,4 +1,4 @@
-<div id="issue_descr_fields" <%#= 'style="display:none"' unless @issue.new_record? || @issue.errors.any? %>>
+<div id="issue_descr_fields">
 <p>
 <% if @project.credits_enabled? %>
 <%= f.select :tracker_id, Tracker.all.collect {|t| [t.name, t.id]}, :required => true %>
@@ -23,11 +23,3 @@
 <script type="text/javascript">
 projectId = <%= @project.id %>;
 </script>
-
-<!-- <div id="attributes" class="attributes"> -->
-  <%#= render :partial => 'attributes' %>
-<!-- </div> -->
-
-<%# if @issue.new_record? %>
-<!-- <p><label><%#=l(:label_attachment_plural)%></label><%#= render :partial => 'attachments/form' %></p> -->
-<%# end %>

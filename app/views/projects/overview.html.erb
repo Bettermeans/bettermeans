@@ -1,4 +1,3 @@
-<!-- <h1><%#=l(:label_overview)%></h1>  -->
 <%= help_section("project_show") %>
 
 <div>
@@ -33,9 +32,6 @@
 <%= link_to_if_authorized l(:label_motions_new), {:controller => 'motions', :action => 'new', :project_id => @project}, :class => "icon icon-motion" %>
 </li>
 <% if @project && @project.module_enabled?(:issue_tracking) %>
-<!-- <li>
-  <%#= render_new_item_jump_box %>
-</li> -->
 <% end %>
 </ul>
 <% end %>
@@ -78,11 +74,6 @@
   <%= render :partial => "clearance_member_box" unless @project.is_public %>
 <% end %>
 
-
-<!-- <div class="gt-sidebar-content">
-<h3>30-day Activity Timeline</h3>
-<div class="spark" max="<%= @project.activity_line_max %>"><%#= @project.activity_line_show(30) %></div>
-</div> -->
 <% if User.current.allowed_to?(:view_issues, @project) && false %>
     <div class="gt-sidebar-nav gt-sidebar-nav-gray">
     <h3><%=l(:label_issue_tracking)%></h3>

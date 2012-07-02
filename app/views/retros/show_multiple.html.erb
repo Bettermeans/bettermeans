@@ -20,17 +20,12 @@
     </td>
     <% end %>
     </tr></table>
-    <!-- <br> -->
-    <%# user_retro["journals"].each do |journal| %>
-    <%#= journal.inspect %>
-    <%# end %>
     <br>
   </div>
 <% end %>
 
 
 <% content_for :sidebar do %>
-<!-- <h3><%#= l(:label_activity) %></h3> -->
 <br><br>
 <div style="overflow-x:auto;" align="center">
   <% @chart_width = @point_totals.length*70 + 50
@@ -40,7 +35,6 @@
   <img src="<%= Gchart.bar(
               :data => [@point_totals, @vote_totals, @journal_totals],
               :bar_colors => 'EA7235,757668,E3A34D',
-              #:horizontal => 'true',
               :stacked => false,
               :orientation => 'vertical',
               :size => "#{@chart_width}x200",
@@ -49,7 +43,6 @@
               :bar_width_and_spacing => '15,2,10',
               :legend => ['Points','Votes','Journals'],
               :custom => "chm=N*f0*,000000,0,-1,11|N*f0*,000000,1,-1,11|N*f0*,000000,2,-1,11&chds=0,#{@max_range}"
-              # :custom => 'chma=50,50,50,50|200,200'
               )
     %>"/>
 </div>
