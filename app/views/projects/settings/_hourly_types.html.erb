@@ -5,7 +5,7 @@
     <th><%= l(:label_hourly_rate_per_person) %></th>
     <th><%= l(:label_hourly_cap) %></th>
     <th/>
-  </thead>	
+  </thead>
   <tbody>
     <% @project.hourly_types.each do |hourly_type|
        next if hourly_type.new_record? %>

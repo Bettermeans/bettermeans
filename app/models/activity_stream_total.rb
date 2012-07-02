@@ -1,5 +1,5 @@
 # Copyright (c) 2008 Matson Systems, Inc.
-# Released under the BSD license found in the file 
+# Released under the BSD license found in the file
 # LICENSE included with this ActivityStreams plug-in.
 
 # activity_stream_total.rb provides the model ActivityStreamTotal

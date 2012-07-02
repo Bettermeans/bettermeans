@@ -11,7 +11,7 @@ task :cron => :environment do
     Rake::Task['custom:lazy_majority'].invoke
     Rake::Task['custom:close_motions'].invoke
     Rake::Task['custom:refresh_activity_timelines'].invoke
-    
+
     if Time.now.hour == 18
       Rake::Task['custom:deliver_daily_digest'].invoke
     end
@@ -26,10 +26,10 @@ task :cron => :environment do
     # if (last_distribution.nil? || Time.now.advance(:days => Setting::TIME_BETWEEN_CREDIT_DISTRIBUTIONS * -1) > last_distribution)
     #   Rake::Task['distribute_retros'].invoke
     # end
-    
-    
+
+
     if Time.now.hour == 0
-      
+
       Rake::Task['heroku:daily_backup'].invoke
       Rake::Task['start_retros'].invoke
       Rake::Task['custom:calculate_reputation'].invoke
@@ -37,7 +37,7 @@ task :cron => :environment do
       Rake::Task['custom:detect_users_over_limit'].invoke
       Rake::Task['custom:detect_trial_expiration'].invoke
       Rake::Task['custom:refresh_project_issue_counts'].invoke
-      
+
     end
     puts "done."
 end

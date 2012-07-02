@@ -7,7 +7,7 @@
   <li>
   <%= link_to l(:field_start_page), {:action => 'index', :page => nil} %>
   </li>
-    
+
 <li>
 <%= link_to l(:label_index_by_title), {:action => 'special', :page => 'Page_index'} %>
 </li><li>
@@ -32,7 +32,7 @@ if (name!=null && name!="")
         break;
       }
     }
-    location.push(name.replace(" ", "_"));    
+    location.push(name.replace(" ", "_"));
     window.location.href = location.join("/");
   }
 }

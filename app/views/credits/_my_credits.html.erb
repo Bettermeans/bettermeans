@@ -3,17 +3,17 @@
 <div class="gt-content-box">
   <%  @credits_by_day = @credits.group_by{|credit| credit.issued_on.to_date}
   unit = unit_for(@project)
-  
+
     display_no_data = true;
-  
+
     if @credits_by_day.length == 0
       display_no_data = true;
     else %>
-  
-  
+
+
   <table border="0" class="gt-table gt-user-table">
 		<tbody>
-    <%  
+    <%
         @credits_by_day.sort { |b,a| a[0] <=> b[0] }
         @credits_by_day.each do |cbd|
     %>
@@ -36,10 +36,10 @@
   </tbody>
   </table>
   <% end %>
-  
+
   <% if display_no_data %>
   <p class="nodata"><%= l(:label_no_data) %></p>
   <% end %>
-  
+
 </div>
 </span>

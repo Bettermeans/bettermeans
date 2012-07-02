@@ -2,48 +2,48 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class Setting < ActiveRecord::Base
-  
+
   APP_TITLE = "Bettermeans.com"
-  
+
   TEXT_FORMATTING = "textile"
 
   MAXIMUM_CONCURRENT_REQUESTS = 10 #Maximum issues same pereson can own at the same time per workstream
-  
+
   PAY_SCALES = {'Scale 1' => 100, 'Scale 2' => 50, 'Scale 3' => 20}
   PAY_SCALES_DEFAULT = 100
-  
+
   DEFAULT_RETROSPECTIVE_LENGTH = 3 #Length in days for which a retrospective is open
-  RETRO_CREDIT_THRESHOLD = 3000 # credit threshold for  retrospective to start. 
+  RETRO_CREDIT_THRESHOLD = 3000 # credit threshold for  retrospective to start.
   RETRO_DAY_THRESHOLD = 21 # day threshold for  retrospective to start (days since last retrospective ended)
   # TIME_BETWEEN_CREDIT_DISTRIBUTIONS = 7 #Days between credit distributions
   DAY_FOR_CREDIT_DISTRIBUTION = "Saturday"
-  
+
   NUMBER_OF_STARTABLE_PRIORITY_TIERS = 3 #number of highest tiers that are startable
-  
+
   DAYS_FOR_ACTIVE_MEMBERSHIP = 14 #If a member does any activity on a project in the last X days, they're considered active
-  
+
   DAYS_FOR_LATEST_NEWS = 45 #Number of days before a news item expires
-  
+
   DAYS_FOR_RECENT_PROJECTS = 60 #Number of days workstreams appear if they were part of recent activity
-  
+
   ACTIVITY_LINE_LENGTH = 90 #number of days for activity sparklines
-  
+
   ACTIVITY_STREAM_LENGTH = 40 #number of actions to show before paginating
-  
+
   WORKSTREAM_LOCK_THRESHOLD = 30 #number of days overdue before workstreams are locked
-  
+
   GLOBAL_OVERUSE_THRESHOLD = 7 #number of days before which a global flash message is issued saying that user is over limits
 
 
   #Factor by which dollars per point is multiplies e.g. a 5 point issue is worth $(POINT_FACTOR[5] * dpp)
   POINT_FACTOR = [0.2,1,2,4,6,9,12]
-  
+
   #Reverse lookup. Converts credits to points
   CREDITS_TO_POINTS = [0,1,2,3,3,4,4,4,5,5,5,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,9,10,10,10,10,10,11,11,11,11,11,11,12,12,12,12,12,12,13,13,13,13,13,13,13,14,14,14,14,14,14,14,15,15,15,15,15,15,15,15,16,16,16,16,16,16,16,16,17,17,17,17,17,17,17,17,17,18,18,18,18,18,18,18,18,18,19,19,19,19,19,19,19,19,19,19,20];
-  
+
   #Percentage of share that need to agree on a share-majority motion before it passes
-  SHARE_MAJORIY_MOTION_RATIO = 0.666666666 
-  
+  SHARE_MAJORIY_MOTION_RATIO = 0.666666666
+
   MOTIONS = {
     Motion::VARIATION_GENERAL => {
       "Title" => "General Motion",
@@ -110,18 +110,18 @@ class Setting < ActiveRecord::Base
     #   "Days" => 3
     # }
 }
-  
+
 
   LAZY_MAJORITY_LENGTH = 3 #number of days before a lazy majority vote is counted
-  
+
   LAZY_MAJORITY_NO_ACTIVITY_LENGTH = 1 #number of days an item needs to have no activity on before a lazy majority move is attempted on it
-  
+
   #Reputation calculation constants
-  
-  #lenght of window for moving averages for reputation index average calculation. 
+
+  #lenght of window for moving averages for reputation index average calculation.
   #example: if this number is 20, the average before last will be weighed at 19/20, the one before that at 18/20, all scores past the 20th most recent scores will be weighed at 1/20 of their value in the totaly average
-  LENGTH_OF_MOVING_AVERAGE = 20 
-  
+  LENGTH_OF_MOVING_AVERAGE = 20
+
   DATE_FORMATS = [
 	'%Y-%m-%d',
 	'%d/%m/%Y',
@@ -133,12 +133,12 @@ class Setting < ActiveRecord::Base
 	'%b %d, %Y',
 	'%B %d, %Y'
     ]
-    
+
   TIME_FORMATS = [
     '%H:%M',
     '%I:%M %p'
     ]
-    
+
   ENCODINGS = %w(US-ASCII
                   windows-1250
                   windows-1251
@@ -177,22 +177,22 @@ class Setting < ActiveRecord::Base
                   Big5
                   Big5-HKSCS
                   TIS-620)
-  
+
   cattr_accessor :available_settings
   @@available_settings = YAML::load(File.open("#{RAILS_ROOT}/config/settings.yml"))
   Redmine::Plugin.all.each do |plugin|
     next unless plugin.settings
-    @@available_settings["plugin_#{plugin.id}"] = {'default' => plugin.settings[:default], 'serialized' => true}    
+    @@available_settings["plugin_#{plugin.id}"] = {'default' => plugin.settings[:default], 'serialized' => true}
   end
-  
+
   validates_uniqueness_of :name
   validates_inclusion_of :name, :in => @@available_settings.keys
-  validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }  
+  validates_numericality_of :value, :only_integer => true, :if => Proc.new { |setting| @@available_settings[setting.name]['format'] == 'int' }
 
   # Hash used to cache setting values
   @cached_settings = {}
   @cached_cleared_on = Time.now
-  
+
   def value
     v = read_attribute(:value)
     # Unserialize serialized settings
@@ -200,18 +200,18 @@ class Setting < ActiveRecord::Base
     v = v.to_sym if @@available_settings[name]['format'] == 'symbol' && !v.blank?
     v
   end
-  
+
   def value=(v)
     v = v.to_yaml if v  && @@available_settings[name]['serialized']
     write_attribute(:value, v.to_s)
   end
-  
+
   # Returns the value of the setting named name
   def self.[](name)
     v = @cached_settings[name]
     v ? v : (@cached_settings[name] = find_or_default(name).value)
   end
-  
+
   def self.[]=(name, v)
     setting = find_or_default(name)
     setting.value = (v ? v : "")
@@ -219,7 +219,7 @@ class Setting < ActiveRecord::Base
     setting.save
     setting.value
   end
-  
+
   # Defines getter and setter for each setting
   # Then setting values can be read using: Setting.some_setting_name
   # or set using Setting.some_setting_name = "some value"
@@ -239,16 +239,16 @@ class Setting < ActiveRecord::Base
     END_SRC
     class_eval src, __FILE__, __LINE__
   end
-  
+
   # Helper that returns an array based on per_page_options setting
   def self.per_page_options_array
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
   end
-  
+
   def self.openid?
     Object.const_defined?(:OpenID) && self[:openid].to_i > 0
   end
-  
+
   # Checks if settings have changed since the values were read
   # and clears the cache hash if it's the case
   # Called once per request
@@ -259,13 +259,13 @@ class Setting < ActiveRecord::Base
       @cached_cleared_on = Time.now
     end
   end
-  
+
 private
   # Returns the Setting instance for the setting named name
   # (record found in database or new record with default value)
   def self.find_or_default(name)
     name = name.to_s
-    raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)    
+    raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)
     setting = new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
     setting ||= find_by_name(name)
   end

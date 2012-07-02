@@ -5,12 +5,12 @@ var store = (function(){
 		localStorageName = 'localStorage',
 		globalStorageName = 'globalStorage',
 		storage
-	
+
 	api.set = function(key, value) {}
 	api.get = function(key) {}
 	api.remove = function(key) {}
 	api.clear = function() {}
-	
+
 	if (localStorageName in win && win[localStorageName]) {
 		storage = win[localStorageName]
 		api.set = function(key, val) { storage[key] = val }
@@ -29,7 +29,7 @@ var store = (function(){
 			storage.style.display = 'none'
 			// See http://msdn.microsoft.com/en-us/library/ms531081(v=VS.85).aspx
 			// and http://msdn.microsoft.com/en-us/library/ms531424(v=VS.85).aspx
-			storage.addBehavior('#default#userData') 
+			storage.addBehavior('#default#userData')
 			storage.load(localStorageName)
 		}
 		api.set = function(key, val) {
@@ -56,6 +56,6 @@ var store = (function(){
 			storage.save(localStorageName)
 		}
 	}
-	
+
 	return api
 })()

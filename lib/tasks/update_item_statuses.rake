@@ -3,7 +3,7 @@
 
 desc "update item statuses to Done or Canceled depending on what their % complete is"
 task :update_item_statuses => :environment do
-  
+
   done = IssueStatus.first(:conditions => {:name => "Done"})
   canceled = IssueStatus.first(:conditions => {:name => "Canceled"})
   closed = IssueStatus.first(:conditions => {:name => "Closed"})

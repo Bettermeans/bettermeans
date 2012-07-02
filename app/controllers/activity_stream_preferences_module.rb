@@ -1,6 +1,6 @@
 #--
 # Copyright (c) 2008 Matson Systems, Inc.
-# Released under the BSD license found in the file 
+# Released under the BSD license found in the file
 # LICENSE included with this ActivityStreams plug-in.
 #++
 # activity_stream_preferences_module.rb provides ActivityStreamPreferencesModule
@@ -16,7 +16,7 @@ module ActivityStreamPreferencesModule
 
     get_user_id
 
-    @activity_stream_preferences = ActivityStreamPreference.find(:all, 
+    @activity_stream_preferences = ActivityStreamPreference.find(:all,
       :conditions => { ACTIVITY_STREAM_USER_MODEL_ID => @user_id })
 
     build_activities_hash
@@ -43,7 +43,7 @@ module ActivityStreamPreferencesModule
 
     get_user_id
 
-    @activity_stream_preferences = ActivityStreamPreference.find(:all, 
+    @activity_stream_preferences = ActivityStreamPreference.find(:all,
       :conditions => { ACTIVITY_STREAM_USER_MODEL_ID => @user_id })
 
     build_activities_hash
@@ -90,7 +90,7 @@ module ActivityStreamPreferencesModule
 protected
 
   def get_user_id
-    if User.current.admin? && params[ACTIVITY_STREAM_USER_MODEL_ID.to_sym] 
+    if User.current.admin? && params[ACTIVITY_STREAM_USER_MODEL_ID.to_sym]
       @user_id = params[ACTIVITY_STREAM_USER_MODEL_ID.to_sym]
     else
       @user_id = User.current.id

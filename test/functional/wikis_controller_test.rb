@@ -9,14 +9,14 @@ class WikisController; def rescue_action(e) raise e end; end
 
 class WikisControllerTest < ActionController::TestCase
   fixtures :projects, :users, :roles, :members, :member_roles, :enabled_modules, :wikis
-  
+
   def setup
     @controller = WikisController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
-  
+
   def test_edit_routing
     assert_routing(
     #TODO: use PUT
@@ -24,7 +24,7 @@ class WikisControllerTest < ActionController::TestCase
       :controller => 'wikis', :action => 'edit', :id => 'ladida'
     )
   end
-  
+
   def test_create
     @request.session[:user_id] = 1
     assert_nil Project.find(3).wiki
@@ -34,7 +34,7 @@ class WikisControllerTest < ActionController::TestCase
     assert_not_nil wiki
     assert_equal 'Start page', wiki.start_page
   end
-  
+
   def test_destroy_routing
     assert_routing(
       {:method => :get, :path => 'projects/ladida/wiki/destroy'},
@@ -45,17 +45,17 @@ class WikisControllerTest < ActionController::TestCase
       {:method => :post, :path => 'projects/ladida/wiki/destroy'}
     )
   end
-  
+
   def test_destroy
     @request.session[:user_id] = 1
     post :destroy, :id => 1, :confirm => 1
     assert_redirected_to :controller => 'projects', :action => 'settings', :id => 'ecookbook', :tab => 'wiki'
     assert_nil Project.find(1).wiki
   end
-  
+
   def test_not_found
     @request.session[:user_id] = 1
     post :destroy, :id => 999, :confirm => 1
     assert_response 404
   end
-end 
+end

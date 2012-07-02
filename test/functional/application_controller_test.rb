@@ -9,7 +9,7 @@ class ApplicationController; def rescue_action(e) raise e end; end
 
 class ApplicationControllerTest < ActionController::TestCase
   include Redmine::I18n
-  
+
   def setup
     @controller = ApplicationController.new
     @request    = ActionController::TestRequest.new
@@ -25,7 +25,7 @@ class ApplicationControllerTest < ActionController::TestCase
     end
     set_language_if_valid('en')
   end
-  
+
   def test_call_hook_mixed_in
     assert @controller.respond_to?(:call_hook)
   end

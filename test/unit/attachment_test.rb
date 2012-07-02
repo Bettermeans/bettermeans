@@ -7,7 +7,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class AttachmentTest < ActiveSupport::TestCase
   fixtures :issues, :users
-  
+
   def setup
   end
 
@@ -23,7 +23,7 @@ class AttachmentTest < ActiveSupport::TestCase
     # assert_equal Digest::MD5.hexdigest(uploaded_test_file("testfile.txt", "text/plain").read), a.digest #BUGBUG Doesn't work with Amazon S3. Not sure why
     assert File.exist?(a.diskfile)
   end
-  
+
   def test_diskfilename
     assert Attachment.disk_filename("test_file.txt") =~ /^\d{12}_test_file.txt$/
     assert_equal 'test_file.txt', Attachment.disk_filename("test_file.txt")[13..-1]

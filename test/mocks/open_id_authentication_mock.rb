@@ -1,7 +1,7 @@
 # Mocks out OpenID
 #
 # http://www.northpub.com/articles/2007/04/02/testing-openid-support
-module OpenIdAuthentication 
+module OpenIdAuthentication
 
   EXTENSION_FIELDS = {'email' => 'user@somedomain.com',
                       'nickname' => 'cool_user',
@@ -10,7 +10,7 @@ module OpenIdAuthentication
                       'fullname' => 'Cool User',
                       'dob' => '1970-04-01',
                       'language' => 'en',
-                      'timezone' => 'America/New_York'}     
+                      'timezone' => 'America/New_York'}
 
   protected
 

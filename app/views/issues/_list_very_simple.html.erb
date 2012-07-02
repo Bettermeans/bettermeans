@@ -1,8 +1,8 @@
 <div class="gt-content-box">
 <% if issues && issues.any? %>
 <% form_tag({}) do %>
-	<table class="gt-table issues">		
-		<tbody>	
+	<table class="gt-table issues">
+		<tbody>
 		<% for issue in issues %>
 		<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
 			<td class="id">

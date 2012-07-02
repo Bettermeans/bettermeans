@@ -32,36 +32,36 @@ module Redmine
       'application/zip' => 'zip',
       'application/x-gzip' => 'gz',
     }.freeze
-    
+
     EXTENSIONS = MIME_TYPES.inject({}) do |map, (type, exts)|
       exts.split(',').each {|ext| map[ext.strip] = type}
       map
     end
-    
+
     # returns mime type for name or nil if unknown
     def self.of(name)
       return nil unless name
       m = name.to_s.match(/(^|\.)([^\.]+)$/)
       EXTENSIONS[m[2].downcase] if m
     end
-    
+
     # Returns the css class associated to
     # the mime type of name
     def self.css_class_of(name)
       mime = of(name)
       mime && mime.gsub('/', '-')
     end
-    
+
     def self.main_mimetype_of(name)
       mimetype = of(name)
       mimetype.split('/').first if mimetype
     end
-    
+
     # return true if mime-type for name is type/*
     # otherwise false
     def self.is_type?(type, name)
       main_mimetype = main_mimetype_of(name)
       type.to_s == main_mimetype
-    end  
+    end
   end
 end

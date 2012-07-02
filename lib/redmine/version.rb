@@ -5,7 +5,7 @@ module Redmine
     MAJOR = 0
     MINOR = 9
     TINY  = 0
-    
+
     # Branch values:
     # * official release: nil
     # * stable branch:    stable
@@ -36,8 +36,8 @@ module Redmine
     REVISION = self.revision
     ARRAY = [MAJOR, MINOR, TINY, BRANCH, REVISION].compact
     STRING = ARRAY.join('.')
-    
+
     def self.to_a; ARRAY end
-    def self.to_s; STRING end    
+    def self.to_s; STRING end
   end
 end

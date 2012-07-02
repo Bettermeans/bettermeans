@@ -10,7 +10,7 @@ class IssueInvitationsController < ApplicationController
       format.xml  { render :xml => @quote }
     end
   end
-  
+
   def create
     @quote = Quote.new(params[:quote])
     @quote.user_id = User.current.id
@@ -21,5 +21,5 @@ class IssueInvitationsController < ApplicationController
       format.xml  { render :xml => @quote, :status => :created, :location => @quote }
     end
   end
-  
+
 end

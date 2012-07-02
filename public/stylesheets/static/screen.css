@@ -39,7 +39,7 @@ body {
 /*	font-size:75%;*/
 	font-family: helvetica,arial,freesans,clean,sans-serif;
 /*	font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;*/
-	
+
 }
 h1,h2, h3, h4, h5, h6 {
 	font-weight:normal;
@@ -53,7 +53,7 @@ h1 {
 	text-shadow: 1px 1px #9E9E9F;
 	font-weight: bold;
 	color: #2f2f2f;
-	
+
 	 }
 #main-inner h1{
 	text-align: center;
@@ -735,7 +735,7 @@ form input[type=submit] {
 	padding: 0;
 	margin: 0;
 	width: 126px;
-	background: url(/images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;	
+	background: url(/images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;
 }
 
 .gt-table-buttons-inside input[type=submit]{
@@ -845,7 +845,7 @@ display: block;
 font-size: 700%;
 width: 50px;
 }
- 
+
 blockquote:before {
 content: "\201C";
 height: 30px;

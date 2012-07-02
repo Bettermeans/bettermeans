@@ -12,7 +12,7 @@ class ApiTokenLoginTest < ActionController::IntegrationTest
     Setting.rest_api_enabled = '0'
     Setting.login_required = '0'
   end
-  
+
   # Using the NewsController because it's a simple API.
   context "get /news" do
 
@@ -23,7 +23,7 @@ class ApiTokenLoginTest < ActionController::IntegrationTest
           @token = Token.generate!(:user => @user, :action => 'api')
           get "/news.xml?key=#{@token.value}"
         end
-        
+
         #should_respond_with :success
         #should_respond_with_content_type :xml
         should "login as the user" do
@@ -37,7 +37,7 @@ class ApiTokenLoginTest < ActionController::IntegrationTest
           @token = Token.generate!(:user => @user, :action => 'feeds')
           get "/news.xml?key=#{@token.value}"
         end
-        
+
         #should_respond_with :unauthorized
         #should_respond_with_content_type :xml
         should "not login as the user" do
@@ -53,7 +53,7 @@ class ApiTokenLoginTest < ActionController::IntegrationTest
           @token = Token.generate!(:user => @user, :action => 'api')
           get "/news.json?key=#{@token.value}"
         end
-        
+
         #should_respond_with :success
         #should_respond_with_content_type :json
         should "login as the user" do
@@ -67,7 +67,7 @@ class ApiTokenLoginTest < ActionController::IntegrationTest
           @token = Token.generate!(:user => @user, :action => 'feeds')
           get "/news.json?key=#{@token.value}"
         end
-        
+
         #should_respond_with :unauthorized
         #should_respond_with_content_type :json
         should "not login as the user" do
@@ -75,6 +75,6 @@ class ApiTokenLoginTest < ActionController::IntegrationTest
         end
       end
     end
-    
+
   end
 end

@@ -24,7 +24,7 @@
 -->
 
 <% content_for :actionmenu do %>
-    <ul>    
+    <ul>
     <li>
       <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project}, :class => "icon icon-add" %>
     </li>
@@ -55,7 +55,7 @@
 <p><%#= submit_tag l(:button_apply), :class => 'button-small', :name => nil, :disable_with => l(:button_working) %></p>
 <%# end %>
 -->
-<% end %> 
+<% end %>
 <% html_title(l(:label_activity), @author) -%>
 
 <script>

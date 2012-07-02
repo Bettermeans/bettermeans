@@ -1,4 +1,4 @@
-<!-- 
+<!--
   Parameters:
   user_id
   project_id
@@ -6,11 +6,11 @@
   limit
   max_created_at
    -->
-   <% 
+   <%
     activities_by_item = ActivityStream.fetch(user_id,project_id, with_subprojects, limit, max_created_at)
     %>
     <%link = link_to_remote "refresh", {
-                                :url => {:controller => :activity_streams, 
+                                :url => {:controller => :activity_streams,
                                         :action => :index,
                                         :user_id => user_id,
                                         :project_id => project_id,
@@ -21,18 +21,18 @@
                                         },
                                 :method => :get, :class => "right"
                                 } unless (defined? show_refresh) && !show_refresh %>
-<span id="activity_stream_list">    
+<span id="activity_stream_list">
  <table border="0" class="gt-table gt-user-table gt-activity-table">
     <tbody>
       <% activities_by_item.each_with_index do |asg, count| %>
-        <%= render :partial => 'activity_streams/activity_stream_group', :locals => {:asg => asg[1], :refresh_link => (count == 0 ? link : nil)} %> 
+        <%= render :partial => 'activity_streams/activity_stream_group', :locals => {:asg => asg[1], :refresh_link => (count == 0 ? link : nil)} %>
       <% end %>
     </tbody>
   </table>
   <% unless activities_by_item.empty? %>
   <div id="activity_stream_bottom" class="activity-bottom">
     <%= link_to_remote "Show more ...", {
-                                :url => {:controller => :activity_streams, 
+                                :url => {:controller => :activity_streams,
                                         :action => :index,
                                         :user_id => user_id,
                                         :project_id => project_id,
@@ -54,16 +54,16 @@ function prepare_input(object_id){
   $("#input_comment_textarea_" + object_id).focus();
   $("#input_comment_textarea_" + object_id).autogrow();
   $("#add_comment_trigger_" + object_id).hide();
-  
+
 }
 
 function post_comment(object_id, comment_type){
   $("#input_comment_" + object_id).hide();
   $("#add_comment_trigger_" + object_id).show();
-    
+
   // try{
 	  var text = $("#input_comment_textarea_" + object_id).val();
-	
+
   	if ((text == null) || (text.length < 2)){
   		return false;
   	}
@@ -71,7 +71,7 @@ function post_comment(object_id, comment_type){
   	{
       $("#comments_table_" + object_id).append(generate_comment(object_id,text));
       $("#input_comment_textarea_" + object_id).val('');
-      
+
       if (comment_type=="issue")
       {
         var data = "commit=Create&issue_id=" + object_id + "&comment=" + text;
@@ -85,8 +85,8 @@ function post_comment(object_id, comment_type){
         var data = "commit=Submit&reply[content]=" + text;
         var url = "/boards/guess/topics/" + object_id + "/replies"
       }
-    
-	
+
+
   		$.ajax({
   		   type: "POST",
   		   dataType: "json",

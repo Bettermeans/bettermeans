@@ -8,34 +8,34 @@ require 'ruby-debug'
 class ApplicationController < ActionController::Base
   include Redmine::I18n
   include LogActivityStreams
-  
+
   before_filter :set_user_ip
-  
+
   include SslRequirement
   # don't require ssl in development
   skip_before_filter :ensure_proper_protocol if Rails.env.development?
 
   layout 'gooey'
-  
+
   # Remove broken cookie after upgrade from 0.8.x (#4292)
   # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
   # TODO: remove it when Rails is fixed
   before_filter :delete_broken_cookies
   def delete_broken_cookies
     if cookies['_redmine_session'] && cookies['_redmine_session'] !~ /--/
-      cookies.delete '_redmine_session'    
+      cookies.delete '_redmine_session'
       redirect_to home_path
       return false
     end
   end
-  
-  
+
+
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
   protect_from_forgery
-  
+
   rescue_from ActionController::InvalidAuthenticityToken, :with => :invalid_authenticity_token
-  
+
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
@@ -43,25 +43,25 @@ class ApplicationController < ActionController::Base
   def set_user_ip
     session[:client_ip] = request.headers['X-Real-Ip'] unless session[:client_ip]
   end
-  
+
   def user_setup
     # Check the settings cache for each request
     Setting.check_cache
     # Find the current user
     User.current = find_current_user
   end
- 
+
   def redirect_with_flash(flash_type,msg,*params)
     flash[flash_type] = msg
     redirect_to(*params)
   end
 
-  
-  
+
+
   def current_user
     User.current
   end
-  
+
   # Returns the current user or nil if no user is logged in
   # and starts a session if needed
   def find_current_user
@@ -106,14 +106,14 @@ class ApplicationController < ActionController::Base
       User.current = User.anonymous
     end
   end
-  
+
   # check if login is globally required to access the application
   def check_if_login_required
     # no check needed if user is already logged in
     return true if User.current.logged?
     require_login if Setting.login_required?
-  end 
-  
+  end
+
   def set_localization
     lang = nil
     if User.current.logged?
@@ -128,12 +128,12 @@ class ApplicationController < ActionController::Base
     lang ||= Setting.default_language
     set_language_if_valid(lang)
   end
-  
+
   def data_admin_logged_in?
     return true if User.current == User.find_by_login("shereef") || User.current == User.find_by_login("adelegb") || User.current == User.find_by_login("crabari")
     return false
   end
-  
+
   def require_login
     if !User.current.logged?
       # Extract only the basic url parameters on non-GET requests
@@ -161,7 +161,7 @@ class ApplicationController < ActionController::Base
     end
     true
   end
-  
+
   def deny_access
     User.current.logged? ? render_403 : require_login
   end
@@ -177,7 +177,7 @@ class ApplicationController < ActionController::Base
   def authorize_global(ctrl = params[:controller], action = params[:action], global = true)
     authorize(ctrl, action, global)
   end
-  
+
   # make sure that the user is a member of the project (or admin) if project is private
   # used as a before_filter for actions that do not require any particular permission on the project
   def check_project_privacy
@@ -199,7 +199,7 @@ class ApplicationController < ActionController::Base
     if !back_url.blank? && !back_url.include?("/home/") && !back_url.include?("/front/")
       begin
         uri = URI.parse(back_url)
-        
+
         # do not redirect user to another host or to the login or register page
         if (uri.relative? || (uri.host == request.host)) && !uri.path.match(%r{/(login|account/register)})
           redirect_to(back_url)
@@ -211,56 +211,56 @@ class ApplicationController < ActionController::Base
     end
     redirect_to default
   end
-  
+
   def render_403
     @project = nil
     render :template => "common/403", :layout => (request.xhr? ? false : 'gooey'), :status => 403
     return false
   end
-    
+
   def render_404
     render :template => "common/404", :layout => !request.xhr?, :status => 404
     return false
   end
-  
+
   def render_error(msg)
     flash.now[:error] = msg
     render :text => '', :layout => !request.xhr?, :status => 500
   end
-  
+
   def render_message(msg)
     flash.now[:notice] = msg
     render :text => '', :layout => !request.xhr?
   end
-  
+
   def invalid_authenticity_token
     # render_error "Invalid form authenticity token."
     redirect_back_or_default(home_path)
   end
-  
-  def render_feed(items, options={})    
+
+  def render_feed(items, options={})
     @items = items || []
     @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
     render :template => "common/feed.atom.rxml", :layout => false, :content_type => 'application/atom+xml'
   end
-  
+
   def self.accept_key_auth(*actions)
     actions = actions.flatten.map(&:to_s)
     write_inheritable_attribute('accept_key_auth_actions', actions)
   end
-  
+
   def accept_key_auth_actions
     self.class.read_inheritable_attribute('accept_key_auth_actions') || []
   end
-  
+
   def attach_files_for_new_issue(issue,attachment_ids)
     if attachment_ids
       Attachment.update_all("container_id = #{issue.id}" , "id in (#{attachment_ids}) and container_id = 0" )
     end
   end
-  
+
   # TODO: move to model
   def attach_files(obj, attachments)
     attached = []
@@ -269,7 +269,7 @@ class ApplicationController < ActionController::Base
       attachments.each_value do |attachment|
         file = attachment['file']
         next unless file && file.size > 0
-        a = Attachment.create(:container => obj, 
+        a = Attachment.create(:container => obj,
                               :file => file,
                               :description => attachment['description'].to_s.strip,
                               :author => User.current)
@@ -281,7 +281,7 @@ class ApplicationController < ActionController::Base
     end
     attached
   end
-  
+
   def attach_temp_files(obj, attachments)
     attached = []
     unsaved = []
@@ -291,7 +291,7 @@ class ApplicationController < ActionController::Base
         logger.info { "atatchment #{attachment}" }
         file = Tempfile.open(attachment)
         next unless file && file.size > 0
-        a = Attachment.create(:container => obj, 
+        a = Attachment.create(:container => obj,
                               :file => file,
                               :description => '',
                               :author => User.current)
@@ -303,13 +303,13 @@ class ApplicationController < ActionController::Base
     end
     attached
   end
-  
+
   #replaces newline characters with more binary-compatible ones
   def cleanup_newline(text)
     return text unless text and !text.empty?
     text.gsub(/\r?\n/, "\r\n")
   end
-  
+
   # Same as Rails' simple_format helper without using paragraphs
   def simple_format_without_paragraph(text)
     text.to_s.
@@ -352,16 +352,16 @@ class ApplicationController < ActionController::Base
     return tmp
   rescue
     nil
-  end  
-  
+  end
+
   # Returns a string that can be used as filename value in Content-Disposition header
   def filename_for_content_disposition(name)
     request.env['HTTP_USER_AGENT'] =~ %r{MSIE} ? ERB::Util.url_encode(name) : name
   end
-  
+
   #breakpoint
   def bp
     debugger if ENV['RAILS_ENV'] == 'development'
   end
-  
+
 end

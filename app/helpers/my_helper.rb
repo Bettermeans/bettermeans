@@ -5,48 +5,48 @@ module MyHelper
   def describe(amount)
     amount == -1 ? 'unlimited' : amount
   end
-  
+
   def my_issues_tabs
     tabs = [
-            {:name => 'recent', 
-             :partial => 'issues/list_very_simple', 
-             :label => :label_recent_issues, 
+            {:name => 'recent',
+             :partial => 'issues/list_very_simple',
+             :label => :label_recent_issues,
              :label_ending => " (#{@recent_issues.length})",
              :locals => {:issues => @recent_issues}
             },
-            {:name => 'assigned', 
-             :partial => 'issues/list_very_simple', 
-             :label => :label_assigned_to_me_issues, 
+            {:name => 'assigned',
+             :partial => 'issues/list_very_simple',
+             :label => :label_assigned_to_me_issues,
              :label_ending => " (#{@assigned_issues.length})",
              :locals => {:issues => @assigned_issues}
             },
-            {:name => 'joined', 
-             :partial => 'issues/list_very_simple', 
-             :label => :label_joined_issues, 
+            {:name => 'joined',
+             :partial => 'issues/list_very_simple',
+             :label => :label_joined_issues,
              :label_ending => " (#{@joined_issues.length})",
              :locals => {:issues => @joined_issues}
             },
-            {:name => 'added', 
-             :partial => 'issues/list_very_simple', 
-             :label => :label_added_issues, 
+            {:name => 'added',
+             :partial => 'issues/list_very_simple',
+             :label => :label_added_issues,
              :label_ending => " (#{@added_issues.length})",
              :locals => {:issues => @added_issues}
             },
-            {:name => 'watched', 
-             :partial => 'issues/list_very_simple', 
-             :label => :label_watched_issues, 
+            {:name => 'watched',
+             :partial => 'issues/list_very_simple',
+             :label => :label_watched_issues,
              :label_ending => " (#{@watched_issues.length})",
              :locals => {:issues => @watched_issues}
             }
           ]
   end
-  
-  
+
+
   def my_projects_tabs
     tabs = [
-            {:name => 'all', 
-             :partial => 'my/project_list', 
-             :label => :label_projects_all, 
+            {:name => 'all',
+             :partial => 'my/project_list',
+             :label => :label_projects_all,
              :locals => {
                           :my_projects => @all_projects,
                           :table_head => l(:label_projects_all),
@@ -56,9 +56,9 @@ module MyHelper
                           :no_data_link => link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'}) + "<br>or<br>" + link_to(l(:label_browse_workstreams), {:controller => :projects, :action => :index})
                         }
             },
-            {:name => 'active', 
-             :partial => 'my/project_list', 
-             :label => :label_projects_active_in, 
+            {:name => 'active',
+             :partial => 'my/project_list',
+             :label => :label_projects_active_in,
              :locals => {
                           :my_projects => @active_projects,
                           :table_head => l(:label_projects_active_in),
@@ -68,9 +68,9 @@ module MyHelper
                           :no_data_link => link_to(l(:label_browse_workstreams), {:controller => :projects, :action => :index})
                         }
             },
-            {:name => 'started', 
-             :partial => 'my/project_list', 
-             :label => :label_projects_i_started, 
+            {:name => 'started',
+             :partial => 'my/project_list',
+             :label => :label_projects_i_started,
              :locals => {
                           :my_projects => @my_projects,
                           :table_head => l(:label_projects_i_started),
@@ -80,9 +80,9 @@ module MyHelper
                           :no_data_link => link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'})
                         }
             },
-            # {:name => 'belong', 
-            #  :partial => 'my/project_list', 
-            #  :label => :label_projects_i_belong_to, 
+            # {:name => 'belong',
+            #  :partial => 'my/project_list',
+            #  :label => :label_projects_i_belong_to,
             #  :locals => {
             #               :my_projects => @belong_to_projects,
             #               :table_head => l(:label_projects_i_belong_to),
@@ -93,10 +93,10 @@ module MyHelper
             #             }
             # }
             ]
-    # tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}     
+    # tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end
-    
-  
+
+
   def upgrade_options(user)
     if user.plan.code == Plan::FREE_CODE
       link_to "Upgrade", {:controller => :my, :action => :upgrade}, :class => "gt-btn-blue-large"

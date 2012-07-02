@@ -7,11 +7,11 @@ module RetrosHelper
       return "ends in #{distance_of_time_in_words(Time.now,end_date)}"
     end
   end
-  
+
   def team_from_issue(issue)
     issue.team_votes.collect{|iv| link_to_user_from_id iv.user_id }.join(", ")
   end
-    
+
   def accuracy_display(self_bias,magnitude)
     return "<br>Didn't vote" if self_bias.nil? && magnitude.nil?
     content = ""

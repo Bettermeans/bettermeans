@@ -1,6 +1,6 @@
 class RetroRatingsController < ApplicationController
-  ssl_required :all  
-  
+  ssl_required :all
+
   # before_filter :authorize
   # GET /retro_ratings
   # GET /retro_ratings.xml
@@ -44,13 +44,13 @@ class RetroRatingsController < ApplicationController
   # POST /retro_ratings.xml
   def create
     @retro_ratings = params[:retro_ratings].values.collect { |retro_rating| RetroRating.new(retro_rating) }
-    
+
     #Archive notification for this retrospective
     @retro_id = params[:retro_ratings].values[0]["retro_id"]
     @rater_id = params[:retro_ratings].values[0]["rater_id"]
     Notification.update_all "state = #{Notification::STATE_ARCHIVED}" , ["variation = 'retro_started' AND source_id = ? AND recipient_id = ?", @retro_id, @rater_id]
-    
-    
+
+
     #TODO: security: make sure to only create ratings if current user is same as rater_id (and user is actually on those teams!)
     respond_to do |format|
       if @retro_ratings.all?(&:valid?)
@@ -94,5 +94,5 @@ class RetroRatingsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
 end

@@ -1,18 +1,18 @@
-<h2 class="gt-table-head icon icon-users"><%=l(:label_team)%></h2>	
+<h2 class="gt-table-head icon icon-users"><%=l(:label_team)%></h2>
 
-<% 
-   members = project.enterprise_members.find(:all, :include => [:roles, :user]).sort 
+<%
+   members = project.enterprise_members.find(:all, :include => [:roles, :user]).sort
    %>
-   
-   <% 
-   if members.any? 
+
+   <%
+   if members.any?
      %>
    <!-- Shows active members -->
    <div class="members gt-content-box">
      <table border="0" class="gt-table gt-user-table">
    		<tbody>
        	<% members.each do |member| %>
-      	
+
        	<tr>
        	  <td class="gt-avatar"><%= avatar(member.user) %></td>
        	  <td><h4><%= link_to_user member.user %></h4>
@@ -30,7 +30,7 @@
 								<td><%= since_tag(member.created_at) %> ago</td>
 							</tr>
 						</table>
-						
+
        	  </td>
          </tr>
        	<% end %>
@@ -40,7 +40,7 @@
       	</td></tr>
       	</li>
       	<% end %>
-      	
+
    	  </tbody>
    	</table>
    </div>

@@ -4,20 +4,20 @@
 class UserPreference < ActiveRecord::Base
   belongs_to :user
   serialize :others
-  
+
   attr_protected :others
-  
+
   DEFAULTS = {:no_self_notified=>true, :daily_digest=>true, :no_emails=>false,  :comments_sorting=>"asc", :active_only_jumps=>false}
-  
+
   def initialize(attributes = nil)
     super
     self.others ||= DEFAULTS
   end
-  
+
   def before_save
     self.others ||= DEFAULTS
   end
-  
+
   def [](attr_name)
     if attribute_present? attr_name
       super
@@ -25,7 +25,7 @@ class UserPreference < ActiveRecord::Base
       others ? others[attr_name] : nil
     end
   end
-  
+
   def []=(attr_name, value)
     if attribute_present? attr_name
       super
@@ -36,7 +36,7 @@ class UserPreference < ActiveRecord::Base
       value
     end
   end
-  
+
   def comments_sorting; self[:comments_sorting] end
   def comments_sorting=(order); self[:comments_sorting]=order end
 end

@@ -7,18 +7,18 @@ class MailerTest < ActiveSupport::TestCase
   include Redmine::I18n
   include ActionController::Assertions::SelectorAssertions
   fixtures :projects, :issues, :users, :members, :member_roles, :documents, :attachments, :news, :tokens, :journals, :journal_details, :changesets, :trackers, :issue_statuses, :enumerations, :messages, :boards, :repositories
-  
+
   def test_generated_links_in_emails
     ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo'
     Setting.protocol = 'https'
-    
+
     journal = Journal.find(2)
     assert Mailer.deliver_issue_edit(journal)
-    
+
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
-    
+
     assert_select_email do
       # link to the main ticket
       assert_select "a[href=?]", "https://mydomain.foo/issues/1", :text => "Bug #1: Can't print recipes"
@@ -28,17 +28,17 @@ class MailerTest < ActiveSupport::TestCase
       assert_select "a[href=?][title=?]", "https://mydomain.foo/projects/ecookbook/repository/revisions/2", "This commit fixes #1, #2 and references #1 &amp; #3", :text => "r2"
     end
   end
-  
+
   def test_generated_links_with_prefix
     relative_url_root = Redmine::Utils.relative_url_root
     ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
     Redmine::Utils.relative_url_root = '/rdm'
-    
+
     journal = Journal.find(2)
     assert Mailer.deliver_issue_edit(journal)
-    
+
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
 
@@ -54,17 +54,17 @@ class MailerTest < ActiveSupport::TestCase
     # restore it
     Redmine::Utils.relative_url_root = relative_url_root
   end
-  
+
   def test_generated_links_with_prefix_and_no_relative_url_root
     relative_url_root = Redmine::Utils.relative_url_root
     ActionMailer::Base.deliveries.clear
     Setting.host_name = 'mydomain.foo/rdm'
     Setting.protocol = 'http'
     Redmine::Utils.relative_url_root = nil
-    
+
     journal = Journal.find(2)
     assert Mailer.deliver_issue_edit(journal)
-    
+
     mail = ActionMailer::Base.deliveries.last
     assert_kind_of TMail::Mail, mail
 
@@ -80,7 +80,7 @@ class MailerTest < ActiveSupport::TestCase
     # restore it
     Redmine::Utils.relative_url_root = relative_url_root
   end
-  
+
   def test_email_headers
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(1)
@@ -119,7 +119,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal Mailer.message_id_for(issue), mail.message_id
     assert_nil mail.references
   end
-  
+
   def test_issue_edit_message_id
     ActionMailer::Base.deliveries.clear
     journal = Journal.find(1)
@@ -129,7 +129,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal Mailer.message_id_for(journal), mail.message_id
     assert_equal Mailer.message_id_for(journal.issue), mail.references.first.to_s
   end
-  
+
   def test_message_posted_message_id
     ActionMailer::Base.deliveries.clear
     message = Message.find(1)
@@ -139,7 +139,7 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal Mailer.message_id_for(message), mail.message_id
     assert_nil mail.references
   end
-  
+
   def test_reply_posted_message_id
     ActionMailer::Base.deliveries.clear
     message = Message.find(3)
@@ -149,32 +149,32 @@ class MailerTest < ActiveSupport::TestCase
     assert_equal Mailer.message_id_for(message), mail.message_id
     assert_equal Mailer.message_id_for(message.parent), mail.references.first.to_s
   end
-  
+
   context("#issue_add") do
     setup do
       ActionMailer::Base.deliveries.clear
       Setting.bcc_recipients = '1'
-      @issue = Issue.find(1) 
+      @issue = Issue.find(1)
     end
-    
+
     should "notify project members" do
       assert Mailer.deliver_issue_add(@issue)
       assert last_email.bcc.include?('dlopper@somenet.foo')
     end
-    
+
     should "not notify project members that are not allow to view the issue" do
       Role.find(2).remove_permission!(:view_issues)
       assert Mailer.deliver_issue_add(@issue)
       assert !last_email.bcc.include?('dlopper@somenet.foo')
     end
-    
+
     should "notify issue watchers" do
       user = User.find(9)
       Watcher.create!(:watchable => @issue, :user => user)
       assert Mailer.deliver_issue_add(@issue)
       assert last_email.bcc.include?(user.mail)
     end
-    
+
     should "not notify watchers not allowed to view the issue" do
       user = User.find(9)
       Watcher.create!(:watchable => @issue, :user => user)
@@ -183,7 +183,7 @@ class MailerTest < ActiveSupport::TestCase
       assert !last_email.bcc.include?(user.mail)
     end
   end
-  
+
   # test mailer methods for each language
   def test_issue_add
     issue = Issue.find(1)
@@ -200,7 +200,7 @@ class MailerTest < ActiveSupport::TestCase
       assert Mailer.deliver_issue_edit(journal)
     end
   end
-  
+
   def test_document_added
     document = Document.find(1)
     valid_languages.each do |lang|
@@ -208,7 +208,7 @@ class MailerTest < ActiveSupport::TestCase
       assert Mailer.deliver_document_added(document)
     end
   end
-  
+
   def test_attachments_added
     attachements = [ Attachment.find_by_container_type('Document') ]
     valid_languages.each do |lang|
@@ -216,7 +216,7 @@ class MailerTest < ActiveSupport::TestCase
       assert Mailer.deliver_attachments_added(attachements)
     end
   end
-  
+
   def test_news_added
     news = News.find(:first)
     valid_languages.each do |lang|
@@ -224,7 +224,7 @@ class MailerTest < ActiveSupport::TestCase
       assert Mailer.deliver_news_added(news)
     end
   end
-  
+
   def test_message_posted
     message = Message.find(:first)
     recipients = ([message.root] + message.root.children).collect {|m| m.author.mail if m.author}
@@ -234,7 +234,7 @@ class MailerTest < ActiveSupport::TestCase
       assert Mailer.deliver_message_posted(message)
     end
   end
-  
+
   def test_account_information
     user = User.find(:first)
     valid_languages.each do |lang|
@@ -257,7 +257,7 @@ class MailerTest < ActiveSupport::TestCase
     token = Token.find(1)
     Setting.host_name = 'redmine.foo'
     Setting.protocol = 'https'
-    
+
     valid_languages.each do |lang|
       token.user.update_attribute :language, lang.to_s
       token.reload
@@ -267,7 +267,7 @@ class MailerTest < ActiveSupport::TestCase
       assert mail.body.include?("https://redmine.foo/account/activate?token=#{token.value}")
     end
   end
-  
+
   def test_reminders
     ActionMailer::Base.deliveries.clear
     Mailer.reminders(:days => 42)
@@ -276,7 +276,7 @@ class MailerTest < ActiveSupport::TestCase
     assert mail.bcc.include?('dlopper@somenet.foo')
     assert mail.body.include?('Bug #3: Error 281 when updating a recipe')
   end
-  
+
   def last_email
     mail = ActionMailer::Base.deliveries.last
     assert_not_nil mail

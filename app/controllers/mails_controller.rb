@@ -1,7 +1,7 @@
 class MailsController < ApplicationController
-  
+
   before_filter :set_user
-  
+
   def index
     if params[:mailbox] == "sent"
       @mails = @user.sent_messages
@@ -9,11 +9,11 @@ class MailsController < ApplicationController
       @mails = @user.received_messages
     end
   end
-  
+
   def show
     @mail = Mail.read_and_get(params[:id], User.current)
   end
-  
+
   def new
     @mail = Mail.new
 
@@ -26,7 +26,7 @@ class MailsController < ApplicationController
       end
     end
   end
-  
+
   def create
     @mail = Mail.new(params[:mail])
     @mail.sender = @user
@@ -39,7 +39,7 @@ class MailsController < ApplicationController
       render :action => :new
     end
   end
-  
+
   def delete_selected
     if request.post?
       if params[:delete]
@@ -52,7 +52,7 @@ class MailsController < ApplicationController
       redirect_to user_mail_path(@user, @mails)
     end
   end
-  
+
   private
     def set_user
       # @user = User.find(params[:user_id])

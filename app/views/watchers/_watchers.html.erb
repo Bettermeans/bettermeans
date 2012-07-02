@@ -2,7 +2,7 @@
 <%= watchers_list(watched) %>
 
 <% unless @watcher.nil? %>
-<% remote_form_for(:watcher, @watcher, 
+<% remote_form_for(:watcher, @watcher,
                    :url => {:controller => 'watchers',
                             :action => 'new',
                             :object_type => watched.class.name.underscore,
@@ -24,7 +24,7 @@
   <div class="gt-sidebar-nav gt-sidebar-nav-gray">
     <ul>
       <li>
-        <%= link_to_remote l(:button_add), 
+        <%= link_to_remote l(:button_add),
                            :url => {:controller => 'watchers',
                                     :action => 'new',
                                     :object_type => watched.class.name.underscore,

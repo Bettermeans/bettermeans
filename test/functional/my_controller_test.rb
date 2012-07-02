@@ -9,7 +9,7 @@ class MyController; def rescue_action(e) raise e end; end
 
 class MyControllerTest < ActionController::TestCase
   fixtures :users, :user_preferences, :roles, :projects, :issues, :issue_statuses, :trackers, :enumerations, :custom_fields
-  
+
   def setup
     @controller = MyController.new
     @request    = ActionController::TestRequest.new
@@ -22,30 +22,30 @@ class MyControllerTest < ActionController::TestCase
     assert_response :success
     assert_template 'page'
   end
-  
+
   def test_page
     get :page
     assert_response :success
     assert_template 'page'
   end
-  
+
   def test_my_account_should_show_editable_custom_fields
     get :account
     assert_response :success
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
-    
+
     assert_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
   end
-  
+
   def test_my_account_should_not_show_non_editable_custom_fields
     UserCustomField.find(4).update_attribute :editable, false
-    
+
     get :account
     assert_response :success
     assert_template 'account'
     assert_equal User.find(2), assigns(:user)
-    
+
     assert_no_tag :input, :attributes => { :name => 'user[custom_field_values][4]'}
   end
 
@@ -62,28 +62,28 @@ class MyControllerTest < ActionController::TestCase
     assert_equal "0100562500", user.custom_value_for(4).value
     assert !user.admin?
   end
-  
+
   def test_change_password
     get :password
     assert_response :success
     assert_template 'password'
-    
+
     # non matching password confirmation
-    post :password, :password => 'jsmith', 
+    post :password, :password => 'jsmith',
                     :new_password => 'hello',
                     :new_password_confirmation => 'hello2'
     assert_response :success
     assert_template 'password'
     assert_tag :tag => "div", :attributes => { :class => "errorExplanation" }
-    
+
     # wrong password
-    post :password, :password => 'wrongpassword', 
+    post :password, :password => 'wrongpassword',
                     :new_password => 'hello',
                     :new_password_confirmation => 'hello'
     assert_response :success
     assert_template 'password'
     assert_equal 'Wrong password', flash.now[:error]
-    
+
     # good password
     post :password, :password => 'jsmith',
                     :new_password => 'hello',
@@ -91,13 +91,13 @@ class MyControllerTest < ActionController::TestCase
     assert_redirected_to 'my/account'
     assert User.try_to_login('jsmith', 'hello')
   end
-  
+
   def test_page_layout
     get :page_layout
     assert_response :success
     assert_template 'page_layout'
   end
-  
+
   def test_add_block
     xhr :post, :add_block, :block => 'issuesreportedbyme'
     assert_response :success
@@ -134,7 +134,7 @@ class MyControllerTest < ActionController::TestCase
       #should_set_the_flash_to /reset/
       #should_redirect_to('my account') {'/my/account' }
     end
-    
+
     context "with no rss_token" do
       setup do
         assert_nil User.find(2).rss_token
@@ -168,7 +168,7 @@ class MyControllerTest < ActionController::TestCase
       #should_set_the_flash_to /reset/
       #should_redirect_to('my account') {'/my/account' }
     end
-    
+
     context "with no api_token" do
       setup do
         assert_nil User.find(2).api_token

@@ -1,20 +1,20 @@
 class EmailUpdatesController < ApplicationController
   before_filter :require_login
-  ssl_required :all  
-  
+  ssl_required :all
+
   def new
     @email_update = EmailUpdate.new()
-  
+
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @invitation }
     end
   end
-  
+
   def create
     @email_update = EmailUpdate.new(params[:email_update])
     @email_update.user = User.current
-    
+
     respond_to do |format|
       if @email_update.save
         @email_update.send_activation
@@ -25,23 +25,23 @@ class EmailUpdatesController < ApplicationController
       end
     end
   end
-  
+
   def activate
     @email_update = EmailUpdate.find_by_token(params[:token])
-    
+
     if @email_update.nil?
       redirect_with_flash :error, l(:error_bad_email_update), :controller => :my, :action => :account
       return
     end
-    
+
     @email_update.accept
-    
-        
+
+
     redirect_with_flash :success, l(:text_email_updated), :controller => :my, :action => :account
     return
 
   rescue ActiveRecord::RecordNotFound
     redirect_with_flash :error, l(:error_bad_email_update), :controller => :my, :action => :account
   end
-  
+
 end

@@ -7,9 +7,9 @@ class ApplicationHelperTest < HelperTestCase
   include ApplicationHelper
   include ActionView::Helpers::TextHelper
   include ActionView::Helpers::DateHelper
-  
+
   fixtures :projects, :roles, :enabled_modules, :users,
-                      :repositories, :changesets, 
+                      :repositories, :changesets,
                       :trackers, :issue_statuses, :issues, :versions, :documents,
                       :wikis, :wiki_pages, :wiki_contents,
                       :boards, :messages,
@@ -18,7 +18,7 @@ class ApplicationHelperTest < HelperTestCase
   def setup
     super
   end
-  
+
   def test_auto_links
     to_test = {
       'http://foo.bar' => '<a class="external" href="http://foo.bar">http://foo.bar</a>',
@@ -48,12 +48,12 @@ class ApplicationHelperTest < HelperTestCase
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
-  
+
   def test_auto_mailto
-    assert_equal '<p><a href="mailto:test@foo.bar" class="email">test@foo.bar</a></p>', 
+    assert_equal '<p><a href="mailto:test@foo.bar" class="email">test@foo.bar</a></p>',
       textilizable('test@foo.bar')
   end
-  
+
   def test_inline_images
     to_test = {
       '!http://foo.bar/image.jpg!' => '<img src="http://foo.bar/image.jpg" alt="" />',
@@ -66,7 +66,7 @@ class ApplicationHelperTest < HelperTestCase
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
-  
+
   def test_inline_images_inside_tags
     raw = <<-RAW
 h1. !foo.png! Heading
@@ -79,16 +79,16 @@ RAW
     assert textilizable(raw).include?('<img src="foo.png" alt="" />')
     assert textilizable(raw).include?('<img src="bar.gif" alt="" />')
   end
-  
+
   def test_acronyms
     to_test = {
       'this is an acronym: GPL(General Public License)' => 'this is an acronym: <acronym title="General Public License">GPL</acronym>',
       'GPL(This is a double-quoted "title")' => '<acronym title="This is a double-quoted &quot;title&quot;">GPL</acronym>',
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
-    
+
   end
-  
+
   def test_attached_images
     to_test = {
       'Inline image: !logo.gif!' => 'Inline image: <img src="/attachments/download/3" title="This is a logo" alt="This is a logo" />',
@@ -101,7 +101,7 @@ RAW
     attachments = Attachment.find(:all)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text, :attachments => attachments) }
   end
-  
+
   def test_textile_external_links
     to_test = {
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
@@ -118,27 +118,27 @@ RAW
     }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
-  
+
   def test_redmine_links
-    issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3}, 
+    issue_link = link_to('#3', {:controller => 'issues', :action => 'show', :id => 3},
                                :class => 'issue status-1 priority-1 overdue', :title => 'Error 281 when updating a recipe (New)')
-    
+
     changeset_link = link_to('r1', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 1},
                                    :class => 'changeset', :title => 'My very first commit')
     changeset_link2 = link_to('r2', {:controller => 'repositories', :action => 'revision', :id => 'ecookbook', :rev => 2},
                                     :class => 'changeset', :title => 'This commit fixes #1, #2 and references #1 & #3')
-    
+
     document_link = link_to('Test document', {:controller => 'documents', :action => 'show', :id => 1},
                                              :class => 'document')
-    
+
     version_link = link_to('1.0', {:controller => 'versions', :action => 'show', :id => 2},
                                   :class => 'version')
 
     message_url = {:controller => 'messages', :action => 'show', :board_id => 1, :id => 4}
-    
+
     source_url = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file']}
     source_url_with_ext = {:controller => 'repositories', :action => 'entry', :id => 'ecookbook', :path => ['some', 'file.ext']}
-    
+
     to_test = {
       # tickets
       '#3, #3 and #3.'              => "#{issue_link}, #{issue_link} and #{issue_link}.",
@@ -187,7 +187,7 @@ RAW
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
-  
+
   def test_wiki_links
     to_test = {
       '[[CookBook documentation]]' => '<a href="/projects/ecookbook/wiki/CookBook_documentation" class="wiki-page">CookBook documentation</a>',
@@ -216,7 +216,7 @@ RAW
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
-  
+
   def test_html_tags
     to_test = {
       "<div>content</div>" => "<p>&lt;div&gt;content&lt;/div&gt;</p>",
@@ -234,7 +234,7 @@ RAW
     }
     to_test.each { |text, result| assert_equal result, textilizable(text) }
   end
-  
+
   def test_allowed_html_tags
     to_test = {
       "<pre>preformatted text</pre>" => "<pre>preformatted text</pre>",
@@ -243,7 +243,7 @@ RAW
     }
     to_test.each { |text, result| assert_equal result, textilizable(text) }
   end
-  
+
   def test_pre_tags
     raw = <<-RAW
 Before
@@ -262,10 +262,10 @@ RAW
 </pre>
 <p>After</p>
 EXPECTED
-    
+
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
-  
+
   def test_syntax_highlight
     raw = <<-RAW
 <pre><code class="ruby">
@@ -280,7 +280,7 @@ EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
-  
+
   def test_wiki_links_in_tables
     to_test = {"|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
                  '<tr><td><a href="/projects/ecookbook/wiki/Page" class="wiki-page new">Link title</a></td>' +
@@ -290,7 +290,7 @@ EXPECTED
     @project = Project.find(1)
     to_test.each { |text, result| assert_equal "<table>#{result}</table>", textilizable(text).gsub(/[\t\n]/, '') }
   end
-  
+
   def test_text_formatting
     to_test = {'*_+bold, italic and underline+_*' => '<strong><em><ins>bold, italic and underline</ins></em></strong>',
                '(_text within parentheses_)' => '(<em>text within parentheses</em>)',
@@ -300,17 +300,17 @@ EXPECTED
               }
     to_test.each { |text, result| assert_equal "<p>#{result}</p>", textilizable(text) }
   end
-  
+
   def test_wiki_horizontal_rule
     assert_equal '<hr />', textilizable('---')
     assert_equal '<p>Dashes: ---</p>', textilizable('Dashes: ---')
   end
-  
+
   def test_acronym
     assert_equal '<p>This is an acronym: <acronym title="American Civil Liberties Union">ACLU</acronym>.</p>',
                  textilizable('This is an acronym: ACLU(American Civil Liberties Union).')
   end
-  
+
   def test_footnotes
     raw = <<-RAW
 This is some text[1].
@@ -325,7 +325,7 @@ EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), textilizable(raw).gsub(%r{[\r\n\t]}, '')
   end
-  
+
   def test_table_of_content
     raw = <<-RAW
 {{toc}}
@@ -348,15 +348,15 @@ RAW
 
     expected = '<ul class="toc">' +
                '<li class="heading1"><a href="#Title">Title</a></li>' +
-               '<li class="heading2"><a href="#Subtitle-with-a-Wiki-link">Subtitle with a Wiki link</a></li>' + 
-               '<li class="heading2"><a href="#Subtitle-with-another-Wiki-link">Subtitle with another Wiki link</a></li>' + 
+               '<li class="heading2"><a href="#Subtitle-with-a-Wiki-link">Subtitle with a Wiki link</a></li>' +
+               '<li class="heading2"><a href="#Subtitle-with-another-Wiki-link">Subtitle with another Wiki link</a></li>' +
                '<li class="heading2"><a href="#Subtitle-with-red-text">Subtitle with red text</a></li>' +
                '<li class="heading1"><a href="#Another-title">Another title</a></li>' +
                '</ul>'
-               
+
     assert textilizable(raw).gsub("\n", "").include?(expected)
   end
-  
+
   def test_blockquote
     # orig raw text
     raw = <<-RAW
@@ -373,7 +373,7 @@ John said:
 
 He's right.
 RAW
-    
+
     # expected html
     expected = <<-EXPECTED
 <p>John said:</p>
@@ -393,10 +393,10 @@ Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 </blockquote>
 <p>He's right.</p>
 EXPECTED
-    
+
     assert_equal expected.gsub(%r{\s+}, ''), textilizable(raw).gsub(%r{\s+}, '')
   end
-  
+
   def test_table
     raw = <<-RAW
 This is a table with empty cells:
@@ -418,7 +418,7 @@ EXPECTED
 
     assert_equal expected.gsub(%r{\s+}, ''), textilizable(raw).gsub(%r{\s+}, '')
   end
-  
+
   def test_table_with_line_breaks
     raw = <<-RAW
 This is a table with line breaks:
@@ -457,18 +457,18 @@ EXPECTED
 
     assert_equal expected.gsub(%r{\s+}, ''), textilizable(raw).gsub(%r{\s+}, '')
   end
-  
+
   def test_textile_should_not_mangle_brackets
     assert_equal '<p>[msg1][msg2]</p>', textilizable('[msg1][msg2]')
   end
-  
+
   def test_default_formatter
     Setting.text_formatting = 'unknown'
     text = 'a *link*: http://www.example.net/'
     assert_equal '<p>a *link*: <a href="http://www.example.net/">http://www.example.net/</a></p>', textilizable(text)
     Setting.text_formatting = 'textile'
   end
-  
+
   def test_due_date_distance_in_words
     to_test = { Date.today => 'Due in 0 days',
                 Date.today + 1 => 'Due in 1 day',
@@ -482,7 +482,7 @@ EXPECTED
       assert_equal expected, due_date_distance_in_words(date)
     end
   end
-  
+
   def test_avatar
     # turn on avatars
     Setting.gravatar_enabled = '1'
@@ -490,25 +490,25 @@ EXPECTED
     assert avatar('jsmith <jsmith@somenet.foo>').include?(Digest::MD5.hexdigest('jsmith@somenet.foo'))
     assert_nil avatar('jsmith')
     assert_nil avatar(nil)
-    
+
     # turn off avatars
     Setting.gravatar_enabled = '0'
     assert_nil avatar(User.find_by_mail('jsmith@somenet.foo'))
   end
-  
+
   def test_link_to_user
     user = User.find(2)
     t = link_to_user(user)
     assert_equal "<a href=\"/users/2\">#{ user.name }</a>", t
   end
-                                      
+
   def test_link_to_user_should_not_link_to_locked_user
     user = User.find(5)
     assert user.locked?
     t = link_to_user(user)
     assert_equal user.name, t
   end
-                                                                          
+
   def test_link_to_user_should_not_link_to_anonymous
     user = User.anonymous
     assert user.anonymous?

@@ -2,7 +2,7 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class IssueStatus < ActiveRecord::Base
-  before_destroy :check_integrity  
+  before_destroy :check_integrity
   has_many :workflows, :foreign_key => "old_status_id", :dependent => :delete_all
   acts_as_list
 
@@ -13,21 +13,21 @@ class IssueStatus < ActiveRecord::Base
 
   def after_save
     IssueStatus.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id]) if self.is_default?
-  end  
-  
+  end
+
   # Returns the default status for new issues
   def self.default
     find(:first, :conditions =>["is_default=?", true])
   end
-  
+
   def self.assigned
     @@assigned_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_assigned)])
   end
-  
+
   def self.done
     @@done_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_done)])
   end
-  
+
   def self.inprogress
     @@inprogress_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_inprogress)])
   end
@@ -35,15 +35,15 @@ class IssueStatus < ActiveRecord::Base
   def self.newstatus
     @@newstatus_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_new)])
   end
-  
+
   def self.open
     @@open_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_open)])
   end
-  
+
   def self.canceled
     @@canceled_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_canceled)])
   end
-  
+
   def self.estimate
     @@estimate_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_estimate)])
   end
@@ -72,20 +72,20 @@ class IssueStatus < ActiveRecord::Base
       []
     end
   end
-  
+
   # Same thing as above but uses a database query
   # More efficient than the previous method if called just once
   def find_new_statuses_allowed_to(roles, tracker)
     if roles && tracker
       workflows.find(:all,
                      :include => :new_status,
-                     :conditions => { :role_id => roles.collect(&:id), 
+                     :conditions => { :role_id => roles.collect(&:id),
                                       :tracker_id => tracker.id}).collect{ |w| w.new_status }.compact.sort
     else
       []
     end
   end
-  
+
   def new_status_allowed_to?(status, roles, tracker)
     if status && roles && tracker
       !workflows.find(:first, :conditions => {:new_status_id => status.id, :role_id => roles.collect(&:id), :tracker_id => tracker.id}).nil?
@@ -97,7 +97,7 @@ class IssueStatus < ActiveRecord::Base
   def <=>(status)
     position <=> status.position
   end
-  
+
   def to_s; name end
 
 private

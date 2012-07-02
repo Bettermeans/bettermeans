@@ -9,7 +9,7 @@
 <div class="gt-table-buttons">
 <%= submit_tag l(:button_save) %>
 <p class="gt-cancel">
-<%= link_to_remote l(:label_preview), 
+<%= link_to_remote l(:label_preview),
                    { :url => { :controller => 'news', :action => 'preview', :project_id => @project },
                      :method => 'post',
                      :update => 'preview',
@@ -23,8 +23,8 @@
 <% end %>
 
 <div class="message gt-content-box">
-  
-<table class="gt-table gt-user-table" border="0">  
+
+<table class="gt-table gt-user-table" border="0">
   <tbody>
     <tr>
       <td class="gt-avatar <%= User.current.logged? && User.current.id == @news.author ? 'me' : nil %>">
@@ -33,7 +33,7 @@
       <td>
         <p><em><% unless @news.summary.blank? %><%="<strong>Summary</strong>: #{h @news.summary}" %><br /><% end %>
         </em></p>
-        
+
         <%= textilizable(@news.description) %>
     </td>
     <td class="side">
@@ -58,7 +58,7 @@
 <% if @comments.any? %>
   <h3 class="comments"><%= l(:label_comment_plural) %></h3>
   <div class="gt-content-box">
-  <table class="gt-table gt-user-table" border="0">  
+  <table class="gt-table gt-user-table" border="0">
     <tbody>
 
   <% @comments.each do |comment| %>
@@ -72,7 +72,7 @@
        <div class="comment reply" id="<%= "comment-#{comment.id}" %>">
          <%= textilizable comment.comments %>
        </div>
-     
+
      </td>
      <td class="side">
        <table border="0" class="gt-table-categories">
@@ -121,7 +121,7 @@
   <div class="gt-sidebar-nav gt-sidebar-nav-gray">
     <ul>
       <li>
-        <%= link_to_if_authorized l(:button_edit), 
+        <%= link_to_if_authorized l(:button_edit),
                                   {:controller => 'news', :action => 'edit', :id => @news},
                                   :class => 'icon icon-edit',
                                   :accesskey => accesskey(:edit),

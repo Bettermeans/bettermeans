@@ -4,12 +4,12 @@
 
 module Redmine
   # Class used to parse unified diffs
-  class UnifiedDiff < Array  
+  class UnifiedDiff < Array
     def initialize(diff, options={})
       options.assert_valid_keys(:type, :max_lines)
       diff = diff.split("\n") if diff.is_a?(String)
       diff_type = options[:type] || 'inline'
-      
+
       lines = 0
       @truncated = false
       diff_table = DiffTable.new(diff_type)
@@ -27,13 +27,13 @@ module Redmine
       self << diff_table unless diff_table.empty?
       self
     end
-    
+
     def truncated?; @truncated; end
   end
 
   # Class that represents a file diff
-  class DiffTable < Hash  
-    attr_reader :file_name, :line_num_l, :line_num_r    
+  class DiffTable < Hash
+    attr_reader :file_name, :line_num_l, :line_num_r
 
     # Initialize with a Diff file and the type of Diff View
     # The type view must be inline or sbs (side_by_side)
@@ -65,7 +65,7 @@ module Redmine
           @line_num_l = $2.to_i
           @line_num_r = $5.to_i
         else
-          @nb_line += 1 if parse_line(line, @type)          
+          @nb_line += 1 if parse_line(line, @type)
         end
       end
       return true
@@ -79,7 +79,7 @@ module Redmine
       end
     end
 
-  private  
+  private
     # Test if is a Side By Side type
     def sbs?(type, func)
       if @start and type == "sbs"
@@ -149,14 +149,14 @@ module Redmine
     end
 
   # A line of diff
-  class Diff  
+  class Diff
     attr_accessor :nb_line_left
     attr_accessor :line_left
     attr_accessor :nb_line_right
     attr_accessor :line_right
     attr_accessor :type_diff_right
     attr_accessor :type_diff_left
-    
+
     def initialize()
       self.nb_line_left = ''
       self.nb_line_right = ''

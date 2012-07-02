@@ -5,6 +5,6 @@ class Greeter
   end
 
   def salute
-    puts "Hello #{@name}!" 
+    puts "Hello #{@name}!"
   end
 end

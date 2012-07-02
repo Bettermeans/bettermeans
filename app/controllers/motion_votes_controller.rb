@@ -1,6 +1,6 @@
 class MotionVotesController < ApplicationController
   ssl_required :all
-  
+
   # before_filter :require_admin
   # GET /motion_votes
   # GET /motion_votes.xml
@@ -46,7 +46,7 @@ class MotionVotesController < ApplicationController
     @motion_vote = MotionVote.new(params[:motion_vote])
     @motion_vote.motion_id = params[:motion_id]
     @motion_vote.user_id = User.current.id
-    
+
     if @motion_vote.motion.motion_type == Motion::TYPE_SHARE
       sum = @motion_vote.user.shares.for_project(@motion_vote.motion.project_id).sum(:amount).to_i
       @motion_vote.points = params[:points].to_i * sum
@@ -57,7 +57,7 @@ class MotionVotesController < ApplicationController
     respond_to do |format|
       if @motion_vote.save
         # flash.now[:success] = @motion_vote.isbinding ? 'Your binding vote was cast' : 'Your non-binding vote was cast'
-        format.js  { render :action => "cast_vote", :motion => @motion_vote.motion}        
+        format.js  { render :action => "cast_vote", :motion => @motion_vote.motion}
       else
         format.js { render :action => "error"}
         format.html { render :action => "new" }

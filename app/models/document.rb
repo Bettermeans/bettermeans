@@ -11,24 +11,24 @@ class Document < ActiveRecord::Base
                 :author => Proc.new {|o| (a = o.attachments.find(:first, :order => "#{Attachment.table_name}.created_at ASC")) ? a.author : nil },
                 :url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.id}}
   # acts_as_activity_provider :find_options => {:include => :project}
-  
+
   validates_presence_of :project, :title
   validates_length_of :title, :maximum => 60
-  
+
   def size
     sum = 0.0
     attachments.each do |a|
       sum += a.filesize
     end
-    
+
     sum = sum / 1000000000
     sum.round(3)
   end
-  
+
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_documents, project)
   end
-  
+
   def updated_at
     unless @updated_at
       a = attachments.find(:first, :order => 'created_at DESC')
@@ -36,7 +36,7 @@ class Document < ActiveRecord::Base
     end
     @updated_at
   end
-  
+
   # Returns the mail adresses of users that should be notified
   def recipients
     notified = project.notified_users

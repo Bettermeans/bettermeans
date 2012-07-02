@@ -16,9 +16,9 @@
     </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Final <%= help_bubble :help_final_assessment %><br>distribution
     </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Accuracy<%= help_bubble :help_accuracy %><br>
     </td><td class="button">
-    </td></tr>  
-    
-<% 
+    </td></tr>
+
+<%
   @user_retro_hash = @user_retro_hash.sort_by {|x| [ x[1]["total_points"] , x[1]["total_ideas"] , x[1]["total_journals"] ] }.reverse
   @user_retro_hash.each do |x|
     user_id = x[0]
@@ -27,14 +27,14 @@
 %>
   <tr><td class="avatar">
     <%= avatar_from_id(user_id) %><br>
-    <%= link_to_user_from_id(user_id) %>   
-    
+    <%= link_to_user_from_id(user_id) %>
+
     <!-- </td><td class="name"> -->
   </td><td class="stats">
     <strong><%= user_retro["total_points"].round %> credits (<%= user_retro["percentage_points"] %>%)</strong> <br>
-    <%= user_retro["total_ideas"] %> ideas <br>      
-    <%= user_retro["total_journals"] %> comments <br>      
-    <%= user_retro["total_votes"] %> votes <br>      
+    <%= user_retro["total_ideas"] %> ideas <br>
+    <%= user_retro["total_journals"] %> comments <br>
+    <%= user_retro["total_votes"] %> votes <br>
   </td><td class="percentage private hidden">
     <label id="user_<%= user_id%>_percentage" class="percentage_label"><%= user_retro["given_percentage"] ||=0 %>%</label>
   <br>
@@ -48,9 +48,9 @@
   </td><td class="accuracy closed">
     <label id="user_<%= user_id%>_accuracy"><%= accuracy_display(user_retro["self_bias"],user_retro["scale_bias"]) %></label>
   </td><td class="button">
-  </td></tr>  
+  </td></tr>
   <% end %>
-  
+
   <tr class="open"><td class="avatar">
     &nbsp;
     </td><td class="stats">
@@ -64,8 +64,8 @@
   </td><td class="percentage closed">
     <label id="confidence_percentage">&nbsp;</label>
   </td><td class="button">
-  </td></tr>  
-  
+  </td></tr>
+
 <tr class="open"><td class="avatar">
 </td><td class="name">
 </td><td class="total private hidden" style="text-align:right;">
@@ -75,8 +75,8 @@
 </td><td class="button private hidden">
   <a id="change_retro_link_save" href="#" onclick="save_retro(<%= @retro.id  %>)" class="action_button action_button_save" style="color:#fff;text-decoration:none;display:none;">Save</a>
   <label id="success" style="display:none;">Done!</label>
-  <div id='saving' class='loading'>saving...</div>  
-</td></tr>  
+  <div id='saving' class='loading'>saving...</div>
+</td></tr>
 
 </table>
 </div>
@@ -88,7 +88,7 @@
 </div>
   <div class="user_retrospective gt-content-box" align="center">
     <table class="retrospective" style="width:85%" align="center">
-      
+
     <% @retro.issues.each do |issue| %>
       <%= render :partial => "issue_details", :locals => { :issue => issue } %>
     <% end %>
@@ -96,7 +96,7 @@
     <!-- <br> -->
     <%# user_retro["journals"].each do |journal| %>
     <%#= journal.inspect %>
-    <%# end %>    
+    <%# end %>
     <br>
   </div>
 
@@ -110,14 +110,14 @@
   <% @chart_width = @point_totals.length*70 + 50
    @chart_width = 1000 if @chart_width > 1000
    %>
-  
+
   <img src="<%= Gchart.bar(
               :title => 'Contribution Breakdown',
-              :data => [@idea_totals, @vote_totals, @journal_totals], 
+              :data => [@idea_totals, @vote_totals, @journal_totals],
               :bar_colors => 'EA7235,757668,E3A34D',
               #:horizontal => 'true',
               :stacked => false,
-              :orientation => 'vertical', 
+              :orientation => 'vertical',
               :size => "#{@chart_width}x200",
               :axis_with_labels => 'x',
               :axis_labels => @axis_labels,
@@ -130,36 +130,36 @@
 </div>
 <br>
 <div align="center" class="gt-content-box">
-  <img src="<%=  Gchart.pie(:title => 'Credits', 
+  <img src="<%=  Gchart.pie(:title => 'Credits',
                  :size => '400x200',
                  :data => @pie_data_points, :labels => @pie_labels_points )
-   %>"/> 
+   %>"/>
  </div>
  <br>
  <div align="center" class="gt-content-box">
-   <img src="<%=  Gchart.pie(:title => 'Ideas', 
+   <img src="<%=  Gchart.pie(:title => 'Ideas',
                   :size => '400x200',
                   :data => @pie_data_ideas, :labels => @pie_labels_ideas )
-    %>"/> 
+    %>"/>
   </div>
   <br>
   <div align="center" class="gt-content-box">
-   <img src="<%=  Gchart.pie(:title => 'Comments', 
+   <img src="<%=  Gchart.pie(:title => 'Comments',
                   :size => '400x200',
                   :data => @pie_data_journals, :labels => @pie_labels_journals )
-    %>"/> 
+    %>"/>
   </div>
   <br>
   <div align="center" class="gt-content-box">
-    <img src="<%=  Gchart.pie(:title => 'Votes', 
+    <img src="<%=  Gchart.pie(:title => 'Votes',
                    :size => '400x200',
                    :data => @pie_data_votes, :labels => @pie_labels_votes )
-     %>"/> 
+     %>"/>
 </div>
 <% end %>
 
 <script>
-  var currentUserId = '<%= User.current.id %>';  
+  var currentUserId = '<%= User.current.id %>';
   var retroStatus = '<%= @retro.status_id %>';
 </script>
 

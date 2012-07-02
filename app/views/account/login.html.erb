@@ -26,14 +26,14 @@
 		<div class="gt-login-hd">
 			&nbsp;&nbsp;&nbsp;&nbsp;You're here, that makes us happy
 		</div>
-		
+
 		<!-- login box -->
 		<div class="gt-login-box">
         <%=RPXNow.embed_code('bettermeans', url_for(:controller=>:accounts, :action=>:rpx_token, :only_path => false, :protocol => login_protocol()))%>
         <br><br><br>
         <div class="signup-header">or login using your account</div>
-        
-      
+
+
 
 			<!-- login form -->
 
@@ -46,7 +46,7 @@
         <%# if Setting.lost_password? %>
         <%# end %>
   		</p>
-  	  
+
 			<% form_tag({:action=> "login"}, :class => "gt-form") do %>
         <%= back_url_hidden_field_tag %>
         <%= hidden_field_tag 'invitation_token', @invitation_token %>
@@ -55,28 +55,28 @@
 				  <label for="username" class="gt-login-label"><%=l(:field_login)%></label>
           <%= text_field_tag 'username', nil, :tabindex => '1', :class => "gt-form-text" %>
 				</div><!-- /form row -->
-				
+
 				<!-- form row -->
 				<div class="gt-form-row">
 				  <label for="password" class="gt-login-label"><%=l(:field_password)%></label>
 				  <%= password_field_tag 'password', nil, :tabindex => '2', :class => "gt-form-text" %>
 				</div><!-- /form row -->
-				
+
 				<!-- form row -->
 				<div class="gt-form-row">
-				   
+
 					<label class="gt-remember-me"><%= check_box_tag 'autologin', 1, false, :tabindex => 4, :class => "gt-form-checkbox" %> <%= l(:label_stay_logged_in, {:class => "gt-remember-me"}) %></label>
-					
+
           <input type="submit" name="login" class="gt-btn-gray-medium gt-btn-right" style="float:right" value="<%=l(:button_login)%> &#187;" tabindex="5"/>
 				</div>
 				<!-- /form row -->
-				
+
 				<p class="gt-forgot-password"><%= link_to l(:label_register), { :controller => 'account', :action => 'register' } %>
     		<span class="lost">&nbsp;|&nbsp; </span>
     		<%= link_to l(:label_password_lost), {:controller => 'account', :action => 'lost_password'} %>
     		</p>
-				
+
 			<% end %><!-- /login form -->
-		</div><!-- /login box -->    
+		</div><!-- /login box -->
 <%= javascript_tag "$('#username').focus();" %>
 </div></div></div>

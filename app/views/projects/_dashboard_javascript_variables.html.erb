@@ -12,7 +12,7 @@
   var currentUserId = '<%= User.current.id %>';
   var currentUserIsCore = '<%= User.current.core_member_of?(project) %>';
   var currentUserIsMember = '<%= User.current.member_of?(project) %>';
-  var point_factor = <%= Setting::POINT_FACTOR.to_json %>;  
+  var point_factor = <%= Setting::POINT_FACTOR.to_json %>;
   var startable_priority_tiers = <%= Setting::NUMBER_OF_STARTABLE_PRIORITY_TIERS %>;
   var credits_enabled = <%= project.credits_enabled? %>;
   var ISSUE_COUNT = <%= project.issue_count %>

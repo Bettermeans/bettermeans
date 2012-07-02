@@ -3,10 +3,10 @@
 
 module AdminHelper
   def project_status_options_for_select(selected)
-    options_for_select([[l(:label_all), ''], 
+    options_for_select([[l(:label_all), ''],
                         [l(:status_active), 1]], selected)
   end
-  
+
   def css_project_classes(project)
     s = 'project'
     s << ' root' if project.root?

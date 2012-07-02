@@ -7,14 +7,14 @@ class AttachmentsController < ApplicationController
   before_filter :read_authorize, :except => [:destroy, :create]
   before_filter :delete_authorize, :only => :destroy
   ssl_required :all
-  
+
   verify :method => :post, :only => :destroy
-  
+
   unloadable # Send unloadable so it will not be unloaded in development
-  
+
   before_filter :redirect_to_s3, :except => [:destroy, :create]
-  
-  
+
+
   def create
     logger.info { "params #{params.inspect}" }
     if params[:file]
@@ -29,18 +29,18 @@ class AttachmentsController < ApplicationController
       logger.info { "created attachment #{a.inspect}" }
     end
     logger.info {"done with create" }
-    
+
     render :json => a.to_json
   end
-  
+
   def redirect_to_s3
     if @attachment.container.is_a?(Project)
       @attachment.increment_download
     end
     redirect_to("#{RedmineS3::Connection.uri}/#{@attachment.disk_filename}")
   end
-  
-  
+
+
   def show
     if @attachment.is_diff?
       @diff = File.new(@attachment.diskfile, "rb").read
@@ -52,19 +52,19 @@ class AttachmentsController < ApplicationController
       download
     end
   end
-  
+
   def download
     if @attachment.container.is_a?(Project)
       @attachment.increment_download
     end
-    
+
     # images are sent inline
     send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
-                                    :type => @attachment.content_type, 
+                                    :type => @attachment.content_type,
                                     :disposition => (@attachment.image? ? 'inline' : 'attachment')
-   
+
   end
-  
+
   def destroy
     # Make sure association callbacks are called
     @attachment.container.attachments.delete(@attachment)
@@ -72,7 +72,7 @@ class AttachmentsController < ApplicationController
   rescue ::ActionController::RedirectBackError
     redirect_to :controller => 'projects', :action => 'show', :id => @project
   end
-  
+
 private
   def find_project
     @attachment = Attachment.find(params[:id])
@@ -82,16 +82,16 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   # Checks that the file exists and is readable
   def file_readable
     @attachment.readable? ? true : render_404
   end
-  
+
   def read_authorize
     @attachment.visible? ? true : deny_access
   end
-  
+
   def delete_authorize
     @attachment.deletable? ? true : deny_access
   end

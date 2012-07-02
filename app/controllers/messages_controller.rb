@@ -8,16 +8,16 @@ class MessagesController < ApplicationController
   before_filter :find_message, :except => [:new, :preview, :motion_reply]
   before_filter :authorize, :except => [:preview, :edit, :destroy]
   # before_filter :guess_board, :only => [:show]
-  ssl_required :all  
-  
+  ssl_required :all
+
 
   verify :method => :post, :only => [ :reply, :destroy ], :redirect_to => { :action => :show }
   verify :xhr => true, :only => :quote
 
   helper :watchers
   helper :attachments
-  include AttachmentsHelper   
-  
+  include AttachmentsHelper
+
   log_activity_streams :current_user, :name, :created, :@message, :subject, :new, :messages, {:object_description_method => :content}
   log_activity_streams :current_user, :name, :edited, :@message, :subject, :edit, :messages, {:object_description_method => :content}
             # :indirect_object_name_method => :to_s,
@@ -28,7 +28,7 @@ class MessagesController < ApplicationController
             :indirect_object => :@reply,
             :indirect_object_description_method => :content,
             :indirect_object_phrase => '' }
-  
+
 
   # Show a topic and its replies
   def show
@@ -37,7 +37,7 @@ class MessagesController < ApplicationController
     @reply = Message.new(:subject => "RE: #{@message.subject}")
     render :action => "show", :layout => false if request.xhr?
   end
-  
+
   # Create a new topic
   def new
     @message = Message.new(params[:message])
@@ -83,7 +83,7 @@ class MessagesController < ApplicationController
       redirect_to :action => 'show', :board_id => @message.board, :id => @message.root
     end
   end
-  
+
   # Delete a messages
   def destroy
     (render_403; return false) unless @message.destroyable_by?(User.current)
@@ -92,7 +92,7 @@ class MessagesController < ApplicationController
       { :controller => 'boards', :action => 'show', :project_id => @project, :id => @board } :
       { :action => 'show', :id => @message.parent }
   end
-  
+
   def quote
     user = @message.author
     text = @message.content
@@ -109,14 +109,14 @@ class MessagesController < ApplicationController
       # page << "$('message_content').scrollTop = $('message_content').scrollHeight - $('message_content').clientHeight;"
     }
   end
-  
+
   def preview
     message = @board.messages.find_by_id(params[:id])
     @attachements = message.attachments if message
     @text = (params[:message] || params[:reply])[:content]
     render :partial => 'common/preview'
   end
-  
+
 private
   def find_message
     if params[:board_id] == 'guess'
@@ -130,7 +130,7 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   #This function is used to redirect links coming from the activity stream
   #To save queries on the database, we don't try to load the board id in the link to a message
   def guess_board
@@ -142,8 +142,8 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
-  
+
+
   def find_board
     @board = Board.find(params[:board_id], :include => :project)
     @project = @board.project

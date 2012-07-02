@@ -41,7 +41,7 @@
 <div id='panels' style="display: none;">
   <table id='main_table' class='dashboard' style='height: 100%;'>
     <tr id='main_row'>
-      
+
     </tr>
   </table>
 </div>
@@ -139,10 +139,10 @@
     Filtered results&nbsp;<span id="filter_detail" style="font-weight:bold;"></span>
     &nbsp;&nbsp;&nbsp;&nbsp;<a onclick="clear_filters();return false;" class="clickable bold icon icon-x">Clear</a>
   </div>
-</div>  
+</div>
 
 
-  
+
 <% end %>
 
 <% content_for :actionmenu do -%>
@@ -160,11 +160,11 @@
   <li>
     <a id="dash_key" onclick="return false;"  href="#"  class="top-help-tip icon icon-help">
       Key
-    </a>    
+    </a>
   </li>
 </ul>
 
-  
+
 <% end -%>
 
 <%# content_for :buttonbar do %>
@@ -211,12 +211,12 @@
     <% else %>
       <strong>There are 4 types of requests:</strong><br><br>
     <% end %>
-    A <strong>Feature</strong> provides verifiable value to the team's customer. Usually it is requested by the customer. The customer can be an internal customer to the enterprise.<br><br> 
+    A <strong>Feature</strong> provides verifiable value to the team's customer. Usually it is requested by the customer. The customer can be an internal customer to the enterprise.<br><br>
     A <strong>Chore</strong> is used internally by the team to track items that don't directly provide value to the team's customer.<br><br>
     A <strong>Bug</strong> describes a problem in some previously accepted feature or chore.<br><br>
     A <strong>Recurring</strong> request occurs for repeating needs. Once a recurring request is finished, a new copy of the request is generated and added to the open panel<br><br>
     <% if @project.credits_enabled? %>
-      A <strong>Gift</strong> gives a single user a gift of a certain amount of credits.<br>Gift items are not visible by the gift recipient until it's approved.<br><br> 
+      A <strong>Gift</strong> gives a single user a gift of a certain amount of credits.<br>Gift items are not visible by the gift recipient until it's approved.<br><br>
       An <strong>Expense</strong> as a fixed value, and cannot be estimated or joined. Expenses are immediately reimbursed after they are accepted, and they don't show up in retrospectives.'<br>
     <% end %>
   </div>
@@ -335,7 +335,7 @@
      <div class="pri_button_no_float pri_button_none left"></div>&nbsp;You haven't prioritized this<br>
      <div class="pri_button_no_float pri_button_none left">3</div>&nbsp;Total priority is 3<br><br>
      <a href="http://help.bettermeans.com/dashboard" target="blank">Learn more</a>
-     
+
      </td><td>
      <strong>Agreement Voting</strong><br>
      <div class="action_button_no_float action_button_root">agree?</div>&nbsp;You haven't voted yet<br>

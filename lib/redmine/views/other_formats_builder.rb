@@ -7,7 +7,7 @@ module Redmine
       def initialize(view)
         @view = view
       end
-      
+
       def link_to(name, options={})
         url = { :format => name.to_s.downcase }.merge(options.delete(:url) || {})
         caption = options.delete(:caption) || name

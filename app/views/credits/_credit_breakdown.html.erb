@@ -1,5 +1,5 @@
 <div class="gt-content-box">
-<% 
+<%
 pie_data = []
 pie_labels = []
 total_points = 0
@@ -17,12 +17,12 @@ group_credits.keys.sort.each do |owner_id|
   pie_labels << User.find(owner_id).firstname + " #{number_to_currency total_amount, :unit => unit, :separator => ".", :delimiter => ",", :precision => 0}"
 end
  %>
- 
- <img src="<%=  Gchart.pie(:title => "#{title} - #{number_to_currency total_points.round.to_i, :unit => unit, :separator => ".", :delimiter => ",", :precision => 0}", 
+
+ <img src="<%=  Gchart.pie(:title => "#{title} - #{number_to_currency total_points.round.to_i, :unit => unit, :separator => ".", :delimiter => ",", :precision => 0}",
                 :size => '400x200',
                 :data => pie_data, :labels => pie_labels )
-  %>"/> 
- 
+  %>"/>
+
 
 <%#= credits_group.each_value {|credits| total_points += credits.collect(&:points).sum }%>
 </div>

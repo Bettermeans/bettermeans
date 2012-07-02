@@ -20,9 +20,9 @@ class JournalTest < ActiveSupport::TestCase
     status = @journal.new_status
     assert_not_nil status
     assert_kind_of IssueStatus, status
-    assert_equal 2, status.id 
+    assert_equal 2, status.id
   end
-  
+
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     issue = Issue.find(:first)

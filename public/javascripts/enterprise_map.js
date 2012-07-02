@@ -5,7 +5,7 @@ var labelType, useGradients, nativeTextSupport, animate, rgraph;
       iStuff = ua.match(/iPhone/i) || ua.match(/iPad/i),
       typeOfCanvas = typeof HTMLCanvasElement,
       nativeCanvasSupport = (typeOfCanvas == 'object' || typeOfCanvas == 'function'),
-      textSupport = nativeCanvasSupport 
+      textSupport = nativeCanvasSupport
         && (typeof document.createElement('canvas').getContext('2d').fillText == 'function');
   //I'm setting this based on the fact that ExCanvas provides text support for IE
   //and that as of today iPhone/iPad current text support is lame
@@ -18,7 +18,7 @@ var labelType, useGradients, nativeTextSupport, animate, rgraph;
 // var Log = {
 //   elem: false,
 //   write: function(text){
-//     if (!this.elem) 
+//     if (!this.elem)
 //       this.elem = document.getElementById('log');
 //     this.elem.innerHTML = text;
 //     this.elem.style.left = (500 - this.elem.offsetWidth / 2) + 'px';
@@ -48,7 +48,7 @@ function init() {
    //    ]
    //  };
     //end
-    
+
 			//     //init nodetypes
 			//     //Here we implement custom node rendering types for the RGraph
 			//     //Using this feature requires some javascript and canvas experience.
@@ -62,7 +62,7 @@ function init() {
 			//             var p1coord = polar.getc(true);
 			//             polar.theta = end;
 			//             var p2coord = polar.getc(true);
-			// 
+			//
 			//             var ctx = canvas.getCtx();
 			//             ctx.beginPath();
 			//             ctx.moveTo(0, 0);
@@ -82,16 +82,16 @@ function init() {
 			//             ctx.save();
 			// // console.log('node' + node.data['$angularWidth'] + '  canvas:' + canvas + '  animating:' + animating);
 			//             ctx.translate(pos.x, pos.y);
-			// 	
+			//
 			//             pie.plot();
 			//             ctx.restore();
 			//           }
 			//          }
 			//     });
 			//     //end
-    
+
     // //init pie
-    // //This RGraph instance will be used as the node for 
+    // //This RGraph instance will be used as the node for
     // //another RGraph instance.
     // var pie = new $jit.RGraph({
     //     'injectInto': 'infovis',
@@ -128,7 +128,7 @@ function init() {
     //init rgraph
     rgraph = new $jit.RGraph({
 	    injectInto: 'infovis',
-    
+
         // useCanvas: pie.canvas,
         //Add node/edge styles and set
         //overridable=true if you want your
@@ -156,10 +156,10 @@ function init() {
             domElement.onclick = function() {
               rgraph.onClick(node.id, {
                   hideLabels: false
-              });  
+              });
             };
         },
-        
+
         onPlaceLabel: function(domElement, node){
             var style = domElement.style;
             var left = parseInt(style.left);
@@ -196,15 +196,15 @@ function refresh_data(){
 	//   duration: 2500
 	// }//,{'position': 'linear','node-property': ['dim']}
 	// );
-	
+
 	rgraph.op.morph(json2, {
       type: 'fade:seq',
       duration: 1500,
-      hideLabels: false	  
+      hideLabels: false
     }, {
 	  'node-property': 'dim'
     });
-    
+
     // rgraph.refresh();
-    
+
 }

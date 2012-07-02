@@ -1,20 +1,20 @@
 class CreditsController < ApplicationController
-  
+
   before_filter :require_admin, :except => [:disable, :enable]
   before_filter :find_credit, :only => [:disable, :enable]
   before_filter :self_authorize, :only => [:disable, :enable]
-  ssl_required :all  
-  
-  
+  ssl_required :all
+
+
   # GET /credits
   # GET /credits.xml
   def index
     @project = Project.find(params[:project_id]) unless params[:project_id].nil?
-    
+
     @credits = @project.credits
     @active_credits = @credits.find_all{|credit| credit.enabled == true }.group_by{|credit| credit.owner_id}
-    
-    
+
+
 
     respond_to do |format|
       format.html # index.html.erb
@@ -26,7 +26,7 @@ class CreditsController < ApplicationController
   # GET /credits/1.xml
   def show
     @credit = Credit.find(params[:id])
-    
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @credit }
@@ -82,7 +82,7 @@ class CreditsController < ApplicationController
       end
     end
   end
-  
+
   def disable
     respond_to do |format|
       if @credit.disable
@@ -100,7 +100,7 @@ class CreditsController < ApplicationController
       end
     end
   end
-  
+
   def enable
     respond_to do |format|
       if @credit.enable
@@ -118,12 +118,12 @@ class CreditsController < ApplicationController
       end
     end
   end
-  
+
   def update_credit_partials
     @project = Project.find(params[:project_id])
     @credits = @project.fetch_credits(params[:with_subprojects])
     @active_credits = @credits.find_all{|credit| credit.enabled == true && credit.settled_on.nil? == true }.group_by{|credit| credit.owner_id}
-    
+
     render :update do |page|
       page.replace_html "my_credits_partial", :partial => 'credits/my_credits'
       page.replace_html "credit_queue_partial", :partial => 'credits/credit_queue'
@@ -134,8 +134,8 @@ class CreditsController < ApplicationController
       page.visual_effect :highlight, "m_#{@credit.id}", :duration => 3
     end
   end
-  
-  
+
+
 
   # DELETE /credits/1
   # DELETE /credits/1.xml
@@ -148,15 +148,15 @@ class CreditsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   private
-  
+
   def find_credit
     @credit = Credit.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render_404
   end
-  
+
   def self_authorize
     if User.current.id != @credit.owner_id
       render_403

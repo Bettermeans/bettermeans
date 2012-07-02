@@ -2,20 +2,20 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 module WikiHelper
-  
+
   def wiki_page_options_for_select(pages, selected = nil, parent = nil, level = 0)
     s = ''
     pages.select {|p| p.parent == parent}.each do |page|
       attrs = "value='#{page.id}'"
       attrs << " selected='selected'" if selected == page
       indent = (level > 0) ? ('&nbsp;' * level * 2 + '&#187; ') : nil
-      
-      s << "<option value='#{page.id}'>#{indent}#{h page.pretty_title}</option>\n" + 
+
+      s << "<option value='#{page.id}'>#{indent}#{h page.pretty_title}</option>\n" +
              wiki_page_options_for_select(pages, selected, page, level + 1)
     end
     s
   end
-  
+
   def html_diff(wdiff)
     words = wdiff.words.collect{|word| h(word)}
     words_add = 0
@@ -26,7 +26,7 @@ module WikiHelper
       add_at = nil
       add_to = nil
       del_at = nil
-      deleted = ""	    
+      deleted = ""
       diff.each do |change|
         pos = change[1]
         if change[0] == "+"

@@ -30,7 +30,7 @@
                 }
             };
         };
-        
+
     FileUpload = function (container) {
         var fileUpload = this,
             uploadForm,
@@ -145,14 +145,14 @@
                 }
                 return settings.url;
             },
-            
+
             getMethod = function (settings) {
                 if (typeof settings.method === func) {
                     return settings.method(settings.uploadForm || uploadForm);
                 }
                 return settings.method;
             },
-            
+
             getFieldName = function (settings) {
                 if (typeof settings.fieldName === func) {
                     return settings.fieldName(settings.fileInput || fileInput);
@@ -242,7 +242,7 @@
                 formData += doubleDash + boundary + doubleDash + crlf;
                 return formData;
             },
-            
+
             fileReaderUpload = function (files, xhr, settings) {
                 var boundary = '----MultiPartFormBoundary' + (new Date()).getTime(),
                     loader,
@@ -414,17 +414,17 @@
                     }
                 }).appendTo(form);
             },
-            
+
             initUploadForm = function () {
                 uploadForm = (container.is('form') ? container : container.find('form'))
                     .filter(settings.uploadFormFilter);
             },
-            
+
             initFileInput = function () {
                 fileInput = uploadForm.find('input:file')
                     .filter(settings.fileInputFilter);
             },
-            
+
             replaceFileInput = function (input) {
                 var inputClone = input.clone(true);
                 $('<form/>').append(inputClone).get(0).reset();
@@ -439,7 +439,7 @@
             }
             e.preventDefault();
         };
-        
+
         this.onDocumentDrop = function (e) {
             if (typeof settings.onDocumentDrop === func &&
                     settings.onDocumentDrop(e) === false) {
@@ -471,7 +471,7 @@
             }
             e.preventDefault();
         };
-        
+
         this.onChange = function (e) {
             if (typeof settings.onChange === func &&
                     settings.onChange(e) === false) {
@@ -562,7 +562,7 @@
             }
             initEventHandlers();
         };
-        
+
         this.option = function (name, value) {
             var options;
             if (typeof value === undef) {
@@ -572,7 +572,7 @@
             options[name] = value;
             fileUpload.options(options);
         };
-        
+
         this.destroy = function () {
             removeEventHandlers();
             container
@@ -588,7 +588,7 @@
                 (new FileUpload($(this))).init(options);
             });
         },
-        
+
         option: function (option, value, namespace) {
             namespace = namespace ? namespace : defaultNamespace;
             var fileUpload = $(this).data(namespace);
@@ -601,7 +601,7 @@
                 $.error('No FileUpload with namespace "' + namespace + '" assigned to this element');
             }
         },
-                
+
         destroy : function (namespace) {
             namespace = namespace ? namespace : defaultNamespace;
             return this.each(function () {
@@ -615,7 +615,7 @@
 
         }
     };
-    
+
     $.fn.fileUpload = function (method) {
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -625,5 +625,5 @@
             $.error('Method ' + method + ' does not exist on jQuery.fileUpload');
         }
     };
-    
+
 }(jQuery));

@@ -14,9 +14,9 @@ module ApplicationHelper
 
   extend Forwardable
   def_delegators :wiki_helper
-    
+
   def help_section(name, popup=false)
-    if popup 
+    if popup
       return if User.current.anonymous?
 
       help_section = HelpSection.first(:conditions => {:user_id => User.current.id, :name => name})
@@ -71,7 +71,7 @@ module ApplicationHelper
       h(user.to_s)
     end
   end
-  
+
   def link_to_user_or_you(user, options={})
     if user == User.current
       "You"
@@ -79,7 +79,7 @@ module ApplicationHelper
       link_to_user(user,options)
     end
   end
-  
+
   # Displays a link to project
   def link_to_project(project, options={})
     if project.is_a?(Project)
@@ -89,15 +89,15 @@ module ApplicationHelper
       h(project.to_s)
     end
   end
-  
-  
+
+
   def link_to_user_from_id(user_id, options={})
     link_to_user(User.find(user_id))
   end
 
   # Displays a link to +issue+ with its subject.
   # Examples:
-  # 
+  #
   #   link_to_issue(issue)                        # => Defect #6: This is the subject
   #   link_to_issue(issue, :truncate => 6)        # => Defect #6: This i...
   #   link_to_issue(issue, :subject => false)     # => Defect #6
@@ -121,19 +121,19 @@ module ApplicationHelper
       css_class = issue.css_classes
     end
     css_class = css_class + " fancyframe" #loads fancybox
-    s = link_to "#{issue.tracker} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, 
+    s = link_to "#{issue.tracker} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue},
                                                  :class => css_class,
                                                  :title => title
     s << ": #{h subject}" if subject
     s = "#{h issue.project} - " + s if options[:project]
     s
   end
-  
+
   def link_to_issue_from_id(issue_id, options={})
     link_to_issue(Issue.find(issue_id), options)
   rescue ActiveRecord::RecordNotFound
     css_class = "fancyframe" #loads fancybox
-    s = link_to "Issue ##{issue_id}", {:controller => "issues", :action => "show", :id => issue_id}, 
+    s = link_to "Issue ##{issue_id}", {:controller => "issues", :action => "show", :id => issue_id},
                                                  :class => css_class
   end
 
@@ -147,11 +147,11 @@ module ApplicationHelper
 
     link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
   end
-  
+
   def current_user
     User.current
   end
-  
+
   def logged_in?
     User.current.logged?
   end
@@ -184,25 +184,25 @@ module ApplicationHelper
   #params to be passed with url
   #url to submit to after input is collected
   #required input or just optional
-  #html_options for this link  
+  #html_options for this link
   def prompt_input_to_remote(id, name, title, message, param, url, required, html_options = {})
     html_options[:onclick] = "comment_prompt_to_remote('#{id}', '#{title}', '#{message}', '#{param}', '#{url_for(url)}', #{required}); return false;"
     link_to name, {}, html_options
   end
-  
+
   def format_activity_title(text)
     h(truncate_single_line(text, :length => 100))
   end
-  
+
   def format_activity_day(date)
     date == Date.today ? l(:label_today).titleize : format_date(date)
   end
-  
+
   def format_activity_description(text)
     make_expandable(textilizable(text),300)
     # make_expandable h(text.to_s.gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />"), 300
   end
-  
+
   def make_expandable(newhtml,length=400)
     return if newhtml.nil?
     return newhtml if newhtml.gsub(/<\/?[^>]*>/,  "").length < length
@@ -219,8 +219,8 @@ module ApplicationHelper
     h << "<p>"
     h << "</div>"
   end
-  
-  
+
+
 
   def due_date_distance_in_words(date)
     if date
@@ -243,7 +243,7 @@ module ApplicationHelper
     end
     content
   end
-  
+
   # Renders flash messages
   def render_flash_messages
     s = ''
@@ -262,7 +262,7 @@ module ApplicationHelper
     end
     s
   end
-  
+
   # Renders tabs and their content
   def render_tabs(tabs)
     if tabs.any?
@@ -271,7 +271,7 @@ module ApplicationHelper
       content_tag 'p', l(:label_no_data), :class => "nodata"
     end
   end
-  
+
   # Renders the project quick-jump box
   def render_project_jump_box
     # Retrieve them now to avoid a COUNT query
@@ -281,15 +281,15 @@ module ApplicationHelper
       project_ids = User.current.projects.collect{|p| p.id}.join(",")
       projects = project_ids.any? ? Project.find(:all, :conditions => "(parent_id in (#{project_ids}) OR id in (#{project_ids})) AND (status=#{Project::STATUS_ACTIVE})") : []
     end
-    
-      
+
+
       s = '<select id="jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
             "<option value='/projects' selected=\"yes\">#{l(:label_jump_to_a_project)}</option>" +
             '<option value="" disabled="disabled">---</option>'
       if projects.any?
         s_options = ""
         s_options << project_tree_options_for_select(projects, :selected => @project) do |p|
-          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }          
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
         end
         s << s_options
         s << '<option value="" disabled="disabled">---</option>'
@@ -300,20 +300,20 @@ module ApplicationHelper
       s << '<span id="widthcalc" style="display:none;"></span>'
       # s << current_project_in_list.to_s
   end
-  
+
   def sub_workstream_project_box(project)
       return '' if project.nil?
       @project_descendants = project.descendants.active
       return '' if @project_descendants.length == 0
-    
-      
+
+
       s = '<select id="project_jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
             "<option value='/projects' selected=\"yes\">#{pluralize(@project_descendants.length,l(:label_subproject)).downcase}</option>" +
             '<option value="" disabled="disabled">---</option>'
       if @project_descendants.any?
         s_options = ""
         s_options << project_tree_options_for_select(@project_descendants) do |p|
-          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }          
+          { :value => url_for(:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item) }
         end
         s << s_options
       end
@@ -321,11 +321,11 @@ module ApplicationHelper
         s << '<option value="" disabled="disabled">---</option>'
         s << "<option value='#{url_for({:controller => :projects, :action => :new, :parent_id => project.id})}'>#{l(:label_subproject_new)}</option>"
       end
-      
+
       s << '</select>'
   end
-  
-  
+
+
   def project_tree_options_for_select(projects, options = {})
     s = ''
     project_tree_sorted(projects) do |project, level|
@@ -336,26 +336,26 @@ module ApplicationHelper
     end
     s
   end
-  
+
   # Yields the given block for each project with its level in the tree
   def project_tree(projects, &block)
     ancestors = []
     projects.sort_by(&:lft).each do |project|
-      while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+      while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
         ancestors.pop
       end
       yield project, ancestors.size
       ancestors << project
     end
   end
-  
+
   def project_tree_sorted(projects, &block)
     ancestors = []
     sorted = [] #nested array for alphabetical sorting
     last_array = sorted
     projects.sort_by(&:lft).each do |project|
-      
-      while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+
+      while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
         ancestors.pop
       end
 
@@ -365,36 +365,36 @@ module ApplicationHelper
         sorted_string = "sorted" + ".last" * ancestors.size
         eval(sorted_string) << [[project.name, ancestors.size,project]]
       end
-      
+
       # yield project, ancestors.size
       ancestors << project
     end
-    
+
     sorted = sort2d(sorted)
     traverse_sorted(sorted, &block)
     sorted
   end
-  
+
   def sort2d(ar)
     ar.sort! {|a,b| a[0][0][0] <=> b[0][0][0]}
-    
+
     if ar[0][0].class.to_s != "String"
-      ar.each {|sub| sub = sort2d(sub)} 
+      ar.each {|sub| sub = sort2d(sub)}
     end
   end
-  
+
   def traverse_sorted(ar, &block)
     unless ar[0].class.to_s != "String"
       yield ar[2], ar[1]
     else
-      ar.each {|sub| sub = traverse_sorted(sub, &block)} 
+      ar.each {|sub| sub = traverse_sorted(sub, &block)}
     end
   end
-  
+
   def show_detail(detail, no_html=false)
     case detail.property
     when 'attr'
-      label = l(("field_" + detail.prop_key.to_s.gsub(/\_id$/, "")).to_sym)   
+      label = l(("field_" + detail.prop_key.to_s.gsub(/\_id$/, "")).to_sym)
       case detail.prop_key
       when 'due_date', 'start_date'
         value = format_date(detail.value.to_date) if detail.value
@@ -422,7 +422,7 @@ module ApplicationHelper
     label ||= detail.prop_key
     value ||= detail.value
     old_value ||= detail.old_value
-    
+
     unless no_html
       label = content_tag('strong', label)
       old_value = content_tag("i", h(old_value)) if detail.old_value
@@ -434,7 +434,7 @@ module ApplicationHelper
         value = content_tag("i", h(value)) if value
       end
     end
-    
+
     if !detail.value.blank?
       case detail.property
       when 'attr', 'cf'
@@ -450,12 +450,12 @@ module ApplicationHelper
       l(:text_journal_deleted, :label => label, :old => old_value)
     end
   end
-  
+
   def format_time_ago(updated_at)
     "#{distance_of_time_in_words(Time.now,local_time(updated_at))} ago"
   end
-  
-  
+
+
   def project_nested_ul(projects, &block)
     s = ''
     if projects.any?
@@ -466,7 +466,7 @@ module ApplicationHelper
         else
           ancestors.pop
           s << "</li>"
-          while (ancestors.any? && !project.is_descendant_of?(ancestors.last)) 
+          while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
             ancestors.pop
             s << "</ul></li>\n"
           end
@@ -479,13 +479,13 @@ module ApplicationHelper
     end
     s
   end
-  
+
   def users_check_box_tags(name, users)
     s = ''
     users.sort.each do |user|
       s << "<label>#{ check_box_tag name, user.id, false } #{h user}</label>\n"
     end
-    s 
+    s
   end
 
   # Truncates and returns the string as a single line
@@ -501,7 +501,7 @@ module ApplicationHelper
     l(options[:label] || :label_added_time_by, :author => link_to_user(author), :age => time_tag(created))
   end
 
-  
+
   def time_tag(time)
     text = distance_of_time_in_words(Time.now, time)
     if @project
@@ -510,7 +510,7 @@ module ApplicationHelper
       content_tag('acronym', text, :title => format_time(time))
     end
   end
-  
+
   def since_tag(time)
     text = distance_of_time_in_words(Time.now, time).gsub(/about/,"")
     content_tag('acronym', text, :title => format_time(time))
@@ -539,7 +539,7 @@ module ApplicationHelper
     html << (pagination_links_each(paginator, options) do |n|
       link_to_remote_content_update(n.to_s, url_param.merge(page_param => n))
     end || '')
-    
+
     if paginator.current.next
       html << ' ' + link_to_remote_content_update((l(:label_next) + ' &#187;'), url_param.merge(page_param => paginator.current.next))
     end
@@ -553,7 +553,7 @@ module ApplicationHelper
 
     html
   end
-  
+
   def per_page_links(selected=nil)
     url_param = params.dup
     url_param.clear if url_param.has_key?(:set_filter)
@@ -566,7 +566,7 @@ module ApplicationHelper
     end
     links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
   end
-  
+
   def reorder_links(name, url)
     link_to(image_tag('2uparrow.png',   :alt => l(:label_sort_highest)), url.merge({"#{name}[move_to]" => 'highest'}), :method => :post, :title => l(:label_sort_highest)) +
     link_to(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),  url.merge({"#{name}[move_to]" => 'higher'}),  :method => :post, :title => l(:label_sort_higher)) +
@@ -578,15 +578,15 @@ module ApplicationHelper
     elements = args.flatten
     elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
   end
-  
+
   def other_formats_links(&block)
     concat('<p class="other-formats">' + l(:label_export_to))
     yield Redmine::Views::OtherFormatsBuilder.new(self)
     concat('</p>')
   end
-  
+
   def page_header_title
-    if @project.nil? 
+    if @project.nil?
       link_to(@page_header_name.nil? ? User.current.name : "Bettermeans", {:controller => 'welcome', :action => 'index'}) + (@page_header_name.nil? ? '' :  ' &#187; ' + @page_header_name)
       # h(Setting.app_title)
     elsif @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
@@ -616,7 +616,7 @@ module ApplicationHelper
       b = []
       b << link_to(l(:label_project_plural), {:controller => 'projects', :action => 'index'}, :class => 'root')
       # b << link_to(h(@project.enterprise.name), {:controller => 'enterprises', :action => 'show', :id => @project.enterprise.id, :jump => current_menu_item}, :class => 'root')
-    
+
       ancestors = (@project.root? ? [] : @project.ancestors.visible)
       if ancestors.any?
         root = ancestors.shift
@@ -634,11 +634,11 @@ module ApplicationHelper
       b = b.join(' &#187; ')
       # image = project_image(@project)
       # b = b + image if image
-      
+
       # b << "&nbsp;&nbsp;" << link_to("jump", nil, :class => 'root', :onclick => "jump_to_workstream();return false();", :id => "last_header_button")
     end
   end
-  
+
   def page_header_name
     begin
     if @project.nil? || @project.new_record?
@@ -648,7 +648,7 @@ module ApplicationHelper
       l(:label_project_new)
     else
       html = h(@project.name)
-      html << privacy(@project) 
+      html << privacy(@project)
       html << volunteering(@project)
       html
     end
@@ -673,7 +673,7 @@ module ApplicationHelper
   def accesskey(s)
     Redmine::AccessKeys.key_for s
   end
-  
+
 
   # Formats text according to system settings.
   # 2 ways to call this method:
@@ -798,7 +798,7 @@ module ApplicationHelper
     # text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
     text = text.gsub(%r{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(@)([a-zA-Z0-9._@]+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|<|$)}) do |m|
       leading, esc, prefix, sep, oid = $1, $2, $3, $5 || $7, $6 || $8
-    
+
       link = nil
       if esc.nil?
         if sep == '#'
@@ -863,7 +863,7 @@ module ApplicationHelper
     (blank ? [["(auto)", ""]] : []) +
       valid_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
   end
-  
+
   def month_hash
     [
       ["01 - January",1],
@@ -880,19 +880,19 @@ module ApplicationHelper
       ["12 - December",12]
     ]
   end
-  
+
   def privacy(project)
     project.is_public ? "" : help_bubble(:help_this_workstream_is_private, {:image =>"icon_privacy.png"})
   end
-  
+
   def volunteering(project)
     project.volunteer ? help_bubble(:help_volunteer, {:image => "icon_volunteer.png"}) : ""
   end
-  
+
   def year_hash
     [0,1,2,3,4,5,6,7,8,9,10].collect{|n| [(Date.today.year + n).to_s, Date.today.year + n]}
   end
-  
+
   def unit_for(project)
     if project.volunteer?
       return '♥'
@@ -900,9 +900,9 @@ module ApplicationHelper
       return '●'
     end
   end
-  
-  
-  
+
+
+
   def country_hash
     {
       "Afghanistan" => "AF",
@@ -1207,21 +1207,21 @@ module ApplicationHelper
     end
     link_to name, url, options
   end
-  
+
   def help_link(name, options={})
     options[:show_name] ||= false #When true, we show the text of the help key next to the link
     link_to(options[:show_name] ? l('help_' + name.to_s) : '', {:controller => 'help', :action => 'show', :key => name}, {:id =>'help_button_' + name.to_s, :class => 'lbOn icon icon-help'})
   end
-  
+
   def help_bubble(name, options={})
     # html = content_tag(:div, l(name), :class => 'tip hidden', :id=>"tip_#{name}")
     # html << link_to(image_tag("question_mark.gif", :class=> "help_question_mark", :id=>"help_image_#{name}"), {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
-    
+
     imagename = options[:image] || "question_mark.gif"
     image = image_tag(imagename, :class=> "help_question_mark", :id=>"help_image_#{name}")
     html = link_to(image, {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
     html << content_tag(:span, l(name, options), :class => 'tip hidden', :id=>"tip_#{name}")
-    
+
     # <img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="help_question_mark">
     # <div id="help_panel_canceled" style="display:none;">
     #   <div class="tip" style="width:300px">
@@ -1250,10 +1250,10 @@ module ApplicationHelper
         else
           '' # use language
         end
-        
+
         javascript_include_tag('calendar/calendar') +
         javascript_include_tag("calendar/lang/calendar-#{current_language.to_s.downcase}.js") +
-        javascript_tag(start_of_week) +  
+        javascript_tag(start_of_week) +
         javascript_include_tag('calendar/calendar-setup') +
         stylesheet_link_tag('calendar')
       end
@@ -1284,7 +1284,7 @@ module ApplicationHelper
       return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
     # end
   end
-  
+
   def render_journal_details(journal)
     return unless journal
     html = ""
@@ -1295,30 +1295,30 @@ module ApplicationHelper
       end
       html << "</ul>"
     end
-    
+
     content = ""
     content << textilizable(journal, :notes)
     content = make_expandable content, 250
     css_classes = "wiki"
     css_classes << " gravatar-margin" if Setting.gravatar_enabled?
-    
+
     html << content #_tag('div', content, :id => "journal-#{journal.id}-notes", :class => css_classes)
-    
+
   end
-  
+
   def link_to_activity(as)
     link_to name_for_activity_stream(as), url_for_activity_stream(as), {:class => class_for_activity_stream(as)}
   end
-  
+
   def name_for_activity_stream(as)
     (as.tracker_name) ? "a #{as.tracker_name.downcase}" : "a " + l("label_#{as.object_type.downcase}")
   end
-  
+
   def class_for_activity_stream(as)
      (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe"
   end
-  
-  def url_for_activity_stream(as)  
+
+  def url_for_activity_stream(as)
     case as.object_type.downcase
     when 'message'
       return {:controller => 'messages', :action => 'show', :board_id => 'guess', :id => as.object_id}
@@ -1332,7 +1332,7 @@ module ApplicationHelper
       return {:controller => as.object_type.downcase.pluralize, :action => 'show', :id => as.object_id}
     end
   end
-  
+
   def title_for_activity_stream(as)
     case as.object_type.downcase
     when 'memberrole'
@@ -1345,24 +1345,24 @@ module ApplicationHelper
       format_activity_title(as.object_name)
     end
   end
-  
-  def action_times(count)  
+
+  def action_times(count)
     count = count.to_i
     return nil if count < 2
     return " twice" if count == 2
-    return " #{count.to_s} times" if count > 2 
+    return " #{count.to_s} times" if count > 2
   end
-  
-  
-  
+
+
+
   def avatar_from_id(user_id, options = { })
     avatar(User.find(user_id), options)
   end
-  
+
   def button(text, cssclass)
   	return "<div class='action_button_no_float action_button_#{cssclass}' onclick=\"$('.action_button_no_float').hide();\" ><span>#{text}</span></div>"
   end
-  
+
   def tally_table(motion)
     content = "<table id='motion_votes_totals' class='gt-table'>"
     content << "<thead><tr>"
@@ -1379,9 +1379,9 @@ module ApplicationHelper
     content << "</tr>"
     content << "</table>"
   end
-  
+
   def tame_bias(number)
-    if number.nil? 
+    if number.nil?
       return ""
     else
       number = number.round
@@ -1397,20 +1397,20 @@ module ApplicationHelper
       number == 0 ? "Other: No Bias" : "Other: &plusmn;#{number}"
     end
   end
-  
+
   #depending on credit's status, provides link to activate/deactivate a credit. Project id is the current project being viewed
   def credit_activation_link(credit, project_id, include_sub_workstreams)
     return '' if !credit.settled_on.nil?
-    
+
     return link_to_remote(l(:button_deactivate),
                             { :url => {:controller => 'credits', :action => 'disable', :id => credit.id, :project_id => project_id, :with_subprojects => include_sub_workstreams} },
                             :class => 'icon icon-deactivate') if credit.enabled
-                            
+
     return link_to_remote(l(:button_activate),
                             { :url => {:controller => 'credits', :action => 'enable', :id => credit.id, :project_id => project_id, :with_subprojects => include_sub_workstreams} },
                             :class => 'icon icon-activate') if !credit.enabled
   end
-  
+
   def login_protocol()
     if ENV['RAILS_ENV'] == "development"
       'http'
@@ -1418,8 +1418,8 @@ module ApplicationHelper
       'https'
     end
   end
-  
-  
+
+
 
   # def bar_report_tag(data, options = {}, raphael_options = {})
   #         @__raphael_report_tag_count ||= -1
@@ -1451,7 +1451,7 @@ module ApplicationHelper
   #           });
   #         </script>}
   # end
-  
+
   private
 
   def wiki_helper
@@ -1459,14 +1459,14 @@ module ApplicationHelper
     extend helper
     return self
   end
-  
+
   def link_to_remote_content_update(text, url_params)
     link_to_remote(text,
       {:url => url_params, :method => :get, :update => 'content', :complete => 'window.scrollTo(0,0)'},
       {:href => url_for(:params => url_params)}
     )
   end
-  
-  
-  
+
+
+
 end

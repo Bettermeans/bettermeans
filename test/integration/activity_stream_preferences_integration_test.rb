@@ -1,6 +1,6 @@
 #--
 # Copyright (c) 2008 Matson Systems, Inc.
-# Released under the BSD license found in the file 
+# Released under the BSD license found in the file
 # LICENSE included with this ActivityStreams plug-in.
 #++
 # Template to generate the ActivityStreamPreferencesControllerTest
@@ -22,7 +22,7 @@ class ActivityStreamPreferencesControllerTest < ActionController::IntegrationTes
     assert_response :redirect
 
     post '/activity_stream_preferences', :user_id => users(:fred).id, :locations => all_locations
-    assert_redirected_to ("/activity_stream_preferences")    
+    assert_redirected_to ("/activity_stream_preferences")
 
     post '/set_my_feeds', :id => 1, :creators => ['1'], :feed_digest_option => 'daily'
     get "/users/#{users(:fred).id}"
@@ -34,7 +34,7 @@ class ActivityStreamPreferencesControllerTest < ActionController::IntegrationTes
     assert_response :redirect
 
     post '/activity_stream_preferences', :user_id => users(:fred).id, :locations => all_locations
-    assert_redirected_to ("/activity_stream_preferences")    
+    assert_redirected_to ("/activity_stream_preferences")
 
     post '/set_my_feeds', :id => 1, :creators => ['1'], :feed_digest_option => 'daily'
     post '/logout'
@@ -49,7 +49,7 @@ class ActivityStreamPreferencesControllerTest < ActionController::IntegrationTes
     assert_response :redirect
 
     post '/activity_stream_preferences', :user_id => users(:fred).id, :locations => ( all_locations - ['follow_creator.logged_in_location'])
-    assert_redirected_to ("/activity_stream_preferences")    
+    assert_redirected_to ("/activity_stream_preferences")
 
     post '/set_my_feeds', :id => 1, :creators => ['1'], :feed_digest_option => 'daily'
     get "/users/#{users(:fred).id}"
@@ -61,7 +61,7 @@ class ActivityStreamPreferencesControllerTest < ActionController::IntegrationTes
     assert_response :redirect
 
     post '/activity_stream_preferences', :user_id => users(:fred).id, :locations => (all_locations - ['follow_creator.public_location'])
-    assert_redirected_to ("/activity_stream_preferences")    
+    assert_redirected_to ("/activity_stream_preferences")
 
     post '/set_my_feeds', :id => 1, :creators => ['1'], :feed_digest_option => 'daily'
 

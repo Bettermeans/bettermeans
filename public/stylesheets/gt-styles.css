@@ -295,7 +295,7 @@ body {
 	border-top: 1px solid #e4e4e4;
 	color: #333;
 	vertical-align: top;
-	word-wrap: break-word; 
+	word-wrap: break-word;
 }
 .gt-table tr:hover td {
 /*	background-color: #f4f7f8;*/
@@ -369,7 +369,7 @@ body {
 .issues {
 	margin-top: 10px;
 	margin-bottom: 10px;
-	
+
 }
 
 .issues td {
@@ -422,10 +422,10 @@ h5 .icon{
 	margin: 10px 0 10px 0;
 }
 .gt-table-buttons:after, .gt-table-buttons-inside:after {
-    content: "."; 
-    display: block; 
-    height: 0; 
-    clear: both; 
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
     visibility: hidden;
 }
 .gt-table-buttons {display: inline-block;}
@@ -513,7 +513,7 @@ h5 .icon{
 .gt-table .gt-table-action-list {
 	color: #999;
 	margin-top: 10px;
-	margin-bottom: 0px; 
+	margin-bottom: 0px;
 	margin-left: 0px;
 	margin-right: 0px;
 }
@@ -770,7 +770,7 @@ h5 .icon{
 .gt-nav-breadcrumbs a:link, .gt-nav-breadcrumbs a:visited {
 	color:#333!important;
 	text-decoration: none;
-	
+
 }
 
 /* Main Navigation */
@@ -824,7 +824,7 @@ h5 .icon{
 
 .gt-actionmenu a:visited, .gt-actionmenu a {
 	background-color: #CF5D07!important;
-	
+
 /*	background-color: #e58508!important;*/
 }
 
@@ -1039,12 +1039,12 @@ tt {
 .gt-cancel {
 	color: #666666;
 	margin-left: 20px;
-	
+
 }
 .gt-cancel a:link, .gt-cancel a:visited {
 	color: #cc0000;
 	text-decoration: underline;
-	
+
 }
 .gt-cancel a:hover {
 	text-decoration: none;
@@ -1179,10 +1179,10 @@ ul li {
 
 /* Auto clear the form row */
 .gt-form .gt-form-row:after {
-    content: "."; 
-    display: block; 
-    height: 0; 
-    clear: both; 
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
     visibility: hidden;
 }
 
@@ -1299,10 +1299,10 @@ a:hover {
 	clear: both;
 }
 .clearfix:after {
-    content: "."; 
-    display: block; 
-    height: 0; 
-    clear: both; 
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
     visibility: hidden;
 }
 
@@ -1379,8 +1379,8 @@ table.activity-item h5.attachment { background-image: url(/images/attachment.png
 table.activity-item h5.document { background-image: url(/images/document.png); }
 table.activity-item h5.project { background-image: url(/images/projects.png); }
 table.activity-item h5.time-entry { background-image: url(/images/time.png); }
-table.activity-item h5.cr-note { background-image: url(/images/tag_blue.png); }  
-table.activity-item h5.team-offer { background-image: url(/images/user_new.png); }  
+table.activity-item h5.cr-note { background-image: url(/images/tag_blue.png); }
+table.activity-item h5.team-offer { background-image: url(/images/user_new.png); }
 table.activity-item h5.member-role { background-image: url(/images/users.png); }
 table.activity-item h5.memberrole { background-image: url(/images/users.png); }
 table.activity-item h5.motion { background-image: url(/images/weather_lightning.png); }
@@ -1433,7 +1433,7 @@ a.action_link_votes{
 	font-weight: bold;
 /*	float: right;*/
 	display: block;
-	background: url(/images/bb_very_white.png) no-repeat; 
+	background: url(/images/bb_very_white.png) no-repeat;
 }
 
 .panel_button_top{
@@ -1450,7 +1450,7 @@ a.action_link_votes{
 	background-color: #555;
 	padding: 2px 4px 2px 4px;
 	border-radius: 5px;
-	-moz-border-radius: 5px; 
+	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
 
@@ -1464,7 +1464,7 @@ a.action_link_votes{
 	cursor:pointer;
 /*	float: right;*/
 	display: block;
-	background: url(/images/refresh.png) no-repeat; 
+	background: url(/images/refresh.png) no-repeat;
 	margin:2px;
 }
 
@@ -1477,7 +1477,7 @@ a.action_link_votes{
 	cursor:pointer;
 /*	float: right;*/
 	display: block;
-	background: url(/images/key.png) no-repeat; 
+	background: url(/images/key.png) no-repeat;
 	margin:2px;
 }
 
@@ -1496,7 +1496,7 @@ a.action_link_votes{
 .action_button_change{
 	font-color:#000;
 	font-weight:bold;
-	background: url(/images/bb_ocean.png) no-repeat; 
+	background: url(/images/bb_ocean.png) no-repeat;
 	float:left;
 	padding-top:2px;
 }
@@ -1505,7 +1505,7 @@ a.action_link_votes{
 .action_button_save{
 	font-color:#000;
 	font-weight:bold;
-	background: url(/images/bb_red.png) no-repeat; 
+	background: url(/images/bb_red.png) no-repeat;
 	float:left;
 	padding-top:2px;
 }
@@ -1543,7 +1543,7 @@ a.action_link_votes{
 }
 
 .pri-container{
-	
+
 }
 
 .itemCollapsedHeader .icons, .itemCollapsedHeader .itemCollapsedText {
@@ -1750,7 +1750,7 @@ text-decoration:underline !important;
 
 .pri_button_up{
 	background: url(/images/up_arrow.png) no-repeat;
-	
+
 }
 
 .pri_button_down{
@@ -1766,85 +1766,85 @@ text-decoration:underline !important;
 }
 
 .action_button_start{
-	background: url(/images/bb_grey.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat;
 /*	background: url(/images/bb_sky.png) no-repeat; */
 }
 
 .action_button_start_no_hide{
-	background: url(/images/bb_sky.png) no-repeat; 
+	background: url(/images/bb_sky.png) no-repeat;
 }
 
 .action_button_root{
-	background: url(/images/bb_orange.png) no-repeat; 
+	background: url(/images/bb_orange.png) no-repeat;
 }
 
 .action_button_finish{
-	background: url(/images/bb_grey.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat;
 /*	background: url(/images/bb_sky.png) no-repeat; */
 }
 
 .action_button_join{
-	background: url(/images/bb_grey.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat;
 /*	background: url(/images/bb_sky.png) no-repeat; */
 }
 
 .action_button_accept{
-	background: url(/images/bb_green.png) no-repeat; 
+	background: url(/images/bb_green.png) no-repeat;
 }
 
 .action_button_reject{
-	background: url(/images/bb_red.png) no-repeat; 
+	background: url(/images/bb_red.png) no-repeat;
 }
 
 .action_button_restart{
-	background: url(/images/bb_sky.png) no-repeat; 
+	background: url(/images/bb_sky.png) no-repeat;
 }
 
 .action_button_estimate{
-	background: url(/images/bb_orange.png) no-repeat; 
+	background: url(/images/bb_orange.png) no-repeat;
 /*	background: url(/images/bb_sky.png) no-repeat; */
 /*	background: url(/images/bb_blue.png) no-repeat; */
 }
 
 .action_button_agree{
-	background: url(/images/bb_green.png) no-repeat; 
+	background: url(/images/bb_green.png) no-repeat;
 }
 
 .action_button_neutral{
-	background: url(/images/bb_grey.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat;
 }
 
 .action_button_against{
-	background: url(/images/bb_red.png) no-repeat; 
+	background: url(/images/bb_red.png) no-repeat;
 }
 
 .action_button_disagree{
-	background: url(/images/bb_red.png) no-repeat; 
+	background: url(/images/bb_red.png) no-repeat;
 }
 
 
 .action_button_block{
-	background: url(/images/bb_darkred.png) no-repeat; 
+	background: url(/images/bb_darkred.png) no-repeat;
 }
 
 .action_button_release{
-	background: url(/images/bb_grey.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat;
 /*	background: url(/images/bb_red.png) no-repeat; */
 }
 
 .action_button_leave{
-	background: url(/images/bb_grey.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat;
 /*	background: url(/images/bb_red.png) no-repeat; */
 }
 
 .action_button_takeback{
-	background: url(/images/bb_grey.png) no-repeat; 
+	background: url(/images/bb_grey.png) no-repeat;
 /*	background: url(/images/bb_red.png) no-repeat; */
 }
 
 .action_button_cancel{
 	width:20px!important;
-	background: url(/images/dash_cancel.png) no-repeat; 
+	background: url(/images/dash_cancel.png) no-repeat;
 	background-position: 0px 3px!important;
 }
 
@@ -1863,18 +1863,18 @@ text-decoration:underline !important;
 }
 
 .action_button_retro{
-	background: url(/images/bb_purple.png) no-repeat; 
+	background: url(/images/bb_purple.png) no-repeat;
 }
 
 
 .action_button_accepted{
 	font-weight:bold;
-	color: #000;	
+	color: #000;
 }
 
 .action_button_rejected{
-	font-weight:bold;	
-	color: #000;	
+	font-weight:bold;
+	color: #000;
 }
 
 
@@ -2263,8 +2263,8 @@ div.center div.jGrowl-notification, div.center div.jGrowl-closer {
 div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
 	background-color: 		#d30921;
 /*	opacity: 				.85;*/
-    -ms-filter: 			"progid:DXImageTransform.Microsoft.Alpha(Opacity=85)"; 
-    filter: 				progid:DXImageTransform.Microsoft.Alpha(Opacity=85); 
+    -ms-filter: 			"progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
+    filter: 				progid:DXImageTransform.Microsoft.Alpha(Opacity=85);
 	zoom: 					1;
 	width: 					235px;
 	padding: 				10px;
@@ -2396,7 +2396,7 @@ form input[type=submit] {
 	padding: 0;
 	margin: 0;
 	width: 126px;
-	background: url(/images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;	
+	background: url(/images/gt/btn-gray-medium.png) no-repeat 0 0 transparent;
 }
 
 .gt-table-buttons-inside input[type=submit]{
@@ -2760,7 +2760,7 @@ img.private-workstream, img.volunteer-workstream{
 	vertical-align: middle;
 	padding-top: 3px;
 	float: left;
-	
+
 }
 
 .ui-menu ul li{

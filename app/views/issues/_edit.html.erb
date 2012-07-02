@@ -15,14 +15,14 @@
         </legend> -->
         <%= render :partial => 'form', :locals => {:f => f} %>
         </fieldset>
-    <% end %>    
+    <% end %>
     </div>
-    
+
     <%= f.hidden_field :lock_version %>
   <div class="gt-table-buttons">
         <%= submit_tag l(:button_submit), :disable_with => l(:button_working) %>
   <!-- <p class="gt-cancel">
-    <%#= link_to_remote l(:label_preview), 
+    <%#= link_to_remote l(:label_preview),
                        { :url => { :controller => 'issues', :action => 'preview', :project_id => @project, :id => @issue },
                          :method => 'post',
                          :update => 'preview',

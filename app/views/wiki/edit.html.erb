@@ -7,7 +7,7 @@
 <p><label><%= l(:field_wiki_comments) %><%= help_bubble :help_revision_notes %></label><br /><%= f.text_field :comments, :size => 120, "autocomplete-mentions-projectid" => @project.id %></p>
 <div class="gt-table-buttons">
 <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
-<p class="gt-cancel">   <%= link_to_remote l(:label_preview), 
+<p class="gt-cancel">   <%= link_to_remote l(:label_preview),
                        { :url => { :controller => 'wiki', :action => 'preview', :id => @project, :page => @page.title },
                          :method => 'post',
                          :update => 'preview',

@@ -1,6 +1,6 @@
 #--
 # Copyright (c) 2008 Matson Systems, Inc.
-# Released under the BSD license found in the file 
+# Released under the BSD license found in the file
 # LICENSE included with this ActivityStreams plug-in.
 #++
 # Template to generate the ActivityStreamPreferencesControllerTest
@@ -35,8 +35,8 @@ class ActivityStreamPreferencesControllerTest < ActionController::TestCase
 
   def test_none_checked_should_save_all_data
     login_as :aaron
-    post :create, :user_id => users(:aaron).id 
-    assert_equal(18, ActivityStreamPreference.find(:all, :conditions => 
+    post :create, :user_id => users(:aaron).id
+    assert_equal(18, ActivityStreamPreference.find(:all, :conditions =>
       { :user_id => users(:aaron)}).size)
   end
 

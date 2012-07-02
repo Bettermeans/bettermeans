@@ -22,21 +22,21 @@ class MembersController < ApplicationController
     end
     respond_to do |format|
       format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
-      format.js { 
-        render(:update) {|page| 
+      format.js {
+        render(:update) {|page|
           page.replace_html "tab-content-members", :partial => 'projects/settings/members'
           members.each {|member| page.visual_effect(:highlight, "member-#{member.id}") }
         }
       }
     end
   end
-  
+
   def edit
     if request.post? and @member.update_attributes(params[:member])
   	 respond_to do |format|
         format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
-        format.js { 
-          render(:update) {|page| 
+        format.js {
+          render(:update) {|page|
             page.replace_html "tab-content-members", :partial => 'projects/settings/members'
             page.visual_effect(:highlight, "member-#{@member.id}")
           }
@@ -54,7 +54,7 @@ class MembersController < ApplicationController
       format.js { render(:update) {|page| page.replace_html "tab-content-members", :partial => 'projects/settings/members'} }
     end
   end
-  
+
   def autocomplete_for_member
     @users = User.active.like(params[:q]).find(:all, :limit => 100) - @project.users
     render :layout => false
@@ -66,9 +66,9 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_member
-    @member = Member.find(params[:id]) 
+    @member = Member.find(params[:id])
     @project = @member.project
   rescue ActiveRecord::RecordNotFound
     render_404

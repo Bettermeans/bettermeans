@@ -2,22 +2,22 @@
  * bubbletip
  *
  * Copyright (c) 2009, UhLeeKa
- * Version: 
+ * Version:
  *      1.0.4
  * Licensed under the GPL license:
  *     http://www.gnu.org/licenses/gpl.html
- * Author Website: 
+ * Author Website:
  *     http://www.uhleeka.com
- * Description: 
+ * Description:
  *     A bubble-styled tooltip extension
  *      - multiple tips on a page
- *      - multiple tips per jQuery element 
+ *      - multiple tips per jQuery element
  *      - tips open outward in four directions:
  *         - up
  *         - down
  *         - left
  *         - right
- *      - tips can be: 
+ *      - tips can be:
  *         - anchored to the triggering jQuery element
  *         - absolutely positioned
  *         - opened at the current mouse coordinates
@@ -28,7 +28,7 @@
 	var bindIndex = 0;
 	$.fn.extend({
 		bubbletip: function(tip, options) {
-			// check to see if the tip is a descendant of 
+			// check to see if the tip is a descendant of
 			// a table.bubbletip element and therefore
 			// has already been instantiated as a bubbletip
 			if ($('table.bubbletip #' + $(tip).id).length > 0) {

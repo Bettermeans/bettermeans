@@ -12,11 +12,11 @@ module Redmine
     module PDF
       include ActionView::Helpers::TextHelper
       include ActionView::Helpers::NumberHelper
-      
+
       class IFPDF < FPDF
         include Redmine::I18n
         attr_accessor :footer_date
-        
+
         def initialize(lang)
           super()
           set_language_if_valid lang
@@ -38,16 +38,16 @@ module Redmine
             @font_for_footer = 'Big5'
           else
             @font_for_content = 'Arial'
-            @font_for_footer = 'Helvetica'              
+            @font_for_footer = 'Helvetica'
           end
           SetCreator(Redmine::Info.app_name)
           SetFont(@font_for_content)
         end
-        
+
         def SetFontStyle(style, size)
           SetFont(@font_for_content, style, size)
         end
-        
+
         def SetTitle(txt)
           txt = begin
             utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
@@ -59,7 +59,7 @@ module Redmine
           end || ''
           super(txt)
         end
-    
+
         def textstring(s)
           # Format a text string
           if s =~ /^</  # This means the string is hex-dumped.
@@ -68,7 +68,7 @@ module Redmine
             return '('+escape(s)+')'
           end
         end
-          
+
         def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
           @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           # these quotation marks are not correctly rendered in the pdf
@@ -83,7 +83,7 @@ module Redmine
           end || ''
           super w,h,txt,border,ln,align,fill,link
         end
-        
+
         def Footer
           SetFont(@font_for_footer, 'I', 8)
           SetY(-15)
@@ -94,7 +94,7 @@ module Redmine
           Cell(0, 5, PageNo().to_s + '/{nb}', 0, 0, 'C')
         end
       end
-      
+
       # Returns a PDF string of a list of issues
       def issues_to_pdf(issues, project, query)
         pdf = IFPDF.new(current_language)
@@ -104,7 +104,7 @@ module Redmine
         pdf.AliasNbPages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage("L")
-        
+
         row_height = 6
         col_width = []
         unless query.columns.empty?
@@ -112,12 +112,12 @@ module Redmine
           ratio = 262.0 / col_width.inject(0) {|s,w| s += w}
           col_width = col_width.collect {|w| w * ratio}
         end
-        
+
         # title
-        pdf.SetFontStyle('B',11)    
+        pdf.SetFontStyle('B',11)
         pdf.Cell(190,10, title)
         pdf.Ln
-        
+
         # headers
         pdf.SetFontStyle('B',8)
         pdf.SetFillColor(230, 230, 230)
@@ -126,7 +126,7 @@ module Redmine
           pdf.Cell(col_width[i], row_height, column.caption, 1, 0, 'L', 1)
         end
         pdf.Ln
-        
+
         # rows
         pdf.SetFontStyle('',8)
         pdf.SetFillColor(255, 255, 255)
@@ -158,7 +158,7 @@ module Redmine
         end
         pdf.Output
       end
-      
+
       # Returns a PDF string of a single issue
       def issue_to_pdf(issue)
         pdf = IFPDF.new(current_language)
@@ -166,13 +166,13 @@ module Redmine
         pdf.AliasNbPages
         pdf.footer_date = format_date(Date.today)
         pdf.AddPage
-        
-        pdf.SetFontStyle('B',11)    
+
+        pdf.SetFontStyle('B',11)
         pdf.Cell(190,10, "#{issue.project} - #{issue.tracker} # #{issue.id}: #{issue.subject}")
         pdf.Ln
-        
+
         y0 = pdf.GetY
-        
+
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_status) + ":","LT")
         pdf.SetFontStyle('',9)
@@ -180,16 +180,16 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_priority) + ":","LT")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, issue.priority.to_s,"RT")        
+        pdf.Cell(60,5, issue.priority.to_s,"RT")
         pdf.Ln
-          
+
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_author) + ":","L")
         pdf.SetFontStyle('',9)
         pdf.Cell(60,5, issue.author.to_s,"R")
         pdf.SetFontStyle('B',9)
-        pdf.Ln   
-        
+        pdf.Ln
+
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_created_at) + ":","L")
         pdf.SetFontStyle('',9)
@@ -199,7 +199,7 @@ module Redmine
         pdf.SetFontStyle('',9)
         pdf.Cell(60,5, issue.assigned_to.to_s,"R")
         pdf.Ln
-        
+
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_updated_at) + ":","LB")
         pdf.SetFontStyle('',9)
@@ -209,22 +209,22 @@ module Redmine
         pdf.SetFontStyle('',9)
         pdf.Cell(60,5, format_date(issue.due_date),"RB")
         pdf.Ln
-          
+
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_subject) + ":","LTB")
         pdf.SetFontStyle('',9)
         pdf.Cell(155,5, issue.subject,"RTB")
-        pdf.Ln    
-        
+        pdf.Ln
+
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_description) + ":")
         pdf.SetFontStyle('',9)
         pdf.MultiCell(155,5, @issue.description,"BR")
-        
+
         pdf.Line(pdf.GetX, y0, pdf.GetX, pdf.GetY)
         pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
         pdf.Ln
-        
+
         if issue.changesets.any? && User.current.allowed_to?(:view_changesets, issue.project)
           pdf.SetFontStyle('B',9)
           pdf.Cell(190,5, l(:label_associated_revisions), "B")
@@ -236,14 +236,14 @@ module Redmine
             unless changeset.comments.blank?
               pdf.SetFontStyle('',8)
               pdf.MultiCell(190,5, changeset.comments)
-            end   
+            end
             pdf.Ln
           end
         end
-        
+
         pdf.SetFontStyle('B',9)
         pdf.Cell(190,5, l(:label_history), "B")
-        pdf.Ln  
+        pdf.Ln
         for journal in issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_at ASC")
           pdf.SetFontStyle('B',8)
           pdf.Cell(190,5, format_time(journal.created_at) + " - " + journal.user.name)
@@ -256,10 +256,10 @@ module Redmine
           if journal.notes?
             pdf.SetFontStyle('',8)
             pdf.MultiCell(190,5, journal.notes)
-          end   
+          end
           pdf.Ln
         end
-        
+
         if issue.attachments.any?
           pdf.SetFontStyle('B',9)
           pdf.Cell(190,5, l(:label_attachment_plural), "B")
@@ -275,7 +275,7 @@ module Redmine
         end
         pdf.Output
       end
-      
+
       # Returns a PDF string of a gantt chart
       def gantt_to_pdf(gantt, project)
         pdf = IFPDF.new(current_language)
@@ -288,14 +288,14 @@ module Redmine
         pdf.Cell(70, 20, project.to_s)
         pdf.Ln
         pdf.SetFontStyle('B',9)
-        
+
         subject_width = 70
         header_heigth = 5
-        
+
         headers_heigth = header_heigth
         show_weeks = false
         show_days = false
-        
+
         if gantt.months < 7
           show_weeks = true
           headers_heigth = 2*header_heigth
@@ -304,27 +304,27 @@ module Redmine
             headers_heigth = 3*header_heigth
           end
         end
-        
+
         g_width = 210
         zoom = (g_width) / (gantt.date_to - gantt.date_from + 1)
         g_height = 120
         t_height = g_height + headers_heigth
-        
+
         y_start = pdf.GetY
-        
+
         # Months headers
         month_f = gantt.date_from
         left = subject_width
         height = header_heigth
-        gantt.months.times do 
-          width = ((month_f >> 1) - month_f) * zoom 
+        gantt.months.times do
+          width = ((month_f >> 1) - month_f) * zoom
           pdf.SetY(y_start)
           pdf.SetX(left)
           pdf.Cell(width, height, "#{month_f.year}-#{month_f.month}", "LTR", 0, "C")
           left = left + width
           month_f = month_f >> 1
-        end  
-        
+        end
+
         # Weeks headers
         if show_weeks
           left = subject_width
@@ -350,14 +350,14 @@ module Redmine
             week_f = week_f+7
           end
         end
-        
+
         # Days headers
         if show_days
           left = subject_width
           height = header_heigth
           wday = gantt.date_from.cwday
           pdf.SetFontStyle('B',7)
-          (gantt.date_to - gantt.date_from + 1).to_i.times do 
+          (gantt.date_to - gantt.date_from + 1).to_i.times do
             width = zoom
             pdf.SetY(y_start + 2 * header_heigth)
             pdf.SetX(left)
@@ -367,78 +367,78 @@ module Redmine
             wday = 1 if wday > 7
           end
         end
-        
+
         pdf.SetY(y_start)
         pdf.SetX(15)
         pdf.Cell(subject_width+g_width-15, headers_heigth, "", 1)
-        
+
         # Tasks
         top = headers_heigth + y_start
         pdf.SetFontStyle('B',7)
         gantt.events.each do |i|
           pdf.SetY(top)
           pdf.SetX(15)
-          
+
           if i.is_a? Issue
             pdf.Cell(subject_width-15, 5, "#{i.tracker} #{i.id}: #{i.subject}".sub(/^(.{30}[^\s]*\s).*$/, '\1 (...)'), "LR")
           else
             pdf.Cell(subject_width-15, 5, "#{l(:label_version)}: #{i.name}", "LR")
           end
-        
+
           pdf.SetY(top)
           pdf.SetX(subject_width)
           pdf.Cell(g_width, 5, "", "LR")
-        
+
           pdf.SetY(top+1.5)
-          
+
           if i.is_a? Issue
             i_start_date = (i.start_date >= gantt.date_from ? i.start_date : gantt.date_from )
             i_end_date = (i.due_before <= gantt.date_to ? i.due_before : gantt.date_to )
-            
+
             i_done_date = i.start_date + ((i.due_before - i.start_date+1)*i.done_ratio/100).floor
             i_done_date = (i_done_date <= gantt.date_from ? gantt.date_from : i_done_date )
             i_done_date = (i_done_date >= gantt.date_to ? gantt.date_to : i_done_date )
-            
+
             i_late_date = [i_end_date, Date.today].min if i_start_date < Date.today
-            
-            i_left = ((i_start_date - gantt.date_from)*zoom) 
+
+            i_left = ((i_start_date - gantt.date_from)*zoom)
             i_width = ((i_end_date - i_start_date + 1)*zoom)
             d_width = ((i_done_date - i_start_date)*zoom)
             l_width = ((i_late_date - i_start_date+1)*zoom) if i_late_date
             l_width ||= 0
-          
+
             pdf.SetX(subject_width + i_left)
             pdf.SetFillColor(200,200,200)
             pdf.Cell(i_width, 2, "", 0, 0, "", 1)
-          
+
             if l_width > 0
               pdf.SetY(top+1.5)
               pdf.SetX(subject_width + i_left)
               pdf.SetFillColor(255,100,100)
               pdf.Cell(l_width, 2, "", 0, 0, "", 1)
-            end 
+            end
             if d_width > 0
               pdf.SetY(top+1.5)
               pdf.SetX(subject_width + i_left)
               pdf.SetFillColor(100,100,255)
               pdf.Cell(d_width, 2, "", 0, 0, "", 1)
             end
-            
+
             pdf.SetY(top+1.5)
             pdf.SetX(subject_width + i_left + i_width)
             pdf.Cell(30, 2, "#{i.status} #{i.done_ratio}%")
           else
-            i_left = ((i.start_date - gantt.date_from)*zoom) 
-            
+            i_left = ((i.start_date - gantt.date_from)*zoom)
+
             pdf.SetX(subject_width + i_left)
             pdf.SetFillColor(50,200,50)
-            pdf.Cell(2, 2, "", 0, 0, "", 1) 
-        
+            pdf.Cell(2, 2, "", 0, 0, "", 1)
+
             pdf.SetY(top+1.5)
             pdf.SetX(subject_width + i_left + 3)
             pdf.Cell(30, 2, "#{i.name}")
           end
-          
+
           top = top + 5
           pdf.SetDrawColor(200, 200, 200)
           pdf.Line(15, top, subject_width+g_width, top)
@@ -449,7 +449,7 @@ module Redmine
           end
           pdf.SetDrawColor(0, 0, 0)
         end
-        
+
         pdf.Line(15, top, subject_width+g_width, top)
         pdf.Output
       end

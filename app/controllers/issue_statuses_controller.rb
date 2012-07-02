@@ -3,13 +3,13 @@
 
 class IssueStatusesController < ApplicationController
   layout 'admin'
-  
+
   before_filter :require_admin
   ssl_required :all
-  
+
   verify :method => :post, :only => [ :destroy, :create, :update, :move ],
          :redirect_to => { :action => :list }
-         
+
   def index
     list
     render :action => 'list' unless request.xhr?
@@ -54,5 +54,5 @@ class IssueStatusesController < ApplicationController
   rescue
     flash.now[:error] = "Unable to delete issue status"
     redirect_to :action => 'list'
-  end  	
+  end
 end

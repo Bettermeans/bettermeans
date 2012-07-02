@@ -9,7 +9,7 @@
 // Unicode is the answer to a real internationalized world.  Also please
 // include your contact information in the header, as can be seen above.
 
-// Translator: Raden Prabowo, <cakbowo@gmail.com> 
+// Translator: Raden Prabowo, <cakbowo@gmail.com>
 
 // full day names
 Calendar._DN = new Array

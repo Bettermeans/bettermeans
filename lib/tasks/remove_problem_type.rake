@@ -2,7 +2,7 @@
 
 desc "removes item of type : problem and changes them to type : taks"
 task :remove_problem_type => :environment do
-  
+
   problem = Tracker.first(:conditions => {:name => "Problem"})
   task = Tracker.first(:conditions => {:name => "Task"})
 

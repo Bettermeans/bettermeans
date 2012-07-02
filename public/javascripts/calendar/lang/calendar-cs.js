@@ -1,4 +1,4 @@
-/* 
+/*
 	calendar-cs-win.js
 	language: Czech
 	encoding: windows-1250

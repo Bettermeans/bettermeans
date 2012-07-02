@@ -6,7 +6,7 @@
 <%= render_tabs my_projects_tabs %>
 
 <% content_for :actionmenu do %>
-    <ul>    
+    <ul>
     <li>
       <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project}, :class => "icon icon-add" %>
     </li>
@@ -22,7 +22,7 @@
   $('document').ready(function(){
     display_sparks();
   });
-  
+
   $('.tab-top').click(function(){
     display_sparks();
   })

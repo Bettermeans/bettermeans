@@ -2,9 +2,9 @@ class CreditDistributionsController < ApplicationController
   # GET /credit_distributions
   # GET /credit_distributions.xml
   before_filter :require_admin
-  ssl_required :all  
-  
-  
+  ssl_required :all
+
+
   def index
     @credit_distributions = CreditDistribution.all
 

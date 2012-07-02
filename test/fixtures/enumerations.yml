@@ -1,30 +1,30 @@
---- 
-enumerations_004: 
+---
+enumerations_004:
   name: Low
   id: 4
   opt: IPRI
   type: IssuePriority
   active: true
-enumerations_005: 
+enumerations_005:
   name: Normal
   id: 5
   opt: IPRI
   type: IssuePriority
   is_default: true
   active: true
-enumerations_006: 
+enumerations_006:
   name: High
   id: 6
   opt: IPRI
   type: IssuePriority
   active: true
-enumerations_007: 
+enumerations_007:
   name: Urgent
   id: 7
   opt: IPRI
   type: IssuePriority
   active: true
-enumerations_008: 
+enumerations_008:
   name: Immediate
   id: 8
   opt: IPRI

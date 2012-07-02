@@ -8,12 +8,12 @@ class AuthSourceLdapTest < ActiveSupport::TestCase
 
   def setup
   end
-  
+
   def test_create
     a = AuthSourceLdap.new(:name => 'My LDAP', :host => 'ldap.example.net', :port => 389, :base_dn => 'dc=example,dc=net', :attr_login => 'sAMAccountName')
     assert a.save
   end
-  
+
   def test_should_strip_ldap_attributes
     a = AuthSourceLdap.new(:name => 'My LDAP', :host => 'ldap.example.net', :port => 389, :base_dn => 'dc=example,dc=net', :attr_login => 'sAMAccountName',
                            :attr_firstname => 'givenName ')

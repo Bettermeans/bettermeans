@@ -3,22 +3,22 @@ production:
   secret_access_key: <%=ENV['s3_secret_access_key'] %>
   bucket: bettermeans_production
   cname_bucket: false
-  
+
 development:
     access_key_id: <%=ENV['s3_access_key_id'] %>
     secret_access_key: <%=ENV['s3_secret_access_key'] %>
     bucket: bettermeans_development
     cname_bucket: false
-  
+
 test: &TEST
     access_key_id: <%=ENV['s3_access_key_id'] %>
     secret_access_key: <%=ENV['s3_secret_access_key'] %>
     bucket: bettermeans_development
     cname_bucket: false
-  
-cucumber: 
+
+cucumber:
   <<: *TEST
-  
+
 selenium:
   <<: *TEST
-    
+

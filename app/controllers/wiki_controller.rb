@@ -7,17 +7,17 @@ class WikiController < ApplicationController
   default_search_scope :wiki_pages
   before_filter :find_wiki, :authorize
   before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy]
-  ssl_required :all  
-  
-  
+  ssl_required :all
+
+
   verify :method => :post, :only => [:destroy, :protect], :redirect_to => { :action => :index }
 
   helper :attachments
-  include AttachmentsHelper   
+  include AttachmentsHelper
   helper :watchers
-  
+
   log_activity_streams :current_user, :name, :attached, :@page, :title, :add_attachment, :wikis, {}
-  
+
   # display a page (in editing mode if it doesn't exist)
   def index
     page_title = params[:page]
@@ -48,13 +48,13 @@ class WikiController < ApplicationController
 	@editable = editable?
     render :action => 'show'
   end
-  
+
   # edit an existing page or a new one
   def edit
-    @page = @wiki.find_or_new_page(params[:page])    
+    @page = @wiki.find_or_new_page(params[:page])
     return render_403 unless editable?
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
-    
+
     @content = @page.content_for_version(params[:version])
     @content.text = initial_page_content(@page) if @content.text.blank?
     # don't keep previous comment
@@ -87,7 +87,7 @@ class WikiController < ApplicationController
     # Optimistic locking exception
     flash.now[:error] = l(:notice_locking_conflict)
   end
-  
+
   # rename a page
   def rename
     return render_403 unless editable?
@@ -99,7 +99,7 @@ class WikiController < ApplicationController
       redirect_to :action => 'index', :id => @project, :page => @page.title
     end
   end
-  
+
   def protect
     @page.update_attribute :protected, params[:protected]
     redirect_to :action => 'index', :id => @project, :page => @page.title
@@ -109,8 +109,8 @@ class WikiController < ApplicationController
   def history
     @version_count = @page.content.versions.count
     @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
-    # don't load text    
-    @versions = @page.content.versions.find :all, 
+    # don't load text
+    @versions = @page.content.versions.find :all,
                                             :select => "id, author_id, comments, updated_at, version",
                                             :order => 'version DESC',
                                             :limit  =>  @version_pages.items_per_page + 1,
@@ -118,22 +118,22 @@ class WikiController < ApplicationController
 
     render :layout => false if request.xhr?
   end
-  
+
   def diff
     @diff = @page.diff(params[:version], params[:version_from])
     render_404 unless @diff
   end
-  
+
   def annotate
     @annotate = @page.annotate(params[:version])
     render_404 unless @annotate
   end
-  
+
   # Removes a wiki page and its history
   # Children can be either set as root pages, removed or reassigned to another parent page
   def destroy
     return render_403 unless editable?
-    
+
     @descendants_count = @page.descendants.size
     if @descendants_count > 0
       case params[:todo]
@@ -175,7 +175,7 @@ class WikiController < ApplicationController
       @pages = @wiki.pages.find :all, :order => 'title'
       export = render_to_string :action => 'export_multiple', :layout => false
       send_data(export, :type => 'text/html', :filename => "wiki.html")
-      return      
+      return
     else
       # requested special page doesn't exist, redirect to default page
       redirect_to :action => 'index', :id => @project, :page => nil
@@ -183,7 +183,7 @@ class WikiController < ApplicationController
     end
     render :action => "special_#{page_title}"
   end
-  
+
   def preview
     page = @wiki.find_page(params[:page])
     # page is nil when previewing a new page
@@ -203,23 +203,23 @@ class WikiController < ApplicationController
   end
 
 private
-  
+
   def find_wiki
     @project = Project.find(params[:id])
     render_message l(:text_project_locked) if @project.locked?
-    
+
     @wiki = @project.wiki
     render_404 unless @wiki
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   # Finds the requested page and returns a 404 error if it doesn't exist
   def find_existing_page
     @page = @wiki.find_page(params[:page])
     render_404 if @page.nil?
   end
-  
+
   # Returns true if the current user is allowed to edit the page, otherwise false
   def editable?(page = @page)
     page.editable_by?(User.current)

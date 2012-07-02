@@ -1,5 +1,5 @@
---- 
-wiki_content_versions_001: 
+---
+wiki_content_versions_001:
   updated_at: 2007-03-07 00:08:07 +01:00
   page_id: 1
   id: 1
@@ -11,10 +11,10 @@ wiki_content_versions_001:
   data: |-
     h1. CookBook documentation
 
-    
+
 
     Some [[documentation]] here...
-wiki_content_versions_002: 
+wiki_content_versions_002:
   updated_at: 2007-03-07 00:08:34 +01:00
   page_id: 1
   id: 2
@@ -26,10 +26,10 @@ wiki_content_versions_002:
   data: |-
     h1. CookBook documentation
 
-    
+
 
     Some updated [[documentation]] here...
-wiki_content_versions_003: 
+wiki_content_versions_003:
   updated_at: 2007-03-07 00:10:51 +01:00
   page_id: 1
   id: 3
@@ -41,10 +41,10 @@ wiki_content_versions_003:
   data: |-
     h1. CookBook documentation
     Some updated [[documentation]] here...
-wiki_content_versions_004: 
+wiki_content_versions_004:
   data: |-
     h1. Another page
-    
+
     This is a link to a ticket: #2
   updated_at: 2007-03-08 00:18:07 +01:00
   page_id: 2
@@ -52,5 +52,5 @@ wiki_content_versions_004:
   id: 4
   version: 1
   author_id: 1
-  comments: 
-  
+  comments:
+

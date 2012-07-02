@@ -1,14 +1,14 @@
 task :bootstrap => :environment do
-  
+
   puts "Creating db..."
   Rake::Task['db:create'].invoke
-  
+
   puts "Loading schema..."
   Rake::Task['db:schema:load'].invoke
-  
+
   puts "Seeding..."
   Rake::Task['db:seed'].invoke
-  
+
   puts "Creating admin"
   user = User.new :firstname => "Redmine",:lastname => "Admin",:mail => "admin@example.net",:mail_notification => true,:language => "en",:status => 1
   user.admin = true

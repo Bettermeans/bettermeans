@@ -1,7 +1,7 @@
 <tr>
   <td class="gt-avatar">
     <%= avatar(as.actor_email, :size => "24") %>
-    
+
     </td>
     <td>
     <span class="author"><%= link_to as.actor_name, self.send("#{as.actor_type.downcase}_path", as.actor_id) %></span>
@@ -13,10 +13,10 @@
         </p>
       </span>
       <% end %>
-      
+
   </td>
   <!-- <td  style="width:20%">
         <strong><%#= since_tag(as.created_at) %> ago</strong>
   </td> -->
-  
+
 </tr>

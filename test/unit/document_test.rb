@@ -11,7 +11,7 @@ class DocumentTest < ActiveSupport::TestCase
     doc = Document.new(:project => Project.find(1), :title => 'New document', :category => Enumeration.find_by_name('User documentation'))
     assert doc.save
   end
-  
+
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     Setting.notified_events << 'document_added'
@@ -25,18 +25,18 @@ class DocumentTest < ActiveSupport::TestCase
     # Sets a default category
     e = Enumeration.find_by_name('Technical documentation')
     e.update_attributes(:is_default => true)
-    
+
     doc = Document.new(:project => Project.find(1), :title => 'New document')
     assert_equal e, doc.category
     assert doc.save
   end
-  
+
   def test_updated_at_with_attachments
     d = Document.find(1)
     assert d.attachments.any?
     assert_equal d.attachments.map(&:created_at).max, d.updated_at
   end
-  
+
   def test_updated_at_without_attachments
     d = Document.find(2)
     assert d.attachments.empty?

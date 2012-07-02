@@ -8,9 +8,9 @@
 <%= link_to_attachments @document %>
 
 <% if authorize_for('documents', 'add_attachment') %>
-<p><%= link_to l(:label_attachment_new), {}, 
+<p><%= link_to l(:label_attachment_new), {},
               :onclick => "$('#add_attachment_form').show(); $('#' + this.id).hide(); $('body').scrollTo('#add_attachment_form'); return false;",
-              :id => 'attach_files_link', 
+              :id => 'attach_files_link',
               :class => "gt-btn-gray-large" %></p>
   <% form_tag({ :controller => 'documents', :action => 'add_attachment', :id => @document }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do %>
   <div class="gt-content-box">
@@ -19,7 +19,7 @@
     <div class="gt-table-buttons">
   <%= submit_tag l(:button_add), :disable_with => l(:button_working) %>
   </div>
-  <% end %> 
+  <% end %>
 <% end %>
 
 <% html_title @document.title -%>

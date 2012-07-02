@@ -2,10 +2,10 @@
 # Copyright (C) 2006-2011  See readme for details and license
 #
 
-class QueryColumn  
+class QueryColumn
   attr_accessor :name, :sortable, :groupable, :default_order
   include Redmine::I18n
-  
+
   def initialize(name, options={})
     self.name = name
     self.sortable = options[:sortable]
@@ -15,16 +15,16 @@ class QueryColumn
     end
     self.default_order = options[:default_order]
   end
-  
+
   def caption
     l("field_#{name}")
   end
-  
+
   # Returns true if the column is sortable, otherwise false
   def sortable?
     !sortable.nil?
   end
-  
+
   def value(issue)
     issue.send name
   end
@@ -33,19 +33,19 @@ end
 class Query < ActiveRecord::Base
   class StatementInvalid < ::ActiveRecord::StatementInvalid
   end
-  
+
   belongs_to :project
   belongs_to :user
   serialize :filters
   serialize :column_names
   serialize :sort_criteria, Array
-  
+
   attr_protected :project_id, :user_id
-  
+
   validates_presence_of :name, :on => :save
   validates_length_of :name, :maximum => 255
-    
-  @@operators = { "="   => :label_equals, 
+
+  @@operators = { "="   => :label_equals,
                   "!"   => :label_not_equals,
                   "o"   => :label_open_issues,
                   "c"   => :label_closed_issues,
@@ -65,7 +65,7 @@ class Query < ActiveRecord::Base
                   "!~"  => :label_not_contains }
 
   cattr_reader :operators
-    
+
   @@operators_by_filter_type = { :list => [ "=", "!" ],
                                  :list_status => [ "o", "=", "!", "c", "*" ],
                                  :list_optional => [ "=", "!", "!*", "*" ],
@@ -93,27 +93,27 @@ class Query < ActiveRecord::Base
     QueryColumn.new(:created_at, :sortable => "#{Issue.table_name}.created_at", :default_order => 'desc'),
   ]
   cattr_reader :available_columns
-  
+
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
   end
-  
+
   def after_initialize
     # Store the fact that project is nil (used in #editable_by?)
     @is_for_all = project.nil?
   end
-  
+
   def validate
     filters.each_key do |field|
-      errors.add label_for(field), :blank unless 
+      errors.add label_for(field), :blank unless
           # filter requires one or more values
-          (values_for(field) and !values_for(field).first.blank?) or 
+          (values_for(field) and !values_for(field).first.blank?) or
           # filter doesn't require any value
           ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
     end if filters
   end
-  
+
   def editable_by?(user)
     return false unless user
     # Admin can edit them all and regular users can edit their private queries
@@ -121,22 +121,22 @@ class Query < ActiveRecord::Base
     # Members can not edit public queries that are for all project (only admin is allowed to)
     is_public && !@is_for_all && user.allowed_to?(:manage_public_queries, project)
   end
-  
+
   def available_filters
     return @available_filters if @available_filters
-    
+
     trackers = project.nil? ? Tracker.find(:all, :order => 'position') : project.rolled_up_trackers
-    
-    @available_filters = { "status_id" => { :type => :list_status, :order => 1, :values => IssueStatus.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] } },       
-                           "tracker_id" => { :type => :list, :order => 2, :values => trackers.collect{|s| [s.name, s.id.to_s] } },                                                                                                                
-                           "subject" => { :type => :text, :order => 8 },  
-                           "created_at" => { :type => :date_past, :order => 9 },                        
+
+    @available_filters = { "status_id" => { :type => :list_status, :order => 1, :values => IssueStatus.find(:all, :order => 'position').collect{|s| [s.name, s.id.to_s] } },
+                           "tracker_id" => { :type => :list, :order => 2, :values => trackers.collect{|s| [s.name, s.id.to_s] } },
+                           "subject" => { :type => :text, :order => 8 },
+                           "created_at" => { :type => :date_past, :order => 9 },
                            "updated_at" => { :type => :date_past, :order => 10 },
                            "start_date" => { :type => :date, :order => 11 },
                            "due_date" => { :type => :date, :order => 12 },
                            "estimated_hours" => { :type => :integer, :order => 13 }
                          }
-    
+
     user_values = []
     user_values << ["<< #{l(:label_me)} >>", "me"] if User.current.logged?
     if project
@@ -148,11 +148,11 @@ class Query < ActiveRecord::Base
     end
     @available_filters["assigned_to_id"] = { :type => :list_optional, :order => 4, :values => user_values } unless user_values.empty?
     @available_filters["author_id"] = { :type => :list, :order => 5, :values => user_values } unless user_values.empty?
-    
+
     if User.current.logged?
       @available_filters["watcher_id"] = { :type => :list, :order => 15, :values => [["<< #{l(:label_me)} >>", "me"]] }
     end
-  
+
     if project
       unless @project.descendants.active.empty?
         @available_filters["subproject_id"] = { :type => :list_subprojects, :order => 13, :values => @project.descendants.visible.collect{|s| [s.name, s.id.to_s] } }
@@ -162,7 +162,7 @@ class Query < ActiveRecord::Base
     end
     @available_filters
   end
-  
+
   def add_filter(field, operator, values)
     # values must be an array
     return unless values and values.is_a? Array # and !values.first.empty?
@@ -177,25 +177,25 @@ class Query < ActiveRecord::Base
       filters[field] = {:operator => operator, :values => values }
     end
   end
-  
+
   def add_short_filter(field, expression)
     return unless expression
     parms = expression.scan(/^(o|c|\!|\*)?(.*)$/).first
     add_filter field, (parms[0] || "="), [parms[1] || ""]
   end
-  
+
   def has_filter?(field)
     filters and filters[field]
   end
-  
+
   def operator_for(field)
     has_filter?(field) ? filters[field][:operator] : nil
   end
-  
+
   def values_for(field)
     has_filter?(field) ? filters[field][:values] : nil
   end
-  
+
   def label_for(field)
     label = available_filters[field][:name] if available_filters.has_key?(field)
     label ||= field.gsub(/\_id$/, "")
@@ -205,12 +205,12 @@ class Query < ActiveRecord::Base
     return @available_columns if @available_columns
     @available_columns = Query.available_columns
   end
-  
+
   # Returns an array of columns that can be used to group the results
   def groupable_columns
     available_columns.select {|c| c.groupable}
   end
-  
+
   def columns
     if has_default_columns?
       available_columns.select do |c|
@@ -222,7 +222,7 @@ class Query < ActiveRecord::Base
       column_names.collect {|name| available_columns.find {|col| col.name == name}}.compact
     end
   end
-  
+
   def column_names=(names)
     if names
       names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
@@ -234,15 +234,15 @@ class Query < ActiveRecord::Base
     end
     write_attribute(:column_names, names)
   end
-  
+
   def has_column?(column)
     column_names && column_names.include?(column.name)
   end
-  
+
   def has_default_columns?
     column_names.nil? || column_names.empty?
   end
-  
+
   def sort_criteria=(arg)
     c = []
     if arg.is_a?(Hash)
@@ -251,19 +251,19 @@ class Query < ActiveRecord::Base
     c = arg.select {|k,o| !k.to_s.blank?}.slice(0,3).collect {|k,o| [k.to_s, o == 'desc' ? o : 'asc']}
     write_attribute(:sort_criteria, c)
   end
-  
+
   def sort_criteria
     read_attribute(:sort_criteria) || []
   end
-  
+
   def sort_criteria_key(arg)
     sort_criteria && sort_criteria[arg] && sort_criteria[arg].first
   end
-  
+
   def sort_criteria_order(arg)
     sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
   end
-  
+
   # Returns the SQL sort order that should be prepended for grouping
   def group_by_sort_order
     if grouped? && (column = group_by_column)
@@ -272,20 +272,20 @@ class Query < ActiveRecord::Base
         "#{column.sortable} #{column.default_order}"
     end
   end
-  
+
   # Returns true if the query is a grouped query
   def grouped?
     !group_by.blank?
   end
-  
+
   def group_by_column
     groupable_columns.detect {|c| c.name.to_s == group_by}
   end
-  
+
   def group_by_statement
     group_by_column.groupable
   end
-  
+
   def project_statement
     project_clauses = []
     if project && !@project.descendants.active.empty?
@@ -320,12 +320,12 @@ class Query < ActiveRecord::Base
       v = values_for(field).clone
       next unless v and !v.empty?
       operator = operator_for(field)
-      
+
       # "me" value subsitution
       if %w(assigned_to_id author_id watcher_id).include?(field)
         v.push(User.current.logged? ? User.current.id.to_s : "0") if v.delete("me")
       end
-      
+
       sql = ''
       if field == 'watcher_id'
         db_table = Watcher.table_name
@@ -339,19 +339,19 @@ class Query < ActiveRecord::Base
         sql << '(' + sql_for_field(field, operator, v, db_table, db_field) + ')'
       end
       filters_clauses << sql
-      
+
     end if filters and valid?
-    
+
     (filters_clauses << project_statement).join(' AND ')
   end
-  
+
   # Returns the issue count
   def issue_count
     Issue.count(:include => [:status, :project], :conditions => statement)
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end
-  
+
   # Returns the issue count by group or nil if query is not grouped
   def issue_count_by_group
     r = nil
@@ -368,13 +368,13 @@ class Query < ActiveRecord::Base
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end
-  
+
   # Returns the issues
   # Valid options are :order, :offset, :limit, :include, :conditions
   def issues(options={})
     order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
     order_option = nil if order_option.blank?
-    
+
     Issue.find :all, :include => ([:status, :project] + (options[:include] || [])).uniq,
                      :conditions => Query.merge_conditions(statement, options[:conditions]),
                      :order => order_option,
@@ -395,9 +395,9 @@ class Query < ActiveRecord::Base
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end
-  
+
   private
-  
+
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
   def sql_for_field(field, operator, value, db_table, db_field)
     sql = ''
@@ -444,10 +444,10 @@ class Query < ActiveRecord::Base
     when "!~"
       sql = "LOWER(#{db_table}.#{db_field}) NOT LIKE '%#{connection.quote_string(value.first.to_s.downcase)}%'"
     end
-    
+
     return sql
   end
-  
+
   # Returns a SQL clause for a date or datetime field.
   def date_range_clause(table, field, from, to)
     s = []

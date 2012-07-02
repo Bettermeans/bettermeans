@@ -9,7 +9,7 @@ class SettingsController; def rescue_action(e) raise e end; end
 
 class SettingsControllerTest < ActionController::TestCase
   fixtures :users
-  
+
   def setup
     @controller = SettingsController.new
     @request    = ActionController::TestRequest.new
@@ -17,19 +17,19 @@ class SettingsControllerTest < ActionController::TestCase
     User.current = nil
     @request.session[:user_id] = 1 # admin
   end
-  
+
   def test_index
     get :index
     assert_response :success
     assert_template 'edit'
   end
-  
+
   def test_get_edit
     get :edit
     assert_response :success
     assert_template 'edit'
   end
-  
+
   def test_post_edit_notifications
     post :edit, :settings => {:mail_from => 'functional@test.foo',
                               :bcc_recipients  => '0',

@@ -65,11 +65,11 @@
 <p>
   <fieldset>
 <%=  f.select(:dpp, options_for_select(Setting::PAY_SCALES, :selected => @project.dpp.nil? ? Setting::PAY_SCALES_DEFAULT : @project.dpp.round),
-                                                      { :include_blank => false}, 
+                                                      { :include_blank => false},
                                                       { :onchange => "#{remote_function(:url  => {:action => "update_scale"},
                                                                                                             :with => "'dpp='+value")}"})%>
   <span><%= help_bubble :help_select_scale %></span>
-  <%= render :partial => 'point_scale', :locals => {:unit => unit_for(@project), :dpp => @project.dpp.nil? ? Setting::PAY_SCALES_DEFAULT : @project.dpp.round } %>                                                                                            
+  <%= render :partial => 'point_scale', :locals => {:unit => unit_for(@project), :dpp => @project.dpp.nil? ? Setting::PAY_SCALES_DEFAULT : @project.dpp.round } %>
   </fieldset>
 </p>
 </div>

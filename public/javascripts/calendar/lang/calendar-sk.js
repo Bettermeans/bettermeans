@@ -1,4 +1,4 @@
-/* 
+/*
 	calendar-sk.js
 	language: Slovak
 	encoding: UTF-8

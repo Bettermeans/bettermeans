@@ -34,7 +34,7 @@ class ActiveSupport::TestCase
   self.use_instantiated_fixtures  = false
 
   # Add more helper methods to be used by all tests here...
-  
+
   def log_user(login, password)
     User.anonymous
     get "/login"
@@ -44,18 +44,18 @@ class ActiveSupport::TestCase
     post "/login", :username => login, :password => password
     assert_equal login, User.find(session[:user_id]).login
   end
-  
+
   def uploaded_test_file(name, mime)
     ActionController::TestUploadedFile.new(ActiveSupport::TestCase.fixture_path + "/files/#{name}", mime)
   end
-  
+
   # Use a temporary directory for attachment related tests
   def set_tmp_attachments_directory
     Dir.mkdir "#{RAILS_ROOT}/tmp/test" unless File.directory?("#{RAILS_ROOT}/tmp/test")
     Dir.mkdir "#{RAILS_ROOT}/tmp/test/attachments" unless File.directory?("#{RAILS_ROOT}/tmp/test/attachments")
     Attachment.storage_path = "#{RAILS_ROOT}/tmp/test/attachments"
   end
-  
+
   def with_settings(options, &block)
     saved_settings = options.keys.inject({}) {|h, k| h[k] = Setting[k].dup; h}
     options.each {|k, v| Setting[k] = v}

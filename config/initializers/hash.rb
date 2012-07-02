@@ -2,7 +2,7 @@ class Hash
   def +(hash2)
     hash2.each do |key, value|
       if self.has_key? key
-        self[key] += value 
+        self[key] += value
       else
         self[key] = value
       end

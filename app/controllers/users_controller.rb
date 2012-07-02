@@ -2,10 +2,10 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class UsersController < ApplicationController
-  
+
   before_filter :require_admin, :except => [:show, :rpx_token]
-  ssl_required :all  
-  
+  ssl_required :all
+
 
   helper :sort
   include SortHelper
@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   def index
     sort_init 'login', 'asc'
     sort_update %w(login firstname lastname mail admin created_at last_login_on)
-    
+
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
 
@@ -21,19 +21,19 @@ class UsersController < ApplicationController
       name = "%#{params[:name].strip.downcase}%"
       c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ? OR LOWER(mail) LIKE ?", name, name, name, name]
     end
-    
+
     @user_count = User.count(:conditions => c.conditions)
     @user_pages = Paginator.new self, @user_count,
 								per_page_option,
-								params['page']								
+								params['page']
     @users =  User.find :all,:order => sort_clause,
                         :conditions => c.conditions,
 						:limit  =>  @user_pages.items_per_page,
 						:offset =>  @user_pages.current.offset
 
-    render :layout => !request.xhr?	
+    render :layout => !request.xhr?
   end
-  
+
   def show
     @user = User.find(params[:id])
     # if params[:login]
@@ -45,25 +45,25 @@ class UsersController < ApplicationController
     # else
     #   @user = User.active.find(params[:id])
     # end
-    
+
     # show only public projects and private projects that the logged in user is also a member of
     @memberships = @user.memberships.select do |membership|
       membership.project.visible_to(User.current)
     end
-    
+
     # show only public projects and private projects that the logged in user is also a member of
     @reputations = @user.reputations.select do |reputation|
       reputation.project_id == 0 || reputation.project.visible_to(User.current)
     end
-    
+
     # @activities_by_item = ActivityStream.fetch(@user, nil, nil, nil)
-    
-    
+
+
     # if @user != User.current && !User.current.admin? && @memberships.empty?
     #   render_404
     #   return
     # end
-    
+
     flash.now[:notice] = l(:notice_this_is_your_profie) if @user == User.current
 
     render :layout => 'gooey'
@@ -83,7 +83,7 @@ class UsersController < ApplicationController
       if @user.save
         Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
         flash.now[:success] = l(:notice_successful_create)
-        redirect_to(params[:continue] ? {:controller => 'users', :action => 'add'} : 
+        redirect_to(params[:continue] ? {:controller => 'users', :action => 'add'} :
                                         {:controller => 'users', :action => 'edit', :id => @user})
         return
       end
@@ -116,7 +116,7 @@ class UsersController < ApplicationController
   rescue ::ActionController::RedirectBackError
     redirect_to :controller => 'users', :action => 'edit', :id => @user
   end
-  
+
   def edit_membership
     @user = User.find(params[:id])
     @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:user => @user)
@@ -124,15 +124,15 @@ class UsersController < ApplicationController
     @membership.save if request.post?
     respond_to do |format|
        format.html { redirect_to :controller => 'users', :action => 'edit', :id => @user, :tab => 'memberships' }
-       format.js { 
-         render(:update) {|page| 
+       format.js {
+         render(:update) {|page|
            page.replace_html "tab-content-memberships", :partial => 'users/memberships'
            page.visual_effect(:highlight, "member-#{@membership.id}")
          }
        }
      end
   end
-  
+
   def destroy_membership
     @user = User.find(params[:id])
     @membership = Member.find(params[:membership_id])
@@ -144,5 +144,5 @@ class UsersController < ApplicationController
       format.js { render(:update) {|page| page.replace_html "tab-content-memberships", :partial => 'users/memberships'} }
     end
   end
-    
+
 end

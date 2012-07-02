@@ -8,26 +8,26 @@ class ChangesetTest < ActiveSupport::TestCase
 
   def setup
   end
-  
+
   def test_ref_keywords_any
     ActionMailer::Base.deliveries.clear
     Setting.commit_fix_status_id = IssueStatus.find(:first, :conditions => ["is_closed = ?", true]).id
     Setting.commit_fix_done_ratio = '90'
     Setting.commit_ref_keywords = '*'
     Setting.commit_fix_keywords = 'fixes , closes'
-    
+
     c = Changeset.new(:repository => Project.find(1).repository,
                       :committed_on => Time.now,
                       :comments => 'New commit (#2). Fixes #1')
     c.scan_comment_for_issue_ids
-    
+
     assert_equal [1, 2], c.issue_ids.sort
     fixed = Issue.find(1)
     assert fixed.closed?
     assert_equal 90, fixed.done_ratio
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
-  
+
   def test_ref_keywords_any_line_start
     Setting.commit_ref_keywords = '*'
 
