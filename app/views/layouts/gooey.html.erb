@@ -24,7 +24,6 @@
 
 
 <%= javascript_include_tag :defaults %>
-<%#= javascript_include_tag  'jquery-ui-1.8.8.custom.min' %>
 <%= javascript_include_tag  'jquery.jgrowl_minimized' %>
 <%= javascript_include_tag  'jquery.scrollTo-min' %>
 <%= javascript_include_tag  'jquery.fancybox-1.3.4.pack' %>
@@ -105,7 +104,6 @@
               <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
               <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
               <%= hidden_field_tag(:scope, 'subprojects') %>
-              <%#= link_to "#{l(:label_search)}:", {:controller => 'search', :action => 'index', :id => @project}, :id=> "search-label", :accesskey => accesskey(:search) %>
               <%= text_field_tag 'q', @question, :size => 20, :class => 'gt-search-text', :onfocus => "javascript:if(this.value=='Search')this.value='';", :onblur=> "javascript:if(this.value=='')this.value='Search';", :accesskey => accesskey(:quick_search) %>
 
               <% end %>
