@@ -411,39 +411,39 @@ table.members td.group { padding-left: 20px; background: url(../images/group.png
 #errorExplanation, div.flash, .nodata, .warning {
     padding: 4px 4px 4px 30px;
     margin-bottom: 12px;
-	font-size: 1.1em;
-	border: 2px solid;
+  font-size: 1.1em;
+  border: 2px solid;
 }
 
 div.flash {margin-top: 8px;}
 
 div.flash.error, #errorExplanation {
-	background: url(../images/exclamation.png) 8px 50% no-repeat;
-	background-color: #ffe3e3;
-	border-color: #dd0000;
-	color: #880000;
+  background: url(../images/exclamation.png) 8px 50% no-repeat;
+  background-color: #ffe3e3;
+  border-color: #dd0000;
+  color: #880000;
 }
 
 div.flash.notice {
     background: url(../images/true.png) 8px 5px no-repeat;
-	background-color: #dfffdf;
-	border-color: #9fcf9f;
-	color: #005f00;
+  background-color: #dfffdf;
+  border-color: #9fcf9f;
+  color: #005f00;
 }
 
 div.flash.warning {
   background: url(../images/warning.png) 8px 5px no-repeat;
-	background-color: #FFEBC1;
-	border-color: #FDBF3B;
-	color: #A6750C;
+  background-color: #FFEBC1;
+  border-color: #FDBF3B;
+  color: #A6750C;
   text-align: left;
 }
 
 .nodata, .warning {
     text-align: center;
-	background-color: #FFEBC1;
-	border-color: #FDBF3B;
-	color: #A6750C;
+  background-color: #FFEBC1;
+  border-color: #FDBF3B;
+  color: #A6750C;
 }
 
 #errorExplanation ul { font-size: 0.9em;}
@@ -562,26 +562,26 @@ background-color: #fff;
 div.tabs-buttons { position:absolute; right: 0; width: 48px; height: 24px; background: white; bottom: -1px;  }
 
 button.tab-left, button.tab-right {
-	font-size: 0.9em;
-	cursor: pointer;
-	height:24px;
-	border: 1px solid #ccc;
-	border-bottom: 1px solid #bbbbbb;
-	position:absolute;
-	padding:4px;
-	width: 20px;
+  font-size: 0.9em;
+  cursor: pointer;
+  height:24px;
+  border: 1px solid #ccc;
+  border-bottom: 1px solid #bbbbbb;
+  position:absolute;
+  padding:4px;
+  width: 20px;
 }
 
 button.tab-left {
-	right: 20px;
-	bottom: 0;
-	background: #eeeeee url(../images/bullet_arrow_left.png) no-repeat 50% 50%;
+  right: 20px;
+  bottom: 0;
+  background: #eeeeee url(../images/bullet_arrow_left.png) no-repeat 50% 50%;
 }
 
 button.tab-right {
-	right: 0;
-	bottom: 0;
-	background: #eeeeee url(../images/bullet_arrow_right.png) no-repeat 50% 50%;}
+  right: 0;
+  bottom: 0;
+  background: #eeeeee url(../images/bullet_arrow_right.png) no-repeat 50% 50%;}
 }
 
 /***** Auto-complete *****/
@@ -806,44 +806,44 @@ padding-bottom: 3px;
 .icon-file.application-x-gzip { background-image: url(../images/files/zip.png); }
 
 img.gravatar {
-	padding: 2px;
+  padding: 2px;
   border: solid 1px #d5d5d5;
   background: #fff;
 }
 
 div.issue img.gravatar {
-	float: right;
-	margin: 0 0 0 1em;
-	padding: 5px;
+  float: right;
+  margin: 0 0 0 1em;
+  padding: 5px;
 }
 
 div.issue table img.gravatar {
-	height: 14px;
-	width: 14px;
-	padding: 2px;
-	float: left;
-	margin: 0 0.5em 0 0;
+  height: 14px;
+  width: 14px;
+  padding: 2px;
+  float: left;
+  margin: 0 0.5em 0 0;
 }
 
 #history img.gravatar {
-	padding: 3px;
-	margin: 0 1.5em 1em 0;
-	float: left;
+  padding: 3px;
+  margin: 0 1.5em 1em 0;
+  float: left;
 }
 
 td.username img.gravatar {
-	float: left;
-	margin: 0 1em 0 0;
+  float: left;
+  margin: 0 1em 0 0;
 }
 
 #activity dt img.gravatar {
-	float: left;
-	margin: 0 1em 1em 0;
+  float: left;
+  margin: 0 1em 1em 0;
 }
 
 #activity dt,
 .journal {
-	clear: left;
+  clear: left;
 }
 
 .gravatar-margin {
@@ -859,122 +859,122 @@ h2 img { vertical-align:middle; }
   #top-menu, #header, #main-menu, #sidebar, #footer, .contextual, .other-formats { display:none; }
   #main { background: #fff; }
   #content { width: 99%; margin: 0; padding: 0; border: 0; background: #fff; overflow: visible !important;}
-	#wiki_add_attachment { display:none; }
+  #wiki_add_attachment { display:none; }
 }
 
 
 /*Voting*/
 
 .issuevote {
-/*	float: left;*/
-	margin: 2px 0px 1px;
-	padding: 1px;
-	font-size: 12px;
-	font-weight: bold;
-	font-family: baskerville, Times, Times New Roman, serif;
-	color:#484848;
-	text-align:center;
-	width:20px;
+/*  float: left;*/
+  margin: 2px 0px 1px;
+  padding: 1px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: baskerville, Times, Times New Roman, serif;
+  color:#484848;
+  text-align:center;
+  width:20px;
 
 }
 
 .issuevote table{
-	padding: 0px;
-	margin: 0px;
+  padding: 0px;
+  margin: 0px;
 }
 
 .issuevote tr{
-	padding: 0px;
-	margin: 0px;
-	height: 14px;
-	width: 15px;
+  padding: 0px;
+  margin: 0px;
+  height: 14px;
+  width: 15px;
 }
 
 .issuevote td{
-	padding: 0px;
-	margin: 0px;
+  padding: 0px;
+  margin: 0px;
 }
 
 .messagevote {
-	-moz-border-radius-bottomleft:3px;
-	-moz-border-radius-bottomright:3px;
-	-moz-border-radius-topleft:3px;
-	-moz-border-radius-topright:3px;
-	background-color:#CDE9A7;
-	border:1px solid #ADDE6B;
-	color:#455138;
-	font-family:baskerville,Times,Times New Roman,serif;
-	font-size:21px;
-	font-weight:normal;
-	margin:2px 0 10px;
-	padding:0px 0px 0px 10px;
-	flaot: left;
+  -moz-border-radius-bottomleft:3px;
+  -moz-border-radius-bottomright:3px;
+  -moz-border-radius-topleft:3px;
+  -moz-border-radius-topright:3px;
+  background-color:#CDE9A7;
+  border:1px solid #ADDE6B;
+  color:#455138;
+  font-family:baskerville,Times,Times New Roman,serif;
+  font-size:21px;
+  font-weight:normal;
+  margin:2px 0 10px;
+  padding:0px 0px 0px 10px;
+  flaot: left;
 }
 
 .messagevote table{
-	padding: 0px;
-	margin: 0px;
-	font-size:12px;
+  padding: 0px;
+  margin: 0px;
+  font-size:12px;
 }
 
 .messagevote tr{
-	padding: 0px;
-	margin: 0px;
-/*	width: 15px;*/
+  padding: 0px;
+  margin: 0px;
+/*  width: 15px;*/
 }
 
 .messagevote td{
-	padding: 0px 2px 0px 0px;
-	margin: 0px;
-	text-align: center;
+  padding: 0px 2px 0px 0px;
+  margin: 0px;
+  text-align: center;
 }
 
 .messagevote td#topic{
-	font-size: 21px;
-	vertical-align: top;
+  font-size: 21px;
+  vertical-align: top;
 }
 
 .journalvote {
-/*	float:right; */
-	white-space: nowrap;
-	line-height:1.4em;
-	padding-left: 10px;
-	font-size:0.9em;
-	margin-top: 1.4em;
-	margin-right: 1em; f
-	padding: 1px;
-	font-weight: bold;
-	font-family: baskerville, Times, Times New Roman, serif;
-	color:#484848;
-	text-align:center;
-/*	float: right;*/
+/*  float:right; */
+  white-space: nowrap;
+  line-height:1.4em;
+  padding-left: 10px;
+  font-size:0.9em;
+  margin-top: 1.4em;
+  margin-right: 1em; f
+  padding: 1px;
+  font-weight: bold;
+  font-family: baskerville, Times, Times New Roman, serif;
+  color:#484848;
+  text-align:center;
+/*  float: right;*/
 }
 
 .replyvote {
-	float:right;
-	white-space: nowrap;
-	line-height:1.4em;
-	padding-left: 10px;
-	font-size:0.9em;
-	margin-top: 1.4em;
-	margin-right: 1em; f
-	padding: 1px;
-	font-weight: bold;
-	font-family: baskerville, Times, Times New Roman, serif;
-	color:#484848;
-	text-align:center;
-/*	float: right;*/
+  float:right;
+  white-space: nowrap;
+  line-height:1.4em;
+  padding-left: 10px;
+  font-size:0.9em;
+  margin-top: 1.4em;
+  margin-right: 1em; f
+  padding: 1px;
+  font-weight: bold;
+  font-family: baskerville, Times, Times New Roman, serif;
+  color:#484848;
+  text-align:center;
+/*  float: right;*/
 }
 
 /*create_request_dialogue*/
 .create_request_dialogue {
-	margin: -13px 10px 0px 10px;
-	text-align: center;
+  margin: -13px 10px 0px 10px;
+  text-align: center;
 }
 
 .help_dialogue {
-	margin: -13px 10px 0px 10px;
-	text-align: center;
+  margin: -13px 10px 0px 10px;
+  text-align: center;
 }
 
 /*Notifications*/
@@ -1006,131 +1006,131 @@ padding:1px 20px 1px 20px;
 /*JGROWL*/
 
 div.jGrowl {
-	padding: 			10px;
-	z-index: 			9999;
-	color: 				#fff;
-	font-size: 			12px;
+  padding:       10px;
+  z-index:       9999;
+  color:         #fff;
+  font-size:       12px;
 }
 
 /** Special IE6 Style Positioning **/
 div.ie6 {
-	position: 			absolute;
+  position:       absolute;
 }
 
 div.ie6.top-right {
-	right: 				auto;
-	bottom: 			auto;
-	left: 				expression( ( 0 - jGrowl.offsetWidth + ( document.documentElement.clientWidth ? document.documentElement.clientWidth : document.body.clientWidth ) + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
-  	top: 				expression( ( 0 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
+  right:         auto;
+  bottom:       auto;
+  left:         expression( ( 0 - jGrowl.offsetWidth + ( document.documentElement.clientWidth ? document.documentElement.clientWidth : document.body.clientWidth ) + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
+    top:         expression( ( 0 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
 }
 
 div.ie6.top-left {
-	left: 				expression( ( 0 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
-	top: 				expression( ( 0 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
+  left:         expression( ( 0 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
+  top:         expression( ( 0 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
 }
 
 div.ie6.bottom-right {
-	left: 				expression( ( 0 - jGrowl.offsetWidth + ( document.documentElement.clientWidth ? document.documentElement.clientWidth : document.body.clientWidth ) + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
-	top: 				expression( ( 0 - jGrowl.offsetHeight + ( document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight ) + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
+  left:         expression( ( 0 - jGrowl.offsetWidth + ( document.documentElement.clientWidth ? document.documentElement.clientWidth : document.body.clientWidth ) + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
+  top:         expression( ( 0 - jGrowl.offsetHeight + ( document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight ) + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
 }
 
 div.ie6.bottom-left {
-	left: 				expression( ( 0 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
-	top: 				expression( ( 0 - jGrowl.offsetHeight + ( document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight ) + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
+  left:         expression( ( 0 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
+  top:         expression( ( 0 - jGrowl.offsetHeight + ( document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight ) + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
 }
 
 div.ie6.center {
-	left: 				expression( ( 0 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
-	top: 				expression( ( 0 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
-	width: 				100%;
+  left:         expression( ( 0 + ( ignoreMe2 = document.documentElement.scrollLeft ? document.documentElement.scrollLeft : document.body.scrollLeft ) ) + 'px' );
+  top:         expression( ( 0 + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop ) ) + 'px' );
+  width:         100%;
 }
 
 /** Normal Style Positions **/
 body > div.jGrowl {
-	position:			fixed;
+  position:      fixed;
 }
 
 body > div.jGrowl.top-left {
-	left: 				0px;
-	top: 				0px;
+  left:         0px;
+  top:         0px;
 }
 
 body > div.jGrowl.top-right {
-	right: 				0px;
-	top: 				0px;
+  right:         0px;
+  top:         0px;
 }
 
 body > div.jGrowl.bottom-left {
-	left: 				0px;
-	bottom:				0px;
+  left:         0px;
+  bottom:        0px;
 }
 
 body > div.jGrowl.bottom-right {
-	right: 				0px;
-	bottom: 			0px;
+  right:         0px;
+  bottom:       0px;
 }
 
 body > div.jGrowl.center {
-	top: 				0px;
-	width: 				50%;
-	left: 				25%;
+  top:         0px;
+  width:         50%;
+  left:         25%;
 }
 
 /** Cross Browser Styling **/
 div.center div.jGrowl-notification, div.center div.jGrowl-closer {
-	margin-left: 		auto;
-	margin-right: 		auto;
+  margin-left:     auto;
+  margin-right:     auto;
 }
 
 div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
-	background-color: 		#d30921;
-/*	opacity: 				.85;*/
-    -ms-filter: 			"progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
-    filter: 				progid:DXImageTransform.Microsoft.Alpha(Opacity=85);
-	zoom: 					1;
-	width: 					235px;
-	padding: 				10px;
-	margin-top: 			5px;
-	margin-bottom: 			5px;
-	font-family: 			Tahoma, Arial, Helvetica, sans-serif;
-	font-size: 				1em;
-	text-align: 			left;
-	display: 				none;
-	-moz-border-radius: 	5px;
-	-webkit-border-radius:	5px;
+  background-color:     #d30921;
+/*  opacity:         .85;*/
+    -ms-filter:       "progid:DXImageTransform.Microsoft.Alpha(Opacity=85)";
+    filter:         progid:DXImageTransform.Microsoft.Alpha(Opacity=85);
+  zoom:           1;
+  width:           235px;
+  padding:         10px;
+  margin-top:       5px;
+  margin-bottom:       5px;
+  font-family:       Tahoma, Arial, Helvetica, sans-serif;
+  font-size:         1em;
+  text-align:       left;
+  display:         none;
+  -moz-border-radius:   5px;
+  -webkit-border-radius:  5px;
 }
 
 div.jGrowl div.jGrowl-notification {
-	min-height: 			40px;
+  min-height:       40px;
 }
 
 div.jGrowl div.jGrowl-notification div.header {
-	font-weight: 			bold;
-	font-size:				.85em;
+  font-weight:       bold;
+  font-size:        .85em;
 }
 
 div.jGrowl div.jGrowl-notification div.close {
-	z-index:				99;
-	float: 					right;
-	font-weight: 			bold;
-	font-size: 				1em;
-	cursor:					pointer;
+  z-index:        99;
+  float:           right;
+  font-weight:       bold;
+  font-size:         1em;
+  cursor:          pointer;
 }
 
 div.jGrowl div.jGrowl-closer {
-	padding-top: 			4px;
-	padding-bottom: 		4px;
-	cursor: 				pointer;
-	font-size:				.9em;
-	font-weight: 			bold;
-	text-align: 			center;
+  padding-top:       4px;
+  padding-bottom:     4px;
+  cursor:         pointer;
+  font-size:        .9em;
+  font-weight:       bold;
+  text-align:       center;
 }
 
 /** Hide jGrowl when printing **/
 @media print {
-	div.jGrowl {
-		display: 			none;
-	}
+  div.jGrowl {
+    display:       none;
+  }
 }
 
 table.retrospective {margin-bottom: 30px;}
@@ -1148,63 +1148,63 @@ table.retrospective td.subtitle { width: 5em; vertical-align: top; border-left-w
 
 
 .action_button{
-	width:60px;
-	height:21px;
-	text-align:center;
-	float:right;
-	cursor:pointer;
+  width:60px;
+  height:21px;
+  text-align:center;
+  float:right;
+  cursor:pointer;
 }
 
 .action_button_change{
-	font-color:#000;
-	font-weight:bold;
-	background: url(/images/bb_ocean.png) no-repeat;
-	float:left;
-	padding-top:2px;
+  font-color:#000;
+  font-weight:bold;
+  background: url(/images/bb_ocean.png) no-repeat;
+  float:left;
+  padding-top:2px;
 }
 
 
 .action_button_save{
-	font-color:#000;
-	font-weight:bold;
-	background: url(/images/bb_red.png) no-repeat;
-	float:left;
-	padding-top:2px;
+  font-color:#000;
+  font-weight:bold;
+  background: url(/images/bb_red.png) no-repeat;
+  float:left;
+  padding-top:2px;
 }
 
 .loading {
-	padding-left: 26px;
-	background-position: 0% 40%;
-	background-repeat: no-repeat;
-	background-image: url(../images/loading.gif);
-	font-style: italic;
+  padding-left: 26px;
+  background-position: 0% 40%;
+  background-repeat: no-repeat;
+  background-image: url(../images/loading.gif);
+  font-style: italic;
 }
 
 .clickable{
-	cursor:pointer;
+  cursor:pointer;
 }
 
 .point-scale{
-	float:left;
-	padding-left:15px;
+  float:left;
+  padding-left:15px;
 }
 
 .left{
-	float:left;
+  float:left;
 }
 
 .right{
-	float:right;
+  float:right;
 }
 
 .hidden{
-	display:none;
+  display:none;
 }
 
 .tip{
-	width:300px;
+  width:300px;
 }
 
 .bold{
-	font-weight:bold;
+  font-weight:bold;
 }

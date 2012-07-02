@@ -1,263 +1,263 @@
 /*
 
-	jQuery Tags Input Plugin 1.2
+  jQuery Tags Input Plugin 1.2
 
-	Copyright (c) 2010 XOXCO, Inc
+  Copyright (c) 2010 XOXCO, Inc
 
-	Documentation for this plugin lives here:
-	http://xoxco.com/clickable/jquery-tags-input
+  Documentation for this plugin lives here:
+  http://xoxco.com/clickable/jquery-tags-input
 
-	Licensed under the MIT license:
-	http://www.opensource.org/licenses/mit-license.php
+  Licensed under the MIT license:
+  http://www.opensource.org/licenses/mit-license.php
 
-	ben@xoxco.com
+  ben@xoxco.com
 
 */
 
 (function($) {
 
-	var delimiter = new Array();
-	var issue_id = null;
-	var cache = undefined;
+  var delimiter = new Array();
+  var issue_id = null;
+  var cache = undefined;
 
-	jQuery.fn.addTag = function(value,options) {
+  jQuery.fn.addTag = function(value,options) {
 
-			var options = jQuery.extend({focus:false},options);
+      var options = jQuery.extend({focus:false},options);
 
-			this.each(function() {
-				id = $(this).attr('id');
+      this.each(function() {
+        id = $(this).attr('id');
 
-				var tagslist = $(this).val().split(delimiter[id]);
-				if (tagslist[0] == '') {
-					tagslist = new Array();
-				}
-				value = jQuery.trim(value);
-				if (value !='') {
+        var tagslist = $(this).val().split(delimiter[id]);
+        if (tagslist[0] == '') {
+          tagslist = new Array();
+        }
+        value = jQuery.trim(value);
+        if (value !='') {
 
-					$('<span class="tag">'+value + '&nbsp;&nbsp;<a href="#" title="Remove tag" onclick="return $(\'#'+id + '\').removeTag(\'' + escape(value) + '\');">x</a></span>').insertBefore('#'+id+'_addTag');
-					tagslist.push(value);
+          $('<span class="tag">'+value + '&nbsp;&nbsp;<a href="#" title="Remove tag" onclick="return $(\'#'+id + '\').removeTag(\'' + escape(value) + '\');">x</a></span>').insertBefore('#'+id+'_addTag');
+          tagslist.push(value);
 
-					$('#'+id+'_tag').val('');
-					if (options.focus) {
-						$('#'+id+'_tag').focus();
-					} else {
-						$('#'+id+'_tag').blur();
-					}
-				}
-				jQuery.fn.tagsInput.updateTagsField(this,tagslist);
+          $('#'+id+'_tag').val('');
+          if (options.focus) {
+            $('#'+id+'_tag').focus();
+          } else {
+            $('#'+id+'_tag').blur();
+          }
+        }
+        jQuery.fn.tagsInput.updateTagsField(this,tagslist);
 
-			});
+      });
 
-			if (options.send_to_server || (options.send_to_server != false && options.focus != false)){
-				update_issue_tags($(this).attr('value'));
-			}
+      if (options.send_to_server || (options.send_to_server != false && options.focus != false)){
+        update_issue_tags($(this).attr('value'));
+      }
 
-			return false;
-		};
+      return false;
+    };
 
-	jQuery.fn.removeTag = function(value) {
+  jQuery.fn.removeTag = function(value) {
 
-			this.each(function() {
-				id = $(this).attr('id');
+      this.each(function() {
+        id = $(this).attr('id');
 
-				var old = $(this).val().split(delimiter[id]);
-
-
-				$('#'+id+'_tagsinput .tag').remove();
-				str = '';
-				for (i=0; i< old.length; i++) {
-					if (escape(old[i])!=value) {
-						str = str + delimiter[id] +old[i];
-					}
-				}
-
-				jQuery.fn.tagsInput.importTags(this,str);
-			});
-
-			update_issue_tags($(this).attr('value'));
-
-			return false;
-
-		};
-
-	function update_issue_tags(tags){
-		if (issue_id == null){return;}
-		var url = url_for({ controller: 'issues',
-	                           action    : 'update_tags',
-								id		: issue_id
-	                          });
-		var data = 'tags=' + tags;
-
-		$.ajax({
-		   type: "POST",
-		   dataType: "json",
-		   url: url,
-		   data: data
-		 });
-	}
-
-	jQuery.fn.tagsInput = function(options) {
-
-		var settings = jQuery.extend({defaultText:'add a tag',width:'300px',height:'100px','hide':true,'delimiter':',',autocomplete:{selectFirst:false}},options);
-
-		issue_id = settings.issue_id;
-
-		this.each(function() {
-			if (settings.hide) {
-				$(this).hide();
-			}
-
-			id = $(this).attr('id')
-
-			data = jQuery.extend({
-				pid:id,
-				real_input: '#'+id,
-				holder: '#'+id+'_tagsinput',
-				input_wrapper: '#'+id+'_addTag',
-				fake_input: '#'+id+'_tag'
-			},settings);
+        var old = $(this).val().split(delimiter[id]);
 
 
-			delimiter[id] = data.delimiter;
+        $('#'+id+'_tagsinput .tag').remove();
+        str = '';
+        for (i=0; i< old.length; i++) {
+          if (escape(old[i])!=value) {
+            str = str + delimiter[id] +old[i];
+          }
+        }
 
-			$('<div id="'+id+'_tagsinput" class="tagsinput"><div id="'+id+'_addTag"><input id="'+id+'_tag" value="" default="'+settings.defaultText+'" /></div><div class="tags_clear"></div></div>').insertAfter(this);
+        jQuery.fn.tagsInput.importTags(this,str);
+      });
 
-			$(data.holder).css('width',settings.width);
-			$(data.holder).css('height',settings.height);
+      update_issue_tags($(this).attr('value'));
 
+      return false;
 
-			if ($(data.real_input).val()!='') {
-				jQuery.fn.tagsInput.importTags($(data.real_input),$(data.real_input).val());
-			} else {
-				$(data.fake_input).val($(data.fake_input).attr('default'));
-				$(data.fake_input).css('color','#666666');
-			}
+    };
 
+  function update_issue_tags(tags){
+    if (issue_id == null){return;}
+    var url = url_for({ controller: 'issues',
+                             action    : 'update_tags',
+                id    : issue_id
+                            });
+    var data = 'tags=' + tags;
 
-			$(data.holder).bind('click',data,function(event) {
-				$(event.data.fake_input).focus();
-			});
+    $.ajax({
+       type: "POST",
+       dataType: "json",
+       url: url,
+       data: data
+     });
+  }
 
-			// if user types a comma, create a new tag
-			$(data.fake_input).bind('keypress',data,function(event) {
-				if (event.which==event.data.delimiter.charCodeAt(0) || event.which==13) {
+  jQuery.fn.tagsInput = function(options) {
 
-					$(event.data.real_input).addTag($(event.data.fake_input).val(),{focus:true});
-					return false;
-				}
-			});
+    var settings = jQuery.extend({defaultText:'add a tag',width:'300px',height:'100px','hide':true,'delimiter':',',autocomplete:{selectFirst:false}},options);
 
+    issue_id = settings.issue_id;
 
-			$(data.fake_input).bind('focus',data,function(event) {
-				if ($(event.data.fake_input).val()==$(event.data.fake_input).attr('default')) {
-					$(event.data.fake_input).val('');
-				}
-				$(event.data.fake_input).css('color','#000000');
-			});
+    this.each(function() {
+      if (settings.hide) {
+        $(this).hide();
+      }
 
-			if (settings.autocomplete_url != undefined) {
-				$(data.fake_input).autocomplete({
-							source: function( request, response ) {
-								var term = request.term;
+      id = $(this).attr('id')
 
-						   		if (typeof cache != "undefined") {
-						   			//map the data into a response that will be understood by the autocomplete widget
-						   			response($.ui.autocomplete.filter(cache, term.substring(1, term.length)));
-						   		}
-						   		//get the data from the server
-						   		else {
-						   			$.ajax({
-						   				url: settings.autocomplete_url,
-						   				dataType: "json",
-						   				success: function(data) {
-						   					//cache the data for later
-						   					cache = data;
-						   					//map the data into a response that will be understood by the autocomplete widget
-						       				response($.ui.autocomplete.filter(cache, term.substring(1, term.length)));
-						   				}
-						   			});
-						   		}
-							},
-
-										// 	if ( term in cache ) {
-										// 		response($.ui.autocomplete.filter(cache, term.substring(1, term.length)));
-										// 		// response( cache[ term ] );
-										// 		return;
-										// 	}
-										//
-										// 	lastXhr = $.getJSON( settings.autocomplete_url, request, function( data, status, xhr ) {
-										// 		cache[ term ] = data;
-										// 		if ( xhr === lastXhr ) {
-										// 			response( data );
-										// 		}
-										// 	});
-										// },
-							minLength: 0,
-							data: data,
-							});
-
-				$(data.fake_input).bind( "autocompleteselect", data, function(event, ui) {
-								if (ui.item) {
-									d = ui.item.value + "";
-									$(event.data.real_input).addTag(d,{focus:true});
-									event.preventDefault();
-								}
-							});
+      data = jQuery.extend({
+        pid:id,
+        real_input: '#'+id,
+        holder: '#'+id+'_tagsinput',
+        input_wrapper: '#'+id+'_addTag',
+        fake_input: '#'+id+'_tag'
+      },settings);
 
 
-				$(data.fake_input).bind('blur',data,function(event) {
-					if (($(event.data.fake_input).val() != $(event.data.fake_input).attr('default'))&&($(event.data.fake_input).val() != '')) {
-						$(event.data.real_input).addTag($(event.data.fake_input).val(),{focus:false, send_to_server:true});
-					}
+      delimiter[id] = data.delimiter;
 
-					$(event.data.fake_input).val($(event.data.fake_input).attr('default'));
-					$(event.data.fake_input).css('color','#666666');
-					return false;
-				});
+      $('<div id="'+id+'_tagsinput" class="tagsinput"><div id="'+id+'_addTag"><input id="'+id+'_tag" value="" default="'+settings.defaultText+'" /></div><div class="tags_clear"></div></div>').insertAfter(this);
+
+      $(data.holder).css('width',settings.width);
+      $(data.holder).css('height',settings.height);
 
 
-			} else {
-
-					// if a user tabs out of the field, create a new tag
-					// this is only available if autocomplete is not used.
-					$(data.fake_input).bind('blur',data,function(event) {
-						var d = $(this).attr('default');
-						if ($(event.data.fake_input).val()!='' && $(event.data.fake_input).val()!=d) {
-							event.preventDefault();
-							$(event.data.real_input).addTag($(event.data.fake_input).val(),{focus:true});
-						} else {
-							$(event.data.fake_input).val($(event.data.fake_input).attr('default'));
-							$(event.data.fake_input).css('color','#666666');
-						}
-						return false;
-					});
-
-			}
-
-			$(data.fake_input).blur();
-		});
-
-		return this;
-
-	};
+      if ($(data.real_input).val()!='') {
+        jQuery.fn.tagsInput.importTags($(data.real_input),$(data.real_input).val());
+      } else {
+        $(data.fake_input).val($(data.fake_input).attr('default'));
+        $(data.fake_input).css('color','#666666');
+      }
 
 
-	jQuery.fn.tagsInput.updateTagsField = function(obj,tagslist) {
+      $(data.holder).bind('click',data,function(event) {
+        $(event.data.fake_input).focus();
+      });
 
-			id = $(obj).attr('id');
-			$(obj).val(tagslist.join(delimiter[id]));
-		};
+      // if user types a comma, create a new tag
+      $(data.fake_input).bind('keypress',data,function(event) {
+        if (event.which==event.data.delimiter.charCodeAt(0) || event.which==13) {
+
+          $(event.data.real_input).addTag($(event.data.fake_input).val(),{focus:true});
+          return false;
+        }
+      });
+
+
+      $(data.fake_input).bind('focus',data,function(event) {
+        if ($(event.data.fake_input).val()==$(event.data.fake_input).attr('default')) {
+          $(event.data.fake_input).val('');
+        }
+        $(event.data.fake_input).css('color','#000000');
+      });
+
+      if (settings.autocomplete_url != undefined) {
+        $(data.fake_input).autocomplete({
+              source: function( request, response ) {
+                var term = request.term;
+
+                   if (typeof cache != "undefined") {
+                     //map the data into a response that will be understood by the autocomplete widget
+                     response($.ui.autocomplete.filter(cache, term.substring(1, term.length)));
+                   }
+                   //get the data from the server
+                   else {
+                     $.ajax({
+                       url: settings.autocomplete_url,
+                       dataType: "json",
+                       success: function(data) {
+                         //cache the data for later
+                         cache = data;
+                         //map the data into a response that will be understood by the autocomplete widget
+                           response($.ui.autocomplete.filter(cache, term.substring(1, term.length)));
+                       }
+                     });
+                   }
+              },
+
+                    //   if ( term in cache ) {
+                    //     response($.ui.autocomplete.filter(cache, term.substring(1, term.length)));
+                    //     // response( cache[ term ] );
+                    //     return;
+                    //   }
+                    //
+                    //   lastXhr = $.getJSON( settings.autocomplete_url, request, function( data, status, xhr ) {
+                    //     cache[ term ] = data;
+                    //     if ( xhr === lastXhr ) {
+                    //       response( data );
+                    //     }
+                    //   });
+                    // },
+              minLength: 0,
+              data: data,
+              });
+
+        $(data.fake_input).bind( "autocompleteselect", data, function(event, ui) {
+                if (ui.item) {
+                  d = ui.item.value + "";
+                  $(event.data.real_input).addTag(d,{focus:true});
+                  event.preventDefault();
+                }
+              });
+
+
+        $(data.fake_input).bind('blur',data,function(event) {
+          if (($(event.data.fake_input).val() != $(event.data.fake_input).attr('default'))&&($(event.data.fake_input).val() != '')) {
+            $(event.data.real_input).addTag($(event.data.fake_input).val(),{focus:false, send_to_server:true});
+          }
+
+          $(event.data.fake_input).val($(event.data.fake_input).attr('default'));
+          $(event.data.fake_input).css('color','#666666');
+          return false;
+        });
+
+
+      } else {
+
+          // if a user tabs out of the field, create a new tag
+          // this is only available if autocomplete is not used.
+          $(data.fake_input).bind('blur',data,function(event) {
+            var d = $(this).attr('default');
+            if ($(event.data.fake_input).val()!='' && $(event.data.fake_input).val()!=d) {
+              event.preventDefault();
+              $(event.data.real_input).addTag($(event.data.fake_input).val(),{focus:true});
+            } else {
+              $(event.data.fake_input).val($(event.data.fake_input).attr('default'));
+              $(event.data.fake_input).css('color','#666666');
+            }
+            return false;
+          });
+
+      }
+
+      $(data.fake_input).blur();
+    });
+
+    return this;
+
+  };
+
+
+  jQuery.fn.tagsInput.updateTagsField = function(obj,tagslist) {
+
+      id = $(obj).attr('id');
+      $(obj).val(tagslist.join(delimiter[id]));
+    };
 
 
 
-	jQuery.fn.tagsInput.importTags = function(obj,val) {
+  jQuery.fn.tagsInput.importTags = function(obj,val) {
 
-			$(obj).val('');
-			id = $(obj).attr('id');
-			var tags = val.split(delimiter[id]);
-			for (i=0; i<tags.length; i++) {
-				$(obj).addTag(tags[i],{focus:false, send_to_server:false});
-			}
-		};
+      $(obj).val('');
+      id = $(obj).attr('id');
+      var tags = val.split(delimiter[id]);
+      for (i=0; i<tags.length; i++) {
+        $(obj).addTag(tags[i],{focus:false, send_to_server:false});
+      }
+    };
 
 })(jQuery);

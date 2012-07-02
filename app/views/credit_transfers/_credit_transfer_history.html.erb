@@ -4,14 +4,14 @@
     <% else %>
 
     <table border="0" class="gt-table gt-user-table">
-  		<tbody>
-  		<tr>
-  		  <th>Date</th>
-  		  <th>Amount</th>
-  		  <th>Sender</th>
-  		  <th>Recipient</th>
-  		  <th>Workstream</th>
-  		</tr>
+      <tbody>
+      <tr>
+        <th>Date</th>
+        <th>Amount</th>
+        <th>Sender</th>
+        <th>Recipient</th>
+        <th>Workstream</th>
+      </tr>
       <%
           credit_transfers.sort { |b,a| a.created_at <=> b.created_at }
           credit_transfers.each do |ct|

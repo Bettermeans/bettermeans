@@ -1,12 +1,12 @@
       <table border="0" class="gt-table gt-user-table">
-   	      <%   project_tree_sorted(belong_to_projects) do |p, level|
+           <%   project_tree_sorted(belong_to_projects) do |p, level|
               name_prefix = (level > 0 ? ('&nbsp;' * 4 * level + '&#187; ') : '')
            %>
-   	      <tr><td>
-   	      <%= name_prefix + link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
-   	        <% array = p.activity_line_show(30) %>
-   	        </td><td>
-   	        <span class="spark right" max="<%=  p.activity_line_max %>"><%= p.activity_line_show(30) %></span>
-   	        </td></tr>
-   	      <% end %>
+           <tr><td>
+           <%= name_prefix + link_to(h(p), :controller => 'projects', :action => 'show', :id => p)  %><%= volunteering p %><%= privacy p %>
+             <% array = p.activity_line_show(30) %>
+             </td><td>
+             <span class="spark right" max="<%=  p.activity_line_max %>"><%= p.activity_line_show(30) %></span>
+             </td></tr>
+           <% end %>
       </table>

@@ -24,12 +24,12 @@ class UsersController < ApplicationController
 
     @user_count = User.count(:conditions => c.conditions)
     @user_pages = Paginator.new self, @user_count,
-								per_page_option,
-								params['page']
+                per_page_option,
+                params['page']
     @users =  User.find :all,:order => sort_clause,
                         :conditions => c.conditions,
-						:limit  =>  @user_pages.items_per_page,
-						:offset =>  @user_pages.current.offset
+            :limit  =>  @user_pages.items_per_page,
+            :offset =>  @user_pages.current.offset
 
     render :layout => !request.xhr?
   end

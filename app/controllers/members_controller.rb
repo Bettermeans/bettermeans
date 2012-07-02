@@ -33,7 +33,7 @@ class MembersController < ApplicationController
 
   def edit
     if request.post? and @member.update_attributes(params[:member])
-  	 respond_to do |format|
+      respond_to do |format|
         format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
         format.js {
           render(:update) {|page|

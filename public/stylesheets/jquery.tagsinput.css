@@ -1,53 +1,53 @@
 div.tagsinput, div.tagsoutput {
-	border:0px solid #CCC;
-	background: transparent;
-	padding:5px;
-	}
+  border:0px solid #CCC;
+  background: transparent;
+  padding:5px;
+  }
 
 div.tagsinput span.tag {
-	border: 1px solid #73A1D0;
-	-moz-border-radius:2px;
-	-webkit-border-radius:2px;
-	display: block;
-	float: left;
-	padding: 1px 5px 1px 5px;
-	text-decoration:none;
-	background-color: #B2CCE5;
-	color: #365B6D;
-	margin-right: 5px;
-	margin-bottom:5px;
-	font-family: helvetica;
-	font-size:13px;
-	height: 16px;
-	line-height: 17px;
+  border: 1px solid #73A1D0;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
+  display: block;
+  float: left;
+  padding: 1px 5px 1px 5px;
+  text-decoration:none;
+  background-color: #B2CCE5;
+  color: #365B6D;
+  margin-right: 5px;
+  margin-bottom:5px;
+  font-family: helvetica;
+  font-size:13px;
+  height: 16px;
+  line-height: 17px;
 }
 
 div.tagsoutput span.tag {
-	border: 1px solid #73A1D0;
-	-moz-border-radius:2px;
-	-webkit-border-radius:2px;
-	display: block;
-	float: left;
-	padding: 0px 5px 0px 5px;
-	text-decoration:none;
-	background-color: #B2CCE5;
-	color: #365B6D;
-	margin-right: 5px;
-	margin-bottom:5px;
-	font-family: helvetica;
-	font-size:13px;
-	height: 16px;
-	line-height: 17px;
-	}
+  border: 1px solid #73A1D0;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
+  display: block;
+  float: left;
+  padding: 0px 5px 0px 5px;
+  text-decoration:none;
+  background-color: #B2CCE5;
+  color: #365B6D;
+  margin-right: 5px;
+  margin-bottom:5px;
+  font-family: helvetica;
+  font-size:13px;
+  height: 16px;
+  line-height: 17px;
+  }
 
 div.tagsdash {
-	float:left;
-	margin-bottom:0px;
-	margin-top:0px;
-	padding-top:1px;
-	padding-left:0px!important;
-	padding-right:1px!important;
-	padding-bottom:0px!important;
+  float:left;
+  margin-bottom:0px;
+  margin-top:0px;
+  padding-top:1px;
+  padding-left:0px!important;
+  padding-right:1px!important;
+  padding-bottom:0px!important;
 }
 
 div.tagsinput span.tag a, div.tagsoutput span.tag a  { font-weight: bold; color: #91928E; text-decoration:none; font-size: 11px;  }

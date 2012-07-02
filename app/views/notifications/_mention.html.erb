@@ -1,17 +1,17 @@
 <tr class="notification notification-issue-mentioned" id="notification_<%= @mention.id %>">
   <td class="gt-avatar">
-		<!-- Categories Sub Table -->
-		<table border="0" class="gt-table-categories">
-		  <tr>
-		    <td>
+    <!-- Categories Sub Table -->
+    <table border="0" class="gt-table-categories">
+      <tr>
+        <td>
           <%= avatar_from_id(@mention.sender_id, :size => '53') %>
         </td>
-	    </tr>
-			<tr>
-				<td><%= link_to_user_from_id(@mention.sender_id) %></td>
-			</tr>
-		</table>
-	</td>
+      </tr>
+      <tr>
+        <td><%= link_to_user_from_id(@mention.sender_id) %></td>
+      </tr>
+    </table>
+  </td>
   <td>
     <span class="icon icon-time right small-text"<%= since_tag(@mention.created_at) %> ago</span>
   <%= link_to (truncate(title,50),url, {:class => "#{@mention.source_type == 'Issue' || @mention.source_type == 'Journal(Issue)' ? 'fancyframe' : ''}"}) %>

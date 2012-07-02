@@ -41,16 +41,16 @@
     <%= textilizable(news.description) %>
   </td>
   <td>
-		<!-- Categories Sub Table -->
-		<table border="0" class="gt-table-categories">
-			<tr>
-				<td><%= link_to_user_from_id(news.author) %></td>
-			</tr>
-			<tr>
-				<td><%= since_tag(news.created_at) %> ago</td>
-			</tr>
-		</table>
-	</td>
+    <!-- Categories Sub Table -->
+    <table border="0" class="gt-table-categories">
+      <tr>
+        <td><%= link_to_user_from_id(news.author) %></td>
+      </tr>
+      <tr>
+        <td><%= since_tag(news.created_at) %> ago</td>
+      </tr>
+    </table>
+  </td>
 </tr>
 
 <% end %>
@@ -58,14 +58,14 @@
 </table>
 <!-- Table Controls -->
 <div class="gt-table-controls gt-table-controls-btm clearfix">
-	<p class="gt-table-pager"><%= pagination_links_full @news_pages %></p>
+  <p class="gt-table-pager"><%= pagination_links_full @news_pages %></p>
 </div><!-- /Table Controls -->
 <% end %>
 </div>
 
 
 <%# other_formats_links do |f| %>
-	<%#= f.link_to 'Atom', :url => {:project_id => @project, :key => User.current.rss_key} %>
+  <%#= f.link_to 'Atom', :url => {:project_id => @project, :key => User.current.rss_key} %>
 <%# end %>
 
 <% content_for :actionmenu do %>

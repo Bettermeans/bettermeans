@@ -45,7 +45,7 @@ class WikiController < ApplicationController
       send_data(@content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
       return
     end
-	@editable = editable?
+  @editable = editable?
     render :action => 'show'
   end
 

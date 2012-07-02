@@ -7,7 +7,7 @@
 </p>
 <p>
   <% if @mail.recipient == @user %>
-	  <%= link_to "Reply", new_user_mail_path(@user, :reply_to => @mail) %> |
+    <%= link_to "Reply", new_user_mail_path(@user, :reply_to => @mail) %> |
   <% end %>
   <%= link_to "Inbox", user_mails_path(@user)%>
 </p>

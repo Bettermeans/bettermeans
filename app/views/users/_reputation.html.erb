@@ -8,9 +8,9 @@
   <div class="gt-content-box padded">
   <ul>
   <% for reputation in @reputations %>
-  	<li><%= reputation_value(reputation.reputation_type, reputation.value) %>
-  	   - <%= reputation_project(reputation) %>
-  	  </li>
+    <li><%= reputation_value(reputation.reputation_type, reputation.value) %>
+       - <%= reputation_project(reputation) %>
+      </li>
   <% end %>
   </ul>
   </div>

@@ -6,25 +6,25 @@
 <div class="gt-content-box padded">
 <% if members.any? %>
 <table class="gt-table border='0'">
-	<thead>
-	  <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
-	  <th><%= l(:label_role_plural) %></th>
-	  <th style="width:15%"></th>
-	</thead>
-	<tbody>
-	<% members.each do |member| %>
-	<% next if member.new_record? %>
-	<tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
-	<td class="<%= member.user.class.name.downcase %>"><%= link_to_user member.user %></td>
+  <thead>
+    <th><%= l(:label_user) %> / <%= l(:label_group) %></th>
+    <th><%= l(:label_role_plural) %></th>
+    <th style="width:15%"></th>
+  </thead>
+  <tbody>
+  <% members.each do |member| %>
+  <% next if member.new_record? %>
+  <tr id="member-<%= member.id %>" class="<%= cycle 'odd', 'even' %> member">
+  <td class="<%= member.user.class.name.downcase %>"><%= link_to_user member.user %></td>
   <td class="roles">
     <span id="member-<%= member.id %>-roles"><%=h member.roles.sort.collect(&:to_s).join(', ') %></span>
     <% if authorize_for('members', 'edit') %>
       <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member},
-      																		:method => :post,
-      																		:html => { :id => "member-#{member.id}-roles-form", :style => 'display:none;' }) do |f| %>
-      	<p><% roles.each do |role| %>
+                                          :method => :post,
+                                          :html => { :id => "member-#{member.id}-roles-form", :style => 'display:none;' }) do |f| %>
+        <p><% roles.each do |role| %>
         <label><%= check_box_tag 'member[role_ids][]', role.id, member.roles.include?(role),
-        																							 :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
+                                                       :disabled => member.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %> <%=h role %></label><br />
         <% end %></p>
         <%= hidden_field_tag 'member[role_ids][]', '' %>
         <%= submit_tag l(:button_change), :disable_with => l(:button_working) %>
@@ -41,8 +41,8 @@
                                             }, :title => l(:button_delete),
                                                :class => 'icon icon-del') if member.deletable? %>
   </td>
-	</tr>
-	</tbody>
+  </tr>
+  </tbody>
 <% end; reset_cycle %>
 </table>
 <% else %>
@@ -52,15 +52,15 @@
 </div>
 
 <div class="splitcontentright">
-	<% if User.current.allowed_to?(:send_invitations, @project) %>
+  <% if User.current.allowed_to?(:send_invitations, @project) %>
   <div class="gt-sidebar-nav gt-sidebar-nav-blue">
     <ul>
     <li style="text-align:center;">
-  		<%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
+      <%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
     </li>
     </ul>
   </div>
-	<% end %>
+  <% end %>
 
 <%#= render :partial => '/projects/settings/select_new_member', :locals => {:roles => roles} %>
 

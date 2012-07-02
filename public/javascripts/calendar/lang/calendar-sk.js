@@ -1,8 +1,8 @@
 /*
-	calendar-sk.js
-	language: Slovak
-	encoding: UTF-8
-	author: Stanislav Pach (stano.pach@seznam.cz)
+  calendar-sk.js
+  language: Slovak
+  encoding: UTF-8
+  author: Stanislav Pach (stano.pach@seznam.cz)
 */
 
 // ** I18N

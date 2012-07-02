@@ -11,14 +11,14 @@
 </p>
     </td>
     <td>
-			<!-- Categories Sub Table -->
-			<table border="0" class="gt-table-categories">
-				<tr>
-					<td><%= link_to_user_from_id(@notification.sender_id) %></td>
-				</tr>
-				<tr>
-					<td><%= since_tag(@notification.created_at) %> ago</td>
-				</tr>
-			</table>
-		</td>
+      <!-- Categories Sub Table -->
+      <table border="0" class="gt-table-categories">
+        <tr>
+          <td><%= link_to_user_from_id(@notification.sender_id) %></td>
+        </tr>
+        <tr>
+          <td><%= since_tag(@notification.created_at) %> ago</td>
+        </tr>
+      </table>
+    </td>
 </tr>

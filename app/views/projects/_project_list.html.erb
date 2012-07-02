@@ -1,17 +1,17 @@
-	  <table border="0" class="gt-table gt-user-table project-browse-table">
-			<tbody>
-				  <% for project in projects %>
-				  <tr>
-      			<td>
+    <table border="0" class="gt-table gt-user-table project-browse-table">
+      <tbody>
+          <% for project in projects %>
+          <tr>
+            <td>
               <%= render :partial => 'project_summary', :locals => {:project => project} %>
-  					</td>
-      		</tr>
-      		<% end %>
-			</tbody>
-		</table>
-		<span id="project_index_bottom_<%= index_type %>">
-		  <div class="learn-more">
-		  <%= link_to_remote "... load more ...", {
+            </td>
+          </tr>
+          <% end %>
+      </tbody>
+    </table>
+    <span id="project_index_bottom_<%= index_type %>">
+      <div class="learn-more">
+      <%= link_to_remote "... load more ...", {
                                   :url => {:controller => :projects,
                                           :action => "index_#{index_type}",
                                           :offset => offset
@@ -19,4 +19,4 @@
                                           :method => :get
                                   }, {:id => "#{index_type}_load_more"} unless projects.last.nil? %>
                                   </div>
-		</span>
+    </span>

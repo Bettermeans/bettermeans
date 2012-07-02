@@ -38,15 +38,15 @@
     </td>
     <td class="side">
       <table border="0" class="gt-table-categories">
-  			<tr>
+        <tr>
           <!-- <th>Repeated:</th> -->
-  				<td><%= link_to_user(@news.author) %></td>
-  			</tr>
-  			<tr>
+          <td><%= link_to_user(@news.author) %></td>
+        </tr>
+        <tr>
           <!-- <th>Logged time:</th> -->
-  				<td><%= since_tag(@news.created_at) %> ago</td>
-  			</tr>
-  		</table>
+          <td><%= since_tag(@news.created_at) %> ago</td>
+        </tr>
+      </table>
     </td>
    </tr>
   </tbody>
@@ -76,20 +76,20 @@
      </td>
      <td class="side">
        <table border="0" class="gt-table-categories">
-   			<tr>
+         <tr>
            <!-- <th>Repeated:</th> -->
-   				<td><%= link_to_user(comment.author) %></td>
-   			</tr>
-   			<tr>
+           <td><%= link_to_user(comment.author) %></td>
+         </tr>
+         <tr>
            <!-- <th>Logged time:</th> -->
-   				<td><%= since_tag(comment.created_at) %> ago</td>
-   			</tr>
+           <td><%= since_tag(comment.created_at) %> ago</td>
+         </tr>
         <tr><td>
           <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment},
                                                              :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %>
           </td>
           </tr>
-   		</table>
+       </table>
      </td>
   </tr>
   <% end %>

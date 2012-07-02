@@ -15,20 +15,20 @@
 
 
 
-      	<div class="feature">
-      			<div onclick="slideShow(-1);" class="fade-left">
+        <div class="feature">
+            <div onclick="slideShow(-1);" class="fade-left">
               <img src="/images/static/fade-arrow-left.png">
-      			</div>
-      			<div class="screenshot">
-      			  <!-- The Video Thumbnail -->
+            </div>
+            <div class="screenshot">
+              <!-- The Video Thumbnail -->
               <a class="videolink" href="http://www.youtube.com/v/MAlnMWlvw9g&autoplay=1&fmt=6" target="blank" title="bettermeans in 3 minutes">
               <img src="/images/static/goals.png" />
               </a>
-      			</div>
-      			<div onclick="slideShow(1);" class="fade">
+            </div>
+            <div onclick="slideShow(1);" class="fade">
               <img src="/images/static/fade-arrow.png">
-      			</div>
-      	</div>
+            </div>
+        </div>
         <!-- <div class="span-12">
           <h2 id="caption">to change our world, we must re-invent <br>how we work together.</h2>
         </div> -->
@@ -185,29 +185,29 @@
 
 <script type="text/javascript">
 var captions = [
-		"Leadership. Not management.",
-		"Democratic and transparent project management.",
-		"Inclusive and efficient decision making.",
-		"Full transparancy.",
-		"Peer-assessed, contribution-based compensation."];
+    "Leadership. Not management.",
+    "Democratic and transparent project management.",
+    "Inclusive and efficient decision making.",
+    "Full transparancy.",
+    "Peer-assessed, contribution-based compensation."];
 
 var imgIdx = 0;
 
 function md(i, n) {
-	if (i < 0) i = n-1; else
-	if (i >= n) i = 0;
-	return (i);
+  if (i < 0) i = n-1; else
+  if (i >= n) i = 0;
+  return (i);
 }
 
 function slideShow(dir) {
-	var images = ["dashboard_front.png", "home_front.png", "motion_front.png", "activity_front.png", "retro_front.png"];
-	imgIdx = md(imgIdx + dir, images.length);
-	var prev = md(imgIdx - 1, images.length);
-	var next = md(imgIdx + 1, images.length);
-	$('#caption').html(captions[imgIdx]);
-	$('.screenshot img').attr('src', '/images/static/' + images[imgIdx]);
-	$('.fade-left').css('background-image', 'url(/images/static/' + images[prev] + ')');
-	$('.fade').css('background-image', 'url(/images/static/' + images[next] + ')');
+  var images = ["dashboard_front.png", "home_front.png", "motion_front.png", "activity_front.png", "retro_front.png"];
+  imgIdx = md(imgIdx + dir, images.length);
+  var prev = md(imgIdx - 1, images.length);
+  var next = md(imgIdx + 1, images.length);
+  $('#caption').html(captions[imgIdx]);
+  $('.screenshot img').attr('src', '/images/static/' + images[imgIdx]);
+  $('.fade-left').css('background-image', 'url(/images/static/' + images[prev] + ')');
+  $('.fade').css('background-image', 'url(/images/static/' + images[next] + ')');
 }
 </script>
 

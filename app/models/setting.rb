@@ -123,15 +123,15 @@ class Setting < ActiveRecord::Base
   LENGTH_OF_MOVING_AVERAGE = 20
 
   DATE_FORMATS = [
-	'%Y-%m-%d',
-	'%d/%m/%Y',
-	'%d.%m.%Y',
-	'%d-%m-%Y',
-	'%m/%d/%Y',
-	'%d %b %Y',
-	'%d %B %Y',
-	'%b %d, %Y',
-	'%B %d, %Y'
+  '%Y-%m-%d',
+  '%d/%m/%Y',
+  '%d.%m.%Y',
+  '%d-%m-%Y',
+  '%m/%d/%Y',
+  '%d %b %Y',
+  '%d %B %Y',
+  '%b %d, %Y',
+  '%B %d, %Y'
     ]
 
   TIME_FORMATS = [

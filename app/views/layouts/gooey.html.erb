@@ -66,79 +66,79 @@
 
 <!-- head -->
 <div class="gt-hd clearfix">
-	<!-- leaf watermark -->
-	<div class="gt-leaf-watermark clearfix">
+  <!-- leaf watermark -->
+  <div class="gt-leaf-watermark clearfix">
 
-	<!-- head top -->
-	<div class="gt-hd-top clearfix">
+  <!-- head top -->
+  <div class="gt-hd-top clearfix">
 
-		<div class="gt-fixed-wrap clearfix">
+    <div class="gt-fixed-wrap clearfix">
 
-		<!-- logo -->
-		<div class="gt-logo">
+    <!-- logo -->
+    <div class="gt-logo">
       <a href="/" style="text-decoration:none;" class="left">
         <img src="/images/static/header_logo.png"></a>
       </a>
       <div class="gt-logo-links">
-  		  <%= link_to(l(:label_my_home).upcase, {:controller => 'welcome', :action => 'index'}, :class => 'root') %>&nbsp;
-  			<%= render_project_jump_box %>
-			</div>
-		</div>
+        <%= link_to(l(:label_my_home).upcase, {:controller => 'welcome', :action => 'index'}, :class => 'root') %>&nbsp;
+        <%= render_project_jump_box %>
+      </div>
+    </div>
 
-		<!-- / logo -->
+    <!-- / logo -->
 
-		<!-- utility box -->
-		<div class="gt-util-box">
-		  <div class="gt-util-box-inner">
+    <!-- utility box -->
+    <div class="gt-util-box">
+      <div class="gt-util-box-inner">
       <%= render :partial => "layouts/account_menu" -%>
-			</div>
-			<%= yield :buttonbar %>
-		</div>
-		<!-- / utility box -->
-		</div>
+      </div>
+      <%= yield :buttonbar %>
+    </div>
+    <!-- / utility box -->
+    </div>
 
-	</div><!-- /head top -->
+  </div><!-- /head top -->
 
-	<!-- navbar -->
-	<div class="gt-navbar clearfix">
+  <!-- navbar -->
+  <div class="gt-navbar clearfix">
 
-		<div class="gt-fixed-wrap clearfix">
+    <div class="gt-fixed-wrap clearfix">
 
 
-		<!-- navigation -->
-		<div class="gt-nav">
-		  <div class="gt-nav-header">
-    		<span class="gt-nav-breadcrumbs"><%= page_header_title %></span>
-    		<br>
-    		<h1><%= page_header_name %><%= sub_workstream_project_box(@project) %></h1>
-    		<% if (!has_content?(:searchbar)) %>
+    <!-- navigation -->
+    <div class="gt-nav">
+      <div class="gt-nav-header">
+        <span class="gt-nav-breadcrumbs"><%= page_header_title %></span>
+        <br>
+        <h1><%= page_header_name %><%= sub_workstream_project_box(@project) %></h1>
+        <% if (!has_content?(:searchbar)) %>
       <div class="gt-search gt-search-wide">
-        		  <div class="gt-search-inner">
-        		  <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
+              <div class="gt-search-inner">
+              <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
               <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
               <%= hidden_field_tag(:scope, 'subprojects') %>
               <%#= link_to "#{l(:label_search)}:", {:controller => 'search', :action => 'index', :id => @project}, :id=> "search-label", :accesskey => accesskey(:search) %>
               <%= text_field_tag 'q', @question, :size => 20, :class => 'gt-search-text', :onfocus => "javascript:if(this.value=='Search')this.value='';", :onblur=> "javascript:if(this.value=='')this.value='Search';", :accesskey => accesskey(:quick_search) %>
 
               <% end %>
-        		  </div>
-        		</div>
-        		<% else %>
-        		  <%= yield :searchbar %>
-    		<% end %>
-  		</div>
-  		<div class="gt-nav-sub">
-		  <% if @project && !@project.new_record? %>
-		    <%= render_main_menu(@project) %>
-		  <% else %>
-		  	<% if (has_content?(:mainmenu)) %>
-		      <%= yield :mainmenu %>
-	      <% else %>
-		      <ul><li><a href="#" style="opacity:0;">.</a></li></ul> <!-- placeholder to maintain height of bar -->
-	      <% end %>
-		  <% end %>
+              </div>
+            </div>
+            <% else %>
+              <%= yield :searchbar %>
+        <% end %>
+      </div>
+      <div class="gt-nav-sub">
+      <% if @project && !@project.new_record? %>
+        <%= render_main_menu(@project) %>
+      <% else %>
+        <% if (has_content?(:mainmenu)) %>
+          <%= yield :mainmenu %>
+        <% else %>
+          <ul><li><a href="#" style="opacity:0;">.</a></li></ul> <!-- placeholder to maintain height of bar -->
+        <% end %>
+      <% end %>
       <div class="gt-actionmenu">
-		  <% if (has_content?(:actionmenu)) %>
+      <% if (has_content?(:actionmenu)) %>
               <%= yield :actionmenu %>
       <%   end   %>
       <% if (has_content?(:help_section)) %>
@@ -149,23 +149,23 @@
         </ul>
       <% end %>
       </div>
-		  </div>
+      </div>
 
-		</div><!-- / navigation -->
+    </div><!-- / navigation -->
 
-		<!-- search -->
-		<% if (!has_content?(:topbuttons)) %>
-		<% else %>
-		  <%= yield :topbuttons %>
-		<% end %>
+    <!-- search -->
+    <% if (!has_content?(:topbuttons)) %>
+    <% else %>
+      <%= yield :topbuttons %>
+    <% end %>
 
-		</div>
-	</div><!-- /navbar -->
-	<% if (has_content?(:secondnav)) %>
-	  <div class="gt-second-navbar">
-	  <%= yield :secondnav %>
-	  </div>
-	<% end %>
+    </div>
+  </div><!-- /navbar -->
+  <% if (has_content?(:secondnav)) %>
+    <div class="gt-second-navbar">
+    <%= yield :secondnav %>
+    </div>
+  <% end %>
 </div><!-- /leaf watermark -->
 </div>
 <!-- / head -->
@@ -184,22 +184,22 @@ end
 <%= tag('div', {:id => 'main', :class => cssclass }, true) %>
 
 
-	<!-- main content -->
-	<div class="gt-content" id="content">
-		  <%= render_global_messages %>
-  		<%= render_flash_messages %>
+  <!-- main content -->
+  <div class="gt-content" id="content">
+      <%= render_global_messages %>
+      <%= render_flash_messages %>
       <%= yield %>
-	</div>
-	<!-- / main content -->
+  </div>
+  <!-- / main content -->
 
 
-	<!-- sidebar -->
+  <!-- sidebar -->
   <% if (has_content?(:sidebar)) %>
-	    <div class="gt-sidebar">
+      <div class="gt-sidebar">
           <%= yield :sidebar %>
       </div>
   <%   end   %>
-	<!-- / sidebar -->
+  <!-- / sidebar -->
 
 <div id="help_section_container" style="display:none">
   <div class="help-section" id="help_section">

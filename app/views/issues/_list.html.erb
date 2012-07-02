@@ -6,31 +6,31 @@
         <!-- <th><%#= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
         </th> -->
-		<%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
+    <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
         <% query.columns.each do |column| %>
           <%= column_header(column) %>
         <% end %>
-	</tr></thead>
-	<% previous_group = false %>
-	<tbody>
-	<% issues.each do |issue| -%>
+  </tr></thead>
+  <% previous_group = false %>
+  <tbody>
+  <% issues.each do |issue| -%>
   <% if @query.grouped? && (group = @query.group_by_column.value(issue)) != previous_group %>
     <% reset_cycle %>
     <tr class="group open">
-    	<td colspan="<%= query.columns.size + 2 %>">
-    		<span class="expander" onclick="toggleRowGroup(this); return false;">&nbsp;</span>
-      	<%= group.blank? ? 'None' : column_content(@query.group_by_column, issue) %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
-    	</td>
-		</tr>
-		<% previous_group = group %>
+      <td colspan="<%= query.columns.size + 2 %>">
+        <span class="expander" onclick="toggleRowGroup(this); return false;">&nbsp;</span>
+        <%= group.blank? ? 'None' : column_content(@query.group_by_column, issue) %> <span class="count">(<%= @issue_count_by_group[group] %>)</span>
+      </td>
+    </tr>
+    <% previous_group = group %>
   <% end %>
-	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
+  <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %>">
       <!-- <td class="checkbox"><%#= check_box_tag("ids[]", issue.id, false, :id => nil) %></td> -->
-		<td><%= link_to issue.id, {:controller => 'issues', :action => 'show', :id => issue}, :class => "fancyframe" %></td>
+    <td><%= link_to issue.id, {:controller => 'issues', :action => 'show', :id => issue}, :class => "fancyframe" %></td>
         <% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.name %><% end %>
-	</tr>
-	<% end -%>
-	</tbody>
+  </tr>
+  <% end -%>
+  </tbody>
 </table>
 </div>
 <% end -%>

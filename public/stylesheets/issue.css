@@ -12,14 +12,14 @@ body {
     min-width: 500px;
     word-wrap: break-word;
 /*    text-shadow: 0px 1px 0px white;   */
-	overflow: visible;
+  overflow: visible;
 }
 
 h1, #item_header h3 {
     color: black;
-	font-size: 182%;
+  font-size: 182%;
     padding-left: 0px;
-	margin-left: -5px;
+  margin-left: -5px;
     margin-bottom: -1px;
     line-height: 32px;
 }
@@ -185,7 +185,7 @@ img.issue-author-image {
     text-decoration: none;
     color: black;
     background-color: rgb(228, 228, 228);
-	background-position: 0.5em;
+  background-position: 0.5em;
     border: 1px solid rgb(195, 195, 195);
     border-radius: 8px;
     -moz-border-radius: 8px;
@@ -395,61 +395,61 @@ img {
 
 /*Overwrite*/
 issue-meta-action-wrapper a.icon {
-	background-position: 1em;
+  background-position: 1em;
 }
 /*.icon-edit {
-	background-position: 0em;
+  background-position: 0em;
 }
 */
 .icons{
-	width:auto;
-	float:none;
+  width:auto;
+  float:none;
 }
 .help_question_mark{
-	margin-bottom:3px;
-	border:0px;
+  margin-bottom:3px;
+  border:0px;
 }
 .relations{
-	padding-left:2px;
+  padding-left:2px;
 }
 
 html > body #content {
-	min-height: 200px;
-	overflow-y: hidden;
-	overflow-x: hidden;
+  min-height: 200px;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 form input[type="text"].short {
-	width: auto;
-	margin-right: 10px;
+  width: auto;
+  margin-right: 10px;
 }
 
 img.gravatar {
-	padding: 2px;
+  padding: 2px;
   border: solid 1px #d5d5d5;
   background: #fff;
 }
 td.author-name {
-	padding-left: 10px;
+  padding-left: 10px;
 }
 
 .open, .hoverable, .new, .inprogress, .canceled, .accepted, .estimate, .done {
-	background-color: transparent;
+  background-color: transparent;
 }
 
 p, li {
-	font-size: 125%;
+  font-size: 125%;
 }
 
 p {
-	margin-bottom: 0.6em;
+  margin-bottom: 0.6em;
 }
 
 #todo_lightbox .header {
-	font-size: 125%;
+  font-size: 125%;
 }
 
 fieldset {
-	border: none;
+  border: none;
 }
 
 /***** Ajax indicator ******/

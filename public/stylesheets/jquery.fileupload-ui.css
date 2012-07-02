@@ -26,15 +26,15 @@
 }
 
 .file_upload a, .file_upload a:visited{
-	text-decoration:none;
-	color: black;
-	font-weight:normal;
+  text-decoration:none;
+  color: black;
+  font-weight:normal;
 }
 
 /*.file_upload{
-	border: 1px solid #006;
-	border-color: #FFFFFF #666666 #666666 #FFFFFF;
-	background-color: #ECE9D8 border-style: solid;
+  border: 1px solid #006;
+  border-color: #FFFFFF #666666 #666666 #FFFFFF;
+  background-color: #ECE9D8 border-style: solid;
 }
 */
 

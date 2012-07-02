@@ -6,32 +6,32 @@ if @members_active.any?
 <h2 class="gt-table-head icon icon-users"><%=l(:label_active_team)%><%= help_bubble(:text_active_team_explanation) %></h2>
 <div class="members gt-content-box">
   <table border="0" class="gt-table gt-user-table">
-		<tbody>
-    	<% @members_active.each do |member| %>
-    	<tr>
-    	  <td class="gt-avatar"><%= avatar(member.user) %></td>
-    	  <td>
-    	    <h4><%= link_to_user member.user %></h4>
-    	    <%
-    	      roles =  member.user.roles_for_project(@project).collect{|role| role.name }
-    	      roles.delete(Role.active.name)
-    	      %>
-    	    <%= roles.join(",") %>
-    	  </td>
+    <tbody>
+      <% @members_active.each do |member| %>
+      <tr>
+        <td class="gt-avatar"><%= avatar(member.user) %></td>
+        <td>
+          <h4><%= link_to_user member.user %></h4>
+          <%
+            roles =  member.user.roles_for_project(@project).collect{|role| role.name }
+            roles.delete(Role.active.name)
+            %>
+          <%= roles.join(",") %>
+        </td>
       </tr>
-    	<% end %>
-    	<% if User.current.allowed_to?(:send_invitations, @project)  && @project.root? %>
-    	<tr><td colspan=2 style="text-align:center">
-    	 <%= link_to l(:label_invitation_others), new_project_invitation_url(@project) %>
-    	</td></tr>
-    	</li>
-    	<% end %>
-    	<% unless @hide_view_team_link %>
-    	<tr><td colspan=3 style="text-align:center">
-    	 <%= link_to l(:label_team_view_all_enterprise), {:controller => 'projects', :action => 'team', :id => @project.root} %>
-    	</td></tr>
-    	<% end %>
-	  </tbody>
-	</table>
+      <% end %>
+      <% if User.current.allowed_to?(:send_invitations, @project)  && @project.root? %>
+      <tr><td colspan=2 style="text-align:center">
+       <%= link_to l(:label_invitation_others), new_project_invitation_url(@project) %>
+      </td></tr>
+      </li>
+      <% end %>
+      <% unless @hide_view_team_link %>
+      <tr><td colspan=3 style="text-align:center">
+       <%= link_to l(:label_team_view_all_enterprise), {:controller => 'projects', :action => 'team', :id => @project.root} %>
+      </td></tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
 <% end %>

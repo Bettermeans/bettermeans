@@ -61,21 +61,21 @@
 <!-- body -->
 <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? 'gt-bd gt-cols clearfix' : 'gt-bd clearfix')}, true) %>
 
-	<!-- main content -->
-	<div class="gt-content">
-  		<%= render_flash_messages %>
+  <!-- main content -->
+  <div class="gt-content">
+      <%= render_flash_messages %>
       <%= yield %>
-	</div>
-	<!-- / main content -->
+  </div>
+  <!-- / main content -->
 
 
-	<!-- sidebar -->
+  <!-- sidebar -->
   <% if (has_content?(:sidebar)) %>
-	    <div class="gt-sidebar">
+      <div class="gt-sidebar">
           <%= yield :sidebar %>
       </div>
   <%   end   %>
-	<!-- / sidebar -->
+  <!-- / sidebar -->
 
 </div>
 <!-- / body -->

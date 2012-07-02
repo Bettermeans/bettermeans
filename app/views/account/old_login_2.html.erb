@@ -128,12 +128,12 @@
 <![endif]-->
 
 <div id="container">
-	<div class="logo">
-		<a href="<%= home_url %>"><img src="/images/logo.png" alt=""></a>
-	</div>
-	<div id="box">
-	  <% form_tag({:action=> "login"}) do %>
-	  <p class="main">
+  <div class="logo">
+    <a href="<%= home_url %>"><img src="/images/logo.png" alt=""></a>
+  </div>
+  <div id="box">
+    <% form_tag({:action=> "login"}) do %>
+    <p class="main">
     <%= back_url_hidden_field_tag %>
     <label for="username"><%=l(:field_login)%>:</label>
     <%= text_field_tag 'username', nil, :tabindex => '1' %>
@@ -154,8 +154,8 @@
       <input name="password" value="asdf1234" type="password">
     </p> -->
 
-		<p class="space">
-		  <% if Setting.autologin? %>
+    <p class="space">
+      <% if Setting.autologin? %>
       <span><label for="autologin"><%= check_box_tag 'autologin', 1, false, :tabindex => 4 %> <%= l(:label_stay_logged_in) %></label>
         <input type="submit" name="login" class="login" value="<%=l(:button_login)%> &#187;" tabindex="5"/>
       </span>
@@ -163,14 +163,14 @@
 
       <%# if Setting.lost_password? %>
       <%# end %>
-		</p>
+    </p>
 
-		<%= link_to l(:label_register), { :controller => 'account', :action => 'register' }, :class => "lost" %>
-		<span class="lost">&nbsp;|&nbsp; </span>
-		<%= link_to l(:label_password_lost), {:controller => 'account', :action => 'lost_password'}, :class => "lost" %>
+    <%= link_to l(:label_register), { :controller => 'account', :action => 'register' }, :class => "lost" %>
+    <span class="lost">&nbsp;|&nbsp; </span>
+    <%= link_to l(:label_password_lost), {:controller => 'account', :action => 'lost_password'}, :class => "lost" %>
     <% end %>
 
 
-	</div>
+  </div>
 </div>
 <%= javascript_tag "$('#username').focus();" %>

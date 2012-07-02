@@ -1360,7 +1360,7 @@ module ApplicationHelper
   end
 
   def button(text, cssclass)
-  	return "<div class='action_button_no_float action_button_#{cssclass}' onclick=\"$('.action_button_no_float').hide();\" ><span>#{text}</span></div>"
+    return "<div class='action_button_no_float action_button_#{cssclass}' onclick=\"$('.action_button_no_float').hide();\" ><span>#{text}</span></div>"
   end
 
   def tally_table(motion)
