@@ -11,7 +11,7 @@ class ProjectTest < ActiveSupport::TestCase
     @ecookbook_sub1 = Project.find(3)
     User.current = nil
   end
-  
+
   #should_validate_presence_of :name
   #should_validate_presence_of :identifier
 
@@ -46,7 +46,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_kind_of Project, @ecookbook
     assert_equal "eCookbook", @ecookbook.name
   end
-  
+
   def test_update
     assert_equal "eCookbook", @ecookbook.name
     @ecookbook.name = "eCook"
@@ -54,14 +54,14 @@ class ProjectTest < ActiveSupport::TestCase
     @ecookbook.reload
     assert_equal "eCook", @ecookbook.name
   end
-  
+
   def test_validate_identifier
     to_test = {"abc" => true,
                "ab12" => true,
                "ab-12" => true,
                "12" => false,
                "new" => false}
-               
+
     to_test.each do |identifier, valid|
       p = Project.new
       p.identifier = identifier
@@ -75,42 +75,42 @@ class ProjectTest < ActiveSupport::TestCase
       assert_nil project.all_members.detect {|m| !(m.user.is_a?(User) && m.user.active?) }
     end
   end
-  
+
   def test_users_should_be_active_users
     Project.all.each do |project|
       assert_nil project.users.detect {|u| !(u.is_a?(User) && u.active?) }
     end
   end
-  
+
   def test_archive
     user = @ecookbook.members.first.user
     @ecookbook.archive
     @ecookbook.reload
-    
+
     assert !@ecookbook.active?
     assert !user.projects.include?(@ecookbook)
     # Subproject are also archived
     assert !@ecookbook.children.empty?
     assert @ecookbook.descendants.active.empty?
   end
-  
+
   def test_archive_should_fail_if_versions_are_used_by_non_descendant_projects
     # Assign an issue of a project to a version of a child project
     Issue.find(4).update_attribute :fixed_version_id, 4
-    
+
     assert_no_difference "Project.count(:all, :conditions => 'status = #{Project::STATUS_ARCHIVED}')" do
       assert_equal false, @ecookbook.archive
     end
     @ecookbook.reload
     assert @ecookbook.active?
   end
-  
+
   def test_unarchive
     user = @ecookbook.members.first.user
     @ecookbook.archive
     # A subproject of an archived project can not be unarchived
     assert !@ecookbook_sub1.unarchive
-    
+
     # Unarchive project
     assert @ecookbook.unarchive
     @ecookbook.reload
@@ -120,7 +120,7 @@ class ProjectTest < ActiveSupport::TestCase
     @ecookbook_sub1.reload
     assert @ecookbook_sub1.unarchive
   end
-  
+
   def test_destroy
     # 2 active members
     assert_equal 2, @ecookbook.members.size
@@ -128,7 +128,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert_equal 3, Member.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).size
     # some boards
     assert @ecookbook.boards.any?
-    
+
     @ecookbook.destroy
     # make sure that the project non longer exists
     assert_raise(ActiveRecord::RecordNotFound) { Project.find(@ecookbook.id) }
@@ -136,7 +136,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert Member.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).empty?
     assert Board.find(:all, :conditions => ['project_id = ?', @ecookbook.id]).empty?
   end
-  
+
   def test_move_an_orphan_project_to_a_root_project
     sub = Project.find(2)
     sub.set_parent! @ecookbook
@@ -144,22 +144,22 @@ class ProjectTest < ActiveSupport::TestCase
     @ecookbook.reload
     assert_equal 4, @ecookbook.children.size
   end
-  
+
   def test_move_an_orphan_project_to_a_subproject
     sub = Project.find(2)
     assert sub.set_parent!(@ecookbook_sub1)
   end
-  
+
   def test_move_a_root_project_to_a_project
     sub = @ecookbook
     assert sub.set_parent!(Project.find(2))
   end
-  
+
   def test_should_not_move_a_project_to_its_children
     sub = @ecookbook
     assert !(sub.set_parent!(Project.find(3)))
   end
-  
+
   def test_set_parent_should_add_roots_in_alphabetical_order
     ProjectCustomField.delete_all
     Project.delete_all
@@ -167,11 +167,11 @@ class ProjectTest < ActiveSupport::TestCase
     Project.create!(:name => 'Project B', :identifier => 'project-b').set_parent!(nil)
     Project.create!(:name => 'Project D', :identifier => 'project-d').set_parent!(nil)
     Project.create!(:name => 'Project A', :identifier => 'project-a').set_parent!(nil)
-    
+
     assert_equal 4, Project.count
     assert_equal Project.all.sort_by(&:name), Project.all.sort_by(&:lft)
   end
-  
+
   def test_set_parent_should_add_children_in_alphabetical_order
     ProjectCustomField.delete_all
     parent = Project.create!(:name => 'Parent', :identifier => 'parent')
@@ -179,12 +179,12 @@ class ProjectTest < ActiveSupport::TestCase
     Project.create!(:name => 'Project B', :identifier => 'project-b').set_parent!(parent)
     Project.create!(:name => 'Project D', :identifier => 'project-d').set_parent!(parent)
     Project.create!(:name => 'Project A', :identifier => 'project-a').set_parent!(parent)
-    
+
     parent.reload
     assert_equal 4, parent.children.size
     assert_equal parent.children.sort_by(&:name), parent.children
   end
-  
+
   def test_rebuild_should_sort_children_alphabetically
     ProjectCustomField.delete_all
     parent = Project.create!(:name => 'Parent', :identifier => 'parent')
@@ -192,10 +192,10 @@ class ProjectTest < ActiveSupport::TestCase
     Project.create!(:name => 'Project B', :identifier => 'project-b').move_to_child_of(parent)
     Project.create!(:name => 'Project D', :identifier => 'project-d').move_to_child_of(parent)
     Project.create!(:name => 'Project A', :identifier => 'project-a').move_to_child_of(parent)
-    
+
     Project.update_all("lft = NULL, rgt = NULL")
     Project.rebuild!
-    
+
     parent.reload
     assert_equal 4, parent.children.size
     assert_equal parent.children.sort_by(&:name), parent.children
@@ -220,49 +220,49 @@ class ProjectTest < ActiveSupport::TestCase
     issue_with_hierarchy_fixed_version.update_attribute(:fixed_version_id, 6)
     issue_with_hierarchy_fixed_version.reload
     assert_equal 6, issue_with_hierarchy_fixed_version.fixed_version_id
-    
+
     # Move project out of the issue's hierarchy
     moved_project = Project.find(3)
     moved_project.set_parent!(Project.find(2))
     parent_issue.reload
     issue_with_local_fixed_version.reload
     issue_with_hierarchy_fixed_version.reload
-    
+
     assert_equal 4, issue_with_local_fixed_version.fixed_version_id, "Fixed version was not keep on an issue local to the moved project"
     assert_equal nil, issue_with_hierarchy_fixed_version.fixed_version_id, "Fixed version is still set after moving the Project out of the hierarchy where the version is defined in"
     assert_equal nil, parent_issue.fixed_version_id, "Fixed version is still set after moving the Version out of the hierarchy for the issue."
   end
-  
+
   def test_parent
     p = Project.find(6).parent
     assert p.is_a?(Project)
     assert_equal 5, p.id
   end
-  
+
   def test_ancestors
     a = Project.find(6).ancestors
     assert a.first.is_a?(Project)
     assert_equal [1, 5], a.collect(&:id)
   end
-  
+
   def test_root
     r = Project.find(6).root
     assert r.is_a?(Project)
     assert_equal 1, r.id
   end
-  
+
   def test_children
     c = Project.find(1).children
     assert c.first.is_a?(Project)
     assert_equal [5, 3, 4], c.collect(&:id)
   end
-  
+
   def test_descendants
     d = Project.find(1).descendants
     assert d.first.is_a?(Project)
     assert_equal [5, 6, 3, 4], d.collect(&:id)
   end
-  
+
   def test_allowed_parents_should_be_empty_for_non_member_user
     Role.non_member.add_permission!(:add_project)
     user = User.find(9)
@@ -270,7 +270,7 @@ class ProjectTest < ActiveSupport::TestCase
     User.current = user
     assert Project.new.allowed_parents.compact.empty?
   end
-  
+
   def test_users_by_role
     users_by_role = Project.find(1).users_by_role
     assert_kind_of Hash, users_by_role
@@ -278,32 +278,32 @@ class ProjectTest < ActiveSupport::TestCase
     assert_kind_of Array, users_by_role[role]
     assert users_by_role[role].include?(User.find(2))
   end
-  
+
   def test_rolled_up_trackers
     parent = Project.find(1)
     parent.trackers = Tracker.find([1,2])
     child = parent.children.find(3)
-  
+
     assert_equal [1, 2], parent.tracker_ids
     assert_equal [2, 3], child.trackers.collect(&:id)
-    
+
     assert_kind_of Tracker, parent.rolled_up_trackers.first
     assert_equal Tracker.find(1), parent.rolled_up_trackers.first
-    
+
     assert_equal [1, 2, 3], parent.rolled_up_trackers.collect(&:id)
     assert_equal [2, 3], child.rolled_up_trackers.collect(&:id)
   end
-  
+
   def test_rolled_up_trackers_should_ignore_archived_subprojects
     parent = Project.find(1)
     parent.trackers = Tracker.find([1,2])
     child = parent.children.find(3)
     child.trackers = Tracker.find([1,3])
     parent.children.each(&:archive)
-    
+
     assert_equal [1,2], parent.rolled_up_trackers.collect(&:id)
   end
-  
+
   def test_shared_versions_none_sharing
     p = Project.find(5)
     v = Version.create!(:name => 'none_sharing', :project => p, :sharing => 'none')
@@ -323,7 +323,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert !p.siblings.first.shared_versions.include?(v)
     assert !p.root.siblings.first.shared_versions.include?(v)
   end
-  
+
   def test_shared_versions_hierarchy_sharing
     p = Project.find(5)
     v = Version.create!(:name => 'hierarchy_sharing', :project => p, :sharing => 'hierarchy')
@@ -358,7 +358,7 @@ class ProjectTest < ActiveSupport::TestCase
     parent = Project.find(1)
     child = parent.children.find(3)
     private_child = parent.children.find(5)
-    
+
     assert_equal [1,2,3], parent.version_ids.sort
     assert_equal [4], child.version_ids
     assert_equal [6], private_child.version_ids
@@ -377,7 +377,7 @@ class ProjectTest < ActiveSupport::TestCase
     child = parent.children.find(3)
     child.archive
     parent.reload
-    
+
     assert_equal [1,2,3], parent.version_ids.sort
     assert_equal [4], child.version_ids
     assert !parent.shared_versions.collect(&:id).include?(4)
@@ -387,12 +387,12 @@ class ProjectTest < ActiveSupport::TestCase
     user = User.find(3)
     parent = Project.find(1)
     child = parent.children.find(5)
-    
+
     assert_equal [1,2,3], parent.version_ids.sort
     assert_equal [6], child.version_ids
 
     versions = parent.shared_versions.visible(user)
-    
+
     assert_equal 4, versions.size
     versions.each do |version|
       assert_kind_of Version, version
@@ -401,7 +401,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert !versions.collect(&:id).include?(6)
   end
 
-  
+
   def test_next_identifier
     ProjectCustomField.delete_all
     Project.create!(:name => 'last', :identifier => 'p2008040')
@@ -412,7 +412,7 @@ class ProjectTest < ActiveSupport::TestCase
     Project.delete_all
     assert_nil Project.next_identifier
   end
-  
+
 
   def test_enabled_module_names_should_not_recreate_enabled_modules
     project = Project.find(1)
@@ -436,7 +436,7 @@ class ProjectTest < ActiveSupport::TestCase
     assert copied_project.id.blank?
     assert copied_project.name.blank?
     assert copied_project.identifier.blank?
-    
+
     # Duplicated attributes
     assert_equal source_project.description, copied_project.description
     assert_equal source_project.enabled_modules, copied_project.enabled_modules
@@ -491,7 +491,7 @@ class ProjectTest < ActiveSupport::TestCase
         assert ! issue.assigned_to.blank?
         assert_equal @project, issue.project
       end
-      
+
       copied_issue = @project.issues.first(:conditions => {:subject => "copy issue status"})
       assert copied_issue
       assert copied_issue.status
@@ -508,7 +508,7 @@ class ProjectTest < ActiveSupport::TestCase
                                   :subject => "change the new issues to use the copied version",
                                   :tracker_id => 1,
                                   :project_id => @source_project.id)
-      
+
       assert @project.copy(@source_project)
       @project.reload
       copied_issue = @project.issues.first(:conditions => {:subject => "change the new issues to use the copied version"})
@@ -644,19 +644,19 @@ class ProjectTest < ActiveSupport::TestCase
         assert_not_equal IssueCategory.find(3), issue.category # Different record
       end
     end
-    
+
     should "limit copy with :only option" do
       assert @project.members.empty?
       assert @project.issue_categories.empty?
       assert @source_project.issues.any?
-    
+
       assert @project.copy(@source_project, :only => ['members', 'issue_categories'])
 
       assert @project.members.any?
       assert @project.issue_categories.any?
       assert @project.issues.empty?
     end
-    
+
   end
 
 end

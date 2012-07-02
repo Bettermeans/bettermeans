@@ -35,7 +35,7 @@
   </td>
   <td class="buttons">
       <%= link_to_function l(:button_edit), "$('#member-#{member.id}-roles').hide(); $('#member-#{member.id}-roles-form').show(); return false;", :class => 'icon icon-edit' %>
-      <%= link_to_remote(l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
+      <%= link_to_remote(l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},
                                               :confirm => "Are you sure you want to remove #{member.user.name}?",
                                               :method => :post
                                             }, :title => l(:button_delete),

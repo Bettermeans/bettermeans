@@ -2,7 +2,7 @@
 <%= help_section("project_show") %>
 
 <div>
-  <h2 class="gt-table-head icon icon-activity"><%=l(:label_activity_latest)%></h2>  
+  <h2 class="gt-table-head icon icon-activity"><%=l(:label_activity_latest)%></h2>
   <div class="activity gt-content-box">
     <%= render :partial => 'activity_streams/activity_stream_list', :locals => {
       :user_id => params[:user_id],
@@ -11,7 +11,7 @@
       :limit => 20,
       :max_created_at => nil
     } %>
-  </div>  
+  </div>
 </div>
 
 <% content_for :actionmenu do %>
@@ -45,19 +45,19 @@
 <% if @project.description.length > 0 %>
   <div class="gt-sidebar-content">
   <h2 class="icon icon-project"><%=h @project.name %></h2>
-  <%= make_expandable ((textilizable @project.description), 80) %>	
+  <%= make_expandable ((textilizable @project.description), 80) %>
   </div>
 <% end %>
 
 <% if @motions.any? %>
-<h2 class="icon icon-motion"><%=l(:label_motions_active)%></h2>  
+<h2 class="icon icon-motion"><%=l(:label_motions_active)%></h2>
 <div class="motions gt-content-box">
   <%= render :partial => 'motions/motions', :locals =>{:motions => @motions, :max_count => 2} %>
-</div>  
+</div>
 <% end %>
 
 <% if @news.any? && authorize_for('news', 'index') %>
-<h2 class="icon icon-news"><%=l(:label_news_latest)%></h2>  
+<h2 class="icon icon-news"><%=l(:label_news_latest)%></h2>
 <div class="news gt-content-box">
   <%= render :partial => 'news/news', :locals => {:max_count => 2} %>
 </div>
@@ -75,10 +75,10 @@
   <%= render :partial => "member_box" %>
 <% else %>
   <%= render :partial => "active_member_box_simple" %>
-  <%= render :partial => "clearance_member_box" unless @project.is_public %>    
+  <%= render :partial => "clearance_member_box" unless @project.is_public %>
 <% end %>
 
-  
+
 <!-- <div class="gt-sidebar-content">
 <h3>30-day Activity Timeline</h3>
 <div class="spark" max="<%= @project.activity_line_max %>"><%#= @project.activity_line_show(30) %></div>
@@ -87,27 +87,27 @@
     <div class="gt-sidebar-nav gt-sidebar-nav-gray">
     <h3><%=l(:label_issue_tracking)%></h3>
     <ul>
-            <% for tracker in @trackers %>    
+            <% for tracker in @trackers %>
               <li><div style="float:right;width:70%">
                   <%= link_to l(:label_x_open_issues_abbr_on_total, :count => @open_issues_by_tracker[tracker].to_i,
-									:total => @total_issues_by_tracker[tracker].to_i), :controller => 'issues', :action => 'index', :project_id => @project, 
-                                                        :set_filter => 1, 
+									:total => @total_issues_by_tracker[tracker].to_i), :controller => 'issues', :action => 'index', :project_id => @project,
+                                                        :set_filter => 1,
                                                         "tracker_id" => tracker.id %></div>
-									<div style="width:30%;"><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
-                                                        :set_filter => 1, 
+									<div style="width:30%;"><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project,
+                                                        :set_filter => 1,
                                                         "tracker_id" => tracker.id %></div>
           		</li>
             <% end %>
     </ul>
     </div>
 <% end %>
-    
+
 <% if @project.credits_enabled? && false%>
-    
+
       <div class="gt-sidebar-content">
         <h3><%= l(:label_dpp_scale) %><span><%= help_bubble :help_dpp %></span></h3>
         <p><%= render :partial => 'point_scale', :locals => { :dpp => @project.dpp.round, :unit => unit_for(@project) } unless @project.dpp.nil? %></p>
-      </div>    
+      </div>
     <% end %>
 <% end %>
 

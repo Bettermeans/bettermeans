@@ -4,8 +4,8 @@
 class WikisController < ApplicationController
   menu_item :settings
   before_filter :find_project, :authorize
-  ssl_required :all  
-  
+  ssl_required :all
+
   # Create or update a project's wiki
   def edit
     @wiki = @project.wiki || Wiki.new(:project => @project)
@@ -19,9 +19,9 @@ class WikisController < ApplicationController
     if request.post? && params[:confirm] && @project.wiki
       @project.wiki.destroy
       redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'wiki'
-    end    
+    end
   end
-  
+
 private
   def find_project
     @project = Project.find(params[:id])

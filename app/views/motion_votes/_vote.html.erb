@@ -4,7 +4,7 @@
     <% if user_vote.nil? %>
     <%= l :label_you_havent_voted %>
     <% else %>
-    <%= l :label_you_voted, :action => user_vote.action_description %>  <%= distance_of_time_in_words(Time.now,user_vote.updated_at) %> ago 
+    <%= l :label_you_voted, :action => user_vote.action_description %>  <%= distance_of_time_in_words(Time.now,user_vote.updated_at) %> ago
     <% end %>
   </div>
 <% if motion.motion_type == Motion::TYPE_SHARE && User.current.shares.for_project(motion.project_id).empty? %>
@@ -48,7 +48,7 @@
     <% motion.motion_votes.history.each do |mv| %>
     <%= !user_vote.isbinding && mv.isbinding ? l(:label_hidden) : link_to_user(mv.user) %>: <b><%= mv.action_description %></b> <%= distance_of_time_in_words(Time.now,mv.updated_at) %> ago <%= "(#{l :label_non_binding})" if !mv.isbinding %><br>
     <% end %>
-  <% end %>  
+  <% end %>
 </div>
 
 </span>

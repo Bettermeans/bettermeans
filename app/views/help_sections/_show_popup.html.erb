@@ -4,7 +4,7 @@
 <a href="#" onclick="$.fancybox.close(); return false;" class="help-section-link">Close</a>
 <%= link_to_remote "Don't show again", {:url => {:controller => :help_sections, :action => :dont_show, :id => help_section.id}}, {:class => "help-section-link", :onclick => "$.fancybox.close()"} %>
 <div class="clear"></div>
-  
+
 <p>
   <%= l("help_section_#{help_section.name}").split("|")[1] %>
 </p>
@@ -22,7 +22,7 @@ $(document).ready(function(){
   			'transitionOut'	: 'elastic',
         // 'scrolling' : 'no'
   		});
-  
+
 });
 
 </script>

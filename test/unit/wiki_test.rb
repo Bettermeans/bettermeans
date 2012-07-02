@@ -7,12 +7,12 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class WikiTest < ActiveSupport::TestCase
   fixtures :wikis, :wiki_pages, :wiki_contents, :wiki_content_versions
-  
+
   def test_create
     wiki = Wiki.new(:project => Project.find(2))
     assert !wiki.save
     assert_equal 1, wiki.errors.count
-  
+
     wiki.start_page = "Start page"
     assert wiki.save
   end
@@ -24,7 +24,7 @@ class WikiTest < ActiveSupport::TestCase
     @wiki.reload
     assert_equal "Another start page", @wiki.start_page
   end
-  
+
   def test_titleize
     assert_equal 'Page_title_with_CAPITALES', Wiki.titleize('page title with CAPITALES')
     assert_equal 'テスト', Wiki.titleize('テスト')

@@ -10,7 +10,7 @@
   position:relative;
   }
 
-  
+
   button, input[type="reset"], input[type="button"], input[type="submit"] {
   -moz-appearance:button;
   -moz-binding:none;
@@ -27,7 +27,7 @@
   text-shadow:none;
   white-space:pre;
   }
-  
+
   #content{
     background-color: transparent;
   }
@@ -96,19 +96,19 @@
   color:#FFFFFF;
   margin-left:125px;
   margin-right:5px;
-  }  
+  }
   #top-menu {
     display:none;
   }
   #header {
     display:none;
   }
-  
+
   .lost{
 /*    margin-right:35px;*/
     float:right;
   }
-  
+
 </STYLE>
 
 <!--[if lt IE 20]>
@@ -145,13 +145,13 @@
       <td align="left"><%= text_field_tag "openid_url", nil, :tabindex => '3' %></td>
     </tr>
     <% end %>
-    
+
     <!-- <form action="index.html" method="POST">
     <p class="main">
       <label>Username: </label>
-      <input gtbfieldid="1" name="username" value="username"> 
+      <input gtbfieldid="1" name="username" value="username">
       <label>Password: </label>
-      <input name="password" value="asdf1234" type="password">  
+      <input name="password" value="asdf1234" type="password">
     </p> -->
 
 		<p class="space">
@@ -160,7 +160,7 @@
         <input type="submit" name="login" class="login" value="<%=l(:button_login)%> &#187;" tabindex="5"/>
       </span>
       <% end %>
-      
+
       <%# if Setting.lost_password? %>
       <%# end %>
 		</p>
@@ -169,8 +169,8 @@
 		<span class="lost">&nbsp;|&nbsp; </span>
 		<%= link_to l(:label_password_lost), {:controller => 'account', :action => 'lost_password'}, :class => "lost" %>
     <% end %>
-    
-    
+
+
 	</div>
 </div>
 <%= javascript_tag "$('#username').focus();" %>

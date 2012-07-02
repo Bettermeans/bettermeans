@@ -10,7 +10,7 @@ class CommentTest < ActiveSupport::TestCase
     @jsmith = User.find(2)
     @news = News.find(1)
   end
-  
+
   def test_create
     comment = Comment.new(:commented => @news, :author => @jsmith, :comments => "my comment")
     assert comment.save
@@ -23,7 +23,7 @@ class CommentTest < ActiveSupport::TestCase
     assert !comment.save
     assert_equal 2, comment.errors.length
   end
-  
+
   def test_destroy
     comment = Comment.find(1)
     assert comment.destroy

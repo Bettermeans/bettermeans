@@ -16,18 +16,18 @@ class Mention
       end
     end
   end
-  
+
   def self.send_mention(object,mentioner_id, mentioned_login, mention_text)
     #Find user or abort
     user = User.find_by_login(mentioned_login)
-    
+
     return if user.nil?
-    
+
     #Find better sub-section of text that includes user login
     mention_text_subsection = mention_text
-    
+
     #Send mention to issue
     object.send(:mention,mentioner_id,user.id,mention_text_subsection)
   end
-  
+
 end

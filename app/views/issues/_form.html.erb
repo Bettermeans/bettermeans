@@ -5,7 +5,7 @@
 <% else %>
 <%= f.select :tracker_id, Tracker.no_credits.collect {|t| [t.name, t.id]}, :required => true %>
 <% end %>
-  
+
 </p>
 <%= observe_field :issue_tracker_id, :url => { :action => :update_form, :project_id => @project, :id => @issue },
                                      :update => :attributes,

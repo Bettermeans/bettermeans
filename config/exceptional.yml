@@ -2,7 +2,7 @@
 common: &default_settings
   # You must specify your Exceptional API key here.
   # api-key: 6e2a223d45e17bdeac6914c20665b26524ad6344
-  api-key: ac8e10d6f6c96ae1dee0d6e6999bcfd1c86bddd9 
+  api-key: ac8e10d6f6c96ae1dee0d6e6999bcfd1c86bddd9
   # Exceptional creates a separate log file from your application's logs
   # available levels are debug, info, warn, error, fatal
   log-level: info
@@ -12,13 +12,13 @@ common: &default_settings
   # as long as your deployment environment is not Passenger (mod_rails), this
   # happens in the background so as not to incur a page wait for your users.
   ssl: false
-  
+
 development:
   <<: *default_settings
   # Normally no reason to collect exceptions in development
   # NOTE: for trial purposes you may want to enable exceptional in development
   enabled: false
-  
+
 test:
   <<: *default_settings
   # No reason to collect exceptions when running tests by default
@@ -39,8 +39,8 @@ cucumber:
     <<: *default_settings
     # No reason to collect exceptions when running cucmber tests by default
     enabled: false
-    
-selenium: 
+
+selenium:
     <<: *default_settings
     # No reason to collect exceptions when running cucmber tests by default
     enabled: false

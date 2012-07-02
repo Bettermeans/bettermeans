@@ -3,7 +3,7 @@
 
 class AuthSourcesController < ApplicationController
   layout 'admin'
-  
+
   before_filter :require_admin
   ssl_required :all
 
@@ -48,7 +48,7 @@ class AuthSourcesController < ApplicationController
       render :action => 'edit'
     end
   end
-  
+
   def test_connection
     @auth_method = AuthSource.find(params[:id])
     begin

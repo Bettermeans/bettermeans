@@ -1,6 +1,6 @@
 class IssueVotesController < ApplicationController
   ssl_required :all
-  
+
   # GET /issue_votes
   # GET /issue_votes.xml
   def index

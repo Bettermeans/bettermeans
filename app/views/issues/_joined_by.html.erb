@@ -14,7 +14,7 @@
           <%= toggle_link l(:button_add_team_member), 'new-team-member-form', {:second_toggle => 'add_member_link'}%>
           </span>
 
-          <% remote_form_for(:issue, @issue, 
+          <% remote_form_for(:issue, @issue,
                            :url => {:controller => 'issues', :action => 'add_team_member', :id => @issue.id},
                            :method => :post,
                            :html => {:id => 'new-team-member-form', :style => 'display: none;'}) do |f| %>
@@ -30,6 +30,6 @@
             <%#= render :partial => 'form_add_team_member', :locals => {:f => f}%>
           <% end %>
         <% end %>
-        
+
       </span>
   </div>

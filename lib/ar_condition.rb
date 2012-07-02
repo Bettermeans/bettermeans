@@ -4,12 +4,12 @@
 
 class ARCondition
   attr_reader :conditions
-  
+
   def initialize(condition=nil)
     @conditions = ['1=1']
     add(condition) if condition
   end
-  
+
   def add(condition)
     if condition.is_a?(Array)
       @conditions.first << " AND (#{condition.first})"

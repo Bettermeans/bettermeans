@@ -11,7 +11,7 @@
 
   <label><%=l(:label_tracker)%>:</label>
 	<%= select_tag 'tracker_id', options_from_collection_for_select(@trackers, "id", "name", @tracker && @tracker.id) %>
-  
+
   <%= hidden_field_tag 'used_statuses_only', '0' %>
   <label><%= check_box_tag 'used_statuses_only', '1', @used_statuses_only %> <%= l(:label_display_used_statuses_only) %></label>
 </p>
@@ -47,7 +47,7 @@
 		<% new_status_ids_allowed = old_status.find_new_statuses_allowed_to([@role], @tracker).collect(&:id) -%>
 		<% for new_status in @statuses -%>
 		<td align="center">
-			<%= check_box_tag "issue_status[#{ old_status.id }][]", new_status.id, new_status_ids_allowed.include?(new_status.id) %>			
+			<%= check_box_tag "issue_status[#{ old_status.id }][]", new_status.id, new_status_ids_allowed.include?(new_status.id) %>
 		</td>
 		<% end -%>
 	</tr>

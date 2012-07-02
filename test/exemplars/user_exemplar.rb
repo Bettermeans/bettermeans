@@ -9,7 +9,7 @@ class User < Principal
     @gen_login.succ!
     @gen_login
   end
-  
+
   def self.next_email
     @last_email ||= 'user1'
     @last_email.succ!

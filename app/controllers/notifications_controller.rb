@@ -1,12 +1,12 @@
 class NotificationsController < ApplicationController
-  ssl_required :all  
+  ssl_required :all
   # GET /notifications
   # GET /notifications.xml
   def index
-    @notifications = Notification.unresponded    
+    @notifications = Notification.unresponded
     @mentions = @notifications.select {|n| n.mention?}
     @notifications = @notifications.select {|n| !n.mention?}
-    
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @notifications }
@@ -72,10 +72,10 @@ class NotificationsController < ApplicationController
       end
     end
   end
-  
+
   def hide
     @notification = Notification.find(params[:notification_id])
-    
+
     respond_to do |format|
       if @notification.mark_as_responded
         format.js {render :action => "hide"}
@@ -99,5 +99,5 @@ class NotificationsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
 end

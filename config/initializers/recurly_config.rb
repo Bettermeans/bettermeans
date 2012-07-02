@@ -1,4 +1,4 @@
-require 'recurly' 
+require 'recurly'
 
 Recurly.configure do |c|
   # c.username = 'recurly-api@bettermeans.com'

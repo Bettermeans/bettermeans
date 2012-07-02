@@ -1,6 +1,6 @@
 <h2 class="gt-table-head"><%= l :label_motion %> <%= h @motion.id %> : <%=h @topic.subject %></h2>
 <div class="gt-content-box">
-<table class="gt-table gt-user-table" border="0">  
+<table class="gt-table gt-user-table" border="0">
   <tbody>
     <tr>
     <% if @motion.concerned_user_id != nil %>
@@ -25,7 +25,7 @@
         <%="#{h @motion.binding_level_description}" %><br>
         <b>Discussion viewable by: </b>Everyone<br>
       </p>
-      
+
     </td>
          <td>
            <table border="0" class="gt-table-categories">
@@ -46,12 +46,12 @@
  </tbody>
 </table>
 </div>
-    
+
 
 <% unless @replies.empty? %>
 <h3 class="comments"><%= l(:label_comment_plural) %></h3>
 <div class="gt-content-box">
-<table class="gt-table gt-user-table" border="0">  
+<table class="gt-table gt-user-table" border="0">
   <tbody>
     <% @replies.each do |message| %>
        <tr>
@@ -65,7 +65,7 @@
            </h4>
            <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
       </div>
-           
+
          </td>
          <td class="side">
            <table border="0" class="gt-table-categories">
@@ -99,7 +99,7 @@
   <div class="gt-table-buttons">
   <%= submit_tag l(:button_submit), :disable_with => l(:button_working) %>
   <p class="gt-cancel">
-  <%= link_to_remote l(:label_preview), 
+  <%= link_to_remote l(:label_preview),
                      { :url => { :controller => 'messages', :action => 'preview', :board_id => @board },
                        :method => 'post',
                        :update => 'preview',

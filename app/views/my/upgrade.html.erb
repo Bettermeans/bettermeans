@@ -1,12 +1,12 @@
 <% content_for :mainmenu do %>
   <%= render :partial => 'common/main_menu_home', :locals => {:active_page => :myaccount} %>
 <% end %>
-<% form_for :user, @user, :url => { :action => "upgrade" }, 
-                          :builder => TabularFormBuilder, 
+<% form_for :user, @user, :url => { :action => "upgrade" },
+                          :builder => TabularFormBuilder,
                           :lang => current_language,
                           :html => { :id => 'my_upgrade_form' } do |f| %>
 
-<div class="gt-left-col">                          
+<div class="gt-left-col">
   <h3><%= l(:label_current_plan) %></h3>
   <%= render :partial => "usage_stats" %>
   <h3><%=l(:label_select_plan)%></h3>

@@ -6,22 +6,22 @@ class MailHandler < ActiveRecord::Base
 
   class UnauthorizedAction < StandardError; end
   class MissingInformation < StandardError; end
-  
+
   attr_reader :email, :user
-  
+
   def initialize(email, user,options = {})
     logger.info { "initializing mail handler" } if logger
     @@handler_options = options.dup
-    
+
     @@handler_options[:issue] ||= {}
-    
+
     @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').collect(&:strip) if @@handler_options[:allow_override].is_a?(String)
     @@handler_options[:allow_override] ||= []
     # Project needs to be overridable if not specified
     @@handler_options[:allow_override] << 'project' unless @@handler_options[:issue].has_key?(:project)
     # Status overridable by default
-    @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)    
-    
+    @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)
+
     @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
     @user = user
     @email = email
@@ -30,20 +30,20 @@ class MailHandler < ActiveRecord::Base
 
   def self.receive(email, options={})
     @@handler_options = options.dup
-    
+
     @@handler_options[:issue] ||= {}
-    
+
     @@handler_options[:allow_override] = @@handler_options[:allow_override].split(',').collect(&:strip) if @@handler_options[:allow_override].is_a?(String)
     @@handler_options[:allow_override] ||= []
     # Project needs to be overridable if not specified
     @@handler_options[:allow_override] << 'project' unless @@handler_options[:issue].has_key?(:project)
     # Status overridable by default
-    @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)    
-    
+    @@handler_options[:allow_override] << 'status' unless @@handler_options[:issue].has_key?(:status)
+
     @@handler_options[:no_permission_check] = (@@handler_options[:no_permission_check].to_s == '1' ? true : false)
     super email
   end
-  
+
   # Processes incoming emails
   # Returns the created object (eg. an issue, a message) or false
   def receive(email)
@@ -84,26 +84,26 @@ class MailHandler < ActiveRecord::Base
   def self.receive_from_api(email,options ={})
     logger.info { "recieving from api" } if logger
     @@handler_options = options.dup
-    
+
     @email = email
-    
+
     logger.info { "1" } if logger
-    
+
     sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
     if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
       return false
     end
-    
+
     logger.info { "2" } if logger
-    
+
     @user = User.find_by_mail(sender_email)
     if @user && !@user.active?
       return false
     end
-    
+
     logger.info { "3" } if logger
-    
+
     if @user.nil?
       # Email was submitted by an unknown user
       case @@handler_options[:unknown_user]
@@ -122,16 +122,16 @@ class MailHandler < ActiveRecord::Base
       end
     end
     logger.info { "4" } if logger
-    
+
     mailhandler = MailHandler.new(email, @user)
   end
-  
+
   private
 
   MESSAGE_ID_RE = %r{^<redmine\.([a-z0-9_]+)\-(\d+)\.\d+@}
   ISSUE_REPLY_SUBJECT_RE = %r{\[[^\]]*#(\d+)\]}
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
-  
+
   def dispatch
     logger.info { "attempting to dispatch" } if logger
     headers = [email.in_reply_to, email.references].flatten.compact
@@ -161,7 +161,7 @@ class MailHandler < ActiveRecord::Base
     logger.error "MailHandler: unauthorized attempt from #{user}" if logger
     false
   end
-  
+
   # Creates a new issue
   def receive_issue
     project = target_project
@@ -172,7 +172,7 @@ class MailHandler < ActiveRecord::Base
     unless @@handler_options[:no_permission_check]
       raise UnauthorizedAction unless user.allowed_to?(:add_issues, project)
     end
-    
+
     issue = Issue.new(:author => user, :project => project, :tracker => tracker)
     # check workflow
     if status && issue.new_statuses_allowed_to(user).include?(status)
@@ -190,7 +190,7 @@ class MailHandler < ActiveRecord::Base
     add_attachments(issue)
     issue
   end
-  
+
   def target_project
     # TODO: other ways to specify project:
     # * parse the email To field
@@ -199,11 +199,11 @@ class MailHandler < ActiveRecord::Base
     raise MissingInformation.new('Unable to determine target project') if target.nil?
     target
   end
-  
+
   # Adds a note to an existing issue
   def receive_issue_reply(issue_id)
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
-    
+
     issue = Issue.find_by_id(issue_id)
     return unless issue
     # check permission
@@ -211,7 +211,7 @@ class MailHandler < ActiveRecord::Base
       raise UnauthorizedAction unless user.allowed_to?(:add_issue_notes, issue.project) || user.allowed_to?(:edit_issues, issue.project)
       raise UnauthorizedAction unless status.nil? || user.allowed_to?(:edit_issues, issue.project)
     end
-    
+
     # add the note
     journal = issue.init_journal(user, cleaned_up_text_body)
     add_attachments(issue)
@@ -220,14 +220,14 @@ class MailHandler < ActiveRecord::Base
       issue.status = status
     end
     issue.save!
-    
+
     LogActivityStreams.write_single_activity_stream(user,:name,issue,:subject,:updated,:issues, 0, journal,{
         :indirect_object_description_method => :notes,
         :indirect_object_phrase => 'GENERATEDETAILS' })
-        
+
     journal
   end
-  
+
   # Reply will be added to the issue
   def receive_journal_reply(journal_id)
     journal = Journal.find_by_id(journal_id)
@@ -235,17 +235,17 @@ class MailHandler < ActiveRecord::Base
       receive_issue_reply(journal.journalized_id)
     end
   end
-  
+
   # Receives a reply to a forum message
   def receive_message_reply(message_id)
     message = Message.find_by_id(message_id)
     if message
       message = message.root
-      
+
       unless @@handler_options[:no_permission_check]
         raise UnauthorizedAction unless user.allowed_to?(:add_messages, message.project)
       end
-      
+
       if !message.locked?
         reply = Message.new(:subject => email.subject.gsub(%r{^.*msg\d+\]}, '').strip,
                             :content => cleaned_up_text_body)
@@ -258,7 +258,7 @@ class MailHandler < ActiveRecord::Base
       end
     end
   end
-  
+
   def add_attachments(obj)
     if email.has_attachments?
       email.attachments.each do |attachment|
@@ -269,7 +269,7 @@ class MailHandler < ActiveRecord::Base
       end
     end
   end
-  
+
   # Adds To and Cc as watchers of the given object if the sender has the
   # appropriate permission
   def add_watchers(obj)
@@ -281,7 +281,7 @@ class MailHandler < ActiveRecord::Base
       end
     end
   end
-  
+
   def get_keyword(attr, options={})
     @keywords ||= {}
     if @keywords.has_key?(attr)
@@ -296,7 +296,7 @@ class MailHandler < ActiveRecord::Base
       end
     end
   end
-  
+
   # Returns the text/plain part of the email
   # If not found (eg. HTML-only email), returns the body with tags removed
   def plain_text_body
@@ -319,7 +319,7 @@ class MailHandler < ActiveRecord::Base
     @plain_text_body.strip!
     @plain_text_body
   end
-  
+
   def cleaned_up_text_body
     cleanup_body(plain_text_body)
   end
@@ -327,28 +327,28 @@ class MailHandler < ActiveRecord::Base
   def self.full_sanitizer
     @full_sanitizer ||= HTML::FullSanitizer.new
   end
-  
+
   # Creates a user account for the +email+ sender
   def self.create_user_from_email(email)
     addr = email.from_addrs.to_a.first
     if addr && !addr.spec.blank?
       user = User.new
       user.mail = addr.spec
-      
+
       names = addr.name.blank? ? addr.spec.gsub(/@.*$/, '').split('.') : addr.name.split
       user.firstname = names.shift
       user.lastname = names.join(' ')
       user.lastname = '-' if user.lastname.blank?
-      
+
       user.login = user.mail
       user.password = ActiveSupport::SecureRandom.hex(5)
       user.language = Setting.default_language
       user.save ? user : nil
     end
   end
-  
+
   private
-  
+
   # Removes the email body of text after the truncation configurations.
   def cleanup_body(body)
     delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map {|s| Regexp.escape(s)}
@@ -356,7 +356,7 @@ class MailHandler < ActiveRecord::Base
       regex = Regexp.new("^(#{ delimiters.join('|') })\s*[\r\n].*", Regexp::MULTILINE)
       body = body.gsub(regex, '')
     end
-    
+
     index = body.index(/^.*#{Setting.mail_from_raw}.*$/)
     body = body[0..index - 2] if index
     body.strip

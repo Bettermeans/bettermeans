@@ -6,7 +6,7 @@ atom_feed(:url => this_url) do |feed|
   feed.updated(@activity_streams.first ? @activity_streams.first.created_at : Time.now.utc)
 
   for activity_stream in @activity_streams
-    feed.entry(activity_stream.object ? 
+    feed.entry(activity_stream.object ?
               activity_stream.object : activity_stream) do |entry|
       entry.title(activity_stream.activity.humanize)
       entry.content(render(:partial => 'activity_streams/activity_stream.html.erb',

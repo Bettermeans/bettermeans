@@ -9,31 +9,31 @@ module Redmine
   module WikiFormatting
     module Textile
       class Formatter < RedCloth3
-        
+
         # auto_link rule after textile rules so that it doesn't break !image_url! tags
         RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto, :inline_toc, :inline_macros]
-        
+
         def initialize(*args)
           super
           self.hard_breaks=true
           self.no_span_caps=true
           self.filter_styles=true
         end
-        
+
         def to_html(*rules, &block)
           @toc = []
           @macros_runner = block
           super(*RULES).to_s
         end
-  
+
       private
-  
+
         # Patch for RedCloth.  Fixed in RedCloth r128 but _why hasn't released it yet.
         # <a href="http://code.whytheluckystiff.net/redcloth/changeset/128">http://code.whytheluckystiff.net/redcloth/changeset/128</a>
-        def hard_break( text ) 
+        def hard_break( text )
           text.gsub!( /(.)\n(?!\n|\Z|>| *([#*=]+(\s|$)|[{|]))/, "\\1<br />" ) if hard_breaks
         end
-        
+
         # Patch to add code highlighting support to RedCloth
         def smooth_offtags( text )
           unless @pre_list.empty?
@@ -41,14 +41,14 @@ module Redmine
             text.gsub!(/<redpre#(\d+)>/) do
               content = @pre_list[$1.to_i]
               if content.match(/<code\s+class="(\w+)">\s?(.+)/m)
-                content = "<code class=\"#{$1} CodeRay\">" + 
+                content = "<code class=\"#{$1} CodeRay\">" +
                   CodeRay.scan($2, $1.downcase).html(:escape => false, :line_numbers => :inline)
               end
               content
             end
           end
         end
-        
+
         # Patch to add 'table of content' support to RedCloth
         def textile_p_withtoc(tag, atts, cite, content)
           # removes wiki links from the item
@@ -56,10 +56,10 @@ module Redmine
           # removes styles
           # eg. %{color:red}Triggers% => Triggers
           toc_item.gsub! %r[%\{[^\}]*\}([^%]+)%], '\\1'
-          
+
           # replaces non word caracters by dashes
           anchor = toc_item.gsub(%r{[^\w\s\-]}, '').gsub(%r{\s+(\-+\s*)?}, '-')
-  
+
           unless anchor.blank?
             if tag =~ /^h(\d)$/
               @toc << [$1.to_i, anchor, toc_item]
@@ -69,11 +69,11 @@ module Redmine
           end
           textile_p(tag, atts, cite, content)
         end
-  
+
         alias :textile_h1 :textile_p_withtoc
         alias :textile_h2 :textile_p_withtoc
         alias :textile_h3 :textile_p_withtoc
-        
+
         def inline_toc(text)
           text.gsub!(/<p>\{\{([<>]?)toc\}\}<\/p>/i) do
             div_class = 'toc'
@@ -88,7 +88,7 @@ module Redmine
             out
           end
         end
-        
+
         MACROS_RE = /
                       (!)?                        # escaping
                       (
@@ -98,7 +98,7 @@ module Redmine
                       \}\}                        # closing tag
                       )
                     /x unless const_defined?(:MACROS_RE)
-        
+
         def inline_macros(text)
           text.gsub!(MACROS_RE) do
             esc, all, macro = $1, $2, $3.downcase
@@ -114,11 +114,11 @@ module Redmine
             end
           end
         end
-        
+
         AUTO_LINK_RE = %r{
                         (                          # leading text
                           <\w+.*?>|                # leading HTML tag, or
-                          [^=<>!:'"/]|             # leading punctuation, or 
+                          [^=<>!:'"/]|             # leading punctuation, or
                           ^                        # beginning of line
                         )
                         (
@@ -133,7 +133,7 @@ module Redmine
                         ([^\w\=\/;\(\)]*?)               # post
                         (?=<|\s|$)
                        }x unless const_defined?(:AUTO_LINK_RE)
-  
+
         # Turns all urls into clickable links (code from Rails).
         def inline_auto_link(text)
           text.gsub!(AUTO_LINK_RE) do
@@ -153,7 +153,7 @@ module Redmine
             end
           end
         end
-  
+
         # Turns all email addresses into clickable links (code from Rails).
         def inline_auto_mailto(text)
           text.gsub!(/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do

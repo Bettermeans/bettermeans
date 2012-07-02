@@ -11,10 +11,10 @@ class NewsTest < ActiveSupport::TestCase
     { :title => 'Test news', :description => 'Lorem ipsum etc', :author => User.find(:first) }
   end
 
-  
+
   def setup
   end
-  
+
   def test_create_should_send_email_notification
     ActionMailer::Base.deliveries.clear
     Setting.notified_events << 'news_added'
@@ -23,7 +23,7 @@ class NewsTest < ActiveSupport::TestCase
     assert news.save
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
-  
+
   def test_should_include_news_for_projects_with_news_enabled
     project = projects(:projects_001)
     assert project.enabled_modules.any?{ |em| em.name == 'news' }
@@ -31,7 +31,7 @@ class NewsTest < ActiveSupport::TestCase
     # News.latest should return news from projects_001
     assert News.latest.any? { |news| news.project == project }
   end
-  
+
   def test_should_not_include_news_for_projects_with_news_disabled
     # The projects_002 (OnlineStore) doesn't have the news module enabled, use that project for this test
     project = projects(:projects_002)
@@ -43,12 +43,12 @@ class NewsTest < ActiveSupport::TestCase
     # News.latest should not return that new piece of news
     assert News.latest.include?(news) == false
   end
-  
+
   def test_should_only_include_news_from_projects_visibly_to_the_user
     # users_001 has no memberships so can only get news from public project
-    assert News.latest(users(:users_001)).all? { |news| news.project.is_public? } 
+    assert News.latest(users(:users_001)).all? { |news| news.project.is_public? }
   end
-  
+
   def test_should_limit_the_amount_of_returned_news
     # Make sure we have a bunch of news stories
     10.times { projects(:projects_001).news.create(valid_news) }

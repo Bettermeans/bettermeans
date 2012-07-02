@@ -2,67 +2,67 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class Project < ActiveRecord::Base
-  
+
   # Project statuses
   STATUS_ACTIVE     = 1
   STATUS_LOCKED     = 2 #private workstream, and user is overdue
   STATUS_ARCHIVED   = 9
-  
-  
-  
-  
-  belongs_to :enterprise                        
+
+
+
+
+  belongs_to :enterprise
   belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
-  
+
   # Specific overidden Activities
-  has_many :all_members,:class_name => 'Member', 
+  has_many :all_members,:class_name => 'Member',
                         :include => [:user, :roles], :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}",
                         :order => "firstname ASC"
-                        
-  has_many :administrators, :class_name => 'Member', 
-                          :include => [:user,:roles], 
+
+  has_many :administrators, :class_name => 'Member',
+                          :include => [:user,:roles],
                           :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_ADMINISTRATOR}",
                            :order => "firstname ASC"
 
-  has_many :core_members, :class_name => 'Member', 
-                          :include => [:user,:roles], 
+  has_many :core_members, :class_name => 'Member',
+                          :include => [:user,:roles],
                           :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER}",
                            :order => "firstname ASC"
 
 
-  has_many :members, :class_name => 'Member', 
-                           :include => [:user,:roles], 
+  has_many :members, :class_name => 'Member',
+                           :include => [:user,:roles],
                            :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER}",
                             :order => "firstname ASC",
                             :dependent => :destroy
 
-  has_many :board_members, :class_name => 'Member', 
-                            :include => [:user,:roles], 
+  has_many :board_members, :class_name => 'Member',
+                            :include => [:user,:roles],
                             :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_BOARD}",
                              :order => "firstname ASC"
 
-  has_many :contributors, :class_name => 'Member', 
-                          :include => [:user,:roles], 
+  has_many :contributors, :class_name => 'Member',
+                          :include => [:user,:roles],
                           :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_CONTRIBUTOR}",
                            :order => "firstname ASC"
 
 
-   has_many :binding_members, :class_name => 'Member', 
-                           :include => [:user,:roles], 
+   has_many :binding_members, :class_name => 'Member',
+                           :include => [:user,:roles],
                            :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_BOARD} OR #{Role.table_name}.builtin=#{Role::BUILTIN_ADMINISTRATOR}",
                             :order => "firstname ASC"
 
-  has_many :enterprise_members, :class_name => 'Member', 
-                          :include => [:user,:roles], 
+  has_many :enterprise_members, :class_name => 'Member',
+                          :include => [:user,:roles],
                           :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_CONTRIBUTOR} OR #{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_BOARD} OR #{Role.table_name}.builtin=#{Role::BUILTIN_ADMINISTRATOR}",
                            :order => "firstname ASC"
 
 
-  has_many :member_users, :class_name => 'Member', 
+  has_many :member_users, :class_name => 'Member',
                                :include => :user,
                                :conditions => "#{User.table_name}.status=#{User::STATUS_ACTIVE}",
                                :order => "firstname ASC"
-                               
+
   has_many :users, :through => :all_members
 
   has_many :credit_distributions, :dependent => :delete_all
@@ -105,13 +105,13 @@ class Project < ActiveRecord::Base
       end
       preprocess_image do |image|
         image.resize '200x600'
-      end 
+      end
     rescue
     end
-  end 
+  end
 
   attr_protected :status, :enabled_module_names
-  
+
   validates_presence_of :name, :identifier
   validates_uniqueness_of :identifier
   validates_associated :wiki
@@ -131,24 +131,24 @@ class Project < ActiveRecord::Base
   named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
   named_scope :all_roots, {:conditions => "parent_id is null"}
   named_scope :all_children, {:conditions => "parent_id is not null"}
-  named_scope :does_not_belong_to, lambda {|id| 
+  named_scope :does_not_belong_to, lambda {|id|
     {:conditions => ["owner_id <> :s", {:s => id}],
      :order => 'name'
     }
-  } 
-  
+  }
+
   reportable :daily_new_projects, :aggregation => :count, :limit => 14
   reportable :weekly_new_projects, :aggregation => :count, :grouping => :week, :limit => 20
-  
-  
+
+
   def project_id
     self.id
   end
-  
+
   def all_tags(term = '')
     ActsAsTaggableOn::Tag.find_by_sql(["select name from tags inner join taggings on taggings.tag_id = tags.id where taggings.project_id = ? and name like '%#{term}%'",self.id]).map{|t| t.name}.uniq.sort
   end
-  
+
   def graph_data
     valid_kids = children.select{|c| c.active?}
     if valid_kids.size > 0
@@ -159,7 +159,7 @@ class Project < ActiveRecord::Base
     diameter = issues.length**0.5/3.142*6
     { :id => self.identifier, :name => name, :children => mychildren, :data => {:$dim => diameter,:$angularWidth => diameter, :$color => '#fdd13d' } }
   end
-  
+
   #returns array of project ids that are children of this project. includes id of current project
   def sub_project_array
     array = [self.id]
@@ -168,21 +168,21 @@ class Project < ActiveRecord::Base
     end
     array
   end
-  
+
   #returns array of project ids that are children of this project. includes id of current project that are visible to user
   def sub_project_array_visible_to(user)
-    if self.visible_to(user) 
+    if self.visible_to(user)
       array = [self.id]
     else
       array = []
     end
-    
+
     self.children.each do |child|
       array += child.sub_project_array_visible_to(user)
     end
     array
   end
-  
+
 
   def graph_data2
     valid_kids = children.select{|c| c.active?}
@@ -194,52 +194,52 @@ class Project < ActiveRecord::Base
     diameter = issues.length**0.5/3.142*3
     { :levelDistance => issues.length,:id => self.identifier, :name => name, :children => mychildren, :data => {:$dim => diameter,:$angularWidth => diameter, :$color => '#fdd13d' } }
   end
-  
+
   def identifier=(identifier)
     super unless identifier_frozen?
   end
-  
+
   def identifier_frozen?
     errors[:identifier].nil? && !(new_record? || identifier.blank?)
   end
-  
-  def self.latest_public(count=10, offset=0)    
-    filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " + 
+
+  def self.latest_public(count=10, offset=0)
+    filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " +
       "#{Project.table_name}.is_public = #{connection.quoted_true}"
-    
+
     all_roots.find(
-      :all, 
-      :limit => count, 
-      :conditions => filter, 
-      :order => "created_at DESC", 
+      :all,
+      :limit => count,
+      :conditions => filter,
+      :order => "created_at DESC",
       :offset => offset
-    )	    
+    )
   end
-  
+
   def self.most_active_public(count=10, offset=0)
-    filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " + 
+    filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " +
       "#{Project.table_name}.is_public = #{connection.quoted_true}"
-      
+
     all_roots.find(
-      :all, 
-      :limit => count, 
-      :conditions => filter, 
-      :order => "activity_total DESC", 
+      :all,
+      :limit => count,
+      :conditions => filter,
+      :order => "activity_total DESC",
       :offset => offset
-    )	  
+    )
   end
-  
+
   # returns most active projects
   # non public projects will be returned only if user is a member of those
   def self.most_active(user=nil, count=10, root=false, offset=0)
     if root
-      all_roots.find(:all, :limit => count, :conditions => visible_by(user), :order => "activity_total DESC", :offset => offset)	
+      all_roots.find(:all, :limit => count, :conditions => visible_by(user), :order => "activity_total DESC", :offset => offset)
     else
-      all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "activity_total DESC", :offset => offset)	
+      all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "activity_total DESC", :offset => offset)
     end
-  end	
-  
-  
+  end
+
+
   #Returns true if project is visible by user
   def visible_to(user)
     return true if user.admin?
@@ -248,7 +248,7 @@ class Project < ActiveRecord::Base
     return true if user.allowed_to_see_project?(self)
     return false
   end
-  
+
   # Returns a SQL :conditions string used to find all active projects for the specified user.
   #
   # Examples:
@@ -264,7 +264,7 @@ class Project < ActiveRecord::Base
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
     end
   end
-  
+
   def fetch_credits(with_subprojects)
     with_subprojects ||= 'true'
     if with_subprojects == 'true'
@@ -275,8 +275,8 @@ class Project < ActiveRecord::Base
       self.credits
     end
   end
-  
-  
+
+
   def self.allowed_to_condition(user, permission, options={})
     statements = []
     base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
@@ -305,7 +305,7 @@ class Project < ActiveRecord::Base
         if Role.anonymous.allowed_to?(permission) && !options[:member]
           # anonymous user allowed on public project
           statements << "#{Project.table_name}.is_public = #{connection.quoted_true}"
-        end 
+        end
       end
     end
     statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
@@ -330,7 +330,7 @@ class Project < ActiveRecord::Base
     cond = "(#{cond} OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt}))" if with_subprojects
     cond
   end
-  
+
   def self.find(*args)
     if args.first && args.first.is_a?(String) && !args.first.match(/^\d*$/)
       project = find_by_identifier(*args)
@@ -340,12 +340,12 @@ class Project < ActiveRecord::Base
       super
     end
   end
- 
+
   # def to_param
   #   # id is used for projects with a numeric identifier (compatibility)
   #   @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id : identifier)
   # end
-  
+
   def active?
     self.status == STATUS_ACTIVE
   end
@@ -353,11 +353,11 @@ class Project < ActiveRecord::Base
   def archived?
     self.status == STATUS_ARCHIVED
   end
-  
+
   def locked?
     self.status == STATUS_LOCKED
   end
-  
+
   def lock
     self.update_attribute(:status, STATUS_LOCKED) if active? && !locked?
   end
@@ -365,11 +365,11 @@ class Project < ActiveRecord::Base
   def unlock
     self.update_attribute(:status, STATUS_ACTIVE) if locked?
   end
-  
+
   def enterprise?
     self.parent_id.nil?
   end
-  
+
   # Archives the project and its descendants
   def archive
     Project.transaction do
@@ -377,14 +377,14 @@ class Project < ActiveRecord::Base
     end
     true
   end
-  
+
   # Unarchives the project
   # All its ancestors must be active
   def unarchive
     return false if ancestors.detect {|a| !a.active?}
     update_attribute :status, STATUS_ACTIVE
   end
-  
+
   # Returns an array of projects the project can be moved to
   # by the current user
   def allowed_parents
@@ -399,7 +399,7 @@ class Project < ActiveRecord::Base
     end
     @allowed_parents
   end
-  
+
   # Sets the parent of the project with authorization check
   def set_allowed_parent!(p)
     unless p.nil? || p.is_a?(Project)
@@ -419,7 +419,7 @@ class Project < ActiveRecord::Base
     end
     set_parent!(p)
   end
-  
+
   # Sets the parent of the project
   # Argument can be either a Project, a String, a Fixnum or nil
   # WARNING: This doesn't move the children for the project, if moving a project use: move_to_child_of
@@ -458,7 +458,7 @@ class Project < ActiveRecord::Base
       false
     end
   end
-  
+
   # Returns an array of the trackers used by the project and its active sub projects
   def rolled_up_trackers
     @rolled_up_trackers ||=
@@ -503,7 +503,7 @@ class Project < ActiveRecord::Base
   def core_member_list
     self.core_members
   end
-  
+
   # Number of members who are active and have a binding vote
   def active_binding_members_count
     active_members = self.active_members.collect{|member| member.user_id}
@@ -514,106 +514,106 @@ class Project < ActiveRecord::Base
   def binding_members_count
     self.root.core_member_list.count + self.root.member_list.count  + self.root.member_list.count
   end
-  
+
   # returns count of all users for this role and higher roles
   def role_and_above_count(position)
     all_members.count(:all, :conditions => "roles.position <= #{position}", :group => "user_id").length
   end
-  
-  
+
+
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
   # Also refreshes members with clearance
   def refresh_active_members
     # return if self.root?
     return unless self.active?
-    
+
     u = {}
-    
+
     #Adding from activity stream
     self.activity_streams.recent.each do |as|
       u[as.actor_id] ||= as.actor_id
     end
-    
+
     #Adding voters (do we really need this?)
     issues.each do |issue|
-      next if (issue.updated_at.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) > Time.now 
+      next if (issue.updated_at.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) > Time.now
       issue.issue_votes.each do |iv|
-        u[iv.user_id] ||= iv.user_id if (iv.updated_at.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) > Time.now 
+        u[iv.user_id] ||= iv.user_id if (iv.updated_at.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP) > Time.now
       end
     end
-  
+
     u.delete nil
     u.delete User.sysadmin.id
-    
+
     #removing active members that aren't in new list
     self.active_members.each do |m|
       if u[m.user_id].nil?
         new_m = Member.find(m.id)  #for some amazing reason, I have to reload the member to get all its roles! Otherwise, I only get the active roles
         a = new_m.role_ids
-        a.delete Role.active.id 
+        a.delete Role.active.id
         new_m.role_ids = a
       end
     end
-    
+
     #adding active members that are in new list that aren't already active
     existing_active_members = self.active_members.collect(&:user_id)
     u.keys.each do |user_id|
       begin
         user = User.find(user_id)
-        user.add_to_project(self, Role.active) unless existing_active_members.include? user_id 
+        user.add_to_project(self, Role.active) unless existing_active_members.include? user_id
       rescue #user not found (when deleting users)
       end
     end
-    
+
     unless self.is_public?
       #giving clearance to all active members
       self.active_members.each do |m|
         User.find(m.user_id).add_to_project(self, Role.clearance)
       end
-      
+
       #giving all root binding members clearance
       self.root.binding_members.each do |m|
         User.find(m.user_id).add_to_project(self, Role.clearance)
       end
     end
   end
-  
-  
-  
+
+
+
   # Deletes all project's members
   def delete_all_members
     me, mr = Member.table_name, MemberRole.table_name
     connection.delete("DELETE FROM #{mr} WHERE #{mr}.member_id IN (SELECT #{me}.id FROM #{me} WHERE #{me}.project_id = #{id})")
     Member.delete_all(['project_id = ?', id])
   end
-  
+
   # Users issues can be assigned to
   def assignable_users
     all_members.select {|m| m.roles.detect {|role| role.assignable?}}.collect {|m| m.user}.sort
   end
-  
+
   # Returns the mail adresses of users that should be always notified on project events
   def recipients
     all_members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user.mail}
   end
-  
+
   # Returns the users that should be notified on project events
   def notified_users
     all_members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user}
   end
-  
+
   def project
     self
   end
-  
+
   def <=>(project)
     name.downcase <=> project.name.downcase
   end
-  
+
   def to_s
     name
   end
-  
+
   def name_with_ancestors
     b = []
 
@@ -630,12 +630,12 @@ class Project < ActiveRecord::Base
     b << project.name
     b.join( ' » ')
   end
-  
+
   # Returns a short description of the projects (first lines)
   def short_description(length = 255)
     description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip if description
   end
-  
+
   # Return true if this project is allowed to do the specified action.
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
@@ -647,16 +647,16 @@ class Project < ActiveRecord::Base
       allowed_permissions.include? action
     end
   end
-  
+
   def module_enabled?(module_name)
     module_name = module_name.to_s
     enabled_modules.detect {|m| m.name == module_name}
   end
-  
+
   def credits_enabled?
     !module_enabled?(:credits).nil?
   end
-  
+
   def enabled_module_names=(module_names)
     if module_names && module_names.is_a?(Array)
       module_names = module_names.collect(&:to_s)
@@ -668,20 +668,20 @@ class Project < ActiveRecord::Base
       enabled_modules.clear
     end
   end
-  
+
   # Returns an auto-generated project identifier based on the last identifier used
   def self.next_identifier
     p = Project.find(:first, :order => 'created_at DESC')
     return 'A' if p.nil?
-    
+
     next_id = p.identifier.to_s.succ
-    
+
     while Project.exists?(:identifier => next_id)
       next_id = next_id.succ
     end
-    
+
     next_id
-    
+
   end
 
   # Copies and saves the Project instance based on the +project+.
@@ -700,10 +700,10 @@ class Project < ActiveRecord::Base
   #   project.copy(1, :only => ['members', 'versions'])  # => copies members and versions
   def copy(project, options={})
     project = project.is_a?(Project) ? project : Project.find(project)
-    
+
     to_be_copied = %w(wiki issue_categories issues members queries boards)
     to_be_copied = to_be_copied & options[:only].to_a unless options[:only].nil?
-    
+
     Project.transaction do
       if save
         reload
@@ -715,7 +715,7 @@ class Project < ActiveRecord::Base
     end
   end
 
-  
+
   # Copies +project+ and returns the new instance.  This will not save
   # the copy
   def self.copy_from(project)
@@ -735,21 +735,21 @@ class Project < ActiveRecord::Base
       return nil
     end
   end
-  
+
   def team_points_for(user, options={})
     user.team_points_for(project)
   end
-  
+
   #highest priority for open items in this project
   def highest_pri()
     self.issues.maximum(:pri, :conditions => {:status_id => IssueStatus.open.id }) || -9999
   end
-  
+
   def before_validation_on_create
     self.enterprise_id = self.parent.enterprise_id unless self.parent.nil?
     self.identifier = Project.next_identifier
     self.invitation_token = Token.generate_token_value
-    
+
     if self.credits_enabled?
       self.trackers = Tracker.all
     else
@@ -757,24 +757,24 @@ class Project < ActiveRecord::Base
     end
     return true
   end
-    
-  
-  
+
+
+
   #Setup default forum for workstream
   def after_create
     logger.info { "entering after create" }
     #Send notification of request or invitation to recipient
      Board.create! :project_id => id,
-                  :name => Setting.forum_name,                        
-                  :description => Setting.forum_description + name              
-                      
+                  :name => Setting.forum_name,
+                  :description => Setting.forum_description + name
+
     self.refresh_activity_line
     self.save!
     return true
   end
-  
+
   def set_owner
-    
+
     if !self.root?
       self.update_attribute(:owner_id,self.root.owner_id) #unless self.owner_id == self.root.owner_id
     elsif owner_id.nil?
@@ -790,46 +790,46 @@ class Project < ActiveRecord::Base
       end
     end
   end
-  
-  
+
+
   #Returns true if threshold of points that haven't been included in a retrospective have been created
   def ready_for_retro?
     return false if !credits_enabled?
-    
+
     total_unretroed = Issue.sum(:points, :conditions => {:status_id => IssueStatus.accepted.id,:retro_id => Retro::NOT_STARTED_ID, :project_id => id})
     return true if total_unretroed >= Setting::RETRO_CREDIT_THRESHOLD
-    
+
     #Getting most recent issue that's not part of retrospective
     first_issue = Issue.first(:conditions => {:project_id => self.id, :status_id => IssueStatus.accepted, :retro_id => Retro::NOT_STARTED_ID}, :order => "updated_at asc")
-    return false if first_issue == nil 
+    return false if first_issue == nil
     return true if (first_issue.updated_at.advance :days => Setting::RETRO_DAY_THRESHOLD) < Time.now
-    
+
     return false
-    
+
   end
-  
+
   #Starts a new retrospective for this project
   def start_new_retro
     return false if !credits_enabled?
-    
+
     from_date = issues.first(:conditions => {:retro_id => Retro::NOT_STARTED_ID}, :order => "updated_at ASC").updated_at
     total_points = issues.sum(:points, :conditions => {:retro_id => Retro::NOT_STARTED_ID})
     @retro = Retro.create :project_id => id, :status_id => Retro::STATUS_INPROGRESS,  :to_date => DateTime.now, :from_date => from_date, :total_points => total_points
     Issue.update_all("retro_id = #{@retro.id}" , "project_id = #{id} AND retro_id = #{Retro::NOT_STARTED_ID}")
     @retro.announce_start
   end
-  
+
   #Starts a new retrospective if it's ready
   def start_retro_if_ready
     start_new_retro if ready_for_retro?
   end
-  
+
   def refresh_activity_line
     date_array = Hash.new(0)
     for i in (1..Setting::ACTIVITY_LINE_LENGTH)
       date_array[(Date.today - i).to_s] = 0
     end
-    
+
     #All issue votes
     iv_array = issue_votes.count(:group => 'DATE(issue_votes.created_at)', :conditions => "issue_votes.created_at > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
     my_line = date_array.merge iv_array
@@ -837,19 +837,19 @@ class Project < ActiveRecord::Base
     #all issues
     iv_array = issues.count(:group => 'DATE(issues.updated_at)', :conditions => "issues.updated_at > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
     my_line + iv_array
-    
+
     #all board messages
     iv_array = messages.count(:group => 'DATE(messages.updated_at)', :conditions => "messages.updated_at > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
     my_line + iv_array
-    
+
     #all journals
     iv_array = issue_changes.count(:group => 'DATE(journals.updated_at)', :conditions => "journals.updated_at > '#{(Date.today - Setting::ACTIVITY_LINE_LENGTH).to_s}'")
     my_line + iv_array
-    
-    self.children.each do |sub_project| 
+
+    self.children.each do |sub_project|
       my_line + sub_project.refresh_activity_line
     end
-    
+
     self.activity_line = (my_line.sort.collect {|v| v[1]}).inspect.delete("[").delete("]")
     weight = 1
     activity_total = 0
@@ -862,60 +862,60 @@ class Project < ActiveRecord::Base
     self.save
     my_line
   end
-  
+
   def activity_line_max
     self.activity_line.split(',').max{|a,b| a.to_f <=> b.to_f}
   end
-  
+
   def activity_line_show(length)
     activity_line.split(",").slice(self.activity_line.split(",").length - length,length).join(",")
   end
-  
+
   def volunteer?
     return self.volunteer == true
   end
-  
+
   def calculate_storage
     sum = 0
     documents.each do |d|
       sum += d.size
     end
-    
+
     issues.each do |d|
       sum += d.size
     end
-    
+
     self.storage = sum
     self.save
   end
-  
+
   def allowed_actions
     @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
   end
-  
+
   def refresh_issue_count
     self.update_attribute(:issue_count,Issue.count(:conditions => ["project_id = ?  AND (retro_id < 0 OR retro_id is null)", self.id]) )
     self.parent.refresh_issue_count_sub unless self.root?
   end
-  
+
   def refresh_issue_count_sub
     count_sub = self.children.inject(0){|sum,p| sum + p.issue_count + p.issue_count_sub}
     self.update_attribute(:issue_count_sub, count_sub)
     self.parent.refresh_issue_count_sub unless self.root?
   end
-  
+
   def update_last_item
     self.update_attribute(:last_item_updated_on, DateTime.now)
     self.parent.update_last_item_sub unless self.root?
   end
-  
+
   def update_last_item_sub
     self.update_attribute(:last_item_sub_updated_on, DateTime.now)
     self.parent.update_last_item_sub unless self.root?
   end
-  
-  
-  private  
+
+
+  private
   # Copies wiki from +project+
   def copy_wiki(project)
     # Check that the source project has a wiki first
@@ -931,13 +931,13 @@ class Project < ActiveRecord::Base
     end
   end
 
-  
+
   # Copies issues from +project+
   def copy_issues(project)
     # Stores the source issue id as a key and the copied issues as the
     # value.  Used to map the two togeather for issue relations.
     issues_map = {}
-    
+
     project.issues.each do |issue|
       new_issue = Issue.new
       new_issue.copy_from(issue)
@@ -948,7 +948,7 @@ class Project < ActiveRecord::Base
     # Relations after in case issues related each other
     project.issues.each do |issue|
       new_issue = issues_map[issue.id]
-      
+
       # Relations
       issue.relations_from.each do |source_relation|
         new_issue_relation = IssueRelation.new
@@ -959,7 +959,7 @@ class Project < ActiveRecord::Base
         end
         new_issue.relations_from << new_issue_relation
       end
-      
+
       issue.relations_to.each do |source_relation|
         new_issue_relation = IssueRelation.new
         new_issue_relation.attributes = source_relation.attributes.dup.except("id", "issue_from_id", "issue_to_id")
@@ -1003,14 +1003,14 @@ class Project < ActiveRecord::Base
       self.boards << new_board
     end
   end
-  
+
   def allowed_permissions
     @allowed_permissions ||= begin
       module_names = enabled_modules.collect {|m| m.name}
       Redmine::AccessControl.modules_permissions(module_names).collect {|p| p.name}
     end
   end
-  
+
   # Archives subprojects recursively
   def archive!
     children.each do |subproject|

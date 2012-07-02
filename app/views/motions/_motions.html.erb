@@ -1,9 +1,9 @@
-<% 
+<%
   count = 0
  %>
  <table border="0" class="gt-table gt-user-table">
    <tbody>
-      <% @motions.each do |motion| 
+      <% @motions.each do |motion|
         count = count + 1
       %>
       <tr class="motions-row <%= "hidden" if count > max_count %>">
@@ -11,13 +11,13 @@
       	  <p><strong>
       	  <%= link_to(h(motion.project.name), :controller => 'projects', :action => 'show', :id => motion.project) + ': ' unless @project %>
           <%= link_to h(motion.title), project_motion_path(motion.project_id,motion) %></strong><br><span class="small-text">by <%= link_to_user(motion.author) %> <%= since_tag(motion.created_at) %> ago</span></p>
-			
+
         <!-- <p><%#=make_expandable (h motion.description), 30 %></p> -->
         <!-- <p class="gt-table-edit"><a href="">Edit</a></p> -->
       	</td>
       </tr>
       <% end %>
-      
+
     <tr class="motions-show-more show-more <%= "hidden" unless count > max_count %>">
       <td colspan="2">
         <a href="" onclick="$('.motions-row').show();$('.motions-show-more').hide();return false;">Show <%= count - max_count %> more ...</a>

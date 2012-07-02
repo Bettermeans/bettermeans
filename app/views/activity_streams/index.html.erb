@@ -3,7 +3,7 @@
 <h2>All Site ActivityStreams</h2>
 
 <% @grouped_by_item.each do |key, value| %>
-<%= render :partial => 'activity_streams/activity_stream_group', :locals => {:activity_stream_group_name => key, :activity_stream_group => value} %> 
+<%= render :partial => 'activity_streams/activity_stream_group', :locals => {:activity_stream_group_name => key, :activity_stream_group => value} %>
 <% end %>
 
 </div>

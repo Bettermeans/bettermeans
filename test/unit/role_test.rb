@@ -10,7 +10,7 @@ class RoleTest < ActiveSupport::TestCase
   def test_copy_workflows
     source = Role.find(1)
     assert_equal 90, source.workflows.size
-    
+
     target = Role.new(:name => 'Target')
     assert target.save
     target.workflows.copy(source)

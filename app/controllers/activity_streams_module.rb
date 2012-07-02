@@ -1,10 +1,10 @@
 #--
 # Copyright (c) 2008 Matson Systems, Inc.
-# Released under the BSD license found in the file 
+# Released under the BSD license found in the file
 # LICENSE included with this ActivityStreams plug-in.
 #++
-# activity_streams_module.rb provides ActivityStreamsModule 
-# 
+# activity_streams_module.rb provides ActivityStreamsModule
+#
 # ActivityStreamsModule is included in your generated ActivityStreams Controller and provides base functionality for the Activity Streams Plug-in
 module ActivityStreamsModule
   # GET /activity_streams
@@ -81,7 +81,7 @@ module ActivityStreamsModule
 
   # DELETE /activity_streams/1
   # DELETE /activity_streams/1.xml
-  def destroy 
+  def destroy
     @activity_stream = ActivityStream.find(params[:id])
 
     respond_to do |format|
@@ -98,14 +98,14 @@ module ActivityStreamsModule
   end
 
   # def feed
-  # 
+  #
   #   klass = Object::const_get(ACTIVITY_STREAM_USER_MODEL)
   #   @user = klass.find_by_activity_stream_token params[:activity_stream_token] unless params[:activity_stream_token].blank?
-  # 
+  #
   #   render :nothing => true and return if @user.nil?
-  # 
+  #
   #   @activity_streams = ActivityStream.recent_actors(@user,:feed_location)
-  #   
+  #
   #   respond_to do |wants|
   #     wants.atom { render :partial => 'activity_streams/activity_stream_feed.atom.builder' }
   #   end

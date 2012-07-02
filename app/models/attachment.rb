@@ -6,15 +6,15 @@ require "digest/md5"
 class Attachment < ActiveRecord::Base
   belongs_to :container, :polymorphic => true
   belongs_to :author, :class_name => "User", :foreign_key => "author_id"
-  
+
   # validates_presence_of :container #commenting out to allow for temporary attachments uploaded before a new issue is created
   validates_presence_of :filename, :author
   validates_length_of :filename, :maximum => 255
   validates_length_of :disk_filename, :maximum => 255
-  
+
   after_validation :put_to_s3
   before_destroy   :delete_from_s3
-  
+
 
   acts_as_event :title => :filename,
                 :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id, :filename => o.filename}}
@@ -22,15 +22,15 @@ class Attachment < ActiveRecord::Base
   cattr_accessor :storage_path
   unloadable # Send unloadable so it will not be unloaded in development
   attr_accessor :s3_access_key_id, :s3_secret_acces_key, :s3_bucket, :s3_bucket
-  
+
   @@storage_path = "#{RAILS_ROOT}/files"
-  
+
   def validate
     if self.filesize > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:base, :too_long, :count => Setting.attachment_max_size.to_i.kilobytes)
     end
   end
-  
+
   def put_to_s3
     if @temp_file && (@temp_file.size > 0)
       logger.debug("Uploading to #{RedmineS3::Connection.uri}/#{disk_filename}")
@@ -48,7 +48,7 @@ class Attachment < ActiveRecord::Base
       RedmineS3::Connection.delete(disk_filename)
     end
   end
-  
+
 
   def file=(incoming_file)
     unless incoming_file.nil?
@@ -61,7 +61,7 @@ class Attachment < ActiveRecord::Base
       end
     end
   end
-	
+
   def file
     nil
   end
@@ -73,7 +73,7 @@ class Attachment < ActiveRecord::Base
     if @temp_file && (@temp_file.size > 0)
       logger.debug("saving '#{self.diskfile}'")
       md5 = Digest::MD5.new
-      File.open(diskfile, "wb") do |f| 
+      File.open(diskfile, "wb") do |f|
         buffer = ""
         while (buffer = @temp_file.read(8192))
           f.write(buffer)
@@ -97,7 +97,7 @@ class Attachment < ActiveRecord::Base
   def diskfile
     "#{@@storage_path}/#{self.disk_filename}"
   end
-  
+
   def increment_download
     increment!(:downloads)
   end
@@ -105,43 +105,43 @@ class Attachment < ActiveRecord::Base
   def project
     container.project
   end
-  
+
   def visible?(user=User.current)
     container.attachments_visible?(user)
   end
-  
+
   def deletable?(user=User.current)
     container.attachments_deletable?(user)
   end
-  
+
   def image?
     self.filename =~ /\.(jpe?g|gif|png)$/i
   end
-  
+
   def is_text?
     Redmine::MimeType.is_type?('text', filename)
   end
-  
+
   def is_diff?
     self.filename =~ /\.(patch|diff)$/i
   end
-  
+
   # Returns true if the file is readable
   def readable?
     File.readable?(diskfile)
   end
-  
+
 private
   def sanitize_filename(value)
     # get only the filename, not the whole path
     just_filename = value.gsub(/^.*(\\|\/)/, '')
     # NOTE: File.basename doesn't work right with Windows paths on Unix
-    # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/')) 
+    # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/'))
 
     # Finally, replace all non alphanumeric, hyphens or periods with underscore
-    @filename = just_filename.gsub(/[^\w\.\-]/,'_') 
+    @filename = just_filename.gsub(/[^\w\.\-]/,'_')
   end
-  
+
   # Returns an ASCII or hashed filename
   def self.disk_filename(filename)
     df = DateTime.now.strftime("%y%m%d%H%M%S") + "_"

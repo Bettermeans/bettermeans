@@ -9,24 +9,24 @@ class WikiContent < ActiveRecord::Base
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
   validates_presence_of :text
   validates_length_of :comments, :maximum => 255, :allow_nil => true
-  
+
   acts_as_versioned
-  
+
   def visible?(user=User.current)
     page.visible?(user)
   end
-    
+
   def project
     page.project
   end
-  
+
   # Returns the mail adresses of users that should be notified
   def recipients
     notified = project.notified_users
     notified.reject! {|user| !visible?(user) || user.pref[:no_emails]}
     notified.collect(&:mail)
   end
-  
+
   class Version
     belongs_to :page, :class_name => '::WikiPage', :foreign_key => 'page_id'
     belongs_to :author, :class_name => '::User', :foreign_key => 'author_id'
@@ -37,7 +37,7 @@ class WikiContent < ActiveRecord::Base
                   :datetime => :updated_at,
                   :type => 'wiki-page',
                   :url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}}
-    # 
+    #
     # acts_as_activity_provider :type => 'wiki_edits',
     #                           :timestamp => "#{WikiContent.versioned_table_name}.updated_at",
     #                           :author_key => "#{WikiContent.versioned_table_name}.author_id",
@@ -66,7 +66,7 @@ class WikiContent < ActiveRecord::Base
       end
       plain
     end
-    
+
     def text
       @text ||= case compression
       when 'gzip'
@@ -74,16 +74,16 @@ class WikiContent < ActiveRecord::Base
       else
         # uncompressed data
         data
-      end      
+      end
     end
-    
+
     def project
       page.project
     end
-    
+
     # Returns the previous version or nil
     def previous
-      @previous ||= WikiContent::Version.find(:first, 
+      @previous ||= WikiContent::Version.find(:first,
                                               :order => 'version DESC',
                                               :include => :author,
                                               :conditions => ["wiki_content_id = ? AND version < ?", wiki_content_id, version])

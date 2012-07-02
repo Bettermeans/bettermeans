@@ -57,11 +57,11 @@
     })();
 
   </script>
-  
+
 <%= yield %>
 
 <%= render :partial => '/home/footer' %>
-  
+
 <!-- / Footer -->
 
 <!-- / Page -->
@@ -70,7 +70,7 @@
             $(function() {
                 $("#toTop").scrollToTop({speed:500,start:700});
             });
-            
+
 		$(document).ready(function() {
 			$('.viewport').mouseenter(function(e) {
 				$(this).children('a').children('img').animate({ height: '268', left: '-10', top: '-10', width: '480'}, 100);
@@ -79,7 +79,7 @@
 				$(this).children('a').children('img').animate({ height: '247', left: '0', top: '0', width: '460'}, 100);
 				$(this).children('a').children('span').fadeOut(200);
 			});
-			
+
 			$(".videolink").fancybox({
                           'titleShow'     : true,
                           'transitionIn'  : 'elastic',
@@ -94,9 +94,9 @@
 				'transitionIn'	: 'elastic',
 				'transitionOut'	: 'elastic'
 			});
-      
+
 		});
-            
+
         </script>
 </body>
 </html>

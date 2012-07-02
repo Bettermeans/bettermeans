@@ -10,7 +10,7 @@ class IssuePriorityTest < ActiveSupport::TestCase
   def test_should_be_an_enumeration
     assert IssuePriority.ancestors.include?(Enumeration)
   end
-  
+
   def test_objects_count
     # low priority
     assert_equal 6, IssuePriority.find(4).objects_count

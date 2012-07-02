@@ -17,8 +17,8 @@
 jQuery(function($) {
     // Configuration…
     var eventName = 'emchange';
-    
-    
+
+
     // Set up default options.
     $.em = $.extend({
         /**
@@ -33,7 +33,7 @@ jQuery(function($) {
          * @cat Plugins/Em
          */
         version: '1.0',
-        
+
         /**
          * The number of milliseconds to wait when polling for changes to the
          * font size.
@@ -47,7 +47,7 @@ jQuery(function($) {
          * @cat Plugins/Em
          */
         delay: 200,
-        
+
         /**
          * The element used to detect changes to the font size.
          *
@@ -64,7 +64,7 @@ jQuery(function($) {
                                     position: 'absolute',
                                     width:    '100em' })
                              .prependTo('body')[0],
-        
+
         /**
          * The action to perform when a change in the font size is detected.
          *
@@ -87,7 +87,7 @@ jQuery(function($) {
          */
         action: function() {
             var currentWidth = $.em.element.offsetWidth / 100;
-            
+
             // If the font size has changed since we last checked…
             if ( currentWidth != $.em.current ) {
                 /**
@@ -105,7 +105,7 @@ jQuery(function($) {
                  * @see current
                  */
                 $.em.previous = $.em.current;
-                
+
                 /**
                  * The current pixel value of the user agent’s font size. As
                  * with $.em.previous, this value *may* be subject to minor
@@ -122,13 +122,13 @@ jQuery(function($) {
                  * @see previous
                  */
                 $.em.current = currentWidth;
-                
+
                 $.event.trigger(eventName, [$.em.current, $.em.previous]);
             }
         }
     }, $.em );
-    
-    
+
+
     /**
      * Bind a function to the emchange event of each matched element.
      *
@@ -151,17 +151,17 @@ jQuery(function($) {
      */
     $.fn[eventName] = function(fn) { return fn ? this.bind(eventName, fn)
                                                : this.trigger(eventName); };
-    
-    
+
+
     // Store the initial pixel value of the user agent’s font size.
     $.em.current = $.em.element.offsetWidth / 100;
-    
+
     /**
      * While polling for font-size changes, $.em.iid stores the intervalID in
      * case you should want to cancel with clearInterval().
      *
      * @example window.clearInterval( $.em.iid );
-     * 
+     *
      * @property
      * @name iid
      * @type Number

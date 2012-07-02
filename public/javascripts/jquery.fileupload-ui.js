@@ -45,12 +45,12 @@
             }
             return null;
         };
-        
+
     UploadHandler = function (container, options) {
         var uploadHandler = this,
             dragOverTimeout,
             isDropZoneEnlarged;
-        
+
         this.dropZone = container;
         this.imageTypes = /^image\/(gif|jpeg|png)$/;
         this.previewSelector = '.file_upload_preview';
@@ -61,7 +61,7 @@
         this.cssClassHighlight = 'file_upload_highlight';
         this.dropEffect = 'highlight';
         this.uploadTable = this.downloadTable = null;
-        
+
         this.buildUploadRow = this.buildDownloadRow = function () {
             return null;
         };
@@ -106,7 +106,7 @@
         this.onAbort = function (event, files, index, xhr, handler) {
             handler.removeNode(handler.uploadRow);
         };
-        
+
         this.cancelUpload = function (event, files, index, xhr, handler) {
             var readyState = xhr.readyState;
             xhr.abort();
@@ -115,7 +115,7 @@
                 handler.onAbort(event, files, index, xhr, handler);
             }
         };
-        
+
         this.initProgressBar = function (node, value) {
             if (typeof node.progressbar === func) {
                 return node.progressbar({
@@ -129,7 +129,7 @@
                 return progressbar;
             }
         };
-        
+
         this.initUploadRow = function (event, files, index, xhr, handler, callBack) {
             var uploadRow = handler.uploadRow = handler.buildUploadRow(files, index, handler);
             if (uploadRow) {
@@ -150,7 +150,7 @@
                 callBack
             );
         };
-        
+
         this.initUpload = function (event, files, index, xhr, handler, callBack) {
             handler.initUploadRow(event, files, index, xhr, handler, function () {
                 if (typeof handler.beforeSend === func) {
@@ -160,7 +160,7 @@
                 }
             });
         };
-        
+
         this.onProgress = function (event, files, index, xhr, handler) {
             if (handler.progressbar) {
                 handler.progressbar.progressbar(
@@ -169,7 +169,7 @@
                 );
             }
         };
-        
+
         this.parseResponse = function (xhr) {
             if (typeof xhr.responseText !== undef) {
                 return $.parseJSON(xhr.responseText);
@@ -178,7 +178,7 @@
                 return $.parseJSON(xhr.contents().text());
             }
         };
-        
+
         this.initDownloadRow = function (event, files, index, xhr, handler, callBack) {
             var json, downloadRow;
             try {
@@ -198,7 +198,7 @@
                 }
             }
         };
-        
+
         this.onLoad = function (event, files, index, xhr, handler) {
             handler.removeNode(handler.uploadRow, function () {
                 handler.initDownloadRow(event, files, index, xhr, handler, function () {
@@ -223,7 +223,7 @@
                 isDropZoneEnlarged = true;
             }
         };
-        
+
         this.dropZoneReduce = function () {
             if (typeof uploadHandler.dropZone.switchClass === func) {
                 uploadHandler.dropZone.switchClass(
@@ -240,7 +240,7 @@
         this.onDocumentDragEnter = function (event) {
             uploadHandler.dropZoneEnlarge();
         };
-        
+
         this.onDocumentDragOver = function (event) {
             if (dragOverTimeout) {
                 clearTimeout(dragOverTimeout);
@@ -249,11 +249,11 @@
                 uploadHandler.dropZoneReduce();
             }, 200);
         };
-        
+
         this.onDragEnter = this.onDragLeave = function (event) {
             uploadHandler.dropZone.toggleClass(uploadHandler.cssClassHighlight);
         };
-        
+
         this.onDrop = function (event) {
             if (dragOverTimeout) {
                 clearTimeout(dragOverTimeout);
@@ -278,7 +278,7 @@
                 $(this).fileUpload(new UploadHandler($(this), options));
             });
         },
-        
+
         option: function (option, value, namespace) {
             if (typeof option === undef || (typeof option === 'string' && typeof value === undef)) {
                 return $(this).fileUpload('option', option, value, namespace);
@@ -287,14 +287,14 @@
                 $(this).fileUpload('option', option, value, namespace);
             });
         },
-            
+
         destroy : function (namespace) {
             return this.each(function () {
                 $(this).fileUpload('destroy', namespace);
             });
         }
     };
-    
+
     $.fn.fileUploadUI = function (method) {
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -304,5 +304,5 @@
             $.error('Method ' + method + ' does not exist on jQuery.fileUploadUI');
         }
     };
-    
+
 }(jQuery));

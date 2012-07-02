@@ -224,7 +224,7 @@ background-repeat:repeat-y;
 }
 
 .committed {
-	background-color:#fff;	
+	background-color:#fff;
 /*	background-color:#EFEFEF;*/
 	/*background-color:#D8EECE;*/
 }
@@ -338,7 +338,7 @@ background-repeat:repeat-y;
 }
 
 .dice{
-	padding-right: 2px;	
+	padding-right: 2px;
 	cursor: pointer;
 }
 
@@ -370,7 +370,7 @@ vertical-align:top;
 }
 
 .panel_notice {
-background-color: crimson;	
+background-color: crimson;
 }
 
 .panel_notice .gt-Iih {
@@ -449,10 +449,10 @@ form input[type=submit] {
 	margin: 0;
 	width: auto;
 	background-image: none;
-	border: 1px solid #006; 	
+	border: 1px solid #006;
 	border-color: #FFFFFF #666666 #666666 #FFFFFF;
 /*	background-color: #ECE9D8; */
-	background-color: #fff; 
+	background-color: #fff;
 	border-style: solid;
 }
 
@@ -470,7 +470,7 @@ button { background: none; border: none; margin: 0; padding: 0; font-size: 0; li
 */
 
 table.dash_key{
-	
+
 }
 table.dash_key tr{
 	vertical-align:top;

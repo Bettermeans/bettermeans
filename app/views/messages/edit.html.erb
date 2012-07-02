@@ -5,7 +5,7 @@
   <div class="gt-table-buttons">
   <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
   <p class="gt-cancel">
-  <%= link_to_remote l(:label_preview), 
+  <%= link_to_remote l(:label_preview),
                      { :url => { :controller => 'messages', :action => 'preview', :board_id => @board },
                        :method => 'post',
                        :update => 'preview',

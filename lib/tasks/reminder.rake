@@ -20,7 +20,7 @@ namespace :redmine do
     options[:days] = ENV['days'].to_i if ENV['days']
     options[:project] = ENV['project'] if ENV['project']
     options[:tracker] = ENV['tracker'].to_i if ENV['tracker']
-    
+
     Mailer.reminders(options)
   end
 end

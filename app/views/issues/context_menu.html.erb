@@ -3,7 +3,7 @@
 <% if !@issue.nil? -%>
 	<li><%= context_menu_link l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue},
 	        :class => 'icon-edit', :disabled => !@can[:edit] %></li>
-	<li class="folder">			
+	<li class="folder">
 		<a href="#" class="submenu" onclick="return false;"><%= l(:field_status) %></a>
 		<ul>
 		<% @statuses.each do |s| -%>
@@ -18,7 +18,7 @@
 <% end %>
 
 	<% unless @trackers.nil? %>
-	<li class="folder">			
+	<li class="folder">
 		<a href="#" class="submenu"><%= l(:field_tracker) %></a>
 		<ul>
 		<% @trackers.each do |t| -%>
@@ -29,7 +29,7 @@
 	</li>
 	<% end %>
 	<% unless @assignables.nil? || @assignables.empty? -%>
-	<li class="folder">			
+	<li class="folder">
 		<a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
 		<ul>
 		<% @assignables.each do |u| -%>

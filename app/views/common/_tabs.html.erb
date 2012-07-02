@@ -2,7 +2,7 @@
 
 <div class="tabs">
   <ul>
-    
+
   <% tabs.each do |tab| -%>
     <% tab[:label_ending] ||=""  %>
     <li><%= link_to (l(tab[:label])+ tab[:label_ending]), { :tab => tab[:name] },
@@ -18,7 +18,7 @@
 </div>
 
 <% tabs.each do |tab| -%>
-  <%= content_tag('div', render(:partial => tab[:partial], :locals => tab[:locals] ), 
+  <%= content_tag('div', render(:partial => tab[:partial], :locals => tab[:locals] ),
                        :id => "tab-content-#{tab[:name]}",
                        :class => "tab-content #{(tab[:name] != selected_tab ? 'hidden' : nil)}") %>
 <% end -%>

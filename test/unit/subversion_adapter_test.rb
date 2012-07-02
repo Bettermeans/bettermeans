@@ -7,7 +7,7 @@ require 'mkmf'
 require File.dirname(__FILE__) + '/../test_helper'
 
 class SubversionAdapterTest < ActiveSupport::TestCase
-  
+
   if find_executable0('svn')
     def test_client_version
       v = Redmine::Scm::Adapters::SubversionAdapter.client_version

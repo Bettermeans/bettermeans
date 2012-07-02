@@ -1,5 +1,5 @@
 <% form_remote_tag(:url => {}, :html => { :id => "journal-#{@journal.id}-form" }) do %>
-    <%= text_area_tag :notes, @journal.notes, :class => 'wiki-edit', 
+    <%= text_area_tag :notes, @journal.notes, :class => 'wiki-edit',
                                               :rows => (@journal.notes.blank? ? 10 : [[10, @journal.notes.length / 50].max, 100].min) %>
     <!-- <div class="gt-table-buttons"> -->
     <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>

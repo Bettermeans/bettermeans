@@ -1,6 +1,6 @@
 <h2><%=l(:label_issue_new)%></h2>
 
-<% labelled_tabular_form_for :issue, @issue, 
+<% labelled_tabular_form_for :issue, @issue,
                              :html => {:multipart => true, :id => 'issue-form'} do |f| %>
     <%= error_messages_for 'issue' %>
     <div class="gt-content-box">
@@ -10,7 +10,7 @@
     <%= submit_tag l(:button_create), :disable_with => l(:button_working) %>
     <%= submit_tag l(:button_create_and_continue), :name => 'continue', :disable_with => l(:button_working) %>
     <p class="gt-cancel">
-    <%= link_to_remote l(:label_preview), 
+    <%= link_to_remote l(:label_preview),
                        { :url => { :controller => 'issues', :action => 'preview', :project_id => @project },
                          :method => 'post',
                          :update => 'preview',

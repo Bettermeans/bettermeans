@@ -70,7 +70,7 @@ commit_fix_status_id:
 commit_fix_done_ratio:
   default: 100
 # autologin duration in days
-# 0 means autologin is disabled 
+# 0 means autologin is disabled
 autologin:
   format: int
   default: 30
@@ -86,7 +86,7 @@ cross_project_issue_relations:
   default: 1
 notified_events:
   serialized: true
-  default: 
+  default:
   - issue_added
   - issue_updated
   - news_added
@@ -99,7 +99,7 @@ mail_handler_api_key:
   default: gX7EBfIyc9orWdXzQ9vM
 issue_list_default_columns:
   serialized: true
-  default: 
+  default:
   - tracker
   - status
   - subject
@@ -113,7 +113,7 @@ default_projects_public:
   default: 1
 default_projects_modules:
   serialized: true
-  default: 
+  default:
   - issue_tracking
   - documents
   - wiki
@@ -138,18 +138,18 @@ emails_footer:
 emails_footer_nospam:
   default: |-
     You are receiving this email via bettermeans.com
-    We have zero tolerance for spam. 
+    We have zero tolerance for spam.
     Please forward this email to abuse@bettermeans.com if you feel you are recieving it in error. Thanks!
-gravatar_enabled:  
+gravatar_enabled:
   default: 1
 openid:
   default: 0
 forum_name:
   default: |-
-    General Discussion  
+    General Discussion
 forum_description:
   default: |-
-    General Discussion for Workstream : 
+    General Discussion for Workstream :
 gravatar_default:
   default: identicon
 start_of_week:

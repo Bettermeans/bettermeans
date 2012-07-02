@@ -10,7 +10,7 @@ module GroupsHelper
     end
     options
   end
-  
+
   def group_settings_tabs
     tabs = [{:name => 'general', :partial => 'groups/general', :label => :label_general},
             {:name => 'users', :partial => 'groups/users', :label => :label_user_plural},

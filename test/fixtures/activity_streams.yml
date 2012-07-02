@@ -1,9 +1,9 @@
 # Copyright (c) 2008 Matson Systems, Inc.
-# Released under the BSD license found in the file 
+# Released under the BSD license found in the file
 # LICENSE included with this ActivityStreams plug-in.
 
---- 
-one: 
+---
+one:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "1"
@@ -17,7 +17,7 @@ one:
   actor_name_method: friendly_name
   object_id: "1"
   created_at: 2008-07-24 04:22:54
-two: 
+two:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "2"
@@ -31,7 +31,7 @@ two:
   actor_name_method: friendly_name
   object_id: "1"
   created_at: 2008-07-24 04:22:54
-three: 
+three:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "3"
@@ -45,7 +45,7 @@ three:
   actor_name_method: friendly_name
   object_id: "1"
   created_at: 2008-07-24 04:22:54
-four: 
+four:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "4"
@@ -59,7 +59,7 @@ four:
   actor_name_method: friendly_name
   object_id: "1"
   created_at: 2008-07-24 04:22:54
-five: 
+five:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "5"
@@ -73,7 +73,7 @@ five:
   actor_name_method: friendly_name
   object_id: "1"
   created_at: 2008-07-24 04:22:54
-six: 
+six:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "6"
@@ -87,7 +87,7 @@ six:
   actor_name_method: friendly_name
   object_id: "1"
   created_at: 2008-07-24 04:22:54
-seven: 
+seven:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "7"
@@ -101,7 +101,7 @@ seven:
   actor_name_method: friendly_name
   object_id: "1"
   created_at: 2008-07-24 04:22:54
-eight: 
+eight:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "8"
@@ -115,7 +115,7 @@ eight:
   actor_name_method: friendly_name
   object_id: "1"
   created_at: 2008-07-24 04:22:54
-nine: 
+nine:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "9"
@@ -129,7 +129,7 @@ nine:
   actor_name_method: friendly_name
   object_id: "1"
   created_at: 2008-07-24 04:22:54
-ten: 
+ten:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "10"
@@ -143,7 +143,7 @@ ten:
   actor_name_method: friendly_name
   object_id: "1"
   created_at: 2008-07-24 04:22:54
-eleven: 
+eleven:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "11"
@@ -157,7 +157,7 @@ eleven:
   actor_name_method: friendly_name
   object_id: "1"
   created_at: 2008-07-24 04:22:54
-twelve: 
+twelve:
   updated_at: 2008-07-24 04:22:54
   actor_id: "3"
   id: "12"

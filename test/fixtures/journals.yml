@@ -1,26 +1,26 @@
---- 
-journals_001: 
+---
+journals_001:
   created_at: <%= 2.days.ago.to_date.to_s(:db) %>
   notes: "Journal notes"
   id: 1
   journalized_type: Issue
   user_id: 1
   journalized_id: 1
-journals_002: 
+journals_002:
   created_at: <%= 1.days.ago.to_date.to_s(:db) %>
   notes: "Some notes with Redmine links: #2, r2."
   id: 2
   journalized_type: Issue
   user_id: 2
   journalized_id: 1
-journals_003: 
+journals_003:
   created_at: <%= 1.days.ago.to_date.to_s(:db) %>
   notes: "A comment with inline image: !picture.jpg!"
   id: 3
   journalized_type: Issue
   user_id: 2
   journalized_id: 2
-journals_004: 
+journals_004:
   created_at: <%= 1.days.ago.to_date.to_s(:db) %>
   notes: "A comment with a private version."
   id: 4

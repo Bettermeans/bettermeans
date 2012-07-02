@@ -7,7 +7,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class DefaultDataTest < ActiveSupport::TestCase
   include Redmine::I18n
   fixtures :roles
-  
+
   def test_no_data
     assert !Redmine::DefaultData::Loader::no_data?
     Role.delete_all("builtin = 0")
@@ -16,7 +16,7 @@ class DefaultDataTest < ActiveSupport::TestCase
     Enumeration.delete_all
     assert Redmine::DefaultData::Loader::no_data?
   end
-  
+
   def test_load
     # valid_languages.each do |lang|
     #   begin

@@ -6,7 +6,7 @@
 class IssueRelationsController < ApplicationController
   before_filter :find_project, :authorize
   ssl_required :all
-  
+
   def new
     @relation = IssueRelation.new(params[:relation])
     @relation.issue_from = @issue
@@ -27,7 +27,7 @@ class IssueRelationsController < ApplicationController
       end
     end
   end
-  
+
   def destroy
     relation = IssueRelation.find(params[:id])
     if request.post? && @issue.relations.include?(relation)
@@ -39,7 +39,7 @@ class IssueRelationsController < ApplicationController
       format.js { render(:update) {|page| page.replace_html "relations", :partial => 'issues/relations'} }
     end
   end
-  
+
 private
   def find_project
     @issue = Issue.find(params[:issue_id])

@@ -14,7 +14,7 @@
       <%= render :partial => "eligible_recipients" %>
     <% end %>
   </div>
-  
+
   <%= observe_field :credit_transfer_project_id, :url => {:controller => :credit_transfers, :action => :eligible_recipients, :only_path => :false }, :update => :users_container, :with => 'project_id' %>
-  
+
   <% end %>

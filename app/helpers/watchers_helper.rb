@@ -12,7 +12,7 @@ module WatchersHelper
     id ||= options[:replace] if options[:replace].is_a? String
     content_tag("span", watcher_link(object, user, options), :id => id)
   end
-  
+
   # Valid options
   # * :replace - a string or array of element ids that will be
   #   replaced
@@ -28,9 +28,9 @@ module WatchersHelper
                    {:url => url},
                    :href => url_for(url),
                    :class => (watched ? 'icon icon-fav action-state-button' : 'icon icon-fav-off action-state-button'))
-  
+
   end
-  
+
   # Returns a comma separated list of users watching the given object
   def watchers_list(object)
     remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)

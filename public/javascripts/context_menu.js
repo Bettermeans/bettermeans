@@ -20,11 +20,11 @@ ContextMenu.prototype = {
 		Event.observe(document, (window.opera ? 'click' : 'contextmenu'), this.RightClick.bindAsEventListener(this));
 		observingContextMenuClick = true;
 	}
-	
+
 	this.unselectAll();
 	this.lastSelected = null;
 	},
-  
+
 	RightClick: function(e) {
 		this.hideMenu();
 		// do not show the context menu on links
@@ -46,7 +46,7 @@ ContextMenu.prototype = {
   	this.hideMenu();
   	if (Event.element(e).tagName == 'A') { return; }
     if (window.opera && e.altKey) {	return; }
-    if (Event.isLeftClick(e) || (navigator.appVersion.match(/\bMSIE\b/))) {      
+    if (Event.isLeftClick(e) || (navigator.appVersion.match(/\bMSIE\b/))) {
       var tr = Event.findElement(e, 'tr');
       if (tr!=null && tr!=document && tr.hasClassName('hascontextmenu')) {
         // a row was clicked, check if the click was on checkbox
@@ -94,7 +94,7 @@ ContextMenu.prototype = {
       this.RightClick(e);
     }
   },
-  
+
   showMenu: function(e) {
     var mouse_x = Event.pointerX(e);
     var mouse_y = Event.pointerY(e);
@@ -109,10 +109,10 @@ ContextMenu.prototype = {
     var max_height;
 
     $('context-menu').style['left'] = (render_x + 'px');
-    $('context-menu').style['top'] = (render_y + 'px');		
+    $('context-menu').style['top'] = (render_y + 'px');
     Element.update('context-menu', '');
 
-    new Ajax.Updater({success:'context-menu'}, this.url, 
+    new Ajax.Updater({success:'context-menu'}, this.url,
       {asynchronous:true,
        evalScripts:true,
        parameters:Form.serialize(Event.findElement(e, 'form')),
@@ -122,11 +122,11 @@ ContextMenu.prototype = {
 				 menu_height = dims.height;
 				 max_width = mouse_x + 2*menu_width;
 				 max_height = mouse_y + menu_height;
-			
+
 				 var ws = window_size();
 				 window_width = ws.width;
 				 window_height = ws.height;
-			
+
 				 /* display the menu above and/or to the left of the click if needed */
 				 if (max_width > window_width) {
 				   render_x -= menu_width;
@@ -144,21 +144,21 @@ ContextMenu.prototype = {
 				 if (render_y <= 0) render_y = 1;
 				 $('context-menu').style['left'] = (render_x + 'px');
 				 $('context-menu').style['top'] = (render_y + 'px');
-				 
+
          Effect.Appear('context-menu', {duration: 0.20});
          if (window.parseStylesheets) { window.parseStylesheets(); } // IE
       }})
   },
-  
+
   hideMenu: function() {
     Element.hide('context-menu');
   },
-  
+
   addSelection: function(tr) {
     tr.addClassName('context-menu-selection');
     this.checkSelectionBox(tr, true);
   },
-  
+
   toggleSelection: function(tr) {
     if (this.isSelected(tr)) {
       this.removeSelection(tr);
@@ -166,24 +166,24 @@ ContextMenu.prototype = {
       this.addSelection(tr);
     }
   },
-  
+
   removeSelection: function(tr) {
     tr.removeClassName('context-menu-selection');
     this.checkSelectionBox(tr, false);
   },
-  
+
   unselectAll: function() {
     var rows = $$('.hascontextmenu');
     for (i=0; i<rows.length; i++) {
       this.removeSelection(rows[i]);
     }
   },
-  
+
   checkSelectionBox: function(tr, checked) {
   	var inputs = Element.getElementsBySelector(tr, 'input');
   	if (inputs.length > 0) { inputs[0].checked = checked; }
   },
-  
+
   isSelected: function(tr) {
     return Element.hasClassName(tr, 'context-menu-selection');
   }

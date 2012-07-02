@@ -1,7 +1,7 @@
 class HelpSectionsController < ApplicationController
   before_filter :authorize, :except => :dont_show
-  ssl_required :all  
-  
+  ssl_required :all
+
   # GET /help_sections/1
   # GET /help_sections/1.xml
   def show
@@ -15,7 +15,7 @@ class HelpSectionsController < ApplicationController
       end
     end
   end
-  
+
   def dont_show
     @help_section = HelpSection.find(params[:id])
     @help_section.show = false

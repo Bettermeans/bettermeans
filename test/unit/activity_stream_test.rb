@@ -1,6 +1,6 @@
 #--
 # Copyright (c) 2008 Matson Systems, Inc.
-# Released under the BSD license found in the file 
+# Released under the BSD license found in the file
 # LICENSE included with this ActivityStreams plug-in.
 #++
 # Template to generate the ActivityStream Unit Test
@@ -28,16 +28,16 @@ class ActivityStreamTest < ActiveSupport::TestCase
     assert_equal activity_stream.actor_name, 'aaron'
   end
 
-  # Note the integration test will test the interaction between 
+  # Note the integration test will test the interaction between
   # activity_streams and activity_stream_preferences
   def test_recent_actors
-    activity_streams = ActivityStream.recent_actors(users(:aaron), 
+    activity_streams = ActivityStream.recent_actors(users(:aaron),
       :public_location, 5)
     assert_equal 5, activity_streams.size
   end
 
   def test_recent_objects
-    activity_streams = ActivityStream.recent_objects(torrents(:test_torrent), 
+    activity_streams = ActivityStream.recent_objects(torrents(:test_torrent),
       :public_location, 5)
     assert_equal 5, activity_streams.size
   end

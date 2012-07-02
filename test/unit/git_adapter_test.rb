@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class GitAdapterTest < ActiveSupport::TestCase
   REPOSITORY_PATH = RAILS_ROOT.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
 
-  if File.directory?(REPOSITORY_PATH)  
+  if File.directory?(REPOSITORY_PATH)
     def setup
       @adapter = Redmine::Scm::Adapters::GitAdapter.new(REPOSITORY_PATH)
     end

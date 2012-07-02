@@ -8,9 +8,9 @@ class NewsController < ApplicationController
   before_filter :authorize, :except => [:index, :preview]
   before_filter :find_optional_project, :only => :index
   accept_key_auth :index
-  ssl_required :all  
-  
-  
+  ssl_required :all
+
+
   log_activity_streams :current_user, :name, :announced, :@news, :title, :new, :news, {:object_description_method => :summary}
   log_activity_streams :current_user, :name, :edited, :@news, :title, :edit, :news, {:object_description_method => :summary}
   log_activity_streams :current_user, :name, :commented_on, :@news, :title, :add_comment, :news, {
@@ -19,15 +19,15 @@ class NewsController < ApplicationController
               :indirect_object_description_method => :comments,
               :indirect_object_phrase => '' }
 
-  
-  
-  
+
+
+
   def index
     @news_pages, @newss = paginate :news,
                                    :per_page => 10,
                                    :conditions => Project.allowed_to_condition(User.current, :view_news, :project => @project),
                                    :include => [:author, :project],
-                                   :order => "#{News.table_name}.created_at DESC"    
+                                   :order => "#{News.table_name}.created_at DESC"
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
       format.xml { render :xml => @newss.to_xml }
@@ -35,7 +35,7 @@ class NewsController < ApplicationController
       # format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end
-  
+
   def show
     @comments = @news.comments
     @comments.reverse! if User.current.wants_comments_in_reverse_order?
@@ -51,14 +51,14 @@ class NewsController < ApplicationController
       end
     end
   end
-  
+
   def edit
     if request.post? and @news.update_attributes(params[:news])
       flash.now[:success] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @news
     end
   end
-  
+
   def add_comment
     @comment = Comment.new(params[:comment])
     @comment.author = User.current
@@ -80,12 +80,12 @@ class NewsController < ApplicationController
     @news.destroy
     redirect_to :action => 'index', :project_id => @project
   end
-  
+
   def preview
     @text = (params[:news] ? params[:news][:description] : nil)
     render :partial => 'common/preview'
   end
-  
+
 private
   def find_news
     @news = News.find(params[:id])
@@ -94,14 +94,14 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_project
     @project = Project.find(params[:project_id])
     render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_optional_project
     return true unless params[:project_id]
     @project = Project.find(params[:project_id])

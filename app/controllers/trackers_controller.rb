@@ -3,15 +3,15 @@
 
 class TrackersController < ApplicationController
   layout 'admin'
-  
+
   before_filter :require_admin
   ssl_required :all
-  
+
   def index
     list
     render :action => 'list' unless request.xhr?
   end
-  
+
   verify :method => :post, :only => :destroy, :redirect_to => { :action => :list }
 
   def list
@@ -43,7 +43,7 @@ class TrackersController < ApplicationController
     end
     @projects = Project.find(:all)
   end
-  
+
   def destroy
     @tracker = Tracker.find(params[:id])
     unless @tracker.issues.empty?

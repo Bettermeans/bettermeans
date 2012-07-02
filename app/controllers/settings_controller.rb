@@ -16,7 +16,7 @@
 
 class SettingsController < ApplicationController
   layout 'admin'
-  
+
   before_filter :require_admin
 
   def index

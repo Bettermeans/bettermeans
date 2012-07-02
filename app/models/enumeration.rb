@@ -3,18 +3,18 @@
 
 class Enumeration < ActiveRecord::Base
   default_scope :order => "#{Enumeration.table_name}.position ASC"
-  
+
   belongs_to :project
-  
+
   acts_as_list :scope => 'type = \'#{type}\''
   acts_as_tree :order => 'position ASC'
 
   before_destroy :check_integrity
-  
+
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:type, :project_id]
   validates_length_of :name, :maximum => 30
-  
+
   named_scope :values, lambda {|type| { :conditions => { :type => type }, :order => 'position' } } do
     def default
       find(:first, :conditions => { :is_default => true })
@@ -36,7 +36,7 @@ class Enumeration < ActiveRecord::Base
       find(:first, :conditions => { :is_default => true })
     end
   end
-  
+
   # Overloaded on concrete classes
   def option_name
     nil
@@ -53,12 +53,12 @@ class Enumeration < ActiveRecord::Base
       Enumeration.update_all("is_default = #{connection.quoted_false}", {:type => type})
     end
   end
-  
+
   # Overloaded on concrete classes
   def objects_count
     0
   end
-  
+
   def in_use?
     self.objects_count != 0
   end
@@ -67,9 +67,9 @@ class Enumeration < ActiveRecord::Base
   def is_override?
     !self.parent.nil?
   end
-  
+
   alias :destroy_without_reassign :destroy
-  
+
   # Destroy the enumeration
   # If a enumeration is specified, objects are reassigned
   def destroy(reassign_to = nil)
@@ -78,11 +78,11 @@ class Enumeration < ActiveRecord::Base
     end
     destroy_without_reassign
   end
-  
+
   def <=>(enumeration)
     position <=> enumeration.position
   end
-  
+
   def to_s; name end
 
   # Returns the Subclasses of Enumeration.  Each Subclass needs to be
@@ -102,13 +102,13 @@ class Enumeration < ActiveRecord::Base
     end
   end
 
-  
+
   # Are the new and previous fields equal?
   def self.same_active_state?(new, previous)
     new = (new == "1" ? true : false)
     return new == previous
   end
-  
+
 private
   def check_integrity
     raise "Can't delete enumeration" if self.in_use?

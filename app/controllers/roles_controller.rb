@@ -3,7 +3,7 @@
 
 class RolesController < ApplicationController
   layout 'admin'
-  
+
   before_filter :require_admin
   ssl_required :all
 
@@ -52,8 +52,8 @@ class RolesController < ApplicationController
     flash.now[:error] = 'This role is in use and can not be deleted.'
     redirect_to :action => 'index'
   end
-  
-  def report    
+
+  def report
     @roles = Role.find(:all, :order => 'builtin, position')
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
     if request.post?

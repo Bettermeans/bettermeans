@@ -1,25 +1,25 @@
 var confdescriptions = ['Wild guess','I\'m probably wrong', 'Not sure', 'Confident', 'Pretty sure', 'Absolutely positive'];
 
 $('document').ready(function(){
-	
+
 	if (retroStatus == 1){
-		$(".closed").hide();		
-		$(".open").show();		
+		$(".closed").hide();
+		$(".open").show();
 	}
 	else{
 		$(".closed").show();
-		$(".open").hide();		
+		$(".open").hide();
 	}
-	
+
 	if (belongs){
 		$(".private").show();
 	}
 	else{
 		$(".private").hide();
 	}
-	
+
 	calculate_sum();
-	
+
 	$(".slider-per").slider({
 		range: "min",
 		value: 0,
@@ -32,11 +32,11 @@ $('document').ready(function(){
 			calculate_sum();
 		}
 	});
-	
+
 	$(".slider-per").each(function(){
 	 	$("#" + this.id).slider('value',parseInt($("#" + this.id).attr("per")));
 	});
-	
+
 	$(".slider-conf").slider({
 		range: "min",
 		value: 0,
@@ -49,15 +49,15 @@ $('document').ready(function(){
 			calculate_sum();
 		}
 	});
-	
+
 	$(".slider-conf").each(function(){
 	 	$("#" + this.id).slider('value',parseInt($("#" + this.id).attr("per")));
 	});
-	
+
 	var confvalue = $('#slider_confidence').slider('value');
 	$("#user_0_percentage").html(confdescriptions[confvalue/20] + ' (' + confvalue + ')%');
-	
-	
+
+
 });
 
 function calculate_sum(){
@@ -67,7 +67,7 @@ function calculate_sum(){
 	$(".percentage_label").each(function() {
 		total = total + parseInt($("#" + this.id).html().replace('%',''));
 	});
-	
+
 
 	$('#total').html(total + '%');
 	if ((total > 95)&&(total < 105)){
@@ -81,13 +81,13 @@ function calculate_sum(){
 
 function save_retro(retroId){
 	$('#saving').show();
-	
+
 	var data = "commit=Create";
 	var rater_id = currentUserId;
 	var confidence = $("#slider_confidence").slider('value');
 	var i=0;
 	$('#change_retro_link_save').hide();
-	
+
 	$(".slider").each(function() {
 		var ratee_id = $("#" + this.id).attr("user_id");
 		if (ratee_id != "0"){
@@ -100,12 +100,12 @@ function save_retro(retroId){
 			i++;
 		}
 	});
-	
+
 
     var url = url_for({ controller: 'retro_ratings',
                            action    : 'create'
                           });
-	
+
 	$.ajax({
 	   type: "POST",
 	   dataType: "json",

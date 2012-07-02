@@ -14,17 +14,17 @@
   $.ui = $.ui || {};
   $.ui.autocomplete = $.ui.autocomplete || {};
   $.ui.autocomplete.ext = $.ui.autocomplete.ext || {};
-  
+
   $.ui.autocomplete.ext.ajax = function(opt) {
     var ajax = opt.ajax;
-    return { getList: function(input) { 
-      $.getJSON(ajax, "val=" + input.val(), function(json) { input.trigger("updateList", [json]); }); 
+    return { getList: function(input) {
+      $.getJSON(ajax, "val=" + input.val(), function(json) { input.trigger("updateList", [json]); });
     } };
   };
-  
+
   $.ui.autocomplete.ext.templateText = function(opt) {
     var template = $.makeTemplate(opt.templateText, "<%", "%>");
     return { template: function(obj) { return template(obj); } };
   };
-  
+
 })(jQuery);

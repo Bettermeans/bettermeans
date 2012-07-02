@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-	
+
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title><%=h html_title %></title>
 <meta name="description" content="<%= Redmine::Info.app_name %>" />
@@ -31,7 +31,7 @@
 <%= javascript_include_tag  'jquery.sparkline.min' %>
 <%= javascript_include_tag  'jquery.tagsinput' %>
 <%= javascript_include_tag  'store' %>
- 
+
 
 
 <!--[if IE]>
@@ -44,10 +44,10 @@
 <%= yield :header_tags -%>
 </head>
 <body>
-  <!--[if IE]>  
+  <!--[if IE]>
   <div style='border: 1px solid #F7941D; background: #FEEFDA; text-align: center; clear: both; height: 75px; position: relative;'>    <div style='position: absolute; right: 3px; top: 3px; font-family: courier new; font-weight: bold;'><a href='#' onclick='javascript:this.parentNode.parentNode.style.display="none"; return false;'><img src='/images/static/ie6nomore-cornerx.jpg' style='border: none;' alt='Close this notice'/></a></div>    <div style='width: 640px; margin: 0 auto; text-align: left; padding: 0; overflow: hidden; color: black;'>      <div style='width: 75px; float: left;'><img src='/images/static/ie6nomore-warning.jpg' alt='Warning!'/></div>      <div style='width: 275px; float: left; font-family: Arial, sans-serif;'>        <div style='font-size: 14px; font-weight: bold; margin-top: 12px;'>You are using an unsupported browser</div>        <div style='font-size: 12px; margin-top: 6px; line-height: 12px;'>For a better experience using bettermeans, please upgrade to a modern web browser.</div>      </div>      <div style='width: 75px; float: left;'><a href='http://www.firefox.com' target='_blank'><img src='/images/static/ie6nomore-firefox.jpg' style='border: none;' alt='Get Firefox 3.5'/></a></div>            <div style='width: 73px; float: left;'><a href='http://www.apple.com/safari/download/' target='_blank'><img src='/images/static/ie6nomore-safari.jpg' style='border: none;' alt='Get Safari 4'/></a></div>      <div style='float: left;'><a href='http://www.google.com/chrome' target='_blank'><img src='/images/static/ie6nomore-chrome.jpg' style='border: none;' alt='Get Google Chrome'/></a></div>    </div>  </div>
   <![endif]-->
-  
+
   <script type="text/javascript">
 
     var _gaq = _gaq || [];
@@ -68,12 +68,12 @@
 <div class="gt-hd clearfix">
 	<!-- leaf watermark -->
 	<div class="gt-leaf-watermark clearfix">
-	
+
 	<!-- head top -->
 	<div class="gt-hd-top clearfix">
-	
+
 		<div class="gt-fixed-wrap clearfix">
-	
+
 		<!-- logo -->
 		<div class="gt-logo">
       <a href="/" style="text-decoration:none;" class="left">
@@ -84,9 +84,9 @@
   			<%= render_project_jump_box %>
 			</div>
 		</div>
-		
+
 		<!-- / logo -->
-		
+
 		<!-- utility box -->
 		<div class="gt-util-box">
 		  <div class="gt-util-box-inner">
@@ -94,17 +94,17 @@
 			</div>
 			<%= yield :buttonbar %>
 		</div>
-		<!-- / utility box -->		
+		<!-- / utility box -->
 		</div>
-	
+
 	</div><!-- /head top -->
-	
+
 	<!-- navbar -->
 	<div class="gt-navbar clearfix">
-	
+
 		<div class="gt-fixed-wrap clearfix">
-		  
-		  
+
+
 		<!-- navigation -->
 		<div class="gt-nav">
 		  <div class="gt-nav-header">
@@ -124,7 +124,7 @@
         		  </div>
         		</div>
         		<% else %>
-        		  <%= yield :searchbar %>		
+        		  <%= yield :searchbar %>
     		<% end %>
   		</div>
   		<div class="gt-nav-sub">
@@ -150,20 +150,20 @@
       <% end %>
       </div>
 		  </div>
-      
+
 		</div><!-- / navigation -->
 
 		<!-- search -->
 		<% if (!has_content?(:topbuttons)) %>
 		<% else %>
-		  <%= yield :topbuttons %>		
+		  <%= yield :topbuttons %>
 		<% end %>
-		
+
 		</div>
-	</div><!-- /navbar -->			
+	</div><!-- /navbar -->
 	<% if (has_content?(:secondnav)) %>
 	  <div class="gt-second-navbar">
-	  <%= yield :secondnav %>		
+	  <%= yield :secondnav %>
 	  </div>
 	<% end %>
 </div><!-- /leaf watermark -->
@@ -171,7 +171,7 @@
 <!-- / head -->
 
 <!-- body -->
-<% 
+<%
 
 if (has_content?(:actionmenu) && false)
   cssclass = has_content?(:sidebar) ?  'gt-bd gt-cols-2 clearfix' : 'gt-bd gt-cols-3 clearfix'
@@ -192,7 +192,7 @@ end
 	</div>
 	<!-- / main content -->
 
-	
+
 	<!-- sidebar -->
   <% if (has_content?(:sidebar)) %>
 	    <div class="gt-sidebar">
@@ -203,7 +203,7 @@ end
 
 <div id="help_section_container" style="display:none">
   <div class="help-section" id="help_section">
-    <%= yield :help_section  %>	
+    <%= yield :help_section  %>
   </div>
 </div>
 </div>
@@ -220,7 +220,7 @@ end
 <% end %>
 
 
-    
+
 
 </body>
 </html>

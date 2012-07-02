@@ -1,18 +1,18 @@
 /*!
  * The following copyright notice may not be removed under any circumstances.
- * 
+ *
  * Copyright:
  * Copyright (c) Andrew Paglinawan, 2008. All rights reserved.
- * 
+ *
  * Trademark:
  * Dashling is a trademark of the Andrew Paglinawan.
- * 
+ *
  * Full name:
  * QuicksandBook-Regular
- * 
+ *
  * Manufacturer:
  * Andrew Paglinawan
- * 
+ *
  * Designer:
  * Andrew Paglinawan
  */

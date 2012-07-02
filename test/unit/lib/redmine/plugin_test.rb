@@ -11,11 +11,11 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     # In case some real plugins are installed
     @klass.clear
   end
-  
+
   def teardown
     @klass.clear
   end
-  
+
   def test_register
     @klass.register :foo do
       name 'Foo plugin'
@@ -26,9 +26,9 @@ class Redmine::PluginTest < ActiveSupport::TestCase
       version '0.0.1'
       settings :default => {'sample_setting' => 'value', 'foo'=>'bar'}, :partial => 'foo/settings'
     end
-    
+
     assert_equal 1, @klass.all.size
-    
+
     plugin = @klass.find('foo')
     assert plugin.is_a?(Redmine::Plugin)
     assert_equal :foo, plugin.id
@@ -39,11 +39,11 @@ class Redmine::PluginTest < ActiveSupport::TestCase
     assert_equal 'This is a test plugin', plugin.description
     assert_equal '0.0.1', plugin.version
   end
-  
+
   def test_requires_redmine
     test = self
     version = Redmine::VERSION.to_a.slice(0,3).join('.')
-    
+
     @klass.register :foo do
       test.assert requires_redmine(:version_or_higher => '0.1.0')
       test.assert requires_redmine(:version_or_higher => version)
@@ -51,7 +51,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
       test.assert_raise Redmine::PluginRequirementError do
         requires_redmine(:version_or_higher => '99.0.0')
       end
-      
+
       test.assert requires_redmine(:version => version)
       test.assert requires_redmine(:version => [version, '99.0.0'])
       test.assert_raise Redmine::PluginRequirementError do
@@ -66,12 +66,12 @@ class Redmine::PluginTest < ActiveSupport::TestCase
   def test_requires_redmine_plugin
     test = self
     other_version = '0.5.0'
-    
+
     @klass.register :other do
       name 'Other'
       version other_version
     end
-    
+
     @klass.register :foo do
       test.assert requires_redmine_plugin(:other, :version_or_higher => '0.1.0')
       test.assert requires_redmine_plugin(:other, :version_or_higher => other_version)
@@ -79,7 +79,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
       test.assert_raise Redmine::PluginRequirementError do
         requires_redmine_plugin(:other, :version_or_higher => '99.0.0')
       end
-      
+
       test.assert requires_redmine_plugin(:other, :version => other_version)
       test.assert requires_redmine_plugin(:other, :version => [other_version, '99.0.0'])
       test.assert_raise Redmine::PluginRequirementError do
@@ -98,7 +98,7 @@ class Redmine::PluginTest < ActiveSupport::TestCase
       test.assert_raise Redmine::PluginNotFound do
         requires_redmine_plugin(:missing, :version => '0.1.0')
       end
-      
+
     end
   end
 end

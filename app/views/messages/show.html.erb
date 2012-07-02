@@ -26,7 +26,7 @@
     <!-- <p><span class="author"><%#= authoring @topic.created_at, @topic.author %></span></p> -->
 
 <div class="message gt-content-box" id="top">
-<table class="gt-table gt-user-table" border="0">  
+<table class="gt-table gt-user-table" border="0">
   <tbody>
     <tr>
       <td class="gt-avatar <%= User.current.logged? && User.current.id == @topic.author ? 'me' : nil %>">
@@ -54,14 +54,14 @@
   </tbody>
 </table>
 </div>
-  
+
 
 <br />
 
 <% unless @replies.empty? %>
 <h3 class="comments"><%= l(:label_reply_plural) %></h3>
 <div class="gt-content-box">
-<table class="gt-table gt-user-table" border="0">  
+<table class="gt-table gt-user-table" border="0">
   <tbody>
 
     <% @replies.each do |message| %>
@@ -73,13 +73,13 @@
            <div class="message reply" id="<%= "message-#{message.id}" %>">
            <h4>
              <%= link_to h(message.subject), { :controller => 'messages', :action => 'show', :board_id => @board, :id => @topic, :anchor => "message-#{message.id}" } %>
-             
+
              <%#= authoring message.created_at, message.author %>
            </h4>
            <div class="wiki"><%= textilizable message, :content, :attachments => message.attachments %></div>
            <%= link_to_attachments message, :author => false %>
            </div>
-           
+
          </td>
          <td class="side">
            <table border="0" class="gt-table-categories">
@@ -100,7 +100,7 @@
        		</table>
          </td>
       </tr>
-    
+
     <% end %>
 
   </tbody>
@@ -116,7 +116,7 @@
   <div class="gt-table-buttons">
   <%= submit_tag l(:button_submit), :disable_with => l(:button_working) %>
   <p class="gt-cancel">
-  <%= link_to_remote l(:label_preview), 
+  <%= link_to_remote l(:label_preview),
                      { :url => { :controller => 'messages', :action => 'preview', :board_id => @board },
                        :method => 'post',
                        :update => 'preview',

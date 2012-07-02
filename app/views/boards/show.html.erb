@@ -9,7 +9,7 @@
   <div class="gt-table-buttons">
   <%= submit_tag l(:button_create), :disable_with => l(:button_working) %>
   <p class="gt-cancel">
-  <%= link_to_remote l(:label_preview), 
+  <%= link_to_remote l(:label_preview),
                      { :url => { :controller => 'messages', :action => 'preview', :board_id => @board },
                        :method => 'post',
                        :update => 'preview',
@@ -36,7 +36,7 @@
     <%= sort_header_tag('created_at', :caption => l(:field_created_at)) %>
     <%= sort_header_tag('replies', :caption => l(:label_reply_plural)) %>
     <%= sort_header_tag('updated_at', :caption => l(:label_message_last)) %>
-  </tr></thead>  
+  </tr></thead>
   <tbody>
   <% @topics.each do |topic| %>
     <tr class="message <%= cycle 'odd', 'even' %> <%= topic.sticky? ? 'sticky' : '' %> <%= topic.locked? ? 'locked' : '' %>">

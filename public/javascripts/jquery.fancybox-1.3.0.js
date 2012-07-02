@@ -120,7 +120,7 @@
 		loading.show();
 		loadingTimer = setInterval(fancybox_animate_loading, 66);
 	};
-	
+
 	$.fancybox.hideActivity = function() {
 		loading.hide();
 	};
@@ -128,7 +128,7 @@
 	$.fancybox.next = function() {
 		return $.fancybox.pos( currentIndex + 1);
 	};
-	
+
 	$.fancybox.prev = function() {
 		return $.fancybox.pos( currentIndex - 1);
 	};
@@ -283,7 +283,7 @@
 	};
 
 	/*
-	
+
 	Inner Methods
 
 	*/
@@ -292,7 +292,7 @@
 		loading.hide();
 
 		imgPreloader.onerror = imgPreloader.onload = null;
-		
+
 		if (ajaxLoader) ajaxLoader.abort();
 
 		tmp.empty();
@@ -306,7 +306,7 @@
 			'transitionOut'	: 'none'
 		});
 	};
-	
+
 	function fancybox_start() {
 		fancybox_abort();
 
@@ -332,7 +332,7 @@
 			type = selectedOpts.type;
 
 			if (!href) href = selectedOpts.content;
-			
+
 		} else if (selectedOpts.content) {
 			type	= 'html';
 
@@ -424,7 +424,7 @@
 				}
 
 				imgPreloader.src = href;
-	
+
 			break;
 
 			case 'swf':
@@ -745,7 +745,7 @@
 				top		: (pos.top		- currentOpts.padding - shadow),
 				left	: (pos.left		- currentOpts.padding - shadow)
 			};
-			
+
 		} else {
 			var view = fancybox_get_viewport();
 
@@ -937,7 +937,7 @@
 			nav_left	= $('<a href="javascript:;" id="fancybox-left"><span class="fancy-ico" id="fancybox-left-ico"></span></a>'),
 			nav_right	= $('<a href="javascript:;" id="fancybox-right"><span class="fancy-ico" id="fancybox-right-ico"></span></a>')
 		);
-		
+
 		close.click($.fancybox.close);
 		loading.click($.fancybox.cancel);
 

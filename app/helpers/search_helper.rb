@@ -5,7 +5,7 @@ module SearchHelper
   def highlight_tokens(text, tokens)
     return text unless text && tokens && !tokens.empty?
     re_tokens = tokens.collect {|t| Regexp.escape(t)}
-    regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE    
+    regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
     result = ''
     text.split(regexp).each_with_index do |words, i|
       if result.length > 1200
@@ -23,11 +23,11 @@ module SearchHelper
     end
     result
   end
-  
+
   def type_label(t)
     l("label_#{t.singularize}_plural")
   end
-  
+
   def project_select_tag
     options = [[l(:label_project_all), 'all']]
     options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
@@ -35,7 +35,7 @@ module SearchHelper
     options << [@project.name, ''] unless @project.nil?
     select_tag('scope', options_for_select(options, params[:scope].to_s)) if options.size > 1
   end
-  
+
   def render_results_by_type(results_by_type)
     return unless results_by_type
     links = []

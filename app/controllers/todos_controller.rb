@@ -1,10 +1,10 @@
 class TodosController < ApplicationController
-  
+
   before_filter :find_issue, :only => [:index, :create, :update, :destroy ]
   before_filter :find_project, :authorize
-  ssl_required :all  
-  
-  
+  ssl_required :all
+
+
   # GET /todos
   # GET /todos.xml
   def index
@@ -92,13 +92,13 @@ class TodosController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   def find_issue
     @issue = Issue.find(params[:issue_id])
-  end  
-  
+  end
+
   def find_project
     @project = @issue.project
   end
-  
+
 end

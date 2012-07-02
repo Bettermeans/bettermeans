@@ -5,9 +5,9 @@ class MotionsController < ApplicationController
   before_filter :check_visibility_permission, :only => [:show]
   before_filter :require_admin, :only => [:edit, :update, :destroy]
   before_filter :authorize, :except => [:check_visibility_permission]
-  ssl_required :all  
-  
-  
+  ssl_required :all
+
+
   # GET /motions
   # GET /motions.xml
   def index
@@ -26,15 +26,15 @@ class MotionsController < ApplicationController
       render_403
       return false
     end
-    
+
     @motion.create_forum_topic if @motion.topic.nil?
-    
+
     @topic = @motion.topic
     @board = @topic.board
     @replies = @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}])
     @replies.reverse! if User.current.wants_comments_in_reverse_order?
     @reply = Message.new(:subject => "RE: #{@topic.subject}")
-    
+
 
     respond_to do |format|
       format.html # show.html.erb
@@ -46,7 +46,7 @@ class MotionsController < ApplicationController
   # GET /motions/new.xml
   def new
     @motion = Motion.new(params[:motion])
-    
+
     @concerned_user_list = Motion.eligible_users(@motion.variation, @project.id)
 
     respond_to do |format|
@@ -54,7 +54,7 @@ class MotionsController < ApplicationController
       format.xml  { render :xml => @motion }
     end
   end
-  
+
   def eligible_users
     @concerned_user_list = ""
     @variation = params[:variation].to_i
@@ -68,11 +68,11 @@ class MotionsController < ApplicationController
       when Motion::VARIATION_FIRE_CORE
         @concerned_user_list = @project.core_member_list
     end
-    
+
     @concerned_user_list = [] if @concerned_user_list == ""
     #remove current user from list
     @concerned_user_list.delete_if {|a| a.user_id == User.current.id}
-    
+
     render :layout => false
   end
 
@@ -87,7 +87,7 @@ class MotionsController < ApplicationController
     @motion.project_id = @project.id
     @motion.author_id = User.current.id
     @motion.params = params[:param]
-    
+
     respond_to do |format|
       if @motion.concerned_user == User.current
         format.html { redirect_with_flash :error, 'Cannot create a motion concerning yourself', :action => 'index' }
@@ -104,12 +104,12 @@ class MotionsController < ApplicationController
       end
     end
   end
-  
+
 
   # PUT /motions/1
   # PUT /motions/1.xml
   def update
-    
+
     respond_to do |format|
       if @motion.update_attributes(params[:motion])
         flash.now[:success] = 'Motion was successfully updated.'
@@ -132,7 +132,7 @@ class MotionsController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
+
   # Reply to a motion discussion
   def reply
     @topic = @motion.topic
@@ -147,15 +147,15 @@ class MotionsController < ApplicationController
   rescue
     404
   end
-  
-  
+
+
   def find_project
     @project = Project.find(params[:project_id]).root
     render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
+
   def find_motion
     @motion = Motion.find(params[:id])
     @project = @motion.project
@@ -163,14 +163,14 @@ class MotionsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-  
-  
+
+
   def check_visibility_permission
     if !User.current.allowed_to_see_motion?(@motion)
-       render_403 
+       render_403
        return false
     end
     return true
   end
-  
+
 end

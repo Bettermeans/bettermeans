@@ -2,11 +2,11 @@
 
 class VotesController < ApplicationController
 
-  # First, figure out our nested scope. User or issue? 
+  # First, figure out our nested scope. User or issue?
   before_filter :find_votes_for_my_scope, :only => [:index]
   ssl_required :all
-     
-  #TODO: figure out the equivalent of login_required in redmine and fix this line   
+
+  #TODO: figure out the equivalent of login_required in redmine and fix this line
   #before_filter :login_required, :only => [:new, :edit, :destroy, :create, :update]
   before_filter :must_own_vote,  :only => [:edit, :destroy, :update]
   before_filter :not_allowed,    :only => [:edit, :update, :new]
@@ -35,10 +35,10 @@ class VotesController < ApplicationController
     end
   end
 
-  # GET /users/:id/votes/new      
-  # GET /users/:id/votes/new.xml  
-  # GET /users/:id/votes/new      
-  # GET /users/:id/votes/new.xml  
+  # GET /users/:id/votes/new
+  # GET /users/:id/votes/new.xml
+  # GET /users/:id/votes/new
+  # GET /users/:id/votes/new.xml
   def new
     # Not generally used. Most people want to vote via AJAX calls.
   end
@@ -53,33 +53,33 @@ class VotesController < ApplicationController
   def create
 
     #TODO: Is there a way to cast the model from :voteable_type automatically?
-    #Depending on the type of voteable, we dig it up from a different model 
+    #Depending on the type of voteable, we dig it up from a different model
     case params[:voteable_type]
-      when "issue"    
-        @voteable = Issue.find(params[:issue_id])      
+      when "issue"
+        @voteable = Issue.find(params[:issue_id])
       when "journal"
-        @voteable = Journal.find(params[:journal_id])      
+        @voteable = Journal.find(params[:journal_id])
       when "message"
-        @voteable = Message.find(params[:message_id])      
+        @voteable = Message.find(params[:message_id])
       when "reply"
-        @voteable = Message.find(params[:reply_id])      
+        @voteable = Message.find(params[:reply_id])
       end
-    
-    
+
+
     respond_to do |format|
-      if User.current.vote(@voteable, params[:vote])      
-        # flash.now[:success] = 'Vote was successfully saved.'        
+      if User.current.vote(@voteable, params[:vote])
+        # flash.now[:success] = 'Vote was successfully saved.'
         format.js  { render :action => "create", :vote => @vote, :voteable_type => params[:voteable_type] }
         format.html { redirect_to([@voteable.author, @voteable]) }
         format.xml  { render :xml => @voteable, :status => :created, :location => @voteable }
       else
-        # flash.now[:error] = 'Error saving vote'        
+        # flash.now[:error] = 'Error saving vote'
         format.js  { render :action => "error" }
         format.html { render :action => "new" }
         format.xml  { render :xml => @vote.errors, :status => :unprocessable_entity }
       end
     end
-    
+
   end
 
   # PUT /users/:id/votes/1
@@ -87,7 +87,7 @@ class VotesController < ApplicationController
   def update
     # Not generally used
   end
-  
+
   # DELETE /users/:id/votes/1
   # DELETE /users/:id/votes/1.xml
   def destroy
@@ -105,8 +105,8 @@ class VotesController < ApplicationController
     if params[:issue_id]
       @votes = Vote.for_voteable(issue.find(params[:issue_id])).descending
     elsif params[:user_id]
-      @votes = Vote.for_voter(User.find(params[:user_id])).descending         
-    else  
+      @votes = Vote.for_voter(User.find(params[:user_id])).descending
+    else
       @votes = []
     end
   end

@@ -9,23 +9,23 @@
   <%= text_area_tag :emails, @emails, :class => 'wiki-edit', :rows => 10, :colums => 60 %><br><br >
   <label><%= l(:text_personalize_invitations) %></label>
   <%= text_area_tag :note, @note, :class => 'wiki-edit', :rows => 10, :colums => 60 %>
-  
-  
+
+
 </div>
 <div class="gt-right-col">
   <% @roles = Role.find(:all, :conditions => {:level => 1}, :order => "position DESC") %>
   <label><%= l(:text_invite_role_instruction) %> <%= collection_select( :invitation, :role_id, @roles, :id, :name, :selected => Role.contributor.id ) %></label>
-  
+
   <%= observe_field(:invitation_role_id, :frequency => 0.25, :function => "update_description();") %>
-  
+
   <%#= select(:invitation, :role_id, @roles.collect{|role| [role.name, role.id]}, :selected => Role.contributor.id) %>
   <div class="gt-content-box padded" id="role-description">
   </div>
-  
+
   <p>
     <%= submit_tag 'Send Invitations' %>
   </p>
-  
+
 </div>
 <% end %>
 
@@ -58,18 +58,18 @@
   <% @roles.each do |r| %>
     var <%= r.name.gsub(/ /,"_")  %>_description = "<%= l("text_role_invitation_description_#{r.name.gsub(/ /,"_")}") %>";
   <% end  %>
-  
+
   $(document).ready(function(){
     update_description();
   });
-  
+
   function update_description(){
     var id = $('#invitation_role_id').val();
     var name = $('#invitation_role_id option[value=\'' +  id + '\']').text();
     var html = "";
     html = html + "<strong>" + name + "</strong><br><br>";
     html = html + eval(name.replace(" ","_") + '_description') + "<br><br>";
-    
+
     $('#role-description').html(html);
   }
 </script>

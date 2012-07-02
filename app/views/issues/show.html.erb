@@ -8,7 +8,7 @@
             <div class="issue-content-wrapper">
               <span id="item_header"><h3 class="issue-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= @issue.subject %></h3>
                 </span>
-              
+
                 <div class="issue-body">
                     <p>
                       <%= textilizable @issue, :description, :attachments => @issue.attachments %>
@@ -18,7 +18,7 @@
                     </p>
 
                     <p>
-                      <strong><%=l(:label_attachment_plural)%></strong>                    
+                      <strong><%=l(:label_attachment_plural)%></strong>
                       <%= link_to_attachments_table @issue %>
                       <table id="files" class="attachments"></table>
                       <form id="file_upload" action="<%= url_for({:controller => :attachments, :action => :create, :container_id => @issue.id, :container_type => "Issue"}) %>" method="POST" enctype="multipart/form-data">
@@ -27,8 +27,8 @@
                           <a class="icon icon-attachment" href="#">Upload files</a>
                       </form>
                     </p>
-                    
-                    
+
+
                     <% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>
                     <div id="relations">
                     <%= render :partial => 'relations' %>
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="issue-meta">
             <div class="issue-meta-wrapper">
                 <div class="issue-image-area">
@@ -48,7 +48,7 @@
                   <% end %>
                   <div class="issue-image-paperclip-placeholder"></div>
                 </div>
-                
+
                 <div class="issue-meta-box first-box">
                     <h3 class="issue-meta-title"><%= l(:label_project) %></h3>
                     <span class="issue-meta-content"><%= link_to(@issue.project.name, {:controller => 'projects', :action => 'show', :id => @issue.project_id}) %> - #<%= @issue.id %></span>
@@ -94,7 +94,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </div>
 
@@ -140,8 +140,8 @@
 
 
 <div id='flyovers' style="display:none;">
-  
-  <% if !params[:update].nil? %>  
+
+  <% if !params[:update].nil? %>
     <%= javascript_tag 'showAndScrollTo("update", "attachments_1_file");' %>
   <% end %>
 
@@ -150,12 +150,12 @@
 <script type="text/javascript">
 
   projectId = <%= @project.id %>;
-  
+
   $('document').ready(function(){
     highest_pri = <%= @project.highest_pri %>
     show_item(<%= @issue.startable? %>);
     initialize();
-    
+
     $('.issue-tags').tagsInput({
        'autocomplete_url': '/projects/<%= @issue.project.id %>/all_tags',
        'autocomplete':{selectFirst:true,width:'100px',autoFill:true},
@@ -164,9 +164,9 @@
        'width':$('#issue_tags_container').width(),
        'defaultText':'add a tag'
     });
-    
+
     // $('.issue-tags').tagsInput();
-    
+
     $('#file_upload').fileUploadUI({
         uploadTable: $('#files'),
         downloadTable: $('#files'),
@@ -183,7 +183,7 @@
         }
     });
   });
-  
+
   function generate_comment(text){
     var html = '';
     html = html +  '      <div class="comment" id="change-new">';
@@ -211,7 +211,7 @@
     html = html +  '      </div>';
     return html;
   }
-  
+
   function post_comment(){
     // try{
   	  var text = $("#add-comment-textarea").val();
@@ -258,7 +258,7 @@
     //  return false;
     // }
   }
-  
+
   function show_item(startable){
   	timer_active = false;
   	D = [];
@@ -270,7 +270,7 @@
   	}
 
   }
-  
-  
-  
+
+
+
 </script>

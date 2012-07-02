@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
-  ssl_required :index  
+  ssl_required :index
   layout 'static'
   def index
     # render the landing page
@@ -15,12 +15,12 @@ class HomeController < ApplicationController
   def show
     render :action => params[:page]
   end
-  
+
   def robots
     @projects = Project.all_public.active
     render :layout => false, :content_type => 'text/plain'
   end
-  
+
 end
 
 #link_to 'About', home_path('about')

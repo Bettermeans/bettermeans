@@ -10,7 +10,7 @@ module Redmine
                   :search => '4',
                   :new_issue => '7'
                  }.freeze unless const_defined?(:ACCESSKEYS)
-                 
+
     def self.key_for(action)
       ACCESSKEYS[action]
     end

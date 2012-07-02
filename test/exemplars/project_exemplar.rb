@@ -3,7 +3,7 @@ class Project < ActiveRecord::Base
   generator_for :identifier, :method => :next_identifier_from_object_daddy
   generator_for :enabled_modules, :method => :all_modules
   generator_for :trackers, :method => :next_tracker
-  
+
   def self.next_name
     @last_name ||= 'Project 0'
     @last_name.succ!

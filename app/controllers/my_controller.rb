@@ -3,8 +3,8 @@
 
 class MyController < ApplicationController
   before_filter :require_login
-  ssl_required :all  
-  
+  ssl_required :all
+
 
   helper :issues
 
@@ -16,8 +16,8 @@ class MyController < ApplicationController
              'documents' => :label_document_plural
            }.merge(Redmine::Views::MyPage::Block.additional_blocks).freeze
 
-  DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'], 
-                      'right' => ['issuesreportedbyme'] 
+  DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'],
+                      'right' => ['issuesreportedbyme']
                    }.freeze
 
   verify :xhr => true,
@@ -33,7 +33,7 @@ class MyController < ApplicationController
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
   end
-  
+
   def projects
     project_ids = User.current.projects.collect{|p| p.id}.join(",")
     @all_projects = project_ids.any? ? Project.find(:all, :conditions => "(parent_id in (#{project_ids}) OR id in (#{project_ids})) AND (status=#{Project::STATUS_ACTIVE})") : []
@@ -41,28 +41,28 @@ class MyController < ApplicationController
     @belong_to_projects = User.current.belongs_to_projects
     @active_projects = User.current.active_memberships.collect(&:project)
   end
-  
+
   def issues
-    @assigned_issues = Issue.visible.open.find(:all, 
+    @assigned_issues = Issue.visible.open.find(:all,
                                     :conditions => {:assigned_to_id => User.current.id},
-                                    :include => [:project, :tracker ], 
+                                    :include => [:project, :tracker ],
                                     :order => "#{Issue.table_name}.subject ASC")
-                                    
-    @watched_issues = Issue.visible.find(:all, 
+
+    @watched_issues = Issue.visible.find(:all,
                                      :include => [:project, :tracker, :watchers],
                                      :conditions => ["#{Watcher.table_name}.user_id = ?", User.current.id],
                                      :order => "#{Issue.table_name}.subject ASC")
 
-     @joined_issues = Issue.visible.find(:all, 
+     @joined_issues = Issue.visible.find(:all,
                                       :include => [:project, :tracker, :issue_votes],
                                       :conditions => ["#{IssueVote.table_name}.user_id = ? AND #{IssueVote.table_name}.vote_type = ? AND #{Issue.table_name}.assigned_to_id != ? AND #{Issue.table_name}.status_id = ?", User.current.id, IssueVote::JOIN_VOTE_TYPE, User.current.id, IssueStatus.assigned.id],
                                       :order => "#{Issue.table_name}.subject ASC")
 
-    @added_issues = Issue.visible.open.find(:all, 
+    @added_issues = Issue.visible.open.find(:all,
                                     :conditions => {:author_id => User.current.id},
-                                    :include => [:project, :tracker ], 
+                                    :include => [:project, :tracker ],
                                     :order => "#{Issue.table_name}.created_at DESC")
-                                    
+
     @recent_issues = User.current.recent_items(30)
 
   end
@@ -73,7 +73,7 @@ class MyController < ApplicationController
     @pref = @user.pref
     if request.post?
       cc = params[:user][:b_cc_last_four]
-      
+
       if cc && cc.length > 14
         cc.gsub!(/[^0-9]/,'')
         params[:user][:b_cc_last_four] = ("XXXX-") + params[:user][:b_cc_last_four][cc.length-4,cc.length-1] if cc.length > 14
@@ -82,18 +82,18 @@ class MyController < ApplicationController
       @user.login = params[:user][:login]
       logger.info { "@user.attributes #{@user.attributes.inspect}" }
       @user.mail_notification = (params[:notification_option] == 'all')
-      
+
       logger.info { "params[:pref] #{params[:pref].inspect}" }
       @user.pref.attributes = params[:pref]
       logger.info { "@user.pref.attributes #{@user.pref.inspect}" }
       logger.info { "params[:active_only_jumps] #{params[:active_only_jumps]}  and boolean #{params[:active_only_jumps] == '1'}" }
-      
+
       @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       @user.pref[:daily_digest] = (params[:daily_digest] == '1')
       @user.pref[:no_emails] = (params[:no_emails] == '1')
       @user.pref[:hide_mail] = (params[:pref][:hide_mail] == '1')
       @user.pref[:active_only_jumps] = (params[:pref][:active_only_jumps] == '1')
-      
+
       logger.info { "user pref #{@user.pref.inspect}" }
       if @user.save
         @user.pref.save
@@ -110,14 +110,14 @@ class MyController < ApplicationController
     # Only users that belong to more than 1 project can select projects for which they are notified
     # Note that @user.membership.size would fail since AR ignores :include association option when doing a count
     # @notification_options.insert 1, [l(:label_user_mail_option_selected), 'selected'] if @user.memberships.length > 1
-    @notification_option = @user.mail_notification? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')    
+    @notification_option = @user.mail_notification? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')
   end
-  
+
   def upgrade
     @user = User.current
     @plans = Plan.all
     @selected_plan = @user.plan
-    
+
     if request.post?
       cc = params[:user][:b_cc_last_four]
       cc.gsub!(/[^0-9]/,'')
@@ -127,15 +127,15 @@ class MyController < ApplicationController
       else
         params[:user].delete :b_cc_last_four
       end
-      
+
       logger.info { "inspect #{params.inspect}" }
-      
+
       @new_plan = Plan.find(params[:user][:plan_id])
       @user.attributes = params[:user]
       @user.plan_id = @user.plan.id #not upgrading yet
-          
+
       account = User.update_recurly_billing @user.id, cc, params[:ccverify], request.remote_ip
-      
+
       @user.save
 
       if defined? account.billing_info && defined? account.billing_info.errors
@@ -144,7 +144,7 @@ class MyController < ApplicationController
           return
         end
       end
-      
+
       if @new_plan.code == Plan::FREE_CODE && @new_plan.code != @selected_plan.code
         begin
           sub = Recurly::Subscription.find(@user.id.to_s)
@@ -152,7 +152,7 @@ class MyController < ApplicationController
         # rescue ActiveResource::ResourceNotFound
         #   sub = Recurly::Subscription.create(
         #     :account_code => account.account_code,
-        #     :plan_code => @new_plan.code, 
+        #     :plan_code => @new_plan.code,
         #     :quantity => 1,
         #     :account => account
         #   )
@@ -189,7 +189,7 @@ class MyController < ApplicationController
           logger.info { "trial #{trial_expiration}" }
           sub = Recurly::Subscription.create(
             :account_code => account.account_code,
-            :plan_code => @new_plan.code, 
+            :plan_code => @new_plan.code,
             :quantity => 1,
             :account => account
             # , :trial_ends_at => trial_expiration
@@ -203,7 +203,7 @@ class MyController < ApplicationController
           @user.trial_expires_on = nil
           @user.trial_expired_at = nil
         end
-        
+
         if sub.errors && sub.errors.any?
           flash.now[:error] = sub.errors.collect {|k, v| "#{v}"}.join('<br>')
           @user.reload
@@ -220,9 +220,9 @@ class MyController < ApplicationController
         flash.now[:success] = l(:notice_account_updated) + " No changes were made to your plan"
       end
       @user.reload
-      
+
       return
-    end    
+    end
   end
 
   # Manage user's password
@@ -245,7 +245,7 @@ class MyController < ApplicationController
       end
     end
   end
-  
+
   # Create a new feeds key
   def reset_rss_key
     if request.post?
@@ -279,7 +279,7 @@ class MyController < ApplicationController
     @block_options = []
     BLOCKS.each {|k, v| @block_options << [l("my.blocks.#{v}", :default => [v, v.to_s.humanize]), k.dasherize]}
   end
-  
+
   # Add a block to user's page
   # The block is added on top of the page
   # params[:block] : id of the block to add
@@ -293,10 +293,10 @@ class MyController < ApplicationController
     # add it on top
     layout['top'].unshift block
     @user.pref[:my_page_layout] = layout
-    @user.pref.save 
+    @user.pref.save
     render :partial => "block", :locals => {:user => @user, :block_name => block}
   end
-  
+
   # Remove a block to user's page
   # params[:block] : id of the block to remove
   def remove_block
@@ -306,7 +306,7 @@ class MyController < ApplicationController
     layout = @user.pref[:my_page_layout] || {}
     %w(top left right).each {|f| (layout[f] ||= []).delete block }
     @user.pref[:my_page_layout] = layout
-    @user.pref.save 
+    @user.pref.save
     render :nothing => true
   end
 
@@ -326,7 +326,7 @@ class MyController < ApplicationController
         }
         layout[group] = group_items
         @user.pref[:my_page_layout] = layout
-        @user.pref.save 
+        @user.pref.save
       end
     end
     render :nothing => true

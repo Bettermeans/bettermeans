@@ -4,7 +4,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class MailHandlerTest < ActiveSupport::TestCase
-  fixtures :users, :projects, 
+  fixtures :users, :projects,
                    :enabled_modules,
                    :roles,
                    :members,
@@ -20,13 +20,13 @@ class MailHandlerTest < ActiveSupport::TestCase
                    :custom_fields_trackers,
                    :boards,
                    :messages
-  
+
   FIXTURES_PATH = File.dirname(__FILE__) + '/../fixtures/mail_handler'
-  
+
   def setup
     ActionMailer::Base.deliveries.clear
   end
-  
+
   def test_add_issue
     ActionMailer::Base.deliveries.clear
     # This email contains: 'Project: onlinestore'
@@ -57,7 +57,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal Project.find(2), issue.project
     assert_equal IssueStatus.find_by_name("Resolved"), issue.status
   end
-  
+
   def test_add_issue_with_attributes_override
     issue = submit_email('ticket_with_attributes.eml', :allow_override => 'tracker,category,priority')
     assert issue.is_a?(Issue)
@@ -71,7 +71,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Urgent', issue.priority.to_s
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
-  
+
   def test_add_issue_with_partial_attributes_override
     issue = submit_email('ticket_with_attributes.eml', :issue => {:priority => 'High'}, :allow_override => ['tracker'])
     assert issue.is_a?(Issue)
@@ -85,7 +85,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'High', issue.priority.to_s
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
-  
+
   def test_add_issue_with_spaces_between_attribute_and_separator
     issue = submit_email('ticket_with_spaces_between_attribute_and_separator.eml', :allow_override => 'tracker,category,priority')
     assert issue.is_a?(Issue)
@@ -100,7 +100,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.description.include?('Lorem ipsum dolor sit amet, consectetuer adipiscing elit.')
   end
 
-  
+
   def test_add_issue_with_attachment_to_specific_project
     issue = submit_email('ticket_with_attachment.eml', :issue => {:project => 'onlinestore'})
     assert issue.is_a?(Issue)
@@ -116,7 +116,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'image/jpeg', issue.attachments.first.content_type
     assert_equal 10790, issue.attachments.first.filesize
   end
-  
+
   def test_add_issue_with_custom_fields
     issue = submit_email('ticket_with_custom_fields.eml', :issue => {:project => 'onlinestore'})
     assert issue.is_a?(Issue)
@@ -126,7 +126,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Value for a custom field', issue.custom_value_for(CustomField.find_by_name('Searchable field')).value
     assert !issue.description.match(/^searchable field:/i)
   end
-  
+
   def test_add_issue_with_cc
     issue = submit_email('ticket_with_cc.eml', :issue => {:project => 'ecookbook'})
     assert issue.is_a?(Issue)
@@ -135,13 +135,13 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.watched_by?(User.find_by_mail('dlopper@somenet.foo'))
     assert_equal 1, issue.watchers.size
   end
-  
+
   def test_add_issue_by_unknown_user
     assert_no_difference 'User.count' do
       assert_equal false, submit_email('ticket_by_unknown_user.eml', :issue => {:project => 'ecookbook'})
     end
   end
-  
+
   def test_add_issue_by_anonymous_user
     Role.anonymous.add_permission!(:add_issues)
     assert_no_difference 'User.count' do
@@ -150,7 +150,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert issue.author.anonymous?
     end
   end
-  
+
   def test_add_issue_by_anonymous_user_on_private_project
     Role.anonymous.add_permission!(:add_issues)
     assert_no_difference 'User.count' do
@@ -159,7 +159,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       end
     end
   end
-  
+
   def test_add_issue_by_anonymous_user_on_private_project_without_permission_check
     assert_no_difference 'User.count' do
       assert_difference 'Issue.count' do
@@ -170,7 +170,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       end
     end
   end
-  
+
   def test_add_issue_by_created_user
     Setting.default_language = 'en'
     assert_difference 'User.count' do
@@ -180,7 +180,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert_equal 'john.doe@somenet.foo', issue.author.mail
       assert_equal 'John', issue.author.firstname
       assert_equal 'Doe', issue.author.lastname
-    
+
       # account information
       email = ActionMailer::Base.deliveries.first
       assert_not_nil email
@@ -190,7 +190,7 @@ class MailHandlerTest < ActiveSupport::TestCase
       assert_equal issue.author, User.try_to_login(login, password)
     end
   end
-  
+
   def test_add_issue_without_from_header
     Role.anonymous.add_permission!(:add_issues)
     assert_equal false, submit_email('ticket_without_from_header.eml')
@@ -210,7 +210,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert issue.is_a?(Issue)
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
-  
+
   def test_add_issue_note
     journal = submit_email('ticket_reply.eml')
     assert journal.is_a?(Journal)
@@ -236,7 +236,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert journal.is_a?(Journal)
     assert_equal 1, ActionMailer::Base.deliveries.size
   end
-  
+
   def test_reply_to_a_message
     m = submit_email('message_reply.eml')
     assert m.is_a?(Message)
@@ -246,7 +246,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     # The email replies to message #2 which is part of the thread of message #1
     assert_equal Message.find(1), m.parent
   end
-  
+
   def test_reply_to_a_message_by_subject
     m = submit_email('message_reply_by_subject.eml')
     assert m.is_a?(Message)
@@ -255,7 +255,7 @@ class MailHandlerTest < ActiveSupport::TestCase
     assert_equal 'Reply to the first post', m.subject
     assert_equal Message.find(1), m.parent
   end
-  
+
   def test_should_strip_tags_of_html_only_emails
     issue = submit_email('ticket_html_only.eml', :issue => {:project => 'ecookbook'})
     assert issue.is_a?(Issue)
@@ -312,7 +312,7 @@ class MailHandlerTest < ActiveSupport::TestCase
   end
 
   private
-  
+
   def submit_email(filename, options={})
     raw = IO.read(File.join(FIXTURES_PATH, filename))
     MailHandler.receive(raw, options)

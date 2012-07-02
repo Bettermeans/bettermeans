@@ -5,7 +5,7 @@
 require File.dirname(__FILE__) + '/../../../test_helper'
 
 class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
-  
+
   def setup
   end
 
@@ -15,12 +15,12 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
     assert_equal 4, diff.size
     assert diff.detect {|file| file.file_name =~ %r{^config/settings.yml}}
   end
-  
+
   def test_truncate_diff
     diff = Redmine::UnifiedDiff.new(read_diff_fixture('subversion.diff'), :max_lines => 20)
     assert_equal 2, diff.size
   end
-  
+
   def test_line_starting_with_dashes
     diff = Redmine::UnifiedDiff.new(<<-DIFF
 --- old.txt Wed Nov 11 14:24:58 2009
@@ -32,13 +32,13 @@ class Redmine::UnifiedDiffTest < ActiveSupport::TestCase
 --- file.c
 -------------------------
 +A line that starts with dashes:
- 
+
  and removed.
- 
+
 @@ -23,4 +19,4 @@
- 
- 
- 
+
+
+
 -Another chunk of change
 +Another chunk of changes
 
@@ -48,7 +48,7 @@ DIFF
   end
 
   private
-  
+
   def read_diff_fixture(filename)
     File.new(File.join(File.dirname(__FILE__), '/../../../fixtures/diffs', filename)).read
   end

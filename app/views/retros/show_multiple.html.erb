@@ -1,7 +1,7 @@
 <h2>Retrospective #<%= @retro.id %> : <%= @total_points %> Points (<%= format_date(@retro.from_date) %> to <%= format_date(@retro.to_date) %>)</h2>
 
 
-<% 
+<%
   @user_retro_hash.keys.each do |user_id|
     user_retro = @user_retro_hash[user_id]
 %>
@@ -9,21 +9,21 @@
     <h4><%= link_to_user_from_id(user_id) %></h4>
     <table class="retrospective"><tr><td class="stats">
     <%= user_retro["total_points"] %> points (<%= user_retro["percentage_points"] %>%) <br>
-    <%= user_retro["total_journals"] %> journals <br>      
-    <%= user_retro["total_votes"] %> votes <br>      
+    <%= user_retro["total_journals"] %> journals <br>
+    <%= user_retro["total_votes"] %> votes <br>
     </td>
     <% if user_retro["issues"].length > 0 %>
     <td class="issues">
     <% user_retro["issues"].each do |issue| %>
     <%= link_to_issue(issue) %>  - <%= issue.points %> pts  <br>
-    <% end %>    
+    <% end %>
     </td>
     <% end %>
     </tr></table>
     <!-- <br> -->
     <%# user_retro["journals"].each do |journal| %>
     <%#= journal.inspect %>
-    <%# end %>    
+    <%# end %>
     <br>
   </div>
 <% end %>
@@ -36,13 +36,13 @@
   <% @chart_width = @point_totals.length*70 + 50
    @chart_width = 1000 if @chart_width > 1000
    %>
-  
+
   <img src="<%= Gchart.bar(
-              :data => [@point_totals, @vote_totals, @journal_totals], 
+              :data => [@point_totals, @vote_totals, @journal_totals],
               :bar_colors => 'EA7235,757668,E3A34D',
               #:horizontal => 'true',
               :stacked => false,
-              :orientation => 'vertical', 
+              :orientation => 'vertical',
               :size => "#{@chart_width}x200",
               :axis_with_labels => 'x',
               :axis_labels => @axis_labels,
@@ -56,22 +56,22 @@
 <br>
 <br>
 <div align="center">
-  <img src="<%=  Gchart.pie(:title => 'Points', 
+  <img src="<%=  Gchart.pie(:title => 'Points',
                  :size => '400x200',
                  :data => @pie_data_points, :labels => @pie_labels_points )
-   %>"/> 
+   %>"/>
    <br>
    <br>
-   <img src="<%=  Gchart.pie(:title => 'Journals', 
+   <img src="<%=  Gchart.pie(:title => 'Journals',
                   :size => '400x200',
                   :data => @pie_data_journals, :labels => @pie_labels_journals )
-    %>"/> 
+    %>"/>
     <br>
     <br>
-    <img src="<%=  Gchart.pie(:title => 'Votes', 
+    <img src="<%=  Gchart.pie(:title => 'Votes',
                    :size => '400x200',
                    :data => @pie_data_votes, :labels => @pie_labels_votes )
-     %>"/> 
+     %>"/>
      <br>
      <br>
 </div>

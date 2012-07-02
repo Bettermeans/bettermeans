@@ -11,7 +11,7 @@
     <p class="nodata"><%= l(:label_no_data) %></p>
     <% else %>
       <% @notifications.each do |@notification| %>
-          <%= render :partial => @notification.variation, 
+          <%= render :partial => @notification.variation,
                     :locals => @notification.params %>
       <% end %>
     <% end %>
@@ -28,7 +28,7 @@
       <p class="nodata"><%= l(:label_no_mention) %></p>
       <% else %>
         <% @mentions.each do |@mention| %>
-            <%= render :partial => @mention.variation, 
+            <%= render :partial => @mention.variation,
                       :locals => @mention.params %>
         <% end %>
       <% end %>

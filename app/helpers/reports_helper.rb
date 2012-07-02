@@ -2,7 +2,7 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 module ReportsHelper
-  
+
   def aggregate(data, criteria)
     a = 0
     data.each { |row|
@@ -14,9 +14,9 @@ module ReportsHelper
     } unless data.nil?
     a
   end
-  
+
   def aggregate_link(data, criteria, *args)
     a = aggregate data, criteria
     a > 0 ? link_to(a, *args) : '-'
-  end  
+  end
 end

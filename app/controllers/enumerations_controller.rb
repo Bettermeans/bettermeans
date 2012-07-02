@@ -3,7 +3,7 @@
 
 class EnumerationsController < ApplicationController
   layout 'admin'
-  
+
   before_filter :require_admin
   ssl_required :all
 
@@ -23,7 +23,7 @@ class EnumerationsController < ApplicationController
     begin
       @enumeration = params[:type].constantize.new
     rescue NameError
-      @enumeration = Enumeration.new      
+      @enumeration = Enumeration.new
     end
   end
 
@@ -52,7 +52,7 @@ class EnumerationsController < ApplicationController
       render :action => 'edit'
     end
   end
-  
+
   def destroy
     @enumeration = Enumeration.find(params[:id])
     if !@enumeration.in_use?

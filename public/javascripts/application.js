@@ -2,7 +2,7 @@
    Copyright (C) 2006-2011  See readme for details and license */
 
 var jumpbox_text = "";
-var community_members = {}; //used by @mention autocomplete 
+var community_members = {}; //used by @mention autocomplete
 
 function initialize(){
 	arm_fancybox();
@@ -20,8 +20,8 @@ function arm_fancybox(){
 	   return;
 	}
 	$("a.fancyframe").fancybox({
-			'speedIn'		:	0, 
-			'speedOut'		:	0, 
+			'speedIn'		:	0,
+			'speedOut'		:	0,
 			'overlayShow'	:	true,
 			'width'				: '90%',
 			'height'			: '95%',
@@ -59,9 +59,9 @@ function prep_jumpbox(){
 	jumpbox_text = $('#jumpbox :selected').text();
 	$('#jumpbox :selected').text($.trim($('#jumpbox :selected').text()));
 	adjust_jumpbox_width();
-	
+
 	$('#jumpbox').focus(function(){
-		$('#jumpbox :selected').text(jumpbox_text);				
+		$('#jumpbox :selected').text(jumpbox_text);
 		//adjust_jumpbox_width();
 		 $('#jumpbox').width('auto');
 	});
@@ -69,7 +69,7 @@ function prep_jumpbox(){
 		$('#jumpbox :selected').text($.trim($('#jumpbox :selected').text()));
 		$('#jumpbox').css('background','#323232');
 		adjust_jumpbox_width();
-		
+
 	});
 	$('#jumpbox').change(function(){
 		$('#jumpbox :selected').text($.trim($('#jumpbox :selected').text()));
@@ -97,7 +97,7 @@ function show_fancybox(url,message){
 				'type'				: 'iframe',
 				'href'				: url
 		});
-		
+
 	$('#fancybox-frame').load(function(){
 		 	$('#fancy-loading').hide();
 			$("#fancybox-frame").contents().find("a[href*=/]").not("a[target*=top]").attr('target', '_blank');
@@ -151,7 +151,7 @@ function addFileField() {
     d.type = "text";
     d.name = "attachments[" + fileFieldCount + "][description]";
     d.size = 60;
-    
+
     p = document.getElementById("attachments_fields");
     p.appendChild(document.createElement("br"));
     p.appendChild(f);
@@ -316,15 +316,15 @@ function url_for(options){
   var url = '/' + options['controller'] ;
   if(options['id']!=null) url += "/" + options['id'];
 	if(options['action']!=null && options['action'].match(/index/)==null) url += '/' + options['action'];
-  
-  // var keys = Object.keys(options).select(function(key){ return (key!="controller" && key!="action" && key!="id"); });    
+
+  // var keys = Object.keys(options).select(function(key){ return (key!="controller" && key!="action" && key!="id"); });
   // if(keys.length>0) url += "?";
-  // 
+  //
   // keys.each(function(key, index){
   //   url += key + "=" + options[key];
   //   if(index<keys.length-1) url += "&";
   // });
-  
+
   return url;
 }
 
@@ -333,7 +333,7 @@ function url_for(options){
 // with their equivalent html counter parts
 //
 function h(s) {
-  var escaped = s;  
+  var escaped = s;
   escaped = escaped.replace(/\r\n/g, "xxxxxx11");
   escaped = escaped.replace(/\n/g, "xxxxxx11");
   escaped = escaped.replace(/<br>/g, "xxxxxx11");
@@ -356,11 +356,11 @@ function text_only(text){
 function display_sparks(){
 	$('.spark').each(function(){
 	$(this).show();
-	
+
 	if(!$(this).attr('max')){
 		return;
 	}
-	
+
 	var max = parseFloat($(this).attr('max'));
 	if (max > 15){
 		max = 15;
@@ -368,16 +368,16 @@ function display_sparks(){
 	if (max == 0){
 		max = 1;
 	}
-	
+
 	$(this).sparkline('html', {type: 'bar' , barColor: 'grey', chartRangeMax: max, height: 15});
 
 	if ($(this).is(":visible")){
-		$(this).removeAttr("max"); //so we don't sparkline it again		
+		$(this).removeAttr("max"); //so we don't sparkline it again
 	}
 
-	
+
 	// $(this).removeClass("spark");
-	
+
 	// if (isNaN(max)){
 	// 		$(this).sparkline('html', {type: 'bar' , barColor: 'grey'});
 	// 	}
@@ -396,7 +396,7 @@ function display_sparks(){
 // }
 
 function humane_date(date_str){
-		
+
       var time_formats = [
               [60, 'Just Now'],
               [90, '1 Minute'], // 60*1.5
@@ -495,7 +495,7 @@ function comment_prompt_to_remote(dataId,title,message,param,url,required){
 				'showCloseButton' : false,
 				'modal' : true,
 				'href'	: '#comment_prompt'
-		});	
+		});
 
 	$('#prompt_comment_' + dataId).focus();
 }
@@ -683,7 +683,7 @@ if(stop) stop();
       str = $.fn.getGravatar.utf8_encode(str);
       x = convertToWordArray(str);
       a = 0x67452301; b = 0xEFCDAB89; c = 0x98BADCFE; d = 0x10325476;
-  
+
       xl = x.length;
       for (k=0;k<xl;k+=16) {
           AA=a; BB=b; CC=c; DD=d;
@@ -826,22 +826,22 @@ stop: null
  * bubbletip
  *
  * Copyright (c) 2009, UhLeeKa
- * Version: 
+ * Version:
  *      1.0.4
  * Licensed under the GPL license:
  *     http://www.gnu.org/licenses/gpl.html
- * Author Website: 
+ * Author Website:
  *     http://www.uhleeka.com
- * Description: 
+ * Description:
  *     A bubble-styled tooltip extension
  *      - multiple tips on a page
- *      - multiple tips per jQuery element 
+ *      - multiple tips per jQuery element
  *      - tips open outward in four directions:
  *         - up
  *         - down
  *         - left
  *         - right
- *      - tips can be: 
+ *      - tips can be:
  *         - anchored to the triggering jQuery element
  *         - absolutely positioned
  *         - opened at the current mouse coordinates
@@ -852,7 +852,7 @@ stop: null
 	var mouse_over_bubble = false;
 	$.fn.extend({
 		bubbletip: function(tip, options) {
-			// check to see if the tip is a descendant of 
+			// check to see if the tip is a descendant of
 			// a table.bubbletip element and therefore
 			// has already been instantiated as a bubbletip
 			if ($('table.bubbletip #' + $(tip).id).length > 0) {
@@ -864,7 +864,7 @@ stop: null
 			_this = $(this);
 			_tip = $(tip);
 			_bindIndex = bindIndex++;  // for window.resize namespace binding
-			
+
 			var _options = {
 				positionAt: 'element', // element | body | mouse
 				positionAtElement: _this,
@@ -882,7 +882,7 @@ stop: null
 			if (options) {
 				_options = $.extend(_options, options);
 			}
-						
+
 
 			// calculated values
 			_calc = {
@@ -922,7 +922,7 @@ stop: null
 			_Calculate(true);
 
 
-			
+
 			show_tip();
 
 
@@ -931,11 +931,11 @@ stop: null
 			$('.bubbletip').bind('mouseover',function(){
 				mouse_over_bubble = true;
 			});
-			
+
 			$('.bubbletip').bind('mouseout', function() {
-							mouse_over_bubble = false; //BUGBUG: change to false 
+							mouse_over_bubble = false; //BUGBUG: change to false
 			});
-				
+
 			$([_wrapper.get(0), this.get(0)]).bind(_calc.bindHide, function() {
 							if (_timeoutAnimate) {
 								clearTimeout(_timeoutAnimate);
@@ -948,12 +948,12 @@ stop: null
 									 // $('.bubbletip').remove();
 									//removeBubbletip(tip);
 								}
-			
+
 							}, _options.delayHide);
-			
+
 							return false;
 						});
-						
+
 			function show_tip(){
 				if (_timeoutAnimate) {
 					clearTimeout(_timeoutAnimate);
@@ -1002,17 +1002,17 @@ stop: null
 						_wrapper.css('opacity', '');
 						_isActive = true;
 						// $('.bubbletip').remove();
-						
+
 					});
 				}, _options.delayShow);
-				
+
 			}
-						
+
 			function create_wrapper(noTip){
 				if (noTip)
 				{
 					_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left"></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
-					
+
 				}
 				else
 				{
@@ -1026,12 +1026,12 @@ stop: null
 						_wrapper = $('<table class="bubbletip" cellspacing="0" cellpadding="0"><tbody><tr><td class="bt-topleft"></td><td class="bt-top"></td><td class="bt-topright"></td></tr><tr><td class="bt-left-tail"><div class="bt-left"></div><div class="bt-left-tail"></div><div class="bt-left"></div></td><td class="bt-content"></td><td class="bt-right"></td></tr><tr><td class="bt-bottomleft"></td><td class="bt-bottom"></td><td class="bt-bottomright"></td></tr></tbody></table>');
 					}
 				}
-				
-				
+
+
 				// append the wrapper to the document body
 				_wrapper.appendTo('body');
 				_wrapper.width(_tip.width() + 66);
-				
+
 				// apply IE filters to _wrapper elements
 				if ((/msie/.test(navigator.userAgent.toLowerCase())) && (!/opera/.test(navigator.userAgent.toLowerCase()))) {
 					$('*', _wrapper).each(function() {
@@ -1072,10 +1072,10 @@ stop: null
 				// set the opacity of the wrapper to 0
 				_wrapper.css('opacity', 0);
 				// execute initial calculations
-				
-				
+
+
 			}
-						
+
 			function _HideWrapper() {
 				var animation;
 
@@ -1097,16 +1097,16 @@ stop: null
 				_wrapper.animate(animation, _options.animationDuration, _options.animationEasing, function() {
 					_wrapper.hide();
 					_isHiding = false;
-					_tip.appendTo('body');	
-					_tip.hide();	
-					_wrapper.hide();			
+					_tip.appendTo('body');
+					_tip.hide();
+					_wrapper.hide();
 					_wrapper.addClass('oldbubble');
 					$('.oldbubble').hide();
 				});
 			};
 
 			function _Calculate(firstTime) {
-				
+
 				// calculate values
 				if (_options.positionAt.match(/^element$/i)) {
 					var offset = _options.positionAtElement.offset();
@@ -1162,40 +1162,40 @@ stop: null
 						_calc.delta = -_options.deltaPosition;
 					}
 				}
-				
+
 				//Flip
 				//first handle corners
-				
+
 				// //bottom right
 				// if (((_calc.left + _wrapper.width()) > $(window).width())&&((_calc.top + _wrapper.height()) > $(window).height())){
 				// 	create_wrapper(true);
 				//  	_calc.top = $(window).height() - _wrapper.height();
 				// 	_calc.left = $(window).width() - _wrapper.width();
 				// }
-				// 
+				//
 				// //bottom left
 				// if ((_calc.left < 0)&&((_calc.top + _wrapper.height()) > $(window).height())){
 				// 	create_wrapper(true);
 				//  	_calc.top = $(window).height() - _wrapper.height();
 				// 	_calc.left = 0;
 				// }
-				// 
+				//
 				// //top right
 				// if (((_calc.left + _wrapper.width()) > $(window).width())&&((_calc.top < 0))){
 				// 	create_wrapper(true);
 				//  	_calc.top = 0;
 				// 	_calc.left = $(window).width() - _wrapper.width();
 				// }
-				// 
+				//
 				// //top left
 				// if ((_calc.left < 0)&&(_calc.top < 0 )){
 				// 	create_wrapper(true);
 				//  	_calc.top = 0;
 				// 	_calc.left = 0;
 				// }
-				
-				
-				
+
+
+
 				if (_calc.top < 0){
 					_options.deltaDirection = "down";
 					if (firstTime)
@@ -1215,7 +1215,7 @@ stop: null
 						return false;
 					}
 				}
-				
+
 				if ((_calc.left + _wrapper.width()) > $(window).width()){
 					_options.deltaDirection = "left";
 					if (firstTime)
@@ -1235,13 +1235,13 @@ stop: null
 						return false;
 					}
 				}
-				
+
 				//Nudge edges
 				if ((_calc.left + _wrapper.width()) > $(window).width()){
 				 	create_wrapper(true);
 				 	_calc.left = $(window).width() - _wrapper.width();
 				}
-				
+
 				// if ((_calc.top + _wrapper.height()) > $(window).height()){
 				//  	create_wrapper(true);
 				//   	_calc.top = $(window).height() - _wrapper.height();
@@ -1256,15 +1256,15 @@ stop: null
 				 	create_wrapper(true);
 				  	_calc.top = 0;
 				}
-				
 
 
-				
+
+
 				// hide
 				_wrapper.hide();
 				_wrapper.addClass('oldbubble');
 				$('.oldbubble').hide();
-				
+
 				// handle the wrapper (element|body) positioning
 				if (_options.positionAt.match(/^element|body$/i)) {
 					_wrapper.css({
@@ -1273,7 +1273,7 @@ stop: null
 						'left': _calc.left + 'px'
 					});
 				}
-				
+
 				return true;
 			};
 			return this;
@@ -1284,21 +1284,21 @@ stop: null
 		// 				var tipsToRemove = new Array();
 		// 				var arr, i, ix;
 		// 				var elem;
-		// 			
+		//
 		// 				tipsActive = $.makeArray($(this).data('bubbletip_tips'));
-		// 			
+		//
 		// 				// convert the parameter array of tip id's or elements to id's
 		// 				arr = $.makeArray(tips);
 		// 				for (i = 0; i < arr.length; i++) {
 		// 					tipsToRemove.push($(arr[i]).get(0).id);
 		// 				}
-		// 			
+		//
 		// 				for (i = 0; i < tipsActive.length; i++) {
 		// 					ix = null;
 		// 					if ((tipsToRemove.length == 0) || ((ix = $.inArray(tipsActive[i][0], tipsToRemove)) >= 0)) {
 		// 						// remove all tips if there are none specified
 		// 						// otherwise, remove only specified tips
-		// 			
+		//
 		// 						// find the surrounding table.bubbletip
 		// 						elem = $('#' + tipsActive[i][0]).get(0).parentNode;
 		// 						while (elem.tagName.toLowerCase() != 'table') {
@@ -1308,15 +1308,15 @@ stop: null
 		// 						$(tipsActive[i][0]).appendTo('body').hide();
 		// 						// remove the surrounding table.bubbletip
 		// 						$(elem).remove();
-		// 			
+		//
 		// 						// unbind show/hide events
 		// 						$(this).unbind(tipsActive[i][1]).unbind([i][2]);
-		// 			
+		//
 		// 						// unbind window.resize event
 		// 						$(window).unbind('resize.bubbletip' + tipsActive[i][3]);
 		// 					}
 		// 				}
-		// 			
+		//
 		// 				return this;
 		// 			}
 	});
@@ -1486,7 +1486,7 @@ stop: null
 	 {
 	 /**
 	  *
-	  * timer() provides a cleaner way to handle intervals  
+	  * timer() provides a cleaner way to handle intervals
 	  *
 	  *	@usage
 	  * $.timer(interval, callback);
@@ -1498,7 +1498,7 @@ stop: null
 	  * 	timer.stop();
 	  * });
 	  * @desc Show an alert box after 1 second and stop
-	  * 
+	  *
 	  * @example
 	  * var second = false;
 	  *	$.timer(1000, function (timer) {
@@ -1514,7 +1514,7 @@ stop: null
 	  *	});
 	  * @desc Show an alert box after 1 second and show another after 3 seconds
 	  *
-	  * 
+	  *
 	  */
 
 		var interval = interval || 100;
@@ -1547,8 +1547,8 @@ stop: null
 
 		return new _timer(interval, callback);
 	 };
-	
-	
+
+
 	/*
 	*
 	* Copyright (c) 2006-2008 Sam Collett (http://www.texotela.co.uk)
@@ -1563,8 +1563,8 @@ stop: null
 	*
 	*/
 	;(function(h){h.fn.addOption=function(){var j=function(a,f,c,g){var d=document.createElement("option");d.value=f,d.text=c;var b=a.options;var e=b.length;if(!a.cache){a.cache={};for(var i=0;i<e;i++){a.cache[b[i].value]=i}}if(typeof a.cache[f]=="undefined")a.cache[f]=e;a.options[a.cache[f]]=d;if(g){d.selected=true}};var k=arguments;if(k.length==0)return this;var l=true;var m=false;var n,o,p;if(typeof(k[0])=="object"){m=true;n=k[0]}if(k.length>=2){if(typeof(k[1])=="boolean")l=k[1];else if(typeof(k[2])=="boolean")l=k[2];if(!m){o=k[0];p=k[1]}}this.each(function(){if(this.nodeName.toLowerCase()!="select")return;if(m){for(var a in n){j(this,a,n[a],l)}}else{j(this,o,p,l)}});return this};h.fn.ajaxAddOption=function(c,g,d,b,e){if(typeof(c)!="string")return this;if(typeof(g)!="object")g={};if(typeof(d)!="boolean")d=true;this.each(function(){var f=this;h.getJSON(c,g,function(a){h(f).addOption(a,d);if(typeof b=="function"){if(typeof e=="object"){b.apply(f,e)}else{b.call(f)}}})});return this};h.fn.removeOption=function(){var d=arguments;if(d.length==0)return this;var b=typeof(d[0]);var e,i;if(b=="string"||b=="object"||b=="function"){e=d[0];if(e.constructor==Array){var j=e.length;for(var k=0;k<j;k++){this.removeOption(e[k],d[1])}return this}}else if(b=="number")i=d[0];else return this;this.each(function(){if(this.nodeName.toLowerCase()!="select")return;if(this.cache)this.cache=null;var a=false;var f=this.options;if(!!e){var c=f.length;for(var g=c-1;g>=0;g--){if(e.constructor==RegExp){if(f[g].value.match(e)){a=true}}else if(f[g].value==e){a=true}if(a&&d[1]===true)a=f[g].selected;if(a){f[g]=null}a=false}}else{if(d[1]===true){a=f[i].selected}else{a=true}if(a){this.remove(i)}}});return this};h.fn.sortOptions=function(e){var i=h(this).selectedValues();var j=typeof(e)=="undefined"?true:!!e;this.each(function(){if(this.nodeName.toLowerCase()!="select")return;var c=this.options;var g=c.length;var d=[];for(var b=0;b<g;b++){d[b]={v:c[b].value,t:c[b].text}}d.sort(function(a,f){o1t=a.t.toLowerCase(),o2t=f.t.toLowerCase();if(o1t==o2t)return 0;if(j){return o1t<o2t?-1:1}else{return o1t>o2t?-1:1}});for(var b=0;b<g;b++){c[b].text=d[b].t;c[b].value=d[b].v}}).selectOptions(i,true);return this};h.fn.selectOptions=function(g,d){var b=g;var e=typeof(g);if(e=="object"&&b.constructor==Array){var i=this;h.each(b,function(){i.selectOptions(this,d)})};var j=d||false;if(e!="string"&&e!="function"&&e!="object")return this;this.each(function(){if(this.nodeName.toLowerCase()!="select")return this;var a=this.options;var f=a.length;for(var c=0;c<f;c++){if(b.constructor==RegExp){if(a[c].value.match(b)){a[c].selected=true}else if(j){a[c].selected=false}}else{if(a[c].value==b){a[c].selected=true}else if(j){a[c].selected=false}}}});return this};h.fn.copyOptions=function(g,d){var b=d||"selected";if(h(g).size()==0)return this;this.each(function(){if(this.nodeName.toLowerCase()!="select")return this;var a=this.options;var f=a.length;for(var c=0;c<f;c++){if(b=="all"||(b=="selected"&&a[c].selected)){h(g).addOption(a[c].value,a[c].text)}}});return this};h.fn.containsOption=function(g,d){var b=false;var e=g;var i=typeof(e);var j=typeof(d);if(i!="string"&&i!="function"&&i!="object")return j=="function"?this:b;this.each(function(){if(this.nodeName.toLowerCase()!="select")return this;if(b&&j!="function")return false;var a=this.options;var f=a.length;for(var c=0;c<f;c++){if(e.constructor==RegExp){if(a[c].value.match(e)){b=true;if(j=="function")d.call(a[c],c)}}else{if(a[c].value==e){b=true;if(j=="function")d.call(a[c],c)}}}});return j=="function"?this:b};h.fn.selectedValues=function(){var a=[];this.selectedOptions().each(function(){a[a.length]=this.value});return a};h.fn.selectedTexts=function(){var a=[];this.selectedOptions().each(function(){a[a.length]=this.text});return a};h.fn.selectedOptions=function(){return this.find("option:selected")}})(jQuery);
-	
-	
+
+
 	(function($) {
 	  $.fn.breakWords = function() {
 	    this.each(function() {
@@ -1612,12 +1612,12 @@ stop: null
 	    return this;
 	  };
 	})(jQuery);
-	
+
 	function wbr(string,length){
 		string =  string.replace(/(?:<[^>]+>)|(.{20})/g,'$&<wbr/>');
 		return string.replace(/><wbr\/>/,'>');
 	}
-	
+
 
 	/*
 	* Auto-growing textareas; technique ripped from Facebook
@@ -1672,7 +1672,7 @@ stop: null
 
 
 (function( $ ){
-	
+
 	//Auto complete code for @mentions
 	//To attach to a textarea add this class: autocomplete-mentions and the script below
 	// <script type="text/javascript">
@@ -1682,7 +1682,7 @@ stop: null
 	//or add a property to the text area autocomplete-mentions-projectid="<%= as.project_id %>"
 	// "autocomplete-mentions-projectid" => @project.id
 
-	 function getCaretPosition(e) {    
+	 function getCaretPosition(e) {
 	     if (typeof e.selectionStart == 'number') {
 	         return e.selectionStart;
 	     } else if (document.selection) {
@@ -1691,7 +1691,7 @@ stop: null
 	         range.moveStart('character', -e.value.length);
 	         return range.text.length - rangeLength;
 	     }
-	 };   
+	 };
 
 	 function setCaretPosition(e, start, end) {
 	     if (e.createTextRange) {
@@ -1705,31 +1705,31 @@ stop: null
 	     }
 	 };
 
-	 function getWordBeforeCaretPosition(e) {    
+	 function getWordBeforeCaretPosition(e) {
 	     var s = e.value;
 	     var i = getCaretPosition(e) - 1;
 	     while (i >= 0 && s[i] != ' ') {
 	         i = i - 1;
-	     }             
-	     return i + 1;    
+	     }
+	     return i + 1;
 	 };
 
-	 function getWordBeforeCaret(e) {  
+	 function getWordBeforeCaret(e) {
 	   var p = getWordBeforeCaretPosition(e);
-	   var c = getCaretPosition(e);  
-	   return e.value.substring(p, c);    
+	   var c = getCaretPosition(e);
+	   return e.value.substring(p, c);
 	 };
 
 	 function replaceWordBeforeCaret(e, word) {
 	     var p = getWordBeforeCaretPosition(e);
-	     var c = getCaretPosition(e);        
+	     var c = getCaretPosition(e);
 	     e.value = e.value.substring(0, p) + word + e.value.substring(c);
-	     setCaretPosition(e, p + word.length);                     
+	     setCaretPosition(e, p + word.length);
 	 };
 
   var methods = {
      init : function( options ) {
-	
+
        return this.each(function(){
 
          var $this = $(this),
@@ -1751,13 +1751,13 @@ stop: null
 			 			open: function(){
 								$(".ui-menu").width('auto');
 							},
-					     source: function(request, response) {                 
-					       var w = getWordBeforeCaret(this.element[0]);  
+					     source: function(request, response) {
+					       var w = getWordBeforeCaret(this.element[0]);
 					       if (w[0] != '@') {
 					         this.close();
 					         return false;
-					       }             
-			
+					       }
+
 					   		if (typeof community_members[projectId] != "undefined") {
 					   			//map the data into a response that will be understood by the autocomplete widget
 					   			response($.ui.autocomplete.filter(community_members[projectId], w.substring(1, w.length)));
@@ -1783,13 +1783,13 @@ stop: null
 					     },
 					     focus: function() {
 					       return false;
-					     },           
+					     },
 					     search: function(event, ui) {
 					       return true;
 					     },
-					     select: function(event, ui) {             
-					       replaceWordBeforeCaret(this, '@' + ui.item.value + ' ');              
-					       return false;                   
+					     select: function(event, ui) {
+					       replaceWordBeforeCaret(this, '@' + ui.item.value + ' ');
+					       return false;
 					     }
 					   })
 			.data( "autocomplete" )._renderItem = function( ul, item ) {
@@ -1801,7 +1801,7 @@ stop: null
 					// .append( "<a><img src='http://secure.gravatar.com/avatar.php?gravatar_id=" + item.mail_hash + "&size=17/>" + item.label + "</a>" )
 					.appendTo( ul );
 			};
-		
+
 		//Replace with code below to show gravatars in dropdown. Works only in firefox
 		// .data("autocomplete")._renderItem = function( ul, item ) {
 		// 		return $( "<li><a><img src='https://secure.gravatar.com/avatar.php?gravatar_id=" + item.mail_hash + "&size=17/>" + item.label + "</a></li>" )
@@ -1835,11 +1835,11 @@ stop: null
 
 
 function bind_autocomplete_mentions(){
-	$("input[autocomplete-mentions-projectid]").mentions(-1); 
-	$("textarea[autocomplete-mentions-projectid]").mentions(-1); 
+	$("input[autocomplete-mentions-projectid]").mentions(-1);
+	$("textarea[autocomplete-mentions-projectid]").mentions(-1);
 
 	if (typeof projectId != "undefined"){
-		$( ".autocomplete-mentions" ).mentions(projectId); 
+		$( ".autocomplete-mentions" ).mentions(projectId);
 	}
 };
 
@@ -1899,7 +1899,7 @@ function help_popup(){
 	// 'transitionIn'	: 'elastic',
 	// 'transitionOut'	: 'elastic',
 	// 'scrolling' : 'no'
-	});	
+	});
 };
 
 

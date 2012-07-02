@@ -59,14 +59,14 @@ jQuery.extend({
 		},
 		add: function(element, interval, label, fn, times, belay) {
 			var counter = 0;
-			
+
 			if (jQuery.isFunction(label)) {
-				if (!times) 
+				if (!times)
 					times = fn;
 				fn = label;
 				label = interval;
 			}
-			
+
 			interval = jQuery.timer.timeParse(interval);
 
 			if (typeof interval != 'number' || isNaN(interval) || interval <= 0)
@@ -76,39 +76,39 @@ jQuery.extend({
 				belay = !!times;
 				times = 0;
 			}
-			
+
 			times = times || 0;
 			belay = belay || false;
-			
+
 			var timers = jQuery.data(element, this.dataKey) || jQuery.data(element, this.dataKey, {});
-			
+
 			if (!timers[label])
 				timers[label] = {};
-			
+
 			fn.timerID = fn.timerID || this.guid++;
-			
+
 			var handler = function() {
-				if (belay && this.inProgress) 
+				if (belay && this.inProgress)
 					return;
 				this.inProgress = true;
 				if ((++counter > times && times !== 0) || fn.call(element, counter) === false)
 					jQuery.timer.remove(element, label, fn);
 				this.inProgress = false;
 			};
-			
+
 			handler.timerID = fn.timerID;
-			
+
 			if (!timers[label][fn.timerID])
 				timers[label][fn.timerID] = window.setInterval(handler,interval);
-			
+
 			this.global.push( element );
-			
+
 		},
 		remove: function(element, label, fn) {
 			var timers = jQuery.data(element, this.dataKey), ret;
-			
+
 			if ( timers ) {
-				
+
 				if (!label) {
 					for ( label in timers )
 						this.remove(element, label, fn);
@@ -124,16 +124,16 @@ jQuery.extend({
 							delete timers[label][fn];
 						}
 					}
-					
+
 					for ( ret in timers[label] ) break;
 					if ( !ret ) {
 						ret = null;
 						delete timers[label];
 					}
 				}
-				
+
 				for ( ret in timers ) break;
-				if ( !ret ) 
+				if ( !ret )
 					jQuery.removeData(element, this.dataKey);
 			}
 		}

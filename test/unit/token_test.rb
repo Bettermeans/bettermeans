@@ -12,7 +12,7 @@ class TokenTest < ActiveSupport::TestCase
     assert_equal 40, token.value.length
     assert !token.expired?
   end
-  
+
   def test_create_should_remove_existing_tokens
     user = User.find(1)
     t1 = Token.create(:user => user, :action => 'autologin')

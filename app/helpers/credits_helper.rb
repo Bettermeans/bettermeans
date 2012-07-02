@@ -1,3 +1,3 @@
 module CreditsHelper
-  
+
 end

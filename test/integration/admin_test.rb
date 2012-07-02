@@ -12,15 +12,15 @@ class AdminTest < ActionController::IntegrationTest
     assert_response :success
     assert_template "users/add"
     post "/users/add", :user => { :login => "psmith", :firstname => "Paul", :lastname => "Smith", :mail => "psmith@somenet.food", :language => "en" }, :password => "psmith09", :password_confirmation => "psmith09"
-    
+
     user = User.find_by_login("psmith")
     assert_kind_of User, user
     assert_redirected_to "/users/#{ user.id }/edit"
-    
+
     logged_user = User.try_to_login("psmith", "psmith09")
     assert_kind_of User, logged_user
     assert_equal "Paul", logged_user.firstname
-    
+
     post "users/edit", :id => user.id, :user => { :status => User::STATUS_LOCKED }
     assert_redirected_to "/users/#{ user.id }/edit"
     locked_user = User.try_to_login("psmith", "psmith09")

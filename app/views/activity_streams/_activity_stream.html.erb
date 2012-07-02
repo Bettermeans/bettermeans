@@ -29,10 +29,10 @@
               </span>
             </td>
           <tr>
-        </tbody> 
+        </tbody>
       </table>
 <div class="activity-tag">
-&nbsp;&nbsp;<%= since_tag(as.created_at) %> ago in 
+&nbsp;&nbsp;<%= since_tag(as.created_at) %> ago in
 <%# if @project.nil? || @project.id != as.project_id %>
 	<%= link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %>
 <%# end %>

@@ -19,7 +19,7 @@
        	 <h3> <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'})%> </h3>
        	 <h3><%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}%></h3>
    	  </p>
-  </div>    
+  </div>
   <% else %>
     <h2 class="gt-table-head icon icon-activity"><%=l(:label_activities_i_belong_to)%><%#= help_bubble :help_activities_i_belong_to %></h2>
     <div class="activity gt-content-box">
@@ -42,7 +42,7 @@
     </div>
   <% end %>
 
-  <%= render :partial => "my/blocks/news", :locals => {:news => @news, :maxcount => 2 } %>  
+  <%= render :partial => "my/blocks/news", :locals => {:news => @news, :maxcount => 2 } %>
 
   <%  if @assigned_issues.length > 0 %>
     <h2 class="icon icon-issues"><%= l(:label_my_issues) %><%= link_to l(:label_view_all), {:controller => "my", :action => "issues"}, :class => "floating-h-link" %></h2>
@@ -51,7 +51,7 @@
 </div>
 
 <% content_for :actionmenu do %>
-    <ul>    
+    <ul>
     <li>
       <%= link_to l(:label_project_new), {:controller => 'projects', :action => 'add', :parent_id => @project}, :class => "icon icon-add" %>
     </li>

@@ -3,15 +3,15 @@
 <div class="gt-content-box">
   <% @credits_by_day = @credits.group_by{|credit| credit.issued_on.to_date}
     unit = unit_for(@project)
-  
+
     if @credits_by_day.length == 0
    %>
   <%=     content_tag 'p', l(:label_no_data), :class => "nodata" %>
   <% else %>
-  
+
   <table border="0" class="gt-table gt-user-table">
 		<tbody>
-<%  
+<%
     @credits_by_day.sort { |b,a| a[0] <=> b[0] }
     @credits_by_day.each do |cbd|
 %>
@@ -19,7 +19,7 @@
     <th><%= cbd[0].to_s %></th>
   </tr>
      <% cbd[1].each do |credit|
-      
+
       next if !credit.enabled || !credit.settled_on.nil?
   %>
   <tr id="q_<%= credit.id %>">

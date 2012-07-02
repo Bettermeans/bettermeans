@@ -1,6 +1,6 @@
 # Be sure to restart your web server when you modify this file.
 
-# Uncomment below to force Rails into production mode when 
+# Uncomment below to force Rails into production mode when
 # you don't control web/app server and can't set it the proper way
 # ENV['RAILS_ENV'] ||= 'production'
 
@@ -18,23 +18,23 @@ rescue LoadError
 end
 
 Rails::Initializer.run do |config|
-    
+
   # Settings in config/environments/* take precedence those specified here
-  
+
   # Skip frameworks you're not going to use
   # config.frameworks -= [ :action_web_service, :action_mailer ]
 
   # Add additional load paths for sweepers
   config.autoload_paths += %W( #{RAILS_ROOT}/app/sweepers )
 
-  # Force all environments to use the same logger level 
+  # Force all environments to use the same logger level
   # (by default production uses :info, the others :debug)
   # config.log_level = :debug
 
   # Enable page/fragment caching by setting a file-based store
   # (remember to create the caching directory and make it readable to the application)
   # config.action_controller.fragment_cache_store = :file_store, "#{RAILS_ROOT}/cache"
-  
+
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
   config.active_record.observers = :message_observer, :issue_observer, :journal_observer, :news_observer, :document_observer, :wiki_content_observer
@@ -45,17 +45,17 @@ Rails::Initializer.run do |config|
   # Use Active Record's schema dumper instead of SQL when creating the test database
   # (enables use of different database adapters for development and test environments)
   # config.active_record.schema_format = :ruby
-  
+
   # Deliveries are disabled by default. Do NOT modify this section.
   # Define your email configuration in email.yml instead.
   # It will automatically turn deliveries on
   # config.action_mailer.perform_deliveries = false
-  
+
   #Added this to bypass error
   config.action_controller.session = { :key => "_bettermeans_session", :secret => "95fd75499b43ada8cfbc538558d74312asdf" }
-  
+
   # config.gem "rpx_now"
-  
+
   config.after_initialize do # so rake gems:install works
      RPXNow.api_key = ENV['RPXNOW_KEY']
   end
@@ -64,7 +64,7 @@ Rails::Initializer.run do |config|
   # (e.g. gems, patches).
   if File.exists?(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
     instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_environment.rb'))
-  end  
+  end
 end
 
 

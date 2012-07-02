@@ -1,9 +1,9 @@
 <!-- Shows members with clearance-->
-<% 
+<%
 @members_active = @project.clearance_members
-if @members_active.any? 
+if @members_active.any?
   %>
-<h2 class="gt-table-head"><%=l(:label_team_with_access)%></h2>	
+<h2 class="gt-table-head"><%=l(:label_team_with_access)%></h2>
 <div class="members gt-content-box">
   <table border="0" class="gt-table gt-user-table">
 		<tbody>

@@ -16,7 +16,7 @@ config.action_controller.perform_caching             = false
 config.action_mailer.perform_deliveries = true
 config.action_mailer.delivery_method = :test
 
-config.action_controller.session = { 
+config.action_controller.session = {
   :session_key => "_test_session",
   :secret => "some secret phrase for the tests."
 }

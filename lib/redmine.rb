@@ -44,7 +44,7 @@ Redmine::AccessControl.map do |map|
   map.permission :join_from_generic_invitation, {:projects => :join}, :require => :loggedin
   map.project_module :issue_tracking do |map|
     # Issues
-    map.permission :view_issues, {:projects => :roadmap, 
+    map.permission :view_issues, {:projects => :roadmap,
                                   :issues => [:index, :changes, :show, :context_menu, :datadump],
                                   :queries => :index,
                                   :reports => :issue_report,
@@ -53,7 +53,7 @@ Redmine::AccessControl.map do |map|
                                   :retros => [:index, :index_json, :dashdata, :show],
                                   :projects => [:dashboard,:community_members, :dashdata, :new_dashdata]
                                   }
-                
+
     map.permission :add_issues, {:issues => [:new, :update_form]}
     map.permission :edit_issues, {:issues => [:edit, :reply, :bulk_edit, :update_form, :cancel, :restart, :prioritize, :agree, :disagree, :estimate, :join, :leave, :add_team_member, :remove_team_member, :update_tags]}
     map.permission :manage_issue_relations, {:issue_relations => [:new, :destroy]}
@@ -80,19 +80,19 @@ Redmine::AccessControl.map do |map|
     map.permission :add_issue_watchers, {:watchers => :new}
     map.permission :delete_issue_watchers, {:watchers => :destroy}
   end
-  
+
   map.project_module :documents do |map|
     map.permission :manage_documents, {:documents => [:new, :edit, :destroy, :add_attachment]}, :require => :loggedin
     map.permission :view_documents, :documents => [:index, :show, :download]
     map.permission :manage_files, {:projects => :add_file}, :require => :loggedin
     map.permission :view_files, :projects => :list_files
   end
-  
+
   # map.project_module :files do |map|
   #   map.permission :manage_files, {:projects => :add_file}, :require => :loggedin
-  #   map.permission :view_files, :projects => :list_files    
+  #   map.permission :view_files, :projects => :list_files
   # end
-    
+
   map.project_module :wiki do |map|
     map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
     map.permission :rename_wiki_pages, {:wiki => :rename}, :require => :member
@@ -103,7 +103,7 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_wiki_pages_attachments, {}
     map.permission :protect_wiki_pages, {:wiki => :protect}, :require => :member
   end
-    
+
   map.project_module :boards do |map|
     map.permission :manage_boards, {:boards => [:new, :edit, :destroy]}, :require => :member
     map.permission :view_messages, {:boards => [:index, :show], :messages => [:show]}, :public => true
@@ -113,7 +113,7 @@ Redmine::AccessControl.map do |map|
     map.permission :delete_messages, {:messages => :destroy}, :require => :member
     map.permission :delete_own_messages, {:messages => :destroy}, :require => :loggedin
   end
-  
+
   map.project_module :motions do |map|
     map.permission :manage_motion, {:motions => [:edit, :destroy]}, :require => :admin
     map.permission :browse_motion, {:motions => [:index, :view, :show]}, :require => :loggedin
@@ -127,14 +127,14 @@ Redmine::AccessControl.map do |map|
     map.permission :comment_news, {:news => :add_comment}
   end
 
-  
-  
+
+
   # map.project_module :shares do |map|
   #   map.permission :view_shares, {:projects => :shares, :shares => [:index,:show]}, :require => :loggedin
   #   map.permission :add_shares, {:shares => :new}
   #   map.permission :manage_shares, {:shares => [:destroy, :edit]}
   # end
-  # 
+  #
   map.project_module :credits do |map|
     map.permission :view_credits, {:projects => :credits, :credits => [:index,:show]}, :require => :loggedin
     map.permission :enable_disable_credits, {:credits => [:enable, :disable]}, :require => :loggedin
@@ -142,8 +142,8 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_credits, {:credits => [:destroy, :edit, :update]}, :require => :loggedin
   end
 
-  
-  
+
+
 end
 
 # Redmine::MenuManager.map :top_menu do |menu|
@@ -176,11 +176,11 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :team, { :controller => 'projects', :action => 'team' },
       :if => Proc.new { |p| p.root? }
   # menu.push :shares, { :controller => 'projects', :action => 'shares' }#, :caption => :label_share_plural
-  menu.push :credits, { :controller => 'projects', :action => 'credits' }, 
+  menu.push :credits, { :controller => 'projects', :action => 'credits' },
       :if => Proc.new { |p| p.credits_enabled? }
   # menu.push :activity, { :controller => 'projects', :action => 'activity' }
   menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id, :caption => :label_boards
-  menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }#, 
+  menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }#,
               # :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
               # :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
   menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
@@ -196,7 +196,7 @@ Redmine::Activity.map do |activity|
   # activity.register :files, :class_name => 'Attachment'
   activity.register :wiki_edits, :class_name => 'WikiContent::Version', :default => true
   activity.register :messages, :default => true
-  # activity.register :member_roles, :default => true  
+  # activity.register :member_roles, :default => true
 end
 
 Redmine::WikiFormatting.map do |format|

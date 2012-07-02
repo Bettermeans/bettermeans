@@ -10,14 +10,14 @@ class ReportsController; def rescue_action(e) raise e end; end
 
 class ReportsControllerTest < ActionController::TestCase
   fixtures :all
-  
+
   def setup
     @controller = ReportsController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
     User.current = nil
   end
-  
+
   def test_issue_report_routing
     assert_routing(
       {:method => :get, :path => '/projects/567/issues/report'},
@@ -27,15 +27,15 @@ class ReportsControllerTest < ActionController::TestCase
       {:method => :get, :path => '/projects/567/issues/report/assigned_to'},
       :controller => 'reports', :action => 'issue_report', :id => '567', :detail => 'assigned_to'
     )
-    
+
   end
-  
+
   def test_issue_report
     get :issue_report, :id => 1
     assert_response :success
     assert_template 'issue_report'
   end
-  
+
   def test_issue_report_details
     %w(tracker version priority category assigned_to author subproject).each do |detail|
       get :issue_report, :id => 1, :detail => detail

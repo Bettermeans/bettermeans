@@ -8,7 +8,7 @@
 <div class="gt-table-buttons">
 <%= submit_tag l(:button_create), :disable_with => l(:button_working) %>
 <p class="gt-cancel">
-<%= link_to_remote l(:label_preview), 
+<%= link_to_remote l(:label_preview),
                    { :url => { :controller => 'news', :action => 'preview', :project_id => @project },
                      :method => 'post',
                      :update => 'preview',
@@ -23,7 +23,7 @@
 </div>
 
 <h2 class="gt-table-head"><%=l(:label_news_plural)%></h2>
-<div class="gt-content-box">    
+<div class="gt-content-box">
 <% if @newss.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>

@@ -23,7 +23,7 @@ module Redmine
           ActionController::Base.relative_url_root.to_s :
           ActionController::AbstractRequest.relative_url_root.to_s
       end
-      
+
       # Sets the relative root url of the application
       def relative_url_root=(arg)
         if ActionController::Base.respond_to?('relative_url_root=')

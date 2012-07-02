@@ -58,9 +58,9 @@
     </div>
     <%= content_tag('div', "#{l(:label_logged_as)} #{link_to_user(User.current, :format => :username)}", :id => 'loggedas') if User.current.logged? %>
     <%= render_menu :top_menu -%>
-    <%= render :partial => "notifications/unresponded" %>    
+    <%= render :partial => "notifications/unresponded" %>
 </div>
-      
+
 <div id="header">
     <div id="quick-search">
         <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %>
@@ -70,9 +70,9 @@
         <%= render_project_jump_box %>
         <% end %>
     </div>
-    
+
     <h1><%= page_header_title %></h1>
-    
+
     <div id="main-menu">
         <%= render_main_menu(@project) %>
     </div>
@@ -81,7 +81,7 @@
 <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %>
 
 <% if (has_content?(:sidebar)) %>
-    <div id="sidebar">        
+    <div id="sidebar">
         <%= yield :sidebar %>
     </div>
 <%   end   %>

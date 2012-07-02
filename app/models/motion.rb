@@ -1,26 +1,26 @@
-class Motion < ActiveRecord::Base  
+class Motion < ActiveRecord::Base
   include ActionController::UrlWriter
   STATE_ACTIVE = 0
   STATE_PASSED = 1
   STATE_DEFEATED = 2
   STATE_CANCELED = 3
-  
+
   TYPE_CONSENSUS = 1 #Any disagree defeats the motion
   TYPE_MAJORITY = 2 #Any block defeats the motion
   TYPE_SHARE = 3 #Majority vote, 1 share = 1 vote
-  
+
   VISIBLE_BOARD = 1 #Only board can see this motion
   VISIBLE_CORE = 2 #Only core & board
   VISIBLE_MEMBER = 3 #All members, core and board
   VISIBLE_CONTRIBUTER = 4 #Everyone who is a part of the enterprise
   VISIBLE_USER = 10 #Everyone on the platform
-  
+
   BINDING_BOARD = 1 #Only board votes are binding
   BINDING_CORE = 2 #Only core & board votes are binding
   BINDING_MEMBER = 3 #All members, core and board votes are binding
   BINDING_CONTRIBUTER = 4 #Everyone who is a part of the enterprise has a binding vote
   BINDING_USER = 5 #Everyone on the platform has a binding vote
-  
+
   VARIATION_GENERAL = 0 #Miscellaneous issues
   VARIATION_EXTRAORDINARY = 1 #e.g. sell a company!
   VARIATION_NEW_MEMBER = 2
@@ -30,7 +30,7 @@ class Motion < ActiveRecord::Base
   VARIATION_BOARD_PUBLIC = 6
   VARIATION_BOARD_PRIVATE = 7
   VARIATION_HOURLY_TYPE = 8
-  
+
   serialize :params
 
   belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
@@ -38,24 +38,24 @@ class Motion < ActiveRecord::Base
   belongs_to :project
   has_many :motion_votes
   belongs_to :topic, :class_name => 'Message', :foreign_key => 'topic_id'
-  
+
   named_scope :allactive, :conditions => ["state = #{STATE_ACTIVE}", Time.new.to_date]
-  named_scope :viewable_by, lambda { |*level| 
+  named_scope :viewable_by, lambda { |*level|
     {:conditions => "visibility_level >= #{level}", :order => "updated_at DESC"}
   }
-  
+
   before_create :set_values
   after_create :send_announce,:create_forum_topic
   after_save :close
-  
+
   def active?
     self.state == STATE_ACTIVE
   end
-  
+
   def ended?
-    
+
     return true if Time.now > self.ends_on
-    
+
     case self.motion_type
     when TYPE_CONSENSUS #if we don't have a disagreement, and have more than half binding agreement, we're a go
       if self.disagree == 0 && self.agree_total > self.project.role_and_above_count(self.binding_level).to_f / 2
@@ -68,20 +68,20 @@ class Motion < ActiveRecord::Base
     end
 
     return false
-    
+
   end
-  
+
   # true if variation requires a concerned user to be specified
   def concerns_someone?
     return (self.variation == VARIATION_NEW_MEMBER || self.variation == VARIATION_NEW_CORE || self.variation == VARIATION_FIRE_MEMBER || self.variation == VARIATION_FIRE_CORE)
   end
-  
+
   #Checks if motion has reached end date, calculates vote and takes action
   def close
     return if !active?
     return if !ended?
     return if self.motion_votes.nil?
-    
+
     case self.motion_type
     when TYPE_CONSENSUS
       if self.disagree > 0
@@ -102,15 +102,15 @@ class Motion < ActiveRecord::Base
           self.state = STATE_PASSED
         end
     end
-    
+
     self.ends_on = DateTime.now
-    
+
     self.save
     announce_passed if self.state == STATE_PASSED
     execute_action if self.state == STATE_PASSED
 
   end
-  
+
   def set_values
     self.title = Setting::MOTIONS[self.variation]["Title"]
     self.title = self.generate_title
@@ -119,10 +119,10 @@ class Motion < ActiveRecord::Base
     self.motion_type = Setting::MOTIONS[self.variation]["Type"]
     self.ends_on = Time.new().advance :days => Setting::MOTIONS[self.variation]["Days"].to_f
     self.state = STATE_ACTIVE
-    self.author = User.sysadmin if self.author.nil? 
+    self.author = User.sysadmin if self.author.nil?
     self.description = self.generate_description
   end
-  
+
   def generate_title
      case self.variation
        when VARIATION_GENERAL
@@ -145,8 +145,8 @@ class Motion < ActiveRecord::Base
          self.title
      end
   end
-  
-  
+
+
   def generate_description
     content = ""
      case self.variation
@@ -170,9 +170,9 @@ class Motion < ActiveRecord::Base
          self.description == "" ? self.title : self.description
      end
   end
-  
+
   def self.eligible_users(variation,project_id)
-    
+
     project = Project.find(project_id)
     @concerned_user_list = ""
     case variation
@@ -187,28 +187,28 @@ class Motion < ActiveRecord::Base
     end
     @concerned_user_list
   end
-  
+
   def create_forum_topic
-  
+
     main_board = Board.first(:conditions => {:project_id => self.project, :name => Setting.forum_name})
 
     motion_topic = Message.create! :board_id => main_board.id,
-                 :subject => self.title,                      
+                 :subject => self.title,
                  :content => self.description,
                  :author_id => self.author_id
-                 
+
     self.update_attribute(:topic_id,motion_topic.id)
-    
+
   end
-  
+
   def visibility_level_description
     Role.first(:conditions => {:position => self.visibility_level}).name
   end
-  
+
   def binding_level_description
     Role.first(:conditions => {:position => self.binding_level}).name
   end
-  
+
   def execute_action
     return if self.state != STATE_PASSED
     case self.variation
@@ -231,32 +231,32 @@ class Motion < ActiveRecord::Base
       when VARIATION_HOURLY_TYPE
     end
   end
-  
+
   def send_announce
     self.send_later :announce
   end
-  
+
   def announce
     admin = User.sysadmin
-    
+
     self.project.all_members.each do |member|
       user = member.user
       Notification.create :recipient_id => user.id,
                           :variation => 'motion_started',
-                          :params => {:motion_title => self.title, :motion_description => self.description, :enterprise_id => self.project.root.id}, 
+                          :params => {:motion_title => self.title, :motion_description => self.description, :enterprise_id => self.project.root.id},
                           :sender_id => self.author_id,
                           :source_id => self.id,
                           :source_type => "Motion",
                           :expiration => self.ends_on if user.allowed_to_see_motion?(self) unless self.concerned_user_id == user.id
     end
   end
-  
+
   def announce_passed
     admin = User.sysadmin
-    
+
     # def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
     LogActivityStreams.write_single_activity_stream(User.sysadmin,:name,self,:title,:passed_a,:motions, 0, nil,{})
-    
+
     News.create :project_id => self.project.id,
                 :title => "Passed! #{self.title}",
                 :summary => "#{self.title} has passed",

@@ -90,7 +90,7 @@ Calendar._TT["ABOUT"] =
 "\n\n" +
 "Seleção de data:\n" +
 "- Use os botões \xab, \xbb para selecionar o ano\n" +
-"- Use os botões " + String.fromCharCode(0x2039) + ", " + 
+"- Use os botões " + String.fromCharCode(0x2039) + ", " +
 String.fromCharCode(0x203a) + " para selecionar o mês\n" +
 "- Segure o botão do mouse em qualquer um desses botões para seleção rápida.";
 Calendar._TT["ABOUT_TIME"] = "\n\n" +
