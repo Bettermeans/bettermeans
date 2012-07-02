@@ -16,9 +16,9 @@
   <div class="gt-content-box centered padded">
     <h4><%= l(:help_no_workstreams) %></h4>
     <p class='nodata'>
-       	 <h3> <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'})%> </h3>
-       	 <h3><%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}%></h3>
-   	  </p>
+          <h3> <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'})%> </h3>
+          <h3><%= link_to l(:label_browse_workstreams), {:controller => :projects, :action => :index}%></h3>
+       </p>
   </div>
   <% else %>
     <h2 class="gt-table-head icon icon-activity"><%=l(:label_activities_i_belong_to)%><%#= help_bubble :help_activities_i_belong_to %></h2>

@@ -108,7 +108,7 @@
 <% end %>
 
 <div id="add-comment-area" class="comment">
-	<div id="add-comment-textarea-wrapper" class="comment-body">
+  <div id="add-comment-textarea-wrapper" class="comment-body">
         <div><p>Comment on this item:</p></div>
         <textarea id="add-comment-textarea" class="comment-body-wrapper autocomplete-mentions"></textarea>
         <div class="comment-form-wrapper">
@@ -119,8 +119,8 @@
 
 
 <%# other_formats_links do |f| %>
-	<%#= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
-	<%#= f.link_to 'PDF' %>
+  <%#= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%#= f.link_to 'PDF' %>
 <%# end %>
 
 <% if authorize_for('issues', 'edit') %>
@@ -214,44 +214,44 @@
 
   function post_comment(){
     // try{
-  	  var text = $("#add-comment-textarea").val();
+      var text = $("#add-comment-textarea").val();
 
-    	if ((text == null) || (text.length < 2)){
-    		return false;
-    	}
-    	else
-    	{
+      if ((text == null) || (text.length < 2)){
+        return false;
+      }
+      else
+      {
         $("#comments").append(generate_comment(text));
         $("#add-comment-textarea").val('');
 
-    		var data = "commit=Create&issue_id=<%= @issue.id %>&comment=" + encodeURIComponent(text);
+        var data = "commit=Create&issue_id=<%= @issue.id %>&comment=" + encodeURIComponent(text);
 
-    		var url = url_for({ controller: 'comments',
-    	                           action    : 'create'
-    	                          });
+        var url = url_for({ controller: 'comments',
+                                 action    : 'create'
+                                });
 
-    		$.ajax({
-    		   type: "POST",
-    		   dataType: "json",
-    		   url: url,
-    		   data: data,
-    		   success: 	function(issue){
-    		     $('.icon-edit').hide();
-    		     $('.icon-edit-new').show();
-    		     $('#new_comment_edit').show();
-    		     var new_journal_id = issue.journals[issue.journals.length-1].id
-    		     var onclick = "$.ajax({type: 'GET', url: '/journals/edit/" + new_journal_id + "'});return false;";
-    		     $("#journal-new-notes").attr('id','journal-' + new_journal_id + '-notes'); //updated id
-     		     $('#new_comment_edit_link').attr('onclick',onclick);
-    			},
+        $.ajax({
+           type: "POST",
+           dataType: "json",
+           url: url,
+           data: data,
+           success:   function(issue){
+             $('.icon-edit').hide();
+             $('.icon-edit-new').show();
+             $('#new_comment_edit').show();
+             var new_journal_id = issue.journals[issue.journals.length-1].id
+             var onclick = "$.ajax({type: 'GET', url: '/journals/edit/" + new_journal_id + "'});return false;";
+             $("#journal-new-notes").attr('id','journal-' + new_journal_id + '-notes'); //updated id
+              $('#new_comment_edit_link').attr('onclick',onclick);
+          },
           //         error:   function (XMLHttpRequest, textStatus, errorThrown) {
           // handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
           // },
-    			timeout: 30000 //30 seconds
-    		 });
+          timeout: 30000 //30 seconds
+         });
 
-    		return false;
-    	}
+        return false;
+      }
     //  }
     // catch(err){
     //   console.log(err);
@@ -260,14 +260,14 @@
   }
 
   function show_item(startable){
-  	timer_active = false;
-  	D = [];
-  	D.push(item);
-  	$("#item_header").html(generate_item_lightbox(0));
-  	$("#todo_wrapper").replaceWith(generate_todo_section_lightbox(0));
-  	if (startable){
-  		$("#item_content_buttons_start_button_0").show();
-  	}
+    timer_active = false;
+    D = [];
+    D.push(item);
+    $("#item_header").html(generate_item_lightbox(0));
+    $("#todo_wrapper").replaceWith(generate_todo_section_lightbox(0));
+    if (startable){
+      $("#item_content_buttons_start_button_0").show();
+    }
 
   }
 

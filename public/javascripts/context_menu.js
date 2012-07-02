@@ -5,47 +5,47 @@ var observingContextMenuClick;
 
 ContextMenu = Class.create();
 ContextMenu.prototype = {
-	initialize: function (url) {
-	this.url = url;
+  initialize: function (url) {
+  this.url = url;
 
-	// prevent text selection in the issue list
-	var tables = $$('table.issues');
-	for (i=0; i<tables.length; i++) {
-		tables[i].onselectstart = function () { return false; } // ie
-		tables[i].onmousedown = function () { return false; } // mozilla
-	}
+  // prevent text selection in the issue list
+  var tables = $$('table.issues');
+  for (i=0; i<tables.length; i++) {
+    tables[i].onselectstart = function () { return false; } // ie
+    tables[i].onmousedown = function () { return false; } // mozilla
+  }
 
-	if (!observingContextMenuClick) {
-		Event.observe(document, 'click', this.Click.bindAsEventListener(this));
-		Event.observe(document, (window.opera ? 'click' : 'contextmenu'), this.RightClick.bindAsEventListener(this));
-		observingContextMenuClick = true;
-	}
+  if (!observingContextMenuClick) {
+    Event.observe(document, 'click', this.Click.bindAsEventListener(this));
+    Event.observe(document, (window.opera ? 'click' : 'contextmenu'), this.RightClick.bindAsEventListener(this));
+    observingContextMenuClick = true;
+  }
 
-	this.unselectAll();
-	this.lastSelected = null;
-	},
+  this.unselectAll();
+  this.lastSelected = null;
+  },
 
-	RightClick: function(e) {
-		this.hideMenu();
-		// do not show the context menu on links
-		if (Event.element(e).tagName == 'A') { return; }
-		// right-click simulated by Alt+Click with Opera
-		if (window.opera && !e.altKey) { return; }
-		var tr = Event.findElement(e, 'tr');
-		if (tr == document || tr == undefined  || !tr.hasClassName('hascontextmenu')) { return; }
-		Event.stop(e);
-		if (!this.isSelected(tr)) {
-			this.unselectAll();
-			this.addSelection(tr);
-			this.lastSelected = tr;
-		}
-		this.showMenu(e);
-	},
+  RightClick: function(e) {
+    this.hideMenu();
+    // do not show the context menu on links
+    if (Event.element(e).tagName == 'A') { return; }
+    // right-click simulated by Alt+Click with Opera
+    if (window.opera && !e.altKey) { return; }
+    var tr = Event.findElement(e, 'tr');
+    if (tr == document || tr == undefined  || !tr.hasClassName('hascontextmenu')) { return; }
+    Event.stop(e);
+    if (!this.isSelected(tr)) {
+      this.unselectAll();
+      this.addSelection(tr);
+      this.lastSelected = tr;
+    }
+    this.showMenu(e);
+  },
 
   Click: function(e) {
-  	this.hideMenu();
-  	if (Event.element(e).tagName == 'A') { return; }
-    if (window.opera && e.altKey) {	return; }
+    this.hideMenu();
+    if (Event.element(e).tagName == 'A') { return; }
+    if (window.opera && e.altKey) {  return; }
     if (Event.isLeftClick(e) || (navigator.appVersion.match(/\bMSIE\b/))) {
       var tr = Event.findElement(e, 'tr');
       if (tr!=null && tr!=document && tr.hasClassName('hascontextmenu')) {
@@ -117,33 +117,33 @@ ContextMenu.prototype = {
        evalScripts:true,
        parameters:Form.serialize(Event.findElement(e, 'form')),
        onComplete:function(request){
-				 dims = $('context-menu').getDimensions();
-				 menu_width = dims.width;
-				 menu_height = dims.height;
-				 max_width = mouse_x + 2*menu_width;
-				 max_height = mouse_y + menu_height;
+         dims = $('context-menu').getDimensions();
+         menu_width = dims.width;
+         menu_height = dims.height;
+         max_width = mouse_x + 2*menu_width;
+         max_height = mouse_y + menu_height;
 
-				 var ws = window_size();
-				 window_width = ws.width;
-				 window_height = ws.height;
+         var ws = window_size();
+         window_width = ws.width;
+         window_height = ws.height;
 
-				 /* display the menu above and/or to the left of the click if needed */
-				 if (max_width > window_width) {
-				   render_x -= menu_width;
-				   $('context-menu').addClassName('reverse-x');
-				 } else {
-					 $('context-menu').removeClassName('reverse-x');
-				 }
-				 if (max_height > window_height) {
-				   render_y -= menu_height;
-				   $('context-menu').addClassName('reverse-y');
-				 } else {
-					 $('context-menu').removeClassName('reverse-y');
-				 }
-				 if (render_x <= 0) render_x = 1;
-				 if (render_y <= 0) render_y = 1;
-				 $('context-menu').style['left'] = (render_x + 'px');
-				 $('context-menu').style['top'] = (render_y + 'px');
+         /* display the menu above and/or to the left of the click if needed */
+         if (max_width > window_width) {
+           render_x -= menu_width;
+           $('context-menu').addClassName('reverse-x');
+         } else {
+           $('context-menu').removeClassName('reverse-x');
+         }
+         if (max_height > window_height) {
+           render_y -= menu_height;
+           $('context-menu').addClassName('reverse-y');
+         } else {
+           $('context-menu').removeClassName('reverse-y');
+         }
+         if (render_x <= 0) render_x = 1;
+         if (render_y <= 0) render_y = 1;
+         $('context-menu').style['left'] = (render_x + 'px');
+         $('context-menu').style['top'] = (render_y + 'px');
 
          Effect.Appear('context-menu', {duration: 0.20});
          if (window.parseStylesheets) { window.parseStylesheets(); } // IE
@@ -180,8 +180,8 @@ ContextMenu.prototype = {
   },
 
   checkSelectionBox: function(tr, checked) {
-  	var inputs = Element.getElementsBySelector(tr, 'input');
-  	if (inputs.length > 0) { inputs[0].checked = checked; }
+    var inputs = Element.getElementsBySelector(tr, 'input');
+    if (inputs.length > 0) { inputs[0].checked = checked; }
   },
 
   isSelected: function(tr) {
@@ -190,32 +190,32 @@ ContextMenu.prototype = {
 }
 
 function toggleIssuesSelection(el) {
-	var boxes = el.getElementsBySelector('input[type=checkbox]');
-	var all_checked = true;
-	for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
-	for (i = 0; i < boxes.length; i++) {
-		if (all_checked) {
-			boxes[i].checked = false;
-			boxes[i].up('tr').removeClassName('context-menu-selection');
-		} else if (boxes[i].checked == false) {
-			boxes[i].checked = true;
-			boxes[i].up('tr').addClassName('context-menu-selection');
-		}
-	}
+  var boxes = el.getElementsBySelector('input[type=checkbox]');
+  var all_checked = true;
+  for (i = 0; i < boxes.length; i++) { if (boxes[i].checked == false) { all_checked = false; } }
+  for (i = 0; i < boxes.length; i++) {
+    if (all_checked) {
+      boxes[i].checked = false;
+      boxes[i].up('tr').removeClassName('context-menu-selection');
+    } else if (boxes[i].checked == false) {
+      boxes[i].checked = true;
+      boxes[i].up('tr').addClassName('context-menu-selection');
+    }
+  }
 }
 
 function window_size() {
     var w;
     var h;
     if (window.innerWidth) {
-	w = window.innerWidth;
-	h = window.innerHeight;
+  w = window.innerWidth;
+  h = window.innerHeight;
     } else if (document.documentElement) {
-	w = document.documentElement.clientWidth;
-	h = document.documentElement.clientHeight;
+  w = document.documentElement.clientWidth;
+  h = document.documentElement.clientHeight;
     } else {
-	w = document.body.clientWidth;
-	h = document.body.clientHeight;
+  w = document.body.clientWidth;
+  h = document.body.clientHeight;
     }
     return {width: w, height: h};
 }

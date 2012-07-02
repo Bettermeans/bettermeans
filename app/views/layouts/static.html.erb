@@ -71,16 +71,16 @@
                 $("#toTop").scrollToTop({speed:500,start:700});
             });
 
-		$(document).ready(function() {
-			$('.viewport').mouseenter(function(e) {
-				$(this).children('a').children('img').animate({ height: '268', left: '-10', top: '-10', width: '480'}, 100);
-				$(this).children('a').children('span').fadeIn(300);
-			}).mouseleave(function(e) {
-				$(this).children('a').children('img').animate({ height: '247', left: '0', top: '0', width: '460'}, 100);
-				$(this).children('a').children('span').fadeOut(200);
-			});
+    $(document).ready(function() {
+      $('.viewport').mouseenter(function(e) {
+        $(this).children('a').children('img').animate({ height: '268', left: '-10', top: '-10', width: '480'}, 100);
+        $(this).children('a').children('span').fadeIn(300);
+      }).mouseleave(function(e) {
+        $(this).children('a').children('img').animate({ height: '247', left: '0', top: '0', width: '460'}, 100);
+        $(this).children('a').children('span').fadeOut(200);
+      });
 
-			$(".videolink").fancybox({
+      $(".videolink").fancybox({
                           'titleShow'     : true,
                           'transitionIn'  : 'elastic',
                           'transitionOut' : 'elastic',
@@ -89,13 +89,13 @@
                           'swf'       : {'wmode':'transparent','allowfullscreen':'true'}
               });
 
-    	/* This is basic - uses default settings */
-    	$("a.fancy_image").fancybox({
-				'transitionIn'	: 'elastic',
-				'transitionOut'	: 'elastic'
-			});
+      /* This is basic - uses default settings */
+      $("a.fancy_image").fancybox({
+        'transitionIn'  : 'elastic',
+        'transitionOut'  : 'elastic'
+      });
 
-		});
+    });
 
         </script>
 </body>

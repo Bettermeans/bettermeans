@@ -44,7 +44,7 @@
     <li>
       <%= link_to l(:label_dashboard), {:controller => :projects, :action => :dashboard, :id => @project} %>
     </li>
-  	<% if User.current.allowed_to?(:manage_invitations, @project) %>
+    <% if User.current.allowed_to?(:manage_invitations, @project) %>
       <li><%= link_to(l(:label_track_invites), {:controller => :invitations, :action => :index}) %>
       </li>
     <% end %>

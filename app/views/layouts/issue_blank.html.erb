@@ -69,9 +69,9 @@
 <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
 <div id="wrapper">
     <div id="content" style="min-height:200px;">
-				<%= render_flash_messages %>
+        <%= render_flash_messages %>
         <%= yield %>
-				<div style="clear:both;"></div>
+        <div style="clear:both;"></div>
     </div>
 </div>
 

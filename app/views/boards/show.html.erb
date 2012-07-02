@@ -55,7 +55,7 @@
   </tbody>
 </table>
 <div class="gt-table-controls gt-table-controls-btm clearfix">
-					<p class="gt-table-pager"><%= pagination_links_full @topic_pages, @topic_count %></p>
+          <p class="gt-table-pager"><%= pagination_links_full @topic_pages, @topic_count %></p>
 </div>
 </div>
 <% else %>
@@ -65,7 +65,7 @@
 <% end %>
 
 <%# other_formats_links do |f| %>
-	<%#= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
+  <%#= f.link_to 'Atom', :url => {:key => User.current.rss_key} %>
 <%# end %>
 
 <% html_title h(@board.name) %>

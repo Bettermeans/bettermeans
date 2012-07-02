@@ -36,12 +36,12 @@
 <% end %>
 
 <div class="gt-table-controls gt-table-controls-btm clearfix">
-		<p class="gt-table-pager">
-		  <% other_formats_links do |f| %>
-      	<%= f.link_to 'HTML', :url => {:page => @page.title, :version => @content.version} %>
-      	<%= f.link_to 'TXT', :url => {:page => @page.title, :version => @content.version} %>
+    <p class="gt-table-pager">
+      <% other_formats_links do |f| %>
+        <%= f.link_to 'HTML', :url => {:page => @page.title, :version => @content.version} %>
+        <%= f.link_to 'TXT', :url => {:page => @page.title, :version => @content.version} %>
       <% end %>
-	  </p>
+    </p>
 </div>
 
 <% content_for :header_tags do %>

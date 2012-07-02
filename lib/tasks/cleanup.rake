@@ -60,6 +60,13 @@ task :cleanup do
           `sed -i -e 's/[ \t]*$//g' #{f}`
         end
       end
+
+      # sed command works differently on Mac and Linux
+      if `uname` =~ /Darwin/
+        `sed -i "" -e $'s/\t/  /g' #{f}`
+      elsif `uname` =~ /Linux/
+        `sed -i -e 's/\t/  /g' #{f}`
+      end
     end
   end
 

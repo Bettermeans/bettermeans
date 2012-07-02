@@ -5,10 +5,10 @@
 <% end %>
 
 <% if User.current.allowed_to?(:view_calendar, @project, :global => true) %>
-	<%= link_to(l(:label_calendar), :controller => 'issues', :action => 'calendar', :project_id => @project) %><br />
+  <%= link_to(l(:label_calendar), :controller => 'issues', :action => 'calendar', :project_id => @project) %><br />
 <% end %>
 <% if User.current.allowed_to?(:view_gantt, @project, :global => true) %>
-	<%= link_to(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project) %><br />
+  <%= link_to(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project) %><br />
 <% end %>
 
 <% unless sidebar_queries.empty? -%>

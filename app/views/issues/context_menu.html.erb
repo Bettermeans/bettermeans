@@ -1,69 +1,69 @@
 <ul>
 
 <% if !@issue.nil? -%>
-	<li><%= context_menu_link l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue},
-	        :class => 'icon-edit', :disabled => !@can[:edit] %></li>
-	<li class="folder">
-		<a href="#" class="submenu" onclick="return false;"><%= l(:field_status) %></a>
-		<ul>
-		<% @statuses.each do |s| -%>
-		    <li><%= context_menu_link s.name, {:controller => 'issues', :action => 'edit', :id => @issue, :issue => {:status_id => s}, :back_to => @back}, :method => :post,
-		                              :selected => (s == @issue.status), :disabled => !(@can[:update] && @allowed_statuses.include?(s)) %></li>
-		<% end -%>
-		</ul>
-	</li>
+  <li><%= context_menu_link l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue},
+          :class => 'icon-edit', :disabled => !@can[:edit] %></li>
+  <li class="folder">
+    <a href="#" class="submenu" onclick="return false;"><%= l(:field_status) %></a>
+    <ul>
+    <% @statuses.each do |s| -%>
+        <li><%= context_menu_link s.name, {:controller => 'issues', :action => 'edit', :id => @issue, :issue => {:status_id => s}, :back_to => @back}, :method => :post,
+                                  :selected => (s == @issue.status), :disabled => !(@can[:update] && @allowed_statuses.include?(s)) %></li>
+    <% end -%>
+    </ul>
+  </li>
 <% else %>
-	<li><%= context_menu_link l(:button_edit), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id)},
-	        :class => 'icon-edit', :disabled => !@can[:edit] %></li>
+  <li><%= context_menu_link l(:button_edit), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id)},
+          :class => 'icon-edit', :disabled => !@can[:edit] %></li>
 <% end %>
 
-	<% unless @trackers.nil? %>
-	<li class="folder">
-		<a href="#" class="submenu"><%= l(:field_tracker) %></a>
-		<ul>
-		<% @trackers.each do |t| -%>
-		    <li><%= context_menu_link t.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'tracker_id' => t, :back_to => @back}, :method => :post,
-		                              :selected => (@issue && t == @issue.tracker), :disabled => !@can[:edit] %></li>
-		<% end -%>
-		</ul>
-	</li>
-	<% end %>
-	<% unless @assignables.nil? || @assignables.empty? -%>
-	<li class="folder">
-		<a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
-		<ul>
-		<% @assignables.each do |u| -%>
-		    <li><%= context_menu_link u.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'assigned_to_id' => u, :back_to => @back}, :method => :post,
-		                              :selected => (@issue && u == @issue.assigned_to), :disabled => !@can[:update] %></li>
-		<% end -%>
-		    <li><%= context_menu_link l(:label_nobody), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'assigned_to_id' => 'none', :back_to => @back}, :method => :post,
-		                              :selected => (@issue && @issue.assigned_to.nil?), :disabled => !@can[:update] %></li>
-		</ul>
-	</li>
-	<% end %>
-	<% unless @project.nil? || @project.issue_categories.empty? -%>
-	<% end -%>
-		</ul>
-	</li>
+  <% unless @trackers.nil? %>
+  <li class="folder">
+    <a href="#" class="submenu"><%= l(:field_tracker) %></a>
+    <ul>
+    <% @trackers.each do |t| -%>
+        <li><%= context_menu_link t.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'tracker_id' => t, :back_to => @back}, :method => :post,
+                                  :selected => (@issue && t == @issue.tracker), :disabled => !@can[:edit] %></li>
+    <% end -%>
+    </ul>
+  </li>
+  <% end %>
+  <% unless @assignables.nil? || @assignables.empty? -%>
+  <li class="folder">
+    <a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
+    <ul>
+    <% @assignables.each do |u| -%>
+        <li><%= context_menu_link u.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'assigned_to_id' => u, :back_to => @back}, :method => :post,
+                                  :selected => (@issue && u == @issue.assigned_to), :disabled => !@can[:update] %></li>
+    <% end -%>
+        <li><%= context_menu_link l(:label_nobody), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'assigned_to_id' => 'none', :back_to => @back}, :method => :post,
+                                  :selected => (@issue && @issue.assigned_to.nil?), :disabled => !@can[:update] %></li>
+    </ul>
+  </li>
+  <% end %>
+  <% unless @project.nil? || @project.issue_categories.empty? -%>
+  <% end -%>
+    </ul>
+  </li>
   <% end %>
 <% if !@issue.nil? %>
-	<% if @can[:log_time] -%>
-	<li><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue},
-	        :class => 'icon-time-add' %></li>
-	<% end %>
-	<% if User.current.logged? %>
-	<li><%= watcher_link(@issue, User.current) %></li>
-	<% end %>
+  <% if @can[:log_time] -%>
+  <li><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue},
+          :class => 'icon-time-add' %></li>
+  <% end %>
+  <% if User.current.logged? %>
+  <li><%= watcher_link(@issue, User.current) %></li>
+  <% end %>
 <% end %>
 
 <% if @issue.present? %>
   <li><%= context_menu_link l(:button_duplicate), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue},
-	        :class => 'icon-duplicate', :disabled => !@can[:copy] %></li>
+          :class => 'icon-duplicate', :disabled => !@can[:copy] %></li>
 <% end %>
   <li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'move', :ids => @issues.collect(&:id), :copy_options => {:copy => 't'}},
-	                        :class => 'icon-copy', :disabled => !@can[:move]  %></li>
+                          :class => 'icon-copy', :disabled => !@can[:move]  %></li>
   <li><%= context_menu_link l(:button_move), {:controller => 'issues', :action => 'move', :ids => @issues.collect(&:id)},
-	                        :class => 'icon-move', :disabled => !@can[:move]  %></li>
+                          :class => 'icon-move', :disabled => !@can[:move]  %></li>
   <li><%= context_menu_link l(:button_delete), {:controller => 'issues', :action => 'destroy', :ids => @issues.collect(&:id)},
                             :method => :post, :confirm => l(:text_issues_destroy_confirmation), :class => 'icon-del', :disabled => !@can[:delete] %></li>
 

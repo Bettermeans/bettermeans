@@ -1,19 +1,19 @@
 <div id="admin-menu">
-	<ul>
-		<li><%= link_to l(:label_project_plural), {:controller => 'admin', :action => 'projects'}, :class => 'projects' %></li>
-		<li><%= link_to l(:label_user_plural), {:controller => 'users'}, :class => 'users' %></li>
-		<li><%= link_to l(:label_role_and_permissions), {:controller => 'roles'}, :class => 'roles' %></li>
-		<li><%= link_to l(:label_tracker_plural), {:controller => 'trackers'}, :class => 'trackers' %></li>
-		<li><%= link_to l(:label_issue_status_plural), {:controller => 'issue_statuses'}, :class => 'issue_statuses' %></li>
-		<li><%= link_to l(:label_workflow), {:controller => 'workflows', :action => 'edit'}, :class => 'workflows' %></li>
-		<li><%= link_to l(:label_enumerations), {:controller => 'enumerations'}, :class => 'enumerations' %></li>
-		<li><%= link_to l(:label_settings), {:controller => 'settings'}, :class => 'settings' %></li>
-		<% menu_items_for(:admin_menu) do |item| -%>
-			<li><%= link_to h(item.caption), item.url, item.html_options %></li>
-		<% end -%>
-		<li><%= link_to l(:label_plugins), {:controller => 'admin', :action => 'plugins'}, :class => 'plugins' %></li>
-		<li><%= link_to l(:label_information_plural), {:controller => 'admin', :action => 'info'}, :class => 'info' %></li>
-		<li><%= link_to :Stats, {:controller => 'admin', :action => 'user_stats'}, :class => 'info' %></li>
-		<li><%= link_to :User_Data_Dump, {:controller => 'admin', :action => 'user_data_dump', :format => :csv}, :class => 'settings' %></li>
-	</ul>
+  <ul>
+    <li><%= link_to l(:label_project_plural), {:controller => 'admin', :action => 'projects'}, :class => 'projects' %></li>
+    <li><%= link_to l(:label_user_plural), {:controller => 'users'}, :class => 'users' %></li>
+    <li><%= link_to l(:label_role_and_permissions), {:controller => 'roles'}, :class => 'roles' %></li>
+    <li><%= link_to l(:label_tracker_plural), {:controller => 'trackers'}, :class => 'trackers' %></li>
+    <li><%= link_to l(:label_issue_status_plural), {:controller => 'issue_statuses'}, :class => 'issue_statuses' %></li>
+    <li><%= link_to l(:label_workflow), {:controller => 'workflows', :action => 'edit'}, :class => 'workflows' %></li>
+    <li><%= link_to l(:label_enumerations), {:controller => 'enumerations'}, :class => 'enumerations' %></li>
+    <li><%= link_to l(:label_settings), {:controller => 'settings'}, :class => 'settings' %></li>
+    <% menu_items_for(:admin_menu) do |item| -%>
+      <li><%= link_to h(item.caption), item.url, item.html_options %></li>
+    <% end -%>
+    <li><%= link_to l(:label_plugins), {:controller => 'admin', :action => 'plugins'}, :class => 'plugins' %></li>
+    <li><%= link_to l(:label_information_plural), {:controller => 'admin', :action => 'info'}, :class => 'info' %></li>
+    <li><%= link_to :Stats, {:controller => 'admin', :action => 'user_stats'}, :class => 'info' %></li>
+    <li><%= link_to :User_Data_Dump, {:controller => 'admin', :action => 'user_data_dump', :format => :csv}, :class => 'settings' %></li>
+  </ul>
 </div>

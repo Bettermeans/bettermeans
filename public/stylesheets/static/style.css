@@ -20,22 +20,22 @@ Table of Content:
 1.- General Cascade Stylesheets Rules
 ************************************************************************/
 body {
-	color: #343434;
-/*	background-color: #f3f3f3;*/
+  color: #343434;
+/*  background-color: #f3f3f3;*/
 }
 a, a:link {
-	color: #409edc;
-	text-decoration: none;
+  color: #409edc;
+  text-decoration: none;
 }
 a:visited {
-	color: #409edc;
+  color: #409edc;
 }
 a:hover, a:focus {
-	color: #2379b2;
-	text-decoration: underline;
+  color: #2379b2;
+  text-decoration: underline;
 }
 a:active {
-	color: #2379b2;
+  color: #2379b2;
 }
 :-moz-any-link:focus {
  outline: none;
@@ -52,750 +52,750 @@ a:active {
 }
 /*Add Scroll bar in all browsers*/
 html {
-	overflow-y: scroll;
+  overflow-y: scroll;
 }
 /*html h1, html h2, html h3, html h4 {
-	font-family: Helvetica, sans-serif;
-	font-weight:normal;
-	color:#545454;
+  font-family: Helvetica, sans-serif;
+  font-weight:normal;
+  color:#545454;
 }
 *//* =Clearfix (all browsers)
 --------------------------------*/
 /* new clearfix */
 .clearfix:after {
-	visibility: hidden;
-	display: block;
-	font-size: 0;
-	content: " ";
-	clear: both;
-	height: 0;
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
 }
 * html .clearfix {
-	zoom: 1;
+  zoom: 1;
 } /* IE6 */
 *:first-child+html .clearfix {
-	zoom: 1;
+  zoom: 1;
 } /* IE7 */
 .clearing {
-	clear:both;
-	height:0;
-	overflow:hidden;
-	margin:-1px 0 0 0;
+  clear:both;
+  height:0;
+  overflow:hidden;
+  margin:-1px 0 0 0;
 }
 .left {
-	float: left
+  float: left
 }
 .right {
-	float: right
+  float: right
 }
 .overflow {
-	overflow:hidden
+  overflow:hidden
 }
 .hr {
-	clear:both;
-	float:none;
-	width:100%;
-	border-bottom:1px dotted #ccc;
-	padding:20px 0;
+  clear:both;
+  float:none;
+  width:100%;
+  border-bottom:1px dotted #ccc;
+  padding:20px 0;
 }
 /************************************************************************
 Banner
 ************************************************************************/
 
 #banner {
-	height:340px;
-	position:relative;
-	z-index:100
+  height:340px;
+  position:relative;
+  z-index:100
 }
 #description {
-	margin-top:20px;/*63px;*/
-	width:450px
+  margin-top:20px;/*63px;*/
+  width:450px
 }
 #description p {
-	font-size:2em;
-	color:#fff
+  font-size:2em;
+  color:#fff
 }
 #description a {
-	color:#d6efff;
-	text-decoration: underline
+  color:#d6efff;
+  text-decoration: underline
 }
 #description a:hover {
-	text-decoration: underline
+  text-decoration: underline
 }
 #description span {
-	display:block;
-	float:right;
-	margin:-30px 80px 0 0;
-	color:#fff;
+  display:block;
+  float:right;
+  margin:-30px 80px 0 0;
+  color:#fff;
 }
 #description small {
-	display:block;
-	color:#fff;
-	font-style:italic;
-	margin-left:25px;
-	text-shadow:1px 1px #2e8fcc
+  display:block;
+  color:#fff;
+  font-style:italic;
+  margin-left:25px;
+  text-shadow:1px 1px #2e8fcc
 }
 #description a.pricing-buttom {
-	background:url(/images/static/pricings-buttom.png) no-repeat 0 -47px;
-	height:44px;
-	width:240px;
-	display:block;
-	text-indent:-9999px;
-	font-size:0;
-	line-height:0
+  background:url(/images/static/pricings-buttom.png) no-repeat 0 -47px;
+  height:44px;
+  width:240px;
+  display:block;
+  text-indent:-9999px;
+  font-size:0;
+  line-height:0
 }
 #description a.phover {
-	background:url(/images/static/pricings-buttom.png) no-repeat 0 0px;
-	height:44px;
-	width:240px;
-	display:block;
-	text-indent:-9999px;
+  background:url(/images/static/pricings-buttom.png) no-repeat 0 0px;
+  height:44px;
+  width:240px;
+  display:block;
+  text-indent:-9999px;
 }
 #display {
-	background: url(/images/static/lcd.png) no-repeat;
-	margin-top:29px;
-	width:399px;
-	height:333px;
-	margin-left:-19px;
-	margin-left:21px;
-	position:relative;
-	z-index:-10
+  background: url(/images/static/lcd.png) no-repeat;
+  margin-top:29px;
+  width:399px;
+  height:333px;
+  margin-left:-19px;
+  margin-left:21px;
+  position:relative;
+  z-index:-10
 }
 #display #photos {
-	position:relative;
-	top:20px;
-	left:18px;
+  position:relative;
+  top:20px;
+  left:18px;
 }
 .galleryview {
-	font-size: 11px;
-	font-family: Helvetica, sans-serif;
-	}
+  font-size: 11px;
+  font-family: Helvetica, sans-serif;
+  }
 .panel-overlay h2, .panel-overlay p {
-	margin: .4em 0;
+  margin: .4em 0;
 }
 .panel-overlay p {
-	line-height: .8em;
+  line-height: .8em;
 }
 /************************************************************************
 Main
 ************************************************************************/
 /* Read more buttons */
 a.readmore {
-	width: 87px;
-	height:24px;
-	text-indent:-9999px;
-	overflow: hidden;
-	background: url(/images/static/readmore.png) no-repeat 0 -25px;
-	display: block;
-	float:left;
-	margin-top:10px
+  width: 87px;
+  height:24px;
+  text-indent:-9999px;
+  overflow: hidden;
+  background: url(/images/static/readmore.png) no-repeat 0 -25px;
+  display: block;
+  float:left;
+  margin-top:10px
 }
 a.readmore .hover {
-	width: 87px;
-	height:24px;
-	text-indent:-9999px;
-	overflow: hidden;
-	background: url(/images/static/readmore.png) no-repeat 0 0px;
-	display: block;
-	float:left;
+  width: 87px;
+  height:24px;
+  text-indent:-9999px;
+  overflow: hidden;
+  background: url(/images/static/readmore.png) no-repeat 0 0px;
+  display: block;
+  float:left;
 }
 /* /Read more buttons */
 
 #columns {
-	margin-bottom:60px
+  margin-bottom:60px
 } /*Just to work better - temporal*/
 #main {
-	margin-top:0px /*50*/
+  margin-top:0px /*50*/
 }
 #main #columns .cols {
-	width:280px;
-	padding:0 10px
+  width:280px;
+  padding:0 10px
 }
 #main .cols h2 {
-	font-weight:bold;
-	color:#464646;
-	margin:0;
-	line-height:35px
+  font-weight:bold;
+  color:#464646;
+  margin:0;
+  line-height:35px
 }
 #main .cols h6 {
-	color:#3798d6;
-	font-style:italic;
-	font-weight:normal;
-	margin-bottom:15px;
-	padding-bottom:5px;
-	border-bottom:1px solid #d8d8d8
+  color:#3798d6;
+  font-style:italic;
+  font-weight:normal;
+  margin-bottom:15px;
+  padding-bottom:5px;
+  border-bottom:1px solid #d8d8d8
 }
 #main .cols img {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	padding:4px;
-	background:#f3f3f3;
-	border:1px solid #e3e3e3;
-	margin-bottom:14px
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding:4px;
+  background:#f3f3f3;
+  border:1px solid #e3e3e3;
+  margin-bottom:14px
 }
 img.shadow {
-	margin: 0 auto;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	z-index: 1;
+  margin: 0 auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
 }
 div.separator {
-	background: url(/images/static/sep-hoz-home.jpg);
-	height:47px;
-	width:941px
+  background: url(/images/static/sep-hoz-home.jpg);
+  height:47px;
+  width:941px
 }
 #main-secondary {
-	margin-top:10px
+  margin-top:10px
 }
 #main-secondary h3 {
-	color:#464646;
-/*	font-weight:200;*/
+  color:#464646;
+/*  font-weight:200;*/
 }
 #main-secondary .left-content-secondary img {
-	float:right;
-	padding:10px
+  float:right;
+  padding:10px
 }
 #main-secondary .left-content-secondary {
-	width:612px;
-	padding-right:40px;
-	border-right:1px solid #ccc
+  width:612px;
+  padding-right:40px;
+  border-right:1px solid #ccc
 }
 #main-secondary .right-content-secondary {
-	padding-left:20px;
-	width:240px;
+  padding-left:20px;
+  width:240px;
 }
 #main-secondary .right-content-secondary ul {
-	margin-left:0;
-	width:240px;
+  margin-left:0;
+  width:240px;
 }
 #main-secondary .right-content-secondary ul li {
-	list-style:none;
-	border-bottom:1px solid #ccc;
-	margin-left:0;
+  list-style:none;
+  border-bottom:1px solid #ccc;
+  margin-left:0;
 }
 #main-secondary .right-content-secondary ul li a {
-	color:#6f6f6f;
-	text-transform:uppercase;
-	text-decoration:none;
-	display:block;
-	padding:6px 0 6px 5px;
+  color:#6f6f6f;
+  text-transform:uppercase;
+  text-decoration:none;
+  display:block;
+  padding:6px 0 6px 5px;
 }
 #main-secondary .right-content-secondary ul li a:hover {
-	background:#f6f6f6
+  background:#f6f6f6
 }
 #main-secondary .right-content-secondary ul li a span.meta {
-	display:block;
-	font-size:.9em;
-	text-transform:none;
-	padding-right: 13px
+  display:block;
+  font-size:.9em;
+  text-transform:none;
+  padding-right: 13px
 }
 #main-secondary .right-content-secondary ul li a span.meta span.sub-meta {
-	padding-right:4px;
-	border-right: 1px solid #ccc
+  padding-right:4px;
+  border-right: 1px solid #ccc
 }
 /*Main Inner*/
 #main-inner {
-	margin-top:80px
+  margin-top:80px
 }
 #main-inner div.title h3 {
-	color: #545454;
-	font-size: 2.3em;
-	font-weight: bold;
-	text-decoration: none;
-	padding:0;
-	margin: 0
+  color: #545454;
+  font-size: 2.3em;
+  font-weight: bold;
+  text-decoration: none;
+  padding:0;
+  margin: 0
 }
 #main-inner .left-content-secondary img {
-	float:right;
-	padding:10px
+  float:right;
+  padding:10px
 }
 #main-inner .left-content-secondary {
-	width:612px;
-	padding-right:40px;
-	border-right:1px solid #ccc
+  width:612px;
+  padding-right:40px;
+  border-right:1px solid #ccc
 }
 #main-inner .left-content-secondary .small-title {
-	margin-left: 2px;
-	color: #4f4f4f
+  margin-left: 2px;
+  color: #4f4f4f
 }
 #main-inner .left-content-secondary div.title {
-	padding-bottom:3px;
-	border-bottom:1px solid #ccc;
-	margin-bottom:24px
+  padding-bottom:3px;
+  border-bottom:1px solid #ccc;
+  margin-bottom:24px
 }
 #main-inner .left-content-secondary img.laptop {
-	float: left;
-	margin-top: 35px
+  float: left;
+  margin-top: 35px
 }
 #main-inner .left-content-secondary div.product-quote {
-	padding:70px 0
+  padding:70px 0
 }
 #main-inner .left-content-secondary div.product-quote h4 {
-	font-size:1.6em;
-	font-weight:bold;
-	margin-bottom:0;
-	color:#efa049;
+  font-size:1.6em;
+  font-weight:bold;
+  margin-bottom:0;
+  color:#efa049;
 }
 #main-inner .left-content-secondary div.product-quote p {
-	font-style: italic;
-	color: #959494
+  font-style: italic;
+  color: #959494
 }
 #main-inner .right-content-secondary {
-	padding-left:20px;
-	width:240px;
-	margin-top: 30px
+  padding-left:20px;
+  width:240px;
+  margin-top: 30px
 }
 #main-inner .right-content-secondary img {
-	float: left;
-	margin: 0px 15px 0px 5px
+  float: left;
+  margin: 0px 15px 0px 5px
 }
 #main-inner .right-content-secondary ul {
-	margin-left:0;
-	width:240px;
+  margin-left:0;
+  width:240px;
 }
 #main-inner .right-content-secondary ul li {
-	list-style:none;
-	border-bottom:1px solid #ccc;
-	margin-left:0;
+  list-style:none;
+  border-bottom:1px solid #ccc;
+  margin-left:0;
 }
 #main-inner .right-content-secondary ul li a {
-	color:#6f6f6f;
-	text-transform:uppercase;
-	text-decoration:none;
-	display:block;
-	padding:8px 0 14px 5px;
-	clear: both;
-	font-weight: bold
+  color:#6f6f6f;
+  text-transform:uppercase;
+  text-decoration:none;
+  display:block;
+  padding:8px 0 14px 5px;
+  clear: both;
+  font-weight: bold
 }
 #main-inner .right-content-secondary ul li a:hover {
-	background:#f6f6f6
+  background:#f6f6f6
 }
 #main-inner .right-content-secondary ul li a span.meta {
-	display:block;
-	font-size:.9em;
-	text-transform:none;
-	padding-right: 13px
+  display:block;
+  font-size:.9em;
+  text-transform:none;
+  padding-right: 13px
 }
 #main-inner .right-content-secondary ul li a span.meta span.sub-meta {
-	padding-right:4px;
-	font-weight: normal
+  padding-right:4px;
+  font-weight: normal
 }
 /*Main Inner Secondary Blog */
 
 #main-inner .left-content-secondary a.blog-post-title {
-	color: #545454;
-	font-size: 2.3em;
-	font-weight: bold;
-	text-decoration: none;
+  color: #545454;
+  font-size: 2.3em;
+  font-weight: bold;
+  text-decoration: none;
 }
 #main-inner .left-content-secondary a.blog-post-title:hover {
-	text-decoration: none;
-	color: #47a4de;
+  text-decoration: none;
+  color: #47a4de;
 }
 #main-inner .left-content-secondary .blog-post {
-	background: url(/images/static/blog-post-separator.jpg) no-repeat center bottom;
-	padding-bottom: 120px
+  background: url(/images/static/blog-post-separator.jpg) no-repeat center bottom;
+  padding-bottom: 120px
 }
 #main-inner .left-content-secondary .blog-post img {
-	float: none;
-	padding: 6px;
-	background: #fff;
-	outline: 1px dotted #ccc;
-	margin: 15px 0
+  float: none;
+  padding: 6px;
+  background: #fff;
+  outline: 1px dotted #ccc;
+  margin: 15px 0
 }
 #main-inner .left-content-secondary .blog-post a:hover img {
-	background: #f2f2f2;
-	outline: 1px dotted #ccc
+  background: #f2f2f2;
+  outline: 1px dotted #ccc
 }
 #main-inner .right-content-secondary h1 {
-	text-align: center;
-	font-size: 1.6em;
-	color: #545454;
-	font-weight: bold;
-	letter-spacing: 1px;
-	border-top: 1px dotted #ccc;
-	border-bottom: 1px dotted #ccc;
-	padding: 8px 0;
-	margin: 0 0;
+  text-align: center;
+  font-size: 1.6em;
+  color: #545454;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-top: 1px dotted #ccc;
+  border-bottom: 1px dotted #ccc;
+  padding: 8px 0;
+  margin: 0 0;
 }
 #main-inner .right-content-secondary .arrow {
-	background: url(/images/static/arrow.jpg) no-repeat 7px 0;
-	width: 30px;
-	text-indent: -9999px;
-	margin: -2px auto 0 auto
+  background: url(/images/static/arrow.jpg) no-repeat 7px 0;
+  width: 30px;
+  text-indent: -9999px;
+  margin: -2px auto 0 auto
 }
 #main-inner .right-content-secondary ul#categories li a {
-	font-weight: normal;
-	text-transform: capitalize;
-	padding:8px 0 8px 5px;
+  font-weight: normal;
+  text-transform: capitalize;
+  padding:8px 0 8px 5px;
 }
 #main-inner .right-content-secondary ul.blog-sidebar-a li a {
-	font-weight: normal;
-	text-transform: capitalize;
-	padding:8px 0 8px 5px;
+  font-weight: normal;
+  text-transform: capitalize;
+  padding:8px 0 8px 5px;
 }
 #main-inner .right-content-secondary div#archives {
-	margin-top: 40px
+  margin-top: 40px
 }
 #main-inner .right-content-secondary div#text-widget {
-	margin-top: 40px
+  margin-top: 40px
 }
 #main-inner .right-content-secondary div#ads {
-	margin-top: 40px
+  margin-top: 40px
 }
 
 #main-inner-testimonial{
-	padding-top: 40px;
-	padding-right: 20px;
-	padding-left: 20px;
+  padding-top: 40px;
+  padding-right: 20px;
+  padding-left: 20px;
 }
 
 #main-inner-testimonial p{
-	text-align:right;
-	font-size:170%;
-	color: #aaa;
+  text-align:right;
+  font-size:170%;
+  color: #aaa;
 }
 
 #main-inner-testimonial img{
-	padding-right:50px;
+  padding-right:50px;
 }
 
 div.meta {
-	width: 360px;
-	float: left
+  width: 360px;
+  float: left
 }
 .comments-counter {
-	background:transparent url(/images/static/balloon.png) no-repeat scroll 100px 50%;
-	float:right;
-	margin-left:31px;
-	padding-left:22px;
-	text-align:right;
-	width:190px;
+  background:transparent url(/images/static/balloon.png) no-repeat scroll 100px 50%;
+  float:right;
+  margin-left:31px;
+  padding-left:22px;
+  text-align:right;
+  width:190px;
 }
 div.blog-content p {
-	clear: both
+  clear: both
 }
 .navigator {
-	margin:15px 0 0 0;
-	clear:both;
-	position:relative;
-	bottom:5px;
-	right: 160px
+  margin:15px 0 0 0;
+  clear:both;
+  position:relative;
+  bottom:5px;
+  right: 160px
 }
 .navigator a, .navigator span {
-	font-weight:bold;
-	float:right;
-	display:block;
-	padding:3px 10px;
-	margin:0 3px 0 0;
-	background-color:white;
-	border:1px solid #c5d6e6;
-	-moz-border-radius:3px;
-	-webkit-border-radius:3px
+  font-weight:bold;
+  float:right;
+  display:block;
+  padding:3px 10px;
+  margin:0 3px 0 0;
+  background-color:white;
+  border:1px solid #c5d6e6;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px
 }
 .navigator a.selected, .navigator span.selected {
-	background-color:#38a2d7;
-	border:1px solid #3186b0
+  background-color:#38a2d7;
+  border:1px solid #3186b0
 }
 .navigator b {
-	color:white !important
+  color:white !important
 }
 .navigator a:hover {
-	-moz-box-shadow: 0 0 3px #ccc;
-	-webkit-box-shadow: 0 0 3px #ccc;
+  -moz-box-shadow: 0 0 3px #ccc;
+  -webkit-box-shadow: 0 0 3px #ccc;
 }
 div#ads a.adhere100px {
-	width:100px;
-	height:100px;
-	background:#e7e7e7;
-	display:block;
-	margin:5px;
-	float:left;
-	border: 1px solid #ccc;
-	text-align: center;
-	line-height: 850%;
-	color: #545454;
-	font-weight: bold;
-	text-decoration: none;
+  width:100px;
+  height:100px;
+  background:#e7e7e7;
+  display:block;
+  margin:5px;
+  float:left;
+  border: 1px solid #ccc;
+  text-align: center;
+  line-height: 850%;
+  color: #545454;
+  font-weight: bold;
+  text-decoration: none;
 }
 div#ads a.adhere100px:hover {
-	background: #ddd
+  background: #ddd
 }
 div#ads div.ad-boxes {
-	margin:0 7px;
+  margin:0 7px;
 }
 /************************************************************************
 Tour Page
 ************************************************************************/
 #main-inner h2.main-title {
-	color:#44a1dc;
-	width: 450px;
-	float: left
+  color:#44a1dc;
+  width: 450px;
+  float: left
 }
 #main-inner h1.tour-title {
-	color:#44a1dc;
-	text-align:center
+  color:#44a1dc;
+  text-align:center
 }
 #main-inner ul#tour-menu {
-	float:left;
-	width: 400px;
-	margin: 20px 0 0 80px
+  float:left;
+  width: 400px;
+  margin: 20px 0 0 80px
 }
 #main-inner ul#tour-menu li {
-	border-right:1px solid #CCCCCC;
-	float:left;
-	list-style-image:none;
-	list-style-position:outside;
-	list-style-type:none;
-	margin:0 0px 0 13px;
-	padding:0 12px 0 0px;
-	line-height:13px;
+  border-right:1px solid #CCCCCC;
+  float:left;
+  list-style-image:none;
+  list-style-position:outside;
+  list-style-type:none;
+  margin:0 0px 0 13px;
+  padding:0 12px 0 0px;
+  line-height:13px;
 }
 #main-inner ul#tour-menu li:last-child {
-	border: none
+  border: none
 }
 #main-inner ul#tour-menu li a {
-	color:#575757
+  color:#575757
 }
 #main-inner ul#tour-menu li a.selected {
-	color: #111;
-	text-decoration: underline
+  color: #111;
+  text-decoration: underline
 }
 #main-inner ul#tour-menu li a:hover {
-	color: #111
+  color: #111
 }
 #video-container {
-	text-align: center;
-	text-indent: -9999px;
-	background: url("/images/static/video-shadow.jpg") no-repeat center 413px
+  text-align: center;
+  text-indent: -9999px;
+  background: url("/images/static/video-shadow.jpg") no-repeat center 413px
 }
 #video-container #video {
-	width: 790px;
-	margin-left: auto;
-	margin-right: auto
+  width: 790px;
+  margin-left: auto;
+  margin-right: auto
 }
 #tags {
-	padding: 40px 0
+  padding: 40px 0
 }
 #tags p {
-	color: #818181;
-	font-size: 1.8em;
-	font-size: 1.4em;
-	text-align: center
+  color: #818181;
+  font-size: 1.8em;
+  font-size: 1.4em;
+  text-align: center
 }
 #main-tour-content {
-	margin-top: 40px;
-	width:650px;
-	margin-right: 0;
-	width: 700px;
+  margin-top: 40px;
+  width:650px;
+  margin-right: 0;
+  width: 700px;
 }
 #main-tour-content h3 {
-	color: #44a1dc
+  color: #44a1dc
 }
 #main-tour-content img {
-	padding:3px;
-	margin:0 3px;
-	background:#f9f9f9;
-	border:1px solid #ccc;
+  padding:3px;
+  margin:0 3px;
+  background:#f9f9f9;
+  border:1px solid #ccc;
 }
 .separator-big {
-	background: url(/images/static/separator-big.jpg) no-repeat 0 0;
-	text-indent: -9999px;
-	height: 56px
+  background: url(/images/static/separator-big.jpg) no-repeat 0 0;
+  text-indent: -9999px;
+  height: 56px
 }
 div#secondary-text {
-	margin-top: 30px;
-	padding-top: 40px
+  margin-top: 30px;
+  padding-top: 40px
 }
 div#secondary-text p {
-	font-style: italic
+  font-style: italic
 }
 div#secondary-text hr {
-	margin-bottom:30px;
-	background: #ededed
+  margin-bottom:30px;
+  background: #ededed
 }
 ul#styled-menu {
-	margin-top: 40px;
-	margin-left:27px;
-	width:189px;
-	border-top: 1px solid #e5e5e5;
-	border-left: 1px solid #e5e5e5;
-	border-right: 1px solid #e5e5e5;
-	float:right
+  margin-top: 40px;
+  margin-left:27px;
+  width:189px;
+  border-top: 1px solid #e5e5e5;
+  border-left: 1px solid #e5e5e5;
+  border-right: 1px solid #e5e5e5;
+  float:right
 }
 ul#styled-menu li {
-	list-style:none;
-	border-bottom:1px solid #ccc;
-	margin-left:0;
+  list-style:none;
+  border-bottom:1px solid #ccc;
+  margin-left:0;
 }
 ul#styled-menu li a {
-	color:#6f6f6f;
-	text-transform:uppercase;
-	text-decoration:none;
-	display:block;
-	padding:4px 0 4px 5px;
-	background: #f8f8f8;
-	border-top: 1px solid #fff
+  color:#6f6f6f;
+  text-transform:uppercase;
+  text-decoration:none;
+  display:block;
+  padding:4px 0 4px 5px;
+  background: #f8f8f8;
+  border-top: 1px solid #fff
 }
 ul#styled-menu li a:hover {
-	background:#efeeee
+  background:#efeeee
 }
 ul#styled-menu li a span.meta {
-	display:block;
-	font-size:.9em;
-	text-transform:none;
-	padding-right: 13px
+  display:block;
+  font-size:.9em;
+  text-transform:none;
+  padding-right: 13px
 }
 ul#styled-menu li a span.meta span.sub-meta {
-	padding-right:4px;
-	border-right: 1px solid #ccc
+  padding-right:4px;
+  border-right: 1px solid #ccc
 }
 #main-tour-content div.col {
-	padding:0 15px;
+  padding:0 15px;
 }
 ul#styled-menu li a span {
-	text-transform:none;
-	padding-left:12px;
+  text-transform:none;
+  padding-left:12px;
 }
 ul#styled-menu li a img {
-	padding-left: 8px;
-	line-height:18px;
-	vertical-align:middle;
+  padding-left: 8px;
+  line-height:18px;
+  vertical-align:middle;
 }
 /************************************************************************
 Headquarters Page
 ************************************************************************/
 .strong {
-	color:#242F33;
-	font-size:17px;
-	font-weight:bold;
-	line-height: 1.2
+  color:#242F33;
+  font-size:17px;
+  font-weight:bold;
+  line-height: 1.2
 }
 #hq-left-intro {
-	width:450px;
-	padding-right:10px;
-	padding-bottom:50px;
+  width:450px;
+  padding-right:10px;
+  padding-bottom:50px;
 }
 div#hq-main {
-	margin-top:110px;
-	clear:both
+  margin-top:110px;
+  clear:both
 }
 div.hq-info h3 {
-	margin:0;
-	font-size:1.7em;
-	font-weight:bold;
-	color:#12689e;
-	padding-top:10px
+  margin:0;
+  font-size:1.7em;
+  font-weight:bold;
+  color:#12689e;
+  padding-top:10px
 }
 div.hq-info span {
-	font-style:italic;
+  font-style:italic;
 }
 div.hq-info p {
-	padding-top:10px
+  padding-top:10px
 }
 div.hq-info img {
-	padding:4px;
-	outline:1px solid #ccc;
+  padding:4px;
+  outline:1px solid #ccc;
 }
 #video-add {
-	padding-top:20px;
-	padding-bottom:35px;
-	overflow:hidden
+  padding-top:20px;
+  padding-bottom:35px;
+  overflow:hidden
 }
 div#hq-cols {
-	padding-top:10px
+  padding-top:10px
 }
 div#video-add div.video p {
-	display: none
+  display: none
 }
 div.video {
-	margin-top: 53px
+  margin-top: 53px
 }
 /************************************************************************
 Pricings Page
 ************************************************************************/
 #pricing {
-	width: 902px;
-	margin-left: auto;
-	margin-right: auto
+  width: 902px;
+  margin-left: auto;
+  margin-right: auto
 }
 table#pricing-chart td {
-	text-align:center
+  text-align:center
 }
 #main-inner div.inner-page-title {
-	margin-bottom:30px;
-	text-align:center;
+  margin-bottom:30px;
+  text-align:center;
 }
 #main-inner h2.main-title-2 {
-	color:#44a1dc;
-	margin:0;
+  color:#44a1dc;
+  margin:0;
 
 }
 #main-inner div.inner-page-title span {
-	font-size:.9em;
-	margin-left:2px;
-	border-bottom:1px solid #ccc;
-	padding-bottom:3px;
-	color: #666;
-	display:block;
-	width:460px
+  font-size:.9em;
+  margin-left:2px;
+  border-bottom:1px solid #ccc;
+  padding-bottom:3px;
+  color: #666;
+  display:block;
+  width:460px
 }
 #main-inner #main-pricing-list {
-	margin:0px 40px 20px 40px
+  margin:0px 40px 20px 40px
 }
 #main-inner ul#main-pricing-list li {
-	color:#666;
-	line-height:30px;
-	list-style:none;
-	font-weight:normal
+  color:#666;
+  line-height:30px;
+  list-style:none;
+  font-weight:normal
 }
 #main-inner ul#main-pricing-list li.check {
-	background:url(/images/static/check.png) no-repeat 0 40%;
-	padding-left:25px
+  background:url(/images/static/check.png) no-repeat 0 40%;
+  padding-left:25px
 }
 #main-inner ul#main-pricing-list li.credit-card {
-	background:url(/images/static/cc.png) no-repeat 0 40%;
-	padding-left:25px
+  background:url(/images/static/cc.png) no-repeat 0 40%;
+  padding-left:25px
 }
 #main-inner ul#main-pricing-list li.clock {
-	background:url(/images/static/clock.png) no-repeat 0 40%;
-	padding-left:25px
+  background:url(/images/static/clock.png) no-repeat 0 40%;
+  padding-left:25px
 }
 #main-inner div#right-call-buttom {
-	float:right;
-	width:226px;
-	margin-top:5px
+  float:right;
+  width:226px;
+  margin-top:5px
 }
 #main-inner div#right-call-buttom a {
-	color:#0C3;
-	background:url(/images/static/call-us.png) no-repeat 0 0;
-	height:70px;
-	display:block;
-	text-indent:-9999px
+  color:#0C3;
+  background:url(/images/static/call-us.png) no-repeat 0 0;
+  height:70px;
+  display:block;
+  text-indent:-9999px
 }
 #main-inner div#right-call-buttom a:hover {
-	background:url(/images/static/call-us.png) no-repeat 0 -73px;
+  background:url(/images/static/call-us.png) no-repeat 0 -73px;
 }
 table#pricing-chart th.table-col-0 {
-	text-align:center
+  text-align:center
 }
 #main-inner div#pricing-col {
-	margin-top: 5px
+  margin-top: 5px
 }
 #main-inner div#pricing-col div.column {
-/*	width: 259px;*/
-	padding: 0 20px
+/*  width: 259px;*/
+  padding: 0 20px
 }
 #main-inner div#pricing-col h4 {
-	font-weight:bold;
+  font-weight:bold;
 }
 #main-inner div#pricing-col img {
-	padding: 2px;
-	background: #ccc;
-	outline: 1px solid #b7b7b7;
-	margin-bottom: 15px
+  padding: 2px;
+  background: #ccc;
+  outline: 1px solid #b7b7b7;
+  margin-bottom: 15px
 }
 /************************************************************************
 Sign Up Page
@@ -803,159 +803,159 @@ Sign Up Page
 
 
 form#new_user_old {
-	background: #f4f4f4 url(/images/static/white-space.gif) repeat-x top left;
-	border: 1px solid #ccc;
-	overflow: hidden;
-	width: 500px;
-	padding: 30px 50px;
+  background: #f4f4f4 url(/images/static/white-space.gif) repeat-x top left;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  width: 500px;
+  padding: 30px 50px;
 }
 form#new_user_old input[type="text"] {
-	-moz-border-radius:4px 4px 4px 4px;
-	-webkit-border-radius:4px;
-	float:right;
-	margin:1.5em 0;
-	padding:10px 11px;
-	width:362px;
-	background: url(/images/static/text-form-bg.jpg) repeat-x
+  -moz-border-radius:4px 4px 4px 4px;
+  -webkit-border-radius:4px;
+  float:right;
+  margin:1.5em 0;
+  padding:10px 11px;
+  width:362px;
+  background: url(/images/static/text-form-bg.jpg) repeat-x
 }
 form#new_user_old label {
-	line-height:62px;
-	margin: 0 10px
+  line-height:62px;
+  margin: 0 10px
 }
 form#new_user_old h3 {
-	background: url(/images/static/1.png) no-repeat 0 0;
-	padding-left: 60px;
-	height: 43px;
-	line-height: 47px;
-	text-shadow: 1px 1px #fff
+  background: url(/images/static/1.png) no-repeat 0 0;
+  padding-left: 60px;
+  height: 43px;
+  line-height: 47px;
+  text-shadow: 1px 1px #fff
 }
 div#main-inner form#sign-up-bottom {
-	background: #f4f4f4 url(/images/static/white-space.gif) repeat-x top left;
-	border: 1px solid #ccc;
-	overflow: hidden;
-	width: 500px;
-	padding: 50px;
-	margin-top: 50px;
+  background: #f4f4f4 url(/images/static/white-space.gif) repeat-x top left;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  width: 500px;
+  padding: 50px;
+  margin-top: 50px;
 }
 div#main-inner form#sign-up-bottom input[type="text"] {
-	-moz-border-radius:4px 4px 4px 4px;
-	-webkit-border-radius:4px;
-	float:right;
-	margin:1.5em 0;
-	padding:10px 11px;
-	width:362px;
-	background: url(/images/static/text-form-bg.jpg) repeat-x
+  -moz-border-radius:4px 4px 4px 4px;
+  -webkit-border-radius:4px;
+  float:right;
+  margin:1.5em 0;
+  padding:10px 11px;
+  width:362px;
+  background: url(/images/static/text-form-bg.jpg) repeat-x
 }
 div#main-inner form#sign-up-bottom input[type="password"] {
-	-moz-border-radius:4px 4px 4px 4px;
-	-webkit-border-radius:4px;
-	float:right;
-	margin:1.5em 0;
-	padding:10px 11px;
-	width:362px;
-	background: url(/images/static/text-form-bg.jpg) repeat-x
+  -moz-border-radius:4px 4px 4px 4px;
+  -webkit-border-radius:4px;
+  float:right;
+  margin:1.5em 0;
+  padding:10px 11px;
+  width:362px;
+  background: url(/images/static/text-form-bg.jpg) repeat-x
 }
 div#main-inner form#sign-up-bottom label {
-	line-height:62px;
-	margin: 0 10px
+  line-height:62px;
+  margin: 0 10px
 }
 div#main-inner form#sign-up-bottom h3 {
-	background: url(/images/static/2.png) no-repeat 0 0;
-	padding-left: 60px;
-	height: 43px;
-	line-height: 47px;
-	text-shadow: 1px 1px #fff
+  background: url(/images/static/2.png) no-repeat 0 0;
+  padding-left: 60px;
+  height: 43px;
+  line-height: 47px;
+  text-shadow: 1px 1px #fff
 }
 div#main-inner input#create[type="submit"] {
-	border: 0;
-	background: url(/images/static/create.gif) no-repeat 0 0;
-	cursor: pointer;
-	text-indent: -9999px;
-	height:70px;
-	width: 539px;
-	margin: 35px
+  border: 0;
+  background: url(/images/static/create.gif) no-repeat 0 0;
+  cursor: pointer;
+  text-indent: -9999px;
+  height:70px;
+  width: 539px;
+  margin: 35px
 }
 div#main-inner input#create[type="submit"]:hover {
-	background-position: 0 -76px
+  background-position: 0 -76px
 }
 div#thanks img {
-	padding-bottom:30px;
-	padding-left:15px
+  padding-bottom:30px;
+  padding-left:15px
 }
 div#trial {
-	clear:both;
-	padding-top:10px;
-	padding-bottom:15px
+  clear:both;
+  padding-top:10px;
+  padding-bottom:15px
 }
 div#trial h3 {
-	text-align:center;
-	background:url(/images/static/trial.jpg) no-repeat 0 0;
-	text-indent:-9999px;
-	width:187px;
-	margin:5px 30px 5px auto
+  text-align:center;
+  background:url(/images/static/trial.jpg) no-repeat 0 0;
+  text-indent:-9999px;
+  width:187px;
+  margin:5px 30px 5px auto
 }
 div#trial p {
-	font-size:.9em;
-	text-align:center
+  font-size:.9em;
+  text-align:center
 }
 div#text-widget div.cloud {
-	background:url(/images/static/bubble.jpg) no-repeat 0 0;
-	padding:8px;
-	margin-bottom:15px
+  background:url(/images/static/bubble.jpg) no-repeat 0 0;
+  padding:8px;
+  margin-bottom:15px
 }
 div#text-widget div.cloud p {
-	font-size:.9em;
-	text-shadow:1px 1px #fff;
+  font-size:.9em;
+  text-shadow:1px 1px #fff;
 }
 div#text-widget p.client strong {
-	color:#111;
+  color:#111;
 }
 div#text-widget p.client {
-	margin-top:-10px;
-	margin-left:21px
+  margin-top:-10px;
+  margin-left:21px
 }
 div#text-widget div.cloud h3 {
-	font-size:1.6em;
-	margin:0;
-	line-height:20px;
-	padding-bottom:5px
+  font-size:1.6em;
+  margin:0;
+  line-height:20px;
+  padding-bottom:5px
 }
 div#widget-4 h3 {
-	background:url(/images/static/who.jpg) no-repeat 0 0;
-	text-indent:-9999px;
-	height:28px;
-	margin-left:10px
+  background:url(/images/static/who.jpg) no-repeat 0 0;
+  text-indent:-9999px;
+  height:28px;
+  margin-left:10px
 }
 div#widget-4 img {
-	padding:10px;
-	outline:1px solid #ccc
+  padding:10px;
+  outline:1px solid #ccc
 }
 form#new_user_old input[type="text"] {
-	-moz-border-radius:4px 4px 4px 4px;
-	-webkit-border-radius:4px;
-	float:right;
-	margin:1.5em 0;
-	padding:10px 11px;
-	width:362px;
-	background: url(/images/static/text-form-bg.jpg) repeat-x
+  -moz-border-radius:4px 4px 4px 4px;
+  -webkit-border-radius:4px;
+  float:right;
+  margin:1.5em 0;
+  padding:10px 11px;
+  width:362px;
+  background: url(/images/static/text-form-bg.jpg) repeat-x
 }
 div#main-inner form#sign-up-bottom input[type="text"] {
-	-moz-border-radius:4px 4px 4px 4px;
-	-webkit-border-radius:4px;
-	float:right;
-	margin:1.5em 0;
-	padding:10px 11px;
-	width:362px;
-	background: url(/images/static/text-form-bg.jpg) repeat-x
+  -moz-border-radius:4px 4px 4px 4px;
+  -webkit-border-radius:4px;
+  float:right;
+  margin:1.5em 0;
+  padding:10px 11px;
+  width:362px;
+  background: url(/images/static/text-form-bg.jpg) repeat-x
 }
 div#main-inner form#sign-up-bottom input[type="password"] {
-	-moz-border-radius:4px 4px 4px 4px;
-	-webkit-border-radius:4px;
-	float:right;
-	margin:1.5em 0;
-	padding:10px 11px;
-	width:362px;
-	background: url(/images/static/text-form-bg.jpg) repeat-x
+  -moz-border-radius:4px 4px 4px 4px;
+  -webkit-border-radius:4px;
+  float:right;
+  margin:1.5em 0;
+  padding:10px 11px;
+  width:362px;
+  background: url(/images/static/text-form-bg.jpg) repeat-x
 }
 /************************************************************************
 Contact
@@ -963,140 +963,140 @@ Contact
 
 
 div#main-inner form#contact-form {
-	background: #f4f4f4 url(/images/static/white-space.gif) repeat-x top left;
-	border: 1px solid #ccc;
-	overflow: hidden;
-	width: 500px;
-	padding: 30px 50px;
-	margin-top: 50px;
+  background: #f4f4f4 url(/images/static/white-space.gif) repeat-x top left;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  width: 500px;
+  padding: 30px 50px;
+  margin-top: 50px;
 }
 div#main-inner form#contact-form input[type="text"] {
-	-moz-border-radius:4px 4px 4px 4px;
-	-webkit-border-radius:4px;
-	float:right;
-	margin:1.5em 0;
-	padding:10px 11px;
-	width:362px;
-	background: url(/images/static/text-form-bg.jpg) repeat-x
+  -moz-border-radius:4px 4px 4px 4px;
+  -webkit-border-radius:4px;
+  float:right;
+  margin:1.5em 0;
+  padding:10px 11px;
+  width:362px;
+  background: url(/images/static/text-form-bg.jpg) repeat-x
 }
 div#main-inner form#contact-form label {
-	line-height:62px;
-	margin: 0 10px
+  line-height:62px;
+  margin: 0 10px
 }
 div#main-inner form#contact-form h3 {
-	background: url(/images/static/as.png) no-repeat 0 0;
-	padding-left: 60px;
-	height: 43px;
-	line-height: 47px;
-	text-shadow: 1px 1px #fff
+  background: url(/images/static/as.png) no-repeat 0 0;
+  padding-left: 60px;
+  height: 43px;
+  line-height: 47px;
+  text-shadow: 1px 1px #fff
 }
 div#main-inner form#contact-form textarea {
-	-webkit-border-radius:4px;
-	-moz-border-radius:4px 4px 4px 4px;
-	float:right;
-	height:100px;
-	width:373px;
-	background: #fff url(/images/static/text-form-bg.jpg) repeat-x;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px 4px 4px 4px;
+  float:right;
+  height:100px;
+  width:373px;
+  background: #fff url(/images/static/text-form-bg.jpg) repeat-x;
 }
 div.left-content-secondary p.contact-intro {
-	clear:both;
-	font-size:1.3em;
-	padding-top:35px;
+  clear:both;
+  font-size:1.3em;
+  padding-top:35px;
 }
 div.left-content-secondary div.trib {
-	background:url(/images/static/trib.jpg) no-repeat 0 0;
-	text-indent:-9999px;
-	height:22px;
-	width:82px;
-	margin:30px auto;
+  background:url(/images/static/trib.jpg) no-repeat 0 0;
+  text-indent:-9999px;
+  height:22px;
+  width:82px;
+  margin:30px auto;
 }
 #main-inner .right-content-secondary ul#map li a {
-	font-weight: normal;
-	text-transform: capitalize;
-	padding:8px 0 8px 5px;
+  font-weight: normal;
+  text-transform: capitalize;
+  padding:8px 0 8px 5px;
 }
 #main-inner .right-content-secondary div#details {
-	clear:both;
-	padding-top:30px;
-	margin-bottom:0
+  clear:both;
+  padding-top:30px;
+  margin-bottom:0
 }
 #main-inner .right-content-secondary div#details p {
-	margin:0;
-	line-height:25px
+  margin:0;
+  line-height:25px
 }
 #main-inner .right-content-secondary div#details p.mail {
-	background:url(/images/static/mail.png) 0 30% no-repeat;
-	padding-left:25px
+  background:url(/images/static/mail.png) 0 30% no-repeat;
+  padding-left:25px
 }
 #main-inner .right-content-secondary div#details p.tel {
-	background:url(/images/static/phone.png) 0 30% no-repeat;
-	padding-left:25px
+  background:url(/images/static/phone.png) 0 30% no-repeat;
+  padding-left:25px
 }
 #main-inner .right-content-secondary div#details p.fax {
-	background:url(/images/static/fax.png) 0 30% no-repeat;
-	padding-left:25px
+  background:url(/images/static/fax.png) 0 30% no-repeat;
+  padding-left:25px
 }
 #main-inner .right-content-secondary div#text-widget-contact {
-	margin-top: 20px
+  margin-top: 20px
 }
 #main-inner .right-content-secondary div#text-widget-contact p {
-	font-size:.9em
+  font-size:.9em
 }
 div#main-inner form#contact-form input#contact-submit[type="submit"] {
-	border: 0;
-	background: url(/images/static/contact-submit.png) no-repeat 0 0;
-	cursor: pointer;
-	text-indent: -9999px;
-	height:38px;
-	width: 125px;
-	float:right;
-	position:relative;
-	top:10px
+  border: 0;
+  background: url(/images/static/contact-submit.png) no-repeat 0 0;
+  cursor: pointer;
+  text-indent: -9999px;
+  height:38px;
+  width: 125px;
+  float:right;
+  position:relative;
+  top:10px
 }
 div#main-inner form#contact-form input#contact-submit[type="submit"]:hover {
-	background-position:0 -40px
+  background-position:0 -40px
 }
 div#main-inner form#blog-comment-form input#contact-submit[type="submit"] {
-	border: 0;
-	background: url(/images/static/contact-submit.png) no-repeat 0 0;
-	cursor: pointer;
-	text-indent: -9999px;
-	height:38px;
-	width: 125px;
-	float:right;
-	position:relative;
-	top:50px;
-	left:30px
+  border: 0;
+  background: url(/images/static/contact-submit.png) no-repeat 0 0;
+  cursor: pointer;
+  text-indent: -9999px;
+  height:38px;
+  width: 125px;
+  float:right;
+  position:relative;
+  top:50px;
+  left:30px
 }
 div#main-inner form#blog-comment-form input#contact-submit[type="submit"]:hover {
-	background-position:0 -40px
+  background-position:0 -40px
 }
 #message {
-	margin: 5px 0;
-	padding: 0;
+  margin: 5px 0;
+  padding: 0;
 }
 #message h2 {
-	margin: 0;
+  margin: 0;
 }
 .error_message {
-	display: block;
-	height: 22px;
-	line-height: 22px;
-	background: #FBE3E4 url('assets/error.gif') no-repeat 10px center;
-	padding: 3px 10px 3px 35px;
-	color:#8a1f11;
-	border: 1px solid #FBC2C4;
-	-webkit-border-radius:5px;
+  display: block;
+  height: 22px;
+  line-height: 22px;
+  background: #FBE3E4 url('assets/error.gif') no-repeat 10px center;
+  padding: 3px 10px 3px 35px;
+  color:#8a1f11;
+  border: 1px solid #FBC2C4;
+  -webkit-border-radius:5px;
 }
 .loader {
-	padding: 0 10px;
+  padding: 0 10px;
 }
 #message h2 {
-	background: url('/images/static/success.png') left no-repeat;
-	padding-left:62px;
+  background: url('/images/static/success.png') left no-repeat;
+  padding-left:62px;
 }
 acronym {
-	border-bottom:1px dotted #ccc;
+  border-bottom:1px dotted #ccc;
 }
 /************************************************************************
 Single Page
@@ -1104,177 +1104,177 @@ Single Page
 /*Single*/
 #main-inner .left-content-secondary .blog-post-single {
 no-repeat center bottom;
-	padding-bottom: 120px
+  padding-bottom: 120px
 }
 #main-inner .left-content-secondary .blog-post-single img {
-	float: none;
-	padding: 6px;
-	background: #fff;
-	outline: 1px dotted #ccc;
-	margin: 15px 0
+  float: none;
+  padding: 6px;
+  background: #fff;
+  outline: 1px dotted #ccc;
+  margin: 15px 0
 }
 #main-inner .left-content-secondary .blog-post-single a:hover img {
-	background: #f2f2f2;
-	outline: 1px dotted #ccc
+  background: #f2f2f2;
+  outline: 1px dotted #ccc
 }
 div.blog-post-single p.rating {
-	background:url(/images/static/stars.jpg) no-repeat 0 50%;
-	padding-left: 110px;
-	width: 180px;
-	margin-top: 60px;
+  background:url(/images/static/stars.jpg) no-repeat 0 50%;
+  padding-left: 110px;
+  width: 180px;
+  margin-top: 60px;
 }
 .tweetmemebutton {
-	color:#333;
-	font-family: Helvetica, sans-serif;
-	font-size:81.3%;
-	line-height:1.5em;
-	margin:0;
-	padding:0 35px;
-	margin-right:10px;
-	position: relative;
-	top: -55px
+  color:#333;
+  font-family: Helvetica, sans-serif;
+  font-size:81.3%;
+  line-height:1.5em;
+  margin:0;
+  padding:0 35px;
+  margin-right:10px;
+  position: relative;
+  top: -55px
 }
 .tweetmemebutton .count {
-	background:url(/images/static/widget.gif) no-repeat;
-	color:#444;
-	display:block;
-	font-size:17px;
-	height:34px;
-	padding:4px 0;
-	position:relative;
-	text-align:center;
-	text-decoration:none;
-	width:50px
+  background:url(/images/static/widget.gif) no-repeat;
+  color:#444;
+  display:block;
+  font-size:17px;
+  height:34px;
+  padding:4px 0;
+  position:relative;
+  text-align:center;
+  text-decoration:none;
+  width:50px
 }
 .tweetmemebutton .count span.t {
-	display:block;
-	font-size:10px;
-	left:10px;
-	line-height:10px;
-	position:absolute;
-	top:23px
+  display:block;
+  font-size:10px;
+  left:10px;
+  line-height:10px;
+  position:absolute;
+  top:23px
 }
 .tweetmemebutton .retweet {
-	background:url(/images/static/widget.gif) no-repeat 0 -45px;
-	color:#FFF;
-	cursor:pointer;
-	display:block;
-	font-size:11px;
-	height:16px;
-	line-height:16px;
-	margin-top:3px;
-	padding:0;
-	text-align:center;
-	text-decoration:none;
-	width:50px
+  background:url(/images/static/widget.gif) no-repeat 0 -45px;
+  color:#FFF;
+  cursor:pointer;
+  display:block;
+  font-size:11px;
+  height:16px;
+  line-height:16px;
+  margin-top:3px;
+  padding:0;
+  text-align:center;
+  text-decoration:none;
+  width:50px
 }
 .tweetmemebutton .retweet:hover, .tweet .left .retweet.selected {
-	background-position:0 -61px;
-	color:#80b62a
+  background-position:0 -61px;
+  color:#80b62a
 }
 div.blog-post-single div#author {
-	background: #f4f4f4 url(/images/static/author-bg.jpg) no-repeat right bottom;
-	outline:1px solid #e3e3e3;
-	padding: 2px 15px
+  background: #f4f4f4 url(/images/static/author-bg.jpg) no-repeat right bottom;
+  outline:1px solid #e3e3e3;
+  padding: 2px 15px
 }
 div.blog-post-single div#author p {
-	margin-top: 18px;
-	text-shadow: 1px 1px #fff
+  margin-top: 18px;
+  text-shadow: 1px 1px #fff
 }
 div#main-inner div.blog-post-single div#author img {
-	-webkit-border-radius:3px;
-	-moz-border-radius:3px 3px 3px 3px;
-	-moz-box-shadow:0 0 5px #B1B1B1;
-	-webkit-box-shadow:0 0 5px #B1B1B1;
-	background:none repeat scroll 0 0 #FFFFFF;
-	border:medium none;
-	outline:medium none;
-	padding:4px;
-	float: left;
-	margin-right: 10px;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px 3px 3px 3px;
+  -moz-box-shadow:0 0 5px #B1B1B1;
+  -webkit-box-shadow:0 0 5px #B1B1B1;
+  background:none repeat scroll 0 0 #FFFFFF;
+  border:medium none;
+  outline:medium none;
+  padding:4px;
+  float: left;
+  margin-right: 10px;
 }
 /************************************************************************
 Comments
 ************************************************************************/
 
 div#comments-content {
-	margin-top: 60px
+  margin-top: 60px
 }
 div#comments-content h1 {
-	color: #ccc;
-	border-bottom: 1px dotted #ccc;
-	margin-bottom: 40px
+  color: #ccc;
+  border-bottom: 1px dotted #ccc;
+  margin-bottom: 40px
 }
 div#main-inner div#comments-content div ol li.reader-comment {
-	background:#fff url(/images/static/comment-bg.jpg) repeat-x top left;
-	border-top:1px solid #dfdfdf;
-	border-left: 1px solid #dfdfdf;
-	border-right: 1px solid #dfdfdf;
-	list-style:none outside none;
-	margin:0;
-	padding:25px;
+  background:#fff url(/images/static/comment-bg.jpg) repeat-x top left;
+  border-top:1px solid #dfdfdf;
+  border-left: 1px solid #dfdfdf;
+  border-right: 1px solid #dfdfdf;
+  list-style:none outside none;
+  margin:0;
+  padding:25px;
 }
 div#main-inner div#comments-content div ol li.reader-comment:last-child {
-	border-bottom: 1px solid #dfdfdf
+  border-bottom: 1px solid #dfdfdf
 }
 div#main-inner div#comments-content div ol li.reader-comment img {
-	border:none;
-	outline:none;
-	float:left;
-	background:none;
-	margin-top:-5px
+  border:none;
+  outline:none;
+  float:left;
+  background:none;
+  margin-top:-5px
 }
 div#main-inner div#comments-content div ol li.reader-comment span {
-	display:block
+  display:block
 }
 a.comment-counter {
-	padding:10px 30px;
-	background:#1389cc;
-	font-size:1.6em;
-	color: #fff
+  padding:10px 30px;
+  background:#1389cc;
+  font-size:1.6em;
+  color: #fff
 }
 a.comment-counter:hover {
-	text-decoration:none;
-	background:#2a9cde
+  text-decoration:none;
+  background:#2a9cde
 }
 div#comment-box {
-	margin-top:50px;
-	position: relative
+  margin-top:50px;
+  position: relative
 }
 div#comment-box h3 {
-	color:#ccc;
-	border-bottom: 1px dotted #ccc;
-	width:550px;
-	margin: 0 auto
+  color:#ccc;
+  border-bottom: 1px dotted #ccc;
+  width:550px;
+  margin: 0 auto
 }
 div#comment-box div.comment-intro {
-	width: 550px;
-	margin: 20px auto
+  width: 550px;
+  margin: 20px auto
 }
 div#comment-box form#blog-comment-form {
-	background: #f4f4f4 url(/images/static/white-space.gif) repeat-x top left;
-	width: 450px;
-	margin: 0 auto;
-	padding: 30px;
-	border: 1px solid #e3e3e3
+  background: #f4f4f4 url(/images/static/white-space.gif) repeat-x top left;
+  width: 450px;
+  margin: 0 auto;
+  padding: 30px;
+  border: 1px solid #e3e3e3
 }
 div#comment-box form#blog-comment-form input[type="submit"].comments {
-	position: relative;
-	top: 26px;
-	left: 36px
+  position: relative;
+  top: 26px;
+  left: 36px
 }
 div#comment-box form#blog-comment-form input[type="text"] {
-	padding: 8px 5px;
-	width: 250px;
-	background: url(/images/static/comment-form-bg.gif) repeat-x;
+  padding: 8px 5px;
+  width: 250px;
+  background: url(/images/static/comment-form-bg.gif) repeat-x;
 }
 div#comment-box form#blog-comment-form label {
-	display: none
+  display: none
 }
 div#comment-box form#blog-comment-form textarea {
-	height: 150px;
-	width: 435px;
-	background:#fff url(/images/static/comment-form-bg.gif) repeat-x
+  height: 150px;
+  width: 435px;
+  background:#fff url(/images/static/comment-form-bg.gif) repeat-x
 }
 /************************************************************************
 Gallery
@@ -1282,81 +1282,81 @@ Gallery
 
 
 div#gallery div.gallery-content {
-	padding:40px 0;
+  padding:40px 0;
 }
 div#gallery div.gallery-content ul li {
-	background:url(/images/static/list.png) no-repeat 0 50%;
-	padding-left:20px;
-	list-style:none;
-	font-size: 110%;
+  background:url(/images/static/list.png) no-repeat 0 50%;
+  padding-left:20px;
+  list-style:none;
+  font-size: 110%;
 }
 div#gallery div.gallery-content p {
-	font-size: 110%;
+  font-size: 110%;
 }
 /* --- viewport configuration ---------------------------------------------------------- */
         .viewport {
-	border: 3px solid #eee;
-/*	float: left;
-*/	height: 248px;
-	margin: 0 0px 9px 0px;
-	overflow: hidden;
-	position: relative;
-	width: 459px;
-	left:15px;
-	display:block;
+  border: 3px solid #eee;
+/*  float: left;
+*/  height: 248px;
+  margin: 0 0px 9px 0px;
+  overflow: hidden;
+  position: relative;
+  width: 459px;
+  left:15px;
+  display:block;
 }
 /* This is so that the 2nd thumbnail in each row fits snugly. You will want to add a similar
            class to the last thumbnail in each row to get rid of the margin-right. */
         .no-margin {
-	margin-right: 0;
+  margin-right: 0;
 }
 /* --- Link configuration that contains the image and label ----------------------------- */
         .viewport a {
-	display: block;
-	position: relative;
+  display: block;
+  position: relative;
 }
 /*.viewport a img {
-	height: 268px;
-	left: -20px;
-	position: relative;
-	top: -20px;
-	width: 480px;
+  height: 268px;
+  left: -20px;
+  position: relative;
+  top: -20px;
+  width: 480px;
 }
 *//* --- Label configuration -------------------------------------------------------------- */
         .viewport a span {
-	display: none;
-	font-size: 3.0em;
-	font-weight: bold;
-	height: 100%;
-	padding-top: 120px;
-	position: absolute;
-	text-align: center;
-	text-decoration: none;
-	width: 100%;
-	z-index: 100;
+  display: none;
+  font-size: 3.0em;
+  font-weight: bold;
+  height: 100%;
+  padding-top: 120px;
+  position: absolute;
+  text-align: center;
+  text-decoration: none;
+  width: 100%;
+  z-index: 100;
 }
 .viewport a span em {
-	display: block;
-	font-size: 0.45em;
-	font-weight: normal;
+  display: block;
+  font-size: 0.45em;
+  font-weight: normal;
 }
 /* --- Dark hover background ------------------------------------------------------------ */
         .dark-background {
-	background:rgba(15, 15, 15, 0.6) url(/images/static/zoom.png) no-repeat 50% 30%;
-	color: #fff;
-	text-shadow: #000 0px 0px 20px;
+  background:rgba(15, 15, 15, 0.6) url(/images/static/zoom.png) no-repeat 50% 30%;
+  color: #fff;
+  text-shadow: #000 0px 0px 20px;
 }
 .dark-background em {
-	color: #ccc;
+  color: #ccc;
 }
 /* --- Light hover background ----------------------------------------------------------- */
         .light-background {
-	background-color: rgba(255, 255, 255, 0.6);
-	color: #333;
-	text-shadow: #fff 0px 0px 20px;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: #333;
+  text-shadow: #fff 0px 0px 20px;
 }
 .light-background em {
-	color: #707070;
+  color: #707070;
 }
 /**
          * You could create multiple hover background classes for different looks depending on the
@@ -1372,10 +1372,10 @@ Browser Specific Fixes
 
 /*WebKit*/
 .webkit table#pricing-chart th.business {
-	height:158px
+  height:158px
 }
 .webkit table#pricing-chart th.top {
-	background:url(/images/static/table-top.jpg) no-repeat -5px bottom
+  background:url(/images/static/table-top.jpg) no-repeat -5px bottom
 }
 /*Opera*/
 
@@ -1383,201 +1383,201 @@ Browser Specific Fixes
 
 /*MSIE*/
 .ie a.readmore .hover {
-	background: url(/images/static/readmore.png) no-repeat 0 10px;
+  background: url(/images/static/readmore.png) no-repeat 0 10px;
 }
 .ie7 div#main-inner form#contact-form input[type="text"]#name {
-	margin-top:-50px
+  margin-top:-50px
 }
 .ie7 div#main-inner form#contact-form input[type="text"]#email {
-	margin-top:-50px
+  margin-top:-50px
 }
 .ie7 div#main-inner form#contact-form input[type="text"]#website {
-	margin-top:-50px
+  margin-top:-50px
 }
 .ie7 div#main-inner form#contact-form input[type="text"]#phone {
-	margin-top:-50px
+  margin-top:-50px
 }
 .ie7 div#main-inner form#contact-form input[type="text"]#subject {
-	margin-top:-50px
+  margin-top:-50px
 }
 .ie7 div#main-inner form#contact-form input[type="text"]#email {
-	margin-top:-50px
+  margin-top:-50px
 }
 .ie7 div#main-inner form#contact-form textarea {
-	margin-top:-50px;
-	margin-bottom:30px
+  margin-top:-50px;
+  margin-bottom:30px
 }
 .ie7 div#main-inner form#contact-form input#contact-submit[type="submit"] {
-	border: 0;
-	background: url(/images/static/contact-submit.png) no-repeat 0 0;
-	cursor: pointer;
-	text-indent: -9999px;
-	height:38px;
-	width: 125px;
-	float:right;
-	position:relative;
-	top:65px;
-	line-height:0;
-	font-size:0;
-	left:375px
+  border: 0;
+  background: url(/images/static/contact-submit.png) no-repeat 0 0;
+  cursor: pointer;
+  text-indent: -9999px;
+  height:38px;
+  width: 125px;
+  float:right;
+  position:relative;
+  top:65px;
+  line-height:0;
+  font-size:0;
+  left:375px
 }
 .ie7 div#main-inner form#contact-form input#contact-submit[type="submit"]:hover {
-	background-position:0 -40px
+  background-position:0 -40px
 }
 .ie7 form#new_user_old input[type="text"] {
-	margin-top:-50px
+  margin-top:-50px
 }
 .ie7 form#sign-up-bottom input[type="text"] {
-	margin-top:-50px
+  margin-top:-50px
 }
 .ie7 form#sign-up-bottom input[type="password"] {
-	margin-top:-50px
+  margin-top:-50px
 }
 .ie7 form#new_user_old {
-	margin-top:0
+  margin-top:0
 }
 .ie7 div#main-inner input#create[type="submit"] {
-	border: 0;
-	background: url(/images/static/create.gif) no-repeat 0 0;
-	cursor: pointer;
-	text-indent: 0px;
-	line-height:0;
-	font-size:0;
-	color:#86af38;
-	height:70px;
-	width: 539px;
-	margin: 35px
+  border: 0;
+  background: url(/images/static/create.gif) no-repeat 0 0;
+  cursor: pointer;
+  text-indent: 0px;
+  line-height:0;
+  font-size:0;
+  color:#86af38;
+  height:70px;
+  width: 539px;
+  margin: 35px
 }
 .ie7 div#hq-main {
-	margin-top:0px;
-	clear:both
+  margin-top:0px;
+  clear:both
 }
 .ie7 div#gallery div.gallery-content {
-	padding:20px 0 40px 0
+  padding:20px 0 40px 0
 }
 
 
 
 a.sign-up-floating {
-	background:url("/images/static/sign-up-orange.png") no-repeat scroll 0 0 transparent;
-	height:35px;
-	left:4px;
-/*	margin:0 auto;
-	position:relative;
-*/	text-indent:-9999px;
-	margin-left:40px;
-	margin-right:40px;
-	width:105px;
-	float:left;
+  background:url("/images/static/sign-up-orange.png") no-repeat scroll 0 0 transparent;
+  height:35px;
+  left:4px;
+/*  margin:0 auto;
+  position:relative;
+*/  text-indent:-9999px;
+  margin-left:40px;
+  margin-right:40px;
+  width:105px;
+  float:left;
 }
 a.sign-up-floating:hover {
-	background-position: 0 -37px;
+  background-position: 0 -37px;
 }
 a.sign-up-floating:active {
-	background-position: 0 -36px;
+  background-position: 0 -36px;
 }
 
 
 p.free-plan{
-	margin-top: -10px;
+  margin-top: -10px;
 }
 
 
 
 .fade-left {
-	background: url(/images/static/retro_front.png) no-repeat 0 0px;
-	float: left;
-	position: relative;
-	top: 100px;
-	cursor: pointer;
-	height: 160px;
+  background: url(/images/static/retro_front.png) no-repeat 0 0px;
+  float: left;
+  position: relative;
+  top: 100px;
+  cursor: pointer;
+  height: 160px;
 }
 
 .screenshot {
-	float: left;
-	background: url(/images/static/border.png) repeat-x 0 0px;
-	padding: 1em;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border-radius: 4px;
+  float: left;
+  background: url(/images/static/border.png) repeat-x 0 0px;
+  padding: 1em;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
 }
 
 .screenshot img {
-	border: 1px solid #f3f3f3;
+  border: 1px solid #f3f3f3;
 }
 
 .fade {
-	background: url(/images/static/home_front.png) no-repeat 0 0px;
-	float: left;
-	position: relative;
-	top: 100px;
-	cursor: pointer;
-	height: 160px;
+  background: url(/images/static/home_front.png) no-repeat 0 0px;
+  float: left;
+  position: relative;
+  top: 100px;
+  cursor: pointer;
+  height: 160px;
 }
 
 .fade img, .fade-left img {
-	width: 200px;
-	height: 160px;
+  width: 200px;
+  height: 160px;
 }
 
 .catchPhrase {
-	text-align: center;
-	font-size: 1.5em;
-	padding-top: 2em;
+  text-align: center;
+  font-size: 1.5em;
+  padding-top: 2em;
 }
 
 .feature {
-	margin-left: 3em;
+  margin-left: 3em;
 }
 
 #arrow {
-	float: left;
-	width: 50px;
-	height: 50px;
+  float: left;
+  width: 50px;
+  height: 50px;
 }
 
 #better {
-	margin-bottom: 1em;
+  margin-bottom: 1em;
 }
 
 .copyright {
-	color: #999;
-	float: right;
+  color: #999;
+  float: right;
 }
 
 /* Learn More */
 .learnMore {
-	margin-top: 2.5em;
+  margin-top: 2.5em;
 }
 .learnMore h1 {
-	text-align: center;
-/*	margin-top: 0.5em;
-	line-height: 1.15em;
+  text-align: center;
+/*  margin-top: 0.5em;
+  line-height: 1.15em;
 */}
 
 .learnMore ul {
-	padding: 0 1.5em 0 0;
+  padding: 0 1.5em 0 0;
 }
 
 .learnMore li {
-	font-family: "Helvetica Neue", Arial, sans-serif;
-	font-size:1.5em;line-height:1.5em; margin-bottom:1em;
-	list-style: none;
-	text-shadow: 0 2px #fff;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size:1.5em;line-height:1.5em; margin-bottom:1em;
+  list-style: none;
+  text-shadow: 0 2px #fff;
 }
 
 #caption {
-	margin-left: 20px;
-/*	margin-top: 1em;*/
-	font-weight: bold;
-	color: #555;
-	text-align: center;
+  margin-left: 20px;
+/*  margin-top: 1em;*/
+  font-weight: bold;
+  color: #555;
+  text-align: center;
 }
 
 .signup-button {
-	width: 185px;
-	background: url(/images/gt/btn-blue-large.png) no-repeat 0 0 transparent;
-	height: 36px;
+  width: 185px;
+  background: url(/images/gt/btn-blue-large.png) no-repeat 0 0 transparent;
+  height: 36px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 15px;
@@ -1590,23 +1590,23 @@ p.free-plan{
 }
 
 .signup-area a{
-	color: #fff;
+  color: #fff;
 }
 
 .signup-account{
-	font-size: 80%;
-	margin-top: 26px;
+  font-size: 80%;
+  margin-top: 26px;
 }
 
 
 .learnMore .box {
-	background-color: #FFF;
+  background-color: #FFF;
 }
 
 .learnMore p {
-	font-family: Georgia, 'Times New Roman', Times, serif;
-	font-size: 16px;
-	line-height: 24px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 .whitebox {padding:1.5em;margin-bottom:1.5em;background:#fff; border: 1px solid #ddd;}
@@ -1618,6 +1618,6 @@ p.free-plan{
 */
 
 .box, .whitebox {
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
 }

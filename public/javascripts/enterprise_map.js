@@ -49,46 +49,46 @@ function init() {
    //  };
     //end
 
-			//     //init nodetypes
-			//     //Here we implement custom node rendering types for the RGraph
-			//     //Using this feature requires some javascript and canvas experience.
-			//     $jit.RGraph.Plot.NodeTypes.implement({
-			//         //This node type is used for plotting pie-chart slices as nodes
-			//         'nodepie': {
-			//           'render': function(node, canvas) {
-			//             var span = node.angleSpan, begin = span.begin, end = span.end;
-			//             var polarNode = node.pos.getp(true);
-			//             var polar = new $jit.Polar(polarNode.rho, begin);
-			//             var p1coord = polar.getc(true);
-			//             polar.theta = end;
-			//             var p2coord = polar.getc(true);
-			//
-			//             var ctx = canvas.getCtx();
-			//             ctx.beginPath();
-			//             ctx.moveTo(0, 0);
-			//             ctx.lineTo(p1coord.x, p1coord.y);
-			//             ctx.moveTo(0, 0);
-			//             ctx.lineTo(p2coord.x, p2coord.y);
-			//             ctx.moveTo(0, 0);
-			//             ctx.arc(0, 0, polarNode.rho, begin, end, false);
-			//             ctx.fill();
-			//           }
-			//         },
-			//         //Create a new node type that renders an entire RGraph visualization
-			//         //as node
-			//         'piechart': {
-			//           'render': function(node, canvas, animating) {
-			//             var ctx = canvas.getCtx(), pos = node.pos.getc(true);
-			//             ctx.save();
-			// // console.log('node' + node.data['$angularWidth'] + '  canvas:' + canvas + '  animating:' + animating);
-			//             ctx.translate(pos.x, pos.y);
-			//
-			//             pie.plot();
-			//             ctx.restore();
-			//           }
-			//          }
-			//     });
-			//     //end
+      //     //init nodetypes
+      //     //Here we implement custom node rendering types for the RGraph
+      //     //Using this feature requires some javascript and canvas experience.
+      //     $jit.RGraph.Plot.NodeTypes.implement({
+      //         //This node type is used for plotting pie-chart slices as nodes
+      //         'nodepie': {
+      //           'render': function(node, canvas) {
+      //             var span = node.angleSpan, begin = span.begin, end = span.end;
+      //             var polarNode = node.pos.getp(true);
+      //             var polar = new $jit.Polar(polarNode.rho, begin);
+      //             var p1coord = polar.getc(true);
+      //             polar.theta = end;
+      //             var p2coord = polar.getc(true);
+      //
+      //             var ctx = canvas.getCtx();
+      //             ctx.beginPath();
+      //             ctx.moveTo(0, 0);
+      //             ctx.lineTo(p1coord.x, p1coord.y);
+      //             ctx.moveTo(0, 0);
+      //             ctx.lineTo(p2coord.x, p2coord.y);
+      //             ctx.moveTo(0, 0);
+      //             ctx.arc(0, 0, polarNode.rho, begin, end, false);
+      //             ctx.fill();
+      //           }
+      //         },
+      //         //Create a new node type that renders an entire RGraph visualization
+      //         //as node
+      //         'piechart': {
+      //           'render': function(node, canvas, animating) {
+      //             var ctx = canvas.getCtx(), pos = node.pos.getc(true);
+      //             ctx.save();
+      // // console.log('node' + node.data['$angularWidth'] + '  canvas:' + canvas + '  animating:' + animating);
+      //             ctx.translate(pos.x, pos.y);
+      //
+      //             pie.plot();
+      //             ctx.restore();
+      //           }
+      //          }
+      //     });
+      //     //end
 
     // //init pie
     // //This RGraph instance will be used as the node for
@@ -127,7 +127,7 @@ function init() {
 
     //init rgraph
     rgraph = new $jit.RGraph({
-	    injectInto: 'infovis',
+      injectInto: 'infovis',
 
         // useCanvas: pie.canvas,
         //Add node/edge styles and set
@@ -136,7 +136,7 @@ function init() {
         Node: {
             //set the RGraph rendering function
             //as node type
-		   'overridable': true,
+       'overridable': true,
            'type': 'circle'
         },
         Edge: {
@@ -186,23 +186,23 @@ function init() {
 }
 
 function refresh_data(){
-	//load JSON data.
+  //load JSON data.
     // rgraph.loadJSON(json2);
     // rgraph.refresh();
     //trigger small animation
-	// rgraph.compute('end');
-	// rgraph.op.morph(json2,{
-	//   type: 'fade:con',
-	//   duration: 2500
-	// }//,{'position': 'linear','node-property': ['dim']}
-	// );
+  // rgraph.compute('end');
+  // rgraph.op.morph(json2,{
+  //   type: 'fade:con',
+  //   duration: 2500
+  // }//,{'position': 'linear','node-property': ['dim']}
+  // );
 
-	rgraph.op.morph(json2, {
+  rgraph.op.morph(json2, {
       type: 'fade:seq',
       duration: 1500,
       hideLabels: false
     }, {
-	  'node-property': 'dim'
+    'node-property': 'dim'
     });
 
     // rgraph.refresh();

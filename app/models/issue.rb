@@ -612,7 +612,7 @@ class Issue < ActiveRecord::Base
   def points_from_credits
     normalized = (points/self.project.dpp).round
     return Setting::CREDITS_TO_POINTS[Setting::CREDITS_TO_POINTS.length - 1] if normalized > Setting::CREDITS_TO_POINTS.length #returns max if credits are more than max
-  	return Setting::CREDITS_TO_POINTS[normalized];
+    return Setting::CREDITS_TO_POINTS[normalized];
   end
 
   def size

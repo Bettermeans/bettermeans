@@ -1,6 +1,6 @@
 div.textile-toolbar span.ed_sep {
-	xposition: relative;
-	xtop: -4px;
+  xposition: relative;
+  xtop: -4px;
   padding: 0;
   height: 6px;
   width: 2px;
@@ -10,45 +10,45 @@ div.textile-toolbar span.ed_sep {
 }
 
 div.textile-toolbar button {
-	margin: 0;
-	background-color: #f0f0ee;
-	background-repeat: no-repeat;
-	border: 1px solid #f0f0ee;
-	padding: 2px 0;
+  margin: 0;
+  background-color: #f0f0ee;
+  background-repeat: no-repeat;
+  border: 1px solid #f0f0ee;
+  padding: 2px 0;
 }
 
 div.textile-toolbar button.standard {
-	text-align: center;
-	width: 24px;
+  text-align: center;
+  width: 24px;
 }
 
 div.textile-toolbar button img {
-	vertical-align: text-bottom;
+  vertical-align: text-bottom;
 }
 
 div.textile-toolbar button:hover,
 div.textile-toolbar button.unselected:hover {
-	border: 1px solid #999;
+  border: 1px solid #999;
 }
 
 div.textile-toolbar button.selected {
-	border: 1px solid #ce9100;
-	background-color: #ffffff;
+  border: 1px solid #ce9100;
+  background-color: #ffffff;
 }
 
 div.textile-toolbar button.unselected {
-	border: 1px solid #f0f0ee;
-	background-color: #f0f0ee;
+  border: 1px solid #f0f0ee;
+  background-color: #f0f0ee;
 }
 
 div.textile-toolbar button.publish {
-	padding:5px;
-	display:block;
+  padding:5px;
+  display:block;
 }
 
 div.textile-toolbar {
-	background-color: #f0f0ee;
-	padding: 0px;
-	margin-bottom: 4px;
-	width: 99%;
+  background-color: #f0f0ee;
+  padding: 0px;
+  margin-bottom: 4px;
+  width: 99%;
 }

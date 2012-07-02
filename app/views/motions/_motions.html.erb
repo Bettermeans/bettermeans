@@ -7,14 +7,14 @@
         count = count + 1
       %>
       <tr class="motions-row <%= "hidden" if count > max_count %>">
-      	<td>
-      	  <p><strong>
-      	  <%= link_to(h(motion.project.name), :controller => 'projects', :action => 'show', :id => motion.project) + ': ' unless @project %>
+        <td>
+          <p><strong>
+          <%= link_to(h(motion.project.name), :controller => 'projects', :action => 'show', :id => motion.project) + ': ' unless @project %>
           <%= link_to h(motion.title), project_motion_path(motion.project_id,motion) %></strong><br><span class="small-text">by <%= link_to_user(motion.author) %> <%= since_tag(motion.created_at) %> ago</span></p>
 
         <!-- <p><%#=make_expandable (h motion.description), 30 %></p> -->
         <!-- <p class="gt-table-edit"><a href="">Edit</a></p> -->
-      	</td>
+        </td>
       </tr>
       <% end %>
 

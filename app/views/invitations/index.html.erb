@@ -38,7 +38,7 @@
 </table>
 <!-- Table Controls -->
 <div class="gt-table-controls gt-table-controls-btm clearfix">
-	<p class="gt-table-pager"><%= pagination_links_full @all_invites %></p>
+  <p class="gt-table-pager"><%= pagination_links_full @all_invites %></p>
 </div><!-- /Table Controls -->
 
 
@@ -55,11 +55,11 @@
   <li>
     <%= link_to l(:label_dashboard), {:controller => :projects, :action => :dashboard, :id => @project} %>
   </li>
-	<% if User.current.allowed_to?(:send_invitations, @project) %>
-	<li>
-		<%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
-	</li>
-	<% end %>
+  <% if User.current.allowed_to?(:send_invitations, @project) %>
+  <li>
+    <%= link_to l(:label_invitation_new), new_project_invitation_url(@project) %>
+  </li>
+  <% end %>
   </ul>
 </div>
 <% end %>
@@ -68,12 +68,12 @@
 
 <script type="text/javascript">
 function send_remote(url,param,note){
-	$.ajax({
-	   type: "POST",
-	   dataType: "json",
-	   url: url,
-	   data: '&note=' + note + param,
-		timeout: 30000 //30 seconds
-	 });
+  $.ajax({
+     type: "POST",
+     dataType: "json",
+     url: url,
+     data: '&note=' + note + param,
+    timeout: 30000 //30 seconds
+   });
 }
 </script>

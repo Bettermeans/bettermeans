@@ -1,9 +1,9 @@
 <% labelled_tabular_form_for :user, @user, :url => { :controller => 'users', :action => "edit", :tab => nil }, :html => { :class => nil } do |f| %>
-	<%= render :partial => 'form', :locals => { :f => f } %>
-	<% if @user.active? -%>
-		<p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label>
-	<% end -%>
-	<div class="gt-table-buttons">
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <% if @user.active? -%>
+    <p><label><%= check_box_tag 'send_information', 1, true %> <%= l(:label_send_information) %></label>
+  <% end -%>
+  <div class="gt-table-buttons">
   <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>
   </div>
 <% end %>

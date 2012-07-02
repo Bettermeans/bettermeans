@@ -10,10 +10,10 @@
 </div>
 
 <fieldset class="gt-content-box settings" id="notified_events"><legend><%=l(:text_select_mail_notifications)%></legend>
-	<%= setting_multiselect(:notified_events,
+  <%= setting_multiselect(:notified_events,
         @notifiables.collect {|notifiable| [l_or_humanize(notifiable, :prefix => 'label_'), notifiable]}, :label => false) %>
 
-	<p><%= check_all_links('notified_events') %></p>
+  <p><%= check_all_links('notified_events') %></p>
 </fieldset>
 
 <fieldset class="gt-content-box"><legend><%= l(:setting_emails_footer) %></legend>

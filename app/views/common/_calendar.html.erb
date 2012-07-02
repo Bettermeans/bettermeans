@@ -17,7 +17,7 @@ while day <= calendar.enddt %>
       elsif day == i.start_date
         image_tag('arrow_from.png')
       elsif day == i.due_date
-		image_tag('arrow_to.png')
+    image_tag('arrow_to.png')
       end %>
   <%= h("#{i.project} -") unless @project && @project == i.project %>
   <%= link_to_issue i, :truncate => 30 %>

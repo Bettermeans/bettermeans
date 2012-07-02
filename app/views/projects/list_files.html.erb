@@ -24,7 +24,7 @@
     <td class="digest"><%= file.digest %></td>
     <td align="center">
     <%= link_to(image_tag('delete.png'), {:controller => 'attachments', :action => 'destroy', :id => file},
-																				 :confirm => l(:text_are_you_sure), :method => :post) if delete_allowed %>
+                                         :confirm => l(:text_are_you_sure), :method => :post) if delete_allowed %>
     </td>
   </tr>
   <% end

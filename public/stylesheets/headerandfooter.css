@@ -2,149 +2,149 @@
 2.- General Structure
 ************************************************************************/
 #page {
-	background:#f3f3f3 url(/images/static/background.jpg) repeat-x;
+  background:#f3f3f3 url(/images/static/background.jpg) repeat-x;
 }
 #inner-page {
-	background:#f3f3f3 url(/images/static/inner-background.jpg) repeat-x;
+  background:#f3f3f3 url(/images/static/inner-background.jpg) repeat-x;
 }
 #header {
-	height:63px;
-	position:relative;
-	z-index:999
+  height:63px;
+  position:relative;
+  z-index:999
 }
 #logo a {
-	display:block;
-	background-image: url(/images/static/logo.png);
-	height:48px;
-	width:194px;
-	text-indent:-9999px;
-	margin-top:8px
+  display:block;
+  background-image: url(/images/static/logo.png);
+  height:48px;
+  width:194px;
+  text-indent:-9999px;
+  margin-top:8px
 }
 
 #logo_app {
-	display:block;
-	background: no-repeat;
-	background-image: url(/images/static/logo_app.png);
-	height:22px;
-	width:157px;
-	text-indent:-9999px;
-	margin-left:6px;
-	float:left;
-	vertical-align:top;
+  display:block;
+  background: no-repeat;
+  background-image: url(/images/static/logo_app.png);
+  height:22px;
+  width:157px;
+  text-indent:-9999px;
+  margin-left:6px;
+  float:left;
+  vertical-align:top;
 }
 
 /************************************************************************
 Main Navigation
 ************************************************************************/
 ul#topnav {
-	padding: 0 0;
-	width: 690px;  /*Change this if you want a bigger nav*/
-	font-size: 1.2em;
-	text-align:center;
-	margin: 19px 0 19px 200px;
-	list-style: none;
+  padding: 0 0;
+  width: 690px;  /*Change this if you want a bigger nav*/
+  font-size: 1.2em;
+  text-align:center;
+  margin: 19px 0 19px 200px;
+  list-style: none;
 }
 /*ul#topnav .subnav {display:none}*/
 ul#topnav li {
-	float: left;
-	display: inline; /*For ignore double margin in IE6*/
-	margin: 0 5px;
+  float: left;
+  display: inline; /*For ignore double margin in IE6*/
+  margin: 0 5px;
 }
 ul#topnav li a {
-	text-decoration: none;
-	float:left;
-	cursor: pointer;
-	color:#fff;
-	font-size: .7em;
-	text-shadow:1px 1px #111;
-	padding:0;
+  text-decoration: none;
+  float:left;
+  cursor: pointer;
+  color:#fff;
+  font-size: .7em;
+  text-shadow:1px 1px #111;
+  padding:0;
 }
 ul#topnav li a span {
-	margin: 0 10px 0 -10px;
-	padding: 3px 8px 4px 28px;
-	position: relative; /*To fix IE6 problem (not displaying)*/
-	float:left;
+  margin: 0 10px 0 -10px;
+  padding: 3px 8px 4px 28px;
+  position: relative; /*To fix IE6 problem (not displaying)*/
+  float:left;
  background:;
 }
 ul#topnav li a span.sign-up {
-	padding: 3px 8px 4px 18px;
+  padding: 3px 8px 4px 18px;
 }
 ul#topnav li a:active {
 background:;
-	color:#fff;
-	margin-top:1px
+  color:#fff;
+  margin-top:1px
 }
 ul#topnav li.active a, ul#topnav li a:hover {
-	text-decoration:none;
-	background:#595959;
-	-moz-border-radius:2px;
-	-webkit-border-radius:2px;
+  text-decoration:none;
+  background:#595959;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
 }
 ul#topnav li a.sign-up {
-	background: url(/images/static/nav-2.png) no-repeat top right;
-	color:#fff;
-	text-shadow:1px 1px 1px #349516;
-	text-transform:uppercase;
+  background: url(/images/static/nav-2.png) no-repeat top right;
+  color:#fff;
+  text-shadow:1px 1px 1px #349516;
+  text-transform:uppercase;
 }
 ul#topnav li span.sign-up {
-	background: url(/images/static/nav-2.png) no-repeat top left;
+  background: url(/images/static/nav-2.png) no-repeat top left;
 }
 ul#topnav li a:hover.sign-up {
-	background: url(/images/static/nav-2.png) no-repeat right -28px;
+  background: url(/images/static/nav-2.png) no-repeat right -28px;
 }
 ul#topnav li span:hover.sign-up {
-	background: url(/images/static/nav-2.png) no-repeat left -28px;
+  background: url(/images/static/nav-2.png) no-repeat left -28px;
 }
 ul#topnav li.sign-up {
-	padding-left:15px;
+  padding-left:15px;
 }
 /************************************************************************
 Sub Navigation
 ************************************************************************/
 
 ul#topnav.sf-menu li.current ul li a, ul#topnav.sf-menu li ul li a {
-	background:transparent none repeat scroll 0 0;
-	float:left;
-	height:auto;
-	width:175px;
-	text-align:left;
-	display:block;
-	padding:7px 6px;
-	margin:0px 0;
-	border-bottom:1px solid #595959;
-	color:#d2d1d1;
-	text-shadow:none;
+  background:transparent none repeat scroll 0 0;
+  float:left;
+  height:auto;
+  width:175px;
+  text-align:left;
+  display:block;
+  padding:7px 6px;
+  margin:0px 0;
+  border-bottom:1px solid #595959;
+  color:#d2d1d1;
+  text-shadow:none;
 }
 ul#topnav.sf-menu li.current ul li {
-	margin:0;
-	padding:0px 0
+  margin:0;
+  padding:0px 0
 }
 ul#topnav.sf-menu li.current ul li a:hover, ul#topnav.sf-menu li ul li a:hover {
-	color:#fff;
-	text-shadow:none;
-	background:#3e3e3e;
+  color:#fff;
+  text-shadow:none;
+  background:#3e3e3e;
 }
 ul#topnav.sf-menu li.current ul, ul#topnav.sf-menu li ul {
-	left:-10px;
-	margin:19px 0 0 10px;
-	top:25px;
-	-moz-box-shadow:0px 0px 5px #111;
-	-webkit-box-shadow:0px 0px 5px #111;
-	background: #303030;
-	width:187px;
+  left:-10px;
+  margin:19px 0 0 10px;
+  top:25px;
+  -moz-box-shadow:0px 0px 5px #111;
+  -webkit-box-shadow:0px 0px 5px #111;
+  background: #303030;
+  width:187px;
 }
 ul#topnav.sf-menu li.sfHover ul li {
-	margin:0
+  margin:0
 }
 ul#topnav.sf-menu li.current ul li.current ul, ul#topnav.sf-menu li.current ul li.sfHover ul, ul#topnav.sf-menu li.sfHover ul li.sfHover ul {
-	left:180px;
-	top:-20px;
+  left:180px;
+  top:-20px;
 }
 #topnav li ul.subnav, #topnav li ul.subnav ul, #topnav li ul.subnav ul ul ul ul {
-	display:none;
+  display:none;
 }
 #topnav li:hover ul.subnav, #topnav li li:hover ul.subnav, #topnav li li li:hover ul.subnav, #topnav li li li li:hover ul.subnav {
-	display:block;
+  display:block;
 }
 
 /************************************************************************
@@ -152,138 +152,138 @@ Footer
 ************************************************************************/
 
 #footer {
-	margin-top: 100px;
-	height:300px;
-	background:url(/images/footer-bg.png) repeat-x
+  margin-top: 100px;
+  height:300px;
+  background:url(/images/footer-bg.png) repeat-x
 }
 #top-footer {
-	height:280px;
-	position:relative
+  height:280px;
+  position:relative
 }
 #top-footer h3 {
-	text-transform:uppercase;
-	color:#010101;
-	font-weight:bold;
-	font-size:1.3em;
-	text-shadow:1px 1px #fff;
-	background: url(/images/static/dot.png) no-repeat 0 50%;
-	padding-left: 15px
+  text-transform:uppercase;
+  color:#010101;
+  font-weight:bold;
+  font-size:1.3em;
+  text-shadow:1px 1px #fff;
+  background: url(/images/static/dot.png) no-repeat 0 50%;
+  padding-left: 15px
 }
 #top-footer .footer-logo {
-	position:absolute;
-	width:252px;
-	top:-13px;
-	overflow:hidden;
-	left:0
+  position:absolute;
+  width:252px;
+  top:-13px;
+  overflow:hidden;
+  left:0
 }
 #top-footer div.footer-list {
-	margin-top:38px
+  margin-top:38px
 }
 #top-footer div.footer-list ul {
-	margin-left:0
+  margin-left:0
 }
 #top-footer div.footer-list ul li {
-	list-style:none;
-	margin-left:0;
+  list-style:none;
+  margin-left:0;
 }
 #top-footer div.footer-list ul li a {
-	color:#4a4949;
-	display:block;
-	border-bottom:1px solid #ccc;
-	padding: 3px 0 3px 3px;
-	text-decoration:none;
+  color:#4a4949;
+  display:block;
+  border-bottom:1px solid #ccc;
+  padding: 3px 0 3px 3px;
+  text-decoration:none;
 }
 #top-footer div.footer-list ul li a:hover {
-	background:#eeeeee;
+  background:#eeeeee;
 }
 #top-footer div.footer-list ul li div a {
-	color:#4a4949;
-	display:inline;
-	border-bottom:0px;
-	padding: 3px 0 3px 3px;
-	text-decoration:none;
+  color:#4a4949;
+  display:inline;
+  border-bottom:0px;
+  padding: 3px 0 3px 3px;
+  text-decoration:none;
 }
 #top-footer div.footer-list ul li div a:hover {
-	background:none;
+  background:none;
 }
 
 #top-footer div.copyright {
-	margin-top:100px
+  margin-top:100px
 }
 #top-footer div.copyright p {
-	color:#2e2e2f;
-	text-shadow:1px 1px #fff
+  color:#2e2e2f;
+  text-shadow:1px 1px #fff
 }
 #bottom-footer {
-	height:51px
+  height:51px
 }
 #top-footer, #bottom-footer {
-	width:940px;
-	margin:0 auto;
-	display:block
+  width:940px;
+  margin:0 auto;
+  display:block
 }
 #footer .menu-lite ul {
-	float:left;
-	padding-top:15px;
-	margin-bottom:-15px;
-	margin-left: -7px
+  float:left;
+  padding-top:15px;
+  margin-bottom:-15px;
+  margin-left: -7px
 }
 #footer .menu-lite ul li {
-	float:left;
-	list-style:none;
-	margin:0 8px
+  float:left;
+  list-style:none;
+  margin:0 8px
 }
 #footer .menu-lite ul li a {
-	color:#fff;
-	text-decoration:none;
-	text-shadow:1px 1px #222
+  color:#fff;
+  text-decoration:none;
+  text-shadow:1px 1px #222
 }
 #footer .menu-lite ul li a:hover {
-	text-decoration:underline
+  text-decoration:underline
 }
 #toTop {
-	width:96px;
-	text-indent:-9999px;
-	background: url(/images/static/totop.png) no-repeat 0 0;
-	height:15px;
-	padding:5px;
-	position:fixed;
-	bottom:10px;
-	right:10px;
-	cursor:pointer;
+  width:96px;
+  text-indent:-9999px;
+  background: url(/images/static/totop.png) no-repeat 0 0;
+  height:15px;
+  padding:5px;
+  position:fixed;
+  bottom:10px;
+  right:10px;
+  cursor:pointer;
 }
 a:hover#toTop {
-	background: url(/images/static/totop.png) no-repeat 0 -25px;
+  background: url(/images/static/totop.png) no-repeat 0 -25px;
 }
 a:active#toTop {
-	background: url(/images/static/totop.png) no-repeat 0 -24px;
+  background: url(/images/static/totop.png) no-repeat 0 -24px;
 }
 ul#topnav.sf-menu li.current ul, ul#topnav.sf-menu li ul {
-	display:block
+  display:block
 }
 
 #top-footer img.verify {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	padding:4px;
-	background:#f3f3f3;
-	border:1px solid #e3e3e3;
-	margin-bottom:14px
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding:4px;
+  background:#f3f3f3;
+  border:1px solid #e3e3e3;
+  margin-bottom:14px
 }
 
 
 .column, div.span-1, div.span-2, div.span-3, div.span-4, div.span-5, div.span-6, div.span-7, div.span-8, div.span-9, div.span-10, div.span-11, div.span-12 {
-	float:left;
-	margin-right:20px;
+  float:left;
+  margin-right:20px;
 }
 
 #top-footer .span-3 {
-	width: 220px;
+  width: 220px;
 }
 
 #top-footer .last, #top-footer div.last {
-	margin-right: 0;
+  margin-right: 0;
 }
 
 

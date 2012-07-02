@@ -1,38 +1,38 @@
 <h2>Inbox</h2>
 <table>
-	<tr>
-		<th>Del?</th>
-		<th>Sent</th>
-		<th>Sender</th>
-		<th>Sent</th>
-	</tr>
-	<% if @mails.size == 0 %>
-		<tr>
-			<td colspan="4">
-				No messages
-			</td>
-		</tr>
-	<% else %>
-		<% for mail in @mails %>
-			<tr>
-				<td><%= check_box_tag "delete[]", mail.id %></td>
-				<td>
-					<% if mail.read? %>
-					  <%= link_to h(mail.subject), user_mail_path(@user, mail) %>
-					<% else %>
-					  <%= link_to "#{h(mail.subject)} (unread)", user_mail_path(@user, mail) %>
-					<% end %>
-				</td>
-				<td><%= link_to h(mail.sender.login), user_path(@user) %></td>
-		    <td><%=h mail.created_at.to_s(:long) %></td>
-			</tr>
-		<% end %>
-		<tr>
-			<td colspan="4">
-				<%= submit_tag "Delete", :disable_with => l(:button_working) %>
-			</td>
-		</tr>
-	<% end %>
+  <tr>
+    <th>Del?</th>
+    <th>Sent</th>
+    <th>Sender</th>
+    <th>Sent</th>
+  </tr>
+  <% if @mails.size == 0 %>
+    <tr>
+      <td colspan="4">
+        No messages
+      </td>
+    </tr>
+  <% else %>
+    <% for mail in @mails %>
+      <tr>
+        <td><%= check_box_tag "delete[]", mail.id %></td>
+        <td>
+          <% if mail.read? %>
+            <%= link_to h(mail.subject), user_mail_path(@user, mail) %>
+          <% else %>
+            <%= link_to "#{h(mail.subject)} (unread)", user_mail_path(@user, mail) %>
+          <% end %>
+        </td>
+        <td><%= link_to h(mail.sender.login), user_path(@user) %></td>
+        <td><%=h mail.created_at.to_s(:long) %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td colspan="4">
+        <%= submit_tag "Delete", :disable_with => l(:button_working) %>
+      </td>
+    </tr>
+  <% end %>
 </table>
 <%= link_to "Sent", user_mails_path(@user, :mailbox => :sent)%> |
 <%= link_to "Compose", new_user_mail_path(@user)%>

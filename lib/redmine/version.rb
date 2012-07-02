@@ -20,17 +20,17 @@ module Redmine
           f = File.open(entries_path, 'r')
           entries = f.read
           f.close
-     	  if entries.match(%r{^\d+})
-     	    revision = $1.to_i if entries.match(%r{^\d+\s+dir\s+(\d+)\s})
-     	  else
-   	        xml = REXML::Document.new(entries)
-   	        revision = xml.elements['wc-entries'].elements[1].attributes['revision'].to_i
-   	      end
-   	    rescue
-   	      # Could not find the current revision
-   	    end
- 	  end
- 	  revision
+         if entries.match(%r{^\d+})
+           revision = $1.to_i if entries.match(%r{^\d+\s+dir\s+(\d+)\s})
+         else
+             xml = REXML::Document.new(entries)
+             revision = xml.elements['wc-entries'].elements[1].attributes['revision'].to_i
+           end
+         rescue
+           # Could not find the current revision
+         end
+     end
+     revision
     end
 
     REVISION = self.revision

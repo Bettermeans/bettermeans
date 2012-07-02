@@ -7,7 +7,7 @@
 <div class="gt-content-box tabular">
   <p>
   <% @issues.each do |issue| -%>
-  	<%= link_to_issue issue %>
+    <%= link_to_issue issue %>
   <% end -%>
   </p>
 <p><label for="new_project_id"><%=l(:field_project)%>:</label>
@@ -24,11 +24,11 @@
 </div>
 
 <% if @copy %>
-	<%= hidden_field_tag("copy_options[copy]", "1") %>
-	<%= submit_tag l(:button_copy), :disable_with => l(:button_working) %>
-	<%= submit_tag l(:button_copy_and_follow), :name => 'follow', :disable_with => l(:button_working) %>
+  <%= hidden_field_tag("copy_options[copy]", "1") %>
+  <%= submit_tag l(:button_copy), :disable_with => l(:button_working) %>
+  <%= submit_tag l(:button_copy_and_follow), :name => 'follow', :disable_with => l(:button_working) %>
 <% else %>
-	<%= submit_tag l(:button_move), :disable_with => l(:button_working) %>
-	<%= submit_tag l(:button_move_and_follow), :name => 'follow', :disable_with => l(:button_working) %>
+  <%= submit_tag l(:button_move), :disable_with => l(:button_working) %>
+  <%= submit_tag l(:button_move_and_follow), :name => 'follow', :disable_with => l(:button_working) %>
 <% end %>
 <% end %>

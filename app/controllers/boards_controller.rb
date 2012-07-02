@@ -26,7 +26,7 @@ class BoardsController < ApplicationController
     respond_to do |format|
       format.html {
         sort_init 'updated_at', 'desc'
-        sort_update	'created_at' => "#{Message.table_name}.created_at",
+        sort_update 'created_at' => "#{Message.table_name}.created_at",
                     'replies' => "#{Message.table_name}.replies_count",
                     'updated_at' => "#{Message.table_name}.updated_at"
 

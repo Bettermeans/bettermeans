@@ -1,8 +1,8 @@
 <% form_for @mail, :url => user_mails_path(@user) do |f| %>
   <p>
     To:<br />
-		<%= f.text_field :to %>
-		<%= error_message_on @mail, :to %>
+    <%= f.text_field :to %>
+    <%= error_message_on @mail, :to %>
   </p>
   <p>
     Subject:<br />
@@ -12,7 +12,7 @@
     <p>
       Message<br />
       <%= f.text_area :body %>
-			<%= error_message_on @mail, :body %>
+      <%= error_message_on @mail, :body %>
     </p>
     <p>
       <%= submit_tag "Send", :disable_with => l(:button_working) %>

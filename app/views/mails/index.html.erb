@@ -1,7 +1,7 @@
 <% form_tag delete_selected_user_mails_path(@user) do %>
-	<% if params[:mailbox] == "sent" %>
-			<%= render :partial => "sent" %>
-	<% else %>
-			<%= render :partial => "inbox" %>
-		<% end %>
+  <% if params[:mailbox] == "sent" %>
+      <%= render :partial => "sent" %>
+  <% else %>
+      <%= render :partial => "inbox" %>
+    <% end %>
 <% end %>
