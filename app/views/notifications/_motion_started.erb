@@ -1,4 +1,3 @@
-<!-- Notification sent to users by admin when a motion is started -->
 <tr class="notification notification-motion-started" id="notification_<%= @notification.id %>">
       <td class="gt-avatar">
         <%= avatar_from_id(@notification.sender_id, :size => '53') %>
@@ -11,7 +10,6 @@
 </p>
     </td>
     <td>
-      <!-- Categories Sub Table -->
       <table border="0" class="gt-table-categories">
         <tr>
           <td><%= link_to_user_from_id(@notification.sender_id) %></td>

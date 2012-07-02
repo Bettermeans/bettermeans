@@ -1,4 +1,3 @@
-<!-- Notification sent to users when someone invites them to a workstream -->
 <tr class="notification notification-new-role" id="notification_<%= @notification.id %>">
       <td class="gt-avatar">
         <%= avatar_from_id(@notification.sender_id, :size => '53') %>
@@ -16,7 +15,6 @@
 </p>
     </td>
     <td>
-      <!-- Categories Sub Table -->
       <table border="0" class="gt-table-categories">
         <tr>
           <td><%= link_to_user_from_id(@notification.sender_id) %></td>

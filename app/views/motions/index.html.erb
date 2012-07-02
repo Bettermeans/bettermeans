@@ -1,7 +1,4 @@
 <div class="contextual">
-<%#= link_to_if_authorized(l(:label_motions_new),
-                          {:controller => 'motions', :action => 'new', :project_id => @project},
-                          :class => 'icon icon-add') %>
 </div>
 
 <h2>Listing motions</h2>
@@ -11,11 +8,8 @@
   <tr>
     <th>&nbsp;</th>
     <th>Title</th>
-    <!-- <th>Variation</th> -->
     <th>State</th>
     <th>Vote Type</th>
-    <!-- <th>Binding by</th>
-    <th>Viewable by</th> -->
     <th>Details</th>
   </tr>
 
@@ -23,11 +17,8 @@
   <tr>
     <td><%= motion.id %></td>
     <td><%= link_to h(motion.title), project_motion_path(@project,motion) %></td>
-    <!-- <td><%#=l "label_motion_variation#{h motion.variation}" %></td> -->
     <td><%=l "label_motion_state#{h motion.state}" %></td>
     <td><%=l "label_motion_vote_type#{h motion.motion_type}" %></td>
-    <!-- <td><%#="#{h motion.binding_level_description}" %></td>
-    <td><%#="#{h motion.visibility_level_description}" %></td> -->
     <td><%=h motion.description %></td>
   </tr>
 <% end %>
@@ -44,6 +35,3 @@
   </li>
 </div>
 <% end %>
-
-<!-- {:controller => 'news', :action => 'new', :project_id => @project}, -->
-

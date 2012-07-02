@@ -2,14 +2,12 @@
 
 <div class="splitcontentleft">
 <div class="gt-content-box tabular">
-<!--[form:tracker]-->
 <p><%= f.text_field :name, :required => true %></p>
 
 <% if @tracker.new_record? && @trackers.any? %>
 <p><label><%= l(:label_copy_workflow_from) %></label>
 <%= select_tag(:copy_workflow_from, content_tag("option") + options_from_collection_for_select(@trackers, :id, :name)) %></p>
 <% end %>
-<!--[eoform:tracker]-->
 </div>
 <div class="gt-table-buttons">
 <%= submit_tag l(@tracker.new_record? ? :button_create : :button_save) %>

@@ -1,5 +1,3 @@
-<%#= debug @query %>
-
 <div class="contextual">
 <% if !@query.new_record? && @query.editable_by?(User.current) %>
   <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'icon icon-edit' %>
@@ -66,24 +64,4 @@
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
 <% end %>
 
-<%# other_formats_links do |f| %>
-  <%#= f.link_to 'Atom', :url => { :project_id => @project, :query_id => (@query.new_record? ? nil : @query), :key => User.current.rss_key } %>
-  <%#= f.link_to 'CSV', :url => { :project_id => @project } %>
-  <%#= f.link_to 'PDF', :url => { :project_id => @project } %>
-<%# end %>
-
 <% end %>
-
-<%# content_for :sidebar do %>
-    <%#= render :partial => 'issues/sidebar' %>
-<%# end %>
-
-<%# content_for :header_tags do %>
-    <%#= auto_discovery_link_tag(:atom, {:query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_issue_plural)) %>
-    <%#= auto_discovery_link_tag(:atom, {:action => 'changes', :query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_changes_details)) %>
-    <%#= javascript_include_tag 'context_menu' %>
-    <%#= stylesheet_link_tag 'context_menu' %>
-<%# end %>
-
-<!-- <div id="context-menu" style="display: none;"></div> -->
-<%#= javascript_tag "new ContextMenu('#{url_for(:controller => 'issues', :action => 'context_menu')}')" %>

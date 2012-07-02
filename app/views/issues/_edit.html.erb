@@ -8,11 +8,6 @@
     <div class="gt-content-box">
     <% if @edit_allowed %>
         <fieldset class="tabular">
-        <!--<legend><%#= l(:label_change_properties) %>
-        <%# if !@issue.new_record? && !@issue.errors.any? %>
-        <small>(<%#= link_to l(:label_more), {}, :onclick => '$("#issue_descr_fields").show(); return false;' %>)</small>
-        <%# end %>
-        </legend> -->
         <%= render :partial => 'form', :locals => {:f => f} %>
         </fieldset>
     <% end %>
@@ -21,15 +16,6 @@
     <%= f.hidden_field :lock_version %>
   <div class="gt-table-buttons">
         <%= submit_tag l(:button_submit), :disable_with => l(:button_working) %>
-  <!-- <p class="gt-cancel">
-    <%#= link_to_remote l(:label_preview),
-                       { :url => { :controller => 'issues', :action => 'preview', :project_id => @project, :id => @issue },
-                         :method => 'post',
-                         :update => 'preview',
-                         :with => "$('#issue-form').serialize()",
-                         :complete => "$('body').scrollTo('#preview')"
-                       }, :accesskey => accesskey(:preview) %>
-     </p> -->
      </div>
      <%= textile_editor_initialize(:framework => :jquery) %>
 <% end %>

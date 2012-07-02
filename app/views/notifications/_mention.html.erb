@@ -1,6 +1,5 @@
 <tr class="notification notification-issue-mentioned" id="notification_<%= @mention.id %>">
   <td class="gt-avatar">
-    <!-- Categories Sub Table -->
     <table border="0" class="gt-table-categories">
       <tr>
         <td>
@@ -17,7 +16,6 @@
   <%= link_to (truncate(title,50),url, {:class => "#{@mention.source_type == 'Issue' || @mention.source_type == 'Journal(Issue)' ? 'fancyframe' : ''}"}) %>
   <br><br>
   <%= make_expandable mention_text %>
-<%#= l(:text_joiner_is_now_working_with_you, :joiner => link_to_user_from_id(@mention.sender_id), :issue => link_to_issue_from_id(issue_id)) %>
 <p class="gt-table-action-list">
 <%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => @mention.id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
 <%= link_to(l(:button_view), url, {:id =>'cr_button', :class => "icon icon-cr-offer #{@mention.source_type == 'Issue' || @mention.source_type == 'Journal(Issue)' ? 'fancyframe' : ''}",  :target => "_blank"})%>

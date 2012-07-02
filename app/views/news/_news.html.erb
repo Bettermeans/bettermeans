@@ -17,7 +17,6 @@
            <%= link_to(h(news_item.project.name), :controller => 'projects', :action => 'show', :id => news_item.project) + ': ' unless @project %>
            <%= link_to h(news_item.title), :controller => 'news', :action => 'show', :id => news_item.id %></strong>&nbsp;<%=h news_item.summary %>
           </p>
-         <!-- <p class="gt-table-edit"><a href="">Edit</a></p> -->
          </td>
        </tr>
      <% end %>

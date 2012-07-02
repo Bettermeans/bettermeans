@@ -22,8 +22,7 @@
 
 
 <%= javascript_include_tag :defaults %>
-<%#= javascript_include_tag  'jquery-ui-1.8.8.custom.min' %>
-<%= javascript_include_tag  'jquery.jgrowl_minimized.js' %> <!-- TODO: include this in defaults -->
+<%= javascript_include_tag  'jquery.jgrowl_minimized.js' %>
 <%= javascript_include_tag  'jquery.scrollTo-min' %>
 <%= javascript_include_tag  'jquery.fancybox-1.3.4.pack' %>
 <%= javascript_include_tag  'jquery.sparkline.min' %>
@@ -34,7 +33,6 @@
       body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
     </style>
 <![endif]-->
-<!-- page specific tags -->
 <%= yield :header_tags -%>
 </head>
 <body>
@@ -58,27 +56,20 @@
 <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
 <%= javascript_tag "$(document).ready(function() {initialize();});"%>
 
-<!-- body -->
 <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? 'gt-bd gt-cols clearfix' : 'gt-bd clearfix')}, true) %>
 
-  <!-- main content -->
   <div class="gt-content">
       <%= render_flash_messages %>
       <%= yield %>
   </div>
-  <!-- / main content -->
 
-
-  <!-- sidebar -->
   <% if (has_content?(:sidebar)) %>
       <div class="gt-sidebar">
           <%= yield :sidebar %>
       </div>
   <%   end   %>
-  <!-- / sidebar -->
 
 </div>
-<!-- / body -->
 
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>

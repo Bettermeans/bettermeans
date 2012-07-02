@@ -25,7 +25,7 @@
 
 <%= javascript_include_tag :defaults %>
 <%#= javascript_include_tag  'jquery-ui-1.8.8.custom.min' %>
-<%= javascript_include_tag  'jquery.jgrowl_minimized' %> <!-- TODO: include this in defaults -->
+<%= javascript_include_tag  'jquery.jgrowl_minimized' %>
 <%= javascript_include_tag  'jquery.scrollTo-min' %>
 <%= javascript_include_tag  'jquery.fancybox-1.3.4.pack' %>
 <%= javascript_include_tag  'jquery.sparkline.min' %>
@@ -40,7 +40,6 @@
       body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
     </style>
 <![endif]-->
-<!-- page specific tags -->
 <%= yield :header_tags -%>
 </head>
 <body>
@@ -64,17 +63,13 @@
 <%= javascript_tag "var AUTH_TOKEN = #{form_authenticity_token.inspect};" if protect_against_forgery? %>
 <%= javascript_tag "$(document).ready(function() {initialize();});"%>
 
-<!-- head -->
 <div class="gt-hd clearfix">
-  <!-- leaf watermark -->
   <div class="gt-leaf-watermark clearfix">
 
-  <!-- head top -->
   <div class="gt-hd-top clearfix">
 
     <div class="gt-fixed-wrap clearfix">
 
-    <!-- logo -->
     <div class="gt-logo">
       <a href="/" style="text-decoration:none;" class="left">
         <img src="/images/static/header_logo.png"></a>
@@ -85,27 +80,20 @@
       </div>
     </div>
 
-    <!-- / logo -->
-
-    <!-- utility box -->
     <div class="gt-util-box">
       <div class="gt-util-box-inner">
       <%= render :partial => "layouts/account_menu" -%>
       </div>
       <%= yield :buttonbar %>
     </div>
-    <!-- / utility box -->
     </div>
 
-  </div><!-- /head top -->
+  </div>
 
-  <!-- navbar -->
   <div class="gt-navbar clearfix">
 
     <div class="gt-fixed-wrap clearfix">
 
-
-    <!-- navigation -->
     <div class="gt-nav">
       <div class="gt-nav-header">
         <span class="gt-nav-breadcrumbs"><%= page_header_title %></span>
@@ -134,7 +122,7 @@
         <% if (has_content?(:mainmenu)) %>
           <%= yield :mainmenu %>
         <% else %>
-          <ul><li><a href="#" style="opacity:0;">.</a></li></ul> <!-- placeholder to maintain height of bar -->
+          <ul><li><a href="#" style="opacity:0;">.</a></li></ul>
         <% end %>
       <% end %>
       <div class="gt-actionmenu">
@@ -151,26 +139,23 @@
       </div>
       </div>
 
-    </div><!-- / navigation -->
+    </div>
 
-    <!-- search -->
     <% if (!has_content?(:topbuttons)) %>
     <% else %>
       <%= yield :topbuttons %>
     <% end %>
 
     </div>
-  </div><!-- /navbar -->
+  </div>
   <% if (has_content?(:secondnav)) %>
     <div class="gt-second-navbar">
     <%= yield :secondnav %>
     </div>
   <% end %>
-</div><!-- /leaf watermark -->
 </div>
-<!-- / head -->
+</div>
 
-<!-- body -->
 <%
 
 if (has_content?(:actionmenu) && false)
@@ -184,22 +169,17 @@ end
 <%= tag('div', {:id => 'main', :class => cssclass }, true) %>
 
 
-  <!-- main content -->
   <div class="gt-content" id="content">
       <%= render_global_messages %>
       <%= render_flash_messages %>
       <%= yield %>
   </div>
-  <!-- / main content -->
 
-
-  <!-- sidebar -->
   <% if (has_content?(:sidebar)) %>
       <div class="gt-sidebar">
           <%= yield :sidebar %>
       </div>
   <%   end   %>
-  <!-- / sidebar -->
 
 <div id="help_section_container" style="display:none">
   <div class="help-section" id="help_section">
@@ -207,7 +187,6 @@ end
   </div>
 </div>
 </div>
-<!-- / body -->
 
 
 <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>

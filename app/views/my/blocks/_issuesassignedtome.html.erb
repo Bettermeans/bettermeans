@@ -1,16 +1,5 @@
 <% if assigned_issues.length > 0 %>
 
-<!-- <h2 class="gt-table-head"><%#=l(:label_assigned_to_me_issues)%> (<%= assigned_issues.length%>)</h2> -->
-
-<!-- <div class="gt-content-box"> -->
 <%= render :partial => 'issues/list_very_simple', :locals => { :issues => assigned_issues } %>
-
-<%# content_for :header_tags do %>
-<%#= auto_discovery_link_tag(:atom,
-                            {:controller => 'issues', :action => 'index', :set_filter => 1,
-                             :assigned_to_id => 'me', :format => 'atom', :key => User.current.rss_key},
-                            {:title => l(:label_assigned_to_me_issues)}) %>
-<%# end %>
-<!-- </div> -->
 
 <% end %>

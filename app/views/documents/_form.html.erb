@@ -1,11 +1,9 @@
 <%= error_messages_for 'document' %>
 <div class="gt-content-box">
-<!--[form:document]-->
 <p><label for="document_title"><%=l(:field_title)%> <span class="required">*</span></label>
 <%= text_field 'document', 'title', :size => 60 %></p>
 
 <p><label for="document_description"><%=l(:field_description)%></label>
 <%= textile_editor 'document', 'description', :cols => 60, :rows => 15, :class => 'wiki-edit' %></p>
 <%= textile_editor_initialize(:framework => :jquery) %>
-<!--[eoform:document]-->
 </div>

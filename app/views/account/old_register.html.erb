@@ -3,9 +3,6 @@
 <% form_tag({:action => 'register'}, :class => "tabular gt-form gt-content-box") do %>
 <%= error_messages_for 'user' %>
 
-<!-- <div class="gt-form gt-content-box"> -->
-
-<!--[form:user]-->
 <% if @user.auth_source_id.nil? %>
 <div class="gt-form-row gt-width-66">
   <label for="user_login"><%=l(:field_login)%> <span class="required">*</span></label>
@@ -54,7 +51,6 @@
 <div class="gt-form-row gt-width-66">
 <label><input type="checkbox" id="agreement_checkbox"></input></label>
 I have read and agreed to the <a href="/projects/legal/wiki/User_Agreement_for_the_Platform" target="_blank">User Agreement</a> and <a href="/projects/legal/wiki/Open_Enterprise_Governance_Model" target="blank">Open Enterprise Governance Model</a>
-<!--[eoform:user]-->
 </div>
 
 <%= submit_tag l(:button_submit), :onclick => "return check_agreement();" %>

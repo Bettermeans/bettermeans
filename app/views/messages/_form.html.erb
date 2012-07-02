@@ -2,7 +2,6 @@
 <% replying ||= false %>
 
 <div class="gt-content-box">
-<!--[form:message]-->
 <p><label><%= l(:field_subject) %></label><br />
 <%= f.text_field :subject, :size => 120, :id => 'message_subject' %>
 
@@ -19,9 +18,8 @@
 
 <p><%= f.textile_editor :content, :cols => 80, :rows => 15, :class => 'wiki-edit autocomplete-mentions', :id => 'message_content' %></p>
 <%= textile_editor_initialize(:framework => :jquery) %>
-<!--[eoform:message]-->
 
-<p><%#= l(:label_attachment_plural) %>
+<p>
   <%= render :partial => 'attachments/form' %>
 </p>
 </div>
