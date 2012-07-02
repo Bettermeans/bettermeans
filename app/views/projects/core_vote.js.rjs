@@ -1,1 +1,1 @@
-page.replace @member.user.login, :partial => 'team_list_member', :locals => {:member => @member} 
+page.replace @member.user.login, :partial => 'team_list_member', :locals => {:member => @member}

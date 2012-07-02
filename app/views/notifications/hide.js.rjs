@@ -1,6 +1,6 @@
 #Checking if this update is being called through the notification page
 if (!params[:notification_id].nil?)
-  page.replace "notification_" + params[:notification_id], content_tag(:tr, content_tag(:td, l(params[:message] || :label_response_sent), :class => "notification_response", :colspan => 3, :id => "notification_" + params[:notification_id])) 
-  page.replace "notification", :partial => "notifications/unresponded"    
-  page["notification_" + params[:notification_id]].visual_effect :highlight  
+  page.replace "notification_" + params[:notification_id], content_tag(:tr, content_tag(:td, l(params[:message] || :label_response_sent), :class => "notification_response", :colspan => 3, :id => "notification_" + params[:notification_id]))
+  page.replace "notification", :partial => "notifications/unresponded"
+  page["notification_" + params[:notification_id]].visual_effect :highlight
 end
