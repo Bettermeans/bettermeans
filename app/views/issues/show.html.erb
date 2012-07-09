@@ -158,8 +158,6 @@
        'defaultText':'add a tag'
     });
 
-    // $('.issue-tags').tagsInput();
-
     $('#file_upload').fileUploadUI({
         uploadTable: $('#files'),
         downloadTable: $('#files'),
@@ -206,7 +204,6 @@
   }
 
   function post_comment(){
-    // try{
       var text = $("#add-comment-textarea").val();
 
       if ((text == null) || (text.length < 2)){
@@ -237,19 +234,11 @@
              $("#journal-new-notes").attr('id','journal-' + new_journal_id + '-notes'); //updated id
               $('#new_comment_edit_link').attr('onclick',onclick);
           },
-          //         error:   function (XMLHttpRequest, textStatus, errorThrown) {
-          // handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
-          // },
           timeout: 30000 //30 seconds
          });
 
         return false;
       }
-    //  }
-    // catch(err){
-    //   console.log(err);
-    //  return false;
-    // }
   }
 
   function show_item(startable){

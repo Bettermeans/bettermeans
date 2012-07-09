@@ -51,7 +51,6 @@ function post_comment(object_id, comment_type){
   $("#input_comment_" + object_id).hide();
   $("#add_comment_trigger_" + object_id).show();
 
-  // try{
     var text = $("#input_comment_textarea_" + object_id).val();
 
     if ((text == null) || (text.length < 2)){
@@ -84,19 +83,11 @@ function post_comment(object_id, comment_type){
          data: data,
          success:   function(html){
         },
-        //         error:   function (XMLHttpRequest, textStatus, errorThrown) {
-        // handle_error(XMLHttpRequest, textStatus, errorThrown, dataId, "post");
-        // },
         timeout: 30000 //30 seconds
        });
 
       return false;
     }
-  //  }
-  // catch(err){
-  //   console.log(err);
-  //  return false;
-  // }
 }
 
 function generate_comment(object_id, text){
