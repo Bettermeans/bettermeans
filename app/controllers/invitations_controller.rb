@@ -3,37 +3,28 @@ class InvitationsController < ApplicationController
   before_filter :authorize, :except => :accept
   ssl_required :all
 
-
-  # GET /invitations
-  # GET /invitations.xml
   def index
     @all_invites, @invitations = paginate :invitations,
                                    :per_page => 30,
                                    :conditions => {:user_id => User.current.id, :project_id => @project.id},
                                    :order => "created_at DESC"
 
-    # @invitations = Invitation.find(:all, :conditions => {:user_id => User.current.id, :project_id => @project.id}, :order => "created_at desc")
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
       format.xml  { render :xml => @invitations.to_xml }
       format.json { render :json => @invitation.to_json }
-      # format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
     end
   end
 
-  # GET /invitations/1
-  # GET /invitations/1.xml
   def show
     @invitation = Invitation.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @invitation }
     end
   end
 
-  # GET /invitations/new
-  # GET /invitations/new.xml
   def new
     unless @project.root?
       render_error("Project is not root. No invitations needed here.")
@@ -43,18 +34,15 @@ class InvitationsController < ApplicationController
     @note = l(:text_invitation_note_default, {:user => User.current.name, :project => @project.name})
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @invitation }
     end
   end
 
-  # GET /invitations/1/edit
   def edit
     @invitation = Invitation.find(params[:id])
   end
 
-  # POST /invitations
-  # POST /invitations.xml
   def create
 
     #can't invite someone to anything other than contributor if you're not admin
@@ -82,8 +70,6 @@ class InvitationsController < ApplicationController
         success = true
       end
     end
-
-    # Mailer.invitation_add(@invitation,params[:note])
 
     respond_to do |format|
       if success
@@ -126,7 +112,6 @@ class InvitationsController < ApplicationController
           redirect_with_flash :success, msg, :controller => :projects, :action => :show, :id => @invitation.project_id
           return
         else
-          #redirect to register, with an invitation token parameter
           session[:invitation] = @invitation.token
           redirect_to :controller => :account, :action => :register, :invitation_token => @invitation.token
         end
@@ -134,8 +119,6 @@ class InvitationsController < ApplicationController
     end
   end
 
-  # PUT /invitations/1
-  # PUT /invitations/1.xml
   def resend
     @invitation = Invitation.find(params[:id])
 
@@ -163,8 +146,6 @@ class InvitationsController < ApplicationController
     end
   end
 
-  # DELETE /invitations/1
-  # DELETE /invitations/1.xml
   def destroy
     @invitation = Invitation.find(params[:id])
     @invitation.destroy

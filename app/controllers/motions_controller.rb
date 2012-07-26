@@ -8,19 +8,14 @@ class MotionsController < ApplicationController
   ssl_required :all
 
 
-  # GET /motions
-  # GET /motions.xml
   def index
-    # @motions = @project.motions.viewable_by(User.current.position_for(@project))
     @motions = @project.motions
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @motions }
     end
   end
 
-  # GET /motions/1
-  # GET /motions/1.xml
   def show
     if @motion.concerned_user_id == User.current.id
       render_403
@@ -37,20 +32,18 @@ class MotionsController < ApplicationController
 
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @motion }
     end
   end
 
-  # GET /motions/new
-  # GET /motions/new.xml
   def new
     @motion = Motion.new(params[:motion])
 
     @concerned_user_list = Motion.eligible_users(@motion.variation, @project.id)
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @motion }
     end
   end
@@ -76,12 +69,9 @@ class MotionsController < ApplicationController
     render :layout => false
   end
 
-  # GET /motions/1/edit
   def edit
   end
 
-  # POST /motions
-  # POST /motions.xml
   def create
     @motion = Motion.new(params[:motion])
     @motion.project_id = @project.id
@@ -105,11 +95,7 @@ class MotionsController < ApplicationController
     end
   end
 
-
-  # PUT /motions/1
-  # PUT /motions/1.xml
   def update
-
     respond_to do |format|
       if @motion.update_attributes(params[:motion])
         flash.now[:success] = 'Motion was successfully updated.'
@@ -122,8 +108,6 @@ class MotionsController < ApplicationController
     end
   end
 
-  # DELETE /motions/1
-  # DELETE /motions/1.xml
   def destroy
     @motion.destroy
 

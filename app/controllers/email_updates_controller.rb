@@ -6,7 +6,7 @@ class EmailUpdatesController < ApplicationController
     @email_update = EmailUpdate.new()
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @invitation }
     end
   end

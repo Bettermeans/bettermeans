@@ -1,47 +1,38 @@
 class NotificationsController < ApplicationController
   ssl_required :all
-  # GET /notifications
-  # GET /notifications.xml
   def index
     @notifications = Notification.unresponded
     @mentions = @notifications.select {|n| n.mention?}
     @notifications = @notifications.select {|n| !n.mention?}
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @notifications }
     end
   end
 
-  # GET /notifications/1
-  # GET /notifications/1.xml
   def show
     @notification = Notification.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @notification }
     end
   end
 
-  # GET /notifications/new
-  # GET /notifications/new.xml
   def new
     @notification = Notification.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @notification }
     end
   end
 
-  # GET /notifications/1/edit
   def edit
     @notification = Notification.find(params[:id])
   end
 
-  # POST /notifications
-  # POST /notifications.xml
   def create
     @notification = Notification.new(params[:notification])
 
@@ -57,8 +48,6 @@ class NotificationsController < ApplicationController
     end
   end
 
-  # PUT /notifications/1
-  # PUT /notifications/1.xml
   def update
     @notification = Notification.find(params[:id])
 
@@ -88,8 +77,6 @@ class NotificationsController < ApplicationController
     end
   end
 
-  # DELETE /notifications/1
-  # DELETE /notifications/1.xml
   def destroy
     @notification = Notification.find(params[:id])
     @notification.destroy

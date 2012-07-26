@@ -1,46 +1,37 @@
 class EnterprisesController < ApplicationController
   ssl_required :all
 
-  # GET /enterprises
-  # GET /enterprises.xml
   def index
     @enterprises = Enterprise.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @enterprises }
     end
   end
 
-  # GET /enterprises/1
-  # GET /enterprises/1.xml
   def show
     @enterprise = Enterprise.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @enterprise }
     end
   end
 
-  # GET /enterprises/new
-  # GET /enterprises/new.xml
   def new
     @enterprise = Enterprise.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @enterprise }
     end
   end
 
-  # GET /enterprises/1/edit
   def edit
     @enterprise = Enterprise.find(params[:id])
   end
 
-  # POST /enterprises
-  # POST /enterprises.xml
   def create
     @enterprise = Enterprise.new(params[:enterprise])
 
@@ -56,8 +47,6 @@ class EnterprisesController < ApplicationController
     end
   end
 
-  # PUT /enterprises/1
-  # PUT /enterprises/1.xml
   def update
     @enterprise = Enterprise.find(params[:id])
 
@@ -73,8 +62,6 @@ class EnterprisesController < ApplicationController
     end
   end
 
-  # DELETE /enterprises/1
-  # DELETE /enterprises/1.xml
   def destroy
     @enterprise = Enterprise.find(params[:id])
     @enterprise.destroy

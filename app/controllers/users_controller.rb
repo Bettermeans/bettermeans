@@ -36,15 +36,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    # if params[:login]
-    #   @user = User.active.find_by_login(params[:login])
-    #   if @user.nil?
-    #     render_404
-    #     return
-    #   end
-    # else
-    #   @user = User.active.find(params[:id])
-    # end
 
     # show only public projects and private projects that the logged in user is also a member of
     @memberships = @user.memberships.select do |membership|
@@ -55,14 +46,6 @@ class UsersController < ApplicationController
     @reputations = @user.reputations.select do |reputation|
       reputation.project_id == 0 || reputation.project.visible_to(User.current)
     end
-
-    # @activities_by_item = ActivityStream.fetch(@user, nil, nil, nil)
-
-
-    # if @user != User.current && !User.current.admin? && @memberships.empty?
-    #   render_404
-    #   return
-    # end
 
     flash.now[:notice] = l(:notice_this_is_your_profie) if @user == User.current
 

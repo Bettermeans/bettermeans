@@ -25,7 +25,7 @@ class MailHandlerController < ActionController::Base
   def sendgrid
     @email = TMail::Mail.new
     @email.subject = params[:subject]
-    @email.body = params[:text].to_s.gsub(/"/,'\"') #.nil? ? params[:text] : params[:html]
+    @email.body = params[:text].to_s.gsub(/"/,'\"')
     @email.to = params[:to]
     @email.from = params[:from]
     @email.subject = params[:subject]

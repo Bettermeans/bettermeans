@@ -8,14 +8,7 @@ class WelcomeController < ApplicationController
   before_filter :require_login, :except => :robots
 
   def index
-    # @news = News.latest User.current
-    # @activities_by_item = ActivityStream.fetch(nil, nil, true, 50)
-    # @my_projects = User.current.projects
     @my_projects = User.current.recent_projects(10)
-    # @my_projects = User.current.memberships.collect(&:project)
-    # @my_projects = User.current.active_memberships.collect(&:project)
-
-    # redirect_to :controller => "my", :action => "projects" if @my_project.nil?
 
     unless @my_projects.nil?
       @news = News.find(:all,
@@ -26,23 +19,8 @@ class WelcomeController < ApplicationController
 
       @assigned_issues = Issue.visible.open.find(:all,
                                       :conditions => ["#{IssueVote.table_name}.user_id = ? AND #{IssueVote.table_name}.vote_type = ? AND #{Issue.table_name}.status_id = ?", User.current.id, IssueVote::JOIN_VOTE_TYPE, IssueStatus.assigned.id],
-                                      # :conditions => {:assigned_to_id => User.current.id},
-                                      # :limit => 10,
                                       :include => [:project, :tracker, :issue_votes ],
                                       :order => "#{Project.table_name}.name ASC")
-      #
-      # @watched_issues = Issue.visible.find(:all,
-      #                                  :include => [:project, :tracker, :watchers],
-      #                                  # :limit => 10,
-      #                                  :conditions => ["#{Watcher.table_name}.user_id = ?", User.current.id],
-      #                                  :order => "#{Issue.table_name}.subject ASC")
-      #
-      #  @joined_issues = Issue.visible.find(:all,
-      #                                   :include => [:project, :tracker, :issue_votes],
-      #                                   # :limit => 10,
-      #                                   :conditions => ["#{IssueVote.table_name}.user_id = ? AND #{IssueVote.table_name}.vote_type = ? AND #{Issue.table_name}.assigned_to_id != ? AND #{Issue.table_name}.status_id = ?", User.current.id, IssueVote::JOIN_VOTE_TYPE, User.current.id, IssueStatus.assigned.id],
-      #                                   :order => "#{Issue.table_name}.subject ASC")
-
     end
   end
 

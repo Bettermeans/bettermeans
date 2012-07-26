@@ -4,47 +4,37 @@ class TodosController < ApplicationController
   before_filter :find_project, :authorize
   ssl_required :all
 
-
-  # GET /todos
-  # GET /todos.xml
   def index
     @todos = Todo.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @todos }
     end
   end
 
-  # GET /todos/1
-  # GET /todos/1.xml
   def show
     @todo = Todo.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @todo }
     end
   end
 
-  # GET /todos/new
-  # GET /todos/new.xml
   def new
     @todo = Todo.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @todo }
     end
   end
 
-  # GET /todos/1/edit
   def edit
     @todo = Todo.find(params[:id])
   end
 
-  # POST /todos
-  # POST /todos.xml
   def create
     @todo = Todo.new(params[:todo])
     @todo.issue_id = @issue.id
@@ -62,8 +52,6 @@ class TodosController < ApplicationController
     end
   end
 
-  # PUT /todos/1
-  # PUT /todos/1.xml
   def update
     @todo = Todo.find(params[:id])
 
@@ -80,8 +68,6 @@ class TodosController < ApplicationController
     end
   end
 
-  # DELETE /todos/1
-  # DELETE /todos/1.xml
   def destroy
     @todo = Todo.find(params[:id])
     @todo.destroy

@@ -20,11 +20,9 @@ class AttachmentsController < ApplicationController
     if params[:file]
       file = params[:file]
       logger.info { "file #{file.inspect}" }
-      # next unless file && file.size > 0
       a = Attachment.create(:container_id => params[:container_id],
                             :container_type => params[:container_type],
                             :file => file,
-                            # :description => attachment['description'].to_s.strip,
                             :author => User.current)
       logger.info { "created attachment #{a.inspect}" }
     end

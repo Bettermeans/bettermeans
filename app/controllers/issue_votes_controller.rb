@@ -1,46 +1,37 @@
 class IssueVotesController < ApplicationController
   ssl_required :all
 
-  # GET /issue_votes
-  # GET /issue_votes.xml
   def index
     @issue_votes = IssueVote.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @issue_votes }
     end
   end
 
-  # GET /issue_votes/1
-  # GET /issue_votes/1.xml
   def show
     @issue_vote = IssueVote.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @issue_vote }
     end
   end
 
-  # GET /issue_votes/new
-  # GET /issue_votes/new.xml
   def new
     @issue_vote = IssueVote.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @issue_vote }
     end
   end
 
-  # GET /issue_votes/1/edit
   def edit
     @issue_vote = IssueVote.find(params[:id])
   end
 
-  # POST /issue_votes
-  # POST /issue_votes.xml
   def create
     @issue_vote = IssueVote.new(params[:issue_vote])
 
@@ -56,8 +47,6 @@ class IssueVotesController < ApplicationController
     end
   end
 
-  # PUT /issue_votes/1
-  # PUT /issue_votes/1.xml
   def update
     @issue_vote = IssueVote.find(params[:id])
 
@@ -73,8 +62,6 @@ class IssueVotesController < ApplicationController
     end
   end
 
-  # DELETE /issue_votes/1
-  # DELETE /issue_votes/1.xml
   def destroy
     @issue_vote = IssueVote.find(params[:id])
     @issue_vote.destroy

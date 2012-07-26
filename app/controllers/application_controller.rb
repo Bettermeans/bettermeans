@@ -68,7 +68,6 @@ class ApplicationController < ActionController::Base
     if session[:user_id]
       # existing session
       user = (User.active.find(session[:user_id]) rescue nil)
-      # Track.log(Track::LOGIN,request.env['REMOTE_ADDR']) if user
       user
     elsif cookies[:autologin] && Setting.autologin?
       # auto-login feature starts a new session
@@ -76,9 +75,6 @@ class ApplicationController < ActionController::Base
       session[:user_id] = user.id if user
       Track.log(Track::LOGIN,session[:client_ip]) if user
       user
-    # elsif params[:format] == 'atom' && params[:key] && accept_key_auth_actions.include?(params[:action])
-    #   # RSS key authentication does not start a session
-    #   User.find_by_rss_key(params[:key])
     elsif Setting.rest_api_enabled? && ['xml', 'json'].include?(params[:format]) && accept_key_auth_actions.include?(params[:action])
       if params[:key].present?
         # Use API key
@@ -119,12 +115,6 @@ class ApplicationController < ActionController::Base
     if User.current.logged?
       lang = find_language(User.current.language)
     end
-    # if lang.nil? && request.env['HTTP_ACCEPT_LANGUAGE']
-    #   accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.downcase
-    #   if !accept_lang.blank?
-    #     lang = find_language(accept_lang) || find_language(accept_lang.split('-').first)
-    #   end
-    # end
     lang ||= Setting.default_language
     set_language_if_valid(lang)
   end
@@ -144,7 +134,6 @@ class ApplicationController < ActionController::Base
       end
       respond_to do |format|
         format.html { redirect_to :controller => "account", :action => "login", :back_url => url }
-        # format.atom { redirect_to :controller => "account", :action => "login", :back_url => url }
         format.xml { head :unauthorized }
         format.json { head :unauthorized }
       end
@@ -234,7 +223,6 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_authenticity_token
-    # render_error "Invalid form authenticity token."
     redirect_back_or_default(home_path)
   end
 

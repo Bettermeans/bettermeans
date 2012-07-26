@@ -218,7 +218,6 @@ class AccountController < ApplicationController
       token.destroy
       flash.now[:success] = l(:notice_account_activated)
       successful_authentication(user)
-      # render :action => 'login', :layout => 'static'
     else
       render :action => 'login', :layout => 'static'
     end
@@ -313,7 +312,7 @@ class AccountController < ApplicationController
       token = Token.create(:user => user, :action => 'autologin')
       cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
     end
-    # redirect_back_or_default :controller => 'my', :action => 'page'
+
     if msg
       render_message(msg)
     else
@@ -337,7 +336,6 @@ class AccountController < ApplicationController
     logger.info { "inactive user!!!!" }
     flash.now[:error] = l(:notice_account_inactive_user)
     render_error(l(:notice_account_inactive_user))
-    # render :layout => 'blank'
   end
 
 
@@ -361,7 +359,6 @@ class AccountController < ApplicationController
     if user.save and token.save
       Mailer.send_later(:deliver_register,token)
       flash.now[:success] = l(:notice_account_register_done)
-      # self.logged_user = user
       render :action => 'login', :layout => 'static'
       return true
     else

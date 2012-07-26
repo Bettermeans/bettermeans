@@ -52,7 +52,6 @@ class CreditTransfersController < ApplicationController
     @user_list.delete_if { |a| a.user_id == User.current.id}
 
     render :partial => "eligible_recipients"
-    # render :layout => false
   end
 
 

@@ -32,7 +32,6 @@ class RecurlyNotificationsController < ApplicationController
         user.plan_id = Plan.find(Plan::FREE_CODE).id
         user.active_subscription = false
       end
-      # user.trial_expires_on = new Date(subscription["trial_ends_at"])
       user.save
       logger.info { "saved for user #{user.name} new plan #{user.plan_id}" }
     rescue Exception => e

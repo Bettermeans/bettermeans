@@ -34,10 +34,6 @@ class IssuesController < ApplicationController
          :only => :destroy,
          :render => { :nothing => true, :status => :method_not_allowed}
 
-  # log_activity_streams :current_user, :name, :no_longer_follows,
-  #                :@destroyed_categories, :name, :set_my_feeds, :follow_category,
-  #                {:total => -1 }
-
   log_activity_streams :current_user, :name, :added, :@issue, :subject, :new, :issues, {:object_description_method => :description}
   log_activity_streams :current_user, :name, :finished, :@issue, :subject, :finish, :issues, {
     :object_description_method => :description,
@@ -71,7 +67,6 @@ class IssuesController < ApplicationController
       limit = per_page_option
       respond_to do |format|
         format.html { }
-        # format.atom { limit = Setting.feeds_limit.to_i }
         format.csv  { limit = Setting.issues_export_limit.to_i }
         format.pdf  { limit = Setting.issues_export_limit.to_i }
       end
@@ -86,7 +81,6 @@ class IssuesController < ApplicationController
 
       respond_to do |format|
         format.html { render :template => 'issues/index.html.erb', :layout => !request.xhr? }
-        # format.atom { render_feed(@issues, :title => "#{@project || Setting.app_title}: #{l(:label_issue_plural)}") }
         format.csv  { send_data(issues_to_csv(@issues, @project), :type => 'text/csv; header=present', :filename => 'export.csv') }
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
       end
@@ -98,23 +92,7 @@ class IssuesController < ApplicationController
     render_404
   end
 
-  # def changes
-  #   retrieve_query
-  #   sort_init 'id', 'desc'
-  #   sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
-  #
-  #   if @query.valid?
-  #     @journals = @query.journals(:order => "#{Journal.table_name}.created_at DESC",
-  #                                 :limit => 25)
-  #   end
-  #   @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
-  #   render :layout => false, :content_type => 'application/atom+xml'
-  # rescue ActiveRecord::RecordNotFound
-  #   render_404
-  # end
-
   def show
-    # @item = @issue.to_dashboard
     @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_at ASC")
     @journals.each_with_index {|j,i| j.indice = i+1}
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
@@ -123,7 +101,6 @@ class IssuesController < ApplicationController
 
     respond_to do |format|
       format.html { render :template => 'issues/show.html.erb', :layout => 'issue_blank' }
-      # format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
       format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
     end
   end
@@ -154,7 +131,7 @@ class IssuesController < ApplicationController
     @issue.status = default_status
     @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.roles_for_project(@project), @issue.tracker)).uniq
 
-    if request.get? #|| request.xhr?
+    if request.get?
       @issue.start_date ||= Date.today
     else
       if params[:issue].nil? || params[:issue][:status_id].nil?
@@ -163,8 +140,6 @@ class IssuesController < ApplicationController
         requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
       end
 
-      # Check that the user is allowed to apply the requested status
-      # @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
       @issue.status = requested_status
       @issue.tag_list = @issue.tags_copy if @issue.tags_copy
 
@@ -190,7 +165,6 @@ class IssuesController < ApplicationController
 
         @issue.save if !@issue.update_status
 
-        # flash.now[:success] = l(:notice_successful_create)
         @issue.reload
 
         respond_to do |format|
@@ -236,10 +210,6 @@ class IssuesController < ApplicationController
       if @issue.save
         Mention.parse(@issue, User.current.id)
 
-        # if !journal.new_record?
-        #   # Only send notification if something was actually changed
-        #   # flash.now[:success] = l(:notice_successful_update)
-        # end
         @issue.reload
         respond_to do |format|
           format.js {render :json => @issue.to_dashboard}
@@ -307,19 +277,11 @@ class IssuesController < ApplicationController
   end
 
   def change_status
-      # @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-      # @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
-
       @notes = params[:notes]
       @journal = @issue.init_journal(User.current, @notes)
 
-      # # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
-      # if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
         attrs = params[:issue].dup
-        # attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
-        # attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
         @issue.attributes = attrs
-      # end
 
       if @issue.save
         respond_to do |format|
@@ -347,8 +309,6 @@ class IssuesController < ApplicationController
   def update_tags
     @issue.send_later(:update_tags,params[:tags])
 
-    # @issue.send_later(:update_attribute,:tag_list, params[:tags])
-    # @issue.send_later(:update_attribute,:tags_copy, params[:tags])
     respond_to do |format|
       format.js {render :nothing => true}
       format.html {redirect_to(params[:back_to] || {:action => 'show', :id => @issue})}
@@ -357,11 +317,6 @@ class IssuesController < ApplicationController
 
 
   def estimate
-    # if (@issue.status != IssueStatus.open) && (@issue.status != IssueStatus.newstatus) && (@issue.status != IssueStatus.estimate)
-    #       render_error 'Can not estimate request unless it is new, open, or in estimation'
-    #       return false;
-    # end
-
     if(@issue.is_hourly?)
       render_error 'Can not estimate hourly items'
       return false;
@@ -542,7 +497,6 @@ class IssuesController < ApplicationController
       page.show 'update'
       page << "$('#notes').focus();"
       page << "$('body').scrollTo('#update');"
-      # page << "$('notes').scrollTop = $('notes').scrollHeight - $('notes').clientHeight;"
     }
   end
 
@@ -619,7 +573,6 @@ class IssuesController < ApplicationController
       end
       @project.project.send_later :refresh_issue_count
       if unsaved_issue_ids.empty?
-        # flash.now[:success] = l(:notice_successful_update) unless @issues.empty?
       else
         flash.now[:error] = l(:notice_failed_to_save_issues, :count => unsaved_issue_ids.size,
                                                          :total => @issues.size,
@@ -746,7 +699,6 @@ class IssuesController < ApplicationController
   def datadump
     @issues = Issue.find(:all, :conditions => "project_id IN (#{User.current.owned_projects.collect {|p| p.id}.join(",")})")
     render :csv => @issues
-    # send_data issues.to_csv, {:filename => "issues.csv"}
   end
 
 private
