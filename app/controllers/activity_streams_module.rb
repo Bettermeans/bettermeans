@@ -7,46 +7,38 @@
 #
 # ActivityStreamsModule is included in your generated ActivityStreams Controller and provides base functionality for the Activity Streams Plug-in
 module ActivityStreamsModule
-  # GET /activity_streams
-  # GET /activity_streams.xml
+
   def index
     @activity_streams = ActivityStream.find(:all, :limit => 200, :order => "updated_at DESC")
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @activity_streams }
     end
   end
 
-  # GET /activity_streams/1
-  # GET /activity_streams/1.xml
   def show
     @activity_stream = ActivityStream.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @activity_stream }
     end
   end
 
-  # GET /activity_streams/new
-  # GET /activity_streams/new.xml
   def new
     @activity_stream = ActivityStream.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @activity_stream }
     end
   end
 
-  # GET /activity_streams/1/edit
   def edit
     @activity_stream = ActivityStream.find(params[:id])
   end
 
-  # POST /activity_streams
-  # POST /activity_streams.xml
   def create
     @activity_stream = ActivityStream.new(params[:activity_stream])
 
@@ -62,8 +54,6 @@ module ActivityStreamsModule
     end
   end
 
-  # PUT /activity_streams/1
-  # PUT /activity_streams/1.xml
   def update
     @activity_stream = ActivityStream.find(params[:id])
 
@@ -79,8 +69,6 @@ module ActivityStreamsModule
     end
   end
 
-  # DELETE /activity_streams/1
-  # DELETE /activity_streams/1.xml
   def destroy
     @activity_stream = ActivityStream.find(params[:id])
 
@@ -96,19 +84,5 @@ module ActivityStreamsModule
       end
     end
   end
-
-  # def feed
-  #
-  #   klass = Object::const_get(ACTIVITY_STREAM_USER_MODEL)
-  #   @user = klass.find_by_activity_stream_token params[:activity_stream_token] unless params[:activity_stream_token].blank?
-  #
-  #   render :nothing => true and return if @user.nil?
-  #
-  #   @activity_streams = ActivityStream.recent_actors(@user,:feed_location)
-  #
-  #   respond_to do |wants|
-  #     wants.atom { render :partial => 'activity_streams/activity_stream_feed.atom.builder' }
-  #   end
-  # end
 
 end

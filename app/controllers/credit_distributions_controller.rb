@@ -1,6 +1,4 @@
 class CreditDistributionsController < ApplicationController
-  # GET /credit_distributions
-  # GET /credit_distributions.xml
   before_filter :require_admin
   ssl_required :all
 
@@ -9,40 +7,33 @@ class CreditDistributionsController < ApplicationController
     @credit_distributions = CreditDistribution.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @credit_distributions }
     end
   end
 
-  # GET /credit_distributions/1
-  # GET /credit_distributions/1.xml
   def show
     @credit_distribution = CreditDistribution.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @credit_distribution }
     end
   end
 
-  # GET /credit_distributions/new
-  # GET /credit_distributions/new.xml
   def new
     @credit_distribution = CreditDistribution.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @credit_distribution }
     end
   end
 
-  # GET /credit_distributions/1/edit
   def edit
     @credit_distribution = CreditDistribution.find(params[:id])
   end
 
-  # POST /credit_distributions
-  # POST /credit_distributions.xml
   def create
     @credit_distribution = CreditDistribution.new(params[:credit_distribution])
 
@@ -58,8 +49,6 @@ class CreditDistributionsController < ApplicationController
     end
   end
 
-  # PUT /credit_distributions/1
-  # PUT /credit_distributions/1.xml
   def update
     @credit_distribution = CreditDistribution.find(params[:id])
 
@@ -75,8 +64,6 @@ class CreditDistributionsController < ApplicationController
     end
   end
 
-  # DELETE /credit_distributions/1
-  # DELETE /credit_distributions/1.xml
   def destroy
     @credit_distribution = CreditDistribution.find(params[:id])
     @credit_distribution.destroy

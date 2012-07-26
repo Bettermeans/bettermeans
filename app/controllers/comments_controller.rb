@@ -15,7 +15,6 @@ class CommentsController < ApplicationController
                                           :include => [:user, :details],
                                           :order => "#{Journal.table_name}.created_at DESC",
                                           :conditions => "notes!=''")
-    # render :partial => "comment", :collection => @journals, :as => :journal
   end
 
   def create

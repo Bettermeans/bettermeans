@@ -66,8 +66,5 @@ class EnumerationsController < ApplicationController
       end
     end
     @enumerations = Enumeration.find(:all, :conditions => ['type = (?)', @enumeration.type]) - [@enumeration]
-  #rescue
-  #  flash.now[:error] = 'Unable to delete enumeration'
-  #  redirect_to :action => 'index'
   end
 end

@@ -8,16 +8,13 @@ class ProjectsController < ApplicationController
   menu_item :dashboard, :only => :dashboard
   menu_item :files, :only => [:list_files, :add_file]
   menu_item :settings, :only => :settings
-  # menu_item :issues, :only => [:changelog]
   menu_item :team, :only => :team
   menu_item :credits, :only => :credits
-  # menu_item :shares, :only => :shares
 
   ssl_required :all
 
   before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add, :index_active, :index_latest ]
   before_filter :find_optional_project, :only => [:activity, :add]
-  # before_filter :authorize, :except => [ :index, :list, :add ]
 
   #BUGBUG: why aren't these actions being authorized!!! archive can be removed, unarchive doesn't seem to work when removed from here
   before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :community_members_array, :issue_search, :hourly_types, :join]
@@ -118,7 +115,7 @@ class ProjectsController < ApplicationController
           @project.update_attribute(:owner_id, User.current.id)
 
         else
-          @project.set_parent!(@parent.id)  # @project.set_allowed_parent!(@parent.id) unless @parent.nil?
+          @project.set_parent!(@parent.id)
           @project.set_owner
           @project.refresh_active_members
           User.current.add_to_project(@project, Role.active)
@@ -191,10 +188,6 @@ class ProjectsController < ApplicationController
           msg = "You're already on the #{@project.name} team. Invitation ignored"
           redirect_with_flash :error, msg, :controller => :projects, :action => :show, :id => @project.id
         end
-
-      # else
-      #   @user.add_to_project @project, Role.active.id
-      #   @user.add_to_project @project.root, self.role_id unless @user.community_member_of? @project.root
       end
     end
   end
@@ -207,7 +200,6 @@ class ProjectsController < ApplicationController
     end
 
     @subprojects = @project.descendants.active
-    # @subprojects = @project.children.active
     @news = @project.news.find(:all, :conditions => " (created_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_LATEST_NEWS * -1)}')", :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_at DESC")
     @trackers = @project.rolled_up_trackers
 
@@ -223,8 +215,6 @@ class ProjectsController < ApplicationController
     @key = User.current.rss_key
 
     @motions = @project.motions.viewable_by(User.current.position_for(@project)).allactive
-
-    # @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], 30)
   end
 
 
@@ -252,9 +242,6 @@ class ProjectsController < ApplicationController
   def issue_search
     term = params[:searchTerm]
     render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND (subject ilike '%#{term}%' OR CAST(id as varchar) ilike '%#{term}%')").to_json(:only => [:id, :subject, :description])
-    # @project.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash })}
-    # @project.member_users.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash }) }
-    # render :json => array.sort{|x,y| x[:label] <=> y[:label]}.uniq.to_json
   end
 
   def all_tags

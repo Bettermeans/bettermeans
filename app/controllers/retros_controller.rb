@@ -4,21 +4,17 @@ class RetrosController < ApplicationController
   before_filter :authorize
   ssl_required :all
 
-
-  # GET /retros
-  # GET /retros.xml
   def index
     @retros = Retro.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @retros }
     end
   end
 
   def index_json
     render :json => Retro.find(:all, :conditions => {:project_id => @project.id}).to_json
-    # render :json => Retro.all.to_json
   end
 
   def dashdata
@@ -145,19 +141,6 @@ class RetrosController < ApplicationController
       @user_retro_hash[retro_rating.ratee_id].store "scale_bias", retro_rating.score.round if retro_rating.rater_id == RetroRating::SCALE_BIAS
     end
 
-    # @retro.retro_ratings.each do |retro_rating|
-    #   next if  retro_rating.rater_id == RetroRating::TEAM_AVERAGE ||  retro_rating.rater_id == RetroRating::FINAL_AVERAGE
-    #   @delta_hash_self[retro_rating.rater_id] ||= 0
-    #   @delta_hash_other[retro_rating.rater_id] ||= 0
-    #   @bias_self[retro_rating.rater_id] ||= 0
-    #   if (retro_rating.ratee_id == retro_rating.rater_id)
-    #     @delta_hash_self[retro_rating.rater_id] += (retro_rating.score - @final_hash[retro_rating.rater_id]).abs
-    #     @bias_self[retro_rating.rater_id] = ((@final_hash[retro_rating.rater_id] - retro_rating.score) / @final_hash[retro_rating.rater_id]) * -100
-    #   else
-    #     @delta_hash_other[retro_rating.rater_id] += (retro_rating.score - @final_hash[retro_rating.ratee_id]).abs
-    #   end
-    # end unless @final_hash.count == 0
-
     #Total journals
     @total_journals = @retro.journals.length
     @pie_data_journals = []
@@ -174,7 +157,6 @@ class RetrosController < ApplicationController
       @pie_data_journals << @user_retro_hash[user_id]["percentage_journals"]
       @pie_labels_journals << User.find(user_id).firstname + " #{@user_retro_hash[user_id]["percentage_journals"].to_s}%"
     end
-
 
     @max_range = @max_journals if @max_journals > @max_range
 
@@ -195,12 +177,10 @@ class RetrosController < ApplicationController
       @pie_labels_votes << User.find(user_id).firstname + " #{@user_retro_hash[user_id]["percentage_votes"].to_s}%"
     end
 
-
     #Total ideas
     @total_ideas = @retro.issues.length
     @pie_data_ideas = []
     @pie_labels_ideas = []
-
 
     author_group.keys.sort.each do |author_id|
       next if author_id == User.sysadmin.id
@@ -208,7 +188,6 @@ class RetrosController < ApplicationController
       @pie_data_ideas << percentage
       @pie_labels_ideas << User.find(author_id).firstname + " #{percentage.to_s}%"
     end
-
 
     @max_range = @max_votes if @max_votes > @max_range
 
@@ -232,31 +211,25 @@ class RetrosController < ApplicationController
 
     #Average time taken to complete a point?
 
-
     respond_to do |format|
       format.html { render :layout => 'blank'}# show.html.erb
       format.xml  { render :xml => @retro }
     end
   end
 
-  # GET /retros/new
-  # GET /retros/new.xml
   def new
     @retro = Retro.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @retro }
     end
   end
 
-  # GET /retros/1/edit
   def edit
     @retro = Retro.find(params[:id])
   end
 
-  # POST /retros
-  # POST /retros.xml
   def create
     @retro = Retro.new(params[:retro])
 
@@ -272,8 +245,6 @@ class RetrosController < ApplicationController
     end
   end
 
-  # PUT /retros/1
-  # PUT /retros/1.xml
   def update
     @retro = Retro.find(params[:id])
 
@@ -289,8 +260,6 @@ class RetrosController < ApplicationController
     end
   end
 
-  # DELETE /retros/1
-  # DELETE /retros/1.xml
   def destroy
     @retro = Retro.find(params[:id])
     @retro.destroy

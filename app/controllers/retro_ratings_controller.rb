@@ -1,47 +1,37 @@
 class RetroRatingsController < ApplicationController
   ssl_required :all
 
-  # before_filter :authorize
-  # GET /retro_ratings
-  # GET /retro_ratings.xml
   def index
     @retro_ratings = RetroRating.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @retro_ratings }
     end
   end
 
-  # GET /retro_ratings/1
-  # GET /retro_ratings/1.xml
   def show
     @retro_rating = RetroRating.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @retro_rating }
     end
   end
 
-  # GET /retro_ratings/new
-  # GET /retro_ratings/new.xml
   def new
     @retro_rating = RetroRating.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @retro_rating }
     end
   end
 
-  # GET /retro_ratings/1/edit
   def edit
     @retro_rating = RetroRating.find(params[:id])
   end
 
-  # POST /retro_ratings
-  # POST /retro_ratings.xml
   def create
     @retro_ratings = params[:retro_ratings].values.collect { |retro_rating| RetroRating.new(retro_rating) }
 
@@ -66,8 +56,6 @@ class RetroRatingsController < ApplicationController
     end
   end
 
-  # PUT /retro_ratings/1
-  # PUT /retro_ratings/1.xml
   def update
     @retro_rating = RetroRating.find(params[:id])
 
@@ -83,8 +71,6 @@ class RetroRatingsController < ApplicationController
     end
   end
 
-  # DELETE /retro_ratings/1
-  # DELETE /retro_ratings/1.xml
   def destroy
     @retro_rating = RetroRating.find(params[:id])
     @retro_rating.destroy

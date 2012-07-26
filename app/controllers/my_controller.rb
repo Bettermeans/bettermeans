@@ -107,9 +107,6 @@ class MyController < ApplicationController
     end
     @notification_options = [[l(:label_user_mail_option_all), 'all'],
                              [l(:label_user_mail_option_none), 'none']]
-    # Only users that belong to more than 1 project can select projects for which they are notified
-    # Note that @user.membership.size would fail since AR ignores :include association option when doing a count
-    # @notification_options.insert 1, [l(:label_user_mail_option_selected), 'selected'] if @user.memberships.length > 1
     @notification_option = @user.mail_notification? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')
   end
 
@@ -149,13 +146,6 @@ class MyController < ApplicationController
         begin
           sub = Recurly::Subscription.find(@user.id.to_s)
           sub.cancel(@user.id.to_s)
-        # rescue ActiveResource::ResourceNotFound
-        #   sub = Recurly::Subscription.create(
-        #     :account_code => account.account_code,
-        #     :plan_code => @new_plan.code,
-        #     :quantity => 1,
-        #     :account => account
-        #   )
         rescue Exception => e
           flash.now[:error] = e.message
           return
@@ -168,13 +158,11 @@ class MyController < ApplicationController
           @user.update_trial_expiration()
           @user.lock_workstreams
           flash.now[:success] = "Your plan was successfully canceled"
-          # redirect_to :action => 'account'
           @user.reload
           return
         end
       elsif @new_plan.code != @selected_plan.code
         begin
-          # @user.update_attribute(:trial_expires_on, @user.created_at.advance(:days => 30))
           sub = Recurly::Subscription.find(@user.id.to_s)
           begin
           sub.change('now', :plan_code => @new_plan.code, :quantity => 1)
@@ -192,7 +180,6 @@ class MyController < ApplicationController
             :plan_code => @new_plan.code,
             :quantity => 1,
             :account => account
-            # , :trial_ends_at => trial_expiration
           )
           rescue Exception => e
               flash.now[:error] = e.message

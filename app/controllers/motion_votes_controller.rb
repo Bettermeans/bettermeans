@@ -1,47 +1,37 @@
 class MotionVotesController < ApplicationController
   ssl_required :all
 
-  # before_filter :require_admin
-  # GET /motion_votes
-  # GET /motion_votes.xml
   def index
     @motion_votes = MotionVote.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @motion_votes }
     end
   end
 
-  # GET /motion_votes/1
-  # GET /motion_votes/1.xml
   def show
     @motion_vote = MotionVote.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @motion_vote }
     end
   end
 
-  # GET /motion_votes/new
-  # GET /motion_votes/new.xml
   def new
     @motion_vote = MotionVote.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @motion_vote }
     end
   end
 
-  # GET /motion_votes/1/edit
   def edit
     @motion_vote = MotionVote.find(params[:id])
   end
 
-  # POST /motion_votes
-  # POST /motion_votes.xml
   def create
     @motion_vote = MotionVote.new(params[:motion_vote])
     @motion_vote.motion_id = params[:motion_id]
@@ -56,7 +46,6 @@ class MotionVotesController < ApplicationController
 
     respond_to do |format|
       if @motion_vote.save
-        # flash.now[:success] = @motion_vote.isbinding ? 'Your binding vote was cast' : 'Your non-binding vote was cast'
         format.js  { render :action => "cast_vote", :motion => @motion_vote.motion}
       else
         format.js { render :action => "error"}
@@ -66,8 +55,6 @@ class MotionVotesController < ApplicationController
     end
   end
 
-  # PUT /motion_votes/1
-  # PUT /motion_votes/1.xml
   def update
     @motion_vote = MotionVote.find(params[:id])
 
@@ -83,8 +70,6 @@ class MotionVotesController < ApplicationController
     end
   end
 
-  # DELETE /motion_votes/1
-  # DELETE /motion_votes/1.xml
   def destroy
     @motion_vote = MotionVote.find(params[:id])
     @motion_vote.destroy

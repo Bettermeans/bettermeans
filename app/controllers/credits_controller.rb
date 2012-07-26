@@ -6,8 +6,6 @@ class CreditsController < ApplicationController
   ssl_required :all
 
 
-  # GET /credits
-  # GET /credits.xml
   def index
     @project = Project.find(params[:project_id]) unless params[:project_id].nil?
 
@@ -17,40 +15,33 @@ class CreditsController < ApplicationController
 
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.xml  { render :xml => @credits }
     end
   end
 
-  # GET /credits/1
-  # GET /credits/1.xml
   def show
     @credit = Credit.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html
       format.xml  { render :xml => @credit }
     end
   end
 
-  # GET /credits/new
-  # GET /credits/new.xml
   def new
     @credit = Credit.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.xml  { render :xml => @credit }
     end
   end
 
-  # GET /credits/1/edit
   def edit
     @credit = Credit.find(params[:id])
   end
 
-  # POST /credits
-  # POST /credits.xml
   def create
     @credit = Credit.new(params[:credit])
 
@@ -66,8 +57,6 @@ class CreditsController < ApplicationController
     end
   end
 
-  # PUT /credits/1
-  # PUT /credits/1.xml
   def update
     @credit = Credit.find(params[:id])
 
@@ -137,8 +126,6 @@ class CreditsController < ApplicationController
 
 
 
-  # DELETE /credits/1
-  # DELETE /credits/1.xml
   def destroy
     @credit = Credit.find(params[:id])
     @credit.destroy

@@ -6,14 +6,11 @@
 # Template to generate the controllers
 class ActivityStreamsController < ApplicationController
   include ActivityStreamsModule
-  # before_filter :require_login, :except => :feed
   before_filter :authorize, :except => [ :index, :feed]
   ssl_required :all
 
 
   def index
-    # @activities_by_item = ActivityStream.fetch(params[:user_id], @project, params[:with_subprojects], params[:length], params[:max_created_at])
-
     respond_to do |wants|
       wants.js do
         render :update do |page|
