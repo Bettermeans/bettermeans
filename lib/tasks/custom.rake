@@ -1,14 +1,7 @@
 namespace :custom do
   task :load_test_data => :environment do
-      # RAILS_ENV='test'
-      # Rake::Task["db:test:prepare"]
-      system 'rake db:test:prepare'
-      system 'rake environment RAILS_ENV=test redmine:load_default_data'
-      # system 'rake environment RAILS_ENV=test db:migrate'
-      # Rake::Task["redmine:load_default_data"].invoke
-      #Rake::Task["cucumber"].invoke
-      # Redmine::DefaultData::Loader.load('en')
-
+    system 'rake db:test:prepare'
+    system 'rake environment RAILS_ENV=test redmine:load_default_data'
   end
 
   task :refresh_active_members => :environment do
@@ -150,21 +143,6 @@ namespace :custom do
       @p = Project.find(20) #bettermeans
       @p.name = "LOCAL BETTERMEANS" #changing title so there's not confusion when working with local db
       @p.save
-
-      # puts "Deleting old notifications"
-      # Notification.delete_all
-      #
-      #
-      # puts "Deleting users"
-      #
-      # @q = Project.find(43) #green museum
-      #
-      # User.all.each do |u|
-      #   unless u.community_member_of?(@p) || u.community_member_of?(@q) || u.id == User.sysadmin.id
-      #     puts "Deleting user #{u.id}"
-      #     u.destroy
-      #   end
-      # end
 
       puts "Deleting private projects"
       Project.all.each do |p|

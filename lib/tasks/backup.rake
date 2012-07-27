@@ -48,7 +48,6 @@ task :backup => :environment do
 
   puts "Uploading #{backup_name} to S3..."
 
-  # config = YAML.load(File.open("#{RAILS_ROOT}/config/s3.yml"))[RAILS_ENV]
   yaml_string = ERB.new(File.read("#{RAILS_ROOT}/config/s3.yml")).result
   options = YAML.load(yaml_string)
 
@@ -87,9 +86,6 @@ namespace :heroku do
       bucket.put(name, open("tmp/#{name}"))
       system "rm tmp/#{name}"
       puts "[#{Time.now}] heroku:backup complete"
-    # rescue Exception => e
-    # require 'toadhopper'
-    # Toadhopper(ENV['hoptoad_key']).post!(e)
     end
   end
 end
