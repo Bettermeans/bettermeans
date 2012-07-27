@@ -1,7 +1,6 @@
 # BetterMeans - Work 2.0
 # Copyright (C) 2006-2011  See readme for details and license#
 
-
 require 'coderay'
 require 'coderay/helpers/file_type'
 require 'forwardable'
@@ -28,10 +27,8 @@ module ApplicationHelper
         :show => true
         )
       end
-      render :partial => 'help_sections/show_popup', :locals => {:help_section => help_section} if help_section.show #&& false
-      # render :partial => 'help_sections/show_popup', :locals => {:name => name}
+      render :partial => 'help_sections/show_popup', :locals => {:help_section => help_section} if help_section.show
     else
-      # render :partial => 'help_sections/show', :locals => {:help_section => help_section} if help_section.show #&& false
       render :partial => 'help_sections/show', :locals => {:name => name}
     end
   end
@@ -200,7 +197,6 @@ module ApplicationHelper
 
   def format_activity_description(text)
     make_expandable(textilizable(text),300)
-    # make_expandable h(text.to_s.gsub(%r{[\r\n]*<(pre|code)>.*$}m, '...')).gsub(/[\r\n]+/, "<br />"), 300
   end
 
   def make_expandable(newhtml,length=400)
@@ -214,7 +210,6 @@ module ApplicationHelper
     h << "<div id=truncated_#{id.to_s}>"
     h << newhtml.truncate_html(length)
     h = h[0..-5]
-    # h << truncate(newhtml,length,"")
     h << "<a href='' onclick='$(\"#truncated_#{id.to_s}\").remove();$(\"##{id.to_s}\").show();return false;'><strong>... see more</strong></a>"
     h << "<p>"
     h << "</div>"
@@ -298,7 +293,6 @@ module ApplicationHelper
       s << "<option value='#{url_for({:controller => :projects, :action => :new})}'>#{l(:label_project_new)}</option>"
       s << '</select>'
       s << '<span id="widthcalc" style="display:none;"></span>'
-      # s << current_project_in_list.to_s
   end
 
   def sub_workstream_project_box(project)
@@ -588,7 +582,6 @@ module ApplicationHelper
   def page_header_title
     if @project.nil?
       link_to(@page_header_name.nil? ? User.current.name : "Bettermeans", {:controller => 'welcome', :action => 'index'}) + (@page_header_name.nil? ? '' :  ' &#187; ' + @page_header_name)
-      # h(Setting.app_title)
     elsif @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
       b = []
       b << link_to(l(:label_project_plural), {:controller => 'projects', :action => 'index'}, :class => 'root')
@@ -615,34 +608,26 @@ module ApplicationHelper
     else
       b = []
       b << link_to(l(:label_project_plural), {:controller => 'projects', :action => 'index'}, :class => 'root')
-      # b << link_to(h(@project.enterprise.name), {:controller => 'enterprises', :action => 'show', :id => @project.enterprise.id, :jump => current_menu_item}, :class => 'root')
 
       ancestors = (@project.root? ? [] : @project.ancestors.visible)
       if ancestors.any?
         root = ancestors.shift
-        # b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root, :jump => current_menu_item}, :class => 'root')
         b << link_to(h(root), {:controller => 'projects', :action => 'show', :id => root, :jump => current_menu_item}, :class => 'root')
         if ancestors.size > 2
           b << '&#8230;'
           ancestors = ancestors[-2, 2]
         end
-        # b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
         b += ancestors.collect {|p| link_to(h(p), {:controller => 'projects', :action => 'show', :id => p, :jump => current_menu_item}, :class => 'ancestor') }
       end
       b.push link_to(h(@project), {:controller => 'projects', :action => 'show', :id => @project, :jump => current_menu_item}, :class => 'ancestor')
-      # b << content_tag('span', h(@project), :id => "last_header")
       b = b.join(' &#187; ')
-      # image = project_image(@project)
-      # b = b + image if image
 
-      # b << "&nbsp;&nbsp;" << link_to("jump", nil, :class => 'root', :onclick => "jump_to_workstream();return false();", :id => "last_header_button")
     end
   end
 
   def page_header_name
     begin
     if @project.nil? || @project.new_record?
-      # @page_header_name.nil? ? avatar(User.current, :size => 20) + "&nbsp;Home" : @page_header_name
       @page_header_name.nil? ? l(:label_my_home) : @page_header_name
     elsif @project.new_record?
       l(:label_project_new)
@@ -1214,8 +1199,6 @@ module ApplicationHelper
   end
 
   def help_bubble(name, options={})
-    # html = content_tag(:div, l(name), :class => 'tip hidden', :id=>"tip_#{name}")
-    # html << link_to(image_tag("question_mark.gif", :class=> "help_question_mark", :id=>"help_image_#{name}"), {:href => '#'}, {:onclick => "$('#help_image_#{name}').bubbletip('#tip_#{name}', {deltaDirection: 'right', bindShow: 'click'}); return false;"})
 
     imagename = options[:image] || "question_mark.gif"
     image = image_tag(imagename, :class=> "help_question_mark", :id=>"help_image_#{name}")
@@ -1273,16 +1256,14 @@ module ApplicationHelper
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = { })
-    # if Setting.gravatar_enabled?
-      options.merge!({:ssl => Setting.protocol == 'https', :default => Setting.gravatar_default})
-      email = nil
-      if user.respond_to?(:mail)
-        email = user.mail
-      elsif user.to_s =~ %r{<(.+?)>}
-        email = $1
-      end
-      return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
-    # end
+    options.merge!({:ssl => Setting.protocol == 'https', :default => Setting.gravatar_default})
+    email = nil
+    if user.respond_to?(:mail)
+      email = user.mail
+    elsif user.to_s =~ %r{<(.+?)>}
+      email = $1
+    end
+    return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
   end
 
   def render_journal_details(journal)
@@ -1302,7 +1283,7 @@ module ApplicationHelper
     css_classes = "wiki"
     css_classes << " gravatar-margin" if Setting.gravatar_enabled?
 
-    html << content #_tag('div', content, :id => "journal-#{journal.id}-notes", :class => css_classes)
+    html << content
 
   end
 
@@ -1419,39 +1400,6 @@ module ApplicationHelper
     end
   end
 
-
-
-  # def bar_report_tag(data, options = {}, raphael_options = {})
-  #         @__raphael_report_tag_count ||= -1
-  #         @__raphael_report_tag_count += 1
-  #         default_dom_id = "#{data.model_name.downcase}_#{data.report_name}#{@__raphael_report_tag_count > 0 ? @__raphael_report_tag_count : ''}"
-  #         options.reverse_merge!(Saulabs::Reportable::Config.raphael_options.slice(:width, :height, :format))
-  #         options.reverse_merge!(:dom_id => default_dom_id)
-  #         raphael_options.reverse_merge!(Saulabs::Reportable::Config.raphael_options.except(:width, :height, :format))
-  #         %Q{<div id="#{options[:dom_id]}" style="width:#{options[:width]}px;height:#{options[:height]}px;"></div>
-  # <script type="text\/javascript" charset="utf-8">
-  # var graph = Raphael('#{options[:dom_id]}');
-  # graph.g.barchart(
-  # -10, 4, #{options[:width]}, #{options[:height]},
-  # #{(0..data.size).to_a.to_json},
-  # #{data.map { |d| d[1].send(options[:format]) }.to_json},
-  #             #{raphael_options.to_json}
-  #           ).hover(function() {
-  #             this.disc = graph.g.disc(this.x, this.y, 3).attr({fill: "#{options[:hover_fill_color]}", stroke: '#{options[:hover_line_color]}' }).insertBefore(this);
-  #             this.flag = graph.g.flag(this.x, this.y, this.value || "0", 0).insertBefore(this);
-  #             if (this.x + this.flag.getBBox().width > this.paper.width) {
-  #               this.flag.rotate(-180);
-  #               this.flag.translate(-this.flag.getBBox().width, 0);
-  #               this.flag.items[1].rotate(180);
-  #               this.flag.items[1].translate(-5, 0);
-  #             }
-  #           }, function() {
-  #             this.disc.remove();
-  #             this.flag.remove();
-  #           });
-  #         </script>}
-  # end
-
   private
 
   def wiki_helper
@@ -1466,7 +1414,5 @@ module ApplicationHelper
       {:href => url_for(:params => url_params)}
     )
   end
-
-
 
 end

@@ -6,8 +6,6 @@ module ProjectsHelper
     tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural},
             {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
             {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
-            # {:name => 'wiki', :action => :manage_wiki, :partial => 'projects/settings/wiki', :label => :label_wiki},
-            # {:name => 'hourly_types', :action => :manage_boards, :partial => 'projects/settings/hourly_types', :label => :label_hourly_type_plural},
             {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural}
             ]
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
@@ -115,6 +113,5 @@ module ProjectsHelper
       s << '</select>'
       s << '<span id="widthcalc" style="display:none;"></span>'
   end
-
 
 end
