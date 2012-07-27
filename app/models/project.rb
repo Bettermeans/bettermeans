@@ -118,8 +118,6 @@ class Project < ActiveRecord::Base
   validates_length_of :name, :maximum => 50
   validates_length_of :homepage, :maximum => 255
   validates_length_of :identifier, :in => 1..20
-  # donwcase letters, digits, dashes but not digits only
-  # validates_format_of :identifier, :with => /^(?!\d+$)[a-z0-9\-]*$/, :if => Proc.new { |p| p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, :in => %w( new )
 
@@ -341,11 +339,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-  # def to_param
-  #   # id is used for projects with a numeric identifier (compatibility)
-  #   @to_param ||= (identifier.to_s =~ %r{^\d*$} ? id : identifier)
-  # end
-
   def active?
     self.status == STATUS_ACTIVE
   end
@@ -524,7 +517,6 @@ class Project < ActiveRecord::Base
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
   # Also refreshes members with clearance
   def refresh_active_members
-    # return if self.root?
     return unless self.active?
 
     u = {}
@@ -776,7 +768,7 @@ class Project < ActiveRecord::Base
   def set_owner
 
     if !self.root?
-      self.update_attribute(:owner_id,self.root.owner_id) #unless self.owner_id == self.root.owner_id
+      self.update_attribute(:owner_id,self.root.owner_id)
     elsif owner_id.nil?
       self.owner_id = User.current.id if self.parent_id.nil?
       admins = self.administrators.sort {|x,y| x.created_at <=> y.created_at}

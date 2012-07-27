@@ -33,7 +33,6 @@ class Mailer < ActionMailer::Base
     subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
     body :issue => issue,
          :issue_url => url_for(:controller => 'projects', :action => 'dashboard', :show_issue_id => issue.id)
-         # :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
     render_multipart('issue_add', body)
   end
 

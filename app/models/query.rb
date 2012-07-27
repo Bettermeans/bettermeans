@@ -165,15 +165,10 @@ class Query < ActiveRecord::Base
 
   def add_filter(field, operator, values)
     # values must be an array
-    return unless values and values.is_a? Array # and !values.first.empty?
+    return unless values and values.is_a? Array
     # check if field is defined as an available filter
     if available_filters.has_key? field
       filter_options = available_filters[field]
-      # check if operator is allowed for that filter
-      #if @@operators_by_filter_type[filter_options[:type]].include? operator
-      #  allowed_values = values & ([""] + (filter_options[:values] || []).collect {|val| val[1]})
-      #  filters[field] = {:operator => operator, :values => allowed_values } if (allowed_values.first and !allowed_values.first.empty?) or ["o", "c", "!*", "*", "t"].include? operator
-      #end
       filters[field] = {:operator => operator, :values => values }
     end
   end

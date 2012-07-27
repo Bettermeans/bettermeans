@@ -4,7 +4,6 @@ class Notification < ActiveRecord::Base
   belongs_to :recipient, :class_name => 'User', :foreign_key => 'recipient_id'
   belongs_to :sender, :class_name => 'User', :foreign_key => 'sender_id'
 
-  # named_scope :active, :conditions => ["state = 0"]
   # Returns all active, non responded, non-expired notifications
   named_scope :allactive, :conditions => ["state = 0 AND (expiration is null or expiration >=?)", Time.new.to_date]
 
@@ -45,19 +44,6 @@ class Notification < ActiveRecord::Base
     return unless mention?
     Notification.update_all(["state = ?", STATE_ARCHIVED], {:variation => 'mention', :recipient_id => self.recipient_id, :source_id => self.source_id, :source_type => self.source_type})
   end
-
-  # # -1 is deactivated
-  # # 0 is active and no response yet
-  # # 1 it has been responded to
-  # # 2 it has been archived
-  # # 3 it has been recinded
-  # def self.update_all(variation,source_id,initial_status,final_status, options = {})
-  #   @notifications = self.find(:all, :conditions => ["source_id =? AND variation like '%#{variation}%' AND state =?", source_id, initial_status])
-  #   @notifications.each do |@n|
-  #     @n.state = final_status
-  #     @n.save
-  #   end
-  # end
 
   # Deactivates all unanswered notifications for a particular variation and source id
   def self.recind(variation, source_id, sender_id)

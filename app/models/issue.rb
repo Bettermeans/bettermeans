@@ -31,9 +31,6 @@ class Issue < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id} (#{o.status}): #{o.subject}"},
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
                 :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
-  #
-  # acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
-  #                           :author_key => :author_id
 
   # ===============
   # = CSV support =
@@ -90,9 +87,6 @@ class Issue < ActiveRecord::Base
     return false if points.nil? || agree_total < 1
     return true if agree - disagree > points_from_credits / 2
     return true if agree_total > 0
-    # return true if agree_total > 0 && (self.created_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
-    # return true if agree_total > (project.active_binding_members_count / 2)
-    # return true if agree_total > 0 && (self.status == IssueStatus.open)
     return false
   end
 
@@ -100,7 +94,6 @@ class Issue < ActiveRecord::Base
   def ready_for_canceled?
     return false if agree_total > 0
     return true if agree_total < 0 && (updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
-    # return true if agree_total * -1 > ((project.root.core_members.count + project.root.members.count) / 2)
     return false
   end
 
@@ -108,7 +101,6 @@ class Issue < ActiveRecord::Base
     return true if self.status == IssueStatus.accepted
     return false if points.nil? || accept_total < 1
     return true if accept_total > 0 && (self.updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
-    # return true if accept_total > (project.binding_members_count / 2)
     return false
   end
 
@@ -286,39 +278,7 @@ class Issue < ActiveRecord::Base
 
 
   def validate
-    # if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
-    #   errors.add :due_date, :not_a_date
-    # end
-    #
-    # if self.due_date and self.start_date and self.due_date < self.start_date
-    #   errors.add :due_date, :greater_than_start_date
-    # end
-    #
-    # if start_date && soonest_start && start_date < soonest_start
-    #   errors.add :start_date, :invalid
-    # end
-
-    # Checks that the issue can not be added/moved to a disabled tracker
-    # if project && (tracker_id_changed? || project_id_changed?)
-    #   unless project.trackers.include?(tracker)
-    #     errors.add :tracker_id, :inclusion
-    #   end
-    # end
-
   end
-
-# Commenting this since on bettermeans all projects will have same trackers
-  # def validate_on_create
-  #   errors.add :tracker_id, :invalid unless project.trackers.include?(tracker)
-  # end
-
-  # Set the done_ratio using the status if that setting is set.  This will keep the done_ratios
-  # even if the user turns off the setting later
-  # def update_done_ratio_from_issue_status
-  #   if Issue.use_status_for_done_ratio? && status && status.default_done_ratio?
-  #     self.done_ratio = status.default_done_ratio
-  #   end
-  # end
 
   def init_journal(user, notes = "")
     @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
@@ -508,10 +468,6 @@ class Issue < ActiveRecord::Base
       journal = self.init_journal(admin)
       self.status = @updated
       self.retro_id = nil
-
-      # write_single_activity_stream(User.current,:name,issue,:subject,:moved,:move, 0, @target_project, {
-      #           :indirect_object_name_method => :name,
-      #           :indirect_object_phrase => ' to ' })
 
       LogActivityStreams.write_single_activity_stream(User.sysadmin,:name,self,:subject,:changed,"update_to_#{@updated.name}", 0, @updated,{
                 :indirect_object_name_method => :name,
