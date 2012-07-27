@@ -36,8 +36,6 @@ module IssuesHelper
       html = ''
       issue.tag_list.each {|t| html = html + content_tag('span', t, :class => "tag")}
       content_tag('div', html, :class => "tagsoutput")
-
-      # text_field :issue, :tag_list, :class => 'gt-form-text issue-tags', :value => issue.tag_list.join(",")
     end
   end
 

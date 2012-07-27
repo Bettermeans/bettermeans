@@ -80,20 +80,6 @@ module MyHelper
                           :no_data_link => link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'})
                         }
             },
-            # {:name => 'belong',
-            #  :partial => 'my/project_list',
-            #  :label => :label_projects_i_belong_to,
-            #  :locals => {
-            #               :my_projects => @belong_to_projects,
-            #               :table_head => l(:label_projects_i_belong_to),
-            #               :table_id => "belongs_to_projects_table",
-            #               :table_bottom_link => link_to(l(:label_browse_workstreams), {:controller => :projects, :action => :index}, :class => "gt-btn-blue-large"),
-            #               :no_data_help => l(:help_no_workstreams_i_belong_to),
-            #               :no_data_link => link_to(l(:label_browse_workstreams), {:controller => :projects, :action => :index})
-            #             }
-            # }
-            ]
-    # tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end
 
 
