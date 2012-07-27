@@ -28,9 +28,6 @@ class User < ActiveRecord::Base
   has_many :projects, :through => :memberships
   has_many :owned_projects, :class_name => 'Project', :foreign_key => 'owner_id', :include => [:all_members]
   has_many :invitations
-
-  # has_many :belongs_to_projects, :through => :memberships, :class_name => 'Project', :foreign_key=> 'project_id', :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.owner_id <> #{self.id}, :order => #{Project.table_name}.name"
-
   has_many :activity_streams, :foreign_key => 'actor_id', :dependent => :delete_all
 
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
@@ -330,8 +327,6 @@ class User < ActiveRecord::Base
     return nil if password.to_s.empty?
     user = find(:first, :conditions => ["login=?", login.downcase])
     if user
-      # user is already in local database
-      # return nil if !user.active?
       if user.auth_source
         # user has an external authentication method
         return nil unless user.auth_source.authenticate(login, password)
@@ -588,9 +583,6 @@ class User < ActiveRecord::Base
 
   # Returns position level for user's role in project's enterprise (the lower number, the higher in heirarchy the user)
   def position_for(project)
-    # logger.info { "#{self.id} position for #{project.id}" }
-    # logger.info { "roles #{roles_for_project(project.root)}"}
-    # logger.info { "roles #{roles_for_project(project.root).select {|r| r.enterprise_member? || r.platform_member?}.inspect}" }
     roles_for_project(project.root).sort{|x,y| x.position <=> y.position}.first.position
   end
 
@@ -599,8 +591,6 @@ class User < ActiveRecord::Base
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
   def allowed_to?(action, project, options={})
-    # logger.info  "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
-    #     logger.info "running allowed to: action #{action.inspect} project #{project.inspect} options #{options.inspect}"
     if project
       # No action allowed on archived projects except unarchive
       return false unless project.active? || project.locked? || (action.class.to_s == "Hash" && action[:action] == "unarchive")
@@ -716,15 +706,12 @@ class User < ActiveRecord::Base
 
   def public_contributor_total
     @all_users = []
-    # self.owned_projects.find_all{|p| p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}}
     self.owned_projects.find_all{|p| p.is_public && (p.active? || p.locked?) }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}}
     @all_users.length
   end
 
   def private_contributor_total
-    # self.owned_projects.find_all{|p| p.root? && !p.is_public && p.active? }.inject(0){|sum,item| sum + item.all_members.length}
     @all_users = []
-    # self.owned_projects.find_all{|p| !p.is_public && p.active? }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}}
     self.owned_projects.find_all{|p| !p.is_public && (p.active? || p.locked?) }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}}
     @all_users.length
   end

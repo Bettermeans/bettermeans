@@ -11,8 +11,6 @@ class Enterprise < ActiveRecord::Base
     validates_length_of :name, :maximum => 50
     validates_length_of :homepage, :maximum => 255
 
-    # belongs_to :creator, :class_name => 'User', :foreign_key => 'creator_id'
-
 end
 
 

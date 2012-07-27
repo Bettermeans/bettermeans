@@ -7,7 +7,7 @@ class Invitation < ActiveRecord::Base
   ACCEPTED = 1
 
   def before_create
-    #todo: check for dupes?
+    #TODO: check for dupes?
     self.token = Token.generate_token_value
     self.role_id = Role.contributor.id unless self.role_id
   end
@@ -18,7 +18,7 @@ class Invitation < ActiveRecord::Base
     Mailer.send(:deliver_invitation_add,self,note)
 
     # add notification here
-    # todo: don't send email, once notifications are auto-sending emails
+    # TODO: don't send email, once notifications are auto-sending emails
     recipient = User.find_by_mail(self.mail)
 
     Notification.create :recipient_id => recipient.id,
@@ -60,10 +60,10 @@ class Invitation < ActiveRecord::Base
     return unless @user && !@user.anonymous?
 
     if self.project.root?
-      @user.add_to_project self.project, self.role #unless @user.community_member_of? self.project
+      @user.add_to_project self.project, self.role
     else
       @user.add_to_project self.project, Role.active
-      @user.add_to_project self.project.root, self.role #unless @user.community_member_of? self.project.root
+      @user.add_to_project self.project.root, self.role
     end
 
     @user.add_to_project self.project, Role.clearance unless self.project.is_public?

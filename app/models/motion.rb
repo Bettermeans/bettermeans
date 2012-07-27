@@ -254,7 +254,6 @@ class Motion < ActiveRecord::Base
   def announce_passed
     admin = User.sysadmin
 
-    # def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
     LogActivityStreams.write_single_activity_stream(User.sysadmin,:name,self,:title,:passed_a,:motions, 0, nil,{})
 
     News.create :project_id => self.project.id,

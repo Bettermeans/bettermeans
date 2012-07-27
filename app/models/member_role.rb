@@ -19,10 +19,6 @@ class MemberRole < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'team', :id => o.member.project_id}}
 
 
-  # def validate
-    # errors.add :role_id, :invalid if role && !role.community_member?
-  # end
-
   def project
     member.respond_to?(:project) ? member.project : nil
   end
@@ -72,7 +68,6 @@ class MemberRole < ActiveRecord::Base
   end
 
   def log_activity
-    # def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
     return if role.active? || role.clearance? #don't log active memberships
     LogActivityStreams.write_single_activity_stream(User.sysadmin,:name,self,:name,:created,:memberships, 0, self.member.user,{:indirect_object_phrase => self.member.user.name})
   end
@@ -90,20 +85,6 @@ class MemberRole < ActiveRecord::Base
     return unless member_role.role.level == Role::LEVEL_ENTERPRISE
     member_role.member.project.root.descendants.each(&:refresh_active_members) if member_role.member.project
   end
-
-  # #Removes all contributor roles for this member if the current role being added is core
-  # def remove_contributor_role_if_core
-  #   MemberRole.find(:all, :conditions => {:member_id => member_id, :role_id => Role::BUILTIN_CONTRIBUTOR}).each(&:destroy) if role_id == Role::BUILTIN_CORE_MEMBER
-  # end
-  #
-  # #Adds contributor roles for this member if the current role being destroyed is core
-  # def add_contributor_role_if_core
-  #   if role_id == Role::BUILTIN_CORE_MEMBER
-  #     m = MemberRole.new :member_id => member_id, :role_id => Role::BUILTIN_CONTRIBUTOR
-  #     m.save
-  #   end
-  # end
-
 
 end
 

@@ -16,8 +16,6 @@ class News < ActiveRecord::Base
   acts_as_searchable :columns => ['title', 'summary', "#{table_name}.description"], :include => :project
 
   acts_as_event :url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.id}}
-  # acts_as_activity_provider :find_options => {:include => [:project, :author]},
-  #                           :author_key => :author_id
 
   def visible?(user=User.current)
     !user.nil? && user.allowed_to?(:view_news, project)

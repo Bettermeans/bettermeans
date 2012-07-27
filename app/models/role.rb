@@ -2,14 +2,6 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class Role < ActiveRecord::Base
-  # fields do
-  #   name :string, :limit => 30, :null => false, :default => ""
-  #   position :integer, :default => 1
-  #   assignable :boolean, :default => true
-  #   builtin :integer, :default => 0, :null => false
-  #   permissions :text
-  #   level :integer, :default => 3
-  # end
 
   # Scopes
   LEVEL_PLATFORM = 0
@@ -45,7 +37,6 @@ class Role < ActiveRecord::Base
   acts_as_list
 
   serialize :permissions, Array
-  # attr_protected :builtin #TODO: should we uncomment this again?
 
   validates_presence_of :name
   validates_uniqueness_of :name
@@ -105,7 +96,6 @@ class Role < ActiveRecord::Base
   # Return true if the role belongs to the enterprise (i.e. contributor, member, coreateam, admin, or board)
   def enterprise_member?
     level == LEVEL_ENTERPRISE
-    # builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_BOARD
   end
 
   # Return true if the role belongs to the platform (i.e. anonymous, or non member)

@@ -3,9 +3,6 @@ class IssueVote < ActiveRecord::Base
   belongs_to :issue
   before_create :remove_similar
   before_save :set_binding
-  # after_create :update_issue_totals
-  # after_update :update_issue_totals
-  # after_destroy :update_issue_totals
 
   AGREE_VOTE_TYPE = 1
   ACCEPT_VOTE_TYPE = 2

@@ -130,18 +130,6 @@ class ActivityStream < ActiveRecord::Base
     self.update_attribute(:status, DELETED)
   end
 
-  # # The "Name" fo the actor based on the actor_name_method passed into
-  # # the activity_stream_log controller method
-  # def actor_name
-  #   self.actor.nil? ? '' : self.actor.send(self.actor_name_method)
-  # end
-  #
-  # # The "Name" fo the object based on the object_name_method passed into
-  # # the activity_stream_log controller method
-  # def object_name
-  #   self.object.nil? ? '' : self.object.send(self.object_name_method)
-  # end
-
 end
 
 

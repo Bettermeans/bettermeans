@@ -18,9 +18,6 @@ class Message < ActiveRecord::Base
                 :type => Proc.new {|o| o.parent_id.nil? ? 'message' : 'reply'},
                 :url => Proc.new {|o| {:controller => 'messages', :action => 'show', :board_id => o.board_id}.merge(o.parent_id.nil? ? {:id => o.id} :
                                                                                                                                        {:id => o.parent_id, :anchor => "message-#{o.id}"})}
-  #
-  # acts_as_activity_provider :find_options => {:include => [{:board => :project}, :author]},
-  #                           :author_key => :author_id
   acts_as_watchable
 
   attr_protected :locked, :sticky

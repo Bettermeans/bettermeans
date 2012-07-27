@@ -6,7 +6,6 @@ class Retro < ActiveRecord::Base
   include ActionController::UrlWriter
   include ActionView::Helpers
 
-  #Constants
   STATUS_INPROGRESS = 1
   STATUS_COMPLETE = 2 #is closed, but credits haven't been distributed yet
   STATUS_DISTRIBUTED = 3 #credits have been distributed
@@ -135,7 +134,6 @@ class Retro < ActiveRecord::Base
     @user_hash.keys.each do |user_id|
       score = @user_hash[user_id].length == 0 ? 0 : @user_hash[user_id].sum.to_f / @confidence_hash[user_id]
       score = score * 100 / team_average_total
-      # self_bias = (@user_self[user_id] - score) / (0.01 * score) unless @user_self[user_id].nil? || @user_self[user_id].nan? || score == 0
       self_bias = (@user_self[user_id] - score) * @confidence_array[user_id] / 100 unless @user_self[user_id].nil? || @user_self[user_id].nan?
 
       @user_final[user_id] = score

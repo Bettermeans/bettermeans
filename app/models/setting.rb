@@ -15,7 +15,6 @@ class Setting < ActiveRecord::Base
   DEFAULT_RETROSPECTIVE_LENGTH = 3 #Length in days for which a retrospective is open
   RETRO_CREDIT_THRESHOLD = 3000 # credit threshold for  retrospective to start.
   RETRO_DAY_THRESHOLD = 21 # day threshold for  retrospective to start (days since last retrospective ended)
-  # TIME_BETWEEN_CREDIT_DISTRIBUTIONS = 7 #Days between credit distributions
   DAY_FOR_CREDIT_DISTRIBUTION = "Saturday"
 
   NUMBER_OF_STARTABLE_PRIORITY_TIERS = 3 #number of highest tiers that are startable
@@ -87,13 +86,6 @@ class Setting < ActiveRecord::Base
       "Type" => Motion::TYPE_CONSENSUS,
       "Days" => 5
     },
-    # Motion::VARIATION_BOARD_PUBLIC => {
-    #   "Title" => "Public Board Motion",
-    #   "Binding" => Motion::BINDING_BOARD,
-    #   "Visible" => Motion::VISIBLE_USER,
-    #   "Type" => Motion::TYPE_CONSENSUS,
-    #   "Days" => 5
-    # },
     Motion::VARIATION_BOARD_PRIVATE => {
       "Title" => "Closed Board Motion",
       "Binding" => Motion::BINDING_BOARD,
@@ -101,14 +93,6 @@ class Setting < ActiveRecord::Base
       "Type" => Motion::TYPE_CONSENSUS,
       "Days" => 5
     }
-    # ,
-    # Motion::VARIATION_HOURLY_TYPE => {
-    #   "Title" => "New Hourly Activity Type",
-    #   "Binding" => Motion::BINDING_MEMBER,
-    #   "Visible" => Motion::VISIBLE_USER,
-    #   "Type" => Motion::TYPE_MAJORITY,
-    #   "Days" => 3
-    # }
 }
 
 
