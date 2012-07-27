@@ -1,9 +1,4 @@
 task :cron => :environment do
-# if Time.now.hour == 0
-# 3.    puts "Updating feed..."
-# 4.    NewsFeed.nightly_update
-# 5.    puts "done."
-# 6.  end
     puts "Running cron..."
     Rake::Task['backup'].invoke
     Rake::Task['close_retros'].invoke
@@ -15,18 +10,6 @@ task :cron => :environment do
     if Time.now.hour == 18
       Rake::Task['custom:deliver_daily_digest'].invoke
     end
-
-    # if Time.now.hour == 17 || Time.now.hour == 9
-    #   Rake::Task['custom:deliver_personal_welcome'].invoke
-    # end
-
-    # # Credit distribution
-    # last_distribution = CreditDistribution.first(:order => "updated_at DESC")
-    # last_distribution = last_distribution.updated_at unless last_distribution.nil?
-    # if (last_distribution.nil? || Time.now.advance(:days => Setting::TIME_BETWEEN_CREDIT_DISTRIBUTIONS * -1) > last_distribution)
-    #   Rake::Task['distribute_retros'].invoke
-    # end
-
 
     if Time.now.hour == 0
 

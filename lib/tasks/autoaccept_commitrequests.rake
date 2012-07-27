@@ -22,11 +22,6 @@ task :autoaccept_commitrequests => :environment do
       cr.responder_id = admin.id
       cr.save
 
-      # Notification.create :recipient_id => cr.user_id,
-      #                     :variation => 'message',
-      #                     :params => :subject => helpers.t(:label_ownership_request_auto_accepted), :message => '#{helpers.t(:text_you_are_the_new_owner_of)} #{helpers.link_to cr.issue.tracker.name + ' ' + cr.issue.id.to_s + ': ' + cr.issue.subject, "/issues/" + cr.issue.id.to_s}', :sender_id => admin.id,
-      #                     cr.issue_id
-
     end
   end
 end

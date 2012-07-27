@@ -88,11 +88,6 @@ Redmine::AccessControl.map do |map|
     map.permission :view_files, :projects => :list_files
   end
 
-  # map.project_module :files do |map|
-  #   map.permission :manage_files, {:projects => :add_file}, :require => :loggedin
-  #   map.permission :view_files, :projects => :list_files
-  # end
-
   map.project_module :wiki do |map|
     map.permission :manage_wiki, {:wikis => [:edit, :destroy]}, :require => :member
     map.permission :rename_wiki_pages, {:wiki => :rename}, :require => :member
@@ -127,14 +122,6 @@ Redmine::AccessControl.map do |map|
     map.permission :comment_news, {:news => :add_comment}
   end
 
-
-
-  # map.project_module :shares do |map|
-  #   map.permission :view_shares, {:projects => :shares, :shares => [:index,:show]}, :require => :loggedin
-  #   map.permission :add_shares, {:shares => :new}
-  #   map.permission :manage_shares, {:shares => [:destroy, :edit]}
-  # end
-  #
   map.project_module :credits do |map|
     map.permission :view_credits, {:projects => :credits, :credits => [:index,:show]}, :require => :loggedin
     map.permission :enable_disable_credits, {:credits => [:enable, :disable]}, :require => :loggedin
@@ -142,25 +129,7 @@ Redmine::AccessControl.map do |map|
     map.permission :manage_credits, {:credits => [:destroy, :edit, :update]}, :require => :loggedin
   end
 
-
-
 end
-
-# Redmine::MenuManager.map :top_menu do |menu|
-#   menu.push :home, :home_path
-#   menu.push :my_page, { :controller => 'my', :action => 'page' }, :if => Proc.new { User.current.logged? }
-#   menu.push :projects, { :controller => 'projects', :action => 'index' }, :caption => :label_enterprise_plural
-#   menu.push :activity, { :controller => 'activity', :action => 'index' }
-#   menu.push :administration, { :controller => 'admin', :action => 'index' }, :if => Proc.new { User.current.admin? }, :last => true
-#   #menu.push :help, Redmine::Info.help_url, :last => true
-# end
-
-# Redmine::MenuManager.map :account_menu do |menu|
-#   menu.push :login, :signin_path, :if => Proc.new { !User.current.logged? }
-#   menu.push :register, { :controller => 'account', :action => 'register' }, :if => Proc.new { !User.current.logged? && Setting.self_registration? }
-#   menu.push :my_account, { :controller => 'my', :action => 'account' }, :if => Proc.new { User.current.logged? }
-#   menu.push :logout, :signout_path, :if => Proc.new { User.current.logged? }
-# end
 
 Redmine::MenuManager.map :application_menu do |menu|
   # Empty
@@ -175,17 +144,12 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :dashboard, { :controller => 'projects', :action => 'dashboard' }, :caption => :label_dashboard
   menu.push :team, { :controller => 'projects', :action => 'team' },
       :if => Proc.new { |p| p.root? }
-  # menu.push :shares, { :controller => 'projects', :action => 'shares' }#, :caption => :label_share_plural
   menu.push :credits, { :controller => 'projects', :action => 'credits' },
       :if => Proc.new { |p| p.credits_enabled? }
-  # menu.push :activity, { :controller => 'projects', :action => 'activity' }
   menu.push :boards, { :controller => 'boards', :action => 'index', :id => nil }, :param => :project_id, :caption => :label_boards
-  menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }#,
-              # :if => Proc.new { |p| p.wiki && !p.wiki.new_record? }
-              # :if => Proc.new { |p| p.boards.any? }, :caption => :label_board_plural
+  menu.push :wiki, { :controller => 'wiki', :action => 'index', :page => nil }
   menu.push :documents, { :controller => 'documents', :action => 'index' }, :param => :project_id, :caption => :label_document_plural
   menu.push :news, { :controller => 'news', :action => 'index' }, :param => :project_id, :caption => :label_news_plural
-  # menu.push :files, { :controller => 'projects', :action => 'list_files' }, :caption => :label_attachment_plural
   menu.push :settings, { :controller => 'projects', :action => 'settings' }, :last => true
 end
 
@@ -193,10 +157,8 @@ Redmine::Activity.map do |activity|
   activity.register :issues, :class_name => %w(Issue Journal)
   activity.register :news
   activity.register :documents, :class_name => %w(Document Attachment)
-  # activity.register :files, :class_name => 'Attachment'
   activity.register :wiki_edits, :class_name => 'WikiContent::Version', :default => true
   activity.register :messages, :default => true
-  # activity.register :member_roles, :default => true
 end
 
 Redmine::WikiFormatting.map do |format|

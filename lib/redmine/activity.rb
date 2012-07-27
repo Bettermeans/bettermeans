@@ -18,7 +18,6 @@ module Redmine
 
       # Registers an activity provider
       def register(event_type, options={})
-        # puts("Registering #{event_type}")
         options.assert_valid_keys(:class_name, :default)
         event_type = event_type.to_s
         providers = options[:class_name] || event_type.classify
@@ -27,7 +26,6 @@ module Redmine
         @@available_event_types << event_type unless @@available_event_types.include?(event_type)
         @@default_event_types << event_type unless options[:default] == false
         @@providers[event_type] += providers
-        # puts("#{@@available_event_types}")
       end
     end
 
