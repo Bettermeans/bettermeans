@@ -42,10 +42,5 @@ Factory.define :issue do |f|
   f.association :project, :factory => :project
   f.association :author, :factory => :user
   f.association :status, :factory => :issue_status
-  # f.status IssueStatus.find(1)
-  # f.status Factory.attributes_for(:issue_status)
-  f.association :status, :factory => :issue_status
   f.association :priority, :factory => :issue_priority
-  # f.priority IssuePriority.find(4)
-  # f.priority Factory.attributes_for(:issue_priority)
 end
