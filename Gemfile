@@ -18,15 +18,11 @@ gem 'will_paginate', '2.3.15'
 gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
 
 group :test do
-  gem 'shoulda'
   gem 'test-unit', '1.2.3'
   gem 'cucumber', '0.4.3'
   gem 'webrat', '0.7.3'
-  gem 'rspec', '1.2.9'
-  gem 'rspec-core'
-  gem 'rspec-mocks'
-  gem 'rspec-expectations'
-  gem 'rspec-rails', '1.2.9'
+  gem 'rspec', '1.3.2'
+  gem 'rspec-rails', '1.3.4'
   gem 'pickle', "0.3.4"
   gem 'factory_girl', "1.3.3"
   gem 'object_daddy', "0.4.3"
