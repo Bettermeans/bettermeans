@@ -80,6 +80,7 @@ module MyHelper
                           :no_data_link => link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'})
                         }
             },
+          ]
   end
 
 
