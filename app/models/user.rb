@@ -149,7 +149,6 @@ class User < ActiveRecord::Base
         :last_name => @user.lastname,
         :email => @user.mail,
         :username => @user.login)
-      puts "created account #{@account.inspect}"
     end
   end
 
