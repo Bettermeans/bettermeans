@@ -87,11 +87,11 @@ describe Project,"#most_active_public" do
 end
 
 describe User.anonymous," user type" do
-    it "has zero memberships" do
-      User.anonymous.memberships.any?.should be_false
-    end
-
-    it "is not admin" do
-      User.anonymous.admin?.should be_false
-    end
+  it "has zero memberships" do
+    User.anonymous.memberships.any?.should be_false
   end
+
+  it "is not admin" do
+    User.anonymous.admin?.should be_false
+  end
+end
