@@ -18,6 +18,7 @@ gem 'will_paginate', '2.3.15'
 gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
 
 group :test do
+  gem 'shoulda'
   gem 'test-unit', '1.2.3'
   gem 'cucumber', '0.4.3'
   gem 'webrat', '0.7.3'
