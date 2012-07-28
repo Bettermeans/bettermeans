@@ -9,8 +9,6 @@
 # README provides examples
 module LogActivityStreams
 
-  include ActivityStreamsHelper
-
   def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
   # If there are identical activities within 8 hours, up count
   as = find_identical(actor, object, verb, activity);
