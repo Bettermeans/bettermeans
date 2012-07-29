@@ -65,20 +65,3 @@ class Notification < ActiveRecord::Base
 end
 
 
-
-# == Schema Information
-#
-# Table name: notifications
-#
-#  id           :integer         not null, primary key
-#  recipient_id :integer
-#  variation    :string(255)
-#  params       :text
-#  state        :integer         default(0)
-#  source_id    :integer
-#  expiration   :datetime
-#  created_at   :datetime
-#  updated_at   :datetime
-#  sender_id    :integer
-#
-

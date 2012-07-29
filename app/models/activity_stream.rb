@@ -134,38 +134,3 @@ end
 
 
 
-
-# == Schema Information
-#
-# Table name: activity_streams
-#
-#  id                          :integer         not null, primary key
-#  verb                        :string(255)
-#  activity                    :string(255)
-#  actor_id                    :integer
-#  actor_type                  :string(255)
-#  actor_name_method           :string(255)
-#  count                       :integer         default(1)
-#  object_id                   :integer
-#  object_type                 :string(255)
-#  object_name_method          :string(255)
-#  indirect_object_id          :integer
-#  indirect_object_type        :string(255)
-#  indirect_object_name_method :string(255)
-#  indirect_object_phrase      :string(255)
-#  status                      :integer         default(0)
-#  created_at                  :datetime
-#  updated_at                  :datetime
-#  project_id                  :integer         default(0)
-#  actor_name                  :string(255)
-#  object_name                 :string(255)
-#  object_description          :text
-#  indirect_object_name        :string(255)
-#  indirect_object_description :text
-#  tracker_name                :string(255)
-#  project_name                :string(255)
-#  actor_email                 :string(255)
-#  is_public                   :boolean         default(FALSE)
-#  hidden_from_user_id         :integer         default(0)
-#
-

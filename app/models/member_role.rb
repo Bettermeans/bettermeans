@@ -87,16 +87,3 @@ class MemberRole < ActiveRecord::Base
 
 end
 
-
-# == Schema Information
-#
-# Table name: member_roles
-#
-#  id             :integer         not null, primary key
-#  member_id      :integer
-#  role_id        :integer
-#  inherited_from :integer
-#  created_at     :datetime
-#  updated_at     :datetime
-#
-

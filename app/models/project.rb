@@ -1012,30 +1012,3 @@ class Project < ActiveRecord::Base
 
 end
 
-
-# == Schema Information
-#
-# Table name: projects
-#
-#  id                   :integer         not null, primary key
-#  name                 :string(30)      default(""), not null
-#  description          :text
-#  homepage             :string(255)     default("")
-#  is_public            :boolean         default(TRUE), not null
-#  parent_id            :integer
-#  created_at           :datetime
-#  updated_at           :datetime
-#  identifier           :string(20)
-#  status               :integer         default(1), not null
-#  lft                  :integer
-#  rgt                  :integer
-#  enterprise_id        :integer
-#  last_item_updated_on :datetime
-#  dpp                  :float           default(100.0)
-#  activity_line        :text            default("[]")
-#  volunteer            :boolean         default(FALSE)
-#  owner_id             :integer
-#  storage              :float           default(0.0)
-#  issue_count          :integer         default(0)
-#
-

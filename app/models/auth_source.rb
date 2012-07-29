@@ -34,24 +34,3 @@ class AuthSource < ActiveRecord::Base
   end
 end
 
-
-# == Schema Information
-#
-# Table name: auth_sources
-#
-#  id                :integer         not null, primary key
-#  type              :string(30)      default(""), not null
-#  name              :string(60)      default(""), not null
-#  host              :string(60)
-#  port              :integer
-#  account           :string(255)
-#  account_password  :string(60)
-#  base_dn           :string(255)
-#  attr_login        :string(30)
-#  attr_firstname    :string(30)
-#  attr_lastname     :string(30)
-#  attr_mail         :string(30)
-#  onthefly_register :boolean         default(FALSE), not null
-#  tls               :boolean         default(FALSE), not null
-#
-

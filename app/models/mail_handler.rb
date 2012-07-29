@@ -361,13 +361,3 @@ class MailHandler < ActiveRecord::Base
   end
 
 end
-
-# == Schema Information
-#
-# Table name: mail_handlers
-#
-#  id         :integer         not null, primary key
-#  created_at :datetime
-#  updated_at :datetime
-#
-

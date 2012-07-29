@@ -32,17 +32,3 @@ class Comment < ActiveRecord::Base
   end
 end
 
-
-# == Schema Information
-#
-# Table name: comments
-#
-#  id             :integer         not null, primary key
-#  commented_type :string(30)      default(""), not null
-#  commented_id   :integer         default(0), not null
-#  author_id      :integer         default(0), not null
-#  comments       :text
-#  created_at     :datetime        not null
-#  updated_at     :datetime        not null
-#
-

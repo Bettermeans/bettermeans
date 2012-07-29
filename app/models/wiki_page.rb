@@ -182,16 +182,3 @@ class WikiAnnotate
   end
 end
 
-
-# == Schema Information
-#
-# Table name: wiki_pages
-#
-#  id         :integer         not null, primary key
-#  wiki_id    :integer         not null
-#  title      :string(255)     not null
-#  created_at :datetime        not null
-#  protected  :boolean         default(FALSE), not null
-#  parent_id  :integer
-#
-
