@@ -643,16 +643,6 @@ class Issue < ActiveRecord::Base
 
 end
 
-
-
-
-
-
-
-
-
-
-
 # == Schema Information
 #
 # Table name: issues

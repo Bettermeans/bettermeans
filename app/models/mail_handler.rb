@@ -347,8 +347,6 @@ class MailHandler < ActiveRecord::Base
     end
   end
 
-  private
-
   # Removes the email body of text after the truncation configurations.
   def cleanup_body(body)
     delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map {|s| Regexp.escape(s)}
@@ -361,8 +359,8 @@ class MailHandler < ActiveRecord::Base
     body = body[0..index - 2] if index
     body.strip
   end
-end
 
+end
 
 # == Schema Information
 #

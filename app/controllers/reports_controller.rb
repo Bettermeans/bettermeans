@@ -48,7 +48,8 @@ class ReportsController < ApplicationController
     end
   end
 
-private
+  private
+
   # Find project of id params[:id]
   def find_project
     @project = Project.find(params[:id])
@@ -115,4 +116,5 @@ private
                                                 group by s.id, s.is_closed, i.project_id") if @project.descendants.active.any?
     @issues_by_subproject ||= []
   end
+
 end

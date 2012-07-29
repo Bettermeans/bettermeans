@@ -906,8 +906,8 @@ class Project < ActiveRecord::Base
     self.parent.update_last_item_sub unless self.root?
   end
 
-
   private
+
   # Copies wiki from +project+
   def copy_wiki(project)
     # Check that the source project has a wiki first
@@ -922,7 +922,6 @@ class Project < ActiveRecord::Base
       end
     end
   end
-
 
   # Copies issues from +project+
   def copy_issues(project)
@@ -1010,19 +1009,8 @@ class Project < ActiveRecord::Base
     end
     update_attribute :status, STATUS_ARCHIVED
   end
+
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # == Schema Information

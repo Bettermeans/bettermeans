@@ -51,7 +51,8 @@ class WatchersController < ApplicationController
     end
   end
 
-private
+  private
+
   def find_project
     klass = Object.const_get(params[:object_type].camelcase)
     return false unless klass.respond_to?('watched_by')
@@ -85,4 +86,5 @@ private
   rescue ::ActionController::RedirectBackError
     render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true
   end
+
 end

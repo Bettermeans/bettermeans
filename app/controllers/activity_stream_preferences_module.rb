@@ -87,7 +87,7 @@ module ActivityStreamPreferencesModule
     end
   end
 
-protected
+  protected
 
   def get_user_id
     if User.current.admin? && params[ACTIVITY_STREAM_USER_MODEL_ID.to_sym]

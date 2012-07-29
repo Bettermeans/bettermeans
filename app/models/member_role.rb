@@ -57,7 +57,6 @@ class MemberRole < ActiveRecord::Base
     end# unless role_id == Role::BUILTIN_CORE_MEMBER #We don't destory the member if the role being removed is the core_member role since we're going to add a contributor role
   end
 
-
   def send_notification
     Notification.create :recipient_id => self.member.user_id,
                               :variation => 'new_role',

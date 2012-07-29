@@ -64,7 +64,8 @@ class BoardsController < ApplicationController
     redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'
   end
 
-private
+  private
+
   def find_project
     @project = Project.find(params[:project_id])
     render_message l(:text_project_locked) if @project.locked?

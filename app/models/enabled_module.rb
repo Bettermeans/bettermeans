@@ -20,6 +20,7 @@ class EnabledModule < ActiveRecord::Base
       end
     end
   end
+
 end
 
 

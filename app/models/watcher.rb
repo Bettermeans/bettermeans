@@ -48,6 +48,7 @@ class Watcher < ActiveRecord::Base
     end
     pruned
   end
+
 end
 
 

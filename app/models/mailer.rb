@@ -374,6 +374,7 @@ class Mailer < ActionMailer::Base
   end
 
   private
+
   def initialize_defaults(method_name)
     super
     set_language_if_valid Setting.default_language
@@ -445,10 +446,6 @@ class Mailer < ActionMailer::Base
     "<#{hash}@#{host}>"
   end
 
-
-
-  private
-
   def message_id(object)
     @message_id_object = object
   end
@@ -457,13 +454,18 @@ class Mailer < ActionMailer::Base
     @references_objects ||= []
     @references_objects << object
   end
+
 end
 
 # Patch TMail so that message_id is not overwritten
 module TMail
+
   class Mail
+
     def add_message_id( fqdn = nil )
       self.message_id ||= ::TMail::new_message_id(fqdn)
     end
+
   end
+
 end

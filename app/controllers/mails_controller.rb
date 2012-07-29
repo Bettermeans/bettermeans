@@ -54,7 +54,9 @@ class MailsController < ApplicationController
   end
 
   private
-    def set_user
-      @user = User.current
-    end
+
+  def set_user
+    @user = User.current
+  end
+
 end

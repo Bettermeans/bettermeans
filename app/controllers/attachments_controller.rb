@@ -60,7 +60,6 @@ class AttachmentsController < ApplicationController
     send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
                                     :type => @attachment.content_type,
                                     :disposition => (@attachment.image? ? 'inline' : 'attachment')
-
   end
 
   def destroy
@@ -71,7 +70,8 @@ class AttachmentsController < ApplicationController
     redirect_to :controller => 'projects', :action => 'show', :id => @project
   end
 
-private
+  private
+
   def find_project
     @attachment = Attachment.find(params[:id])
     # Show 404 if the filename in the url is wrong

@@ -513,7 +513,8 @@ class ProjectsController < ApplicationController
   end
 
 
-private
+  private
+
   # Find project of id params[:id]
   # if not found, redirect to project list
   # Used as a before_filter
@@ -559,6 +560,5 @@ private
     end
     true
   end
-
 
 end

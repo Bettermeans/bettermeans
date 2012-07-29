@@ -80,10 +80,12 @@ class Tracker < ActiveRecord::Base
     @issue_statuses = IssueStatus.find_all_by_id(ids).sort
   end
 
-private
+  private
+
   def check_integrity
     raise "Can't delete tracker" if Issue.find(:first, :conditions => ["tracker_id=?", self.id])
   end
+
 end
 
 

@@ -124,8 +124,6 @@ class CreditsController < ApplicationController
     end
   end
 
-
-
   def destroy
     @credit = Credit.find(params[:id])
     @credit.destroy

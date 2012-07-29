@@ -100,10 +100,12 @@ class IssueStatus < ActiveRecord::Base
 
   def to_s; name end
 
-private
+  private
+
   def check_integrity
     raise "Can't delete status" if Issue.find(:first, :conditions => ["status_id=?", self.id])
   end
+
 end
 
 

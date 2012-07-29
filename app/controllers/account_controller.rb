@@ -252,7 +252,6 @@ class AccountController < ApplicationController
     end
   end
 
-
   def open_id_authenticate(openid_url)
     authenticate_with_open_id(openid_url, :required => [:nickname, :fullname, :email], :return_to => signin_url) do |result, identity_url, registration|
       if result.successful?
@@ -306,7 +305,6 @@ class AccountController < ApplicationController
       invitation.accept(user) if invitation
     end
 
-
     # generate a key and set cookie if autologin
     if params[:autologin] && Setting.autologin?
       token = Token.create(:user => user, :action => 'autologin')
@@ -337,7 +335,6 @@ class AccountController < ApplicationController
     flash.now[:error] = l(:notice_account_inactive_user)
     render_error(l(:notice_account_inactive_user))
   end
-
 
   # Register a user for email activation.
   #

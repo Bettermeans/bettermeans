@@ -454,6 +454,7 @@ class Query < ActiveRecord::Base
     end
     s.join(' AND ')
   end
+
 end
 
 

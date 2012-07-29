@@ -92,7 +92,8 @@ class SearchController < ApplicationController
     render :layout => false if request.xhr?
   end
 
-private
+  private
+
   def find_optional_project
     return true unless params[:id]
     @project = Project.find(params[:id])
@@ -100,4 +101,5 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
 end
