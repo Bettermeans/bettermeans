@@ -79,19 +79,3 @@ end
 
 
 
-
-# == Schema Information
-#
-# Table name: invitations
-#
-#  id         :integer         not null, primary key
-#  user_id    :integer
-#  project_id :integer
-#  token      :string(255)
-#  status     :integer         default(0)
-#  role_id    :integer
-#  mail       :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#
-

@@ -36,18 +36,3 @@ class Board < ActiveRecord::Base
   end
 end
 
-
-# == Schema Information
-#
-# Table name: boards
-#
-#  id              :integer         not null, primary key
-#  project_id      :integer         not null
-#  name            :string(255)     default(""), not null
-#  description     :string(255)
-#  position        :integer         default(1)
-#  topics_count    :integer         default(0), not null
-#  messages_count  :integer         default(0), not null
-#  last_message_id :integer
-#
-

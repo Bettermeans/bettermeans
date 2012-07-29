@@ -10,17 +10,3 @@
 class ActivityStreamTotal < ActiveRecord::Base
   belongs_to :object, :polymorphic => true
 end
-
-# == Schema Information
-#
-# Table name: activity_stream_totals
-#
-#  id          :integer         not null, primary key
-#  activity    :string(255)
-#  object_id   :integer
-#  object_type :string(255)
-#  total       :float           default(0.0)
-#  created_at  :datetime
-#  updated_at  :datetime
-#
-

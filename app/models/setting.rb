@@ -258,14 +258,3 @@ class Setting < ActiveRecord::Base
 end
 
 
-
-# == Schema Information
-#
-# Table name: settings
-#
-#  id         :integer         not null, primary key
-#  name       :string(255)     default(""), not null
-#  value      :text
-#  updated_on :datetime
-#
-

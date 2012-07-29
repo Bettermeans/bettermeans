@@ -50,18 +50,3 @@ class News < ActiveRecord::Base
 
 end
 
-
-# == Schema Information
-#
-# Table name: news
-#
-#  id             :integer         not null, primary key
-#  project_id     :integer
-#  title          :string(60)      default(""), not null
-#  summary        :string(255)     default("")
-#  description    :text
-#  author_id      :integer         default(0), not null
-#  created_at     :datetime
-#  comments_count :integer         default(0), not null
-#
-

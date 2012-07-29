@@ -10,20 +10,3 @@ class Mail < ActiveRecord::Base
   attr_accessor :to
 
 end
-
-# == Schema Information
-#
-# Table name: mails
-#
-#  id                :integer         not null, primary key
-#  sender_id         :integer
-#  recipient_id      :integer
-#  sender_deleted    :boolean         default(FALSE)
-#  recipient_deleted :boolean         default(FALSE)
-#  subject           :string(255)
-#  body              :text
-#  read_at           :datetime
-#  created_at        :datetime
-#  updated_at        :datetime
-#
-

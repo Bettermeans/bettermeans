@@ -62,17 +62,3 @@ class MotionVote < ActiveRecord::Base
 
 end
 
-
-# == Schema Information
-#
-# Table name: motion_votes
-#
-#  id         :integer         not null, primary key
-#  motion_id  :integer
-#  user_id    :integer
-#  points     :integer
-#  isbinding  :boolean         default(FALSE)
-#  created_at :datetime
-#  updated_at :datetime
-#
-

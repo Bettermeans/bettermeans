@@ -10,16 +10,3 @@ class JournalDetail < ActiveRecord::Base
   end
 end
 
-
-# == Schema Information
-#
-# Table name: journal_details
-#
-#  id         :integer         not null, primary key
-#  journal_id :integer         default(0), not null
-#  property   :string(30)      default(""), not null
-#  prop_key   :string(30)      default(""), not null
-#  old_value  :string(255)
-#  value      :string(255)
-#
-

@@ -24,17 +24,3 @@ class CreditDistribution < ActiveRecord::Base
                         :source_type => "Credit"
   end
 end
-
-# == Schema Information
-#
-# Table name: credit_distributions
-#
-#  id         :integer         not null, primary key
-#  user_id    :integer
-#  project_id :integer
-#  retro_id   :integer
-#  amount     :float
-#  created_at :datetime
-#  updated_at :datetime
-#
-
