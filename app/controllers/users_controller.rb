@@ -6,7 +6,6 @@ class UsersController < ApplicationController
   before_filter :require_admin, :except => [:show, :rpx_token]
   ssl_required :all
 
-
   helper :sort
   include SortHelper
 

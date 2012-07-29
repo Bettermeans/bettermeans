@@ -244,7 +244,8 @@ class Setting < ActiveRecord::Base
     end
   end
 
-private
+  private
+
   # Returns the Setting instance for the setting named name
   # (record found in database or new record with default value)
   def self.find_or_default(name)
@@ -253,6 +254,7 @@ private
     setting = new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
     setting ||= find_by_name(name)
   end
+
 end
 
 

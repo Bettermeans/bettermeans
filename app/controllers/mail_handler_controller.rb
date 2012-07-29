@@ -53,4 +53,5 @@ class MailHandlerController < ActionController::Base
       render :text => 'Access denied. Incoming emails WS is disabled or key is invalid.', :status => 403
     end
   end
+
 end

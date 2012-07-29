@@ -130,7 +130,8 @@ class Attachment < ActiveRecord::Base
     File.readable?(diskfile)
   end
 
-private
+  private
+
   def sanitize_filename(value)
     # get only the filename, not the whole path
     just_filename = value.gsub(/^.*(\\|\/)/, '')
@@ -153,6 +154,7 @@ private
     end
     df
   end
+
 end
 
 

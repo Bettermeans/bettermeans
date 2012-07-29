@@ -60,7 +60,8 @@ class MembersController < ApplicationController
     render :layout => false
   end
 
-private
+  private
+
   def find_project
     @project = Project.find(params[:id])
   rescue ActiveRecord::RecordNotFound
@@ -73,4 +74,5 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
 end

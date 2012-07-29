@@ -111,7 +111,8 @@ class MessagesController < ApplicationController
     render :partial => 'common/preview'
   end
 
-private
+  private
+
   def find_message
     if params[:board_id] == 'guess'
       logger.info { "guessing board" }
@@ -136,11 +137,11 @@ private
     render_404
   end
 
-
   def find_board
     @board = Board.find(params[:board_id], :include => :project)
     @project = @board.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
 end

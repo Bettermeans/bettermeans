@@ -6,7 +6,6 @@ class JournalsController < ApplicationController
   before_filter :find_journal
   ssl_required :all
 
-
   def edit
     if request.post?
       @journal.update_attributes(:notes => params[:notes]) if params[:notes]
@@ -40,7 +39,8 @@ class JournalsController < ApplicationController
                                                                           :order => 'created_at DESC', :limit => 1)
   end
 
-private
+  private
+
   def find_journal
     @journal = Journal.find(params[:id])
     (render_403; return false) unless @journal.editable_by?(User.current)
@@ -48,4 +48,5 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
 end

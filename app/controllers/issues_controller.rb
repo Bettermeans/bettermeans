@@ -701,7 +701,8 @@ class IssuesController < ApplicationController
     render :csv => @issues
   end
 
-private
+  private
+
   def find_issue
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author])
     @project = @issue.project
@@ -783,4 +784,5 @@ private
     sort_clear
     render_error "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
   end
+
 end

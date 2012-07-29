@@ -202,7 +202,7 @@ class WikiController < ApplicationController
     redirect_to :action => 'index', :page => @page.title
   end
 
-private
+  private
 
   def find_wiki
     @project = Project.find(params[:id])
@@ -231,4 +231,5 @@ private
     extend helper unless self.instance_of?(helper)
     helper.instance_method(:initial_page_content).bind(self).call(page)
   end
+
 end

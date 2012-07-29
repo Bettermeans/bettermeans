@@ -755,6 +755,7 @@ class User < ActiveRecord::Base
   def self.hash_password(clear_password)
     Digest::SHA1.hexdigest(clear_password || "")
   end
+
 end
 
 class AnonymousUser < User
@@ -771,6 +772,7 @@ class AnonymousUser < User
   def mail; nil end
   def time_zone; nil end
   def rss_key; nil end
+
 end
 
 

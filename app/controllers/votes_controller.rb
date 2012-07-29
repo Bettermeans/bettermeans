@@ -37,16 +37,15 @@ class VotesController < ApplicationController
     #TODO: Is there a way to cast the model from :voteable_type automatically?
     #Depending on the type of voteable, we dig it up from a different model
     case params[:voteable_type]
-      when "issue"
-        @voteable = Issue.find(params[:issue_id])
-      when "journal"
-        @voteable = Journal.find(params[:journal_id])
-      when "message"
-        @voteable = Message.find(params[:message_id])
-      when "reply"
-        @voteable = Message.find(params[:reply_id])
-      end
-
+    when "issue"
+      @voteable = Issue.find(params[:issue_id])
+    when "journal"
+      @voteable = Journal.find(params[:journal_id])
+    when "message"
+      @voteable = Message.find(params[:message_id])
+    when "reply"
+      @voteable = Message.find(params[:reply_id])
+    end
 
     respond_to do |format|
       if User.current.vote(@voteable, params[:vote])
@@ -76,6 +75,7 @@ class VotesController < ApplicationController
   end
 
   private
+
   def find_votes_for_my_scope
     if params[:issue_id]
       @votes = Vote.for_voteable(issue.find(params[:issue_id])).descending

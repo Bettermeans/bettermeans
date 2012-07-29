@@ -40,11 +40,13 @@ class IssueRelationsController < ApplicationController
     end
   end
 
-private
+  private
+
   def find_project
     @issue = Issue.find(params[:issue_id])
     @project = @issue.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
 end

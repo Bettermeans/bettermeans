@@ -23,7 +23,8 @@ class Token < ActiveRecord::Base
     Token.delete_all ["action <> 'feeds' AND created_at < ?", Time.now - @@validity_time]
   end
 
-private
+  private
+
   def self.generate_token_value
     ActiveSupport::SecureRandom.hex(20)
   end
@@ -34,6 +35,7 @@ private
       Token.delete_all(['user_id = ? AND action = ?', user.id, action])
     end
   end
+
 end
 
 

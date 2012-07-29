@@ -61,6 +61,7 @@ class Member < ActiveRecord::Base
       Watcher.prune(:user => user, :project => project)
     end
   end
+
 end
 
 

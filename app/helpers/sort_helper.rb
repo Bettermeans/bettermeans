@@ -120,6 +120,7 @@ module SortHelper
       @criteria.slice!(3)
       self
     end
+
   end
 
   def sort_name
@@ -222,5 +223,5 @@ module SortHelper
     options[:title] = l(:label_sort_by, "\"#{caption}\"") unless options[:title]
     content_tag('th', sort_link(column, caption, default_order), options)
   end
-end
 
+end

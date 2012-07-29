@@ -81,6 +81,7 @@ class AuthSourceLdap < AuthSource
       entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
     end
   end
+
 end
 
 

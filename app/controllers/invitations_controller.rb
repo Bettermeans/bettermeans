@@ -162,19 +162,19 @@ class InvitationsController < ApplicationController
   end
 
   private
-    def find_project
-      @project = Project.find(params[:project_id])
-      render_message l(:text_project_locked) if @project.locked?
-    rescue ActiveRecord::RecordNotFound
-      render_404
-    end
 
-    def valid_email?(email)
-      TMail::Address.parse(email)
-      return true
-    rescue
-      return false
-    end
+  def find_project
+    @project = Project.find(params[:project_id])
+    render_message l(:text_project_locked) if @project.locked?
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
 
+  def valid_email?(email)
+    TMail::Address.parse(email)
+    return true
+  rescue
+    return false
+  end
 
 end

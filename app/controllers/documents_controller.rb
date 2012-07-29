@@ -63,7 +63,8 @@ class DocumentsController < ApplicationController
     redirect_to :action => 'show', :id => @document
   end
 
-private
+  private
+
   def find_project
     @project = Project.find(params[:project_id])
     render_message l(:text_project_locked) if @project.locked?

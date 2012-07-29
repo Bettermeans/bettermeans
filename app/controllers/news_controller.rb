@@ -19,9 +19,6 @@ class NewsController < ApplicationController
               :indirect_object_description_method => :comments,
               :indirect_object_phrase => '' }
 
-
-
-
   def index
     @news_pages, @newss = paginate :news,
                                    :per_page => 10,
@@ -85,7 +82,8 @@ class NewsController < ApplicationController
     render :partial => 'common/preview'
   end
 
-private
+  private
+
   def find_news
     @news = News.find(params[:id])
     @project = @news.project
@@ -109,4 +107,5 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
 end

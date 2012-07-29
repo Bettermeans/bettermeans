@@ -49,7 +49,8 @@ class QueriesController < ApplicationController
     redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1
   end
 
-private
+  private
+
   def find_query
     @query = Query.find(params[:id])
     @project = @query.project
@@ -64,4 +65,5 @@ private
   rescue ActiveRecord::RecordNotFound
     render_404
   end
+
 end

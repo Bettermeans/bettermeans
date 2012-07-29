@@ -218,7 +218,8 @@ class Role < ActiveRecord::Base
   end
 
 
-private
+  private
+
   def allowed_permissions
     @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
   end
@@ -231,6 +232,7 @@ private
     raise "Can't delete role" if members.any?
     raise "Can't delete builtin role" if builtin?
   end
+
 end
 
 

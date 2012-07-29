@@ -2,7 +2,6 @@ class HourlyTypesController < ApplicationController
   before_filter :find_project
   ssl_required :all
 
-
   def new
     @hourly_type = HourlyType.new(params[:hourly_type])
     @hourly_type.project = @project
@@ -22,7 +21,6 @@ class HourlyTypesController < ApplicationController
     @hourly_type.destroy
     redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'hourly_types'
   end
-
 
   private
 

@@ -79,6 +79,7 @@ class IssueRelation < ActiveRecord::Base
       self.relation_type = TYPE_PRECEDES
     end
   end
+
 end
 
 
