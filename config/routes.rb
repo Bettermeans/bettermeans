@@ -5,23 +5,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :credit_distributions
   map.resources :quotes
 
-  # map.resources :retro_ratings
-  #
-  # map.resources :retros
-
-
-  # map.resources :projects
-
-  # map.connect 'commit_requests/createdialgoue', :action => 'createdialogue', :controller => 'commit_requesets'
-
-
-  # Add your own custom routes here.
-  # The priority is based upon order of creation: first created -> highest priority.
-
-  # Here's a sample route:
-  # map.connect 'products/:id', :controller => 'catalog', :action => 'view'
-  # Keep in mind you can assign values other than :controller and :action
-
   map.signin 'login', :controller => 'account', :action => 'login'
   map.signout 'logout', :controller => 'account', :action => 'logout'
   map.connect 'accounts/rpx_token',:controller => 'account', :action => 'rpx_token'
@@ -40,18 +23,12 @@ ActionController::Routing::Routes.draw do |map|
 
     timelog.with_options :action => 'details', :conditions => {:method => :get}  do |time_details|
       time_details.connect 'time_entries'
-      # time_details.connect 'time_entries.:format'
       time_details.connect 'issues/:issue_id/time_entries'
-      # time_details.connect 'issues/:issue_id/time_entries.:format'
-      # time_details.connect 'projects/:project_id/time_entries.:format'
       time_details.connect 'projects/:project_id/issues/:issue_id/time_entries'
-      # time_details.connect 'projects/:project_id/issues/:issue_id/time_entries.:format'
     end
     timelog.connect 'projects/:project_id/time_entries/report', :action => 'report'
     timelog.with_options :action => 'report',:conditions => {:method => :get} do |time_report|
       time_report.connect 'time_entries/report'
-      # time_report.connect 'time_entries/report.:format'
-      # time_report.connect 'projects/:project_id/time_entries/report.:format'
     end
 
     timelog.with_options :action => 'edit', :conditions => {:method => :get} do |time_edit|
@@ -118,7 +95,6 @@ ActionController::Routing::Routes.draw do |map|
       board_views.connect 'projects/:project_id/boards', :action => 'index'
       board_views.connect 'projects/:project_id/boards/new', :action => 'new'
       board_views.connect 'projects/:project_id/boards/:id', :action => 'show'
-      # board_views.connect 'projects/:project_id/boards/:id.:format', :action => 'show'
       board_views.connect 'projects/:project_id/boards/:id/edit', :action => 'edit'
     end
     board_routes.with_options :conditions => {:method => :post} do |board_actions|
@@ -218,7 +194,6 @@ ActionController::Routing::Routes.draw do |map|
       retro_views.connect 'projects/:project_id/retros', :action => 'index'
       retro_views.connect 'projects/:project_id/retros/new', :action => 'new'
       retro_views.connect 'projects/:project_id/retros/:action', :action => /index_json/
-      # retro_views.connect 'projects/:project_id/retros/:id', :action => 'show'
       retro_views.connect 'projects/:project_id/retros/:id/:action', :action => /show|dashdata/
       retro_views.connect 'projects/:project_id/retros/:id.:format', :action => 'show'
       retro_views.connect 'projects/:project_id/retros/:id/edit', :action => 'edit'
@@ -229,13 +204,10 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
 
-
   map.with_options :controller => 'projects' do |projects|
     projects.with_options :conditions => {:method => :get} do |project_views|
-      # project_views.connect 'issues/:show_issue_id.:format', :action => 'dashboard'
       project_views.connect 'projects', :action => 'index'
       project_views.connect 'projects.:format', :action => 'index'
-      # project_views.connect 'projects/:action', :action => '/index|index_latest|index_active/'
       project_views.connect 'projects/new', :action => 'add'
       project_views.connect 'projects/index_latest', :action => 'index_latest'
       project_views.connect 'projects/index_active', :action => 'index_active'
@@ -259,16 +231,9 @@ ActionController::Routing::Routes.draw do |map|
       project_actions.connect 'projects/:id/activities/save', :action => 'save_activities'
     end
 
-    # projects.with_options :action => 'dashboard', :conditions => {:method => :get} do |dashboard|
-    #   dashboard.connect 'projects/:id/dashboard'
-    #   dashboard.connect 'projects/:id/dashboard.:format'
-    # end
-
     projects.with_options :action => 'activity', :conditions => {:method => :get} do |activity|
       activity.connect 'projects/:id/activity'
-      # activity.connect 'projects/:id/activity.:format'
       activity.connect 'activity', :id => nil
-      # activity.connect 'activity.:format', :id => nil
     end
   end
 
@@ -295,9 +260,6 @@ ActionController::Routing::Routes.draw do |map|
 
 
   map.resources :groups
-
-  # map.your_activities '/feeds/your_activities/:activity_stream_token', :controller => 'activity_streams', :action => 'feed', :format => 'atom'
-  # map.resources :activity_stream_preferences
   map.resources :activity_streams
 
   map.resources :projects, :has_many => :shares
@@ -317,7 +279,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'projects/:project_id/motions/:action', :controller => 'motions'
   map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
 
-  #semi-statig pages
+  #semi-static pages
   map.root :controller => 'home'
   map.home '', :controller => 'home', :action => 'index'
   map.static '/front/:page', :controller => 'home', :action => 'show', :page => /index.html|about.html|howitworks.html|contact.html|hq.html|pricing.html|signup.html|apps.html|products.html|services.html|single.html|tour.html|webdesign.html|index.htm|elements.html|privacy.html|library.html|testimonials.html|irb.html|open_enterprise_governance_model.html|user_agreement.html|why.html|how.html|what.html|inviteonly.html/
@@ -326,8 +288,6 @@ ActionController::Routing::Routes.draw do |map|
   # Install the default route as the lowest priority.
   map.connect ':controller/:action/:id'
   map.connect 'robots.txt', :controller => 'welcome', :action => 'robots'
-  # Used for OpenID
-  # map.root :controller => 'account', :action => 'login'
 
   map.resources :pages, :only => :show
 
@@ -343,7 +303,4 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :notifications
   map.resources :issues
   map.resources :credit_transfers
-
-  # map.resources :motions
-
 end
