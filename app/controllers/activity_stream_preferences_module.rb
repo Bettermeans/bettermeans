@@ -9,9 +9,7 @@ require 'digest/sha1'
 
 # ActivityStreamPreferencesModule is included in your generated ActivityStreamPereference Controller and provides functionality for User to configure preferences as to where their activities are displayed
 module ActivityStreamPreferencesModule
-  # GET /activity_stream_preferences
-  # GET /activity_stream_preferences.xml
-  # GET /activity_stream_preferences?user_id=N   # Admin only
+
   def index
 
     get_user_id
@@ -37,8 +35,6 @@ module ActivityStreamPreferencesModule
     end
   end
 
-  # POST /activity_stream_preferences
-  # POST /activity_stream_preferences.xml
   def create
 
     get_user_id
