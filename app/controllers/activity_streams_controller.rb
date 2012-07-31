@@ -5,10 +5,10 @@
 #++
 # Template to generate the controllers
 class ActivityStreamsController < ApplicationController
+
   include ActivityStreamsModule
   before_filter :authorize, :except => [ :index, :feed]
   ssl_required :all
-
 
   def index
     respond_to do |wants|
