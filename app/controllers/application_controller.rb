@@ -29,7 +29,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-
   before_filter :user_setup, :check_if_login_required, :set_localization
   filter_parameter_logging :password
   protect_from_forgery
@@ -55,8 +54,6 @@ class ApplicationController < ActionController::Base
     flash[flash_type] = msg
     redirect_to(*params)
   end
-
-
 
   def current_user
     User.current
