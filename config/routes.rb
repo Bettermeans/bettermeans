@@ -87,9 +87,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :email_updates
 
-
-
-
   map.with_options :controller => 'boards' do |board_routes|
     board_routes.with_options :conditions => {:method => :get} do |board_views|
       board_views.connect 'projects/:project_id/boards', :action => 'index'
