@@ -24,8 +24,8 @@ describe EnterprisesController do
       route_for(:controller => "enterprises", :action => "create").should == "/enterprises/create"
     end
 
-    it "routes to #activate" do
-      route_for(:controller => "enterprises", :action => "activate").should == "/enterprises/activate"
+    it "routes to #destroy" do
+      route_for(:controller => "enterprises", :action => "destroy", :id => '5').should == "/enterprises/destroy/5"
     end
 
   end
