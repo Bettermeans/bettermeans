@@ -9,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.signout 'logout', :controller => 'account', :action => 'logout'
   map.connect 'accounts/rpx_token',:controller => 'account', :action => 'rpx_token'
 
-
+  # TODO: remove this route, seems to no longer be used
   map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
   map.connect 'help/:ctrl/:page', :controller => 'help' #What's this?
   map.connect 'help/:id', :controller => 'help', :action => 'show'
