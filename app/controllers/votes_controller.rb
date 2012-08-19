@@ -34,8 +34,9 @@ class VotesController < ApplicationController
 
   def create
 
-    #TODO: Is there a way to cast the model from :voteable_type automatically?
-    #Depending on the type of voteable, we dig it up from a different model
+    # TODO: Is there a way to cast the model from :voteable_type automatically?
+    # Depending on the type of voteable, we dig it up from a different model
+    # See Railscast #154 for find_commentable method
     case params[:voteable_type]
     when "issue"
       @voteable = Issue.find(params[:issue_id])
