@@ -512,12 +512,8 @@ class ProjectsController < ApplicationController
     render_404
   end
 
-
   private
 
-  # Find project of id params[:id]
-  # if not found, redirect to project list
-  # Used as a before_filter
   def find_project
     if (params[:show_issue_id])
       @project = Issue.find(params[:show_issue_id]).project
