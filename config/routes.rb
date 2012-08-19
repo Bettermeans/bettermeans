@@ -214,7 +214,10 @@ ActionController::Routing::Routes.draw do |map|
       project_views.connect 'projects/:id', :action => 'overview'
       project_views.connect 'projects/:id/show', :action => 'overview'
       project_views.connect 'projects/:id/overview', :action => 'overview'
-      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|community_members_array|issue_search|hourly_types|map|join|overview|reset_invitation_code|overview|all_tags/
+      # TODO: remove unused: :roadmap, :wiki, :changelog, :leave_core_team,
+      # :core_vote, :agree, :disagree, :accept, :reject, :shares,
+      # :reset_invitation_code
+      project_views.connect 'projects/:id/:action', :action => /roadmap|changelog|destroy|settings|team|wiki|join_core_team|leave_core_team|core_vote|dashdata|new_dashdata|dashboard|mypris|agree|disagree|accept|reject|credits|shares|community_members|community_members_array|issue_search|hourly_types|map|join|overview|reset_invitation_code|all_tags/
       project_views.connect 'projects/:id/files', :action => 'list_files'
       project_views.connect 'projects/:id/files/new', :action => 'add_file'
       project_views.connect 'projects/:id/settings/:tab', :action => 'settings'
@@ -225,6 +228,7 @@ ActionController::Routing::Routes.draw do |map|
       project_actions.connect 'projects/new', :action => 'add'
       project_actions.connect 'projects', :action => 'add'
       project_actions.connect 'projects/:id/:action', :action => /destroy|archive|unarchive|edit/
+      # TODO: remove this route
       project_actions.connect 'projects/:id/wiki', :action => 'wiki'
       project_actions.connect 'projects/:id/files/new', :action => 'add_file'
       project_actions.connect 'projects/:id/activities/save', :action => 'save_activities'
