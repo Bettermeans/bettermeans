@@ -131,6 +131,7 @@ ActionController::Routing::Routes.draw do |map|
     issues_routes.with_options :conditions => {:method => :post} do |issues_actions|
       issues_actions.connect 'projects/:project_id/issues', :action => 'new'
       issues_actions.connect 'issues/:id/quoted', :action => 'reply', :id => /\d+/
+      # BUGBUG: :disagree and :reject don't seem to be used anymore
       issues_actions.connect 'issues/:id/:action', :action => /edit|move|destroy|start|finish|release|cancel|restart|prioritize|agree|disagree|estimate|accept|reject|join|leave|add_team_member|update_tags/, :id => /\d+/
       issues_actions.connect 'issues/:container_id/attachments/create', :controller => 'attachments', :action => 'create'
     end
@@ -283,7 +284,10 @@ ActionController::Routing::Routes.draw do |map|
 
 
   # Install the default route as the lowest priority.
+  # TODO: remove these default routes once integration specs are complete
   map.connect ':controller/:action/:id'
+
+  # BUGBUG:  everything below the default routes above will be eclipsed by them
   map.connect 'robots.txt', :controller => 'welcome', :action => 'robots'
 
   map.resources :pages, :only => :show
