@@ -19,6 +19,8 @@ class RecurlyNotificationsController < ApplicationController
     render :nothing => true
   end
 
+  private
+
   def update_subscription(params,active_subscription)
     account = params["account"]
     subscription = params["subscription"]
