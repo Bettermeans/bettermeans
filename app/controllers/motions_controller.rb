@@ -132,6 +132,7 @@ class MotionsController < ApplicationController
     404
   end
 
+  private
 
   def find_project
     @project = Project.find(params[:project_id]).root
@@ -147,7 +148,6 @@ class MotionsController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     render_404
   end
-
 
   def check_visibility_permission
     if !User.current.allowed_to_see_motion?(@motion)
