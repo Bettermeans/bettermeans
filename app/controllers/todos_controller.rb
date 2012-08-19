@@ -79,6 +79,8 @@ class TodosController < ApplicationController
     end
   end
 
+  private
+
   def find_issue
     @issue = Issue.find(params[:issue_id])
   end
