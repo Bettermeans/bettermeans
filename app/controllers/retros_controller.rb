@@ -270,6 +270,8 @@ class RetrosController < ApplicationController
     end
   end
 
+  private
+
   def find_retro
     @retro = Retro.find(params[:id])
     @project = @retro.project
