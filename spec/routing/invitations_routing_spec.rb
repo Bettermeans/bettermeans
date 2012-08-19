@@ -5,23 +5,23 @@ describe InvitationsController do
   describe "routing" do
 
     it "routes to #index" do
-      route_for(:controller => "invitations", :action => "index", :id => 'pie').should == "/invitations/index/pie"
+      route_for(:controller => "invitations", :action => "index", :id => '5').should == "/invitations/index/5"
     end
 
     it "routes to #show" do
-      route_for(:controller => "invitations", :action => "show", :id => 'pie').should == "/invitations/show/pie"
+      route_for(:controller => "invitations", :action => "show", :id => '5').should == "/invitations/show/5"
     end
 
     it "routes to #new" do
-      route_for(:controller => "invitations", :action => "new", :id => 'pie').should == "/invitations/new/pie"
+      route_for(:controller => "invitations", :action => "new", :id => '5').should == "/invitations/new/5"
     end
 
     it "routes to #edit" do
-      route_for(:controller => "invitations", :action => "edit", :id => 'pie').should == "/invitations/edit/pie"
+      route_for(:controller => "invitations", :action => "edit", :id => '5').should == "/invitations/edit/5"
     end
 
     it "routes to #create" do
-      route_for(:controller => "invitations", :action => "create", :id => 'pie').should == "/invitations/create/pie"
+      route_for(:controller => "invitations", :action => "create", :id => '5').should == "/invitations/create/5"
     end
 
     it "routes to #accept" do
