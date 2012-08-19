@@ -15,7 +15,7 @@ describe IssuesController do
 
     it "routes to #new" do
       route_for(:controller => "issues", :action => "new", :project_id => 'pizza').should == "/projects/pizza/issues/new"
-      route_for(:controller => "issues", :action => "new", :project_id => 'pizza', :copy_from => 'pie').should == "/projects/pizza/issues/pie/copy"
+      route_for(:controller => "issues", :action => "new", :project_id => 'pizza', :copy_from => '5').should == "/projects/pizza/issues/5/copy"
     end
 
     it "routes to #edit" do
@@ -44,7 +44,7 @@ describe IssuesController do
     end
 
     it "routes to #change_status" do
-      route_for(:controller => "issues", :action => "change_status", :id => 'pie').should == "/issues/change_status/pie"
+      route_for(:controller => "issues", :action => "change_status", :id => '5').should == "/issues/change_status/5"
     end
 
     it "routes to #prioritize" do
@@ -76,7 +76,7 @@ describe IssuesController do
     end
 
     it "routes to #remove_team_member" do
-      route_for(:controller => "issues", :action => "remove_team_member", :id => 'pie').should == "/issues/remove_team_member/pie"
+      route_for(:controller => "issues", :action => "remove_team_member", :id => '5').should == "/issues/remove_team_member/5"
     end
 
     it "routes to #leave" do
@@ -88,7 +88,7 @@ describe IssuesController do
     end
 
     it "routes to #bulk_edit" do
-      route_for(:controller => "issues", :action => "bulk_edit", :id => 'pie').should == "/issues/bulk_edit/pie"
+      route_for(:controller => "issues", :action => "bulk_edit", :id => '5').should == "/issues/bulk_edit/5"
     end
 
     it "routes to #move" do
@@ -101,23 +101,23 @@ describe IssuesController do
     end
 
     it "routes to #gantt" do
-      route_for(:controller => "issues", :action => "gantt", :project_id => 'pie').should == "/projects/pie/issues/gantt"
+      route_for(:controller => "issues", :action => "gantt", :project_id => '5').should == "/projects/5/issues/gantt"
     end
 
     it "routes to #calendar" do
-      route_for(:controller => "issues", :action => "calendar", :project_id => 'pie').should == "/projects/pie/issues/calendar"
+      route_for(:controller => "issues", :action => "calendar", :project_id => '5').should == "/projects/5/issues/calendar"
     end
 
     it "routes to #context_menu" do
-      route_for(:controller => "issues", :action => "context_menu", :id => 'pie').should == "/issues/context_menu/pie"
+      route_for(:controller => "issues", :action => "context_menu", :id => '5').should == "/issues/context_menu/5"
     end
 
     it "routes to #update_form" do
-      route_for(:controller => "issues", :action => "update_form", :id => 'pie').should == "/issues/update_form/pie"
+      route_for(:controller => "issues", :action => "update_form", :id => '5').should == "/issues/update_form/5"
     end
 
     it "routes to #preview" do
-      route_for(:controller => "issues", :action => "preview", :id => 'pie').should == "/issues/preview/pie"
+      route_for(:controller => "issues", :action => "preview", :id => '5').should == "/issues/preview/5"
     end
 
     it "routes to #datadump" do
