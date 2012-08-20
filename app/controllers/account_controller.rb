@@ -2,6 +2,7 @@
 # Copyright (C) 2006-2011  See readme for details and license
 #
 
+# TODO: rename this to something like SessionsController after integration specs are done
 class AccountController < ApplicationController
 
   skip_before_filter :verify_authenticity_token, :only => [:rpx_token, :register] # RPX does not pass Rails form tokens...
