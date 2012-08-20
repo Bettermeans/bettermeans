@@ -20,10 +20,18 @@ Spork.prefork do
     config.use_instantiated_fixtures  = false
     config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
 
-    def login
-      @user = Factory.create(:user)
-      User.stub(:current).and_return @user
+    config.before :suite do
+      FakeWeb.allow_net_connect = false
     end
+
+    config.after :suite do
+      FakeWeb.allow_net_connect = true
+    end
+  end
+
+  def login
+    @user = Factory.create(:user)
+    User.stub(:current).and_return @user
   end
 end
 
