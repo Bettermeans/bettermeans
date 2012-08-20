@@ -29,6 +29,7 @@ group :test do
   gem 'object_daddy', "0.4.3"
   gem 'mocha', "0.9.12"
   gem 'capybara-webkit'
+  gem 'fakeweb'
 end
 
 group :development do
