@@ -1,49 +1,61 @@
-ENV["RAILS_ENV"] ||= "cucumber"
-require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
-require 'cucumber/rails/world'
+require 'rubygems'
+require 'spork'
 
-dir = File.expand_path File.dirname(__FILE__)
+Spork.prefork do
 
-Dir.glob(File.join dir, "views","*.rb").each { |file| require file }
+  ENV["RAILS_ENV"] ||= "cucumber"
+  require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
+  require 'cucumber/rails/world'
 
-Cucumber::Rails::World.use_transactional_fixtures = false
+  dir = File.expand_path File.dirname(__FILE__)
 
-ActionController::Base.allow_rescue = false
+  Dir.glob(File.join dir, "views","*.rb").each { |file| require file }
 
-require 'cucumber'
-require 'cucumber/formatter/unicode'
-require 'cucumber/rails/rspec'
+  Cucumber::Rails::World.use_transactional_fixtures = false
 
-require 'webrat'
-require 'webrat/core/matchers' 
+  ActionController::Base.allow_rescue = false
 
-require "features/support/webkit_session"
-require "features/extensions/webrat.rb"
-require "features/extensions/capybara-webkit.rb"
+  require 'cucumber'
+  require 'cucumber/formatter/unicode'
+  require 'cucumber/rails/rspec'
 
-Webrat.configure do |config|
-  config.mode = :rails
-  config.open_error_files = true
-end
+  require 'webrat'
+  require 'webrat/core/matchers'
 
-Cucumber::Rails::World.class_eval do 
-  def skip_teardown?; ENV.include? "SKIP_TEARDOWN"; end
-  def teardown(&block) 
-    (@teardowns ||= []) << block
-  end
-end
+  require "features/support/webkit_session"
+  require "features/extensions/webrat.rb"
+  require "features/extensions/capybara-webkit.rb"
 
-Before do |scenario|
-  default_mode = :rails
-  
   Webrat.configure do |config|
-    config.mode = scenario.source_tag_names.include?("@ajax") ? :webkit : default_mode
+    config.mode = :rails
     config.open_error_files = true
   end
-end  
 
-After do
-  unless skip_teardown? 
-    @teardowns.each {|proc| proc.call} unless @teardowns.nil?
+  Cucumber::Rails::World.class_eval do
+    def skip_teardown?; ENV.include? "SKIP_TEARDOWN"; end
+    def teardown(&block)
+      (@teardowns ||= []) << block
+    end
   end
+
+  Before do |scenario|
+    default_mode = :rails
+
+    Webrat.configure do |config|
+      config.mode = scenario.source_tag_names.include?("@ajax") ? :webkit : default_mode
+      config.open_error_files = true
+    end
+  end
+
+  After do
+    unless skip_teardown?
+      @teardowns.each {|proc| proc.call} unless @teardowns.nil?
+    end
+  end
+
 end
+
+Spork.each_run do
+
+end
+
