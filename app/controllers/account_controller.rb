@@ -15,20 +15,15 @@ class AccountController < ApplicationController
   def login
     session[:invitation_token] = params[:invitation_token] || session[:invitation_token]
     @invitation_token = session[:invitation_token]
-
     if request.get?
       # Logout user
       self.logged_user = nil
       session[:invitation_token] = @invitation_token
       render :layout => 'static'
+    elsif Setting.openid? && using_open_id?
+      open_id_authenticate(params[:openid_url])
     else
-      logger.info { "1 authenticating and accepting invitation #{session[:invitation_token]}" }
-      # Authenticate user
-      if Setting.openid? && using_open_id?
-        open_id_authenticate(params[:openid_url])
-      else
-        password_authentication(@invitation_token)
-      end
+      password_authentication(@invitation_token)
     end
   end
 
@@ -42,12 +37,9 @@ class AccountController < ApplicationController
       invitation = Invitation.find_by_token(session[:invitation_token])
       invitation_mail = invitation.mail if invitation
       @invitation_token = session[:invitation_token]
-      logger.info { "we have an invitation here #{invitation.inspect} session token #{session[:invitation_token]}" }
     end
 
-    logger.info { "all data #{data.inspect}" }
     @user = User.find_by_identifier(data[:identifier])
-    logger.info { "did we find user #{@user}" }
     if !@user
       @user = User.find_by_mail(data[:email]) if data[:email]
 
@@ -58,7 +50,6 @@ class AccountController < ApplicationController
         name = data[:name] || data[:username]
         mail = data[:email] || invitation_mail || "#{(0...8).map{65.+(rand(25)).chr}.join}_noemail@bettermeans.com" #twitter accounts don't give email so we generate a random one
         newdata = {:firstname => name, :mail => mail, :identifier => data[:identifier]}
-        logger.info { "new data #{newdata.inspect}" }
         @user = User.new(newdata)
 
         #try and find a good login
@@ -89,8 +80,6 @@ class AccountController < ApplicationController
         invitation.save
       end
     end
-
-    logger.info { "WE ARE HERE! Almost authenticating for user #{@user.inspect}" }
 
     unless @user.active?
       @user.reactivate
@@ -171,7 +160,6 @@ class AccountController < ApplicationController
       end
     else
       @user = User.new(params[:user])
-      logger.info { "params plan #{params[:plan]}" }
 
       @user.plan_id = @plan_id
 
@@ -234,7 +222,6 @@ class AccountController < ApplicationController
 
   def password_authentication(invitation_token=nil)
     user = User.try_to_login(params[:username], params[:password])
-    logger.info { "user #{user.inspect}" }
 
     if user.nil?
       invalid_credentials
@@ -244,7 +231,6 @@ class AccountController < ApplicationController
       inactive_user
     else
       # Valid user
-      logger.info { "valid user" }
       if user.active?
         successful_authentication(user,invitation_token)
       else
@@ -295,13 +281,11 @@ class AccountController < ApplicationController
   end
 
   def successful_authentication(user, invitation_token = nil, msg=nil)
-    logger.info { "successful authentication baby #{user.inspect}" }
     # Valid user
     self.logged_user = user
     Track.log(Track::LOGIN,session[:client_ip])
 
     if invitation_token
-      logger.info { "accepting invitation #{invitation_token}" }
       invitation = Invitation.find_by_token(invitation_token)
       invitation.accept(user) if invitation
     end
@@ -332,7 +316,6 @@ class AccountController < ApplicationController
   end
 
   def inactive_user
-    logger.info { "inactive user!!!!" }
     flash.now[:error] = l(:notice_account_inactive_user)
     render_error(l(:notice_account_inactive_user))
   end
@@ -343,7 +326,6 @@ class AccountController < ApplicationController
   def register_by_email_activation(user, invitation_token = nil)
 
     unless invitation_token.empty? || invitation_token.nil?
-      logger.info { "invitation token #{invitation_token} is nil #{invitation_token.nil?}" }
       invitation = Invitation.find_by_token invitation_token
       invitation.new_mail = user.mail
       invitation.save
