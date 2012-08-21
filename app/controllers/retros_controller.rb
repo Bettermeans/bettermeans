@@ -280,7 +280,7 @@ class RetrosController < ApplicationController
 
 
   def find_project
-      @project = Project.find(params[:project_id])
-      render_message l(:text_project_locked) if @project.locked?
+    @project = Project.find(params[:project_id])
+    render_message l(:text_project_locked) if @project.locked?
   end
 end
