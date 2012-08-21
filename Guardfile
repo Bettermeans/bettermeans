@@ -15,7 +15,7 @@ guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAIL
   watch(%r{^app/controllers/.+\.rb$})
 end
 
-guard 'rspec', :version => 1, :cli => '--drb --color --format profile' do
+guard 'rspec', :version => 1, :cli => '--drb --color' do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
