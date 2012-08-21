@@ -7,8 +7,9 @@ class Invitation < ActiveRecord::Base
   ACCEPTED = 1
 
   def before_create
-    #TODO: check for dupes?
+    # TODO: check for dupes?
     self.token = Token.generate_token_value
+    # TODO: should be `self.role ||= Role.contributor`
     self.role_id = Role.contributor.id unless self.role_id
   end
 
