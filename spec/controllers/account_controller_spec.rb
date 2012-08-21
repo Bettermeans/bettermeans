@@ -6,7 +6,6 @@ describe AccountController do
   end
 
   describe "#login" do
-
     context "on an http request" do
       it "redirects to https" do
         @request.env['HTTPS'] = nil
@@ -70,7 +69,155 @@ describe AccountController do
         end
       end
     end
+  end
 
+  describe '#rpx_token' do
+    context "when token is invalid" do
+      it "raises an error" do
+        RPXNow.should_receive(:user_data).with('blah').and_return(nil)
+        expect {
+          get(:rpx_token, :token => 'blah')
+        }.to raise_error("hackers?")
+      end
+    end
+
+    context "when token is valid" do
+      let(:user_data) { {
+          :email => 'wah@wah.com',
+          :identifier => 'something',
+          :name => 'steve',
+          :username => 'stevinator'
+        }
+      }
+      before :each do
+        RPXNow.stub(:user_data).and_return(user_data)
+      end
+
+      context "when there's a session[:invitation_token]" do
+        before :each do
+          session[:invitation_token] = 'blah'
+        end
+
+        it "looks up the invitation" do
+          Invitation.should_receive(:find_by_token).with('blah').twice
+          get(:rpx_token)
+        end
+
+        it "sets @invitation_token" do
+          get(:rpx_token)
+          assigns(:invitation_token).should == 'blah'
+        end
+
+        context "when there's no data[:email]" do
+          context "when an invitation was found" do
+            it "sets a new user instance with the invitation mail" do
+              this_data = user_data
+              this_data.delete(:email)
+              RPXNow.stub(:user_data).and_return(this_data)
+              mock_invitation = mock()
+              mock_invitation.stub(:new_mail=)
+              mock_invitation.stub(:save)
+              mock_invitation.stub(:accept)
+              mock_invitation.stub(:mail).and_return('stuff@stuff.com')
+              Invitation.stub(:find_by_token).and_return(mock_invitation)
+              this_data = { :firstname => 'steve', :mail => 'stuff@stuff.com', :identifier => 'something' }
+              user = Factory.build(:user, this_data)
+              User.should_receive(:new).with(this_data).and_return(user)
+              get(:rpx_token)
+            end
+          end
+
+          context "when an invitation was not found" do
+            it "sets the mail to a random mail" do
+              this_data = user_data
+              this_data.delete(:email)
+              RPXNow.stub(:user_data).and_return(this_data)
+              get(:rpx_token)
+              assigns(:user).mail.should =~ /noemail@bettermeans\.com/
+            end
+          end
+        end
+      end
+
+      context "when a user is not found for the identifier" do
+        it "tries to look up the user by mail" do
+          User.stub(:find_by_identifier).and_return(nil)
+          User.should_receive(:find_by_mail)
+          get(:rpx_token)
+        end
+
+        context "if the user is found" do
+          it "sets the identifier for that user" do
+            this_data = { :firstname => 'steve', :mail => 'stuff@stuff.com', :identifier => 'stuff' }
+            user = Factory.build(:user, this_data)
+            User.stub(:find_by_identifier).and_return(nil)
+            User.should_receive(:find_by_mail).and_return(user)
+            get(:rpx_token)
+            user.reload.identifier.should == 'something'
+          end
+        end
+
+        context "if the user is not found" do
+          context "if RPX provides a name" do
+            it "initializes a user with firstname set to the given name" do
+              get(:rpx_token)
+              assigns(:user).firstname.should == 'steve'
+            end
+          end
+
+          context "if RPX does not provide a name" do
+            it "initializes a user with firstname set to the username" do
+              this_data = user_data
+              this_data.delete(:name)
+              RPXNow.stub(:user_data).and_return(this_data)
+              get(:rpx_token)
+              assigns(:user).firstname.should == 'stevinator'
+            end
+          end
+
+          context "if RPX provides an email" do
+            it "initializes a user with mail set to the email" do
+              get(:rpx_token)
+              assigns(:user).mail.should == 'wah@wah.com'
+            end
+          end
+
+          context "if RPX does not provide an email" do
+            before :each do
+              this_data = user_data
+              this_data.delete(:email)
+              RPXNow.stub(:user_data).and_return(this_data)
+            end
+
+            context "if an invitation was found" do
+              it "initializes a user with mail set to the invitation_mail" do
+                mock_invitation = mock()
+                mock_invitation.stub(:new_mail=)
+                mock_invitation.stub(:save)
+                mock_invitation.stub(:accept)
+                mock_invitation.stub(:mail).and_return('stuff@stuff.com')
+                Invitation.stub(:find_by_token).and_return(mock_invitation)
+                session[:invitation_token] = 'stuff'
+                get(:rpx_token)
+                assigns(:user).mail.should == 'stuff@stuff.com'
+              end
+            end
+
+            context "if an invitation was not found" do
+              it "initializes a user with mail set to a random email" do
+                get(:rpx_token)
+                assigns(:user).mail.should =~ /_noemail@bettermeans.com/
+              end
+            end
+          end
+
+          it "sets initializes a new user with the identifier given by RPX" do
+            get(:rpx_token)
+            assigns(:user).identifier.should == 'something'
+          end
+        end
+      end
+    end
   end
 
 end
