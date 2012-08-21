@@ -41,5 +41,7 @@ group :development do
   gem 'guard-spork'
   gem 'cucumber-rails', '0.3.2'
   gem 'guard-cucumber'
-  gem 'reek'
+  #gem 'reek'
+  gem 'ruby2ruby', '1.2.2'
+  gem 'heckle'
 end

@@ -34,6 +34,11 @@ describe AccountController do
     end
 
     context "when request is a GET" do
+      before :each do
+        Setting.stub(:openid?).and_return(true)
+        controller.stub(:using_open_id?).and_return(true)
+      end
+
       it "logs out the user" do
         user = Factory.create(:user)
         User.current = user
