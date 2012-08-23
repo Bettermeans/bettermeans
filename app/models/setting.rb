@@ -177,17 +177,23 @@ class Setting < ActiveRecord::Base
   @cached_settings = {}
   @cached_cleared_on = Time.now
 
+  before_save :serialize_value
+
   def value
-    v = read_attribute(:value)
+    @value ||= read_attribute(:value)
     # Unserialize serialized settings
-    v = YAML::load(v) if @@available_settings[name]['serialized'] && v.is_a?(String)
-    v = v.to_sym if @@available_settings[name]['format'] == 'symbol' && !v.blank?
-    v
+    @value = YAML::load(@value) if @@available_settings[name]['serialized'] && @value.is_a?(String)
+    @value = @value.to_sym if @@available_settings[name]['format'] == 'symbol' && !@value.blank?
+    @value
   end
 
-  def value=(v)
-    v = v.to_yaml if v  && @@available_settings[name]['serialized']
-    write_attribute(:value, v.to_s)
+  def value=(value)
+    @value = value
+  end
+
+  def serialize_value
+    @value = @value.to_yaml if @value && @@available_settings[name]['serialized']
+    write_attribute(:value, @value.to_s)
   end
 
   # Returns the value of the setting named name
