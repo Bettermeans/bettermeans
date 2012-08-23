@@ -70,6 +70,7 @@ class AccountController < ApplicationController
         # @user.hashed_password = "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" #just testing
         unless @user.save
           session[:debug_user] = @user.inspect
+          # TODO: don't think we need the `if data` here, as it's checked at the top of the method
           session[:debug_data] = data.inspect if data
           raise "Couldn't create new account"
         end
