@@ -22,6 +22,7 @@ Spork.prefork do
 
     config.before :suite do
       FakeWeb.allow_net_connect = false
+      load File.dirname(__FILE__) + '/../db/seeds.rb'
     end
 
     config.after :suite do
