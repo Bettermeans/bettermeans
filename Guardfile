@@ -9,7 +9,7 @@ guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAIL
   watch('Gemfile')
   watch('Gemfile.lock')
   watch('spec/spec_helper.rb') { :rspec }
-  watch('test/test_helper.rb') { :test_unit }
+  watch('spec/factories.rb')
   watch(%r{features/support/}) { :cucumber }
   watch(%r{^app/models/.+\.rb$})
   watch(%r{^app/controllers/.+\.rb$})
