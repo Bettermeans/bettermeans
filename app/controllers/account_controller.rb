@@ -41,37 +41,33 @@ class AccountController < ApplicationController
 
     if @user = User.find_by_identifier(data[:identifier])
       invitation.update_attributes(:new_mail => @user.mail) if invitation
-    else
-      @user = User.find_by_mail(data[:email]) if data[:email]
 
-      if @user
-        @user.identifier = data[:identifier]
-        @user.save
-      else #couldn't find user, we create one
-        name = data[:name] || data[:username]
-        mail = data[:email] || invitation_mail || "#{(0...8).map{65.+(rand(25)).chr}.join}_noemail@bettermeans.com" #twitter accounts don't give email so we generate a random one
-        newdata = {:firstname => name, :mail => mail, :identifier => data[:identifier]}
-        @user = User.new(newdata)
+    elsif data[:email] && @user = User.find_by_mail(data[:email])
+      @user.update_attributes(:identifier => data[:identifier])
 
-        #try and find a good login
-        login = data[:username].gsub(/ /,"_").gsub(/'|\"|<|>/,"_")
-        if !User.find_by_login(login)
-          @user.login = login
-        elsif !User.find_by_login(name.gsub(/ /,"_"))
-          @user.login = name.gsub(/ /,"_")
-        else
-          @user.login = data[:email]
-        end
+    else #couldn't find user, we create one
+      name = data[:name] || data[:username]
+      mail = data[:email] || invitation_mail || random_email # twitter accounts don't give email so we generate a random one
+      @user = User.new(:firstname => name,
+                       :mail => mail,
+                       :identifier => data[:identifier])
 
-        invitation.update_attributes(:new_mail => @user.mail) if invitation
+      #try and find a good login
+      login = data[:username].gsub(/ /,"_").gsub(/'|\"|<|>/,"_")
+      if !User.find_by_login(login)
+        @user.login = login
+      elsif !User.find_by_login(name.gsub(/ /,"_"))
+        @user.login = name.gsub(/ /,"_")
+      else
+        @user.login = data[:email]
+      end
 
-        # @user.hashed_password = "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" #just testing
-        unless @user.save
-          session[:debug_user] = @user.inspect
-          # TODO: don't think we need the `if data` here, as it's checked at the top of the method
-          session[:debug_data] = data.inspect if data
-          raise "Couldn't create new account"
-        end
+      invitation.update_attributes(:new_mail => @user.mail) if invitation
+
+      unless @user.save
+        session[:debug_user] = @user.inspect
+        session[:debug_data] = data.inspect
+        raise "Couldn't create new account"
       end
     end
 
@@ -375,5 +371,9 @@ class AccountController < ApplicationController
   def account_pending
     flash.now[:notice] = l(:notice_account_pending)
     render :action => 'login', :layout => 'static'
+  end
+
+  def random_email
+    "#{(0...8).map{65.+(rand(25)).chr}.join}_noemail@bettermeans.com"
   end
 end
