@@ -37,13 +37,8 @@ class AccountController < ApplicationController
   # not found: nil (can happen with invalid tokens)
   def rpx_token
     find_user_by_identifier || find_user_by_mail || create_new_user
-
-    unless @user.active?
-      @user.reactivate
-      msg = l(:notice_account_reactivated)
-    end
-
-    successful_authentication(@user, @invitation_token, msg)
+    message = reactivate_user
+    successful_authentication(@user, @invitation_token, message)
   end
 
   # Log out current user and redirect to welcome page
@@ -370,39 +365,55 @@ class AccountController < ApplicationController
   def find_user_by_identifier
     if @user = User.find_by_identifier(data[:identifier])
       update_invitation
-      return true
+      true
     end
-    nil
   end
 
   def find_user_by_mail
     if data[:email] && @user = User.find_by_mail(data[:email])
       @user.update_attributes(:identifier => data[:identifier])
-      return true
+      true
     end
-    nil
   end
 
   def create_new_user
-    name = data[:name] || data[:username]
-    # twitter accounts don't give email so we generate a random one
-    # TODO: get a real email from the user, or don't require one
-    mail = data[:email] || invitation_mail || random_email
-
     @user = User.new(:firstname => name,
                       :mail => mail,
                       :identifier => data[:identifier])
 
-    # BUGBUG: if data[:email] is blank this won't fail based on validations
-    # should probably use mail from up above
-    @user.login = User.find_available_login([data[:username], name]) || data[:email]
-
+    @user.login = available_login
     update_invitation
+    save_user_or_raise
+  end
 
+  def reactivate_user
+    unless @user.active?
+      @user.reactivate
+      return l(:notice_account_reactivated)
+    end
+  end
+
+  def save_user_or_raise
     unless @user.save
       session[:debug_user] = @user.inspect
       session[:debug_data] = data.inspect
       raise "Couldn't create new account"
     end
+  end
+
+  def name
+    data[:name] || data[:username]
+  end
+
+  def mail
+    # twitter accounts don't give email so we generate a random one
+    # TODO: get a real email from the user, or don't require one
+    data[:email] || invitation_mail || random_email
+  end
+
+  def available_login
+    # BUGBUG: if data[:email] is nil this won't fail based on validations
+    # should probably use mail from up above
+    User.find_available_login([data[:username], name]) || data[:email]
   end
 end
