@@ -27,7 +27,6 @@ group :test do
   gem 'pickle', "0.3.4"
   gem 'factory_girl', "1.3.3"
   gem 'object_daddy', "0.4.3"
-  gem 'mocha', "0.9.12"
   gem 'capybara-webkit'
   gem 'fakeweb'
 end
