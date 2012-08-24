@@ -50,22 +50,15 @@ class AccountController < ApplicationController
     elsif data[:email] && @user = User.find_by_mail(data[:email])
       @user.update_attributes(:identifier => data[:identifier])
 
-    else #couldn't find user, we create one
+    else # couldn't find user, we create one
       name = data[:name] || data[:username]
-      mail = data[:email] || invitation_mail || random_email # twitter accounts don't give email so we generate a random one
+      # twitter accounts don't give email so we generate a random one
+      mail = data[:email] || invitation_mail || random_email
       @user = User.new(:firstname => name,
                        :mail => mail,
                        :identifier => data[:identifier])
 
-      #try and find a good login
-      login = data[:username].gsub(/ /,"_").gsub(/'|\"|<|>/,"_")
-      if !User.find_by_login(login)
-        @user.login = login
-      elsif !User.find_by_login(name.gsub(/ /,"_"))
-        @user.login = name.gsub(/ /,"_")
-      else
-        @user.login = data[:email]
-      end
+      @user.login = User.find_free_login([data[:username], name]) || data[:email]
 
       invitation.update_attributes(:new_mail => @user.mail) if invitation
 
@@ -80,6 +73,7 @@ class AccountController < ApplicationController
       @user.reactivate
       msg = l(:notice_account_reactivated)
     end
+
     successful_authentication(@user,@invitation_token,msg)
   end
 

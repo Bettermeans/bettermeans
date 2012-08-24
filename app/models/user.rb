@@ -51,15 +51,16 @@ class User < ActiveRecord::Base
   has_many :help_sections
 
   # Active non-anonymous users scope
+  # TODO: change this to use array interpolation syntax
   named_scope :active, :conditions => "#{User.table_name}.status = #{STATUS_ACTIVE}"
 
+  # TODO: double check that all the columns in the :order below are indexed
   named_scope :like, lambda {|q|
     s = "%#{q.to_s.strip.downcase}%"
     {:conditions => ["LOWER(login) LIKE :s OR LOWER(firstname) LIKE :s OR LOWER(lastname) LIKE :s OR LOWER(mail) LIKE :s", {:s => s}],
      :order => 'type, login, lastname, firstname, mail'
     }
   }
-
 
   has_private_messages :class_name => "Mail"
 
@@ -73,7 +74,7 @@ class User < ActiveRecord::Base
   validates_presence_of :login, :firstname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
   validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }, :case_sensitive => false
-  # Login must contain lettres, numbers, underscores only
+  # Login must contain letters, numbers, underscores only
   validates_format_of :login, :with => /^[a-z0-9_@\.]*$/i
   validates_length_of :login, :maximum => 30
   validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i
@@ -740,6 +741,14 @@ class User < ActiveRecord::Base
     Issue.find(:all, :conditions => "id in (#{item_ids})",
               :include => [:project, :tracker ],
               :order => "#{Issue.table_name}.updated_at DESC")
+  end
+
+  def self.find_free_login(array)
+    array.each do |string|
+      string = string.gsub(/ /,"_").gsub(/'|\"|<|>/,"_")
+      return string unless find_by_login(string)
+    end
+    nil
   end
 
   protected
