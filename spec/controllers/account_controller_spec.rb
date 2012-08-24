@@ -230,7 +230,6 @@ describe AccountController do
 
             context "if a user already exists for the *really* clean version" do
               it "assigns a cleaned up version of the name as their login" do
-                #User.should_receive(:find_by_login).with("_____stuff").and_return(true)
                 User.stub(:find_by_login).and_return(true)
                 User.should_receive(:find_by_login).with("what_what").and_return(false)
                 get(:rpx_token)
@@ -239,7 +238,7 @@ describe AccountController do
             end
 
             context "if a user already exists for both versions of the login" do
-              it "assigns the users email as their login" do
+              it "assigns the user's email as their login" do
                 User.stub(:find_by_login).and_return(true, true)
                 get(:rpx_token)
                 assigns(:user).login.should == "wah@wah.com"
