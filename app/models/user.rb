@@ -746,6 +746,7 @@ class User < ActiveRecord::Base
   def self.find_free_login(array)
     array.each do |string|
       string = string.gsub(/ /,"_").gsub(/'|\"|<|>/,"_")
+      # TODO: this can probably be optimized into a single database query
       return string unless find_by_login(string)
     end
     nil
