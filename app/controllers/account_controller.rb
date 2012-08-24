@@ -54,11 +54,14 @@ class AccountController < ApplicationController
       name = data[:name] || data[:username]
       # twitter accounts don't give email so we generate a random one
       mail = data[:email] || invitation_mail || random_email
+
       @user = User.new(:firstname => name,
                        :mail => mail,
                        :identifier => data[:identifier])
 
-      @user.login = User.find_free_login([data[:username], name]) || data[:email]
+      # BUGBUG: if data[:email] is blank this won't fail based on validations
+      # should probably use mail from up above
+      @user.login = User.find_available_login([data[:username], name]) || data[:email]
 
       invitation.update_attributes(:new_mail => @user.mail) if invitation
 
@@ -74,9 +77,8 @@ class AccountController < ApplicationController
       msg = l(:notice_account_reactivated)
     end
 
-    successful_authentication(@user,@invitation_token,msg)
+    successful_authentication(@user, @invitation_token, msg)
   end
-
 
   # Log out current user and redirect to welcome page
   def logout
