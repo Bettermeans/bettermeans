@@ -133,6 +133,7 @@ describe AccountController do
               this_data = user_data
               this_data.delete(:email)
               RPXNow.stub(:user_data).and_return(this_data)
+              controller.should_receive(:rand).exactly(8).times.with(25).and_return(5)
               get(:rpx_token)
               assigns(:user).mail.should =~ /\w+_noemail@bettermeans\.com/
             end
@@ -215,13 +216,13 @@ describe AccountController do
 
           context "when cleaning up the username" do
             before :each do
-              this_data = user_data.merge(:username => "'\"<> stuff", :name => 'what what')
+              this_data = user_data.merge(:username => "'\"<> stuff", :name => "what what")
               RPXNow.stub(:user_data).and_return(this_data)
             end
 
             context "if a user does not exist for the *really* clean version" do
               it "assigns the *really* clean username as the user's login" do
-                User.stub(:find_by_login).and_return(false)
+                User.should_receive(:find_by_login).with("_____stuff").and_return(false)
                 get(:rpx_token)
                 assigns(:user).login.should == "_____stuff"
               end
@@ -229,7 +230,9 @@ describe AccountController do
 
             context "if a user already exists for the *really* clean version" do
               it "assigns a cleaned up version of the name as their login" do
-                User.stub(:find_by_login).and_return(true, false)
+                #User.should_receive(:find_by_login).with("_____stuff").and_return(true)
+                User.stub(:find_by_login).and_return(true)
+                User.should_receive(:find_by_login).with("what_what").and_return(false)
                 get(:rpx_token)
                 assigns(:user).login.should == "what_what"
               end
@@ -247,7 +250,7 @@ describe AccountController do
           context "when the invitation exists" do
             it "assigns invitation.new_mail as the user mail" do
               session[:invitation_token] = 'blah'
-              invitation = Factory(:invitation)
+              invitation = Factory.create(:invitation)
               Invitation.stub(:find_by_token).and_return(invitation)
               controller.stub(:successful_authentication)
               get(:rpx_token)
@@ -283,6 +286,22 @@ describe AccountController do
                 get(:rpx_token)
               }.to raise_error("Couldn't create new account")
             end
+          end
+        end
+      end
+
+      context "when a user is found by the identifier" do
+        context "when the invitation exists" do
+          it "assigns invitation.new_mail as the user mail" do
+            user = Factory.create(:user, :identifier => 'stuff')
+            this_data = user_data.merge(:identifier => 'stuff')
+            RPXNow.stub(:user_data).and_return(this_data)
+            session[:invitation_token] = 'blah'
+            invitation = Factory(:invitation)
+            Invitation.stub(:find_by_token).and_return(invitation)
+            controller.stub(:successful_authentication)
+            get(:rpx_token)
+            invitation.reload.new_mail.should == assigns(:user).mail
           end
         end
       end
