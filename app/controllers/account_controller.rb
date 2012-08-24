@@ -39,8 +39,9 @@ class AccountController < ApplicationController
       @invitation_token = session[:invitation_token]
     end
 
-    @user = User.find_by_identifier(data[:identifier])
-    if !@user
+    if @user = User.find_by_identifier(data[:identifier])
+      invitation.update_attributes(:new_mail => @user.mail) if invitation
+    else
       @user = User.find_by_mail(data[:email]) if data[:email]
 
       if @user
@@ -62,10 +63,7 @@ class AccountController < ApplicationController
           @user.login = data[:email]
         end
 
-        if invitation
-          invitation.new_mail = @user.mail
-          invitation.save
-        end
+        invitation.update_attributes(:new_mail => @user.mail) if invitation
 
         # @user.hashed_password = "5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8" #just testing
         unless @user.save
@@ -74,11 +72,6 @@ class AccountController < ApplicationController
           session[:debug_data] = data.inspect if data
           raise "Couldn't create new account"
         end
-      end
-    else
-      if invitation
-        invitation.new_mail = @user.mail
-        invitation.save
       end
     end
 
