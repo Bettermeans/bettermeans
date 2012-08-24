@@ -66,6 +66,7 @@ class User < ActiveRecord::Base
   attr_accessor :password, :password_confirmation
   attr_accessor :last_before_login_on
   # Prevents unauthorized assignments
+  # TODO: password, password_confirmation should be mass assignable, and maybe login
   attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
 
   validates_presence_of :login, :firstname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
