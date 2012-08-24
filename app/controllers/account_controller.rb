@@ -28,8 +28,13 @@ class AccountController < ApplicationController
   end
 
   # user_data
-  # found: {:name=>'John Doe', :username => 'john', :email=>'john@doe.com', :identifier=>'blug.google.com/openid/dsdfsdfs3f3'}
-  # not found: nil (can happen with e.g. invalid tokens)
+  # found: {
+  #   :name => 'John Doe',
+  #   :username => 'john',
+  #   :email => 'john@doe.com',
+  #   :identifier => 'blug.google.com/openid/dsdfsdfs3f3'
+  # }
+  # not found: nil (can happen with invalid tokens)
   def rpx_token
     raise "hackers?" unless data = RPXNow.user_data(params[:token])
 
