@@ -6,6 +6,8 @@ require "digest/sha1"
 
 class User < ActiveRecord::Base
 
+  # TODO: change `mail` to `email`
+
   # Account statuses
   STATUS_ANONYMOUS  = 0
   STATUS_ACTIVE     = 1
@@ -381,13 +383,16 @@ class User < ActiveRecord::Base
   end
 
   def reactivate
+    # TODO: don't use update_attribute, as it bypasses validations
     self.update_attribute(:status, User::STATUS_ACTIVE)
     newmail = []
+    # TODO: get rid of this logic
     self.mail.split('.').each do |s|
       break if s == 'canceled'
       newmail.push(s)
     end
     newmail = newmail.join(".")
+    # TODO: don't use update_attribute, as it bypasses validations
     self.update_attribute(:mail, newmail) if self.mail != newmail
   end
 
@@ -396,11 +401,13 @@ class User < ActiveRecord::Base
   end
 
   def lock
+    # TODO: don't use update_attribute, as it bypasses validations
     self.update_attribute(:status, STATUS_LOCKED)
   end
 
   def cancel
     self.update_attribute(:status, STATUS_CANCELED)
+    # TODO: get rid of this, not sure why we change the email
     self.update_attribute(:mail, self.mail + ".canceled.#{rand(1000)}")
   end
 
@@ -743,7 +750,7 @@ class User < ActiveRecord::Base
               :order => "#{Issue.table_name}.updated_at DESC")
   end
 
-  def self.find_free_login(array)
+  def self.find_available_login(array)
     array.each do |string|
       string = string.gsub(/ /,"_").gsub(/'|\"|<|>/,"_")
       # TODO: this can probably be optimized into a single database query
@@ -765,6 +772,7 @@ class User < ActiveRecord::Base
 
   # Return password digest
   def self.hash_password(clear_password)
+    # TODO: somehow switch this out, SHA is not recommended for passwords
     Digest::SHA1.hexdigest(clear_password || "")
   end
 
