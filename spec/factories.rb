@@ -13,7 +13,10 @@ Factory.define :user do |f|
   f.sequence(:mail) { |n| "username#{n}@testing.com" }
   f.sequence(:firstname) { |n| "first#{n}" }
   f.sequence(:lastname) { |n| "last#{n}" }
+end
 
+Factory.define :invitation do |f|
+  f.association :project, :factory => :project
 end
 
 Factory.define :tracker do |f|
