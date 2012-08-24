@@ -36,16 +36,8 @@ class AccountController < ApplicationController
   # }
   # not found: nil (can happen with invalid tokens)
   def rpx_token
-    raise "hackers?" unless data = RPXNow.user_data(params[:token])
-
-    if session[:invitation_token]
-      invitation = Invitation.find_by_token(session[:invitation_token])
-      invitation_mail = invitation.mail if invitation
-      @invitation_token = session[:invitation_token]
-    end
-
     if @user = User.find_by_identifier(data[:identifier])
-      invitation.update_attributes(:new_mail => @user.mail) if invitation
+      update_invitation
 
     elsif data[:email] && @user = User.find_by_mail(data[:email])
       @user.update_attributes(:identifier => data[:identifier])
@@ -53,6 +45,7 @@ class AccountController < ApplicationController
     else # couldn't find user, we create one
       name = data[:name] || data[:username]
       # twitter accounts don't give email so we generate a random one
+      # TODO: get a real email from the user, or don't require one
       mail = data[:email] || invitation_mail || random_email
 
       @user = User.new(:firstname => name,
@@ -63,7 +56,7 @@ class AccountController < ApplicationController
       # should probably use mail from up above
       @user.login = User.find_available_login([data[:username], name]) || data[:email]
 
-      invitation.update_attributes(:new_mail => @user.mail) if invitation
+      update_invitation
 
       unless @user.save
         session[:debug_user] = @user.inspect
@@ -376,5 +369,28 @@ class AccountController < ApplicationController
 
   def random_email
     "#{(0...8).map{65.+(rand(25)).chr}.join}_noemail@bettermeans.com"
+  end
+
+  def data
+    @data ||= RPXNow.user_data(params[:token])
+    raise "hackers?" unless @data
+    @data
+  end
+
+  def invitation
+    return @invitation if defined? @invitation
+    if session[:invitation_token]
+      @invitation = Invitation.find_by_token(session[:invitation_token])
+      @invitation_token = session[:invitation_token]
+    end
+    @invitation
+  end
+
+  def invitation_mail
+    invitation.mail if invitation
+  end
+
+  def update_invitation
+    invitation.update_attributes(:new_mail => @user.mail) if invitation
   end
 end
