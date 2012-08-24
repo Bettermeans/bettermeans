@@ -27,14 +27,6 @@ class AccountController < ApplicationController
     end
   end
 
-  # user_data
-  # found: {
-  #   :name => 'John Doe',
-  #   :username => 'john',
-  #   :email => 'john@doe.com',
-  #   :identifier => 'blug.google.com/openid/dsdfsdfs3f3'
-  # }
-  # not found: nil (can happen with invalid tokens)
   def rpx_token
     find_user_by_identifier || find_user_by_mail || create_new_user
     message = reactivate_user
