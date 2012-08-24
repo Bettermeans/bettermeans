@@ -794,14 +794,3 @@ class AnonymousUser < User
   def rss_key; nil end
 
 end
-
-
-
-
-
-
-
-
-
-
-
