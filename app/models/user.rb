@@ -69,6 +69,7 @@ class User < ActiveRecord::Base
   # TODO: password, password_confirmation should be mass assignable, and maybe login
   attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
 
+  # BUGBUG: seems to be some bug here where it allows a nil email
   validates_presence_of :login, :firstname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
   validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }, :case_sensitive => false
