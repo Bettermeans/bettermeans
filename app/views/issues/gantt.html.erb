@@ -222,7 +222,7 @@ end %>
 # Today red line (excluded from cache)
 #
 if Date.today >= @gantt.date_from and Date.today <= @gantt.date_to %>
-    <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_height + 1 %>px;left:<%= ((Date.today-@gantt.date_from+1)*zoom).floor()-1 %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
+    <div style="position: absolute;height:<%= g_height %>px;top:<%= headers_height + 1 %>px;left:<%= ((Date.today-@gantt.date_from+1)*zoom).floor-1 %>px;width:10px;border-left: 1px dashed red;">&nbsp;</div>
 <% end %>
 
 </div>

@@ -117,7 +117,7 @@ class Motion < ActiveRecord::Base
     self.binding_level = Setting::MOTIONS[self.variation]["Binding"]
     self.visibility_level = Setting::MOTIONS[self.variation]["Visible"]
     self.motion_type = Setting::MOTIONS[self.variation]["Type"]
-    self.ends_on = Time.new().advance :days => Setting::MOTIONS[self.variation]["Days"].to_f
+    self.ends_on = Time.new.advance :days => Setting::MOTIONS[self.variation]["Days"].to_f
     self.state = STATE_ACTIVE
     self.author = User.sysadmin if self.author.nil?
     self.description = self.generate_description
