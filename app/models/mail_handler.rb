@@ -9,6 +9,10 @@ class MailHandler < ActiveRecord::Base
 
   attr_reader :email, :user
 
+  # BUGBUG: this initialize won't work consistently
+  # when extending from ActiveRecord initialize doesn't always get called
+  # http://blog.dalethatcher.com/2008/03/rails-dont-override-initialize-on.html
+  # better to make this an after_initialize
   def initialize(email, user,options = {})
     logger.info { "initializing mail handler" } if logger
     @@handler_options = options.dup

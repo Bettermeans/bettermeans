@@ -9,6 +9,10 @@ class UserPreference < ActiveRecord::Base
 
   DEFAULTS = {:no_self_notified=>true, :daily_digest=>true, :no_emails=>false,  :comments_sorting=>"asc", :active_only_jumps=>false}
 
+  # BUGBUG: this initialize won't work consistently
+  # when extending from ActiveRecord initialize doesn't always get called
+  # http://blog.dalethatcher.com/2008/03/rails-dont-override-initialize-on.html
+  # better to make this an after_initialize
   def initialize(attributes = nil)
     super
     self.others ||= DEFAULTS

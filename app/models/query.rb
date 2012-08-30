@@ -94,6 +94,9 @@ class Query < ActiveRecord::Base
   ]
   cattr_reader :available_columns
 
+  # BUGBUG: this initialize won't work consistently:
+  # http://blog.dalethatcher.com/2008/03/rails-dont-override-initialize-on.html
+  # better to make this an after_initialize
   def initialize(attributes = nil)
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
