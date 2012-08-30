@@ -733,7 +733,7 @@ class Project < ActiveRecord::Base
   end
 
   #highest priority for open items in this project
-  def highest_pri()
+  def highest_pri
     self.issues.maximum(:pri, :conditions => {:status_id => IssueStatus.open.id }) || -9999
   end
 

@@ -3,7 +3,7 @@ class EmailUpdatesController < ApplicationController
   ssl_required :all
 
   def new
-    @email_update = EmailUpdate.new()
+    @email_update = EmailUpdate.new
 
     respond_to do |format|
       format.html

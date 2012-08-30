@@ -1,5 +1,5 @@
 module MotionsHelper
-  def render_title_date()
+  def render_title_date
     end_date = @motion.ends_on
     if (!@motion.active?)
       logger.info { DateTime.now }

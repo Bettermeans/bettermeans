@@ -242,24 +242,24 @@ class User < ActiveRecord::Base
   end
 
   #detects if usage is way over, or trial has expired for a while, and locks out private workstreams belonging to user
-  def lock_workstreams()
+  def lock_workstreams
     if self.lock_workstreams?
       self.owned_projects.each {|p| p.lock unless p.is_public?}
     end
   end
 
-  def unlock_workstreams()
+  def unlock_workstreams
     unless self.lock_workstreams?
       self.owned_projects.each {|p| p.unlock unless p.is_public?}
     end
   end
 
-  def usage_over?()
+  def usage_over?
     self.project_storage_total > self.plan.storage_max || self.private_project_total > self.plan.private_workstream_max || self.private_contributor_total > self.plan.contributor_max
   end
 
   #detects if usage is over, and sets date of going over
-  def update_usage_over()
+  def update_usage_over
     is_over = self.usage_over?
 
     self.lock_workstreams if is_over
@@ -285,7 +285,7 @@ class User < ActiveRecord::Base
   end
 
   #detects if trial expired, and sets date of trial expiring
-  def update_trial_expiration()
+  def update_trial_expiration
     return if self.plan.free?
 
     if !self.trial_expires_on

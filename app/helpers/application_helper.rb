@@ -1392,7 +1392,7 @@ module ApplicationHelper
                             :class => 'icon icon-activate') if !credit.enabled
   end
 
-  def login_protocol()
+  def login_protocol
     if ENV['RAILS_ENV'] == "development"
       'http'
     else
