@@ -34,7 +34,7 @@ end
 group :development do
   gem 'sqlite3-ruby', :require => 'sqlite3'
   gem 'pg'
-  gem 'mysql2', :git => 'https://github.com/brianmario/mysql2.git', :ref => '0.2.x'
+  gem 'mysql2', '< 0.3'
   gem 'guard-rspec'
   gem 'spork', '0.8.5'
   gem 'guard-spork'
