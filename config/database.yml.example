@@ -15,12 +15,12 @@ development:
   password: tree
 
 test: &TEST
-    adapter: postgresql
-    database: bettermeans_test
-    host: localhost
-    min_messages: WARNING
-    username: postgres
-    password: tree
+  adapter: postgresql
+  database: bettermeans_test
+  host: localhost
+  min_messages: WARNING
+  username: postgres
+  password: tree
 
 test_pgsql:
   adapter: postgresql
