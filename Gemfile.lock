@@ -1,11 +1,4 @@
 GIT
-  remote: https://github.com/brianmario/mysql2.git
-  revision: 14accdf8d1bf557f652c19b870316094a7441334
-  ref: 0.2.x
-  specs:
-    mysql2 (0.2.18)
-
-GIT
   remote: https://github.com/crafterm/comma.git
   revision: 645109fd6ebc6a78912c54b5d16a81d6b7923379
   ref: rails2
@@ -101,6 +94,7 @@ GEM
       rb-inotify (~> 0.8.8)
     mime-types (1.19)
     multi_json (1.3.6)
+    mysql2 (0.2.18)
     nokogiri (1.5.5)
     object_daddy (0.4.3)
     pg (0.14.0)
@@ -191,7 +185,7 @@ DEPENDENCIES
   guard-rspec
   guard-spork
   heckle
-  mysql2!
+  mysql2 (< 0.3)
   object_daddy (= 0.4.3)
   pg
   pickle (= 0.3.4)
