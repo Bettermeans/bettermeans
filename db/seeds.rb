@@ -8,6 +8,8 @@ u.password = 'adminadmin'
 u.password_confirmation = 'adminadmin'
 u.login = 'admin'
 u.save
+# create anonymous user
+User.anonymous
 puts "Tracker..."
 Tracker.delete_all
 trackers = Tracker.create([
