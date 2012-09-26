@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   has_many :invitations
   has_many :activity_streams, :foreign_key => 'actor_id', :dependent => :delete_all
 
+  # TODO: re-order relations
   has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
   has_one :api_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='api'"
@@ -51,6 +52,7 @@ class User < ActiveRecord::Base
   has_many :credit_disributions
   has_many :reputations, :dependent => :delete_all
   has_many :help_sections
+  has_many :tokens
 
   # Active non-anonymous users scope
   # TODO: change this to use array interpolation syntax
@@ -759,6 +761,10 @@ class User < ActiveRecord::Base
     nil
   end
 
+  def delete_autologin_tokens
+    tokens.find_all_by_action('autologin').collect(&:delete)
+  end
+
   protected
 
   def validate
@@ -792,5 +798,6 @@ class AnonymousUser < User
   def mail; nil end
   def time_zone; nil end
   def rss_key; nil end
+  def delete_autologin_tokens; nil end
 
 end
