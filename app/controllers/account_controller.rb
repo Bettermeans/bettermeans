@@ -13,13 +13,9 @@ class AccountController < ApplicationController
 
   # Login request and validation
   def login
-    session[:invitation_token] = params[:invitation_token] || session[:invitation_token]
-    @invitation_token = session[:invitation_token]
+    set_invitation_token
     if request.get?
-      # Logout user
-      self.logged_user = nil
-      session[:invitation_token] = @invitation_token
-      render :layout => 'static'
+      logout_user
     elsif Setting.openid? && using_open_id?
       open_id_authenticate(params[:openid_url])
     else
@@ -407,5 +403,16 @@ class AccountController < ApplicationController
     # BUGBUG: if data[:email] is nil this won't fail based on validations
     # should probably use mail from up above
     User.find_available_login([data[:username], name]) || data[:email]
+  end
+
+  def logout_user
+    self.logged_user = nil
+    session[:invitation_token] = @invitation_token
+    render :layout => 'static'
+  end
+
+  def set_invitation_token
+    session[:invitation_token] = params[:invitation_token] || session[:invitation_token]
+    @invitation_token = session[:invitation_token]
   end
 end
