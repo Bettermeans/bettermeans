@@ -8,9 +8,10 @@ u.password = 'adminadmin'
 u.password_confirmation = 'adminadmin'
 u.login = 'admin'
 u.save
+
 # create anonymous user
 User.anonymous
-puts "Tracker..."
+
 Tracker.delete_all
 trackers = Tracker.create([
   {
@@ -58,7 +59,6 @@ trackers = Tracker.create([
   }
 ])
 
-puts "IssueStatus..."
 IssueStatus.delete_all
 issue_statuses = IssueStatus.create([
   {
@@ -124,7 +124,6 @@ issue_statuses = IssueStatus.create([
   }
 ])
 
-puts "Enumeration..."
 Enumeration.delete_all
 enumerations = Enumeration.create([
   {
@@ -139,7 +138,6 @@ enumerations = Enumeration.create([
   }
 ])
 
-puts "Role..."
 Role.delete_all
 roles = Role.create([
   {
@@ -437,7 +435,6 @@ roles = Role.create([
   }
 ])
 
-puts "Plan..."
 Plan.delete_all
 plans = Plan.create([
   {
@@ -498,7 +495,6 @@ plans = Plan.create([
   }
 ])
 
-puts "Setting..."
 Setting.delete_all
 settings = Setting.create([
   {
