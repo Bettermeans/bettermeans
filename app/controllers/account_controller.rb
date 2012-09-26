@@ -1,14 +1,11 @@
-# BetterMeans - Work 2.0
-# Copyright (C) 2006-2011  See readme for details and license
-#
-
 # TODO: rename this to something like SessionsController after integration specs are done
 class AccountController < ApplicationController
 
-  skip_before_filter :verify_authenticity_token, :only => [:rpx_token, :register] # RPX does not pass Rails form tokens...
+  # RPX does not pass Rails form tokens...
+  skip_before_filter :verify_authenticity_token, :only => [ :rpx_token, :register ]
 
-  # prevents login action to be filtered by check_if_login_required application scope filter
-  skip_before_filter :check_if_login_required, :except => [:cancel]
+  # prevents login action from being filtered by check_if_login_required application scope filter
+  skip_before_filter :check_if_login_required, :except => [ :cancel ]
   ssl_required :all
 
   # Login request and validation
@@ -16,7 +13,9 @@ class AccountController < ApplicationController
     set_invitation_token
     if request.get?
       logout_user
-    elsif Setting.openid? && using_open_id?
+      session[:invitation_token] = @invitation_token
+      render :layout => 'static'
+    elsif open_id_authenticate?
       open_id_authenticate(params[:openid_url])
     else
       password_authentication(@invitation_token)
@@ -32,8 +31,8 @@ class AccountController < ApplicationController
   # Log out current user and redirect to welcome page
   def logout
     cookies.delete :autologin
-    Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin']) if User.current.logged?
-    self.logged_user = nil
+    current_user.delete_autologin_tokens
+    logout_user
     redirect_to home_url
   end
 
@@ -407,12 +406,14 @@ class AccountController < ApplicationController
 
   def logout_user
     self.logged_user = nil
-    session[:invitation_token] = @invitation_token
-    render :layout => 'static'
   end
 
   def set_invitation_token
     session[:invitation_token] = params[:invitation_token] || session[:invitation_token]
     @invitation_token = session[:invitation_token]
+  end
+
+  def open_id_authenticate?
+    Setting.openid? && using_open_id?
   end
 end
