@@ -458,17 +458,31 @@ describe AccountController do
 
       context "if the request is a POST" do
         context "when the mail is invalid" do
-          it "flashes an error message" do
+          before :each do
             post(:lost_password, :mail => 'bad_mail')
+          end
+
+          it "flashes an error message" do
             response.session[:flash][:error].should =~ /unknown/i
+          end
+
+          it "renders the lost_password template" do
+            response.should render_template('lost_password')
           end
         end
 
         context "when the user uses an external auth source" do
-          it "flashes an error message" do
+          before :each do
             user.update_attribute(:auth_source_id, 5)
             post(:lost_password, :mail => user.mail)
+          end
+
+          it "flashes an error message" do
             response.session[:flash][:error].should =~ /impossible to change/i
+          end
+
+          it "renders the lost_password template" do
+            response.should render_template('lost_password')
           end
         end
 
