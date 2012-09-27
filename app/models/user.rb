@@ -72,6 +72,7 @@ class User < ActiveRecord::Base
   attr_accessor :last_before_login_on
   # Prevents unauthorized assignments
   # TODO: password, password_confirmation should be mass assignable, and maybe login
+  # this would be better as attr_accessor
   attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
 
   # BUGBUG: seems to be some bug here where it allows a nil email
