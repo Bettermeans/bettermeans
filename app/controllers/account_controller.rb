@@ -48,7 +48,6 @@ class AccountController < ApplicationController
     elsif request.post?
       return unless user = valid_user
       # create a new token for password recovery
-      #token = Token.new(:user => user, :action => "trash")
       token = Token.new(:user => user, :action => "recovery")
       if token.save
         Mailer.send_later(:deliver_lost_password,token)
