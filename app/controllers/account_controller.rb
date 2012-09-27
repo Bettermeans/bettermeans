@@ -46,11 +46,7 @@ class AccountController < ApplicationController
       return if request.post? && update_password
       render :template => "account/password_recovery"
     elsif request.post?
-      user = User.find_by_mail(params[:mail])
-      # user not found in db
-      (flash.now[:error] = l(:notice_account_unknown_email); return) unless user
-      # user uses an external authentification
-      (flash.now[:error] = l(:notice_can_t_change_password); return) if user.auth_source_id
+      return unless user = valid_user
       # create a new token for password recovery
       #token = Token.new(:user => user, :action => "trash")
       token = Token.new(:user => user, :action => "recovery")
@@ -417,5 +413,14 @@ class AccountController < ApplicationController
       render :action => 'login', :layout => 'static'
       true
     end
+  end
+
+  def valid_user
+    user = User.find_by_mail(params[:mail])
+    # user not found in db
+    (flash.now[:error] = l(:notice_account_unknown_email); return) unless user
+    # user uses an external authentification
+    (flash.now[:error] = l(:notice_can_t_change_password); return) if user.auth_source_id
+    user
   end
 end
