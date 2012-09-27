@@ -47,3 +47,8 @@ Factory.define :issue do |f|
   f.association :status, :factory => :issue_status
   f.association :priority, :factory => :issue_priority
 end
+
+Factory.define :token do |f|
+  f.association :user
+  f.action :autologin
+end
