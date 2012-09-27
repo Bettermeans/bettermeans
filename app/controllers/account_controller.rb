@@ -43,9 +43,7 @@ class AccountController < ApplicationController
       @token = Token.find_by_action_and_value("recovery", params[:token])
       redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
-      if request.post?
-        return if update_password
-      end
+      return if request.post? && update_password
       render :template => "account/password_recovery"
     elsif request.post?
       user = User.find_by_mail(params[:mail])
