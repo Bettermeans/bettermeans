@@ -47,7 +47,7 @@ class AccountController < ApplicationController
       # create a new token for password recovery
       token = Token.new(:user => user, :action => "recovery")
       if token.save
-        Mailer.send_later(:deliver_lost_password,token)
+        Mailer.send_later(:deliver_lost_password, token)
         flash.now[:success] = l(:notice_account_lost_email_sent)
         render :action => 'login', :layout => 'static'
       end
