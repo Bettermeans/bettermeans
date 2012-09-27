@@ -44,6 +44,7 @@ class AccountController < ApplicationController
       redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
+        # BUGBUG: password confirmation isn't validated when nil
         @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
         if @user.save
           @token.destroy
@@ -53,6 +54,7 @@ class AccountController < ApplicationController
         end
       end
       render :template => "account/password_recovery"
+      # TODO: don't think this return is necessary
       return
     else
       if request.post?
@@ -62,11 +64,13 @@ class AccountController < ApplicationController
         # user uses an external authentification
         (flash.now[:error] = l(:notice_can_t_change_password); return) if user.auth_source_id
         # create a new token for password recovery
+        #token = Token.new(:user => user, :action => "trash")
         token = Token.new(:user => user, :action => "recovery")
         if token.save
           Mailer.send_later(:deliver_lost_password,token)
           flash.now[:success] = l(:notice_account_lost_email_sent)
           render :action => 'login', :layout => 'static'
+          # TODO: don't think this return is necessary
           return
         end
       end
