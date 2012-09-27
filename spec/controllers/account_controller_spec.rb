@@ -401,7 +401,7 @@ describe AccountController do
         end
       end
 
-      context "if the request is a post" do
+      context "if the request is a POST" do
         context "if the user is valid" do
           before :each do
             post(:lost_password, :token => token.value,
@@ -431,9 +431,18 @@ describe AccountController do
         end
 
         context "if the user is not valid" do
+          before :each do
+            post(:lost_password, :token => token.value,
+                                 :new_password => 'new_password',
+                                 :new_password_confirmation => 'bad_password')
+          end
+
           it "does not change the user" do
-            post(:lost_password, :token => token.value)
             User.try_to_login(user.login, 'new_password').should_not be
+          end
+
+          it "renders the password_recovery template" do
+            response.should render_template('password_recovery')
           end
         end
       end
@@ -447,7 +456,7 @@ describe AccountController do
     context "when there is no params[:token]" do
       let(:user) { Factory.create(:user) }
 
-      context "if the request is a post" do
+      context "if the request is a POST" do
         context "when the mail is invalid" do
           it "flashes an error message" do
             post(:lost_password, :mail => 'bad_mail')
@@ -488,6 +497,13 @@ describe AccountController do
             post(:lost_password, :mail => user.mail)
             response.layout.should == 'layouts/static'
           end
+        end
+      end
+
+      context "if the request is not a POST" do
+        it "renders the lost_password template" do
+          get(:lost_password)
+          response.should render_template('lost_password')
         end
       end
     end
