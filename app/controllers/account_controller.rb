@@ -39,15 +39,7 @@ class AccountController < ApplicationController
   # Enable user to choose a new password
   def lost_password
     redirect_to(home_url) && return unless Setting.lost_password?
-    if params[:token] && @token = valid_token
-      @user = @token.user
-      return if request.post? && update_password
-      render :template => "account/password_recovery"
-    elsif request.post? && user = valid_user
-      # create a new token for password recovery
-      token = Token.new(:user => user, :action => "recovery")
-      token.save && send_mail(token)
-    end
+    validate_token || create_token
   end
 
   # User self-registration
@@ -435,5 +427,21 @@ class AccountController < ApplicationController
     Mailer.send_later(:deliver_lost_password, token)
     flash.now[:success] = l(:notice_account_lost_email_sent)
     render :action => 'login', :layout => 'static'
+  end
+
+  def validate_token
+    if params[:token] && @token = valid_token
+      @user = @token.user
+      return true if request.post? && update_password
+      render :template => "account/password_recovery"
+      true
+    end
+  end
+
+  def create_token
+    if request.post? && user = valid_user
+      token = Token.new(:user => user, :action => "recovery")
+      token.save && send_mail(token)
+    end
   end
 end
