@@ -44,14 +44,7 @@ class AccountController < ApplicationController
       redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
-        # BUGBUG: password confirmation isn't validated when nil
-        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
-        if @user.save
-          @token.destroy
-          flash.now[:success] = l(:notice_account_password_updated)
-          render :action => 'login', :layout => 'static'
-          return
-        end
+        return if update_password
       end
       render :template => "account/password_recovery"
     elsif request.post?
@@ -413,5 +406,18 @@ class AccountController < ApplicationController
 
   def open_id_authenticate?
     Setting.openid? && using_open_id?
+  end
+
+  def update_password
+    # BUGBUG: password confirmation isn't validated when nil
+    @user.password = params[:new_password]
+    @user.password_confirmation = params[:new_password_confirmation]
+
+    if @user.save
+      @token.destroy
+      flash.now[:success] = l(:notice_account_password_updated)
+      render :action => 'login', :layout => 'static'
+      true
+    end
   end
 end
