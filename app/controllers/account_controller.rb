@@ -39,9 +39,7 @@ class AccountController < ApplicationController
   # Enable user to choose a new password
   def lost_password
     redirect_to(home_url) && return unless Setting.lost_password?
-    if params[:token]
-      @token = Token.find_by_action_and_value("recovery", params[:token])
-      redirect_to(home_url) && return unless @token and !@token.expired?
+    if params[:token] && @token = valid_token
       @user = @token.user
       return if request.post? && update_password
       render :template => "account/password_recovery"
@@ -424,6 +422,16 @@ class AccountController < ApplicationController
       nil
     else
       user
+    end
+  end
+
+  def valid_token
+    token = Token.find_by_action_and_value("recovery", params[:token])
+    if token && !token.expired?
+      token
+    else
+      redirect_to(home_url)
+      nil
     end
   end
 end
