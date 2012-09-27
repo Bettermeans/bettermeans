@@ -414,12 +414,17 @@ class AccountController < ApplicationController
   end
 
   def valid_token
-    token = Token.find_by_action_and_value("recovery", params[:token])
     if token && !token.expired?
       token
     else
       redirect_to(home_url)
       nil
+    end
+  end
+
+  def token
+    @token ||= if params[:token]
+      Token.find_by_action_and_value("recovery", params[:token])
     end
   end
 
