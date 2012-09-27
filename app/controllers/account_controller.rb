@@ -54,8 +54,6 @@ class AccountController < ApplicationController
         end
       end
       render :template => "account/password_recovery"
-      # TODO: don't think this return is necessary
-      return
     elsif request.post?
       user = User.find_by_mail(params[:mail])
       # user not found in db
@@ -69,8 +67,6 @@ class AccountController < ApplicationController
         Mailer.send_later(:deliver_lost_password,token)
         flash.now[:success] = l(:notice_account_lost_email_sent)
         render :action => 'login', :layout => 'static'
-        # TODO: don't think this return is necessary
-        return
       end
     end
   end
