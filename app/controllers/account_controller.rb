@@ -45,8 +45,7 @@ class AccountController < ApplicationController
       @user = @token.user
       return if request.post? && update_password
       render :template => "account/password_recovery"
-    elsif request.post?
-      return unless user = valid_user
+    elsif request.post? && user = valid_user
       # create a new token for password recovery
       token = Token.new(:user => user, :action => "recovery")
       if token.save
