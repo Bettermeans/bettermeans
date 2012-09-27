@@ -56,23 +56,21 @@ class AccountController < ApplicationController
       render :template => "account/password_recovery"
       # TODO: don't think this return is necessary
       return
-    else
-      if request.post?
-        user = User.find_by_mail(params[:mail])
-        # user not found in db
-        (flash.now[:error] = l(:notice_account_unknown_email); return) unless user
-        # user uses an external authentification
-        (flash.now[:error] = l(:notice_can_t_change_password); return) if user.auth_source_id
-        # create a new token for password recovery
-        #token = Token.new(:user => user, :action => "trash")
-        token = Token.new(:user => user, :action => "recovery")
-        if token.save
-          Mailer.send_later(:deliver_lost_password,token)
-          flash.now[:success] = l(:notice_account_lost_email_sent)
-          render :action => 'login', :layout => 'static'
-          # TODO: don't think this return is necessary
-          return
-        end
+    elsif request.post?
+      user = User.find_by_mail(params[:mail])
+      # user not found in db
+      (flash.now[:error] = l(:notice_account_unknown_email); return) unless user
+      # user uses an external authentification
+      (flash.now[:error] = l(:notice_can_t_change_password); return) if user.auth_source_id
+      # create a new token for password recovery
+      #token = Token.new(:user => user, :action => "trash")
+      token = Token.new(:user => user, :action => "recovery")
+      if token.save
+        Mailer.send_later(:deliver_lost_password,token)
+        flash.now[:success] = l(:notice_account_lost_email_sent)
+        render :action => 'login', :layout => 'static'
+        # TODO: don't think this return is necessary
+        return
       end
     end
   end
