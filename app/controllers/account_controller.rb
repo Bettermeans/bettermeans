@@ -417,10 +417,15 @@ class AccountController < ApplicationController
 
   def valid_user
     user = User.find_by_mail(params[:mail])
-    # user not found in db
-    (flash.now[:error] = l(:notice_account_unknown_email); return) unless user
-    # user uses an external authentification
-    (flash.now[:error] = l(:notice_can_t_change_password); return) if user.auth_source_id
-    user
+
+    if user.nil?
+      flash.now[:error] = l(:notice_account_unknown_email)
+      nil
+    elsif user.auth_source_id
+      flash.now[:error] = l(:notice_can_t_change_password)
+      nil
+    else
+      user
+    end
   end
 end
