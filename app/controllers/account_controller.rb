@@ -46,15 +46,16 @@ class AccountController < ApplicationController
   def register
     redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
 
-    if params[:plan]# && params[:plan].is_a?(Numeric)
+    if params[:plan]
       @plan_id = Plan.find_by_code(params[:plan]).id
-    elsif params[:plan_id]# && params[:plan].is_a?(Numeric)
+    elsif params[:plan_id]
       @plan_id = params[:plan_id]
     else
       @plan_id = Plan.find_by_code(Plan::FREE_CODE).id
     end
 
     if request.get?
+      # TODO: this isn't necessary, as the session gets cleared in logged_user=
       session[:auth_source_registration] = nil
       self.logged_user = nil
 
@@ -71,25 +72,27 @@ class AccountController < ApplicationController
 
       @user.plan_id = @plan_id
 
-
+      # TODO: it shouldn't be possible for @user.plan_id to be nil here
       @user.trial_expires_on = 30.days.from_now if @user.plan_id && !@user.plan.free?
-
+      # TODO: admin is attr_protected in the model, so it shouldn't be necessary here
       @user.admin = false
       @user.status = User::STATUS_REGISTERED
       if session[:auth_source_registration]
         @user.status = User::STATUS_ACTIVE
         @user.login = session[:auth_source_registration][:login]
         @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
+
         if @user.save
+          # TODO: this isn't necessary, as the session gets cleared in logged_user=
           session[:auth_source_registration] = nil
           self.logged_user = @user
           Track.log(Track::LOGIN,session[:client_ip])
           redirect_with_flash :notice, l(:notice_account_activated), :controller => 'my', :action => 'account'
+          return
         end
       else
         @user.login = params[:user][:login]
         @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
-
         case Setting.self_registration
         when '1'
           return if register_by_email_activation(@user,params[:invitation_token])
@@ -233,6 +236,8 @@ class AccountController < ApplicationController
   # Pass a block for behavior when a user fails to save
   def register_by_email_activation(user, invitation_token = nil)
 
+    # BUGBUG: this should just be `invitation_token.blank?`
+    # when it's nil this throws an error
     unless invitation_token.empty? || invitation_token.nil?
       invitation = Invitation.find_by_token invitation_token
       invitation.new_mail = user.mail
