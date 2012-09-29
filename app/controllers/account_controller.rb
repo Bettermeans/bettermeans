@@ -47,17 +47,10 @@ class AccountController < ApplicationController
     redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
 
     pick_plan
-
     if request.get?
-      # TODO: this isn't necessary, as the session gets cleared in logged_user=
-      session[:auth_source_registration] = nil
-      logout_user
-      @user = User.new(:language => Setting.default_language)
-      invite_to_login if params[:invitation_token]
+      logout_and_invite
     else
-
       initialize_user_with_plan
-
       return if register_user_with_auth_source || register_user
     end
     render :layout => 'static'
@@ -474,5 +467,13 @@ class AccountController < ApplicationController
       redirect_with_flash :notice, l(:notice_account_activated), :controller => 'my', :action => 'account'
       true
     end
+  end
+
+  def logout_and_invite
+    # TODO: this isn't necessary, as the session gets cleared in logged_user=
+    session[:auth_source_registration] = nil
+    logout_user
+    @user = User.new(:language => Setting.default_language)
+    invite_to_login if params[:invitation_token]
   end
 end
