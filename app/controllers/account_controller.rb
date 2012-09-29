@@ -51,13 +51,13 @@ class AccountController < ApplicationController
     if request.get?
       # TODO: this isn't necessary, as the session gets cleared in logged_user=
       session[:auth_source_registration] = nil
-      self.logged_user = nil
+      logout_user
 
       @user = User.new(:language => Setting.default_language)
 
       if params[:invitation_token]
         session[:invitation_token] = params[:invitation_token]
-        invitation = Invitation.find_by_token params[:invitation_token]
+        invitation = Invitation.find_by_token(params[:invitation_token])
         @user.mail = invitation.mail if invitation
         flash.now[:notice] = "Sign up below to activate your invitation.<br><br><a href='/login?invitation_token=#{params[:invitation_token]}'>Login here if you already have an account.</a>"
       end
@@ -87,14 +87,7 @@ class AccountController < ApplicationController
       else
         @user.login = params[:user][:login]
         @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
-        case Setting.self_registration
-        when '1'
-          return if register_by_email_activation(@user,params[:invitation_token])
-        when '3'
-          register_automatically(@user)
-        else
-          register_manually_by_administrator(@user)
-        end
+        return if register_user
       end
     end
     render :layout => 'static'
@@ -456,6 +449,19 @@ class AccountController < ApplicationController
       @plan_id = params[:plan_id]
     else
       @plan_id = Plan.find_by_code(Plan::FREE_CODE).id
+    end
+  end
+
+  def register_user
+    case Setting.self_registration
+    when '1'
+      register_by_email_activation(@user,params[:invitation_token])
+    when '3'
+      register_automatically(@user)
+      false
+    else
+      register_manually_by_administrator(@user)
+      false
     end
   end
 end
