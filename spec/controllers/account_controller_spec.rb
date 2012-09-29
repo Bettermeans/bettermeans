@@ -523,4 +523,273 @@ describe AccountController do
     end
   end
 
+  describe '#register' do
+    context "when there is no self_registration setting or session[:auth_source_registration]" do
+      it "redirects to home_url" do
+        Setting.stub(:self_registration?).and_return(false)
+        get(:register)
+        response.should redirect_to(home_url)
+      end
+    end
+
+    context "when there is a Setting.self_registration" do
+      before :each do
+        Setting.self_registration = 5
+        get(:register)
+      end
+
+      it "renders the static layout" do
+        response.layout.should == 'layouts/static'
+      end
+
+      it "renders the register template" do
+        response.should render_template('register')
+      end
+    end
+
+    context "when there is a session[:auth_source_registration]" do
+      before :each do
+        Setting.stub(:self_registration?).and_return(false)
+        session[:auth_source_registration] = "stuff"
+        get(:register)
+      end
+
+      it "renders the static layout" do
+        response.layout.should == 'layouts/static'
+      end
+
+      it "renders the register template" do
+        response.should render_template('register')
+      end
+    end
+
+    context "when given params[:plan]" do
+      it "sets the plan id to that of the given plan" do
+        plan = Plan.find_by_code(1)
+        get(:register, :plan => plan.code)
+        assigns(:plan_id).should == plan.id
+      end
+    end
+
+    context "when given params[:plan_id]" do
+      it "sets the plan id to that id" do
+        get(:register, :plan_id => "5")
+        assigns(:plan_id).should == "5"
+      end
+    end
+
+    context "when not given a param for plan" do
+      it "sets the plan id to the id of the free plan" do
+        get(:register)
+        assigns(:plan_id).should == Plan.free.id
+      end
+    end
+
+    context "when the request is GET" do
+      it "sets the session[:auth_source_registration] to nil" do
+        controller.stub(:logged_user=)
+        session[:auth_source_registration] = "something"
+        get(:register)
+        session[:auth_source_registration].should be_nil
+      end
+
+      it "logs out the current user" do
+        user = Factory.create(:user)
+        User.current = user
+        get(:register)
+        User.current.should == User.anonymous
+      end
+
+      it "initializes a new user with the default language" do
+        Setting.stub(:default_language).and_return('swahili')
+        get(:register)
+        assigns(:user).language.should == 'swahili'
+      end
+
+      context "when there's a params[:invitation_token]" do
+        let(:invitation) { Factory.create(:invitation, :mail => 'b@b.com') }
+
+        before :each do
+          get(:register, :invitation_token => invitation.token)
+        end
+
+        it "sets the session[:invitation_token]" do
+          session[:invitation_token].should == invitation.token
+        end
+
+        context "when an invitation is found" do
+          it "sets the user's mail from the invitation" do
+            assigns(:user).mail.should == 'b@b.com'
+          end
+        end
+
+        it "flashes a message" do
+          response.session[:flash][:notice].should =~ /activate your invitation.*#{invitation.token}.*Login here/
+        end
+      end
+    end
+
+    context "when the request is not a GET" do
+      let(:invitation) { Factory(:invitation, :mail => 'b@b.com') }
+
+      it "initializes a new user with the given params" do
+        post(:register, :user => { :mail => 'bill@bill.com' }, :invitation_token => invitation.token)
+        assigns(:user).mail.should == 'bill@bill.com'
+      end
+
+      it "sets the user's plan to the one found before" do
+        post(:register, :user => { :mail => 'bill@bill.com' }, :invitation_token => invitation.token)
+        assigns(:user).plan.should == Plan.find(assigns(:plan_id))
+      end
+
+      context "if the user is not on the free plan" do
+        it "sets the user's trial to expire 30 days from now" do
+          this_time = Time.now
+          Time.stub(:now).and_return(this_time)
+          plan_id = Plan.find_by_code('1').id
+          post(:register, :plan_id => plan_id, :user => { :mail => 'bill@bill.com' }, :invitation_token => invitation.token)
+          assigns(:user).trial_expires_on.should == 30.days.from_now
+        end
+      end
+
+      context "if the user is on the free plan" do
+        it "does not set the user's trial to expire 30 days from now" do
+          post(:register, :user => { :mail => 'bill@bill.com' }, :invitation_token => invitation.token)
+          assigns(:user).trial_expires_on.should_not be
+        end
+      end
+
+      it "sets the user not to be an admin" do
+        post(:register, :user => { :admin => true, :mail => 'bill@bill.com' }, :invitation_token => invitation.token)
+        assigns(:user).should_not be_admin
+      end
+
+      it "sets the user's status to registered" do
+        post(:register, :user => { :mail => 'bill@bill.com' }, :invitation_token => invitation.token)
+        assigns(:user).status.should == User::STATUS_REGISTERED
+      end
+
+      context "when there's a session[:auth_source_registration]" do
+        before :each do
+          session[:auth_source_registration] = { :login => 'stuff',
+                                                 :auth_source_id => 15 }
+        end
+
+        it "sets the user's status to active" do
+          post(:register, :user => { :mail => 'bill@bill.com', :firstname => 'bill' },
+                          :invitation_token => invitation.token)
+          assigns(:user).status.should == User::STATUS_ACTIVE
+        end
+
+        it "sets the user's login from the auth hash" do
+          post(:register, :user => { :mail => 'bill@bill.com', :firstname => 'bill' },
+                          :invitation_token => invitation.token)
+          assigns(:user).login.should == 'stuff'
+        end
+
+        it "sets the user's auth_source_id from the auth hash" do
+          post(:register, :user => { :mail => 'bill@bill.com', :firstname => 'bill' },
+                          :invitation_token => invitation.token)
+          assigns(:user).auth_source_id.should == 15
+        end
+
+        context "if the user is valid" do
+          it "sets the session[:auth_source_registration] to nil" do
+            controller.stub(:logged_user=)
+            post(:register, :user => { :mail => 'bill@bill.com', :firstname => 'bill' },
+                            :invitation_token => invitation.token)
+            session[:auth_source_registration].should_not be
+          end
+
+          it "sets the current user to the assigned user" do
+            post(:register, :user => { :mail => 'bill@bill.com', :firstname => 'bill' },
+                            :invitation_token => invitation.token)
+            User.current.should == assigns(:user)
+          end
+
+          it "tracks the login" do
+            session[:client_ip] = 5
+            Track.should_receive(:log).with(Track::LOGIN, 5)
+            post(:register, :user => { :mail => 'bill@bill.com', :firstname => 'bill' },
+                            :invitation_token => invitation.token)
+          end
+
+          it "redirects to my controller, action account" do
+            post(:register, :user => { :mail => 'bill@bill.com', :firstname => 'bill' },
+                            :invitation_token => invitation.token)
+            response.should redirect_to({ :controller => 'my', :action => 'account' })
+          end
+
+          it "flashes a notice" do
+            post(:register, :user => { :mail => 'bill@bill.com', :firstname => 'bill' },
+                            :invitation_token => invitation.token)
+            response.session[:flash][:notice].should =~ /activated/
+          end
+        end
+      end
+
+      context "when there is not a session[:auth_source_registration]" do
+        it "sets the user's login from the params hash" do
+          post(:register, :user => { :mail => 'bill@bill.com',
+                                      :firstname => 'bill',
+                                      :login => 'stuff' },
+                          :invitation_token => invitation.token)
+          assigns(:user).login.should == 'stuff'
+        end
+
+        it "sets the user's password and password confirmation from the hash" do
+          post(:register, :user => { :mail => 'bill@bill.com',
+                                      :firstname => 'bill',
+                                      :login => 'stuff'},
+                          :invitation_token => invitation.token,
+                          :password => 'blah',
+                          :password_confirmation => 'blah')
+          assigns(:user).password.should == 'blah'
+          assigns(:user).password_confirmation.should == 'blah'
+        end
+
+        context "when Setting.self_registration == '1'" do
+          it "registers by email activation" do
+            Setting.stub(:self_registration).and_return('1')
+            controller.should_receive(:register_by_email_activation).
+              with(instance_of(User), invitation.token).
+              and_return(true)
+
+            post(:register, :user => { :mail => 'bill@bill.com',
+                                        :firstname => 'bill',
+                                        :login => 'stuff' },
+                            :invitation_token => invitation.token)
+          end
+        end
+
+        context "when Setting.self_registration == '3'" do
+          it "registers automatically" do
+            Setting.stub(:self_registration).and_return('3')
+            controller.should_receive(:register_automatically).
+              with(instance_of(User))
+
+            post(:register, :user => { :mail => 'bill@bill.com',
+                                        :firstname => 'bill',
+                                        :login => 'stuff' },
+                            :invitation_token => invitation.token)
+          end
+        end
+
+        context "when Setting.self_registration == anything else" do
+          it "registers by administrator" do
+            Setting.stub(:self_registration).and_return('13')
+            controller.should_receive(:register_manually_by_administrator).
+              with(instance_of(User))
+
+            post(:register, :user => { :mail => 'bill@bill.com',
+                                        :firstname => 'bill',
+                                        :login => 'stuff' },
+                            :invitation_token => invitation.token)
+          end
+
+        end
+      end
+    end
+  end
+
 end
