@@ -44,7 +44,7 @@ class AccountController < ApplicationController
 
   # User self-registration
   def register
-    redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
+    redirect_to(home_url) and return unless check_registration
 
     pick_plan
     if request.get?
@@ -475,5 +475,9 @@ class AccountController < ApplicationController
     logout_user
     @user = User.new(:language => Setting.default_language)
     invite_to_login if params[:invitation_token]
+  end
+
+  def check_registration
+    Setting.self_registration? || session[:auth_source_registration]
   end
 end
