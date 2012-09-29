@@ -58,11 +58,7 @@ class AccountController < ApplicationController
 
       initialize_user_with_plan
 
-      if session[:auth_source_registration]
-        return if register_with_auth_source
-      else
-        return if register_user
-      end
+      return if register_user_with_auth_source || register_user
     end
     render :layout => 'static'
   end
@@ -464,7 +460,8 @@ class AccountController < ApplicationController
     @user.status = User::STATUS_REGISTERED
   end
 
-  def register_with_auth_source
+  def register_user_with_auth_source
+    return false unless session[:auth_source_registration]
     @user.status = User::STATUS_ACTIVE
     @user.login = session[:auth_source_registration][:login]
     @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
