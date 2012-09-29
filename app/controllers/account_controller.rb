@@ -59,18 +59,7 @@ class AccountController < ApplicationController
       initialize_user_with_plan
 
       if session[:auth_source_registration]
-        @user.status = User::STATUS_ACTIVE
-        @user.login = session[:auth_source_registration][:login]
-        @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
-
-        if @user.save
-          # TODO: this isn't necessary, as the session gets cleared in logged_user=
-          session[:auth_source_registration] = nil
-          self.logged_user = @user
-          Track.log(Track::LOGIN,session[:client_ip])
-          redirect_with_flash :notice, l(:notice_account_activated), :controller => 'my', :action => 'account'
-          return
-        end
+        return if register_with_auth_source
       else
         @user.login = params[:user][:login]
         @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
@@ -471,5 +460,20 @@ class AccountController < ApplicationController
     # TODO: admin is attr_protected in the model, so it shouldn't be necessary here
     @user.admin = false
     @user.status = User::STATUS_REGISTERED
+  end
+
+  def register_with_auth_source
+    @user.status = User::STATUS_ACTIVE
+    @user.login = session[:auth_source_registration][:login]
+    @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
+
+    if @user.save
+      # TODO: this isn't necessary, as the session gets cleared in logged_user=
+      session[:auth_source_registration] = nil
+      self.logged_user = @user
+      Track.log(Track::LOGIN,session[:client_ip])
+      redirect_with_flash :notice, l(:notice_account_activated), :controller => 'my', :action => 'account'
+      true
+    end
   end
 end
