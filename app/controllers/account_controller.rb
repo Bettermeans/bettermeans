@@ -46,13 +46,7 @@ class AccountController < ApplicationController
   def register
     redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
 
-    if params[:plan]
-      @plan_id = Plan.find_by_code(params[:plan]).id
-    elsif params[:plan_id]
-      @plan_id = params[:plan_id]
-    else
-      @plan_id = Plan.find_by_code(Plan::FREE_CODE).id
-    end
+    pick_plan
 
     if request.get?
       # TODO: this isn't necessary, as the session gets cleared in logged_user=
@@ -452,6 +446,16 @@ class AccountController < ApplicationController
     if request.post? && user = valid_user
       token = Token.new(:user => user, :action => "recovery")
       token.save && send_mail(token)
+    end
+  end
+
+  def pick_plan
+    if params[:plan]
+      @plan_id = Plan.find_by_code(params[:plan]).id
+    elsif params[:plan_id]
+      @plan_id = params[:plan_id]
+    else
+      @plan_id = Plan.find_by_code(Plan::FREE_CODE).id
     end
   end
 end
