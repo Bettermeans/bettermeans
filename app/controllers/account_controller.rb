@@ -61,8 +61,6 @@ class AccountController < ApplicationController
       if session[:auth_source_registration]
         return if register_with_auth_source
       else
-        @user.login = params[:user][:login]
-        @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
         return if register_user
       end
     end
@@ -429,6 +427,10 @@ class AccountController < ApplicationController
   end
 
   def register_user
+    @user.login = params[:user][:login]
+    @user.password = params[:password]
+    @user.password_confirmation = params[:password_confirmation]
+
     case Setting.self_registration
     when '1'
       register_by_email_activation(@user,params[:invitation_token])
