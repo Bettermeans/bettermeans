@@ -52,25 +52,12 @@ class AccountController < ApplicationController
       # TODO: this isn't necessary, as the session gets cleared in logged_user=
       session[:auth_source_registration] = nil
       logout_user
-
       @user = User.new(:language => Setting.default_language)
-
-      if params[:invitation_token]
-        session[:invitation_token] = params[:invitation_token]
-        invitation = Invitation.find_by_token(params[:invitation_token])
-        @user.mail = invitation.mail if invitation
-        flash.now[:notice] = "Sign up below to activate your invitation.<br><br><a href='/login?invitation_token=#{params[:invitation_token]}'>Login here if you already have an account.</a>"
-      end
+      invite_to_login if params[:invitation_token]
     else
-      @user = User.new(params[:user])
 
-      @user.plan_id = @plan_id
+      initialize_user_with_plan
 
-      # TODO: it shouldn't be possible for @user.plan_id to be nil here
-      @user.trial_expires_on = 30.days.from_now if @user.plan_id && !@user.plan.free?
-      # TODO: admin is attr_protected in the model, so it shouldn't be necessary here
-      @user.admin = false
-      @user.status = User::STATUS_REGISTERED
       if session[:auth_source_registration]
         @user.status = User::STATUS_ACTIVE
         @user.login = session[:auth_source_registration][:login]
@@ -463,5 +450,26 @@ class AccountController < ApplicationController
       register_manually_by_administrator(@user)
       false
     end
+  end
+
+  def invite_to_login
+    session[:invitation_token] = params[:invitation_token]
+    invitation = Invitation.find_by_token(params[:invitation_token])
+    @user.mail = invitation.mail if invitation
+    flash.now[:notice] = "Sign up below to activate your invitation." <<
+                         "<br><br><a href='/login?invitation_token=" <<
+                         "#{params[:invitation_token]}'>" <<
+                         "Login here if you already have an account.</a>"
+  end
+
+  def initialize_user_with_plan
+    @user = User.new(params[:user])
+    @user.plan_id = @plan_id
+
+    # TODO: it shouldn't be possible for @user.plan_id to be nil here
+    @user.trial_expires_on = 30.days.from_now if @user.plan_id && !@user.plan.free?
+    # TODO: admin is attr_protected in the model, so it shouldn't be necessary here
+    @user.admin = false
+    @user.status = User::STATUS_REGISTERED
   end
 end
