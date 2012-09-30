@@ -62,7 +62,7 @@ class AccountController < ApplicationController
     find_token('register')
     redirect_to(home_url) && return unless valid_register_token
     user = @token.user
-    redirect_to(home_url) && return unless user.status == User::STATUS_REGISTERED
+    redirect_to(home_url) && return unless user.registered?
     user.status = User::STATUS_ACTIVE
     if user.save
       @token.destroy
