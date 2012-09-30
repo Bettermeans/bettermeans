@@ -91,6 +91,8 @@ class AccountController < ApplicationController
       if user.active?
         successful_authentication(user,invitation_token)
       else
+        # BUGBUG: I don't think we can hit this condition, as we're checking boolean
+        # !user.active? above and then user.active?
         account_pending
       end
     end
