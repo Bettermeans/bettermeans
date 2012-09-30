@@ -44,7 +44,7 @@ class AccountController < ApplicationController
 
   # User self-registration
   def register
-    redirect_to(home_url) and return unless check_registration
+    redirect_to(home_url) && return unless check_registration
 
     pick_plan
     if request.get?
@@ -59,8 +59,7 @@ class AccountController < ApplicationController
   # Token based account activation
   def activate
     redirect_to(home_url) && return unless can_activate?
-    find_token('register')
-    redirect_to(home_url) && return unless valid_register_token
+    redirect_to(home_url) && return unless valid_register_token?
     user = @token.user
     redirect_to(home_url) && return unless user.registered?
     user.activate
@@ -490,7 +489,8 @@ class AccountController < ApplicationController
     Setting.self_registration? && params[:token]
   end
 
-  def valid_register_token
-    @token and !@token.expired?
+  def valid_register_token?
+    find_token('register')
+    @token && !@token.expired?
   end
 end
