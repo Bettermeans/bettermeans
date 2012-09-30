@@ -59,13 +59,13 @@ class AccountController < ApplicationController
   # Token based account activation
   def activate
     redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
-    token = Token.find_by_action_and_value('register', params[:token])
-    redirect_to(home_url) && return unless token and !token.expired?
-    user = token.user
+    find_token('register')
+    redirect_to(home_url) && return unless @token and !@token.expired?
+    user = @token.user
     redirect_to(home_url) && return unless user.status == User::STATUS_REGISTERED
     user.status = User::STATUS_ACTIVE
     if user.save
-      token.destroy
+      @token.destroy
       flash.now[:success] = l(:notice_account_activated)
       successful_authentication(user)
     else
@@ -378,8 +378,13 @@ class AccountController < ApplicationController
   end
 
   def token
+    find_token('recovery')
+  end
+
+  # TODO: should be able to somehow combine #token and #find_token
+  def find_token(action)
     @token ||= if params[:token]
-      Token.find_by_action_and_value("recovery", params[:token])
+      Token.find_by_action_and_value(action, params[:token])
     end
   end
 
