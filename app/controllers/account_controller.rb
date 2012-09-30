@@ -59,7 +59,6 @@ class AccountController < ApplicationController
   # Token based account activation
   def activate
     redirect_to(home_url) && return unless can_activate?
-    redirect_to(home_url) && return unless valid_register_token?
     user = @token.user
     redirect_to(home_url) && return unless user.registered?
     user.activate
@@ -70,7 +69,6 @@ class AccountController < ApplicationController
     else
       render :action => 'login', :layout => 'static'
     end
-
   end
 
   def cancel
@@ -486,7 +484,7 @@ class AccountController < ApplicationController
   end
 
   def can_activate?
-    Setting.self_registration? && params[:token]
+    Setting.self_registration? && params[:token] && valid_register_token?
   end
 
   def valid_register_token?
