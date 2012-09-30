@@ -766,6 +766,10 @@ class User < ActiveRecord::Base
     tokens.find_all_by_action('autologin').collect(&:delete)
   end
 
+  def activate
+    self.status = STATUS_ACTIVE
+  end
+
   protected
 
   def validate

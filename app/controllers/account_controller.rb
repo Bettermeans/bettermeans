@@ -63,7 +63,7 @@ class AccountController < ApplicationController
     redirect_to(home_url) && return unless valid_register_token
     user = @token.user
     redirect_to(home_url) && return unless user.registered?
-    user.status = User::STATUS_ACTIVE
+    user.activate
     if user.save
       @token.destroy
       flash.now[:success] = l(:notice_account_activated)
