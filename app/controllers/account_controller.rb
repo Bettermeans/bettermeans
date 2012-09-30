@@ -58,9 +58,7 @@ class AccountController < ApplicationController
 
   # Token based account activation
   def activate
-    redirect_to(home_url) && return unless can_activate?
-    user = @token.user
-    redirect_to(home_url) && return unless user.registered?
+    redirect_to(home_url) && return unless can_activate? && user = registered_user
     user.activate
     if user.save
       @token.destroy
@@ -490,5 +488,11 @@ class AccountController < ApplicationController
   def valid_register_token?
     find_token('register')
     @token && !@token.expired?
+  end
+
+  def registered_user
+    # TODO: this is brittle, depending on @token being set earlier
+    user = @token.user
+    user if user.registered?
   end
 end
