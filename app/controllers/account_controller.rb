@@ -60,6 +60,7 @@ class AccountController < ApplicationController
   def activate
     redirect_to(home_url) && return unless can_activate? && user = registered_user
     user.activate
+
     if user.save
       @token.destroy
       flash.now[:success] = l(:notice_account_activated)
