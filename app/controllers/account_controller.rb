@@ -60,7 +60,7 @@ class AccountController < ApplicationController
   def activate
     redirect_to(home_url) && return unless can_activate?
     find_token('register')
-    redirect_to(home_url) && return unless @token and !@token.expired?
+    redirect_to(home_url) && return unless valid_register_token
     user = @token.user
     redirect_to(home_url) && return unless user.status == User::STATUS_REGISTERED
     user.status = User::STATUS_ACTIVE
@@ -488,5 +488,9 @@ class AccountController < ApplicationController
 
   def can_activate?
     Setting.self_registration? && params[:token]
+  end
+
+  def valid_register_token
+    @token and !@token.expired?
   end
 end
