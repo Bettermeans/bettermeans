@@ -58,7 +58,7 @@ class AccountController < ApplicationController
 
   # Token based account activation
   def activate
-    redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
+    redirect_to(home_url) && return unless can_activate?
     find_token('register')
     redirect_to(home_url) && return unless @token and !@token.expired?
     user = @token.user
@@ -484,5 +484,9 @@ class AccountController < ApplicationController
 
   def check_registration
     Setting.self_registration? || session[:auth_source_registration]
+  end
+
+  def can_activate?
+    Setting.self_registration? && params[:token]
   end
 end
