@@ -897,4 +897,22 @@ describe AccountController do
     end
   end
 
+  describe '#cancel' do
+    let(:user) { Factory.create(:user, :mail => 'bob@bob.com') }
+
+    before :each do
+      User.stub(:current).and_return(user)
+    end
+
+    it "cancels the current user's account" do
+      get(:cancel)
+      user.reload.should be_canceled
+    end
+
+    it "renders an account canceled message" do
+      controller.should_receive(:render_message).with(/canceled/)
+      get(:cancel)
+    end
+  end
+
 end
