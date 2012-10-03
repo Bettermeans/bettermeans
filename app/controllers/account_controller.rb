@@ -84,10 +84,10 @@ class AccountController < ApplicationController
       invalid_credentials
     elsif user.new_record?
       onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
-    elsif !user.active?
-      inactive_user
-    else
+    elsif user.active?
       successful_authentication(user,invitation_token)
+    else
+      inactive_user
     end
   end
 
