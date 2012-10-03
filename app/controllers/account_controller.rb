@@ -86,12 +86,8 @@ class AccountController < ApplicationController
       onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
     elsif !user.active?
       inactive_user
-    elsif user.active?
-      successful_authentication(user,invitation_token)
     else
-      # BUGBUG: I don't think we can hit this condition, as we're checking boolean
-      # !user.active? above and then user.active?
-      account_pending
+      successful_authentication(user,invitation_token)
     end
   end
 

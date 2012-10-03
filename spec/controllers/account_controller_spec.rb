@@ -964,16 +964,6 @@ describe AccountController do
           controller.send(:password_authentication, 'token')
         end
       end
-
-      context "else" do
-        it "goes through the account_pending flow" do
-          user.stub(:active?).and_return(true, false)
-          User.stub(:try_to_login).and_return(user)
-          controller.should_receive(:account_pending)
-          controller.send(:password_authentication)
-        end
-
-      end
     end
   end
 
