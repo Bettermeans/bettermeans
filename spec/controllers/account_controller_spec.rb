@@ -915,4 +915,66 @@ describe AccountController do
     end
   end
 
+  describe '#password_authentication' do
+    let(:user) { Factory.create(:user) }
+    before :each do
+      controller.stub(:invalid_credentials)
+    end
+
+    it "tries to login the user" do
+      User.should_receive(:try_to_login).with('bill', 'bill_password')
+      controller.stub(:params).and_return({ :username => 'bill', :password => 'bill_password' })
+      controller.send(:password_authentication)
+    end
+
+    context "when the user does not login properly" do
+      it "goes through the invalid credentials flow" do
+        User.stub(:try_to_login)
+        controller.should_receive(:invalid_credentials)
+        controller.send(:password_authentication)
+      end
+    end
+
+    context "when the user is a new record" do
+      it "goes through the onthefly creation failed flow" do
+        user.login = 'bill'
+        user.auth_source_id = 15
+        user.stub(:new_record?).and_return(true)
+        User.stub(:try_to_login).and_return(user)
+        controller.should_receive(:onthefly_creation_failed).with(user, { :login => 'bill', :auth_source_id => 15 })
+        controller.send(:password_authentication)
+      end
+    end
+
+    context "when the user is not active" do
+      it "goes through the inactive_user flow" do
+        user.stub(:active?).and_return(false)
+        User.stub(:try_to_login).and_return(user)
+        controller.should_receive(:inactive_user)
+        controller.send(:password_authentication)
+      end
+    end
+
+    context "otherwise" do
+      context "when the user is active" do
+        it "goes through the successful_authentication flow" do
+          user.stub(:active?).and_return(true)
+          User.stub(:try_to_login).and_return(user)
+          controller.should_receive(:successful_authentication).with(user, 'token')
+          controller.send(:password_authentication, 'token')
+        end
+      end
+
+      context "else" do
+        it "goes through the account_pending flow" do
+          user.stub(:active?).and_return(true, false)
+          User.stub(:try_to_login).and_return(user)
+          controller.should_receive(:account_pending)
+          controller.send(:password_authentication)
+        end
+
+      end
+    end
+  end
+
 end
