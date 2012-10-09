@@ -89,7 +89,8 @@ describe AccountController do
     end
 
     context "when token is valid" do
-      let(:user_data) { {
+      let(:user_data) {
+        {
           :email => 'wah@wah.com',
           :identifier => 'something',
           :name => 'steve',
