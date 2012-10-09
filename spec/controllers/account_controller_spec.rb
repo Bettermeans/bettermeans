@@ -254,7 +254,6 @@ describe AccountController do
               session[:invitation_token] = 'blah'
               invitation = Factory.create(:invitation)
               Invitation.stub(:find_by_token).and_return(invitation)
-              controller.stub(:successful_authentication)
               get(:rpx_token)
               invitation.reload.new_mail.should == assigns(:user).mail
             end
@@ -301,7 +300,6 @@ describe AccountController do
             session[:invitation_token] = 'blah'
             invitation = Factory(:invitation)
             Invitation.stub(:find_by_token).and_return(invitation)
-            controller.stub(:successful_authentication)
             get(:rpx_token)
             invitation.reload.new_mail.should == assigns(:user).mail
           end
@@ -588,7 +586,6 @@ describe AccountController do
 
     context "when the request is GET" do
       it "sets the session[:auth_source_registration] to nil" do
-        controller.stub(:logged_user=)
         session[:auth_source_registration] = "something"
         get(:register)
         session[:auth_source_registration].should be_nil
@@ -696,7 +693,6 @@ describe AccountController do
 
         context "if the user is valid" do
           it "sets the session[:auth_source_registration] to nil" do
-            controller.stub(:logged_user=)
             post(:register, :user => { :mail => 'bill@bill.com', :firstname => 'bill' },
                             :invitation_token => invitation.token)
             session[:auth_source_registration].should_not be
@@ -852,7 +848,6 @@ describe AccountController do
 
       before :each do
         Setting.stub(:self_registration?).and_return(true)
-        controller.stub(:successful_authentication)
       end
 
       it "changes the user's status to active" do
@@ -863,11 +858,6 @@ describe AccountController do
       it "destroys the token" do
         get(:activate, :token => token.value)
         Token.find_by_id(token.id).should_not be
-      end
-
-      it "flashes a success message" do
-        get(:activate, :token => token.value)
-        response.session[:flash][:success].should =~ /activated/
       end
 
       it "authenticates the user" do
