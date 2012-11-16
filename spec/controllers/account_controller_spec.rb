@@ -64,14 +64,20 @@ describe AccountController do
         it "authenticates via openid" do
           Setting.should_receive(:openid?).and_return(true)
           controller.should_receive(:using_open_id?).and_return(true)
-          controller.should_receive(:open_id_authenticate).with('blah')
+          user = Factory.create(:user)
+          User.stub(:find_or_initialize_by_identity_url).and_return(user)
+          mock_result = mock("result", :successful? => true)
+          controller.should_receive(:authenticate_with_open_id).
+            and_yield(mock_result, "something else", "whatever")
           post(:login, :openid_url => 'blah')
         end
       end
 
       context "when not openid" do
         it "authenticates via password" do
-          controller.should_receive(:password_authentication).with('blah')
+          mock_invitation = mock("invitation", :accept => nil)
+          Invitation.should_receive(:find_by_token).with('blah').and_return(mock_invitation)
+          User.stub(:try_to_login).and_return(Factory.create(:user))
           post(:login, :invitation_token => 'blah')
         end
       end
@@ -319,8 +325,11 @@ describe AccountController do
         end
 
         it "authenticates with a reactivation message" do
-          controller.should_receive(:successful_authentication).with(@user, 'blah', /reactivated/)
+          mock_invitation = mock(:update_attributes => nil)
+          mock_invitation.should_receive(:accept).with(@user)
+          Invitation.should_receive(:find_by_token).with('blah').twice.and_return(mock_invitation)
           get(:rpx_token)
+          response.session[:flash][:notice].should =~ /reactivated/
         end
       end
 
@@ -332,7 +341,9 @@ describe AccountController do
         end
 
         it "authenticates without a message" do
-          controller.should_receive(:successful_authentication).with(@user, 'blah', nil)
+          mock_invitation = mock(:update_attributes => nil)
+          mock_invitation.should_receive(:accept).with(@user)
+          Invitation.should_receive(:find_by_token).with('blah').twice.and_return(mock_invitation)
           get(:rpx_token)
         end
       end
@@ -762,8 +773,11 @@ describe AccountController do
         context "when Setting.self_registration == '3'" do
           it "registers automatically" do
             Setting.stub(:self_registration).and_return('3')
-            controller.should_receive(:register_automatically).
-              with(instance_of(User))
+            mock_plan = mock("plan", :free? => false)
+            mock_user = mock("user", :plan_id => 5, :plan => mock_plan, :trial_expires_on= => nil, :admin= => nil, :status= => nil, :login= => nil, :auth_source_id= => nil, :save => true, :password= => nil, :password_confirmation= => nil, :last_login_on= => nil)
+            mock_user.should_receive(:plan_id=)
+            User.stub(:new).and_return(mock_user)
+            controller.should_receive(:redirect_to).with(:controller => 'welcome', :action => 'index')
 
             post(:register, :user => { :mail => 'bill@bill.com',
                                         :firstname => 'bill',
