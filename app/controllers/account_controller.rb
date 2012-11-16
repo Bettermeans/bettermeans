@@ -163,6 +163,7 @@ class AccountController < ApplicationController
   end
 
   def invalid_credentials
+    # BUGBUG: "invalid_credentials", spelling
     flash.now[:error] = l(:notice_account_invalid_creditentials)
     render :layout => 'static'
   end
