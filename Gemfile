@@ -19,7 +19,6 @@ gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
 
 group :test do
   gem 'shoulda'
-  gem 'test-unit', '1.2.3'
   gem 'webrat', '0.7.3'
   gem 'rspec', '1.3.2'
   gem 'rspec-rails', '1.3.4'
