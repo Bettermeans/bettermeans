@@ -915,15 +915,17 @@ describe AccountController do
     end
 
     it "renders an account canceled message" do
-      controller.should_receive(:render_message).with(/canceled/)
       get(:cancel)
+      response.should render_template ''
+      response.session[:flash][:notice].should =~ /canceled/
     end
   end
 
+  # private method, no state
   describe '#password_authentication' do
     let(:user) { Factory.create(:user) }
     before :each do
-      controller.stub(:invalid_credentials)
+      controller.stub(:render)
     end
 
     it "tries to login the user" do
@@ -935,7 +937,7 @@ describe AccountController do
     context "when the user does not login properly" do
       it "goes through the invalid credentials flow" do
         User.stub(:try_to_login)
-        controller.should_receive(:invalid_credentials)
+        controller.should_receive(:render).with(:layout => 'static')
         controller.send(:password_authentication)
       end
     end
