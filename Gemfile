@@ -19,6 +19,7 @@ gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
 
 group :test do
   gem 'shoulda'
+  gem 'cucumber', '1.1.0'
   gem 'webrat', '0.7.3'
   gem 'rspec', '1.3.2'
   gem 'rspec-rails', '1.3.4'
@@ -36,6 +37,8 @@ group :development do
   gem 'guard-rspec'
   gem 'spork', '0.8.5'
   gem 'guard-spork'
+  gem 'cucumber-rails', '0.3.2'
+  gem 'guard-cucumber'
   #gem 'reek'
   gem 'ruby2ruby', '1.2.2'
   gem 'heckle'
