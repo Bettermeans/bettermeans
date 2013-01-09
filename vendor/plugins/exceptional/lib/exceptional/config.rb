@@ -4,7 +4,7 @@ module Exceptional
   module Config
 
     # Defaults for configuration variables
-    REMOTE_HOST = "getexceptional.com"
+    REMOTE_HOST = "exceptional.io"
     REMOTE_PORT = 80
     REMOTE_SSL_PORT = 443
     SSL = false
