@@ -3,7 +3,7 @@ require 'spork'
 
 Spork.prefork do
 
-  ENV["RAILS_ENV"] ||= "test"
+  ENV["RAILS_ENV"] ||= "cucumber"
   require File.expand_path(File.dirname(__FILE__) + '/../../config/environment')
   require 'cucumber/rails/world'
 
