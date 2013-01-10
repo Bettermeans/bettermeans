@@ -29,3 +29,5 @@ serverlog
 *.swp
 *.swo
 .redcar/
+.bundle
+/bin
