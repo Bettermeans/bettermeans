@@ -26,7 +26,7 @@ group :test do
   gem 'pickle', "0.3.4"
   gem 'factory_girl', "1.3.3"
   gem 'object_daddy', "0.4.3"
-  gem 'capybara-webkit'
+  #gem 'capybara-webkit'
   gem 'fakeweb'
 end
 
@@ -42,4 +42,9 @@ group :development do
   #gem 'reek'
   gem 'ruby2ruby', '1.2.2'
   gem 'heckle'
+end
+
+group :development, :test do
+  gem 'capybara'
+  gem 'steak'
 end
