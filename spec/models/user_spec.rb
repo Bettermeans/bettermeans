@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe User do
+  subject { User.new }
+
   it { should have_many(:members).dependent(:destroy) }
   it { should have_many(:memberships) }
   it { should have_many(:core_memberships) }
