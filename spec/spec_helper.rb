@@ -8,8 +8,6 @@ Spork.prefork do
   require 'spec/rails'
   require 'factory_girl'
 
-  require File.dirname(__FILE__) + "/factories"
-
   Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each {|f| require f}
 
   Spec::Runner.configure do |config|
