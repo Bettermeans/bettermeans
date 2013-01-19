@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
 
   has_many :outgoing_ratings, :class_name => 'RetroRating', :foreign_key => 'rater_id'
   has_many :incoming_ratings, :class_name => 'RetroRating', :foreign_key => 'ratee_id'
-  has_many :credit_disributions
+  has_many :credit_distributions
   has_many :reputations, :dependent => :delete_all
   has_many :help_sections
   has_many :tokens
