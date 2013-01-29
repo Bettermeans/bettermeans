@@ -4,7 +4,7 @@ ruby '1.8.7'
 
 gem 'rake', '0.8.7'
 
-gem 'rails', '2.3.15'
+gem 'rails', '2.3.16'
 
 gem 'ruby-debug', '0.10.4'
 gem 'rubytree', '0.7.0'
