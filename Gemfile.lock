@@ -65,7 +65,7 @@ GEM
       ParseTree (>= 2.0.0)
       ZenTest (>= 3.5.2)
       ruby2ruby (>= 1.1.6)
-    json_pure (1.7.5)
+    json_pure (1.7.7)
     libwebsocket (0.1.5)
       addressable
     linecache (0.46)
