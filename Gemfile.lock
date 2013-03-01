@@ -7,7 +7,7 @@ GIT
       fastercsv (~> 1.5.4)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     ParseTree (3.0.9)
       RubyInline (~> 3.9.0)
