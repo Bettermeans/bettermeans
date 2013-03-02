@@ -30,4 +30,4 @@ serverlog
 *.swo
 .redcar/
 .bundle
-/bin
+/binstubs
