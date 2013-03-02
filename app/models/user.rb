@@ -778,6 +778,10 @@ class User < ActiveRecord::Base
     self.status = STATUS_ACTIVE
   end
 
+  def fullname=(fullname)
+    self.firstname, self.lastname = fullname.split if fullname
+  end
+
   protected
 
   def validate

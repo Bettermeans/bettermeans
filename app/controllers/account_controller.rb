@@ -63,7 +63,6 @@ class AccountController < ApplicationController
 
     if user.save
       @token.destroy
-      flash.now[:success] = l(:notice_account_activated)
       successful_authentication(user)
     else
       render :action => 'login', :layout => 'static'
@@ -85,7 +84,7 @@ class AccountController < ApplicationController
     elsif user.new_record?
       onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
     elsif user.active?
-      successful_authentication(user,invitation_token)
+      successful_authentication(user, invitation_token)
     else
       inactive_user
     end
@@ -100,9 +99,9 @@ class AccountController < ApplicationController
           redirect_to(home_url) && return unless Setting.self_registration?
 
           # Create on the fly
-          user.login = registration['nickname'] unless registration['nickname'].nil?
-          user.mail = registration['email'] unless registration['email'].nil?
-          user.firstname, user.lastname = registration['fullname'].split(' ') unless registration['fullname'].nil?
+          user.login = registration['nickname']
+          user.mail = registration['email']
+          user.fullname = registration['fullname']
           user.random_password
           user.status = User::STATUS_REGISTERED
 
@@ -132,7 +131,7 @@ class AccountController < ApplicationController
     end
   end
 
-  def successful_authentication(user, invitation_token = nil, msg=nil)
+  def successful_authentication(user, invitation_token=nil, msg=nil)
     # Valid user
     self.logged_user = user
     Track.log(Track::LOGIN,session[:client_ip])
@@ -169,7 +168,6 @@ class AccountController < ApplicationController
   end
 
   def inactive_user
-    flash.now[:error] = l(:notice_account_inactive_user)
     render_error(l(:notice_account_inactive_user))
   end
 
@@ -178,10 +176,8 @@ class AccountController < ApplicationController
   # Pass a block for behavior when a user fails to save
   def register_by_email_activation(user, invitation_token = nil)
 
-    # BUGBUG: this should just be `invitation_token.blank?`
-    # when it's nil this throws an error
-    unless invitation_token.empty? || invitation_token.nil?
-      invitation = Invitation.find_by_token invitation_token
+    unless invitation_token.blank?
+      invitation = Invitation.find_by_token(invitation_token)
       invitation.new_mail = user.mail
       invitation.save
     end
@@ -192,7 +188,7 @@ class AccountController < ApplicationController
 
     token = Token.new(:user => user, :action => "register")
     if user.save and token.save
-      Mailer.send_later(:deliver_register,token)
+      Mailer.send_later(:deliver_register, token)
       flash.now[:success] = l(:notice_account_register_done)
       render :action => 'login', :layout => 'static'
       return true
@@ -211,7 +207,7 @@ class AccountController < ApplicationController
     user.last_login_on = Time.now
     if user.save
       self.logged_user = user
-      Track.log(Track::LOGIN,session[:client_ip])
+      Track.log(Track::LOGIN, session[:client_ip])
       redirect_with_flash :success, l(:notice_account_activated), :controller => 'welcome', :action => 'index'
       return true
     else
@@ -228,8 +224,10 @@ class AccountController < ApplicationController
       # Sends an email to the administrators
       Mailer.send_later(:deliver_account_activation_request,user)
       account_pending
+      true
     else
       yield if block_given?
+      false
     end
   end
 
@@ -261,13 +259,9 @@ class AccountController < ApplicationController
     invitation.mail if invitation
   end
 
-  def update_invitation
-    invitation.update_attributes(:new_mail => @user.mail) if invitation
-  end
-
   def find_user_by_identifier
     if @user = User.find_by_identifier(data[:identifier])
-      update_invitation
+      invitation
       true
     end
   end
@@ -285,7 +279,7 @@ class AccountController < ApplicationController
                       :identifier => data[:identifier])
 
     @user.login = available_login
-    update_invitation
+    invitation
     save_user_or_raise
   end
 
@@ -419,13 +413,11 @@ class AccountController < ApplicationController
 
     case Setting.self_registration
     when '1'
-      register_by_email_activation(@user,params[:invitation_token])
+      register_by_email_activation(@user, params[:invitation_token])
     when '3'
       register_automatically(@user)
-      false
     else
       register_manually_by_administrator(@user)
-      false
     end
   end
 
@@ -457,8 +449,6 @@ class AccountController < ApplicationController
     @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
 
     if @user.save
-      # TODO: this isn't necessary, as the session gets cleared in logged_user=
-      session[:auth_source_registration] = nil
       self.logged_user = @user
       Track.log(Track::LOGIN,session[:client_ip])
       redirect_with_flash :notice, l(:notice_account_activated), :controller => 'my', :action => 'account'
@@ -467,8 +457,6 @@ class AccountController < ApplicationController
   end
 
   def logout_and_invite
-    # TODO: this isn't necessary, as the session gets cleared in logged_user=
-    session[:auth_source_registration] = nil
     logout_user
     @user = User.new(:language => Setting.default_language)
     invite_to_login if params[:invitation_token]

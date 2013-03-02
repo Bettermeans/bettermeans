@@ -43,9 +43,11 @@ describe AccountController do
 
       it "logs out the user" do
         user = Factory.create(:user)
-        User.current = user
+        controller.logged_user = user
+        controller.current_user.should == user
+        session[:user_id] = user.id
         get(:login)
-        User.current.should == User.anonymous
+        controller.current_user.should == User.anonymous
       end
 
       it "sets the session invitation_token" do
@@ -60,25 +62,434 @@ describe AccountController do
     end
 
     context "when request is not a GET" do
+      let(:new_user) { Factory.build(:user, :password => nil) }
+      let(:user) { Factory.create(:user) }
+
       context "when openid" do
-        it "authenticates via openid" do
-          Setting.should_receive(:openid?).and_return(true)
-          controller.should_receive(:using_open_id?).and_return(true)
-          user = Factory.create(:user)
-          User.stub(:find_or_initialize_by_identity_url).and_return(user)
-          mock_result = mock("result", :successful? => true)
-          controller.should_receive(:authenticate_with_open_id).
-            and_yield(mock_result, "something else", "whatever")
-          post(:login, :openid_url => 'blah')
+
+        before(:each) do
+          Setting.stub(:openid?).and_return(true)
+          controller.stub(:using_open_id?).and_return(true)
+        end
+
+        context 'when authentication succeeds' do
+          before(:each) do
+            registration = {
+              'nickname' => 'my_nick',
+              'email' => 'me@me.com',
+              'fullname' => 'boogers mcgee'
+            }
+
+            mock_result = mock("result", :successful? => true)
+            controller.should_receive(:authenticate_with_open_id).
+              with('blah', :required => [:nickname, :fullname, :email], :return_to => signin_url).
+              and_yield(mock_result, "identity_url", registration)
+          end
+
+          context 'when the user is a new record' do
+            before(:each) do
+              User.stub(:find_or_initialize_by_identity_url).and_return(new_user)
+            end
+
+            context 'when self_registration is not set' do
+              it 'redirects to home_url' do
+                Setting.stub(:self_registration?).and_return(false)
+                post(:login, :openid_url => 'blah')
+                response.should redirect_to(home_url)
+              end
+            end
+
+            context 'when self_registration is set' do
+              before(:each) do
+                Setting.stub(:self_registration?).and_return(true)
+              end
+
+              it 'sets the login on the user' do
+                post(:login, :openid_url => 'blah')
+                new_user.login.should == 'my_nick'
+              end
+
+              it 'sets the mail on the user' do
+                post(:login, :openid_url => 'blah')
+                new_user.mail.should == 'me@me.com'
+              end
+
+              it 'sets the firstname on the user' do
+                post(:login, :openid_url => 'blah')
+                new_user.firstname.should == 'boogers'
+              end
+
+              it 'sets the lastname on the user' do
+                post(:login, :openid_url => 'blah')
+                new_user.lastname.should == 'mcgee'
+              end
+
+              it 'sets the password on the user' do
+                post(:login, :openid_url => 'blah')
+                new_user.password.should_not be_nil
+              end
+
+              it 'sets the status on the user' do
+                post(:login, :openid_url => 'blah')
+                new_user.status.should == User::STATUS_REGISTERED
+              end
+
+              context 'when self registration is set to "1"' do
+                before(:each) do
+                  Setting.stub(:self_registration).and_return('1')
+                end
+
+                context 'when the user is invalid' do
+                  before(:each) do
+                    new_user.stub(:save).and_return(false)
+                    post(:login, :openid_url => 'blah')
+                  end
+
+                  it 'sets an instance variable for the user' do
+                    assigns(:user).should == new_user
+                  end
+
+                  it 'does not set session[:auth_source_registration]' do
+                    session[:auth_source_registration].should be_nil
+                  end
+
+                  it 'renders the "register" template' do
+                    response.should render_template('account/register')
+                  end
+                end
+
+                context 'when the token is invalid' do
+                  before(:each) do
+                    mock_token = mock(:save => false)
+                    Token.stub(:new).and_return(mock_token)
+                    post(:login, :openid_url => 'blah')
+                  end
+
+                  it 'sets an instance variable for the user' do
+                    assigns(:user).should == new_user
+                  end
+
+                  it 'does not set session[:auth_source_registration]' do
+                    session[:auth_source_registration].should be_nil
+                  end
+
+                  it 'renders the "register" template' do
+                    response.should render_template('account/register')
+                  end
+                end
+
+                context 'when the user and token are valid' do
+                  it 'saves a token for that user' do
+                    post(:login, :openid_url => 'blah')
+                    new_user.tokens.first.action.should == 'register'
+                  end
+
+                  it 'sends an email' do
+                    Mailer.should_receive(:send_later).with(:deliver_register, instance_of(Token))
+                    post(:login, :openid_url => 'blah')
+                  end
+
+                  it 'flashes a success message' do
+                    flash.stub(:sweep)
+                    post(:login, :openid_url => 'blah')
+                    flash.now[:success].should =~ /account was successfully created/i
+                  end
+
+                  it 'renders the "login" template' do
+                    post(:login, :openid_url => 'blah')
+                    response.should render_template('account/login')
+                  end
+
+                  it 'renders the "static" layout' do
+                    post(:login, :openid_url => 'blah')
+                    response.layout.should == 'layouts/static'
+                  end
+                end
+              end
+
+              context 'when self registration is set to "3"' do
+                before(:each) do
+                  Setting.stub(:self_registration).and_return('3')
+                end
+
+                context 'when the user is valid' do
+                  it 'sets the status on the user to active' do
+                    post(:login, :openid_url => 'blah')
+                    new_user.status.should == User::STATUS_ACTIVE
+                  end
+
+                  it 'sets the last_login_on on the user' do
+                    time = Time.now
+                    Time.stub(:now).and_return(time)
+                    post(:login, :openid_url => 'blah')
+                    new_user.last_login_on.should == time
+                  end
+
+                  it 'logs in the user' do
+                    post(:login, :openid_url => 'blah')
+                    controller.current_user.should == new_user
+                  end
+
+                  it 'logs the login' do
+                    session[:client_ip] = 'boogers'
+                    Track.should_receive(:log).with(Track::LOGIN, 'boogers')
+                    post(:login, :openid_url => 'blah')
+                  end
+
+                  it 'redirects to welcome#index' do
+                    post(:login, :openid_url => 'blah')
+                    response.should redirect_to(:controller => 'welcome', :action => 'index')
+                  end
+
+                  it 'sets a flash message' do
+                    post(:login, :openid_url => 'blah')
+                    flash[:success].should =~ /account has been activated/i
+                  end
+                end
+
+                context 'when the user is invalid' do
+                  before(:each) do
+                    new_user.stub(:save).and_return(false)
+                    post(:login, :openid_url => 'blah')
+                  end
+
+                  it 'sets an instance variable for the user' do
+                    assigns(:user).should == new_user
+                  end
+
+                  it 'does not set session[:auth_source_registration]' do
+                    session[:auth_source_registration].should be_nil
+                  end
+
+                  it 'renders the "register" template' do
+                    response.should render_template('account/register')
+                  end
+                end
+              end
+
+              context 'when self registration is set to anything else' do
+                before(:each) do
+                  Setting.stub(:self_registration).and_return('whocares')
+                end
+
+                context 'when the user is valid' do
+                  it 'sends a mail' do
+                    Mailer.should_receive(:send_later).with(:deliver_account_activation_request, new_user)
+                    post(:login, :openid_url => 'blah')
+                  end
+
+                  it 'sets a flash notice' do
+                    flash.stub(:sweep)
+                    post(:login, :openid_url => 'blah')
+                    flash[:notice].should =~ /account .* pending/i
+                  end
+
+                  it 'renders the "login" template' do
+                    post(:login, :openid_url => 'blah')
+                    response.should render_template('account/login')
+                  end
+
+                  it 'renders the "static" layout' do
+                    post(:login, :openid_url => 'blah')
+                    response.layout.should == 'layouts/static'
+                  end
+                end
+
+                context 'when the user is invalid' do
+                  before(:each) do
+                    new_user.stub(:save).and_return(false)
+                    post(:login, :openid_url => 'blah')
+                  end
+
+                  it 'sets an instance variable for the user' do
+                    assigns(:user).should == new_user
+                  end
+
+                  it 'does not set session[:auth_source_registration]' do
+                    session[:auth_source_registration].should be_nil
+                  end
+
+                  it 'renders the "register" template' do
+                    response.should render_template('account/register')
+                  end
+                end
+              end
+            end
+          end
+
+          context 'when the user is not a new record' do
+            before(:each) do
+              User.stub(:find_or_initialize_by_identity_url).and_return(user)
+            end
+
+            context 'when the user is active' do
+              it 'tracks the login' do
+                session[:client_ip] = 'myip'
+                Track.should_receive(:log).with(Track::LOGIN, 'myip')
+                post(:login, :openid_url => 'blah')
+              end
+
+              context 'when params[:autologin] and autologin is set' do
+                before(:each) do
+                  Setting.stub(:autologin?).and_return(true)
+                end
+
+                it 'creates an autologin token' do
+                  post(:login, :openid_url => 'blah', :autologin => true)
+                  user.tokens.first.action.should == 'autologin'
+                end
+
+                it 'sets an autologin cookie' do
+                  fake_cookies = {}
+                  controller.stub(:cookies).and_return(fake_cookies)
+                  post(:login, :openid_url => 'blah', :autologin => true)
+                  value = user.tokens.first.value
+                  fake_cookies[:autologin][:value].should == value
+                  fake_cookies[:autologin][:expires].should be_close(1.year.from_now, 1)
+                end
+              end
+
+              it 'redirects to welcome#index' do
+                post(:login, :openid_url => 'blah')
+                response.should redirect_to(:controller => 'welcome', :action => 'index')
+              end
+            end
+
+            context 'when the user is not active' do
+              before(:each) do
+                user.stub(:active?).and_return(false)
+              end
+
+              it 'flashes a notice' do
+                flash.stub(:sweep)
+                post(:login, :openid_url => 'blah')
+                flash[:notice].should =~ /account .* pending/i
+              end
+
+              it 'renders the "login" template' do
+                post(:login, :openid_url => 'blah')
+                response.should render_template('account/login')
+              end
+
+              it 'renders the "static" layout' do
+                post(:login, :openid_url => 'blah')
+                response.layout.should == 'layouts/static'
+              end
+            end
+          end
         end
       end
 
       context "when not openid" do
-        it "authenticates via password" do
-          mock_invitation = mock("invitation", :accept => nil)
-          Invitation.should_receive(:find_by_token).with('blah').and_return(mock_invitation)
-          User.stub(:try_to_login).and_return(Factory.create(:user))
-          post(:login, :invitation_token => 'blah')
+        context 'when the user is not able to login' do
+          before(:each) do
+            User.stub(:try_to_login).and_return(nil)
+          end
+
+          it 'flashes an error' do
+            flash.stub(:sweep)
+            post(:login, :invitation_token => 'blah')
+            flash[:error].should =~ /invalid user or password/i
+          end
+
+          it 'renders the "login" template' do
+            post(:login, :invitation_token => 'blah')
+            response.should render_template('account/login')
+          end
+
+          it 'renders the "static" layout' do
+            post(:login, :invitation_token => 'blah')
+            response.layout.should == 'layouts/static'
+          end
+        end
+
+        context 'when the user is a new record' do
+          before(:each) do
+            User.stub(:try_to_login).and_return(new_user)
+            new_user.auth_source_id = 5
+            post(:login, :invitation_token => 'blah')
+          end
+
+          it 'sets an instance variable for the user' do
+            assigns(:user).should == new_user
+          end
+
+          it 'sets the session[:auth_source_options]' do
+            response.session['auth_source_registration'].should == { :login => new_user.login, :auth_source_id => 5 }
+          end
+
+          it 'renders the "register" template' do
+            response.should render_template('account/register')
+          end
+        end
+
+        context 'when the user is active' do
+          before(:each) do
+            User.stub(:try_to_login).and_return(user)
+          end
+
+          it 'logs in the user' do
+            post(:login, :invitation_token => 'blah')
+            controller.current_user.should == user
+          end
+
+          it 'it logs the login' do
+            session[:client_ip] = 'stuff'
+            Track.should_receive(:log).with(Track::LOGIN, 'stuff')
+            post(:login, :invitation_token => 'blah')
+          end
+
+          context 'if it finds an invitation' do
+            it 'accepts the invitation' do
+              mock_invite = mock
+              mock_invite.should_receive(:accept).with(user)
+              Invitation.stub(:find_by_token).with('blah').and_return(mock_invite)
+              post(:login, :invitation_token => 'blah')
+            end
+          end
+
+          context 'when params[:autologin] and autologin is set' do
+            before(:each) do
+              Setting.stub(:autologin?).and_return(true)
+            end
+
+            it 'creates an autologin token' do
+              post(:login, :openid_url => 'blah', :autologin => true)
+              user.tokens.first.action.should == 'autologin'
+            end
+
+            it 'sets an autologin cookie' do
+              fake_cookies = {}
+              controller.stub(:cookies).and_return(fake_cookies)
+              post(:login, :openid_url => 'blah', :autologin => true)
+              value = user.tokens.first.value
+              fake_cookies[:autologin][:value].should == value
+              fake_cookies[:autologin][:expires].should be_close(1.year.from_now, 1)
+            end
+          end
+
+          it 'redirects to welcome#index' do
+            post(:login, :invitation_token => 'blah')
+            response.should redirect_to(:controller => 'welcome', :action => 'index')
+          end
+        end
+
+        context 'otherwise' do
+          before(:each) do
+            user.stub(:active?).and_return(false)
+            User.stub(:try_to_login).and_return(user)
+          end
+
+          it 'flashes an error' do
+            flash.stub(:sweep)
+            post(:login, :invitation_token => 'blah')
+            flash[:error].should =~ /account has not yet been activated/i
+          end
+
+          it 'renders the error page' do
+            post(:login, :invitation_token => 'blah')
+            response.body.should == ' '
+          end
         end
       end
     end
@@ -158,13 +569,27 @@ describe AccountController do
         end
 
         context "if the user is found by mail" do
-          it "sets the identifier for that user" do
-            this_data = { :firstname => 'steve', :mail => 'stuff@stuff.com', :identifier => 'stuff' }
-            user = Factory.build(:user, this_data)
-            User.stub(:find_by_identifier).and_return(nil)
-            User.should_receive(:find_by_mail).and_return(user)
-            get(:rpx_token)
-            user.reload.identifier.should == 'something'
+          context 'if the user is valid' do
+            it "sets the identifier for that user" do
+              user = Factory.create(:user)
+              this_data = { :mail => user.mail, :identifier => 'stuff' }
+              RPXNow.stub(:user_data).and_return(this_data.merge(:username => 'steve', :email => user.mail))
+              User.stub(:find_by_identifier).and_return(nil)
+              get(:rpx_token)
+              user.reload.identifier.should == 'stuff'
+            end
+          end
+
+          context 'if the user is invalid' do
+            it "does not set the identifier for that user" do
+              user = Factory.create(:user)
+              user.update_attribute(:mail, 'invalid_mail')
+              this_data = { :mail => user.mail, :identifier => 'stuff' }
+              RPXNow.stub(:user_data).and_return(this_data.merge(:username => 'steve', :email => user.mail))
+              User.stub(:find_by_identifier).and_return(nil)
+              get(:rpx_token)
+              user.reload.identifier.should be_nil
+            end
           end
         end
 
@@ -272,7 +697,7 @@ describe AccountController do
               User.stub(:find_by_login).and_return(false)
             end
 
-            it "puts the user in the session for debugging" do
+            it "adds the user in the session for debugging" do
               begin
                 get(:rpx_token)
               rescue RuntimeError
@@ -280,7 +705,7 @@ describe AccountController do
               session[:debug_user].should =~ /User/
             end
 
-            it "puts the rpx data hash in the session for debugging" do
+            it "adds the rpx data hash in the session for debugging" do
               begin
                 get(:rpx_token)
               rescue RuntimeError
@@ -304,7 +729,7 @@ describe AccountController do
             this_data = user_data.merge(:identifier => 'stuff')
             RPXNow.stub(:user_data).and_return(this_data)
             session[:invitation_token] = 'blah'
-            invitation = Factory(:invitation)
+            invitation = Factory(:invitation, :new_mail => 'something')
             Invitation.stub(:find_by_token).and_return(invitation)
             get(:rpx_token)
             invitation.reload.new_mail.should == assigns(:user).mail
@@ -354,7 +779,7 @@ describe AccountController do
     let(:user) { Factory.create(:user) }
 
     before :each do
-      User.current = user
+      controller.logged_user = user
       @token = Token.create(:user => user, :action => 'autologin')
       request.cookies["autologin"] = @token.value
       get(:logout)
@@ -370,7 +795,7 @@ describe AccountController do
     end
 
     it 'sets the currently logged in user to nil' do
-      User.current.should be_anonymous
+      controller.current_user.should be_anonymous
     end
 
     it 'redirects to the homepage' do
@@ -604,9 +1029,9 @@ describe AccountController do
 
       it "logs out the current user" do
         user = Factory.create(:user)
-        User.current = user
+        controller.logged_user = user
         get(:register)
-        User.current.should == User.anonymous
+        controller.current_user.should == User.anonymous
       end
 
       it "initializes a new user with the default language" do
@@ -633,7 +1058,7 @@ describe AccountController do
         end
 
         it "flashes a message" do
-          response.session[:flash][:notice].should =~ /activate your invitation.*#{invitation.token}.*Login here/
+          response.session[:flash][:notice].should =~ /activate your invitation.*invitation_token.*#{invitation.token}'>.*Login here/
         end
       end
     end
@@ -712,7 +1137,7 @@ describe AccountController do
           it "sets the current user to the assigned user" do
             post(:register, :user => { :mail => 'bill@bill.com', :firstname => 'bill' },
                             :invitation_token => invitation.token)
-            User.current.should == assigns(:user)
+            controller.current_user.should == assigns(:user)
           end
 
           it "tracks the login" do
@@ -737,40 +1162,222 @@ describe AccountController do
       end
 
       context "when there is not a session[:auth_source_registration]" do
+        let(:valid_params) {
+          {
+            :user => {
+              :mail => 'bill@bill.com',
+              :firstname => 'bill',
+              :login => 'stuff'
+            },
+            :invitation_token => invitation.token
+          }
+        }
+
+        let(:invalid_params) {
+          {
+            :user => {
+              :mail => 'badmail',
+              :firstname => 'bill',
+              :login => 'stuff'
+            },
+            :invitation_token => invitation.token
+          }
+        }
+
         it "sets the user's login from the params hash" do
-          post(:register, :user => { :mail => 'bill@bill.com',
-                                      :firstname => 'bill',
-                                      :login => 'stuff' },
-                          :invitation_token => invitation.token)
+          post(:register, valid_params)
           assigns(:user).login.should == 'stuff'
         end
 
         it "sets the user's password and password confirmation from the hash" do
-          post(:register, :user => { :mail => 'bill@bill.com',
-                                      :firstname => 'bill',
-                                      :login => 'stuff'},
-                          :invitation_token => invitation.token,
-                          :password => 'blah',
-                          :password_confirmation => 'blah')
+          post(:register,valid_params.merge(
+            :password => 'blah', :password_confirmation => 'blah'
+          ))
           assigns(:user).password.should == 'blah'
           assigns(:user).password_confirmation.should == 'blah'
         end
 
         context "when Setting.self_registration == '1'" do
-          it "registers by email activation" do
-            Setting.stub(:self_registration).and_return('1')
-            controller.should_receive(:register_by_email_activation).
-              with(instance_of(User), invitation.token).
-              and_return(true)
 
-            post(:register, :user => { :mail => 'bill@bill.com',
-                                        :firstname => 'bill',
-                                        :login => 'stuff' },
-                            :invitation_token => invitation.token)
+          before(:each) do
+            Setting.stub(:self_registration).and_return('1')
+          end
+
+          it 'sets new_mail on the invitation' do
+            post(:register, valid_params)
+            invitation.reload.new_mail.should == assigns(:user).mail
+          end
+
+          context 'when the invitation mail is the same as the user mail' do
+            before(:each) do
+              invitation.update_attributes(:mail => 'bill@bill.com')
+            end
+
+            context 'when the user is valid' do
+              it 'sets the status on the user to active' do
+                post(:register, valid_params)
+                assigns(:user).status.should == User::STATUS_ACTIVE
+              end
+
+              it 'sets the last_login_on on the user' do
+                time = Time.now
+                Time.stub(:now).and_return(time)
+                post(:register, valid_params)
+                assigns(:user).last_login_on.should == time
+              end
+
+              it 'logs in the user' do
+                post(:register, valid_params)
+                controller.current_user.should == assigns(:user)
+              end
+
+              it 'logs the login' do
+                session[:client_ip] = 'boogers'
+                Track.should_receive(:log).with(Track::LOGIN, 'boogers')
+                post(:register, valid_params)
+              end
+
+              it 'redirects to welcome#index' do
+                post(:register, valid_params)
+                response.should redirect_to(:controller => 'welcome', :action => 'index')
+              end
+
+              it 'sets a flash message' do
+                post(:register, valid_params)
+                flash[:success].should =~ /account has been activated/i
+              end
+            end
+
+            context 'when the user is invalid' do
+              before(:each) do
+                invitation.update_attributes(:mail => 'badmail')
+              end
+
+              it 'renders the "register" template' do
+                post(:register, invalid_params)
+                response.should render_template('account/register')
+              end
+
+              it 'renders the "static" layout' do
+                post(:register, invalid_params)
+                response.layout.should == 'layouts/static'
+              end
+            end
+          end
+
+          context 'when the user and token are valid' do
+            it 'saves a token for that user' do
+              post(:register, valid_params)
+              assigns(:user).tokens.first.action.should == 'register'
+            end
+
+            it 'sends an email' do
+              Mailer.should_receive(:send_later).with(:deliver_register, instance_of(Token))
+              post(:register, valid_params)
+            end
+
+            it 'flashes a success message' do
+              flash.stub(:sweep)
+              post(:register, valid_params)
+              flash.now[:success].should =~ /account was successfully created/i
+            end
+
+            it 'renders the "login" template' do
+              post(:register, valid_params)
+              response.should render_template('account/login')
+            end
+
+            it 'renders the "static" layout' do
+              post(:register, valid_params)
+              response.layout.should == 'layouts/static'
+            end
+          end
+
+          context 'when the user is invalid' do
+            it 'renders the "register" template' do
+              post(:register, invalid_params)
+              response.should render_template('account/register')
+            end
+
+            it 'renders the "static" layout' do
+              post(:register, invalid_params)
+              response.layout.should == 'layouts/static'
+            end
+          end
+
+          context 'when the token is invalid' do
+            before(:each) do
+              mock_token = mock(:save => false)
+              Token.stub(:new).and_return(mock_token)
+              post(:register, valid_params)
+            end
+
+            it 'renders the "register" template' do
+              response.should render_template('account/register')
+            end
+
+            it 'renders the "static" layout' do
+              response.layout.should == 'layouts/static'
+            end
           end
         end
 
         context "when Setting.self_registration == '3'" do
+          before(:each) do
+            Setting.stub(:self_registration).and_return('3')
+          end
+
+          context 'when the user is valid' do
+            it 'sets the status on the user to active' do
+              post(:register, valid_params)
+              assigns(:user).status.should == User::STATUS_ACTIVE
+            end
+
+            it 'sets the last_login_on on the user' do
+              time = Time.now
+              Time.stub(:now).and_return(time)
+              post(:register, valid_params)
+              assigns(:user).last_login_on.should == time
+            end
+
+            it 'logs in the user' do
+              post(:register, valid_params)
+              controller.current_user.should == assigns(:user)
+            end
+
+            it 'logs the login' do
+              session[:client_ip] = 'boogers'
+              Track.should_receive(:log).with(Track::LOGIN, 'boogers')
+              post(:register, valid_params)
+            end
+
+            it 'redirects to welcome#index' do
+              post(:register, valid_params)
+              response.should redirect_to(:controller => 'welcome', :action => 'index')
+            end
+
+            it 'sets a flash message' do
+              post(:register, valid_params)
+              flash[:success].should =~ /account has been activated/i
+            end
+          end
+
+          context 'when the user is invalid' do
+            before(:each) do
+              invitation.update_attributes(:mail => 'badmail')
+            end
+
+            it 'renders the "register" template' do
+              post(:register, invalid_params)
+              response.should render_template('account/register')
+            end
+
+            it 'renders the "static" layout' do
+              post(:register, invalid_params)
+              response.layout.should == 'layouts/static'
+            end
+          end
+
           it "registers automatically" do
             Setting.stub(:self_registration).and_return('3')
             mock_plan = mock("plan", :free? => false)
@@ -787,17 +1394,33 @@ describe AccountController do
         end
 
         context "when Setting.self_registration == anything else" do
-          it "registers by administrator" do
-            Setting.stub(:self_registration).and_return('13')
-            controller.should_receive(:register_manually_by_administrator).
-              with(instance_of(User))
-
-            post(:register, :user => { :mail => 'bill@bill.com',
-                                        :firstname => 'bill',
-                                        :login => 'stuff' },
-                            :invitation_token => invitation.token)
+          before(:each) do
+            Setting.stub(:self_registration).and_return('pie')
           end
 
+          context 'if the user is valid' do
+            it 'sends a mail' do
+              Mailer.should_receive(:send_later).
+                with(:deliver_account_activation_request, instance_of(User))
+              post(:register, valid_params)
+            end
+
+            it 'flashes a notice' do
+              flash.stub(:sweep)
+              post(:register, valid_params)
+              flash[:notice].should =~ /account .*pending/i
+            end
+
+            it 'renders the "login" template' do
+              post(:register, valid_params)
+              response.should render_template('account/login')
+            end
+
+            it 'renders the "static" layout' do
+              post(:register, valid_params)
+              response.layout.should == 'layouts/static'
+            end
+          end
         end
       end
     end
@@ -969,6 +1592,8 @@ describe AccountController do
           User.stub(:try_to_login).and_return(user)
           controller.should_receive(:successful_authentication).with(user, 'token')
           controller.send(:password_authentication, 'token')
+          controller.should_receive(:successful_authentication).with(user, nil)
+          controller.send(:password_authentication)
         end
       end
     end
