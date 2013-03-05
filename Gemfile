@@ -45,5 +45,6 @@ end
 
 group :development, :test do
   gem 'capybara'
+  gem 'faker'
   gem 'steak'
 end

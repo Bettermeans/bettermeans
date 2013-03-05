@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
 
+  map.resources :activity_stream_preferences, :only => [:index, :create]
   map.resources :help_sections
   map.resources :reputations
   map.resources :credit_distributions

@@ -4,11 +4,12 @@ guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
   watch('config/application.rb')
   watch('config/environment.rb')
   watch('config/environments/test.rb')
+  watch('config/routes.rb')
   watch(%r{^config/initializers/.+\.rb$})
   watch('Gemfile')
   watch('Gemfile.lock')
   watch('spec/spec_helper.rb') { :rspec }
-  watch('spec/factories.rb')
+  watch(%r{^spec/factories/.+\.rb$})
   watch('db/seeds.rb')
   watch(%r{features/support/}) { :cucumber }
   watch(%r{^app/models/.+\.rb$})
@@ -18,7 +19,7 @@ end
 guard 'rspec', :version => 1, :cli => '--drb --color' do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
-  watch('spec/spec_helper.rb')  { "spec" }
+  watch('spec/spec_helper.rb')
 
   # Rails example
   watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
