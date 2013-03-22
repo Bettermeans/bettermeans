@@ -18,6 +18,7 @@ gem 'SystemTimer', '1.2.2', :require => 'system_timer', :platforms => :ruby_18
 gem 'rack-timeout', '0.0.1'
 gem 'will_paginate', '2.3.15'
 gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
+gem 'pg'
 
 group :test do
   gem 'shoulda'
@@ -32,15 +33,12 @@ group :test do
 end
 
 group :development do
-  gem 'sqlite3-ruby', :require => 'sqlite3'
-  gem 'pg'
-  gem 'mysql2', '< 0.3'
   gem 'guard-rspec'
   gem 'spork', '0.8.5'
   gem 'guard-spork'
   #gem 'reek'
-  gem 'ruby2ruby', '1.2.2'
-  gem 'heckle'
+  #gem 'ruby2ruby', '1.2.2'
+  #gem 'heckle'
 end
 
 group :development, :test do
