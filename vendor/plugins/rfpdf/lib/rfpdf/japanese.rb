@@ -37,22 +37,22 @@
 
 module PDF_Japanese
 
-  SJIS_widths={' ' => 278, '!' => 299, '"' => 353, '#' => 614, '$' => 614, '%' => 721, '&' => 735, '\'' => 216, 
-  	'(' => 323, ')' => 323, '*' => 449, '+' => 529, ',' => 219, '-' => 306, '.' => 219, '/' => 453, '0' => 614, '1' => 614, 
-  	'2' => 614, '3' => 614, '4' => 614, '5' => 614, '6' => 614, '7' => 614, '8' => 614, '9' => 614, ':' => 219, ';' => 219, 
-  	'<' => 529, '=' => 529, '>' => 529, '?' => 486, '@' => 744, 'A' => 646, 'B' => 604, 'C' => 617, 'D' => 681, 'E' => 567, 
-  	'F' => 537, 'G' => 647, 'H' => 738, 'I' => 320, 'J' => 433, 'K' => 637, 'L' => 566, 'M' => 904, 'N' => 710, 'O' => 716, 
-  	'P' => 605, 'Q' => 716, 'R' => 623, 'S' => 517, 'T' => 601, 'U' => 690, 'V' => 668, 'W' => 990, 'X' => 681, 'Y' => 634, 
-  	'Z' => 578, '[' => 316, '\\' => 614, ']' => 316, '^' => 529, '_' => 500, '`' => 387, 'a' => 509, 'b' => 566, 'c' => 478, 
-  	'd' => 565, 'e' => 503, 'f' => 337, 'g' => 549, 'h' => 580, 'i' => 275, 'j' => 266, 'k' => 544, 'l' => 276, 'm' => 854, 
-  	'n' => 579, 'o' => 550, 'p' => 578, 'q' => 566, 'r' => 410, 's' => 444, 't' => 340, 'u' => 575, 'v' => 512, 'w' => 760, 
+  SJIS_widths={' ' => 278, '!' => 299, '"' => 353, '#' => 614, '$' => 614, '%' => 721, '&' => 735, '\'' => 216,
+  	'(' => 323, ')' => 323, '*' => 449, '+' => 529, ',' => 219, '-' => 306, '.' => 219, '/' => 453, '0' => 614, '1' => 614,
+  	'2' => 614, '3' => 614, '4' => 614, '5' => 614, '6' => 614, '7' => 614, '8' => 614, '9' => 614, ':' => 219, ';' => 219,
+  	'<' => 529, '=' => 529, '>' => 529, '?' => 486, '@' => 744, 'A' => 646, 'B' => 604, 'C' => 617, 'D' => 681, 'E' => 567,
+  	'F' => 537, 'G' => 647, 'H' => 738, 'I' => 320, 'J' => 433, 'K' => 637, 'L' => 566, 'M' => 904, 'N' => 710, 'O' => 716,
+  	'P' => 605, 'Q' => 716, 'R' => 623, 'S' => 517, 'T' => 601, 'U' => 690, 'V' => 668, 'W' => 990, 'X' => 681, 'Y' => 634,
+  	'Z' => 578, '[' => 316, '\\' => 614, ']' => 316, '^' => 529, '_' => 500, '`' => 387, 'a' => 509, 'b' => 566, 'c' => 478,
+  	'd' => 565, 'e' => 503, 'f' => 337, 'g' => 549, 'h' => 580, 'i' => 275, 'j' => 266, 'k' => 544, 'l' => 276, 'm' => 854,
+  	'n' => 579, 'o' => 550, 'p' => 578, 'q' => 566, 'r' => 410, 's' => 444, 't' => 340, 'u' => 575, 'v' => 512, 'w' => 760,
   	'x' => 503, 'y' => 529, 'z' => 453, '{' => 326, '|' => 380, '}' => 326, '~' => 387}
 
-  def AddCIDFont(family,style,name,cw,cMap,registry)  	
+  def AddCIDFont(family,style,name,cw,cMap,registry)
     fontkey=family.downcase+style.upcase
   	unless @fonts[fontkey].nil?
   		Error("CID font already added: family style")
-  	end  
+  	end
   	i=@fonts.length+1
   	@fonts[fontkey]={'i'=>i,'type'=>'Type0','name'=>name,'up'=>-120,'ut'=>40,'cw'=>cw,
   	  'CMap'=>cMap,'registry'=>registry}
@@ -79,7 +79,7 @@ module PDF_Japanese
   	name='KozMinPro-Regular-Acro'
     32.upto(126) do |i|
   		cw[i.chr]=500
-  	end  
+  	end
   	cMap='90ms-RKSJ-H'
   	registry={'ordering'=>'Japan1','supplement'=>2}
   	AddCIDFonts(family,name,cw,cMap,registry)
@@ -90,7 +90,7 @@ module PDF_Japanese
   		return GetSJISStringWidth(s)
   	else
   		return super(s)
-  	end  
+  	end
   end
 
   def GetSJISStringWidth(s)
@@ -123,7 +123,7 @@ module PDF_Japanese
   		SJISMultiCell(w,h,txt,border,align,fill)
   	else
   		super(w,h,txt,border,align,fill)
-  	end  
+  	end
   end
 
   def SJISMultiCell(w,h,txt,border=0,align='L',fill=0)
@@ -131,13 +131,13 @@ module PDF_Japanese
   	cw=@CurrentFont['cw']
   	if(w==0)
   		w=@w-@rMargin-@x
-  	end  
+  	end
   	wmax=(w-2*@cMargin)*1000/@FontSize
   	s=txt.gsub("\r",'')
   	nb=s.length
   	if(nb>0 and s[nb-1]=="\n")
   		nb-=1
-  	end  
+  	end
   	b=0
   	if(border)
   		if(border==1)
@@ -148,10 +148,10 @@ module PDF_Japanese
   			b2=''
   			if(border.to_s.index('L'))
   				b2+='L'
-      	end  
+      	end
   			if(border.to_s.index('R'))
   				b2+='R'
-      	end  
+      	end
   			b=border.to_s.index('T') ? b2+'T' : b2
   		end
   	end
@@ -174,7 +174,7 @@ module PDF_Japanese
   			nl+=1
   			if(border and nl==2)
   				b=b2
-      	end  
+      	end
   			next
   		end
   		if(o<128)
@@ -183,7 +183,7 @@ module PDF_Japanese
   			n=1
   			if(o==32)
   				sep=i
-      	end  
+      	end
   		elsif(o>=161 and o<=223)
   			#Half-width katakana
   			l+=500
@@ -200,7 +200,7 @@ module PDF_Japanese
   			if(sep==-1 or i==j)
   				if(i==j)
   					i+=n
-        	end  
+        	end
   				Cell(w,h,s[j,i-j],b,2,align,fill)
   			else
   				Cell(w,h,s[j,sep-j],b,2,align,fill)
@@ -212,7 +212,7 @@ module PDF_Japanese
   			nl+=1
   			if(border and nl==2)
   				b=b2
-      	end  
+      	end
   		else
   			i+=n
   			if(o>=128)
@@ -223,7 +223,7 @@ module PDF_Japanese
   	#Last chunk
   	if(border and not border.to_s.index('B').nil?)
   		b+='B'
-  	end  
+  	end
   	Cell(w,h,s[j,i-j],b,2,align,fill)
   	@x=@lMargin
   end
@@ -233,7 +233,7 @@ module PDF_Japanese
   		SJISWrite(h,txt,link)
   	else
   		super(h,txt,link)
-  	end  
+  	end
   end
 
   def SJISWrite(h,txt,link)
@@ -274,7 +274,7 @@ module PDF_Japanese
   			n=1
   			if(o==32)
   				sep=i
-      	end  
+      	end
   		elsif(o>=161 and o<=223)
   			#Half-width katakana
   			l+=500
@@ -301,7 +301,7 @@ module PDF_Japanese
   				end
   				if(i==j)
   					i+=n
-        	end  
+        	end
   				Cell(w,h,s[j,i-j],0,2,'',0,link)
   			else
   				Cell(w,h,s[j,sep-j],0,2,'',0,link)
@@ -320,15 +320,15 @@ module PDF_Japanese
   			i+=n
   			if(o>=128)
   				sep=i
-      	end  
+      	end
   		end
   	end
   	#Last chunk
   	if(i!=j)
   		Cell(l/1000*@FontSize,h,s[j,i-j],0,0,'',0,link)
-  	end  
+  	end
   end
-  
+
 private
 
   def putfonts()
@@ -347,19 +347,19 @@ private
   		@FontFiles[file]['n']=@n
   		if(defined('FPDF_FONTPATH'))
   			file=FPDF_FONTPATH+file
-    	end  
+    	end
   		size=filesize(file)
   		if(!size)
   			Error('Font file not found')
-    	end  
+    	end
   		out('<</Length '+size)
   		if(file[-2]=='.z')
   			out('/Filter /FlateDecode')
-    	end  
+    	end
   		out('/Length1 '+info['length1'])
   		unless info['length2'].nil?
   			out('/Length2 '+info['length2']+' /Length3 0')
-    	end  
+    	end
   		out('>>')
   		f=fopen(file,'rb')
   		putstream(fread(f,size))
@@ -395,7 +395,7 @@ private
   						out('/Encoding '+(nf+font['diff'])+' 0 R')
   					else
   						out('/Encoding /WinAnsiEncoding')
-          	end  
+          	end
   				end
   			end
   			out('>>')
@@ -407,7 +407,7 @@ private
   				s='['
           32.upto(255) do |i|
   					s+=cw[i.chr]+' '
-        	end  
+        	end
   				out(s+']')
   				out('endobj')
   				#Descriptor
@@ -415,11 +415,11 @@ private
   				s='<</Type /FontDescriptor /FontName /'+name
   				font['desc'].each_pair do |k, v|
   					s+=' /'+k+' '+v
-        	end  
+        	end
   				file=font['file']
   				if(file)
   					s+=' /FontFile'+(font['type']=='Type1' ? '' : '2')+' '+@FontFiles[file]['n']+' 0 R'
-        	end  
+        	end
   				out(s+'>>')
   				out('endobj')
   			end

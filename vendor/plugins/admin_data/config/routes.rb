@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
   map.namespace(:admin_data) do |admin_data|
-    
+
     admin_data.with_options :controller => 'main' do |m|
       m.index                       '/',                                :action => 'all_models'
     end
@@ -12,7 +12,7 @@ ActionController::Routing::Routes.draw do |map|
     end
 
     admin_data.with_options :controller => 'feed' do |m|
-      m.feed                        '/feed/:klasss',                    :action => 'index', 
+      m.feed                        '/feed/:klasss',                    :action => 'index',
                                                                         :format => :rss
     end
 

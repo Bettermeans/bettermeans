@@ -5,13 +5,13 @@ require 'optparse'
 module Delayed
   class Command
     attr_accessor :worker_count
-    
+
     def initialize(args)
       @files_to_reopen = []
       @options = {:quiet => true}
-      
+
       @worker_count = 1
-      
+
       opts = OptionParser.new do |opts|
         opts.banner = "Usage: #{File.basename($0)} [options] start|stop|restart|run"
 
@@ -34,12 +34,12 @@ module Delayed
       end
       @args = opts.parse!(args)
     end
-  
+
     def daemonize
       ObjectSpace.each_object(File) do |file|
         @files_to_reopen << file unless file.closed?
       end
-      
+
       worker_count.times do |worker_index|
         process_name = worker_count == 1 ? "delayed_job" : "delayed_job.#{worker_index}"
         Daemons.run_proc(process_name, :dir => "#{RAILS_ROOT}/tmp/pids", :dir_mode => :normal, :ARGV => @args) do |*args|
@@ -47,10 +47,10 @@ module Delayed
         end
       end
     end
-    
+
     def run(worker_name = nil)
       Dir.chdir(RAILS_ROOT)
-      
+
       # Re-open file handles
       @files_to_reopen.each do |file|
         begin
@@ -59,10 +59,10 @@ module Delayed
         rescue ::Exception
         end
       end
-      
+
       Delayed::Worker.logger = Rails.logger
       ActiveRecord::Base.connection.reconnect!
-      
+
       worker = Delayed::Worker.new(@options)
       worker.name_prefix = "#{worker_name} "
       worker.start
@@ -71,6 +71,6 @@ module Delayed
       STDERR.puts e.message
       exit 1
     end
-    
+
   end
 end

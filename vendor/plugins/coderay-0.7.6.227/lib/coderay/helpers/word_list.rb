@@ -1,9 +1,9 @@
 module CodeRay
 
 # = WordList
-# 
+#
 # <b>A Hash subclass designed for mapping word lists to token types.</b>
-# 
+#
 # Copyright (c) 2006 by murphy (Kornelius Kalnbach) <murphy rubychan de>
 #
 # License:: LGPL / ask the author
@@ -24,16 +24,16 @@ module CodeRay
 #    asm break case continue default do else
 #    ...
 #  ]
-#  
+#
 #  PREDEFINED_TYPES = %w[
 #    int long short char void
 #    ...
 #  ]
-#  
+#
 #  PREDEFINED_CONSTANTS = %w[
 #    EOF NULL ...
 #  ]
-#  
+#
 #  # make a WordList
 #  IDENT_KIND = WordList.new(:ident).
 #    add(RESERVED_WORDS, :reserved).
@@ -44,7 +44,7 @@ module CodeRay
 #
 #  def scan_tokens tokens, options
 #    ...
-#    
+#
 #    elsif scan(/[A-Za-z_][A-Za-z_0-9]*/)
 #      # use it
 #      kind = IDENT_KIND[match]
@@ -52,9 +52,9 @@ module CodeRay
 class WordList < Hash
 
   # Creates a new WordList with +default+ as default value.
-  # 
+  #
   # You can activate +caching+ to store the results for every [] request.
-  # 
+  #
   # With caching, methods like +include?+ or +delete+ may no longer behave
   # as you expect. Therefore, it is recommended to use the [] method only.
   def initialize default = false, caching = false, &block
@@ -73,7 +73,7 @@ class WordList < Hash
   end
 
   # Add words to the list and associate them with +kind+.
-  # 
+  #
   # Returns +self+, so you can concat add calls.
   def add words, kind = true
     words.each do |word|
@@ -87,16 +87,16 @@ end
 
 # A CaseIgnoringWordList is like a WordList, only that
 # keys are compared case-insensitively.
-# 
+#
 # Ignoring the text case is realized by sending the +downcase+ message to
 # all keys.
-# 
+#
 # Caching usually makes a CaseIgnoringWordList faster, but it has to be
 # activated explicitely.
 class CaseIgnoringWordList < WordList
 
   # Creates a new case-insensitive WordList with +default+ as default value.
-  # 
+  #
   # You can activate caching to store the results for every [] request.
   def initialize default = false, caching = false
     if caching

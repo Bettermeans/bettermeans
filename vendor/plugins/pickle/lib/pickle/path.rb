@@ -21,7 +21,7 @@ module Pickle
         pickle_path_for_models_action_segment(models, options[:action], options[:segment])
       end or raise "Could not figure out a path for #{pickle_names.inspect} #{options.inspect}"
     end
-    
+
   protected
     def find_pickle_path_using_action_segment_combinations(models, parts)
       path = nil
@@ -32,7 +32,7 @@ module Pickle
       end
       path
     end
-    
+
     def pickle_path_for_models_action_segment(models, action, segment)
       action.blank? or action = action.downcase.gsub(' ','_')
       segment.blank? or segment = segment.downcase.gsub(' ','_')

@@ -60,9 +60,9 @@ describe YamlDb::Load do
 	end
 
 	it "should call load structure for each document in the file" do
-		YAML.should_receive(:load_documents).with(@io).and_yield({ 'mytable' => { 
-					'columns' => [ 'a', 'b' ], 
-					'records' => [[1, 2], [3, 4]] 
+		YAML.should_receive(:load_documents).with(@io).and_yield({ 'mytable' => {
+					'columns' => [ 'a', 'b' ],
+					'records' => [[1, 2], [3, 4]]
 				} })
 		YamlDb::Load.should_receive(:load_table).with('mytable', { 'columns' => [ 'a', 'b' ], 'records' => [[1, 2], [3, 4]] })
 		YamlDb::Load.load(@io)

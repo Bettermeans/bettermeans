@@ -5,7 +5,7 @@ class AddVersionedTables < ActiveRecord::Migration
     end
     Thing.create_versioned_table
   end
-  
+
   def self.down
     Thing.drop_versioned_table
     drop_table "things" rescue nil

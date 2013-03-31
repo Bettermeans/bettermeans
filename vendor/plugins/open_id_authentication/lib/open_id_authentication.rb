@@ -136,7 +136,7 @@ module OpenIdAuthentication
       identity_url = normalize_identifier(identity_url)
       return_to    = options.delete(:return_to)
       method       = options.delete(:method)
-      
+
       options[:required] ||= []  # reduces validation later
       options[:optional] ||= []
 
@@ -167,7 +167,7 @@ module OpenIdAuthentication
             profile_data.merge! data_response.from_success_response( open_id_response ).data
           end
         end
-        
+
         yield Result[:successful], identity_url, profile_data
       when OpenID::Consumer::CANCEL
         yield Result[:canceled], identity_url, nil
@@ -184,20 +184,20 @@ module OpenIdAuthentication
 
     def add_simple_registration_fields(open_id_request, fields)
       sreg_request = OpenID::SReg::Request.new
-      
+
       # filter out AX identifiers (URIs)
       required_fields = fields[:required].collect { |f| f.to_s unless f =~ /^https?:\/\// }.compact
       optional_fields = fields[:optional].collect { |f| f.to_s unless f =~ /^https?:\/\// }.compact
-      
+
       sreg_request.request_fields(required_fields, true) unless required_fields.blank?
       sreg_request.request_fields(optional_fields, false) unless optional_fields.blank?
       sreg_request.policy_url = fields[:policy_url] if fields[:policy_url]
       open_id_request.add_extension(sreg_request)
     end
-    
+
     def add_ax_fields( open_id_request, fields )
       ax_request = OpenID::AX::FetchRequest.new
-      
+
       # look through the :required and :optional fields for URIs (AX identifiers)
       fields[:required].each do |f|
         next unless f =~ /^https?:\/\//
@@ -208,10 +208,10 @@ module OpenIdAuthentication
         next unless f =~ /^https?:\/\//
         ax_request.add( OpenID::AX::AttrInfo.new( f, nil, false ) )
       end
-      
+
       open_id_request.add_extension( ax_request )
     end
-        
+
     def open_id_redirect_url(open_id_request, return_to = nil, method = nil)
       open_id_request.return_to_args['_method'] = (method || request.method).to_s
       open_id_request.return_to_args['open_id_complete'] = '1'

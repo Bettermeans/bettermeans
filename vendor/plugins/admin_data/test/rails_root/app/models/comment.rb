@@ -1,7 +1,7 @@
 class Comment < ActiveRecord::Base
-  
+
   belongs_to :article
-  
+
   before_save :set_body_html
 
   private

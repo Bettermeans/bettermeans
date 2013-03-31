@@ -5,7 +5,7 @@ class AdminData::BaseController < ApplicationController
   helper_method :admin_data_is_allowed_to_update?
 
   layout 'admin_data'
-  ssl_required :all  
+  ssl_required :all
 
   include AdminData::Chelper
 

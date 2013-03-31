@@ -2,7 +2,7 @@
 # by name, and iteration over loaded plugins in order of priority. This array is used
 # by Engines::RailsExtensions::RailsInitializer to create the Engines.plugins array.
 #
-# Each loaded plugin has a corresponding Plugin instance within this array, and 
+# Each loaded plugin has a corresponding Plugin instance within this array, and
 # the order the plugins were loaded is reflected in the entries in this array.
 #
 # For more information, see the Rails module.
@@ -19,7 +19,7 @@ module Engines
           self.find { |plugin| plugin.name.to_s == name_or_index.to_s }
         end
       end
-  
+
       # Go through each plugin, highest priority first (last loaded first). Effectively,
       # this is like <tt>Engines.plugins.reverse</tt>
       def by_precedence

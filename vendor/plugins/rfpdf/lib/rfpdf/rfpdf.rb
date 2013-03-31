@@ -5,7 +5,7 @@ module RFPDF
   }.freeze
 
   # Draw a line from (<tt>x1, y1</tt>) to (<tt>x2, y2</tt>).
-  # 
+  #
   # Options are:
   # * <tt>:line_color</tt> - Default value is <tt>COLOR_PALETTE[:black]</tt>.
   # * <tt>:line_width</tt> - Default value is <tt>0.5</tt>.
@@ -23,7 +23,7 @@ module RFPDF
   end
 
   # Draw a string of <tt>text</tt> at (<tt>x, y</tt>).
-  # 
+  #
   # Options are:
   # * <tt>:font_color</tt> - Default value is <tt>COLOR_PALETTE[:black]</tt>.
   # * <tt>:font_size</tt> - Default value is <tt>10</tt>.
@@ -45,7 +45,7 @@ module RFPDF
 
   # Draw a block of <tt>text</tt> at (<tt>x, y</tt>) bounded by <tt>left_margin</tt> and <tt>right_margin</tt>. Both
   # margins are measured from their corresponding edge.
-  # 
+  #
   # Options are:
   # * <tt>:font_color</tt> - Default value is <tt>COLOR_PALETTE[:black]</tt>.
   # * <tt>:font_size</tt> - Default value is <tt>10</tt>.
@@ -72,7 +72,7 @@ module RFPDF
   end
 
   # Draw a box at (<tt>x, y</tt>), <tt>w</tt> wide and <tt>h</tt> high.
-  # 
+  #
   # Options are:
   # * <tt>:border</tt> - Draw a border, 0 = no, 1 = yes? Default value is <tt>1</tt>.
   # * <tt>:border_color</tt> - Default value is <tt>COLOR_PALETTE[:black]</tt>.
@@ -98,9 +98,9 @@ module RFPDF
     fd += "F" if options[:fill] == 1
     Rect(x, y, w, h, fd)
   end
-  
+
   # Draw a string of <tt>text</tt> at (<tt>x, y</tt>) in a box <tt>w</tt> wide and <tt>h</tt> high.
-  # 
+  #
   # Options are:
   # * <tt>:align</tt> - Vertical alignment 'C' = center, 'L' = left, 'R' = right. Default value is <tt>'C'</tt>.
   # * <tt>:border</tt> - Draw a border, 0 = no, 1 = yes? Default value is <tt>0</tt>.
@@ -116,10 +116,10 @@ module RFPDF
   #
   # Example:
   #
-	#   draw_text_box(x, y - 1, 38, 22, 
-  #                 "your_score_title", 
+	#   draw_text_box(x, y - 1, 38, 22,
+  #                 "your_score_title",
   #                 :fill => 0,
-  #                 :font_color => ReportHelper::COLOR_PALETTE[:blue], 
+  #                 :font_color => ReportHelper::COLOR_PALETTE[:blue],
   #                 :font_line_spacing => 0,
   #                 :font_style => "B",
   #                 :valign => "M")
@@ -139,7 +139,7 @@ module RFPDF
     options[:valign] ||= "M"
 		if options[:fill] == 1 or options[:border] == 1
       draw_box(x, y, w, h, options)
-  	end    
+  	end
     SetMargins(0,0,0)
     set_text_color(options[:font_color])
   	font_size = options[:font_size]
@@ -162,9 +162,9 @@ module RFPDF
       Cell(w, h, text, 0, 0, options[:align])
     end
   end
-  
+
   # Draw a string of <tt>text</tt> at (<tt>x, y</tt>) as a title.
-  # 
+  #
   # Options are:
   # * <tt>:font_color</tt> - Default value is <tt>COLOR_PALETTE[:black]</tt>.
   # * <tt>:font_size</tt> - Default value is <tt>18</tt>.
@@ -172,8 +172,8 @@ module RFPDF
   #
   # Example:
   #
-	#   draw_title(left_margin, 60, 
-	#       "title:", 
+	#   draw_title(left_margin, 60,
+	#       "title:",
 	#       :font_color => ReportHelper::COLOR_PALETTE[:dark_blue])
 	#
   def draw_title(x, y, title, options = {})
@@ -215,7 +215,7 @@ module RFPDF
   def set_text_color(color = COLOR_PALETTE[:black])
     SetTextColor(color[0], color[1], color[2])
   end
-    
+
   # Write a string containing html characters. Default value is <tt>COLOR_PALETTE[:white]</tt>.
   #
   # Options are:
@@ -292,7 +292,7 @@ module RFPDF
     Write(5, txt, url)
     set_style('U',false)
     SetTextColor(0)
-  end 
+  end
 end
 
 # class FPDF

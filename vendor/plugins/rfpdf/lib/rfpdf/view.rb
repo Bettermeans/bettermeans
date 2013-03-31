@@ -20,19 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 #
-# Thanks go out to Bruce Williams of codefluency who created RTex. This 
+# Thanks go out to Bruce Williams of codefluency who created RTex. This
 # template handler is modification of his work.
 #
 # Example Registration
-# 
+#
 #   ActionView::Base::register_template_handler 'rfpdf', RFpdfView
 
 module RFPDF
-  
+
   class View
     @@backward_compatibility_mode = false
     cattr_accessor :backward_compatibility_mode
-    
+
     def initialize(action_view)
       @action_view = action_view
       # Override with @options_for_rfpdf Hash in your controller
@@ -47,7 +47,7 @@ module RFPDF
         :temp_dir => "#{File.expand_path(RAILS_ROOT)}/tmp"
       }.merge(@action_view.controller.instance_eval{ @options_for_rfpdf } || {}).with_indifferent_access
     end
-    
+
     def self.compilable?
       false
     end
@@ -64,7 +64,7 @@ module RFPDF
 				@action_view.controller.headers["Content-disposition:"] = "inline; filename=\"#{@options[:file_name]}\""
 			end
       assigns = @action_view.assigns.dup
-    
+
       if content_for_layout = @action_view.instance_variable_get("@content_for_layout")
         assigns['content_for_layout'] = content_for_layout
       end
@@ -76,10 +76,10 @@ module RFPDF
 			  local_assigns.each do |key,val|
 		  		class << self; self; end.send(:define_method,key){ val }
 				end
-        ERB.new(@@backward_compatibility_mode == true ? template : template.source).result(binding) 
+        ERB.new(@@backward_compatibility_mode == true ? template : template.source).result(binding)
       end
     end
 
   end
-  
+
 end

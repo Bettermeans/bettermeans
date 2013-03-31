@@ -16,7 +16,7 @@ end
 class Event < ActiveRecord::Base
   class Create < Event
   end
-  
+
   class Update < Event
   end
 end

@@ -7,14 +7,14 @@ class PickleGenerator < Rails::Generator::Base
       File.exists?('features/support/paths.rb') or raise "features/support/paths.rb not found, is your cucumber up to date?"
     end
   end
-  
+
   def manifest
     record do |m|
       m.directory File.join('features/step_definitions')
-      
+
       current_env = File.read('features/support/env.rb')
       env_assigns = {:current_env => current_env, :pickle => false, :pickle_path => false, :pickle_email => false}
-      
+
       if @generate_path_steps
         env_assigns[:pickle_path] = true unless current_env.include?("require 'pickle/path/world'")
         current_paths = File.read('features/support/paths.rb')
@@ -26,15 +26,15 @@ class PickleGenerator < Rails::Generator::Base
           end
         end
       end
-      
+
       if @generate_email_steps
         env_assigns[:pickle_email] = true unless current_env.include?("require 'pickle/email/world'")
-        m.template 'email_steps.rb', File.join('features/step_definitions', "email_steps.rb") 
+        m.template 'email_steps.rb', File.join('features/step_definitions', "email_steps.rb")
       end
-      
+
       env_assigns[:pickle] = true unless current_env.include?("require 'pickle/world'")
       m.template 'pickle_steps.rb', File.join('features/step_definitions', "pickle_steps.rb")
-      
+
       m.template 'env.rb', File.join('features/support', "env.rb"), :assigns => env_assigns, :collision => :force
     end
   end

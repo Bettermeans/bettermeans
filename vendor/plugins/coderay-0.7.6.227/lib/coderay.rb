@@ -6,18 +6,18 @@
 #
 # I try to make CodeRay easy to use and intuitive, but at the same time fully featured, complete,
 # fast and efficient.
-# 
+#
 # See README.
-# 
+#
 # It consists mainly of
 # * the main engine: CodeRay (Scanners::Scanner, Tokens/TokenStream, Encoders::Encoder), PluginHost
 # * the scanners in CodeRay::Scanners
 # * the encoders in CodeRay::Encoders
-# 
+#
 # Here's a fancy graphic to light up this gray docu:
-# 
+#
 # http://rd.cYcnus.de/coderay/scheme.png
-# 
+#
 # == Documentation
 #
 # See CodeRay, Encoders, Scanners, Tokens.
@@ -28,32 +28,32 @@
 # -rubygems option if required.
 #
 # === Highlight Ruby code in a string as html
-# 
+#
 #   require 'coderay'
 #   print CodeRay.scan('puts "Hello, world!"', :ruby).html
 #
 #   # prints something like this:
 #   puts <span class="s">&quot;Hello, world!&quot;</span>
-# 
-# 
+#
+#
 # === Highlight C code from a file in a html div
-# 
+#
 #   require 'coderay'
 #   print CodeRay.scan(File.read('ruby.h'), :c).div
 #   print CodeRay.scan_file('ruby.h').html.div
-# 
+#
 # You can include this div in your page. The used CSS styles can be printed with
-# 
+#
 #   % coderay_stylesheet
-# 
+#
 # === Highlight without typing too much
-# 
+#
 # If you are one of the hasty (or lazy, or extremely curious) people, just run this file:
-# 
+#
 #   % ruby -rubygems /path/to/coderay/coderay.rb > example.html
-# 
+#
 # and look at the file it created in your browser.
-# 
+#
 # = CodeRay Module
 #
 # The CodeRay module provides convenience methods for the engine.
@@ -64,38 +64,38 @@
 #   the Encoder / Scanner.
 # * Input and language are always sorted in this order: +code+, +lang+.
 #   (This is in alphabetical order, if you need a mnemonic ;)
-# 
+#
 # You should be able to highlight everything you want just using these methods;
 # so there is no need to dive into CodeRay's deep class hierarchy.
 #
 # The examples in the demo directory demonstrate common cases using this interface.
-#  
+#
 # = Basic Access Ways
 #
 # Read this to get a general view what CodeRay provides.
-# 
+#
 # == Scanning
-#  
+#
 #  Scanning means analysing an input string, splitting it up into Tokens.
 #  Each Token knows about what type it is: string, comment, class name, etc.
 #
 #  Each +lang+ (language) has its own Scanner; for example, <tt>:ruby</tt> code is
 #  handled by CodeRay::Scanners::Ruby.
-# 
+#
 # CodeRay.scan:: Scan a string in a given language into Tokens.
 #                This is the most common method to use.
 # CodeRay.scan_file:: Scan a file and guess the language using FileType.
-# 
+#
 # The Tokens object you get from these methods can encode itself; see Tokens.
-# 
+#
 # == Encoding
 #
 # Encoding means compiling Tokens into an output. This can be colored HTML or
 # LaTeX, a textual statistic or just the number of non-whitespace tokens.
-# 
+#
 # Each Encoder provides output in a specific +format+, so you select Encoders via
 # formats like <tt>:html</tt> or <tt>:statistic</tt>.
-# 
+#
 # CodeRay.encode:: Scan and encode a string in a given language.
 # CodeRay.encode_tokens:: Encode the given tokens.
 # CodeRay.encode_file:: Scan a file, guess the language using FileType and encode it.
@@ -122,9 +122,9 @@
 # To make use of CodeRay.scanner, use CodeRay::Scanner::code=.
 #
 # The scanning methods provide more flexibility; we recommend to use these.
-# 
+#
 # == Reusing Scanners and Encoders
-# 
+#
 # If you want to re-use scanners and encoders (because that is faster), see
 # CodeRay::Duo for the most convenient (and recommended) interface.
 module CodeRay
@@ -223,7 +223,7 @@ module CodeRay
     # Use this together with CodeRay.scan:
     #
     #  require 'coderay'
-    #  
+    #
     #  # Highlight a short Ruby code example in a HTML span
     #  tokens = CodeRay.scan '1 + 2', :ruby
     #  puts CodeRay.encode_tokens(tokens, :span)
@@ -260,10 +260,10 @@ module CodeRay
     #
     # Example:
     #  require 'coderay'
-    #  
+    #
     #  stats = CodeRay.encoder(:statistic)
     #  stats.encode("puts 17 + 4\n", :ruby)
-    #  
+    #
     #  puts '%d out of %d tokens have the kind :integer.' % [
     #    stats.type_stats[:integer].count,
     #    stats.real_token_count

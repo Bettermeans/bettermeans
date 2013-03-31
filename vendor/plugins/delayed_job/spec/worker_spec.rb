@@ -13,10 +13,10 @@ describe Delayed::Worker do
     @worker = Delayed::Worker.new(:max_priority => nil, :min_priority => nil, :quiet => true)
 
     Delayed::Job.delete_all
-    
+
     SimpleJob.runs = 0
   end
-  
+
   describe "running a job" do
     it "should fail after Worker.max_run_time" do
       begin
@@ -31,7 +31,7 @@ describe Delayed::Worker do
       end
     end
   end
-  
+
   context "worker prioritization" do
     before(:each) do
       @worker = Delayed::Worker.new(:max_priority => 5, :min_priority => -5, :quiet => true)
@@ -63,29 +63,29 @@ describe Delayed::Worker do
     before(:each) do
       @worker.name = 'worker1'
     end
-    
+
     it "should not run jobs locked by another worker" do
       job_create(:locked_by => 'other_worker', :locked_at => (Delayed::Job.db_time_now - 1.minutes))
       lambda { @worker.work_off }.should_not change { SimpleJob.runs }
     end
-    
+
     it "should run open jobs" do
       job_create
       lambda { @worker.work_off }.should change { SimpleJob.runs }.from(0).to(1)
     end
-    
+
     it "should run expired jobs" do
       expired_time = Delayed::Job.db_time_now - (1.minutes + Delayed::Worker.max_run_time)
       job_create(:locked_by => 'other_worker', :locked_at => expired_time)
       lambda { @worker.work_off }.should change { SimpleJob.runs }.from(0).to(1)
     end
-    
+
     it "should run own jobs" do
       job_create(:locked_by => @worker.name, :locked_at => (Delayed::Job.db_time_now - 1.minutes))
       lambda { @worker.work_off }.should change { SimpleJob.runs }.from(0).to(1)
     end
   end
-  
+
   describe "failed jobs" do
     before do
       # reset defaults
@@ -105,7 +105,7 @@ describe Delayed::Worker do
       @job.attempts.should == 1
       @job.failed_at.should_not be_nil
     end
-    
+
     it "should re-schedule jobs after failing" do
       @worker.run(@job)
       @job.reload
@@ -116,33 +116,33 @@ describe Delayed::Worker do
       @job.run_at.should < Delayed::Job.db_time_now + 10.minutes
     end
   end
-  
+
   context "reschedule" do
     before do
       @job = Delayed::Job.create :payload_object => SimpleJob.new
     end
-    
+
     context "and we want to destroy jobs" do
       before do
         Delayed::Worker.destroy_failed_jobs = true
       end
-      
+
       it "should be destroyed if it failed more than Worker.max_attempts times" do
         @job.should_receive(:destroy)
         Delayed::Worker.max_attempts.times { @worker.reschedule(@job) }
       end
-      
+
       it "should not be destroyed if failed fewer than Worker.max_attempts times" do
         @job.should_not_receive(:destroy)
         (Delayed::Worker.max_attempts - 1).times { @worker.reschedule(@job) }
       end
     end
-    
+
     context "and we don't want to destroy jobs" do
       before do
         Delayed::Worker.destroy_failed_jobs = false
       end
-      
+
       it "should be failed if it failed more than Worker.max_attempts times" do
         @job.reload.failed_at.should == nil
         Delayed::Worker.max_attempts.times { @worker.reschedule(@job) }
@@ -153,9 +153,9 @@ describe Delayed::Worker do
         (Delayed::Worker.max_attempts - 1).times { @worker.reschedule(@job) }
         @job.reload.failed_at.should == nil
       end
-      
+
     end
   end
-  
-  
+
+
 end

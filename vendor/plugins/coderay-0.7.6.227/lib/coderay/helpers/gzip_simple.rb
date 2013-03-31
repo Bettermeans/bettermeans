@@ -54,14 +54,14 @@ end
 #
 #   # create a big string
 #   x = 'a' * 1000
-#   
+#
 #   # zip it
 #   x_gz = x.gzip
-#   
+#
 #   # test the result
 #   puts 'Zipped %d bytes to %d bytes.' % [x.size, x_gz.size]
 #   #-> Zipped 1000 bytes to 19 bytes.
-#   
+#
 #   # unzipping works
 #   p x_gz.gunzip == x  #-> true
 class String

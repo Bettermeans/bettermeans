@@ -5,7 +5,7 @@ require 'rubygems'
 require 'test/unit'
 require 'multi_rails_init'
 # gem 'activerecord', '>= 2.0'
-require 'active_record' 
+require 'active_record'
 require 'action_controller'
 require 'action_view'
 require 'active_record/fixtures'
@@ -26,6 +26,6 @@ class Test::Unit::TestCase #:nodoc:
   self.fixture_path = File.dirname(__FILE__) + "/fixtures/"
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
-  
+
   fixtures :categories, :notes, :departments
 end

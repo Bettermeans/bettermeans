@@ -14,13 +14,13 @@ class ExceptionNotificationCompatibilityTest < ActionController::TestCase
       end
     end
   end
-  
+
   def setup
     @controller = SimpleController.new
     @request    = ActionController::TestRequest.new
     @response   = ActionController::TestResponse.new
   end
-  
+
   def test_should_work
     assert_nothing_raised do
       get :index

@@ -195,7 +195,7 @@ module CodeRay
     def optimize!
       replace optimize
     end
-    
+
     # Ensure that all :open tokens have a correspondent :close one.
     #
     # TODO: Test this!
@@ -221,11 +221,11 @@ module CodeRay
       tokens << [:close, kind] while kind = opened.pop
       tokens
     end
-    
+
     def fix!
       replace fix
     end
-    
+
     # Makes sure that:
     # - newlines are single tokens
     #   (which means all other token are single-line)
@@ -335,11 +335,11 @@ module CodeRay
     # Example:
     #
     #   require 'coderay'
-    #   
+    #
     #   token_stream = CodeRay::TokenStream.new do |kind, text|
     #     puts 'kind: %s, text size: %d.' % [kind, text.size]
     #   end
-    #   
+    #
     #   token_stream << [:regexp, '/\d+/']
     #   #-> kind: rexpexp, text size: 5.
     #
@@ -376,7 +376,7 @@ module CodeRay
 
   end
 
-  
+
   # Token name abbreviations
   require 'coderay/token_classes'
 

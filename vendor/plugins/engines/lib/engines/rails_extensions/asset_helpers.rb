@@ -1,4 +1,4 @@
-# The engines plugin makes it trivial to share public assets using plugins. 
+# The engines plugin makes it trivial to share public assets using plugins.
 # To do this, include an <tt>assets</tt> directory within your plugin, and put
 # your javascripts, stylesheets and images in subdirectories of that folder:
 #
@@ -30,7 +30,7 @@
 #
 #   <%= stylesheet_link_tag "my_styles", :plugin => "my_plugin", :media => "screen" %>
 #   <%= javascript_include_tag "my_functions", :plugin => "my_plugin" %>
-# 
+#
 # ... and similarly in views and partials, it's easy to use plugin images:
 #
 #   <%= image_tag "my_face", :plugin => "my_plugin" %>
@@ -38,7 +38,7 @@
 #   <%= image_path "my_face", :plugin => "my_plugin" %>
 #
 # Where the default helpers allow the specification of more than one file (i.e. the
-# javascript and stylesheet helpers), you can do similarly for multiple assets from 
+# javascript and stylesheet helpers), you can do similarly for multiple assets from
 # within a single plugin.
 #
 # ---
@@ -67,7 +67,7 @@ module Engines::RailsExtensions::AssetHelpers
     stylesheet_link_tag_without_engine_additions(*Engines::RailsExtensions::AssetHelpers.pluginify_sources("stylesheets", *sources))
   end
 
-  # Adds plugin functionality to Rails' default javascript_include_tag method.  
+  # Adds plugin functionality to Rails' default javascript_include_tag method.
   def javascript_include_tag_with_engine_additions(*sources)
     javascript_include_tag_without_engine_additions(*Engines::RailsExtensions::AssetHelpers.pluginify_sources("javascripts", *sources))
   end
@@ -103,15 +103,15 @@ module Engines::RailsExtensions::AssetHelpers
     options = sources.last.is_a?(Hash) ? sources.pop.stringify_keys : { }
     sources.map! { |s| plugin_asset_path(options["plugin"], type, s) } if options["plugin"]
     options.delete("plugin") # we don't want it appearing in the HTML
-    sources << options # re-add options      
-  end  
+    sources << options # re-add options
+  end
 
   # Returns the publicly-addressable relative URI for the given asset, type and plugin
   def self.plugin_asset_path(plugin_name, type, asset)
     raise "No plugin called '#{plugin_name}' - please use the full name of a loaded plugin." if Engines.plugins[plugin_name].nil?
     "/#{Engines.plugins[plugin_name].public_asset_directory}/#{type}/#{asset}"
   end
-  
+
 end
 
 module ::ActionView::Helpers::AssetTagHelper #:nodoc:

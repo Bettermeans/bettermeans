@@ -10,7 +10,7 @@ class Gchart
   include GchartInfo
 
   def self.url
-    "http://chart.apis.google.com/chart?" 
+    "http://chart.apis.google.com/chart?"
   end
 
   def self.types
@@ -19,7 +19,7 @@ class Gchart
 
   def self.simple_chars
     @simple_chars ||= ('A'..'Z').to_a + ('a'..'z').to_a + ('0'..'9').to_a
-  end 
+  end
 
   def self.chars
     @chars ||= simple_chars + ['-', '.']
@@ -40,13 +40,13 @@ class Gchart
   attr_accessor :bg_type, :bg_color, :bg_angle, :chart_type, :chart_color, :chart_angle, :axis_range
 
   attr_accessor :min_value, :max_value
-  
+
   types.each do |type|
     instance_eval <<-DYNCLASSMETH
     def #{type}(options = {})
       # Start with theme defaults if a theme is set
       theme = options[:theme]
-      options = theme ? Chart::Theme.load(theme).to_options.merge(options) : options 
+      options = theme ? Chart::Theme.load(theme).to_options.merge(options) : options
       # # Extract the format and optional filename, then clean the hash
       format = options[:format] || 'url'
       options[:filename] ||= Gchart.default_filename
@@ -85,7 +85,7 @@ class Gchart
     # Sets the CSS class selector when chart is exported as image tag
     @klass = options[:class] || false
     # set the options value if definable
-    options.each do |attribute, value| 
+    options.each do |attribute, value|
       send("#{attribute}=", value) if self.respond_to?("#{attribute}=")
     end
   end
@@ -103,7 +103,7 @@ class Gchart
   def size
     "#{width}x#{height}"
   end
-  
+
   def dimensions
     # TODO: maybe others?
     [:line_xy, :scatter].include?(type) ? 2 : 1
@@ -142,7 +142,7 @@ class Gchart
       @chart_angle = options[:angle]
     end
   end
-  
+
   def max_value=(max_v)
     if max_v =~ /false/
       @max_value = false
@@ -167,14 +167,14 @@ class Gchart
     ds.each_with_index do |mds, mds_index|
       mds[:min_value] ||= min_value
       mds[:max_value] ||= max_value
-      
+
       if mds_index == 0 && type.to_s == 'bar'
         # TODO: unless you specify a zero line (using chp or chds),
         #       the min_value of a bar chart is always 0.
         #mds[:min_value] ||= mds[:data].first.to_a.compact.min
         mds[:min_value] ||= 0
       end
-      if (mds_index == 0 && type.to_s == 'bar' && 
+      if (mds_index == 0 && type.to_s == 'bar' &&
         !grouped && mds[:data].first.is_a?(Array))
         totals = []
         mds[:data].each do |l|
@@ -208,26 +208,26 @@ class Gchart
     end
     # return [min, max] unless (min.nil? || max.nil?)
     # @max = (max_value.nil? || max_value == 'auto') ? ds.compact.map{|mds| mds.compact.max}.max : max_value
-    # 
-    # if min_value.nil? 
+    #
+    # if min_value.nil?
     #   min_ds_value = ds.compact.map{|mds| mds.compact.min}.min || 0
     #   @min = (min_ds_value < 0) ? min_ds_value : 0
     # else
-    #   @min = min_value == 'auto' ? ds.compact.map{|mds| mds.compact.min}.min || 0 : min_value      
+    #   @min = min_value == 'auto' ? ds.compact.map{|mds| mds.compact.min}.min || 0 : min_value
     # end
     # @axis_range = [[min,max]]
   end
 
   def dataset
     if @dataset
-      @dataset 
+      @dataset
     else
       @dataset = convert_dataset(data || [])
       full_data_range(@dataset)   # unless axis_range
       @dataset
     end
   end
-  
+
   # Sets of data to handle multiple sets
   def datasets
     datasets = []
@@ -240,10 +240,10 @@ class Gchart
     end
     datasets
   end
-  
+
   def self.jstize(string)
     string.gsub(' ', '+').gsub(/\[|\{|\}|\\|\^|\[|\]|\`|\]/) {|c| "%#{c[0].to_s.upcase}"}
-  end    
+  end
   # load all the custom aliases
   require 'gchart/aliases'
 
@@ -263,8 +263,8 @@ class Gchart
 
   def image_tag
     image = "<img"
-    image += " id=\"#{id}\"" if id  
-    image += " class=\"#{klass}\"" if klass      
+    image += " id=\"#{id}\"" if id
+    image += " class=\"#{klass}\"" if klass
     image += " src=\"#{query_builder(:html)}\""
     image += " width=\"#{width}\""
     image += " height=\"#{height}\""
@@ -286,12 +286,12 @@ class Gchart
   #
   def jstize(string)
     Gchart.jstize(string)
-  end 
+  end
 
   private
 
   # The title size cannot be set without specifying a color.
-  # A dark key will be used for the title color if no color is specified 
+  # A dark key will be used for the title color if no color is specified
   def set_title
     title_params = "chtt=#{title}"
     unless (title_color.nil? && title_size.nil? )
@@ -313,7 +313,7 @@ class Gchart
     @bg_type = fill_type(bg_type) || 's' if bg_color
     @chart_type = fill_type(chart_type) || 's' if chart_color
 
-    "chf=" + {'bg' => fill_for(bg_type, bg_color, bg_angle), 'c' => fill_for(chart_type, chart_color, chart_angle)}.map{|k,v| "#{k},#{v}" unless v.nil?}.compact.join('|')      
+    "chf=" + {'bg' => fill_for(bg_type, bg_color, bg_angle), 'c' => fill_for(chart_type, chart_color, chart_angle)}.map{|k,v| "#{k},#{v}" unless v.nil?}.compact.join('|')
   end
 
   # set bar, line colors
@@ -361,11 +361,11 @@ class Gchart
 
   def set_range_marker(options)
     orientation = ['vertical', 'Vertical', 'V', 'v', 'R'].include?(options[:orientation]) ? 'R' : 'r'
-    "#{orientation},#{options[:color]},0,#{options[:start_position]},#{options[:stop_position]}#{',1' if options[:overlaid?]}"  
+    "#{orientation},#{options[:color]},0,#{options[:start_position]},#{options[:stop_position]}#{',1' if options[:overlaid?]}"
   end
 
   def fill_for(type=nil, color='', angle=nil)
-    unless type.nil? 
+    unless type.nil?
       case type
       when 'lg'
         angle ||= 0
@@ -381,7 +381,7 @@ class Gchart
     end
   end
 
-  # A chart can have one or many legends. 
+  # A chart can have one or many legends.
   # Gchart.line(:legend => 'label')
   # or
   # Gchart.line(:legend => ['first label', 'last label'])
@@ -434,7 +434,7 @@ class Gchart
   def set_axis_range
     # a passed axis_range should look like:
     # [[10,100]] or [[10,100,4]] or [[10,100], [20,300]]
-    # in the second example, 4 is the interval 
+    # in the second example, 4 is the interval
     set = axis_range || datasets
     # in the case of a line graph, the first axis range should 1
     index_increase = type.to_s == 'line' ? 1 : 0
@@ -486,7 +486,7 @@ class Gchart
       'ls'
     end
   end
-  
+
   def number_visible
     n = 0
     dataset.each do |mds|
@@ -499,7 +499,7 @@ class Gchart
     end
     ""
   end
-  
+
   # Turns input into an array of axis hashes, dependent on the chart type
   def convert_dataset(ds)
     if dimensions == 2
@@ -519,7 +519,7 @@ class Gchart
     end
     ds
   end
-  
+
   # just an alias
   def axis_set
     dataset
@@ -533,7 +533,7 @@ class Gchart
       value.nil? ? "_" : value
     end
   end
-  
+
   def convert_to_extended_value(number)
     if number.nil?
       '__'
@@ -542,7 +542,7 @@ class Gchart
       value.nil? ? "__" : value
     end
   end
-  
+
   def encode_scaled_dataset(chars, nil_char)
     dsets = []
     dataset.each do |ds|
@@ -573,7 +573,7 @@ class Gchart
   end
 
   # http://code.google.com/apis/chart/#simple
-  # Simple encoding has a resolution of 62 different values. 
+  # Simple encoding has a resolution of 62 different values.
   # Allowing five pixels per data point, this is sufficient for line and bar charts up
   # to about 300 pixels. Simple encoding is suitable for all other types of chart regardless of size.
   def simple_encoding
@@ -598,7 +598,7 @@ class Gchart
   end
 
   # http://code.google.com/apis/chart/#extended
-  # Extended encoding has a resolution of 4,096 different values 
+  # Extended encoding has a resolution of 4,096 different values
   # and is best used for large charts where a large data range is required.
   def extended_encoding
     "e" + number_visible + ":" + encode_scaled_dataset(Gchart.ext_pairs, '__')
@@ -608,8 +608,8 @@ class Gchart
     query_params = instance_variables.sort.map do |var|
       case var.to_s
       when '@data'
-        set_data unless data == []  
-        # Set the graph size  
+        set_data unless data == []
+        # Set the graph size
       when '@width'
         set_size unless width.nil? || height.nil?
       when '@type'

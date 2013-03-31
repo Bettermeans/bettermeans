@@ -52,7 +52,7 @@ module Delayed
       unless object.respond_to?(:perform)
         raise ArgumentError, 'Cannot enqueue items which do not respond to perform'
       end
-    
+
       priority = args.first || 0
       run_at   = args[1]
 
@@ -64,7 +64,7 @@ module Delayed
       scope = self.ready_to_run(worker_name, max_run_time)
       scope = scope.scoped(:conditions => ['priority >= ?', Worker.min_priority]) if Worker.min_priority
       scope = scope.scoped(:conditions => ['priority <= ?', Worker.max_priority]) if Worker.max_priority
-      
+
       ActiveRecord::Base.silence do
         scope.by_priority.all(:limit => limit)
       end

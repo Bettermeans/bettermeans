@@ -47,13 +47,13 @@ module Net
   # while hiding the more arcane aspects
   # the LDAP protocol itself, and thus presenting as Ruby-like
   # a programming interface as possible.
-  # 
+  #
   # == Quick-start for the Impatient
   # === Quick Example of a user-authentication against an LDAP directory:
   #
   #  require 'rubygems'
   #  require 'net/ldap'
-  #  
+  #
   #  ldap = Net::LDAP.new
   #  ldap.host = your_server_ip_address
   #  ldap.port = 389
@@ -69,7 +69,7 @@ module Net
   #
   #  require 'rubygems'
   #  require 'net/ldap'
-  #  
+  #
   #  ldap = Net::LDAP.new :host => server_ip_address,
   #       :port => 389,
   #       :auth => {
@@ -80,7 +80,7 @@ module Net
   #
   #  filter = Net::LDAP::Filter.eq( "cn", "George*" )
   #  treebase = "dc=example,dc=com"
-  #  
+  #
   #  ldap.search( :base => treebase, :filter => filter ) do |entry|
   #    puts "DN: #{entry.dn}"
   #    entry.each do |attribute, values|
@@ -90,9 +90,9 @@ module Net
   #      end
   #    end
   #  end
-  #  
+  #
   #  p ldap.get_operation_result
-  #  
+  #
   #
   # == A Brief Introduction to LDAP
   #
@@ -115,7 +115,7 @@ module Net
   # but also very often about such items as printers, computers, and other
   # resources. To reflect this, LDAP uses the term <i>entity,</i> or less
   # commonly, <i>user,</i> to denote its basic data-storage unit.
-  # 
+  #
   #
   # === Distinguished Names
   # In LDAP's view of the world,
@@ -196,7 +196,7 @@ module Net
   # filters can be joined together with AND, OR, and NOT operators.
   # A server will respond to a #search by returning a list of matching DNs together with a
   # set of attribute values for each entity, depending on what attributes the search requested.
-  # 
+  #
   # ==== Add
   # #add specifies a new DN and an initial set of attribute values. If the operation
   # succeeds, a new entity with the corresponding DN and attributes is added to the directory.
@@ -348,7 +348,7 @@ module Net
     #
     def LDAP::result2string code # :nodoc:
       ResultStrings[code] || "unknown result (#{code})"
-    end 
+    end
 
 
     attr_accessor :host, :port, :base
@@ -406,7 +406,7 @@ module Net
     # in your code or on command lines.
     #
     #  require 'net/ldap'
-    #  
+    #
     #  ldap = Net::LDAP.new
     #  ldap.host = server_ip_address
     #  ldap.authenticate "cn=Your Username,cn=Users,dc=example,dc=com", "your_psw"
@@ -414,7 +414,7 @@ module Net
     # Alternatively (with a password block):
     #
     #  require 'net/ldap'
-    #  
+    #
     #  ldap = Net::LDAP.new
     #  ldap.host = server_ip_address
     #  psw = proc { your_psw_function }
@@ -441,10 +441,10 @@ module Net
     #
     # The :simple_tls encryption method encrypts <i>all</i> communications with the LDAP
     # server.
-    # It completely establishes SSL/TLS encryption with the LDAP server 
+    # It completely establishes SSL/TLS encryption with the LDAP server
     # before any LDAP-protocol data is exchanged.
     # There is no plaintext negotiation and no special encryption-request controls
-    # are sent to the server. 
+    # are sent to the server.
     # <i>The :simple_tls option is the simplest, easiest way to encrypt communications
     # between Net::LDAP and LDAP servers.</i>
     # It's intended for cases where you have an implicit level of trust in the authenticity
@@ -733,14 +733,14 @@ module Net
     # Here's how you would use #bind_as to authenticate an email address and password:
     #
     #  require 'net/ldap'
-    #  
+    #
     #  user,psw = "joe_user@yourcompany.com", "joes_psw"
-    #  
+    #
     #  ldap = Net::LDAP.new
     #  ldap.host = "192.168.0.100"
     #  ldap.port = 389
     #  ldap.auth "cn=manager,dc=yourcompany,dc=com", "topsecret"
-    #  
+    #
     #  result = ldap.bind_as(
     #    :base => "dc=yourcompany,dc=com",
     #    :filter => "(mail=#{user})",
@@ -1154,7 +1154,7 @@ module Net
           search_filter.to_ber,
           search_attributes.to_ber_sequence
         ].to_ber_appsequence(3)
-  
+
         controls = [
           [
           LdapControls::PagedResults.to_ber,

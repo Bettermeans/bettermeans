@@ -11,7 +11,7 @@ Dependencies.load_paths.insert(0, fixture_path)
 load(File.dirname(__FILE__) + '/schema.rb')
 
 class Test::Unit::TestCase
-  
+
   def create_user(options = {})
     return User.create({:login => "Dolores"}.merge(options))
   end
@@ -22,5 +22,5 @@ class Test::Unit::TestCase
                            :subject => "Frolf, Jerry!",
                            :body => "Frolf, Jerry! Frisbee golf!"}.merge(options))
   end
-  
+
 end

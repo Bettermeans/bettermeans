@@ -32,13 +32,13 @@ module CodeRay
     # Tokens:
     #
     #   require 'coderay'
-    #   
+    #
     #   c_scanner = CodeRay::Scanners[:c].new "if (*p == '{') nest++;"
-    #   
+    #
     #   for text, kind in c_scanner
     #     puts text if kind == :operator
     #   end
-    #   
+    #
     #   # prints: (*==)++;
     #
     # OK, this is a very simple example :)
@@ -68,14 +68,14 @@ module CodeRay
         def normify code
           code = code.to_s.to_unix
         end
-        
+
         def file_extension extension = nil
           if extension
             @file_extension = extension.to_s
           else
             @file_extension ||= plugin_id.to_s
           end
-        end        
+        end
 
       end
 
@@ -157,7 +157,7 @@ module CodeRay
       def tokens
         @cached_tokens ||= tokenize
       end
-      
+
       # Whether the scanner is in streaming mode.
       def streaming?
         !!@options[:stream]

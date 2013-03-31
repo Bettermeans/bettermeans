@@ -8,7 +8,7 @@ AdminData.advanceSearch = {
   },
 
   buildCol1: function() {
-    var col = $('<select />', {className: 'col1' }).append($('<option />')); 
+    var col = $('<select />', {className: 'col1' }).append($('<option />'));
     var tableStructure = $('#advance_search_table').data('table_structure');
     for (var i in tableStructure) {
       $('<option />').text(i).attr('value', i).appendTo(col);

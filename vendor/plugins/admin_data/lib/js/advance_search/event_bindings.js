@@ -24,7 +24,7 @@ AdminData.bindings = {
 
 			if (col1ColumnType === 'datetime' || col1ColumnType === 'date') {
 				$col3.val(AdminData.jsUtil.dateToString(new Date())).addClass('datepicker');
-				
+
         $('.datepicker').datepicker({
 					dateFormat: 'dd-MM-yy',
 					changeYear: true,

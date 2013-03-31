@@ -1,5 +1,5 @@
 module CodeRay
-  
+
 # = PluginHost
 #
 # $Id: plugin.rb 220 2007-01-01 02:58:58Z murphy $
@@ -10,12 +10,12 @@ module CodeRay
 #    class Generators < PluginHost
 #      plugin_path 'app/generators'
 #    end
-#    
+#
 #    class Generator
 #      extend Plugin
 #      PLUGIN_HOST = Generators
 #    end
-#    
+#
 #    class FancyGenerator < Generator
 #      register_for :fancy
 #    end

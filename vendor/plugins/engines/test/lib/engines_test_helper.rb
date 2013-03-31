@@ -5,12 +5,12 @@ module TestHelper
     location, subject = path.first, path.last
     if subject.sub! '.rb', ''
       subject = subject.classify
-    else 
+    else
       subject.sub! '.html.erb', ''
     end
     "#{subject} (from #{location})"
   end
-  
+
   def self.view_path_for path
     [RAILS_ROOT + '/', 'vendor/plugins/', '.html.erb'].each { |part| path.sub! part, ''}
     parts = path.split('/')
@@ -19,19 +19,19 @@ module TestHelper
 end
 
 class Test::Unit::TestCase
-  # Add more helper methods to be used by all tests here...  
+  # Add more helper methods to be used by all tests here...
   def get_action_on_controller(*args)
     action = args.shift
     with_controller *args
     get action
   end
-  
+
   def with_controller(controller, namespace = nil)
     classname = controller.to_s.classify + 'Controller'
     classname = namespace.to_s.classify + '::' + classname unless namespace.nil?
     @controller = classname.constantize.new
   end
-  
+
   def assert_response_body(expected)
     assert_equal expected, @response.body
   end

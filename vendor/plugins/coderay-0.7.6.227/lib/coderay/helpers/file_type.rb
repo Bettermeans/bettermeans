@@ -13,10 +13,10 @@ module CodeRay
 #
 #  # determine the type of the given
 #   lang = FileType[ARGV.first]
-#  
+#
 #   # return :plaintext if the file type is unknown
 #   lang = FileType.fetch ARGV.first, :plaintext
-#  
+#
 #   # try the shebang line, too
 #   lang = FileType.fetch ARGV.first, :plaintext, true
 module FileType

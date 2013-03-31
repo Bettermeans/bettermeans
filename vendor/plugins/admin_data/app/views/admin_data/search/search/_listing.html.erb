@@ -1,5 +1,5 @@
-<%= render :partial => 'admin_data/search/search/title', :locals => { 
-                                                            :records => records, 
+<%= render :partial => 'admin_data/search/search/title', :locals => {
+                                                            :records => records,
                                                             :total_num_of_children => @total_num_of_children } %>
 
 <div class="pagination">
@@ -25,11 +25,11 @@
             <%= link_to(record.send(column), admin_data_on_k_path(:klass => klass.name.underscore, :id => record)) %>
          <% else %>
             <%=h  admin_data_get_value_for_column(admin_data_column_native(klass, column), record) %>
-          <% end %>  
+          <% end %>
         </td>
       <% end %>
     </tr>
-  <% end %>  
+  <% end %>
 </table>
 
 <div class="pagination">

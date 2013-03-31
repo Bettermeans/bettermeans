@@ -113,7 +113,7 @@ module Scanners
 
         elsif entity = scan(/#{NITRO_ENTITY}/o)
           tokens << [entity, :entity]
-        
+
         elsif scan(/%/)
           tokens << [matched, :error]
 

@@ -1,5 +1,5 @@
 # Copyright (c) 2005 Rick Olson
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
 # "Software"), to deal in the Software without restriction, including
@@ -7,10 +7,10 @@
 # distribute, sublicense, and/or sell copies of the Software, and to
 # permit persons to whom the Software is furnished to do so, subject to
 # the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be
 # included in all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 # EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 # MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -21,7 +21,7 @@
 
 module ActiveRecord #:nodoc:
   module Acts #:nodoc:
-    # Specify this act if you want to save a copy of the row in a versioned table.  This assumes there is a 
+    # Specify this act if you want to save a copy of the row in a versioned table.  This assumes there is a
     # versioned table ready and that your model has a version field.  This works with optimistic locking if the lock_version
     # column is present as well.
     #
@@ -55,7 +55,7 @@ module ActiveRecord #:nodoc:
     #
     # Simple Queries to page between versions
     #
-    #   page.versions.before(version) 
+    #   page.versions.before(version)
     #   page.versions.after(version)
     #
     # Access the previous/next versions from the versioned model itself
@@ -97,7 +97,7 @@ module ActiveRecord #:nodoc:
         # * <tt>if_changed</tt> - Simple way of specifying attributes that are required to be changed before saving a model.  This takes
         #   either a symbol or array of symbols.  WARNING - This will attempt to overwrite any attribute setters you may have.
         #   Use this instead if you want to write your own attribute setters (and ignore if_changed):
-        # 
+        #
         #     def name=(new_name)
         #       write_changed_attribute :name, new_name
         #     end
@@ -132,14 +132,14 @@ module ActiveRecord #:nodoc:
         #
         # == Database Schema
         #
-        # The model that you're versioning needs to have a 'version' attribute. The model is versioned 
-        # into a table called #{model}_versions where the model name is singlular. The _versions table should 
+        # The model that you're versioning needs to have a 'version' attribute. The model is versioned
+        # into a table called #{model}_versions where the model name is singlular. The _versions table should
         # contain all the fields you want versioned, the same version column, and a #{model}_id foreign key field.
         #
         # A lock_version field is also accepted if your model uses Optimistic Locking.  If your table uses Single Table inheritance,
         # then that field is reflected in the versioned model as 'versioned_type' by default.
         #
-        # Acts_as_versioned comes prepared with the ActiveRecord::Acts::Versioned::ActMethods::ClassMethods#create_versioned_table 
+        # Acts_as_versioned comes prepared with the ActiveRecord::Acts::Versioned::ActMethods::ClassMethods#create_versioned_table
         # method, perfect for a migration.  It will also create the version column if the main model does not already have it.
         #
         #   class AddVersions < ActiveRecord::Migration
@@ -148,16 +148,16 @@ module ActiveRecord #:nodoc:
         #       # that create_table does
         #       Post.create_versioned_table
         #     end
-        # 
+        #
         #     def self.down
         #       Post.drop_versioned_table
         #     end
         #   end
-        # 
+        #
         # == Changing What Fields Are Versioned
         #
-        # By default, acts_as_versioned will version all but these fields: 
-        # 
+        # By default, acts_as_versioned will version all but these fields:
+        #
         #   [self.primary_key, inheritance_column, 'version', 'lock_version', versioned_inheritance_column]
         #
         # You can add or change those by modifying #non_versioned_columns.  Note that this takes strings and not symbols.
@@ -166,14 +166,14 @@ module ActiveRecord #:nodoc:
         #     acts_as_versioned
         #     self.non_versioned_columns << 'comments_count'
         #   end
-        # 
+        #
         def acts_as_versioned(options = {}, &extension)
           # don't allow multiple calls
           return if self.included_modules.include?(ActiveRecord::Acts::Versioned::ActMethods)
 
           send :include, ActiveRecord::Acts::Versioned::ActMethods
 
-          cattr_accessor :versioned_class_name, :versioned_foreign_key, :versioned_table_name, :versioned_inheritance_column, 
+          cattr_accessor :versioned_class_name, :versioned_foreign_key, :versioned_table_name, :versioned_inheritance_column,
             :version_column, :max_version_limit, :track_altered_attributes, :version_condition, :version_sequence_name, :non_versioned_columns,
             :version_association_options
 
@@ -274,8 +274,8 @@ module ActiveRecord #:nodoc:
           versioned_class.cattr_accessor :original_class
           versioned_class.original_class = self
           versioned_class.set_table_name versioned_table_name
-          versioned_class.belongs_to self.to_s.demodulize.underscore.to_sym, 
-            :class_name  => "::#{self.to_s}", 
+          versioned_class.belongs_to self.to_s.demodulize.underscore.to_sym,
+            :class_name  => "::#{self.to_s}",
             :foreign_key => versioned_foreign_key
           versioned_class.send :include, options[:extend]         if options[:extend].is_a?(Module)
           versioned_class.set_sequence_name version_sequence_name if version_sequence_name
@@ -493,18 +493,18 @@ module ActiveRecord #:nodoc:
             end
 
             updated_col = nil
-            self.versioned_columns.each do |col| 
+            self.versioned_columns.each do |col|
               updated_col = col if !updated_col && %(updated_at updated_at).include?(col.name)
-              self.connection.add_column versioned_table_name, col.name, col.type, 
-                :limit => col.limit, 
+              self.connection.add_column versioned_table_name, col.name, col.type,
+                :limit => col.limit,
                 :default => col.default,
                 :scale => col.scale,
                 :precision => col.precision
             end
 
             if type_col = self.columns_hash[inheritance_column]
-              self.connection.add_column versioned_table_name, versioned_inheritance_column, type_col.type, 
-                :limit => type_col.limit, 
+              self.connection.add_column versioned_table_name, versioned_inheritance_column, type_col.type,
+                :limit => type_col.limit,
                 :default => type_col.default,
                 :scale => type_col.scale,
                 :precision => type_col.precision
@@ -527,7 +527,7 @@ module ActiveRecord #:nodoc:
           #   end
           #
           def without_revision(&block)
-            class_eval do 
+            class_eval do
               CALLBACKS.each do |attr_name|
                 alias_method "orig_#{attr_name}".to_sym, attr_name
                 alias_method attr_name, :empty_callback
@@ -535,7 +535,7 @@ module ActiveRecord #:nodoc:
             end
             block.call
           ensure
-            class_eval do 
+            class_eval do
               CALLBACKS.each do |attr_name|
                 alias_method attr_name, "orig_#{attr_name}".to_sym
               end

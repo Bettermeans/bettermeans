@@ -11,7 +11,7 @@ ActiveRecord::Schema.define(:version => 0) do
   create_table :departments, :force => true do |t|
     t.column :name, :string
   end
-  
+
   create_table :notes, :force => true do |t|
     t.column :body, :text
     t.column :parent_id, :integer

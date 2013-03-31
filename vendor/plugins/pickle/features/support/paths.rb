@@ -7,10 +7,10 @@ module NavigationHelpers
   #
   def path_to(page_name)
     case page_name
-    
+
     when /the home\s?page/
       '/'
-    
+
     # Add more mappings here.
     # Here is a more fancy example:
     #
@@ -33,7 +33,7 @@ module NavigationHelpers
 
     when /^the (.+?) page$/                                         # translate to named route
       send "#{$1.downcase.gsub(' ','_')}_path"
-  
+
     # end added by pickle path
 
     else

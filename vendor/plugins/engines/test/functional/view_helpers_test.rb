@@ -2,11 +2,11 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class ViewHelpersTest < ActionController::TestCase
   tests AssetsController
-  
+
   def setup
     get :index
   end
-  
+
   def test_plugin_javascript_helpers
     base_selector = "script[type='text/javascript']"
     js_dir = "/plugin_assets/test_assets/javascripts"
@@ -28,7 +28,7 @@ class ViewHelpersTest < ActionController::TestCase
   def test_plugin_layouts
     get :index
     assert_select "div[id='assets_layout']"
-  end  
+  end
 
   def test_plugin_image_submit_helpers
     assert_select "input[src='/plugin_assets/test_assets/images/image.png'][type='image']"

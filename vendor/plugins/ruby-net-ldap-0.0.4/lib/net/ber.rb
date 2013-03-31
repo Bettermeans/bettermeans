@@ -93,7 +93,7 @@ module Net
           break
         end
       }
-      
+
       obj = case objtype
       when :boolean
         newobj != "\000"

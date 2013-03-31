@@ -15,7 +15,7 @@ module Encoders
   #  puts CodeRay.scan('Some /code/', :ruby).html(:wrap => :span)
   #  #-> <span class="CodeRay"><span class="co">Some</span> /code/</span>
   #  puts CodeRay.scan('Some /code/', :ruby).span  #-> the same
-  #  
+  #
   #  puts CodeRay.scan('Some code', :ruby).html(
   #    :wrap => nil,
   #    :line_numbers => :inline,

@@ -5,7 +5,7 @@ class PrivateMessageModelGenerator < Rails::Generator::NamedBase
 
   def initialize(runtime_args, runtime_options = {})
     super
-    
+
     @singular_camel_case_name = @name.singularize.camelize
     @plural_camel_case_name = @name.pluralize.camelize
     @singular_lower_case_name = @name.singularize.underscore
@@ -15,9 +15,9 @@ class PrivateMessageModelGenerator < Rails::Generator::NamedBase
     @singular_camel_case_parent = @parent_name.singularize.camelize
     @plural_camel_case_parent = @parent_name.pluralize.camelize
     @singular_lower_case_parent = @parent_name.singularize.underscore
-    @plural_lower_case_parent = @parent_name.pluralize.underscore    
+    @plural_lower_case_parent = @parent_name.pluralize.underscore
   end
-  
+
   def manifest
     record do |m|
       m.directory "app/models"

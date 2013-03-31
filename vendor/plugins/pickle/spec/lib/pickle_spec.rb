@@ -4,7 +4,7 @@ describe Pickle do
   it ".config should be same object on multiple calls" do
     Pickle.config.should == Pickle.config
   end
-  
+
   it ".configure should configure the .config object" do
     Pickle.config.should_receive(:foo).with(:bar)
     Pickle.configure do |c|
@@ -17,7 +17,7 @@ describe Pickle do
     Pickle::Parser.should_receive(:new).with(:config => Pickle.config)
     Pickle.parser
   end
-  
+
   it ".parser should be same object on multiple calls" do
     Pickle.parser.should == Pickle.parser
   end

@@ -4,7 +4,7 @@ module Engines
       def create_plugin(path)
         plugin = Engines::Plugin.new(path)
         plugin.valid? ? plugin : nil
-      end        
+      end
     end
   end
 end

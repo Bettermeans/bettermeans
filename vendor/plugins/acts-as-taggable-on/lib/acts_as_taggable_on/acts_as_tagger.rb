@@ -31,7 +31,7 @@ module ActsAsTaggableOn
 
     module InstanceMethods
       ##
-      # Tag a taggable model with tags that are owned by the tagger. 
+      # Tag a taggable model with tags that are owned by the tagger.
       #
       # @param taggable The object that will be tagged
       # @param [Hash] options An hash with options. Available options are:

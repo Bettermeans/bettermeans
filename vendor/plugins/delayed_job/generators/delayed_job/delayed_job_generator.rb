@@ -1,6 +1,6 @@
 class DelayedJobGenerator < Rails::Generator::Base
   default_options :skip_migration => false
-  
+
   def manifest
     record do |m|
       m.template 'script', 'script/delayed_job', :chmod => 0755
@@ -10,7 +10,7 @@ class DelayedJobGenerator < Rails::Generator::Base
       end
     end
   end
-  
+
 protected
 
   def add_options!(opt)
@@ -18,5 +18,5 @@ protected
     opt.separator 'Options:'
     opt.on("--skip-migration", "Don't generate a migration") { |v| options[:skip_migration] = v }
   end
-  
+
 end

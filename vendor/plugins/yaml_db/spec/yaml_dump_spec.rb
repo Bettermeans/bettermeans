@@ -41,9 +41,9 @@ describe YamlDb::Dump do
 		@io.rewind
 		@io.read.should == <<EOYAML
 
---- 
-mytable: 
-  columns: 
+---
+mytable:
+  columns:
   - a
   - b
 EOYAML
@@ -71,7 +71,7 @@ EOYAML
 		YamlDb::Dump.dump_table_records(@io, 'mytable')
 		@io.rewind
 		@io.read.should == <<EOYAML
-  records: 
+  records:
   - - 1
     - 2
   - - 3

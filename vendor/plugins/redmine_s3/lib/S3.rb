@@ -39,11 +39,11 @@ module S3
   AMAZON_HEADER_PREFIX = 'x-amz-'
 
   # Location constraint for CreateBucket
-  module BucketLocation 
+  module BucketLocation
     DEFAULT = nil
     EU = 'EU'
   end
-  
+
   # builds the canonical string for signing.
   def S3.canonical_string(method, bucket="", path="", path_args={}, headers={}, expires=nil)
     interesting_headers = {}
@@ -80,12 +80,12 @@ module S3
         buf << "#{value}\n"
       end
     end
-    
+
     # build the path using the bucket and key
     if not bucket.empty?
       buf << "/#{bucket}"
     end
-    # append the key (it might be empty string) 
+    # append the key (it might be empty string)
     # append a slash regardless
     buf << "/#{path}"
 
@@ -100,7 +100,7 @@ module S3
     elsif path_args.has_key?('location')
       buf << '?location'
     end
-    
+
     return buf
   end
 
@@ -141,7 +141,7 @@ module S3
   # some connection pooling.
   class AWSAuthConnection
     attr_accessor :calling_format
-    
+
     def initialize(aws_access_key_id, aws_secret_access_key, is_secure=true,
                    server=DEFAULT_HOST, port=PORTS_BY_SECURITY[is_secure],
                    calling_format=CallingFormat::SUBDOMAIN)
@@ -178,7 +178,7 @@ module S3
         raise
       end
     end
-      
+
     # takes options :prefix, :marker, :max_keys, and :delimiter
     def list_bucket(bucket, options={}, headers={})
       path_args = {}
@@ -249,7 +249,7 @@ module S3
 
     private
     def make_request(method, bucket='', key='', path_args={}, headers={}, data='', metadata={})
-      
+
       # build the domain based on the calling format
       server = ''
       if bucket.empty?
@@ -258,9 +258,9 @@ module S3
         # does not make sense for vanity domains
         server = @server
       elsif @calling_format == CallingFormat::SUBDOMAIN
-        server = "#{bucket}.#{@server}" 
+        server = "#{bucket}.#{@server}"
       elsif @calling_format == CallingFormat::VANITY
-        server = bucket 
+        server = bucket
       else
         server = @server
       end
@@ -275,9 +275,9 @@ module S3
       path << "/#{key}"
 
       # build the path_argument string
-      # add the ? in all cases since 
+      # add the ? in all cases since
       # signature and credentials follow path args
-      path << S3.path_args_hash_to_string(path_args) 
+      path << S3.path_args_hash_to_string(path_args)
 
       while true
         http = Net::HTTP.new(server, @port)
@@ -369,15 +369,15 @@ module S3
     # by default, expire in 1 minute
     DEFAULT_EXPIRES_IN = 60
 
-    def initialize(aws_access_key_id, aws_secret_access_key, is_secure=true, 
-                   server=DEFAULT_HOST, port=PORTS_BY_SECURITY[is_secure], 
+    def initialize(aws_access_key_id, aws_secret_access_key, is_secure=true,
+                   server=DEFAULT_HOST, port=PORTS_BY_SECURITY[is_secure],
                    format=CallingFormat::SUBDOMAIN)
       @aws_access_key_id = aws_access_key_id
       @aws_secret_access_key = aws_secret_access_key
       @protocol = is_secure ? 'https' : 'http'
       @server = server
       @port = port
-      @calling_format = format 
+      @calling_format = format
       @is_secure = is_secure
       # by default expire
       @expires_in = DEFAULT_EXPIRES_IN
@@ -478,13 +478,13 @@ module S3
         S3::canonical_string(method, bucket, key, path_args, headers, expires)
       encoded_canonical =
         S3::encode(@aws_secret_access_key, canonical_string)
-      
+
       url = CallingFormat.build_url_base(@protocol, @server, @port, bucket, @calling_format)
-      
+
       path_args["Signature"] = encoded_canonical.to_s
       path_args["Expires"] = expires.to_s
       path_args["AWSAccessKeyId"] = @aws_access_key_id.to_s
-      arg_string = S3.path_args_hash_to_string(path_args) 
+      arg_string = S3.path_args_hash_to_string(path_args)
 
       return "#{url}/#{key}#{arg_string}"
     end
@@ -509,7 +509,7 @@ module S3
   end
 
   # class for storing calling format constants
-  module CallingFormat 
+  module CallingFormat
     PATH      = 0 # http://s3.amazonaws.com/bucket/key
     SUBDOMAIN = 1 # http://bucket.s3.amazonaws.com/key
     VANITY    = 2  # http://<vanity_domain>/key  -- vanity_domain resolves to s3.amazonaws.com
@@ -526,7 +526,7 @@ module S3
       else
         build_url_base << "#{server}:#{port}/#{bucket}"
       end
-      return build_url_base 
+      return build_url_base
     end
   end
 
@@ -578,7 +578,7 @@ module S3
         @curr_entry.owner = Owner.new
       elsif name == 'CommonPrefixes'
         @common_prefix_entry = CommonPrefixEntry.new
-      end      
+      end
     end
 
     # we have one, add him to the entries list
@@ -588,7 +588,7 @@ module S3
       if name == 'Name'
         @properties.name = text
       elsif name == 'Prefix' and @is_echoed_prefix
-        @properties.prefix = text       
+        @properties.prefix = text
         @is_echoed_prefix = nil
       elsif name == 'Marker'
         @properties.marker = text
@@ -598,7 +598,7 @@ module S3
         @properties.delimiter = text
       elsif name == 'IsTruncated'
         @properties.is_truncated = text == 'true'
-      elsif name == 'NextMarker'        
+      elsif name == 'NextMarker'
         @properties.next_marker = text
       elsif name == 'Contents'
         @entries << @curr_entry
@@ -617,7 +617,7 @@ module S3
       elsif name == 'DisplayName'
         @curr_entry.owner.display_name = text
       elsif name == 'CommonPrefixes'
-        @common_prefixes << @common_prefix_entry         
+        @common_prefixes << @common_prefix_entry
       elsif name == 'Prefix'
         # this is the common prefix for keys that match up to the delimiter
         @common_prefix_entry.prefix = text
@@ -783,7 +783,7 @@ module S3
     def initialize(response)
       @http_response = response
     end
-    
+
     def message
       if @http_response.body
         @http_response.body

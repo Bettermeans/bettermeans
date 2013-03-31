@@ -90,16 +90,16 @@ class TestLdapClient < Test::Unit::TestCase
     search = {:base => "dc=smalldomain,dc=com"}
     assert_equal( false, ldap.search( search ))
     assert_equal( 32, ldap.get_operation_result.code )
-    
+
     search = {:base => "dc=bayshorenetworks,dc=com"}
     assert_equal( true, ldap.search( search ))
     assert_equal( 0, ldap.get_operation_result.code )
-    
+
     ldap.search( search ) {|res|
       assert_equal( res, @ldif )
     }
   end
-    
+
 
 
 
@@ -119,7 +119,7 @@ class TestLdapClient < Test::Unit::TestCase
         ! attrs_to_search.include?(attr)
       }
     }
-  
+
     assert_equal( true, ldap.search( search ))
     ldap.search( search ) {|res|
       res_keys = res.keys.sort

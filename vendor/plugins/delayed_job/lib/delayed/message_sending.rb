@@ -7,7 +7,7 @@ module Delayed
     def send_at(time, method, *args)
       Delayed::Job.enqueue(Delayed::PerformableMethod.new(self, method.to_sym, args), 0, time)
     end
-    
+
     module ClassMethods
       def handle_asynchronously(method)
         aliased_method, punctuation = method.to_s.sub(/([?!=])$/, ''), $1
@@ -18,5 +18,5 @@ module Delayed
         alias_method_chain method, :send_later
       end
     end
-  end                               
+  end
 end

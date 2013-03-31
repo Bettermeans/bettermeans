@@ -12,7 +12,7 @@ AdminData.advanceSearch = {
   },
 
   buildCol1: function() {
-    var i, 
+    var i,
         col = $('<select />', {className: 'col1' }).append($('<option />')),
         tableStructure = $('#advance_search_table').data('table_structure');
 
@@ -45,7 +45,7 @@ AdminData.advanceSearch = {
         that = this,
         randomNumber = AdminData.jsUtil.randomNumber(),
         build_array = ['buildCol1', 'buildCol2', 'buildCol3', 'buildCol4'];
-    
+
     $.each(build_array, function(index, value) {
       $tr.append(that[value]());
     });

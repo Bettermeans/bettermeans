@@ -7,9 +7,9 @@ require 'tmpdir'
 require 'fileutils'
 
 # In most cases, Rails' own plugin testing mechanisms are sufficient. However, there
-# are cases where plugins can be given a helping hand in the testing arena. This module 
+# are cases where plugins can be given a helping hand in the testing arena. This module
 # contains some methods to assist when testing plugins that contain fixtures.
-# 
+#
 # == Fixtures and plugins
 #
 # Since Rails' own fixtures method is fairly strict about where files can be loaded from,
@@ -54,24 +54,24 @@ require 'fileutils'
 module Engines::Testing
   mattr_accessor :temporary_fixtures_directory
   self.temporary_fixtures_directory = FileUtils.mkdir_p(File.join(Dir.tmpdir, "rails_fixtures"))
-  
-  # Copies fixtures from plugins and the application into a temporary directory 
-  # (Engines::Testing.temporary_fixtures_directory). 
-  # 
-  # If a set of plugins is not given, fixtures are copied from all plugins in order 
-  # of precedence, meaning that plugins can 'overwrite' the fixtures of others if they are 
+
+  # Copies fixtures from plugins and the application into a temporary directory
+  # (Engines::Testing.temporary_fixtures_directory).
+  #
+  # If a set of plugins is not given, fixtures are copied from all plugins in order
+  # of precedence, meaning that plugins can 'overwrite' the fixtures of others if they are
   # loaded later; the application's fixtures are copied last, allowing any custom fixtures
   # to override those in the plugins. If no argument is given, plugins are loaded via
   # PluginList#by_precedence.
   #
   # This method is called by the engines-supplied plugin testing rake tasks
   def self.setup_plugin_fixtures(plugins = Engines.plugins.by_precedence)
-    
+
     # First, clear the directory
     Dir.glob("#{self.temporary_fixtures_directory}/*.yml").each{|fixture| File.delete(fixture)}
-    
+
     # Copy all plugin fixtures, and then the application fixtures, into this directory
-    plugins.each do |plugin| 
+    plugins.each do |plugin|
       plugin_fixtures_directory =  File.join(plugin.directory, "test", "fixtures")
       plugin_app_directory =  File.join(plugin.directory, "app")
       if File.directory?(plugin_app_directory) && File.directory?(plugin_fixtures_directory)
@@ -81,20 +81,20 @@ module Engines::Testing
     Engines.mirror_files_from(File.join(RAILS_ROOT, "test", "fixtures"),
                               self.temporary_fixtures_directory)
   end
-  
+
   # Sets the fixture path used by Test::Unit::TestCase to the temporary
   # directory which contains all plugin fixtures.
   def self.set_fixture_path
     ActiveSupport::TestCase.fixture_path = self.temporary_fixtures_directory
     $LOAD_PATH.unshift self.temporary_fixtures_directory
   end
-  
+
   # overridden test should be in test/{unit,functional,integration}/{plugin_name}/{test_name}
   def self.override_tests_from_app
     filename = caller.first.split(":").first
     plugin_name = filename.split("/")[-4]
     test_kind = filename.split("/")[-2]
-    override_file = File.expand_path(File.join(File.dirname(filename), "..", "..", "..", "..", "..", "test", 
+    override_file = File.expand_path(File.join(File.dirname(filename), "..", "..", "..", "..", "..", "test",
                                                test_kind, plugin_name, File.basename(filename)))
     load(override_file) if File.exist?(override_file)
   end

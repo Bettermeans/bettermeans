@@ -18,7 +18,7 @@ module Pickle
         else
           parse_field_without_model(field)
         end
-      end    
+      end
     end
   end
 end

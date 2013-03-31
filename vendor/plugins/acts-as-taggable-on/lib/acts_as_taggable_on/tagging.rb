@@ -21,7 +21,7 @@ module ActsAsTaggableOn
     validates_presence_of :tag_id
 
     validates_uniqueness_of :tag_id, :scope => [ :taggable_type, :taggable_id, :context, :tagger_id, :tagger_type ]
-    
+
     def before_save
       self.project_id = self.taggable.project_id if self.taggable_type == 'Issue'
     end

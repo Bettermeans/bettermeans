@@ -3,7 +3,7 @@ module Professionalnerd # :nodoc:
     module PrivateMessageExtensions
       def self.included(base) # :nodoc:
         base.extend ActMethods
-      end 
+      end
 
       module ActMethods
         # Sets up a model to be a private message model, defining the parent class as specified in :class_name (typically "User")
@@ -14,8 +14,8 @@ module Professionalnerd # :nodoc:
         # Also adds a named scopes of :read and :unread, to get, well, read and unread messages.
         def is_private_message(options = {})
           options[:class_name] ||= 'User'
-          
-          unless included_modules.include? InstanceMethods 
+
+          unless included_modules.include? InstanceMethods
             belongs_to :sender,
                        :class_name => options[:class_name],
                        :foreign_key => 'sender_id'
@@ -23,14 +23,14 @@ module Professionalnerd # :nodoc:
                        :class_name => options[:class_name],
                        :foreign_key => 'recipient_id'
 
-            extend ClassMethods 
-            include InstanceMethods 
-          end 
+            extend ClassMethods
+            include InstanceMethods
+          end
 
           named_scope :read, :conditions => "read_at IS NOT NULL"
           named_scope :unread, :conditions => "read_at IS NULL"
-        end 
-      end 
+        end
+      end
 
       module ClassMethods
         # Ensures the passed user is either the sender or the recipient then returns the message.
@@ -58,7 +58,7 @@ module Professionalnerd # :nodoc:
           self.recipient_deleted = true if self.recipient == user
           self.sender_deleted && self.recipient_deleted ? self.destroy : save!
         end
-      end 
+      end
     end
   end
-end 
+end

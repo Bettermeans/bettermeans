@@ -1,7 +1,7 @@
 class <%= plural_camel_case_name %>Controller < ApplicationController
-  
+
   before_filter :set_user
-  
+
   def index
     if params[:mailbox] == "sent"
       @<%= plural_lower_case_name %> = @<%= singular_lower_case_parent %>.sent_messages
@@ -9,11 +9,11 @@ class <%= plural_camel_case_name %>Controller < ApplicationController
       @<%= plural_lower_case_name %> = @<%= singular_lower_case_parent %>.received_messages
     end
   end
-  
+
   def show
     @<%= singular_lower_case_name %> = <%= singular_camel_case_name %>.read(params[:id], current_user)
   end
-  
+
   def new
     @<%= singular_lower_case_name %> = <%= singular_camel_case_name %>.new
 
@@ -26,7 +26,7 @@ class <%= plural_camel_case_name %>Controller < ApplicationController
       end
     end
   end
-  
+
   def create
     @<%= singular_lower_case_name %> = <%= singular_camel_case_name %>.new(params[:<%= singular_lower_case_name %>])
     @<%= singular_lower_case_name %>.sender = @<%= singular_lower_case_parent %>
@@ -39,7 +39,7 @@ class <%= plural_camel_case_name %>Controller < ApplicationController
       render :action => :new
     end
   end
-  
+
   def delete_selected
     if request.post?
       if params[:delete]
@@ -52,7 +52,7 @@ class <%= plural_camel_case_name %>Controller < ApplicationController
       redirect_to user_<%= singular_lower_case_name %>_path(@<%= singular_lower_case_parent %>, @<%= plural_lower_case_name %>)
     end
   end
-  
+
   private
     def set_user
       @<%= singular_lower_case_parent %> = User.find(params[:<%= singular_lower_case_parent %>_id])

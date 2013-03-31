@@ -19,7 +19,7 @@ module Engines::RailsExtensions::FormTagHelpers
 			alias_method_chain :image_submit_tag, :engine_additions
 		end
 	end
-	
+
 	# Adds plugin functionality to Rails' default image_submit_tag method.
 	def image_submit_tag_with_engine_additions(source, options={})
 		options.stringify_keys!

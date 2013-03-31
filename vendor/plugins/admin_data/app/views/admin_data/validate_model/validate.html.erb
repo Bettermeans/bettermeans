@@ -1,13 +1,13 @@
 <div id="main">
   <div class="block" id="block-tables">
 
-    <div class="content rounded">          
+    <div class="content rounded">
       <div class='validate_model_umbrella'>
 
-        <div class='lhs'>   
+        <div class='lhs'>
           <h2 class="title">Validate model</h2>
           <div id='error'></div>
-            
+
           <div id='tid' style='display:none'><%=@tid%></div>
 
 
@@ -15,13 +15,13 @@
             <%= check_box_tag 'validate_model_select_all' %>
             <strong>
               <%= label_tag 'Select all models', nil, :for => 'validate_model_select_all' %>
-            </strong>  
+            </strong>
             <% $admin_data_klasses.each do |klass| %>
               <p>
                 <%= check_box_tag klass.name, '1', false, :name => "model[#{klass.name}]" %>
                 <%= label_tag klass.name, nil, :id => klass.name.downcase.underscore %>
               </p>
-            <% end %>   
+            <% end %>
             <%= submit_tag('Start validation', :id => 'submit') %>
           <% end %>
 
@@ -64,4 +64,4 @@
     display: none;
     margin-left: 0;
   }
-</style>   
+</style>

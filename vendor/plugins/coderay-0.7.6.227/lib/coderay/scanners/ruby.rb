@@ -127,7 +127,7 @@ module Scanners
             match << scan(/\s*/) unless eos? or heredocs
             tokens << [match, kind]
             next
-            
+
           elsif match = scan(/\\?\n/)
             kind = :space
             if match == "\n"
@@ -145,7 +145,7 @@ module Scanners
             end
             tokens << [match, kind]
             next
-          
+
           elsif match = scan(/\#.*/) or
             ( bol? and match = scan(/#{patterns::RUBYDOC_OR_DATA}/o) )
               kind = :comment
@@ -170,7 +170,7 @@ module Scanners
               ## experimental!
               value_expected = :set if
                 patterns::REGEXP_ALLOWED[match] or check(/#{patterns::VALUE_FOLLOWS}/o)
-            
+
             elsif last_token_dot and match = scan(/#{patterns::METHOD_NAME_OPERATOR}/o)
               kind = :ident
               value_expected = :set if check(/#{patterns::VALUE_FOLLOWS}/o)

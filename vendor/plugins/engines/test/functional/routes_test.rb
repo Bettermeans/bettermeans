@@ -7,7 +7,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 
 class RoutesTest < ActionController::TestCase
   tests TestRoutingController
-  
+
 	def test_WITH_a_route_defined_in_a_plugin_IT_should_route_it
 	  path = '/routes/an_action'
     opts = {:controller => 'test_routing', :action => 'an_action'}
@@ -21,7 +21,7 @@ class RoutesTest < ActionController::TestCase
     assert_routing path, opts
     assert_recognizes opts, path
   end
-  
+
   def test_should_properly_generate_named_routes
     get :test_named_routes_from_plugin
     assert_response_body '/somespace/routes'

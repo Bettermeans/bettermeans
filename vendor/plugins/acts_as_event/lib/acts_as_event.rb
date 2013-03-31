@@ -17,7 +17,7 @@ module Redmine
                               :author => :author,
                               :url => {:controller => 'welcome'},
                               :type => self.name.underscore.dasherize }
-                              
+
           cattr_accessor :event_options
           self.event_options = default_options.merge(options)
           send :include, Redmine::Acts::Event::InstanceMethods
@@ -28,7 +28,7 @@ module Redmine
         def self.included(base)
           base.extend ClassMethods
         end
-        
+
         %w(datetime title description author type).each do |attr|
           src = <<-END_SRC
             def event_#{attr}
@@ -44,11 +44,11 @@ module Redmine
           END_SRC
           class_eval src, __FILE__, __LINE__
         end
-        
+
         def event_date
           event_datetime.to_date
         end
-        
+
         def event_url(options = {})
           option = event_options[:url]
           (option.is_a?(Proc) ? option.call(self) : send(option)).merge(options)

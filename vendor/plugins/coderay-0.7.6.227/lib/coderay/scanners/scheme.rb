@@ -4,7 +4,7 @@ module CodeRay
     # Scheme scanner for CodeRay (by closure).
     # Thanks to murphy for putting CodeRay into public.
     class Scheme < Scanner
-      
+
       register_for :scheme
       file_extension :scm
 
@@ -16,7 +16,7 @@ module CodeRay
 
       IDENT_KIND = CaseIgnoringWordList.new(:ident).
         add(CORE_FORMS, :reserved)
-      
+
       #IDENTIFIER_INITIAL = /[a-z!@\$%&\*\/\:<=>\?~_\^]/i
       #IDENTIFIER_SUBSEQUENT = /#{IDENTIFIER_INITIAL}|\d|\.|\+|-/
       #IDENTIFIER = /#{IDENTIFIER_INITIAL}#{IDENTIFIER_SUBSEQUENT}*|\+|-|\.{3}/
@@ -65,16 +65,16 @@ module CodeRay
       NUM8 = /#{PREFIX8}#{COMPLEX8}/
       NUM2 = /#{PREFIX2}#{COMPLEX2}/
       NUM = /#{NUM10}|#{NUM16}|#{NUM8}|#{NUM2}/
-    
+
     private
       def scan_tokens tokens,options
-        
+
         state = :initial
         ident_kind = IDENT_KIND
-        
+
         until eos?
           kind = match = nil
-          
+
           case state
           when :initial
             if scan(/ \s+ | \\\n /x)
@@ -101,7 +101,7 @@ module CodeRay
             elsif getch
               kind = :error
             end
-            
+
           when :string
             if scan(/[^"\\]+/) or scan(/\\.?/)
               kind = :content
@@ -114,28 +114,28 @@ module CodeRay
               raise_inspect "else case \" reached; %p not handled." % peek(1),
                 tokens, state
             end
-            
+
           else
             raise "else case reached"
           end
-          
+
           match ||= matched
           if $DEBUG and not kind
             raise_inspect 'Error token %p in line %d' %
             [[match, kind], line], tokens
           end
           raise_inspect 'Empty token', tokens, state unless match
-          
+
           tokens << [match, kind]
-          
+
         end  # until eos
-        
+
         if state == :string
           tokens << [:close, :string]
         end
-        
+
         tokens
-        
+
       end #scan_tokens
     end #class
   end #module scanners

@@ -4,7 +4,7 @@ module Scanners
   class C < Scanner
 
     register_for :c
-    
+
     include Streamable
 
     RESERVED_WORDS = [
@@ -44,7 +44,7 @@ module Scanners
 
         kind = nil
         match = nil
-        
+
         case state
 
         when :initial

@@ -1,5 +1,5 @@
 class Gchart
-  
+
   alias_method :background=, :bg=
   alias_method :chart_bg=, :graph_bg=
   alias_method :chart_color=, :graph_bg=

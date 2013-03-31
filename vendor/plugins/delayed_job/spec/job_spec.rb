@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe Delayed::Job do
-  before  do               
+  before  do
     Delayed::Worker.max_priority = nil
     Delayed::Worker.min_priority = nil
-    
+
     Delayed::Job.delete_all
   end
-  
+
   before(:each) do
     SimpleJob.runs = 0
   end
@@ -47,7 +47,7 @@ describe Delayed::Job do
     job = Delayed::Job.enqueue M::ModuleJob.new
     lambda { job.invoke_job }.should change { M::ModuleJob.runs }.from(0).to(1)
   end
-                   
+
   it "should raise an DeserializationError when the job class is totally unknown" do
 
     job = Delayed::Job.new
@@ -88,7 +88,7 @@ describe Delayed::Job do
     job.should_receive(:attempt_to_load).with('Delayed::JobThatDoesNotExist').and_return(true)
     lambda { job.payload_object.perform }.should raise_error(Delayed::DeserializationError)
   end
-  
+
   it "should never find failed jobs" do
     @job = Delayed::Job.create :payload_object => SimpleJob.new, :attempts => 50, :failed_at => Delayed::Job.db_time_now
     Delayed::Job.find_available('worker', 1).length.should == 0
@@ -106,8 +106,8 @@ describe Delayed::Job do
 
     it "should allow a second worker to get exclusive access if the timeout has passed" do
       @job.lock_exclusively!(1.minute, 'worker2').should == true
-    end      
-    
+    end
+
     it "should be able to get access to the task if it was started more then max_age ago" do
       @job.locked_at = 5.hours.ago
       @job.save
@@ -130,9 +130,9 @@ describe Delayed::Job do
       @job.lock_exclusively!(5.minutes, 'worker1').should be_true
       @job.lock_exclusively!(5.minutes, 'worker1').should be_true
       @job.lock_exclusively!(5.minutes, 'worker1').should be_true
-    end                                        
+    end
   end
-  
+
   context "when another worker has worked on a task since the job was found to be available, it" do
 
     before :each do
@@ -162,16 +162,16 @@ describe Delayed::Job do
 
     end
     it "should be the instance method that will be called if its a performable method object" do
-      story = Story.create :text => "..."                 
-      
+      story = Story.create :text => "..."
+
       story.send_later(:save)
-      
+
       Delayed::Job.last.name.should == 'Story#save'
     end
   end
-  
+
   context "worker prioritization" do
-    
+
     before(:each) do
       Delayed::Worker.max_priority = nil
       Delayed::Worker.min_priority = nil
@@ -182,7 +182,7 @@ describe Delayed::Job do
       number_of_jobs.times { Delayed::Job.enqueue SimpleJob.new, rand(10) }
       jobs = Delayed::Job.find_available('worker', 10)
       ordered = true
-      jobs[1..-1].each_index{ |i| 
+      jobs[1..-1].each_index{ |i|
         if (jobs[i].priority < jobs[i+1].priority)
           ordered = false
           break
@@ -190,15 +190,15 @@ describe Delayed::Job do
       }
       ordered.should == true
     end
-   
+
   end
-  
+
   context "db_time_now" do
     it "should return time in current time zone if set" do
       Time.zone = 'Eastern Time (US & Canada)'
       Delayed::Job.db_time_now.zone.should == 'EST'
     end
-    
+
     it "should return UTC time if that is the AR default" do
       Time.zone = nil
       ActiveRecord::Base.default_timezone = :utc
@@ -211,5 +211,5 @@ describe Delayed::Job do
       Delayed::Job.db_time_now.zone.should_not == 'UTC'
     end
   end
-  
+
 end

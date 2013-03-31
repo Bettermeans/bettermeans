@@ -5,8 +5,8 @@ created by: dave olsen, wvu web services
 created on: march 17, 2007
 project page: slateinfo.blogs.wvu.edu
 
-inspired by: 
- - Patrick Woods, http://www.hakjoon.com/code/38/textile-quicktags-redirect & 
+inspired by:
+ - Patrick Woods, http://www.hakjoon.com/code/38/textile-quicktags-redirect &
  - Alex King, http://alexking.org/projects/js-quicktags
 
 features:
@@ -70,7 +70,7 @@ TextileEditor.Methods = {
     // Create the local Button array by assigning theButtons array to edButtons
     var edButtons = new Array();
     edButtons = this.buttons;
-    
+
     var standardButtons = new Array();
     for(var i = 0; i < edButtons.length; i++) {
       var thisButton = this.prepareButton(edButtons[i]);
@@ -88,7 +88,7 @@ TextileEditor.Methods = {
         }
       }
     } // end for
-    
+
     var te = this;
     var buttons = toolbar.getElementsByTagName('button');
     for(var i = 0; i < buttons.length; i++) {
@@ -96,7 +96,7 @@ TextileEditor.Methods = {
       if (!buttons[i].onclick) {
         buttons[i].onclick = function() { te.insertTag(this); return false; }
       } // end if
-      
+
       buttons[i].tagStart = buttons[i].getAttribute('tagStart');
       buttons[i].tagEnd = buttons[i].getAttribute('tagEnd');
       buttons[i].open = buttons[i].getAttribute('open');
@@ -106,7 +106,7 @@ TextileEditor.Methods = {
     //});
     }
   }, // end initialize
-  
+
   // draw individual buttons (edShowButton)
   prepareButton: function(button) {
     if (button.separator) {
@@ -132,9 +132,9 @@ TextileEditor.Methods = {
 
     theButton.accessKey = button.access;
     theButton.title = button.title;
-    return theButton; 
+    return theButton;
   }, // end prepareButton
-  
+
   // if clicked, no selected text, tag not open highlight button
   // (edAddTag)
   addTag: function(button) {
@@ -203,7 +203,7 @@ TextileEditor.Methods = {
 
       // check if text has been selected
       if (sel.text.length > 0) {
-        textSelected = true;  
+        textSelected = true;
       }
 
       // set-up newline regex's so we can swap tags across multiple paragraphs
@@ -227,7 +227,7 @@ TextileEditor.Methods = {
       // check if text has been selected
       if (startPos != endPos) {
         textSelected = true;
-        var selectedText = myField.value.substring(startPos, endPos); 
+        var selectedText = myField.value.substring(startPos, endPos);
       }
 
       // set-up newline regex's so we can swap tags across multiple paragraphs
@@ -267,14 +267,14 @@ TextileEditor.Methods = {
       }
 
       // remove space from the end of the selectedText.
-      // Fixes a bug that causes any browser running under Microsoft Internet Explorer 
+      // Fixes a bug that causes any browser running under Microsoft Internet Explorer
       // to append an additional space before the closing element.
       // *Bold text *here => *Bold text*
       if (selectedText.match(/\s$/g)) {
         selectedText = selectedText.replace(/\s$/g,'');
         followupText = ' ';
       }
-      
+
       // no clue, i'm sure it made sense at the time i wrote it
       if (followupText.match(/^\n/)) {
         newlineFollowup = '';
@@ -298,7 +298,7 @@ TextileEditor.Methods = {
         }
         re_replace = new RegExp(' (\\*|\\#) ','g');
 
-        // try to remove bullets in text copied from ms word **Mac Only!** 
+        // try to remove bullets in text copied from ms word **Mac Only!**
         re_word_bullet_m_s = new RegExp('• ','g'); // mac/safari
         re_word_bullet_m_f = new RegExp('∑ ','g'); // mac/firefox
         selectedText = selectedText.replace(re_word_bullet_m_s,'').replace(re_word_bullet_m_f,'');
@@ -342,7 +342,7 @@ TextileEditor.Methods = {
             listItems = matches.length;
           }
           posDiffPos = 3 + listItems*3;
-        } 
+        }
       }
 
       // now lets look and see if the user is trying to muck with a block or block modifier
@@ -371,9 +371,9 @@ TextileEditor.Methods = {
         }
 
         // if tag already up is the same as the tag provided replace the whole tag
-        if (tagPartBlock == button.tagStart) { 
+        if (tagPartBlock == button.tagStart) {
           insertTag  = tagPartBlock + tagPartModifierOrig; // use Orig because it's escaped for regex
-          drawSwitch = 0; 
+          drawSwitch = 0;
         }
         // else if let's check to add/remove block modifier
         else if ((tagPartModifier == button.tagStart) || (newm = tagPartModifier.match(/[\(]{2,}/g))) {
@@ -448,7 +448,7 @@ TextileEditor.Methods = {
         else {
 
           // if this is a block modification/addition
-          if (button.tagStart.match(/(h1|h2|h3|h4|h5|h6|bq|p)/g)) { 
+          if (button.tagStart.match(/(h1|h2|h3|h4|h5|h6|bq|p)/g)) {
             if (tagPartBlock == '') {
               drawSwitch = 2;
             }
@@ -568,7 +568,7 @@ TextileEditor.Methods = {
             mplier = mplier + matches.length;
           }
           posDiffPos = insertTag.length + 2 + (mplier*4);
-        }       
+        }
       }
 
       // swap in and out the simple tags around a selection like bold
@@ -623,12 +623,12 @@ TextileEditor.Methods = {
           buttonStart = button.tagStart;
         }
         if (button.tagStart.match(re_p)) { // make sure that invoking block modifiers don't do anything
-          finalText = beginningText 
+          finalText = beginningText
                      + followupText;
           cursorPos = startPos;
         }
         else {
-          finalText = beginningText 
+          finalText = beginningText
                       + buttonStart
                       + followupText;
           this.addTag(button);
@@ -646,7 +646,7 @@ TextileEditor.Methods = {
         else {
           buttonEnd = button.tagEnd
         }
-        finalText = beginningText 
+        finalText = beginningText
                     + button.tagEnd
                     + followupText;
         this.removeTag(button);

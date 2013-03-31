@@ -19,7 +19,7 @@ class Engines::Plugin::Migrator < ActiveRecord::Migrator
       return if current_version(plugin) == version
       migrate(plugin.migration_directory, version)
     end
-    
+
     def current_version(plugin=current_plugin)
       # Delete migrations that don't match .. to_i will work because the number comes first
       ::ActiveRecord::Base.connection.select_values(
@@ -27,14 +27,14 @@ class Engines::Plugin::Migrator < ActiveRecord::Migrator
       ).delete_if{ |v| v.match(/-#{plugin.name}/) == nil }.map(&:to_i).max || 0
     end
   end
-       
+
   def migrated
     sm_table = self.class.schema_migrations_table_name
     ::ActiveRecord::Base.connection.select_values(
       "SELECT version FROM #{sm_table}"
     ).delete_if{ |v| v.match(/-#{current_plugin.name}/) == nil }.map(&:to_i).sort
   end
-  
+
   def record_version_state_after_migrating(version)
     super(version.to_s + "-" + current_plugin.name)
   end

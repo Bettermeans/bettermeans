@@ -6,7 +6,7 @@ module RedmineS3
     @@bucket            = nil
     @@uri              = nil
     @@conn              = nil
-    
+
     def self.load_options
       yaml_string = ERB.new(File.read("#{RAILS_ROOT}/config/s3.yml")).result
       options = YAML.load(yaml_string)

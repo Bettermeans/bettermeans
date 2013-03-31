@@ -8,7 +8,7 @@ module ActsAsTaggableOn
     def initialize(*args)
       add(*args)
     end
-  
+
     ##
     # Returns a new TagList using the given tag string.
     #
@@ -74,7 +74,7 @@ module ActsAsTaggableOn
     end
 
     private
-  
+
     # Remove whitespace, duplicates, and blanks.
     def clean!
       reject!(&:blank?)

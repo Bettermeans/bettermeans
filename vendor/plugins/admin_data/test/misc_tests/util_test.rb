@@ -10,7 +10,7 @@ class AdminDataUtilTest < Test::Unit::TestCase
     should 'be engine' do
       assert subject
       assert subject.size,1
-      assert_equal 'engine', subject[0] 
+      assert_equal 'engine', subject[0]
     end
     should 'respond_to? has_one' do
       assert @instance.respond_to?(subject[0])

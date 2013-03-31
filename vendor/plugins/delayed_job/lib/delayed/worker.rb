@@ -4,12 +4,12 @@ module Delayed
     self.sleep_delay = 5
     self.max_attempts = 25
     self.max_run_time = 4.hours
-    
+
     # By default failed jobs are destroyed after too many attempts. If you want to keep them around
     # (perhaps to inspect the reason for the failure), set this to false.
     cattr_accessor :destroy_failed_jobs
     self.destroy_failed_jobs = true
-    
+
     self.logger = if defined?(Merb::Logger)
       Merb.logger
     elsif defined?(RAILS_DEFAULT_LOGGER)
@@ -69,7 +69,7 @@ module Delayed
     ensure
       Delayed::Job.clear_locks!(name)
     end
-    
+
     def run(job)
       runtime =  Benchmark.realtime do
         Timeout.timeout(self.class.max_run_time.to_i) { job.invoke_job }
@@ -82,7 +82,7 @@ module Delayed
       handle_failed_job(job, e)
       return false  # work failed
     end
-    
+
     # Reschedule the job in the future (when a job fails).
     # Uses an exponential scale depending on the number of failed attempts.
     def reschedule(job, time = nil)
@@ -103,13 +103,13 @@ module Delayed
     end
 
   protected
-    
+
     def handle_failed_job(job, error)
       job.last_error = error.message + "\n" + error.backtrace.join("\n")
       say "* [JOB] #{name} failed with #{error.class.name}: #{error.message} - #{job.attempts} failed attempts", Logger::ERROR
       reschedule(job)
     end
-    
+
     # Run the next job we can get an exclusive lock on.
     # If no jobs are left we return nil
     def reserve_and_run_one_job

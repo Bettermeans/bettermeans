@@ -11,14 +11,14 @@ module Pickle
       index = parse_index(match[1])
       email_has_fields?(@emails[index], fields) ? @emails[index] : nil
     end
-    
+
     def email_has_fields?(email, fields)
       parse_fields(fields).each do |key, val|
         return false unless (Array(email.send(key)) & Array(val)).any?
       end
       true
     end
-    
+
   protected
     # Saves the emails out to RAILS_ROOT/tmp/ and opens it in the default
     # web browser if on OS X. (depends on webrat)

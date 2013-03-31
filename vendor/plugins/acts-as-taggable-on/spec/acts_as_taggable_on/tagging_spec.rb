@@ -12,7 +12,7 @@ describe ActsAsTaggableOn::Tagging do
     @tagging.context = "tags"
 
     @tagging.should_not be_valid
-    
+
     if ActiveRecord::VERSION::MAJOR >= 3
       @tagging.errors[:tag_id].should == ["can't be blank"]
     else

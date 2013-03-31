@@ -68,7 +68,7 @@ class Dataset < Hash
         line = nextline
       end
     end
-  
+
     ds
   end
 

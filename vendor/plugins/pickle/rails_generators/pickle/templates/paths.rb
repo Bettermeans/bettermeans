@@ -15,6 +15,6 @@
 
     when /^the (.+?) page$/                                         # translate to named route
       send "#{$1.downcase.gsub(' ','_')}_path"
-  
+
     # end added by pickle path
 <%= current_paths_footer %>

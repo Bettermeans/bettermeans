@@ -10,7 +10,7 @@ class MessageModelTest < Test::Unit::TestCase
 
   def test_create_message
     @message = create_message
-    
+
     assert_equal @message.sender, @george
     assert_equal @message.recipient, @jerry
     assert_equal @message.subject, "Frolf, Jerry!"
@@ -25,13 +25,13 @@ class MessageModelTest < Test::Unit::TestCase
   def test_read_records_timestamp
     assert !@message.nil?
   end
-  
+
   def test_read?
     Message.read(@message, @jerry)
     @message.reload
     assert @message.read?
   end
-  
+
   def test_mark_deleted_sender
     @message.mark_deleted(@george)
     @message.reload

@@ -19,7 +19,7 @@ AdminData.jsUtil = {
 		$('.colorize tr:even').addClass('even');
 	},
 
-	// returns date in string format. example: 07-September-2009  
+	// returns date in string format. example: 07-September-2009
 	dateToString: function(date) {
 		var month = (date.getMonth() + 1).toString();
 		var day = date.getDate().toString();
