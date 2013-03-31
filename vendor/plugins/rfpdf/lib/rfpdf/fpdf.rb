@@ -850,10 +850,10 @@ class FPDF
         end
 #Ed Moss
         if(w==0 && h==0)
-      		#Put image at 72 dpi
-      		w=info['w']/@k;
-      		h=info['h']/@k;
-      	end
+          #Put image at 72 dpi
+          w=info['w']/@k;
+          h=info['h']/@k;
+        end
 #
         # Automatic width or height calculation
         w=h*info['w']/info['h'] if w==0

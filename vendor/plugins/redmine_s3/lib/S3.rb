@@ -299,9 +299,9 @@ module S3
           when 100..299
             return resp
           when 300..399 # redirect
-	    location = resp['location']
-	    # handle missing location like a normal http error response
-	    resp.error! if !location
+      location = resp['location']
+      # handle missing location like a normal http error response
+      resp.error! if !location
             uri = URI.parse(resp['location'])
             server = uri.host
             path = uri.request_uri

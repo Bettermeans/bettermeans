@@ -15,37 +15,37 @@ class ViewLoadingTest < ActionController::TestCase
 
   # plugin views should be found
 
- 	def test_WITH_a_view_defined_only_in_a_plugin_IT_should_find_the_view
-	  get_action_on_controller :a_view, :alpha_plugin
+   def test_WITH_a_view_defined_only_in_a_plugin_IT_should_find_the_view
+    get_action_on_controller :a_view, :alpha_plugin
     assert_response_body 'alpha_plugin/a_view'
   end
 
-	def test_WITH_a_namespaced_view_defined_only_in_a_plugin_IT_should_find_the_view
-	  get_action_on_controller :a_view, :alpha_plugin, :namespace
+  def test_WITH_a_namespaced_view_defined_only_in_a_plugin_IT_should_find_the_view
+    get_action_on_controller :a_view, :alpha_plugin, :namespace
     assert_response_body 'namespace/alpha_plugin/a_view'
   end
 
   # app takes precedence over plugins
 
-	def test_WITH_a_view_defined_in_both_app_and_plugin_IT_should_find_the_one_in_app
-	  get_action_on_controller :a_view, :app_and_plugin
+  def test_WITH_a_view_defined_in_both_app_and_plugin_IT_should_find_the_one_in_app
+    get_action_on_controller :a_view, :app_and_plugin
     assert_response_body 'app_and_plugin/a_view (from app)'
   end
 
-	def test_WITH_a_namespaced_view_defined_in_both_app_and_plugin_IT_should_find_the_one_in_app
-	  get_action_on_controller :a_view, :app_and_plugin, :namespace
+  def test_WITH_a_namespaced_view_defined_in_both_app_and_plugin_IT_should_find_the_one_in_app
+    get_action_on_controller :a_view, :app_and_plugin, :namespace
     assert_response_body 'namespace/app_and_plugin/a_view (from app)'
   end
 
   # subsequently loaded plugins take precendence over previously loaded plugins
 
-	def test_WITH_a_view_defined_in_two_plugins_IT_should_find_the_latter_of_both
-	  get_action_on_controller :a_view, :shared_plugin
+  def test_WITH_a_view_defined_in_two_plugins_IT_should_find_the_latter_of_both
+    get_action_on_controller :a_view, :shared_plugin
     assert_response_body 'shared_plugin/a_view (from beta_plugin)'
   end
 
-	def test_WITH_a_namespaced_view_defined_in_two_plugins_IT_should_find_the_latter_of_both
-	  get_action_on_controller :a_view, :shared_plugin, :namespace
+  def test_WITH_a_namespaced_view_defined_in_two_plugins_IT_should_find_the_latter_of_both
+    get_action_on_controller :a_view, :shared_plugin, :namespace
     assert_response_body 'namespace/shared_plugin/a_view (from beta_plugin)'
   end
 

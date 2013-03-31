@@ -1,7 +1,7 @@
 module RFPDF
   COLOR_PALETTE = {
-	  :black => [0x00, 0x00, 0x00],
-	  :white => [0xff, 0xff, 0xff],
+    :black => [0x00, 0x00, 0x00],
+    :white => [0xff, 0xff, 0xff],
   }.freeze
 
   # Draw a line from (<tt>x1, y1</tt>) to (<tt>x2, y2</tt>).
@@ -12,8 +12,8 @@ module RFPDF
   #
   # Example:
   #
-	#   draw_line(x1, y1, x1, y1+h, :line_color => ReportHelper::COLOR_PALETTE[:dark_blue], :line_width => 1)
-	#
+  #   draw_line(x1, y1, x1, y1+h, :line_color => ReportHelper::COLOR_PALETTE[:dark_blue], :line_width => 1)
+  #
   def draw_line(x1, y1, x2, y2, options = {})
     options[:line_color] ||= COLOR_PALETTE[:black]
     options[:line_width] ||= 0.5
@@ -31,8 +31,8 @@ module RFPDF
   #
   # Example:
   #
-	#   draw_text(x, y, header_left, :font_size => 10)
-	#
+  #   draw_text(x, y, header_left, :font_size => 10)
+  #
   def draw_text(x, y, text, options = {})
     options[:font_color] ||= COLOR_PALETTE[:black]
     options[:font_size] ||= 10
@@ -53,11 +53,11 @@ module RFPDF
   #
   # Example:
   #
-	#   draw_text_block(left_margin, 85, "question", left_margin, 280,
+  #   draw_text_block(left_margin, 85, "question", left_margin, 280,
   #       :font_color => ReportHelper::COLOR_PALETTE[:dark_blue],
   #       :font_size => 12,
   #       :font_style => 'I')
-	#
+  #
   def draw_text_block(x, y, text, left_margin, right_margin, options = {})
     options[:font_color] ||= COLOR_PALETTE[:black]
     options[:font_size] ||= 10
@@ -82,8 +82,8 @@ module RFPDF
   #
   # Example:
   #
-	#   draw_box(x, y - 1, 38, 22)
-	#
+  #   draw_box(x, y - 1, 38, 22)
+  #
   def draw_box(x, y, w, h, options = {})
     options[:border] ||= 1
     options[:border_color] ||= COLOR_PALETTE[:black]
@@ -116,14 +116,14 @@ module RFPDF
   #
   # Example:
   #
-	#   draw_text_box(x, y - 1, 38, 22,
+  #   draw_text_box(x, y - 1, 38, 22,
   #                 "your_score_title",
   #                 :fill => 0,
   #                 :font_color => ReportHelper::COLOR_PALETTE[:blue],
   #                 :font_line_spacing => 0,
   #                 :font_style => "B",
   #                 :valign => "M")
-	#
+  #
   def draw_text_box(x, y, w, h, text, options = {})
     options[:align] ||= 'C'
     options[:border] ||= 0
@@ -137,26 +137,26 @@ module RFPDF
     options[:font_style] ||= ''
     options[:padding] ||= 2
     options[:valign] ||= "M"
-		if options[:fill] == 1 or options[:border] == 1
+    if options[:fill] == 1 or options[:border] == 1
       draw_box(x, y, w, h, options)
-  	end
+    end
     SetMargins(0,0,0)
     set_text_color(options[:font_color])
-  	font_size = options[:font_size]
+    font_size = options[:font_size]
     SetFont('Arial', options[:font_style], font_size)
-  	font_size += options[:font_line_spacing]
-  	case options[:valign]
-  	  when "B"
-  	    y -= options[:padding]
+    font_size += options[:font_line_spacing]
+    case options[:valign]
+      when "B"
+        y -= options[:padding]
         text = "\n" + text if text["\n"].nil?
-  	  when "T"
-  	    y += options[:padding]
-  	end
+      when "T"
+        y += options[:padding]
+    end
     SetXY(x, y)
-  	if GetStringWidth(text) > w or not text["\n"].nil? or options[:valign] == "T"
-    	font_size += options[:font_size] * 0.1
-    	#TODO 2006-07-21 Level=1 - this is assuming a 2 line text
-    	SetXY(x, y + ((h - (font_size * 2)) / 2)) if options[:valign] == "M"
+    if GetStringWidth(text) > w or not text["\n"].nil? or options[:valign] == "T"
+      font_size += options[:font_size] * 0.1
+      #TODO 2006-07-21 Level=1 - this is assuming a 2 line text
+      SetXY(x, y + ((h - (font_size * 2)) / 2)) if options[:valign] == "M"
       MultiCell(w, font_size, text, 0, options[:align])
     else
       Cell(w, h, text, 0, 0, options[:align])
@@ -172,26 +172,26 @@ module RFPDF
   #
   # Example:
   #
-	#   draw_title(left_margin, 60,
-	#       "title:",
-	#       :font_color => ReportHelper::COLOR_PALETTE[:dark_blue])
-	#
+  #   draw_title(left_margin, 60,
+  #       "title:",
+  #       :font_color => ReportHelper::COLOR_PALETTE[:dark_blue])
+  #
   def draw_title(x, y, title, options = {})
     options[:font_color] ||= COLOR_PALETTE[:black]
     options[:font_size] ||= 18
     options[:font_style] ||= ''
     set_text_color(options[:font_color])
     SetFont('Arial', options[:font_style], options[:font_size])
-  	SetXY(x, y)
-  	Write(options[:font_size] + 2, title)
+    SetXY(x, y)
+    Write(options[:font_size] + 2, title)
   end
 
   # Set the draw color. Default value is <tt>COLOR_PALETTE[:black]</tt>.
   #
   # Example:
   #
-	#   set_draw_color(ReportHelper::COLOR_PALETTE[:dark_blue])
-	#
+  #   set_draw_color(ReportHelper::COLOR_PALETTE[:dark_blue])
+  #
   def set_draw_color(color = COLOR_PALETTE[:black])
     SetDrawColor(color[0], color[1], color[2])
   end
@@ -200,8 +200,8 @@ module RFPDF
   #
   # Example:
   #
-	#   set_fill_color(ReportHelper::COLOR_PALETTE[:dark_blue])
-	#
+  #   set_fill_color(ReportHelper::COLOR_PALETTE[:dark_blue])
+  #
   def set_fill_color(color = COLOR_PALETTE[:white])
     SetFillColor(color[0], color[1], color[2])
   end
@@ -210,8 +210,8 @@ module RFPDF
   #
   # Example:
   #
-	#   set_text_color(ReportHelper::COLOR_PALETTE[:dark_blue])
-	#
+  #   set_text_color(ReportHelper::COLOR_PALETTE[:dark_blue])
+  #
   def set_text_color(color = COLOR_PALETTE[:black])
     SetTextColor(color[0], color[1], color[2])
   end
@@ -223,8 +223,8 @@ module RFPDF
   #
   # Example:
   #
-	#   write_html(html, :height => 12)
-	#
+  #   write_html(html, :height => 12)
+  #
   def write_html(html, options = {})
     options[:height] ||= 20
     #HTML parser

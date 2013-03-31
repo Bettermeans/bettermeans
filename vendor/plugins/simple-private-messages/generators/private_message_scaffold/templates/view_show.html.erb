@@ -7,7 +7,7 @@
 </p>
 <p>
   <%% if @<%= singular_lower_case_name %>.recipient == @user %>
-	  <%%= link_to "Reply", new_user_<%= singular_lower_case_name %>_path(@user, :reply_to => @<%= singular_lower_case_name %>) %> |
+    <%%= link_to "Reply", new_user_<%= singular_lower_case_name %>_path(@user, :reply_to => @<%= singular_lower_case_name %>) %> |
   <%% end %>
   <%%= link_to "Inbox", user_<%= plural_lower_case_name %>_path(@user)%>
 </p>

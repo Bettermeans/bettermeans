@@ -57,12 +57,12 @@ module RFPDF
     end
 
     def render(template, local_assigns = {})
-			@pdf_name = "Default.pdf" if @pdf_name.nil?
-		  unless @action_view.controller.headers["Content-Type"] == 'application/pdf'
-			  @generate = true
-				@action_view.controller.headers["Content-Type"] = 'application/pdf'
-				@action_view.controller.headers["Content-disposition:"] = "inline; filename=\"#{@options[:file_name]}\""
-			end
+      @pdf_name = "Default.pdf" if @pdf_name.nil?
+      unless @action_view.controller.headers["Content-Type"] == 'application/pdf'
+        @generate = true
+        @action_view.controller.headers["Content-Type"] = 'application/pdf'
+        @action_view.controller.headers["Content-disposition:"] = "inline; filename=\"#{@options[:file_name]}\""
+      end
       assigns = @action_view.assigns.dup
 
       if content_for_layout = @action_view.instance_variable_get("@content_for_layout")
@@ -70,12 +70,12 @@ module RFPDF
       end
 
       result = @action_view.instance_eval do
-			  assigns.each do |key,val|
-			    instance_variable_set "@#{key}", val
-		    end
-			  local_assigns.each do |key,val|
-		  		class << self; self; end.send(:define_method,key){ val }
-				end
+        assigns.each do |key,val|
+          instance_variable_set "@#{key}", val
+        end
+        local_assigns.each do |key,val|
+          class << self; self; end.send(:define_method,key){ val }
+        end
         ERB.new(@@backward_compatibility_mode == true ? template : template.source).result(binding)
       end
     end

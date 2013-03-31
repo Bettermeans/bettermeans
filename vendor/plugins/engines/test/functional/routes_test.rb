@@ -8,15 +8,15 @@ require File.dirname(__FILE__) + '/../test_helper'
 class RoutesTest < ActionController::TestCase
   tests TestRoutingController
 
-	def test_WITH_a_route_defined_in_a_plugin_IT_should_route_it
-	  path = '/routes/an_action'
+  def test_WITH_a_route_defined_in_a_plugin_IT_should_route_it
+    path = '/routes/an_action'
     opts = {:controller => 'test_routing', :action => 'an_action'}
     assert_routing path, opts
     assert_recognizes opts, path # not sure what exactly the difference is, but it won't hurt either
   end
 
-	def test_WITH_a_route_for_a_namespaced_controller_defined_in_a_plugin_IT_should_route_it
-	  path = 'somespace/routes/an_action'
+  def test_WITH_a_route_for_a_namespaced_controller_defined_in_a_plugin_IT_should_route_it
+    path = 'somespace/routes/an_action'
     opts = {:controller => 'namespace/test_routing', :action => 'an_action'}
     assert_routing path, opts
     assert_recognizes opts, path

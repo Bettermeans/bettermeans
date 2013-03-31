@@ -18,7 +18,7 @@ module ActionController
          silence_warnings do
             RJS_PATTERN_HTML  = "\"((\\\\\"|[^\"])*)\""
 #            RJS_ANY_ID      = "\"([^\"])*\""
-#	better match with single or double quoted ids
+#  better match with single or double quoted ids
             RJS_ANY_ID      = "[\"']([^\"])*[\"']"
 
             RJS_STATEMENTS   = {
@@ -68,7 +68,7 @@ jrails now uses a nonconflict option so $ is jQuery.  I put both in the pattern 
 
             # TODO:
             #RJS_STATEMENTS[:insert_html] = "Element.insert\\(#{RJS_ANY_ID}, \\{ (#{RJS_INSERTIONS.join('|')}):
-							#{RJS_PATTERN_HTML} \\}\\)"
+              #{RJS_PATTERN_HTML} \\}\\)"
 
             RJS_STATEMENTS[:any] = Regexp.new("(#{RJS_STATEMENTS.values.join('|')})")
             RJS_PATTERN_UNICODE_ESCAPED_CHAR = /\\u([0-9a-zA-Z]{4})/

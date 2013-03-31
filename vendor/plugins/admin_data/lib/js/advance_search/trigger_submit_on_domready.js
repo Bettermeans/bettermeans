@@ -1,6 +1,6 @@
 $(function() {
 
-	$('#advance_search_form').trigger('submit');
+  $('#advance_search_form').trigger('submit');
 
 });
 

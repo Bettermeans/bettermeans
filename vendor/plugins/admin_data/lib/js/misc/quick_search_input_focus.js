@@ -1,6 +1,6 @@
 $(function() {
 
-	$('#quick_search_input').focus();
+  $('#quick_search_input').focus();
 
 });
 

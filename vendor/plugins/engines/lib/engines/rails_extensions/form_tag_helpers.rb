@@ -14,21 +14,21 @@
 # which can be used to specify the originating plugin for any assets.
 #
 module Engines::RailsExtensions::FormTagHelpers
-	def self.included(base)
-		base.class_eval do
-			alias_method_chain :image_submit_tag, :engine_additions
-		end
-	end
+  def self.included(base)
+    base.class_eval do
+      alias_method_chain :image_submit_tag, :engine_additions
+    end
+  end
 
-	# Adds plugin functionality to Rails' default image_submit_tag method.
-	def image_submit_tag_with_engine_additions(source, options={})
-		options.stringify_keys!
-		if options["plugin"]
-			source = Engines::RailsExtensions::AssetHelpers.plugin_asset_path(options["plugin"], "images", source)
-			options.delete("plugin")
-		end
-		image_submit_tag_without_engine_additions(source, options)
-	end
+  # Adds plugin functionality to Rails' default image_submit_tag method.
+  def image_submit_tag_with_engine_additions(source, options={})
+    options.stringify_keys!
+    if options["plugin"]
+      source = Engines::RailsExtensions::AssetHelpers.plugin_asset_path(options["plugin"], "images", source)
+      options.delete("plugin")
+    end
+    image_submit_tag_without_engine_additions(source, options)
+  end
 end
 
 module ::ActionView::Helpers::FormTagHelper #:nodoc:
