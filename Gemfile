@@ -37,8 +37,8 @@ group :development do
   gem 'spork', '0.8.5'
   gem 'guard-spork'
   #gem 'reek'
-  #gem 'ruby2ruby', '1.2.2'
-  #gem 'heckle'
+  gem 'ruby2ruby', '1.2.2'
+  gem 'heckle'
 end
 
 group :development, :test do
