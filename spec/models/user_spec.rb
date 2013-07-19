@@ -30,4 +30,30 @@ describe User do
   it { should have_many(:reputations).dependent(:delete_all) }
   it { should have_many(:help_sections) }
   it { should have_many(:tokens) }
+
+
+  describe "#fullname=" do
+    context "when given nil" do
+      it "does not change first & last name" do
+        user = User.new
+        user.firstname = 'firstname'
+        user.lastname = 'lastname'
+        user.fullname=(nil)
+        user.firstname.should == 'firstname'
+        user.lastname.should == 'lastname'
+      end
+    end
+
+    context "when given a string" do
+      it "assigns first and last names" do
+        user = User.new
+        user.firstname = 'firstname'
+        user.lastname = 'lastname'
+        user.fullname = 'full name'
+        user.firstname.should == 'full'
+        user.lastname.should == 'name'
+      end
+    end
+  end
+
 end
