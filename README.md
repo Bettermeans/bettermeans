@@ -19,7 +19,11 @@ Getting started
 
 * Rename `database.yml.example` to `database.yml`
 
-* Run rake `db:create:all` and `rake db:schema:load`
+* Run `rake db:create:all` and `rake db:schema:load`
+
+* To load schema into test databse, run `rake db:test:prepare`
+
+* To run specs, run `rake`
 
 That's it. Now you're ready to change the world. Here's to making a dent in things together!
 
