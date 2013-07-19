@@ -6,6 +6,7 @@
 /public/plugin_assets
 /tmp
 /nbproject
+config/database.yml
 serverlog
 .DS_Store
 *.swp
