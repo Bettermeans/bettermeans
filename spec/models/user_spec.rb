@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe User do
-  subject { User.new }
+
+  let(:user) { Factory.build(:user) }
 
   it { should have_many(:members).dependent(:destroy) }
   it { should have_many(:memberships) }
@@ -31,14 +32,15 @@ describe User do
   it { should have_many(:help_sections) }
   it { should have_many(:tokens) }
 
-
   describe "#fullname=" do
+    before(:each) do
+      user.firstname = 'firstname'
+      user.lastname = 'lastname'
+    end
+
     context "when given nil" do
       it "does not change first & last name" do
-        user = User.new
-        user.firstname = 'firstname'
-        user.lastname = 'lastname'
-        user.fullname=(nil)
+        user.fullname = nil
         user.firstname.should == 'firstname'
         user.lastname.should == 'lastname'
       end
@@ -46,12 +48,29 @@ describe User do
 
     context "when given a string" do
       it "assigns first and last names" do
-        user = User.new
-        user.firstname = 'firstname'
-        user.lastname = 'lastname'
         user.fullname = 'full name'
         user.firstname.should == 'full'
         user.lastname.should == 'name'
+      end
+    end
+  end
+
+  describe '#belongs_to_projects' do
+    it 'does something' do
+      user.belongs_to_projects
+    end
+  end
+
+  describe '#project_storage_total' do
+    it 'defaults to zero' do
+      user.project_storage_total.should == 0
+    end
+
+    context 'when there are owned projects' do
+      it 'sums up the storage for the projects' do
+        fake_project = stub(:storage => 5)
+        user.stub(:owned_projects).and_return([fake_project])
+        user.project_storage_total.should == 5
       end
     end
   end
