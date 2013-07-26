@@ -261,7 +261,10 @@ class Setting < ActiveRecord::Base
       setting = new(:name => name)
       setting.value = @@available_settings[name]['default']
     end
-    setting ||= find_by_name(name)
+    if find_by_name(name)
+      setting = find_by_name(name)
+    end
+
   end
 
 end
