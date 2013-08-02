@@ -55,6 +55,24 @@ describe User do
     end
   end
 
+  describe "#registered?" do
+    let(:user) { User.new }
+
+    context "when user status is registered" do
+      it "returns true" do
+        user.status = User::STATUS_REGISTERED
+        user.should be_registered
+      end
+    end
+
+    context "when user status is not registered" do
+      it "returns false" do
+        user.status = User::STATUS_ACTIVE
+        user.should_not be_registered
+      end
+    end
+  end
+
   describe '#belongs_to_projects' do
     it 'does something' do
       user.belongs_to_projects
