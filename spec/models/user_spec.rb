@@ -58,14 +58,14 @@ describe User do
 
   # registered? method
   describe "#registered?" do
-    let(:user) { User.new } # let :user says let user be 'this' and execute the let - and memoizes the object
+    let(:user) { User.new } # memoizes the user object
 
     context "when user status is registered" do    
-      it "returns true" do # describe specifically what the test should do
-        # user.status = 2 # connaissance of meaning - there are levels of meaning: spec and user has to know status is 2
+      it "returns true" do # describe specifically the expected test results
+        # user.status = 2 # connaissance of meaning - commented out in favor of better test below
         # user.registered?.should == true
-        user.status = User::STATUS_REGISTERED # connaissance of name - lowest form of it
-        user.should be_registered # leverages ruby on rails method missing - rspec idiom
+        user.status = User::STATUS_REGISTERED # connaissance of name is more specific
+        user.should be_registered
       end
     end
 
@@ -75,15 +75,6 @@ describe User do
         user.should_not be_registered
       end
     end
-
-    # it "checks registration status" do
-    #   user = User.new
-    #   if self.status == STATUS_REGISTERED
-    #     true
-    #   ele
-    #     status.should >= 1
-    #   end
-    # end
   end
 
 end
