@@ -984,8 +984,8 @@ en:
 
   label_motions_active : "Active Motions"
   label_motions_view_all : "View all Motions"
-  label_new_role : "New role: #{{role_name}}"
-  5label_new_invitation : "Invitation to join #{{project_name}} as a #{{role_name}}"
+  label_new_role : "New role: %{role_name}"
+  5label_new_invitation : "Invitation to join #{{project_name}} as a %{role_name}"
 
   label_drop_from_core_team : "Remove from Core"
   label_nominate_to_core_team : "Nominate to Core"
