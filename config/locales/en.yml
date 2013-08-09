@@ -536,7 +536,7 @@ en:
   label_subproject_new: New sub workstream
   label_new_item_in: New item in
   label_and_its_subprojects: "#{{value}} and its sub workstreams"
-  label_waiting_for_you: "#{{notifications}} waiting for you"
+  label_waiting_for_you: "%{notifications} waiting for you"
   label_min_max_length: Min - Max length
   label_list: List
   label_date: Date
