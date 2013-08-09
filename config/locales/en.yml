@@ -34,34 +34,34 @@ en:
       half_a_minute: "half a minute"
       less_than_x_seconds:
         one:   "less than 1 second"
-        other: "less than #{{count}} seconds"
+        other: "less than %{count} seconds"
       x_seconds:
         one:   "1 second"
-        other: "#{{count}} seconds"
+        other: "%{count} seconds"
       less_than_x_minutes:
         one:   "less than a minute"
-        other: "less than #{{count}} minutes"
+        other: "less than %{count} minutes"
       x_minutes:
         one:   "1 minute"
-        other: "#{{count}} minutes"
+        other: "%{count} minutes"
       about_x_hours:
         one:   "about 1 hour"
-        other: "about #{{count}} hours"
+        other: "about %{count} hours"
       x_days:
         one:   "1 day"
-        other: "#{{count}} days"
+        other: "%{count} days"
       about_x_months:
         one:   "about 1 month"
-        other: "about #{{count}} months"
+        other: "about %{count} months"
       x_months:
         one:   "1 month"
-        other: "#{{count}} months"
+        other: "%{count} months"
       about_x_years:
         one:   "about 1 year"
-        other: "about #{{count}} years"
+        other: "about %{count} years"
       over_x_years:
         one:   "over 1 year"
-        other: "over #{{count}} years"
+        other: "over %{count} years"
 
   number:
     human:
@@ -96,17 +96,17 @@ en:
         accepted: "must be accepted"
         empty: "can't be empty"
         blank: "can't be blank"
-        too_long: "is too long (maximum is #{{count}} characters)"
-        too_short: "is too short (minimum is #{{count}} characters)"
-        wrong_length: "is the wrong length (should be #{{count}} characters)"
+        too_long: "is too long (maximum is %{count} characters)"
+        too_short: "is too short (minimum is %{count} characters)"
+        wrong_length: "is the wrong length (should be %{count} characters)"
         taken: "has already been taken"
         not_a_number: "is not a number"
         not_a_date: "is not a valid date"
-        greater_than: "must be greater than #{{count}}"
-        greater_than_or_equal_to: "must be greater than or equal to #{{count}}"
-        equal_to: "must be equal to #{{count}}"
-        less_than: "must be less than #{{count}}"
-        less_than_or_equal_to: "must be less than or equal to #{{count}}"
+        greater_than: "must be greater than %{count}"
+        greater_than_or_equal_to: "must be greater than or equal to %{count}"
+        equal_to: "must be equal to %{count}"
+        less_than: "must be less than %{count}"
+        less_than_or_equal_to: "must be less than or equal to %{count}"
         odd: "must be odd"
         even: "must be even"
         greater_than_start_date: "must be greater than start date"
@@ -148,7 +148,7 @@ en:
   notice_email_sent: "An email was sent to #{{value}}"
   notice_email_error: "An error occurred while sending mail (#{{value}})"
   notice_feeds_access_key_reseted: Your RSS access key was reset.
-  notice_failed_to_save_issues: "Failed to save #{{count}} item(s) on #{{total}} selected: #{{ids}}."
+  notice_failed_to_save_issues: "Failed to save %{count} item(s) on #{{total}} selected: #{{ids}}."
   notice_no_issue_selected: "No item is selected! Please, check the items you want to edit."
   notice_account_pending: "Your account was created and is now pending administrator approval."
   notice_default_data_loaded: Default configuration successfully loaded.
@@ -169,7 +169,7 @@ en:
   error_workflow_copy_target: 'Please select target tracker(s) and role(s)'
   error_general: 'Something went wrong.'
 
-  warning_attachments_not_saved: "#{{count}} file(s) could not be saved."
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
 
   mail_subject_lost_password: "Your #{{value}} password"
   mail_body_lost_password: 'To change your password, click on the following link:'
@@ -180,15 +180,15 @@ en:
   mail_subject_account_activation_request: "#{{value}} account activation request"
   mail_subject_email_update_activation: "#{{value}} new email activation"
   mail_body_account_activation_request: "A new user (#{{value}}) has registered. The account is pending your approval:"
-  mail_subject_reminder: "#{{count}} item(s) due in the next days"
-  mail_body_reminder: "#{{count}} item(s) that are owned by you are due in the next #{{days}} days:" #updated
+  mail_subject_reminder: "%{count} item(s) due in the next days"
+  mail_body_reminder: "%{count} item(s) that are owned by you are due in the next #{{days}} days:" #updated
   mail_subject_wiki_content_added: "'#{{page}}' wiki page has been added"
   mail_body_wiki_content_added: "The '#{{page}}' wiki page has been added by #{{author}}."
   mail_subject_wiki_content_updated: "'#{{page}}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '#{{page}}' wiki page has been updated by #{{author}}."
 
   gui_validation_error: 1 error
-  gui_validation_error_plural: "#{{count}} errors"
+  gui_validation_error_plural: "%{count} errors"
 
   field_tags : "Tags"
   field_points : "Avg estimated credits"
@@ -455,7 +455,7 @@ en:
   label_x_projects:
     zero:  no workstreams
     one:   1 workstream
-    other: "#{{count}} workstreams"
+    other: "%{count} workstreams"
   label_project_all: All Workstreams
   label_project_latest: Latest Workstreams
   label_enterprise_latest: Latest Public Workstreams
@@ -536,7 +536,7 @@ en:
   label_subproject_new: New sub workstream
   label_new_item_in: New item in
   label_and_its_subprojects: "#{{value}} and its sub workstreams"
-  label_waiting_for_you: "#{{notifications}} waiting for you"
+  label_waiting_for_you: "%{notifications} waiting for you"
   label_min_max_length: Min - Max length
   label_list: List
   label_date: Date
@@ -547,8 +547,8 @@ en:
   label_text: Long text
   label_attribute: Attribute
   label_attribute_plural: Attributes
-  label_download: "#{{count}} Download"
-  label_download_plural: "#{{count}} Downloads"
+  label_download: "%{count} Download"
+  label_download_plural: "%{count} Downloads"
   label_no_data: Nothing here yet
   label_no_credits: You have no credits to transfer
   label_change_status: Change status
@@ -584,15 +584,15 @@ en:
   label_x_open_issues_abbr_on_total:
     zero:  0 open / #{{total}}
     one:   1 open / #{{total}}
-    other: "#{{count}} open / #{{total}}"
+    other: "%{count} open / #{{total}}"
   label_x_open_issues_abbr:
     zero:  0 open
     one:   1 open
-    other: "#{{count}} open"
+    other: "%{count} open"
   label_x_closed_issues_abbr:
     zero:  0 closed
     one:   1 closed
-    other: "#{{count}} closed"
+    other: "%{count} closed"
   label_total: Total
   label_permissions: Permissions
   label_current_status: Current status
@@ -610,7 +610,7 @@ en:
   label_months_from: months from
   label_gantt: Gantt
   label_internal: Internal
-  label_last_changes: "last #{{count}} changes"
+  label_last_changes: "last %{count} changes"
   label_change_view_all: View all changes
   label_personalize_page: Personalize this page
   label_comment: Comment
@@ -618,7 +618,7 @@ en:
   label_x_comments:
     zero: no comments
     one: 1 comment
-    other: "#{{count}} comments"
+    other: "%{count} comments"
   label_comment_add: Add a comment
   label_comment_added: Comment added
   label_comment_delete: Delete comments
@@ -641,7 +641,7 @@ en:
   label_yesterday: yesterday
   label_this_week: this week
   label_last_week: last week
-  label_last_n_days: "last #{{count}} days"
+  label_last_n_days: "last %{count} days"
   label_this_month: this month
   label_last_month: last month
   label_this_year: this year
@@ -657,8 +657,8 @@ en:
   label_browse: Browse
   label_browse_workstreams: Browse bettermeans
   label_browse_activity: Browse activity
-  label_modification: "#{{count}} change"
-  label_modification_plural: "#{{count}} changes"
+  label_modification: "%{count} change"
+  label_modification_plural: "%{count} changes"
   label_branch: Branch
   label_tag: Tag
   label_revision: Revision
@@ -984,8 +984,8 @@ en:
 
   label_motions_active : "Active Motions"
   label_motions_view_all : "View all Motions"
-  label_new_role : "New role: #{{role_name}}"
-  5label_new_invitation : "Invitation to join #{{project_name}} as a #{{role_name}}"
+  label_new_role : "New role: %{role_name}"
+  5label_new_invitation : "Invitation to join #{{project_name}} as a %{role_name}"
 
   label_drop_from_core_team : "Remove from Core"
   label_nominate_to_core_team : "Nominate to Core"
@@ -1180,7 +1180,7 @@ en:
   text_assign_time_entries_to_project: Assign reported hours to the workstream
   text_reassign_time_entries: 'Reassign reported hours to this item:'
   text_user_wrote: "#{{value}} wrote:"
-  text_enumeration_destroy_question: "#{{count}} objects are assigned to this value."
+  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Reassign them to this value:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them."
   text_diff_truncated: '... This diff was truncated because it exceeds the maximum size that can be displayed.'
@@ -1217,7 +1217,7 @@ en:
   text_history_hidden_until_you_vote : "Voting history is hidden since you haven't cast your vote"
   text_tally_hidden_until_you_vote : "Voting tally is hidden until you cast your vote"
   text_you_dont_have_shares_to_vote : "You need to have shares to weigh in on this motion."
-  text_you_are_now_a_role : "You are now a <b>#{{role_name}}</b> of"
+  text_you_are_now_a_role : "You are now a <b>%{role_name}</b> of"
   text_role_description_Administrator : "As an Admin, you can bypass governance rules and directly add/remove members and workstreams.<br> Use this role sparingly as you are setting up your structures, <br>and then remove yourself from the admin role when you're ready to fully adopt the Open Enterprise governance model."
   text_role_description_Contributor : "As a contributor, you can now earn credits and own a stake in <b>#{{enterprise}}.</b><br>Your votes on all matters will be visible to everyone, and will be non-binding."
   text_role_description_Member : "As a member, all your votes are now binding. <br>In addition you can nominate contributors for membership,<br>and vote on Core Team elections."

@@ -55,6 +55,24 @@ describe User do
     end
   end
 
+  describe "#active?" do
+    let(:user) { User.new }
+
+    context "when user status is active" do
+      it "returns true" do
+        user.status = User::STATUS_ACTIVE
+        user.should be_active
+      end
+    end
+
+    context "when user status is not active" do
+      it "returns false" do
+        user.status = User::STATUS_CANCELED
+        user.should_not be_active
+      end
+    end
+  end
+
   describe "#registered?" do
     let(:user) { User.new }
 
@@ -69,6 +87,42 @@ describe User do
       it "returns false" do
         user.status = User::STATUS_ACTIVE
         user.should_not be_registered
+      end
+    end
+  end
+
+  describe "#canceled?" do
+    let(:user) { User.new }
+
+    context "when user status is canceled" do
+      it "returns true" do
+        user.status = User::STATUS_CANCELED
+        user.should be_canceled
+      end
+    end
+
+    context "when user status is not canceled" do
+      it "returns false" do
+        user.status = User::STATUS_ACTIVE
+        user.should_not be_canceled
+      end
+    end
+  end
+
+  describe "#locked?" do
+    let (:user) { User.new }
+
+    context "when user status is locked" do
+      it "returns true" do
+        user.status = User::STATUS_LOCKED
+        user.should be_locked
+      end
+    end
+
+    context "when user status is not locked" do
+      it "returns false" do
+        user.status = User::STATUS_ACTIVE
+        user.should_not be_locked
       end
     end
   end
