@@ -24,7 +24,20 @@ describe Notification do
   end
 
   describe "#mention?" do
-    it "" do
+    let(:notification) { Notification.new }
+
+    context "when notification type is a mention" do
+      it "returns true" do
+        notification.variation = "mention"
+        notification.should be_mention
+      end
+    end
+
+    context "when notification type is not a mention" do
+      it "returns false" do
+        notification.variation = "not mention"
+        notification.should_not be_mention
+      end
     end
   end
 
