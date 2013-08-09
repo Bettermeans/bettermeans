@@ -55,6 +55,24 @@ describe User do
     end
   end
 
+  describe "#active?" do
+    let(:user) { User.new }
+
+    context "when user status is active" do
+      it "returns true" do
+        user.status = User::STATUS_ACTIVE
+        user.should be_active
+      end
+    end
+
+    context "when user status is not active" do
+      it "returns false" do
+        user.status = User::STATUS_CANCELED
+        user.should_not be_active
+      end
+    end
+  end
+
   describe "#registered?" do
     let(:user) { User.new }
 
