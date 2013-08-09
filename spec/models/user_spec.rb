@@ -73,6 +73,42 @@ describe User do
     end
   end
 
+  describe "#canceled?" do
+    let(:user) { User.new }
+
+    context "when user status is canceled" do
+      it "returns true" do
+        user.status = User::STATUS_CANCELED
+        user.should be_canceled
+      end
+    end
+
+    context "when user status is not canceled" do
+      it "returns false" do
+        user.status = User::STATUS_ACTIVE
+        user.should_not be_canceled
+      end
+    end
+  end
+
+  describe "#locked?" do
+    let (:user) { User.new }
+
+    context "when user status is locked" do
+      it "returns true" do
+        user.status = User::STATUS_LOCKED
+        user.should be_locked
+      end
+    end
+
+    context "when user status is not locked" do
+      it "returns false" do
+        user.status = User::STATUS_ACTIVE
+        user.should_not be_locked
+      end
+    end
+  end
+
   describe '#belongs_to_projects' do
     it 'does something' do
       user.belongs_to_projects
