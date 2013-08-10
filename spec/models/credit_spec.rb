@@ -9,7 +9,7 @@ describe Credit do
       credit.amount = 100
       credit.enabled = false
       credit.enable
-      credit.enabled == true
+      credit.enabled.should == true
     end
   end
 
@@ -20,7 +20,7 @@ describe Credit do
       credit.amount = 100
       credit.enabled = true
       credit.disable
-      credit.enabled == false
+      credit.enabled.should == false
     end
   end
 end
