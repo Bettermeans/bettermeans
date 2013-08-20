@@ -17,8 +17,10 @@ describe CreditsController do
   end
 
   describe "#new" do
-    it 'creates a new credit object' do
-      @credit.should be_an_instance_of Credit
+    it 'instantiates a new instance of credit' do
+      get(:new)
+      assigns(:credit).should be_an_instance_of(Credit)
+      assigns(:credit).should be_new_record
     end
   end
 
