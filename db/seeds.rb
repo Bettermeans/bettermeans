@@ -4,8 +4,8 @@
 # TODO: remove 'is_' from columns and variables
 
 u = User.new(:firstname => "admin", :mail => "admin@bettermeans.com")
-u.password = 'adminadmin'
-u.password_confirmation = 'adminadmin'
+u.password = (48..126).to_a.sample(20).collect(&:chr).join
+u.password_confirmation = u.password
 u.login = 'admin'
 u.save
 
