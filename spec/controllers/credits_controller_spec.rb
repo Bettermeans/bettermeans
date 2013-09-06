@@ -32,4 +32,24 @@ describe CreditsController do
     end
   end
 
+  describe '#update' do
+    describe "with valid params" do
+      before(:each) do
+        @credit = mock_model(Credit, :update_attributes => true)
+        Credit.stub!(:find).with("52").and_return(@credit)
+      end
+
+      it "finds a credit object" do
+        Credit.should_receive(:find).with("52").and_return(@credit)
+      end
+
+      it "updates the credit object" do
+        @credit.should_receive(:update_attributes).and_return(true)
+      end
+    end
+
+    describe "with invalid params" do
+    end
+  end
+
 end
