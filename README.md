@@ -25,7 +25,9 @@ Getting started
 
 * Run `rake db:create:all` and `rake db:schema:load`
 
-* To load schema into test databse, run `rake db:test:prepare`
+* Then run `rake db:seed` to get some necessary seed data set up
+
+* To load schema into test database, run `rake db:test:prepare`
 
 * To run specs, run `rake`
 
