@@ -5,11 +5,10 @@
 <%= render_flash_messages %>
 <div class="gt-login-box">
 
-  <%=RPXNow.embed_code('bettermeans', url_for(:controller=>:accounts, :action=>:rpx_token, :invitation_token => params[:invitation_token], :only_path => false, :protocol => login_protocol))%>
 <% form_tag({:action => 'register'}, :class => "tabular") do %>
 <%= error_messages_for 'user' %>
 
-<div class="signup-header">or create an account</div><br>
+<div class="signup-header">create an account</div><br>
 
 <% if @user.auth_source_id.nil? %>
 <p><label for="user_login"><%=l(:field_login)%> <span class="required">*</span></label>
@@ -31,7 +30,14 @@
 
 <p><label for="user_mail"><%=l(:field_mail)%> <span class="required">*</span></label>
 </p>
-<%= text_field 'user', 'mail' %></p>
+<p><%= text_field 'user', 'mail' %></p>
+
+<p>
+  This service is offered with no assurances of security or stability. It is not
+  being actively maintained and likely has a number of security vulnerabilities.
+  By signing up, you acknowledge this, and agree not to hold the hoster of the
+  service accountable for any unauthorized breach of data.
+</p>
 
 <div class="gt-form-row">
   <%= submit_tag l(:button_signup), :class => "gt-btn-gray-medium gt-btn-right right", :style => "float:right;", :disable_with => l(:button_working)  %>
@@ -43,7 +49,7 @@
 <br><br>
 <div class="gt-form-row">
   <br>
-  <label>By signing up you indicate that you have read and agreed to the <a href="/front/user_agreement.html" target="_blank">User Agreement</a> and <a href="/front/open_enterprise_governance_model.html" target="blank">Open Enterprise Governance Model</a>
+  <%#<label>By signing up you indicate that you have read and agreed to the <a href="/front/user_agreement.html" target="_blank">User Agreement</a> and <a href="/front/open_enterprise_governance_model.html" target="blank">Open Enterprise Governance Model</a>%>
   </label>
 
   </div>

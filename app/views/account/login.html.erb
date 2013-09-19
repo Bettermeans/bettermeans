@@ -23,14 +23,10 @@
 <![endif]-->
 
     <div class="gt-login-hd">
-      &nbsp;&nbsp;&nbsp;&nbsp;You're here, that makes us happy
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please enter your credentials
     </div>
 
     <div class="gt-login-box">
-        <%=RPXNow.embed_code('bettermeans', url_for(:controller=>:accounts, :action=>:rpx_token, :only_path => false, :protocol => login_protocol))%>
-        <br><br><br>
-        <div class="signup-header">or login using your account</div>
-
       <p class="space">
         <% if Setting.autologin? %>
         <span><label for="autologin"></label>

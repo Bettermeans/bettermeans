@@ -2,6 +2,10 @@
 [![Code Climate](https://codeclimate.com/github/mockdeep/better.png)](https://codeclimate.com/github/mockdeep/better)
 [![Dependency Status](https://gemnasium.com/mockdeep/better.png)](https://gemnasium.com/mockdeep/better)
 
+live server hosted at: https://better.boon.gl
+
+*** Use at your own risk!!! There are likely to be vulnerabilities in this app!!! ***
+
 BetterMeans
 -----------
 
@@ -21,7 +25,9 @@ Getting started
 
 * Run `rake db:create:all` and `rake db:schema:load`
 
-* To load schema into test databse, run `rake db:test:prepare`
+* Then run `rake db:seed` to get some necessary seed data set up
+
+* To load schema into test database, run `rake db:test:prepare`
 
 * To run specs, run `rake`
 
