@@ -6,6 +6,8 @@ live server hosted at: https://better.boon.gl
 
 *** Use at your own risk!!! There are likely to be vulnerabilities in this app!!! ***
 
+Public workstream: https://better.boon.gl/projects/1
+
 BetterMeans
 -----------
 
@@ -33,28 +35,21 @@ Getting started
 
 That's it. Now you're ready to change the world. Here's to making a dent in things together!
 
-
 Dev notes
 ---------
 
-Platform workstream: http://bettermeans.com/projects/2/dashboard
-
-IRC: #bettermeans irc.feenode.net
-
-mailinglist: bettermeans@librelist.org (or build in workstream forum)
-
+We're looking to get spec and heckle coverage up to 100%. You can run heckle
+like this: `spec spec/models/user_spec.rb --heckle User#before_create`
 
 Testing
 -------
 
 capybara-webkit depends on a WebKit implementation from Qt as explained in https://github.com/thoughtbot/capybara-webkit/wiki/Installing-QT
 
-
 Translating
 -----------
 
 You can find language specific translation groups at: https://www.transifex.net/projects/p/bettermeans
-
 
 Known issues
 ------------
@@ -62,7 +57,6 @@ Known issues
 Attachments doesn't work in dev environment
 
 Logging in via the janrain plugin (e.g. google, twitter...etc) won't work in dev environment (if you need to work with this, drop me a message, there's an involved workaround)
-
 
 License and legalese
 --------------------
