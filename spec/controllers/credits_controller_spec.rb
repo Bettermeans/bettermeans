@@ -43,9 +43,6 @@ describe CreditsController do
         assigns(:credit).should == @mock_credit
       end
     end
-
-    describe "with invalid params" do
-    end
   end
 
 end
