@@ -1,4 +1,4 @@
 --colour
---format profile
+--format specdoc
 --loadby mtime
 --reverse
