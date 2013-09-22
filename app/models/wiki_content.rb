@@ -12,16 +12,16 @@ class WikiContent < ActiveRecord::Base
 
   acts_as_versioned
 
-  def visible?(user=User.current)
+  def visible?(user=User.current) # spec_me cover_me heckle_me
     page.visible?(user)
   end
 
-  def project
+  def project # spec_me cover_me heckle_me
     page.project
   end
 
   # Returns the mail adresses of users that should be notified
-  def recipients
+  def recipients # spec_me cover_me heckle_me
     notified = project.notified_users
     notified.reject! {|user| !visible?(user) || user.pref[:no_emails]}
     notified.collect(&:mail)
@@ -38,7 +38,7 @@ class WikiContent < ActiveRecord::Base
                   :type => 'wiki-page',
                   :url => Proc.new {|o| {:controller => 'wiki', :id => o.page.wiki.project_id, :page => o.page.title, :version => o.version}}
 
-    def text=(plain)
+    def text=(plain) # spec_me cover_me heckle_me
       case Setting.wiki_compression
       when 'gzip'
       begin
@@ -55,7 +55,7 @@ class WikiContent < ActiveRecord::Base
       plain
     end
 
-    def text
+    def text # spec_me cover_me heckle_me
       @text ||= case compression
       when 'gzip'
          Zlib::Inflate.inflate(data)
@@ -65,12 +65,12 @@ class WikiContent < ActiveRecord::Base
       end
     end
 
-    def project
+    def project # spec_me cover_me heckle_me
       page.project
     end
 
     # Returns the previous version or nil
-    def previous
+    def previous # spec_me cover_me heckle_me
       @previous ||= WikiContent::Version.find(:first,
                                               :order => 'version DESC',
                                               :include => :author,

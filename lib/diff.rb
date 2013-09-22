@@ -3,7 +3,7 @@ module RedmineDiff
 
     VERSION = 0.3
 
-    def Diff.lcs(a, b)
+    def Diff.lcs(a, b) # spec_me cover_me heckle_me
       astart = 0
       bstart = 0
       afinish = a.length-1
@@ -53,7 +53,7 @@ module RedmineDiff
       return mvector
     end
 
-    def makediff(a, b)
+    def makediff(a, b) # spec_me cover_me heckle_me
       mvector = Diff.lcs(a, b)
       ai = bi = 0
       while ai < mvector.length
@@ -82,7 +82,7 @@ module RedmineDiff
       1
     end
 
-    def compactdiffs
+    def compactdiffs # spec_me cover_me heckle_me
       diffs = []
       @diffs.each { |df|
         i = 0
@@ -107,7 +107,7 @@ module RedmineDiff
 
     attr_reader :diffs, :difftype
 
-    def initialize(diffs_or_a, b = nil, isstring = nil)
+    def initialize(diffs_or_a, b = nil, isstring = nil) # spec_me cover_me heckle_me
       if b.nil?
         @diffs = diffs_or_a
         @isstring = isstring
@@ -119,28 +119,28 @@ module RedmineDiff
       end
     end
 
-    def match(ai, bi)
+    def match(ai, bi) # spec_me cover_me heckle_me
       @diffs.push @curdiffs unless @curdiffs.empty?
       @curdiffs = []
     end
 
-    def discarda(i, elem)
+    def discarda(i, elem) # spec_me cover_me heckle_me
       @curdiffs.push ['-', i, elem]
     end
 
-    def discardb(i, elem)
+    def discardb(i, elem) # spec_me cover_me heckle_me
       @curdiffs.push ['+', i, elem]
     end
 
-    def compact
+    def compact # spec_me cover_me heckle_me
       return Diff.new(compactdiffs)
     end
 
-    def compact!
+    def compact! # spec_me cover_me heckle_me
       @diffs = compactdiffs
     end
 
-    def inspect
+    def inspect # spec_me cover_me heckle_me
       @diffs.inspect
     end
 
@@ -148,14 +148,14 @@ module RedmineDiff
 end
 
 module Diffable
-  def diff(b)
+  def diff(b) # spec_me cover_me heckle_me
     RedmineDiff::Diff.new(self, b)
   end
 
   # Create a hash that maps elements of the array to arrays of indices
   # where the elements are found.
 
-  def reverse_hash(range = (0...self.length))
+  def reverse_hash(range = (0...self.length)) # spec_me cover_me heckle_me
     revmap = {}
     range.each { |i|
       elem = self[i]
@@ -168,7 +168,7 @@ module Diffable
     return revmap
   end
 
-  def replacenextlarger(value, high = nil)
+  def replacenextlarger(value, high = nil) # spec_me cover_me heckle_me
     high ||= self.length
     if self.empty? || value > self[-1]
       push value
@@ -191,7 +191,7 @@ module Diffable
     return low
   end
 
-  def patch(diff)
+  def patch(diff) # spec_me cover_me heckle_me
     newary = nil
     if diff.difftype == String
       newary = diff.difftype.new('')

@@ -6,7 +6,7 @@ class JournalsController < ApplicationController
   before_filter :find_journal
   ssl_required :all
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     if request.post?
       @journal.update_attributes(:notes => params[:notes]) if params[:notes]
       if @journal.details.empty? && @journal.notes.blank?
@@ -22,7 +22,7 @@ class JournalsController < ApplicationController
     end
   end
 
-  def edit_from_dashboard
+  def edit_from_dashboard # spec_me cover_me heckle_me
     if @journal.update_attributes(params[:journal])
       update_activity_stream(params[:journal][:notes])
     end
@@ -33,7 +33,7 @@ class JournalsController < ApplicationController
 
   private
 
-  def update_activity_stream(notes)
+  def update_activity_stream(notes) # cover_me heckle_me
     ActivityStream.update_all(["indirect_object_description = ?", notes], {:indirect_object_id => @journal.id,
                                                                             :indirect_object_type => "Journal",
                                                                             :object_type => "Issue",
@@ -41,7 +41,7 @@ class JournalsController < ApplicationController
                                                                           :order => 'created_at DESC', :limit => 1)
   end
 
-  def find_journal
+  def find_journal # cover_me heckle_me
     @journal = Journal.find(params[:id])
     (render_403; return false) unless @journal.editable_by?(User.current)
     @project = @journal.journalized.project

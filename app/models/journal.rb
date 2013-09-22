@@ -14,16 +14,16 @@ class Journal < ActiveRecord::Base
 
   after_save :update_issue_timestamp, :send_mentions, :parse_relations
 
-  def update_issue_timestamp
+  def update_issue_timestamp # spec_me cover_me heckle_me
     issue.updated_at = DateTime.now
     issue.save
   end
 
-  def send_mentions
+  def send_mentions # spec_me cover_me heckle_me
     Mention.parse(self, self.user_id)
   end
 
-  def mention(mentioner_id, mentioned_id, mention_text)
+  def mention(mentioner_id, mentioned_id, mention_text) # spec_me cover_me heckle_me
     Notification.create :recipient_id => mentioned_id,
                         :variation => 'mention',
                         :params => {:mention_text => self.notes,
@@ -34,16 +34,16 @@ class Journal < ActiveRecord::Base
                         :source_type => "Journal(#{self.journalized_type})"
   end
 
-  def parse_relations
+  def parse_relations # spec_me cover_me heckle_me
     self.send_later(:parse_relations_delayed)
   end
 
-  def issue_id
+  def issue_id # spec_me cover_me heckle_me
     self.journalized_id
   end
 
   #parses issue ids in body of journal, and adds related issues
-  def parse_relations_delayed
+  def parse_relations_delayed # spec_me cover_me heckle_me
     text = self.notes
     return if text.nil?
 
@@ -62,31 +62,31 @@ class Journal < ActiveRecord::Base
     end
   end
 
-  def save(*args)
+  def save(*args) # spec_me cover_me heckle_me
     # Do not save an empty journal
     (details.empty? && notes.blank?) ? false : super
   end
 
   # Returns the new status if the journal contains a status change, otherwise nil
-  def new_status
+  def new_status # spec_me cover_me heckle_me
     c = details.detect {|detail| detail.prop_key == 'status_id'}
     (c && c.value) ? IssueStatus.find_by_id(c.value.to_i) : nil
   end
 
-  def new_value_for(prop)
+  def new_value_for(prop) # spec_me cover_me heckle_me
     c = details.detect {|detail| detail.prop_key == prop}
     c ? c.value : nil
   end
 
-  def editable_by?(usr)
+  def editable_by?(usr) # spec_me cover_me heckle_me
     usr && usr.logged? && (usr.allowed_to?(:edit_issue_notes, project) || (self.user == usr && usr.allowed_to?(:edit_own_issue_notes, project)))
   end
 
-  def project
+  def project # spec_me cover_me heckle_me
     journalized.respond_to?(:project) ? journalized.project : nil
   end
 
-  def attachments
+  def attachments # spec_me cover_me heckle_me
     journalized.respond_to?(:attachments) ? journalized.attachments : nil
   end
 end

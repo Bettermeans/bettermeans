@@ -14,7 +14,7 @@ class Document < ActiveRecord::Base
   validates_presence_of :project, :title
   validates_length_of :title, :maximum => 60
 
-  def size
+  def size # spec_me cover_me heckle_me
     sum = 0.0
     attachments.each do |a|
       sum += a.filesize
@@ -24,11 +24,11 @@ class Document < ActiveRecord::Base
     sum.round(3)
   end
 
-  def visible?(user=User.current)
+  def visible?(user=User.current) # spec_me cover_me heckle_me
     !user.nil? && user.allowed_to?(:view_documents, project)
   end
 
-  def updated_at
+  def updated_at # spec_me cover_me heckle_me
     unless @updated_at
       a = attachments.find(:first, :order => 'created_at DESC')
       @updated_at = (a && a.created_at) || created_at
@@ -37,7 +37,7 @@ class Document < ActiveRecord::Base
   end
 
   # Returns the mail adresses of users that should be notified
-  def recipients
+  def recipients # spec_me cover_me heckle_me
     notified = project.notified_users
     notified.reject! {|user| !visible?(user) || user.pref[:no_emails]}
     notified.collect(&:mail)

@@ -8,11 +8,11 @@ class WorkflowsController < ApplicationController
   before_filter :require_admin
   ssl_required :all
 
-  def index
+  def index # spec_me cover_me heckle_me
     @workflow_counts = Workflow.count_by_tracker_and_role
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @role = Role.find_by_id(params[:role_id])
     @tracker = Tracker.find_by_id(params[:tracker_id])
 
@@ -38,7 +38,7 @@ class WorkflowsController < ApplicationController
     @statuses ||= IssueStatus.find(:all, :order => 'position')
   end
 
-  def copy
+  def copy # spec_me cover_me heckle_me
     @trackers = Tracker.find(:all, :order => 'position')
     @roles = Role.find(:all, :order => 'builtin, position')
 

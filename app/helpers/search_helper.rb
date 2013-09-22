@@ -2,7 +2,7 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 module SearchHelper
-  def highlight_tokens(text, tokens)
+  def highlight_tokens(text, tokens) # spec_me cover_me heckle_me
     return text unless text && tokens && !tokens.empty?
     re_tokens = tokens.collect {|t| Regexp.escape(t)}
     regexp = Regexp.new "(#{re_tokens.join('|')})", Regexp::IGNORECASE
@@ -24,11 +24,11 @@ module SearchHelper
     result
   end
 
-  def type_label(t)
+  def type_label(t) # spec_me cover_me heckle_me
     l("label_#{t.singularize}_plural")
   end
 
-  def project_select_tag
+  def project_select_tag # spec_me cover_me heckle_me
     options = [[l(:label_project_all), 'all']]
     options << [l(:label_my_projects), 'my_projects'] unless User.current.memberships.empty?
     options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.descendants.active.empty?
@@ -36,7 +36,7 @@ module SearchHelper
     select_tag('scope', options_for_select(options, params[:scope].to_s)) if options.size > 1
   end
 
-  def render_results_by_type(results_by_type)
+  def render_results_by_type(results_by_type) # spec_me cover_me heckle_me
     return unless results_by_type
     links = []
     # Sorts types by results count

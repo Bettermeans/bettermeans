@@ -8,7 +8,7 @@ class CreditDistribution < ActiveRecord::Base
   EXPENSE = -2 #value in retro_id when distribution is a result of an expense, not a retrospective
   HOURLY = -3 # value in retro_id when distribution is a result of an hourly, not a retrospective
 
-  def add_credits
+  def add_credits # spec_me cover_me heckle_me
     Credit.create :owner_id => self.user_id, :project_id => self.project_id, :amount => self.amount
 
     #Add as contributor

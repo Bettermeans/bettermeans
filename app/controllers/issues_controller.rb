@@ -59,7 +59,7 @@ class IssuesController < ApplicationController
 
   log_activity_streams :current_user, :name, :restarted, :@issue, :subject, :restart, :issues, {}
 
-  def index
+  def index # spec_me cover_me heckle_me
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
     sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
@@ -93,7 +93,7 @@ class IssuesController < ApplicationController
     render_404
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_at ASC")
     @journals.each_with_index {|j,i| j.indice = i+1}
     @journals.reverse! if User.current.wants_comments_in_reverse_order?
@@ -108,7 +108,7 @@ class IssuesController < ApplicationController
 
   # Add a new issue
   # The new issue will be created from an existing one if copy_from parameter is given
-  def new
+  def new # spec_me cover_me heckle_me
     @issue = Issue.new
     @issue.copy_from(params[:copy_from]) if params[:copy_from]
     @issue.project = @project
@@ -190,7 +190,7 @@ class IssuesController < ApplicationController
   # TODO: make it configurable (at least per role)
   UPDATABLE_ATTRS_ON_TRANSITION = %w(status_id assigned_to_id done_ratio) unless const_defined?(:UPDATABLE_ATTRS_ON_TRANSITION)
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
     @edit_allowed = @issue.editable? && User.current.allowed_to?(:edit_issues, @project)
 
@@ -225,7 +225,7 @@ class IssuesController < ApplicationController
     attachments.each(&:destroy)
   end
 
-  def start
+  def start # spec_me cover_me heckle_me
     @in_progress = Issue.count(:conditions => {:assigned_to_id => User.current.id, :status_id => IssueStatus.assigned.id, :project_id => @issue.project_id})
     if @in_progress >= Setting::MAXIMUM_CONCURRENT_REQUESTS
       render_error "Maximum issues owned by this user already"
@@ -238,7 +238,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  def finish
+  def finish # spec_me cover_me heckle_me
     params[:issue] = {:status_id => IssueStatus.done.id}
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => @issue.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1 #adding accept vote for user who finished the issue
     @issue.update_accept_total  @iv.isbinding
@@ -247,7 +247,7 @@ class IssuesController < ApplicationController
     change_status
   end
 
-  def release
+  def release # spec_me cover_me heckle_me
     if(@issue.is_hourly?)
       params[:issue] = {:status_id => IssueStatus.newstatus.id, :assigned_to_id => ''}
     else
@@ -267,17 +267,17 @@ class IssuesController < ApplicationController
     change_status
   end
 
-  def cancel
+  def cancel # spec_me cover_me heckle_me
     params[:issue] = {:status_id => IssueStatus.canceled.id}
     change_status
   end
 
-  def restart
+  def restart # spec_me cover_me heckle_me
     params[:issue] = {:status_id => IssueStatus.newstatus.id}
     change_status
   end
 
-  def change_status
+  def change_status # spec_me cover_me heckle_me
       @notes = params[:notes]
       @journal = @issue.init_journal(User.current, @notes)
 
@@ -296,7 +296,7 @@ class IssuesController < ApplicationController
       flash.now[:error] = l(:notice_locking_conflict)
   end
 
-  def prioritize
+  def prioritize # spec_me cover_me heckle_me
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::PRI_VOTE_TYPE, :points => params[:points]
     @issue.update_pri_total @iv.isbinding
     @issue.save
@@ -307,7 +307,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  def update_tags
+  def update_tags # spec_me cover_me heckle_me
     @issue.send_later(:update_tags,params[:tags])
 
     respond_to do |format|
@@ -317,7 +317,7 @@ class IssuesController < ApplicationController
   end
 
 
-  def estimate
+  def estimate # spec_me cover_me heckle_me
     if(@issue.is_hourly?)
       render_error 'Can not estimate hourly items'
       return false;
@@ -341,7 +341,7 @@ class IssuesController < ApplicationController
   end
 
 
-  def agree
+  def agree # spec_me cover_me heckle_me
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => params[:points]
     journal = @issue.init_journal(User.current, params[:notes]) if params[:notes]
     @issue.update_agree_total @iv.isbinding
@@ -370,7 +370,7 @@ class IssuesController < ApplicationController
   end
 
 
-  def accept
+  def accept # spec_me cover_me heckle_me
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => params[:points]
     journal = @issue.init_journal(User.current, params[:notes]) if params[:notes]
     @issue.update_accept_total  @iv.isbinding
@@ -399,7 +399,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  def join
+  def join # spec_me cover_me heckle_me
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1
     @issue.save
     @issue.reload
@@ -418,7 +418,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  def add_team_member
+  def add_team_member # spec_me cover_me heckle_me
     IssueVote.create :user_id => params[:issue_vote][:user_id], :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1
     @issue.save
     @issue.reload
@@ -441,7 +441,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  def remove_team_member
+  def remove_team_member # spec_me cover_me heckle_me
     IssueVote.delete_all :user_id => params[:user_id], :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE
 
     Notification.create :recipient_id => params[:user_id],
@@ -462,7 +462,7 @@ class IssuesController < ApplicationController
   end
 
 
-  def leave
+  def leave # spec_me cover_me heckle_me
     IssueVote.delete_all(["user_id = ? AND issue_id = ? AND vote_type = ?", User.current.id, params[:id], IssueVote::JOIN_VOTE_TYPE])
     @issue.save
     @issue.reload
@@ -482,7 +482,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  def reply
+  def reply # spec_me cover_me heckle_me
     journal = Journal.find(params[:journal_id]) if params[:journal_id]
     if journal
       user = journal.user
@@ -502,7 +502,7 @@ class IssuesController < ApplicationController
   end
 
   # Bulk edit a set of issues
-  def bulk_edit
+  def bulk_edit # spec_me cover_me heckle_me
     if request.post?
       tracker = params[:tracker_id].blank? ? nil : @project.trackers.find_by_id(params[:tracker_id])
       status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
@@ -535,7 +535,7 @@ class IssuesController < ApplicationController
     @available_statuses = Workflow.available_statuses(@project)
   end
 
-  def move
+  def move # spec_me cover_me heckle_me
     @copy = params[:copy_options] && params[:copy_options][:copy]
     @allowed_projects = []
     # find projects to which the user is allowed to move the issue
@@ -593,12 +593,12 @@ class IssuesController < ApplicationController
     render :layout => false if request.xhr?
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @issues.each(&:destroy)
     redirect_to :action => 'index', :project_id => @project
   end
 
-  def gantt
+  def gantt # spec_me cover_me heckle_me
     @gantt = Redmine::Helpers::Gantt.new(params)
     retrieve_query
     if @query.valid?
@@ -626,7 +626,7 @@ class IssuesController < ApplicationController
     end
   end
 
-  def calendar
+  def calendar # spec_me cover_me heckle_me
     if params[:year] and params[:year].to_i > 1900
       @year = params[:year].to_i
       if params[:month] and params[:month].to_i > 0 and params[:month].to_i < 13
@@ -650,7 +650,7 @@ class IssuesController < ApplicationController
     render :layout => false if request.xhr?
   end
 
-  def context_menu
+  def context_menu # spec_me cover_me heckle_me
     @issues = Issue.find_all_by_id(params[:ids], :include => :project)
     if (@issues.size == 1)
       @issue = @issues.first
@@ -677,7 +677,7 @@ class IssuesController < ApplicationController
     render :layout => false
   end
 
-  def update_form
+  def update_form # spec_me cover_me heckle_me
     if params[:id].blank?
       @issue = Issue.new
       @issue.project = @project
@@ -690,21 +690,21 @@ class IssuesController < ApplicationController
     render :partial => 'attributes'
   end
 
-  def preview
+  def preview # spec_me cover_me heckle_me
     @issue = @project.issues.find_by_id(params[:id]) unless params[:id].blank?
     @attachements = @issue.attachments if @issue
     @text = params[:notes] || (params[:issue] ? params[:issue][:description] : nil)
     render :partial => 'common/preview'
   end
 
-  def datadump
+  def datadump # spec_me cover_me heckle_me
     @issues = Issue.find(:all, :conditions => "project_id IN (#{User.current.owned_projects.collect {|p| p.id}.join(",")})")
     render :csv => @issues
   end
 
   private
 
-  def find_issue
+  def find_issue # cover_me heckle_me
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author])
     @project = @issue.project
     render_message l(:text_project_locked) if @project.locked?
@@ -714,7 +714,7 @@ class IssuesController < ApplicationController
   end
 
   # Filter for bulk operations
-  def find_issues
+  def find_issues # cover_me heckle_me
     @issues = Issue.find_all_by_id(params[:id] || params[:ids])
     raise ActiveRecord::RecordNotFound if @issues.empty?
     projects = @issues.collect(&:project).compact.uniq
@@ -729,14 +729,14 @@ class IssuesController < ApplicationController
     render_404
   end
 
-  def find_project
+  def find_project # cover_me heckle_me
     @project = Project.find(params[:project_id])
     render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
-  def find_optional_project
+  def find_optional_project # cover_me heckle_me
     @project = Project.find(params[:project_id]) unless params[:project_id].blank?
     allowed = User.current.allowed_to?({:controller => params[:controller], :action => params[:action]}, @project, :global => true)
     allowed ? true : deny_access
@@ -745,7 +745,7 @@ class IssuesController < ApplicationController
   end
 
   # Retrieve query from session or build a new query
-  def retrieve_query
+  def retrieve_query # cover_me heckle_me
     if !params[:query_id].blank?
       cond = "project_id IS NULL"
       cond << " OR project_id = #{@project.id}" if @project
@@ -779,7 +779,7 @@ class IssuesController < ApplicationController
   end
 
   # Rescues an invalid query statement. Just in case...
-  def query_statement_invalid(exception)
+  def query_statement_invalid(exception) # cover_me heckle_me
     logger.error "Query::StatementInvalid: #{exception.message}" if logger
     session.delete(:query)
     sort_clear

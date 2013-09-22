@@ -9,7 +9,7 @@ class Watcher < ActiveRecord::Base
   validates_uniqueness_of :user_id, :scope => [:watchable_type, :watchable_id]
 
   # Unwatch things that users are no longer allowed to view
-  def self.prune(options={})
+  def self.prune(options={}) # spec_me cover_me heckle_me
     if options.has_key?(:user)
       prune_single_user(options[:user], options)
     else
@@ -23,13 +23,13 @@ class Watcher < ActiveRecord::Base
 
   protected
 
-  def validate
+  def validate # spec_me cover_me heckle_me
     errors.add :user_id, :invalid unless user.nil? || user.active?
   end
 
   private
 
-  def self.prune_single_user(user, options={})
+  def self.prune_single_user(user, options={}) # cover_me heckle_me
     return unless user.is_a?(User)
     pruned = 0
     find(:all, :conditions => {:user_id => user.id}).each do |watcher|

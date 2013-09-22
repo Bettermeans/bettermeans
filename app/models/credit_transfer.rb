@@ -8,7 +8,7 @@ class CreditTransfer < ActiveRecord::Base
 
   after_create :send_notification
 
-  def send_notification
+  def send_notification # spec_me cover_me heckle_me
     Notification.create :recipient_id => self.recipient_id,
                         :variation => 'credits_transferred',
                         :params => {:amount => self.amount, :note => self.note, :project => self.project, :sender_name => sender.name},

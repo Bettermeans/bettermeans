@@ -2,11 +2,11 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 module MyHelper
-  def describe(amount)
+  def describe(amount) # spec_me cover_me heckle_me
     amount == -1 ? 'unlimited' : amount
   end
 
-  def my_issues_tabs
+  def my_issues_tabs # spec_me cover_me heckle_me
     tabs = [
             {:name => 'recent',
              :partial => 'issues/list_very_simple',
@@ -42,7 +42,7 @@ module MyHelper
   end
 
 
-  def my_projects_tabs
+  def my_projects_tabs # spec_me cover_me heckle_me
     tabs = [
             {:name => 'all',
              :partial => 'my/project_list',
@@ -84,7 +84,7 @@ module MyHelper
   end
 
 
-  def upgrade_options(user)
+  def upgrade_options(user) # spec_me cover_me heckle_me
     if user.plan.code == Plan::FREE_CODE
       link_to "Upgrade", {:controller => :my, :action => :upgrade}, :class => "gt-btn-blue-large"
     else

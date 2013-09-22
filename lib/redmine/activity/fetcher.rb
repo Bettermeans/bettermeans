@@ -11,7 +11,7 @@ module Redmine
       # Needs to be unloaded in development mode
       @@constantized_providers = Hash.new {|h,k| h[k] = Redmine::Activity.providers[k].collect {|t| t.constantize } }
 
-      def initialize(user, options={})
+      def initialize(user, options={}) # spec_me cover_me heckle_me
         options.assert_valid_keys(:project, :with_subprojects, :author)
         @user = user
         @project = options[:project]
@@ -21,7 +21,7 @@ module Redmine
       end
 
       # Returns an array of available event types
-      def event_types
+      def event_types # spec_me cover_me heckle_me
         return @event_types unless @event_types.nil?
 
         @event_types = Redmine::Activity.available_event_types
@@ -30,13 +30,13 @@ module Redmine
       end
 
       # Yields to filter the activity scope
-      def scope_select(&block)
+      def scope_select(&block) # spec_me cover_me heckle_me
         @scope = @scope.select {|t| yield t }
       end
 
       # Sets the scope
       # Argument can be :all, :default or an array of event types
-      def scope=(s)
+      def scope=(s) # spec_me cover_me heckle_me
         case s
         when :all
           @scope = event_types
@@ -48,13 +48,13 @@ module Redmine
       end
 
       # Resets the scope to the default scope
-      def default_scope!
+      def default_scope! # spec_me cover_me heckle_me
         @scope = Redmine::Activity.default_event_types
       end
 
       # Returns an array of events for the given date range
       # sorted in reverse chronological order
-      def events(from = nil, to = nil, options={})
+      def events(from = nil, to = nil, options={}) # spec_me cover_me heckle_me
         e = []
         @options[:limit] = options[:limit]
 
@@ -74,7 +74,7 @@ module Redmine
 
       private
 
-      def constantized_providers(event_type)
+      def constantized_providers(event_type) # cover_me heckle_me
         @@constantized_providers[event_type]
       end
     end

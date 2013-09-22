@@ -10,7 +10,7 @@ class ActivityStreamsController < ApplicationController
   before_filter :authorize, :except => [ :index, :feed]
   ssl_required :all
 
-  def index
+  def index # spec_me cover_me heckle_me
     respond_to do |wants|
       wants.js do
         render :update do |page|

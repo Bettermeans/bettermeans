@@ -1,7 +1,7 @@
 class SharesController < ApplicationController
   ssl_required :all
 
-  def index
+  def index # spec_me cover_me heckle_me
     @shares = Share.all
     @project = Project.find(params[:project_id]) unless params[:project_id].nil?
 
@@ -11,7 +11,7 @@ class SharesController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @share = Share.find(params[:id])
 
     respond_to do |format|
@@ -20,7 +20,7 @@ class SharesController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @share = Share.new
 
     respond_to do |format|
@@ -29,11 +29,11 @@ class SharesController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @share = Share.find(params[:id])
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @share = Share.new(params[:share])
 
     respond_to do |format|
@@ -48,7 +48,7 @@ class SharesController < ApplicationController
     end
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @share = Share.find(params[:id])
 
     respond_to do |format|
@@ -63,7 +63,7 @@ class SharesController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @share = Share.find(params[:id])
     @share.destroy
 

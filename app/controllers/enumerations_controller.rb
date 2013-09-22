@@ -7,7 +7,7 @@ class EnumerationsController < ApplicationController
   before_filter :require_admin
   ssl_required :all
 
-  def index
+  def index # spec_me cover_me heckle_me
     list
     render :action => 'list'
   end
@@ -16,10 +16,10 @@ class EnumerationsController < ApplicationController
   verify :method => :post, :only => [ :destroy, :create, :update ],
          :redirect_to => { :action => :list }
 
-  def list
+  def list # spec_me cover_me heckle_me
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     begin
       @enumeration = params[:type].constantize.new
     rescue NameError
@@ -27,7 +27,7 @@ class EnumerationsController < ApplicationController
     end
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @enumeration = Enumeration.new(params[:enumeration])
     @enumeration.type = params[:enumeration][:type]
     if @enumeration.save
@@ -38,11 +38,11 @@ class EnumerationsController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @enumeration = Enumeration.find(params[:id])
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @enumeration = Enumeration.find(params[:id])
     @enumeration.type = params[:enumeration][:type] if params[:enumeration][:type]
     if @enumeration.update_attributes(params[:enumeration])
@@ -53,7 +53,7 @@ class EnumerationsController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @enumeration = Enumeration.find(params[:id])
     if !@enumeration.in_use?
       # No associated objects

@@ -4,7 +4,7 @@ require 'rails_generator/generators/components/model/model_generator'
 class RedminePluginModelGenerator < ModelGenerator
   attr_accessor :plugin_path, :plugin_name, :plugin_pretty_name
 
-  def initialize(runtime_args, runtime_options = {})
+  def initialize(runtime_args, runtime_options = {}) # spec_me cover_me heckle_me
     runtime_args = runtime_args.dup
     @plugin_name = "redmine_" + runtime_args.shift.underscore
     @plugin_pretty_name = plugin_name.titleize
@@ -12,11 +12,11 @@ class RedminePluginModelGenerator < ModelGenerator
     super(runtime_args, runtime_options)
   end
 
-  def destination_root
+  def destination_root # spec_me cover_me heckle_me
     File.join(RAILS_ROOT, plugin_path)
   end
 
-  def manifest
+  def manifest # spec_me cover_me heckle_me
     record do |m|
       # Check for class naming collisions.
       m.class_collisions class_path, class_name, "#{class_name}Test"

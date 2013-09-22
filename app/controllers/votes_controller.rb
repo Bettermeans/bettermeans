@@ -10,14 +10,14 @@ class VotesController < ApplicationController
   before_filter :must_own_vote,  :only => [:edit, :destroy, :update]
   before_filter :not_allowed,    :only => [:edit, :update, :new]
 
-  def index
+  def index # spec_me cover_me heckle_me
     respond_to do |format|
       format.html
       format.xml  { render :xml => @votes }
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @issue = Vote.find(params[:id])
 
     respond_to do |format|
@@ -26,13 +26,13 @@ class VotesController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
 
     # TODO: Is there a way to cast the model from :voteable_type automatically?
     # Depending on the type of voteable, we dig it up from a different model
@@ -62,10 +62,10 @@ class VotesController < ApplicationController
 
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @vote = Vote.find(params[:id])
     @vote.destroy
 
@@ -77,7 +77,7 @@ class VotesController < ApplicationController
 
   private
 
-  def find_votes_for_my_scope
+  def find_votes_for_my_scope # cover_me heckle_me
     if params[:issue_id]
       @votes = Vote.for_voteable(issue.find(params[:issue_id])).descending
     elsif params[:user_id]
@@ -87,12 +87,12 @@ class VotesController < ApplicationController
     end
   end
 
-  def must_own_vote
+  def must_own_vote # cover_me heckle_me
     @vote ||= Vote.find(params[:id])
     @vote.user == current_user || ownership_violation
   end
 
-  def ownership_violation
+  def ownership_violation # cover_me heckle_me
     respond_to do |format|
       flash.now[:error] = 'You cannot edit or delete votes that you do not own!'
       format.html do

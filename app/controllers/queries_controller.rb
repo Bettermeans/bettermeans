@@ -6,7 +6,7 @@ class QueriesController < ApplicationController
   before_filter :find_query, :except => :new
   before_filter :find_optional_project, :only => :new
 
-  def new
+  def new # spec_me cover_me heckle_me
     @query = Query.new(params[:query])
     @query.project = params[:query_is_for_all] ? nil : @project
     @query.user = User.current
@@ -26,7 +26,7 @@ class QueriesController < ApplicationController
     render :layout => false if request.xhr?
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     if request.post?
       @query.filters = {}
       params[:fields].each do |field|
@@ -44,14 +44,14 @@ class QueriesController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @query.destroy if request.post?
     redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1
   end
 
   private
 
-  def find_query
+  def find_query # cover_me heckle_me
     @query = Query.find(params[:id])
     @project = @query.project
     render_403 unless @query.editable_by?(User.current)
@@ -59,7 +59,7 @@ class QueriesController < ApplicationController
     render_404
   end
 
-  def find_optional_project
+  def find_optional_project # cover_me heckle_me
     @project = Project.find(params[:project_id]) if params[:project_id]
     User.current.allowed_to?(:save_queries, @project, :global => true)
   rescue ActiveRecord::RecordNotFound

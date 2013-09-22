@@ -1,7 +1,7 @@
 require 'rexml/parsers/pullparser'
 
 class String
-  def truncate_html(len = 30)
+  def truncate_html(len = 30) # spec_me cover_me heckle_me
     begin
       p = REXML::Parsers::PullParser.new(self)
       tags = []
@@ -33,7 +33,7 @@ class String
 
   private
 
-  def attrs_to_s(attrs)
+  def attrs_to_s(attrs) # cover_me heckle_me
     if attrs.empty?
       ''
     else

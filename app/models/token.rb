@@ -9,28 +9,28 @@ class Token < ActiveRecord::Base
 
   @@validity_time = 30.day
 
-  def before_create
+  def before_create # spec_me cover_me heckle_me
     self.value = Token.generate_token_value
   end
 
   # Return true if token has expired
-  def expired?
+  def expired? # spec_me cover_me heckle_me
     return Time.now > self.created_at + @@validity_time
   end
 
   # Delete all expired tokens
-  def self.destroy_expired
+  def self.destroy_expired # spec_me cover_me heckle_me
     Token.delete_all ["action <> 'feeds' AND created_at < ?", Time.now - @@validity_time]
   end
 
   private
 
-  def self.generate_token_value
+  def self.generate_token_value # cover_me heckle_me
     ActiveSupport::SecureRandom.hex(20)
   end
 
   # Removes obsolete tokens (same user and action)
-  def delete_previous_tokens
+  def delete_previous_tokens # cover_me heckle_me
     if user
       Token.delete_all(['user_id = ? AND action = ?', user.id, action])
     end

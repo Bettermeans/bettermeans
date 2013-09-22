@@ -8,18 +8,18 @@ class AuthSource < ActiveRecord::Base
   validates_uniqueness_of :name
   validates_length_of :name, :maximum => 60
 
-  def authenticate(login, password)
+  def authenticate(login, password) # spec_me cover_me heckle_me
   end
 
-  def test_connection
+  def test_connection # spec_me cover_me heckle_me
   end
 
-  def auth_method_name
+  def auth_method_name # spec_me cover_me heckle_me
     "Abstract"
   end
 
   # Try to authenticate a user not yet registered against available sources
-  def self.authenticate(login, password)
+  def self.authenticate(login, password) # spec_me cover_me heckle_me
     AuthSource.find(:all, :conditions => ["onthefly_register=?", true]).each do |source|
       begin
         logger.debug "Authenticating '#{login}' against '#{source.name}'" if logger && logger.debug?

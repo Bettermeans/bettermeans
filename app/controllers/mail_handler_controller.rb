@@ -11,7 +11,7 @@ class MailHandlerController < ActionController::Base
 
 
   # Submits an incoming email to MailHandler
-  def index
+  def index # spec_me cover_me heckle_me
     options = params.dup
     email = options.delete(:email)
     if MailHandler.receive(email, options)
@@ -22,7 +22,7 @@ class MailHandlerController < ActionController::Base
   end
 
   # Submits an incoming email from sendgrid to MailHandler
-  def sendgrid
+  def sendgrid # spec_me cover_me heckle_me
     @email = TMail::Mail.new
     @email.subject = params[:subject]
     @email.body = params[:text].to_s.gsub(/"/,'\"')
@@ -46,7 +46,7 @@ class MailHandlerController < ActionController::Base
 
   private
 
-  def check_credential
+  def check_credential # cover_me heckle_me
     User.current = nil
 
     unless Setting.mail_handler_api_enabled? && params[:key].to_s == Setting.mail_handler_api_key

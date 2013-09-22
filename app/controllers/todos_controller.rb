@@ -4,7 +4,7 @@ class TodosController < ApplicationController
   before_filter :find_project, :authorize
   ssl_required :all
 
-  def index
+  def index # spec_me cover_me heckle_me
     @todos = Todo.all
 
     respond_to do |format|
@@ -13,7 +13,7 @@ class TodosController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @todo = Todo.find(params[:id])
 
     respond_to do |format|
@@ -22,7 +22,7 @@ class TodosController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @todo = Todo.new
 
     respond_to do |format|
@@ -31,11 +31,11 @@ class TodosController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @todo = Todo.find(params[:id])
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @todo = Todo.new(params[:todo])
     @todo.issue_id = @issue.id
 
@@ -52,7 +52,7 @@ class TodosController < ApplicationController
     end
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @todo = Todo.find(params[:id])
 
     respond_to do |format|
@@ -68,7 +68,7 @@ class TodosController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @todo = Todo.find(params[:id])
     @todo.destroy
 
@@ -81,11 +81,11 @@ class TodosController < ApplicationController
 
   private
 
-  def find_issue
+  def find_issue # cover_me heckle_me
     @issue = Issue.find(params[:issue_id])
   end
 
-  def find_project
+  def find_project # cover_me heckle_me
     @project = @issue.project
   end
 

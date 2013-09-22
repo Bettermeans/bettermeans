@@ -93,6 +93,7 @@ GEM
       rake (>= 0.8.3)
     rake (0.8.7)
     rbx-require-relative (0.0.9)
+    rcov (1.0.0)
     recurly (0.3.3)
       activeresource (>= 2.3)
       activesupport (>= 2.3)
@@ -162,6 +163,7 @@ DEPENDENCIES
   rack-timeout (= 0.0.1)
   rails (= 2.3.18)
   rake (= 0.8.7)
+  rcov
   recurly (= 0.3.3)
   reportable (= 1.1.2)
   rpx_now (= 0.6.24)

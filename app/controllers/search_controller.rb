@@ -8,7 +8,7 @@ class SearchController < ApplicationController
   helper :messages
   include MessagesHelper
 
-  def index
+  def index # spec_me cover_me heckle_me
     @question = params[:q] || ""
     @question.strip!
     @all_words = params[:all_words] || (params[:submit] ? false : true)
@@ -94,7 +94,7 @@ class SearchController < ApplicationController
 
   private
 
-  def find_optional_project
+  def find_optional_project # cover_me heckle_me
     return true unless params[:id]
     @project = Project.find(params[:id])
     check_project_privacy

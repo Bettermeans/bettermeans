@@ -7,7 +7,7 @@ class MembersController < ApplicationController
   before_filter :authorize
   ssl_required :all
 
-  def new
+  def new # spec_me cover_me heckle_me
     members = []
     if params[:member] && request.post?
       attrs = params[:member].dup
@@ -31,7 +31,7 @@ class MembersController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     if request.post? and @member.update_attributes(params[:member])
       respond_to do |format|
         format.html { redirect_to :controller => 'projects', :action => 'settings', :tab => 'members', :id => @project }
@@ -45,7 +45,7 @@ class MembersController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     if request.post? && @member.deletable?
       @member.destroy
     end
@@ -55,20 +55,20 @@ class MembersController < ApplicationController
     end
   end
 
-  def autocomplete_for_member
+  def autocomplete_for_member # spec_me cover_me heckle_me
     @users = User.active.like(params[:q]).find(:all, :limit => 100) - @project.users
     render :layout => false
   end
 
   private
 
-  def find_project
+  def find_project # cover_me heckle_me
     @project = Project.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
-  def find_member
+  def find_member # cover_me heckle_me
     @member = Member.find(params[:id])
     @project = @member.project
   rescue ActiveRecord::RecordNotFound

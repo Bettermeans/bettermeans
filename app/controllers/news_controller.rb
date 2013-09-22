@@ -19,7 +19,7 @@ class NewsController < ApplicationController
               :indirect_object_description_method => :comments,
               :indirect_object_phrase => '' }
 
-  def index
+  def index # spec_me cover_me heckle_me
     @news_pages, @newss = paginate :news,
                                    :per_page => 10,
                                    :conditions => Project.allowed_to_condition(User.current, :view_news, :project => @project),
@@ -32,12 +32,12 @@ class NewsController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @comments = @news.comments
     @comments.reverse! if User.current.wants_comments_in_reverse_order?
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @news = News.new(:project => @project, :author => User.current)
     if request.post?
       @news.attributes = params[:news]
@@ -48,14 +48,14 @@ class NewsController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     if request.post? and @news.update_attributes(params[:news])
       flash.now[:success] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @news
     end
   end
 
-  def add_comment
+  def add_comment # spec_me cover_me heckle_me
     @comment = Comment.new(params[:comment])
     @comment.author = User.current
     if @news.comments << @comment
@@ -67,24 +67,24 @@ class NewsController < ApplicationController
     end
   end
 
-  def destroy_comment
+  def destroy_comment # spec_me cover_me heckle_me
     @news.comments.find(params[:comment_id]).destroy
     redirect_to :action => 'show', :id => @news
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @news.destroy
     redirect_to :action => 'index', :project_id => @project
   end
 
-  def preview
+  def preview # spec_me cover_me heckle_me
     @text = (params[:news] ? params[:news][:description] : nil)
     render :partial => 'common/preview'
   end
 
   private
 
-  def find_news
+  def find_news # cover_me heckle_me
     @news = News.find(params[:id])
     @project = @news.project
     render_message l(:text_project_locked) if @project.locked?
@@ -92,14 +92,14 @@ class NewsController < ApplicationController
     render_404
   end
 
-  def find_project
+  def find_project # cover_me heckle_me
     @project = Project.find(params[:project_id])
     render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
-  def find_optional_project
+  def find_optional_project # cover_me heckle_me
     return true unless params[:project_id]
     @project = Project.find(params[:project_id])
     render_message l(:text_project_locked) if @project.locked?

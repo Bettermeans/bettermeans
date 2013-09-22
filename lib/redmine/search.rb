@@ -18,7 +18,7 @@
 module Redmine
   module Search
     module Controller
-      def self.included(base)
+      def self.included(base) # spec_me cover_me heckle_me
         base.extend(ClassMethods)
       end
 
@@ -31,7 +31,7 @@ module Redmine
         #   * search_scope :issues # => sets the search scope to :issues for the whole controller
         #   * search_scope :issues, :only => :index
         #   * search_scope :issues, :only => [:index, :show]
-        def default_search_scope(id, options = {})
+        def default_search_scope(id, options = {}) # spec_me cover_me heckle_me
           if actions = options[:only]
             actions = [] << actions unless actions.is_a?(Array)
             actions.each {|a| default_search_scopes[controller_name.to_sym][:actions][a.to_sym] = id.to_s}
@@ -41,12 +41,12 @@ module Redmine
         end
       end
 
-      def default_search_scopes
+      def default_search_scopes # spec_me cover_me heckle_me
         self.class.default_search_scopes
       end
 
       # Returns the default search scope according to the current action
-      def default_search_scope
+      def default_search_scope # spec_me cover_me heckle_me
         @default_search_scope ||= default_search_scopes[controller_name.to_sym][:actions][action_name.to_sym] ||
                                   default_search_scopes[controller_name.to_sym][:default]
       end

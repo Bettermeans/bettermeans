@@ -8,7 +8,7 @@ module Redmine
     class Gantt
       attr_reader :year_from, :month_from, :date_from, :date_to, :zoom, :months, :events
 
-      def initialize(options={})
+      def initialize(options={}) # spec_me cover_me heckle_me
         options = options.dup
         @events = []
 
@@ -39,25 +39,25 @@ module Redmine
         @date_to = (@date_from >> @months) - 1
       end
 
-      def events=(e)
+      def events=(e) # spec_me cover_me heckle_me
         @events = e.sort {|x,y| x.start_date <=> y.start_date }
       end
 
-      def params
+      def params # spec_me cover_me heckle_me
         { :zoom => zoom, :year => year_from, :month => month_from, :months => months }
       end
 
-      def params_previous
+      def params_previous # spec_me cover_me heckle_me
         { :year => (date_from << months).year, :month => (date_from << months).month, :zoom => zoom, :months => months }
       end
 
-      def params_next
+      def params_next # spec_me cover_me heckle_me
         { :year => (date_from >> months).year, :month => (date_from >> months).month, :zoom => zoom, :months => months }
       end
 
       # Generates a gantt image
       # Only defined if RMagick is avalaible
-      def to_image(format='PNG')
+      def to_image(format='PNG') # spec_me cover_me heckle_me
         date_to = (@date_from >> @months)-1
         show_weeks = @zoom > 1
         show_days = @zoom > 2

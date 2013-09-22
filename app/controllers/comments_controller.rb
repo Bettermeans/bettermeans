@@ -10,14 +10,14 @@ class CommentsController < ApplicationController
             :indirect_object_description_method => :notes,
             :indirect_object_phrase => '' }
 
-  def index
+  def index # spec_me cover_me heckle_me
     @journals = @issue.journals.find(:all,
                                           :include => [:user, :details],
                                           :order => "#{Journal.table_name}.created_at DESC",
                                           :conditions => "notes!=''")
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @journal = @issue.init_journal(User.current, params[:comment])
     @journal.save!
     @journal.reload
@@ -27,11 +27,11 @@ class CommentsController < ApplicationController
 
   private
 
-  def find_issue
+  def find_issue # cover_me heckle_me
     @issue = Issue.find(params[:issue_id])
   end
 
-  def find_project
+  def find_project # cover_me heckle_me
     @project = @issue.project
   end
 end

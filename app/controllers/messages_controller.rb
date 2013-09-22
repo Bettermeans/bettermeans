@@ -26,7 +26,7 @@ class MessagesController < ApplicationController
             :indirect_object_phrase => '' }
 
   # Show a topic and its replies
-  def show
+  def show # spec_me cover_me heckle_me
     @replies = @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}])
     @replies.reverse! if User.current.wants_comments_in_reverse_order?
     @reply = Message.new(:subject => "RE: #{@message.subject}")
@@ -34,7 +34,7 @@ class MessagesController < ApplicationController
   end
 
   # Create a new topic
-  def new
+  def new # spec_me cover_me heckle_me
     @message = Message.new(params[:message])
     @message.author = User.current
     @message.board = @board
@@ -49,7 +49,7 @@ class MessagesController < ApplicationController
   end
 
   # Reply to a topic
-  def reply
+  def reply # spec_me cover_me heckle_me
     @reply = Message.new(params[:reply])
     @reply.subject = @message.subject if @reply.subject == ""
     @reply.author = User.current
@@ -65,7 +65,7 @@ class MessagesController < ApplicationController
   end
 
   # Edit a message
-  def edit
+  def edit # spec_me cover_me heckle_me
     (render_403; return false) unless @message.editable_by?(User.current)
     if params[:message]
       @message.locked = params[:message]['locked']
@@ -80,7 +80,7 @@ class MessagesController < ApplicationController
   end
 
   # Delete a messages
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     (render_403; return false) unless @message.destroyable_by?(User.current)
     @message.destroy
     redirect_to @message.parent.nil? ?
@@ -88,7 +88,7 @@ class MessagesController < ApplicationController
       { :action => 'show', :id => @message.parent }
   end
 
-  def quote
+  def quote # spec_me cover_me heckle_me
     user = @message.author
     text = @message.content
     subject = @message.subject.gsub('"', '\"')
@@ -104,7 +104,7 @@ class MessagesController < ApplicationController
     }
   end
 
-  def preview
+  def preview # spec_me cover_me heckle_me
     message = @board.messages.find_by_id(params[:id])
     @attachements = message.attachments if message
     @text = (params[:message] || params[:reply])[:content]
@@ -113,7 +113,7 @@ class MessagesController < ApplicationController
 
   private
 
-  def find_message
+  def find_message # cover_me heckle_me
     if params[:board_id] == 'guess'
       logger.info { "guessing board" }
       guess_board
@@ -128,7 +128,7 @@ class MessagesController < ApplicationController
 
   #This function is used to redirect links coming from the activity stream
   #To save queries on the database, we don't try to load the board id in the link to a message
-  def guess_board
+  def guess_board # cover_me heckle_me
     @message = Message.find(params[:id], :include => :parent)
     @board = @message.board
     @project = @board.project
@@ -137,7 +137,7 @@ class MessagesController < ApplicationController
     render_404
   end
 
-  def find_board
+  def find_board # cover_me heckle_me
     @board = Board.find(params[:board_id], :include => :project)
     @project = @board.project
   rescue ActiveRecord::RecordNotFound

@@ -7,7 +7,7 @@ class WelcomeController < ApplicationController
 
   before_filter :require_login, :except => :robots
 
-  def index
+  def index # spec_me cover_me heckle_me
     @my_projects = User.current.recent_projects(10)
 
     unless @my_projects.nil?
@@ -24,7 +24,7 @@ class WelcomeController < ApplicationController
     end
   end
 
-  def robots
+  def robots # spec_me cover_me heckle_me
     @projects = Project.all_public.active
     render :layout => false, :content_type => 'text/plain'
   end

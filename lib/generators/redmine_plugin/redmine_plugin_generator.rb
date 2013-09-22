@@ -1,14 +1,14 @@
 class RedminePluginGenerator < Rails::Generator::NamedBase
   attr_reader :plugin_path, :plugin_name, :plugin_pretty_name
 
-  def initialize(runtime_args, runtime_options = {})
+  def initialize(runtime_args, runtime_options = {}) # spec_me cover_me heckle_me
     super
     @plugin_name = "redmine_#{file_name.underscore}"
     @plugin_pretty_name = plugin_name.titleize
     @plugin_path = "vendor/plugins/#{plugin_name}"
   end
 
-  def manifest
+  def manifest # spec_me cover_me heckle_me
     record do |m|
       m.directory "#{plugin_path}/app/controllers"
       m.directory "#{plugin_path}/app/helpers"

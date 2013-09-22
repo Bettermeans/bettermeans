@@ -23,18 +23,18 @@ class MyController < ApplicationController
   verify :xhr => true,
          :only => [:add_block, :remove_block, :order_blocks]
 
-  def index
+  def index # spec_me cover_me heckle_me
     page
     render :action => 'page'
   end
 
   # Show user's page
-  def page
+  def page # spec_me cover_me heckle_me
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
   end
 
-  def projects
+  def projects # spec_me cover_me heckle_me
     project_ids = User.current.projects.collect{|p| p.id}.join(",")
     @all_projects = project_ids.any? ? Project.find(:all, :conditions => "(parent_id in (#{project_ids}) OR id in (#{project_ids})) AND (status=#{Project::STATUS_ACTIVE})") : []
     @my_projects = User.current.owned_projects
@@ -42,7 +42,7 @@ class MyController < ApplicationController
     @active_projects = User.current.active_memberships.collect(&:project)
   end
 
-  def issues
+  def issues # spec_me cover_me heckle_me
     @assigned_issues = Issue.visible.open.find(:all,
                                     :conditions => {:assigned_to_id => User.current.id},
                                     :include => [:project, :tracker ],
@@ -68,7 +68,7 @@ class MyController < ApplicationController
   end
 
   # Edit user's account
-  def account
+  def account # spec_me cover_me heckle_me
     @user = User.current
     @pref = @user.pref
     if request.post?
@@ -110,7 +110,7 @@ class MyController < ApplicationController
     @notification_option = @user.mail_notification? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')
   end
 
-  def upgrade
+  def upgrade # spec_me cover_me heckle_me
     @user = User.current
     @plans = Plan.all
     @selected_plan = @user.plan
@@ -213,7 +213,7 @@ class MyController < ApplicationController
   end
 
   # Manage user's password
-  def password
+  def password # spec_me cover_me heckle_me
     @user = User.current
     if @user.auth_source_id
       flash.now[:error] = l(:notice_can_t_change_password)
@@ -234,7 +234,7 @@ class MyController < ApplicationController
   end
 
   # Create a new feeds key
-  def reset_rss_key
+  def reset_rss_key # spec_me cover_me heckle_me
     if request.post?
       if User.current.rss_token
         User.current.rss_token.destroy
@@ -247,7 +247,7 @@ class MyController < ApplicationController
   end
 
   # Create a new API key
-  def reset_api_key
+  def reset_api_key # spec_me cover_me heckle_me
     if request.post?
       if User.current.api_token
         User.current.api_token.destroy
@@ -260,7 +260,7 @@ class MyController < ApplicationController
   end
 
   # User's page layout configuration
-  def page_layout
+  def page_layout # spec_me cover_me heckle_me
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
     @block_options = []
@@ -270,7 +270,7 @@ class MyController < ApplicationController
   # Add a block to user's page
   # The block is added on top of the page
   # params[:block] : id of the block to add
-  def add_block
+  def add_block # spec_me cover_me heckle_me
     block = params[:block].to_s.underscore
     (render :nothing => true; return) unless block && (BLOCKS.keys.include? block)
     @user = User.current
@@ -286,7 +286,7 @@ class MyController < ApplicationController
 
   # Remove a block to user's page
   # params[:block] : id of the block to remove
-  def remove_block
+  def remove_block # spec_me cover_me heckle_me
     block = params[:block].to_s.underscore
     @user = User.current
     # remove block in all groups
@@ -300,7 +300,7 @@ class MyController < ApplicationController
   # Change blocks order on user's page
   # params[:group] : group to order (top, left or right)
   # params[:list-(top|left|right)] : array of block ids of the group
-  def order_blocks
+  def order_blocks # spec_me cover_me heckle_me
     group = params[:group]
     @user = User.current
     if group.is_a?(String)

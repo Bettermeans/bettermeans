@@ -8,7 +8,7 @@ class MotionsController < ApplicationController
   ssl_required :all
 
 
-  def index
+  def index # spec_me cover_me heckle_me
     @motions = @project.motions
     respond_to do |format|
       format.html
@@ -16,7 +16,7 @@ class MotionsController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     if @motion.concerned_user_id == User.current.id
       render_403
       return false
@@ -37,7 +37,7 @@ class MotionsController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @motion = Motion.new(params[:motion])
 
     @concerned_user_list = Motion.eligible_users(@motion.variation, @project.id)
@@ -48,7 +48,7 @@ class MotionsController < ApplicationController
     end
   end
 
-  def eligible_users
+  def eligible_users # spec_me cover_me heckle_me
     @concerned_user_list = ""
     @variation = params[:variation].to_i
     case @variation
@@ -69,10 +69,10 @@ class MotionsController < ApplicationController
     render :layout => false
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @motion = Motion.new(params[:motion])
     @motion.project_id = @project.id
     @motion.author_id = User.current.id
@@ -95,7 +95,7 @@ class MotionsController < ApplicationController
     end
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     respond_to do |format|
       if @motion.update_attributes(params[:motion])
         flash.now[:success] = 'Motion was successfully updated.'
@@ -108,7 +108,7 @@ class MotionsController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @motion.destroy
 
     respond_to do |format|
@@ -118,7 +118,7 @@ class MotionsController < ApplicationController
   end
 
   # Reply to a motion discussion
-  def reply
+  def reply # spec_me cover_me heckle_me
     @topic = @motion.topic
     @reply = Message.new(params[:reply])
     @reply.author = User.current
@@ -134,14 +134,14 @@ class MotionsController < ApplicationController
 
   private
 
-  def find_project
+  def find_project # cover_me heckle_me
     @project = Project.find(params[:project_id]).root
     render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
-  def find_motion
+  def find_motion # cover_me heckle_me
     @motion = Motion.find(params[:id])
     @project = @motion.project
     render_message l(:text_project_locked) if @project.locked?
@@ -149,7 +149,7 @@ class MotionsController < ApplicationController
     render_404
   end
 
-  def check_visibility_permission
+  def check_visibility_permission # cover_me heckle_me
     if !User.current.allowed_to_see_motion?(@motion)
        render_403
        return false

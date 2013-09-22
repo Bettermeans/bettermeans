@@ -12,12 +12,12 @@ module Redmine
     @@providers = Hash.new {|h,k| h[k]=[] }
 
     class << self
-      def map(&block)
+      def map(&block) # spec_me cover_me heckle_me
         yield self
       end
 
       # Registers an activity provider
-      def register(event_type, options={})
+      def register(event_type, options={}) # spec_me cover_me heckle_me
         options.assert_valid_keys(:class_name, :default)
         event_type = event_type.to_s
         providers = options[:class_name] || event_type.classify

@@ -5,12 +5,12 @@ module Redmine
   module WikiFormatting
     module Macros
       module Definitions
-        def exec_macro(name, obj, args)
+        def exec_macro(name, obj, args) # spec_me cover_me heckle_me
           method_name = "macro_#{name}"
           send(method_name, obj, args) if respond_to?(method_name)
         end
 
-        def extract_macro_options(args, *keys)
+        def extract_macro_options(args, *keys) # spec_me cover_me heckle_me
           options = {}
           while args.last.to_s.strip =~ %r{^(.+)\=(.+)$} && keys.include?($1.downcase.to_sym)
             options[$1.downcase.to_sym] = $2
@@ -36,13 +36,13 @@ module Redmine
         #       "My macro output"
         #     end
         #   end
-        def register(&block)
+        def register(&block) # spec_me cover_me heckle_me
           class_eval(&block) if block_given?
         end
 
       private
         # Defines a new macro with the given name and block.
-        def macro(name, &block)
+        def macro(name, &block) # cover_me heckle_me
           name = name.to_sym if name.is_a?(String)
           @@available_macros[name] = @@desc || ''
           @@desc = nil
@@ -51,7 +51,7 @@ module Redmine
         end
 
         # Sets description for the next macro to be defined
-        def desc(txt)
+        def desc(txt) # cover_me heckle_me
           @@desc = txt
         end
       end

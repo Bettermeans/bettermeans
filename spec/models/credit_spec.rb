@@ -21,6 +21,11 @@ describe Credit do
       credit.enable
       credit.enabled.should == true
     end
+
+    it 'returns the result of the save' do
+      credit.stub(:save).and_return(true)
+      credit.enable.should == true
+    end
   end
 
   describe "#disable" do

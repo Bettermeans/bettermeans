@@ -11,7 +11,7 @@ module Redmine
                   :new_issue => '7'
                  }.freeze unless const_defined?(:ACCESSKEYS)
 
-    def self.key_for(action)
+    def self.key_for(action) # spec_me cover_me heckle_me
       ACCESSKEYS[action]
     end
   end

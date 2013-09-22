@@ -2,7 +2,7 @@ class MailsController < ApplicationController
 
   before_filter :set_user
 
-  def index
+  def index # spec_me cover_me heckle_me
     if params[:mailbox] == "sent"
       @mails = @user.sent_messages
     else
@@ -10,11 +10,11 @@ class MailsController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @mail = Mail.read_and_get(params[:id], User.current)
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @mail = Mail.new
 
     if params[:reply_to]
@@ -27,7 +27,7 @@ class MailsController < ApplicationController
     end
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @mail = Mail.new(params[:mail])
     @mail.sender = @user
     @mail.recipient = User.find_by_login(params[:mail][:to])
@@ -40,7 +40,7 @@ class MailsController < ApplicationController
     end
   end
 
-  def delete_selected
+  def delete_selected # spec_me cover_me heckle_me
     if request.post?
       if params[:delete]
         params[:delete].each { |id|
@@ -55,7 +55,7 @@ class MailsController < ApplicationController
 
   private
 
-  def set_user
+  def set_user # cover_me heckle_me
     @user = User.current
   end
 

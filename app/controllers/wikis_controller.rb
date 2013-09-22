@@ -7,7 +7,7 @@ class WikisController < ApplicationController
   ssl_required :all
 
   # Create or update a project's wiki
-  def edit
+  def edit # spec_me cover_me heckle_me
     @wiki = @project.wiki || Wiki.new(:project => @project)
     @wiki.attributes = params[:wiki]
     @wiki.save if request.post?
@@ -15,7 +15,7 @@ class WikisController < ApplicationController
   end
 
   # Delete a project's wiki
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     if request.post? && params[:confirm] && @project.wiki
       @project.wiki.destroy
       redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'wiki'
@@ -24,7 +24,7 @@ class WikisController < ApplicationController
 
   private
 
-  def find_project
+  def find_project # cover_me heckle_me
     @project = Project.find(params[:id])
     render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound

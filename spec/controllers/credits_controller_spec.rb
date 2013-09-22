@@ -5,7 +5,6 @@ describe CreditsController do
   before :each do
     @request.env['HTTPS'] = 'on'
     controller.stub(:require_admin)
-    @credit = Credit.new
   end
 
   describe '#show' do
@@ -35,20 +34,14 @@ describe CreditsController do
   describe '#update' do
     describe "with valid params" do
       before(:each) do
-        @credit = mock_model(Credit, :update_attributes => true)
-        Credit.stub!(:find).with("52").and_return(@credit)
+        @mock_credit = mock_model(Credit, :update_attributes => true, :project_id => 5)
       end
 
       it "finds a credit object" do
-        Credit.should_receive(:find).with("52").and_return(@credit)
+        Credit.should_receive(:find).with("52").and_return(@mock_credit)
+        put(:update, :id => 52)
+        assigns(:credit).should == @mock_credit
       end
-
-      it "updates the credit object" do
-        @credit.should_receive(:update_attributes).and_return(true)
-      end
-    end
-
-    describe "with invalid params" do
     end
   end
 
