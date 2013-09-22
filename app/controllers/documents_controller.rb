@@ -15,7 +15,7 @@ class DocumentsController < ApplicationController
   log_activity_streams :current_user, :name, :deleted, :@document, :title, :destroy, :documents, {:object_description_method => :description}
 
 
-  def index
+  def index # spec_me cover_me heckle_me
     @sort_by = %w(catego»ry date title author).include?(params[:sort_by]) ? params[:sort_by] : 'title'
     documents = @project.documents.find :all, :include => [:attachments]
     case @sort_by
@@ -32,11 +32,11 @@ class DocumentsController < ApplicationController
     render :layout => false if request.xhr?
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @attachments = @document.attachments.find(:all, :order => "created_at DESC")
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @document = @project.documents.build(params[:document])
     if request.post? and @document.save
       attach_files(@document, params[:attachments])
@@ -45,19 +45,19 @@ class DocumentsController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     if request.post? and @document.update_attributes(params[:document])
       flash.now[:success] = l(:notice_successful_update)
       redirect_to :action => 'show', :id => @document
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @document.destroy
     redirect_to :controller => 'documents', :action => 'index', :project_id => @project
   end
 
-  def add_attachment
+  def add_attachment # spec_me cover_me heckle_me
     attachments = attach_files(@document, params[:attachments])
     Mailer.deliver_attachments_added(attachments) if !attachments.empty? && Setting.notified_events.include?('document_added')
     redirect_to :action => 'show', :id => @document
@@ -65,14 +65,14 @@ class DocumentsController < ApplicationController
 
   private
 
-  def find_project
+  def find_project # cover_me heckle_me
     @project = Project.find(params[:project_id])
     render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
-  def find_document
+  def find_document # cover_me heckle_me
     @document = Document.find(params[:id])
     @project = @document.project
   rescue ActiveRecord::RecordNotFound

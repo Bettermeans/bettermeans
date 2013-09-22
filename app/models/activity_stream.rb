@@ -19,7 +19,7 @@ class ActivityStream < ActiveRecord::Base
 
   named_scope :recent, {:conditions => "activity_streams.created_at > '#{(Time.now.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP * -1).to_s}'"}
 
-  def before_save
+  def before_save # spec_me cover_me heckle_me
     self.is_public = self.project.is_public if self.project
     self.is_public = false if self.hidden_from_user_id > 0
   end
@@ -27,7 +27,7 @@ class ActivityStream < ActiveRecord::Base
   # Finds the recent activities for a given actor, and honors
   # the users activity_stream_preferences.  Please see the README
   # for an example usage.
-  def self.recent_actors(actor, location, limit=12)
+  def self.recent_actors(actor, location, limit=12) # spec_me cover_me heckle_me
 
     unless actor.class.name == ACTIVITY_STREAM_USER_MODEL
       find(:all, :conditions =>
@@ -52,7 +52,7 @@ class ActivityStream < ActiveRecord::Base
   # Finds the recent activities for a given actor, and honors
   # the users activity_stream_preferences.  Please see the README
   # for a sample usage.
-  def self.recent_objects(object, location, limit=12)
+  def self.recent_objects(object, location, limit=12) # spec_me cover_me heckle_me
     # FIXME: We really want :include => [:actor, :object], however, when
     # the "p.id" => nil condition prevents polymorphic :include from working
     find(:all,
@@ -64,7 +64,7 @@ class ActivityStream < ActiveRecord::Base
       :limit => limit)
   end
 
-  def self.preference_join(location) # :nodoc:
+  def self.preference_join(location) # spec_me cover_me heckle_me
     # location is not tainted as it is a symbol from
     # the code
     "LEFT OUTER JOIN activity_stream_preferences p \
@@ -74,7 +74,7 @@ class ActivityStream < ActiveRecord::Base
       AND location = '#{location.to_s}'"
   end
 
-  def self.fetch(user_id, project_id, with_subprojects, limit, max_created_at = nil)
+  def self.fetch(user_id, project_id, with_subprojects, limit, max_created_at = nil) # spec_me cover_me heckle_me
     max_created_at = DateTime.now if max_created_at.nil? || max_created_at == ""
     length = limit  || Setting::ACTIVITY_STREAM_LENGTH
 
@@ -126,7 +126,7 @@ class ActivityStream < ActiveRecord::Base
   end
 
   # Soft Delete in as some activites are necessary for site stats
-  def soft_destroy
+  def soft_destroy # spec_me cover_me heckle_me
     self.update_attribute(:status, DELETED)
   end
 

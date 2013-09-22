@@ -35,17 +35,17 @@ class Retro < ActiveRecord::Base
 
 
   #Sets the from_date according to earliest updated issue in retrospective
-  def set_from_date
+  def set_from_date # spec_me cover_me heckle_me
     from_date = issues.first(:order => "updated_at ASC").updated_at
     self.save
   end
 
-  def ended?
+  def ended? # spec_me cover_me heckle_me
     return status_id == STATUS_COMPLETE || status_id == STATUS_DISTRIBUTED
   end
 
   #For closed retrospectives
-  def distribute_credits
+  def distribute_credits # spec_me cover_me heckle_me
     return unless status_id == STATUS_COMPLETE
     return if retro_ratings.length == 0
     total_dollars = 0 #Total dollar amount for retrospsective
@@ -76,7 +76,7 @@ class Retro < ActiveRecord::Base
     self.save
   end
 
-  def close
+  def close # spec_me cover_me heckle_me
     return unless status_id == STATUS_INPROGRESS
     calculate_ratings
     announce_close
@@ -85,7 +85,7 @@ class Retro < ActiveRecord::Base
     self.distribute_credits
   end
 
-  def calculate_ratings
+  def calculate_ratings # spec_me cover_me heckle_me
     @user_hash = Hash.new
     @user_final = Hash.new #final distribution
     @user_self = Hash.new #self assessment
@@ -153,7 +153,7 @@ class Retro < ActiveRecord::Base
   end
 
   #Sends notification to everyone in the retrospective that it's starting
-  def announce_start
+  def announce_start # spec_me cover_me heckle_me
     @users = {}
 
     issues.each do |issue|
@@ -179,7 +179,7 @@ class Retro < ActiveRecord::Base
   end
 
   #Sends notification to everyone in the retrospective that it's ended
-  def announce_close
+  def announce_close # spec_me cover_me heckle_me
     @users = Hash.new
     issue_votes.each do |issue_vote|
       @users[issue_vote.user_id] = 1 if issue_vote.vote_type == IssueVote::JOIN_VOTE_TYPE
@@ -198,7 +198,7 @@ class Retro < ActiveRecord::Base
   end
 
   #True when all team members in a retrospective have participated
-  def all_in?
+  def all_in? # spec_me cover_me heckle_me
     rater_group = retro_ratings.group_by {|retro_rating| retro_rating.rater_id}
     ratee_group = retro_ratings.group_by {|retro_rating| retro_rating.ratee_id}
     return (ratee_group.length <= rater_group.length) && (rater_group.length != 0)

@@ -9,7 +9,7 @@ class Mailer < ActionMailer::Base
   include ActionController::UrlWriter
   include Redmine::I18n
 
-  def self.default_url_options
+  def self.default_url_options # spec_me cover_me heckle_me
     h = Setting.host_name
     h = h.to_s.gsub(%r{\/.*$}, '') unless Redmine::Utils.relative_url_root.blank?
     { :host => h, :protocol => Setting.protocol }
@@ -20,7 +20,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   issue_add(issue) => tmail object
   #   Mailer.deliver_issue_add(issue) => sends an email to issue recipients
-  def issue_add(issue)
+  def issue_add(issue) # spec_me cover_me heckle_me
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
@@ -41,7 +41,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   issue_edit(journal) => tmail object
   #   Mailer.deliver_issue_edit(journal) => sends an email to issue recipients
-  def issue_edit(journal)
+  def issue_edit(journal) # spec_me cover_me heckle_me
     issue = journal.journalized.reload
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
@@ -66,7 +66,7 @@ class Mailer < ActionMailer::Base
     render_multipart('issue_edit', body)
   end
 
-  def daily_digest(recipient,journals)
+  def daily_digest(recipient,journals) # spec_me cover_me heckle_me
     @journals = journals
     @author = User.sysadmin
     recipients recipient
@@ -79,7 +79,7 @@ class Mailer < ActionMailer::Base
 
   end
 
-  def invitation_add(invitation,note)
+  def invitation_add(invitation,note) # spec_me cover_me heckle_me
     from invitation.user.mail
     subject "Invitation to join #{invitation.project.name}"
     recipients invitation.mail
@@ -93,7 +93,7 @@ class Mailer < ActionMailer::Base
     @ignore_bcc_setting = true
   end
 
-  def invitation_remind(invitation,note)
+  def invitation_remind(invitation,note) # spec_me cover_me heckle_me
     from invitation.user.mail
     subject "Reminder: Invitation to join #{invitation.project.name}"
     recipients invitation.mail
@@ -107,7 +107,7 @@ class Mailer < ActionMailer::Base
     @ignore_bcc_setting = true
   end
 
-  def reminder(user, issues, days)
+  def reminder(user, issues, days) # spec_me cover_me heckle_me
     set_language_if_valid user.language
     recipients user.mail
     subject l(:mail_subject_reminder, issues.size)
@@ -122,7 +122,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   document_added(document) => tmail object
   #   Mailer.deliver_document_added(document) => sends an email to the document's project recipients
-  def document_added(document)
+  def document_added(document) # spec_me cover_me heckle_me
     redmine_headers 'Project' => document.project.identifier
     recipients document.recipients
     subject "[#{document.project.name}] #{l(:label_document_new)}: #{document.title}"
@@ -136,7 +136,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   attachments_added(attachments) => tmail object
   #   Mailer.deliver_attachments_added(attachments) => sends an email to the project's recipients
-  def attachments_added(attachments)
+  def attachments_added(attachments) # spec_me cover_me heckle_me
     container = attachments.first.container
     added_to = ''
     added_to_url = ''
@@ -163,7 +163,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   news_added(news) => tmail object
   #   Mailer.deliver_news_added(news) => sends an email to the news' project recipients
-  def news_added(news)
+  def news_added(news) # spec_me cover_me heckle_me
     redmine_headers 'Project' => news.project.identifier
     message_id news
     recipients news.recipients
@@ -178,7 +178,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   message_posted(message) => tmail object
   #   Mailer.deliver_message_posted(message) => sends an email to the recipients
-  def message_posted(message)
+  def message_posted(message) # spec_me cover_me heckle_me
     redmine_headers 'Project' => message.project.identifier,
                     'Topic-Id' => (message.parent_id || message.id)
     message_id message
@@ -205,7 +205,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   wiki_content_added(wiki_content) => tmail object
   #   Mailer.deliver_wiki_content_added(wiki_content) => sends an email to the project's recipients
-  def wiki_content_added(wiki_content)
+  def wiki_content_added(wiki_content) # spec_me cover_me heckle_me
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id
     message_id wiki_content
@@ -226,7 +226,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   wiki_content_updated(wiki_content) => tmail object
   #   Mailer.deliver_wiki_content_updated(wiki_content) => sends an email to the project's recipients
-  def wiki_content_updated(wiki_content)
+  def wiki_content_updated(wiki_content) # spec_me cover_me heckle_me
     redmine_headers 'Project' => wiki_content.project.identifier,
                     'Wiki-Page-Id' => wiki_content.page.id
     message_id wiki_content
@@ -244,7 +244,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   account_information(user, password) => tmail object
   #   Mailer.deliver_account_information(user, password) => sends account information to the user
-  def account_information(user, password)
+  def account_information(user, password) # spec_me cover_me heckle_me
     set_language_if_valid user.language
     recipients user.mail
     subject l(:mail_subject_register, Setting.app_title)
@@ -259,7 +259,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   account_activation_request(user) => tmail object
   #   Mailer.deliver_account_activation_request(user)=> sends an email to all active administrators
-  def account_activation_request(user)
+  def account_activation_request(user) # spec_me cover_me heckle_me
     # Send the email to all active administrators
     recipients User.active.find(:all, :conditions => {:admin => true}).collect { |u| u.mail }.compact
     subject l(:mail_subject_account_activation_request, Setting.app_title)
@@ -273,7 +273,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   account_activated(user) => tmail object
   #   Mailer.deliver_account_activated(user) => sends an email to the registered user
-  def account_activated(user)
+  def account_activated(user) # spec_me cover_me heckle_me
     set_language_if_valid user.language
     recipients user.mail
     subject l(:mail_subject_register, Setting.app_title)
@@ -282,7 +282,7 @@ class Mailer < ActionMailer::Base
     render_multipart('account_activated', body)
   end
 
-  def lost_password(token)
+  def lost_password(token) # spec_me cover_me heckle_me
     set_language_if_valid(token.user.language)
     recipients token.user.mail
     subject l(:mail_subject_lost_password, Setting.app_title)
@@ -291,7 +291,7 @@ class Mailer < ActionMailer::Base
     render_multipart('lost_password', body)
   end
 
-  def register(token)
+  def register(token) # spec_me cover_me heckle_me
     recipients token.user.mail
     subject l(:mail_subject_register, Setting.app_title)
     body :token => token,
@@ -304,7 +304,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   issue_add(issue) => tmail object
   #   Mailer.deliver_issue_add(issue) => sends an email to issue recipients
-  def personal_welcome(user,project)
+  def personal_welcome(user,project) # spec_me cover_me heckle_me
     from "shereef@bettermeans.com"
     cc "support@bettermeans.com"
     recipients user.mail
@@ -315,7 +315,7 @@ class Mailer < ActionMailer::Base
   end
 
 
-  def test(user)
+  def test(user) # spec_me cover_me heckle_me
     set_language_if_valid(user.language)
     recipients user.mail
     subject 'Bettermeans test'
@@ -325,7 +325,7 @@ class Mailer < ActionMailer::Base
 
   # Overrides default deliver! method to prevent from sending an email
   # with no recipient, cc or bcc
-  def deliver!(mail = @mail)
+  def deliver!(mail = @mail) # spec_me cover_me heckle_me
     return false if (recipients.nil? || recipients.empty?) &&
                     (cc.nil? || cc.empty?) &&
                     (bcc.nil? || bcc.empty?)
@@ -340,7 +340,7 @@ class Mailer < ActionMailer::Base
     super(mail)
   end
 
-  def email_update_activation(email_update)
+  def email_update_activation(email_update) # spec_me cover_me heckle_me
     recipients email_update.mail
     subject l(:mail_subject_email_update_activation, Setting.app_title)
     body :activation_url => url_for(:controller => 'email_updates', :action => 'activate', :token => email_update.token)
@@ -354,7 +354,7 @@ class Mailer < ActionMailer::Base
   # * :days     => how many days in the future to remind about (defaults to 7)
   # * :tracker  => id of tracker for filtering issues (defaults to all trackers)
   # * :project  => id or identifier of project to process (defaults to all projects)
-  def self.reminders(options={})
+  def self.reminders(options={}) # spec_me cover_me heckle_me
     days = options[:days] || 7
     project = options[:project] ? Project.find(options[:project]) : nil
     tracker = options[:tracker] ? Tracker.find(options[:tracker]) : nil
@@ -375,7 +375,7 @@ class Mailer < ActionMailer::Base
 
   private
 
-  def initialize_defaults(method_name)
+  def initialize_defaults(method_name) # cover_me heckle_me
     super
     set_language_if_valid Setting.default_language
     from Setting.mail_from
@@ -389,12 +389,12 @@ class Mailer < ActionMailer::Base
   end
 
   # Appends a Redmine header field (name is prepended with 'X-Redmine-')
-  def redmine_headers(h)
+  def redmine_headers(h) # cover_me heckle_me
     h.each { |k,v| headers["X-BetterMeans-#{k}"] = v }
   end
 
   # Overrides the create_mail method
-  def create_mail
+  def create_mail # cover_me heckle_me
     # Removes the current user from the recipients and cc
     # if he doesn't want to receive notifications about what he does
     @author ||= User.current
@@ -419,7 +419,7 @@ class Mailer < ActionMailer::Base
   # https://rails.lighthouseapp.com/projects/8994/tickets/2338-actionmailer-mailer-views-and-content-type
   # https://rails.lighthouseapp.com/projects/8994/tickets/1799-actionmailer-doesnt-set-template_format-when-rendering-layouts
 
-  def render_multipart(method_name, body)
+  def render_multipart(method_name, body) # cover_me heckle_me
     if Setting.plain_text_mail?
       content_type "text/plain"
       body render(:file => "#{method_name}.text.plain.html.erb", :body => body, :layout => 'mailer.text.plain.erb')
@@ -431,12 +431,12 @@ class Mailer < ActionMailer::Base
   end
 
   # Makes partial rendering work with Rails 1.2 (retro-compatibility)
-  def self.controller_path
+  def self.controller_path # cover_me heckle_me
     ''
   end unless respond_to?('controller_path')
 
   # Returns a predictable Message-Id for the given object
-  def self.message_id_for(object)
+  def self.message_id_for(object) # cover_me heckle_me
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
     timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
@@ -446,11 +446,11 @@ class Mailer < ActionMailer::Base
     "<#{hash}@#{host}>"
   end
 
-  def message_id(object)
+  def message_id(object) # cover_me heckle_me
     @message_id_object = object
   end
 
-  def references(object)
+  def references(object) # cover_me heckle_me
     @references_objects ||= []
     @references_objects << object
   end
@@ -462,7 +462,7 @@ module TMail
 
   class Mail
 
-    def add_message_id( fqdn = nil )
+    def add_message_id( fqdn = nil ) # cover_me heckle_me
       self.message_id ||= ::TMail::new_message_id(fqdn)
     end
 

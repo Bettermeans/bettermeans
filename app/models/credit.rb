@@ -12,34 +12,34 @@ class Credit < ActiveRecord::Base
 
   after_create :issue_shares
 
-  def issue_day
+  def issue_day # spec_me cover_me heckle_me
     self.issued_on.strftime('%D')
   end
 
-  def disable
+  def disable # spec_me cover_me heckle_me
     self.enabled = false
     return self.save
   end
 
-  def enable
+  def enable # spec_me cover_me heckle_me
     self.enabled = true
     return self.save
   end
 
   #For every credit that is issue, a corresponding share is issued
-  def issue_shares
+  def issue_shares # spec_me cover_me heckle_me
     Share.create! :amount => amount, :owner => owner, :project => project, :issued_on => issued_on unless previously_issued #We don't create shares if we're creating credit for a past issue date (i.e. in case of an incomplete payoff)
   end
 
-  def previously_issued
+  def previously_issued # spec_me cover_me heckle_me
     (issued_on - created_at) > 2 #if created date is different than issued on date (by more than a few milliseconds) then this was a previously issued credit, that's being recreated as portion of shares already given out
   end
 
-  def settled?
+  def settled? # spec_me cover_me heckle_me
     return !self.settled.nil?
   end
 
-  def pay_out(pay_amount)
+  def pay_out(pay_amount) # spec_me cover_me heckle_me
     pay_amount = Credit.round(pay_amount)
     return false if pay_amount > amount #TODO raise an error here?
     original_amount = self.amount
@@ -58,13 +58,13 @@ class Credit < ActiveRecord::Base
     end
   end
 
-  def self.round(x)
+  def self.round(x) # spec_me cover_me heckle_me
       (x * 10**ROUNDING_LEVEL).floor.to_f / 10**ROUNDING_LEVEL #rounds down
   end
 
   #Pays out a certain amount of credit for a certain project (e.g. payout $6000 for the website project)
   #Owners on top of the stack are paid out first, and shares are updated accordingly
-  def self.settle(project,amount)
+  def self.settle(project,amount) # spec_me cover_me heckle_me
     remaining_amount = amount
 
     Credit.find(:all,:conditions => {:project_id => project, :enabled => true, :settled_on => nil}, :order => 'issued_on ASC').group_by(&:issue_day).each do |day,credits|
@@ -86,7 +86,7 @@ class Credit < ActiveRecord::Base
   #transfers a certain amount of credit for a certain user for a certain project to another user (e.g. shereef gives $6000 from the website project to adele)
   #newest credits are transfered first
   #returns total paid
-  def self.transfer(sender,recipient,project,amount, note)
+  def self.transfer(sender,recipient,project,amount, note) # spec_me cover_me heckle_me
     remaining_amount = amount
 
     Credit.find(:all,:conditions => {:project_id => project.id, :settled_on => nil, :owner_id => sender.id}, :order => 'issued_on DESC').each do |credit|

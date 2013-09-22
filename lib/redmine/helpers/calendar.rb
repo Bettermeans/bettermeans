@@ -9,7 +9,7 @@ module Redmine
       include Redmine::I18n
       attr_reader :startdt, :enddt
 
-      def initialize(date, lang = current_language, period = :month)
+      def initialize(date, lang = current_language, period = :month) # spec_me cover_me heckle_me
         @date = date
         @events = []
         @ending_events_by_days = {}
@@ -32,25 +32,25 @@ module Redmine
       end
 
       # Sets calendar events
-      def events=(events)
+      def events=(events) # spec_me cover_me heckle_me
         @events = events
         @ending_events_by_days = @events.group_by {|event| event.due_date}
         @starting_events_by_days = @events.group_by {|event| event.start_date}
       end
 
       # Returns events for the given day
-      def events_on(day)
+      def events_on(day) # spec_me cover_me heckle_me
         ((@ending_events_by_days[day] || []) + (@starting_events_by_days[day] || [])).uniq
       end
 
       # Calendar current month
-      def month
+      def month # spec_me cover_me heckle_me
         @date.month
       end
 
       # Return the first day of week
       # 1 = Monday ... 7 = Sunday
-      def first_wday
+      def first_wday # spec_me cover_me heckle_me
         case Setting.start_of_week.to_i
         when 1
           @first_dow ||= (1 - 1)%7 + 1
@@ -61,7 +61,7 @@ module Redmine
         end
       end
 
-      def last_wday
+      def last_wday # spec_me cover_me heckle_me
         @last_dow ||= (first_wday + 5)%7 + 1
       end
     end

@@ -5,7 +5,7 @@
 module Redmine
   # Class used to parse unified diffs
   class UnifiedDiff < Array
-    def initialize(diff, options={})
+    def initialize(diff, options={}) # spec_me cover_me heckle_me
       options.assert_valid_keys(:type, :max_lines)
       diff = diff.split("\n") if diff.is_a?(String)
       diff_type = options[:type] || 'inline'
@@ -28,7 +28,7 @@ module Redmine
       self
     end
 
-    def truncated?; @truncated; end
+    def truncated?; @truncated; end # spec_me cover_me heckle_me
   end
 
   # Class that represents a file diff
@@ -37,7 +37,7 @@ module Redmine
 
     # Initialize with a Diff file and the type of Diff View
     # The type view must be inline or sbs (side_by_side)
-    def initialize(type="inline")
+    def initialize(type="inline") # spec_me cover_me heckle_me
       @parsing = false
       @nb_line = 1
       @start = false
@@ -48,7 +48,7 @@ module Redmine
 
     # Function for add a line of this Diff
     # Returns false when the diff ends
-    def add_line(line)
+    def add_line(line) # spec_me cover_me heckle_me
       unless @parsing
         if line =~ /^(---|\+\+\+) (.*)$/
           @file_name = $2
@@ -71,7 +71,7 @@ module Redmine
       return true
     end
 
-    def inspect
+    def inspect # spec_me cover_me heckle_me
       puts '### DIFF TABLE ###'
       puts "file : #{file_name}"
       self.each do |d|
@@ -81,7 +81,7 @@ module Redmine
 
   private
     # Test if is a Side By Side type
-    def sbs?(type, func)
+    def sbs?(type, func) # cover_me heckle_me
       if @start and type == "sbs"
         if @before == func and @second
           tmp_nb_line = @nb_line
@@ -107,11 +107,11 @@ module Redmine
     end
 
     # Escape the HTML for the diff
-    def escapeHTML(line)
+    def escapeHTML(line) # cover_me heckle_me
         CGI.escapeHTML(line)
     end
 
-    def parse_line(line, type="inline")
+    def parse_line(line, type="inline") # cover_me heckle_me
       if line[0, 1] == "+"
         diff = sbs? type, 'add'
         @before = 'add'
@@ -157,7 +157,7 @@ module Redmine
     attr_accessor :type_diff_right
     attr_accessor :type_diff_left
 
-    def initialize()
+    def initialize() # cover_me heckle_me
       self.nb_line_left = ''
       self.nb_line_right = ''
       self.line_left = ''
@@ -166,7 +166,7 @@ module Redmine
       self.type_diff_left = ''
     end
 
-    def inspect
+    def inspect # cover_me heckle_me
       puts '### Start Line Diff ###'
       puts self.nb_line_left
       puts self.line_left

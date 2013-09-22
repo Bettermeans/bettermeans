@@ -2,7 +2,7 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class NewsObserver < ActiveRecord::Observer
-  def after_create(news)
+  def after_create(news) # spec_me cover_me heckle_me
     Mailer.send_later(:deliver_news_added,news) if Setting.notified_events.include?('news_added')
   end
 end

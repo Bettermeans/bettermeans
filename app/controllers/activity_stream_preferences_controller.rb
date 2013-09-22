@@ -6,7 +6,7 @@
 # Template to generate the controllers
 class ActivityStreamPreferencesController < ApplicationController
   before_filter :require_login, :except => :feed
-  def index
+  def index # spec_me cover_me heckle_me
 
     get_user_id
 
@@ -31,7 +31,7 @@ class ActivityStreamPreferencesController < ApplicationController
     end
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
 
     get_user_id
 
@@ -81,7 +81,7 @@ class ActivityStreamPreferencesController < ApplicationController
 
   protected
 
-  def get_user_id
+  def get_user_id # spec_me cover_me heckle_me
     if User.current.admin? && params[ACTIVITY_STREAM_USER_MODEL_ID.to_sym]
       @user_id = params[ACTIVITY_STREAM_USER_MODEL_ID.to_sym]
     else
@@ -89,7 +89,7 @@ class ActivityStreamPreferencesController < ApplicationController
     end
   end
 
-  def build_activities_hash
+  def build_activities_hash # spec_me cover_me heckle_me
     @activities = {}
     @activity_stream_preferences.each do |a|
       key = "#{a.activity}.#{a.location}"

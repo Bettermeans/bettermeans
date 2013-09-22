@@ -3,7 +3,7 @@
 
 module ReportsHelper
 
-  def aggregate(data, criteria)
+  def aggregate(data, criteria) # spec_me cover_me heckle_me
     a = 0
     data.each { |row|
       match = 1
@@ -15,7 +15,7 @@ module ReportsHelper
     a
   end
 
-  def aggregate_link(data, criteria, *args)
+  def aggregate_link(data, criteria, *args) # spec_me cover_me heckle_me
     a = aggregate data, criteria
     a > 0 ? link_to(a, *args) : '-'
   end

@@ -13,16 +13,16 @@ class UserPreference < ActiveRecord::Base
   # when extending from ActiveRecord initialize doesn't always get called
   # http://blog.dalethatcher.com/2008/03/rails-dont-override-initialize-on.html
   # better to make this an after_initialize
-  def initialize(attributes = nil)
+  def initialize(attributes = nil) # spec_me cover_me heckle_me
     super
     self.others ||= DEFAULTS
   end
 
-  def before_save
+  def before_save # spec_me cover_me heckle_me
     self.others ||= DEFAULTS
   end
 
-  def [](attr_name)
+  def [](attr_name) # spec_me cover_me heckle_me
     if attribute_present? attr_name
       super
     else
@@ -30,7 +30,7 @@ class UserPreference < ActiveRecord::Base
     end
   end
 
-  def []=(attr_name, value)
+  def []=(attr_name, value) # spec_me cover_me heckle_me
     if attribute_present? attr_name
       super
     else
@@ -41,8 +41,10 @@ class UserPreference < ActiveRecord::Base
     end
   end
 
-  def comments_sorting; self[:comments_sorting] end
-  def comments_sorting=(order); self[:comments_sorting]=order end
+  def comments_sorting; self[:comments_sorting] end # spec_me cover_me heckle_me
+
+  def comments_sorting=(order); self[:comments_sorting]=order end # spec_me cover_me heckle_me
+
 end
 
 

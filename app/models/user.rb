@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
      active_subscription
   end
 
-  def <=>(user)
+  def <=>(user) # spec_me cover_me heckle_me
     if self.class.name == user.class.name
       self.to_s.downcase <=> user.to_s.downcase
     else
@@ -118,35 +118,35 @@ class User < ActiveRecord::Base
   end
 
 
-  def before_create
+  def before_create # spec_me cover_me heckle_me
     self.mail_notification = false
     self.login = self.login.downcase
     true
   end
 
-  def before_save
+  def before_save # spec_me cover_me heckle_me
     # update hashed_password if password was set
     self.hashed_password = User.hash_password(self.password) if self.password
     self.mail_hash =  Digest::MD5.hexdigest(self.mail) unless mail.nil?
   end
 
-  def after_create
+  def after_create # spec_me cover_me heckle_me
     activate_invitations
     User.send_later(:create_recurly_account,self.id)
   end
 
-  def activate_invitations
+  def activate_invitations # spec_me cover_me heckle_me
     Invitation.all(:conditions => {:new_mail => self.mail}).each do |invite|
       invite.accept
     end
   end
 
 
-  def after_update
+  def after_update # spec_me cover_me heckle_me
     User.send_later(:update_recurly_account,self.id)
   end
 
-  def self.create_recurly_account(id)
+  def self.create_recurly_account(id) # spec_me cover_me heckle_me
     @user = User.find(id)
     begin
       @account = Recurly::Account.find(@user.id)
@@ -160,7 +160,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.update_recurly_account(id)
+  def self.update_recurly_account(id) # spec_me cover_me heckle_me
     @user = User.find(id)
 
     begin
@@ -178,11 +178,11 @@ class User < ActiveRecord::Base
     @result_object = Recurly::Account.find(@account.account_code)
   end
 
-  def save_billing(cc,ccverify,ip)
+  def save_billing(cc,ccverify,ip) # spec_me cover_me heckle_me
     User.send_later(:update_recurly_billing,self.id,cc,ccverify,ip)
   end
 
-  def self.update_recurly_billing(id,cc,ccverify,ip)
+  def self.update_recurly_billing(id,cc,ccverify,ip) # spec_me cover_me heckle_me
     @user = User.find(id)
     begin
       @account = Recurly::Account.find(@user.id)
@@ -235,34 +235,34 @@ class User < ActiveRecord::Base
   end
 
 
-  def reload(*args)
+  def reload(*args) # spec_me cover_me heckle_me
     @name = nil
     super
   end
 
-  def lock_workstreams?
+  def lock_workstreams? # spec_me cover_me heckle_me
     (self.usage_over_at && self.usage_over_at.advance(:days => -1 * Setting::WORKSTREAM_LOCK_THRESHOLD) > DateTime.now) || (self.trial_expired_at && self.trial_expired_at.advance(:days => -1 *  Setting::WORKSTREAM_LOCK_THRESHOLD) > DateTime.now)
   end
 
   #detects if usage is way over, or trial has expired for a while, and locks out private workstreams belonging to user
-  def lock_workstreams
+  def lock_workstreams # spec_me cover_me heckle_me
     if self.lock_workstreams?
       self.owned_projects.each {|p| p.lock unless p.is_public?}
     end
   end
 
-  def unlock_workstreams
+  def unlock_workstreams # spec_me cover_me heckle_me
     unless self.lock_workstreams?
       self.owned_projects.each {|p| p.unlock unless p.is_public?}
     end
   end
 
-  def usage_over?
+  def usage_over? # spec_me cover_me heckle_me
     self.project_storage_total > self.plan.storage_max || self.private_project_total > self.plan.private_workstream_max || self.private_contributor_total > self.plan.contributor_max
   end
 
   #detects if usage is over, and sets date of going over
-  def update_usage_over
+  def update_usage_over # spec_me cover_me heckle_me
     is_over = self.usage_over?
 
     self.lock_workstreams if is_over
@@ -288,7 +288,7 @@ class User < ActiveRecord::Base
   end
 
   #detects if trial expired, and sets date of trial expiring
-  def update_trial_expiration
+  def update_trial_expiration # spec_me cover_me heckle_me
     return if self.plan.free?
 
     if !self.trial_expires_on
@@ -315,7 +315,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def identity_url=(url)
+  def identity_url=(url) # spec_me cover_me heckle_me
     if url.blank?
       write_attribute(:identity_url, '')
     else
@@ -329,7 +329,7 @@ class User < ActiveRecord::Base
   end
 
   # Returns the user that matches provided login and password, or nil
-  def self.try_to_login(login, password)
+  def self.try_to_login(login, password) # spec_me cover_me heckle_me
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find(:first, :conditions => ["login=?", login.downcase])
@@ -360,7 +360,7 @@ class User < ActiveRecord::Base
   end
 
   # Returns the user who matches the given autologin +key+ or nil
-  def self.try_to_autologin(key)
+  def self.try_to_autologin(key) # spec_me cover_me heckle_me
     tokens = Token.find_all_by_action_and_value('autologin', key)
     # Make sure there's only 1 token that matches the key
     if tokens.size == 1
@@ -373,7 +373,7 @@ class User < ActiveRecord::Base
   end
 
   # Return user's full name for display
-  def name(formatter = nil)
+  def name(formatter = nil) # spec_me cover_me heckle_me
     if formatter
       eval('"' + (USER_FORMATS[formatter] || USER_FORMATS[:firstname_lastname]) + '"').strip
     else
@@ -381,11 +381,11 @@ class User < ActiveRecord::Base
     end
   end
 
-  def active?
+  def active? # spec_me cover_me heckle_me
     self.status == STATUS_ACTIVE
   end
 
-  def reactivate
+  def reactivate # spec_me cover_me heckle_me
     # TODO: don't use update_attribute, as it bypasses validations
     self.update_attribute(:status, User::STATUS_ACTIVE)
     newmail = []
@@ -399,41 +399,41 @@ class User < ActiveRecord::Base
     self.update_attribute(:mail, newmail) if self.mail != newmail
   end
 
-  def registered?
+  def registered? # spec_me cover_me heckle_me
     self.status == STATUS_REGISTERED
   end
 
-  def lock
+  def lock # spec_me cover_me heckle_me
     # TODO: don't use update_attribute, as it bypasses validations
     self.update_attribute(:status, STATUS_LOCKED)
   end
 
-  def cancel
+  def cancel # spec_me cover_me heckle_me
     self.update_attribute(:status, STATUS_CANCELED)
     # TODO: get rid of this, not sure why we change the email
     self.update_attribute(:mail, self.mail + ".canceled.#{rand(1000)}")
   end
 
-  def cancel_account!
+  def cancel_account! # spec_me cover_me heckle_me
     cancel
   end
 
-  def canceled?
+  def canceled? # spec_me cover_me heckle_me
     status == STATUS_CANCELED
   end
 
-  def locked?
+  def locked? # spec_me cover_me heckle_me
     self.status == STATUS_LOCKED
   end
 
-  def check_password?(clear_password)
+  def check_password?(clear_password) # spec_me cover_me heckle_me
     User.hash_password(clear_password) == self.hashed_password
   end
 
   # Generate and set a random password.  Useful for automated user creation
   # Based on Token#generate_token_value
   #
-  def random_password
+  def random_password # spec_me cover_me heckle_me
     chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
     password = ''
     40.times { |i| password << chars[rand(chars.size-1)] }
@@ -442,68 +442,68 @@ class User < ActiveRecord::Base
     self
   end
 
-  def pref
+  def pref # spec_me cover_me heckle_me
     self.preference ||= UserPreference.new(:user => self)
   end
 
-  def time_zone
+  def time_zone # spec_me cover_me heckle_me
     @time_zone ||= (self.pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[self.pref.time_zone])
   end
 
-  def wants_comments_in_reverse_order?
+  def wants_comments_in_reverse_order? # spec_me cover_me heckle_me
     self.pref[:comments_sorting] == 'desc'
   end
 
   # Return user's RSS key (a 40 chars long string), used to access feeds
-  def rss_key
+  def rss_key # spec_me cover_me heckle_me
     token = self.rss_token || Token.create(:user => self, :action => 'feeds')
     token.value
   end
 
   # Return user's API key (a 40 chars long string), used to access the API
-  def api_key
+  def api_key # spec_me cover_me heckle_me
     token = self.api_token || Token.create(:user => self, :action => 'api')
     token.value
   end
 
   # Return an array of project ids for which the user has explicitly turned mail notifications on
-  def notified_projects_ids
+  def notified_projects_ids # spec_me cover_me heckle_me
     @notified_projects_ids ||= memberships.select {|m| m.mail_notification?}.collect(&:project_id)
   end
 
-  def notified_project_ids=(ids)
+  def notified_project_ids=(ids) # spec_me cover_me heckle_me
     Member.update_all("mail_notification = #{connection.quoted_false}", ['user_id = ?', id])
     Member.update_all("mail_notification = #{connection.quoted_true}", ['user_id = ? AND project_id IN (?)', id, ids]) if ids && !ids.empty?
     @notified_projects_ids = nil
     notified_projects_ids
   end
 
-  def self.find_by_rss_key(key)
+  def self.find_by_rss_key(key) # spec_me cover_me heckle_me
     token = Token.find_by_value(key)
     token && token.user.active? ? token.user : nil
   end
 
-  def self.find_by_api_key(key)
+  def self.find_by_api_key(key) # spec_me cover_me heckle_me
     token = Token.find_by_action_and_value('api', key)
     token && token.user.active? ? token.user : nil
   end
 
   # Makes find_by_mail case-insensitive
-  def self.find_by_mail(mail)
+  def self.find_by_mail(mail) # spec_me cover_me heckle_me
     find(:first, :conditions => ["LOWER(mail) = ?", mail.to_s.downcase])
   end
 
   # Makes find_by_login case-insensitive
-  def self.find_by_login(login)
+  def self.find_by_login(login) # spec_me cover_me heckle_me
     find(:first, :conditions => ["LOWER(login) = ?", login.to_s.downcase])
   end
 
-  def to_s
+  def to_s # spec_me cover_me heckle_me
     name
   end
 
   # Returns the current day according to user's time zone
-  def today
+  def today # spec_me cover_me heckle_me
     if time_zone.nil?
       Date.today
     else
@@ -511,16 +511,16 @@ class User < ActiveRecord::Base
     end
   end
 
-  def logged?
+  def logged? # spec_me cover_me heckle_me
     true
   end
 
-  def anonymous?
+  def anonymous? # spec_me cover_me heckle_me
     !logged?
   end
 
   # Return user's roles for project
-  def roles_for_project(child_project)
+  def roles_for_project(child_project) # spec_me cover_me heckle_me
     project = child_project.root
     roles = []
     # No role on archived projects
@@ -542,48 +542,48 @@ class User < ActiveRecord::Base
   end
 
   # Return true if the user is a communitymember of project
-  def community_member_of?(project)
+  def community_member_of?(project) # spec_me cover_me heckle_me
     !roles_for_project(project.root).detect {|role| role.community_member?}.nil?
   end
 
   # Return true if the user is an enterprise member of project
-  def enterprise_member_of?(project)
+  def enterprise_member_of?(project) # spec_me cover_me heckle_me
     !roles_for_project(project.root).detect {|role| role.enterprise_member?}.nil?
   end
 
   # Return true if the user is admin of project
-   def admin_of?(project)
+   def admin_of?(project) # spec_me cover_me heckle_me
      !roles_for_project(project.root).detect {|role| role.admin?}.nil?
    end
 
 
   # Return true if the user is a member of project
-  def member_of?(project)
+  def member_of?(project) # spec_me cover_me heckle_me
     !roles_for_project(project.root).detect {|role| role.member?}.nil?
   end
 
   # Return true if the user is a core member of project
-   def core_member_of?(project)
+   def core_member_of?(project) # spec_me cover_me heckle_me
      !roles_for_project(project.root).detect {|role| role.core_member?}.nil?
    end
 
    # Return true if the user is a contributor of project
-  def contributor_of?(project)
+  def contributor_of?(project) # spec_me cover_me heckle_me
      !roles_for_project(project.root).detect {|role| role.contributor?}.nil?
   end
 
   # Return true if the user's votes are binding
-  def binding_voter_of?(project)
+  def binding_voter_of?(project) # spec_me cover_me heckle_me
     !roles_for_project(project.root).detect {|role| role.binding_member?}.nil?
   end
 
   # Return true if the user's votes are binding for this motion
-  def binding_voter_of_motion?(motion)
+  def binding_voter_of_motion?(motion) # spec_me cover_me heckle_me
     position_for(motion.project) <= motion.binding_level.to_f
   end
 
   # Return true if the user is allowed to see motion
-  def allowed_to_see_motion?(motion)
+  def allowed_to_see_motion?(motion) # spec_me cover_me heckle_me
     return true if User.current == User.sysadmin
     position_for(motion.project) <= motion.visibility_level.to_f
   end
@@ -591,7 +591,7 @@ class User < ActiveRecord::Base
   # Return true if the user is a allowed to see project
   #If root project is public, then we check that user has been given explicit clearance
   #If root project is private, then all contributors have access
-  def allowed_to_see_project?(project)
+  def allowed_to_see_project?(project) # spec_me cover_me heckle_me
     return true if project.is_public?
     if project.root.is_public?
       roles_for_project(project).detect {|role| role.binding_member? || role.clearance?}
@@ -602,7 +602,7 @@ class User < ActiveRecord::Base
 
 
   # Returns position level for user's role in project's enterprise (the lower number, the higher in heirarchy the user)
-  def position_for(project)
+  def position_for(project) # spec_me cover_me heckle_me
     roles_for_project(project.root).sort{|x,y| x.position <=> y.position}.first.position
   end
 
@@ -610,7 +610,7 @@ class User < ActiveRecord::Base
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
-  def allowed_to?(action, project, options={})
+  def allowed_to?(action, project, options={}) # spec_me cover_me heckle_me
     if project
       # No action allowed on archived projects except unarchive
       return false unless project.active? || project.locked? || (action.class.to_s == "Hash" && action[:action] == "unarchive")
@@ -636,14 +636,14 @@ class User < ActiveRecord::Base
   end
 
   #Adds current user to core team of project
-  def add_as_core(project, options={})
+  def add_as_core(project, options={}) # spec_me cover_me heckle_me
     #Add as core member of current project
     add_to_project project, Role.core_member
     drop_from_project(project, Role.contributor)
     drop_from_project(project, Role.member)
   end
 
-  def add_as_member(project, options={})
+  def add_as_member(project, options={}) # spec_me cover_me heckle_me
     #Add as core member of current project
     add_to_project project, Role.member
     drop_from_project(project, Role.contributor)
@@ -652,19 +652,19 @@ class User < ActiveRecord::Base
 
 
   #Adds current user as contributor of project
-  def add_as_contributor(project, options={})
+  def add_as_contributor(project, options={}) # spec_me cover_me heckle_me
       add_to_project project, Role.contributor
       drop_from_project(project, Role.core_member)
       drop_from_project(project, Role.member)
   end
 
   #Adds current user as contributor of project if they aren't a binding member
-  def add_as_contributor_if_new(project, options={})
+  def add_as_contributor_if_new(project, options={}) # spec_me cover_me heckle_me
       add_as_contributor project unless self.binding_voter_of?(project)
   end
 
   #Adds user to that project as that role
-  def add_to_project(project, role, options={})
+  def add_to_project(project, role, options={}) # spec_me cover_me heckle_me
     project = project.root if role.enterprise_member?
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     if m.nil?
@@ -680,7 +680,7 @@ class User < ActiveRecord::Base
   end
 
   #Drops user from role of that project
-  def drop_from_project(project, role, options={})
+  def drop_from_project(project, role, options={}) # spec_me cover_me heckle_me
     m = Member.find(:first, :conditions => {:user_id => id, :project_id => project}) #First we see if user is already a member of this project
     m.member_roles.each {|r|
       r.destroy if r.role_id == role.id
@@ -688,21 +688,21 @@ class User < ActiveRecord::Base
   end
 
   #Drops current user from core team of project
-  def drop_from_core(project, options={})
+  def drop_from_core(project, options={}) # spec_me cover_me heckle_me
     drop_from_project project, Role::BUILTIN_CORE_MEMBER
   end
 
-  def self.current=(user)
+  def self.current=(user) # spec_me cover_me heckle_me
     @current_user = user
   end
 
-  def self.current
+  def self.current # spec_me cover_me heckle_me
     @current_user ||= User.anonymous
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
   # one anonymous user per database.
-  def self.anonymous
+  def self.anonymous # spec_me cover_me heckle_me
     anonymous_user = AnonymousUser.find(:first)
     if anonymous_user.nil?
       anonymous_user = AnonymousUser.create(:lastname => 'Anonymous', :firstname => '', :mail => '', :login => '', :status => 0)
@@ -711,49 +711,49 @@ class User < ActiveRecord::Base
     anonymous_user
   end
 
-  def self.sysadmin
+  def self.sysadmin # spec_me cover_me heckle_me
     User.find_by_login("admin")
   end
 
   #total owned public projects
-  def public_project_total
+  def public_project_total # spec_me cover_me heckle_me
     self.owned_projects.find_all{|p| p.is_public  && (p.active? || p.locked?) }.length
   end
 
-  def private_project_total
+  def private_project_total # spec_me cover_me heckle_me
     self.owned_projects.find_all{|p| !p.is_public && (p.active? || p.locked?) }.length
   end
 
-  def public_contributor_total
+  def public_contributor_total # spec_me cover_me heckle_me
     @all_users = []
     self.owned_projects.find_all{|p| p.is_public && (p.active? || p.locked?) }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}}
     @all_users.length
   end
 
-  def private_contributor_total
+  def private_contributor_total # spec_me cover_me heckle_me
     @all_users = []
     self.owned_projects.find_all{|p| !p.is_public && (p.active? || p.locked?) }.each {|p| @all_users = @all_users | p.all_members.collect{|m| m.user_id}}
     @all_users.length
   end
 
-  def project_storage_total
+  def project_storage_total # spec_me cover_me heckle_me
     self.owned_projects.inject(0){|sum,item| sum + item.storage}
   end
 
   #projects user belongs to but doesnt own
-  def belongs_to_projects
+  def belongs_to_projects # spec_me cover_me heckle_me
     self.projects.does_not_belong_to(self.id)
   end
 
   #returns list of recent projects with a max count
-  def recent_projects(max = 10)
+  def recent_projects(max = 10) # spec_me cover_me heckle_me
     project_ids = ActivityStream.find_by_sql("SELECT project_id FROM activity_streams WHERE actor_id = #{self.id} AND updated_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_RECENT_PROJECTS * -1)}' GROUP BY project_id ORDER BY MAX(updated_at) DESC LIMIT #{max}").collect {|a| a.project_id}.join(",")
     return [] unless project_ids.length > 0
     Project.find(:all, :conditions => "id in (#{project_ids})")
   end
 
   #returns list of recent items with a max count of 10
-  def recent_items(max = 10)
+  def recent_items(max = 10) # spec_me cover_me heckle_me
     item_ids = ActivityStream.find_by_sql("SELECT object_id FROM activity_streams WHERE actor_id = #{self.id} AND object_type = 'Issue' AND object_id is not null GROUP BY object_id ORDER BY MAX(updated_at) DESC LIMIT #{max}").collect {|a| a["object_id"]}.join(",")
     return [] if item_ids.empty?
     Issue.find(:all, :conditions => "id in (#{item_ids})",
@@ -761,7 +761,7 @@ class User < ActiveRecord::Base
               :order => "#{Issue.table_name}.updated_at DESC")
   end
 
-  def self.find_available_login(array)
+  def self.find_available_login(array) # spec_me cover_me heckle_me
     array.each do |string|
       string = string.gsub(/ /,"_").gsub(/'|\"|<|>/,"_")
       # TODO: this can probably be optimized into a single database query
@@ -770,21 +770,21 @@ class User < ActiveRecord::Base
     nil
   end
 
-  def delete_autologin_tokens
+  def delete_autologin_tokens # spec_me cover_me heckle_me
     tokens.find_all_by_action('autologin').collect(&:delete)
   end
 
-  def activate
+  def activate # spec_me cover_me heckle_me
     self.status = STATUS_ACTIVE
   end
 
-  def fullname=(fullname)
+  def fullname=(fullname) # spec_me cover_me heckle_me
     self.firstname, self.lastname = fullname.split if fullname
   end
 
   protected
 
-  def validate
+  def validate # spec_me cover_me heckle_me
     # Password length validation based on setting
     if !password.nil? && password.size < Setting.password_min_length.to_i
       errors.add(:password, :too_short, :count => Setting.password_min_length.to_i)
@@ -794,7 +794,7 @@ class User < ActiveRecord::Base
   private
 
   # Return password digest
-  def self.hash_password(clear_password)
+  def self.hash_password(clear_password) # cover_me heckle_me
     # TODO: somehow switch this out, SHA is not recommended for passwords
     Digest::SHA1.hexdigest(clear_password || "")
   end
@@ -803,18 +803,18 @@ end
 
 class AnonymousUser < User
 
-  def validate_on_create
+  def validate_on_create # spec_me cover_me heckle_me
     # There should be only one AnonymousUser in the database
     errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
   end
 
   # Overrides a few properties
-  def logged?; false end
-  def admin; false end
-  def name(*args); I18n.t(:label_user_anonymous) end
-  def mail; nil end
-  def time_zone; nil end
-  def rss_key; nil end
-  def delete_autologin_tokens; nil end
+  def logged?; false end # spec_me cover_me heckle_me
+  def admin; false end # spec_me cover_me heckle_me
+  def name(*args); I18n.t(:label_user_anonymous) end # spec_me cover_me heckle_me
+  def mail; nil end # spec_me cover_me heckle_me
+  def time_zone; nil end # spec_me cover_me heckle_me
+  def rss_key; nil end # spec_me cover_me heckle_me
+  def delete_autologin_tokens; nil end # spec_me cover_me heckle_me
 
 end

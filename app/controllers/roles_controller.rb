@@ -10,17 +10,17 @@ class RolesController < ApplicationController
   verify :method => :post, :only => [ :destroy, :move ],
          :redirect_to => { :action => :list }
 
-  def index
+  def index # spec_me cover_me heckle_me
     list
     render :action => 'list' unless request.xhr?
   end
 
-  def list
+  def list # spec_me cover_me heckle_me
     @role_pages, @roles = paginate :roles, :per_page => 25, :order => 'builtin, position'
     render :action => "list", :layout => false if request.xhr?
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     # Prefills the form with 'Non member' role permissions
     @role = Role.new(params[:role] || {:permissions => Role.non_member.permissions})
     if request.post? && @role.save
@@ -35,7 +35,7 @@ class RolesController < ApplicationController
     @roles = Role.find :all, :order => 'builtin, position'
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @role = Role.find(params[:id])
     if request.post? and @role.update_attributes(params[:role])
       flash.now[:success] = l(:notice_successful_update)
@@ -44,7 +44,7 @@ class RolesController < ApplicationController
     @permissions = @role.setable_permissions
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @role = Role.find(params[:id])
     @role.destroy
     redirect_to :action => 'index'
@@ -53,7 +53,7 @@ class RolesController < ApplicationController
     redirect_to :action => 'index'
   end
 
-  def report
+  def report # spec_me cover_me heckle_me
     @roles = Role.find(:all, :order => 'builtin, position')
     @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
     if request.post?

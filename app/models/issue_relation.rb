@@ -25,7 +25,7 @@ class IssueRelation < ActiveRecord::Base
 
   attr_protected :issue_from_id, :issue_to_id
 
-  def validate
+  def validate # spec_me cover_me heckle_me
     if issue_from && issue_to
       errors.add :issue_to_id, :invalid if issue_from_id == issue_to_id
       errors.add :issue_to_id, :not_same_project unless issue_from.project_id == issue_to.project_id || Setting.cross_project_issue_relations?
@@ -33,15 +33,15 @@ class IssueRelation < ActiveRecord::Base
     end
   end
 
-  def other_issue(issue)
+  def other_issue(issue) # spec_me cover_me heckle_me
     (self.issue_from_id == issue.id) ? issue_to : issue_from
   end
 
-  def label_for(issue)
+  def label_for(issue) # spec_me cover_me heckle_me
     TYPES[relation_type] ? TYPES[relation_type][(self.issue_from_id == issue.id) ? :name : :sym_name] : :unknow
   end
 
-  def before_save
+  def before_save # spec_me cover_me heckle_me
     reverse_if_needed
 
     if TYPE_PRECEDES == relation_type
@@ -52,7 +52,7 @@ class IssueRelation < ActiveRecord::Base
     set_issue_to_dates
   end
 
-  def set_issue_to_dates
+  def set_issue_to_dates # spec_me cover_me heckle_me
     soonest_start = self.successor_soonest_start
     if soonest_start && (!issue_to.start_date || issue_to.start_date < soonest_start)
       issue_to.start_date, issue_to.due_date = successor_soonest_start, successor_soonest_start + issue_to.duration
@@ -60,18 +60,18 @@ class IssueRelation < ActiveRecord::Base
     end
   end
 
-  def successor_soonest_start
+  def successor_soonest_start # spec_me cover_me heckle_me
     return nil unless (TYPE_PRECEDES == self.relation_type) && (issue_from.start_date || issue_from.due_date)
     (issue_from.due_date || issue_from.start_date) + 1 + delay
   end
 
-  def <=>(relation)
+  def <=>(relation) # spec_me cover_me heckle_me
     TYPES[self.relation_type][:order] <=> TYPES[relation.relation_type][:order]
   end
 
   private
 
-  def reverse_if_needed
+  def reverse_if_needed # cover_me heckle_me
     if (TYPE_FOLLOWS == relation_type)
       issue_tmp = issue_to
       self.issue_to = issue_from

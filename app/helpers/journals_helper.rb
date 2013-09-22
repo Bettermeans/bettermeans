@@ -3,7 +3,7 @@
 #
 
 module JournalsHelper
-  def render_notes(journal, editable, options={})
+  def render_notes(journal, editable, options={}) # spec_me cover_me heckle_me
     content = ''
     editable ||= false;
     links = []
@@ -22,7 +22,7 @@ module JournalsHelper
     content_tag('div', content, :id => "journal-#{journal.id}-notes", :class => css_classes)
   end
 
-  def render_votes(journal, options={})
+  def render_votes(journal, options={}) # spec_me cover_me heckle_me
     votingcontent = ''
     #We show total votes regardless
     votingcontent << " " + String(journal.votes_for - journal.votes_against) + " points"
@@ -48,7 +48,7 @@ module JournalsHelper
   end
 
 
-  def link_to_in_place_notes_editor(text, field_id, url, options={})
+  def link_to_in_place_notes_editor(text, field_id, url, options={}) # spec_me cover_me heckle_me
     onclick = "$.ajax({type: 'GET', url: '#{url_for(url)}'});return false;"
     link_to text, '#', options.merge(:onclick => onclick)
   end

@@ -2,7 +2,7 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class RecurlyNotificationsController < ApplicationController
-  def listen
+  def listen # spec_me cover_me heckle_me
     logger.info { "params #{params.inspect}" }
     if params[:updated_subscription_notification]
       update_subscription(params[:updated_subscription_notification],true)
@@ -21,7 +21,7 @@ class RecurlyNotificationsController < ApplicationController
 
   private
 
-  def update_subscription(params,active_subscription)
+  def update_subscription(params,active_subscription) # cover_me heckle_me
     account = params["account"]
     subscription = params["subscription"]
     begin

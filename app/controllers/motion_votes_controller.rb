@@ -1,7 +1,7 @@
 class MotionVotesController < ApplicationController
   ssl_required :all
 
-  def index
+  def index # spec_me cover_me heckle_me
     @motion_votes = MotionVote.all
 
     respond_to do |format|
@@ -10,7 +10,7 @@ class MotionVotesController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @motion_vote = MotionVote.find(params[:id])
 
     respond_to do |format|
@@ -19,7 +19,7 @@ class MotionVotesController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @motion_vote = MotionVote.new
 
     respond_to do |format|
@@ -28,11 +28,11 @@ class MotionVotesController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @motion_vote = MotionVote.find(params[:id])
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @motion_vote = MotionVote.new(params[:motion_vote])
     @motion_vote.motion_id = params[:motion_id]
     @motion_vote.user_id = User.current.id
@@ -55,7 +55,7 @@ class MotionVotesController < ApplicationController
     end
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @motion_vote = MotionVote.find(params[:id])
 
     respond_to do |format|
@@ -70,7 +70,7 @@ class MotionVotesController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @motion_vote = MotionVote.find(params[:id])
     @motion_vote.destroy
 

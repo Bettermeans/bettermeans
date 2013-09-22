@@ -5,12 +5,12 @@
 class ARCondition
   attr_reader :conditions
 
-  def initialize(condition=nil)
+  def initialize(condition=nil) # spec_me cover_me heckle_me
     @conditions = ['1=1']
     add(condition) if condition
   end
 
-  def add(condition)
+  def add(condition) # spec_me cover_me heckle_me
     if condition.is_a?(Array)
       @conditions.first << " AND (#{condition.first})"
       @conditions += condition[1..-1]
@@ -22,7 +22,7 @@ class ARCondition
     self
   end
 
-  def <<(condition)
+  def <<(condition) # spec_me cover_me heckle_me
     add(condition)
   end
 end

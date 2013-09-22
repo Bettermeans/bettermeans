@@ -5,7 +5,7 @@ class ReportsController < ApplicationController
   menu_item :issues
   before_filter :find_project, :authorize
 
-  def issue_report
+  def issue_report # spec_me cover_me heckle_me
     @statuses = IssueStatus.find(:all, :order => 'position')
 
     case params[:detail]
@@ -51,13 +51,13 @@ class ReportsController < ApplicationController
   private
 
   # Find project of id params[:id]
-  def find_project
+  def find_project # cover_me heckle_me
     @project = Project.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
-  def issues_by_tracker
+  def issues_by_tracker # cover_me heckle_me
     @issues_by_tracker ||=
         ActiveRecord::Base.connection.select_all("select    s.id as status_id,
                                                   s.is_closed as closed,
@@ -72,7 +72,7 @@ class ReportsController < ApplicationController
                                                 group by s.id, s.is_closed, t.id")
   end
 
-  def issues_by_assigned_to
+  def issues_by_assigned_to # cover_me heckle_me
     @issues_by_assigned_to ||=
       ActiveRecord::Base.connection.select_all("select    s.id as status_id,
                                                   s.is_closed as closed,
@@ -87,7 +87,7 @@ class ReportsController < ApplicationController
                                                 group by s.id, s.is_closed, a.id")
   end
 
-  def issues_by_author
+  def issues_by_author # cover_me heckle_me
     @issues_by_author ||=
       ActiveRecord::Base.connection.select_all("select    s.id as status_id,
                                                   s.is_closed as closed,
@@ -102,7 +102,7 @@ class ReportsController < ApplicationController
                                                 group by s.id, s.is_closed, a.id")
   end
 
-  def issues_by_subproject
+  def issues_by_subproject # cover_me heckle_me
     @issues_by_subproject ||=
       ActiveRecord::Base.connection.select_all("select    s.id as status_id,
                                                   s.is_closed as closed,

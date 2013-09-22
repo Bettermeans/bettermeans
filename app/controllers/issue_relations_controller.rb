@@ -7,7 +7,7 @@ class IssueRelationsController < ApplicationController
   before_filter :find_project, :authorize
   ssl_required :all
 
-  def new
+  def new # spec_me cover_me heckle_me
     @relation = IssueRelation.new(params[:relation])
     @relation.issue_from = @issue
     if params[:relation] && !params[:relation][:issue_to_id].blank?
@@ -28,7 +28,7 @@ class IssueRelationsController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     relation = IssueRelation.find(params[:id])
     if request.post? && @issue.relations.include?(relation)
       relation.destroy
@@ -42,7 +42,7 @@ class IssueRelationsController < ApplicationController
 
   private
 
-  def find_project
+  def find_project # cover_me heckle_me
     @issue = Issue.find(params[:issue_id])
     @project = @issue.project
   rescue ActiveRecord::RecordNotFound

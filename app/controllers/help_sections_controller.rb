@@ -2,7 +2,7 @@ class HelpSectionsController < ApplicationController
   before_filter :authorize, :except => :dont_show
   ssl_required :all
 
-  def show
+  def show # spec_me cover_me heckle_me
 
     respond_to do |format|
       if @help_section.show
@@ -14,7 +14,7 @@ class HelpSectionsController < ApplicationController
     end
   end
 
-  def dont_show
+  def dont_show # spec_me cover_me heckle_me
     @help_section = HelpSection.find(params[:id])
     @help_section.show = false
     @help_section.save
@@ -26,7 +26,7 @@ class HelpSectionsController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @help_section = HelpSection.new
 
     respond_to do |format|
@@ -35,11 +35,11 @@ class HelpSectionsController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @help_section = HelpSection.find(params[:id])
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @help_section = HelpSection.new(params[:help_section])
 
     respond_to do |format|
@@ -54,7 +54,7 @@ class HelpSectionsController < ApplicationController
     end
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @help_section = HelpSection.find(params[:id])
 
     respond_to do |format|
@@ -69,7 +69,7 @@ class HelpSectionsController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @help_section = HelpSection.find(params[:id])
     @help_section.destroy
 

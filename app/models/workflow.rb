@@ -9,7 +9,7 @@ class Workflow < ActiveRecord::Base
   validates_presence_of :role, :old_status, :new_status
 
   # Returns workflow transitions count by tracker and role
-  def self.count_by_tracker_and_role
+  def self.count_by_tracker_and_role # spec_me cover_me heckle_me
     counts = connection.select_all("SELECT role_id, tracker_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, tracker_id")
     roles = Role.find(:all, :order => 'builtin, position')
     trackers = Tracker.find(:all, :order => 'position')
@@ -28,7 +28,7 @@ class Workflow < ActiveRecord::Base
   end
 
   # Find potential statuses the user could be allowed to switch issues to
-  def self.available_statuses(project, user=User.current)
+  def self.available_statuses(project, user=User.current) # spec_me cover_me heckle_me
     Workflow.find(:all,
                   :include => :new_status,
                   :conditions => {:role_id => user.roles_for_project(project).collect(&:id)}).
@@ -39,7 +39,7 @@ class Workflow < ActiveRecord::Base
   end
 
   # Copies workflows from source to targets
-  def self.copy(source_tracker, source_role, target_trackers, target_roles)
+  def self.copy(source_tracker, source_role, target_trackers, target_roles) # spec_me cover_me heckle_me
     unless source_tracker.is_a?(Tracker) || source_role.is_a?(Role)
       raise ArgumentError.new("source_tracker or source_role must be specified")
     end
@@ -61,7 +61,7 @@ class Workflow < ActiveRecord::Base
   end
 
   # Copies a single set of workflows from source to target
-  def self.copy_one(source_tracker, source_role, target_tracker, target_role)
+  def self.copy_one(source_tracker, source_role, target_tracker, target_role) # spec_me cover_me heckle_me
     unless source_tracker.is_a?(Tracker) && !source_tracker.new_record? &&
       source_role.is_a?(Role) && !source_role.new_record? &&
       target_tracker.is_a?(Tracker) && !target_tracker.new_record? &&

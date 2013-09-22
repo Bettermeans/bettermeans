@@ -3,7 +3,7 @@
 
 module MessagesHelper
 
-  def link_to_message(message)
+  def link_to_message(message) # spec_me cover_me heckle_me
     return '' unless message
     link_to h(truncate(message.subject, :length => 60)), :controller => 'messages',
                                            :action => 'show',

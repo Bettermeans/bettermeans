@@ -6,7 +6,7 @@ class CreditsController < ApplicationController
   ssl_required :all
 
 
-  def index
+  def index # spec_me cover_me heckle_me
     @project = Project.find(params[:project_id]) unless params[:project_id].nil?
 
     @credits = @project.credits
@@ -20,7 +20,7 @@ class CreditsController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @credit = Credit.find(params[:id])
 
     respond_to do |format|
@@ -29,7 +29,7 @@ class CreditsController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @credit = Credit.new
 
     respond_to do |format|
@@ -38,11 +38,11 @@ class CreditsController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @credit = Credit.find(params[:id])
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @credit = Credit.new(params[:credit])
 
     respond_to do |format|
@@ -57,7 +57,7 @@ class CreditsController < ApplicationController
     end
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @credit = Credit.find(params[:id])
 
     respond_to do |format|
@@ -72,7 +72,7 @@ class CreditsController < ApplicationController
     end
   end
 
-  def disable
+  def disable # spec_me cover_me heckle_me
     respond_to do |format|
       if @credit.disable
         format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
@@ -90,7 +90,7 @@ class CreditsController < ApplicationController
     end
   end
 
-  def enable
+  def enable # spec_me cover_me heckle_me
     respond_to do |format|
       if @credit.enable
         format.html { redirect_to :controller => :projects, :id => @credit.project_id, :action => "credits" }
@@ -108,7 +108,7 @@ class CreditsController < ApplicationController
     end
   end
 
-  def update_credit_partials
+  def update_credit_partials # spec_me cover_me heckle_me
     @project = Project.find(params[:project_id])
     @credits = @project.fetch_credits(params[:with_subprojects])
     @active_credits = @credits.find_all{|credit| credit.enabled == true && credit.settled_on.nil? == true }.group_by{|credit| credit.owner_id}
@@ -124,7 +124,7 @@ class CreditsController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @credit = Credit.find(params[:id])
     @credit.destroy
 
@@ -136,13 +136,13 @@ class CreditsController < ApplicationController
 
   private
 
-  def find_credit
+  def find_credit # cover_me heckle_me
     @credit = Credit.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render_404
   end
 
-  def self_authorize
+  def self_authorize # cover_me heckle_me
     if User.current.id != @credit.owner_id
       render_403
       return false

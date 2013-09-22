@@ -10,21 +10,21 @@ class IssueStatusesController < ApplicationController
   verify :method => :post, :only => [ :destroy, :create, :update, :move ],
          :redirect_to => { :action => :list }
 
-  def index
+  def index # spec_me cover_me heckle_me
     list
     render :action => 'list' unless request.xhr?
   end
 
-  def list
+  def list # spec_me cover_me heckle_me
     @issue_status_pages, @issue_statuses = paginate :issue_statuses, :per_page => 25, :order => "position"
     render :action => "list", :layout => false if request.xhr?
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @issue_status = IssueStatus.new
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @issue_status = IssueStatus.new(params[:issue_status])
     if @issue_status.save
       flash.now[:success] = l(:notice_successful_create)
@@ -34,11 +34,11 @@ class IssueStatusesController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @issue_status = IssueStatus.find(params[:id])
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @issue_status = IssueStatus.find(params[:id])
     if @issue_status.update_attributes(params[:issue_status])
       flash.now[:success] = l(:notice_successful_update)
@@ -48,7 +48,7 @@ class IssueStatusesController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     IssueStatus.find(params[:id]).destroy
     redirect_to :action => 'list'
   rescue

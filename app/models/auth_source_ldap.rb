@@ -13,11 +13,11 @@ class AuthSourceLdap < AuthSource
 
   before_validation :strip_ldap_attributes
 
-  def after_initialize
+  def after_initialize # spec_me cover_me heckle_me
     self.port = 389 if self.port == 0
   end
 
-  def authenticate(login, password)
+  def authenticate(login, password) # spec_me cover_me heckle_me
     return nil if login.blank? || password.blank?
     attrs = []
     # get user's DN
@@ -48,26 +48,26 @@ class AuthSourceLdap < AuthSource
   end
 
   # test the connection to the LDAP
-  def test_connection
+  def test_connection # spec_me cover_me heckle_me
     ldap_con = initialize_ldap_con(self.account, self.account_password)
     ldap_con.open { }
   rescue  Net::LDAP::LdapError => text
     raise "LdapError: " + text
   end
 
-  def auth_method_name
+  def auth_method_name # spec_me cover_me heckle_me
     "LDAP"
   end
 
   private
 
-  def strip_ldap_attributes
+  def strip_ldap_attributes # cover_me heckle_me
     [:attr_login, :attr_firstname, :attr_lastname, :attr_mail].each do |attr|
       write_attribute(attr, read_attribute(attr).strip) unless read_attribute(attr).nil?
     end
   end
 
-  def initialize_ldap_con(ldap_user, ldap_password)
+  def initialize_ldap_con(ldap_user, ldap_password) # cover_me heckle_me
     options = { :host => self.host,
                 :port => self.port,
                 :encryption => (self.tls ? :simple_tls : nil)
@@ -76,7 +76,7 @@ class AuthSourceLdap < AuthSource
     Net::LDAP.new options
   end
 
-  def self.get_attr(entry, attr_name)
+  def self.get_attr(entry, attr_name) # cover_me heckle_me
     if !attr_name.blank?
       entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
     end

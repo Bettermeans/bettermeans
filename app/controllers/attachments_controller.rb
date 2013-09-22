@@ -15,7 +15,7 @@ class AttachmentsController < ApplicationController
   before_filter :redirect_to_s3, :except => [:destroy, :create]
 
 
-  def create
+  def create # spec_me cover_me heckle_me
     logger.info { "params #{params.inspect}" }
     if params[:file]
       file = params[:file]
@@ -31,7 +31,7 @@ class AttachmentsController < ApplicationController
     render :json => a.to_json
   end
 
-  def redirect_to_s3
+  def redirect_to_s3 # spec_me cover_me heckle_me
     if @attachment.container.is_a?(Project)
       @attachment.increment_download
     end
@@ -39,7 +39,7 @@ class AttachmentsController < ApplicationController
   end
 
 
-  def show
+  def show # spec_me cover_me heckle_me
     if @attachment.is_diff?
       @diff = File.new(@attachment.diskfile, "rb").read
       render :action => 'diff'
@@ -51,7 +51,7 @@ class AttachmentsController < ApplicationController
     end
   end
 
-  def download
+  def download # spec_me cover_me heckle_me
     if @attachment.container.is_a?(Project)
       @attachment.increment_download
     end
@@ -62,7 +62,7 @@ class AttachmentsController < ApplicationController
                                     :disposition => (@attachment.image? ? 'inline' : 'attachment')
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     # Make sure association callbacks are called
     @attachment.container.attachments.delete(@attachment)
     redirect_to :back
@@ -72,7 +72,7 @@ class AttachmentsController < ApplicationController
 
   private
 
-  def find_project
+  def find_project # cover_me heckle_me
     @attachment = Attachment.find(params[:id])
     # Show 404 if the filename in the url is wrong
     raise ActiveRecord::RecordNotFound if params[:filename] && params[:filename] != @attachment.filename
@@ -82,15 +82,15 @@ class AttachmentsController < ApplicationController
   end
 
   # Checks that the file exists and is readable
-  def file_readable
+  def file_readable # cover_me heckle_me
     @attachment.readable? ? true : render_404
   end
 
-  def read_authorize
+  def read_authorize # cover_me heckle_me
     @attachment.visible? ? true : deny_access
   end
 
-  def delete_authorize
+  def delete_authorize # cover_me heckle_me
     @attachment.deletable? ? true : deny_access
   end
 end

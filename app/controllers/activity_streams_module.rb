@@ -8,7 +8,7 @@
 # ActivityStreamsModule is included in your generated ActivityStreams Controller and provides base functionality for the Activity Streams Plug-in
 module ActivityStreamsModule
 
-  def index
+  def index # spec_me cover_me heckle_me
     @activity_streams = ActivityStream.find(:all, :limit => 200, :order => "updated_at DESC")
 
     respond_to do |format|
@@ -17,7 +17,7 @@ module ActivityStreamsModule
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @activity_stream = ActivityStream.find(params[:id])
 
     respond_to do |format|
@@ -26,7 +26,7 @@ module ActivityStreamsModule
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @activity_stream = ActivityStream.new
 
     respond_to do |format|
@@ -35,11 +35,11 @@ module ActivityStreamsModule
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @activity_stream = ActivityStream.find(params[:id])
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @activity_stream = ActivityStream.new(params[:activity_stream])
 
     respond_to do |format|
@@ -54,7 +54,7 @@ module ActivityStreamsModule
     end
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @activity_stream = ActivityStream.find(params[:id])
 
     respond_to do |format|
@@ -69,7 +69,7 @@ module ActivityStreamsModule
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @activity_stream = ActivityStream.find(params[:id])
 
     respond_to do |format|

@@ -1,6 +1,6 @@
 module Redmine
   class About
-    def self.print_plugin_info
+    def self.print_plugin_info # spec_me cover_me heckle_me
       plugins = Redmine::Plugin.registered_plugins
 
       if !plugins.empty?

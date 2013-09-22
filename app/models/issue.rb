@@ -78,12 +78,12 @@ class Issue < ActiveRecord::Base
   after_save :after_save
 
   # Returns true if usr or current user is allowed to view the issue
-  def visible?(usr=nil)
+  def visible?(usr=nil) # spec_me cover_me heckle_me
     (usr || User.current).allowed_to?(:view_issues, self.project)
   end
 
   # Returns true if there are enough agreements in relation to the estimated points of the request
-  def ready_for_open?
+  def ready_for_open? # spec_me cover_me heckle_me
     return false if points.nil? || agree_total < 1
     return true if agree - disagree > points_from_credits / 2
     return true if agree_total > 0
@@ -91,51 +91,51 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns true if there are enough disagreements in relation to the estimated points of the request
-  def ready_for_canceled?
+  def ready_for_canceled? # spec_me cover_me heckle_me
     return false if agree_total > 0
     return true if agree_total < 0 && (updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
     return false
   end
 
-  def ready_for_accepted?
+  def ready_for_accepted? # spec_me cover_me heckle_me
     return true if self.status == IssueStatus.accepted
     return false if points.nil? || accept_total < 1
     return true if accept_total > 0 && (self.updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
     return false
   end
 
-  def ready_for_rejected?
+  def ready_for_rejected? # spec_me cover_me heckle_me
     return true if self.status == IssueStatus.rejected
     return false if points.nil? || accept_total > -1
     return true if accept_total < 0 && (updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH) #rejected
     return false
   end
 
-  def is_gift?
+  def is_gift? # spec_me cover_me heckle_me
     tracker.gift?
   end
 
-  def is_expense?
+  def is_expense? # spec_me cover_me heckle_me
     tracker.expense?
   end
 
-  def is_hourly?
+  def is_hourly? # spec_me cover_me heckle_me
     tracker.hourly?
   end
 
-  def is_feature
+  def is_feature # spec_me cover_me heckle_me
     tracker.feature?
   end
 
-  def is_bug
+  def is_bug # spec_me cover_me heckle_me
     tracker.bug?
   end
 
-  def is_chore
+  def is_chore # spec_me cover_me heckle_me
     tracker.chore?
   end
 
-  def updated_status
+  def updated_status # spec_me cover_me heckle_me
     return IssueStatus.canceled if self.status == IssueStatus.canceled
     return IssueStatus.accepted if ready_for_accepted?
     return IssueStatus.rejected if ready_for_rejected?
@@ -146,7 +146,7 @@ class Issue < ActiveRecord::Base
     return IssueStatus.newstatus #default
   end
 
-  def after_initialize
+  def after_initialize # spec_me cover_me heckle_me
     if new_record?
       # set default values for new records only
       self.status ||= IssueStatus.default
@@ -154,24 +154,24 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns true if one or more people joined this issue
-  def has_team?
+  def has_team? # spec_me cover_me heckle_me
     team_votes.length>1
   end
 
-  def has_todos?
+  def has_todos? # spec_me cover_me heckle_me
     todos.length>0
   end
 
-  def team_votes
+  def team_votes # spec_me cover_me heckle_me
     issue_votes.select {|i| i.vote_type == IssueVote::JOIN_VOTE_TYPE}
   end
 
-  def team_members
+  def team_members # spec_me cover_me heckle_me
     IssueVote.find(:all, :conditions => ["issue_id=? AND vote_type=?",
                                                    self.id, IssueVote::JOIN_VOTE_TYPE], :order => "updated_at ASC").map(&:user)
   end
 
-  def copy_from(arg)
+  def copy_from(arg) # spec_me cover_me heckle_me
     issue = arg.is_a?(Issue) ? arg : Issue.find(arg)
     self.attributes = issue.attributes.dup.except("id", "created_at", "updated_at")
     self.status = issue.status
@@ -179,7 +179,7 @@ class Issue < ActiveRecord::Base
   end
 
   #returns true if issue can be started (in the correct priority tier)
-  def startable?
+  def startable? # spec_me cover_me heckle_me
     return false unless self.status_id == IssueStatus.open.id
     self.pri > project.issues.open_status.maximum("pri") - Setting::NUMBER_OF_STARTABLE_PRIORITY_TIERS || points_from_credits == 0
   end
@@ -187,7 +187,7 @@ class Issue < ActiveRecord::Base
 
   #Creates a new issue and sets its status to open
   #Copies all issue votes except team ones and accept/reject ones
-  def clone_recurring
+  def clone_recurring # spec_me cover_me heckle_me
     @new_issue = Issue.new
     @new_issue.attributes = self.attributes.dup.except("id", "created_at", "updated_at")
     @new_issue.status = IssueStatus.open
@@ -203,7 +203,7 @@ class Issue < ActiveRecord::Base
 
   # Moves/copies an issue to a new project and tracker
   # Returns the moved/copied issue on success, false on failure
-  def move_to(new_project, new_tracker = nil, options = {})
+  def move_to(new_project, new_tracker = nil, options = {}) # spec_me cover_me heckle_me
     options ||= {}
     issue = options[:copy] ? self.clone : self
     transaction do
@@ -237,14 +237,14 @@ class Issue < ActiveRecord::Base
     return issue
   end
 
-  def tracker_id=(tid)
+  def tracker_id=(tid) # spec_me cover_me heckle_me
     self.tracker = nil
     write_attribute(:tracker_id, tid)
     result = write_attribute(:tracker_id, tid)
     result
   end
 
-  def mention(mentioner_id, mentioned_id, mention_text)
+  def mention(mentioner_id, mentioned_id, mention_text) # spec_me cover_me heckle_me
     Notification.create :recipient_id => mentioned_id,
                         :variation => 'mention',
                         :params => {:mention_text => self.description,
@@ -255,14 +255,14 @@ class Issue < ActiveRecord::Base
                         :source_type => "Issue"
   end
 
-  def update_tags(tags)
+  def update_tags(tags) # spec_me cover_me heckle_me
     self.update_attribute(:tag_list, tags)
     self.update_attribute(:tags_copy, self.tags.map {|t|t.name}.join(","))
     update_last_item_stamp
   end
 
   # Overrides attributes= so that tracker_id gets assigned first
-  def attributes_with_tracker_first=(new_attributes, *args)
+  def attributes_with_tracker_first=(new_attributes, *args) # spec_me cover_me heckle_me
     return if new_attributes.nil?
     new_tracker_id = new_attributes['tracker_id'] || new_attributes[:tracker_id]
     if new_tracker_id
@@ -272,15 +272,15 @@ class Issue < ActiveRecord::Base
   end
   alias_method_chain :attributes=, :tracker_first
 
-  def estimated_hours=(h)
+  def estimated_hours=(h) # spec_me cover_me heckle_me
     write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
   end
 
 
-  def validate
+  def validate # spec_me cover_me heckle_me
   end
 
-  def init_journal(user, notes = "")
+  def init_journal(user, notes = "") # spec_me cover_me heckle_me
     @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
     @issue_before_change = self.clone
     @issue_before_change.status = self.status
@@ -292,12 +292,12 @@ class Issue < ActiveRecord::Base
   end
 
   # Return true if the issue is closed, otherwise false
-  def closed?
+  def closed? # spec_me cover_me heckle_me
     self.status.is_closed?
   end
 
   # Return true if the issue is being reopened
-  def reopened?
+  def reopened? # spec_me cover_me heckle_me
     if !new_record? && status_id_changed?
       status_was = IssueStatus.find_by_id(status_id_was)
       status_new = IssueStatus.find_by_id(status_id)
@@ -308,7 +308,7 @@ class Issue < ActiveRecord::Base
     false
   end
 
-  def editable?
+  def editable? # spec_me cover_me heckle_me
     return !(status == IssueStatus.assigned   ||
              status == IssueStatus.done       ||
              status == IssueStatus.canceled   ||
@@ -318,22 +318,22 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns true if the issue is overdue
-  def overdue?
+  def overdue? # spec_me cover_me heckle_me
     !due_date.nil? && (due_date < DateTime.now) && !status.is_closed?
   end
 
   # Users the issue can be assigned to
-  def assignable_users
+  def assignable_users # spec_me cover_me heckle_me
     project.assignable_users
   end
 
   # Returns true if this issue is blocked by another issue that is still open
-  def blocked?
+  def blocked? # spec_me cover_me heckle_me
     !relations_to.detect {|ir| ir.relation_type == 'blocks' && !ir.issue_from.closed?}.nil?
   end
 
   # Returns an array of status that user is able to apply
-  def new_statuses_allowed_to(user)
+  def new_statuses_allowed_to(user) # spec_me cover_me heckle_me
     logger.info { "New statuses allowed" }
     statuses = status.find_new_statuses_allowed_to(user.roles_for_project(project), tracker)
     statuses << status unless statuses.empty?
@@ -342,7 +342,7 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns the mail adresses of users that should be notified
-  def recipients
+  def recipients # spec_me cover_me heckle_me
     notified = project.notified_users
     # Author and assignee are always notified unless they have been locked
     notified << author if author && author.active?
@@ -357,11 +357,11 @@ class Issue < ActiveRecord::Base
     notified.collect(&:mail)
   end
 
-  def relations
+  def relations # spec_me cover_me heckle_me
     (relations_from + relations_to).sort
   end
 
-  def all_dependent_issues
+  def all_dependent_issues # spec_me cover_me heckle_me
     dependencies = []
     relations_from.each do |relation|
       dependencies << relation.issue_to
@@ -371,13 +371,13 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns an array of issues that duplicate this one
-  def duplicates
+  def duplicates # spec_me cover_me heckle_me
     relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
   end
 
   # Returns the due date or the target due date if any
   # Used on gantt chart
-  def due_before
+  def due_before # spec_me cover_me heckle_me
     due_date
   end
 
@@ -386,20 +386,20 @@ class Issue < ActiveRecord::Base
   # Example:
   #   Start Date: 2/26/09, End Date: 3/04/09
   #   duration => 6
-  def duration
+  def duration # spec_me cover_me heckle_me
     (start_date && due_date) ? due_date - start_date : 0
   end
 
-  def soonest_start
+  def soonest_start # spec_me cover_me heckle_me
     @soonest_start ||= relations_to.collect{|relation| relation.successor_soonest_start}.compact.min
   end
 
-  def to_s
+  def to_s # spec_me cover_me heckle_me
     "#{tracker} ##{id}: #{subject}"
   end
 
   # Returns a string of css classes that apply to the issue
-  def css_classes
+  def css_classes # spec_me cover_me heckle_me
     s = "issue status-#{status.position}"
     s << ' closed' if closed?
     s << ' overdue' if overdue?
@@ -410,7 +410,7 @@ class Issue < ActiveRecord::Base
 
 
   #returns true if this user is allowed to take (and/or offer) ownership for this particular issue
-  def push_allowed?(user)
+  def push_allowed?(user) # spec_me cover_me heckle_me
     return false if user.nil?
     return true if self.assigned_to == user #Any user who owns an issue can offer for people to take it, or can accept offers
 
@@ -418,7 +418,7 @@ class Issue < ActiveRecord::Base
     user.allowed_to?(:push_commitment, self.project) && (self.expected_date.nil? || self.expected_date < Time.new.to_date) && (self.assigned_to.nil? || self.assigned_to == user)
   end
 
-  def update_estimate_total(binding)
+  def update_estimate_total(binding) # spec_me cover_me heckle_me
     if binding
       self.points =   IssueVote.average(:points, :conditions => " issue_id = #{self.id} AND  vote_type = #{IssueVote::ESTIMATE_VOTE_TYPE} AND isbinding= true AND points != -1")
     else
@@ -426,7 +426,7 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def update_pri_total(binding)
+  def update_pri_total(binding) # spec_me cover_me heckle_me
     if binding
       self.pri = IssueVote.sum(:points, :conditions => {:issue_id => self.id, :vote_type => IssueVote::PRI_VOTE_TYPE, :isbinding=> true})
     else
@@ -434,7 +434,7 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def update_agree_total(binding)
+  def update_agree_total(binding) # spec_me cover_me heckle_me
     if binding
       self.agree =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => 1, :isbinding=> true})
       self.disagree =   IssueVote.sum(:points, :conditions => "issue_id = '#{self.id}' AND vote_type = '#{IssueVote::AGREE_VOTE_TYPE}' AND points < 0 AND isbinding='true'") * -1
@@ -446,7 +446,7 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  def update_accept_total(binding)
+  def update_accept_total(binding) # spec_me cover_me heckle_me
     if binding
       self.accept =   IssueVote.count(:conditions => {:issue_id => self.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1, :isbinding=> true})
       self.reject =   IssueVote.sum(:points, :conditions => "issue_id = '#{self.id}' AND vote_type = '#{IssueVote::ACCEPT_VOTE_TYPE}' AND points < 0 AND isbinding='true'") * -1
@@ -459,7 +459,7 @@ class Issue < ActiveRecord::Base
   end
 
   #refreshes issue status, returns true if status changed
-  def update_status
+  def update_status # spec_me cover_me heckle_me
     original = self.status
     @updated = self.updated_status
 
@@ -503,7 +503,7 @@ class Issue < ActiveRecord::Base
   end
 
   # sets number of points for an hourly item
-  def set_points_from_hourly
+  def set_points_from_hourly # spec_me cover_me heckle_me
     return unless self.is_hourly?
 
     if (hourly_type.hourly_rate_per_person * self.team_members.length) > hourly_type.hourly_cap
@@ -514,7 +514,7 @@ class Issue < ActiveRecord::Base
   end
 
   # issues credits for this one issue to the people it's assigned to
-  def give_credits
+  def give_credits # spec_me cover_me heckle_me
     if self.is_gift?
       CreditDistribution.create(:user_id => self.assigned_to_id,
                                 :project_id => self.project_id,
@@ -546,7 +546,7 @@ class Issue < ActiveRecord::Base
   end
 
   #returns json object for consumption from dashboard
-  def to_dashboard
+  def to_dashboard # spec_me cover_me heckle_me
     self.to_json(:include => {:journals => { :only => [:id, :notes, :created_at, :user_id], :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                               :issue_votes => { :include => {:user => { :only => [:firstname, :lastname, :login] }}},
                               :status => {:only => :name},
@@ -560,18 +560,18 @@ class Issue < ActiveRecord::Base
   end
 
   #returns dollar amount based on points for this issue
-  def dollar_amount
+  def dollar_amount # spec_me cover_me heckle_me
     return self.points
   end
 
   #returns number of "points" based on scale. used to calculate votes needed in lazy majority
-  def points_from_credits
+  def points_from_credits # spec_me cover_me heckle_me
     normalized = (points/self.project.dpp).round
     return Setting::CREDITS_TO_POINTS[Setting::CREDITS_TO_POINTS.length - 1] if normalized > Setting::CREDITS_TO_POINTS.length #returns max if credits are more than max
     return Setting::CREDITS_TO_POINTS[normalized];
   end
 
-  def size
+  def size # spec_me cover_me heckle_me
     sum = 0.0
     attachments.each do |a|
       sum += a.filesize
@@ -581,18 +581,18 @@ class Issue < ActiveRecord::Base
     sum.round(3)
   end
 
-  def after_create
+  def after_create # spec_me cover_me heckle_me
     self.project.send_later :refresh_issue_count
   end
 
-  def update_last_item_stamp
+  def update_last_item_stamp # spec_me cover_me heckle_me
     self.project.send_later("update_last_item")
   end
 
   private
 
   # Callback on attachment deletion
-  def attachment_removed(obj)
+  def attachment_removed(obj) # cover_me heckle_me
     journal = init_journal(User.current)
     journal.details << JournalDetail.new(:property => 'attachment',
                                          :prop_key => obj.id,
@@ -600,7 +600,7 @@ class Issue < ActiveRecord::Base
     journal.save
   end
 
-  def after_save
+  def after_save # cover_me heckle_me
     # Reload is needed in order to get the right status
     reload
 
@@ -626,7 +626,7 @@ class Issue < ActiveRecord::Base
 
   # Saves the changes in a Journal
   # Called after_save
-  def create_journal
+  def create_journal # cover_me heckle_me
     if @current_journal
 
       logger.info { "creating journal..." }

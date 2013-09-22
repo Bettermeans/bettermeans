@@ -11,19 +11,19 @@ class Wiki < ActiveRecord::Base
   validates_presence_of :start_page
   validates_format_of :start_page, :with => /^[^,\.\/\?\;\|\:]*$/
 
-  def visible?(user=User.current)
+  def visible?(user=User.current) # spec_me cover_me heckle_me
     !user.nil? && user.allowed_to?(:view_wiki_pages, project)
   end
 
   # find the page with the given title
   # if page doesn't exist, return a new page
-  def find_or_new_page(title)
+  def find_or_new_page(title) # spec_me cover_me heckle_me
     title = start_page if title.blank?
     find_page(title) || WikiPage.new(:wiki => self, :title => Wiki.titleize(title))
   end
 
   # find the page with the given title
-  def find_page(title, options = {})
+  def find_page(title, options = {}) # spec_me cover_me heckle_me
     title = start_page if title.blank?
     title = Wiki.titleize(title)
     page = pages.find_by_title(title)
@@ -40,7 +40,7 @@ class Wiki < ActiveRecord::Base
   # Examples:
   #   Wiki.find_page("bar", project => foo)
   #   Wiki.find_page("foo:bar")
-  def self.find_page(title, options = {})
+  def self.find_page(title, options = {}) # spec_me cover_me heckle_me
     project = options[:project]
     if title.to_s =~ %r{^([^\:]+)\:(.*)$}
       project_identifier, title = $1, $2
@@ -55,7 +55,7 @@ class Wiki < ActiveRecord::Base
   end
 
   # turn a string into a valid page title
-  def self.titleize(title)
+  def self.titleize(title) # spec_me cover_me heckle_me
     # replace spaces with _ and remove unwanted caracters
     title = title.gsub(/\s+/, '_').delete(',./?;|:') if title
     # upcase the first letter

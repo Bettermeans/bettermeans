@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
   # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
   # TODO: remove it when Rails is fixed
   before_filter :delete_broken_cookies
-  def delete_broken_cookies
+  def delete_broken_cookies # spec_me cover_me heckle_me
     if cookies['_redmine_session'] && cookies['_redmine_session'] !~ /--/
       cookies.delete '_redmine_session'
       redirect_to home_path
@@ -39,29 +39,29 @@ class ApplicationController < ActionController::Base
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
 
-  def set_user_ip
+  def set_user_ip # spec_me cover_me heckle_me
     session[:client_ip] = request.headers['X-Real-Ip'] unless session[:client_ip]
   end
 
-  def user_setup
+  def user_setup # spec_me cover_me heckle_me
     # Check the settings cache for each request
     Setting.check_cache
     # Find the current user
     User.current = find_current_user
   end
 
-  def redirect_with_flash(flash_type,msg,*params)
+  def redirect_with_flash(flash_type,msg,*params) # spec_me cover_me heckle_me
     flash[flash_type] = msg
     redirect_to(*params)
   end
 
-  def current_user
+  def current_user # spec_me cover_me heckle_me
     User.current
   end
 
   # Returns the current user or nil if no user is logged in
   # and starts a session if needed
-  def find_current_user
+  def find_current_user # spec_me cover_me heckle_me
     if session[:user_id]
       # existing session
       user = (User.active.find(session[:user_id]) rescue nil)
@@ -87,7 +87,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Sets the logged in user
-  def logged_user=(user)
+  def logged_user=(user) # spec_me cover_me heckle_me
     #resetting session, but keeping client_ip
     ip = session[:client_ip] if session[:client_ip]
     reset_session
@@ -101,13 +101,13 @@ class ApplicationController < ActionController::Base
   end
 
   # check if login is globally required to access the application
-  def check_if_login_required
+  def check_if_login_required # spec_me cover_me heckle_me
     # no check needed if user is already logged in
     return true if User.current.logged?
     require_login if Setting.login_required?
   end
 
-  def set_localization
+  def set_localization # spec_me cover_me heckle_me
     lang = nil
     if User.current.logged?
       lang = find_language(User.current.language)
@@ -116,12 +116,12 @@ class ApplicationController < ActionController::Base
     set_language_if_valid(lang)
   end
 
-  def data_admin_logged_in?
+  def data_admin_logged_in? # spec_me cover_me heckle_me
     return true if User.current == User.find_by_login("shereef") || User.current == User.find_by_login("adelegb") || User.current == User.find_by_login("crabari")
     return false
   end
 
-  def require_login
+  def require_login # spec_me cover_me heckle_me
     if !User.current.logged?
       # Extract only the basic url parameters on non-GET requests
       if request.get?
@@ -139,7 +139,7 @@ class ApplicationController < ActionController::Base
     true
   end
 
-  def require_admin
+  def require_admin # spec_me cover_me heckle_me
     return unless require_login
     if !User.current.admin?
       render_403
@@ -148,25 +148,25 @@ class ApplicationController < ActionController::Base
     true
   end
 
-  def deny_access
+  def deny_access # spec_me cover_me heckle_me
     User.current.logged? ? render_403 : require_login
   end
 
   # Authorize the user for the requested action
-  def authorize(ctrl = params[:controller], action = params[:action], global = false)
+  def authorize(ctrl = params[:controller], action = params[:action], global = false) # spec_me cover_me heckle_me
     return true if params[:format] == "png"
     allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project, :global => global)
     allowed ? true : deny_access
   end
 
   # Authorize the user for the requested action outside a project
-  def authorize_global(ctrl = params[:controller], action = params[:action], global = true)
+  def authorize_global(ctrl = params[:controller], action = params[:action], global = true) # spec_me cover_me heckle_me
     authorize(ctrl, action, global)
   end
 
   # make sure that the user is a member of the project (or admin) if project is private
   # used as a before_filter for actions that do not require any particular permission on the project
-  def check_project_privacy
+  def check_project_privacy # cover_me heckle_me
     if @project && @project.active?
       if @project.is_public? || User.current.allowed_to_see_project?(@project) || User.current.admin?
         true
@@ -180,7 +180,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def redirect_back_or_default(default)
+  def redirect_back_or_default(default) # cover_me heckle_me
     back_url = CGI.unescape(params[:back_url].to_s)
     if !back_url.blank? && !back_url.include?("/home/") && !back_url.include?("/front/")
       begin
@@ -198,32 +198,32 @@ class ApplicationController < ActionController::Base
     redirect_to default
   end
 
-  def render_403
+  def render_403 # cover_me heckle_me
     @project = nil
     render :template => "common/403", :layout => (request.xhr? ? false : 'gooey'), :status => 403
     return false
   end
 
-  def render_404
+  def render_404 # cover_me heckle_me
     render :template => "common/404", :layout => !request.xhr?, :status => 404
     return false
   end
 
-  def render_error(msg)
+  def render_error(msg) # cover_me heckle_me
     flash.now[:error] = msg
     render :text => '', :layout => !request.xhr?, :status => 500
   end
 
-  def render_message(msg)
+  def render_message(msg) # cover_me heckle_me
     flash.now[:notice] = msg
     render :text => '', :layout => !request.xhr?
   end
 
-  def invalid_authenticity_token
+  def invalid_authenticity_token # cover_me heckle_me
     redirect_back_or_default(home_path)
   end
 
-  def render_feed(items, options={})
+  def render_feed(items, options={}) # cover_me heckle_me
     @items = items || []
     @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
@@ -231,23 +231,23 @@ class ApplicationController < ActionController::Base
     render :template => "common/feed.atom.rxml", :layout => false, :content_type => 'application/atom+xml'
   end
 
-  def self.accept_key_auth(*actions)
+  def self.accept_key_auth(*actions) # cover_me heckle_me
     actions = actions.flatten.map(&:to_s)
     write_inheritable_attribute('accept_key_auth_actions', actions)
   end
 
-  def accept_key_auth_actions
+  def accept_key_auth_actions # cover_me heckle_me
     self.class.read_inheritable_attribute('accept_key_auth_actions') || []
   end
 
-  def attach_files_for_new_issue(issue,attachment_ids)
+  def attach_files_for_new_issue(issue,attachment_ids) # cover_me heckle_me
     if attachment_ids
       Attachment.update_all("container_id = #{issue.id}" , "id in (#{attachment_ids}) and container_id = 0" )
     end
   end
 
   # TODO: move to model
-  def attach_files(obj, attachments)
+  def attach_files(obj, attachments) # cover_me heckle_me
     attached = []
     unsaved = []
     if attachments && attachments.is_a?(Hash)
@@ -267,7 +267,7 @@ class ApplicationController < ActionController::Base
     attached
   end
 
-  def attach_temp_files(obj, attachments)
+  def attach_temp_files(obj, attachments) # cover_me heckle_me
     attached = []
     unsaved = []
     logger.info { "attaching temp #{attachments.inspect}" }
@@ -290,13 +290,13 @@ class ApplicationController < ActionController::Base
   end
 
   #replaces newline characters with more binary-compatible ones
-  def cleanup_newline(text)
+  def cleanup_newline(text) # cover_me heckle_me
     return text unless text and !text.empty?
     text.gsub(/\r?\n/, "\r\n")
   end
 
   # Same as Rails' simple_format helper without using paragraphs
-  def simple_format_without_paragraph(text)
+  def simple_format_without_paragraph(text) # cover_me heckle_me
     text.to_s.
       gsub(/\r\n?/, "\n").                    # \r\n and \r -> \n
       gsub(/\n\n+/, "<br /><br />").          # 2+ newline  -> 2 br
@@ -305,7 +305,7 @@ class ApplicationController < ActionController::Base
 
   # Returns the number of objects that should be displayed
   # on the paginated list
-  def per_page_option
+  def per_page_option # cover_me heckle_me
     per_page = nil
     if params[:per_page] && Setting.per_page_options_array.include?(params[:per_page].to_s.to_i)
       per_page = params[:per_page].to_s.to_i
@@ -320,7 +320,7 @@ class ApplicationController < ActionController::Base
 
   # qvalues http header parser
   # code taken from webrick
-  def parse_qvalues(value)
+  def parse_qvalues(value) # cover_me heckle_me
     tmp = []
     if value
       parts = value.split(/,\s*/)
@@ -340,12 +340,12 @@ class ApplicationController < ActionController::Base
   end
 
   # Returns a string that can be used as filename value in Content-Disposition header
-  def filename_for_content_disposition(name)
+  def filename_for_content_disposition(name) # cover_me heckle_me
     request.env['HTTP_USER_AGENT'] =~ %r{MSIE} ? ERB::Util.url_encode(name) : name
   end
 
   #breakpoint
-  def bp
+  def bp # cover_me heckle_me
     debugger if ENV['RAILS_ENV'] == 'development'
   end
 

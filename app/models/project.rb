@@ -139,15 +139,15 @@ class Project < ActiveRecord::Base
   reportable :weekly_new_projects, :aggregation => :count, :grouping => :week, :limit => 20
 
 
-  def project_id
+  def project_id # spec_me cover_me heckle_me
     self.id
   end
 
-  def all_tags(term = '')
+  def all_tags(term = '') # spec_me cover_me heckle_me
     ActsAsTaggableOn::Tag.find_by_sql(["select name from tags inner join taggings on taggings.tag_id = tags.id where taggings.project_id = ? and name like '%#{term}%'",self.id]).map{|t| t.name}.uniq.sort
   end
 
-  def graph_data
+  def graph_data # spec_me cover_me heckle_me
     valid_kids = children.select{|c| c.active?}
     if valid_kids.size > 0
       mychildren = valid_kids.collect{ |node|  node.graph_data }
@@ -159,7 +159,7 @@ class Project < ActiveRecord::Base
   end
 
   #returns array of project ids that are children of this project. includes id of current project
-  def sub_project_array
+  def sub_project_array # spec_me cover_me heckle_me
     array = [self.id]
     self.children.each do |child|
       array += child.sub_project_array
@@ -168,7 +168,7 @@ class Project < ActiveRecord::Base
   end
 
   #returns array of project ids that are children of this project. includes id of current project that are visible to user
-  def sub_project_array_visible_to(user)
+  def sub_project_array_visible_to(user) # spec_me cover_me heckle_me
     if self.visible_to(user)
       array = [self.id]
     else
@@ -182,7 +182,7 @@ class Project < ActiveRecord::Base
   end
 
 
-  def graph_data2
+  def graph_data2 # spec_me cover_me heckle_me
     valid_kids = children.select{|c| c.active?}
     if valid_kids.size > 0
       mychildren = valid_kids.collect{ |node|  node.graph_data2 }
@@ -193,15 +193,15 @@ class Project < ActiveRecord::Base
     { :levelDistance => issues.length,:id => self.identifier, :name => name, :children => mychildren, :data => {:$dim => diameter,:$angularWidth => diameter, :$color => '#fdd13d' } }
   end
 
-  def identifier=(identifier)
+  def identifier=(identifier) # spec_me cover_me heckle_me
     super unless identifier_frozen?
   end
 
-  def identifier_frozen?
+  def identifier_frozen? # spec_me cover_me heckle_me
     errors[:identifier].nil? && !(new_record? || identifier.blank?)
   end
 
-  def self.latest_public(count=10, offset=0)
+  def self.latest_public(count=10, offset=0) # spec_me cover_me heckle_me
     filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " +
       "#{Project.table_name}.is_public = #{connection.quoted_true}"
 
@@ -214,7 +214,7 @@ class Project < ActiveRecord::Base
     )
   end
 
-  def self.most_active_public(count=10, offset=0)
+  def self.most_active_public(count=10, offset=0) # spec_me cover_me heckle_me
     filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " +
       "#{Project.table_name}.is_public = #{connection.quoted_true}"
 
@@ -229,7 +229,7 @@ class Project < ActiveRecord::Base
 
   # returns most active projects
   # non public projects will be returned only if user is a member of those
-  def self.most_active(user=nil, count=10, root=false, offset=0)
+  def self.most_active(user=nil, count=10, root=false, offset=0) # spec_me cover_me heckle_me
     if root
       all_roots.find(:all, :limit => count, :conditions => visible_by(user), :order => "activity_total DESC", :offset => offset)
     else
@@ -239,7 +239,7 @@ class Project < ActiveRecord::Base
 
 
   #Returns true if project is visible by user
-  def visible_to(user)
+  def visible_to(user) # spec_me cover_me heckle_me
     return true if user.admin?
     return false unless active?
     return true if is_public
@@ -252,7 +252,7 @@ class Project < ActiveRecord::Base
   # Examples:
   #     Projects.visible_by(admin)        => "projects.status = 1"
   #     Projects.visible_by(normal_user)  => "projects.status = 1 AND projects.is_public = 1"
-  def self.visible_by(user=nil)
+  def self.visible_by(user=nil) # spec_me cover_me heckle_me
     user ||= User.anonymous
     if user && user.admin?
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
@@ -263,7 +263,7 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def fetch_credits(with_subprojects)
+  def fetch_credits(with_subprojects) # spec_me cover_me heckle_me
     with_subprojects ||= 'true'
     if with_subprojects == 'true'
       conditions = {}
@@ -275,7 +275,7 @@ class Project < ActiveRecord::Base
   end
 
 
-  def self.allowed_to_condition(user, permission, options={})
+  def self.allowed_to_condition(user, permission, options={}) # spec_me cover_me heckle_me
     statements = []
     base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
     if perm = Redmine::AccessControl.permission(permission)
@@ -310,7 +310,7 @@ class Project < ActiveRecord::Base
   end
 
   # Returns the Systemwide and project specific activities
-  def activities(include_inactive=false)
+  def activities(include_inactive=false) # spec_me cover_me heckle_me
     if include_inactive
       return all_activities
     else
@@ -323,13 +323,13 @@ class Project < ActiveRecord::Base
   # Examples:
   #   project.project_condition(true)  => "(projects.id = 1 OR (projects.lft > 1 AND projects.rgt < 10))"
   #   project.project_condition(false) => "projects.id = 1"
-  def project_condition(with_subprojects)
+  def project_condition(with_subprojects) # spec_me cover_me heckle_me
     cond = "#{Project.table_name}.id = #{id}"
     cond = "(#{cond} OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt}))" if with_subprojects
     cond
   end
 
-  def self.find(*args)
+  def self.find(*args) # spec_me cover_me heckle_me
     if args.first && args.first.is_a?(String) && !args.first.match(/^\d*$/)
       project = find_by_identifier(*args)
       raise ActiveRecord::RecordNotFound, "Couldn't find Project with identifier=#{args.first}" if project.nil?
@@ -339,32 +339,32 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def active?
+  def active? # spec_me cover_me heckle_me
     self.status == STATUS_ACTIVE
   end
 
-  def archived?
+  def archived? # spec_me cover_me heckle_me
     self.status == STATUS_ARCHIVED
   end
 
-  def locked?
+  def locked? # spec_me cover_me heckle_me
     self.status == STATUS_LOCKED
   end
 
-  def lock
+  def lock # spec_me cover_me heckle_me
     self.update_attribute(:status, STATUS_LOCKED) if active? && !locked?
   end
 
-  def unlock
+  def unlock # spec_me cover_me heckle_me
     self.update_attribute(:status, STATUS_ACTIVE) if locked?
   end
 
-  def enterprise?
+  def enterprise? # spec_me cover_me heckle_me
     self.parent_id.nil?
   end
 
   # Archives the project and its descendants
-  def archive
+  def archive # spec_me cover_me heckle_me
     Project.transaction do
       archive!
     end
@@ -373,14 +373,14 @@ class Project < ActiveRecord::Base
 
   # Unarchives the project
   # All its ancestors must be active
-  def unarchive
+  def unarchive # spec_me cover_me heckle_me
     return false if ancestors.detect {|a| !a.active?}
     update_attribute :status, STATUS_ACTIVE
   end
 
   # Returns an array of projects the project can be moved to
   # by the current user
-  def allowed_parents
+  def allowed_parents # spec_me cover_me heckle_me
     return @allowed_parents if @allowed_parents
     @allowed_parents = Project.find(:all, :conditions => Project.allowed_to_condition(User.current, :add_subprojects))
     @allowed_parents = @allowed_parents - self_and_descendants
@@ -394,7 +394,7 @@ class Project < ActiveRecord::Base
   end
 
   # Sets the parent of the project with authorization check
-  def set_allowed_parent!(p)
+  def set_allowed_parent!(p) # spec_me cover_me heckle_me
     unless p.nil? || p.is_a?(Project)
       if p.to_s.blank?
         p = nil
@@ -416,7 +416,7 @@ class Project < ActiveRecord::Base
   # Sets the parent of the project
   # Argument can be either a Project, a String, a Fixnum or nil
   # WARNING: This doesn't move the children for the project, if moving a project use: move_to_child_of
-  def set_parent!(p)
+  def set_parent!(p) # spec_me cover_me heckle_me
     unless p.nil? || p.is_a?(Project)
       if p.to_s.blank?
         p = nil
@@ -453,7 +453,7 @@ class Project < ActiveRecord::Base
   end
 
   # Returns an array of the trackers used by the project and its active sub projects
-  def rolled_up_trackers
+  def rolled_up_trackers # spec_me cover_me heckle_me
     @rolled_up_trackers ||=
       Tracker.find(:all, :include => :projects,
                          :select => "DISTINCT #{Tracker.table_name}.*",
@@ -462,7 +462,7 @@ class Project < ActiveRecord::Base
   end
 
   # Returns a hash of project users grouped by role
-  def users_by_role
+  def users_by_role # spec_me cover_me heckle_me
     all_members.find(:all, :include => [:user, :roles]).inject({}) do |h, m|
       m.roles.each do |r|
         h[r] ||= []
@@ -473,50 +473,50 @@ class Project < ActiveRecord::Base
   end
 
   # Returns a hash of active project users
-  def active_members
+  def active_members # spec_me cover_me heckle_me
     all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}",:include => [:user, :roles], :order => "firstname ASC")
   end
 
   # Returns a hash of project users with clearance
-  def clearance_members
+  def clearance_members # spec_me cover_me heckle_me
     all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_CLEARANCE}",:include => [:user, :roles], :order => "firstname ASC")
   end
 
   # Returns a hash of contributers
-  def contributor_list
+  def contributor_list # spec_me cover_me heckle_me
     self.contributors
   end
 
   # Returns a hash of active project users grouped by role
-  def member_list
+  def member_list # spec_me cover_me heckle_me
     self.members
   end
 
   # Returns a hash of active project users grouped by role
-  def core_member_list
+  def core_member_list # spec_me cover_me heckle_me
     self.core_members
   end
 
   # Number of members who are active and have a binding vote
-  def active_binding_members_count
+  def active_binding_members_count # spec_me cover_me heckle_me
     active_members = self.active_members.collect{|member| member.user_id}
     active_binding_members_count = (self.root.core_member_list.collect{|member| member.user_id} & active_members).length
     active_binding_members_count += (self.root.member_list.collect{|member| member.user_id} & active_members).length
   end
 
-  def binding_members_count
+  def binding_members_count # spec_me cover_me heckle_me
     self.root.core_member_list.count + self.root.member_list.count  + self.root.member_list.count
   end
 
   # returns count of all users for this role and higher roles
-  def role_and_above_count(position)
+  def role_and_above_count(position) # spec_me cover_me heckle_me
     all_members.count(:all, :conditions => "roles.position <= #{position}", :group => "user_id").length
   end
 
 
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
   # Also refreshes members with clearance
-  def refresh_active_members
+  def refresh_active_members # spec_me cover_me heckle_me
     return unless self.active?
 
     u = {}
@@ -573,40 +573,40 @@ class Project < ActiveRecord::Base
 
 
   # Deletes all project's members
-  def delete_all_members
+  def delete_all_members # spec_me cover_me heckle_me
     me, mr = Member.table_name, MemberRole.table_name
     connection.delete("DELETE FROM #{mr} WHERE #{mr}.member_id IN (SELECT #{me}.id FROM #{me} WHERE #{me}.project_id = #{id})")
     Member.delete_all(['project_id = ?', id])
   end
 
   # Users issues can be assigned to
-  def assignable_users
+  def assignable_users # spec_me cover_me heckle_me
     all_members.select {|m| m.roles.detect {|role| role.assignable?}}.collect {|m| m.user}.sort
   end
 
   # Returns the mail adresses of users that should be always notified on project events
-  def recipients
+  def recipients # spec_me cover_me heckle_me
     all_members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user.mail}
   end
 
   # Returns the users that should be notified on project events
-  def notified_users
+  def notified_users # spec_me cover_me heckle_me
     all_members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user}
   end
 
-  def project
+  def project # spec_me cover_me heckle_me
     self
   end
 
-  def <=>(project)
+  def <=>(project) # spec_me cover_me heckle_me
     name.downcase <=> project.name.downcase
   end
 
-  def to_s
+  def to_s # spec_me cover_me heckle_me
     name
   end
 
-  def name_with_ancestors
+  def name_with_ancestors # spec_me cover_me heckle_me
     b = []
 
     ancestors = (project.root? ? [] : project.ancestors.visible)
@@ -624,7 +624,7 @@ class Project < ActiveRecord::Base
   end
 
   # Returns a short description of the projects (first lines)
-  def short_description(length = 255)
+  def short_description(length = 255) # spec_me cover_me heckle_me
     description.gsub(/^(.{#{length}}[^\n\r]*).*$/m, '\1...').strip if description
   end
 
@@ -632,7 +632,7 @@ class Project < ActiveRecord::Base
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
-  def allows_to?(action)
+  def allows_to?(action) # spec_me cover_me heckle_me
     if action.is_a? Hash
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
@@ -640,16 +640,16 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def module_enabled?(module_name)
+  def module_enabled?(module_name) # spec_me cover_me heckle_me
     module_name = module_name.to_s
     enabled_modules.detect {|m| m.name == module_name}
   end
 
-  def credits_enabled?
+  def credits_enabled? # spec_me cover_me heckle_me
     !module_enabled?(:credits).nil?
   end
 
-  def enabled_module_names=(module_names)
+  def enabled_module_names=(module_names) # spec_me cover_me heckle_me
     if module_names && module_names.is_a?(Array)
       module_names = module_names.collect(&:to_s)
       # remove disabled modules
@@ -662,7 +662,7 @@ class Project < ActiveRecord::Base
   end
 
   # Returns an auto-generated project identifier based on the last identifier used
-  def self.next_identifier
+  def self.next_identifier # spec_me cover_me heckle_me
     p = Project.find(:first, :order => 'created_at DESC')
     return 'A' if p.nil?
 
@@ -690,7 +690,7 @@ class Project < ActiveRecord::Base
   #   project.copy(1)                                    # => copies everything
   #   project.copy(1, :only => 'members')                # => copies members only
   #   project.copy(1, :only => ['members', 'versions'])  # => copies members and versions
-  def copy(project, options={})
+  def copy(project, options={}) # spec_me cover_me heckle_me
     project = project.is_a?(Project) ? project : Project.find(project)
 
     to_be_copied = %w(wiki issue_categories issues members queries boards)
@@ -710,7 +710,7 @@ class Project < ActiveRecord::Base
 
   # Copies +project+ and returns the new instance.  This will not save
   # the copy
-  def self.copy_from(project)
+  def self.copy_from(project) # spec_me cover_me heckle_me
     begin
       project = project.is_a?(Project) ? project : Project.find(project)
       if project
@@ -728,16 +728,16 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def team_points_for(user, options={})
+  def team_points_for(user, options={}) # spec_me cover_me heckle_me
     user.team_points_for(project)
   end
 
   #highest priority for open items in this project
-  def highest_pri
+  def highest_pri # spec_me cover_me heckle_me
     self.issues.maximum(:pri, :conditions => {:status_id => IssueStatus.open.id }) || -9999
   end
 
-  def before_validation_on_create
+  def before_validation_on_create # spec_me cover_me heckle_me
     self.enterprise_id = self.parent.enterprise_id unless self.parent.nil?
     self.identifier = Project.next_identifier
     self.invitation_token = Token.generate_token_value
@@ -753,7 +753,7 @@ class Project < ActiveRecord::Base
 
 
   #Setup default forum for workstream
-  def after_create
+  def after_create # spec_me cover_me heckle_me
     logger.info { "entering after create" }
     #Send notification of request or invitation to recipient
      Board.create! :project_id => id,
@@ -765,7 +765,7 @@ class Project < ActiveRecord::Base
     return true
   end
 
-  def set_owner
+  def set_owner # spec_me cover_me heckle_me
 
     if !self.root?
       self.update_attribute(:owner_id,self.root.owner_id)
@@ -785,7 +785,7 @@ class Project < ActiveRecord::Base
 
 
   #Returns true if threshold of points that haven't been included in a retrospective have been created
-  def ready_for_retro?
+  def ready_for_retro? # spec_me cover_me heckle_me
     return false if !credits_enabled?
 
     total_unretroed = Issue.sum(:points, :conditions => {:status_id => IssueStatus.accepted.id,:retro_id => Retro::NOT_STARTED_ID, :project_id => id})
@@ -801,7 +801,7 @@ class Project < ActiveRecord::Base
   end
 
   #Starts a new retrospective for this project
-  def start_new_retro
+  def start_new_retro # spec_me cover_me heckle_me
     return false if !credits_enabled?
 
     from_date = issues.first(:conditions => {:retro_id => Retro::NOT_STARTED_ID}, :order => "updated_at ASC").updated_at
@@ -812,11 +812,11 @@ class Project < ActiveRecord::Base
   end
 
   #Starts a new retrospective if it's ready
-  def start_retro_if_ready
+  def start_retro_if_ready # spec_me cover_me heckle_me
     start_new_retro if ready_for_retro?
   end
 
-  def refresh_activity_line
+  def refresh_activity_line # spec_me cover_me heckle_me
     date_array = Hash.new(0)
     for i in (1..Setting::ACTIVITY_LINE_LENGTH)
       date_array[(Date.today - i).to_s] = 0
@@ -855,19 +855,19 @@ class Project < ActiveRecord::Base
     my_line
   end
 
-  def activity_line_max
+  def activity_line_max # spec_me cover_me heckle_me
     self.activity_line.split(',').max{|a,b| a.to_f <=> b.to_f}
   end
 
-  def activity_line_show(length)
+  def activity_line_show(length) # spec_me cover_me heckle_me
     activity_line.split(",").slice(self.activity_line.split(",").length - length,length).join(",")
   end
 
-  def volunteer?
+  def volunteer? # spec_me cover_me heckle_me
     return self.volunteer == true
   end
 
-  def calculate_storage
+  def calculate_storage # spec_me cover_me heckle_me
     sum = 0
     documents.each do |d|
       sum += d.size
@@ -881,27 +881,27 @@ class Project < ActiveRecord::Base
     self.save
   end
 
-  def allowed_actions
+  def allowed_actions # spec_me cover_me heckle_me
     @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
   end
 
-  def refresh_issue_count
+  def refresh_issue_count # spec_me cover_me heckle_me
     self.update_attribute(:issue_count,Issue.count(:conditions => ["project_id = ?  AND (retro_id < 0 OR retro_id is null)", self.id]) )
     self.parent.refresh_issue_count_sub unless self.root?
   end
 
-  def refresh_issue_count_sub
+  def refresh_issue_count_sub # spec_me cover_me heckle_me
     count_sub = self.children.inject(0){|sum,p| sum + p.issue_count + p.issue_count_sub}
     self.update_attribute(:issue_count_sub, count_sub)
     self.parent.refresh_issue_count_sub unless self.root?
   end
 
-  def update_last_item
+  def update_last_item # spec_me cover_me heckle_me
     self.update_attribute(:last_item_updated_on, DateTime.now)
     self.parent.update_last_item_sub unless self.root?
   end
 
-  def update_last_item_sub
+  def update_last_item_sub # spec_me cover_me heckle_me
     self.update_attribute(:last_item_sub_updated_on, DateTime.now)
     self.parent.update_last_item_sub unless self.root?
   end
@@ -909,7 +909,7 @@ class Project < ActiveRecord::Base
   private
 
   # Copies wiki from +project+
-  def copy_wiki(project)
+  def copy_wiki(project) # cover_me heckle_me
     # Check that the source project has a wiki first
     unless project.wiki.nil?
       self.wiki ||= Wiki.new
@@ -924,7 +924,7 @@ class Project < ActiveRecord::Base
   end
 
   # Copies issues from +project+
-  def copy_issues(project)
+  def copy_issues(project) # cover_me heckle_me
     # Stores the source issue id as a key and the copied issues as the
     # value.  Used to map the two togeather for issue relations.
     issues_map = {}
@@ -964,7 +964,7 @@ class Project < ActiveRecord::Base
   end
 
   # Copies members from +project+
-  def copy_members(project)
+  def copy_members(project) # cover_me heckle_me
     project.all_members.each do |member|
       new_member = Member.new
       new_member.attributes = member.attributes.dup.except("id", "project_id", "created_at")
@@ -975,7 +975,7 @@ class Project < ActiveRecord::Base
   end
 
   # Copies queries from +project+
-  def copy_queries(project)
+  def copy_queries(project) # cover_me heckle_me
     project.queries.each do |query|
       new_query = Query.new
       new_query.attributes = query.attributes.dup.except("id", "project_id", "sort_criteria")
@@ -986,7 +986,7 @@ class Project < ActiveRecord::Base
   end
 
   # Copies boards from +project+
-  def copy_boards(project)
+  def copy_boards(project) # cover_me heckle_me
     project.boards.each do |board|
       new_board = Board.new
       new_board.attributes = board.attributes.dup.except("id", "project_id", "topics_count", "messages_count", "last_message_id")
@@ -995,7 +995,7 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def allowed_permissions
+  def allowed_permissions # cover_me heckle_me
     @allowed_permissions ||= begin
       module_names = enabled_modules.collect {|m| m.name}
       Redmine::AccessControl.modules_permissions(module_names).collect {|p| p.name}
@@ -1003,7 +1003,7 @@ class Project < ActiveRecord::Base
   end
 
   # Archives subprojects recursively
-  def archive!
+  def archive! # cover_me heckle_me
     children.each do |subproject|
       subproject.send :archive!
     end

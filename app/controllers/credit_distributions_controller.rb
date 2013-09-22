@@ -3,7 +3,7 @@ class CreditDistributionsController < ApplicationController
   ssl_required :all
 
 
-  def index
+  def index # spec_me cover_me heckle_me
     @credit_distributions = CreditDistribution.all
 
     respond_to do |format|
@@ -12,7 +12,7 @@ class CreditDistributionsController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @credit_distribution = CreditDistribution.find(params[:id])
 
     respond_to do |format|
@@ -21,7 +21,7 @@ class CreditDistributionsController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @credit_distribution = CreditDistribution.new
 
     respond_to do |format|
@@ -30,11 +30,11 @@ class CreditDistributionsController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @credit_distribution = CreditDistribution.find(params[:id])
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @credit_distribution = CreditDistribution.new(params[:credit_distribution])
 
     respond_to do |format|
@@ -49,7 +49,7 @@ class CreditDistributionsController < ApplicationController
     end
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @credit_distribution = CreditDistribution.find(params[:id])
 
     respond_to do |format|
@@ -64,7 +64,7 @@ class CreditDistributionsController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @credit_distribution = CreditDistribution.find(params[:id])
     @credit_distribution.destroy
 

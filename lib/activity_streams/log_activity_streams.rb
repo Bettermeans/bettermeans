@@ -9,7 +9,7 @@
 # README provides examples
 module LogActivityStreams
 
-  def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options)
+  def self.write_single_activity_stream(actor,actor_name,object,object_name,verb,activity, status, indirect_object, options) # spec_me cover_me heckle_me
   # If there are identical activities within 8 hours, up count
   as = find_identical(actor, object, verb, activity);
   if as && !(as.object_type.downcase == 'issue' && as.indirect_object_description != nil) #if action was found, and action is NOT a comment on an issue)
@@ -62,7 +62,7 @@ module LogActivityStreams
 
   end
 
-  def self.find_identical(actor, object, verb, activity) # :nodoc:
+  def self.find_identical(actor, object, verb, activity) # spec_me cover_me heckle_me
     return nil unless object.respond_to?(:project_id)
     ActivityStream.find(:first, :conditions => [
       'actor_id = ? AND actor_type = ? AND object_id = ? AND object_type = ? AND verb = ? AND activity = ? AND updated_at >= ? AND project_id = ? AND status = 0',
@@ -71,7 +71,7 @@ module LogActivityStreams
   end
 
 
-  def self.included(controller) #:nodoc:
+  def self.included(controller) # spec_me cover_me heckle_me
     controller.extend(ClassMethods)
     controller.helper_method :activity_stream_location
   end
@@ -82,7 +82,7 @@ module LogActivityStreams
     #
     # README provides examples of how to call log_activity_streams
     def log_activity_streams(actor_method, actor_name, verb, object_method,
-      object_name, action, activity, options={})
+      object_name, action, activity, options={}) # spec_me cover_me heckle_me
 
       self.after_filter do |c|
         c.send(:write_activity_stream_log, actor_method, actor_name, verb, object_method, object_name, action, activity, options)
@@ -98,7 +98,7 @@ module LogActivityStreams
   #  Example:
   #        <%= render :partial => 'activity_streams/activity_stream', :collection => ActivityStream.recent_actors(@user, activity_stream_location)  %>
   #
-  def activity_stream_location
+  def activity_stream_location # spec_me cover_me heckle_me
     if not logged_in?
       :public_location
     else
@@ -107,7 +107,7 @@ module LogActivityStreams
   end
 
   def write_activity_stream_log(actor_method, actor_name, verb, object_method,
-    object_name, action, activity, options={}) #:nodoc:
+    object_name, action, activity, options={}) # spec_me cover_me heckle_me
 
     return unless action == self.action_name.to_sym
 

@@ -1,6 +1,6 @@
 class NotificationsController < ApplicationController
   ssl_required :all
-  def index
+  def index # spec_me cover_me heckle_me
     @notifications = Notification.unresponded
     @mentions = @notifications.select {|n| n.mention?}
     @notifications = @notifications.select {|n| !n.mention?}
@@ -11,7 +11,7 @@ class NotificationsController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @notification = Notification.find(params[:id])
 
     respond_to do |format|
@@ -20,7 +20,7 @@ class NotificationsController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @notification = Notification.new
 
     respond_to do |format|
@@ -29,11 +29,11 @@ class NotificationsController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @notification = Notification.find(params[:id])
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @notification = Notification.new(params[:notification])
 
     respond_to do |format|
@@ -48,7 +48,7 @@ class NotificationsController < ApplicationController
     end
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @notification = Notification.find(params[:id])
 
     respond_to do |format|
@@ -62,7 +62,7 @@ class NotificationsController < ApplicationController
     end
   end
 
-  def hide
+  def hide # spec_me cover_me heckle_me
     @notification = Notification.find(params[:notification_id])
 
     respond_to do |format|
@@ -77,7 +77,7 @@ class NotificationsController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @notification = Notification.find(params[:id])
     @notification.destroy
 

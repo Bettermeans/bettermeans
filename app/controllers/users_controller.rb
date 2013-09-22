@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   helper :sort
   include SortHelper
 
-  def index
+  def index # spec_me cover_me heckle_me
     sort_init 'login', 'asc'
     sort_update %w(login firstname lastname mail admin created_at last_login_on)
 
@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     render :layout => !request.xhr?
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @user = User.find(params[:id])
 
     # show only public projects and private projects that the logged in user is also a member of
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
     render_404
   end
 
-  def add
+  def add # spec_me cover_me heckle_me
     if request.get?
       @user = User.new(:language => Setting.default_language)
     else
@@ -73,7 +73,7 @@ class UsersController < ApplicationController
     @auth_sources = AuthSource.find(:all)
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @user = User.find(params[:id])
     if request.post?
       @user.admin = params[:user][:admin] if params[:user][:admin]
@@ -99,7 +99,7 @@ class UsersController < ApplicationController
     redirect_to :controller => 'users', :action => 'edit', :id => @user
   end
 
-  def edit_membership
+  def edit_membership # spec_me cover_me heckle_me
     @user = User.find(params[:id])
     @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:user => @user)
     @membership.attributes = params[:membership]
@@ -115,7 +115,7 @@ class UsersController < ApplicationController
      end
   end
 
-  def destroy_membership
+  def destroy_membership # spec_me cover_me heckle_me
     @user = User.find(params[:id])
     @membership = Member.find(params[:membership_id])
     if request.post? && @membership.deletable?

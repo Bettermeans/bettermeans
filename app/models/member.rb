@@ -13,16 +13,16 @@ class Member < ActiveRecord::Base
 
   after_destroy :unwatch_from_permission_change
 
-  def name
+  def name # spec_me cover_me heckle_me
     self.user.name if self.user
   end
 
-  def name_and_id
+  def name_and_id # spec_me cover_me heckle_me
     "#{self.user.id.to_s}:#{self.user.name}"
   end
 
   alias :base_role_ids= :role_ids=
-  def role_ids=(arg)
+  def role_ids=(arg) # spec_me cover_me heckle_me
     arg = [arg] unless arg.respond_to? :collect
     ids = (arg || []).collect(&:to_i) - [0]
     # Keep inherited roles
@@ -38,25 +38,25 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def <=>(member)
+  def <=>(member) # spec_me cover_me heckle_me
     a, b = roles.sort.first, member.roles.sort.first
     a == b ? (user <=> member.user) : (a <=> b)
   end
 
-  def deletable?
+  def deletable? # spec_me cover_me heckle_me
     member_roles.detect {|mr| mr.inherited_from}.nil?
   end
 
   protected
 
-  def validate
+  def validate # spec_me cover_me heckle_me
     errors.add_to_base "Role can't be blank" if member_roles.empty? && roles.empty?
   end
 
   private
 
   # Unwatch things that the user is no longer allowed to view inside project
-  def unwatch_from_permission_change
+  def unwatch_from_permission_change # cover_me heckle_me
     if user
       Watcher.prune(:user => user, :project => project)
     end
