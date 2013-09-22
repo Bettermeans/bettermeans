@@ -41,24 +41,41 @@ describe Notification do
     end
   end
 
-  describe "##unresponded?" do
-    context "when unresponded_count > 0" do
+  describe ".unresponded?" do
+    let(:user) { Factory.create(:user) }
+    before(:each) { User.stub(:current).and_return(user) }
+
+
+    context "when no unresponded notification" do
+      it "returns false" do
+        Notification.unresponded?.should == false
+      end
+    end
+
+    context "when one unresponded notification" do
       it "returns true" do
-        Notification.stub(:unresponded_count).and_return(1)
+        Notification.create!({ :recipient => user})
         Notification.unresponded?.should == true
       end
     end
 
-    context "when unresponded_count <= 0" do
+    context "when one expired notification" do
       it "returns false" do
-        Notification.stub(:unresponded_count).and_return(0)
+        Notification.create!({ :recipient => user, :expiration => 5.days.ago })
+        Notification.unresponded?.should == false
+      end
+    end
+
+    context "when one archived notification" do
+      it "returns false" do
+        Notification.create!({ :recipient => user, :state => Notification::STATE_ARCHIVED})
         Notification.unresponded?.should == false
       end
     end
   end
 
-  describe "##unresponded_count" do
-    it "calls ##count with a hash of conditions" do
+  describe ".unresponded_count" do
+    it "calls .count with a hash of conditions" do
       Notification.should_receive(:count) do |hash|
         hash.should be_a(Hash)
       end
@@ -66,61 +83,65 @@ describe Notification do
     end
   end
 
-  describe "##unresponded" do
+  describe ".unresponded" do
     it "Finds any notifications that are unresponded" do
-      Notification.should_receive(:find) do |all, hash|
-        all.should == :all
-        hash.should be_a(Hash)
-      end
-      Notification.unresponded
+      notification = Notification.create!({ :recipient => User.current})
+      Notification.unresponded.should include(notification)
     end
   end
 
   describe "#remove_mention_duplicates" do
-    let(:notification) { Notification.new }
-
+    let(:user) { Factory.create(:user) }
 
     context "with mention" do
-      it 'calls ##update_all' do
-        notification.variation = 'mention'
-        Notification.should_receive(:update_all)
-        notification.remove_mention_duplicates
+      it "archives prior matching notifications" do
+        notification1 = Notification.create!({
+          :variation => 'mention',
+          :recipient => user,
+          :source_id => 1,
+          :source_type => 'test'
+        })
+        notification1.state.should == Notification::STATE_ACTIVE
+        notification2 = Notification.create!({
+          :variation => 'mention',
+          :recipient => user,
+          :source_id => 1,
+          :source_type => 'test'
+        })
+        notification1.reload.state.should == Notification::STATE_ARCHIVED
       end
     end
 
     context "without mention" do
-      it 'does not call ##update_all' do
-        notification.variation = 'not mention'
-        Notification.should_not_receive(:update_all)
-        notification.remove_mention_duplicates
+      it "doesn't archive prior notification if not mentioned" do
+        notification1 = Notification.create!({
+          :variation => 'mention',
+          :recipient => user,
+          :source_id => 1,
+          :source_type => 'test'
+        })
+        notification1.state.should == Notification::STATE_ACTIVE
+        notification2 = Notification.create!({
+          :variation => 'not mention',
+          :recipient => user,
+          :source_id => 1,
+          :source_type => 'test'
+        })
+        notification1.reload.state.should == Notification::STATE_ACTIVE
       end
     end
   end
 
-  describe "##recind" do
-    let(:notification) { Notification.new }
-
-    before(:each) do
-
-      Notification.stub(:find).and_return([notification])
-      Notification.stub(:save).and_return(true)
-
-    end
-
-    it "grabs a list of matching notifications" do
-      Notification.should_receive(:find)
-      Notification.recind('', '', '')
-    end
-
+  describe ".recind" do
     it "sets state of matched notifications to STATE_RECINDED" do
-      notification.state.should_not == 3
-      Notification.recind('', '', '')
-      notification.state.should == 3
-    end
+      notification = Notification.create!({
+        :variation => 'mention',
+        :source_id => 1,
+        :sender_id => 1
+      })
 
-    it "saves the notifications" do
-      notification.should_receive(:save)
-      Notification.recind('', '', '')
+      Notification.recind('mention', 1, 1)
+      notification.reload.state.should == Notification::STATE_RECINDED
     end
   end
 end
