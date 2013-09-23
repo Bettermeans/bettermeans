@@ -17,7 +17,7 @@ class Share < ActiveRecord::Base
 
 
 
-  def self.set_expiration(owner,project,amount,expiration_date)
+  def self.set_expiration(owner,project,amount,expiration_date) # spec_me cover_me heckle_me
     remaining_amount = amount
     Share.find(:all,:conditions => {:expires => nil, :project_id => project.id, :owner_id => owner.id, :variation => VARIATION_CREDIT}, :order => 'issued_on ASC').each do |share|
       if share.amount <= remaining_amount

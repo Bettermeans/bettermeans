@@ -5,12 +5,12 @@ require 'tree' # gem install rubytree
 
 # Monkey patch the TreeNode to add on a few more methods :nodoc:
 module TreeNodePatch
-  def self.included(base)
+  def self.included(base) # spec_me cover_me heckle_me
     base.class_eval do
       attr_reader :last_items_count
 
       alias :old_initilize :initialize
-      def initialize(name, content = nil)
+      def initialize(name, content = nil) # spec_me cover_me heckle_me
         old_initilize(name, content)
         @last_items_count = 0
         @childrenHash ||= {}
@@ -23,7 +23,7 @@ module TreeNodePatch
     # Adds the specified child node to the receiver node.  The child node's
     # parent is set to be the receiver.  The child is added as the first child in
     # the current list of children for the receiver node.
-    def prepend(child)
+    def prepend(child) # spec_me cover_me heckle_me
       raise "Child already added" if @childrenHash && @childrenHash.has_key?(child.name)
 
       @childrenHash[child.name]  = child
@@ -36,7 +36,7 @@ module TreeNodePatch
     # Adds the specified child node to the receiver node.  The child node's
     # parent is set to be the receiver.  The child is added at the position
     # into the current list of children for the receiver node.
-    def add_at(child, position)
+    def add_at(child, position) # spec_me cover_me heckle_me
       raise "Child already added" if @childrenHash && @childrenHash.has_key?(child.name)
 
       @childrenHash[child.name]  = child
@@ -46,7 +46,7 @@ module TreeNodePatch
 
     end
 
-    def add_last(child)
+    def add_last(child) # spec_me cover_me heckle_me
       raise "Child already added" if @childrenHash && @childrenHash.has_key?(child.name)
 
       @childrenHash[child.name]  = child
@@ -60,7 +60,7 @@ module TreeNodePatch
     # Adds the specified child node to the receiver node.  The child node's
     # parent is set to be the receiver.  The child is added as the last child in
     # the current list of children for the receiver node.
-    def add(child)
+    def add(child) # spec_me cover_me heckle_me
       raise "Child already added" if @childrenHash && @childrenHash.has_key?(child.name)
 
       @childrenHash[child.name]  = child
@@ -73,7 +73,7 @@ module TreeNodePatch
 
     # Will return the position (zero-based) of the current child in
     # it's parent
-    def position
+    def position # spec_me cover_me heckle_me
       self.parent.children.index(self)
     end
   end
@@ -86,7 +86,7 @@ module Redmine
     end
 
     module MenuController
-      def self.included(base)
+      def self.included(base) # spec_me cover_me heckle_me
         base.extend(ClassMethods)
       end
 
@@ -102,7 +102,7 @@ module Redmine
         #
         # The default menu item name for a controller is controller_name by default
         # Eg. the default menu item name for ProjectsController is :projects
-        def menu_item(id, options = {})
+        def menu_item(id, options = {}) # spec_me cover_me heckle_me
           if actions = options[:only]
             actions = [] << actions unless actions.is_a?(Array)
             actions.each {|a| menu_items[controller_name.to_sym][:actions][a.to_sym] = id}
@@ -112,19 +112,19 @@ module Redmine
         end
       end
 
-      def menu_items
+      def menu_items # spec_me cover_me heckle_me
         self.class.menu_items
       end
 
       # Returns the menu item name according to the current action
-      def current_menu_item
+      def current_menu_item # spec_me cover_me heckle_me
         @current_menu_item ||= menu_items[controller_name.to_sym][:actions][action_name.to_sym] ||
                                  menu_items[controller_name.to_sym][:default]
       end
 
       # Redirects user to the menu item of the given project
       # Returns false if user is not authorized
-      def redirect_to_project_menu_item(project, name)
+      def redirect_to_project_menu_item(project, name) # spec_me cover_me heckle_me
         item = Redmine::MenuManager.items(:project_menu).detect {|i| i.name.to_s == name.to_s}
         if item && User.current.allowed_to?(item.url, project) && (item.condition.nil? || item.condition.call(project))
           redirect_to({item.param => project}.merge(item.url))
@@ -136,16 +136,16 @@ module Redmine
 
     module MenuHelper
       # Returns the current menu item name
-      def current_menu_item
+      def current_menu_item # spec_me cover_me heckle_me
         @controller.current_menu_item
       end
 
       # Renders the application main menu
-      def render_main_menu(project)
+      def render_main_menu(project) # spec_me cover_me heckle_me
         render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
       end
 
-      def render_menu(menu, project=nil)
+      def render_menu(menu, project=nil) # spec_me cover_me heckle_me
         links = []
         menu_items_for(menu, project) do |node|
           links << render_menu_node(node, project)
@@ -153,7 +153,7 @@ module Redmine
         links.empty? ? nil : content_tag('ul', links.join("\n"))
       end
 
-      def render_menu_node(node, project=nil)
+      def render_menu_node(node, project=nil) # spec_me cover_me heckle_me
         if node.hasChildren? || !node.child_menus.nil?
           return render_menu_node_with_children(node, project)
         else
@@ -163,7 +163,7 @@ module Redmine
         end
       end
 
-      def render_menu_node_with_children(node, project=nil)
+      def render_menu_node_with_children(node, project=nil) # spec_me cover_me heckle_me
         caption, url, selected = extract_node_details(node, project)
 
         html = returning [] do |html|
@@ -190,7 +190,7 @@ module Redmine
       end
 
       # Returns a list of unattached children menu items
-      def render_unattached_children_menu(node, project)
+      def render_unattached_children_menu(node, project) # spec_me cover_me heckle_me
         return nil unless node.child_menus
 
         returning "" do |child_html|
@@ -206,11 +206,11 @@ module Redmine
         end
       end
 
-      def render_single_menu_node(item, caption, url, selected)
+      def render_single_menu_node(item, caption, url, selected) # spec_me cover_me heckle_me
         link_to(h(caption), url, item.html_options(:selected => selected))
       end
 
-      def render_unattached_menu_item(menu_item, project)
+      def render_unattached_menu_item(menu_item, project) # spec_me cover_me heckle_me
         raise MenuError, ":child_menus must be an array of MenuItems" unless menu_item.is_a? MenuItem
 
         if User.current.allowed_to?(menu_item.url, project)
@@ -220,7 +220,7 @@ module Redmine
         end
       end
 
-      def menu_items_for(menu, project=nil)
+      def menu_items_for(menu, project=nil) # spec_me cover_me heckle_me
         items = []
         Redmine::MenuManager.items(menu).root.children.each do |node|
           if allowed_node?(node, User.current, project)
@@ -234,7 +234,7 @@ module Redmine
         return block_given? ? nil : items
       end
 
-      def extract_node_details(node, project=nil)
+      def extract_node_details(node, project=nil) # spec_me cover_me heckle_me
         item = node
         url = case item.url
         when Hash
@@ -252,7 +252,7 @@ module Redmine
       #
       # * Checking the conditions of the item
       # * Checking the url target (project only)
-      def allowed_node?(node, user, project)
+      def allowed_node?(node, user, project) # spec_me cover_me heckle_me
         if node.condition && !node.condition.call(project)
           # Condition that doesn't pass
           return false
@@ -268,7 +268,7 @@ module Redmine
     end
 
     class << self
-      def map(menu_name)
+      def map(menu_name) # spec_me cover_me heckle_me
         @items ||= {}
         mapper = Mapper.new(menu_name.to_sym, @items)
         if block_given?
@@ -278,13 +278,13 @@ module Redmine
         end
       end
 
-      def items(menu_name)
+      def items(menu_name) # spec_me cover_me heckle_me
         @items[menu_name.to_sym] || Tree::TreeNode.new(:root, {})
       end
     end
 
     class Mapper
-      def initialize(menu, items)
+      def initialize(menu, items) # spec_me cover_me heckle_me
         items[menu] ||= Tree::TreeNode.new(:root, {})
         @menu = menu
         @menu_items = items[menu]
@@ -305,7 +305,7 @@ module Redmine
       #   eg. :children => Proc.new {|project| [Redmine::MenuManager::MenuItem.new(...)] }
       # * last: menu item will stay at the end (eg. :last => true)
       # * html_options: a hash of html options that are passed to link_to
-      def push(name, url, options={})
+      def push(name, url, options={}) # spec_me cover_me heckle_me
         options = options.dup
 
         if options[:parent]
@@ -347,22 +347,22 @@ module Redmine
       end
 
       # Removes a menu item
-      def delete(name)
+      def delete(name) # spec_me cover_me heckle_me
         if found = self.find(name)
           @menu_items.remove!(found)
         end
       end
 
       # Checks if a menu item exists
-      def exists?(name)
+      def exists?(name) # spec_me cover_me heckle_me
         @menu_items.any? {|node| node.name == name}
       end
 
-      def find(name)
+      def find(name) # spec_me cover_me heckle_me
         @menu_items.find {|node| node.name == name}
       end
 
-      def position_of(name)
+      def position_of(name) # spec_me cover_me heckle_me
         @menu_items.each do |node|
           if node.name == name
             return node.position
@@ -375,7 +375,7 @@ module Redmine
       include Redmine::I18n
       attr_reader :name, :url, :param, :condition, :parent, :child_menus
 
-      def initialize(name, url, options)
+      def initialize(name, url, options) # spec_me cover_me heckle_me
         raise ArgumentError, "Invalid option :if for menu item '#{name}'" if options[:if] && !options[:if].respond_to?(:call)
         raise ArgumentError, "Invalid option :html for menu item '#{name}'" if options[:html] && !options[:html].is_a?(Hash)
         raise ArgumentError, "Cannot set the :parent to be the same as this item" if options[:parent] == name.to_sym
@@ -393,7 +393,7 @@ module Redmine
         super @name.to_sym
       end
 
-      def caption(project=nil)
+      def caption(project=nil) # spec_me cover_me heckle_me
         if @caption.is_a?(Proc)
           c = @caption.call(project).to_s
           c = @name.to_s.humanize if c.blank?
@@ -407,7 +407,7 @@ module Redmine
         end
       end
 
-      def html_options(options={})
+      def html_options(options={}) # spec_me cover_me heckle_me
         if options[:selected]
           o = @html_options.dup
           o[:class] += ' gt-active'

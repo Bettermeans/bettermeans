@@ -8,7 +8,7 @@ module Redmine #:nodoc:
       # Custom string conversions
       module Conversions
         # Parses hours format and returns a float
-        def to_hours
+        def to_hours # spec_me cover_me heckle_me
           s = self.dup
           s.strip!
           if s =~ %r{^(\d+([.,]\d+)?)h?$}
@@ -26,7 +26,7 @@ module Redmine #:nodoc:
 
         # Object#to_a removed in ruby1.9
         if RUBY_VERSION > '1.9'
-          def to_a
+          def to_a # spec_me cover_me heckle_me
             [self.dup]
           end
         end

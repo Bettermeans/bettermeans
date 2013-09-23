@@ -6,7 +6,7 @@ module Redmine #:nodoc:
     module String #:nodoc:
       # Custom string inflections
       module Inflections
-        def with_leading_slash
+        def with_leading_slash # spec_me cover_me heckle_me
           starts_with?('/') ? self : "/#{ self }"
         end
       end

@@ -1,5 +1,5 @@
 module RetrosHelper
-  def render_title_date
+  def render_title_date # spec_me cover_me heckle_me
     end_date = @retro.created_at.advance(:days => Setting::DEFAULT_RETROSPECTIVE_LENGTH)
     if (@retro.ended?)
       return "ended #{distance_of_time_in_words(Time.now,end_date)} ago"
@@ -8,11 +8,11 @@ module RetrosHelper
     end
   end
 
-  def team_from_issue(issue)
+  def team_from_issue(issue) # spec_me cover_me heckle_me
     issue.team_votes.collect{|iv| link_to_user_from_id iv.user_id }.join(", ")
   end
 
-  def accuracy_display(self_bias,magnitude)
+  def accuracy_display(self_bias,magnitude) # spec_me cover_me heckle_me
     return "<br>Didn't vote" if self_bias.nil? && magnitude.nil?
     content = ""
     content << "<br>#{tame_bias(self_bias)}<br>#{tame_scale(magnitude)}"

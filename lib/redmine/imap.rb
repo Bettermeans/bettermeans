@@ -7,7 +7,7 @@ require 'net/imap'
 module Redmine
   module IMAP
     class << self
-      def check(imap_options={}, options={})
+      def check(imap_options={}, options={}) # spec_me cover_me heckle_me
         host = imap_options[:host] || '127.0.0.1'
         port = imap_options[:port] || '143'
         ssl = !imap_options[:ssl].nil?
@@ -39,7 +39,7 @@ module Redmine
 
       private
 
-      def logger
+      def logger # cover_me heckle_me
         RAILS_DEFAULT_LOGGER
       end
     end

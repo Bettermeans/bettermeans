@@ -11,7 +11,7 @@ class WatchersController < ApplicationController
          :only => [ :watch, :unwatch ],
          :render => { :nothing => true, :status => :method_not_allowed }
 
-  def watch
+  def watch # spec_me cover_me heckle_me
     if @watched.respond_to?(:visible?) && !@watched.visible?(User.current)
       render_403
     else
@@ -19,11 +19,11 @@ class WatchersController < ApplicationController
     end
   end
 
-  def unwatch
+  def unwatch # spec_me cover_me heckle_me
     set_watcher(User.current, false)
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @watcher = Watcher.new(params[:watcher])
     @watcher.watchable = @watched
     @watcher.save if request.post?
@@ -39,7 +39,7 @@ class WatchersController < ApplicationController
     render :text => 'Watcher added.', :layout => true
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @watched.set_watcher(User.find(params[:user_id]), false) if request.post?
     respond_to do |format|
       format.html { redirect_to :back }
@@ -53,7 +53,7 @@ class WatchersController < ApplicationController
 
   private
 
-  def find_project
+  def find_project # cover_me heckle_me
     klass = Object.const_get(params[:object_type].camelcase)
     return false unless klass.respond_to?('watched_by')
     @watched = klass.find(params[:object_id])
@@ -62,7 +62,7 @@ class WatchersController < ApplicationController
     render_404
   end
 
-  def set_watcher(user, watching)
+  def set_watcher(user, watching) # cover_me heckle_me
     @watched.set_watcher(user, watching)
     if params[:replace].present?
       if params[:replace].is_a? Array

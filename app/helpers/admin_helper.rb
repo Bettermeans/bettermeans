@@ -2,12 +2,12 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 module AdminHelper
-  def project_status_options_for_select(selected)
+  def project_status_options_for_select(selected) # spec_me cover_me heckle_me
     options_for_select([[l(:label_all), ''],
                         [l(:status_active), 1]], selected)
   end
 
-  def css_project_classes(project)
+  def css_project_classes(project) # spec_me cover_me heckle_me
     s = 'project'
     s << ' root' if project.root?
     s << ' child' if project.child?

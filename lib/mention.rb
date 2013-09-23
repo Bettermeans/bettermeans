@@ -2,7 +2,7 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class Mention
-  def self.parse(object, mentioner_id)
+  def self.parse(object, mentioner_id) # spec_me cover_me heckle_me
     #loop through properties and only search for mentions in text fields
     object.attributes.each_value do |text|
       next if text.class.to_s != 'String'
@@ -17,7 +17,7 @@ class Mention
     end
   end
 
-  def self.send_mention(object,mentioner_id, mentioned_login, mention_text)
+  def self.send_mention(object,mentioner_id, mentioned_login, mention_text) # spec_me cover_me heckle_me
     #Find user or abort
     user = User.find_by_login(mentioned_login)
 

@@ -2,7 +2,7 @@ class EmailUpdatesController < ApplicationController
   before_filter :require_login
   ssl_required :all
 
-  def new
+  def new # spec_me cover_me heckle_me
     @email_update = EmailUpdate.new
 
     respond_to do |format|
@@ -11,7 +11,7 @@ class EmailUpdatesController < ApplicationController
     end
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @email_update = EmailUpdate.new(params[:email_update])
     @email_update.user = User.current
 
@@ -26,7 +26,7 @@ class EmailUpdatesController < ApplicationController
     end
   end
 
-  def activate
+  def activate # spec_me cover_me heckle_me
     @email_update = EmailUpdate.find_by_token(params[:token])
 
     if @email_update.nil?

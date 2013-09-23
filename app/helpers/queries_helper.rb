@@ -3,17 +3,17 @@
 
 module QueriesHelper
 
-  def operators_for_select(filter_type)
+  def operators_for_select(filter_type) # spec_me cover_me heckle_me
     Query.operators_by_filter_type[filter_type].collect {|o| [l(Query.operators[o]), o]}
   end
 
-  def column_header(column)
+  def column_header(column) # spec_me cover_me heckle_me
     column.sortable ? sort_header_tag(column.name.to_s, :caption => column.caption,
                                                         :default_order => column.default_order) :
                       content_tag('th', column.caption)
   end
 
-  def column_content(column, issue)
+  def column_content(column, issue) # spec_me cover_me heckle_me
     value = column.value(issue)
 
     case value.class.name

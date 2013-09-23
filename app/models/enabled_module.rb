@@ -11,7 +11,7 @@ class EnabledModule < ActiveRecord::Base
   private
 
   # after_create callback used to do things when a module is enabled
-  def module_enabled
+  def module_enabled # cover_me heckle_me
     case name
     when 'wiki'
       # Create a wiki with a default start page

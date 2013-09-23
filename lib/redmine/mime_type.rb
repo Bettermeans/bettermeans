@@ -39,7 +39,7 @@ module Redmine
     end
 
     # returns mime type for name or nil if unknown
-    def self.of(name)
+    def self.of(name) # spec_me cover_me heckle_me
       return nil unless name
       m = name.to_s.match(/(^|\.)([^\.]+)$/)
       EXTENSIONS[m[2].downcase] if m
@@ -47,19 +47,19 @@ module Redmine
 
     # Returns the css class associated to
     # the mime type of name
-    def self.css_class_of(name)
+    def self.css_class_of(name) # spec_me cover_me heckle_me
       mime = of(name)
       mime && mime.gsub('/', '-')
     end
 
-    def self.main_mimetype_of(name)
+    def self.main_mimetype_of(name) # spec_me cover_me heckle_me
       mimetype = of(name)
       mimetype.split('/').first if mimetype
     end
 
     # return true if mime-type for name is type/*
     # otherwise false
-    def self.is_type?(type, name)
+    def self.is_type?(type, name) # spec_me cover_me heckle_me
       main_mimetype = main_mimetype_of(name)
       type.to_s == main_mimetype
     end

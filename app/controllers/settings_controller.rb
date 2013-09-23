@@ -19,12 +19,12 @@ class SettingsController < ApplicationController
 
   before_filter :require_admin
 
-  def index
+  def index # spec_me cover_me heckle_me
     edit
     render :action => 'edit'
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @notifiables = %w(issue_added issue_updated news_added document_added file_added message_posted wiki_content_added wiki_content_updated)
     if request.post? && params[:settings] && params[:settings].is_a?(Hash)
       settings = (params[:settings] || {}).dup.symbolize_keys
@@ -45,7 +45,7 @@ class SettingsController < ApplicationController
     @guessed_host_and_path << ('/'+ Redmine::Utils.relative_url_root.gsub(%r{^\/}, '')) unless Redmine::Utils.relative_url_root.blank?
   end
 
-  def plugin
+  def plugin # spec_me cover_me heckle_me
     @plugin = Redmine::Plugin.find(params[:id])
     if request.post?
       Setting["plugin_#{@plugin.id}"] = params[:settings]

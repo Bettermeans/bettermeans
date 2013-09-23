@@ -13,7 +13,7 @@ class BoardsController < ApplicationController
   helper :watchers
   include WatchersHelper
 
-  def index
+  def index # spec_me cover_me heckle_me
     @boards = @project.boards
     # show the board if there is only one
     if @boards.size == 1
@@ -22,7 +22,7 @@ class BoardsController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     respond_to do |format|
       format.html {
         sort_init 'updated_at', 'desc'
@@ -44,7 +44,7 @@ class BoardsController < ApplicationController
 
   verify :method => :post, :only => [ :destroy ], :redirect_to => { :action => :index }
 
-  def new
+  def new # spec_me cover_me heckle_me
     @board = Board.new(params[:board])
     @board.project = @project
     if request.post? && @board.save
@@ -53,20 +53,20 @@ class BoardsController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     if request.post? && @board.update_attributes(params[:board])
       redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @board.destroy
     redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'boards'
   end
 
   private
 
-  def find_project
+  def find_project # cover_me heckle_me
     @project = Project.find(params[:project_id])
     render_message l(:text_project_locked) if @project.locked?
     @board = @project.boards.find(params[:id]) if params[:id]

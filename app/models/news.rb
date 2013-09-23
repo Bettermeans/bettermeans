@@ -17,27 +17,27 @@ class News < ActiveRecord::Base
 
   acts_as_event :url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.id}}
 
-  def visible?(user=User.current)
+  def visible?(user=User.current) # spec_me cover_me heckle_me
     !user.nil? && user.allowed_to?(:view_news, project)
   end
 
   # Returns the mail adresses of users that should be notified
-  def recipients
+  def recipients # spec_me cover_me heckle_me
     notified = project.notified_users
     notified.reject! {|user| !visible?(user) || user.pref[:no_emails]}
     notified.collect(&:mail)
   end
 
   # returns latest news for projects visible by user
-  def self.latest(user = User.current, count = 5)
+  def self.latest(user = User.current, count = 5) # spec_me cover_me heckle_me
     find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news) + " (created_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_LATEST_NEWS * -1)}')", :include => [ :author, :project ], :order => "#{News.table_name}.created_at DESC")
   end
 
-  def send_mentions
+  def send_mentions # spec_me cover_me heckle_me
     Mention.parse(self, self.author_id)
   end
 
-  def mention(mentioner_id, mentioned_id, mention_text)
+  def mention(mentioner_id, mentioned_id, mention_text) # spec_me cover_me heckle_me
     Notification.create :recipient_id => mentioned_id,
                         :variation => 'mention',
                         :params => {:mention_text => self.description,

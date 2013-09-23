@@ -6,7 +6,7 @@ class CreditTransfersController < ApplicationController
   ssl_required :all
   before_filter :authorize_global, :except => :eligible_recipients
 
-  def index
+  def index # spec_me cover_me heckle_me
     @credit_transfers = CreditTransfer.find(:all, :conditions => "sender_id = #{User.current.id} or recipient_id = #{User.current.id}", :include => [:sender, :recipient, :project],:order => "created_at DESC")
     project_id_array = Credit.find(:all,:conditions => {:settled_on => nil, :owner_id => User.current.id}).group_by(&:project_id).collect{|p| p[0]}
     if project_id_array.empty?
@@ -24,7 +24,7 @@ class CreditTransfersController < ApplicationController
     end
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     recipient = User.find(params[:credit_transfer][:recipient_id])
     project = Project.find(params[:credit_transfer][:project_id])
 
@@ -42,7 +42,7 @@ class CreditTransfersController < ApplicationController
   end
 
 
-  def eligible_recipients
+  def eligible_recipients # spec_me cover_me heckle_me
     @project = Project.find(params[:project_id])
     @total_credits = Credit.round(Credit.sum(:amount, :conditions => {:settled_on => nil, :owner_id => User.current.id, :project_id => @project.id}))
     @user_list = ""

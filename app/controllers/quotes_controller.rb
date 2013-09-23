@@ -1,7 +1,7 @@
 class QuotesController < ApplicationController
   ssl_required :all
 
-  def index
+  def index # spec_me cover_me heckle_me
     @quotes = Quote.all
 
     respond_to do |format|
@@ -10,7 +10,7 @@ class QuotesController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @quote = Quote.find(params[:id])
 
     respond_to do |format|
@@ -19,7 +19,7 @@ class QuotesController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @quote = Quote.new
 
     respond_to do |format|
@@ -28,11 +28,11 @@ class QuotesController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @quote = Quote.find(params[:id])
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @quote = Quote.new(params[:quote])
     @quote.user_id = User.current.id
 
@@ -48,7 +48,7 @@ class QuotesController < ApplicationController
     end
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @quote = Quote.find(params[:id])
 
     respond_to do |format|
@@ -63,7 +63,7 @@ class QuotesController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @quote = Quote.find(params[:id])
     @quote.destroy
 

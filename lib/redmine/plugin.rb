@@ -34,7 +34,7 @@ module Redmine #:nodoc:
       attr_reader :registered_plugins
       private :new
 
-      def def_field(*names)
+      def def_field(*names) # spec_me cover_me heckle_me
         class_eval do
           names.each do |name|
             define_method(name) do |*args|
@@ -48,7 +48,7 @@ module Redmine #:nodoc:
     attr_reader :id
 
     # Plugin constructor
-    def self.register(id, &block)
+    def self.register(id, &block) # spec_me cover_me heckle_me
       p = new(id)
       p.instance_eval(&block)
       # Set a default name if it was not provided during registration
@@ -60,27 +60,27 @@ module Redmine #:nodoc:
     end
 
     # Returns an array off all registered plugins
-    def self.all
+    def self.all # spec_me cover_me heckle_me
       registered_plugins.values.sort
     end
 
     # Finds a plugin by its id
     # Returns a PluginNotFound exception if the plugin doesn't exist
-    def self.find(id)
+    def self.find(id) # spec_me cover_me heckle_me
       registered_plugins[id.to_sym] || raise(PluginNotFound)
     end
 
     # Clears the registered plugins hash
     # It doesn't unload installed plugins
-    def self.clear
+    def self.clear # spec_me cover_me heckle_me
       @registered_plugins = {}
     end
 
-    def initialize(id)
+    def initialize(id) # spec_me cover_me heckle_me
       @id = id.to_sym
     end
 
-    def <=>(plugin)
+    def <=>(plugin) # spec_me cover_me heckle_me
       self.id.to_s <=> plugin.id.to_s
     end
 
@@ -95,7 +95,7 @@ module Redmine #:nodoc:
     #   # Requires a specific Redmine version
     #   requires_redmine :version => '0.7.3'              # 0.7.3 only
     #   requires_redmine :version => ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
-    def requires_redmine(arg)
+    def requires_redmine(arg) # spec_me cover_me heckle_me
       arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
       arg.assert_valid_keys(:version, :version_or_higher)
 
@@ -129,7 +129,7 @@ module Redmine #:nodoc:
     #   # Requires a specific version of a Redmine plugin
     #   requires_redmine_plugin :foo, :version => '0.7.3'              # 0.7.3 only
     #   requires_redmine_plugin :foo, :version => ['0.7.3', '0.8.0']   # 0.7.3 or 0.8.0
-    def requires_redmine_plugin(plugin_name, arg)
+    def requires_redmine_plugin(plugin_name, arg) # spec_me cover_me heckle_me
       arg = { :version_or_higher => arg } unless arg.is_a?(Hash)
       arg.assert_valid_keys(:version, :version_or_higher)
 
@@ -160,13 +160,13 @@ module Redmine #:nodoc:
     #
     # +name+ parameter can be: :top_menu, :account_menu, :application_menu or :project_menu
     #
-    def menu(menu, item, url, options={})
+    def menu(menu, item, url, options={}) # spec_me cover_me heckle_me
       Redmine::MenuManager.map(menu).push(item, url, options)
     end
     alias :add_menu_item :menu
 
     # Removes +item+ from the given +menu+.
-    def delete_menu_item(menu, item)
+    def delete_menu_item(menu, item) # spec_me cover_me heckle_me
       Redmine::MenuManager.map(menu).delete(item)
     end
 
@@ -192,7 +192,7 @@ module Redmine #:nodoc:
     #
     #   # A permission that can be given to project members only
     #   permission :say_hello, { :example => :say_hello }, :require => member
-    def permission(name, actions, options = {})
+    def permission(name, actions, options = {}) # spec_me cover_me heckle_me
       if @project_module
         Redmine::AccessControl.map {|map| map.project_module(@project_module) {|map|map.permission(name, actions, options)}}
       else
@@ -207,7 +207,7 @@ module Redmine #:nodoc:
     #     permission :view_contacts, { :contacts => [:list, :show] }, :public => true
     #     permission :destroy_contacts, { :contacts => :destroy }
     #   end
-    def project_module(name, &block)
+    def project_module(name, &block) # spec_me cover_me heckle_me
       @project_module = name
       self.instance_eval(&block)
       @project_module = nil
@@ -235,7 +235,7 @@ module Redmine #:nodoc:
     #   Meeting.find_events('scrums', User.current, 5.days.ago, Date.today, :project => foo) # events for project foo only
     #
     # Note that :view_scrums permission is required to view these events in the activity view.
-    def activity_provider(*args)
+    def activity_provider(*args) # spec_me cover_me heckle_me
       Redmine::Activity.register(*args)
     end
 
@@ -245,12 +245,12 @@ module Redmine #:nodoc:
     # * +name+ - human-readable name
     # * +formatter+ - formatter class, which should have an instance method +to_html+
     # * +helper+ - helper module, which will be included by wiki pages
-    def wiki_format_provider(name, formatter, helper)
+    def wiki_format_provider(name, formatter, helper) # spec_me cover_me heckle_me
       Redmine::WikiFormatting.register(name, formatter, helper)
     end
 
     # Returns +true+ if the plugin can be configured.
-    def configurable?
+    def configurable? # spec_me cover_me heckle_me
       settings && settings.is_a?(Hash) && !settings[:partial].blank?
     end
   end

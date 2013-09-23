@@ -27,21 +27,21 @@ class WikiPage < ActiveRecord::Base
   validates_uniqueness_of :title, :scope => :wiki_id, :case_sensitive => false
   validates_associated :content
 
-  def project_id
+  def project_id # spec_me cover_me heckle_me
     wiki.project.id
   end
 
-  def visible?(user=User.current)
+  def visible?(user=User.current) # spec_me cover_me heckle_me
     !user.nil? && user.allowed_to?(:view_wiki_pages, project)
   end
 
-  def title=(value)
+  def title=(value) # spec_me cover_me heckle_me
     value = Wiki.titleize(value)
     @previous_title = read_attribute(:title) if @previous_title.blank?
     write_attribute(:title, value)
   end
 
-  def before_save
+  def before_save # spec_me cover_me heckle_me
     self.title = Wiki.titleize(title)
     # Manage redirects if the title has changed
     if !@previous_title.blank? && (@previous_title != title) && !new_record?
@@ -58,22 +58,22 @@ class WikiPage < ActiveRecord::Base
     end
   end
 
-  def before_destroy
+  def before_destroy # spec_me cover_me heckle_me
     # Remove redirects to this page
     wiki.redirects.find_all_by_redirects_to(title).each(&:destroy)
   end
 
-  def pretty_title
+  def pretty_title # spec_me cover_me heckle_me
     WikiPage.pretty_title(title)
   end
 
-  def content_for_version(version=nil)
+  def content_for_version(version=nil) # spec_me cover_me heckle_me
     result = content.versions.find_by_version(version.to_i) if version
     result ||= content
     result
   end
 
-  def diff(version_to=nil, version_from=nil)
+  def diff(version_to=nil, version_from=nil) # spec_me cover_me heckle_me
     version_to = version_to ? version_to.to_i : self.content.version
     version_from = version_from ? version_from.to_i : version_to - 1
     version_to, version_from = version_from, version_to unless version_from < version_to
@@ -84,38 +84,38 @@ class WikiPage < ActiveRecord::Base
     (content_to && content_from) ? WikiDiff.new(content_to, content_from) : nil
   end
 
-  def annotate(version=nil)
+  def annotate(version=nil) # spec_me cover_me heckle_me
     version = version ? version.to_i : self.content.version
     c = content.versions.find_by_version(version)
     c ? WikiAnnotate.new(c) : nil
   end
 
-  def self.pretty_title(str)
+  def self.pretty_title(str) # spec_me cover_me heckle_me
     (str && str.is_a?(String)) ? str.tr('_', ' ') : str
   end
 
-  def project
+  def project # spec_me cover_me heckle_me
     wiki.project
   end
 
-  def text
+  def text # spec_me cover_me heckle_me
     content.text if content
   end
 
   # Returns true if usr is allowed to edit the page, otherwise false
-  def editable_by?(usr)
+  def editable_by?(usr) # spec_me cover_me heckle_me
     !protected? || usr.allowed_to?(:protect_wiki_pages, wiki.project)
   end
 
-  def attachments_deletable?(usr=User.current)
+  def attachments_deletable?(usr=User.current) # spec_me cover_me heckle_me
     editable_by?(usr) && super(usr)
   end
 
-  def parent_title
+  def parent_title # spec_me cover_me heckle_me
     @parent_title || (self.parent && self.parent.pretty_title)
   end
 
-  def parent_title=(t)
+  def parent_title=(t) # spec_me cover_me heckle_me
     @parent_title = t
     parent_page = t.blank? ? nil : self.wiki.find_page(t)
     self.parent = parent_page
@@ -123,7 +123,7 @@ class WikiPage < ActiveRecord::Base
 
   protected
 
-  def validate
+  def validate # spec_me cover_me heckle_me
     errors.add(:parent_title, :invalid) if !@parent_title.blank? && parent.nil?
     errors.add(:parent_title, :circular_dependency) if parent && (parent == self || parent.ancestors.include?(self))
     errors.add(:parent_title, :not_same_project) if parent && (parent.wiki_id != wiki_id)
@@ -133,7 +133,7 @@ end
 class WikiDiff
   attr_reader :diff, :words, :content_to, :content_from
 
-  def initialize(content_to, content_from)
+  def initialize(content_to, content_from) # spec_me cover_me heckle_me
     @content_to = content_to
     @content_from = content_from
     @words = content_to.text.split(/(\s+)/)
@@ -147,7 +147,7 @@ end
 class WikiAnnotate
   attr_reader :lines, :content
 
-  def initialize(content)
+  def initialize(content) # spec_me cover_me heckle_me
     @content = content
     current = content
     current_lines = current.text.split(/\r?\n/)

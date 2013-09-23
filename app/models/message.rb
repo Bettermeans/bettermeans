@@ -27,31 +27,31 @@ class Message < ActiveRecord::Base
   after_create :add_author_as_watcher
   after_save :send_mentions
 
-  def project_id
+  def project_id # spec_me cover_me heckle_me
     board.project.id
   end
 
-  def visible?(user=User.current)
+  def visible?(user=User.current) # spec_me cover_me heckle_me
     !user.nil? && user.allowed_to?(:view_messages, project)
   end
 
-  def validate_on_create
+  def validate_on_create # spec_me cover_me heckle_me
     # Can not reply to a locked topic
     errors.add_to_base 'Topic is locked' if root.locked? && self != root
   end
 
-  def after_create
+  def after_create # spec_me cover_me heckle_me
     if parent
       parent.reload.update_attribute(:last_reply_id, self.id)
     end
     board.reset_counters!
   end
 
-  def send_mentions
+  def send_mentions # spec_me cover_me heckle_me
     Mention.parse(self, self.author_id)
   end
 
-  def mention(mentioner_id, mentioned_id, mention_text)
+  def mention(mentioner_id, mentioned_id, mention_text) # spec_me cover_me heckle_me
     Notification.create :recipient_id => mentioned_id,
                         :variation => 'mention',
                         :params => {:mention_text => self.content,
@@ -63,7 +63,7 @@ class Message < ActiveRecord::Base
   end
 
 
-  def after_update
+  def after_update # spec_me cover_me heckle_me
     if board_id_changed?
       Message.update_all("board_id = #{board_id}", ["id = ? OR parent_id = ?", root.id, root.id])
       Board.reset_counters!(board_id_was)
@@ -71,32 +71,32 @@ class Message < ActiveRecord::Base
     end
   end
 
-  def after_destroy
+  def after_destroy # spec_me cover_me heckle_me
     board.reset_counters!
   end
 
-  def sticky=(arg)
+  def sticky=(arg) # spec_me cover_me heckle_me
     write_attribute :sticky, (arg == true || arg.to_s == '1' ? 1 : 0)
   end
 
-  def sticky?
+  def sticky? # spec_me cover_me heckle_me
     sticky == 1
   end
 
-  def project
+  def project # spec_me cover_me heckle_me
     board.project
   end
 
-  def editable_by?(usr)
+  def editable_by?(usr) # spec_me cover_me heckle_me
     usr && usr.logged? && (usr.allowed_to?(:edit_messages, project) || (self.author == usr && usr.allowed_to?(:edit_own_messages, project)))
   end
 
-  def destroyable_by?(usr)
+  def destroyable_by?(usr) # spec_me cover_me heckle_me
     usr && usr.logged? && (usr.allowed_to?(:delete_messages, project) || (self.author == usr && usr.allowed_to?(:delete_own_messages, project)))
   end
 
   # Returns the mail adresses of users that should be notified
-  def recipients
+  def recipients # spec_me cover_me heckle_me
     notified = project.notified_users
     notified << author if author && author.active? && !author.pref[:no_emails]
     notified.reject! {|user| !visible?(user) || user.pref[:no_emails]}
@@ -105,7 +105,7 @@ class Message < ActiveRecord::Base
 
   private
 
-  def add_author_as_watcher
+  def add_author_as_watcher # cover_me heckle_me
     Watcher.create(:watchable => self.root, :user => author)
   end
 

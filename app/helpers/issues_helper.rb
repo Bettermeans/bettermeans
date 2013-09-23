@@ -4,7 +4,7 @@
 module IssuesHelper
   include ApplicationHelper
 
-  def render_issue_tooltip(issue)
+  def render_issue_tooltip(issue) # spec_me cover_me heckle_me
     @cached_label_start_date ||= l(:field_start_date)
     @cached_label_due_date ||= l(:field_due_date)
     @cached_label_assigned_to ||= l(:field_assigned_to)
@@ -15,7 +15,7 @@ module IssuesHelper
       "<strong>#{@cached_label_assigned_to}</strong>: #{issue.assigned_to}<br />"
   end
 
-  def sidebar_queries
+  def sidebar_queries # spec_me cover_me heckle_me
     unless @sidebar_queries
       # User can see public queries and his own queries
       visible = ARCondition.new(["is_public = ? OR user_id = ?", true, (User.current.logged? ? User.current.id : 0)])
@@ -29,7 +29,7 @@ module IssuesHelper
     @sidebar_queries
   end
 
-  def tags(issue, editable)
+  def tags(issue, editable) # spec_me cover_me heckle_me
     if editable
       text_field :issue, :tag_list, :class => 'gt-form-text issue-tags', :value => issue.tag_list.join(",")
     else
@@ -40,7 +40,7 @@ module IssuesHelper
   end
 
 
-  def issues_to_csv(issues, project = nil)
+  def issues_to_csv(issues, project = nil) # spec_me cover_me heckle_me
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')
     decimal_separator = l(:general_csv_decimal_separator)
     export = FCSV.generate(:col_sep => l(:general_csv_separator)) do |csv|
@@ -83,7 +83,7 @@ module IssuesHelper
     export
   end
 
-  def collection_for_project_members_select
+  def collection_for_project_members_select # spec_me cover_me heckle_me
     values = @issue.project.root.all_members.collect {|p| [p.name, p.user.id]}
     existing_team = @issue.team_votes.collect {|p| [User.find(p.user_id).name, p.user_id]}
     values - existing_team

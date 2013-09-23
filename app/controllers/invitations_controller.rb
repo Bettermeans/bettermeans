@@ -3,7 +3,7 @@ class InvitationsController < ApplicationController
   before_filter :authorize, :except => :accept
   ssl_required :all
 
-  def index
+  def index # spec_me cover_me heckle_me
     @all_invites, @invitations = paginate :invitations,
                                    :per_page => 30,
                                    :conditions => {:user_id => User.current.id, :project_id => @project.id},
@@ -16,7 +16,7 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
     @invitation = Invitation.find(params[:id])
 
     respond_to do |format|
@@ -25,7 +25,7 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     unless @project.root?
       render_error("Project is not root. No invitations needed here.")
       return
@@ -39,11 +39,11 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @invitation = Invitation.find(params[:id])
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
 
     #can't invite someone to anything other than contributor if you're not admin
     if params[:invitation][:role_id] != Role.contributor.id.to_s && !User.current.admin_of?(@project)
@@ -88,7 +88,7 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def accept
+  def accept # spec_me cover_me heckle_me
     @invitation = Invitation.find(params[:id])
 
     if @invitation.token != params[:token] || @invitation.status != Invitation::PENDING
@@ -119,7 +119,7 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def resend
+  def resend # spec_me cover_me heckle_me
     @invitation = Invitation.find(params[:id])
 
     respond_to do |format|
@@ -146,7 +146,7 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @invitation = Invitation.find(params[:id])
     @invitation.destroy
 
@@ -163,14 +163,14 @@ class InvitationsController < ApplicationController
 
   private
 
-  def find_project
+  def find_project # cover_me heckle_me
     @project = Project.find(params[:project_id])
     render_message l(:text_project_locked) if @project.locked?
   rescue ActiveRecord::RecordNotFound
     render_404
   end
 
-  def valid_email?(email)
+  def valid_email?(email) # cover_me heckle_me
     TMail::Address.parse(email)
     return true
   rescue

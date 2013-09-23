@@ -109,7 +109,7 @@ class FasterCSV
     # * length()
     # * size()
     #
-    def initialize(headers, fields, header_row = false)
+    def initialize(headers, fields, header_row = false) # spec_me cover_me heckle_me
       @header_row = header_row
 
       # handle extra headers or fields
@@ -130,17 +130,17 @@ class FasterCSV
     def_delegators :@row, :empty?, :length, :size
 
     # Returns +true+ if this is a header row.
-    def header_row?
+    def header_row? # spec_me cover_me heckle_me
       @header_row
     end
 
     # Returns +true+ if this is a field row.
-    def field_row?
+    def field_row? # spec_me cover_me heckle_me
       not header_row?
     end
 
     # Returns the headers of this row.
-    def headers
+    def headers # spec_me cover_me heckle_me
       @row.map { |pair| pair.first }
     end
 
@@ -157,7 +157,7 @@ class FasterCSV
     # than the +offset+ index.  You can use this to find duplicate headers,
     # without resorting to hard-coding exact indices.
     #
-    def field(header_or_index, minimum_index = 0)
+    def field(header_or_index, minimum_index = 0) # spec_me cover_me heckle_me
       # locate the pair
       finder = header_or_index.is_a?(Integer) ? :[] : :assoc
       pair   = @row[minimum_index..-1].send(finder, header_or_index)
@@ -180,7 +180,7 @@ class FasterCSV
     # to <tt>[nil, nil]</tt>.  Assigning to an unused header appends the new
     # pair.
     #
-    def []=(*args)
+    def []=(*args) # spec_me cover_me heckle_me
       value = args.pop
 
       if args.first.is_a? Integer
@@ -213,7 +213,7 @@ class FasterCSV
     #
     # This method returns the row for chaining.
     #
-    def <<(arg)
+    def <<(arg) # spec_me cover_me heckle_me
       if arg.is_a?(Array) and arg.size == 2  # appending a header and name
         @row << arg
       elsif arg.is_a?(Hash)                  # append header and name pairs
@@ -232,7 +232,7 @@ class FasterCSV
     #
     # This method returns the row for chaining.
     #
-    def push(*args)
+    def push(*args) # spec_me cover_me heckle_me
       args.each { |arg| self << arg }
 
       self  # for chaining
@@ -248,7 +248,7 @@ class FasterCSV
     # located as described in FasterCSV::Row.field().  The deleted pair is
     # returned, or +nil+ if a pair could not be found.
     #
-    def delete(header_or_index, minimum_index = 0)
+    def delete(header_or_index, minimum_index = 0) # spec_me cover_me heckle_me
       if header_or_index.is_a? Integer  # by index
         @row.delete_at(header_or_index)
       else                              # by header
@@ -263,7 +263,7 @@ class FasterCSV
     #
     # This method returns the row for chaining.
     #
-    def delete_if(&block)
+    def delete_if(&block) # spec_me cover_me heckle_me
       @row.delete_if(&block)
 
       self  # for chaining
@@ -277,7 +277,7 @@ class FasterCSV
     #
     # If called with no arguments, all fields are returned.
     #
-    def fields(*headers_and_or_indices)
+    def fields(*headers_and_or_indices) # spec_me cover_me heckle_me
       if headers_and_or_indices.empty?  # return all fields--no arguments
         @row.map { |pair| pair.last }
       else                              # or work like values_at()
@@ -307,7 +307,7 @@ class FasterCSV
     # The +offset+ can be used to locate duplicate header names, as described in
     # FasterCSV::Row.field().
     #
-    def index(header, minimum_index = 0)
+    def index(header, minimum_index = 0) # spec_me cover_me heckle_me
       # find the pair
       index = headers[minimum_index..-1].index(header)
       # return the index at the right offset, if we found one
@@ -315,7 +315,7 @@ class FasterCSV
     end
 
     # Returns +true+ if +name+ is a header for this row, and +false+ otherwise.
-    def header?(name)
+    def header?(name) # spec_me cover_me heckle_me
       headers.include? name
     end
     alias_method :include?, :header?
@@ -324,7 +324,7 @@ class FasterCSV
     # Returns +true+ if +data+ matches a field in this row, and +false+
     # otherwise.
     #
-    def field?(data)
+    def field?(data) # spec_me cover_me heckle_me
       fields.include? data
     end
 
@@ -338,7 +338,7 @@ class FasterCSV
     #
     # This method returns the row for chaining.
     #
-    def each(&block)
+    def each(&block) # spec_me cover_me heckle_me
       @row.each(&block)
 
       self  # for chaining
@@ -348,7 +348,7 @@ class FasterCSV
     # Returns +true+ if this row contains the same headers and fields in the
     # same order as +other+.
     #
-    def ==(other)
+    def ==(other) # spec_me cover_me heckle_me
       @row == other.row
     end
 
@@ -356,7 +356,7 @@ class FasterCSV
     # Collapses the row into a simple Hash.  Be warning that this discards field
     # order and clobbers duplicate fields.
     #
-    def to_hash
+    def to_hash # spec_me cover_me heckle_me
       # flatten just one level of the internal Array
       Hash[*@row.inject(Array.new) { |ary, pair| ary.push(*pair) }]
     end
@@ -366,13 +366,13 @@ class FasterCSV
     #
     #   faster_csv_row.fields.to_csv( options )
     #
-    def to_csv(options = Hash.new)
+    def to_csv(options = Hash.new) # spec_me cover_me heckle_me
       fields.to_csv(options)
     end
     alias_method :to_s, :to_csv
 
     # A summary of fields, by header.
-    def inspect
+    def inspect # spec_me cover_me heckle_me
       str = "#<#{self.class}"
       each do |header, field|
         str << " #{header.is_a?(Symbol) ? header.to_s : header.inspect}:" <<
@@ -403,7 +403,7 @@ class FasterCSV
     # * length()
     # * size()
     #
-    def initialize(array_of_rows)
+    def initialize(array_of_rows) # spec_me cover_me heckle_me
       @table = array_of_rows
       @mode  = :col_or_row
     end
@@ -429,7 +429,7 @@ class FasterCSV
     # destructive methods (like []=()) this way though, since you are working
     # with a duplicate.
     #
-    def by_col
+    def by_col # spec_me cover_me heckle_me
       self.class.new(@table.dup).by_col!
     end
 
@@ -439,7 +439,7 @@ class FasterCSV
     #
     # This method returns the table and is safe to chain.
     #
-    def by_col!
+    def by_col! # spec_me cover_me heckle_me
       @mode = :col
 
       self
@@ -454,7 +454,7 @@ class FasterCSV
     # destructive methods (like []=()) this way though, since you are working
     # with a duplicate.
     #
-    def by_col_or_row
+    def by_col_or_row # spec_me cover_me heckle_me
       self.class.new(@table.dup).by_col_or_row!
     end
 
@@ -466,7 +466,7 @@ class FasterCSV
     #
     # This method returns the table and is safe to chain.
     #
-    def by_col_or_row!
+    def by_col_or_row! # spec_me cover_me heckle_me
       @mode = :col_or_row
 
       self
@@ -481,7 +481,7 @@ class FasterCSV
     # destructive methods (like []=()) this way though, since you are working
     # with a duplicate.
     #
-    def by_row
+    def by_row # spec_me cover_me heckle_me
       self.class.new(@table.dup).by_row!
     end
 
@@ -491,7 +491,7 @@ class FasterCSV
     #
     # This method returns the table and is safe to chain.
     #
-    def by_row!
+    def by_row! # spec_me cover_me heckle_me
       @mode = :row
 
       self
@@ -501,7 +501,7 @@ class FasterCSV
     # Returns the headers for the first row of this table (assumed to match all
     # other rows).  An empty Array is returned for empty tables.
     #
-    def headers
+    def headers # spec_me cover_me heckle_me
       if @table.empty?
         Array.new
       else
@@ -517,7 +517,7 @@ class FasterCSV
     # Columns are returned as an Array of values.  Altering that Array has no
     # effect on the table.
     #
-    def [](index_or_header)
+    def [](index_or_header) # spec_me cover_me heckle_me
       if @mode == :row or  # by index
          (@mode == :col_or_row and index_or_header.is_a? Integer)
         @table[index_or_header]
@@ -542,7 +542,7 @@ class FasterCSV
     # Assigning to an existing column or row clobbers the data.  Assigning to
     # new columns creates them at the right end of the table.
     #
-    def []=(index_or_header, value)
+    def []=(index_or_header, value) # spec_me cover_me heckle_me
       if @mode == :row or  # by index
          (@mode == :col_or_row and index_or_header.is_a? Integer)
         if value.is_a? Array
@@ -580,7 +580,7 @@ class FasterCSV
     #
     # You cannot mix column and row access.
     #
-    def values_at(*indices_or_headers)
+    def values_at(*indices_or_headers) # spec_me cover_me heckle_me
       if @mode == :row or  # by indices
          ( @mode == :col_or_row and indices_or_headers.all? do |index|
                                       index.is_a?(Integer)         or
@@ -601,7 +601,7 @@ class FasterCSV
     #
     # This method returns the table for chaining.
     #
-    def <<(row_or_array)
+    def <<(row_or_array) # spec_me cover_me heckle_me
       if row_or_array.is_a? Array  # append Array
         @table << Row.new(headers, row_or_array)
       else                         # append Row
@@ -618,7 +618,7 @@ class FasterCSV
     #
     # This method returns the table for chaining.
     #
-    def push(*rows)
+    def push(*rows) # spec_me cover_me heckle_me
       rows.each { |row| self << row }
 
       self  # for chaining
@@ -629,7 +629,7 @@ class FasterCSV
     # mode indices refer to rows and everything else is assumed to be a column
     # header.  Use by_col!() or by_row!() to force the lookup.
     #
-    def delete(index_or_header)
+    def delete(index_or_header) # spec_me cover_me heckle_me
       if @mode == :row or  # by index
          (@mode == :col_or_row and index_or_header.is_a? Integer)
         @table.delete_at(index_or_header)
@@ -646,7 +646,7 @@ class FasterCSV
     #
     # This method returns the table for chaining.
     #
-    def delete_if(&block)
+    def delete_if(&block) # spec_me cover_me heckle_me
       if @mode == :row or @mode == :col_or_row  # by index
         @table.delete_if(&block)
       else                                      # by header
@@ -669,7 +669,7 @@ class FasterCSV
     #
     # This method returns the table for chaining.
     #
-    def each(&block)
+    def each(&block) # spec_me cover_me heckle_me
       if @mode == :col
         headers.each { |header| block[[header, self[header]]] }
       else
@@ -680,7 +680,7 @@ class FasterCSV
     end
 
     # Returns +true+ if all rows of this table ==() +other+'s rows.
-    def ==(other)
+    def ==(other) # spec_me cover_me heckle_me
       @table == other.table
     end
 
@@ -688,7 +688,7 @@ class FasterCSV
     # Returns the table as an Array of Arrays.  Headers will be the first row,
     # then all of the field rows will follow.
     #
-    def to_a
+    def to_a # spec_me cover_me heckle_me
       @table.inject([headers]) do |array, row|
         if row.header_row?
           array
@@ -702,7 +702,7 @@ class FasterCSV
     # Returns the table as a complete CSV String.  Headers will be listed first,
     # then all of the field rows.
     #
-    def to_csv(options = Hash.new)
+    def to_csv(options = Hash.new) # spec_me cover_me heckle_me
       @table.inject([headers.to_csv(options)]) do |rows, row|
         if row.header_row?
           rows
@@ -713,7 +713,7 @@ class FasterCSV
     end
     alias_method :to_s, :to_csv
 
-    def inspect
+    def inspect # spec_me cover_me heckle_me
       "#<#{self.class} mode:#{@mode} row_count:#{to_a.size}>"
     end
   end
@@ -847,17 +847,17 @@ class FasterCSV
   # extra layer of method calls.  Depending on usage, this can slow it down to
   # near CSV speeds.
   #
-  def self.build_csv_interface
+  def self.build_csv_interface # spec_me cover_me heckle_me
     Object.const_set(:CSV, Class.new).class_eval do
-      def self.foreach(path, rs = :auto, &block)  # :nodoc:
+      def self.foreach(path, rs = :auto, &block) # spec_me cover_me heckle_me
         FasterCSV.foreach(path, :row_sep => rs, &block)
       end
 
-      def self.generate_line(row, fs = ",", rs = "")  # :nodoc:
+      def self.generate_line(row, fs = ",", rs = "") # spec_me cover_me heckle_me
         FasterCSV.generate_line(row, :col_sep => fs, :row_sep => rs)
       end
 
-      def self.open(path, mode, fs = ",", rs = :auto, &block)  # :nodoc:
+      def self.open(path, mode, fs = ",", rs = :auto, &block) # spec_me cover_me heckle_me
         if block and mode.include? "r"
           FasterCSV.open(path, mode, :col_sep => fs, :row_sep => rs) do |csv|
             csv.each(&block)
@@ -867,15 +867,15 @@ class FasterCSV
         end
       end
 
-      def self.parse(str_or_readable, fs = ",", rs = :auto, &block)  # :nodoc:
+      def self.parse(str_or_readable, fs = ",", rs = :auto, &block) # spec_me cover_me heckle_me
         FasterCSV.parse(str_or_readable, :col_sep => fs, :row_sep => rs, &block)
       end
 
-      def self.parse_line(src, fs = ",", rs = :auto)  # :nodoc:
+      def self.parse_line(src, fs = ",", rs = :auto) # spec_me cover_me heckle_me
         FasterCSV.parse_line(src, :col_sep => fs, :row_sep => rs)
       end
 
-      def self.readlines(path, rs = :auto)  # :nodoc:
+      def self.readlines(path, rs = :auto) # spec_me cover_me heckle_me
         FasterCSV.readlines(path, :row_sep => rs)
       end
     end
@@ -916,7 +916,7 @@ class FasterCSV
   # The +io+ parameter can be used to serialize to a File, and +options+ can be
   # anything FasterCSV::new() accepts.
   #
-  def self.dump(ary_of_objs, io = "", options = Hash.new)
+  def self.dump(ary_of_objs, io = "", options = Hash.new) # spec_me cover_me heckle_me
     obj_template = ary_of_objs.first
 
     csv = FasterCSV.new(io, options)
@@ -985,7 +985,7 @@ class FasterCSV
   # The <tt>:output_row_sep</tt> +option+ defaults to
   # <tt>$INPUT_RECORD_SEPARATOR</tt> (<tt>$/</tt>).
   #
-  def self.filter(*args)
+  def self.filter(*args) # spec_me cover_me heckle_me
     # parse options for input, output, or both
     in_options, out_options = Hash.new, {:row_sep => $INPUT_RECORD_SEPARATOR}
     if args.last.is_a? Hash
@@ -1019,7 +1019,7 @@ class FasterCSV
   #
   # The +options+ parameter can be anything FasterCSV::new() understands.
   #
-  def self.foreach(path, options = Hash.new, &block)
+  def self.foreach(path, options = Hash.new, &block) # spec_me cover_me heckle_me
     open(path, "rb", options) do |csv|
       csv.each(&block)
     end
@@ -1040,7 +1040,7 @@ class FasterCSV
   #
   # The +options+ parameter can be anthing FasterCSV::new() understands.
   #
-  def self.generate(*args)
+  def self.generate(*args) # spec_me cover_me heckle_me
     # add a default empty String, if none was given
     if args.first.is_a? String
       io = StringIO.new(args.shift)
@@ -1063,7 +1063,7 @@ class FasterCSV
   # The <tt>:row_sep</tt> +option+ defaults to <tt>$INPUT_RECORD_SEPARATOR</tt>
   # (<tt>$/</tt>) when calling this method.
   #
-  def self.generate_line(row, options = Hash.new)
+  def self.generate_line(row, options = Hash.new) # spec_me cover_me heckle_me
     options = {:row_sep => $INPUT_RECORD_SEPARATOR}.merge(options)
     (new("", options) << row).string
   end
@@ -1077,7 +1077,7 @@ class FasterCSV
   # If a block is given, the instance is passed to the block and the return
   # value becomes the return value of the block.
   #
-  def self.instance(data = $stdout, options = Hash.new)
+  def self.instance(data = $stdout, options = Hash.new) # spec_me cover_me heckle_me
     # create a _signature_ for this method call, data object and options
     sig = [data.object_id] +
           options.values_at(*DEFAULT_OPTIONS.keys.sort_by { |sym| sym.to_s })
@@ -1105,7 +1105,7 @@ class FasterCSV
   # something else, use +options+ to setup converters or provide a custom
   # csv_load() implementation.
   #
-  def self.load(io_or_str, options = Hash.new)
+  def self.load(io_or_str, options = Hash.new) # spec_me cover_me heckle_me
     csv = FasterCSV.new(io_or_str, options)
 
     # load meta information
@@ -1184,7 +1184,7 @@ class FasterCSV
   # * to_io()
   # * tty?()
   #
-  def self.open(*args)
+  def self.open(*args) # spec_me cover_me heckle_me
     # find the +options+ Hash
     options = if args.last.is_a? Hash then args.pop else Hash.new end
     # default to a binary open mode
@@ -1216,7 +1216,7 @@ class FasterCSV
   # You pass your +str+ to read from, and an optional +options+ Hash containing
   # anything FasterCSV::new() understands.
   #
-  def self.parse(*args, &block)
+  def self.parse(*args, &block) # spec_me cover_me heckle_me
     csv = new(*args)
     if block.nil?  # slurp contents, if no block is given
       begin
@@ -1236,7 +1236,7 @@ class FasterCSV
   #
   # The +options+ parameter can be anthing FasterCSV::new() understands.
   #
-  def self.parse_line(line, options = Hash.new)
+  def self.parse_line(line, options = Hash.new) # spec_me cover_me heckle_me
     new(line, options).shift
   end
 
@@ -1244,12 +1244,12 @@ class FasterCSV
   # Use to slurp a CSV file into an Array of Arrays.  Pass the +path+ to the
   # file and any +options+ FasterCSV::new() understands.
   #
-  def self.read(path, options = Hash.new)
+  def self.read(path, options = Hash.new) # spec_me cover_me heckle_me
     open(path, "rb", options) { |csv| csv.read }
   end
 
   # Alias for FasterCSV::read().
-  def self.readlines(*args)
+  def self.readlines(*args) # spec_me cover_me heckle_me
     read(*args)
   end
 
@@ -1260,7 +1260,7 @@ class FasterCSV
   #                           :converters        => :numeric,
   #                           :header_converters => :symbol }.merge(options) )
   #
-  def self.table(path, options = Hash.new)
+  def self.table(path, options = Hash.new) # spec_me cover_me heckle_me
     read( path, { :headers           => true,
                   :converters        => :numeric,
                   :header_converters => :symbol }.merge(options) )
@@ -1394,7 +1394,7 @@ class FasterCSV
   # Options cannot be overriden in the instance methods for performance reasons,
   # so be sure to set what you want here.
   #
-  def initialize(data, options = Hash.new)
+  def initialize(data, options = Hash.new) # spec_me cover_me heckle_me
     # build the options for this read/write
     options = DEFAULT_OPTIONS.merge(options)
 
@@ -1429,7 +1429,7 @@ class FasterCSV
                        :sync, :sync=, :tell, :to_i, :to_io, :tty?
 
   # Rewinds the underlying IO object and resets FasterCSV's lineno() counter.
-  def rewind
+  def rewind # spec_me cover_me heckle_me
     @headers = nil
     @lineno  = 0
 
@@ -1446,7 +1446,7 @@ class FasterCSV
   #
   # The data source must be open for writing.
   #
-  def <<(row)
+  def <<(row) # spec_me cover_me heckle_me
     # make sure headers have been assigned
     if header_row? and [Array, String].include? @use_headers.class
       parse_headers  # won't read data for Array or String
@@ -1485,7 +1485,7 @@ class FasterCSV
   # containing details about the field.  Again, the block should return a
   # converted field or the field itself.
   #
-  def convert(name = nil, &converter)
+  def convert(name = nil, &converter) # spec_me cover_me heckle_me
     add_converter(:converters, self.class::Converters, name, &converter)
   end
 
@@ -1500,7 +1500,7 @@ class FasterCSV
   # Note that this method must be called before header rows are read to have any
   # effect.
   #
-  def header_convert(name = nil, &converter)
+  def header_convert(name = nil, &converter) # spec_me cover_me heckle_me
     add_converter( :header_converters,
                    self.class::HeaderConverters,
                    name,
@@ -1516,7 +1516,7 @@ class FasterCSV
   #
   # The data source must be open for reading.
   #
-  def each
+  def each # spec_me cover_me heckle_me
     while row = shift
       yield row
     end
@@ -1527,7 +1527,7 @@ class FasterCSV
   #
   # The data source must be open for reading.
   #
-  def read
+  def read # spec_me cover_me heckle_me
     rows = to_a
     if @use_headers
       Table.new(rows)
@@ -1538,7 +1538,7 @@ class FasterCSV
   alias_method :readlines, :read
 
   # Returns +true+ if the next row read will be a header row.
-  def header_row?
+  def header_row? # spec_me cover_me heckle_me
     @use_headers and @headers.nil?
   end
 
@@ -1549,7 +1549,7 @@ class FasterCSV
   #
   # The data source must be open for reading.
   #
-  def shift
+  def shift # spec_me cover_me heckle_me
     #########################################################################
     ### This method is purposefully kept a bit long as simple conditional ###
     ### checks are faster than numerous (expensive) method calls.         ###
@@ -1663,7 +1663,7 @@ class FasterCSV
   alias_method :readline, :shift
 
   # Returns a simplified description of the key FasterCSV attributes.
-  def inspect
+  def inspect # spec_me cover_me heckle_me
     str = "<##{self.class} io_type:"
     # show type of wrapped IO
     if    @io == $stdout then str << "$stdout"
@@ -1700,7 +1700,7 @@ class FasterCSV
   #
   # This method also establishes the quoting rules used for CSV output.
   #
-  def init_separators(options)
+  def init_separators(options) # cover_me heckle_me
     # store the selected separators
     @col_sep            = options.delete(:col_sep)
     @row_sep            = options.delete(:row_sep)
@@ -1780,7 +1780,7 @@ class FasterCSV
   end
 
   # Pre-compiles parsers and stores them by name for access during reads.
-  def init_parsers(options)
+  def init_parsers(options) # cover_me heckle_me
     # store the parser behaviors
     @skip_blanks      = options.delete(:skip_blanks)
     @encoding         = options.delete(:encoding)  # nil will use $KCODE
@@ -1812,7 +1812,7 @@ class FasterCSV
   # The <tt>:unconverted_fields</tt> option is also actived for
   # <tt>:converters</tt> calls, if requested.
   #
-  def init_converters(options, field_name = :converters)
+  def init_converters(options, field_name = :converters) # cover_me heckle_me
     if field_name == :converters
       @unconverted_fields = options.delete(:unconverted_fields)
     end
@@ -1842,7 +1842,7 @@ class FasterCSV
   end
 
   # Stores header row settings and loads header converters, if needed.
-  def init_headers(options)
+  def init_headers(options) # cover_me heckle_me
     @use_headers    = options.delete(:headers)
     @return_headers = options.delete(:return_headers)
     @write_headers  = options.delete(:write_headers)
@@ -1862,7 +1862,7 @@ class FasterCSV
   # normal parameters of the FasterCSV.convert() and FasterCSV.header_convert()
   # methods.
   #
-  def add_converter(var_name, const, name = nil, &converter)
+  def add_converter(var_name, const, name = nil, &converter) # cover_me heckle_me
     if name.nil?  # custom converter
       instance_variable_get("@#{var_name}") << converter
     else          # named converter
@@ -1885,7 +1885,7 @@ class FasterCSV
   # the pipeline of conversion for that field.  This is primarily an efficiency
   # shortcut.
   #
-  def convert_fields(fields, headers = false)
+  def convert_fields(fields, headers = false) # cover_me heckle_me
     # see if we are converting headers or fields
     converters = headers ? @header_converters : @converters
 
@@ -1913,7 +1913,7 @@ class FasterCSV
   # When +nil+, +row+ is assumed to be a header row not based on an actual row
   # of the stream.
   #
-  def parse_headers(row = nil)
+  def parse_headers(row = nil) # cover_me heckle_me
     if @headers.nil?                # header row
       @headers = case @use_headers  # save headers
                  # Array of headers
@@ -1947,7 +1947,7 @@ class FasterCSV
   # +row+ and an accessor method for it called unconverted_fields().  The
   # variable is set to the contents of +fields+.
   #
-  def add_unconverted_fields(row, fields)
+  def add_unconverted_fields(row, fields) # cover_me heckle_me
     class << row
       attr_reader :unconverted_fields
     end
@@ -1960,25 +1960,25 @@ end
 FCSV = FasterCSV
 
 # Another name for FasterCSV::instance().
-def FasterCSV(*args, &block)
+def FasterCSV(*args, &block) # spec_me cover_me heckle_me
   FasterCSV.instance(*args, &block)
 end
 
 # Another name for FCSV::instance().
-def FCSV(*args, &block)
+def FCSV(*args, &block) # spec_me cover_me heckle_me
   FCSV.instance(*args, &block)
 end
 
 class Array
   # Equivalent to <tt>FasterCSV::generate_line(self, options)</tt>.
-  def to_csv(options = Hash.new)
+  def to_csv(options = Hash.new) # cover_me heckle_me
     FasterCSV.generate_line(self, options)
   end
 end
 
 class String
   # Equivalent to <tt>FasterCSV::parse_line(self, options)</tt>.
-  def parse_csv(options = Hash.new)
+  def parse_csv(options = Hash.new) # cover_me heckle_me
     FasterCSV.parse_line(self, options)
   end
 end

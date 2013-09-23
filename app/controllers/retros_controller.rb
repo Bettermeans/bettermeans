@@ -4,7 +4,7 @@ class RetrosController < ApplicationController
   before_filter :authorize
   ssl_required :all
 
-  def index
+  def index # spec_me cover_me heckle_me
     @retros = Retro.all
 
     respond_to do |format|
@@ -13,15 +13,15 @@ class RetrosController < ApplicationController
     end
   end
 
-  def index_json
+  def index_json # spec_me cover_me heckle_me
     render :json => Retro.find(:all, :conditions => {:project_id => @project.id}).to_json
   end
 
-  def dashdata
+  def dashdata # spec_me cover_me heckle_me
     render :json => Issue.find(:all, :conditions => {:retro_id => params[:id]}).to_json(:include => {:journals => {:include => :user}, :issue_votes => {:include => :user}, :status => {:only => :name}, :todos => {:only => [:id, :subject, :completed_on]}, :tracker => {:only => [:name,:id]}, :author => {:only => [:firstname, :lastname, :login]}, :assigned_to => {:only => [:firstname, :lastname, :login]}})
   end
 
-  def show
+  def show # spec_me cover_me heckle_me
 
     @retro = Retro.find(params[:id])
     @team_hash = {}
@@ -217,7 +217,7 @@ class RetrosController < ApplicationController
     end
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @retro = Retro.new
 
     respond_to do |format|
@@ -226,11 +226,11 @@ class RetrosController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @retro = Retro.find(params[:id])
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @retro = Retro.new(params[:retro])
 
     respond_to do |format|
@@ -245,7 +245,7 @@ class RetrosController < ApplicationController
     end
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @retro = Retro.find(params[:id])
 
     respond_to do |format|
@@ -260,7 +260,7 @@ class RetrosController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @retro = Retro.find(params[:id])
     @retro.destroy
 
@@ -272,14 +272,14 @@ class RetrosController < ApplicationController
 
   private
 
-  def find_retro
+  def find_retro # cover_me heckle_me
     @retro = Retro.find(params[:id])
     @project = @retro.project
     render_message l(:text_project_locked) if @project.locked?
   end
 
 
-  def find_project
+  def find_project # cover_me heckle_me
     @project = Project.find(params[:project_id])
     render_message l(:text_project_locked) if @project.locked?
   end

@@ -10,11 +10,11 @@ class IssueVote < ActiveRecord::Base
   ESTIMATE_VOTE_TYPE = 4
   JOIN_VOTE_TYPE = 5 # Not exactly a vote, but used to join the team that's working on an issue
 
-  def project
+  def project # spec_me cover_me heckle_me
     issue.project
   end
 
-  def update_issue_totals
+  def update_issue_totals # spec_me cover_me heckle_me
     case vote_type
       when AGREE_VOTE_TYPE
         issue.update_agree_total self.isbinding
@@ -27,7 +27,7 @@ class IssueVote < ActiveRecord::Base
       end
   end
 
-  def remove_similar
+  def remove_similar # spec_me cover_me heckle_me
     deleted = IssueVote.delete_all(:issue_id => issue_id, :user_id => user_id, :vote_type => vote_type)
 
     #log activity for estimate change
@@ -37,7 +37,7 @@ class IssueVote < ActiveRecord::Base
     end
   end
 
-  def set_binding
+  def set_binding # spec_me cover_me heckle_me
     result = User.find(self.user_id).binding_voter_of?(self.issue.project)
     self.isbinding = result
     return true

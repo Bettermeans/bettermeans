@@ -7,19 +7,19 @@ class TrackersController < ApplicationController
   before_filter :require_admin
   ssl_required :all
 
-  def index
+  def index # spec_me cover_me heckle_me
     list
     render :action => 'list' unless request.xhr?
   end
 
   verify :method => :post, :only => :destroy, :redirect_to => { :action => :list }
 
-  def list
+  def list # spec_me cover_me heckle_me
     @tracker_pages, @trackers = paginate :trackers, :per_page => 10, :order => 'position'
     render :action => "list", :layout => false if request.xhr?
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @tracker = Tracker.new(params[:tracker])
     if request.post? and @tracker.save
       # workflow copy
@@ -34,7 +34,7 @@ class TrackersController < ApplicationController
     @projects = Project.find(:all)
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @tracker = Tracker.find(params[:id])
     if request.post? and @tracker.update_attributes(params[:tracker])
       flash.now[:success] = l(:notice_successful_update)
@@ -44,7 +44,7 @@ class TrackersController < ApplicationController
     @projects = Project.find(:all)
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @tracker = Tracker.find(params[:id])
     unless @tracker.issues.empty?
       flash.now[:error] = "This tracker contains issues and can\'t be deleted."

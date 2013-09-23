@@ -7,7 +7,7 @@ class AuthSourcesController < ApplicationController
   before_filter :require_admin
   ssl_required :all
 
-  def index
+  def index # spec_me cover_me heckle_me
     list
     render :action => 'list' unless request.xhr?
   end
@@ -16,16 +16,16 @@ class AuthSourcesController < ApplicationController
   verify :method => :post, :only => [ :destroy, :create, :update ],
          :redirect_to => { :action => :list }
 
-  def list
+  def list # spec_me cover_me heckle_me
     @auth_source_pages, @auth_sources = paginate :auth_sources, :per_page => 10
     render :action => "list", :layout => false if request.xhr?
   end
 
-  def new
+  def new # spec_me cover_me heckle_me
     @auth_source = AuthSourceLdap.new
   end
 
-  def create
+  def create # spec_me cover_me heckle_me
     @auth_source = AuthSourceLdap.new(params[:auth_source])
     if @auth_source.save
       flash.now[:success] = l(:notice_successful_create)
@@ -35,11 +35,11 @@ class AuthSourcesController < ApplicationController
     end
   end
 
-  def edit
+  def edit # spec_me cover_me heckle_me
     @auth_source = AuthSource.find(params[:id])
   end
 
-  def update
+  def update # spec_me cover_me heckle_me
     @auth_source = AuthSource.find(params[:id])
     if @auth_source.update_attributes(params[:auth_source])
       flash.now[:success] = l(:notice_successful_update)
@@ -49,7 +49,7 @@ class AuthSourcesController < ApplicationController
     end
   end
 
-  def test_connection
+  def test_connection # spec_me cover_me heckle_me
     @auth_method = AuthSource.find(params[:id])
     begin
       @auth_method.test_connection
@@ -60,7 +60,7 @@ class AuthSourcesController < ApplicationController
     redirect_to :action => 'list'
   end
 
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @auth_source = AuthSource.find(params[:id])
     unless @auth_source.users.find(:first)
       @auth_source.destroy

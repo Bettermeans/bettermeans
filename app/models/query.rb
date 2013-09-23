@@ -6,7 +6,7 @@ class QueryColumn
   attr_accessor :name, :sortable, :groupable, :default_order
   include Redmine::I18n
 
-  def initialize(name, options={})
+  def initialize(name, options={}) # spec_me cover_me heckle_me
     self.name = name
     self.sortable = options[:sortable]
     self.groupable = options[:groupable] || false
@@ -16,16 +16,16 @@ class QueryColumn
     self.default_order = options[:default_order]
   end
 
-  def caption
+  def caption # spec_me cover_me heckle_me
     l("field_#{name}")
   end
 
   # Returns true if the column is sortable, otherwise false
-  def sortable?
+  def sortable? # spec_me cover_me heckle_me
     !sortable.nil?
   end
 
-  def value(issue)
+  def value(issue) # spec_me cover_me heckle_me
     issue.send name
   end
 end
@@ -97,17 +97,17 @@ class Query < ActiveRecord::Base
   # BUGBUG: this initialize won't work consistently:
   # http://blog.dalethatcher.com/2008/03/rails-dont-override-initialize-on.html
   # better to make this an after_initialize
-  def initialize(attributes = nil)
+  def initialize(attributes = nil) # spec_me cover_me heckle_me
     super attributes
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
   end
 
-  def after_initialize
+  def after_initialize # spec_me cover_me heckle_me
     # Store the fact that project is nil (used in #editable_by?)
     @is_for_all = project.nil?
   end
 
-  def validate
+  def validate # spec_me cover_me heckle_me
     filters.each_key do |field|
       errors.add label_for(field), :blank unless
           # filter requires one or more values
@@ -117,7 +117,7 @@ class Query < ActiveRecord::Base
     end if filters
   end
 
-  def editable_by?(user)
+  def editable_by?(user) # spec_me cover_me heckle_me
     return false unless user
     # Admin can edit them all and regular users can edit their private queries
     return true if user.admin? || (!is_public && self.user_id == user.id)
@@ -125,7 +125,7 @@ class Query < ActiveRecord::Base
     is_public && !@is_for_all && user.allowed_to?(:manage_public_queries, project)
   end
 
-  def available_filters
+  def available_filters # spec_me cover_me heckle_me
     return @available_filters if @available_filters
 
     trackers = project.nil? ? Tracker.find(:all, :order => 'position') : project.rolled_up_trackers
@@ -166,7 +166,7 @@ class Query < ActiveRecord::Base
     @available_filters
   end
 
-  def add_filter(field, operator, values)
+  def add_filter(field, operator, values) # spec_me cover_me heckle_me
     # values must be an array
     return unless values and values.is_a? Array
     # check if field is defined as an available filter
@@ -176,40 +176,40 @@ class Query < ActiveRecord::Base
     end
   end
 
-  def add_short_filter(field, expression)
+  def add_short_filter(field, expression) # spec_me cover_me heckle_me
     return unless expression
     parms = expression.scan(/^(o|c|\!|\*)?(.*)$/).first
     add_filter field, (parms[0] || "="), [parms[1] || ""]
   end
 
-  def has_filter?(field)
+  def has_filter?(field) # spec_me cover_me heckle_me
     filters and filters[field]
   end
 
-  def operator_for(field)
+  def operator_for(field) # spec_me cover_me heckle_me
     has_filter?(field) ? filters[field][:operator] : nil
   end
 
-  def values_for(field)
+  def values_for(field) # spec_me cover_me heckle_me
     has_filter?(field) ? filters[field][:values] : nil
   end
 
-  def label_for(field)
+  def label_for(field) # spec_me cover_me heckle_me
     label = available_filters[field][:name] if available_filters.has_key?(field)
     label ||= field.gsub(/\_id$/, "")
   end
 
-  def available_columns
+  def available_columns # spec_me cover_me heckle_me
     return @available_columns if @available_columns
     @available_columns = Query.available_columns
   end
 
   # Returns an array of columns that can be used to group the results
-  def groupable_columns
+  def groupable_columns # spec_me cover_me heckle_me
     available_columns.select {|c| c.groupable}
   end
 
-  def columns
+  def columns # spec_me cover_me heckle_me
     if has_default_columns?
       available_columns.select do |c|
         # Adds the project column by default for cross-project lists
@@ -221,7 +221,7 @@ class Query < ActiveRecord::Base
     end
   end
 
-  def column_names=(names)
+  def column_names=(names) # spec_me cover_me heckle_me
     if names
       names = names.select {|n| n.is_a?(Symbol) || !n.blank? }
       names = names.collect {|n| n.is_a?(Symbol) ? n : n.to_sym }
@@ -233,15 +233,15 @@ class Query < ActiveRecord::Base
     write_attribute(:column_names, names)
   end
 
-  def has_column?(column)
+  def has_column?(column) # spec_me cover_me heckle_me
     column_names && column_names.include?(column.name)
   end
 
-  def has_default_columns?
+  def has_default_columns? # spec_me cover_me heckle_me
     column_names.nil? || column_names.empty?
   end
 
-  def sort_criteria=(arg)
+  def sort_criteria=(arg) # spec_me cover_me heckle_me
     c = []
     if arg.is_a?(Hash)
       arg = arg.keys.sort.collect {|k| arg[k]}
@@ -250,20 +250,20 @@ class Query < ActiveRecord::Base
     write_attribute(:sort_criteria, c)
   end
 
-  def sort_criteria
+  def sort_criteria # spec_me cover_me heckle_me
     read_attribute(:sort_criteria) || []
   end
 
-  def sort_criteria_key(arg)
+  def sort_criteria_key(arg) # spec_me cover_me heckle_me
     sort_criteria && sort_criteria[arg] && sort_criteria[arg].first
   end
 
-  def sort_criteria_order(arg)
+  def sort_criteria_order(arg) # spec_me cover_me heckle_me
     sort_criteria && sort_criteria[arg] && sort_criteria[arg].last
   end
 
   # Returns the SQL sort order that should be prepended for grouping
-  def group_by_sort_order
+  def group_by_sort_order # spec_me cover_me heckle_me
     if grouped? && (column = group_by_column)
       column.sortable.is_a?(Array) ?
         column.sortable.collect {|s| "#{s} #{column.default_order}"}.join(',') :
@@ -272,19 +272,19 @@ class Query < ActiveRecord::Base
   end
 
   # Returns true if the query is a grouped query
-  def grouped?
+  def grouped? # spec_me cover_me heckle_me
     !group_by.blank?
   end
 
-  def group_by_column
+  def group_by_column # spec_me cover_me heckle_me
     groupable_columns.detect {|c| c.name.to_s == group_by}
   end
 
-  def group_by_statement
+  def group_by_statement # spec_me cover_me heckle_me
     group_by_column.groupable
   end
 
-  def project_statement
+  def project_statement # spec_me cover_me heckle_me
     project_clauses = []
     if project && !@project.descendants.active.empty?
       ids = [project.id]
@@ -310,7 +310,7 @@ class Query < ActiveRecord::Base
     project_clauses.join(' AND ')
   end
 
-  def statement
+  def statement # spec_me cover_me heckle_me
     # filters clauses
     filters_clauses = []
     filters.each_key do |field|
@@ -344,14 +344,14 @@ class Query < ActiveRecord::Base
   end
 
   # Returns the issue count
-  def issue_count
+  def issue_count # spec_me cover_me heckle_me
     Issue.count(:include => [:status, :project], :conditions => statement)
   rescue ::ActiveRecord::StatementInvalid => e
     raise StatementInvalid.new(e.message)
   end
 
   # Returns the issue count by group or nil if query is not grouped
-  def issue_count_by_group
+  def issue_count_by_group # spec_me cover_me heckle_me
     r = nil
     if grouped?
       begin
@@ -369,7 +369,7 @@ class Query < ActiveRecord::Base
 
   # Returns the issues
   # Valid options are :order, :offset, :limit, :include, :conditions
-  def issues(options={})
+  def issues(options={}) # spec_me cover_me heckle_me
     order_option = [group_by_sort_order, options[:order]].reject {|s| s.blank?}.join(',')
     order_option = nil if order_option.blank?
 
@@ -384,7 +384,7 @@ class Query < ActiveRecord::Base
 
   # Returns the journals
   # Valid options are :order, :offset, :limit
-  def journals(options={})
+  def journals(options={}) # spec_me cover_me heckle_me
     Journal.find :all, :include => [:details, :user, {:issue => [:project, :author, :tracker, :status]}],
                        :conditions => statement,
                        :order => options[:order],
@@ -397,7 +397,7 @@ class Query < ActiveRecord::Base
   private
 
   # Helper method to generate the WHERE sql for a +field+, +operator+ and a +value+
-  def sql_for_field(field, operator, value, db_table, db_field)
+  def sql_for_field(field, operator, value, db_table, db_field) # cover_me heckle_me
     sql = ''
     case operator
     when "="
@@ -447,7 +447,7 @@ class Query < ActiveRecord::Base
   end
 
   # Returns a SQL clause for a date or datetime field.
-  def date_range_clause(table, field, from, to)
+  def date_range_clause(table, field, from, to) # cover_me heckle_me
     s = []
     if from
       s << ("#{table}.#{field} > '%s'" % [connection.quoted_date((Date.yesterday + from).to_time.end_of_day)])

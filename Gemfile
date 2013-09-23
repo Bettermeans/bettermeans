@@ -21,6 +21,7 @@ gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
 gem 'pg'
 
 group :test do
+  gem 'rcov'
   gem 'shoulda'
   gem 'webrat', '0.7.3'
   gem 'rspec', '1.3.2'

@@ -11,7 +11,7 @@ module Redmine
       class << self
         # Returns true if no data is already loaded in the database
         # otherwise false
-        def no_data?
+        def no_data? # spec_me cover_me heckle_me
           !Role.find(:first, :conditions => {:builtin => 0}) &&
             !Tracker.find(:first) &&
             !IssueStatus.find(:first) &&
@@ -20,7 +20,7 @@ module Redmine
 
         # Loads the default data
         # Raises a RecordNotSaved exception if something goes wrong
-        def load(lang=nil)
+        def load(lang=nil) # spec_me cover_me heckle_me
           raise DataAlreadyLoaded.new("Some configuration data is already loaded.") unless no_data?
           set_language_if_valid(lang)
 

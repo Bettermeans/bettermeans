@@ -10,11 +10,11 @@ class AdminController < ApplicationController
   helper :sort
   include SortHelper
 
-  def index
+  def index # spec_me cover_me heckle_me
     @no_configuration_data = Redmine::DefaultData::Loader::no_data?
   end
 
-  def projects
+  def projects # spec_me cover_me heckle_me
     @status = params[:status] ? params[:status].to_i : 1
     c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
 
@@ -29,13 +29,13 @@ class AdminController < ApplicationController
     render :action => "projects", :layout => false if request.xhr?
   end
 
-  def plugins
+  def plugins # spec_me cover_me heckle_me
     @plugins = Redmine::Plugin.all
   end
 
   # Loads the default configuration
   # (roles, trackers, statuses, workflow, enumerations)
-  def default_configuration
+  def default_configuration # spec_me cover_me heckle_me
     if request.post?
       begin
         Redmine::DefaultData::Loader::load(params[:lang])
@@ -47,7 +47,7 @@ class AdminController < ApplicationController
     redirect_to :action => 'index'
   end
 
-  def test_email
+  def test_email # spec_me cover_me heckle_me
     raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
     # Force ActionMailer to raise delivery errors so we can catch it
     ActionMailer::Base.raise_delivery_errors = true
@@ -61,12 +61,12 @@ class AdminController < ApplicationController
     redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
   end
 
-  def user_data_dump
+  def user_data_dump # spec_me cover_me heckle_me
     @users = User.find(:all, :conditions => {:status => 1})
     render :csv => @users
   end
 
-  def info
+  def info # spec_me cover_me heckle_me
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @checklist = [
       [:text_default_administrator_account_changed, User.find(:first, :conditions => ["login=? and hashed_password=?", 'admin', User.hash_password('admin')]).nil?],

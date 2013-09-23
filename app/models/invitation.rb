@@ -6,14 +6,14 @@ class Invitation < ActiveRecord::Base
   PENDING = 0
   ACCEPTED = 1
 
-  def before_create
+  def before_create # spec_me cover_me heckle_me
     # TODO: check for dupes?
     self.token = Token.generate_token_value
     # TODO: should be `self.role ||= Role.contributor`
     self.role_id = Role.contributor.id unless self.role_id
   end
 
-  def deliver(note="")
+  def deliver(note="") # spec_me cover_me heckle_me
     return unless self.status == PENDING
 
     Mailer.send(:deliver_invitation_add,self,note)
@@ -31,13 +31,13 @@ class Invitation < ActiveRecord::Base
 
   end
 
-  def resend(note="")
+  def resend(note="") # spec_me cover_me heckle_me
     return unless self.status == PENDING
     Mailer.send_later(:deliver_invitation_remind,self,note)
     return true
   end
 
-  def status_name
+  def status_name # spec_me cover_me heckle_me
     case self.status
       when PENDING
         return "Pending"
@@ -48,7 +48,7 @@ class Invitation < ActiveRecord::Base
     end
   end
 
-  def accept(user=nil)
+  def accept(user=nil) # spec_me cover_me heckle_me
     return unless self.status == PENDING
 
     if user && !user.anonymous?

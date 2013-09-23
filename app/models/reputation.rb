@@ -5,12 +5,12 @@ class Reputation < ActiveRecord::Base
   VARIATION_SELF_BIAS = 1
   VARIATION_SCALE_BIAS = 2
 
-  def self.calculate_all
+  def self.calculate_all # spec_me cover_me heckle_me
     calculate(VARIATION_SELF_BIAS)
     calculate(VARIATION_SCALE_BIAS)
   end
 
-  def self.calculate(variation)
+  def self.calculate(variation) # spec_me cover_me heckle_me
     User.active.each do |user|
       case variation
       when VARIATION_SELF_BIAS
@@ -23,7 +23,7 @@ class Reputation < ActiveRecord::Base
 
   #calculates a running weighted average of the reputation index
   #more recent averages are weighed more heavily.
-  def self.calculate_moving_average(variation,user_id)
+  def self.calculate_moving_average(variation,user_id) # spec_me cover_me heckle_me
     User.find(user_id).projects.all_roots.each do |project|
       average = bias_moving_average(variation,user_id,project.id)
       create_or_update(variation,user_id,average,project.id) unless average.nil?
@@ -36,7 +36,7 @@ class Reputation < ActiveRecord::Base
 
   end
 
-  def self.create_or_update(variation,user_id,average,project_id)
+  def self.create_or_update(variation,user_id,average,project_id) # spec_me cover_me heckle_me
     reputation = Reputation.first(:conditions => {:reputation_type => variation, :user_id => user_id, :project_id => project_id})
     if !reputation.nil?
       reputation.value = average
@@ -52,7 +52,7 @@ class Reputation < ActiveRecord::Base
 
   #Calculates a moving average for an assessment bias (in retrospectives that have their root project: project_id)
   #When project_id is 0, moving average is calculated across all projects
-  def self.bias_moving_average(variation,user_id,project_id)
+  def self.bias_moving_average(variation,user_id,project_id) # spec_me cover_me heckle_me
     rr_variation = nil
     case variation
     when VARIATION_SELF_BIAS

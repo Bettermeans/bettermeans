@@ -6,26 +6,26 @@ require 'action_view/helpers/form_helper'
 class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include Redmine::I18n
 
-  def initialize(object_name, object, template, options, proc)
+  def initialize(object_name, object, template, options, proc) # spec_me cover_me heckle_me
     set_language_if_valid options.delete(:lang)
     super
   end
 
   (field_helpers - %w(radio_button hidden_field) + %w(date_select)).each do |selector|
     src = <<-END_SRC
-    def #{selector}(field, options = {})
+    def #{selector}(field, options = {}) # spec_me cover_me heckle_me
       label_for_field(field, options) + super
     end
     END_SRC
     class_eval src, __FILE__, __LINE__
   end
 
-  def select(field, choices, options = {}, html_options = {})
+  def select(field, choices, options = {}, html_options = {}) # spec_me cover_me heckle_me
     label_for_field(field, options) + super
   end
 
   # Returns a label tag for the given field
-  def label_for_field(field, options = {})
+  def label_for_field(field, options = {}) # spec_me cover_me heckle_me
       return '' if options.delete(:no_label)
       text = options[:label].is_a?(Symbol) ? l(options[:label]) : options[:label]
       text ||= l(("field_" + field.to_s.gsub(/\_id$/, "")).to_sym)

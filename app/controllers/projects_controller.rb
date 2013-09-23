@@ -39,12 +39,12 @@ class ProjectsController < ApplicationController
 
   log_activity_streams :current_user, :name, :edited, :@project, :name, :edit, :workstreams, {:object_description_method => :description}
 
-  def index
+  def index # spec_me cover_me heckle_me
     @latest_enterprises = Project.latest_public
     @active_enterprises = Project.most_active_public
   end
 
-  def index_latest
+  def index_latest # spec_me cover_me heckle_me
     limit = 10
     @latest_enterprises = Project.latest_public(limit, params[:offset].to_i)
 
@@ -61,7 +61,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def index_active
+  def index_active # spec_me cover_me heckle_me
     limit = 10
     @active_enterprises = Project.most_active_public(limit, params[:offset].to_i)
 
@@ -78,12 +78,12 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def map
+  def map # spec_me cover_me heckle_me
   end
 
   # Add a new project
   #TODO too much logic here, needs to move to model somehow
-  def add
+  def add # spec_me cover_me heckle_me
     @project = Project.new(params[:project])
     @parent = Project.find(params[:parent_id]) unless params[:parent_id] == "" || params[:parent_id].nil?
 
@@ -130,7 +130,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def copy
+  def copy # spec_me cover_me heckle_me
     @trackers = Tracker.all
     @root_projects = Project.find(:all,
                                   :conditions => "parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}",
@@ -156,7 +156,7 @@ class ProjectsController < ApplicationController
     redirect_to :controller => 'admin', :action => 'projects'
   end
 
-  def reset_invitation_token
+  def reset_invitation_token # spec_me cover_me heckle_me
     @project.invitation_token = Token.generate_token_value
     @project.save
 
@@ -172,7 +172,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def join
+  def join # spec_me cover_me heckle_me
     #check token
     if params[:token] != @project.invitation_token
       render_error(l(:error_old_invite))
@@ -193,7 +193,7 @@ class ProjectsController < ApplicationController
   end
 
   # Show @project
-  def overview
+  def overview # spec_me cover_me heckle_me
     if params[:jump]
       # try to redirect to the requested menu item
       redirect_to_project_menu_item(@project, params[:jump]) && return
@@ -218,45 +218,45 @@ class ProjectsController < ApplicationController
   end
 
 
-  def hourly_types
+  def hourly_types # spec_me cover_me heckle_me
     render :json => @project.hourly_types.inject({}) { |hash, hourly_type|
       hash[hourly_type.id] = hourly_type.name
       hash
     }.to_json
   end
 
-  def community_members
+  def community_members # spec_me cover_me heckle_me
     render :json => @project.root.all_members.inject({}) { |hash, member|
       hash[member.user_id] = member.name
       hash
     }.to_json
   end
 
-  def community_members_array
+  def community_members_array # spec_me cover_me heckle_me
     array = []
     @project.root.member_users.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash })}
     @project.member_users.each {|m| array.push({:label => "#{m.user.name} (@#{m.user.login})", :value => m.user.login, :mail_hash => m.user.mail_hash }) }
     render :json => array.sort{|x,y| x[:label] <=> y[:label]}.uniq.to_json
   end
 
-  def issue_search
+  def issue_search # spec_me cover_me heckle_me
     term = params[:searchTerm]
     render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND (subject ilike '%#{term}%' OR CAST(id as varchar) ilike '%#{term}%')").to_json(:only => [:id, :subject, :description])
   end
 
-  def all_tags
+  def all_tags # spec_me cover_me heckle_me
     render :json => @project.all_tags(params[:term]).to_json
   end
 
 
-  def dashboard
+  def dashboard # spec_me cover_me heckle_me
     @credit_base = @project.dpp
     @show_issue_id = params[:show_issue_id] #Optional parameter to start the dashboard off showing an issue
     @show_retro_id = params[:show_retro_id] #Optional parameter to start the dashboard off showing a retrospective
   end
 
   #TODO: optimize this query, it's WAY too heavy, and we need fewer columns, and it's executing hundreds of queries!
-  def dashdata
+  def dashdata # spec_me cover_me heckle_me
 
     if params[:include_subworkstreams]
       project_ids = [@project.sub_project_array_visible_to(User.current).join(",")]
@@ -285,7 +285,7 @@ class ProjectsController < ApplicationController
 
   # Checks to see if any items have changed in this project (in the last params[:seconds]).
   # If it has, returns only items that have changed
-  def new_dashdata
+  def new_dashdata # spec_me cover_me heckle_me
     if @project.last_item_updated_on.nil?
       @project.last_item_updated_on = DateTime.now
       @project.save
@@ -339,7 +339,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def update_scale
+  def update_scale # spec_me cover_me heckle_me
     render :update do |page|
       page.replace 'point_scale', :partial => 'point_scale', :locals => {:dpp => params[:dpp] }
       page["point_scale"].visual_effect :highlight
@@ -348,11 +348,11 @@ class ProjectsController < ApplicationController
 
   #TODO: remove this function, we're no longer using it??
   #Returns my priorities for issues belonging to this project
-  def mypris
+  def mypris # spec_me cover_me heckle_me
     render :json => Issue.find(:all, :conditions => "project_id = #{@project.id} AND id IN (SELECT DISTINCT issue_id FROM #{Pri.table_name} where user_id = #{User.current.id})", :select => "id").to_json
   end
 
-  def settings
+  def settings # spec_me cover_me heckle_me
     @member ||= @project.all_members.new
     @trackers = Tracker.all
     @wiki ||= @project.wiki
@@ -360,7 +360,7 @@ class ProjectsController < ApplicationController
   end
 
   # Edit @project
-  def edit
+  def edit # spec_me cover_me heckle_me
     if request.post?
       old_attributes = @project.attributes
       @project.attributes = params[:project]
@@ -385,14 +385,14 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def modules
+  def modules # spec_me cover_me heckle_me
     @project.enabled_module_names = params[:enabled_modules]
     @project.attributes = params[:project]
     @project.save
     redirect_with_flash :notice, l(:notice_successful_update), :action => 'settings', :id => @project, :tab => 'modules'
   end
 
-  def archive
+  def archive # spec_me cover_me heckle_me
     if @project.active? && request.post? && @project.archive
       project_id_override = @project.parent ? @project.parent.id : @project.id #archived projects don't show up in activity stream, so we log the activity to its parent if it exists
       LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_archived), :workstreams, 0, nil,{:project_id => project_id_override})
@@ -402,7 +402,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def unarchive
+  def unarchive # spec_me cover_me heckle_me
     if !@project.active? && request.post? && @project.unarchive
       LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_unarchived), :workstreams, 0, nil,{})
 
@@ -430,7 +430,7 @@ class ProjectsController < ApplicationController
   end
 
   # Delete @project
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     @project_to_destroy = @project
     if request.post?
       project_id_override = @project.parent ? @project.parent.id : @project.id #deleted projects don't show up in activity stream, so we log the activity to its parent if it exists
@@ -446,7 +446,7 @@ class ProjectsController < ApplicationController
   end
 
   #move project
-  def move
+  def move # spec_me cover_me heckle_me
     redirect_to(:action => 'settings') and return if @project.root?
 
     #TODO @project.allowed_parents should be used but it isn't working correctly currently
@@ -466,7 +466,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def add_file
+  def add_file # spec_me cover_me heckle_me
     if request.post?
       container = @project
       attachments = attach_files(container, params[:attachments])
@@ -478,7 +478,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def list_files
+  def list_files # spec_me cover_me heckle_me
     sort_init 'filename', 'asc'
     sort_update 'filename' => "#{Attachment.table_name}.filename",
                 'created_at' => "#{Attachment.table_name}.created_at",
@@ -489,12 +489,12 @@ class ProjectsController < ApplicationController
     render :layout => !request.xhr?
   end
 
-  def team
+  def team # spec_me cover_me heckle_me
       @days = Setting.activity_days_default.to_i
       @hide_view_team_link = true #hides the link to this page from the active box
   end
 
-  def credits
+  def credits # spec_me cover_me heckle_me
     @credits = @project.fetch_credits(params[:with_subprojects])
 
     @credits_pages, @creditss = @project.fetch_credits(params[:with_subprojects])
@@ -506,7 +506,7 @@ class ProjectsController < ApplicationController
   end
 
   #params that can be passed: length, with_subprojects, and author
-  def activity
+  def activity # spec_me cover_me heckle_me
 
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -514,7 +514,7 @@ class ProjectsController < ApplicationController
 
   private
 
-  def find_project
+  def find_project # cover_me heckle_me
     if (params[:show_issue_id])
       @project = Issue.find(params[:show_issue_id]).project
     else
@@ -526,7 +526,7 @@ class ProjectsController < ApplicationController
     render_404
   end
 
-  def find_optional_project
+  def find_optional_project # cover_me heckle_me
     return true unless params[:id]
     @project = Project.find(params[:id])
     authorize
@@ -534,7 +534,7 @@ class ProjectsController < ApplicationController
     render_404
   end
 
-  def retrieve_selected_tracker_ids(selectable_trackers, default_trackers=nil)
+  def retrieve_selected_tracker_ids(selectable_trackers, default_trackers=nil) # cover_me heckle_me
     if ids = params[:tracker_ids]
       @selected_tracker_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
     else
@@ -544,7 +544,7 @@ class ProjectsController < ApplicationController
 
   # Validates parent_id param according to user's permissions
   # TODO: move it to Project model in a validation that depends on User.current
-  def validate_parent_id
+  def validate_parent_id # cover_me heckle_me
     return true if User.current.admin?
     parent_id = params[:project] && params[:project][:parent_id]
     if parent_id || @project.new_record?

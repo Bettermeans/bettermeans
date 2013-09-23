@@ -5,7 +5,7 @@ class Tracker < ActiveRecord::Base
   before_destroy :check_integrity
   has_many :issues
   has_many :workflows, :dependent => :delete_all do
-    def copy(source_tracker)
+    def copy(source_tracker) # spec_me cover_me heckle_me
       Workflow.copy(source_tracker, nil, proxy_owner, nil)
     end
   end
@@ -18,54 +18,54 @@ class Tracker < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 
-  def to_s; name end
+  def to_s; name end # spec_me cover_me heckle_me
 
-  def <=>(tracker)
+  def <=>(tracker) # spec_me cover_me heckle_me
     name <=> tracker.name
   end
 
-  def self.all
+  def self.all # spec_me cover_me heckle_me
     find(:all, :order => 'position')
   end
 
   #All trackers except the ones that apply to the credits module
-  def self.no_credits
+  def self.no_credits # spec_me cover_me heckle_me
     find(:all, :conditions => {:for_credits_module => false}, :order => 'position')
   end
 
 
-  def gift?
+  def gift? # spec_me cover_me heckle_me
     name == l(:default_issue_tracker_gift)
   end
 
-  def expense?
+  def expense? # spec_me cover_me heckle_me
     name == l(:default_issue_tracker_expense)
   end
 
-  def recurring?
+  def recurring? # spec_me cover_me heckle_me
     name == l(:default_issue_tracker_recurring)
   end
 
-  def hourly?
+  def hourly? # spec_me cover_me heckle_me
     name == l(:default_issue_tracker_hourly)
   end
 
-  def feature?
+  def feature? # spec_me cover_me heckle_me
     name == l(:default_issue_tracker_feature)
   end
 
-  def bug?
+  def bug? # spec_me cover_me heckle_me
     name == l(:default_issue_tracker_bug)
   end
 
-  def chore?
+  def chore? # spec_me cover_me heckle_me
     name == l(:default_issue_tracker_chore)
   end
 
 
   # Returns an array of IssueStatus that are used
   # in the tracker's workflows
-  def issue_statuses
+  def issue_statuses # spec_me cover_me heckle_me
     if @issue_statuses
       return @issue_statuses
     elsif new_record?
@@ -82,7 +82,7 @@ class Tracker < ActiveRecord::Base
 
   private
 
-  def check_integrity
+  def check_integrity # cover_me heckle_me
     raise "Can't delete tracker" if Issue.find(:first, :conditions => ["tracker_id=?", self.id])
   end
 

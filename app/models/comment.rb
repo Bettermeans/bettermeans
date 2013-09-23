@@ -9,18 +9,18 @@ class Comment < ActiveRecord::Base
 
   after_save :send_mentions
 
-  def send_mentions
+  def send_mentions # spec_me cover_me heckle_me
     Mention.parse(self, self.author_id)
   end
 
-  def title
+  def title # spec_me cover_me heckle_me
     case self.commented_type
     when "News"
       self.commented.title
     end
   end
 
-  def mention(mentioner_id, mentioned_id, mention_text)
+  def mention(mentioner_id, mentioned_id, mention_text) # spec_me cover_me heckle_me
     Notification.create :recipient_id => mentioned_id,
                         :variation => 'mention',
                         :params => {:mention_text => self.comments,

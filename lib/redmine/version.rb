@@ -12,7 +12,7 @@ module Redmine
     # * trunk:            devel
     BRANCH = 'devel'
 
-    def self.revision
+    def self.revision # spec_me cover_me heckle_me
       revision = nil
       entries_path = "#{RAILS_ROOT}/.svn/entries"
       if File.readable?(entries_path)
@@ -37,7 +37,7 @@ module Redmine
     ARRAY = [MAJOR, MINOR, TINY, BRANCH, REVISION].compact
     STRING = ARRAY.join('.')
 
-    def self.to_a; ARRAY end
-    def self.to_s; STRING end
+    def self.to_a; ARRAY end # spec_me cover_me heckle_me
+    def self.to_s; STRING end # spec_me cover_me heckle_me
   end
 end

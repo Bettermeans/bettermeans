@@ -17,7 +17,7 @@ module Redmine
         include Redmine::I18n
         attr_accessor :footer_date
 
-        def initialize(lang)
+        def initialize(lang) # spec_me cover_me heckle_me
           super()
           set_language_if_valid lang
           case current_language.to_s.downcase
@@ -44,11 +44,11 @@ module Redmine
           SetFont(@font_for_content)
         end
 
-        def SetFontStyle(style, size)
+        def SetFontStyle(style, size) # spec_me cover_me heckle_me
           SetFont(@font_for_content, style, size)
         end
 
-        def SetTitle(txt)
+        def SetTitle(txt) # spec_me cover_me heckle_me
           txt = begin
             utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
             hextxt = "<FEFF"  # FEFF is BOM
@@ -60,7 +60,7 @@ module Redmine
           super(txt)
         end
 
-        def textstring(s)
+        def textstring(s) # spec_me cover_me heckle_me
           # Format a text string
           if s =~ /^</  # This means the string is hex-dumped.
             return s
@@ -69,7 +69,7 @@ module Redmine
           end
         end
 
-        def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
+        def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='') # spec_me cover_me heckle_me
           @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           # these quotation marks are not correctly rendered in the pdf
           txt = txt.gsub(/[â€œâ€�]/, '"') if txt
@@ -84,7 +84,7 @@ module Redmine
           super w,h,txt,border,ln,align,fill,link
         end
 
-        def Footer
+        def Footer # spec_me cover_me heckle_me
           SetFont(@font_for_footer, 'I', 8)
           SetY(-15)
           SetX(15)
@@ -96,7 +96,7 @@ module Redmine
       end
 
       # Returns a PDF string of a list of issues
-      def issues_to_pdf(issues, project, query)
+      def issues_to_pdf(issues, project, query) # spec_me cover_me heckle_me
         pdf = IFPDF.new(current_language)
         title = query.new_record? ? l(:label_issue_plural) : query.name
         title = "#{project} - #{title}" if project
@@ -160,7 +160,7 @@ module Redmine
       end
 
       # Returns a PDF string of a single issue
-      def issue_to_pdf(issue)
+      def issue_to_pdf(issue) # spec_me cover_me heckle_me
         pdf = IFPDF.new(current_language)
         pdf.SetTitle("#{issue.project} - ##{issue.tracker} #{issue.id}")
         pdf.AliasNbPages
@@ -277,7 +277,7 @@ module Redmine
       end
 
       # Returns a PDF string of a gantt chart
-      def gantt_to_pdf(gantt, project)
+      def gantt_to_pdf(gantt, project) # spec_me cover_me heckle_me
         pdf = IFPDF.new(current_language)
         pdf.SetTitle("#{l(:label_gantt)} #{project}")
         pdf.AliasNbPages

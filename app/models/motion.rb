@@ -48,11 +48,11 @@ class Motion < ActiveRecord::Base
   after_create :send_announce,:create_forum_topic
   after_save :close
 
-  def active?
+  def active? # spec_me cover_me heckle_me
     self.state == STATE_ACTIVE
   end
 
-  def ended?
+  def ended? # spec_me cover_me heckle_me
 
     return true if Time.now > self.ends_on
 
@@ -72,12 +72,12 @@ class Motion < ActiveRecord::Base
   end
 
   # true if variation requires a concerned user to be specified
-  def concerns_someone?
+  def concerns_someone? # spec_me cover_me heckle_me
     return (self.variation == VARIATION_NEW_MEMBER || self.variation == VARIATION_NEW_CORE || self.variation == VARIATION_FIRE_MEMBER || self.variation == VARIATION_FIRE_CORE)
   end
 
   #Checks if motion has reached end date, calculates vote and takes action
-  def close
+  def close # spec_me cover_me heckle_me
     return if !active?
     return if !ended?
     return if self.motion_votes.nil?
@@ -111,7 +111,7 @@ class Motion < ActiveRecord::Base
 
   end
 
-  def set_values
+  def set_values # spec_me cover_me heckle_me
     self.title = Setting::MOTIONS[self.variation]["Title"]
     self.title = self.generate_title
     self.binding_level = Setting::MOTIONS[self.variation]["Binding"]
@@ -123,7 +123,7 @@ class Motion < ActiveRecord::Base
     self.description = self.generate_description
   end
 
-  def generate_title
+  def generate_title # spec_me cover_me heckle_me
      case self.variation
        when VARIATION_GENERAL
          self.title
@@ -147,7 +147,7 @@ class Motion < ActiveRecord::Base
   end
 
 
-  def generate_description
+  def generate_description # spec_me cover_me heckle_me
     content = ""
      case self.variation
        when VARIATION_GENERAL
@@ -171,7 +171,7 @@ class Motion < ActiveRecord::Base
      end
   end
 
-  def self.eligible_users(variation,project_id)
+  def self.eligible_users(variation,project_id) # spec_me cover_me heckle_me
 
     project = Project.find(project_id)
     @concerned_user_list = ""
@@ -188,7 +188,7 @@ class Motion < ActiveRecord::Base
     @concerned_user_list
   end
 
-  def create_forum_topic
+  def create_forum_topic # spec_me cover_me heckle_me
 
     main_board = Board.first(:conditions => {:project_id => self.project, :name => Setting.forum_name})
 
@@ -201,15 +201,15 @@ class Motion < ActiveRecord::Base
 
   end
 
-  def visibility_level_description
+  def visibility_level_description # spec_me cover_me heckle_me
     Role.first(:conditions => {:position => self.visibility_level}).name
   end
 
-  def binding_level_description
+  def binding_level_description # spec_me cover_me heckle_me
     Role.first(:conditions => {:position => self.binding_level}).name
   end
 
-  def execute_action
+  def execute_action # spec_me cover_me heckle_me
     return if self.state != STATE_PASSED
     case self.variation
       when VARIATION_GENERAL
@@ -232,11 +232,11 @@ class Motion < ActiveRecord::Base
     end
   end
 
-  def send_announce
+  def send_announce # spec_me cover_me heckle_me
     self.send_later :announce
   end
 
-  def announce
+  def announce # spec_me cover_me heckle_me
     admin = User.sysadmin
 
     self.project.all_members.each do |member|
@@ -251,7 +251,7 @@ class Motion < ActiveRecord::Base
     end
   end
 
-  def announce_passed
+  def announce_passed # spec_me cover_me heckle_me
     admin = User.sysadmin
 
     LogActivityStreams.write_single_activity_stream(User.sysadmin,:name,self,:title,:passed_a,:motions, 0, nil,{})

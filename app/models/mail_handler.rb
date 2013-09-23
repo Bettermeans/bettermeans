@@ -13,7 +13,7 @@ class MailHandler < ActiveRecord::Base
   # when extending from ActiveRecord initialize doesn't always get called
   # http://blog.dalethatcher.com/2008/03/rails-dont-override-initialize-on.html
   # better to make this an after_initialize
-  def initialize(email, user,options = {})
+  def initialize(email, user,options = {}) # spec_me cover_me heckle_me
     logger.info { "initializing mail handler" } if logger
     @@handler_options = options.dup
 
@@ -32,7 +32,7 @@ class MailHandler < ActiveRecord::Base
     dispatch
   end
 
-  def self.receive(email, options={})
+  def self.receive(email, options={}) # spec_me cover_me heckle_me
     @@handler_options = options.dup
 
     @@handler_options[:issue] ||= {}
@@ -50,7 +50,7 @@ class MailHandler < ActiveRecord::Base
 
   # Processes incoming emails
   # Returns the created object (eg. an issue, a message) or false
-  def receive(email)
+  def receive(email) # spec_me cover_me heckle_me
     @email = email
     sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
@@ -85,7 +85,7 @@ class MailHandler < ActiveRecord::Base
 
   # Processes incoming emails
   # Returns the created object (eg. an issue, a message) or false
-  def self.receive_from_api(email,options ={})
+  def self.receive_from_api(email,options ={}) # spec_me cover_me heckle_me
     logger.info { "recieving from api" } if logger
     @@handler_options = options.dup
 
@@ -136,7 +136,7 @@ class MailHandler < ActiveRecord::Base
   ISSUE_REPLY_SUBJECT_RE = %r{\[[^\]]*#(\d+)\]}
   MESSAGE_REPLY_SUBJECT_RE = %r{\[[^\]]*msg(\d+)\]}
 
-  def dispatch
+  def dispatch # cover_me heckle_me
     logger.info { "attempting to dispatch" } if logger
     headers = [email.in_reply_to, email.references].flatten.compact
     if headers.detect {|h| h.to_s =~ MESSAGE_ID_RE}
@@ -167,7 +167,7 @@ class MailHandler < ActiveRecord::Base
   end
 
   # Creates a new issue
-  def receive_issue
+  def receive_issue # cover_me heckle_me
     project = target_project
     tracker = (get_keyword(:tracker) && project.trackers.find_by_name(get_keyword(:tracker))) || project.trackers.find(:first)
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
@@ -195,7 +195,7 @@ class MailHandler < ActiveRecord::Base
     issue
   end
 
-  def target_project
+  def target_project # cover_me heckle_me
     # TODO: other ways to specify project:
     # * parse the email To field
     # * specific project (eg. Setting.mail_handler_target_project)
@@ -205,7 +205,7 @@ class MailHandler < ActiveRecord::Base
   end
 
   # Adds a note to an existing issue
-  def receive_issue_reply(issue_id)
+  def receive_issue_reply(issue_id) # cover_me heckle_me
     status =  (get_keyword(:status) && IssueStatus.find_by_name(get_keyword(:status)))
 
     issue = Issue.find_by_id(issue_id)
@@ -233,7 +233,7 @@ class MailHandler < ActiveRecord::Base
   end
 
   # Reply will be added to the issue
-  def receive_journal_reply(journal_id)
+  def receive_journal_reply(journal_id) # cover_me heckle_me
     journal = Journal.find_by_id(journal_id)
     if journal && journal.journalized_type == 'Issue'
       receive_issue_reply(journal.journalized_id)
@@ -241,7 +241,7 @@ class MailHandler < ActiveRecord::Base
   end
 
   # Receives a reply to a forum message
-  def receive_message_reply(message_id)
+  def receive_message_reply(message_id) # cover_me heckle_me
     message = Message.find_by_id(message_id)
     if message
       message = message.root
@@ -263,7 +263,7 @@ class MailHandler < ActiveRecord::Base
     end
   end
 
-  def add_attachments(obj)
+  def add_attachments(obj) # cover_me heckle_me
     if email.has_attachments?
       email.attachments.each do |attachment|
         Attachment.create(:container => obj,
@@ -276,7 +276,7 @@ class MailHandler < ActiveRecord::Base
 
   # Adds To and Cc as watchers of the given object if the sender has the
   # appropriate permission
-  def add_watchers(obj)
+  def add_watchers(obj) # cover_me heckle_me
     if user.allowed_to?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.collect {|a| a.strip.downcase}
       unless addresses.empty?
@@ -286,7 +286,7 @@ class MailHandler < ActiveRecord::Base
     end
   end
 
-  def get_keyword(attr, options={})
+  def get_keyword(attr, options={}) # cover_me heckle_me
     @keywords ||= {}
     if @keywords.has_key?(attr)
       @keywords[attr]
@@ -303,7 +303,7 @@ class MailHandler < ActiveRecord::Base
 
   # Returns the text/plain part of the email
   # If not found (eg. HTML-only email), returns the body with tags removed
-  def plain_text_body
+  def plain_text_body # cover_me heckle_me
     return @plain_text_body unless @plain_text_body.nil?
     parts = @email.parts.collect {|c| (c.respond_to?(:parts) && !c.parts.empty?) ? c.parts : c}.flatten
     if parts.empty?
@@ -324,16 +324,16 @@ class MailHandler < ActiveRecord::Base
     @plain_text_body
   end
 
-  def cleaned_up_text_body
+  def cleaned_up_text_body # cover_me heckle_me
     cleanup_body(plain_text_body)
   end
 
-  def self.full_sanitizer
+  def self.full_sanitizer # cover_me heckle_me
     @full_sanitizer ||= HTML::FullSanitizer.new
   end
 
   # Creates a user account for the +email+ sender
-  def self.create_user_from_email(email)
+  def self.create_user_from_email(email) # cover_me heckle_me
     addr = email.from_addrs.to_a.first
     if addr && !addr.spec.blank?
       user = User.new
@@ -352,7 +352,7 @@ class MailHandler < ActiveRecord::Base
   end
 
   # Removes the email body of text after the truncation configurations.
-  def cleanup_body(body)
+  def cleanup_body(body) # cover_me heckle_me
     delimiters = Setting.mail_handler_body_delimiters.to_s.split(/[\r\n]+/).reject(&:blank?).map {|s| Regexp.escape(s)}
     unless delimiters.empty?
       regex = Regexp.new("^(#{ delimiters.join('|') })\s*[\r\n].*", Regexp::MULTILINE)

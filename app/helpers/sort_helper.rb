@@ -16,7 +16,7 @@
 #   helper :sort
 #   include SortHelper
 #
-#   def list
+#   def list # spec_me cover_me heckle_me
 #     sort_init 'last_name'
 #     sort_update %w(first_name last_name)
 #     @items = Contact.find_all nil, sort_clause
@@ -27,7 +27,7 @@
 #   helper :sort
 #   include SortHelper
 #
-#   def list
+#   def list # spec_me cover_me heckle_me
 #     sort_init 'last_name'
 #     sort_update %w(first_name last_name)
 #     @contact_pages, @items = paginate :contacts,
@@ -53,32 +53,32 @@
 module SortHelper
   class SortCriteria
 
-    def initialize
+    def initialize # spec_me cover_me heckle_me
       @criteria = []
     end
 
-    def available_criteria=(criteria)
+    def available_criteria=(criteria) # spec_me cover_me heckle_me
       unless criteria.is_a?(Hash)
         criteria = criteria.inject({}) {|h,k| h[k] = k; h}
       end
       @available_criteria = criteria
     end
 
-    def from_param(param)
+    def from_param(param) # spec_me cover_me heckle_me
       @criteria = param.to_s.split(',').collect {|s| s.split(':')[0..1]}
       normalize!
     end
 
-    def criteria=(arg)
+    def criteria=(arg) # spec_me cover_me heckle_me
       @criteria = arg
       normalize!
     end
 
-    def to_param
+    def to_param # spec_me cover_me heckle_me
       @criteria.collect {|k,o| k + (o ? '' : ':desc')}.join(',')
     end
 
-    def to_sql
+    def to_sql # spec_me cover_me heckle_me
       sql = @criteria.collect do |k,o|
         if s = @available_criteria[k]
           (o ? s.to_a : s.to_a.collect {|c| "#{c} DESC"}).join(', ')
@@ -87,33 +87,33 @@ module SortHelper
       sql.blank? ? nil : sql
     end
 
-    def add!(key, asc)
+    def add!(key, asc) # spec_me cover_me heckle_me
       @criteria.delete_if {|k,o| k == key}
       @criteria = [[key, asc]] + @criteria
       normalize!
     end
 
-    def add(*args)
+    def add(*args) # spec_me cover_me heckle_me
       r = self.class.new.from_param(to_param)
       r.add!(*args)
       r
     end
 
-    def first_key
+    def first_key # spec_me cover_me heckle_me
       @criteria.first && @criteria.first.first
     end
 
-    def first_asc?
+    def first_asc? # spec_me cover_me heckle_me
       @criteria.first && @criteria.first.last
     end
 
-    def empty?
+    def empty? # spec_me cover_me heckle_me
       @criteria.empty?
     end
 
     private
 
-    def normalize!
+    def normalize! # cover_me heckle_me
       @criteria ||= []
       @criteria = @criteria.collect {|s| s = s.to_a; [s.first, (s.last == false || s.last == 'desc') ? false : true]}
       @criteria = @criteria.select {|k,o| @available_criteria.has_key?(k)} if @available_criteria
@@ -123,7 +123,7 @@ module SortHelper
 
   end
 
-  def sort_name
+  def sort_name # cover_me heckle_me
     controller_name + '_' + action_name + '_sort'
   end
 
@@ -135,7 +135,7 @@ module SortHelper
   #   sort_init ['name', ['id', 'desc']]
   #   sort_init [['name', 'desc'], ['id', 'desc']]
   #
-  def sort_init(*args)
+  def sort_init(*args) # cover_me heckle_me
     case args.size
     when 1
       @sort_default = args.first.is_a?(Array) ? args.first : [[args.first]]
@@ -150,7 +150,7 @@ module SortHelper
   # sort_clause.
   # - criteria can be either an array or a hash of allowed keys
   #
-  def sort_update(criteria)
+  def sort_update(criteria) # cover_me heckle_me
     @sort_criteria = SortCriteria.new
     @sort_criteria.available_criteria = criteria
     @sort_criteria.from_param(params[:sort] || session[sort_name])
@@ -160,14 +160,14 @@ module SortHelper
 
   # Clears the sort criteria session data
   #
-  def sort_clear
+  def sort_clear # cover_me heckle_me
     session[sort_name] = nil
   end
 
   # Returns an SQL sort clause corresponding to the current sort state.
   # Use this to sort the controller's table items collection.
   #
-  def sort_clause
+  def sort_clause # cover_me heckle_me
     @sort_criteria.to_sql
   end
 
@@ -177,7 +177,7 @@ module SortHelper
   # - the optional caption explicitly specifies the displayed link text.
   # - 2 CSS classes reflect the state of the link: sort and asc or desc
   #
-  def sort_link(column, caption, default_order)
+  def sort_link(column, caption, default_order) # cover_me heckle_me
     css, order = nil, default_order
 
     if column.to_s == @sort_criteria.first_key
@@ -217,7 +217,7 @@ module SortHelper
   #
   #   <%= sort_header_tag('id', :title => 'Sort by contact ID', :width => 40) %>
   #
-  def sort_header_tag(column, options = {})
+  def sort_header_tag(column, options = {}) # cover_me heckle_me
     caption = options.delete(:caption) || column.to_s.humanize
     default_order = options.delete(:default_order) || 'asc'
     options[:title] = l(:label_sort_by, "\"#{caption}\"") unless options[:title]

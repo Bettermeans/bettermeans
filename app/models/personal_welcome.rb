@@ -4,7 +4,7 @@
 class PersonalWelcome < ActiveRecord::Base
   belongs_to :user
 
-  def self.deliver
+  def self.deliver # spec_me cover_me heckle_me
     projects = Project.find(:all, :conditions => "created_at > '#{Time.now.advance :days => -7}' AND parent_id is null AND owner_id not in (select user_id from personal_welcomes)").group_by{|p| p.owner_id}
 
     projects.each_pair do |owner_id,project_list|

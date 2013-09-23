@@ -15,32 +15,32 @@ class Notification < ActiveRecord::Base
   STATE_ARCHIVED = 2
   STATE_RECINDED = 3
 
-  def mark_as_responded
+  def mark_as_responded # spec_me cover_me heckle_me
     self.state = STATE_RESPONDED
     self.params = nil
     self.save
   end
 
   #returns true if notification is of a mention type
-  def mention?
+  def mention? # spec_me cover_me heckle_me
     self.variation == "mention"
   end
 
   # Returns true or false based on if this user has any notifications that haven't been responded to
-  def self.unresponded?
+  def self.unresponded? # spec_me cover_me heckle_me
     self.unresponded_count > 0 ? true : false
   end
 
   # Returns the number of unresponded notifications for this user
-  def self.unresponded_count
+  def self.unresponded_count # spec_me cover_me heckle_me
     self.count(:conditions => ["recipient_id=? AND (expiration is null or expiration >=?) AND state = 0", User.current, Time.new.to_date])
   end
 
-  def self.unresponded
+  def self.unresponded # spec_me cover_me heckle_me
     self.find(:all, :conditions => ["recipient_id=? AND (expiration is null or expiration >=?) AND state = 0", User.current, Time.new.to_date])
   end
 
-  def remove_mention_duplicates
+  def remove_mention_duplicates # spec_me cover_me heckle_me
     return unless mention?
     Notification.update_all(["state = ?", STATE_ARCHIVED], {:variation => 'mention', :recipient_id => self.recipient_id, :source_id => self.source_id, :source_type => self.source_type})
   end
@@ -51,11 +51,11 @@ class Notification < ActiveRecord::Base
   end
 
   # Deactivates all unanswered notifications for a particular variation and source id
-  def self.deactivate_all(variation, source_id)
+  def self.deactivate_all(variation, source_id) # spec_me cover_me heckle_me
     update_all(variation,source_id,0,STATE_DEACTIVATED)
   end
 
-  def self.activate_all(variation, source_id)
+  def self.activate_all(variation, source_id) # spec_me cover_me heckle_me
     update_all(variation,source_id,-1,STATE_ACTIVE)
   end
 end

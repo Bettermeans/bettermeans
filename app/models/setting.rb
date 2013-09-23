@@ -179,7 +179,7 @@ class Setting < ActiveRecord::Base
 
   before_save :serialize_value
 
-  def value
+  def value # spec_me cover_me heckle_me
     @value ||= read_attribute(:value)
     # Unserialize serialized settings
     @value = YAML::load(@value) if @@available_settings[name]['serialized'] && @value.is_a?(String)
@@ -187,22 +187,22 @@ class Setting < ActiveRecord::Base
     @value
   end
 
-  def value=(value)
+  def value=(value) # spec_me cover_me heckle_me
     @value = value
   end
 
-  def serialize_value
+  def serialize_value # spec_me cover_me heckle_me
     @value = @value.to_yaml if @value && @@available_settings[name]['serialized']
     write_attribute(:value, @value.to_s)
   end
 
   # Returns the value of the setting named name
-  def self.[](name)
+  def self.[](name) # spec_me cover_me heckle_me
     v = @cached_settings[name]
     v ? v : (@cached_settings[name] = find_or_default(name).value)
   end
 
-  def self.[]=(name, v)
+  def self.[]=(name, v) # spec_me cover_me heckle_me
     setting = find_or_default(name)
     setting.value = (v ? v : "")
     @cached_settings[name] = nil
@@ -215,15 +215,15 @@ class Setting < ActiveRecord::Base
   # or set using Setting.some_setting_name = "some value"
   @@available_settings.each do |name, params|
     src = <<-END_SRC
-    def self.#{name}
+    def self.#{name} # spec_me cover_me heckle_me
       self[:#{name}]
     end
 
-    def self.#{name}?
+    def self.#{name}? # spec_me cover_me heckle_me
       self[:#{name}].to_i > 0
     end
 
-    def self.#{name}=(value)
+    def self.#{name}=(value) # spec_me cover_me heckle_me
       self[:#{name}] = value
     end
     END_SRC
@@ -231,18 +231,18 @@ class Setting < ActiveRecord::Base
   end
 
   # Helper that returns an array based on per_page_options setting
-  def self.per_page_options_array
+  def self.per_page_options_array # spec_me cover_me heckle_me
     per_page_options.split(%r{[\s,]}).collect(&:to_i).select {|n| n > 0}.sort
   end
 
-  def self.openid?
+  def self.openid? # spec_me cover_me heckle_me
     Object.const_defined?(:OpenID) && self[:openid].to_i > 0
   end
 
   # Checks if settings have changed since the values were read
   # and clears the cache hash if it's the case
   # Called once per request
-  def self.check_cache
+  def self.check_cache # spec_me cover_me heckle_me
     settings_updated_at = Setting.maximum(:updated_at)
     if settings_updated_at && @cached_cleared_on <= settings_updated_at
       @cached_settings.clear
@@ -254,7 +254,7 @@ class Setting < ActiveRecord::Base
 
   # Returns the Setting instance for the setting named name
   # (record found in database or new record with default value)
-  def self.find_or_default(name)
+  def self.find_or_default(name) # cover_me heckle_me
     name = name.to_s
     raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)
     if @@available_settings.has_key? name

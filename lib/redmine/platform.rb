@@ -5,7 +5,7 @@
 module Redmine
   module Platform
     class << self
-      def mswin?
+      def mswin? # spec_me cover_me heckle_me
         (RUBY_PLATFORM =~ /(:?mswin|mingw)/) || (RUBY_PLATFORM == 'java' && (ENV['OS'] || ENV['os']) =~ /windows/i)
       end
     end

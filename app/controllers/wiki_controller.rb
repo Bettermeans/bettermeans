@@ -19,7 +19,7 @@ class WikiController < ApplicationController
   log_activity_streams :current_user, :name, :attached, :@page, :title, :add_attachment, :wikis, {}
 
   # display a page (in editing mode if it doesn't exist)
-  def index
+  def index # spec_me cover_me heckle_me
     page_title = params[:page]
     @page = @wiki.find_or_new_page(page_title)
     if @page.new_record?
@@ -50,7 +50,7 @@ class WikiController < ApplicationController
   end
 
   # edit an existing page or a new one
-  def edit
+  def edit # spec_me cover_me heckle_me
     @page = @wiki.find_or_new_page(params[:page])
     return render_403 unless editable?
     @page.content = WikiContent.new(:page => @page) if @page.new_record?
@@ -89,7 +89,7 @@ class WikiController < ApplicationController
   end
 
   # rename a page
-  def rename
+  def rename # spec_me cover_me heckle_me
     return render_403 unless editable?
     @page.redirect_existing_links = true
     # used to display the *original* title if some AR validation errors occur
@@ -100,13 +100,13 @@ class WikiController < ApplicationController
     end
   end
 
-  def protect
+  def protect # spec_me cover_me heckle_me
     @page.update_attribute :protected, params[:protected]
     redirect_to :action => 'index', :id => @project, :page => @page.title
   end
 
   # show page history
-  def history
+  def history # spec_me cover_me heckle_me
     @version_count = @page.content.versions.count
     @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
     # don't load text
@@ -119,19 +119,19 @@ class WikiController < ApplicationController
     render :layout => false if request.xhr?
   end
 
-  def diff
+  def diff # spec_me cover_me heckle_me
     @diff = @page.diff(params[:version], params[:version_from])
     render_404 unless @diff
   end
 
-  def annotate
+  def annotate # spec_me cover_me heckle_me
     @annotate = @page.annotate(params[:version])
     render_404 unless @annotate
   end
 
   # Removes a wiki page and its history
   # Children can be either set as root pages, removed or reassigned to another parent page
-  def destroy
+  def destroy # spec_me cover_me heckle_me
     return render_403 unless editable?
 
     @descendants_count = @page.descendants.size
@@ -159,7 +159,7 @@ class WikiController < ApplicationController
   end
 
   # display special pages
-  def special
+  def special # spec_me cover_me heckle_me
     page_title = params[:page].downcase
     case page_title
     # show pages index, sorted by title
@@ -184,7 +184,7 @@ class WikiController < ApplicationController
     render :action => "special_#{page_title}"
   end
 
-  def preview
+  def preview # spec_me cover_me heckle_me
     page = @wiki.find_page(params[:page])
     # page is nil when previewing a new page
     return render_403 unless page.nil? || editable?(page)
@@ -196,7 +196,7 @@ class WikiController < ApplicationController
     render :partial => 'common/preview'
   end
 
-  def add_attachment
+  def add_attachment # spec_me cover_me heckle_me
     return render_403 unless editable?
     attach_files(@page, params[:attachments])
     redirect_to :action => 'index', :page => @page.title
@@ -204,7 +204,7 @@ class WikiController < ApplicationController
 
   private
 
-  def find_wiki
+  def find_wiki # cover_me heckle_me
     @project = Project.find(params[:id])
     render_message l(:text_project_locked) if @project.locked?
 
@@ -215,18 +215,18 @@ class WikiController < ApplicationController
   end
 
   # Finds the requested page and returns a 404 error if it doesn't exist
-  def find_existing_page
+  def find_existing_page # cover_me heckle_me
     @page = @wiki.find_page(params[:page])
     render_404 if @page.nil?
   end
 
   # Returns true if the current user is allowed to edit the page, otherwise false
-  def editable?(page = @page)
+  def editable?(page = @page) # cover_me heckle_me
     page.editable_by?(User.current)
   end
 
   # Returns the default content of a new wiki page
-  def initial_page_content(page)
+  def initial_page_content(page) # cover_me heckle_me
     helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
     extend helper unless self.instance_of?(helper)
     helper.instance_method(:initial_page_content).bind(self).call(page)

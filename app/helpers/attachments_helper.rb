@@ -5,7 +5,7 @@ module AttachmentsHelper
   # Displays view/delete links to the attachments of the given object
   # Options:
   #   :author -- author names are not displayed if set to false
-  def link_to_attachments(container, options = {})
+  def link_to_attachments(container, options = {}) # spec_me cover_me heckle_me
     options.assert_valid_keys(:author)
 
     if container.attachments.any?
@@ -14,7 +14,7 @@ module AttachmentsHelper
     end
   end
 
-  def link_to_attachments_table(container, options = {})
+  def link_to_attachments_table(container, options = {}) # spec_me cover_me heckle_me
     options.assert_valid_keys(:author)
 
     if container.attachments.any?
@@ -23,7 +23,7 @@ module AttachmentsHelper
     end
   end
 
-  def to_utf8(str)
+  def to_utf8(str) # spec_me cover_me heckle_me
     str
   end
 end

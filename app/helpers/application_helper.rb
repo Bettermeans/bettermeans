@@ -14,7 +14,7 @@ module ApplicationHelper
   extend Forwardable
   def_delegators :wiki_helper
 
-  def help_section(name, popup=false)
+  def help_section(name, popup=false) # spec_me cover_me heckle_me
     if popup
       return if User.current.anonymous?
 
@@ -34,29 +34,29 @@ module ApplicationHelper
   end
 
   # Return true if user is authorized for controller/action, otherwise false
-  def authorize_for(controller, action)
+  def authorize_for(controller, action) # spec_me cover_me heckle_me
     logger.info { "authorize for #{controller} #{action} #{@project.name}" }
     User.current.allowed_to?({:controller => controller, :action => action}, @project)
   end
 
   # Display a link if user is authorized
-  def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
+  def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference) # spec_me cover_me heckle_me
     link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
   end
 
   # Display a link if user is not logged in
-  def link_to_if_anon(name, options = {}, html_options = nil, *parameters_for_method_reference)
+  def link_to_if_anon(name, options = {}, html_options = nil, *parameters_for_method_reference) # spec_me cover_me heckle_me
     link_to(name, options, html_options, *parameters_for_method_reference) if User.current == User.anonymous
   end
 
   # Display a link to remote if user is authorized
-  def link_to_remote_if_authorized(name, options = {}, html_options = nil)
+  def link_to_remote_if_authorized(name, options = {}, html_options = nil) # spec_me cover_me heckle_me
     url = options[:url] || {}
     link_to_remote(name, options, html_options) if authorize_for(url[:controller] || params[:controller], url[:action])
   end
 
   # Displays a link to user's account page if active
-  def link_to_user(user, options={})
+  def link_to_user(user, options={}) # spec_me cover_me heckle_me
     if user.is_a?(User)
       name = h(user.name(options[:format]))
       if user.active?
@@ -69,7 +69,7 @@ module ApplicationHelper
     end
   end
 
-  def link_to_user_or_you(user, options={})
+  def link_to_user_or_you(user, options={}) # spec_me cover_me heckle_me
     if user == User.current
       "You"
     else
@@ -78,7 +78,7 @@ module ApplicationHelper
   end
 
   # Displays a link to project
-  def link_to_project(project, options={})
+  def link_to_project(project, options={}) # spec_me cover_me heckle_me
     if project.is_a?(Project)
       name = h(project.name)
       link_to name, :controller => 'projects', :action => 'show', :id => project
@@ -88,7 +88,7 @@ module ApplicationHelper
   end
 
 
-  def link_to_user_from_id(user_id, options={})
+  def link_to_user_from_id(user_id, options={}) # spec_me cover_me heckle_me
     link_to_user(User.find(user_id))
   end
 
@@ -100,7 +100,7 @@ module ApplicationHelper
   #   link_to_issue(issue, :subject => false)     # => Defect #6
   #   link_to_issue(issue, :project => true)      # => Foo - Defect #6
   #
-  def link_to_issue(issue, options={})
+  def link_to_issue(issue, options={}) # spec_me cover_me heckle_me
     title = nil
     subject = nil
     css_class = nil
@@ -126,7 +126,7 @@ module ApplicationHelper
     s
   end
 
-  def link_to_issue_from_id(issue_id, options={})
+  def link_to_issue_from_id(issue_id, options={}) # spec_me cover_me heckle_me
     link_to_issue(Issue.find(issue_id), options)
   rescue ActiveRecord::RecordNotFound
     css_class = "fancyframe" #loads fancybox
@@ -138,22 +138,22 @@ module ApplicationHelper
   # Options:
   # * :text - Link text (default to attachment filename)
   # * :download - Force download (default: false)
-  def link_to_attachment(attachment, options={})
+  def link_to_attachment(attachment, options={}) # spec_me cover_me heckle_me
     text = options.delete(:text) || attachment.filename
     action = options.delete(:download) ? 'download' : 'show'
 
     link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
   end
 
-  def current_user
+  def current_user # spec_me cover_me heckle_me
     User.current
   end
 
-  def logged_in?
+  def logged_in? # spec_me cover_me heckle_me
     User.current.logged?
   end
 
-  def toggle_link(name, id, options={})
+  def toggle_link(name, id, options={}) # spec_me cover_me heckle_me
     onclick = "$('##{id}').toggle(); "
     onclick << "$('##{options[:second_toggle]}').toggle(); " if options[:second_toggle]
     onclick << (options[:focus] ? "$('##{options[:focus]}').focus(); " : "this.blur(); ")
@@ -161,7 +161,7 @@ module ApplicationHelper
     link_to(name, "#", options.merge({:onclick => onclick}))
   end
 
-  def image_to_function(name, function, html_options = {})
+  def image_to_function(name, function, html_options = {}) # spec_me cover_me heckle_me
     html_options.symbolize_keys!
     tag(:input, html_options.merge({
         :type => "image", :src => image_path(name),
@@ -169,7 +169,7 @@ module ApplicationHelper
         }))
   end
 
-  def prompt_to_remote(name, text, param, url, html_options = {})
+  def prompt_to_remote(name, text, param, url, html_options = {}) # spec_me cover_me heckle_me
     html_options[:onclick] = "promptToRemote('#{text}', '#{param}', '#{url_for(url)}'); return false;"
     link_to name, {}, html_options
   end
@@ -182,24 +182,24 @@ module ApplicationHelper
   #url to submit to after input is collected
   #required input or just optional
   #html_options for this link
-  def prompt_input_to_remote(id, name, title, message, param, url, required, html_options = {})
+  def prompt_input_to_remote(id, name, title, message, param, url, required, html_options = {}) # spec_me cover_me heckle_me
     html_options[:onclick] = "comment_prompt_to_remote('#{id}', '#{title}', '#{message}', '#{param}', '#{url_for(url)}', #{required}); return false;"
     link_to name, {}, html_options
   end
 
-  def format_activity_title(text)
+  def format_activity_title(text) # spec_me cover_me heckle_me
     h(truncate_single_line(text, :length => 100))
   end
 
-  def format_activity_day(date)
+  def format_activity_day(date) # spec_me cover_me heckle_me
     date == Date.today ? l(:label_today).titleize : format_date(date)
   end
 
-  def format_activity_description(text)
+  def format_activity_description(text) # spec_me cover_me heckle_me
     make_expandable(textilizable(text),300)
   end
 
-  def make_expandable(newhtml,length=400)
+  def make_expandable(newhtml,length=400) # spec_me cover_me heckle_me
     return if newhtml.nil?
     return newhtml if newhtml.gsub(/<\/?[^>]*>/,  "").length < length
     id = rand(100000)
@@ -217,13 +217,13 @@ module ApplicationHelper
 
 
 
-  def due_date_distance_in_words(date)
+  def due_date_distance_in_words(date) # spec_me cover_me heckle_me
     if date
       l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
     end
   end
 
-  def render_page_hierarchy(pages, node=nil)
+  def render_page_hierarchy(pages, node=nil) # spec_me cover_me heckle_me
     content = ''
     if pages[node]
       content << "<ul class=\"pages-hierarchy\">\n"
@@ -240,7 +240,7 @@ module ApplicationHelper
   end
 
   # Renders flash messages
-  def render_flash_messages
+  def render_flash_messages # spec_me cover_me heckle_me
     s = ''
     flash.each do |k,v|
       s << content_tag('div', v, :class => "flash #{k}")
@@ -248,7 +248,7 @@ module ApplicationHelper
     s
   end
 
-  def render_global_messages
+  def render_global_messages # spec_me cover_me heckle_me
     s = ''
     if User.current.logged? && User.current.trial_expired_at && User.current.trial_expired_at < (-1 * Setting::GLOBAL_OVERUSE_THRESHOLD).days.from_now
       s << content_tag('div', link_to(l(:text_trial_expired), {:controller => 'my', :action => 'upgrade'}), :class => "flash error")
@@ -259,7 +259,7 @@ module ApplicationHelper
   end
 
   # Renders tabs and their content
-  def render_tabs(tabs)
+  def render_tabs(tabs) # spec_me cover_me heckle_me
     if tabs.any?
       render :partial => 'common/tabs', :locals => {:tabs => tabs}
     else
@@ -268,7 +268,7 @@ module ApplicationHelper
   end
 
   # Renders the project quick-jump box
-  def render_project_jump_box
+  def render_project_jump_box # spec_me cover_me heckle_me
     # Retrieve them now to avoid a COUNT query
     if User.current.pref[:active_only_jumps]
       projects = User.current.projects.all
@@ -295,7 +295,7 @@ module ApplicationHelper
       s << '<span id="widthcalc" style="display:none;"></span>'
   end
 
-  def sub_workstream_project_box(project)
+  def sub_workstream_project_box(project) # spec_me cover_me heckle_me
       return '' if project.nil?
       @project_descendants = project.descendants.active
       return '' if @project_descendants.length == 0
@@ -320,7 +320,7 @@ module ApplicationHelper
   end
 
 
-  def project_tree_options_for_select(projects, options = {})
+  def project_tree_options_for_select(projects, options = {}) # spec_me cover_me heckle_me
     s = ''
     project_tree_sorted(projects) do |project, level|
       name_prefix = (level > 0 ? ('&nbsp;' * 2 * level + '&#187; ') : '')
@@ -332,7 +332,7 @@ module ApplicationHelper
   end
 
   # Yields the given block for each project with its level in the tree
-  def project_tree(projects, &block)
+  def project_tree(projects, &block) # spec_me cover_me heckle_me
     ancestors = []
     projects.sort_by(&:lft).each do |project|
       while (ancestors.any? && !project.is_descendant_of?(ancestors.last))
@@ -343,7 +343,7 @@ module ApplicationHelper
     end
   end
 
-  def project_tree_sorted(projects, &block)
+  def project_tree_sorted(projects, &block) # spec_me cover_me heckle_me
     ancestors = []
     sorted = [] #nested array for alphabetical sorting
     last_array = sorted
@@ -369,7 +369,7 @@ module ApplicationHelper
     sorted
   end
 
-  def sort2d(ar)
+  def sort2d(ar) # spec_me cover_me heckle_me
     ar.sort! {|a,b| a[0][0][0] <=> b[0][0][0]}
 
     if ar[0][0].class.to_s != "String"
@@ -377,7 +377,7 @@ module ApplicationHelper
     end
   end
 
-  def traverse_sorted(ar, &block)
+  def traverse_sorted(ar, &block) # spec_me cover_me heckle_me
     unless ar[0].class.to_s != "String"
       yield ar[2], ar[1]
     else
@@ -385,7 +385,7 @@ module ApplicationHelper
     end
   end
 
-  def show_detail(detail, no_html=false)
+  def show_detail(detail, no_html=false) # spec_me cover_me heckle_me
     case detail.property
     when 'attr'
       label = l(("field_" + detail.prop_key.to_s.gsub(/\_id$/, "")).to_sym)
@@ -445,12 +445,12 @@ module ApplicationHelper
     end
   end
 
-  def format_time_ago(updated_at)
+  def format_time_ago(updated_at) # spec_me cover_me heckle_me
     "#{distance_of_time_in_words(Time.now,local_time(updated_at))} ago"
   end
 
 
-  def project_nested_ul(projects, &block)
+  def project_nested_ul(projects, &block) # spec_me cover_me heckle_me
     s = ''
     if projects.any?
       ancestors = []
@@ -474,7 +474,7 @@ module ApplicationHelper
     s
   end
 
-  def users_check_box_tags(name, users)
+  def users_check_box_tags(name, users) # spec_me cover_me heckle_me
     s = ''
     users.sort.each do |user|
       s << "<label>#{ check_box_tag name, user.id, false } #{h user}</label>\n"
@@ -483,20 +483,20 @@ module ApplicationHelper
   end
 
   # Truncates and returns the string as a single line
-  def truncate_single_line(string, *args)
+  def truncate_single_line(string, *args) # spec_me cover_me heckle_me
     truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ')
   end
 
-  def html_hours(text)
+  def html_hours(text) # spec_me cover_me heckle_me
     text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
   end
 
-  def authoring(created, author, options={})
+  def authoring(created, author, options={}) # spec_me cover_me heckle_me
     l(options[:label] || :label_added_time_by, :author => link_to_user(author), :age => time_tag(created))
   end
 
 
-  def time_tag(time)
+  def time_tag(time) # spec_me cover_me heckle_me
     text = distance_of_time_in_words(Time.now, time)
     if @project
       link_to(text, {:controller => 'projects', :action => 'activity', :id => @project, :from => time.to_date}, :title => format_time(time))
@@ -505,21 +505,21 @@ module ApplicationHelper
     end
   end
 
-  def since_tag(time)
+  def since_tag(time) # spec_me cover_me heckle_me
     text = distance_of_time_in_words(Time.now, time).gsub(/about/,"")
     content_tag('acronym', text, :title => format_time(time))
   end
 
-  def syntax_highlight(name, content)
+  def syntax_highlight(name, content) # spec_me cover_me heckle_me
     type = CodeRay::FileType[name]
     type ? CodeRay.scan(content, type).html : h(content)
   end
 
-  def to_path_param(path)
+  def to_path_param(path) # spec_me cover_me heckle_me
     path.to_s.split(%r{[/\\]}).select {|p| !p.blank?}
   end
 
-  def pagination_links_full(paginator, count=nil, options={})
+  def pagination_links_full(paginator, count=nil, options={}) # spec_me cover_me heckle_me
     page_param = options.delete(:page_param) || :page
     url_param = params.dup
     # don't reuse query params if filters are present
@@ -548,7 +548,7 @@ module ApplicationHelper
     html
   end
 
-  def per_page_links(selected=nil)
+  def per_page_links(selected=nil) # spec_me cover_me heckle_me
     url_param = params.dup
     url_param.clear if url_param.has_key?(:set_filter)
 
@@ -561,25 +561,25 @@ module ApplicationHelper
     links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
   end
 
-  def reorder_links(name, url)
+  def reorder_links(name, url) # spec_me cover_me heckle_me
     link_to(image_tag('2uparrow.png',   :alt => l(:label_sort_highest)), url.merge({"#{name}[move_to]" => 'highest'}), :method => :post, :title => l(:label_sort_highest)) +
     link_to(image_tag('1uparrow.png',   :alt => l(:label_sort_higher)),  url.merge({"#{name}[move_to]" => 'higher'}),  :method => :post, :title => l(:label_sort_higher)) +
     link_to(image_tag('1downarrow.png', :alt => l(:label_sort_lower)),   url.merge({"#{name}[move_to]" => 'lower'}),   :method => :post, :title => l(:label_sort_lower)) +
     link_to(image_tag('2downarrow.png', :alt => l(:label_sort_lowest)),  url.merge({"#{name}[move_to]" => 'lowest'}),  :method => :post, :title => l(:label_sort_lowest))
   end
 
-  def breadcrumb(*args)
+  def breadcrumb(*args) # spec_me cover_me heckle_me
     elements = args.flatten
     elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
   end
 
-  def other_formats_links(&block)
+  def other_formats_links(&block) # spec_me cover_me heckle_me
     concat('<p class="other-formats">' + l(:label_export_to))
     yield Redmine::Views::OtherFormatsBuilder.new(self)
     concat('</p>')
   end
 
-  def page_header_title
+  def page_header_title # spec_me cover_me heckle_me
     if @project.nil?
       link_to(@page_header_name.nil? ? User.current.name : "Bettermeans", {:controller => 'welcome', :action => 'index'}) + (@page_header_name.nil? ? '' :  ' &#187; ' + @page_header_name)
     elsif @project.new_record? #TODO: would be nice to have the project's parent name here if it's a new record
@@ -625,7 +625,7 @@ module ApplicationHelper
     end
   end
 
-  def page_header_name
+  def page_header_name # spec_me cover_me heckle_me
     begin
     if @project.nil? || @project.new_record?
       @page_header_name.nil? ? l(:label_my_home) : @page_header_name
@@ -642,7 +642,7 @@ module ApplicationHelper
     end
   end
 
-  def html_title(*args)
+  def html_title(*args) # spec_me cover_me heckle_me
     if args.empty?
       title = []
       title << @project.name if @project
@@ -655,7 +655,7 @@ module ApplicationHelper
     end
   end
 
-  def accesskey(s)
+  def accesskey(s) # spec_me cover_me heckle_me
     Redmine::AccessKeys.key_for s
   end
 
@@ -664,7 +664,7 @@ module ApplicationHelper
   # 2 ways to call this method:
   # * with a String: textilizable(text, options)
   # * with an object and one of its attribute: textilizable(issue, :description, options)
-  def textilizable(*args)
+  def textilizable(*args) # spec_me cover_me heckle_me
     options = args.last.is_a?(Hash) ? args.pop : {}
     case args.size
     when 1
@@ -837,19 +837,19 @@ module ApplicationHelper
   end
 
   # Same as Rails' simple_format helper without using paragraphs
-  def simple_format_without_paragraph(text)
+  def simple_format_without_paragraph(text) # spec_me cover_me heckle_me
     text.to_s.
       gsub(/\r\n?/, "\n").                    # \r\n and \r -> \n
       gsub(/\n\n+/, "<br /><br />").          # 2+ newline  -> 2 br
       gsub(/([^\n]\n)(?=[^\n])/, '\1<br />')  # 1 newline   -> br
   end
 
-  def lang_options_for_select(blank=true)
+  def lang_options_for_select(blank=true) # spec_me cover_me heckle_me
     (blank ? [["(auto)", ""]] : []) +
       valid_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
   end
 
-  def month_hash
+  def month_hash # spec_me cover_me heckle_me
     [
       ["01 - January",1],
       ["02 - February",2],
@@ -866,19 +866,19 @@ module ApplicationHelper
     ]
   end
 
-  def privacy(project)
+  def privacy(project) # spec_me cover_me heckle_me
     project.is_public ? "" : help_bubble(:help_this_workstream_is_private, {:image =>"icon_privacy.png"})
   end
 
-  def volunteering(project)
+  def volunteering(project) # spec_me cover_me heckle_me
     project.volunteer ? help_bubble(:help_volunteer, {:image => "icon_volunteer.png"}) : ""
   end
 
-  def year_hash
+  def year_hash # spec_me cover_me heckle_me
     [0,1,2,3,4,5,6,7,8,9,10].collect{|n| [(Date.today.year + n).to_s, Date.today.year + n]}
   end
 
-  def unit_for(project)
+  def unit_for(project) # spec_me cover_me heckle_me
     if project.volunteer?
       return '♥'
     else
@@ -888,7 +888,7 @@ module ApplicationHelper
 
 
 
-  def country_hash
+  def country_hash # spec_me cover_me heckle_me
     {
       "Afghanistan" => "AF",
       "Albania" => "AL",
@@ -1138,30 +1138,30 @@ module ApplicationHelper
     }
   end
 
-  def label_tag_for(name, option_tags = nil, options = {})
+  def label_tag_for(name, option_tags = nil, options = {}) # spec_me cover_me heckle_me
     label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
     content_tag("label", label_text)
   end
 
-  def labelled_tabular_form_for(name, object, options, &proc)
+  def labelled_tabular_form_for(name, object, options, &proc) # spec_me cover_me heckle_me
     options[:html] ||= {}
     options[:html][:class] = 'tabular' unless options[:html].has_key?(:class)
     form_for(name, object, options.merge({ :builder => TabularFormBuilder, :lang => current_language}), &proc)
   end
 
-  def back_url_hidden_field_tag
+  def back_url_hidden_field_tag # spec_me cover_me heckle_me
     back_url = params[:back_url] || request.env['HTTP_REFERER']
     back_url = CGI.unescape(back_url.to_s)
     hidden_field_tag('back_url', CGI.escape(back_url)) unless back_url.blank?
   end
 
-  def check_all_links(form_name)
+  def check_all_links(form_name) # spec_me cover_me heckle_me
     link_to_function(l(:button_check_all), "checkAll('#{form_name}', true)") +
     " | " +
     link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
   end
 
-  def progress_bar(pcts, options={})
+  def progress_bar(pcts, options={}) # spec_me cover_me heckle_me
     pcts = [pcts, pcts] unless pcts.is_a?(Array)
     pcts = pcts.collect(&:round)
     pcts[1] = pcts[1] - pcts[0]
@@ -1177,7 +1177,7 @@ module ApplicationHelper
       content_tag('p', legend, :class => 'pourcent')
   end
 
-  def context_menu_link(name, url, options={})
+  def context_menu_link(name, url, options={}) # spec_me cover_me heckle_me
     options[:class] ||= ''
     if options.delete(:selected)
       options[:class] << ' icon-checked disabled'
@@ -1193,12 +1193,12 @@ module ApplicationHelper
     link_to name, url, options
   end
 
-  def help_link(name, options={})
+  def help_link(name, options={}) # spec_me cover_me heckle_me
     options[:show_name] ||= false #When true, we show the text of the help key next to the link
     link_to(options[:show_name] ? l('help_' + name.to_s) : '', {:controller => 'help', :action => 'show', :key => name}, {:id =>'help_button_' + name.to_s, :class => 'lbOn icon icon-help'})
   end
 
-  def help_bubble(name, options={})
+  def help_bubble(name, options={}) # spec_me cover_me heckle_me
 
     imagename = options[:image] || "question_mark.gif"
     image = image_tag(imagename, :class=> "help_question_mark", :id=>"help_image_#{name}")
@@ -1215,13 +1215,13 @@ module ApplicationHelper
     # </div>
   end
 
-  def calendar_for(field_id)
+  def calendar_for(field_id) # spec_me cover_me heckle_me
     include_calendar_headers_tags
     image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
     javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
   end
 
-  def include_calendar_headers_tags
+  def include_calendar_headers_tags # spec_me cover_me heckle_me
     unless @calendar_headers_tags_included
       @calendar_headers_tags_included = true
       content_for :header_tags do
@@ -1243,19 +1243,19 @@ module ApplicationHelper
     end
   end
 
-  def content_for(name, content = nil, &block)
+  def content_for(name, content = nil, &block) # spec_me cover_me heckle_me
     @has_content ||= {}
     @has_content[name] = true
     super(name, content, &block)
   end
 
-  def has_content?(name)
+  def has_content?(name) # spec_me cover_me heckle_me
     (@has_content && @has_content[name]) || false
   end
 
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-  def avatar(user, options = { })
+  def avatar(user, options = { }) # spec_me cover_me heckle_me
     options.merge!({:ssl => Setting.protocol == 'https', :default => Setting.gravatar_default})
     email = nil
     if user.respond_to?(:mail)
@@ -1266,7 +1266,7 @@ module ApplicationHelper
     return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
   end
 
-  def render_journal_details(journal)
+  def render_journal_details(journal) # spec_me cover_me heckle_me
     return unless journal
     html = ""
     if journal && journal.details && journal.details.count > 0
@@ -1287,19 +1287,19 @@ module ApplicationHelper
 
   end
 
-  def link_to_activity(as)
+  def link_to_activity(as) # spec_me cover_me heckle_me
     link_to name_for_activity_stream(as), url_for_activity_stream(as), {:class => class_for_activity_stream(as)}
   end
 
-  def name_for_activity_stream(as)
+  def name_for_activity_stream(as) # spec_me cover_me heckle_me
     (as.tracker_name) ? "a #{as.tracker_name.downcase}" : "a " + l("label_#{as.object_type.downcase}")
   end
 
-  def class_for_activity_stream(as)
+  def class_for_activity_stream(as) # spec_me cover_me heckle_me
      (as.object_type.match(/^Issue/)) ? "fancyframe" : "noframe"
   end
 
-  def url_for_activity_stream(as)
+  def url_for_activity_stream(as) # spec_me cover_me heckle_me
     case as.object_type.downcase
     when 'message'
       return {:controller => 'messages', :action => 'show', :board_id => 'guess', :id => as.object_id}
@@ -1314,7 +1314,7 @@ module ApplicationHelper
     end
   end
 
-  def title_for_activity_stream(as)
+  def title_for_activity_stream(as) # spec_me cover_me heckle_me
     case as.object_type.downcase
     when 'memberrole'
       begin
@@ -1327,7 +1327,7 @@ module ApplicationHelper
     end
   end
 
-  def action_times(count)
+  def action_times(count) # spec_me cover_me heckle_me
     count = count.to_i
     return nil if count < 2
     return " twice" if count == 2
@@ -1336,15 +1336,15 @@ module ApplicationHelper
 
 
 
-  def avatar_from_id(user_id, options = { })
+  def avatar_from_id(user_id, options = { }) # spec_me cover_me heckle_me
     avatar(User.find(user_id), options)
   end
 
-  def button(text, cssclass)
+  def button(text, cssclass) # spec_me cover_me heckle_me
     return "<div class='action_button_no_float action_button_#{cssclass}' onclick=\"$('.action_button_no_float').hide();\" ><span>#{text}</span></div>"
   end
 
-  def tally_table(motion)
+  def tally_table(motion) # spec_me cover_me heckle_me
     content = "<table id='motion_votes_totals' class='gt-table'>"
     content << "<thead><tr>"
     content << "<th>&nbsp;</th><th>#{l :label_binding}</th><th>#{l :label_non_binding}</th>"
@@ -1361,7 +1361,7 @@ module ApplicationHelper
     content << "</table>"
   end
 
-  def tame_bias(number)
+  def tame_bias(number) # spec_me cover_me heckle_me
     if number.nil?
       return ""
     else
@@ -1370,7 +1370,7 @@ module ApplicationHelper
     end
   end
 
-  def tame_scale(number)
+  def tame_scale(number) # spec_me cover_me heckle_me
     if number.nil?
       ""
     else
@@ -1380,7 +1380,7 @@ module ApplicationHelper
   end
 
   #depending on credit's status, provides link to activate/deactivate a credit. Project id is the current project being viewed
-  def credit_activation_link(credit, project_id, include_sub_workstreams)
+  def credit_activation_link(credit, project_id, include_sub_workstreams) # spec_me cover_me heckle_me
     return '' if !credit.settled_on.nil?
 
     return link_to_remote(l(:button_deactivate),
@@ -1392,7 +1392,7 @@ module ApplicationHelper
                             :class => 'icon icon-activate') if !credit.enabled
   end
 
-  def login_protocol
+  def login_protocol # spec_me cover_me heckle_me
     if ENV['RAILS_ENV'] == "development"
       'http'
     else
@@ -1402,13 +1402,13 @@ module ApplicationHelper
 
   private
 
-  def wiki_helper
+  def wiki_helper # cover_me heckle_me
     helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
     extend helper
     return self
   end
 
-  def link_to_remote_content_update(text, url_params)
+  def link_to_remote_content_update(text, url_params) # cover_me heckle_me
     link_to_remote(text,
       {:url => url_params, :method => :get, :update => 'content', :complete => 'window.scrollTo(0,0)'},
       {:href => url_for(:params => url_params)}

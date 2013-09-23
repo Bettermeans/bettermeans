@@ -3,7 +3,7 @@
 
 module WikiHelper
 
-  def wiki_page_options_for_select(pages, selected = nil, parent = nil, level = 0)
+  def wiki_page_options_for_select(pages, selected = nil, parent = nil, level = 0) # spec_me cover_me heckle_me
     s = ''
     pages.select {|p| p.parent == parent}.each do |page|
       attrs = "value='#{page.id}'"
@@ -16,7 +16,7 @@ module WikiHelper
     s
   end
 
-  def html_diff(wdiff)
+  def html_diff(wdiff) # spec_me cover_me heckle_me
     words = wdiff.words.collect{|word| h(word)}
     words_add = 0
     words_del = 0

@@ -13,14 +13,14 @@ module Redmine
         # auto_link rule after textile rules so that it doesn't break !image_url! tags
         RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto, :inline_toc, :inline_macros]
 
-        def initialize(*args)
+        def initialize(*args) # spec_me cover_me heckle_me
           super
           self.hard_breaks=true
           self.no_span_caps=true
           self.filter_styles=true
         end
 
-        def to_html(*rules, &block)
+        def to_html(*rules, &block) # spec_me cover_me heckle_me
           @toc = []
           @macros_runner = block
           super(*RULES).to_s
@@ -30,12 +30,12 @@ module Redmine
 
         # Patch for RedCloth.  Fixed in RedCloth r128 but _why hasn't released it yet.
         # <a href="http://code.whytheluckystiff.net/redcloth/changeset/128">http://code.whytheluckystiff.net/redcloth/changeset/128</a>
-        def hard_break( text )
+        def hard_break( text ) # cover_me heckle_me
           text.gsub!( /(.)\n(?!\n|\Z|>| *([#*=]+(\s|$)|[{|]))/, "\\1<br />" ) if hard_breaks
         end
 
         # Patch to add code highlighting support to RedCloth
-        def smooth_offtags( text )
+        def smooth_offtags( text ) # cover_me heckle_me
           unless @pre_list.empty?
             ## replace <pre> content
             text.gsub!(/<redpre#(\d+)>/) do
@@ -50,7 +50,7 @@ module Redmine
         end
 
         # Patch to add 'table of content' support to RedCloth
-        def textile_p_withtoc(tag, atts, cite, content)
+        def textile_p_withtoc(tag, atts, cite, content) # cover_me heckle_me
           # removes wiki links from the item
           toc_item = content.gsub(/(\[\[([^\]\|]*)(\|([^\]]*))?\]\])/) { $4 || $2 }
           # removes styles
@@ -74,7 +74,7 @@ module Redmine
         alias :textile_h2 :textile_p_withtoc
         alias :textile_h3 :textile_p_withtoc
 
-        def inline_toc(text)
+        def inline_toc(text) # cover_me heckle_me
           text.gsub!(/<p>\{\{([<>]?)toc\}\}<\/p>/i) do
             div_class = 'toc'
             div_class << ' right' if $1 == '>'
@@ -99,7 +99,7 @@ module Redmine
                       )
                     /x unless const_defined?(:MACROS_RE)
 
-        def inline_macros(text)
+        def inline_macros(text) # cover_me heckle_me
           text.gsub!(MACROS_RE) do
             esc, all, macro = $1, $2, $3.downcase
             args = ($5 || '').split(',').each(&:strip)
@@ -135,7 +135,7 @@ module Redmine
                        }x unless const_defined?(:AUTO_LINK_RE)
 
         # Turns all urls into clickable links (code from Rails).
-        def inline_auto_link(text)
+        def inline_auto_link(text) # cover_me heckle_me
           text.gsub!(AUTO_LINK_RE) do
             all, leading, proto, url, post = $&, $1, $2, $3, $6
             if leading =~ /<a\s/i || leading =~ /![<>=]?/
@@ -155,7 +155,7 @@ module Redmine
         end
 
         # Turns all email addresses into clickable links (code from Rails).
-        def inline_auto_mailto(text)
+        def inline_auto_mailto(text) # cover_me heckle_me
           text.gsub!(/([\w\.!#\$%\-+.]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)+)/) do
             mail = $1
             if text.match(/<a\b[^>]*>(.*)(#{Regexp.escape(mail)})(.*)<\/a>/)

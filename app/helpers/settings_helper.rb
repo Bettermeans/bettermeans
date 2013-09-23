@@ -2,7 +2,7 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 module SettingsHelper
-  def administration_settings_tabs
+  def administration_settings_tabs # spec_me cover_me heckle_me
     tabs = [{:name => 'general', :partial => 'settings/general', :label => :label_general},
             {:name => 'display', :partial => 'settings/display', :label => :label_display},
             {:name => 'authentication', :partial => 'settings/authentication', :label => :label_authentication},
@@ -13,7 +13,7 @@ module SettingsHelper
             ]
   end
 
-  def setting_select(setting, choices, options={})
+  def setting_select(setting, choices, options={}) # spec_me cover_me heckle_me
     if blank_text = options.delete(:blank)
       choices = [[blank_text.is_a?(Symbol) ? l(blank_text) : blank_text, '']] + choices
     end
@@ -21,7 +21,7 @@ module SettingsHelper
       select_tag("settings[#{setting}]", options_for_select(choices, Setting.send(setting).to_s), options)
   end
 
-  def setting_multiselect(setting, choices, options={})
+  def setting_multiselect(setting, choices, options={}) # spec_me cover_me heckle_me
     setting_values = Setting.send(setting)
     setting_values = [] unless setting_values.is_a?(Array)
 
@@ -36,23 +36,23 @@ module SettingsHelper
       end.join
   end
 
-  def setting_text_field(setting, options={})
+  def setting_text_field(setting, options={}) # spec_me cover_me heckle_me
     setting_label(setting, options) +
       text_field_tag("settings[#{setting}]", Setting.send(setting), options)
   end
 
-  def setting_text_area(setting, options={})
+  def setting_text_area(setting, options={}) # spec_me cover_me heckle_me
     setting_label(setting, options) +
       text_area_tag("settings[#{setting}]", Setting.send(setting), options)
   end
 
-  def setting_check_box(setting, options={})
+  def setting_check_box(setting, options={}) # spec_me cover_me heckle_me
     setting_label(setting, options) +
       hidden_field_tag("settings[#{setting}]", 0) +
       check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
   end
 
-  def setting_label(setting, options={})
+  def setting_label(setting, options={}) # spec_me cover_me heckle_me
     label = options.delete(:label)
     label != false ? content_tag("label", l(label || "setting_#{setting}")) : ''
   end

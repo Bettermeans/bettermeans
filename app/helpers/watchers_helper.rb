@@ -7,7 +7,7 @@ module WatchersHelper
   # * :id - the element id
   # * :replace - a string or array of element ids that will be
   #   replaced
-  def watcher_tag(object, user, options={:replace => 'watcher'})
+  def watcher_tag(object, user, options={:replace => 'watcher'}) # spec_me cover_me heckle_me
     id = options[:id]
     id ||= options[:replace] if options[:replace].is_a? String
     content_tag("span", watcher_link(object, user, options), :id => id)
@@ -16,7 +16,7 @@ module WatchersHelper
   # Valid options
   # * :replace - a string or array of element ids that will be
   #   replaced
-  def watcher_link(object, user, options={:replace => 'watcher'})
+  def watcher_link(object, user, options={:replace => 'watcher'}) # spec_me cover_me heckle_me
     return '' unless user && user.logged? && object.respond_to?('watched_by?')
     watched = object.watched_by?(user)
     url = {:controller => 'watchers',
@@ -32,7 +32,7 @@ module WatchersHelper
   end
 
   # Returns a comma separated list of users watching the given object
-  def watchers_list(object)
+  def watchers_list(object) # spec_me cover_me heckle_me
     remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
     object.watcher_users.collect do |user|
       s = content_tag('span', link_to_user(user), :class => 'user')

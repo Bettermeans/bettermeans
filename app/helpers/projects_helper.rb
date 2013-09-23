@@ -2,7 +2,7 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 module ProjectsHelper
-  def project_settings_tabs
+  def project_settings_tabs # spec_me cover_me heckle_me
     tabs = [{:name => 'info', :action => :edit_project, :partial => 'projects/edit', :label => :label_information_plural},
             {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
             {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
@@ -11,14 +11,14 @@ module ProjectsHelper
     tabs.select {|tab| User.current.allowed_to?(tab[:action], @project)}
   end
 
-  def project_image(project)
+  def project_image(project) # spec_me cover_me heckle_me
   begin
     content_tag('div', (image_tag formatted_project_path(@project, :png)), :class => "gt-sidebar-logo") if project && project.has_image?
   rescue
   end
   end
 
-  def nomination_links(member,project)
+  def nomination_links(member,project) # spec_me cover_me heckle_me
     return if member.user_id == User.current.id
     return unless User.current.binding_voter_of?(project)
     content = '<p class="gt-table-action-list">'
@@ -52,7 +52,7 @@ module ProjectsHelper
     content << "</p"
   end
 
-  def parent_project_select_tag(project)
+  def parent_project_select_tag(project) # spec_me cover_me heckle_me
     selected = project.parent
     # retrieve the requested parent project
     parent_id = (params[:project] && params[:project][:parent_id]) || params[:parent_id]
@@ -69,7 +69,7 @@ module ProjectsHelper
   # Renders a tree of projects as a nested set of unordered lists
   # The given collection may be a subset of the whole project tree
   # (eg. some intermediate nodes are private and can not be seen)
-  def render_project_hierarchy(projects)
+  def render_project_hierarchy(projects) # spec_me cover_me heckle_me
     s = ''
     if projects.any?
       ancestors = []
@@ -97,7 +97,7 @@ module ProjectsHelper
   end
 
   # Renders the "add item" quick jump box.
-  def render_new_item_jump_box
+  def render_new_item_jump_box # spec_me cover_me heckle_me
       s = '<select id="new_item_jumpbox" onchange="if (this.value != \'\') { window.location = this.value; }">' +
             "<option value='/projects/#{@project.id}' selected=\"yes\">#{l(:label_new_item_in)}</option>" +
             "<option value='#{url_for(:controller => 'issues', :action => 'new', :project_id => @project)}'>#{@project}</option>" +
