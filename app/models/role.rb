@@ -43,17 +43,17 @@ class Role < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 
-  def permissions # spec_me cover_me heckle_me
+  def permissions # heckle_me
     read_attribute(:permissions) || []
   end
 
-  def permissions=(perms) # spec_me cover_me heckle_me
+  def permissions=(perms) # heckle_me
     perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
     write_attribute(:permissions, perms)
   end
 
-  def add_permission!(*perms) # spec_me cover_me heckle_me
-    self.permissions = [] unless permissions.is_a?(Array)
+  def add_permission!(*perms) # heckle_me
+    self.permissions = [] unless read_attribute(:permissions).is_a?(Array)
 
     permissions_will_change!
     perms.each do |p|
@@ -63,23 +63,23 @@ class Role < ActiveRecord::Base
     save!
   end
 
-  def remove_permission!(*perms) # spec_me cover_me heckle_me
-    return unless permissions.is_a?(Array)
+  def remove_permission!(*perms) # heckle_me
+    return unless read_attribute(:permissions).is_a?(Array)
     permissions_will_change!
     perms.each { |p| permissions.delete(p.to_sym) }
     save!
   end
 
   # Returns true if the role has the given permission
-  def has_permission?(perm) # spec_me cover_me heckle_me
-    !permissions.nil? && permissions.include?(perm.to_sym)
+  def has_permission?(perm) # heckle_me
+    read_attribute(:permissions) && permissions.include?(perm.to_sym)
   end
 
   def <=>(role) # spec_me cover_me heckle_me
     role ? position <=> role.position : -1
   end
 
-  def to_s # spec_me cover_me heckle_me
+  def to_s # heckle_me
     name
   end
 
