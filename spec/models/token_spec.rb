@@ -41,7 +41,6 @@ describe Token do
       token.save
       Token.destroy_expired
       Token.find_by_id(token.id).should == nil
-      token.should_not be_present
     end
   end
 end
