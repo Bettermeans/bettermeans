@@ -75,11 +75,9 @@ describe Notification do
   end
 
   describe ".unresponded_count" do
-    it "calls .count with a hash of conditions" do
-      Notification.should_receive(:count) do |hash|
-        hash.should be_a(Hash)
-      end
-      Notification.unresponded_count
+    it "returns how many notifications are unresponded" do
+      notification = Notification.create!({ :recipient => User.current})
+      Notification.unresponded_count.should == 1
     end
   end
 

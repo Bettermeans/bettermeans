@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Token do
-  let(:token) { Token.create!({:action => 'test', :user => Factory.create(:user)}) }
+  let(:token) { Token.create!({:action => 'test'}) }
 
   before(:each) { token.user_id = 1 }
 
@@ -13,8 +13,7 @@ describe Token do
     end
 
     it "should delete previous matching tokens" do
-      previous = Token.create!({:action => 'test delete_previous_tokens', :created_at => Time.now - 1.hour, :user_id => 2})
-      previous.save
+      previous = Token.create!({:action => 'test delete_previous_tokens', :created_at => 1.hour.ago, :user_id => 2})
       Token.create!({:action => 'test delete_previous_tokens', :user_id => 2})
       Token.find_by_id(previous.id).should == nil
     end
@@ -32,7 +31,7 @@ describe Token do
     end
   end
 
-  describe 'Token#destroy_expired' do
+  describe '.destroy_expired' do
     it "deletes expired tokens" do
       token.created_at = Time.now - 20.days
       token.save
@@ -42,6 +41,7 @@ describe Token do
       token.save
       Token.destroy_expired
       Token.find_by_id(token.id).should == nil
+      token.should_not be_present
     end
   end
 end
