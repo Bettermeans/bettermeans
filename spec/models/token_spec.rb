@@ -1,54 +1,47 @@
 require 'spec_helper'
 
 describe Token do
-  let(:token) { Token.new }
+  let(:token) { Token.create!({:action => 'test', :user => Factory.create(:user)}) }
 
   before(:each) { token.user_id = 1 }
 
   describe '#before_create' do
-    it "should call Token.generate_token_value" do
-      Token.should_receive(:generate_token_value)
+    it "should set token value" do
+      ActiveSupport::SecureRandom.stub(:hex).and_return('hex')
       token.before_create
+      token.value.should == 'hex'
+    end
+
+    it "should delete previous matching tokens" do
+      previous = Token.create!({:action => 'test delete_previous_tokens', :created_at => Time.now - 1.hour, :user_id => 2})
+      previous.save
+      Token.create!({:action => 'test delete_previous_tokens', :user_id => 2})
+      Token.find_by_id(previous.id).should == nil
     end
   end
 
   describe '#expired?' do
     it "returns true if expired" do
-      token.stub(:created_at).and_return(Time.now - 40.days)
-      token.expired?.should == true
+      token.created_at = Time.now - 40.days
+      token.should be_expired
     end
 
     it "returns false if not expired" do
-      token.stub(:created_at).and_return(Time.now - 20.days)
-      token.expired?.should == false
+      token.created_at = Time.now - 20.days
+      token.should_not be_expired
     end
   end
 
   describe 'Token#destroy_expired' do
-    it "calls Token.delete_all with a string and time" do
-      Token.should_receive(:delete_all) do |array|
-        array[0].should be_a(String)
-        array[1].should be_a(Time)
-      end
+    it "deletes expired tokens" do
+      token.created_at = Time.now - 20.days
+      token.save
       Token.destroy_expired
-    end
-  end
-
-  describe 'Token#generate_token_value' do
-    it "generates random value using SecureRandom" do
-      ActiveSupport::SecureRandom.should_receive(:hex).with(20)
-      Token.generate_token_value
-    end
-  end
-
-  describe '#delete_previous_tokens' do
-    it 'Calls Token.delete_all with a string, integer, and action' do
-      Token.should_receive(:delete_all) do |string, id, action|
-        string.should be_a(String)
-        id.should be_a(Integer)
-        action.should be_a(Object)
-      end
-      token.send(:delete_previous_tokens)
+      Token.find_by_id(token.id).should == token
+      token.created_at = Time.now - 40.days
+      token.save
+      Token.destroy_expired
+      Token.find_by_id(token.id).should == nil
     end
   end
 end
