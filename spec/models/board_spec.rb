@@ -14,21 +14,21 @@ describe Board do
 
   describe "#visible?" do
     it "returns true if the user is allowed to view messages on the project" do
-      User.stub(:current).and_return(user)
-      user.stub(:allowed_to?).and_return(true)
+      fake_user = double(:allowed_to? => true)
+      User.stub(:current).and_return(fake_user)
       board.should be_visible
     end
 
     it "returns false if the user is not allowed to view messages on the project" do
-      User.stub(:current).and_return(user)
-      user.stub(:allowed_to?).and_return(false)
+      fake_user = double(:allowed_to? => false)
+      User.stub(:current).and_return(fake_user)
       board.should_not be_visible
     end
   end
 
   describe "#to_s" do
-    it "should be the board name" do
-      board.to_s.should == board.name
+    it "returns the board name" do
+      board.to_s.should == 'test name'
     end
   end
 
@@ -39,13 +39,11 @@ describe Board do
     end
   end
 
-  describe ".reset_counters" do
+  describe ".reset_counters!" do
     it "updates topics_count and message_count" do
-      board.reset_counters!
-      board.reload.topics_count.should == 0
       Message.create!({:board_id => board.id, :subject => 'text', :content => 'text'})
       Message.create!({:board_id => board.id, :subject => 'text', :content => 'text', :parent_id => 1})
-      board.reset_counters!
+      Board.reset_counters!(board.id)
       board.reload.topics_count.should == 1
       board.messages_count.should == 2
     end
@@ -55,7 +53,7 @@ describe Board do
                                  :subject => 'text',
                                  :content => 'text',
                                  :parent_id => 1})
-      board.reset_counters!
+      Board.reset_counters!(board.id)
       board.reload.last_message_id.should == message.id
     end
   end
