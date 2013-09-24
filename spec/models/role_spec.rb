@@ -181,4 +181,38 @@ describe Role do
       role.should_not be_member
     end
   end
+
+  describe "#active?" do
+    it "returns true if builtin is 7" do
+      role.builtin = 7
+      role.should be_active
+    end
+
+    it "returns false if builtin is not 7" do
+      role.builtin = 1
+      role.should_not be_active
+    end
+  end
+
+  describe "#clearance?" do
+    it "returns true if builtin is 10" do
+      role.builtin = 10
+      role.should be_clearance
+    end
+
+    it "returns false if builtin is not 10" do
+      role.builtin = 1
+      role.should_not be_clearance
+    end
+  end
+
+  describe "#allowed_to?" do
+    it "returns true if role is allowed to perform action" do
+      role.should be_allowed_to({:controller => 'projects', :action => 'overview'})
+    end
+
+    it "returns false if role is not allowed to perform action" do
+      role.should_not be_allowed_to({:controller => 'credits', :action => 'destroy'})
+    end
+  end
 end

@@ -120,36 +120,35 @@ class Role < ActiveRecord::Base
   end
 
   # Return true if the role is a project core team member
-  def core_member? # spec_me cover_me heckle_me
+  def core_member? # heckle_me
     builtin == BUILTIN_CORE_MEMBER
   end
 
   # Return true if the role is a project contributor
-  def contributor? # spec_me cover_me heckle_me
+  def contributor? # heckle_me
     builtin == BUILTIN_CONTRIBUTOR
   end
 
   # Return true if the role is a project contributor
-  def member? # spec_me cover_me heckle_me
+  def member? # heckle_me
     builtin == BUILTIN_MEMBER
   end
 
   # Return true if the role is active
-  def active? # spec_me cover_me heckle_me
+  def active? # heckle_me
     builtin == BUILTIN_ACTIVE
   end
 
   # Return true if the role is a clearance
-  def clearance? # spec_me cover_me heckle_me
+  def clearance? # heckle_me
     builtin == BUILTIN_CLEARANCE
   end
-
 
   # Return true if role is allowed to do the specified action
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
-  def allowed_to?(action) # spec_me cover_me heckle_me
+  def allowed_to?(action) # heckle_me
     if action.is_a? Hash
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
