@@ -84,32 +84,38 @@ class Role < ActiveRecord::Base
   end
 
   # Return true if the role is a builtin role
-  def builtin? # spec_me cover_me heckle_me
+  def builtin? # heckle_me
     self.builtin != 0
   end
 
   # Return true if the role belongs to the community in any way
-  def community_member? # spec_me cover_me heckle_me
-    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_ACTIVE  || builtin == BUILTIN_BOARD || builtin == BUILTIN_CLEARANCE
+  def community_member? # heckle_me
+    builtin == BUILTIN_ADMINISTRATOR ||
+    builtin == BUILTIN_CORE_MEMBER ||
+    builtin == BUILTIN_CONTRIBUTOR ||
+    builtin == BUILTIN_ACTIVE  ||
+    builtin == BUILTIN_MEMBER ||
+    builtin == BUILTIN_BOARD ||
+    builtin == BUILTIN_CLEARANCE
   end
 
   # Return true if the role belongs to the enterprise (i.e. contributor, member, coreateam, admin, or board)
-  def enterprise_member? # spec_me cover_me heckle_me
+  def enterprise_member? # heckle_me
     level == LEVEL_ENTERPRISE
   end
 
   # Return true if the role belongs to the platform (i.e. anonymous, or non member)
-  def platform_member? # spec_me cover_me heckle_me
+  def platform_member? # heckle_me
     level == LEVEL_PLATFORM
   end
 
   # Return true if the role is a binding member role
-  def binding_member? # spec_me cover_me heckle_me
+  def binding_member? # heckle_me
     builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR
   end
 
   # Return true if the role is admin
-  def admin? # spec_me cover_me heckle_me
+  def admin? # heckle_me
     builtin == BUILTIN_ADMINISTRATOR
   end
 
