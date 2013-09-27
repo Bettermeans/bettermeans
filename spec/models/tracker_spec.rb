@@ -10,7 +10,7 @@ describe Tracker do
   describe '#to_s' do
     let(:tracker) { Tracker.new(:name => "great_name") }
     it 'returns stringified object' do
-      tracker.name.should == "great_name"
+      tracker.to_s.should == "great_name"
     end
   end
 end

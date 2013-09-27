@@ -10,7 +10,7 @@ describe Wiki do
     describe '#find_or_new_page' do
       it 'creates a new wiki page' do
         wiki_page = wiki.find_or_new_page('title')
-        wiki_page.title.should == 'title'.titleize
+        wiki_page.title.should == 'Title'
       end
     end
   end
