@@ -19,6 +19,16 @@ class Role < ActiveRecord::Base
   BUILTIN_BOARD = 9 #scope enterprise
   BUILTIN_CLEARANCE = 10 #scope project
 
+  COMMUNITY_ROLES = Set.new([
+    BUILTIN_ADMINISTRATOR,
+    BUILTIN_CORE_MEMBER,
+    BUILTIN_CONTRIBUTOR,
+    BUILTIN_ACTIVE,
+    BUILTIN_MEMBER,
+    BUILTIN_BOARD,
+    BUILTIN_CLEARANCE,
+  ])
+
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
   named_scope :builtin, lambda { |*args|
     compare = 'not' if args.first == true
