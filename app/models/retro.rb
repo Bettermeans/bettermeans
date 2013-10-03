@@ -30,7 +30,7 @@ class Retro < ActiveRecord::Base
   has_many :journals, :through => :issues
   has_many :issue_votes, :through => :issues
   has_many :retro_ratings
-  has_many :credit_disributions
+  has_many :credit_distributions
 
 
 

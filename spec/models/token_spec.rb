@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Token do
+  it { should belong_to(:user) }
+  it { should validate_uniqueness_of(:value) }
+
   let(:token) { Token.create!({:action => 'test'}) }
 
   before(:each) { token.user_id = 1 }

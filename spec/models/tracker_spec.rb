@@ -7,6 +7,7 @@ describe Tracker do
   it { should validate_presence_of(:name) }
   it { should validate_uniqueness_of(:name) }
 
+
   describe '#to_s' do
     let(:tracker) { Tracker.new(:name => "great_name") }
     it 'returns stringified object' do

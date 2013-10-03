@@ -7,4 +7,6 @@ describe Enterprise do
   it { should have_many(:members).through(:projects) }
   it { should have_many(:users).through(:members) }
   it { should have_many(:news).through(:projects) }
+
+  it { should validate_presence_of(:name) }
 end
