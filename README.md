@@ -9,6 +9,19 @@ app!!! ***
 
 Public workstream: https://better.boon.gl/projects/1
 
+Pre-requisites
+--------------
+
+I recommend using rvm to manage your ruby versions:
+
+* `rvm install 1.8.7-p374`
+
+* `rvm rubygems 1.8.25`
+
+Imagemagick is a dependency:
+
+* `brew install imagemagick` [see here for errors installing rmagick](http://stackoverflow.com/a/13967303/372479)
+
 Getting started
 ---------------
 
@@ -92,7 +105,7 @@ output.
 
 Heckle coverage is the hardest. Not only do you need cover the code, you need to
 check for various permutations within it.
-(Heckle)[https://github.com/seattlerb/heckle] is a gem that performs mutations
+[Heckle](https://github.com/seattlerb/heckle) is a gem that performs mutations
 on your code and runs your tests against the mutated code. If your tests don't
 fail then your tests still need some work. Heckle lists out the changes it made
 that did not cause your tests to fail.
