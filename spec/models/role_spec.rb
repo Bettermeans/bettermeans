@@ -202,4 +202,23 @@ describe Role do
       role.should_not be_clearance
     end
   end
+
+  describe "#allowed_to?" do
+    module Redmine
+      module AccessControl
+        def self.allowed_actions(permission)
+          ['foo/bar']
+        end
+      end
+    end
+    context "when parameter is a hash" do
+      it "returns true if the controller action is permitted" do
+        role.should be_allowed_to({:controller => 'foo', :action => 'bar'})
+      end
+
+      it "returns false if the controller action is not permitted" do
+        role.should_not be_allowed_to({:controller => 'foo', :action => 'notbar'})
+      end
+    end
+  end
 end
