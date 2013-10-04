@@ -111,7 +111,7 @@ class Issue < ActiveRecord::Base
     return false
   end
 
-  def is_gift? # spec_me cover_me heckle_me
+  def is_gift? # cover_me heckle_me
     tracker.gift?
   end
 
