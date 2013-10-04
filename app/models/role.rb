@@ -19,6 +19,22 @@ class Role < ActiveRecord::Base
   BUILTIN_BOARD = 9 #scope enterprise
   BUILTIN_CLEARANCE = 10 #scope project
 
+  COMMUNITY_ROLES = Set.new([
+    BUILTIN_ADMINISTRATOR,
+    BUILTIN_CORE_MEMBER,
+    BUILTIN_CONTRIBUTOR,
+    BUILTIN_ACTIVE,
+    BUILTIN_MEMBER,
+    BUILTIN_BOARD,
+    BUILTIN_CLEARANCE
+    ])
+
+  BINDING_MEMBERS = Set.new([
+    BUILTIN_ADMINISTRATOR,
+    BUILTIN_CORE_MEMBER,
+    BUILTIN_MEMBER
+    ])
+
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
   named_scope :builtin, lambda { |*args|
     compare = 'not' if args.first == true
@@ -222,21 +238,19 @@ class Role < ActiveRecord::Base
     find(:first, :conditions => {:builtin => BUILTIN_ACTIVE}) || raise('Missing active builtin role.')
   end
 
-
   private
 
-  def allowed_permissions # cover_me heckle_me
-    @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
-  end
+    def allowed_permissions # cover_me heckle_me
+      @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
+    end
 
-  def allowed_actions # cover_me heckle_me
-    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
-  end
+    def allowed_actions # cover_me heckle_me
+      @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
+    end
 
-  def check_deletable # cover_me heckle_me
-    raise "Can't delete role" if members.any?
-    raise "Can't delete builtin role" if builtin?
-  end
-
+    def check_deletable # cover_me heckle_me
+      raise "Can't delete role" if members.any?
+      raise "Can't delete builtin role" if builtin?
+    end
 end
 

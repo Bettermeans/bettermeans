@@ -2,15 +2,12 @@ require 'spec_helper'
 
 describe Board do
   let(:board) do
-    Board.create!(
-      {:name => 'test name',
-       :description => 'test desc',
-       :project_id => 1
-      }
-    )
+    Board.create!({
+      :name => 'test name',
+      :description => 'test desc',
+      :project_id => 1
+    })
   end
-
-  let(:user) { User.new }
 
   describe "#visible?" do
     it "returns true if the user is allowed to view messages on the project" do

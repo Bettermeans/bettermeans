@@ -83,47 +83,44 @@ describe Role do
   end
 
   describe "#community_member?" do
-    it "returns true if builtin ~= 3..10 except 6" do
-      [3,4,5,7,8,9,10].each do |builtin|
-        role.builtin = builtin
-        role.should be_community_member
+    context "when builtin is a community role" do
+      it "returns true" do
+        Role::COMMUNITY_ROLES.each do |role_id|
+          role.builtin = role_id
+          role.community_member?.should be_true
+        end
       end
-    end
-
-    it "returns false for any builtin other than 3..10" do
-      role.builtin = 6
-      role.should_not be_community_member
     end
   end
 
   describe "#enterprise_member?" do
-    it "returns true if level is 1" do
-      role.level = 1
+    it "returns true if level is enterprise" do
+      role.level = Role::LEVEL_ENTERPRISE
       role.should be_enterprise_member
     end
 
-    it "returns false if level is not 1" do
-      role.level = 2
+    it "returns false if level is not enterprise" do
+      role.level = Role::LEVEL_PLATFORM
       role.should_not be_enterprise_member
     end
   end
 
   describe "#platform_member?" do
-    it "returns true if level is 0" do
-      role.level = 0
+    it "returns true if level is platform" do
+      role.level = Role::LEVEL_PLATFORM
       role.should be_platform_member
     end
 
     it "returns false if level is not 0" do
-      role.level = 1
+      role.level = Role::LEVEL_ENTERPRISE
       role.should_not be_platform_member
     end
   end
 
   describe "#binding_member?" do
-    it "returns true if builtin is in [3,4,8]" do
-      [3,4,8].each do |builtin|
-        role.builtin = builtin
+    it "returns true if builtin is in binding members" do
+      Role::BINDING_MEMBERS.each do |role_id|
+        role.builtin = role_id
         role.should be_binding_member
       end
     end
@@ -203,16 +200,6 @@ describe Role do
     it "returns false if builtin is not 10" do
       role.builtin = 1
       role.should_not be_clearance
-    end
-  end
-
-  describe "#allowed_to?" do
-    it "returns true if role is allowed to perform action" do
-      role.should be_allowed_to({:controller => 'projects', :action => 'overview'})
-    end
-
-    it "returns false if role is not allowed to perform action" do
-      role.should_not be_allowed_to({:controller => 'credits', :action => 'destroy'})
     end
   end
 end
