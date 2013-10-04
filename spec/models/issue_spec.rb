@@ -36,4 +36,20 @@ describe Issue do
     end
   end
 
+  describe '#is_hourly?' do
+    context 'when the tracker is hourly' do
+      it 'returns true' do
+        issue.stub(:tracker).and_return(mock(:hourly? => true))
+        issue.is_hourly?.should be_true
+      end
+    end
+
+    context 'when the tracker is not hourly' do
+      it 'returns false' do
+        issue.stub(:tracker).and_return(mock(:hourly? => false))
+        issue.is_hourly?.should be_false
+      end
+    end
+  end
+
 end
