@@ -3,12 +3,11 @@ require 'spec_helper'
 describe Todo do
   describe "#update_issue_timestamp" do
     it "updates timestamp for todo.issue" do
-      time = 5.days.ago
+      time = Time.now
+      DateTime.stub(:now).and_return(time)
       todo = Todo.create!({:issue => Issue.new})
-      todo.issue.updated_at = time
-      todo.issue.updated_at.should == time
       todo.update_issue_timestamp
-      todo.issue.updated_at.should_not == time
+      todo.issue.updated_at.should == time
     end
   end
 end
