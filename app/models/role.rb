@@ -28,13 +28,13 @@ class Role < ActiveRecord::Base
     BUILTIN_ACTIVE,
     BUILTIN_MEMBER,
     BUILTIN_BOARD,
-    BUILTIN_CLEARANCE
+    BUILTIN_CLEARANCE,
   ])
 
   BINDING_MEMBERS = Set.new([
     BUILTIN_ADMINISTRATOR,
     BUILTIN_CORE_MEMBER,
-    BUILTIN_MEMBER
+    BUILTIN_MEMBER,
   ])
 
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
