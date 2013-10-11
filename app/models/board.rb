@@ -14,20 +14,20 @@ class Board < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_length_of :description, :maximum => 255
 
-  def visible?(user=User.current) # spec_me cover_me heckle_me
-    !user.nil? && user.allowed_to?(:view_messages, project)
+  def visible?(user=User.current) # heckle_me
+    user && user.allowed_to?(:view_messages, project)
   end
 
-  def to_s # spec_me cover_me heckle_me
+  def to_s # heckle_me
     name
   end
 
-  def reset_counters! # spec_me cover_me heckle_me
+  def reset_counters! # heckle_me
     self.class.reset_counters!(id)
   end
 
   # Updates topics_count, messages_count and last_message_id attributes for +board_id+
-  def self.reset_counters!(board_id) # spec_me cover_me heckle_me
+  def self.reset_counters!(board_id) #  heckle_me
     board_id = board_id.to_i
     update_all("topics_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=#{board_id} AND parent_id IS NULL)," +
                " messages_count = (SELECT COUNT(*) FROM #{Message.table_name} WHERE board_id=#{board_id})," +
