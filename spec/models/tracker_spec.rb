@@ -29,6 +29,13 @@ describe Tracker do
         tracker.should be_gift
       end
     end
+
+    context 'when the name is not Gift' do
+      it 'returns false' do
+        tracker.name = 'not_gift'
+        tracker.should_not be_gift
+      end
+    end
   end
 
   describe '#expense?' do
@@ -36,6 +43,13 @@ describe Tracker do
       it 'returns true' do
         tracker.name = 'Expense'
         tracker.should be_expense
+      end
+    end
+
+    context 'when the name is not Expense' do
+      it 'returns false' do
+        tracker.name = 'not_expense'
+        tracker.should_not be_expense
       end
     end
   end
@@ -47,6 +61,13 @@ describe Tracker do
         tracker.should be_recurring
       end
     end
+
+    context 'when the name is not Recurring' do
+      it 'returns false' do
+        tracker.name = 'not_recurring'
+        tracker.should_not be_recurring
+      end
+    end
   end
 
   describe '#hourly?' do
@@ -54,6 +75,13 @@ describe Tracker do
       it 'returns true' do
         tracker.name = 'Hourly'
         tracker.should be_hourly
+      end
+    end
+
+    context 'when the name is not Hourly' do
+      it 'returns true' do
+        tracker.name = 'not_hourly'
+        tracker.should_not be_hourly
       end
     end
   end
@@ -65,6 +93,13 @@ describe Tracker do
         tracker.should be_feature
       end
     end
+
+    context 'when the name is not Feature' do
+      it 'returns false' do
+        tracker.name = 'not_feature'
+        tracker.should_not be_feature
+      end
+    end
   end
 
   describe '#bug?' do
@@ -74,6 +109,13 @@ describe Tracker do
         tracker.should be_bug
       end
     end
+
+    context 'when the name is not Bug' do
+      it 'returns false' do
+        tracker.name = 'not_bug'
+        tracker.should_not be_bug
+      end
+    end
   end
 
   describe '#chore?' do
@@ -81,6 +123,13 @@ describe Tracker do
       it 'returns true' do
         tracker.name = 'Chore'
         tracker.should be_chore
+      end
+    end
+
+    context 'when the name is not Chore' do
+      it 'returns false' do
+        tracker.name = 'not_chore'
+        tracker.should_not be_chore
       end
     end
   end
