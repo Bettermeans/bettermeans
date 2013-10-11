@@ -240,17 +240,17 @@ class Role < ActiveRecord::Base
 
   private
 
-    def allowed_permissions # cover_me heckle_me
-      @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
-    end
+  def allowed_permissions # cover_me heckle_me
+    @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
+  end
 
-    def allowed_actions # cover_me heckle_me
-      @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
-    end
+  def allowed_actions # cover_me heckle_me
+    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
+  end
 
-    def check_deletable # cover_me heckle_me
-      raise "Can't delete role" if members.any?
-      raise "Can't delete builtin role" if builtin?
-    end
+  def check_deletable # cover_me heckle_me
+    raise "Can't delete role" if members.any?
+    raise "Can't delete builtin role" if builtin?
+  end
 end
 
