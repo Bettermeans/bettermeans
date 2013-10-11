@@ -5,11 +5,10 @@ class Todo < ActiveRecord::Base
 
   after_save :update_issue_timestamp
 
-  def update_issue_timestamp # spec_me cover_me heckle_me
+  def update_issue_timestamp # heckle_me
     issue.updated_at = DateTime.now
     issue.save
   end
-
 end
 
 
