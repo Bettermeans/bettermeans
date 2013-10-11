@@ -68,14 +68,14 @@ describe Role do
   end
 
   describe '#builtin?' do
-    it "returns true if builtin is not 0" do
+    it "returns true if builtin is in the COMMUNITY_ROLES" do
       Role::COMMUNITY_ROLES.each do |role_id|
         role.builtin = role_id
         role.should be_builtin
       end
     end
 
-    it "returns false if builtin is 0" do
+    it "returns false if builtin is not in the COMMUNITY_ROLES" do
       role.builtin = Role::NON_BUILTIN_ROLE
       role.should_not be_builtin
     end
@@ -124,14 +124,14 @@ describe Role do
       end
     end
 
-    it "returns false if builtin is not in [3,4,8]" do
+    it "returns false if builtin is not in binding members" do
       role.builtin = 1
       role.should_not be_binding_member
     end
   end
 
   describe "#admin?" do
-    it "returns true if builtin is 3" do
+    it "returns true if builtin is admin" do
       role.builtin = Role::BUILTIN_ADMINISTRATOR
       role.should be_admin
     end
@@ -184,7 +184,7 @@ describe Role do
       role.should be_active
     end
 
-    it "returns false if builtin is not 7" do
+    it "returns false if builtin is not active" do
       role.builtin = Role::BUILTIN_ADMINISTRATOR
       role.should_not be_active
     end
@@ -196,7 +196,7 @@ describe Role do
       role.should be_clearance
     end
 
-    it "returns false if builtin is not 10" do
+    it "returns false if builtin is not clearance" do
       role.builtin = Role::BUILTIN_ADMINISTRATOR
       role.should_not be_clearance
     end
