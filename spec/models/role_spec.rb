@@ -1,14 +1,11 @@
 require 'spec_helper'
 
 describe Role do
-  let(:role) { Role.create({
-      :name => 'role'
-    })
-  }
+  let(:role) { Role.create({:name => 'role'}) }
   describe '#permissions' do
     context 'permissions attribute exists' do
       it 'returns array of permissions' do
-        role.permissions = ['read', 'write']
+        role.permissions = ['`', 'write']
         role.permissions.should == [:read, :write]
       end
     end
