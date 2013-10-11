@@ -13,7 +13,7 @@ u.save
 User.anonymous
 
 Tracker.delete_all
-trackers = Tracker.create([
+trackers = Tracker.create!([
   {
     :position => 1,
     :name => "Feature",
@@ -60,7 +60,7 @@ trackers = Tracker.create([
 ])
 
 IssueStatus.delete_all
-issue_statuses = IssueStatus.create([
+issue_statuses = IssueStatus.create!([
   {
     :position => 3,
     :name => "Open",
@@ -125,10 +125,10 @@ issue_statuses = IssueStatus.create([
 ])
 
 Enumeration.delete_all
-enumerations = Enumeration.create([
+enumerations = Enumeration.create!([
   {
     :position => 1,
-    :name => "",
+    :name => "something",
     :project_id => nil,
     :is_default => false,
     :type => nil,
@@ -139,7 +139,7 @@ enumerations = Enumeration.create([
 ])
 
 Role.delete_all
-roles = Role.create([
+roles = Role.create!([
   {
     :position => 5,
     :name => "Non member",
@@ -436,7 +436,7 @@ roles = Role.create([
 ])
 
 Plan.delete_all
-plans = Plan.create([
+plans = Plan.create!([
   {
     :name => "Free",
     :created_at => nil,
@@ -496,7 +496,7 @@ plans = Plan.create([
 ])
 
 Setting.delete_all
-settings = Setting.create([
+settings = Setting.create!([
   {
     :name => "host_name",
     :updated_at => "Mon Aug 24 22:30:20 -0700 2009",

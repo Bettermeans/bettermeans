@@ -111,15 +111,15 @@ class Issue < ActiveRecord::Base
     return false
   end
 
-  def is_gift? # spec_me cover_me heckle_me
+  def is_gift? # cover_me heckle_me
     tracker.gift?
   end
 
-  def is_expense? # spec_me cover_me heckle_me
+  def is_expense? # cover_me heckle_me
     tracker.expense?
   end
 
-  def is_hourly? # spec_me cover_me heckle_me
+  def is_hourly? # cover_me heckle_me
     tracker.hourly?
   end
 

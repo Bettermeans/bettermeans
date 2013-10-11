@@ -8,6 +8,8 @@ class Role < ActiveRecord::Base
   LEVEL_ENTERPRISE = 1
   LEVEL_PROJECT = 2
 
+  NON_BUILTIN_ROLE = 0
+
   # Built-in roles
   BUILTIN_NON_MEMBER = 1 #scope platform
   BUILTIN_ANONYMOUS  = 2 #scope platform
@@ -27,6 +29,12 @@ class Role < ActiveRecord::Base
     BUILTIN_MEMBER,
     BUILTIN_BOARD,
     BUILTIN_CLEARANCE,
+  ])
+
+  BINDING_MEMBERS = Set.new([
+    BUILTIN_ADMINISTRATOR,
+    BUILTIN_CORE_MEMBER,
+    BUILTIN_MEMBER,
   ])
 
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
@@ -53,17 +61,17 @@ class Role < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 
-  def permissions # spec_me cover_me heckle_me
+  def permissions # heckle_me
     read_attribute(:permissions) || []
   end
 
-  def permissions=(perms) # spec_me cover_me heckle_me
+  def permissions=(perms) # heckle_me
     perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
     write_attribute(:permissions, perms)
   end
 
-  def add_permission!(*perms) # spec_me cover_me heckle_me
-    self.permissions = [] unless permissions.is_a?(Array)
+  def add_permission!(*perms) # heckle_me
+    self.permissions = [] unless read_attribute(:permissions).is_a?(Array)
 
     permissions_will_change!
     perms.each do |p|
@@ -73,87 +81,92 @@ class Role < ActiveRecord::Base
     save!
   end
 
-  def remove_permission!(*perms) # spec_me cover_me heckle_me
-    return unless permissions.is_a?(Array)
+  def remove_permission!(*perms) # heckle_me
+    return if permissions.empty?
     permissions_will_change!
     perms.each { |p| permissions.delete(p.to_sym) }
     save!
   end
 
   # Returns true if the role has the given permission
-  def has_permission?(perm) # spec_me cover_me heckle_me
-    !permissions.nil? && permissions.include?(perm.to_sym)
+  def has_permission?(perm) # heckle_me
+    permissions.include?(perm.to_sym)
   end
 
-  def <=>(role) # spec_me cover_me heckle_me
+  def <=>(role) # cover_me heckle_me
     role ? position <=> role.position : -1
   end
 
-  def to_s # spec_me cover_me heckle_me
+  def to_s # heckle_me
     name
   end
 
   # Return true if the role is a builtin role
-  def builtin? # spec_me cover_me heckle_me
+  def builtin? # heckle_me
     self.builtin != 0
   end
 
   # Return true if the role belongs to the community in any way
-  def community_member? # spec_me cover_me heckle_me
-    builtin == BUILTIN_CONTRIBUTOR || builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR || builtin == BUILTIN_ACTIVE  || builtin == BUILTIN_BOARD || builtin == BUILTIN_CLEARANCE
+  def community_member? # heckle_me
+    builtin == BUILTIN_ADMINISTRATOR ||
+    builtin == BUILTIN_CORE_MEMBER ||
+    builtin == BUILTIN_CONTRIBUTOR ||
+    builtin == BUILTIN_ACTIVE  ||
+    builtin == BUILTIN_MEMBER ||
+    builtin == BUILTIN_BOARD ||
+    builtin == BUILTIN_CLEARANCE
   end
 
   # Return true if the role belongs to the enterprise (i.e. contributor, member, coreateam, admin, or board)
-  def enterprise_member? # spec_me cover_me heckle_me
+  def enterprise_member? # heckle_me
     level == LEVEL_ENTERPRISE
   end
 
   # Return true if the role belongs to the platform (i.e. anonymous, or non member)
-  def platform_member? # spec_me cover_me heckle_me
+  def platform_member? # heckle_me
     level == LEVEL_PLATFORM
   end
 
   # Return true if the role is a binding member role
-  def binding_member? # spec_me cover_me heckle_me
+  def binding_member? # heckle_me
     builtin == BUILTIN_CORE_MEMBER || builtin == BUILTIN_MEMBER || builtin == BUILTIN_ADMINISTRATOR
   end
 
   # Return true if the role is admin
-  def admin? # spec_me cover_me heckle_me
+  def admin? # heckle_me
     builtin == BUILTIN_ADMINISTRATOR
   end
 
   # Return true if the role is a project core team member
-  def core_member? # spec_me cover_me heckle_me
+  def core_member? # heckle_me
     builtin == BUILTIN_CORE_MEMBER
   end
 
   # Return true if the role is a project contributor
-  def contributor? # spec_me cover_me heckle_me
+  def contributor? # heckle_me
     builtin == BUILTIN_CONTRIBUTOR
   end
 
   # Return true if the role is a project contributor
-  def member? # spec_me cover_me heckle_me
+  def member? # heckle_me
     builtin == BUILTIN_MEMBER
   end
 
   # Return true if the role is active
-  def active? # spec_me cover_me heckle_me
+  def active? # heckle_me
     builtin == BUILTIN_ACTIVE
   end
 
   # Return true if the role is a clearance
-  def clearance? # spec_me cover_me heckle_me
+  def clearance? # heckle_me
     builtin == BUILTIN_CLEARANCE
   end
-
 
   # Return true if role is allowed to do the specified action
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
-  def allowed_to?(action) # spec_me cover_me heckle_me
+  def allowed_to?(action) # heckle_me
     if action.is_a? Hash
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
@@ -227,7 +240,6 @@ class Role < ActiveRecord::Base
     find(:first, :conditions => {:builtin => BUILTIN_ACTIVE}) || raise('Missing active builtin role.')
   end
 
-
   private
 
   def allowed_permissions # cover_me heckle_me
@@ -242,6 +254,5 @@ class Role < ActiveRecord::Base
     raise "Can't delete role" if members.any?
     raise "Can't delete builtin role" if builtin?
   end
-
 end
 
