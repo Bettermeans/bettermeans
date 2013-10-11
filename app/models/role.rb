@@ -88,7 +88,7 @@ class Role < ActiveRecord::Base
 
   # Returns true if the role has the given permission
   def has_permission?(perm) # heckle_me
-    read_attribute(:permissions) && permissions.include?(perm.to_sym)
+    permissions.include?(perm.to_sym)
   end
 
   def <=>(role) # cover_me heckle_me
@@ -240,7 +240,7 @@ class Role < ActiveRecord::Base
 
   private
 
-  def allowed_permissions # heckle_me
+  def allowed_permissions # cover_me heckle_me
     @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
   end
 
