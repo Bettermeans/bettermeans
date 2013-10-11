@@ -80,7 +80,7 @@ class Role < ActiveRecord::Base
   end
 
   def remove_permission!(*perms) # heckle_me
-    return unless read_attribute(:permissions).is_a?(Array)
+    return if permissions.empty?
     permissions_will_change!
     perms.each { |p| permissions.delete(p.to_sym) }
     save!
@@ -164,7 +164,7 @@ class Role < ActiveRecord::Base
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
-  def allowed_to?(action) # heckle_me cover_me
+  def allowed_to?(action) # heckle_me
     if action.is_a? Hash
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
