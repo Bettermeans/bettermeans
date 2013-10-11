@@ -1,5 +1,29 @@
 require "spec_helper"
 
+describe Project do
+
+  describe 'associations' do
+    it { should belong_to(:enterprise) }
+    it { should belong_to(:owner) }
+
+    it { should have_many(:all_members) }
+    it { should have_many(:administrators) }
+    it { should have_many(:core_members) }
+    it { should have_many(:members) }
+    it { should have_many(:board_members) }
+    it { should have_many(:contributors) }
+    it { should have_many(:binding_members) }
+    it { should have_many(:enterprise_members) }
+    it { should have_many(:member_users) }
+    it { should have_many(:users) }
+  end
+
+  describe '#valid?' do
+    it { should validate_presence_of(:name) }
+  end
+
+end
+
 describe Project,"#visible_by" do
   fake_user = Class.new do
     def initialize(admin = false, memberships = [])
