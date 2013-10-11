@@ -209,6 +209,10 @@ describe Role do
         def self.allowed_actions(permission)
           ['foo/bar']
         end
+
+        def self.public_permissions
+          [OpenStruct.new(:name => 'bar')]
+        end
       end
     end
     context "when parameter is a hash" do
@@ -218,6 +222,16 @@ describe Role do
 
       it "returns false if the controller action is not permitted" do
         role.should_not be_allowed_to({:controller => 'foo', :action => 'notbar'})
+      end
+    end
+
+    context "when parameter is not a hash" do
+      it "returns true if the action is permitted" do
+        role.should be_allowed_to('bar')
+      end
+
+      it "returns false if the aciton is not permitted" do
+        role.should_not be_allowed_to('notbar')
       end
     end
   end

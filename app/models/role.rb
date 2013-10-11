@@ -240,7 +240,7 @@ class Role < ActiveRecord::Base
 
   private
 
-  def allowed_permissions # cover_me heckle_me
+  def allowed_permissions # heckle_me
     @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
   end
 
