@@ -14,7 +14,7 @@ class Journal < ActiveRecord::Base
 
   after_save :update_issue_timestamp, :send_mentions, :parse_relations
 
-  def update_issue_timestamp # spec_me cover_me heckle_me
+  def update_issue_timestamp # heckle_me
     issue.updated_at = DateTime.now
     issue.save
   end
@@ -38,7 +38,7 @@ class Journal < ActiveRecord::Base
     self.send_later(:parse_relations_delayed)
   end
 
-  def issue_id # spec_me cover_me heckle_me
+  def issue_id # cover_me heckle_me
     self.journalized_id
   end
 
