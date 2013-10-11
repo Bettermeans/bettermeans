@@ -8,6 +8,8 @@ class Role < ActiveRecord::Base
   LEVEL_ENTERPRISE = 1
   LEVEL_PROJECT = 2
 
+  NON_BUILTIN_ROLE = 0
+
   # Built-in roles
   BUILTIN_NON_MEMBER = 1 #scope platform
   BUILTIN_ANONYMOUS  = 2 #scope platform

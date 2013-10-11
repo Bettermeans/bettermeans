@@ -5,7 +5,7 @@ describe Role do
   describe '#permissions' do
     context 'permissions attribute exists' do
       it 'returns array of permissions' do
-        role.permissions = ['`', 'write']
+        role.permissions = ['read', 'write']
         role.permissions.should == [:read, :write]
       end
     end
@@ -69,12 +69,14 @@ describe Role do
 
   describe '#builtin?' do
     it "returns true if builtin is not 0" do
-      role.builtin = 1
-      role.should be_builtin
+      Role::COMMUNITY_ROLES.each do |role_id|
+        role.builtin = role_id
+        role.should be_builtin
+      end
     end
 
     it "returns false if builtin is 0" do
-      role.builtin = 0
+      role.builtin = Role::NON_BUILTIN_ROLE
       role.should_not be_builtin
     end
   end
@@ -84,7 +86,7 @@ describe Role do
       it "returns true" do
         Role::COMMUNITY_ROLES.each do |role_id|
           role.builtin = role_id
-          role.community_member?.should be_true
+          role.should be_community_member
         end
       end
     end
@@ -130,72 +132,72 @@ describe Role do
 
   describe "#admin?" do
     it "returns true if builtin is 3" do
-      role.builtin = 3
+      role.builtin = Role::BUILTIN_ADMINISTRATOR
       role.should be_admin
     end
 
-    it "returns false if builtin is not 3" do
-      role.builtin = 1
+    it "returns false if builtin is not admin" do
+      role.builtin = Role::BUILTIN_NON_MEMBER
       role.should_not be_admin
     end
   end
 
   describe "#core_member?" do
-    it "returns true if builtin is 4" do
-      role.builtin = 4
+    it "returns true if builtin is a core member" do
+      role.builtin = Role::BUILTIN_CORE_MEMBER
       role.should be_core_member
     end
 
-    it "returns false if builtin is not 4" do
-      role.builtin = 1
+    it "returns false if builtin is not core member" do
+      role.builtin = Role::BUILTIN_ADMINISTRATOR
       role.should_not be_core_member
     end
   end
 
   describe "#contributor?" do
-    it "returns true if builtin is 5" do
-      role.builtin = 5
+    it "returns true if builtin is contributor" do
+      role.builtin = Role::BUILTIN_CONTRIBUTOR
       role.should be_contributor
     end
 
-    it "returns false if builtin is not 5" do
-      role.builtin = 1
+    it "returns false if builtin is not contributor" do
+      role.builtin = Role::BUILTIN_ADMINISTRATOR
       role.should_not be_contributor
     end
   end
 
   describe "#member?" do
-    it "returns true if builtin is 8" do
-      role.builtin = 8
+    it "returns true if builtin is member" do
+      role.builtin = Role::BUILTIN_MEMBER
       role.should be_member
     end
 
-    it "returns false if builtin is not 8" do
-      role.builtin = 1
+    it "returns false if builtin is not member" do
+      role.builtin = Role::BUILTIN_ADMINISTRATOR
       role.should_not be_member
     end
   end
 
   describe "#active?" do
-    it "returns true if builtin is 7" do
-      role.builtin = 7
+    it "returns true if builtin is active" do
+      role.builtin = Role::BUILTIN_ACTIVE
       role.should be_active
     end
 
     it "returns false if builtin is not 7" do
-      role.builtin = 1
+      role.builtin = Role::BUILTIN_ADMINISTRATOR
       role.should_not be_active
     end
   end
 
   describe "#clearance?" do
-    it "returns true if builtin is 10" do
-      role.builtin = 10
+    it "returns true if builtin is clearance" do
+      role.builtin = Role::BUILTIN_CLEARANCE
       role.should be_clearance
     end
 
     it "returns false if builtin is not 10" do
-      role.builtin = 1
+      role.builtin = Role::BUILTIN_ADMINISTRATOR
       role.should_not be_clearance
     end
   end
