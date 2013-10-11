@@ -127,11 +127,11 @@ class Issue < ActiveRecord::Base
     tracker.feature?
   end
 
-  def is_bug? # spec_me cover_me heckle_me
+  def is_bug # spec_me cover_me heckle_me
     tracker.bug?
   end
 
-  def is_chore? # spec_me cover_me heckle_me
+  def is_chore # spec_me cover_me heckle_me
     tracker.chore?
   end
 

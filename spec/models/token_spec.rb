@@ -1,11 +1,13 @@
 require 'spec_helper'
 
 describe Token do
-  it { should belong_to(:user) }
-  it { should validate_uniqueness_of(:value) }
+
+  describe 'associations' do
+    it { should belong_to(:user) }
+    it { should validate_uniqueness_of(:value) }
+  end
 
   let(:token) { Token.create!({:action => 'test'}) }
-
   before(:each) { token.user_id = 1 }
 
   describe '#before_create' do

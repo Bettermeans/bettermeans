@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Tracker do
+  let(:tracker) { Tracker.new }
 
   describe 'associations' do
     it { should have_many(:issues) }
@@ -15,58 +16,72 @@ describe Tracker do
   end
 
   describe '#to_s' do
-    let(:tracker) { Tracker.new(:name => "great_name") }
     it 'returns stringified object' do
-      tracker.to_s.should == "great_name"
+      tracker.name = 'pie'
+      tracker.to_s.should == "pie"
     end
   end
 
   describe '#gift?' do
-    let(:tracker) { Tracker.new(:name => "Gift")}
-    it 'returns associated text in the en.yml file' do
-      tracker.should be_gift
+    context 'when the name is Gift' do
+      it 'returns true' do
+        tracker.name = 'Gift'
+        tracker.should be_gift
+      end
     end
   end
 
   describe '#expense?' do
-    let(:tracker) { Tracker.new(:name => "Expense")}
-    it 'returns associated text in the en.yml file' do
-      tracker.should be_expense
+    context 'when the name is Expense' do
+      it 'returns true' do
+        tracker.name = 'Expense'
+        tracker.should be_expense
+      end
     end
   end
 
   describe '#recurring?' do
-    let(:tracker) { Tracker.new(:name => "Recurring")}
-    it 'returns associated text in the en.yml file' do
-      tracker.should be_recurring
+    context 'when the name is Recurring' do
+      it 'returns true' do
+        tracker.name = 'Recurring'
+        tracker.should be_recurring
+      end
     end
   end
 
   describe '#hourly?' do
-    let(:tracker) { Tracker.new(:name => "Hourly")}
-    it 'returns associated text in the en.yml file' do
-      tracker.should be_hourly
+    context 'when the name is Hourly' do
+      it 'returns true' do
+        tracker.name = 'Hourly'
+        tracker.should be_hourly
+      end
     end
   end
 
   describe '#feature?' do
-    let(:tracker) { Tracker.new(:name => "Feature")}
-    it 'returns associated text in the en.yml file' do
-      tracker.should be_feature
+    context 'when the name is Feature' do
+      it 'returns true' do
+        tracker.name = 'Feature'
+        tracker.should be_feature
+      end
     end
   end
 
   describe '#bug?' do
-    let(:tracker) { Tracker.new(:name => "Bug")}
-    it 'returns associated text in the en.yml file' do
-      tracker.should be_bug
+    context 'when the name is Bug' do
+      it 'returns true' do
+        tracker.name = 'Bug'
+        tracker.should be_bug
+      end
     end
   end
 
   describe '#chore?' do
-    let(:tracker) { Tracker.new(:name => "Chore")}
-    it 'returns associated text in the en.yml file' do
-      tracker.should be_chore
+    context 'when the name is Chore' do
+      it 'returns true' do
+        tracker.name = 'Chore'
+        tracker.should be_chore
+      end
     end
   end
 
