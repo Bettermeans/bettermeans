@@ -91,7 +91,7 @@ class Role < ActiveRecord::Base
     read_attribute(:permissions) && permissions.include?(perm.to_sym)
   end
 
-  def <=>(role) # spec_me cover_me heckle_me
+  def <=>(role) # cover_me heckle_me
     role ? position <=> role.position : -1
   end
 
@@ -164,7 +164,7 @@ class Role < ActiveRecord::Base
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
-  def allowed_to?(action) # heckle_me
+  def allowed_to?(action) # heckle_me cover_me
     if action.is_a? Hash
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
