@@ -123,7 +123,7 @@ class Issue < ActiveRecord::Base
     tracker.hourly?
   end
 
-  def is_feature? # spec_me cover_me heckle_me
+  def is_feature # spec_me cover_me heckle_me
     tracker.feature?
   end
 
