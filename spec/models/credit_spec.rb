@@ -12,6 +12,22 @@ describe Credit do
     end
   end
 
+  describe "#disable" do
+    let(:credit) { Credit.new }
+
+    it "sets enabled status to false" do
+      credit.amount = 100
+      credit.enabled = true
+      credit.disable
+      credit.enabled.should == false
+    end
+
+    it 'returns the result of the save' do
+      credit.stub(:save).and_return(false)
+      credit.disable.should be_false
+    end
+  end
+
   describe "#enable" do
     let(:credit) { Credit.new }
 
@@ -28,14 +44,4 @@ describe Credit do
     end
   end
 
-  describe "#disable" do
-    let(:credit) { Credit.new }
-
-    it "sets enabled status to false" do
-      credit.amount = 100
-      credit.enabled = true
-      credit.disable
-      credit.enabled.should == false
-    end
-  end
 end
