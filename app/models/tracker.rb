@@ -34,31 +34,31 @@ class Tracker < ActiveRecord::Base
   end
 
 
-  def gift? # spec_me cover_me heckle_me
+  def gift? # cover_me heckle_me
     name == l(:default_issue_tracker_gift)
   end
 
-  def expense? # spec_me cover_me heckle_me
+  def expense? # cover_me heckle_me
     name == l(:default_issue_tracker_expense)
   end
 
-  def recurring? # spec_me cover_me heckle_me
+  def recurring? # cover_me heckle_me
     name == l(:default_issue_tracker_recurring)
   end
 
-  def hourly? # spec_me cover_me heckle_me
+  def hourly? # cover_me heckle_me
     name == l(:default_issue_tracker_hourly)
   end
 
-  def feature? # spec_me cover_me heckle_me
+  def feature? # cover_me heckle_me
     name == l(:default_issue_tracker_feature)
   end
 
-  def bug? # spec_me cover_me heckle_me
+  def bug? # cover_me heckle_me
     name == l(:default_issue_tracker_bug)
   end
 
-  def chore? # spec_me cover_me heckle_me
+  def chore? # cover_me heckle_me
     name == l(:default_issue_tracker_chore)
   end
 

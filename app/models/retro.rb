@@ -40,7 +40,7 @@ class Retro < ActiveRecord::Base
     self.save
   end
 
-  def ended? # spec_me cover_me heckle_me
+  def ended? # cover_me heckle_me
     return status_id == STATUS_COMPLETE || status_id == STATUS_DISTRIBUTED
   end
 
