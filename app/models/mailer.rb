@@ -305,8 +305,7 @@ class Mailer < ActionMailer::Base
   #   issue_add(issue) => tmail object
   #   Mailer.deliver_issue_add(issue) => sends an email to issue recipients
   def personal_welcome(user,project) # spec_me cover_me heckle_me
-    from "shereef@bettermeans.com"
-    cc "support@bettermeans.com"
+    from "no-reply@better.boon.gl"
     recipients user.mail
     subject "bettermeans and " + project.name
     body :name => user.firstname,

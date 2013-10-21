@@ -1143,7 +1143,6 @@ function generate_agree_flyover(dataId){
   var buttons = '';
   var points = 999;
 
-  http://bettermeans.com/front/?page_id=318
   if (user_agree_id > -1){
     points = item.issue_votes[user_agree_id].points;
 

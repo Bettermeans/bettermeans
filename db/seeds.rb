@@ -3,7 +3,7 @@
 
 # TODO: remove 'is_' from columns and variables
 
-u = User.new(:firstname => "admin", :mail => "admin@bettermeans.com")
+u = User.new(:firstname => "admin", :mail => "admin@better.boon.gl")
 u.password = (48..126).to_a.sample(20).collect(&:chr).join
 u.password_confirmation = u.password
 u.login = 'admin'
@@ -500,7 +500,7 @@ settings = Setting.create!([
   {
     :name => "host_name",
     :updated_at => "Mon Aug 24 22:30:20 -0700 2009",
-    :value => "rm.bettermeans.com"
+    :value => "rm.better.boon.gl"
   }, {
     :name => "date_format",
     :updated_at => "Mon Aug 24 20:28:44 -0700 2009",
@@ -598,11 +598,11 @@ settings = Setting.create!([
     :value => "You have received this notification because you have either " <<
               "subscribed to it, or are involved in it.\r\nTo change your " <<
               "notification preferences, please click here: " <<
-              "http://rm.bettermeans.com/my/account"
+              "http://rm.better.boon.gl/my/account"
   }, {
     :name => "mail_from",
     :updated_at => "Sun Jun 06 01:14:45 -0700 2010",
-    :value => "BetterMeans Admin<administrator@bettermeans.com>"
+    :value => "BetterMeans Admin<administrator@better.boon.gl>"
   }, {
     :name => "notified_events",
     :updated_at => "Thu May 27 22:52:27 -0700 2010",

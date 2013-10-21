@@ -32,9 +32,9 @@ activity_days_default:
 per_page_options:
   default: '25,50,100'
 mail_from:
-  default: BetterMeans<administrator@bettermeans.com>
+  default: BetterMeans<administrator@better.boon.gl>
 mail_from_raw:
-  default: administrator@bettermeans.com
+  default: administrator@better.boon.gl
 bcc_recipients:
   default: 1
 plain_text_mail:
@@ -46,7 +46,7 @@ wiki_compression:
 default_language:
   default: en
 host_name:
-  default: bettermeans.com
+  default: better.boon.gl
 protocol:
   default: http
 feeds_limit:
@@ -92,7 +92,7 @@ notified_events:
   - news_added
   - message_posted
 mail_handler_body_delimiters:
-  default: administrator@bettermeans.com
+  default: administrator@better.boon.gl
 mail_handler_api_enabled:
   default: 1
 mail_handler_api_key:
@@ -134,12 +134,12 @@ ui_theme:
 emails_footer:
   default: |-
     You have received this notification because you have either subscribed to it, or are involved in it.
-    To change your notification preferences, please click here: http://bettermeans.com/my/account
+    To change your notification preferences, please click here: http://better.boon.gl/my/account
 emails_footer_nospam:
   default: |-
-    You are receiving this email via bettermeans.com
+    You are receiving this email via better.boon.gl
     We have zero tolerance for spam.
-    Please forward this email to abuse@bettermeans.com if you feel you are recieving it in error. Thanks!
+    Please forward this email to abuse@better.boon.gl if you feel you are recieving it in error. Thanks!
 gravatar_enabled:
   default: 1
 openid:
