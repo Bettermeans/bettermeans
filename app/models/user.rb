@@ -132,18 +132,12 @@ class User < ActiveRecord::Base
 
   def after_create # spec_me cover_me heckle_me
     activate_invitations
-    User.send_later(:create_recurly_account,self.id)
   end
 
   def activate_invitations # spec_me cover_me heckle_me
     Invitation.all(:conditions => {:new_mail => self.mail}).each do |invite|
       invite.accept
     end
-  end
-
-
-  def after_update # spec_me cover_me heckle_me
-    User.send_later(:update_recurly_account,self.id)
   end
 
   def self.create_recurly_account(id) # spec_me cover_me heckle_me
@@ -178,8 +172,7 @@ class User < ActiveRecord::Base
     @result_object = Recurly::Account.find(@account.account_code)
   end
 
-  def save_billing(cc,ccverify,ip) # spec_me cover_me heckle_me
-    User.send_later(:update_recurly_billing,self.id,cc,ccverify,ip)
+  def save_billing(cc,ccverify,ip)
   end
 
   def self.update_recurly_billing(id,cc,ccverify,ip) # spec_me cover_me heckle_me
