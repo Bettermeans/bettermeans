@@ -12,16 +12,16 @@ class Credit < ActiveRecord::Base
 
   after_create :issue_shares
 
-  def issue_day # spec_me cover_me heckle_me
+  def issue_day # cover_me heckle_me
     self.issued_on.strftime('%D')
   end
 
-  def disable # spec_me cover_me heckle_me
+  def disable # cover_me heckle_me
     self.enabled = false
     return self.save
   end
 
-  def enable # spec_me cover_me heckle_me
+  def enable # cover_me heckle_me
     self.enabled = true
     return self.save
   end

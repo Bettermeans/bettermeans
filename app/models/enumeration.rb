@@ -38,7 +38,7 @@ class Enumeration < ActiveRecord::Base
   end
 
   # Overloaded on concrete classes
-  def option_name # spec_me cover_me heckle_me
+  def option_name # cover_me heckle_me
     nil
   end
 
