@@ -2,12 +2,12 @@ require "spec_helper"
 
 describe Credit do
 
+  let(:credit) { Credit.new(:amount => 100) }
+
   describe 'associations' do
     it { should belong_to(:owner) }
     it { should belong_to(:project) }
   end
-
-  let(:credit) { Credit.new(:amount => 100) }
 
   describe "#issue_day" do
     it "returns a string for date it was issued on" do
@@ -45,8 +45,8 @@ describe Credit do
 
   describe '#issue_shares' do
     context 'when not a previously_issued credit' do
-      credit.previously_issued = false
       it 'creates new shares' do
+        credit.stub(:previously_issued).and_return(false)
         expect {
           credit.issue_shares
         }.to change(Share, :count)
