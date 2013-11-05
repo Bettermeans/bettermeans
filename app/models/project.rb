@@ -96,7 +96,7 @@ class Project < ActiveRecord::Base
     begin
       require_image false
       if RAILS_ENV == 'production'
-        s3_bucket 'bettermeans_workstream_logos'
+        s3_bucket 'better_workstream_logos'
       else
         image_directory File.join(Rails.root, '/public/help')
       end
