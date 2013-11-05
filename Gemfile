@@ -6,6 +6,7 @@ gem 'rake', '0.8.7'
 
 gem 'rails', '2.3.18'
 
+gem 'exceptional'
 gem 'ruby-debug', '0.10.4'
 gem 'rubytree', '0.7.0'
 gem 'rpx_now', '0.6.24'
