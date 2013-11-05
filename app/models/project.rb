@@ -8,9 +8,6 @@ class Project < ActiveRecord::Base
   STATUS_LOCKED     = 2 #private workstream, and user is overdue
   STATUS_ARCHIVED   = 9
 
-
-
-
   belongs_to :enterprise
   belongs_to :owner, :class_name => 'User', :foreign_key => 'owner_id'
 
@@ -94,21 +91,6 @@ class Project < ActiveRecord::Base
   acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
                 :author => nil
-
-  acts_as_fleximage do
-    begin
-      require_image false
-      if RAILS_ENV == 'production'
-        s3_bucket 'bettermeans_workstream_logos'
-      else
-        image_directory '/public/help'
-      end
-      preprocess_image do |image|
-        image.resize '200x600'
-      end
-    rescue
-    end
-  end
 
   attr_protected :status, :enabled_module_names
 
