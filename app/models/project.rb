@@ -92,6 +92,21 @@ class Project < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
                 :author => nil
 
+  acts_as_fleximage do
+    begin
+      require_image false
+      if RAILS_ENV == 'production'
+        s3_bucket 'bettermeans_workstream_logos'
+      else
+        image_directory File.join(Rails.root, '/public/help')
+      end
+      preprocess_image do |image|
+        image.resize '200x600'
+      end
+    rescue
+    end
+  end
+
   attr_protected :status, :enabled_module_names
 
   validates_presence_of :name, :identifier
