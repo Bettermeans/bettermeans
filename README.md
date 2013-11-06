@@ -39,6 +39,21 @@ Getting started
 
 * To run specs, run `rake`
 
+Production
+----------
+
+You'll need to set up the following in order to run on production. If you're
+deploying to Heroku you can push environment variables using `heroku config:add MY_VAR=whatevs`
+
+* An exceptional.io API key: `EXCEPTIONAL_API_KEY=<your key here>`
+* S3 access keys:
+  - `S3_ACCESS_KEY_ID=<your AWS S3 access key id>`
+  - `S3_SECRET_ACCESS_KEY=<your AWS S3 secret access key`
+* Sendgrid credentials:
+  - `SENDGRID_DOMAIN=<the domain of your app>`
+  - `SENDGRID_PASSWORD=<your sendgrid password>`
+  - `SENDGRID_USERNAME=<your sendgrid username>`
+
 Dev notes
 ---------
 
