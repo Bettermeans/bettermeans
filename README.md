@@ -43,7 +43,9 @@ Production
 ----------
 
 You'll need to set up the following in order to run on production. If you're
-deploying to Heroku you can push environment variables using `heroku config:add MY_VAR=whatevs`
+deploying to Heroku you can push environment variables using
+`heroku config:add MY_VAR=whatevs`. Locally you can put them in a `local_env.rb`
+file like `ENV['MY_VAR'] = 'my secret key'`.
 
 * An exceptional.io API key: `EXCEPTIONAL_API_KEY=<your key here>`
 * S3 access keys:
