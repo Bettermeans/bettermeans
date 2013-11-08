@@ -1,7 +1,7 @@
 /log/*.log
 /config/additional_environment.rb
-/config/email.yml
 /config/initializers/session_store.rb
+/config/local_env.rb
 /coverage
 /public/plugin_assets
 /tmp
