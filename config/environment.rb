@@ -10,6 +10,10 @@ SCRIPT_LINES__ = {} if ENV['RAILS_ENV'] == 'development'
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
+# Load environment vars from local file
+local_env = File.join(Rails.root, 'config', 'local_env.rb')
+load(local_env) if File.exists?(local_env)
+
 # Load Engine plugin if available
 begin
   require File.join(File.dirname(__FILE__), '../vendor/plugins/engines/boot')
