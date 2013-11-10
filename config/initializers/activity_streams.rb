@@ -25,7 +25,7 @@ ACTIVITY_STREAM_LOCATIONS = {
     :logged_in_location => 'Logged In Portion of this site',
     :feed_location => 'Your Activity Stream Atom Feed' }
 
-ACTIVITY_STREAM_SERVICE_STRING="MyServiceName"
-ACTIVITY_STREAM_USER_MODEL='User'
-ACTIVITY_STREAM_USER_MODEL_ID='user_id'
-ACTIVITY_STREAM_USER_MODEL_NAME='name'
+ACTIVITY_STREAM_SERVICE_STRING = 'MyServiceName'
+ACTIVITY_STREAM_USER_MODEL = 'User'
+ACTIVITY_STREAM_USER_MODEL_ID = 'user_id'
+ACTIVITY_STREAM_USER_MODEL_NAME = 'name'
