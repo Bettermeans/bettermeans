@@ -1,24 +1,17 @@
 production:
-  access_key_id: <%=ENV['s3_access_key_id'] %>
-  secret_access_key: <%=ENV['s3_secret_access_key'] %>
-  bucket: bettermeans_production
+  access_key_id: <%= ENV['BETTER_S3_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['BETTER_S3_SECRET_ACCESS_KEY'] %>
+  bucket: <%= ENV['BETTER_S3_BUCKET_NAME'] %>
   cname_bucket: false
 
 development:
-    access_key_id: <%=ENV['s3_access_key_id'] %>
-    secret_access_key: <%=ENV['s3_secret_access_key'] %>
-    bucket: bettermeans_development
-    cname_bucket: false
+  access_key_id: <%= ENV['BETTER_S3_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['BETTER_S3_SECRET_ACCESS_KEY'] %>
+  bucket: <%= ENV['BETTER_S3_BUCKET_NAME'] %>
+  cname_bucket: false
 
-test: &TEST
-    access_key_id: <%=ENV['s3_access_key_id'] %>
-    secret_access_key: <%=ENV['s3_secret_access_key'] %>
-    bucket: bettermeans_development
-    cname_bucket: false
-
-cucumber:
-  <<: *TEST
-
-selenium:
-  <<: *TEST
-
+test:
+  access_key_id: <%= ENV['BETTER_S3_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['BETTER_S3_SECRET_ACCESS_KEY'] %>
+  bucket: <%= ENV['BETTER_S3_BUCKET_NAME'] %>
+  cname_bucket: false

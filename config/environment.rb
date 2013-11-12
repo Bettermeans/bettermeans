@@ -56,7 +56,7 @@ Rails::Initializer.run do |config|
   # config.action_mailer.perform_deliveries = false
 
   #Added this to bypass error
-  config.action_controller.session = { :key => "_bettermeans_session", :secret => "95fd75499b43ada8cfbc538558d74312asdf" }
+  config.action_controller.session = { :key => ENV['BETTER_SESSION_KEY'], :secret => ENV['BETTER_SESSION_SECRET'] }
 
   # config.gem "rpx_now"
 
