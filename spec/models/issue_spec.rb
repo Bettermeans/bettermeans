@@ -23,16 +23,58 @@ describe Issue do
   describe '#visible?' do
   end
 
-  describe '#ready_fo_open?' do
+  describe '#ready_for_open?' do
+    let(:issue) { Issue.new(:agree => 2, :disagree => 0, :points => 0, :agree_total => 1)}
+
+    context 'when points are not nil and agree_total exceeds 0' do
+      context 'when agree-disagree difference exceeds minimum' do
+        it 'returns true' do
+          issue.stub(:points_from_credits).and_return 0
+          issue.should be_ready_for_open
+        end
+      end
+    end
+
   end
 
-  describe '#ready_fo_canceled?' do
+  describe '#ready_for_canceled?' do
+    context 'when agree_total < 0 and updated prior to cutoff date' do
+      it 'returns true' do
+        cutoff_date = Setting::LAZY_MAJORITY_LENGTH
+        issue.agree_total = -1
+        issue.updated_at = DateTime.now - cutoff_date - 1
+        issue.should be_ready_for_canceled
+      end
+    end
   end
 
-  describe '#ready_fo_accepted?' do
+  describe '#ready_for_accepted?' do
+    context 'when IssueStatus is accepted' do
+      it 'returns true' do
+        issue.status = IssueStatus.accepted
+        issue.should be_ready_for_accepted
+      end
+    end
+
+    context 'when accept_total is < 1 or points are nil' do
+      it 'returns false' do
+        issue.points = nil
+        issue.should_not be_ready_for_accepted
+      end
+    end
+
+    context 'when accept_total > 0 and updated prior to cutoff date' do
+      it 'returns true' do
+        cutoff_date = Setting::LAZY_MAJORITY_LENGTH
+        issue.accept_total = 5
+        issue.points = 1
+        issue.updated_at = DateTime.now - cutoff_date - 1
+        issue.should be_ready_for_accepted
+      end
+    end
   end
 
-  describe '#ready_fo_rejected?' do
+  describe '#ready_for_rejected?' do
   end
 
   describe '#is_gift?' do
@@ -132,15 +174,32 @@ describe Issue do
   end
 
   describe '#updated_status' do
-    context 'when ready_for_accepted?' do
+    context 'when status is ready_for_accepted?' do
+      it "returns IssueStatus.accepted" do
+        issue.stub(:ready_for_accepted?).and_return true
+        issue.updated_status.should == IssueStatus.accepted
+      end
+    end
 
+    context 'when status is ready_for_rejected?' do
+      it 'returns IssueStatus.rejected' do
+        issue.stub(:ready_for_rejected?).and_return true
+        issue.updated_status.should == IssueStatus.rejected
+      end
     end
   end
 
   describe '#after_initialize' do
+    context 'when issue is a new record' do
+      it 'sets and return default IssueStatus values' do
+        issue.new_record? == true
+        issue.status.should == IssueStatus.default
+      end
+    end
   end
 
   describe '#has_team?' do
+
   end
 
   describe '#has_todos?' do
@@ -149,7 +208,7 @@ describe Issue do
         todo = Todo.new(:subject => "string")
         issue = Issue.new
         issue.stub(:todos).and_return([todo])
-        issue.has_todos?.should be_true
+        issue.should be_has_todos
       end
     end
 
@@ -165,6 +224,24 @@ describe Issue do
   end
 
   describe '#team_members' do
+  end
+
+  describe '#dollar_amount' do
+    it 'return points' do
+      issue.points = 10
+      issue.dollar_amount.should == 10
+    end
+  end
+
+  describe '#after_create' do
+    let(:issue) { Issue.new(:subject => "subject", :author => "author") }
+
+    xit 'return project details and increase Job count by 1' do
+      fake_project = stub()
+      fake_project.should_receive(:send_later).with(:refresh_issue_count)
+      issue.stub(:project).and_return(fake_project)
+      issue.save!
+    end
   end
 
 end
