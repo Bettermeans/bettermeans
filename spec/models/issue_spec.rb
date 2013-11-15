@@ -20,6 +20,21 @@ describe Issue do
     it { should have_many(:todos).dependent(:delete_all) }
   end
 
+  describe '#visible?' do
+  end
+
+  describe '#ready_fo_open?' do
+  end
+
+  describe '#ready_fo_canceled?' do
+  end
+
+  describe '#ready_fo_accepted?' do
+  end
+
+  describe '#ready_fo_rejected?' do
+  end
+
   describe '#is_gift?' do
     context 'when the tracker is a gift' do
       it 'returns true' do
@@ -66,6 +81,90 @@ describe Issue do
         issue.is_hourly?.should be_false
       end
     end
+  end
+
+  describe '#is_feature' do
+    context 'when tracker is feature' do
+      it 'returns true' do
+        issue.stub(:tracker).and_return(mock(:feature? => true))
+        issue.is_feature.should be_true
+      end
+    end
+
+    context 'when tracker is not feature' do
+      it 'returns false' do
+        issue.stub(:tracker).and_return(mock(:feature? => false))
+        issue.is_feature.should be_false
+      end
+    end
+  end
+
+  describe '#is_bug' do
+    context 'when tracker is bug' do
+      it 'returns true' do
+        issue.stub(:tracker).and_return(mock(:bug? => true))
+        issue.is_bug.should be_true
+      end
+    end
+
+    context 'when tracker is not bug' do
+      it 'returns false' do
+        issue.stub(:tracker).and_return(mock(:bug? => false))
+        issue.is_bug.should be_false
+      end
+    end
+  end
+
+  describe '#is_chore' do
+    context 'when tracker is chore' do
+      it 'returns true' do
+        issue.stub(:tracker).and_return(mock(:chore? => true))
+        issue.is_chore.should be_true
+      end
+    end
+
+    context 'when tracker is not chore' do
+      it 'returns false' do
+        issue.stub(:tracker).and_return(mock(:chore? => false))
+        issue.is_chore.should be_false
+      end
+    end
+  end
+
+  describe '#updated_status' do
+    context 'when ready_for_accepted?' do
+
+    end
+  end
+
+  describe '#after_initialize' do
+  end
+
+  describe '#has_team?' do
+  end
+
+  describe '#has_todos?' do
+    context 'when todos exist' do
+      it 'returns true' do
+        todo = Todo.new(:subject => "string")
+        issue = Issue.new
+        issue.stub(:todos).and_return([todo])
+        issue.has_todos?.should be_true
+      end
+    end
+
+    context 'when todos do not exist' do
+      it 'returns false' do
+        issue.stub(:todos).and_return([])
+        issue.has_todos?.should be_false
+      end
+    end
+  end
+
+  describe '#team_votes' do
+  end
+
+  describe '#team_members' do
   end
 
 end
