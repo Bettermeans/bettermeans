@@ -20,8 +20,6 @@ describe Issue do
     it { should have_many(:todos).dependent(:delete_all) }
   end
 
-  describe '#visible?' do
-  end
 
   describe '#ready_for_open?' do
     let(:issue) { Issue.new(:agree => 2, :disagree => 0, :points => 0, :agree_total => 1)}
@@ -34,7 +32,6 @@ describe Issue do
         end
       end
     end
-
   end
 
   describe '#ready_for_canceled?' do
@@ -72,9 +69,6 @@ describe Issue do
         issue.should be_ready_for_accepted
       end
     end
-  end
-
-  describe '#ready_for_rejected?' do
   end
 
   describe '#is_gift?' do
@@ -192,14 +186,9 @@ describe Issue do
   describe '#after_initialize' do
     context 'when issue is a new record' do
       it 'sets and return default IssueStatus values' do
-        issue.new_record? == true
         issue.status.should == IssueStatus.default
       end
     end
-  end
-
-  describe '#has_team?' do
-
   end
 
   describe '#has_todos?' do
@@ -220,12 +209,6 @@ describe Issue do
     end
   end
 
-  describe '#team_votes' do
-  end
-
-  describe '#team_members' do
-  end
-
   describe '#dollar_amount' do
     it 'return points' do
       issue.points = 10
@@ -234,13 +217,11 @@ describe Issue do
   end
 
   describe '#after_create' do
-    let(:issue) { Issue.new(:subject => "subject", :author => "author") }
-
-    xit 'return project details and increase Job count by 1' do
+    it 'return project details and increase Job count by 1' do
       fake_project = stub()
       fake_project.should_receive(:send_later).with(:refresh_issue_count)
       issue.stub(:project).and_return(fake_project)
-      issue.save!
+      issue.after_create
     end
   end
 
