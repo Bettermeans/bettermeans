@@ -2,6 +2,8 @@ require "spec_helper"
 
 describe Project do
 
+  setup { Factory(:project) }
+
   describe 'associations' do
     it { should belong_to(:enterprise) }
     it { should belong_to(:owner) }
@@ -15,11 +17,20 @@ describe Project do
     it { should have_many(:binding_members) }
     it { should have_many(:enterprise_members) }
     it { should have_many(:member_users) }
-    it { should have_many(:users) }
+    it { should have_many(:users).through(:all_members) }
+    it { should have_many(:credit_distributions).dependent(:delete_all) }
+    it { should have_many(:enabled_modules).dependent(:delete_all) }
+    it { should have_and_belong_to_many(:trackers) }
+    it { should have_many(:issues) }
+    it { should have_many(:issue_votes).through(:issues) }
+    it { should have_many(:issue_changes).through(:issues) }
   end
 
   describe '#valid?' do
     it { should validate_presence_of(:name) }
+    it { should ensure_length_of(:name).is_at_most(50) }
+    it { should ensure_length_of(:homepage).is_at_most(255) }
+    # it { should ensure_length_of(:identifier).is_at_least(1).is_at_most(20).with_message("is too short (minimum is 1 characters)") }
   end
 
 end
