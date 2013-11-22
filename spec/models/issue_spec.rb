@@ -20,6 +20,11 @@ describe Issue do
     it { should have_many(:todos).dependent(:delete_all) }
   end
 
+  describe '#valid?' do
+    it { should validate_presence_of(:subject) }
+
+    it { should ensure_length_of(:subject).is_at_most(255) }
+  end
 
   describe '#ready_for_open?' do
     let(:issue) { Issue.new(:agree => 2, :disagree => 0, :points => 0, :agree_total => 1)}
@@ -67,6 +72,15 @@ describe Issue do
         issue.points = 1
         issue.updated_at = DateTime.now - cutoff_date - 1
         issue.should be_ready_for_accepted
+      end
+    end
+  end
+
+  describe '#ready_for_rejected' do
+    context 'when IssueStatus is rejected' do
+      it 'returns true' do
+        issue.status = IssueStatus.rejected
+        issue.should be_ready_for_rejected
       end
     end
   end
@@ -181,6 +195,20 @@ describe Issue do
         issue.updated_status.should == IssueStatus.rejected
       end
     end
+
+    # context 'when status is ready_for_open?' do
+    #   it 'returns IssueStatus.open' do
+    #     issue.stub(:ready_for_open?).and_return true
+    #     issue.updated_status.should == IssueStatus.open
+    #   end
+    # end
+
+    context 'when status is ready_for_open?' do
+      it 'returns IssueStatus.canceled' do
+        issue.stub(:ready_for_canceled?).and_return true
+        issue.updated_status.should == IssueStatus.canceled
+      end
+    end
   end
 
   describe '#after_initialize' do
@@ -191,11 +219,23 @@ describe Issue do
     end
   end
 
+  describe '#has_team?' do
+    context 'when more than one person joined the issue' do
+      it 'returns true' do
+        user1 = Factory.create(:user)
+        user2 = Factory.create(:user)
+        issue = Factory.create(:issue)
+        team_votes1 = IssueVote.create!(:vote_type => IssueVote::JOIN_VOTE_TYPE, :issue => issue, :user => user1, :points => 2)
+        team_votes2 = IssueVote.create!(:vote_type => IssueVote::JOIN_VOTE_TYPE, :issue => issue, :user => user2, :points => 3)
+        issue.has_team?.should be_true
+      end
+    end
+  end
+
   describe '#has_todos?' do
     context 'when todos exist' do
       it 'returns true' do
         todo = Todo.new(:subject => "string")
-        issue = Issue.new
         issue.stub(:todos).and_return([todo])
         issue.should be_has_todos
       end
@@ -206,6 +246,26 @@ describe Issue do
         issue.stub(:todos).and_return([])
         issue.has_todos?.should be_false
       end
+    end
+  end
+
+  describe '#team_votes' do
+    it 'returns issues_votes of vote_type JOIN_VOTE_TYPE' do
+      user = Factory.create(:user)
+      issue = Factory.create(:issue)
+      agree_vote = IssueVote.create!(:vote_type => IssueVote::AGREE_VOTE_TYPE, :issue => issue, :user => user, :points => 2)
+      join_vote = IssueVote.create!(:vote_type => IssueVote::JOIN_VOTE_TYPE, :issue => issue, :user => user, :points => 3)
+      issue.team_votes.should == [join_vote]
+    end
+  end
+
+  describe '#team_members' do
+    it 'returns issue_votes of given conditions and maps to user' do
+      user = Factory.create(:user)
+      issue = Factory.create(:issue)
+      IssueVote.create!(:vote_type => IssueVote::AGREE_VOTE_TYPE, :issue => issue, :user => user, :points => 2)
+      IssueVote.create!(:vote_type => IssueVote::JOIN_VOTE_TYPE, :issue => issue, :user => user, :points => 3)
+      issue.team_members.should == [user]
     end
   end
 
@@ -222,6 +282,15 @@ describe Issue do
       fake_project.should_receive(:send_later).with(:refresh_issue_count)
       issue.stub(:project).and_return(fake_project)
       issue.after_create
+    end
+  end
+
+  describe '#update_last_item_stamp' do
+    it 'updates last item time stamp' do
+      fake_project = stub()
+      fake_project.should_receive(:send_later).with("update_last_item")
+      issue.stub(:project).and_return(fake_project)
+      issue.update_last_item_stamp
     end
   end
 
