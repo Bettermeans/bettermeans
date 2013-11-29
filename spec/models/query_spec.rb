@@ -14,20 +14,23 @@ describe Query do
     it { should ensure_length_of(:name).is_at_most(255) }
   end
 
-  # should project be stubbed? what should be returned?
   describe '#after_initialize' do
     context 'if project is nil' do
-      it 'stores nil project and return @is_for_all' do
-        query.after_initialize.should be_true
+      it 'sets @is_for_all to true' do
+        query.instance_variable_get(:@is_for_all).should be_true
+      end
+    end
+
+    context 'if project is not nil' do
+      it 'sets @is_for_all to false' do
+        query = Query.new(:project => Project.new)
+        query.instance_variable_get(:@is_for_all).should be_false
       end
     end
   end
 
-  # not sure how this one works
-  # 1. how one would know the output without console
-  # 2. what the point of setting up method like this would be
   describe '#has_filter?' do
-    it 'returns filters and filters[field]' do
+    it "using field 'status_id' returns filters and filters[field]" do
       field = 'status_id'
       query.has_filter?(field).should ==
         {:operator=>"o", :values=>[""]}
