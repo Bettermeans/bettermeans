@@ -83,7 +83,7 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns true if there are enough agreements in relation to the estimated points of the request
-  def ready_for_open? # spec_me cover_me heckle_me
+  def ready_for_open? # cover_me heckle_me
     return false if points.nil? || agree_total < 1
     return true if agree - disagree > points_from_credits / 2
     return true if agree_total > 0
@@ -91,20 +91,20 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns true if there are enough disagreements in relation to the estimated points of the request
-  def ready_for_canceled? # spec_me cover_me heckle_me
+  def ready_for_canceled? # cover_me heckle_me
     return false if agree_total > 0
     return true if agree_total < 0 && (updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
     return false
   end
 
-  def ready_for_accepted? # spec_me cover_me heckle_me
+  def ready_for_accepted? # cover_me heckle_me
     return true if self.status == IssueStatus.accepted
     return false if points.nil? || accept_total < 1
     return true if accept_total > 0 && (self.updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
     return false
   end
 
-  def ready_for_rejected? # spec_me cover_me heckle_me
+  def ready_for_rejected? # cover_me heckle_me
     return true if self.status == IssueStatus.rejected
     return false if points.nil? || accept_total > -1
     return true if accept_total < 0 && (updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH) #rejected
@@ -123,19 +123,19 @@ class Issue < ActiveRecord::Base
     tracker.hourly?
   end
 
-  def is_feature # spec_me cover_me heckle_me
+  def is_feature # cover_me heckle_me
     tracker.feature?
   end
 
-  def is_bug # spec_me cover_me heckle_me
+  def is_bug # cover_me heckle_me
     tracker.bug?
   end
 
-  def is_chore # spec_me cover_me heckle_me
+  def is_chore # cover_me heckle_me
     tracker.chore?
   end
 
-  def updated_status # spec_me cover_me heckle_me
+  def updated_status # cover_me heckle_me
     return IssueStatus.canceled if self.status == IssueStatus.canceled
     return IssueStatus.accepted if ready_for_accepted?
     return IssueStatus.rejected if ready_for_rejected?
@@ -146,7 +146,7 @@ class Issue < ActiveRecord::Base
     return IssueStatus.newstatus #default
   end
 
-  def after_initialize # spec_me cover_me heckle_me
+  def after_initialize # cover_me heckle_me
     if new_record?
       # set default values for new records only
       self.status ||= IssueStatus.default
@@ -154,15 +154,15 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns true if one or more people joined this issue
-  def has_team? # spec_me cover_me heckle_me
+  def has_team? # cover_me heckle_me
     team_votes.length>1
   end
 
-  def has_todos? # spec_me cover_me heckle_me
+  def has_todos? # cover_me heckle_me
     todos.length>0
   end
 
-  def team_votes # spec_me cover_me heckle_me
+  def team_votes # cover_me heckle_me
     issue_votes.select {|i| i.vote_type == IssueVote::JOIN_VOTE_TYPE}
   end
 
@@ -560,7 +560,7 @@ class Issue < ActiveRecord::Base
   end
 
   #returns dollar amount based on points for this issue
-  def dollar_amount # spec_me cover_me heckle_me
+  def dollar_amount # cover_me heckle_me
     return self.points
   end
 
@@ -585,7 +585,7 @@ class Issue < ActiveRecord::Base
     self.project.send_later :refresh_issue_count
   end
 
-  def update_last_item_stamp # spec_me cover_me heckle_me
+  def update_last_item_stamp # cover_me heckle_me
     self.project.send_later("update_last_item")
   end
 
