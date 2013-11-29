@@ -5,5 +5,4 @@ Factory.define :issue do |f|
   f.association :project, :factory => :project
   f.association :author, :factory => :user
   f.association :status, :factory => :issue_status
-  f.association :priority, :factory => :issue_priority
 end
