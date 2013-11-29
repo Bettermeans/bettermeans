@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Query do
 
   let(:query) { Query.new }
+  project = Factory.create(:project)
 
   describe 'associations' do
     it { should belong_to(:project) }
@@ -32,8 +33,41 @@ describe Query do
   describe '#has_filter?' do
     it "using field 'status_id' returns filters and filters[field]" do
       field = 'status_id'
-      query.has_filter?(field).should ==
-        {:operator=>"o", :values=>[""]}
+      query.has_filter?(field).should be_true
+    end
+  end
+
+  describe '#operator_for' do
+    context 'when has_filter?(field) is true' do
+      it 'returns operator associated with filter' do
+        field = 'status_id'
+        query.filters[field][:operator] = "one_of_the_operators"
+        query.operator_for(field).should == "one_of_the_operators"
+      end
+    end
+
+    context 'when has_filter?(field) is false' do
+      it 'returns nil' do
+        field = ''
+        query.operator_for(field).should be_nil
+      end
+    end
+  end
+
+  describe '#values_for' do
+    context 'when has_filter?(field) is true' do
+      it 'returns values associated with filter' do
+        field = 'status_id'
+        query.filters[field][:values] = ["a given value", 3]
+        query.values_for(field).should == ["a given value", 3]
+      end
+    end
+
+    context 'when has_filter?(field) is false' do
+      it 'returns nil' do
+        field = ''
+        query.values_for(field).should be_nil
+      end
     end
   end
 
