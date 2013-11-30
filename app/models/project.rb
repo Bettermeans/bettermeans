@@ -44,7 +44,7 @@ class Project < ActiveRecord::Base
                            :order => "firstname ASC"
 
 
-   has_many :binding_members, :class_name => 'Member',
+  has_many :binding_members, :class_name => 'Member',
                            :include => [:user,:roles],
                            :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_BOARD} OR #{Role.table_name}.builtin=#{Role::BUILTIN_ADMINISTRATOR}",
                             :order => "firstname ASC"
@@ -136,7 +136,7 @@ class Project < ActiveRecord::Base
   reportable :weekly_new_projects, :aggregation => :count, :grouping => :week, :limit => 20
 
 
-  def project_id # spec_me cover_me heckle_me
+  def project_id # cover_me heckle_me
     self.id
   end
 
@@ -198,7 +198,7 @@ class Project < ActiveRecord::Base
     errors[:identifier].nil? && !(new_record? || identifier.blank?)
   end
 
-  def self.latest_public(count=10, offset=0) # spec_me cover_me heckle_me
+  def self.latest_public(count=10, offset=0) # cover_me heckle_me
     filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " +
       "#{Project.table_name}.is_public = #{connection.quoted_true}"
 
@@ -211,7 +211,7 @@ class Project < ActiveRecord::Base
     )
   end
 
-  def self.most_active_public(count=10, offset=0) # spec_me cover_me heckle_me
+  def self.most_active_public(count=10, offset=0) # cover_me heckle_me
     filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " +
       "#{Project.table_name}.is_public = #{connection.quoted_true}"
 
@@ -249,7 +249,7 @@ class Project < ActiveRecord::Base
   # Examples:
   #     Projects.visible_by(admin)        => "projects.status = 1"
   #     Projects.visible_by(normal_user)  => "projects.status = 1 AND projects.is_public = 1"
-  def self.visible_by(user=nil) # spec_me cover_me heckle_me
+  def self.visible_by(user=nil) # cover_me heckle_me
     user ||= User.anonymous
     if user && user.admin?
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
@@ -270,7 +270,6 @@ class Project < ActiveRecord::Base
       self.credits
     end
   end
-
 
   def self.allowed_to_condition(user, permission, options={}) # spec_me cover_me heckle_me
     statements = []
@@ -336,15 +335,15 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def active? # spec_me cover_me heckle_me
+  def active? # cover_me heckle_me
     self.status == STATUS_ACTIVE
   end
 
-  def archived? # spec_me cover_me heckle_me
+  def archived? # cover_me heckle_me
     self.status == STATUS_ARCHIVED
   end
 
-  def locked? # spec_me cover_me heckle_me
+  def locked? # cover_me heckle_me
     self.status == STATUS_LOCKED
   end
 
