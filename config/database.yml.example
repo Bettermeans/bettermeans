@@ -1,10 +1,10 @@
 production:
-  adapter: mysql2
-  database: bettermeans_production
+  adapter: postgresql
+  database: bettermeans_development
   host: localhost
-  username: root
+  min_messages: WARNING
+  username: postgres
   password: tree
-  encoding: utf8
 
 development:
   adapter: postgresql
@@ -21,26 +21,3 @@ test: &TEST
   min_messages: WARNING
   username: postgres
   password: tree
-
-test_pgsql:
-  adapter: postgresql
-  database: bettermeans_test
-  host: localhost
-  min_messages: WARNING
-  username: postgres
-  password: "postgres"
-
-test_sqlite3:
-  adapter: sqlite3
-  dbfile: db/test.db
-
-demo:
-  adapter: sqlite3
-  dbfile: db/demo.db
-
-
-cucumber:
-  <<: *TEST
-
-selenium:
-  <<: *TEST
