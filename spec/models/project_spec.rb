@@ -245,4 +245,42 @@ describe Project do
     end
   end
 
+  describe '#enterprise?' do
+    context 'when parent_id is nil' do
+      it 'returns true' do
+        project.should be_enterprise
+      end
+    end
+
+    context 'when parent_id is not nil' do
+      it 'returns false' do
+        project1 = Factory.create(:project)
+        project2 = Factory.create(:project)
+        project2.move_to_child_of(project1)
+        project2.should_not be_enterprise
+      end
+    end
+  end
+
+  # describe '#archive' do
+  #   it 'returns true upon successful archive of Project trnsactions' do
+
+  #   end
+  # end
+
+  describe '#active_members' do
+    it 'returns hash of active project users' do
+      members = project.all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}")
+      p project.all_members
+      project.active_members.should == members
+    end
+  end
+
+  describe '#clearance_members' do
+    it 'returns hash of project users with clearance' do
+      members = project.all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_CLEARANCE}")
+      p project.clearance_members
+      project.clearance_members.should == members
+    end
+  end
 end

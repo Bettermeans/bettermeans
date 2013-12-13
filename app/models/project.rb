@@ -178,7 +178,6 @@ class Project < ActiveRecord::Base
     array
   end
 
-
   def graph_data2 # spec_me cover_me heckle_me
     valid_kids = children.select{|c| c.active?}
     if valid_kids.size > 0
@@ -233,7 +232,6 @@ class Project < ActiveRecord::Base
       all_children.find(:all, :limit => count, :conditions => visible_by(user), :order => "activity_total DESC", :offset => offset)
     end
   end
-
 
   #Returns true if project is visible by user
   def visible_to(user) # spec_me cover_me heckle_me
@@ -347,20 +345,20 @@ class Project < ActiveRecord::Base
     self.status == STATUS_LOCKED
   end
 
-  def lock # spec_me cover_me heckle_me
+  def lock # cover_me heckle_me
     self.update_attribute(:status, STATUS_LOCKED) if active? && !locked?
   end
 
-  def unlock # spec_me cover_me heckle_me
+  def unlock # cover_me heckle_me
     self.update_attribute(:status, STATUS_ACTIVE) if locked?
   end
 
-  def enterprise? # spec_me cover_me heckle_me
+  def enterprise? # cover_me heckle_me
     self.parent_id.nil?
   end
 
   # Archives the project and its descendants
-  def archive # spec_me cover_me heckle_me
+  def archive # cover_me heckle_me
     Project.transaction do
       archive!
     end
@@ -469,12 +467,12 @@ class Project < ActiveRecord::Base
   end
 
   # Returns a hash of active project users
-  def active_members # spec_me cover_me heckle_me
+  def active_members # cover_me heckle_me
     all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}",:include => [:user, :roles], :order => "firstname ASC")
   end
 
   # Returns a hash of project users with clearance
-  def clearance_members # spec_me cover_me heckle_me
+  def clearance_members # cover_me heckle_me
     all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_CLEARANCE}",:include => [:user, :roles], :order => "firstname ASC")
   end
 
@@ -508,7 +506,6 @@ class Project < ActiveRecord::Base
   def role_and_above_count(position) # spec_me cover_me heckle_me
     all_members.count(:all, :conditions => "roles.position <= #{position}", :group => "user_id").length
   end
-
 
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
   # Also refreshes members with clearance
@@ -565,8 +562,6 @@ class Project < ActiveRecord::Base
       end
     end
   end
-
-
 
   # Deletes all project's members
   def delete_all_members # spec_me cover_me heckle_me
@@ -703,7 +698,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-
   # Copies +project+ and returns the new instance.  This will not save
   # the copy
   def self.copy_from(project) # spec_me cover_me heckle_me
@@ -746,8 +740,6 @@ class Project < ActiveRecord::Base
     return true
   end
 
-
-
   #Setup default forum for workstream
   def after_create # spec_me cover_me heckle_me
     logger.info { "entering after create" }
@@ -779,7 +771,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-
   #Returns true if threshold of points that haven't been included in a retrospective have been created
   def ready_for_retro? # spec_me cover_me heckle_me
     return false if !credits_enabled?
@@ -793,7 +784,6 @@ class Project < ActiveRecord::Base
     return true if (first_issue.updated_at.advance :days => Setting::RETRO_DAY_THRESHOLD) < Time.now
 
     return false
-
   end
 
   #Starts a new retrospective for this project
@@ -1005,5 +995,4 @@ class Project < ActiveRecord::Base
     end
     update_attribute :status, STATUS_ARCHIVED
   end
-
 end
