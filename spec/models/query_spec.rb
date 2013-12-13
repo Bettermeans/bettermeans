@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Query do
 
   let(:query) { Query.new }
-  project = Factory.create(:project)
 
   describe 'associations' do
     it { should belong_to(:project) }
@@ -32,8 +31,7 @@ describe Query do
 
   describe '#has_filter?' do
     it "using field 'status_id' returns filters and filters[field]" do
-      field = 'status_id'
-      query.has_filter?(field).should be_true
+      query.has_filter?('status_id').should be_true
     end
   end
 
@@ -74,7 +72,7 @@ describe Query do
   describe '#grouped?' do
     it 'returns true if query is a grouped query' do
       query.group_by = true
-      query.grouped?.should be_true
+      query.should be_grouped
     end
   end
 
