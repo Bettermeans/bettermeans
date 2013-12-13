@@ -2,7 +2,6 @@ require "spec_helper"
 
 describe Project do
 
-  setup { Factory(:project) }
   let(:project) { Project.new }
 
   describe 'associations' do
@@ -46,7 +45,6 @@ describe Project do
     it { should validate_presence_of(:name) }
     it { should ensure_length_of(:name).is_at_most(50) }
     it { should ensure_length_of(:homepage).is_at_most(255) }
-    # it { should ensure_length_of(:identifier).is_at_least(1).is_at_most(20).with_message("is too short (minimum is 1 characters)") }
   end
 
   describe '#project_id' do
