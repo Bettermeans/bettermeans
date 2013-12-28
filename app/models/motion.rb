@@ -5,24 +5,24 @@ class Motion < ActiveRecord::Base
   STATE_DEFEATED = 2
   STATE_CANCELED = 3
 
-  TYPE_CONSENSUS = 1 #Any disagree defeats the motion
-  TYPE_MAJORITY = 2 #Any block defeats the motion
-  TYPE_SHARE = 3 #Majority vote, 1 share = 1 vote
+  TYPE_CONSENSUS = 1 # Any disagree defeats the motion
+  TYPE_MAJORITY = 2 # Any block defeats the motion
+  TYPE_SHARE = 3 # Majority vote, 1 share = 1 vote
 
-  VISIBLE_BOARD = 1 #Only board can see this motion
-  VISIBLE_CORE = 2 #Only core & board
-  VISIBLE_MEMBER = 3 #All members, core and board
-  VISIBLE_CONTRIBUTER = 4 #Everyone who is a part of the enterprise
-  VISIBLE_USER = 10 #Everyone on the platform
+  VISIBLE_BOARD = 1 # Only board can see this motion
+  VISIBLE_CORE = 2 # Only core & board
+  VISIBLE_MEMBER = 3 # All members, core and board
+  VISIBLE_CONTRIBUTER = 4 # Everyone who is a part of the enterprise
+  VISIBLE_USER = 5 # Everyone on the platform
 
-  BINDING_BOARD = 1 #Only board votes are binding
-  BINDING_CORE = 2 #Only core & board votes are binding
-  BINDING_MEMBER = 3 #All members, core and board votes are binding
-  BINDING_CONTRIBUTER = 4 #Everyone who is a part of the enterprise has a binding vote
-  BINDING_USER = 5 #Everyone on the platform has a binding vote
+  BINDING_BOARD = 1 # Only board votes are binding
+  BINDING_CORE = 2 # Only core & board votes are binding
+  BINDING_MEMBER = 3 # All members, core and board votes are binding
+  BINDING_CONTRIBUTER = 4 # Everyone who is a part of the enterprise has a binding vote
+  BINDING_USER = 5 # Everyone on the platform has a binding vote
 
-  VARIATION_GENERAL = 0 #Miscellaneous issues
-  VARIATION_EXTRAORDINARY = 1 #e.g. sell a company!
+  VARIATION_GENERAL = 0 # Miscellaneous issues
+  VARIATION_EXTRAORDINARY = 1 # e.g. sell a company!
   VARIATION_NEW_MEMBER = 2
   VARIATION_NEW_CORE = 3
   VARIATION_FIRE_MEMBER = 4
@@ -57,11 +57,11 @@ class Motion < ActiveRecord::Base
     return true if Time.now > self.ends_on
 
     case self.motion_type
-    when TYPE_CONSENSUS #if we don't have a disagreement, and have more than half binding agreement, we're a go
+    when TYPE_CONSENSUS # if we don't have a disagreement, and have more than half binding agreement, we're a go
       if self.disagree == 0 && self.agree_total > self.project.role_and_above_count(self.binding_level).to_f / 2
         return true;
       end
-    when TYPE_MAJORITY #if have majority binding agreement, and no blocking, we're a go
+    when TYPE_MAJORITY # if have majority binding agreement, and no blocking, we're a go
       if self.disagree < 500 && self.agree_total > self.project.role_and_above_count(self.binding_level).to_f / 2
           return true;
       end
@@ -76,7 +76,7 @@ class Motion < ActiveRecord::Base
     return (self.variation == VARIATION_NEW_MEMBER || self.variation == VARIATION_NEW_CORE || self.variation == VARIATION_FIRE_MEMBER || self.variation == VARIATION_FIRE_CORE)
   end
 
-  #Checks if motion has reached end date, calculates vote and takes action
+  # Checks if motion has reached end date, calculates vote and takes action
   def close # spec_me cover_me heckle_me
     return if !active?
     return if !ended?
