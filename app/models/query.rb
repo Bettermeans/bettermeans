@@ -102,7 +102,7 @@ class Query < ActiveRecord::Base
     self.filters ||= { 'status_id' => {:operator => "o", :values => [""]} }
   end
 
-  def after_initialize # spec_me cover_me heckle_me
+  def after_initialize # cover_me heckle_me
     # Store the fact that project is nil (used in #editable_by?)
     @is_for_all = project.nil?
   end
@@ -182,15 +182,15 @@ class Query < ActiveRecord::Base
     add_filter field, (parms[0] || "="), [parms[1] || ""]
   end
 
-  def has_filter?(field) # spec_me cover_me heckle_me
+  def has_filter?(field) # cover_me heckle_me
     filters and filters[field]
   end
 
-  def operator_for(field) # spec_me cover_me heckle_me
+  def operator_for(field) # cover_me heckle_me
     has_filter?(field) ? filters[field][:operator] : nil
   end
 
-  def values_for(field) # spec_me cover_me heckle_me
+  def values_for(field) # cover_me heckle_me
     has_filter?(field) ? filters[field][:values] : nil
   end
 
@@ -272,7 +272,7 @@ class Query < ActiveRecord::Base
   end
 
   # Returns true if the query is a grouped query
-  def grouped? # spec_me cover_me heckle_me
+  def grouped? # cover_me heckle_me
     !group_by.blank?
   end
 

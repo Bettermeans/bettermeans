@@ -112,7 +112,7 @@ describe Project do
       end
 
       it "is not admin" do
-        User.anonymous.admin?.should be_false
+        User.anonymous.should_not be_admin
       end
     end
   end
@@ -262,25 +262,37 @@ describe Project do
     end
   end
 
-  # describe '#archive' do
-  #   it 'returns true upon successful archive of Project trnsactions' do
-
-  #   end
-  # end
+  describe '#archive' do
+    it 'returns true upon successful archive of Project transactions' do
+      Project.should_receive(:transaction).and_return(:true)
+      project.archive
+    end
+  end
 
   describe '#active_members' do
-    it 'returns hash of active project users' do
-      members = project.all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}")
-      p project.all_members
+    it 'returns a hash of active project users' do
+      members = project.all_members.find(:all,
+            :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}")
+      project.all_members
       project.active_members.should == members
     end
   end
 
   describe '#clearance_members' do
-    it 'returns hash of project users with clearance' do
-      members = project.all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_CLEARANCE}")
-      p project.clearance_members
+    it 'returns a hash of project users with clearance' do
+      members = project.all_members.find(:all,
+            :conditions => "roles.builtin = #{Role::BUILTIN_CLEARANCE}")
+      project.clearance_members
       project.clearance_members.should == members
+    end
+  end
+
+  describe '#contributor_list' do
+    it 'returns a hash of contributors to the project' do
+      contributors = project.contributors.find(:all,
+            :conditions => "roles.builtin = #{Role::BUILTIN_CONTRIBUTOR}")
+      project.contributor_list
+      project.contributor_list.should == contributors
     end
   end
 end

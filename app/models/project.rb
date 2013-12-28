@@ -136,7 +136,7 @@ class Project < ActiveRecord::Base
   reportable :weekly_new_projects, :aggregation => :count, :grouping => :week, :limit => 20
 
 
-  def project_id # cover_me heckle_me
+  def project_id # heckle_me
     self.id
   end
 
@@ -155,7 +155,7 @@ class Project < ActiveRecord::Base
     { :id => self.identifier, :name => name, :children => mychildren, :data => {:$dim => diameter,:$angularWidth => diameter, :$color => '#fdd13d' } }
   end
 
-  #returns array of project ids that are children of this project. includes id of current project
+  #returns array of project ids that are children of this project. includes id of current projectvalidate_presence_of
   def sub_project_array # spec_me cover_me heckle_me
     array = [self.id]
     self.children.each do |child|
@@ -333,32 +333,32 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def active? # cover_me heckle_me
+  def active? # heckle_me
     self.status == STATUS_ACTIVE
   end
 
-  def archived? # cover_me heckle_me
+  def archived? # heckle_me
     self.status == STATUS_ARCHIVED
   end
 
-  def locked? # cover_me heckle_me
+  def locked? # heckle_me
     self.status == STATUS_LOCKED
   end
 
-  def lock # cover_me heckle_me
+  def lock # heckle_me
     self.update_attribute(:status, STATUS_LOCKED) if active? && !locked?
   end
 
-  def unlock # cover_me heckle_me
+  def unlock # heckle_me
     self.update_attribute(:status, STATUS_ACTIVE) if locked?
   end
 
-  def enterprise? # cover_me heckle_me
+  def enterprise? # heckle_me
     self.parent_id.nil?
   end
 
   # Archives the project and its descendants
-  def archive # cover_me heckle_me
+  def archive # spec_me cover_me heckle_me
     Project.transaction do
       archive!
     end
@@ -467,17 +467,17 @@ class Project < ActiveRecord::Base
   end
 
   # Returns a hash of active project users
-  def active_members # cover_me heckle_me
+  def active_members # heckle_me
     all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}",:include => [:user, :roles], :order => "firstname ASC")
   end
 
   # Returns a hash of project users with clearance
-  def clearance_members # cover_me heckle_me
+  def clearance_members # heckle_me
     all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_CLEARANCE}",:include => [:user, :roles], :order => "firstname ASC")
   end
 
   # Returns a hash of contributers
-  def contributor_list # spec_me cover_me heckle_me
+  def contributor_list # heckle_me
     self.contributors
   end
 
