@@ -10,13 +10,13 @@ describe EmailUpdate do
 
   describe '.send_activation' do
     it 'should deliver activation email' do
-      expect { email_update.send_activation }.to
-      change(EmailUpdate.count).by(1)
+      Mailer.should_receive(:send_later).with([:deliver_email_update_activation, EmailUpdate.create!])
+      email_update.send_activation
     end
   end
 
   describe '.before_create' do
-    it "should set token value" do
+    it "sets the token value" do
       ActiveSupport::SecureRandom.stub(:hex).and_return('hex')
       token.before_create
       token.value.should == 'hex'
@@ -29,7 +29,11 @@ describe EmailUpdate do
     end
   end
 
-  describe '.accept' do
+  describe '#accept' do
+    before(:each) do
+      user = Factory.create(:user)
+      email_update.user = user
+    end
     xit 'updates activation attributes to true' do
       email_update.accept
       email_update.activated.should be_true
