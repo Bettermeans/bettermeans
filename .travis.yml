@@ -3,6 +3,12 @@ language: ruby
 rvm:
   - 1.8.7
 
+env:
+  global:
+    - BETTER_S3_ACCESS_KEY_ID=blah
+    - BETTER_S3_SECRET_ACCESS_KEY=bloo
+    - BETTER_S3_BUCKET_NAME=blee
+
 before_install:
   - gem update --system 1.8.25
   - gem --version
