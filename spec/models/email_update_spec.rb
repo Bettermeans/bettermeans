@@ -8,14 +8,14 @@ describe EmailUpdate do
 
   before(:each) { Mailer.stub(:send_later) }
 
-  describe '.send_activation' do
+  describe '#send_activation' do
     it 'should deliver activation email' do
-      Mailer.should_receive(:send_later).with([:deliver_email_update_activation, EmailUpdate.create!])
+      Mailer.should_receive(:send_later).with(:deliver_email_update_activation, email_update)
       email_update.send_activation
     end
   end
 
-  describe '.before_create' do
+  describe '#before_create' do
     it "sets the token value" do
       ActiveSupport::SecureRandom.stub(:hex).and_return('hex')
       token.before_create
@@ -33,15 +33,17 @@ describe EmailUpdate do
     before(:each) do
       user = Factory.create(:user)
       email_update.user = user
+      email_update.mail = "some_mail"
     end
-    xit 'updates activation attributes to true' do
+
+    it 'updates activation attributes to true' do
       email_update.accept
       email_update.activated.should be_true
     end
 
-    xit 'updates mail attributes to mail' do
+    it 'updates mail attributes to mail' do
       email_update.accept
-      email_update.user.mail.should be_mail
+      email_update.user.mail.should == email_update.mail
     end
   end
 
