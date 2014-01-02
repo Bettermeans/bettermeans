@@ -17,7 +17,7 @@ class News < ActiveRecord::Base
 
   acts_as_event :url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.id}}
 
-  def visible?(user=User.current) # spec_me cover_me heckle_me
+  def visible?(user=User.current) # heckle_me
     !user.nil? && user.allowed_to?(:view_news, project)
   end
 
@@ -33,11 +33,11 @@ class News < ActiveRecord::Base
     find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news) + " (created_at > '#{Time.now.advance :days => (Setting::DAYS_FOR_LATEST_NEWS * -1)}')", :include => [ :author, :project ], :order => "#{News.table_name}.created_at DESC")
   end
 
-  def send_mentions # spec_me cover_me heckle_me
+  def send_mentions # heckle_me
     Mention.parse(self, self.author_id)
   end
 
-  def mention(mentioner_id, mentioned_id, mention_text) # spec_me cover_me heckle_me
+  def mention(mentioner_id, mentioned_id, mention_text) # heckle_me
     Notification.create :recipient_id => mentioned_id,
                         :variation => 'mention',
                         :params => {:mention_text => self.description,
