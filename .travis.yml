@@ -13,4 +13,5 @@ script:
   - bundle exec rake
 
 before_script:
+  - cp config/database.travis.yml config/database.yml
   - psql -c 'create database bettermeans_db_test;' -U postgres
