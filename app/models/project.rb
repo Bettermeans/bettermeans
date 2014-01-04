@@ -44,7 +44,7 @@ class Project < ActiveRecord::Base
                            :order => "firstname ASC"
 
 
-   has_many :binding_members, :class_name => 'Member',
+  has_many :binding_members, :class_name => 'Member',
                            :include => [:user,:roles],
                            :conditions => "#{Role.table_name}.builtin=#{Role::BUILTIN_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_CORE_MEMBER} OR #{Role.table_name}.builtin=#{Role::BUILTIN_BOARD} OR #{Role.table_name}.builtin=#{Role::BUILTIN_ADMINISTRATOR}",
                             :order => "firstname ASC"
@@ -136,7 +136,7 @@ class Project < ActiveRecord::Base
   reportable :weekly_new_projects, :aggregation => :count, :grouping => :week, :limit => 20
 
 
-  def project_id # spec_me cover_me heckle_me
+  def project_id # heckle_me
     self.id
   end
 
@@ -155,7 +155,7 @@ class Project < ActiveRecord::Base
     { :id => self.identifier, :name => name, :children => mychildren, :data => {:$dim => diameter,:$angularWidth => diameter, :$color => '#fdd13d' } }
   end
 
-  #returns array of project ids that are children of this project. includes id of current project
+  #returns array of project ids that are children of this project. includes id of current projectvalidate_presence_of
   def sub_project_array # spec_me cover_me heckle_me
     array = [self.id]
     self.children.each do |child|
@@ -178,7 +178,6 @@ class Project < ActiveRecord::Base
     array
   end
 
-
   def graph_data2 # spec_me cover_me heckle_me
     valid_kids = children.select{|c| c.active?}
     if valid_kids.size > 0
@@ -198,7 +197,7 @@ class Project < ActiveRecord::Base
     errors[:identifier].nil? && !(new_record? || identifier.blank?)
   end
 
-  def self.latest_public(count=10, offset=0) # spec_me cover_me heckle_me
+  def self.latest_public(count=10, offset=0) # cover_me heckle_me
     filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " +
       "#{Project.table_name}.is_public = #{connection.quoted_true}"
 
@@ -211,7 +210,7 @@ class Project < ActiveRecord::Base
     )
   end
 
-  def self.most_active_public(count=10, offset=0) # spec_me cover_me heckle_me
+  def self.most_active_public(count=10, offset=0) # cover_me heckle_me
     filter = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND " +
       "#{Project.table_name}.is_public = #{connection.quoted_true}"
 
@@ -234,7 +233,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-
   #Returns true if project is visible by user
   def visible_to(user) # spec_me cover_me heckle_me
     return true if user.admin?
@@ -249,7 +247,7 @@ class Project < ActiveRecord::Base
   # Examples:
   #     Projects.visible_by(admin)        => "projects.status = 1"
   #     Projects.visible_by(normal_user)  => "projects.status = 1 AND projects.is_public = 1"
-  def self.visible_by(user=nil) # spec_me cover_me heckle_me
+  def self.visible_by(user=nil) # cover_me heckle_me
     user ||= User.anonymous
     if user && user.admin?
       return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
@@ -270,7 +268,6 @@ class Project < ActiveRecord::Base
       self.credits
     end
   end
-
 
   def self.allowed_to_condition(user, permission, options={}) # spec_me cover_me heckle_me
     statements = []
@@ -336,27 +333,27 @@ class Project < ActiveRecord::Base
     end
   end
 
-  def active? # spec_me cover_me heckle_me
+  def active? # heckle_me
     self.status == STATUS_ACTIVE
   end
 
-  def archived? # spec_me cover_me heckle_me
+  def archived? # heckle_me
     self.status == STATUS_ARCHIVED
   end
 
-  def locked? # spec_me cover_me heckle_me
+  def locked? # heckle_me
     self.status == STATUS_LOCKED
   end
 
-  def lock # spec_me cover_me heckle_me
+  def lock # heckle_me
     self.update_attribute(:status, STATUS_LOCKED) if active? && !locked?
   end
 
-  def unlock # spec_me cover_me heckle_me
+  def unlock # heckle_me
     self.update_attribute(:status, STATUS_ACTIVE) if locked?
   end
 
-  def enterprise? # spec_me cover_me heckle_me
+  def enterprise? # heckle_me
     self.parent_id.nil?
   end
 
@@ -470,17 +467,17 @@ class Project < ActiveRecord::Base
   end
 
   # Returns a hash of active project users
-  def active_members # spec_me cover_me heckle_me
+  def active_members # heckle_me
     all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_ACTIVE}",:include => [:user, :roles], :order => "firstname ASC")
   end
 
   # Returns a hash of project users with clearance
-  def clearance_members # spec_me cover_me heckle_me
+  def clearance_members # heckle_me
     all_members.find(:all, :conditions => "roles.builtin = #{Role::BUILTIN_CLEARANCE}",:include => [:user, :roles], :order => "firstname ASC")
   end
 
   # Returns a hash of contributers
-  def contributor_list # spec_me cover_me heckle_me
+  def contributor_list # heckle_me
     self.contributors
   end
 
@@ -509,7 +506,6 @@ class Project < ActiveRecord::Base
   def role_and_above_count(position) # spec_me cover_me heckle_me
     all_members.count(:all, :conditions => "roles.position <= #{position}", :group => "user_id").length
   end
-
 
   # Retrieves a list of all active users for the past (x days) and refreshes their roles
   # Also refreshes members with clearance
@@ -566,8 +562,6 @@ class Project < ActiveRecord::Base
       end
     end
   end
-
-
 
   # Deletes all project's members
   def delete_all_members # spec_me cover_me heckle_me
@@ -704,7 +698,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-
   # Copies +project+ and returns the new instance.  This will not save
   # the copy
   def self.copy_from(project) # spec_me cover_me heckle_me
@@ -747,8 +740,6 @@ class Project < ActiveRecord::Base
     return true
   end
 
-
-
   #Setup default forum for workstream
   def after_create # spec_me cover_me heckle_me
     logger.info { "entering after create" }
@@ -780,7 +771,6 @@ class Project < ActiveRecord::Base
     end
   end
 
-
   #Returns true if threshold of points that haven't been included in a retrospective have been created
   def ready_for_retro? # spec_me cover_me heckle_me
     return false if !credits_enabled?
@@ -794,7 +784,6 @@ class Project < ActiveRecord::Base
     return true if (first_issue.updated_at.advance :days => Setting::RETRO_DAY_THRESHOLD) < Time.now
 
     return false
-
   end
 
   #Starts a new retrospective for this project
@@ -1006,5 +995,4 @@ class Project < ActiveRecord::Base
     end
     update_attribute :status, STATUS_ARCHIVED
   end
-
 end
