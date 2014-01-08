@@ -14,8 +14,8 @@ before_install:
   - gem update --system 1.8.25
   #- gem --version
 
-#script:
-#  - RAILS_ENV=test bundle exec rake
+script:
+  - bundle exec rake
 
 before_script:
   - rake db:create db:migrate
