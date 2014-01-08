@@ -34,57 +34,57 @@ describe News do
 
     context 'when no user is nil' do
       it 'returns false' do
-        news.visible?(user=nil).should be_false
+        news.visible?(nil).should be_false
       end
     end
   end
 
   describe '#recipients' do
-    # this test passes, but because the record is empty - best way to create sample record?
-    xit 'returns emails of users to be notified of news' do
-      notified = project.notified_users
-      news.recipients.should == notified.collect(&:mail)
+    it 'returns emails of users to be notified of news' do
+      fake_user = mock(:pref => {}, :mail => 'bob@pop.com', :allowed_to? => true)
+      project.stub(:notified_users).and_return([fake_user])
+      news.recipients.should == ['bob@pop.com']
     end
   end
 
   describe News, '.latest' do
-    xit 'returns latest news for projects visible by user' do
-      News.latest
+    let(:news) { News.new(:author => author, :project => project, :title => "title", :description => 'description') }
+
+    it 'returns latest news for projects visible by user' do
+      news.save!
+      Project.stub(:allowed_to_condition).and_return('')
+      News.latest.should eql [news]
     end
   end
 
   describe '#send_mentions' do
-    it 'should return a hash of comment by author' do
+    it 'parses mentions in the news object' do
       Mention.should_receive(:parse).with(news, author.id)
       news.send_mentions
     end
   end
 
   describe '#mention' do
-    news_args = { :sender_id => 10,
-                  :recipient_id => 11,
-                  :params => {:mention_text => "10 mentioned 11"} }
+    let(:params) { {:mention_text => "10 mentioned 11"} }
+    let(:sender_id) { 10 }
+    let(:recipient_id) { 11 }
 
-    let(:notification) { Notification.create(news_args) }
+    let(:notification) { Notification.create(:params => params, :sender_id => sender_id, :recipient_id => recipient_id) }
 
     it 'creates a new notification' do
       expect {
-          news.mention(news_args[:sender_id], news_args[:recipient_id], news_args[:params])
+          news.mention(sender_id, recipient_id, params)
         }.to change(Notification, :count).by(1)
     end
 
     it 'sends noitification from the correct sender' do
-      news.mention(news_args[:sender_id],
-                   news_args[:recipient_id],
-                   news_args[:params])
-      Notification.last.sender_id.should == news_args[:sender_id]
+      news.mention(sender_id, recipient_id, params)
+      Notification.last.sender_id.should == sender_id
     end
 
     it 'sends notification to the correct recipient' do
-      news.mention(news_args[:sender_id],
-                   news_args[:recipient_id],
-                   news_args[:params])
-      Notification.last.recipient_id.should == news_args[:recipient_id]
+      news.mention(sender_id, recipient_id, params)
+      Notification.last.recipient_id.should == recipient_id
     end
   end
 
