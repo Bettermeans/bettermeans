@@ -12,11 +12,12 @@ env:
 
 before_install:
   - gem update --system 1.8.25
-  - gem --version
+  #- gem --version
 
-script:
-  - RAILS_ENV=test bundle exec rake
+#script:
+#  - RAILS_ENV=test bundle exec rake
 
 before_script:
-  - cp config/database.travis.yml config/database.yml
-  - psql -c 'create database bettermeans_db_test;' -U postgres
+  - rake db:create db:migrate
+  #- cp config/database.travis.yml config/database.yml
+  #- psql -c 'create database bettermeans_db_test;' -U postgres
