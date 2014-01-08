@@ -15,7 +15,7 @@ before_install:
   - gem --version
 
 script:
-  - bundle exec rake
+  - RAILS_ENV=test bundle exec rake
 
 before_script:
   - cp config/database.travis.yml config/database.yml
