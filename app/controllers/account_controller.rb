@@ -9,7 +9,7 @@ class AccountController < ApplicationController
   ssl_required :all
 
   # Login request and validation
-  def login # spec_me cover_me heckle_me
+  def login
     set_invitation_token
     if request.get?
       logout_user
