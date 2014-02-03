@@ -73,7 +73,7 @@ class Issue < ActiveRecord::Base
 
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
-  named_scope :open_status, :conditions => {:status_id => 1}, :include => :status #BUGBUG: hard coded because IssueStatus.open.id breaks rake for some reason!!!
+  named_scope :open_status, :conditions => {:status_id => IssueStatus.open_id}, :include => :status
 
   after_save :after_save
 
@@ -181,7 +181,7 @@ class Issue < ActiveRecord::Base
   #returns true if issue can be started (in the correct priority tier)
   def startable? # spec_me cover_me heckle_me
     return false unless self.status_id == IssueStatus.open.id
-    self.pri > project.issues.open_status.maximum("pri") - Setting::NUMBER_OF_STARTABLE_PRIORITY_TIERS || points_from_credits == 0
+    (pri && pri > project.issues.open_status.maximum("pri") - Setting::NUMBER_OF_STARTABLE_PRIORITY_TIERS) || points_from_credits == 0
   end
 
 
