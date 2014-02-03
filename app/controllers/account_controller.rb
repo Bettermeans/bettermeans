@@ -9,7 +9,7 @@ class AccountController < ApplicationController
   ssl_required :all
 
   # Login request and validation
-  def login # spec_me cover_me heckle_me
+  def login
     set_invitation_token
     if request.get?
       logout_user
@@ -22,7 +22,7 @@ class AccountController < ApplicationController
     end
   end
 
-  def rpx_token # spec_me cover_me heckle_me
+  def rpx_token
     find_user_by_identifier || find_user_by_mail || create_new_user
     message = reactivate_user
     successful_authentication(@user, @invitation_token, message)
