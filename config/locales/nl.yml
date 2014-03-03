@@ -1,0 +1,1391 @@
+en:
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%d-%m-%Y"
+      short: "%e %b"
+      long: "%d %B, %Y"
+      
+    day_names: - zondag
+    day_names: - maandag
+    day_names: - dinsdag
+    day_names: - woensdag
+    day_names: - donderdag
+    day_names: - vrijdag
+    day_names: - zaterdag
+    abbr_day_names: - zo
+    abbr_day_names: - ma
+    abbr_day_names: - di
+    abbr_day_names: - wo
+    abbr_day_names: - do
+    abbr_day_names: - vr
+    abbr_day_names: - za
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: - ~
+    month_names: - januari
+    month_names: - februari
+    month_names: - maart
+    month_names: - april
+    month_names: - mei
+    month_names: - juni
+    month_names: - juli
+    month_names: - augustus
+    month_names: - september
+    month_names: - oktober
+    month_names: - november
+    month_names: - december
+    abbr_month_names: - ~
+    abbr_month_names: - jan
+    abbr_month_names: - feb
+    abbr_month_names: - mrt
+    abbr_month_names: - apr
+    abbr_month_names: - mei
+    abbr_month_names: - jun
+    abbr_month_names: - jul
+    abbr_month_names: - aug
+    abbr_month_names: - sep
+    abbr_month_names: - okt
+    abbr_month_names: - nov
+    abbr_month_names: - dec
+    # Used in date_select and datime_select.
+    order:
+      - :day
+      - :month
+      - :year
+
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      time: "%H:%M"
+      short: "%e %b %H:%M"
+      long: "%d %B, %Y %H:%M"
+    am: "am"
+    pm: "pm"
+      
+  datetime:
+    distance_in_words:
+      half_a_minute: "halve minuut"
+      less_than_x_seconds:
+        one: "minder dan een seconde"
+        other: "minder dan {{aantal}} seconden"
+      x_seconds:
+        one: "1 seconde"
+        other: "{{aantal}} seconden"
+      less_than_x_minutes:
+        one: "minder dan een minuut"
+        other: "minder dan {{aantal}} seconden"
+      x_minutes:
+        one: "1 minuut"
+        other: "{{aantal}} minuten"
+      about_x_hours:
+        one: "ongeveer 1 uur"
+        other: "ongeveer {{aantal}} uren"
+      x_days:
+        one: "1 dag"
+        other: "{{aantal}} dagen"
+      about_x_months:
+        one: "ongeveer 1 maand"
+        other: "ongeveer {{aantal}} maanden"
+      x_months:
+        one: "1 maand"
+        other: "{{aantal}} maanden"
+      about_x_years:
+        one: "ongeveer 1 jaar"
+        other: "ongeveer {{aantal}} jaar"
+      over_x_years:
+        one: "meer dan 1 jaar"
+        other: "meer dan {{aantal}} jaar"
+
+  number:
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Bytes"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+        
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "en"
+      skip_last_comma: false
+      
+  activerecord:
+    errors:
+      messages:
+        inclusion: "staat niet in de lijst"
+        exclusion: "is gereserveerd"
+        invalid: "is ongeldig"
+        confirmation: "komt niet overeen met bevestiging"
+        accepted: "moet geaccepteerd worden"
+        empty: "mag niet leeg zijn"
+        blank: "mag niet blanco zijn"
+        too_long: "is te lang (maximum is {{aantal}} karakters)"
+        too_short: "is te kort (minimum is {{aantal}} karakters)"
+        wrong_length: "is verkeerde lengte (moet {{aantal}} karakters zijn)"
+        taken: "is al in gebruik"
+        not_a_number: "is geen getal"
+        not_a_date: "is geen valide datum"
+        greater_than: "moet groter zijn dan {{aantal}}"
+        greater_than_or_equal_to: "moet groter dan of gelijk zijn aan {{aantal}}"
+        equal_to: "moet gelijk zijn aan {{aantal}}"
+        less_than: "moet kleiner zijn dan {{aantal}}"
+        less_than_or_equal_to: "moet kleiner dan of gelijk zijn aan {{aantal}}"
+        odd: "moet oneven zijn"
+        even: "moet even zijn"
+        greater_than_start_date: "moet na de startdatum liggen"
+        not_same_project: "Is geen onderdeel van dezelfde werkstroom"
+        circular_dependency: "Deze relatie zou een kringverwijzing opleveren"
+
+  actionview_instancetag_blank_option: Selecteer
+  
+  general_text_No: 'Nee'
+  general_text_Yes: 'Ja'
+  general_text_no: 'nee'
+  general_text_yes: 'ja'
+  general_lang_name: 'Nederlands'
+  general_csv_separator: ';'
+  general_csv_decimal_separator: ','
+  general_csv_encoding: ISO-8859-1
+  general_pdf_encoding: ~
+  general_first_day_of_week: '7'
+  
+  notice_account_reactivated: ~
+  notice_account_canceled: ~
+  notice_account_inactive_user: ~
+  notice_account_updated: Account is met succes gewijzigd
+  notice_account_invalid_creditentials: Incorrecte gebruikersnaam of wachtwoord
+  notice_account_password_updated: Wachtwoord is met succes gewijzigd
+  notice_account_wrong_password: Incorrect wachtwoord
+  notice_account_register_done: Account is met succes aangemaakt.
+  notice_account_unknown_email: Onbekende gebruiker.
+  notice_can_t_change_password: Dit account gebruikt een externe bron voor authenticatie. Het is niet mogelijk om het wachtwoord te veranderen.
+  notice_account_lost_email_sent: Er is een e-mail naar u verstuurd met instructies over het kiezen van een nieuw wachtwoord.
+  notice_account_activated: uw account is geactiveerd. u kunt nu inloggen.
+  notice_successful_create: Succesvol aangemaakt.
+  notice_successful_update: Wijzigen succesvol.
+  notice_successful_delete: Succesvol verwijderd.
+  notice_successful_connection: Verbinding succesvol.
+  notice_file_not_found: De pagina die u probeerde te benaderen bestaat niet of is verwijderd.
+  notice_locking_conflict: De gegevens zijn gewijzigd door een andere gebruiker.
+  notice_not_authorized: Het is u niet toegestaan deze pagina te raadplegen.
+  notice_email_sent: "Er is een email gestuurd naar {{waarde}}"
+  notice_email_error: "Er is een fout opgetreden bij het versturen van email ({{waarde}})"
+  notice_feeds_access_key_reseted: Je RSS toegangssleutel werd gereset.
+  notice_failed_to_save_issues: "{{aantal}} items konden niet opgeslagen worden van in totaal {{totaal}} geselecteerde items: {{ids}}."
+  notice_no_issue_selected: "Geen item geselecteerd! Vink alsjeblieft de items aan die je wil bewerken."
+  notice_account_pending: "Uw account is aangemaakt, maar wacht nog op goedkeuring van de beheerder."
+  notice_default_data_loaded: Standaard configuratie succesvol geladen.
+  notice_unable_delete_version: ~
+  notice_issue_done_ratios_updated: Issue percentage voldaan geupdate.
+  notice_this_is_your_profie: "Dit is je publieke profiel. Voor het beheren van je account <a href='/my/account'>klikt u hier</a>"
+  
+  error_old_invite : "Oude of onjuiste uitnodiging"
+  error_bad_email_update : "Slecht geformuleerde email update"
+  error_can_t_load_default_data: "Standaardconfiguratie kan niet worden geladen: {{value}}"
+  error_issue_not_found_in_project: 'Het item is niet gevonden of hoort niet bij deze werkstroom'
+  error_no_tracker_in_project: 'Er is geen onderwerp aan deze workstream gekoppeld. Controleer alsjeblieft de workstream instellingen.'
+  error_no_default_issue_status: 'Er is geen standaard item status gedefinieerd. Controleer alsjeblieft je instellingen (Ga naar "Beheer -&gt; Artikel statussen").'
+  error_can_not_reopen_issue_on_closed_version: 'Een item is toegewezen aan een gesloten opdracht kan niet worden heropend'
+  error_can_not_archive_project: ~
+  error_issue_done_ratios_not_updated: "Issue percentage voldaan niet geupdate."
+  error_workflow_copy_source: 'Selecteer een bron tracker of rol'
+  error_workflow_copy_target: 'Selecteer tracker(s) en rol(len)'
+  error_general: 'Er ging iets mis'
+  
+  warning_attachments_not_saved: "{{aantal}} bestand(en) konden niet worden opgeslagen"
+  
+  mail_subject_lost_password: "Jouw {{waarde}} password"
+  mail_body_lost_password: 'Gebruik de volgende link om uw wachtwoord te wijzigen:'
+  mail_subject_register: "Jouw {{waarde}} activatiecode"
+  mail_body_register: 'Gebruik de volgende link om uw account te activeren:'
+  mail_body_account_information_external: "Je kunt je {{waarde}} account gebruiken om in te loggen"
+  mail_body_account_information: Uw account gegevens
+  mail_subject_account_activation_request: "{{waarde}} verzoek om je account te activeren"
+  mail_subject_email_update_activation: "{{Value}} nieuwe email activatie"
+  mail_body_account_activation_request: "Een nieuwe gebruiker ({{value}}) heeft zich geregistreerd. Zijn/haar account wacht op jouw goedkeuring: "
+  mail_subject_reminder: "{{aantal}} item(s) op te leveren in de komende dagen"
+  mail_body_reminder: "{{aantal}} item(s) waarvan jij eigenaar die in de komende dagen gepland staan om op te leveren" #updated
+  mail_subject_wiki_content_added: "'{{pagina}}' wiki-pagina werd toegevoegd"
+  mail_body_wiki_content_added: "De '{{pagina}}' wiki-pagina werd toegevoegd door {{auteur}}."
+  mail_subject_wiki_content_updated: "'{{pagina}}' wiki-pagina werd aangepast"
+  mail_body_wiki_content_updated: "'{{pagina}}' wiki-pagina werd aangepast door {{auteur}}"
+  
+  gui_validation_error: 1 fout
+  gui_validation_error_plural: "{{aantal}} fouten"
+  
+  field_tags : "Tags"
+  field_points : "Algemeen geschatte waarde"
+  field_logo : "Logo"
+  field_image_file: "Upload bestand van je computer"
+  field_image_file_url: "of URL van de afbeelding"
+  field_retro: ~
+  field_volunteer: ~
+  field_name: Naam
+  field_description: Beschrijving
+  field_summary: Samenvatting
+  field_is_required: Verplicht
+  field_firstname: ~
+  field_lastname: ~
+  field_mail: E-mail
+  field_filename: Bestand
+  field_filesize: Grootte
+  field_downloads: Downloads
+  field_author: Auteur
+  field_created_at: ~
+  field_updated_at: ~
+  field_field_format: Formaat
+  field_is_for_all: ~
+  field_possible_values: Mogelijke waarden
+  field_regexp: Reguliere expressie
+  field_min_length: Minimale lengte
+  field_max_length: Maximale lengte
+  field_value: Waarde
+  field_category: Categorie
+  field_title: Titel
+  field_project: ~
+  field_item: ~
+  field_status: Status
+  field_notes: Notities
+  field_is_closed: ~
+  field_is_default: Standaard
+  field_tracker: ~
+  field_subject: Onderwerp
+  field_due_date: ~
+  field_expected_date: ~
+  field_assigned_to: ~ #Changed
+  field_priority: Prioriteit
+  field_fixed_version: ~
+  field_user: Gebruiker
+  field_role: Rol
+  field_homepage: Homepage
+  field_is_public: Publiek
+  field_parent: ~
+  field_is_in_roadmap: ~
+  field_login: ~
+  field_mail_notification: ~
+  field_admin: Beheerder
+  field_last_login_on: Laatste bezoek
+  field_language: Taal
+  field_effective_date: Datum
+  field_password: Wachtwoord
+  field_new_password: Nieuw wachtwoord
+  field_password_confirmation: ~
+  field_version: ~
+  field_type: Type
+  field_host: Host
+  field_port: Port
+  field_account: Account
+  field_base_dn: Base DN
+  field_attr_login: Login attribuut
+  field_attr_firstname: Voornaam attribuut
+  field_attr_lastname: Achternaam attribuut
+  field_attr_mail: E-mail attribuut
+  field_onthefly: On-the-fly aanmaken van een gebruiker
+  field_start_date: ~
+  field_done_ratio: "% Gereed"
+  field_auth_source: Authenticatiemethode
+  field_hide_mail: Verberg mijn e-mailadres
+  field_active_only_jumps: "Laat in bovenstaande keuze menu alleen de worksteams zien waar ik actief in betrokken ben "
+  field_comments: Commentaar
+  field_wiki_comments: ~
+  field_url: URL
+  field_start_page: ~
+  field_subproject: ~
+  field_hours: Uren
+  field_activity: Activiteit
+  field_spent_on: Datum
+  field_identifier: Identificatiecode
+  field_is_filter: Gebruikt als een filter
+  field_issue_to: ~
+  field_issue: ~
+  field_delay: Vertraging
+  field_assignable: ~
+  field_redirect_existing_links: Verwijs bestaande links door
+  field_estimated_hours: Geschatte tijd
+  field_column_names: Kolommen
+  field_time_zone: Tijdzone
+  field_searchable: Doorzoekbaar
+  field_default_value: Standaardwaarde
+  field_comments_sorting: Commentaar weergeven
+  field_parent_title: Bovenliggende pagina
+  field_parent_project: ~
+  field_editable: Bewerkbaar
+  field_watcher: Watcher
+  field_identity_url: OpenID URL
+  field_content: Content
+  field_group_by: Groepeer resultaten per
+  field_sharing: Delen
+  field_dpp: ~
+  field_hourly_rate_per_person: ~
+  field_hourly_cap: ~
+  field_pri: ~
+  
+  setting_app_title: Applicatietitel
+  setting_app_subtitle: Applicatieondertitel
+  setting_welcome_text: Welkomsttekst
+  setting_default_language: Standaard taal
+  setting_login_required: Authenticatie vereist
+  setting_self_registration: Zelfregistratie toegestaan
+  setting_attachment_max_size: Attachment max. grootte
+  setting_issues_export_limit: ~
+  setting_mail_from: Afzender e-mail adres
+  setting_bcc_recipients: Blind carbon copy ontvangers (bcc)
+  setting_plain_text_mail: platte tekst (geen HTML)
+  setting_host_name: Hostnaam
+  setting_text_formatting: Tekstformaat
+  setting_wiki_compression: Wikigeschiedenis comprimeren
+  setting_feeds_limit: Feedinhoudlimiet
+  setting_default_projects_public: ~
+  setting_autofetch_changesets: Haal commits automatisch op
+  setting_commit_ref_keywords: Refererende trefwoorden
+  setting_commit_fix_keywords: Gefixeerde trefwoorden
+  setting_autologin: Automatisch inloggen
+  setting_date_format: Datumformaat
+  setting_time_format: Tijd formaat
+  setting_cross_project_issue_relations: ~
+  setting_issue_list_default_columns: ~
+  setting_commit_logs_encoding: ~
+  setting_emails_footer: E-mails footer
+  setting_protocol: Protocol
+  setting_per_page_options: Aantal objecten per pagina (opties)
+  setting_user_format: Gebruikers weergaveformaat
+  setting_activity_days_default: ~
+  setting_display_subprojects_issues: ~
+  setting_enabled_scm: SCM ingeschakeld
+  setting_mail_handler_body_delimiters: "Breek email verwerking af na een van deze regels"
+  setting_mail_handler_api_enabled: Schakel WS in voor inkomende mail.
+  setting_mail_handler_api_key: API sleutel
+  setting_sequential_project_identifiers: ~
+  setting_gravatar_enabled: Gebruik Gravatar gebruikersiconen
+  setting_gravatar_default: Standaard Gravatar plaatje
+  setting_diff_max_lines_displayed: Max aantal diff regels weer te geven
+  setting_file_max_size_displayed: Max grootte van tekst bestanden inline zichtbaar
+  setting_openid: Sta OpenID login en registratie toe
+  setting_password_min_length: Minimum wachtwoord lengte
+  setting_new_project_user_role_id: ~
+  setting_default_projects_modules: ~
+  setting_issue_done_ratio: ~
+  setting_issue_done_ratio_issue_field: ~
+  setting_issue_done_ratio_issue_status: ~
+  setting_start_of_week: Week begint op
+  setting_rest_api_enabled: Activeer REST web service
+  
+  permission_view_project : ~
+  permission_add_project: ~
+  permission_add_subprojects: ~
+  permission_edit_project: ~
+  permission_move_project: ~
+  permission_select_project_modules: ~
+  permission_manage_members: Leden beheren
+  permission_manage_versions: ~
+  permission_manage_categories: ~
+  permission_add_issues: ~
+  permission_edit_issues: ~
+  permission_manage_issue_relations: ~
+  permission_add_issue_notes: Voeg notities toe
+  permission_edit_issue_notes: Notities bewerken
+  permission_edit_own_issue_notes: Eigen notities bewerken
+  permission_move_issues: ~
+  permission_delete_issues: ~
+  permission_manage_public_queries: Publieke queries beheren
+  permission_save_queries: Queries opslaan
+  permission_view_gantt: Gantt grafiek bekijken
+  permission_view_calendar: Kalender bekijken
+  permission_view_issue_watchers: Monitorlijst bekijken
+  permission_add_issue_watchers: Voeg monitors toe
+  permission_delete_issue_watchers: Verwijder volgers
+  permission_log_time: Gespendeerde tijd loggen
+  permission_view_time_entries: Gespendeerde tijd bekijken
+  permission_edit_time_entries: Tijdlogboek bewerken
+  permission_edit_own_time_entries: Eigen tijdlogboek bewerken
+  permission_manage_news: Nieuws beheren
+  permission_comment_news: Nieuws commentaar geven
+  permission_manage_documents: Documenten beheren
+  permission_view_documents: Documenten bekijken
+  permission_manage_files: Bestanden beheren
+  permission_view_files: Bestanden bekijken
+  permission_manage_wiki: Wikibeheer
+  permission_rename_wiki_pages: Wikipagina's hernoemen
+  permission_delete_wiki_pages: Wiki pagina's verwijderen
+  permission_view_wiki_pages: Wikipagina's bekijken
+  permission_view_wiki_edits: Wikihistorie bekijken
+  permission_edit_wiki_pages: Wiki pagina's bewerken
+  permission_delete_wiki_pages_attachments: Bijlagen verwijderen
+  permission_protect_wiki_pages: Wikipagina's beschermen
+  permission_view_changesets: Changesets bekijken
+  permission_commit_access: Commit toegang
+  permission_manage_boards: ~
+  permission_view_messages: Berichten bekijken
+  permission_add_messages: Voeg berichten toe
+  permission_edit_messages: Berichten bewerken
+  permission_edit_own_messages: Eigen berichten bewerken
+  permission_delete_messages: Berichten verwijderen
+  permission_delete_own_messages: Eigen berichten verwijderen
+  
+  project_module_issue_tracking: ~
+  project_module_time_tracking: Tijd tracking
+  project_module_news: Nieuws
+  project_module_documents: Documenten
+  project_module_files: Bestanden
+  project_module_wiki: Wiki
+  project_module_boards: ~
+
+  title_member_nomination : "Voorstel om {{user}} te nomineren als lid "
+  title_core_member_nomination : "Voorstel om {{user}} te nomineren voor de Core Team"
+  title_core_member_removal : "Voorstel om {{user}} te verwijderen uit het Core Team"
+  title_member_removal : "Voorstel om {{user}} te verwijderen als lid"
+
+  label_usage_over : "Je gebruik is hoger dan in eerste instantie gepland "
+  label_trial_expired : "Je proefperiode is afgelopen "
+  label_email_update: ~
+  label_new_page: ~
+  label_my_issues: ~
+  label_joined_issues: ~
+  label_joined: ~
+  label_projects_recent: ~
+  label_projects_active_in: ~
+  label_projects_all : ~
+  label_view_all : ~
+  label_track_invites: ~
+  label_unarchive_project: ~
+  label_unarchive_project_brackets: ~
+  label_archive_project: ~
+  label_delete_project: ~
+  label_move_project: ~
+  label_note_to_recipient: ~
+  label_amount_to_transfer: ~
+  label_select_recipient: ~
+  label_credit_transfers: ~
+  label_credit_transfer: "Punten overdragen "
+  label_new_credit_transfer: ~
+  label_select_project: ~
+  label_previous_credit_transfers: ~
+  label_data_dump: ~
+  text_data_dump: ~
+  label_issues: ~
+  label_type_of_workstream: ~
+  label_your_gravatar: ~
+  label_team_with_access: ~
+  label_select_plan: ~
+  label_current_plan: ~
+  label_user: Gebruiker
+  label_user_plural: Gebruikers
+  label_user_new: Nieuwe gebruiker
+  label_user_anonymous: Anoniem
+  label_project: ~
+  label_project_new: ~
+  label_project_plural: ~
+  label_x_projects:
+    zero:  ~
+    one:   ~
+    other: "{{aantal}} werkstromen"
+  label_project_all: ~
+  label_project_latest: ~
+  label_enterprise_latest: ~
+  label_enterprise_active: ~
+  label_enterprise_plural: ~
+  label_issue: ~
+  label_issue_new: ~
+  label_issue_plural: ~
+  label_issue_view_all: ~
+  label_issues_by: "Onderwerpen van {{value}}"
+  label_issue_added: ~
+  label_issue_updated: ~
+  label_document: Document
+  label_document_new: Nieuw document
+  label_document_plural: ~
+  label_document_added: Document toegevoegd
+  label_quick_links: ~
+  label_role: Rol
+  label_role_plural: Rollen
+  label_role_new: Nieuwe rol
+  label_role_and_permissions: Rollen en permissies
+  label_member: Lid
+  label_member_new: Nieuw lid
+  label_member_plural: Leden
+  label_team : ~
+  label_team_plural : Teams
+  label_active_team : ~
+  label_dashboard : ~
+  label_tracker: ~
+  label_tracker_plural: ~
+  label_tracker_new: ~
+  label_workflow: Workflow
+  label_issue_status: ~
+  label_issue_status_plural: ~
+  label_issue_status_new: Nieuwe status
+  label_enumerations: Enumeraties
+  label_enumeration_new: Nieuwe waarde
+  label_information: Informatie
+  label_information_plural: Informatie
+  label_personal_information: ~
+  label_billing_information: ~
+  label_please_login: Log a.u.b. in
+  label_register: ~
+  label_login_with_open_id_option: of login met je OpenID
+  label_password_lost: Wachtwoord verloren
+  label_home: Home
+  label_my_home: ~
+  label_my_page: ~
+  label_new_project: ~
+  label_my_account: ~
+  label_my_projects: ~
+  label_projects_i_belong_to: ~
+  label_projects_i_started: ~
+  label_activities_i_belong_to: ~
+  label_administration: Administratie
+  label_login: Inloggen
+  label_logout: Uitloggen
+  label_help: Help
+  label_reported_issues: ~
+  label_assigned_to_me_issues: ~
+  label_added_issues: ~
+  label_recent_issues: ~
+  label_assigned: ~
+  label_last_login: Laatste bezoek
+  label_registered_on: ~
+  label_activity: Activiteit
+  label_overall_activity: Activiteit
+  label_user_activity: "{{Value}} 's activiteiten "
+  label_new: Nieuw
+  label_logged_as: Ingelogd als
+  label_environment: Omgeving
+  label_authentication: Authenticatie
+  label_auth_source: Authenticatiemodus
+  label_auth_source_new: Nieuwe authenticatiemodus
+  label_auth_source_plural: Authenticatiemodi
+  label_subproject : ~
+  label_subproject_plural: ~
+  label_subproject_new: ~
+  label_new_item_in: ~
+  label_and_its_subprojects: "{{Value}} en zijn sub workstreams"
+  label_waiting_for_you: "{{}} wacht op jouw "
+  label_min_max_length: Min-max lengte
+  label_list: Lijst
+  label_date: Datum
+  label_integer: Integer
+  label_float: Float
+  label_boolean: Boolean
+  label_string: Tekst
+  label_text: Lange tekst
+  label_attribute: Attribuut
+  label_attribute_plural: Attributen
+  label_download: "{{aantal}} Download"
+  label_download_plural: "{{aantal}} Downloads"
+  label_no_data: ~
+  label_no_credits: ~
+  label_change_status: Wijzig status
+  label_history: History
+  label_attachment: Bestand
+  label_attachment_new: Nieuw bestand
+  label_attachment_delete: Verwijder bestand
+  label_attachment_plural: Bestanden
+  label_file_added: Bericht toegevoegd
+  label_report: Rapport
+  label_report_plural: Rapporten
+  label_news: Nieuws
+  label_news_new: Voeg nieuws toe
+  label_news_plural: Nieuws
+  label_news_latest: Laatste nieuws
+  label_news_view_all: Bekijk al het nieuws
+  label_activity_latest: ~
+  label_activity_view_all: ~
+  label_news_added: Nieuws toegevoegd
+  label_settings: Instellingen
+  label_overview: Overzicht
+  label_version: ~
+  label_version_new: ~
+  label_version_plural: ~
+  label_confirmation: Bevestiging
+  label_export_to: 'Exporteer naar'
+  label_read: Lees...
+  label_public_projects: ~
+  label_open_issues: open
+  label_open_issues_plural: open
+  label_closed_issues: gesloten
+  label_closed_issues_plural: gesloten
+  label_x_open_issues_abbr_on_total:
+    zero:  ~
+    one:   ~
+    other: "{{aantal}} open / {{totaal}}"
+  label_x_open_issues_abbr:
+    zero:  0 open
+    one:   1 open
+    other: "{{aantal}} open"
+  label_x_closed_issues_abbr:
+    zero:  0 closed
+    one:   1 closed
+    other: "{{aantal}} gesloten"
+  label_total: Totaal
+  label_permissions: Permissies
+  label_current_status: Huidige status
+  label_new_statuses_allowed: Nieuwe toegestane statussen
+  label_all: alle
+  label_none: geen
+  label_nobody: niemand
+  label_next: Volgende
+  label_previous: Vorige
+  label_used_by: Gebruikt door
+  label_details: Details
+  label_add_note: Voeg een notitie toe
+  label_per_page: Per pagina
+  label_calendar: Kalender
+  label_months_from: maanden vanaf
+  label_gantt: Gantt
+  label_internal: Intern
+  label_last_changes: "laatste {{aantal}} veranderingen"
+  label_change_view_all: Bekijk alle wijzigingen
+  label_personalize_page: Personaliseer deze pagina
+  label_comment: Commentaar
+  label_comment_plural: Commentaar
+  label_x_comments:
+    zero: no comments
+    one: 1 comment
+    other: "{{aantal}} commentaren"
+  label_comment_add: Voeg commentaar toe
+  label_comment_added: Commentaar toegevoegd
+  label_comment_delete: Verwijder commentaar
+  label_query: Eigen zoekopdracht
+  label_query_plural: Eigen zoekopdrachten
+  label_query_new: Nieuwe zoekopdracht
+  label_filter_add: Voeg filter toe
+  label_filter_plural: Filters
+  label_equals: is gelijk
+  label_not_equals: is niet gelijk
+  label_in_less_than: in minder dan
+  label_in_more_than: in meer dan
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
+  label_in: in
+  label_today: vandaag
+  label_Today: ~
+  label_same_day: ~
+  label_all_time: alles
+  label_yesterday: gisteren
+  label_this_week: deze week
+  label_last_week: vorige week
+  label_last_n_days: "laatste {{telling}}"
+  label_this_month: deze maand
+  label_last_month: laatste maand
+  label_this_year: dit jaar
+  label_date_range: Datumbereik
+  label_less_than_ago: minder dan x dagen geleden
+  label_more_than_ago: meer dan x dagen geleden
+  label_ago: dagen geleden
+  label_ago_simple: ~
+  label_contains: bevat
+  label_not_contains: bevat niet
+  label_day: ~
+  label_day_plural: dagen
+  label_browse: Blader
+  label_browse_workstreams: ~
+  label_browse_activity: ~
+  label_modification: "{{aantal}} verandering"
+  label_modification_plural: "{{aantal}} veranderingen"
+  label_branch: Branch
+  label_tag: Tag 
+  label_revision: Revisie
+  label_revision_plural: Revisies
+  label_revision_id: "Herziening {{value}}"
+  label_associated_revisions: Geassociëerde revisies
+  label_added: toegevoegd
+  label_modified: gewijzigd
+  label_copied: gekopieerd
+  label_renamed: hernoemd
+  label_deleted: verwijderd
+  label_moved: ~
+  label_archived: ~
+  label_unarchived: ~
+  label_project_description: ~
+  label_message: ~
+  label_latest_revision: Meest recente revisie
+  label_latest_revision_plural: Meest recente revisies
+  label_view_revisions: Bekijk revisies
+  label_view_all_revisions: Bekijk alle revisies
+  label_max_size: Maximumgrootte
+  label_sort_highest: Verplaats naar begin
+  label_sort_higher: Verplaats naar boven
+  label_sort_lower: Verplaats naar beneden
+  label_sort_lowest: Verplaats naar eind
+  label_roadmap: Roadmap
+  label_roadmap_due_in: "Uiterste datum {{value}}"
+  label_roadmap_overdue: "{{Value}} te laat"
+  label_roadmap_no_issues: ~
+  label_search: Zoeken
+  label_result_plural: Resultaten
+  label_all_words: Alle woorden
+  label_wiki: Wiki
+  label_wiki_edit: Wiki edit
+  label_wiki_edit_plural: Wiki edits
+  label_wikipage: ~
+  label_wiki_page: Wikipagina
+  label_wiki_page_plural: Wikipagina's
+  label_index_by_title: Indexeer op titel
+  label_index_by_date: Indexeer op datum
+  label_current_version: ~
+  label_preview: Voorbeeldweergave
+  label_feed_plural: Feeds
+  label_changes_details: Details van alle wijzigingen
+  label_issue_tracking: ~
+  label_boards: ~
+  label_spent_time: Gespendeerde tijd
+  label_f_hour: "{{Value}} uur"
+  label_f_hour_plural: "{{Value}} uren "
+  label_time_tracking: Tijdregistratie bijhouden
+  label_change_plural: Wijzigingen
+  label_change : ~
+  label_statistics: Statistieken
+  label_commits_per_month: Commits per maand
+  label_commits_per_author: Commits per auteur
+  label_view_diff: Bekijk verschillen
+  label_diff_inline: inline
+  label_diff_side_by_side: naast elkaar
+  label_options: Opties
+  label_copy_workflow_from: Kopieer workflow van
+  label_permissions_report: Permissierapport
+  label_watched_issues: ~
+  label_watched: ~
+  label_related_issues: ~
+  label_applied_status: Toegekende status
+  label_loading: ~
+  label_relation_new: Nieuwe relatie
+  label_relation_delete: Verwijder relatie
+  label_relates_to: gerelateerd aan
+  label_duplicates: dupliceert
+  label_duplicated_by: gedupliceerd door
+  label_blocks: blokkeert
+  label_blocked_by: geblokkeerd door
+  label_precedes: gaat vooraf aan
+  label_follows: volgt op
+  label_end_to_start: eind tot start
+  label_end_to_end: eind tot eind
+  label_start_to_start: start tot start
+  label_start_to_end: start tot eind
+  label_stay_logged_in: Blijf ingelogd
+  label_disabled: uitgeschakeld
+  label_show_completed_versions: ~
+  label_me: mij
+  label_board: ~
+  label_board_new: ~
+  label_board_plural: ~
+  label_topic_plural: Onderwerpen
+  label_message_plural: Berichten
+  label_message_last: Laatste bericht
+  label_message_new: Nieuw bericht
+  label_topic_new: ~
+  label_message_posted: Bericht toegevoegd
+  label_reply_plural: Antwoorden
+  label_comments_plural: ~
+  label_send_information: Stuur accountinformatie naar de gebruiker
+  label_year: Jaar
+  label_month: Maand
+  label_week: Week
+  label_date_from: Van
+  label_date_to: Tot
+  label_language_based: Taal gebaseerd
+  label_sort_by: "Sorteren op {{value}}"
+  label_send_test_email: Stuur een test e-mail
+  label_feeds_access_key: RSS access key
+  label_missing_feeds_access_key: Geen RSS access key
+  label_feeds_access_key_created_at: "RSS toegangssleutel gemaakt {{value}} geleden"
+  label_module_plural: Modules
+  label_added_time_by: "Toegevoegd door {{auteur}} {{tijd}} geleden"
+  label_updated_time_by: "Bijgewerkt door {{auteur}} {{tijd}} geleden"
+  label_created_time_by: "Gemaakt {{tijd}} geleden door"
+  label_updated_time: "Bijgewerkte {{value}} geleden"
+  label_jump_to_a_project: ~
+  label_file_plural: Bestanden
+  label_changeset_plural: Changesets
+  label_default_columns: Standaard kolommen.
+  label_no_change_option: (Geen wijziging)
+  label_bulk_edit_selected_issues: ~
+  label_theme: Thema
+  label_default: Standaard
+  label_search_titles_only: ~
+  label_user_mail_option_all: "Voor alle activiteiten op al mijn workstreams"
+  label_user_mail_option_selected: "Alleen activiteiten op de door mijn geselecteerde workstreams ..."
+  label_user_mail_option_none: "Alleen op dingen waar naar ik kijk of waarin ik betrokken ben"
+  label_user_mail_no_self_notified: "Ik wil niet op de hoogte gehouden worden van mijn eigen wijzigingen"
+  label_user_mail_no_emails: "Schakel e-mail berichting uit "
+  label_user_mail_daily_digest: "Stuur me een dagelijks overzicht van systeem updates waarin ik betrokken ben "
+  label_registration_activation_by_email: accountactivatie per e-mail
+  label_registration_manual_activation: handmatige accountactivatie
+  label_registration_automatic_activation: automatische accountactivatie
+  label_display_per_page: "Per pagina: {{value}}"
+  label_age: Leeftijd
+  label_change_properties: Eigenschappen wijzigen
+  label_general: Algemeen
+  label_more: Meer
+  label_scm: SCM
+  label_plugins: Plugins
+  label_ldap_authentication: LDAP authenticatie
+  label_downloads_abbr: D/L
+  label_optional_description: Optionele beschrijving
+  label_add_another_file: Ander bestand toevoegen
+  label_preferences: Voorkeuren
+  label_chronological_order: In chronologische volgorde
+  label_reverse_chronological_order: In omgekeerde chronologische volgorde
+  label_planning: Planning
+  label_incoming_emails: Inkomende e-mail
+  label_generate_key: Genereer een sleutel
+  label_issue_watchers: Monitoren
+  label_example: Voorbeeld
+  label_display: Toon
+  label_sort: Sorteer
+  label_ascending: Oplopend
+  label_descending: Aflopend
+  label_date_from_to: ~
+  label_wiki_content_added: Wiki pagina toegevoegd
+  label_wiki_content_updated: Wiki pagina bijgewerkt
+  label_group: Groep
+  label_group_plural: Groepen
+  label_group_new: Nieuwe groep
+  label_time_entry_plural: Bestede tijd
+  label_commit_request_history: ~ #new
+  label_by: "door {{auteur}} {{tijd}} geleden" #new
+  label_requested_by: "Aangevraagd door {{auteur}} {{tijd}} geleden" #new
+  label_offered_by: "Aangeboden door {{auteur}} voor {{ontvanger}} {{tijd}} geleden" #new
+  label_accepted_by: "Aanvaard door {{ontvanger}} {{tijd}} geleden" #new
+  label_declined_by: "Geweigerd door {{ontvanger}} {{tijd}} geleden" #new
+  label_from_ago: "van {{auteur}} {{tijd}} geleden" #new
+  label_taken_by: "Genomen door {{ontvanger}} {{tijd}} geleden" #news
+  label_declined: "Declined {{age}} ago" #new
+  label_accepted: "Accepted {{age}} ago" #new
+  label_recinded: "Teruggetrokken {{tijd}} geleden" #new
+  label_released: "Vrijgegeven {{tijd}} geleden" #new
+  label_not_sure: "Niet zeker"
+  label_commitment: "Verplichting"
+  label_commitment_offer: "Eigendom aanbod"
+  label_commitment_request: "Eigendom aanvraag "
+  label_notification : "Kennisgeving"
+  label_notifications : "Bekendmakingen"
+  label_new_notification : "kennisgeving"
+  label_new_notifications : "bekendmakingen "
+  label_response_sent : "Reactie gestuurd"
+  label_response_ignored : "Verzoek genegeerd"
+  label_you : "jou"
+  label_for : "voor"
+  label_from : "van"
+  label_ignored : "Genegeerd"  
+  label_marked_as_read : "Markeren als gelezen"  
+  label_ownership_offered : "Eigendomsrecht aangeboden"
+  label_ownership_offered_to : "Eigendomsrecht aangeboden voor {{user}}"
+  label_ownership_offer_declined : "Aanbod van eigenaarschap werd niet geaccepteerd"
+  label_ownership_offer_accepted : "Aanbod van eigenaarschap werd geaccepteerd"
+  label_ownership_offer_declined_from : "Aanbod van eigenaarschap door {{gebruiker}} werd niet geaccepteerd"
+  label_ownership_offer_accepted_from : "Aanbod van eigenaarschap door {{gebruiker}} werd geaccepteerd"
+  label_ownership_offer_withdrawn : "Aanbod van eigenaarschap is teruggetrokken"
+  label_ownership_offer_withdrawn_to : "Aanbod van eigenaarschap aan {{gebruiker}} is teruggetrokken"
+  label_ownership_requested : "Eigenaarschap vereist"
+  label_ownership_request_accepted : "Verzoek tot eigenaarschap werd geaccepteerd"
+  label_ownership_request_auto_accepted : "Verzoek tot eigenaarschap werd automatisch geaccepteerd"
+  label_ownership_request_declined : "Verzoek tot eigenaarschap werd niet geaccepteerd"
+  label_ownership_request_accepted_from : "Verzoek tot eigenaarschap van {{gebruiker}} werd automatisch geaccepteerd"
+  label_ownership_request_declined_from : "Verzoek tot eigenaarschap VAN {{gebruiker}} werd niet geaccepteerd"
+  label_ownership_request_recinded : "Eigendomrecht verzoek opgegeven "
+  label_ownership_released : "Eigenaarschap vrijgegeven"
+  label_ownership_taken : "Eigenaarschap opgepakt"
+  label_commit_request_plural : "Taak eigendom"
+  label_team_offer : "Kern Team Uitnodiging"
+  label_team_offer_plural : "Teamleden"
+  label_team_plural : "Team"
+  label_team_invitation : "Uitnodiging voor het kernteam"
+  label_team_request : "Kern Team Aanvraag"
+  label_team_request_plural : "Kern Team aanvragen"
+  label_accepted : "geaccepteerd"
+  label_sent : "verstuurd"
+  label_withdrawn : "ingetrokken"
+  label_declined : "afgewezen"
+  label_to_join_core_team_of : "om aan te sluiten bij het {{project}} Kern Team"
+  label_request : "Aanvraag"
+  label_invitation : "Uitnodiging"
+  label_was : "was"
+  label_your : 'Jouw'
+  label_to : "aan"
+  label_note_from : "Notitie van {{auteur}}"
+  label_sending_team_invitation : "{{Auteur}} wil dat je je bij het Kern Team aansluit voor de {{project}} workstream"
+  label_sending_team_request : "{{Auteur}} wil zich aan het Kern Team toevoegen voor de {{project}} workstream"
+  label_team_view_all : "Bekijk teamdetails"
+  label_team_view_all_enterprise : "Bekijk het hele team"
+  label_member_role_plural : "Teamwijzigingen" 
+  label_join_core_team : "Kom bij het kernteam"
+  label_leave_core_team : "Verlaat het kernteam"
+  label_request_to_join_core_team : "Aanvraag om bij het kernteam te komen"
+  label_invitation_to_join_core_team : "Uitnodigen om bij het kernteam te komen"
+  label_team_points : "Kern Punten"
+  label_share : "Delen"
+  label_share_plural : "Aandelen"
+  label_credit_plural : "Punten"
+  label_credit : "Punt"
+  label_retro_started : "Retrospectieve gestart"
+  label_retro_ended : "Retrospectieve geindigd "
+  label_motion_started : "Nieuw verzoek: {{title}}"
+  label_credits : ~
+  label_shares : ~
+  label_credit_queue : ~
+  label_credit_history : ~
+  label_my_credits : ~
+  label_credits_breakdown : ~
+  label_active_credits : ~
+  label_outstanding_credits : ~
+  label_total_credits_issued : ~
+  label_youve_got_credits : "Je hebt punten!"
+  label_someone_joined_your_issue : "{{joiner}} heeft zichzelf toegevoegd aan een taak die tot jou behoord "
+  label_someone_added_you_to_their_issue : "{{Afzender}} heeft je toegevoegd aan een taak die tot hem/haar behoord "
+  label_someone_removed_you_from_their_issue : "{{Afzender}} heeft je verwijderd uit een taak die tot hem/haar behoord"
+  label_someone_left_your_issue : "{{joiner}} heeft een taak toegeschreven aan jou"
+  label_someone_mentioned_you : "{{melder}} heeft je vermeld "
+  label_agree : "mee eens"
+  label_disagree : "mee oneens"
+  label_block : "Blokkeren "
+  label_neutral : "Neutraal"
+  label_history : "Geschiedenis"
+  label_select : "Selecteren "
+  label_no_mention : "Geen ongelezen berichten"
+  label_mentions : "Berichten "
+  
+  label_version_sharing_none: Niet gedeeld
+  label_version_sharing_descendants: ~
+  label_version_sharing_hierarchy: ~
+  label_version_sharing_tree: ~
+  label_version_sharing_system: ~
+  label_update_issue_done_ratios: ~
+  label_copy_source: Bron
+  label_copy_target: Doel
+  label_copy_same_as_target: Zelfde als doel
+  label_display_used_statuses_only: Laat alleen statussen zien die gebruikt worden door deze tracker
+  label_api_access_key: API access key
+  label_missing_api_access_key: Geen API access key
+  label_api_access_key_created_at: "API-toegang sleutel gemaakt {{value}} geleden"
+  label_dpp_scale: "Geschatte groote "
+  
+  label_motion: "Voorstel "
+  label_motions_new: ~
+  
+
+  label_motion_state0: "In Voortgang "
+  label_motion_state1: "Geslaagd"
+  label_motion_state2: "Verslagen"
+  label_motion_state3: "Geannuleerd"
+
+  label_motion_vote_type1 : "Unanieme consensus"
+  label_motion_vote_type2 : "Luie Meerderheid"  
+  label_motion_vote_type3 : "Gedeelde meerderheid  "  
+  
+  label_motion_vote_type1_desc : "geen blokkades en geen niet overeenstemmingen " 
+  label_motion_vote_type2_desc : "meer overeenstemmingen dan niet overeenstemmingen, geen blokkades " 
+  label_motion_vote_type3_desc : "1 aandeel = een stem. minimaal 2 / 3 akkoord" 
+  
+  label_motion_vote_action1 : "Blokkeren "
+  label_motion_vote_action9999 : "Niet mee eens"
+  label_motion_vote_action10000 : "Neutraal"
+  label_motion_vote_action10001 : "Mee eens "
+  label_motion_vote_action_share_agree : "instemmen met {{punten}} aandelen"
+  label_motion_vote_action_share_disagree : "Ben het niet eens met {{points}} aandelen"
+  label_motion_vote_action_share_neutral : "Ben Neutraal met {{points}} aandelen"
+  label_you_voted : "Jij hebt gestemd: <b>{{actie}}</b>"
+  label_voted : "gestemd"
+  label_you_havent_voted : "Je hebt nog niet gestemd "
+  label_tally : "Tally"
+
+  label_motion_variation0 : "Algemene Motie  "  
+  label_motion_variation1 : "Buitengewone Motion"  
+  label_motion_variation2 : "Nieuwe Lidmaatschap Nominatie "  
+  label_motion_variation3 : "Nieuwe Kern Team Lidmaatschap Nominatie "  
+  label_motion_variation4 : "Voorstel om lid te verwijderen"  
+  label_motion_variation5 : "Voorstel om een Kern Team lid te verwijderen "  
+  label_motion_variation6 : "Bestuur voorstel  (openbare)"  
+  label_motion_variation7 : "Bestuur voostel (prive)"  
+  label_motion_variation8 : "Voorstel om Uurlijkse Activiteit Type toe te voegen"  
+  
+  label_binding : "Bindend"
+  label_non_binding : "Niet-bindende"
+  
+  label_agree_total : "Totaal mee eens"
+  label_disagree_total : "Totaal mee oneens "
+  label_hidden : "(gebruiker verborgen)"
+  
+  label_motions_active : "Actieve voorstellen "
+  label_motions_view_all : "Bekijk alle voorstellen "
+  label_new_role : "Nieuwe rol: {{rol_naam}}"
+  label_new_invitation : "Uitnodiging om bij te dragen aan {{project_naam}} als een {{rol_naam}}"
+  
+  label_drop_from_core_team : "Verwijderen uit de Kern "
+  label_nominate_to_core_team : "Nomineren voor de Kern  "
+  label_drop_from_member : "Verwijder als lid"
+  label_nominate_to_member : "Voordragen om lid te worden"
+  
+  label_reputation : "Reputatiematrix"
+  label_assessment_accuracy : "Beoordeling Nauwkeurigheid"
+  
+  label_hourly_type: "Hourly type"
+  label_hourly_type_plural: "Urensoorten"
+  label_hourly_type_new: "Nieuwe urensoort"
+  label_hourly_rate_per_person: "Uurtarief per persoon"
+  label_hourly_cap: "Hourly cap"
+  
+  label_invitation_new: "Mensen uitnodigen"
+  label_invitation_others: "Nodig anderen uit"
+  
+  label_all_activity: "Bekijk alle activiteit"
+  
+  label_cancel_account: "Hef mijn account op"
+  
+  field_b_first_name: "Voornaam"
+  field_b_last_name: "Achternaam"
+  field_b_address1: "Straat"
+  field_b_address2: "Straat (regel 2)"
+  field_b_city: "Stad"
+  field_b_state: "Staat"
+  field_b_zip: "Zip/Postcode"
+  field_b_country: "Land"
+  field_b_phone: "Telefoon"
+  field_b_cc_type: "Type"
+  field_b_cc_month: "Vervaldatum"
+  field_b_cc_year: ""
+  field_b_cc_last_four: "Creditkaart"
+  label_b_expiration: "Vervaldatum"
+  label_b_verification_code: "Verificatiecode"
+  
+  label_memberrole: "lidmaatschap"
+  
+  
+  button_upgrade : ~
+  button_update_billing : Update Billing
+  button_accept_invitation : ~
+  button_working : ~
+  button_change_plan: ~
+  button_update_billing: ~
+  button_login: Inloggen
+  button_submit: Toevoegen
+  button_search: ~
+  button_save: Bewaren
+  button_check_all: Selecteer alle
+  button_uncheck_all: Deselecteer alle
+  button_delete: Verwijder
+  button_create: Maak
+  button_resend: ~
+  button_create_and_continue: Maak en ga verder
+  button_test: Test
+  button_edit: Bewerk
+  button_add: Voeg toe
+  button_add_team_member: ~
+  button_change: Wijzig
+  button_apply: Pas toe
+  button_clear: Leeg maken
+  button_lock: Sluit
+  button_unlock: Open
+  button_download: Download
+  button_list: Lijst
+  button_view: Bekijken
+  button_move: Verplaatsen
+  button_move_and_follow: Verplaats en volg
+  button_back: Terug
+  button_cancel: Annuleer
+  button_close: ~
+  button_activate: Activate
+  button_sort: Sorteer
+  button_log_time: Registreer tijd
+  button_rollback: ~
+  button_watch: Monitor
+  button_unwatch: Niet meer monitoren
+  button_reply: Reply
+  button_reply: ~
+  button_archive: Archiveer
+  button_unarchive: Dearchiveer
+  button_reset: Reset
+  button_rename: Hernoemen
+  button_change_password: Wijzig wachtwoord
+  button_copy: Kopiëer
+  button_copy_and_follow: Kopiëer en volg
+  button_annotate: Annoteer
+  button_update: Update
+  button_comment: ~
+  button_signup: ~
+  button_configure: Configureer
+  button_quote: Citaat
+  button_participate: ~
+  button_request_commitment_request: ~ #new
+  button_request_commitment_take: ~ #new
+  button_request_commitment_remove: ~ #new
+  button_request_commitment_withdraw: ~ #new
+  button_request_commitment_remove_offer: ~ #new
+  button_request_commitment_giveup: ~ #new  
+  button_request_commitment_transfer: ~ #new    
+  button_request_commitment_accept: ~ #new
+  button_request_commitment_decline: ~ #new
+  button_request_commitment_offer: ~ #new
+  
+  button_team_offer_request: ~ #new
+  button_team_offer_take: ~ #new
+  button_team_offer_withdraw_request: ~  #new
+  button_team_offer_withdraw_invitation: ~ #new
+  button_team_offer_giveup: ~ #new  
+  button_team_offer_accept: ~ #new
+  button_team_offer_decline: ~ #new
+  button_team_offer_invite: ~ #new
+  
+  button_ignore: ~
+  button_mark_as_read: ~
+  button_duplicate: Dupliceer
+  button_show: Laat zien
+  
+  button_activate: Activeer
+  button_deactivate: ~
+  
+  button_dashboard: ~
+  
+  status_active: actief
+  status_registered: geregistreerd
+  status_locked: vergrendeld
+  
+  version_status_open: open
+  version_status_locked: vergrendeld
+  version_status_closed: gesloten
+
+  field_active: Actief
+  field_body: ~
+  field_joined_by: ~
+  field_item_url: ~
+  
+  text_invite_role_instruction: ~
+  text_resend_invite_message: "Voeg een persoonlijke noot toe aan je herhaalde uitnodiging"
+  text_reset_link: "Stel een nieuwe uitnodigingscode i8n"
+  text_personalize_invitations: "Personaliseer je uitnodiging"
+  text_email_instruction: "Voeg maximaal 50 emailontvangers toe, één emailadres per regel"
+  text_invite_others_to_contribute: "Nodig iemand uit om bij te dragen aan"
+  text_invite_others_to_contribute_personal: "Stuur gepersonlaiseerde, individuele uitnodigingen"
+  text_confirm_delete_project: "Weet je zeker dat je mensen uit deze workstream wil verwijderen? Deze actie kan niet ongedaan gemaakt worden!"
+  text_confirm_cancel_account: "Weet je écht zeker dat je je account wil opheffen? Dit kun je niet ongedaan maken!"
+  text_confirm_archive_project: "Weet je zeker dat je deze workstream wil archiveren? Niemand zal meer in staat zijn om hem te zien. Je kan dit terugdraaien in de toekomst."
+  text_confirm_unarchive_project: "Weet je zeker dat je deze workstream uit het archief wil halen?"
+  text_included_note: ~
+  text_failed_to_transfer: ~
+  text_your_gravatar: ~
+  text_select_mail_notifications: Selecteer acties waarvoor mededelingen via mail moeten worden verstuurd.
+  text_regexp_info: bv. ^[A-Z0-9]+$
+  text_min_max_length_info: 0 betekent geen restrictie
+  text_project_destroy_confirmation: ~
+  text_subprojects_destroy_warning: "De sub workstream (s): {{value}} wordt ook verwijderd."
+  text_workflow_edit: ~
+  text_are_you_sure: ~
+  text_journal_changed: "{{label}} veranderd van {{oud}} naar {{nieuw}}"
+  text_journal_set_to: "{{label}} ingesteld op {{waarde}}"
+  text_journal_deleted: "{{label}} verwijderd {{oud}}"
+  text_journal_added: "{{label}} {{waarde}} toegevoegd"
+  text_tip_task_begin_day: ~
+  text_tip_task_end_day: ~
+  text_tip_task_begin_end_day: ~
+  text_project_identifier_info: 'Alleen kleine letters (az), getallen en streepjes zijn toegestaan. <br /> Eenmaal opgeslagen kan de identificatie kan niet worden gewijzigd.'
+  text_caracters_maximum: "maximaal {{aantal}} tekens."
+  text_caracters_minimum: "Moet minstens {{aantal}} tekens lang zijn."
+  text_length_between: "Lengte tussen {{min}} en {{max}} karakters."
+  text_tracker_no_workflow: ~
+  text_unallowed_characters: Niet toegestane tekens
+  text_comma_separated: Meerdere waarden toegestaan (kommagescheiden).
+  text_issues_ref_in_commit_messages: ~
+  text_issue_added: "Item {{id}} is aangemeld door {{auteur}}."
+  text_issue_updated: "Item {{id}} is bijgewerkt door {{auteur}}."
+  text_line_separated: Meerdere waarden toegestaan (elke regel is een waarde).
+  text_wiki_destroy_confirmation: ~
+  text_user_mail_option: "Voor de niet-geselecteerde workstreams ontvangt je alleen meldingen betreft de dingen die je bekijkt of betrokken in bent (bijv. items waarvan je de auteur eigenaar bent).  " #updated
+  text_no_configuration_data: "Rollen, type, item toestanden en werk stroom zijn nog niet ingesteld. Het is ten zeerste aanbevolen om de standaard instellingen te laden. Je bent in staat de instellingen na het laden te wijzigen. "
+  text_load_default_configuration: Laad de standaardconfiguratie
+  text_status_changed_by_changeset: "Toegepast in instellingen {{value}}."
+  text_issues_destroy_confirmation: 'Weet je zeker dat je de geselecteerde item(s) wil verwijderen?'
+  text_select_project_modules: 'Select modules to enable for this workstream:'
+  text_default_administrator_account_changed: Standaard beheerderaccount gewijzigd
+  text_file_repository_writable: Bestandsrepository beschrijfbaar
+  text_plugin_assets_writable: Plugin assets directory beschrijfbaar
+  text_rmagick_available: RMagick beschikbaar (optioneel)
+  text_destroy_time_entries_question: "{{Uur}} uren werden gerapporteerd op de items die je van plan bent om te verwijderen? Wat wil je doen?"
+  text_destroy_time_entries: Verwijder gerapporteerde uren
+  text_assign_time_entries_to_project: ~
+  text_reassign_time_entries: 'Herzien van de gemelde uren van dit item:'
+  text_user_wrote: "{{Value}} schreef:"
+  text_enumeration_destroy_question: "{{aantal}} objecten zijn gekoppeld aan deze waarde."
+  text_enumeration_category_reassign_to: 'Wijs de volgende waarde toe:'
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.
+Configure your SMTP server in config/email.yml and restart the application to enable them."
+  text_diff_truncated: '... Deze diff werd afgekort omdat het de maximale weer te geven karakters overschreed.'
+  text_wiki_page_destroy_question: "This page has {{descendants}} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_nullify_children: "Behoud subpagina's als hoofdpagina's"
+  text_wiki_page_destroy_children: "Verwijder alle subpagina's en onderliggende pagina's"
+  text_wiki_page_reassign_children: "Alle subpagina's toewijzen aan deze hoofdpagina"
+  text_create_dialogue_choose_days: "How much time to you need to get this done <br />(from the time you own it)?"
+  text_select_user_dialogue_choose_user: "Choose someone to send this request to"
+  text_you_are_the_new_owner_of : "You are the new proud owner of"
+  text_is_asking_ownership_for : "is asking for ownership of a task you"
+  text_is_offering_ownership_for : "is offering you ownership of a task"
+  text_ownership_request_declined : "Ownership request declined"
+  text_ownership_request_accepted : "Ownership request accepted"
+  text_your_ownsership_request_declined_for : "You request for ownership has been declined for "
+  text_ownership_offer_accepted : "Ownership offer accepted"
+  text_your_offer_was_accepted_for : "Your offer was accepted for "
+  text_ownership_offer_declined : "Ownership offer declined"
+  text_your_offer_was_declined_for : "Your offer was declined for "
+  text_loading_dashboard : "Loading dashboard data..."
+  text_loading_dashboard_error : "Failed to load data... please check your internet connectivity and <a href='#' onclick='refresh_local_data();return false;'>refresh</a>"
+  text_retro_started_for : "A retrospective for the "
+  text_retro_started : " workstream has started. <br/>You have 3 days to give your team feedback on their contribution"
+  text_retro_ended_for : "A retrospective for the"
+  text_retro_ended : " workstream has ended. <br/>Click below to see your team's feedback, and your final contribution"
+  text_credits_transferred: "{{sender}} just transferred {{amount}} credits to you in {{project}}"
+  text_credits_distributed_for : "You earned {{amount}} credits for your work on <strong>{{workstream}}</strong>. Congrats!"
+  text_credits_are_a_gift : "These credits were gifted to you by your peers for your contribution. They're not a part of any retrospective."
+  text_credits_are_an_expense : "These credits are a reimbursment for an expense item. They're not a part of any retrospective."
+  text_joiner_is_now_working_with_you : "{{joiner}} is now working with you on<br/>{{issue}}"
+  text_joiner_is_no_longer_working_with_you : "{{joiner}} werkt niet langer met je aan <br/>{{issue}}"
+  text_you_are_now_working_with_you : "Je bent nu onderdeel van het team dat werkt aan <br/>{{issue}}"
+  text_you_are_no_longer_working_on : "Je bent niet langer onderdeel van het team dat werkt aan <br/>{{issue}}"
+  text_history_hidden_until_you_vote : "De stemhistorie is niet zichtbaar, omdat jij nog niet hebt gestemd"
+  text_tally_hidden_until_you_vote : "Voting tally is hidden until you cast your vote"
+  text_you_dont_have_shares_to_vote : "You need to have shares to weigh in on this motion."
+  text_you_are_now_a_role : "Je bent nu een <b>{{rol_naam}}<b/> van"
+  text_role_description_Administrator : "As an Admin, you can bypass governance rules and directly add/remove members and workstreams.<br> Use this role sparingly as you are setting up your structures, <br>and then remove yourself from the admin role when you're ready to fully adopt the Open Enterprise governance model."
+  text_role_description_Contributor : "As a contributor, you can now earn credits and own a stake in <b>{{enterprise}}.</b><br>Your votes on all matters will be visible to everyone, and will be non-binding."
+  text_role_description_Member : "As a member, all your votes are now binding. <br>In addition you can nominate contributors for membership,<br>and vote on Core Team elections."
+  text_role_description_Core Team : "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
+  text_role_description_Core_Team : "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
+  text_role_description_Board : "As a board member,all your votes are binding."
+  text_member_nomination : "{{user}} is being nominated to be a member of {{enterprise}}. As a member, all their votes would be binding. In addition they will be able to nominate contributors for membership, and vote on Core Team elections. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_core_member_nomination : "{{user}} is being nominated for the Core Team of {{enterprise}}. As a member of the Core Team they would have binding votes in all matters, including the selection of new members. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_core_member_removal : "This motion is to remove {{user}} from the Core Team of {{enterprise}}. If the motion passes {{user}} would become a Member. As a Member, their votes will remain binding and their shares and credits would be unaffected. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_member_removal : "This motion is to remove {{user}} as a member of {{enterprise}}. If the motion passes {{user}} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_issue_edit_footer : "You can comment on this issue via email, by replying to this email directly."
+  text_message_edit_footer : "Je kunt op dit bericht antwoorden, door direct op deze rechtstreeks op deze email te antwoorden"
+  text_invitation_note_default : "Hallo,
+
+We gebruiken bettermeans.com om te werken aan {{project}}.
+
+Bettermeans helpt ons samen te werken als gelijken en is een transparant, democatische manier om samen dingen voor elkaar te krijgen.
+
+Doe met ons mee en accepteer alsjeblieft deze uitnodiging.
+
+Met warme groet,
+{{gebruiker}}"
+  text_you_are_invited : "Je bent uitgenodigd om mee te doen."
+  text_generic_invitation : "Via deze link kan iedereen een <strong>bijdrage</strong> leveren aan deze werkstroom."
+  text_generic_invitation_2 : "Je kunt ook het formulier hieronder gebruiken om mensen persoonlijk uit te nodigen om mee te doen in andere rollen"
+  text_generic_invitation_long : "The link below allows anybody to become a contributor to this workstream.<br><br>It can be used an infinite amount of times. And doesn't expire until you change it.<br>Send it out via email, or post it somewhere where folks can follow it to join your workstream."
+  text_personal_invitation : "Use the form below to send personalized invitations to potential team members.<br><br>This is the better way to go since people are more likely to respond to an exclusive invite, and don't need to validate their email.<br><br> This is also the more secure option since each invitation can be used only once and expires after a while."
+  text_active_team_explanation : "<strong>Active Members (for this workstream)</strong><br><br>Active members are people that have been involved in this specific workstream in the past 2 weeks. <br><br> Contributors, members, and core team roles are defined at the parent(root) workstream and apply to all it's sub workstreams.<br><br>For example: if someone is a core team member of a workstream then they will have the same role for all sub workstreams. However, they might be active in some and not others."
+  text_email_updated : "Email succesvol bijgewerkt"
+  text_usage_over : "You have exceeded your usage for your current plan.<br> Please upgrade as soon as possible."
+  text_trial_expired : "Je proefperiode is afgelopen.<br> Pas alsjeblieft je betalingsgegevens aan zodat we je kunnen factureren."
+      
+  text_role_invitation_description_Administrator : "Admins have the most power.<br><br> An Admin can bypass governance rules and directly add/remove members and workstreams, and all their votes are binding.<br><br> Use this role sparingly as you are setting up your structures. Then transition to using other roles for day to day collaboration."
+  text_role_invitation_description_Contributor : "This the first level of participation in an open enterprise.<br><br>Contributors' votes on all matters will be visible to everyone, and will be non-binding.<br><br> Meaning a contributor's voice is here, but their voting doesn't directly affect the items they are weighing in on.<br><br> A contributor can earn credits and contribute to a workstream."
+  text_role_invitation_description_Member : "Members are at the heart of an open enterprise.<br><br> All members' votes are binding.<br><br>In addition members can nominate contributors for membership, and vote on Core Team elections.<br><br> Only invite members whose principles and values are aligned with yours."
+  text_role_invitation_description_Core_Team : "A member of the Core Team has binding votes in all matters, and is very similar to a member.<br><br> The main difference is a Core Team member can vote on the election of new members.<br><br> Essentially, they are the custodians of the organization's principles, and hold the bar for membership.<br><br> Core Team Members are accountable to all members, and their role is to represent their voice."
+  text_role_invitation_description_Board : "As a board member,all your votes are binding, and you have equal priveleges to a Core Team Member.<br><br> Being on the board though, indicates a lesser commitment to being involved in day to day work."
+  text_project_locked: "Deze werkstroom is tijdelijk vergrendeld vanwege betalingsachterstand. "
+  
+  
+  default_role_administrator: ~
+  default_role_citizen: ~
+  default_role_contributor: ~
+  default_tracker_task: ~
+  default_tracker_subtask: ~
+  default_issue_status_new: Nieuw
+  default_issue_status_open: ~
+  default_issue_status_assigned: ~
+  default_issue_status_done: ~
+  default_issue_status_closed: Gesloten
+  default_issue_status_blocked: ~
+  default_issue_status_inprogress: ~
+  default_issue_status_canceled: ~
+  default_issue_status_estimate: ~
+  default_issue_status_archived: ~
+  default_issue_status_accepted: ~
+  default_issue_status_rejected: Afgewezen
+  default_doc_category_public: ~
+  default_doc_category_private: ~
+  default_priority_low: Laag
+  default_priority_normal: Normaal
+  default_priority_high: Hoog
+  default_priority_urgent: Spoed
+  default_activity_default: ~
+  default_activity_planning: ~
+  default_activity_execution: ~
+  default_issue_tracker_gift: ~
+  default_issue_tracker_expense: ~
+  default_issue_tracker_recurring: ~
+  default_issue_tracker_hourly: ~
+  default_issue_tracker_feature: ~
+  default_issue_tracker_bug: ~
+  default_issue_tracker_chore: ~
+
+  enumeration_issue_priorities: ~
+  enumeration_doc_categories: Documentcategorieën
+  enumeration_activities: Activiteiten (tijdtracking)
+  enumeration_system_activity: Systeem Activiteit
+  
+  help_reset_link : ~
+  help_how_do_i_join_a_team : ~
+  help_how_do_i_join_a_team_title : ~
+  help_how_do_i_join_a_team_description : "There are two levels of team membership: Contributor, and Core Team. <br /><br /><strong>Becoming a contributor</strong><br />Before getting on a core team you must first contribute to the team. </br>You become a contributor for a workstream by requesting and getting ownership of an existing tasks. <br /> Another way to become a contributor, is to be a core team member of any sub workstream.<br /><br /><strong>Become a core team member</strong><br />Once you are a contributor, you may request (or be invited) to join the Core Team by an existing Core Team member. <br /><br /> You can also join a workstream's core team directly if your a core team member of its parent workstream."
+  help_core_points_title : ~
+  help_core_points_description : "Core points are a way of team members endorsing each other, and signaling confidence in each other's abilities and core values. <br /><br /> When someone on a core team feels that the team is better off with someone on it they can give that person a core point. It also works the other way: If someone feels that someone is hurting the team, they can give them a negative-core point. <br /><br />When a member's total core points exceeds zero, they're invited to be on the core team. If their total falls below zero, they revert back to contributor status. <br /><br />All voting is confidential to minimize internal politics as much as possible.<br />Total core points is calculated by adding up the votes of existing core team members of a workstream and its parent."
+  help_dpp: ~
+  help_select_scale: ~
+  help_assessment_accuracy: "Shows the accuracy with which this user was able to assess their contribution, and their team's contribution in retrospectives. <br><br>Assessment accuracy is averaged over time. More weight is given to the more recent retrospectives, and more weight is given to retrospectives with more credits.<br><br>For example: A postive self assessment accuracy score of +7 means the user tends to overrate themselves by 7 percentage points on average. <br><br> An 'other' assessment score of &plusmn 16 means the user tends have a total bias of plus or minus 16 percentage points when rating their peers. <br><br> The closer both these numbers are to zero, the more accurate the user is in their assessment of self and other. "
+  help_your_assessment: "<strong>Your assessment</strong><br>Your view of how much you and your team mates contributed to the execution of the items completed in this retrospective overall. What percentage of the work did you accomplish, compared to your team mates.During the retrospective, every team member is asked to assess everyone's contribution. Once the retrospective is complete, the assessments will be averaged out and displayed here."
+  help_team_assessment: "<strong>Team assessment</strong><br>This is the average percentage contribution the work item as assessed by your peers. Each person's self-assessment is taken out of the average and only their team mates' assessment counts towards this number."
+  help_final_assessment: "All the Team averages are used to be proportionally distributed over 100%"
+  help_confidence: "<strong>Assessment confidence</strong><br>Adjust this slider depending on how confident you are of your assessment of yourself and your peer.<br>Lower confidence, means your ratings will be given less weight, and your self assessment index will be less impact by team-self discrepancies."
+  help_accuracy: "<strong>Accuracy and Bias</strong><br>This column shows the accuracy with which users who participated in this retrospective where able to assess themselves and their peers."
+  help_item_url: "<strong>Permalink naar dit item</strong><br>Je kunt deze link kopiëren en gebruiken om rechtstreeks naar dit item te linken"
+  help_volunteer: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br><br> That's not to say good karma won't come your way!<br><br>This is our small contribution to the volunteer world. Please report any abuse to abuse@bettermeans.com"
+  help_volunteer_credits: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br><br> Credits are being used here to track user contribution, and show who did what for this workstream over time. These credits are not a promise for any rewards, or payment"
+  help_no_my_workstreams: "You haven't created any workstreams yet."
+  help_no_workstreams_i_belong_to: "You are not yet a member of any workstreams that you didn't start."
+  help_no_workstreams_active: "You have not been recently active in any workstreams."
+  help_no_workstreams: "You haven't yet gotten involved in any workstreams.<br> Create or join something to get started..."
+  help_no_workstreams_archived: "You have no archived workstreams."
+  help_activities_i_belong_to: "This activity stream shows all activity in workstreams that you own and/or belong to"
+  help_this_workstream_is_private: "This is private workstream. When a workstream is made private, all binding members (i.e. members, core team, board, and admins) are given permanent clearance to it. Also, all active contributors to the workstream are given clearance.<br><br> If you want to manage users' clearance to a private workstream, use the members tab under settings."
+
+  help_issue_tracking: "This is the essential element of the platform in that it allows you to track all work items using the dashboard and item views. However one situation in which you might turn this off is if you are creating a root workstream for your organization and you are planning on creating lots of subworkstreams where all the work and item tracking would take place. This would leave the other elements such as discussion and wiki but without the dashboard or item tracking."
+  help_news: "This module allows you to check out or report on the latest news. News is used to broadcast events to your team. For example winning a bid, or a new product release."
+  help_documents: "This module allows you to upload document to share with your team."
+  help_files: "This module allows you to upload files to share with your team."
+  help_wiki: "Wikis are great tools for collaboration and therefore we provide the option for each workstream to have a wiki. Wikis are essentially online documents and everyone that has access can not only read but also edit and improve online."
+  help_boards: "This module creates a discussion board for your workstream and like so many discussion boards before it, you can talk about stuff here. If someone has an idea that they are not yet ready to propose as a motion or work item and want to talk to folks about it, they can start a new topic. You might use the discussion board to discuss general strategy, new possible workstreams, or anything that comes to mind."
+  help_motions: "Motions are used to make large important decisions that are project-wide. This is a democratic mechanism to make decisions together. There are different types of motions, to learn more about motions <a href='http://help.bettermeans.com/motions' target='blank'>click here</a>."
+  help_credits: "Credits are a more open and democratic way of valuing work and awarding compensation. We are really excited about offering this as an option and we strongly encourage you to <a href='http://help.bettermeans.com/faq/credits' target='blank'>learn more about credits</a>."
+  help_revision_notes: "Optioneel: Voeg notities toe aan deze bewerking van de wiki. Deze notities verschijnen in de versiegeschiedenis van de wiki"
+  help_mentions: "Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br><br>For example if somebody adds this comment to an issue:<br><strong>'I think @{{login}} should take a look at this'</strong><br>it would appear in your mentions"
+
+  
+  help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br> If you want to start a new workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br>We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com' target='blank'> the tour</a> before you begin."
+  help_section_project_dashboard: "Welcome to your dashboard!|<strong>This is where the magic happens.</strong> Here you get a full view of all the work within a workstream. Each workstream and subworkstream has its own dashboard. <br><br><strong>Get started by adding a new item</strong> (click on the New Item Link at the top of the New column).<br><br>You can also <strong>offer new ideas/requests, comment, agree and disagree with ideas, prioritize, and estimate</strong>.<br><br>Click on the little key next to the New Item button for a little cheat sheet that shows the meaning of all the icons you see in the Dashboard. As you get rolling with your work, explore <strong>the filters and the search functions on the upper right corner.</strong><br><br> To learn more about voting and how it works in the dashboard <a href= 'http://help.bettermeans.com/dashboard' target='blank'> checkout our help section</a>, or this 9 minute tour of the site.<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br><br>"
+  help_section_project_wiki: "<strong>Wikis are great tools for collaboration and therefore each workstream has a wiki.</strong> You can start building your wiki here and you can create multiple pages by clicking <a href='wiki'>Start Page</a> (in blue to the right). Wikis are essentially online documents and everyone that has access can not only read but also edit and contribute to online. <br>Note the different action buttons (on the right in grey), these will be helpful when working on the Wiki."
+  help_section_project_news: "<strong>Check out or report on the latest news here.</strong> News is used to broadcast events to your team. For example winning a bid, or a new product release."
+  help_section_project_discussion: "Like so many discussion boards before it, you can talk about stuff here. If you have an idea that you are not yet ready to propose as a motion or work item and want to talk to folks about it, <strong>start a new topic.</strong> You might use the discussion board to discuss general strategy, new possible workstream, new target audience, or anything that comes to mind."
+  help_section_project_activity: "<strong>Stay current on what's hot in your work using the activity stream.</strong> The activity stream is a very useful way of seeing what is the latest activity in your workstreams and subworkstreams. Any updates or comments or new items or status changes to items basically when anything changes in your workstream, it will appear here. For more information, <a href= 'http://help.bettermeans.com/activity_stream' target='blank'> click here. </a>"
+  help_section_project_team: "<strong>How great is your team!</strong> Use this page to track the roles people are playing for this workstream. Remember, these roles apply to all sub workstreams as well.<br><br>You can also use the links on the right to invite more team members. <a href='http://help.bettermeans.com/invitations' target='blank'> Learn more about invitations here</a>.<br><br> There are no job titles in an Open Enterprise, but there are levels of engagement that each come with different voting privileges, <a href= 'http://help.bettermeans.com/membership' target='blank'> learn more about that here.</a><br><br> "
+  help_section_project_credits: "<strong>This page tracks all the credits for your project.</strong> Credits are a way of tracking relative contribution. They are an indicator of what peers have given each other. <br>Credits can be used in many ways depending on how your organization or project runs. They can represent actual money in which case this is an accounts payable page, or they could represent relative contribution in which case this is a contribution tracking page. To learn more about how credits can work, <a href= 'http://help.bettermeans.com/credits' target='blank'> click here.</a>"
+  help_section_my_account: "<strong>This is your account page.</strong> Unlike your public profile this page is private to you.<br><br> Here you can do important things like change your password, email settings and other preferences. You can also see your current usage levels and if needed you can change your subscription plan with BetterMeans.<br><br> If you have questions about your account, please email <a href='mailto:billing@bettermeans.com'>billing@bettermeans.com</a>"
+  help_section_welcome_index: "Welcome on board!|<strong>Get started by creating your own workstream, or browsing around and contributing to existing ones</strong><br><br>We highly recommend this overview of how things work on bettermeans:<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br>You can also <a href='http://help.bettermeans.com' target='blank'>visit our help site for a more info</a> and answers to frequently asked questions.<br><br>Please don't forget to send as all the feedback you have!<br><br><br>"
+  help_section_project_map: "Dit is de kaart"
+  help_section_project_settings: "Use settings sparingly. If you're admin and core team, make sure to use core team tools when possible in order for things to stay democratic."
+  help_section_motion_new: "Motions are used to make large important decisions that are project-wide. Notice the dropdown menu with the different types of motions. This is a democratic mechanism to make decisions together. To learn more about motions <a href= 'http://help.bettermeans.com/motions' >click here</a>"
+  help_section_project_new: "A Workstream is our lingo for a group or set of work.<br><br> A workstream could be a <strong>department</strong> of your organization or it could be a <strong>specific project</strong> that you are working on by your self or with others. In creating a workstreams there are a few important things to pay attention to:<br><br><ul><li> <strong>Public</strong>: A public workstream means that anyone can see your work and can comment and contribute. If you do not want to have this transparency with the community, you can uncheck this box and you are then creating a private workstream. As the creator, you control who has access, but also note that you have to pay for private workstreams. <a href= 'http://help.bettermeans.com/workstreams' target='blank'> Read more about tradeoffs. </a> </li><li> <strong>Volunteer</strong>: This is a signal to everyone working with you that all work in this workstream is fully volunteer.</li><li> <strong>Credits</strong>: Credits are a more open and democratic way of valuing work and awarding compensation. We are really excited about offering this as an option and we strongly encourage you to <a href= 'http://help.bettermeans.com/credits' target='blank'> learn more about credits. </a></li></ul> Still have questions, <a href= 'http://help.bettermeans.com/support' target='blank'> get in touch</a><br><br>"
+  help_section_invitation_new: "Use invitations to enroll team members to join your workstream.<br><br> When you send someone an invitation, they will be prompted to create a bettermeans account (if they don't have one already), and <strong>automatically added as a contributor</strong> to your workstream.<br><br>You can only invite people to a root workstream. Their membership in a workstream applies to all sub work streams as well. In other words,<strong> a person can't belong to a sub workstream, and not belong to its parent workstream.</strong><br><br> <a href='http://help.bettermeans.com/invitations' target='blank'>Learn more in our help section.</a><br><br><br>"
+  help_section_browse_workstreams: "<strong>Welcome to the BetterMeans Community.</strong> Unlike your home page, this page is the overview of the whole BetterMeans platform. You can look around at other public workstreams and comment and join other people's projects. <a href='http://help.bettermeans.com/' target='blank'>Learn more about the BetterMeans platform</a>"
+  help_section_retrospective_show: "<strong>This is a retrospective.</strong> In a retrospective compensation is awarded by your peers and your own self-assessment. This is an opportunity to be fairly compensated for your contribution. <br>You want to look at all of the completed items and then give your best assessment of what percentage you think each person contributed. You also have a chance to say how sure you are using the slider at the bottom. For more information about retrospectives, <a href='http://help.bettermeans.com/retrospectives' target='blank'>click here.</a>"
+  help_section_free: ~

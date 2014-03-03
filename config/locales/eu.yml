@@ -1,0 +1,1394 @@
+en:
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%Y/%m/%d"
+      short: "%b %d"
+      long: "%Y %B %d"
+      
+    day_names: - Igandea
+    day_names: - Astelehena
+    day_names: - Asteartea
+    day_names: - Asteazkena
+    day_names: - Osteguna
+    day_names: - Ostirala
+    day_names: - Larunbata
+    abbr_day_names: - Ig.
+    abbr_day_names: - Al.
+    abbr_day_names: - Ar.
+    abbr_day_names: - Az.
+    abbr_day_names: - Og.
+    abbr_day_names: - Or.
+    abbr_day_names: - La.
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: - ~
+    month_names: - Urtarrila
+    month_names: - Otsaila
+    month_names: - Martxoa
+    month_names: - Apirila
+    month_names: - Maiatza
+    month_names: - Ekaina
+    month_names: - Uztaila
+    month_names: - Abuztua
+    month_names: - Iraila
+    month_names: - Urria
+    month_names: - Azaroa
+    month_names: - Abendua
+    abbr_month_names: - ~
+    abbr_month_names: - Urt
+    abbr_month_names: - Ots
+    abbr_month_names: - Mar
+    abbr_month_names: - Api
+    abbr_month_names: - Mai
+    abbr_month_names: - Eka
+    abbr_month_names: - Uzt
+    abbr_month_names: - Abu
+    abbr_month_names: - Ira
+    abbr_month_names: - Urr
+    abbr_month_names: - Aza
+    abbr_month_names: - Abe
+    # Used in date_select and datime_select.
+    order:
+      - :year
+      - :month
+      - :day
+
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M"
+      time: "%H:%M"
+      short: "%b %d %H:%M"
+      long: "%Y %B %d %H:%M"
+    am: "am"
+    pm: "pm"
+      
+  datetime:
+    distance_in_words:
+      half_a_minute: "minutu erdi"
+      less_than_x_seconds:
+        one: "segundu bat baino gutxiago"
+        other: "{{count}} segundu baino gutxiago"
+      x_seconds:
+        one: "segundu 1"
+        other: "{{count}} segundu."
+      less_than_x_minutes:
+        one: "minutu bat baino gutxiago"
+        other: "{{count}} minutu baino gutxiago"
+      x_minutes:
+        one: "minutu 1"
+        other: "{{count}} minutu"
+      about_x_hours:
+        one: "ordu 1 inguru"
+        other: "{{count}} ordu inguru"
+      x_days:
+        one: "egun 1"
+        other: "{{count}} egun"
+      about_x_months:
+        one: "hilabete 1 inguru"
+        other: "{{count}} hilabete inguru"
+      x_months:
+        one: "hilabete 1"
+        other: "{{count}} hilabete"
+      about_x_years:
+        one: "urte 1 inguru"
+        other: "{{count}} urte inguru"
+      over_x_years:
+        one: "urte 1 baino gehiago"
+        other: "{{count}} urte baino gehiago"
+
+  number:
+    human:
+      format:
+        delimiter: ""
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: "Byte"
+            other: "Byte"
+          kb: "KB"
+          mb: "MB"
+          gb: "GB"
+          tb: "TB"
+
+        
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "eta"
+      skip_last_comma: false
+      
+  activerecord:
+    errors:
+      messages:
+        inclusion: "ez dago zerrendan"
+        exclusion: "erreserbatuta dago"
+        invalid: "baliogabea da"
+        confirmation: "ez du berrespenarekin bat egiten"
+        accepted: "onartu behar da"
+        empty: "ezin da hutsik egon"
+        blank: "ezin da hutsik egon"
+        too_long: "Luzeegia (gehienez {{count}} karaktere)"
+        too_short: "Laburregia (gutxienez {{count}} karaktere)"
+        wrong_length: "Luzeera okerra ({{count}} karaktere izan behar ditu)"
+        taken: "dagoeneko hartuta dago"
+        not_a_number: "ez da zenbaki bat"
+        not_a_date: "ez da baliozko data"
+        greater_than: "{{count}} baino handiagoa izan behar da"
+        greater_than_or_equal_to: "{{count}} baino handiagoa edo berdina izan behar da"
+        equal_to: "{{count}}(r)en berdina izan behar da"
+        less_than: "{{count}} baino txikiagoa izan behar da."
+        less_than_or_equal_to: "{{count}} baino txikiago edo berdina izan behar da."
+        odd: "bakoitia izan behar du"
+        even: "bikoitia izan behar du"
+        greater_than_start_date: "hasiera data baino handiagoa izan behar du"
+        not_same_project: "Ez da lan ildo berdinekoa."
+        circular_dependency: "Erlazio honek mendekotasun zirkular bat sortuko luke"
+
+  actionview_instancetag_blank_option: Hautatu mesedez
+  
+  general_text_No: 'Ez'
+  general_text_Yes: 'Bai'
+  general_text_no: 'ez'
+  general_text_yes: 'bai'
+  general_lang_name: 'Euskara'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
+  general_csv_encoding: UTF-8
+  general_pdf_encoding: ~
+  general_first_day_of_week: '1'
+  
+  notice_account_reactivated: ~
+  notice_account_canceled: ~
+  notice_account_inactive_user: ~
+  notice_account_updated: Kontua ongi eguneratu da.
+  notice_account_invalid_creditentials: Erabiltzaile edo pasahitz ezegokia
+  notice_account_password_updated: Pasahitza ongi eguneratu da.
+  notice_account_wrong_password: Pasahitz ezegokia.
+  notice_account_register_done: Kontua ongi sortu da. Kontua gaitzeko klikatu epostan adierazi zaizun estekan.
+  notice_account_unknown_email: Erabiltzaile ezezaguna.
+  notice_can_t_change_password: Kontu honek kanpoko autentikazio bat erabiltzen du. Ezinezkoa da pasahitza aldatzea.
+  notice_account_lost_email_sent: Pasahitz berria aukeratzeko jarraibideak dituen eposta bat bidali zaizu.
+  notice_account_activated: Zure kontua gaituta dago. Orain saioa has dezakezu
+  notice_successful_create: Sortze arrakastatsua.
+  notice_successful_update: Eguneratze arrakastatsua.
+  notice_successful_delete: Ezabaketa arrakastatsua.
+  notice_successful_connection: Konexio arrakastatsua.
+  notice_file_not_found: Atzitu nahi duzun orria ez da exisitzen edo ezabatua izan da.
+  notice_locking_conflict: Beste erabiltzaile batek datuak eguneratu ditu.
+  notice_not_authorized: Ez duzu orri hau atzitzeko baimenik.
+  notice_email_sent: "{{value}} - (r)i epozta bidali zaio."
+  notice_email_error: "{{value}} epozta bidaltzean errore bat gertatu da."
+  notice_feeds_access_key_reseted: Zure RSS atzipen giltza berrezarri da.
+  notice_failed_to_save_issues: "Failed to save {{count}} item(s) on {{total}} selected: {{ids}}."
+  notice_no_issue_selected: "No item is selected! Please, check the items you want to edit."
+  notice_account_pending: "Zure kontua sortu da, orain kudeatzailearen onarpenaren zain dago."
+  notice_default_data_loaded: Lehenetsitako konfigurazioa ongi kargatu da.
+  notice_unable_delete_version: ~
+  notice_issue_done_ratios_updated: Burututako zereginen erlazioa eguneratu da.
+  notice_this_is_your_profie: "This is your public profile. To manage your account <a href='/my/account'>click here</a>"
+  
+  error_old_invite : "Gonbidapen zaharkitua edo txarra."
+  error_bad_email_update : "Poorly formed email update"
+  error_can_t_load_default_data: "Default configuration could not be loaded: {{value}}"
+  error_issue_not_found_in_project: 'The item was not found or does not belong to this workstream'
+  error_no_tracker_in_project: 'No issue type is associated to this workstream. Please check the Workstream settings.'
+  error_no_default_issue_status: 'No default item status is defined. Please check your configuration (Go to "Administration -> Item statuses").'
+  error_can_not_reopen_issue_on_closed_version: 'An item assigned to a closed deliverable can not be reopened'
+  error_can_not_archive_project: ~
+  error_issue_done_ratios_not_updated: "Burututako zereginen erlazioa ez da eguneratu."
+  error_workflow_copy_source: 'Mesedez hautatu iturburuko aztarnari edo rola'
+  error_workflow_copy_target: 'Mesedez hautatu helburuko aztarnari(ak) edo rola(k)'
+  error_general: 'Zerbait gaizki joan da'
+  
+  warning_attachments_not_saved: "{{count}} artxiboa ezin da gorde"
+  
+  mail_subject_lost_password: "Zure {{value}} pasahitza"
+  mail_body_lost_password: 'Zure pasahitza aldatzeko hurrengo estekan klikatu:'
+  mail_subject_register: "Zure {{value}} kontu aktibazioa"
+  mail_body_register: 'Zure kontua gaitzeko hurrengo estekan klikatu:'
+  mail_body_account_information_external: "Zure {{value}} kontua erabil dezakezu sartzeko"
+  mail_body_account_information: Zure kontuaren informazioa
+  mail_subject_account_activation_request: "{{value}} kontua aktibatzeko eskaria"
+  mail_subject_email_update_activation: "{{value}} epozta berriaren aktibazioa"
+  mail_body_account_activation_request: "({{value}}) erabiltzaile berria erregistratu da. Zure oneritziaren zain dago."
+  mail_subject_reminder: "{{count}} item(s) due in the next days"
+  mail_body_reminder: "{{count}} item(s) that are owned by you are due in the next {{days}} days:" #updated
+  mail_subject_wiki_content_added: "'{{page}}' wiki orrialdea gehitu da
+"
+  mail_body_wiki_content_added: "'{{page}}' wiki orrialdea {{author}}(e)k gehitu du."
+  mail_subject_wiki_content_updated: "'{{page}}' wiki orrialdea eguneratu da."
+  mail_body_wiki_content_updated: "'{{page}}' wiki orrialdea {{author}}(e)k eguneratu du."
+  
+  gui_validation_error: akats 1
+  gui_validation_error_plural: "{{count}} akats"
+  
+  field_tags : "etiketak"
+  field_points : "Avg estimated credits"
+  field_logo : "Logoa"
+  field_image_file: "Igo artxiboa"
+  field_image_file_url: "edo URL irudia"
+  field_retro: Atzera begirako
+  field_volunteer: Bolondresa
+  field_name: Izena
+  field_description: Deskribapena
+  field_summary: Laburpena
+  field_is_required: Beharrezkoa
+  field_firstname: Izena
+  field_lastname: Abizena
+  field_mail: Eposta
+  field_filename: Fitxategia
+  field_filesize: Tamaina
+  field_downloads: Deskargak
+  field_author: Egilea
+  field_created_at: Sortua
+  field_updated_at: Eguneratua
+  field_field_format: Formatua
+  field_is_for_all: Lan ildo guztietarako
+  field_possible_values: Balio posibleak
+  field_regexp: Expresio erregularra
+  field_min_length: Luzera minimoa
+  field_max_length: Luzera maxioma
+  field_value: Balioa
+  field_category: Kategoria
+  field_title: Izenburua
+  field_project: Lan-ildoa
+  field_item: Artikulua
+  field_status: Egoera
+  field_notes: Oharrak
+  field_is_closed: Artikulu itxia
+  field_is_default: Lehenetsitako balioa
+  field_tracker: Mota
+  field_subject: Gaia
+  field_due_date: Eskerriak asko 
+  field_expected_date: ~
+  field_assigned_to: Jabea #Changed
+  field_priority: Lehentasuna
+  field_fixed_version: Emangarria
+  field_user: Erabiltzilea
+  field_role: Rola
+  field_homepage: Orri nagusia
+  field_is_public: Publikoa
+  field_parent: -ren azpi lan-ildoa
+  field_is_in_roadmap: ~
+  field_login: Erabiltzaile izena
+  field_mail_notification: Eposta bidezko oharrak
+  field_admin: Kudeatzailea
+  field_last_login_on: Azken konexioa
+  field_language: Hizkuntza
+  field_effective_date: Data
+  field_password: Pasahitza
+  field_new_password: Pasahitz berria
+  field_password_confirmation: Pasahitza berridatzi
+  field_version: ~
+  field_type: Mota
+  field_host: Ostalaria
+  field_port: Portua
+  field_account: Kontua
+  field_base_dn: Base DN
+  field_attr_login: Erabiltzaile atributua
+  field_attr_firstname: Izena atributua
+  field_attr_lastname: Abizenak atributua
+  field_attr_mail: Eposta atributua
+  field_onthefly: Zuzeneko erabiltzaile sorrera
+  field_start_date: Hasiera data
+  field_done_ratio: "Egindako %"
+  field_auth_source: Autentikazio modua
+  field_hide_mail: Nire eposta helbidea ezkutatu
+  field_active_only_jumps: "Show only workstreams I'm active in for top jump menu"
+  field_comments: Iruzkina
+  field_wiki_comments: Berrikuspen oharrak
+  field_url: URL
+  field_start_page: Hasiera orria
+  field_subproject: Azpi lan-ildoa.
+  field_hours: Ordu
+  field_activity: Jarduera
+  field_spent_on: Data
+  field_identifier: Identifikatzailea
+  field_is_filter: Iragazki moduan erabilita
+  field_issue_to: Lotura duten elementuak
+  field_issue: Lotura duten elementuak
+  field_delay: Atzerapena
+  field_assignable: ~
+  field_redirect_existing_links: Existitzen diren estekak berbideratu
+  field_estimated_hours: Estimatutako denbora
+  field_column_names: Zutabeak
+  field_time_zone: Ordu zonaldea
+  field_searchable: Bilagarria
+  field_default_value: Lehenetsitako balioa
+  field_comments_sorting: Iruzkinak erakutsi
+  field_parent_title: Orri gurasoa
+  field_parent_project: Familia bereko lan-ildoa
+  field_editable: Editagarria
+  field_watcher: Behatzailea
+  field_identity_url: OpenID URLa
+  field_content: Edukia
+  field_group_by: Emaitzak honegatik taldekatu
+  field_sharing: Partekatzea
+  field_dpp: ~
+  field_hourly_rate_per_person: ~
+  field_hourly_cap: ~
+  field_pri: ~
+  
+  setting_app_title: Aplikazioaren izenburua
+  setting_app_subtitle: Aplikazioaren azpizenburua
+  setting_welcome_text: Ongietorriko testua
+  setting_default_language: Lehenetsitako hizkuntza
+  setting_login_required: Autentikazioa derrigorrezkoa
+  setting_self_registration: Norberak erregistratu
+  setting_attachment_max_size: Eranskinen tamaina max.
+  setting_issues_export_limit: ~
+  setting_mail_from: Igorlearen eposta helbidea
+  setting_bcc_recipients: Hartzaileak ezkutuko kopian (bcc)
+  setting_plain_text_mail: Testu soileko epostak (HTML-rik ez)
+  setting_host_name: Ostalari izena eta bidea
+  setting_text_formatting: Testu formatua
+  setting_wiki_compression: Wikiaren historia konprimitu
+  setting_feeds_limit: Jarioaren edukiera limitea
+  setting_default_projects_public: Lan-ildo berriak publiko egingo dira
+  setting_autofetch_changesets: Commit-ak automatikoki hartu
+  setting_commit_ref_keywords: Erreferentzien gako-hitzak
+  setting_commit_fix_keywords: Konpontze gako-hitzak
+  setting_autologin: Saioa automatikoki hasi
+  setting_date_format: Data formatua
+  setting_time_format: Ordu formatua
+  setting_cross_project_issue_relations: Lan-ildo desberdinen elementuen arteko erlazioa baimendu.
+  setting_issue_list_default_columns: ~
+  setting_commit_logs_encoding: Zuzendu mezu kodifikatuak
+  setting_emails_footer: Eposten oina
+  setting_protocol: Protokoloa
+  setting_per_page_options: Orriko objektuen aukerak
+  setting_user_format: Erabiltzaileak erakusteko formatua
+  setting_activity_days_default: ~
+  setting_display_subprojects_issues: ~
+  setting_enabled_scm: Gaitutako IKKak
+  setting_mail_handler_body_delimiters: "Lerro hauteko baten ondoren epostak moztu"
+  setting_mail_handler_api_enabled: Sarrerako epostentzako WS gaitu
+  setting_mail_handler_api_key: API giltza
+  setting_sequential_project_identifiers: ~
+  setting_gravatar_enabled: Erabili Gravatar erabiltzaile ikonoak
+  setting_gravatar_default: Lehenetsitako Gravatar irudia
+  setting_diff_max_lines_displayed: Erakutsiko diren diff lerro kopuru maximoa
+  setting_file_max_size_displayed: Barnean erakuzten diren testu fitxategien tamaina maximoa
+  setting_openid: Baimendu OpenID saio hasiera eta erregistatzea
+  setting_password_min_length: Pasahitzen luzera minimoa
+  setting_new_project_user_role_id: ~
+  setting_default_projects_modules: ~
+  setting_issue_done_ratio: ~
+  setting_issue_done_ratio_issue_field: ~
+  setting_issue_done_ratio_issue_status: ~
+  setting_start_of_week: Egutegiak noiz hasi:
+  setting_rest_api_enabled: Gaitu REST web zerbitzua
+  
+  permission_view_project : Ikusi lan-ildoa
+  permission_add_project: Sortu lan-ildoa
+  permission_add_subprojects: Sortu azpi lan-ildoa
+  permission_edit_project: editatu lan-ildoa
+  permission_move_project: Mugitu lan-ildoa
+  permission_select_project_modules: Aukeratu lan-ildoaren moduloak
+  permission_manage_members: Kideak kudeatu
+  permission_manage_versions: ~
+  permission_manage_categories: Kudeatu elemetuen kategoriak
+  permission_add_issues: Gehitu elementuak
+  permission_edit_issues: Editatu elementuak
+  permission_manage_issue_relations: Kudeatu elementuen arteko erlazioa.
+  permission_add_issue_notes: Oharrak gehitu
+  permission_edit_issue_notes: Oharrak aldatu
+  permission_edit_own_issue_notes: Nork bere oharrak aldatu
+  permission_move_issues: Mugitu elementuak
+  permission_delete_issues: Ezabatu elementuak
+  permission_manage_public_queries: Galdera publikoak kudeatu
+  permission_save_queries: Galderak gorde
+  permission_view_gantt: Gantt grafikoa ikusi
+  permission_view_calendar: Egutegia ikusi
+  permission_view_issue_watchers: Behatzaileen zerrenda ikusi
+  permission_add_issue_watchers: Behatzaileak gehitu
+  permission_delete_issue_watchers: Behatzaileak ezabatu
+  permission_log_time: Igarotako denbora erregistratu
+  permission_view_time_entries: Igarotako denbora ikusi
+  permission_edit_time_entries: Denbora egunkariak editatu
+  permission_edit_own_time_entries: Nork bere denbora egunkariak editatu
+  permission_manage_news: Berriak kudeatu
+  permission_comment_news: Berrien iruzkinak egin
+  permission_manage_documents: Dokumentuak kudeatu
+  permission_view_documents: Dokumentuak ikusi
+  permission_manage_files: Fitxategiak kudeatu
+  permission_view_files: Fitxategiak ikusi
+  permission_manage_wiki: Wikia kudeatu
+  permission_rename_wiki_pages: Wiki orriak berrizendatu
+  permission_delete_wiki_pages: Wiki orriak ezabatu
+  permission_view_wiki_pages: Wikia ikusi
+  permission_view_wiki_edits: Wikiaren historia ikusi
+  permission_edit_wiki_pages: Wiki orriak editatu
+  permission_delete_wiki_pages_attachments: Eranskinak ezabatu
+  permission_protect_wiki_pages: Wiki orriak babestu
+  permission_view_changesets: Aldaketak ikusi
+  permission_commit_access: Commit atzipena
+  permission_manage_boards: Eztabaida kudeatu
+  permission_view_messages: Mezuak ikusi
+  permission_add_messages: Mezuak bidali
+  permission_edit_messages: Mezuak aldatu
+  permission_edit_own_messages: Nork bere mezuak aldatu
+  permission_delete_messages: Mezuak ezabatu
+  permission_delete_own_messages: Nork bere mezuak ezabatu
+  
+  project_module_issue_tracking: Elementuen  jarraipena
+  project_module_time_tracking: Denbora jarraipena
+  project_module_news: Berriak
+  project_module_documents: Dokumentuak
+  project_module_files: Fitxategiak
+  project_module_wiki: Wiki
+  project_module_boards: Eztabaidak
+
+  title_member_nomination : "Motion to elect {{user}} as a member"
+  title_core_member_nomination : "Motion to elect {{user}} to the Core Team"
+  title_core_member_removal : "Motion to remove {{user}} from the Core Team"
+  title_member_removal : "Motion to remove {{user}} as a member"
+
+  label_usage_over : "Your usage is over your plan's limits"
+  label_trial_expired : "Zure froga denbora amaitu da"
+  label_email_update: Zure eposta helbide berria
+  label_new_page: Orri berria
+  label_my_issues: Nire elementuak
+  label_joined_issues: bat egin
+  label_joined: bat egin
+  label_projects_recent: Azken lan-ildoak
+  label_projects_active_in: Aktibo nagoen lan-ildoak
+  label_projects_all : Nire lan-ildo guztiak
+  label_view_all : Dena ikusi
+  label_track_invites: ~
+  label_unarchive_project: ~
+  label_unarchive_project_brackets: (desartxibatua)
+  label_archive_project: ~
+  label_delete_project: Ezabatu lan-ildoa
+  label_move_project: ~
+  label_note_to_recipient: ~
+  label_amount_to_transfer: ~
+  label_select_recipient: ~
+  label_credit_transfers: ~
+  label_credit_transfer: "Transfer credits"
+  label_new_credit_transfer: ~
+  label_select_project: ~
+  label_previous_credit_transfers: ~
+  label_data_dump: ~
+  text_data_dump: ~
+  label_issues: ~
+  label_type_of_workstream: ~
+  label_your_gravatar: ~
+  label_team_with_access: ~
+  label_select_plan: ~
+  label_current_plan: ~
+  label_user: Erabiltzailea
+  label_user_plural: Erabiltzaileak
+  label_user_new: Erabiltzaile berria
+  label_user_anonymous: Ezezaguna
+  label_project: Lan-ildoa
+  label_project_new: Lan-ildo berria
+  label_project_plural: Lan-ildoak
+  label_x_projects:
+    zero:  ez dago lan-ildorik
+    one:   Lan-ildo 1.
+    other: "{{count}} lan-ildo"
+  label_project_all: Lan-ildo guztiak
+  label_project_latest: Azken lan-ildoak
+  label_enterprise_latest: Azken lan-ildo publikoak
+  label_enterprise_active: ~
+  label_enterprise_plural: ~
+  label_issue: Elementua
+  label_issue_new: Elementu berria
+  label_issue_plural: Elementuak
+  label_issue_view_all: Ikusi elementu guztiak
+  label_issues_by: "{{value}}-ren elementuak"
+  label_issue_added: Elementua gehituta
+  label_issue_updated: Elementu eguneratuak
+  label_document: Dokumentua
+  label_document_new: Dokumentu berria
+  label_document_plural: Dokumentuak
+  label_document_added: Dokumentua gehituta
+  label_quick_links: Lotura azkarrak
+  label_role: Rola
+  label_role_plural: Rolak
+  label_role_new: Rol berria
+  label_role_and_permissions: Rolak eta baimenak
+  label_member: Kidea
+  label_member_new: Kide berria
+  label_member_plural: Kideak
+  label_team : Taldea
+  label_team_plural : Teams
+  label_active_team : Aktibatutako jendea
+  label_dashboard : Mahaigaina
+  label_tracker: Kategoria
+  label_tracker_plural: kategoriak
+  label_tracker_new: Kategoria berria
+  label_workflow: Lan-fluxua
+  label_issue_status: Elementuaren egoera
+  label_issue_status_plural: ELementuen egoerak
+  label_issue_status_new: Egoera berria
+  label_enumerations: Enumerazioak
+  label_enumeration_new: Balio berria
+  label_information: Informazioa
+  label_information_plural: Informazioa
+  label_personal_information: Informazio pertsonala
+  label_billing_information: ~
+  label_please_login: Saioa hasi mesedez
+  label_register: ~
+  label_login_with_open_id_option: edo OpenID-rekin saioa hasi
+  label_password_lost: Pasahitza galduta
+  label_home: Hasiera
+  label_my_home: Nire
+  label_my_page: ~
+  label_new_project: Lan-ildo berria
+  label_my_account: Kontua
+  label_my_projects: Nire lan-ildoak
+  label_projects_i_belong_to: parte hartzen dudan lan-ildoak
+  label_projects_i_started: HAsi ditudan lan-ildoak
+  label_activities_i_belong_to: ~
+  label_administration: Kudeaketa
+  label_login: Saioa hasi
+  label_logout: Saioa bukatu
+  label_help: Laguntza
+  label_reported_issues: ~
+  label_assigned_to_me_issues: ~
+  label_added_issues: ~
+  label_recent_issues: ~
+  label_assigned: ~
+  label_last_login: Azken konexioa
+  label_registered_on: ~
+  label_activity: Jarduerak
+  label_overall_activity: Jarduera guztiak
+  label_user_activity: "{{value}}'s activity"
+  label_new: Berria
+  label_logged_as: Sartutako erabiltzailea:
+  label_environment: Ingurune
+  label_authentication: Autentikazioa
+  label_auth_source: Autentikazio modua
+  label_auth_source_new: Autentikazio modu berria
+  label_auth_source_plural: Autentikazio moduak
+  label_subproject : ~
+  label_subproject_plural: ~
+  label_subproject_new: ~
+  label_new_item_in: ~
+  label_and_its_subprojects: "{{value}} and its sub workstreams"
+  label_waiting_for_you: "{{notifications}} zure zain"
+  label_min_max_length: Luzera min - max
+  label_list: Zerrenda
+  label_date: Data
+  label_integer: Osokoa
+  label_float: Koma higikorrekoa
+  label_boolean: Boolearra
+  label_string: Testua
+  label_text: Testu luzea
+  label_attribute: Atributua
+  label_attribute_plural: Atributuak
+  label_download: "{{count}} deskarga"
+  label_download_plural: "{{count}} deskarga"
+  label_no_data: ~
+  label_no_credits: ~
+  label_change_status: Egoera aldatu
+  label_history: History
+  label_attachment: Fitxategia
+  label_attachment_new: Fitxategi berria
+  label_attachment_delete: Fitxategia ezabatu
+  label_attachment_plural: Fitxategiak
+  label_file_added: Fitxategia gehituta
+  label_report: Berri ematea
+  label_report_plural: Berri emateak
+  label_news: Berria
+  label_news_new: Berria gehitu
+  label_news_plural: Berriak
+  label_news_latest: Azken berriak
+  label_news_view_all: Berri guztiak ikusi
+  label_activity_latest: ~
+  label_activity_view_all: ~
+  label_news_added: Berria gehituta
+  label_settings: Ezarpenak
+  label_overview: Gainbegirada
+  label_version: ~
+  label_version_new: ~
+  label_version_plural: ~
+  label_confirmation: Baieztapena
+  label_export_to: 'Eskuragarri baita:'
+  label_read: Irakurri...
+  label_public_projects: ~
+  label_open_issues: irekita
+  label_open_issues_plural: irekiak
+  label_closed_issues: itxita
+  label_closed_issues_plural: itxiak
+  label_x_open_issues_abbr_on_total:
+    zero:  ~
+    one:   ~
+    other: "{{count}} zabalik / {{total}}"
+  label_x_open_issues_abbr:
+    zero:  0 irekita
+    one:   1 irekita
+    other: "{{count}} zabalik"
+  label_x_closed_issues_abbr:
+    zero:  0 itxita
+    one:   1 itxita
+    other: "{{count}} itxita"
+  label_total: Guztira
+  label_permissions: Baimenak
+  label_current_status: Uneko egoera
+  label_new_statuses_allowed: Baimendutako egoera berriak
+  label_all: guztiak
+  label_none: ezer
+  label_nobody: inor
+  label_next: Hurrengoa
+  label_previous: Aurrekoak
+  label_used_by: Erabilita
+  label_details: Xehetasunak
+  label_add_note: Oharra gehitu
+  label_per_page: Orriko
+  label_calendar: Egutegia
+  label_months_from: hilabete noiztik
+  label_gantt: Gantt
+  label_internal: Barnekoa
+  label_last_changes: " azkenengo {{count}} aldaketak"
+  label_change_view_all: Aldaketa guztiak ikusi
+  label_personalize_page: Orri hau pertsonalizatu
+  label_comment: Iruzkin
+  label_comment_plural: Iruzkinak
+  label_x_comments:
+    zero: iruzkinik ez
+    one: iruzkin 1
+    other: "{{count}}  iruzkin"
+  label_comment_add: Iruzkina gehitu
+  label_comment_added: Iruzkina gehituta
+  label_comment_delete: Iruzkinak ezabatu
+  label_query: Galdera pertsonalizatua
+  label_query_plural: Pertsonalizatutako galderak
+  label_query_new: Galdera berria
+  label_filter_add: Iragazkia gehitu
+  label_filter_plural: Iragazkiak
+  label_equals: da
+  label_not_equals: ez da
+  label_in_less_than: baino gutxiagotan
+  label_in_more_than: baino gehiagotan
+  label_greater_or_equal: '>='
+  label_less_or_equal: '<='
+  label_in: hauetan
+  label_today: gaur
+  label_Today: Gaur
+  label_same_day: Egun berdina
+  label_all_time: denbora guztia
+  label_yesterday: atzo
+  label_this_week: aste honetan
+  label_last_week: pasadan astean
+  label_last_n_days: "azken {{count}} egunak"
+  label_this_month: hilabete hau
+  label_last_month: pasadan hilabetea
+  label_this_year: urte hau
+  label_date_range: Data tartea
+  label_less_than_ago: egun hauek baino gutxiago
+  label_more_than_ago: egun hauek baino gehiago
+  label_ago: orain dela
+  label_ago_simple: duela
+  label_contains: dauka
+  label_not_contains: ez dauka
+  label_day: eguna
+  label_day_plural: egunak
+  label_browse: Arakatu
+  label_browse_workstreams: ~
+  label_browse_activity: Arakatu aktibitatea
+  label_modification: "{{count}} aldaketa"
+  label_modification_plural: "{{count}} aldaketa"
+  label_branch: Adarra
+  label_tag: Etiketa 
+  label_revision: Berrikuspena
+  label_revision_plural: Berrikuspenak
+  label_revision_id: "{{value}} berrikuspena"
+  label_associated_revisions: Elkartutako berrikuspenak
+  label_added: gehituta
+  label_modified: aldatuta
+  label_copied: kopiatuta
+  label_renamed: berrizendatuta
+  label_deleted: ezabatuta
+  label_moved: mugituta
+  label_archived: ~
+  label_unarchived: ~
+  label_project_description: deskribapena
+  label_message: eztabaida
+  label_latest_revision: Azken berrikuspena
+  label_latest_revision_plural: Azken berrikuspenak
+  label_view_revisions: Berrikuspenak ikusi
+  label_view_all_revisions: Berrikuspen guztiak ikusi
+  label_max_size: Tamaina maximoa
+  label_sort_highest: Goraino mugitu
+  label_sort_higher: Gora mugitu
+  label_sort_lower: Behera mugitu
+  label_sort_lowest: Beheraino mugitu
+  label_roadmap: Ibilbide-mapa
+  label_roadmap_due_in: "Due in {{value}}"
+  label_roadmap_overdue: "{{value}} late"
+  label_roadmap_no_issues: ~
+  label_search: Bilatu
+  label_result_plural: Emaitzak
+  label_all_words: hitz guztiak
+  label_wiki: Wikia
+  label_wiki_edit: Wiki edizioa
+  label_wiki_edit_plural: Wiki edizioak
+  label_wikipage: ~
+  label_wiki_page: Wiki orria
+  label_wiki_page_plural: Wiki orriak
+  label_index_by_title: Izenburuaren araberako indizea
+  label_index_by_date: Dataren araberako indizea
+  label_current_version: ~
+  label_preview: Aurreikusi
+  label_feed_plural: Jarioak
+  label_changes_details: Aldaketa guztien xehetasunak
+  label_issue_tracking: ~
+  label_boards: ~
+  label_spent_time: Igarotako denbora
+  label_f_hour: "{{value}} ordu"
+  label_f_hour_plural: "{{value}} ordu"
+  label_time_tracking: Denbora jarraipena
+  label_change_plural: Aldaketak
+  label_change : Aldaketa
+  label_statistics: Estatistikak
+  label_commits_per_month: Commit-ak hilabeteka
+  label_commits_per_author: Commit-ak egileka
+  label_view_diff: Ezberdintasunak ikusi
+  label_diff_inline: barnean
+  label_diff_side_by_side: aldez alde
+  label_options: Aukerak
+  label_copy_workflow_from: Kopiatu workflow-a hemendik
+  label_permissions_report: Baimenen txostena
+  label_watched_issues: ~
+  label_watched: ~
+  label_related_issues: ~
+  label_applied_status: Aplikatutako egoera
+  label_loading: Lanean
+  label_relation_new: Erlazio berria
+  label_relation_delete: Erlazioa ezabatu
+  label_relates_to: erlazionatuta dago
+  label_duplicates: bikoizten du
+  label_duplicated_by: honek bikoiztuta
+  label_blocks: blokeatzen du
+  label_blocked_by: honek blokeatuta
+  label_precedes: aurretik doa
+  label_follows: jarraitzen du
+  label_end_to_start: bukaeratik hasierara
+  label_end_to_end: bukaeratik bukaerara
+  label_start_to_start: hasieratik hasierhasieratik bukaerara
+  label_start_to_end: hasieratik bukaerara
+  label_stay_logged_in: Saioa mantendu
+  label_disabled: ezgaituta
+  label_show_completed_versions: ~
+  label_me: ni
+  label_board: Eztabaida
+  label_board_new: Eztabaida berria
+  label_board_plural: Eztabaidak
+  label_topic_plural: Gaiak
+  label_message_plural: Mezuak
+  label_message_last: Azken mezua
+  label_message_new: Mezu berria
+  label_topic_new: ~
+  label_message_posted: Mezua gehituta
+  label_reply_plural: Erantzunak
+  label_comments_plural: ~
+  label_send_information: Erabiltzaileai kontuaren informazioa bidali
+  label_year: Urtea
+  label_month: Hilabetea
+  label_week: Astea
+  label_date_from: Nork
+  label_date_to: Nori
+  label_language_based: Erabiltzailearen hizkuntzaren arabera
+  label_sort_by: "{{value}}-gatik sailkatua"
+  label_send_test_email: Frogako mezua bidali
+  label_feeds_access_key: RSS atzipen giltza
+  label_missing_feeds_access_key: RSS atzipen giltza falta da
+  label_feeds_access_key_created_at: "RSS atzipen giltza duela {{value}}  sortua"
+  label_module_plural: Moduluak
+  label_added_time_by: "Orain dela {{age}} {{author}}-gatik gehitua."
+  label_updated_time_by: "Orain dela {{age}} {{author}}-gatik eguneratua"
+  label_created_time_by: "Duela {{age}}  sortua"
+  label_updated_time: "Duela {{age}}  eguneratua"
+  label_jump_to_a_project: ~
+  label_file_plural: Fitxategiak
+  label_changeset_plural: Aldaketak
+  label_default_columns: Lehenetsitako zutabeak
+  label_no_change_option: (Aldaketarik ez)
+  label_bulk_edit_selected_issues: ~
+  label_theme: Itxura
+  label_default: Lehenetsia
+  label_search_titles_only: ~
+  label_user_mail_option_all: "Nire lan-ildoetako edozein gertakarirentzat"
+  label_user_mail_option_selected: "Aukeratutako lan-ildoko edozein gertakarirentzat bakarrik"
+  label_user_mail_option_none: "Ikusten ditudan edo parte hartzen dudan gauzentzat bakarrik"
+  label_user_mail_no_self_notified: "Ez dut nik egiten ditudan aldeketen jakinarazpenik jaso nahi"
+  label_user_mail_no_emails: "Ezindu eposta oharrak"
+  label_user_mail_daily_digest: "Bidali izezadazu egunero nik parte hartzen dudan  sistemaren eguneraketen
+ laburpen bat  "
+  label_registration_activation_by_email: kontuak epostaz gaitu
+  label_registration_manual_activation: kontuak eskuz gaitu
+  label_registration_automatic_activation: kontuak automatikoki gaitu
+  label_display_per_page: "Per page: {{value}}"
+  label_age: Adina
+  label_change_properties: Propietateak aldatu
+  label_general: Orokorra
+  label_more: Gehiago
+  label_scm: IKK
+  label_plugins: Pluginak
+  label_ldap_authentication: LDAP autentikazioa
+  label_downloads_abbr: Desk.
+  label_optional_description: Aukerako deskribapena
+  label_add_another_file: Beste fitxategia gehitu
+  label_preferences: Hobespenak
+  label_chronological_order: Orden kronologikoan
+  label_reverse_chronological_order: Alderantzizko orden kronologikoan
+  label_planning: Planifikazioa
+  label_incoming_emails: Sarrerako epostak
+  label_generate_key: Giltza sortu
+  label_issue_watchers: Behatzaileak
+  label_example: Adibidea
+  label_display: Bistaratzea
+  label_sort: Ordenatu
+  label_ascending: Gorantz
+  label_descending: Beherantz
+  label_date_from_to: ~
+  label_wiki_content_added: Wiki orria gehituta
+  label_wiki_content_updated: Wiki orria eguneratuta
+  label_group: Taldea
+  label_group_plural: Taldeak
+  label_group_new: Talde berria
+  label_time_entry_plural: Igarotako denbora
+  label_commit_request_history: ~ #new
+  label_by: "duela {{age}} {{author}}(en)gatik" #new
+  label_requested_by: "Duela {{age}}{{author}}-(e)k eskatua" #new
+  label_offered_by: "Offered by {{author}} to {{responder}} {{age}} ago" #new
+  label_accepted_by: "Accepted by {{responder}} {{age}} ago" #new
+  label_declined_by: "Declined by {{responder}} {{age}} ago" #new
+  label_from_ago: "from {{author}} {{age}} ago" #new
+  label_taken_by: "Taken by {{responder}} {{age}} ago" #news
+  label_declined: "Declined {{age}} ago" #new
+  label_accepted: "Accepted {{age}} ago" #new
+  label_recinded: "Duela {{age}} kendua" #new
+  label_released: "Duela {{age}} egina" #new
+  label_not_sure: "Ez da ziurra"
+  label_commitment: "Betebeharra"
+  label_commitment_offer: "Jabetzak eskainia"
+  label_commitment_request: "Jabetzak eskatua"
+  label_notification : "Oharra"
+  label_notifications : "Oharrak"
+  label_new_notification : "oharra"
+  label_new_notifications : "oharrak"
+  label_response_sent : "Response sent"
+  label_response_ignored : "Request ignored"
+  label_you : "zu"
+  label_for : "for"
+  label_from : "from"
+  label_ignored : "Ignored"  
+  label_marked_as_read : "Marked as read"  
+  label_ownership_offered : "Ownership offered"
+  label_ownership_offered_to : "Ownership offered to {{user}}"
+  label_ownership_offer_declined : "Ownership offer declined"
+  label_ownership_offer_accepted : "Ownership offer accepted"
+  label_ownership_offer_declined_from : "{{user}}'s ownership offer was declined"
+  label_ownership_offer_accepted_from : "{{user}}'s ownership offer was accepted"
+  label_ownership_offer_withdrawn : "Ownership offer withdrawn"
+  label_ownership_offer_withdrawn_to : "Ownership offer to {{user}} was withdrawn"
+  label_ownership_requested : "Ownership requested"
+  label_ownership_request_accepted : "Ownership request accepted"
+  label_ownership_request_auto_accepted : "Ownership request auto accepted"
+  label_ownership_request_declined : "Ownership request declined"
+  label_ownership_request_accepted_from : "{{user}}'s ownership request accepted"
+  label_ownership_request_declined_from : "{{user}}'s ownership request declined"
+  label_ownership_request_recinded : "Ownership request recinded"
+  label_ownership_released : "Ownership released"
+  label_ownership_taken : "Ownership taken"
+  label_commit_request_plural : "Task ownership"
+  label_team_offer : "Core Team Invitation"
+  label_team_offer_plural : "taldekideak"
+  label_team_plural : "taldea"
+  label_team_invitation : "Core Team Invitation"
+  label_team_request : "Core Team Request"
+  label_team_request_plural : "Core Team requests"
+  label_accepted : "onartua"
+  label_sent : "bidali"
+  label_withdrawn : "withdrawn"
+  label_declined : "declined"
+  label_to_join_core_team_of : "to join the {{project}} core team"
+  label_request : "eskaera"
+  label_invitation : "gonbidapena"
+  label_was : "zen"
+  label_your : 'zure'
+  label_to : "to"
+  label_note_from : "Note from {{author}}"
+  label_sending_team_invitation : "{{author}} wants you to join the Core Team for the {{project}} workstream"
+  label_sending_team_request : "{{author}} wants to join the Core Team for the {{project}} workstream"
+  label_team_view_all : "Ikusi taldearen zehaztasunak"
+  label_team_view_all_enterprise : "View entire team"
+  label_member_role_plural : "Talde aldaketak" 
+  label_join_core_team : "Join Core Team"
+  label_leave_core_team : "Leave Core Team"
+  label_request_to_join_core_team : "Request to join Core Team"
+  label_invitation_to_join_core_team : "Invite to Core Team"
+  label_team_points : "Core Points"
+  label_share : "Elkarbanatu"
+  label_share_plural : "Shares"
+  label_credit_plural : "Kredituak"
+  label_credit : "ditu"
+  label_retro_started : "Retrospective Started"
+  label_retro_ended : "Retrospective Ended"
+  label_motion_started : "New motion: {{title}}"
+  label_credits : ~
+  label_shares : ~
+  label_credit_queue : ~
+  label_credit_history : ~
+  label_my_credits : ~
+  label_credits_breakdown : ~
+  label_active_credits : ~
+  label_outstanding_credits : ~
+  label_total_credits_issued : ~
+  label_youve_got_credits : "Kredituak dauzkazu!"
+  label_someone_joined_your_issue : "{{joiner}} joined an issue assigned to you"
+  label_someone_added_you_to_their_issue : "{{sender}} added you to an issue they own"
+  label_someone_removed_you_from_their_issue : "{{sender}} removed you from an issue they own"
+  label_someone_left_your_issue : "{{joiner}} left an issue assigned to you"
+  label_someone_mentioned_you : "{{mentioner}} mentioned you"
+  label_agree : "Ados"
+  label_disagree : "Desados"
+  label_block : "oztopatu"
+  label_neutral : "Neutro"
+  label_history : "Historikoa"
+  label_select : "aukeratu"
+  label_no_mention : "Ez dago irakurri gabeko aipamenik"
+  label_mentions : "aipamenak"
+  
+  label_version_sharing_none: Ez partekatuta
+  label_version_sharing_descendants: ~
+  label_version_sharing_hierarchy: ~
+  label_version_sharing_tree: ~
+  label_version_sharing_system: ~
+  label_update_issue_done_ratios: ~
+  label_copy_source: Iturburua
+  label_copy_target: Helburua
+  label_copy_same_as_target: Helburuaren berdina
+  label_display_used_statuses_only: Aztarnari honetan erabiltzen diren egoerak bakarrik erakutsi
+  label_api_access_key: API atzipen giltza
+  label_missing_api_access_key: API atzipen giltza falta da
+  label_api_access_key_created_at: "API access key created {{value}} ago"
+  label_dpp_scale: "Estimation Scale"
+  
+  label_motion: "proposamen"
+  label_motions_new: proposamen berria
+  
+
+  label_motion_state0: "martxan"
+  label_motion_state1: "Baimendua"
+  label_motion_state2: "zapuztua"
+  label_motion_state3: "Ezeztatua"
+
+  label_motion_vote_type1 : "Unanimous Consensus"
+  label_motion_vote_type2 : "Lazy Majority"  
+  label_motion_vote_type3 : "Share Majority"  
+  
+  label_motion_vote_type1_desc : "ez dago oztopo edo desadostasunik" 
+  label_motion_vote_type2_desc : "desadostasun baino adostasun gehiago, ez dago oztoporik" 
+  label_motion_vote_type3_desc : "1 share = 1 vote. minimum 2/3 agree" 
+  
+  label_motion_vote_action1 : "oztopatu"
+  label_motion_vote_action9999 : "Desados"
+  label_motion_vote_action10000 : "neutro"
+  label_motion_vote_action10001 : "ados"
+  label_motion_vote_action_share_agree : "Elkarbanatutako {{points}}ekin ados"
+  label_motion_vote_action_share_disagree : "Elkarbanatutako {{points}}ekin desados"
+  label_motion_vote_action_share_neutral : "Elkarbanatutako {{points}}ekin neutral"
+  label_you_voted : "<b>{{action}}</b> bozkatu duzu"
+  label_voted : "Bozkatua"
+  label_you_havent_voted : "Oraindik ez duzu bozkatu"
+  label_tally : "Tally"
+
+  label_motion_variation0 : "Proposamen orokorra"  
+  label_motion_variation1 : "Ezhoiko proposamena"  
+  label_motion_variation2 : "New Member Nomination"  
+  label_motion_variation3 : "New Core Team Member Nomination"  
+  label_motion_variation4 : "Motion to Remove Member"  
+  label_motion_variation5 : "Motion to Remove Core Team Member"  
+  label_motion_variation6 : "Board Motion (public)"  
+  label_motion_variation7 : "Board Motion (private)"  
+  label_motion_variation8 : "Motion to Add Hourly Activity Type"  
+  
+  label_binding : "Binding"
+  label_non_binding : "Non binding"
+  
+  label_agree_total : "Guztiz ados"
+  label_disagree_total : "Guztiz desados"
+  label_hidden : "(user hidden)"
+  
+  label_motions_active : "Active Motions"
+  label_motions_view_all : "Ikusi proposamen guztiak"
+  label_new_role : "New role: {{role_name}}"
+  label_new_invitation : "Invitation to join {{project_name}} as a {{role_name}}"
+  
+  label_drop_from_core_team : "Remove from Core"
+  label_nominate_to_core_team : "Nominate to Core"
+  label_drop_from_member : "Remove Membership"
+  label_nominate_to_member : "Nominate to Membership"
+  
+  label_reputation : "Reputation Matrix"
+  label_assessment_accuracy : "Assessment Accuracy"
+  
+  label_hourly_type: "Hourly type"
+  label_hourly_type_plural: "Hourly types"
+  label_hourly_type_new: "New hourly type"
+  label_hourly_rate_per_person: "Hourly rate per person"
+  label_hourly_cap: "Hourly cap"
+  
+  label_invitation_new: "Jendea gonbidatu"
+  label_invitation_others: "Besteak gonbidatu"
+  
+  label_all_activity: "Browse all activity"
+  
+  label_cancel_account: "Nere kontua ezeztatu"
+  
+  field_b_first_name: "Izena"
+  field_b_last_name: "Abizena"
+  field_b_address1: "Helbidea"
+  field_b_address2: "Helbidea"
+  field_b_city: "Hiria"
+  field_b_state: "-"
+  field_b_zip: "Posta kodea"
+  field_b_country: "Herrialdea"
+  field_b_phone: "Telefonoa"
+  field_b_cc_type: "mota"
+  field_b_cc_month: "Iraungitze data"
+  field_b_cc_year: ""
+  field_b_cc_last_four: "Kreditu txartela"
+  label_b_expiration: "Iraungitze data"
+  label_b_verification_code: "Egiaztapen kodea"
+  
+  label_memberrole: "kidea"
+  
+  
+  button_upgrade : ~
+  button_update_billing : Update Billing
+  button_accept_invitation : ~
+  button_working : ~
+  button_change_plan: ~
+  button_update_billing: ~
+  button_login: Saioa hasi
+  button_submit: Bidali
+  button_search: ~
+  button_save: Gorde
+  button_check_all: Guztiak markatu
+  button_uncheck_all: Guztiak desmarkatu
+  button_delete: Ezabatu
+  button_create: Sortu
+  button_resend: ~
+  button_create_and_continue: Sortu eta jarraitu
+  button_test: Frogatu
+  button_edit: Editatu
+  button_add: Gehitu
+  button_add_team_member: ~
+  button_change: Aldatu
+  button_apply: Aplikatu
+  button_clear: Garbitu
+  button_lock: Blokeatu
+  button_unlock: Desblokeatu
+  button_download: Deskargatu
+  button_list: Zerrenda
+  button_view: Ikusi
+  button_move: Mugitu
+  button_move_and_follow: Mugitu eta jarraitu
+  button_back: Atzera
+  button_cancel: Ezeztatu
+  button_close: ~
+  button_activate: Activate
+  button_sort: Ordenatu
+  button_log_time: Denbora erregistratu
+  button_rollback: ~
+  button_watch: Behatu
+  button_unwatch: Behatzen utzi
+  button_reply: Reply
+  button_reply: ~
+  button_archive: Artxibatu
+  button_unarchive: Desartxibatu
+  button_reset: Berrezarri
+  button_rename: Berrizendatu
+  button_change_password: Pasahitza aldatu
+  button_copy: Kopiatu
+  button_copy_and_follow: Kopiatu eta jarraitu
+  button_annotate: Anotatu
+  button_update: Eguneratu
+  button_comment: ~
+  button_signup: ~
+  button_configure: Konfiguratu
+  button_quote: Aipatu
+  button_participate: ~
+  button_request_commitment_request: ~ #new
+  button_request_commitment_take: ~ #new
+  button_request_commitment_remove: ~ #new
+  button_request_commitment_withdraw: ~ #new
+  button_request_commitment_remove_offer: ~ #new
+  button_request_commitment_giveup: ~ #new  
+  button_request_commitment_transfer: ~ #new    
+  button_request_commitment_accept: ~ #new
+  button_request_commitment_decline: ~ #new
+  button_request_commitment_offer: ~ #new
+  
+  button_team_offer_request: ~ #new
+  button_team_offer_take: ~ #new
+  button_team_offer_withdraw_request: ~  #new
+  button_team_offer_withdraw_invitation: ~ #new
+  button_team_offer_giveup: ~ #new  
+  button_team_offer_accept: ~ #new
+  button_team_offer_decline: ~ #new
+  button_team_offer_invite: ~ #new
+  
+  button_ignore: ~
+  button_mark_as_read: ~
+  button_duplicate: Bikoiztu
+  button_show: Ikusi
+  
+  button_activate: Gahitu
+  button_deactivate: ~
+  
+  button_dashboard: ~
+  
+  status_active: gaituta
+  status_registered: izena emanda
+  status_locked: blokeatuta
+  
+  version_status_open: irekita
+  version_status_locked: blokeatuta
+  version_status_closed: itxita
+
+  field_active: Gaituta
+  field_body: ~
+  field_joined_by: ~
+  field_item_url: ~
+  
+  text_invite_role_instruction: ~
+  text_resend_invite_message: "Add a personal comment to the invitation reminder"
+  text_reset_link: "Reset invitation code"
+  text_personalize_invitations: "Zure gonbidapena pertsonalizatu"
+  text_email_instruction: "Enter up to 50 emails, one email per line"
+  text_invite_others_to_contribute: "Invite anyone to contribute to"
+  text_invite_others_to_contribute_personal: "OR - Send personalized, individual invitations"
+  text_confirm_delete_project: "Are you sure you want to delete this workstream? This action cannot be undone!"
+  text_confirm_cancel_account: "Are you sure you want to cancel your account? This action cannot be undone!"
+  text_confirm_archive_project: "Are you sure you want to archive this workstream? Nobody will be able to see it anymore. You can unarchive it in the future."
+  text_confirm_unarchive_project: "Are you sure you want to unarchive this workstream?"
+  text_included_note: ~
+  text_failed_to_transfer: ~
+  text_your_gravatar: ~
+  text_select_mail_notifications: Jakinarazpenak zein ekintzetarako bidaliko diren hautatu.
+  text_regexp_info: adib. ^[A-Z0-9]+$
+  text_min_max_length_info: 0k mugarik gabe esan nahi du
+  text_project_destroy_confirmation: ~
+  text_subprojects_destroy_warning: "Its sub workstream(s): {{value}} will be also deleted."
+  text_workflow_edit: ~
+  text_are_you_sure: ~
+  text_journal_changed: "{{label}} changed from {{old}} to {{new}}"
+  text_journal_set_to: "{{label}} set to {{value}}"
+  text_journal_deleted: "{{label}} deleted ({{old}})"
+  text_journal_added: "{{label}} {{value}} added"
+  text_tip_task_begin_day: ~
+  text_tip_task_end_day: ~
+  text_tip_task_begin_end_day: ~
+  text_project_identifier_info: 'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'
+  text_caracters_maximum: "{{count}} characters maximum."
+  text_caracters_minimum: "Must be at least {{count}} characters long."
+  text_length_between: "Length between {{min}} and {{max}} characters."
+  text_tracker_no_workflow: ~
+  text_unallowed_characters: Debekatutako karaktereak
+  text_comma_separated: Balio anitz izan daitezke (komaz banatuta).
+  text_issues_ref_in_commit_messages: ~
+  text_issue_added: "Item {{id}} has been reported by {{author}}."
+  text_issue_updated: "Item {{id}} has been updated by {{author}}."
+  text_line_separated: Balio anitz izan daitezke (balio bakoitza lerro batean).
+  text_wiki_destroy_confirmation: ~
+  text_user_mail_option: "For unselected workstreams, you will only receive notifications about things you watch or you're involved in (eg. items you're the author or owner)." #updated
+  text_no_configuration_data: "Roles, types, item statuses and workflow have not been configured yet.
+It is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_load_default_configuration: Lehenetsitako konfigurazioa kargatu
+  text_status_changed_by_changeset: "Applied in changeset {{value}}."
+  text_issues_destroy_confirmation: 'Are you sure you want to delete the selected item(s) ?'
+  text_select_project_modules: 'Select modules to enable for this workstream:'
+  text_default_administrator_account_changed: Lehenetsitako kudeatzaile kontua aldatuta
+  text_file_repository_writable: Eranskinen direktorioan idatz daiteke
+  text_plugin_assets_writable: Pluginen baliabideen direktorioan idatz daiteke
+  text_rmagick_available: RMagick eskuragarri (aukerazkoa)
+  text_destroy_time_entries_question: "{{hours}} hours were reported on the items you are about to delete. What do you want to do ?"
+  text_destroy_time_entries: Ezabatu berri emandako orduak
+  text_assign_time_entries_to_project: ~
+  text_reassign_time_entries: 'Reassign reported hours to this item:'
+  text_user_wrote: "{{value}} wrote:"
+  text_enumeration_destroy_question: "{{count}} objects are assigned to this value."
+  text_enumeration_category_reassign_to: 'Beste balio honetara esleitu:'
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.
+Configure your SMTP server in config/email.yml and restart the application to enable them."
+  text_diff_truncated: '... Diff hau moztua izan da erakus daitekeen tamaina maximoa gainditu duelako.'
+  text_wiki_page_destroy_question: "This page has {{descendants}} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_nullify_children: "Orri semeak erro orri moduan mantendu"
+  text_wiki_page_destroy_children: "Orri semeak eta beraien ondorengo guztiak ezabatu"
+  text_wiki_page_reassign_children: "Orri semeak orri guraso honetara esleitu"
+  text_create_dialogue_choose_days: "How much time to you need to get this done <br />(from the time you own it)?"
+  text_select_user_dialogue_choose_user: "Choose someone to send this request to"
+  text_you_are_the_new_owner_of : "You are the new proud owner of"
+  text_is_asking_ownership_for : "is asking for ownership of a task you"
+  text_is_offering_ownership_for : "is offering you ownership of a task"
+  text_ownership_request_declined : "Ownership request declined"
+  text_ownership_request_accepted : "Ownership request accepted"
+  text_your_ownsership_request_declined_for : "You request for ownership has been declined for "
+  text_ownership_offer_accepted : "Ownership offer accepted"
+  text_your_offer_was_accepted_for : "Your offer was accepted for "
+  text_ownership_offer_declined : "Ownership offer declined"
+  text_your_offer_was_declined_for : "Your offer was declined for "
+  text_loading_dashboard : "Loading dashboard data..."
+  text_loading_dashboard_error : "Failed to load data... please check your internet connectivity and <a href='#' onclick='refresh_local_data();return false;'>refresh</a>"
+  text_retro_started_for : "A retrospective for the "
+  text_retro_started : " workstream has started. <br/>You have 3 days to give your team feedback on their contribution"
+  text_retro_ended_for : "A retrospective for the"
+  text_retro_ended : " workstream has ended. <br/>Click below to see your team's feedback, and your final contribution"
+  text_credits_transferred: "{{sender}} just transferred {{amount}} credits to you in {{project}}"
+  text_credits_distributed_for : "You earned {{amount}} credits for your work on <strong>{{workstream}}</strong>. Congrats!"
+  text_credits_are_a_gift : "These credits were gifted to you by your peers for your contribution. They're not a part of any retrospective."
+  text_credits_are_an_expense : "These credits are a reimbursment for an expense item. They're not a part of any retrospective."
+  text_joiner_is_now_working_with_you : "{{joiner}} is now working with you on<br/>{{issue}}"
+  text_joiner_is_no_longer_working_with_you : "{{joiner}} is no longer working with you on<br/>{{issue}}"
+  text_you_are_now_working_with_you : "You are now part of the team working on<br/>{{issue}}"
+  text_you_are_no_longer_working_on : "You are no longer part of the team working on<br/>{{issue}}"
+  text_history_hidden_until_you_vote : "Voting history is hidden since you haven't cast your vote"
+  text_tally_hidden_until_you_vote : "Voting tally is hidden until you cast your vote"
+  text_you_dont_have_shares_to_vote : "You need to have shares to weigh in on this motion."
+  text_you_are_now_a_role : "You are now a <b>{{role_name}}</b> of"
+  text_role_description_Administrator : "As an Admin, you can bypass governance rules and directly add/remove members and workstreams.<br> Use this role sparingly as you are setting up your structures, <br>and then remove yourself from the admin role when you're ready to fully adopt the Open Enterprise governance model."
+  text_role_description_Contributor : "As a contributor, you can now earn credits and own a stake in <b>{{enterprise}}.</b><br>Your votes on all matters will be visible to everyone, and will be non-binding."
+  text_role_description_Member : "As a member, all your votes are now binding. <br>In addition you can nominate contributors for membership,<br>and vote on Core Team elections."
+  text_role_description_Core Team : "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
+  text_role_description_Core_Team : "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
+  text_role_description_Board : "As a board member,all your votes are binding."
+  text_member_nomination : "{{user}} is being nominated to be a member of {{enterprise}}. As a member, all their votes would be binding. In addition they will be able to nominate contributors for membership, and vote on Core Team elections. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_core_member_nomination : "{{user}} is being nominated for the Core Team of {{enterprise}}. As a member of the Core Team they would have binding votes in all matters, including the selection of new members. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_core_member_removal : "This motion is to remove {{user}} from the Core Team of {{enterprise}}. If the motion passes {{user}} would become a Member. As a Member, their votes will remain binding and their shares and credits would be unaffected. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_member_removal : "This motion is to remove {{user}} as a member of {{enterprise}}. If the motion passes {{user}} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. The votes on this motion will not be visible to to {{user}}, but they will be able to see the discussion."
+  text_issue_edit_footer : "You can comment on this issue via email, by replying to this email directly."
+  text_message_edit_footer : "You can reply to this message via email, by replying to this email directly."
+  text_invitation_note_default : "Kaixo⏎
+⏎
+bettermeans.com erabili dugu {{project}} lan egiteko⏎
+⏎
+Bettermeans berdintasunean lan egitea ahalbidetzen digu, eta gauzak elkarrekin egiteko modu garden eta demokratikoa da⏎
+⏎
+Mesedez,  onartu ezazu gurekin bat egiteko gonbidapena⏎
+⏎
+Begirunez⏎
+{{user}}"
+  text_you_are_invited : "Bat egiteko gonbidatuta zaude"
+  text_generic_invitation : "This link allows anybody to get started as a <strong>contributor</strong> to this workstream."
+  text_generic_invitation_2 : "You can also use the form below to send personalized invitations for folks to join as other roles"
+  text_generic_invitation_long : "The link below allows anybody to become a contributor to this workstream.<br><br>It can be used an infinite amount of times. And doesn't expire until you change it.<br>Send it out via email, or post it somewhere where folks can follow it to join your workstream."
+  text_personal_invitation : "Use the form below to send personalized invitations to potential team members.<br><br>This is the better way to go since people are more likely to respond to an exclusive invite, and don't need to validate their email.<br><br> This is also the more secure option since each invitation can be used only once and expires after a while."
+  text_active_team_explanation : "<strong>Active Members (for this workstream)</strong><br><br>Active members are people that have been involved in this specific workstream in the past 2 weeks. <br><br> Contributors, members, and core team roles are defined at the parent(root) workstream and apply to all it's sub workstreams.<br><br>For example: if someone is a core team member of a workstream then they will have the same role for all sub workstreams. However, they might be active in some and not others."
+  text_email_updated : "Eposta egoki eguneratua"
+  text_usage_over : "You have exceeded your usage for your current plan.<br> Please upgrade as soon as possible."
+  text_trial_expired : "Your trial period has expired.<br> Please update your billing info so we can start charging you."
+      
+  text_role_invitation_description_Administrator : "Admins have the most power.<br><br> An Admin can bypass governance rules and directly add/remove members and workstreams, and all their votes are binding.<br><br> Use this role sparingly as you are setting up your structures. Then transition to using other roles for day to day collaboration."
+  text_role_invitation_description_Contributor : "This the first level of participation in an open enterprise.<br><br>Contributors' votes on all matters will be visible to everyone, and will be non-binding.<br><br> Meaning a contributor's voice is here, but their voting doesn't directly affect the items they are weighing in on.<br><br> A contributor can earn credits and contribute to a workstream."
+  text_role_invitation_description_Member : "Members are at the heart of an open enterprise.<br><br> All members' votes are binding.<br><br>In addition members can nominate contributors for membership, and vote on Core Team elections.<br><br> Only invite members whose principles and values are aligned with yours."
+  text_role_invitation_description_Core_Team : "A member of the Core Team has binding votes in all matters, and is very similar to a member.<br><br> The main difference is a Core Team member can vote on the election of new members.<br><br> Essentially, they are the custodians of the organization's principles, and hold the bar for membership.<br><br> Core Team Members are accountable to all members, and their role is to represent their voice."
+  text_role_invitation_description_Board : "As a board member,all your votes are binding, and you have equal priveleges to a Core Team Member.<br><br> Being on the board though, indicates a lesser commitment to being involved in day to day work."
+  text_project_locked: "This workstream is temporarily locked due to non payment."
+  
+  
+  default_role_administrator: ~
+  default_role_citizen: ~
+  default_role_contributor: ~
+  default_tracker_task: ~
+  default_tracker_subtask: ~
+  default_issue_status_new: Berria
+  default_issue_status_open: ~
+  default_issue_status_assigned: ~
+  default_issue_status_done: ~
+  default_issue_status_closed: Itxita
+  default_issue_status_blocked: ~
+  default_issue_status_inprogress: ~
+  default_issue_status_canceled: ~
+  default_issue_status_estimate: ~
+  default_issue_status_archived: ~
+  default_issue_status_accepted: ~
+  default_issue_status_rejected: Baztertua
+  default_doc_category_public: ~
+  default_doc_category_private: ~
+  default_priority_low: Baxua
+  default_priority_normal: Normala
+  default_priority_high: Altua
+  default_priority_urgent: Larria
+  default_activity_default: ~
+  default_activity_planning: ~
+  default_activity_execution: ~
+  default_issue_tracker_gift: ~
+  default_issue_tracker_expense: ~
+  default_issue_tracker_recurring: ~
+  default_issue_tracker_hourly: ~
+  default_issue_tracker_feature: ~
+  default_issue_tracker_bug: ~
+  default_issue_tracker_chore: ~
+
+  enumeration_issue_priorities: ~
+  enumeration_doc_categories: Dokumentu kategoriak
+  enumeration_activities: Jarduerak (denbora kontrola))
+  enumeration_system_activity: Sistemako Jarduera
+  
+  help_reset_link : ~
+  help_how_do_i_join_a_team : ~
+  help_how_do_i_join_a_team_title : ~
+  help_how_do_i_join_a_team_description : "There are two levels of team membership: Contributor, and Core Team. <br /><br /><strong>Becoming a contributor</strong><br />Before getting on a core team you must first contribute to the team. </br>You become a contributor for a workstream by requesting and getting ownership of an existing tasks. <br /> Another way to become a contributor, is to be a core team member of any sub workstream.<br /><br /><strong>Become a core team member</strong><br />Once you are a contributor, you may request (or be invited) to join the Core Team by an existing Core Team member. <br /><br /> You can also join a workstream's core team directly if your a core team member of its parent workstream."
+  help_core_points_title : ~
+  help_core_points_description : "Core points are a way of team members endorsing each other, and signaling confidence in each other's abilities and core values. <br /><br /> When someone on a core team feels that the team is better off with someone on it they can give that person a core point. It also works the other way: If someone feels that someone is hurting the team, they can give them a negative-core point. <br /><br />When a member's total core points exceeds zero, they're invited to be on the core team. If their total falls below zero, they revert back to contributor status. <br /><br />All voting is confidential to minimize internal politics as much as possible.<br />Total core points is calculated by adding up the votes of existing core team members of a workstream and its parent."
+  help_dpp: ~
+  help_select_scale: ~
+  help_assessment_accuracy: "Shows the accuracy with which this user was able to assess their contribution, and their team's contribution in retrospectives. <br><br>Assessment accuracy is averaged over time. More weight is given to the more recent retrospectives, and more weight is given to retrospectives with more credits.<br><br>For example: A postive self assessment accuracy score of +7 means the user tends to overrate themselves by 7 percentage points on average. <br><br> An 'other' assessment score of &plusmn 16 means the user tends have a total bias of plus or minus 16 percentage points when rating their peers. <br><br> The closer both these numbers are to zero, the more accurate the user is in their assessment of self and other. "
+  help_your_assessment: "<strong>Your assessment</strong><br>Your view of how much you and your team mates contributed to the execution of the items completed in this retrospective overall. What percentage of the work did you accomplish, compared to your team mates.During the retrospective, every team member is asked to assess everyone's contribution. Once the retrospective is complete, the assessments will be averaged out and displayed here."
+  help_team_assessment: "<strong>Team assessment</strong><br>This is the average percentage contribution the work item as assessed by your peers. Each person's self-assessment is taken out of the average and only their team mates' assessment counts towards this number."
+  help_final_assessment: "All the Team averages are used to be proportionally distributed over 100%"
+  help_confidence: "<strong>Assessment confidence</strong><br>Adjust this slider depending on how confident you are of your assessment of yourself and your peer.<br>Lower confidence, means your ratings will be given less weight, and your self assessment index will be less impact by team-self discrepancies."
+  help_accuracy: "<strong>Accuracy and Bias</strong><br>This column shows the accuracy with which users who participated in this retrospective where able to assess themselves and their peers."
+  help_item_url: "<strong>Item Permalink</strong><br>You can copy this link and use it to directly link to this item"
+  help_volunteer: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br><br> That's not to say good karma won't come your way!<br><br>This is our small contribution to the volunteer world. Please report any abuse to abuse@bettermeans.com"
+  help_volunteer_credits: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br><br> Credits are being used here to track user contribution, and show who did what for this workstream over time. These credits are not a promise for any rewards, or payment"
+  help_no_my_workstreams: "Ez duzu lan-ildorik sortu oraindik"
+  help_no_workstreams_i_belong_to: "You are not yet a member of any workstreams that you didn't start."
+  help_no_workstreams_active: "You have not been recently active in any workstreams."
+  help_no_workstreams: "You haven't yet gotten involved in any workstreams.<br> Create or join something to get started..."
+  help_no_workstreams_archived: "You have no archived workstreams."
+  help_activities_i_belong_to: "This activity stream shows all activity in workstreams that you own and/or belong to"
+  help_this_workstream_is_private: "This is private workstream. When a workstream is made private, all binding members (i.e. members, core team, board, and admins) are given permanent clearance to it. Also, all active contributors to the workstream are given clearance.<br><br> If you want to manage users' clearance to a private workstream, use the members tab under settings."
+
+  help_issue_tracking: "This is the essential element of the platform in that it allows you to track all work items using the dashboard and item views. However one situation in which you might turn this off is if you are creating a root workstream for your organization and you are planning on creating lots of subworkstreams where all the work and item tracking would take place. This would leave the other elements such as discussion and wiki but without the dashboard or item tracking."
+  help_news: "This module allows you to check out or report on the latest news. News is used to broadcast events to your team. For example winning a bid, or a new product release."
+  help_documents: "This module allows you to upload document to share with your team."
+  help_files: "This module allows you to upload files to share with your team."
+  help_wiki: "Wikis are great tools for collaboration and therefore we provide the option for each workstream to have a wiki. Wikis are essentially online documents and everyone that has access can not only read but also edit and improve online."
+  help_boards: "This module creates a discussion board for your workstream and like so many discussion boards before it, you can talk about stuff here. If someone has an idea that they are not yet ready to propose as a motion or work item and want to talk to folks about it, they can start a new topic. You might use the discussion board to discuss general strategy, new possible workstreams, or anything that comes to mind."
+  help_motions: "Motions are used to make large important decisions that are project-wide. This is a democratic mechanism to make decisions together. There are different types of motions, to learn more about motions <a href='http://help.bettermeans.com/motions' target='blank'>click here</a>."
+  help_credits: "Credits are a more open and democratic way of valuing work and awarding compensation. We are really excited about offering this as an option and we strongly encourage you to <a href='http://help.bettermeans.com/faq/credits' target='blank'>learn more about credits</a>."
+  help_revision_notes: "Optional: Add notes to this revision of the wiki. These notes will appear in the version history of the wiki"
+  help_mentions: "Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br><br>For example if somebody adds this comment to an issue:<br><strong>'I think @{{login}} should take a look at this'</strong><br>it would appear in your mentions"
+
+  
+  help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br> If you want to start a new workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br>We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com' target='blank'> the tour</a> before you begin."
+  help_section_project_dashboard: "Welcome to your dashboard!|<strong>This is where the magic happens.</strong> Here you get a full view of all the work within a workstream. Each workstream and subworkstream has its own dashboard. <br><br><strong>Get started by adding a new item</strong> (click on the New Item Link at the top of the New column).<br><br>You can also <strong>offer new ideas/requests, comment, agree and disagree with ideas, prioritize, and estimate</strong>.<br><br>Click on the little key next to the New Item button for a little cheat sheet that shows the meaning of all the icons you see in the Dashboard. As you get rolling with your work, explore <strong>the filters and the search functions on the upper right corner.</strong><br><br> To learn more about voting and how it works in the dashboard <a href= 'http://help.bettermeans.com/dashboard' target='blank'> checkout our help section</a>, or this 9 minute tour of the site.<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br><br>"
+  help_section_project_wiki: "<strong>Wikis are great tools for collaboration and therefore each workstream has a wiki.</strong> You can start building your wiki here and you can create multiple pages by clicking <a href='wiki'>Start Page</a> (in blue to the right). Wikis are essentially online documents and everyone that has access can not only read but also edit and contribute to online. <br>Note the different action buttons (on the right in grey), these will be helpful when working on the Wiki."
+  help_section_project_news: "<strong>Check out or report on the latest news here.</strong> News is used to broadcast events to your team. For example winning a bid, or a new product release."
+  help_section_project_discussion: "Like so many discussion boards before it, you can talk about stuff here. If you have an idea that you are not yet ready to propose as a motion or work item and want to talk to folks about it, <strong>start a new topic.</strong> You might use the discussion board to discuss general strategy, new possible workstream, new target audience, or anything that comes to mind."
+  help_section_project_activity: "<strong>Stay current on what's hot in your work using the activity stream.</strong> The activity stream is a very useful way of seeing what is the latest activity in your workstreams and subworkstreams. Any updates or comments or new items or status changes to items basically when anything changes in your workstream, it will appear here. For more information, <a href= 'http://help.bettermeans.com/activity_stream' target='blank'> click here. </a>"
+  help_section_project_team: "<strong>How great is your team!</strong> Use this page to track the roles people are playing for this workstream. Remember, these roles apply to all sub workstreams as well.<br><br>You can also use the links on the right to invite more team members. <a href='http://help.bettermeans.com/invitations' target='blank'> Learn more about invitations here</a>.<br><br> There are no job titles in an Open Enterprise, but there are levels of engagement that each come with different voting privileges, <a href= 'http://help.bettermeans.com/membership' target='blank'> learn more about that here.</a><br><br> "
+  help_section_project_credits: "<strong>This page tracks all the credits for your project.</strong> Credits are a way of tracking relative contribution. They are an indicator of what peers have given each other. <br>Credits can be used in many ways depending on how your organization or project runs. They can represent actual money in which case this is an accounts payable page, or they could represent relative contribution in which case this is a contribution tracking page. To learn more about how credits can work, <a href= 'http://help.bettermeans.com/credits' target='blank'> click here.</a>"
+  help_section_my_account: "<strong>This is your account page.</strong> Unlike your public profile this page is private to you.<br><br> Here you can do important things like change your password, email settings and other preferences. You can also see your current usage levels and if needed you can change your subscription plan with BetterMeans.<br><br> If you have questions about your account, please email <a href='mailto:billing@bettermeans.com'>billing@bettermeans.com</a>"
+  help_section_welcome_index: "Welcome on board!|<strong>Get started by creating your own workstream, or browsing around and contributing to existing ones</strong><br><br>We highly recommend this overview of how things work on bettermeans:<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br>You can also <a href='http://help.bettermeans.com' target='blank'>visit our help site for a more info</a> and answers to frequently asked questions.<br><br>Please don't forget to send as all the feedback you have!<br><br><br>"
+  help_section_project_map: "Hau da mapa"
+  help_section_project_settings: "Use settings sparingly. If you're admin and core team, make sure to use core team tools when possible in order for things to stay democratic."
+  help_section_motion_new: "Motions are used to make large important decisions that are project-wide. Notice the dropdown menu with the different types of motions. This is a democratic mechanism to make decisions together. To learn more about motions <a href= 'http://help.bettermeans.com/motions' >click here</a>"
+  help_section_project_new: "A Workstream is our lingo for a group or set of work.<br><br> A workstream could be a <strong>department</strong> of your organization or it could be a <strong>specific project</strong> that you are working on by your self or with others. In creating a workstreams there are a few important things to pay attention to:<br><br><ul><li> <strong>Public</strong>: A public workstream means that anyone can see your work and can comment and contribute. If you do not want to have this transparency with the community, you can uncheck this box and you are then creating a private workstream. As the creator, you control who has access, but also note that you have to pay for private workstreams. <a href= 'http://help.bettermeans.com/workstreams' target='blank'> Read more about tradeoffs. </a> </li><li> <strong>Volunteer</strong>: This is a signal to everyone working with you that all work in this workstream is fully volunteer.</li><li> <strong>Credits</strong>: Credits are a more open and democratic way of valuing work and awarding compensation. We are really excited about offering this as an option and we strongly encourage you to <a href= 'http://help.bettermeans.com/credits' target='blank'> learn more about credits. </a></li></ul> Still have questions, <a href= 'http://help.bettermeans.com/support' target='blank'> get in touch</a><br><br>"
+  help_section_invitation_new: "Use invitations to enroll team members to join your workstream.<br><br> When you send someone an invitation, they will be prompted to create a bettermeans account (if they don't have one already), and <strong>automatically added as a contributor</strong> to your workstream.<br><br>You can only invite people to a root workstream. Their membership in a workstream applies to all sub work streams as well. In other words,<strong> a person can't belong to a sub workstream, and not belong to its parent workstream.</strong><br><br> <a href='http://help.bettermeans.com/invitations' target='blank'>Learn more in our help section.</a><br><br><br>"
+  help_section_browse_workstreams: "<strong>Welcome to the BetterMeans Community.</strong> Unlike your home page, this page is the overview of the whole BetterMeans platform. You can look around at other public workstreams and comment and join other people's projects. <a href='http://help.bettermeans.com/' target='blank'>Learn more about the BetterMeans platform</a>"
+  help_section_retrospective_show: "<strong>This is a retrospective.</strong> In a retrospective compensation is awarded by your peers and your own self-assessment. This is an opportunity to be fairly compensated for your contribution. <br>You want to look at all of the completed items and then give your best assessment of what percentage you think each person contributed. You also have a chance to say how sure you are using the slider at the bottom. For more information about retrospectives, <a href='http://help.bettermeans.com/retrospectives' target='blank'>click here.</a>"
+  help_section_free: ~

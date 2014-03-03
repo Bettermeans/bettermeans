@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[bettermeans.enyml]
+file_filter = translations/bettermeans.enyml/<lang>.yml
+source_lang = en
+type = YML_LEGACY
+
