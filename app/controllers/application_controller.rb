@@ -108,11 +108,14 @@ class ApplicationController < ActionController::Base
   end
 
   def set_localization # spec_me cover_me heckle_me
+    I18n.locale = params[:locale] || I18n.default_locale
+
     lang = nil
     if User.current.logged?
       lang = find_language(User.current.language)
     end
-    lang ||= Setting.default_language
+
+    lang ||= I18n.locale
     set_language_if_valid(lang)
   end
 
