@@ -70,34 +70,34 @@ en:
       half_a_minute: "mezzo minuto"
       less_than_x_seconds:
         one: "meno di un secondo"
-        other: "meno di {{count}} secondi"
+        other: "meno di {count} secondi"
       x_seconds:
         one: "1 secondo"
-        other: "{{count}} secondi"
+        other: "{count} secondi"
       less_than_x_minutes:
         one: "meno di un minuto"
-        other: "meno di {{count}} minuti"
+        other: "meno di {count} minuti"
       x_minutes:
         one: "1 minuto"
-        other: "{{count}} minuti"
+        other: "{count} minuti"
       about_x_hours:
         one: "circa 1 ora"
-        other: "circa {{count}} ore"
+        other: "circa {count} ore"
       x_days:
         one: "1 giorno"
-        other: "{{count}} giorni"
+        other: "{count} giorni"
       about_x_months:
         one: "circa 1 mese"
-        other: "circa {{count}} mesi"
+        other: "circa {count} mesi"
       x_months:
         one: "1 mese"
-        other: "{{count}} mesi"
+        other: "{count} mesi"
       about_x_years:
         one: "circa 1 anno"
-        other: "circa {{count}} anni"
+        other: "circa {count} anni"
       over_x_years:
         one: "oltre 1 anno"
-        other: "oltre {{count}} anno"
+        other: "oltre {count} anno"
 
   number:
     human:
@@ -132,17 +132,17 @@ en:
         accepted: "deve essere accettato"
         empty: "non può essere vuoto"
         blank: "non può essere lasciato in bianco"
-        too_long: "è troppo lungo (capienza massima {{count}} caratteri)"
-        too_short: "è troppo corto (capienza minima {{count}} caratteri)"
-        wrong_length: "lunghezza non valida (dovresti inserire almeno {{count}} caratteri)"
+        too_long: "è troppo lungo (capienza massima {count} caratteri)"
+        too_short: "è troppo corto (capienza minima {count} caratteri)"
+        wrong_length: "lunghezza non valida (dovresti inserire almeno {count} caratteri)"
         taken: "è già stato preso"
         not_a_number: "non è un numero"
         not_a_date: "data non valida"
-        greater_than: "deve essere maggiore di {{count}}"
-        greater_than_or_equal_to: "deve essere maggiore o uguale a {{count}}"
-        equal_to: "deve essere uguale a {{count}}"
-        less_than: "deve essere inferiore a {{count}} "
-        less_than_or_equal_to: "deve essere minore o inferiore a {{count}}"
+        greater_than: "deve essere maggiore di {count}"
+        greater_than_or_equal_to: "deve essere maggiore o uguale a {count}"
+        equal_to: "deve essere uguale a {count}"
+        less_than: "deve essere inferiore a {count} "
+        less_than_or_equal_to: "deve essere minore o inferiore a {count}"
         odd: "deve essere dispari"
         even: "deve essere pari"
         greater_than_start_date: "deve essere successivo alla data d'inizio"
@@ -181,10 +181,10 @@ en:
   notice_file_not_found: La pagina su cui stavi tentando di accedere non esiste o è stata rimossa.
   notice_locking_conflict: I dati sono stati aggiornati da un altro utente.
   notice_not_authorized: Non sei autorizzato ad accedere a questa pagina.
-  notice_email_sent: "Una mail è stata inviata a {{value}}"
-  notice_email_error: "Si è verificato un errore durante l'invio di posta elettronica ({{value}})"
+  notice_email_sent: "Una mail è stata inviata a {value}"
+  notice_email_error: "Si è verificato un errore durante l'invio di posta elettronica ({value})"
   notice_feeds_access_key_reseted: La tua chiave di accesso RSS è stata reimpostata.
-  notice_failed_to_save_issues: "Impossibile salvare  {{count}} oggetto(i) su {{total}} selezionati: {{ids}}."
+  notice_failed_to_save_issues: "Impossibile salvare  {count} oggetto(i) su {total} selezionati: {ids}."
   notice_no_issue_selected: "Nessun elemento selezionato! Si prega di controllare gli elementi che si desidera modificare."
   notice_account_pending: "Il tuo account è stato creato ed è ora in attesa di approvazione da parte dell'amministratore."
   notice_default_data_loaded: Configurazione di default caricata correttamente.
@@ -194,7 +194,7 @@ en:
   
   error_old_invite : "Invito vecchio o non valido"
   error_bad_email_update : "Mail di aggiornamento poco formate"
-  error_can_t_load_default_data: "Non è stato possibile caricare la configurazione di default : {{value}}"
+  error_can_t_load_default_data: "Non è stato possibile caricare la configurazione di default : {value}"
   error_issue_not_found_in_project: "L'elemento non è stato trovato o non appartiene a questo flusso di lavoro o Workstream"
   error_no_tracker_in_project: 'Nessun tipo di problema è associato a questo Workstream. Si prega di verificare le impostazioni Workstream.'
   error_no_default_issue_status: 'Nessun elemento di default è stato definito. Controlla la configurazione (Vai su "Administration -> Item statuses").'
@@ -205,26 +205,26 @@ en:
   error_workflow_copy_target: 'Si prega di selezionare tracker/s target  e ruolo/i'
   error_general: 'Qualcosa è andato storto.'
   
-  warning_attachments_not_saved: "Non è stato possibile salvare {{Count}} file. "
+  warning_attachments_not_saved: "Non è stato possibile salvare {Count} file. "
   
-  mail_subject_lost_password: "La tua {{value}} password"
+  mail_subject_lost_password: "La tua {value} password"
   mail_body_lost_password: 'Per cambiare la password, clicca sul seguente link:'
-  mail_subject_register: "Il tuo {{value}} attivazione conto"
+  mail_subject_register: "Il tuo {value} attivazione conto"
   mail_body_register: "Per attivare l'account, cliccare sul seguente link:"
-  mail_body_account_information_external: "È possibile utilizzare il {{value}} account per il login."
+  mail_body_account_information_external: "È possibile utilizzare il {value} account per il login."
   mail_body_account_information: Informazioni sul tuo account
-  mail_subject_account_activation_request: "Richiesta di attivazione dell'account {{Value}}"
-  mail_subject_email_update_activation: "Nuova attivazione e-mail {{Value}} "
-  mail_body_account_activation_request: "Un nuovo utente ({{value}}) si è registrato. L'account è in attesa di vostra approvazione:"
-  mail_subject_reminder: "{{Count}} oggetto (i) in scadenza nei prossimi giorni"
-  mail_body_reminder: "{{Count}} oggetto (i) che sono di tua proprietà sono dovute nei prossimi  {{days}} giorni:" #updated
-  mail_subject_wiki_content_added: "{{Page}}' pagina wiki è stata aggiunt"
-  mail_body_wiki_content_added: "La '{{page}}' pagina wiki è stata aggiunta da {{autore}}."
-  mail_subject_wiki_content_updated: "{{Page}}' pagina wiki è stata aggiornat"
-  mail_body_wiki_content_updated: "La '{{page}}' pagina wiki è stata aggiornato da {{autore}}."
+  mail_subject_account_activation_request: "Richiesta di attivazione dell'account {Value}"
+  mail_subject_email_update_activation: "Nuova attivazione e-mail {Value} "
+  mail_body_account_activation_request: "Un nuovo utente ({value}) si è registrato. L'account è in attesa di vostra approvazione:"
+  mail_subject_reminder: "{Count} oggetto (i) in scadenza nei prossimi giorni"
+  mail_body_reminder: "{Count} oggetto (i) che sono di tua proprietà sono dovute nei prossimi  {days} giorni:" #updated
+  mail_subject_wiki_content_added: "{Page}' pagina wiki è stata aggiunt"
+  mail_body_wiki_content_added: "La '{page}' pagina wiki è stata aggiunta da {autore}."
+  mail_subject_wiki_content_updated: "{Page}' pagina wiki è stata aggiornat"
+  mail_body_wiki_content_updated: "La '{page}' pagina wiki è stata aggiornato da {autore}."
   
   gui_validation_error: 1 errore
-  gui_validation_error_plural: "{{Count}} errori"
+  gui_validation_error_plural: "{Count} errori"
   
   field_tags : "Tags"
   field_points : "Stima media crediti "
@@ -443,10 +443,10 @@ en:
   project_module_wiki: Wiki
   project_module_boards: Discussioni
 
-  title_member_nomination : "Mozione per eleggere {{user}} in quanto membro"
-  title_core_member_nomination : "Mozione per eleggere {{user}} per il Core Team"
-  title_core_member_removal : "Mozione per rimuovere {{user}} dal Core Team"
-  title_member_removal : "Mozione per rimuovere {{user}} come membro"
+  title_member_nomination : "Mozione per eleggere {user} in quanto membro"
+  title_core_member_nomination : "Mozione per eleggere {user} per il Core Team"
+  title_core_member_removal : "Mozione per rimuovere {user} dal Core Team"
+  title_member_removal : "Mozione per rimuovere {user} come membro"
 
   label_usage_over : "L'utilizzo è oltre i limiti del tuo Piano Tariffario"
   label_trial_expired : "Il periodo di prova è scaduto"
@@ -491,7 +491,7 @@ en:
   label_x_projects:
     zero:  Nessun workstream presente
     one:   1 Workstream
-    other: "{{Count}} workstreams"
+    other: "{Count} workstreams"
   label_project_all: Tutti i workstreams
   label_project_latest: Ultimi workstreams
   label_enterprise_latest: Ultimi workstreams pubblici
@@ -501,7 +501,7 @@ en:
   label_issue_new: Nuovo oggetto
   label_issue_plural: Oggetti
   label_issue_view_all: Vedi tutti gli oggetti
-  label_issues_by: "Oggetti ordinati per  {{value}}"
+  label_issues_by: "Oggetti ordinati per  {value}"
   label_issue_added: Oggetti aggiunti
   label_issue_updated: Oggetto aggiornato
   label_document: Documento
@@ -559,7 +559,7 @@ en:
   label_registered_on: Iscritto il
   label_activity: Attività
   label_overall_activity: Attività generale
-  label_user_activity: "Attività di {{value}} "
+  label_user_activity: "Attività di {value} "
   label_new: Nuovo
   label_logged_as: Collegato come
   label_environment: Ambiente
@@ -571,8 +571,8 @@ en:
   label_subproject_plural: Sub workstreams
   label_subproject_new: Nuova Sub Workstream
   label_new_item_in: Nuovo oggetto in
-  label_and_its_subprojects: "{{value}} ed i suoi sub workstreams"
-  label_waiting_for_you: "{{notifications}} in attesa"
+  label_and_its_subprojects: "{value} ed i suoi sub workstreams"
+  label_waiting_for_you: "{notifications} in attesa"
   label_min_max_length: Min - max lunghezza
   label_list: Lista
   label_date: Data
@@ -583,8 +583,8 @@ en:
   label_text: Testo lungo
   label_attribute: Attributo
   label_attribute_plural: Attributi
-  label_download: "{{count}} Download"
-  label_download_plural: "{{count}} Downloads"
+  label_download: "{count} Download"
+  label_download_plural: "{count} Downloads"
   label_no_data: Qui ancora niente
   label_no_credits: Tu non hai crediti da trasferire
   label_change_status: Cambia stato
@@ -618,17 +618,17 @@ en:
   label_closed_issues: chiuso
   label_closed_issues_plural: chiuso
   label_x_open_issues_abbr_on_total:
-    zero:  0 aperto / {{total}}
-    one:   1 aperto / {{total}}
-    other: "{{count}} aperto / {{total}}"
+    zero:  0 aperto / {total}
+    one:   1 aperto / {total}
+    other: "{count} aperto / {total}"
   label_x_open_issues_abbr:
     zero:  0 aperto
     one:   1 aperto
-    other: "{{count}} aperto/i"
+    other: "{count} aperto/i"
   label_x_closed_issues_abbr:
     zero:  0 chiuso
     one:   1 chiuso
-    other: "{{count}} chiuso"
+    other: "{count} chiuso"
   label_total: Totale
   label_permissions: Permessi
   label_current_status: Stato attuale
@@ -646,7 +646,7 @@ en:
   label_months_from: mesi da
   label_gantt: Gantt
   label_internal: Interno
-  label_last_changes: "ultima/e {{count}} modifica/che"
+  label_last_changes: "ultima/e {count} modifica/che"
   label_change_view_all: Visualizza tutte le modifiche
   label_personalize_page: Personalizza questa pagina
   label_comment: Commento
@@ -654,7 +654,7 @@ en:
   label_x_comments:
     zero: non ci sono commenti
     one: 1 commento
-    other: "{{count}} commenti"
+    other: "{count} commenti"
   label_comment_add: Aggiungi un commento
   label_comment_added: Commento aggiunto
   label_comment_delete: Elimina i commenti
@@ -677,7 +677,7 @@ en:
   label_yesterday: ieri
   label_this_week: questa settimana
   label_last_week: la scorsa settimana
-  label_last_n_days: "ultimi {{count}} giorni"
+  label_last_n_days: "ultimi {count} giorni"
   label_this_month: questo mese
   label_last_month: il mese scorso
   label_this_year: quest'anno
@@ -693,13 +693,13 @@ en:
   label_browse: Esplora
   label_browse_workstreams: Esplora bettermeans
   label_browse_activity: Esplora attività
-  label_modification: "{{count}} cambiamento"
-  label_modification_plural: "{{count}} cambiamenti"
+  label_modification: "{count} cambiamento"
+  label_modification_plural: "{count} cambiamenti"
   label_branch: Ramo
   label_tag: Etichetta 
   label_revision: Revisione
   label_revision_plural: Revisioni
-  label_revision_id: "Revisione {{value}}"
+  label_revision_id: "Revisione {value}"
   label_associated_revisions: Revisioni associate
   label_added: ha aggiunto
   label_modified: ha modificato
@@ -721,8 +721,8 @@ en:
   label_sort_lower: Sposta giù
   label_sort_lowest: Spostare in fondo
   label_roadmap: Tabella di marcia
-  label_roadmap_due_in: "Scade il {{value}}"
-  label_roadmap_overdue: "{{value}} in ritardo"
+  label_roadmap_due_in: "Scade il {value}"
+  label_roadmap_overdue: "{value} in ritardo"
   label_roadmap_no_issues: Nessun elemento per questo deliverable
   label_search: Ricerca
   label_result_plural: Risultati
@@ -742,8 +742,8 @@ en:
   label_issue_tracking: Ripartizione lavoro
   label_boards: Discussione
   label_spent_time: Tempo trascorso
-  label_f_hour: "{{value}} ora"
-  label_f_hour_plural: "{{value}} ore"
+  label_f_hour: "{value} ora"
+  label_f_hour_plural: "{value} ore"
   label_time_tracking: Monitoraggio tempi
   label_change_plural: Modifiche
   label_change : Modifica
@@ -796,16 +796,16 @@ en:
   label_date_from: Da
   label_date_to: A
   label_language_based: Basato sul linguaggio dell'utente
-  label_sort_by: "Ordina per {{value}}"
+  label_sort_by: "Ordina per {value}"
   label_send_test_email: Invia una e-mail di prova
   label_feeds_access_key: Chiave di accesso RSS
   label_missing_feeds_access_key: Chiave di accesso RSS mancante
-  label_feeds_access_key_created_at: "Chiave di accesso RSS creata {{value}} fa"
+  label_feeds_access_key_created_at: "Chiave di accesso RSS creata {value} fa"
   label_module_plural: Moduli
-  label_added_time_by: "Aggiunto da {{author}} {{age}} fa"
-  label_updated_time_by: "Aggiornato da {{author}} {{age}} fa"
-  label_created_time_by: "Creato {{age}} fa da"
-  label_updated_time: "Aggiornato {{value}} fa"
+  label_added_time_by: "Aggiunto da {author} {age} fa"
+  label_updated_time_by: "Aggiornato da {author} {age} fa"
+  label_created_time_by: "Creato {age} fa da"
+  label_updated_time: "Aggiornato {value} fa"
   label_jump_to_a_project: I miei workstreams
   label_file_plural: Files
   label_changeset_plural: Set di modifiche
@@ -824,7 +824,7 @@ en:
   label_registration_activation_by_email: attivazione account via email
   label_registration_manual_activation: attivazione account manuale
   label_registration_automatic_activation: attivazione account automatica
-  label_display_per_page: "Per pagina: {{value}}"
+  label_display_per_page: "Per pagina: {value}"
   label_age: Età
   label_change_properties: Modifica proprietà
   label_general: Generale
@@ -847,7 +847,7 @@ en:
   label_sort: Ordina
   label_ascending: Ascendente
   label_descending: Discendente
-  label_date_from_to: Da {{start}} a {{end}}
+  label_date_from_to: Da {start} a {end}
   label_wiki_content_added: Pagina wiki aggiunta
   label_wiki_content_updated: Pagina wiki aggiornata
   label_group: Gruppo
@@ -855,17 +855,17 @@ en:
   label_group_new: Nuovo gruppo
   label_time_entry_plural: Tempo trascorso
   label_commit_request_history: Riepilogo proprietà #new
-  label_by: "per {{author}} {{age}} fa" #new
-  label_requested_by: "Richiesto da {{author}} {{age}} fa" #new
-  label_offered_by: "Proposto da {{author}} a {{responder}} {{age}} fa" #new
-  label_accepted_by: "Accettato da {{responder}} {{age}} fa" #new
-  label_declined_by: "Rifiutato da {{responder}} {{age}} fa" #new
-  label_from_ago: "da {{author}} {{age}} fa" #new
-  label_taken_by: "Preso da {{responder}} {{age}} fa" #news
-  label_declined: "Declined {{age}} ago" #new
-  label_accepted: "Accepted {{age}} ago" #new
-  label_recinded: "Ritirato {{age}} fa" #new
-  label_released: "Rilasciato {{age}} fa" #new
+  label_by: "per {author} {age} fa" #new
+  label_requested_by: "Richiesto da {author} {age} fa" #new
+  label_offered_by: "Proposto da {author} a {responder} {age} fa" #new
+  label_accepted_by: "Accettato da {responder} {age} fa" #new
+  label_declined_by: "Rifiutato da {responder} {age} fa" #new
+  label_from_ago: "da {author} {age} fa" #new
+  label_taken_by: "Preso da {responder} {age} fa" #news
+  label_declined: "Declined {age} ago" #new
+  label_accepted: "Accepted {age} ago" #new
+  label_recinded: "Ritirato {age} fa" #new
+  label_released: "Rilasciato {age} fa" #new
   label_not_sure: "Non sono sicuro"
   label_commitment: "Impegno"
   label_commitment_offer: "Offerta di proprietà-condivisione"
@@ -882,19 +882,19 @@ en:
   label_ignored : "Ignorato"  
   label_marked_as_read : "Contrassegnato come letto"  
   label_ownership_offered : "Offerta di proprietà-condivisione"
-  label_ownership_offered_to : "Offerta di proprietà-condivisione a {{user}}"
+  label_ownership_offered_to : "Offerta di proprietà-condivisione a {user}"
   label_ownership_offer_declined : "Offerta di proprietà-condivisione rifiutata"
   label_ownership_offer_accepted : "Offerta di proprietà-condivisione accettata"
-  label_ownership_offer_declined_from : "Offerta di proprietà-condivisione di {{user}} rifiutata "
-  label_ownership_offer_accepted_from : "Offerta di proprietà-condivisione di {{user}} accettata"
+  label_ownership_offer_declined_from : "Offerta di proprietà-condivisione di {user} rifiutata "
+  label_ownership_offer_accepted_from : "Offerta di proprietà-condivisione di {user} accettata"
   label_ownership_offer_withdrawn : "Offerta di proprietà-condivisione ritirata"
-  label_ownership_offer_withdrawn_to : "Offerta di proprietà-condivisione per {{user}} è stata ritirata"
+  label_ownership_offer_withdrawn_to : "Offerta di proprietà-condivisione per {user} è stata ritirata"
   label_ownership_requested : "Richiesta di proprietà-condivisione effettuata"
   label_ownership_request_accepted : "Richiesta di proprietà-condivisione accettata"
   label_ownership_request_auto_accepted : "Richiesta di proprietà-condivisione auto-accettata"
   label_ownership_request_declined : "Richiesta di proprietà-condivisione rifiutata"
-  label_ownership_request_accepted_from : "Richiesta di proprietà-condivisione di {{user}} accettata"
-  label_ownership_request_declined_from : "Richiesta di proprietà-condivisione di {{user}} rifiutata"
+  label_ownership_request_accepted_from : "Richiesta di proprietà-condivisione di {user} accettata"
+  label_ownership_request_declined_from : "Richiesta di proprietà-condivisione di {user} rifiutata"
   label_ownership_request_recinded : "Richiesta proprietà rescissa"
   label_ownership_released : "Proprietà concessa"
   label_ownership_taken : "Proprietà presa"
@@ -909,15 +909,15 @@ en:
   label_sent : "inviata"
   label_withdrawn : "ritirata"
   label_declined : "declinata"
-  label_to_join_core_team_of : "di aderire al team del {{project}}"
+  label_to_join_core_team_of : "di aderire al team del {project}"
   label_request : "Richiesta"
   label_invitation : "Invito"
   label_was : "è stato"
   label_your : 'La tua'
   label_to : "a"
-  label_note_from : "Nota di {{author}}"
-  label_sending_team_invitation : "{{author}} vuole che ti unisca al team per il Workstream {{project}} "
-  label_sending_team_request : "{{author}} vuole unirsi al team per il Workstream {{project}} "
+  label_note_from : "Nota di {author}"
+  label_sending_team_invitation : "{author} vuole che ti unisca al team per il Workstream {project} "
+  label_sending_team_request : "{author} vuole unirsi al team per il Workstream {project} "
   label_team_view_all : "Visualizza i dettagli del team"
   label_team_view_all_enterprise : "Guarda tutta la squadra"
   label_member_role_plural : "Modifiche al team" 
@@ -932,7 +932,7 @@ en:
   label_credit : "Credito"
   label_retro_started : "Retrospettiva iniziata"
   label_retro_ended : "Retrospettiva finita"
-  label_motion_started : "Nuova mozione: {{title}}"
+  label_motion_started : "Nuova mozione: {title}"
   label_credits : Crediti
   label_shares : Azioni
   label_credit_queue : Credito (Crediti Attivi)
@@ -943,11 +943,11 @@ en:
   label_outstanding_credits : Crediti dovuti
   label_total_credits_issued : Totale Emesso
   label_youve_got_credits : "Hai crediti!"
-  label_someone_joined_your_issue : "{{joiner}} ha aderito ad un tema assegnato da te"
-  label_someone_added_you_to_their_issue : "{{sender}} ti ha aggiunto ad un tema di cui è proprietario"
-  label_someone_removed_you_from_their_issue : "{{sender}} ti ha rimosso da un tema di cui è proprietario"
-  label_someone_left_your_issue : "{{joiner}} ha abbandonato un tema assegnato da te"
-  label_someone_mentioned_you : "{{mentioner}} ti ha menzionato"
+  label_someone_joined_your_issue : "{joiner} ha aderito ad un tema assegnato da te"
+  label_someone_added_you_to_their_issue : "{sender} ti ha aggiunto ad un tema di cui è proprietario"
+  label_someone_removed_you_from_their_issue : "{sender} ti ha rimosso da un tema di cui è proprietario"
+  label_someone_left_your_issue : "{joiner} ha abbandonato un tema assegnato da te"
+  label_someone_mentioned_you : "{mentioner} ti ha menzionato"
   label_agree : "Concorda"
   label_disagree : "Dissenti"
   label_block : "Blocca"
@@ -969,7 +969,7 @@ en:
   label_display_used_statuses_only: Mostra solo stati che vengono usati per questo tracker
   label_api_access_key: Chiave di accesso API
   label_missing_api_access_key: Chiave di accesso API mancante
-  label_api_access_key_created_at: "Chiave di accesso API creata {{value}} fa"
+  label_api_access_key_created_at: "Chiave di accesso API creata {value} fa"
   label_dpp_scale: "Scala stimata"
   
   label_motion: "Mozione"
@@ -993,10 +993,10 @@ en:
   label_motion_vote_action9999 : "Disaccordo"
   label_motion_vote_action10000 : "Neutrale"
   label_motion_vote_action10001 : "Accordo"
-  label_motion_vote_action_share_agree : "D'accordo con quote {{points}} "
-  label_motion_vote_action_share_disagree : "Disaccordo con {{points}} quote"
-  label_motion_vote_action_share_neutral : "Neutro con {{points}} quote"
-  label_you_voted : "Hai votato: <b>{{action}}</b>"
+  label_motion_vote_action_share_agree : "D'accordo con quote {points} "
+  label_motion_vote_action_share_disagree : "Disaccordo con {points} quote"
+  label_motion_vote_action_share_neutral : "Neutro con {points} quote"
+  label_you_voted : "Hai votato: <b>{action}</b>"
   label_voted : "votato"
   label_you_havent_voted : "Non hai ancora dato il tuo voto"
   label_tally : "Conteggio"
@@ -1020,8 +1020,8 @@ en:
   
   label_motions_active : "Mozioni attive"
   label_motions_view_all : "Visualizza tutte le mozioni"
-  label_new_role : "Nuovo ruolo: {{}} role_name"
-  label_new_invitation : "Invito a partecipare {{project_name}} come {{role_name}} "
+  label_new_role : "Nuovo ruolo: {} role_name"
+  label_new_invitation : "Invito a partecipare {project_name} come {role_name} "
   
   label_drop_from_core_team : "Rimuovi dal Core team"
   label_nominate_to_core_team : "Nomina per il Core Team"
@@ -1179,48 +1179,48 @@ en:
   text_regexp_info: es. ^[A-Z0-9]+$
   text_min_max_length_info: 0 significa nessuna restrizione
   text_project_destroy_confirmation: Sei sicuro di voler cancellare questi flussi di lavoro ed i dati correlati?
-  text_subprojects_destroy_warning: "Anche il {{value}} dei sotto flussi di lavoro verrà eliminato."
+  text_subprojects_destroy_warning: "Anche il {value} dei sotto flussi di lavoro verrà eliminato."
   text_workflow_edit: Selezionare un ruolo e un tipo per modificare il flusso di lavoro
   text_are_you_sure: Sei sicuro?
-  text_journal_changed: "{{label}} modifica da {{old}} a {{new}}"
-  text_journal_set_to: "{{label}} imposta su {{value}}"
-  text_journal_deleted: "{{label}} ha eliminato ({{old}})"
-  text_journal_added: "{{label}} {{value}} aggiunto"
+  text_journal_changed: "{label} modifica da {old} a {new}"
+  text_journal_set_to: "{label} imposta su {value}"
+  text_journal_deleted: "{label} ha eliminato ({old})"
+  text_journal_added: "{label} {value} aggiunto"
   text_tip_task_begin_day: compiti che iniziano oggi
   text_tip_task_end_day: compito che terminano oggi
   text_tip_task_begin_end_day: compiti che iniziano e finiscono oggi
   text_project_identifier_info: "Solo lettere minuscolo (a-z), numeri e trattini sono ammessi. <br /> Una volta salvato, l'identificativo non può essere cambiato."
-  text_caracters_maximum: "{{count}} caratteri max"
-  text_caracters_minimum: "Deve essere di almeno {{count}} caratteri."
-  text_length_between: "Lunghezza tra {{min}} e {{max}} caratteri."
+  text_caracters_maximum: "{count} caratteri max"
+  text_caracters_minimum: "Deve essere di almeno {count} caratteri."
+  text_length_between: "Lunghezza tra {min} e {max} caratteri."
   text_tracker_no_workflow: ~
   text_unallowed_characters: Caratteri non permessi
   text_comma_separated: Valori multipli permessi (separati da virgole).
   text_issues_ref_in_commit_messages: Riferimento e gli elementi di fissaggio in messaggi di commit
-  text_issue_added: "Oggetto {{id}} è stato segnalato da {{autore}}."
-  text_issue_updated: "Oggetto {{id}} è stato aggiornato da {{autore}}."
+  text_issue_added: "Oggetto {id} è stato segnalato da {autore}."
+  text_issue_updated: "Oggetto {id} è stato aggiornato da {autore}."
   text_line_separated: Valori multipli permessi (un valore per ogni riga).
   text_wiki_destroy_confirmation: Sei sicuro di voler cancellare questo wiki e tutti i suoi contenuti?
   text_user_mail_option: "Per workstreams non selezionati, riceverai solo le notifiche di cose in osservazione o dove si è coinvolti in (es. articoli di cui siete l'autore o il proprietario)." #updated
   text_no_configuration_data: "Ruoli, tipi, voce e stati del flusso di lavoro non sono stati ancora configurati. E 'altamente raccomandato caricare la configurazione predefinita. Sarete in grado di modificarla una volta caricata."
   text_load_default_configuration: Carica la configurazione predefinita
-  text_status_changed_by_changeset: "Applicata in changeset {{valore}}."
+  text_status_changed_by_changeset: "Applicata in changeset {valore}."
   text_issues_destroy_confirmation: "Sei sicuro di voler cancellare l'elemento(i) selezionato ?"
   text_select_project_modules: 'Selezionare i moduli da abilitare per questo Workstream:'
   text_default_administrator_account_changed: L'account amministrativo predefinito è stato modificato
   text_file_repository_writable: Repository dei file scrivibile
   text_plugin_assets_writable: Directory attività dei plugins scrivibile
   text_rmagick_available: RMagick disponibile (opzionale)
-  text_destroy_time_entries_question: "{{hours}} ore sono stati segnalati sulle voci che si sta per cancellare. Cosa vuoi fare?"
+  text_destroy_time_entries_question: "{hours} ore sono stati segnalati sulle voci che si sta per cancellare. Cosa vuoi fare?"
   text_destroy_time_entries: Elimina le ore segnalate
   text_assign_time_entries_to_project: Assegna ore dichiarate al flusso di lavoro
   text_reassign_time_entries: 'Riassegnare ore dichiarate a questo documento:'
-  text_user_wrote: "{{value}} ha scritto:"
-  text_enumeration_destroy_question: "{{count}} oggetti sono assegnati a questo valore."
+  text_user_wrote: "{value} ha scritto:"
+  text_enumeration_destroy_question: "{count} oggetti sono assegnati a questo valore."
   text_enumeration_category_reassign_to: 'Riassegnale a questo valore:'
   text_email_delivery_not_configured: "La consegna della posta non è configurata e le notifiche sono disabilitate. Configurare il server SMTP in config / email.yml e riavviare l'applicazione per avviare il servizio."
   text_diff_truncated: '... Le differenze sono state troncate perchè superano il limite massimo visualizzabile.'
-  text_wiki_page_destroy_question: "Questa pagina ha {{descendants}} pagina(e) figlio e discendente (i). Cosa vuoi fare?"
+  text_wiki_page_destroy_question: "Questa pagina ha {descendants} pagina(e) figlio e discendente (i). Cosa vuoi fare?"
   text_wiki_page_nullify_children: "Mantieni le pagine figlie come pagine radice"
   text_wiki_page_destroy_children: "Elimina le pagine figlie e tutta la discendenza"
   text_wiki_page_reassign_children: "Riassegna le pagine figlie al padre di questa pagina"
@@ -1242,31 +1242,31 @@ en:
   text_retro_started : "Workstream è iniziata. <br/> Avete 3 giorni di tempo per dare i vostri commenti sul contributo del team"
   text_retro_ended_for : "Una retrospettiva per la"
   text_retro_ended : "Workstream è finita. <br/> Clicca sotto per vedere il feedback del team ed il vostro contributo finale"
-  text_credits_transferred: "{{sender}} ha appena trasferito {{amount}} crediti a voi in {{project}}"
-  text_credits_distributed_for : "Hai guadagnato {{amount}} crediti per il tuo lavoro su <strong> {{workstream}}.</strong> Complimenti!"
+  text_credits_transferred: "{sender} ha appena trasferito {amount} crediti a voi in {project}"
+  text_credits_distributed_for : "Hai guadagnato {amount} crediti per il tuo lavoro su <strong> {workstream}.</strong> Complimenti!"
   text_credits_are_a_gift : "Questi crediti sono stati donati a voi dai vostri colleghi per il vostro contributo. Non sono una parte di qualsiasi retrospettiva."
   text_credits_are_an_expense : "Questi crediti sono un reimbursment per una voce di spesa. Non sono una parte di qualsiasi retrospettiva."
-  text_joiner_is_now_working_with_you : "{{joiner}} sta ora lavorando con voi su <br/> {{issue}}"
-  text_joiner_is_no_longer_working_with_you : "{{joiner}} non sta lavorando più con voi su <br/> {{issue}}"
-  text_you_are_now_working_with_you : "Ora sei parte del team di lavoro su <br/> {{issue}}"
-  text_you_are_no_longer_working_on : "Tu non fai più parte del gruppo di lavoro sulla <br/> {{issue}}"
+  text_joiner_is_now_working_with_you : "{joiner} sta ora lavorando con voi su <br/> {issue}"
+  text_joiner_is_no_longer_working_with_you : "{joiner} non sta lavorando più con voi su <br/> {issue}"
+  text_you_are_now_working_with_you : "Ora sei parte del team di lavoro su <br/> {issue}"
+  text_you_are_no_longer_working_on : "Tu non fai più parte del gruppo di lavoro sulla <br/> {issue}"
   text_history_hidden_until_you_vote : "Il riepilogo voto è nascosto perché non hai il tuo voto"
   text_tally_hidden_until_you_vote : "Il conteggio è nascosto fino a quando non esprimi il tuo voto"
   text_you_dont_have_shares_to_vote : "È necessario disporre di quote per pesare su questa mozione"
-  text_you_are_now_a_role : "Ora sei un <b>role_name {{}}</b> di"
+  text_you_are_now_a_role : "Ora sei un <b>role_name {}</b> di"
   text_role_description_Administrator : "In qualità di amministratore, è possibile ignorare le regole di governance e  aggiungere / rimuovere direttamente membri e workstreams. <br> Utilizzare questo ruolo con parsimonia, in quanto si stanno configurando le vostre strutture, <br> e  rimuovere, in seguito, se stessi dal ruolo di amministratore quando si è pronti ad adottare completamente la governance Open Enterprise "
-  text_role_description_Contributor : "In qualità di collaboratore, ora puoi guadagnare crediti e possedere una partecipazione in <b> {{enterprise}}.</b> <br> I vostri voti su tutte le questioni saranno visibili a tutti e saranno non vincolante."
+  text_role_description_Contributor : "In qualità di collaboratore, ora puoi guadagnare crediti e possedere una partecipazione in <b> {enterprise}.</b> <br> I vostri voti su tutte le questioni saranno visibili a tutti e saranno non vincolante."
   text_role_description_Member : "In qualità di membro, tutti i tuoi voti sono vincolanti. <br> Inoltre è possibile nominare collaboratori per l'adesione, <br> e votare per le elezioni del Core Team."
   text_role_description_Core Team : "Come membro del Core Team avete voti vincolanti in tutte le questioni, <br> compresa la selezione dei nuovi membri. <br> Congratulazioni!"
   text_role_description_Core_Team : "Come membro del Core Team avete voti vincolanti in tutte le questioni, <br> compresa la selezione dei nuovi membri. <br> Congratulazioni!"
   text_role_description_Board : "Come membro del consiglio, tutti i vostri voti sono vincolanti."
-  text_member_nomination : "{{user}} è stato nominato per essere un membro di {{enterprise}}. In qualità di membro, tutti i loro voti sarebbero vincolanti. Inoltre essi saranno in grado di nominare collaboratori per l'adesione, e votare per le elezioni Core Team. I voti di questa mozione non sarà visibile a {{user}}, ma saranno in grado di vedere la discussione."
-  text_core_member_nomination : "{{user}} è stato nominato per il Core Team di {{enterprise}}. Come membro del Core Team avrebbero voti obbligatorio in tutte le materie, compresa la selezione dei nuovi membri. I voti su questa mozione non sarà visibile a {{user}}, ma saranno in grado di vedere la discussione."
-  text_core_member_removal : "Lo scopo di questa mozione è di rimuovere {{user}} dal Core team di  {{enterprise}}. Se la mozione passa {{user}} sarà solo un comune membro. In qualità di membro, i suoi voti rimarranno vincolanti e le sue quote e crediti non cambieranno. I voti su questa mozione non saranno visibili a {{user}}, ma lei/lui sarà ancora in grado di vedere la discussione."
-  text_member_removal : "Lo scopo di questa mozione è di rimuovere {{user}} dal team di  {{enterprise}}. Se la mozione passa {{user}} diventerà un Collaboratore. Come Collaboratore, i suoi voti saranno non vincolanti. Le sue azioni e crediti non cambieranno. I voti su questa mozione non saranno visibili a {{user}}, ma lei/lui sarà ancora in grado di vedere la discussione."
+  text_member_nomination : "{user} è stato nominato per essere un membro di {enterprise}. In qualità di membro, tutti i loro voti sarebbero vincolanti. Inoltre essi saranno in grado di nominare collaboratori per l'adesione, e votare per le elezioni Core Team. I voti di questa mozione non sarà visibile a {user}, ma saranno in grado di vedere la discussione."
+  text_core_member_nomination : "{user} è stato nominato per il Core Team di {enterprise}. Come membro del Core Team avrebbero voti obbligatorio in tutte le materie, compresa la selezione dei nuovi membri. I voti su questa mozione non sarà visibile a {user}, ma saranno in grado di vedere la discussione."
+  text_core_member_removal : "Lo scopo di questa mozione è di rimuovere {user} dal Core team di  {enterprise}. Se la mozione passa {user} sarà solo un comune membro. In qualità di membro, i suoi voti rimarranno vincolanti e le sue quote e crediti non cambieranno. I voti su questa mozione non saranno visibili a {user}, ma lei/lui sarà ancora in grado di vedere la discussione."
+  text_member_removal : "Lo scopo di questa mozione è di rimuovere {user} dal team di  {enterprise}. Se la mozione passa {user} diventerà un Collaboratore. Come Collaboratore, i suoi voti saranno non vincolanti. Le sue azioni e crediti non cambieranno. I voti su questa mozione non saranno visibili a {user}, ma lei/lui sarà ancora in grado di vedere la discussione."
   text_issue_edit_footer : "Si può commentare su questo argomento via e-mail, rispondendo a questa e-mail direttamente."
   text_message_edit_footer : "Si può rispondere a questo messaggio via e-mail, rispondendo a questa e-mail direttamente."
-  text_invitation_note_default : "Ehi, Stiamo usando bettermeans.com a lavorare sul progetto {{project}}. Bettermeans ci permette di lavorare insieme come eguali, ed è un modo trasparente, democratico di fare le cose insieme. Accetta questo invito ed unisciti a noi. Cordiali saluti {{user}}"
+  text_invitation_note_default : "Ehi, Stiamo usando bettermeans.com a lavorare sul progetto {project}. Bettermeans ci permette di lavorare insieme come eguali, ed è un modo trasparente, democratico di fare le cose insieme. Accetta questo invito ed unisciti a noi. Cordiali saluti {user}"
   text_you_are_invited : "Sei stato invitato a partecipare"
   text_generic_invitation : "Questo link permette a chiunque di iniziare come un <strong>collaboratore</strong> di questo Workstream."
   text_generic_invitation_2 : "È inoltre possibile utilizzare il modulo qui sotto per inviare inviti personalizzati per invitare altri ad unirsi per ricoprire altri ruoli"
@@ -1358,7 +1358,7 @@ en:
   help_motions: "Le mozioni sono usate per prendere decisioni importanti a livello di progetto. Si tratta di un meccanismo democratico per prendere decisioni insieme. Ci sono diversi tipi di mozioni, per saperne di più mozioni <a href='http://help.bettermeans.com/motions' target='blank'>clicca qui</a> ."
   help_credits: "I crediti sono un modo più aperto e democratico di valorizzare e compensare il lavoro svolto. Siamo davvero entusiasti di poter offrire questa come opzione e ti incoraggiamo a scoprire <a href='http://help.bettermeans.com/faq/credits' target='blank'>ulteriori informazioni sui crediti</a> ."
   help_revision_notes: "Opzionale: Aggiungi note a questa revisione del wiki. Queste note appariranno nella cronologia delle versioni del wiki."
-  help_mentions: "Le menzioni sono riferimenti che si fanno usando il simbolo '@' prima del nome utente in qualsiasi commento o descrizione. <br><br> Per esempio, se qualcuno aggiunge questo commento a un problema: <br> <strong>'Penso @ {{login}} dovrebbe dare un'occhiata a questo!</strong> <br> compare fra le menzioni della persona citata."
+  help_mentions: "Le menzioni sono riferimenti che si fanno usando il simbolo '@' prima del nome utente in qualsiasi commento o descrizione. <br><br> Per esempio, se qualcuno aggiunge questo commento a un problema: <br> <strong>'Penso @ {login} dovrebbe dare un'occhiata a questo!</strong> <br> compare fra le menzioni della persona citata."
 
   
   help_section_project_show: "<strong>Benvenuti nella pagina Panoramica.</strong> Da qui si può lavorare e invitare altri a unirsi al divertimento. Dai un'occhiata in giro <br> Se desideri avviare un Workstream nuovo e non sei sicuro su cosa fare o volete consigli per iniziare <a href= 'http://help.bettermeans.com/quickstart' target='blank'>clicca qui.</a> <br> Se si aderisce ad un Workstream esistente e non si è sicuri di quello che state guardando, siamo qui per aiutare, <a href= 'http://help.bettermeans.com/quickstart' target='blank'>clicca qui.</a> <br> Ti consigliamo di seguire i link sopra e / o guardare <a href= 'http://help.bettermeans.com' target='blank'>il tour</a> prima di iniziare."
