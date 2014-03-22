@@ -8,48 +8,52 @@ eu:
       short: "%b %d"
       long: "%Y %B %d"
       
-    day_names: - Igandea
-    day_names: - Astelehena
-    day_names: - Asteartea
-    day_names: - Asteazkena
-    day_names: - Osteguna
-    day_names: - Ostirala
-    day_names: - Larunbata
-    abbr_day_names: - Ig.
-    abbr_day_names: - Al.
-    abbr_day_names: - Ar.
-    abbr_day_names: - Az.
-    abbr_day_names: - Og.
-    abbr_day_names: - Or.
-    abbr_day_names: - La.
+    day_names:
+      - Igandea
+      - Astelehena
+      - Asteartea
+      - Asteazkena
+      - Osteguna
+      - Ostirala
+      - Larunbata
+    abbr_day_names:
+      - Ig.
+      - Al.
+      - Ar.
+      - Az.
+      - Og.
+      - Or.
+      - La.
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Urtarrila
-    month_names: - Otsaila
-    month_names: - Martxoa
-    month_names: - Apirila
-    month_names: - Maiatza
-    month_names: - Ekaina
-    month_names: - Uztaila
-    month_names: - Abuztua
-    month_names: - Iraila
-    month_names: - Urria
-    month_names: - Azaroa
-    month_names: - Abendua
-    abbr_month_names: - ~
-    abbr_month_names: - Urt
-    abbr_month_names: - Ots
-    abbr_month_names: - Mar
-    abbr_month_names: - Api
-    abbr_month_names: - Mai
-    abbr_month_names: - Eka
-    abbr_month_names: - Uzt
-    abbr_month_names: - Abu
-    abbr_month_names: - Ira
-    abbr_month_names: - Urr
-    abbr_month_names: - Aza
-    abbr_month_names: - Abe
+    month_names:
+      - ~
+      - Urtarrila
+      - Otsaila
+      - Martxoa
+      - Apirila
+      - Maiatza
+      - Ekaina
+      - Uztaila
+      - Abuztua
+      - Iraila
+      - Urria
+      - Azaroa
+      - Abendua
+    abbr_month_names:
+      - ~
+      - Urt
+      - Ots
+      - Mar
+      - Api
+      - Mai
+      - Eka
+      - Uzt
+      - Abu
+      - Ira
+      - Urr
+      - Aza
+      - Abe
     # Used in date_select and datime_select.
     order:
       - :year

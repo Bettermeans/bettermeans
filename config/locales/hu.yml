@@ -8,48 +8,52 @@ hu:
       short: "%b %e."
       long: "%Y. %B %e."
       
-    day_names: - vasárnap
-    day_names: - hétfő
-    day_names: - kedd
-    day_names: - szerda
-    day_names: - csütörtök
-    day_names: - péntek
-    day_names: - szombat
-    abbr_day_names: - v.
-    abbr_day_names: - h.
-    abbr_day_names: - k.
-    abbr_day_names: - sze.
-    abbr_day_names: - cs.
-    abbr_day_names: - p.
-    abbr_day_names: - szo.
+    day_names:
+      - vasárnap
+      - hétfő
+      - kedd
+      - szerda
+      - csütörtök
+      - péntek
+      - szombat
+    abbr_day_names:
+      - v.
+      - h.
+      - k.
+      - sze.
+      - cs.
+      - p.
+      - szo.
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - január
-    month_names: - február
-    month_names: - március
-    month_names: - április
-    month_names: - május
-    month_names: - június
-    month_names: - július
-    month_names: - augusztus
-    month_names: - szeptember
-    month_names: - október
-    month_names: - november
-    month_names: - december
-    abbr_month_names: - ~
-    abbr_month_names: - jan.
-    abbr_month_names: - febr.
-    abbr_month_names: - márc.
-    abbr_month_names: - ápr.
-    abbr_month_names: - máj.
-    abbr_month_names: - jún.
-    abbr_month_names: - júl.
-    abbr_month_names: - aug.
-    abbr_month_names: - szept.
-    abbr_month_names: - okt.
-    abbr_month_names: - nov.
-    abbr_month_names: - dec.
+    month_names:
+      - ~
+      - január
+      - február
+      - március
+      - április
+      - május
+      - június
+      - július
+      - augusztus
+      - szeptember
+      - október
+      - november
+      - december
+    abbr_month_names:
+      - ~
+      - jan.
+      - febr.
+      - márc.
+      - ápr.
+      - máj.
+      - jún.
+      - júl.
+      - aug.
+      - szept.
+      - okt.
+      - nov.
+      - dec.
     # Used in date_select and datime_select.
     order:
       - :year

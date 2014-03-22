@@ -8,48 +8,52 @@ id:
       short: "%d %b"
       long: "%d %B %Y"
       
-    day_names: - Minggu
-    day_names: - Senin
-    day_names: - Selasa
-    day_names: - Rabu
-    day_names: - Kamis
-    day_names: - Jumat
-    day_names: - Sabtu
-    abbr_day_names: - Ming
-    abbr_day_names: - Sen
-    abbr_day_names: - Sel
-    abbr_day_names: - Rab
-    abbr_day_names: - Kam
-    abbr_day_names: - Jum
-    abbr_day_names: - Sab
+    day_names:
+      - Minggu
+      - Senin
+      - Selasa
+      - Rabu
+      - Kamis
+      - Jumat
+      - Sabtu
+    abbr_day_names:
+      - Ming
+      - Sen
+      - Sel
+      - Rab
+      - Kam
+      - Jum
+      - Sab
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Januari
-    month_names: - Februari
-    month_names: - Maret
-    month_names: - April
-    month_names: - Mei
-    month_names: - Juni
-    month_names: - Juli
-    month_names: - Agustus
-    month_names: - September
-    month_names: - Oktober
-    month_names: - November
-    month_names: - Desember
-    abbr_month_names: - ~
-    abbr_month_names: - Jan
-    abbr_month_names: - Feb
-    abbr_month_names: - Mar
-    abbr_month_names: - Apr
-    abbr_month_names: - Mei
-    abbr_month_names: - Jun
-    abbr_month_names: - Jul
-    abbr_month_names: - Agu
-    abbr_month_names: - Sep
-    abbr_month_names: - Okt
-    abbr_month_names: - Nov
-    abbr_month_names: - Des
+    month_names:
+      - ~
+      - Januari
+      - Februari
+      - Maret
+      - April
+      - Mei
+      - Juni
+      - Juli
+      - Agustus
+      - September
+      - Oktober
+      - November
+      - Desember
+    abbr_month_names:
+      - ~
+      - Jan
+      - Feb
+      - Mar
+      - Apr
+      - Mei
+      - Jun
+      - Jul
+      - Agu
+      - Sep
+      - Okt
+      - Nov
+      - Des
     # Used in date_select and datime_select.
     order:
       - :day

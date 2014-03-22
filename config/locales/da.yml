@@ -8,48 +8,52 @@ da:
       short: "%e. %b %Y"
       long: "%e. %B %Y"
       
-    day_names: - søndag
-    day_names: - mandag
-    day_names: - tirsdag
-    day_names: - onsdag
-    day_names: - torsdag
-    day_names: - fredag
-    day_names: - lørdag
-    abbr_day_names: - sø
-    abbr_day_names: - ma
-    abbr_day_names: - ti
-    abbr_day_names: - "on"
-    abbr_day_names: - to
-    abbr_day_names: - fr
-    abbr_day_names: - lø
+    day_names:
+      - søndag
+      - mandag
+      - tirsdag
+      - onsdag
+      - torsdag
+      - fredag
+      - lørdag
+    abbr_day_names:
+      - sø
+      - ma
+      - ti
+      - "on"
+      - to
+      - fr
+      - lø
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - januar
-    month_names: - februar
-    month_names: - marts
-    month_names: - april
-    month_names: - maj
-    month_names: - juni
-    month_names: - juli
-    month_names: - august
-    month_names: - september
-    month_names: - oktober
-    month_names: - november
-    month_names: - december
-    abbr_month_names: - ~
-    abbr_month_names: - jan
-    abbr_month_names: - feb
-    abbr_month_names: - mar
-    abbr_month_names: - apr
-    abbr_month_names: - maj
-    abbr_month_names: - jun
-    abbr_month_names: - jul
-    abbr_month_names: - aug
-    abbr_month_names: - sep
-    abbr_month_names: - okt
-    abbr_month_names: - nov
-    abbr_month_names: - dec
+    month_names:
+      - ~
+      - januar
+      - februar
+      - marts
+      - april
+      - maj
+      - juni
+      - juli
+      - august
+      - september
+      - oktober
+      - november
+      - december
+    abbr_month_names:
+      - ~
+      - jan
+      - feb
+      - mar
+      - apr
+      - maj
+      - jun
+      - jul
+      - aug
+      - sep
+      - okt
+      - nov
+      - dec
     # Used in date_select and datime_select.
     order:
       - :day

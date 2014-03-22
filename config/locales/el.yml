@@ -8,48 +8,52 @@ el:
       short: "%b %d"
       long: "%B %d, %Y"
       
-    day_names: - Κυριακή
-    day_names: - Δευτέρα
-    day_names: - Τρίτη
-    day_names: - Τετάρτη
-    day_names: - Πέμπτη
-    day_names: - Παρασκευή
-    day_names: - Σάββατο
-    abbr_day_names: - Κυρ
-    abbr_day_names: - Δευ
-    abbr_day_names: - Τρι
-    abbr_day_names: - Τετ
-    abbr_day_names: - Πεμ
-    abbr_day_names: - Παρ
-    abbr_day_names: - Σαβ
+    day_names:
+      - Κυριακή
+      - Δευτέρα
+      - Τρίτη
+      - Τετάρτη
+      - Πέμπτη
+      - Παρασκευή
+      - Σάββατο
+    abbr_day_names:
+      - Κυρ
+      - Δευ
+      - Τρι
+      - Τετ
+      - Πεμ
+      - Παρ
+      - Σαβ
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Ιανουάριος
-    month_names: - Φεβρουάριος
-    month_names: - Μάρτιος
-    month_names: - Απρίλιος
-    month_names: - Μάϊος
-    month_names: - Ιούνιος
-    month_names: - Ιούλιος
-    month_names: - Αύγουστος
-    month_names: - Σεπτέμβριος
-    month_names: - Οκτώβριος
-    month_names: - Νοέμβριος
-    month_names: - Δεκέμβριος
-    abbr_month_names: - ~
-    abbr_month_names: - Ιαν
-    abbr_month_names: - Φεβ
-    abbr_month_names: - Μαρ
-    abbr_month_names: - Απρ
-    abbr_month_names: - Μαϊ
-    abbr_month_names: - Ιον
-    abbr_month_names: - Ιολ
-    abbr_month_names: - Αυγ
-    abbr_month_names: - Σεπ
-    abbr_month_names: - Οκτ
-    abbr_month_names: - Νοε
-    abbr_month_names: - Δεκ
+    month_names:
+      - ~
+      - Ιανουάριος
+      - Φεβρουάριος
+      - Μάρτιος
+      - Απρίλιος
+      - Μάϊος
+      - Ιούνιος
+      - Ιούλιος
+      - Αύγουστος
+      - Σεπτέμβριος
+      - Οκτώβριος
+      - Νοέμβριος
+      - Δεκέμβριος
+    abbr_month_names:
+      - ~
+      - Ιαν
+      - Φεβ
+      - Μαρ
+      - Απρ
+      - Μαϊ
+      - Ιον
+      - Ιολ
+      - Αυγ
+      - Σεπ
+      - Οκτ
+      - Νοε
+      - Δεκ
     # Used in date_select and datime_select.
     order:
       - :year

@@ -8,48 +8,52 @@ fi:
       short: "%e.%m.%Y"
       long: "%A%e. %Bta %Y"
       
-    day_names: - Sunnuntai
-    day_names: - Maanantai
-    day_names: - Tiistai
-    day_names: - Keskiviikko
-    day_names: - Torstai
-    day_names: - Perjantai
-    day_names: - Lauantai
-    abbr_day_names: - Su
-    abbr_day_names: - Ma
-    abbr_day_names: - Ti
-    abbr_day_names: - Ke
-    abbr_day_names: - To
-    abbr_day_names: - Pe
-    abbr_day_names: - La
+    day_names:
+      - Sunnuntai
+      - Maanantai
+      - Tiistai
+      - Keskiviikko
+      - Torstai
+      - Perjantai
+      - Lauantai
+    abbr_day_names:
+      - Su
+      - Ma
+      - Ti
+      - Ke
+      - To
+      - Pe
+      - La
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Tammikuu
-    month_names: - Helmikuu
-    month_names: - Maaliskuu
-    month_names: - Huhtikuu
-    month_names: - Toukokuu
-    month_names: - Kesäkuu
-    month_names: - Heinäkuu
-    month_names: - Elokuu
-    month_names: - Syyskuu
-    month_names: - Lokakuu
-    month_names: - Marraskuu
-    month_names: - Joulukuu
-    abbr_month_names: - ~
-    abbr_month_names: - Tammi
-    abbr_month_names: - Helmi
-    abbr_month_names: - Maalis
-    abbr_month_names: - Huhti
-    abbr_month_names: - Touko
-    abbr_month_names: - Kesä
-    abbr_month_names: - Heinä
-    abbr_month_names: - Elo
-    abbr_month_names: - Syys
-    abbr_month_names: - Loka
-    abbr_month_names: - Marras
-    abbr_month_names: - Joulu
+    month_names:
+      - ~
+      - Tammikuu
+      - Helmikuu
+      - Maaliskuu
+      - Huhtikuu
+      - Toukokuu
+      - Kesäkuu
+      - Heinäkuu
+      - Elokuu
+      - Syyskuu
+      - Lokakuu
+      - Marraskuu
+      - Joulukuu
+    abbr_month_names:
+      - ~
+      - Tammi
+      - Helmi
+      - Maalis
+      - Huhti
+      - Touko
+      - Kesä
+      - Heinä
+      - Elo
+      - Syys
+      - Loka
+      - Marras
+      - Joulu
     # Used in date_select and datime_select.
     order:
       - :day

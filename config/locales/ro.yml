@@ -8,48 +8,52 @@ ro:
       short: "%d %b"
       long: "%d %B %Y"
       
-    day_names: - Duminică
-    day_names: - Luni
-    day_names: - Marti
-    day_names: - Miercuri
-    day_names: - Joi
-    day_names: - Vineri
-    day_names: - Sâmbătă
-    abbr_day_names: - Dum
-    abbr_day_names: - Lun
-    abbr_day_names: - Mar
-    abbr_day_names: - Mie
-    abbr_day_names: - Joi
-    abbr_day_names: - Vin
-    abbr_day_names: - Sâm
+    day_names:
+      - Duminică
+      - Luni
+      - Marti
+      - Miercuri
+      - Joi
+      - Vineri
+      - Sâmbătă
+    abbr_day_names:
+      - Dum
+      - Lun
+      - Mar
+      - Mie
+      - Joi
+      - Vin
+      - Sâm
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Ianuarie
-    month_names: - Februarie
-    month_names: - Martie
-    month_names: - Aprilie
-    month_names: - Mai
-    month_names: - Iunie
-    month_names: - Iulie
-    month_names: - August
-    month_names: - Septembrie
-    month_names: - Octombrie
-    month_names: - Noiembrie
-    month_names: - Decembrie
-    abbr_month_names: - ~
-    abbr_month_names: - Ian
-    abbr_month_names: - Feb
-    abbr_month_names: - Mar
-    abbr_month_names: - Apr
-    abbr_month_names: - Mai
-    abbr_month_names: - Iun
-    abbr_month_names: - Iul
-    abbr_month_names: - Aug
-    abbr_month_names: - Sep
-    abbr_month_names: - Oct
-    abbr_month_names: - Noi
-    abbr_month_names: - Dec
+    month_names:
+      - ~
+      - Ianuarie
+      - Februarie
+      - Martie
+      - Aprilie
+      - Mai
+      - Iunie
+      - Iulie
+      - August
+      - Septembrie
+      - Octombrie
+      - Noiembrie
+      - Decembrie
+    abbr_month_names:
+      - ~
+      - Ian
+      - Feb
+      - Mar
+      - Apr
+      - Mai
+      - Iun
+      - Iul
+      - Aug
+      - Sep
+      - Oct
+      - Noi
+      - Dec
     # Used in date_select and datime_select.
     order:
       - :day

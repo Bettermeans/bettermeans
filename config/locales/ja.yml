@@ -8,48 +8,52 @@ ja:
       short: "%m/%d"
       long: "%Y年%m月%d日(%a)"
       
-    day_names: - 日曜日
-    day_names: - 月曜日
-    day_names: - 火曜日
-    day_names: - 水曜日
-    day_names: - 木曜日
-    day_names: - 金曜日
-    day_names: - 土曜日
-    abbr_day_names: - 日
-    abbr_day_names: - 月
-    abbr_day_names: - 火
-    abbr_day_names: - 水
-    abbr_day_names: - 木
-    abbr_day_names: - 金
-    abbr_day_names: - 土
+    day_names:
+      - 日曜日
+      - 月曜日
+      - 火曜日
+      - 水曜日
+      - 木曜日
+      - 金曜日
+      - 土曜日
+    abbr_day_names:
+      - 日
+      - 月
+      - 火
+      - 水
+      - 木
+      - 金
+      - 土
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - 1月
-    month_names: - 2月
-    month_names: - 3月
-    month_names: - 4月
-    month_names: - 5月
-    month_names: - 6月
-    month_names: - 7月
-    month_names: - 8月
-    month_names: - 9月
-    month_names: - 10月
-    month_names: - 11月
-    month_names: - 12月
-    abbr_month_names: - ~
-    abbr_month_names: - 1月
-    abbr_month_names: - 2月
-    abbr_month_names: - 3月
-    abbr_month_names: - 4月
-    abbr_month_names: - 5月
-    abbr_month_names: - 6月
-    abbr_month_names: - 7月
-    abbr_month_names: - 8月
-    abbr_month_names: - 9月
-    abbr_month_names: - 10月
-    abbr_month_names: - 11月
-    abbr_month_names: - 12月
+    month_names:
+      - ~
+      - 1月
+      - 2月
+      - 3月
+      - 4月
+      - 5月
+      - 6月
+      - 7月
+      - 8月
+      - 9月
+      - 10月
+      - 11月
+      - 12月
+    abbr_month_names:
+      - ~
+      - 1月
+      - 2月
+      - 3月
+      - 4月
+      - 5月
+      - 6月
+      - 7月
+      - 8月
+      - 9月
+      - 10月
+      - 11月
+      - 12月
     # Used in date_select and datime_select.
     order:
       - :year

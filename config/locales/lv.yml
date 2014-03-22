@@ -8,48 +8,52 @@ ly:
       short: "%d %b"
       long: "%d %B %Y"
       
-    day_names: - Svētdiena
-    day_names: - Pirmdiena
-    day_names: - Otrdiena
-    day_names: - Trešdiena
-    day_names: - Ceturtdiena
-    day_names: - Piektdiena
-    day_names: - Sestdiena
-    abbr_day_names: - Sv
-    abbr_day_names: - Pr
-    abbr_day_names: - Ot
-    abbr_day_names: - Tr
-    abbr_day_names: - Ct
-    abbr_day_names: - Pk
-    abbr_day_names: - St
+    day_names:
+      - Svētdiena
+      - Pirmdiena
+      - Otrdiena
+      - Trešdiena
+      - Ceturtdiena
+      - Piektdiena
+      - Sestdiena
+    abbr_day_names:
+      - Sv
+      - Pr
+      - Ot
+      - Tr
+      - Ct
+      - Pk
+      - St
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Janvāris
-    month_names: - Februāris
-    month_names: - Marts
-    month_names: - Aprīlis
-    month_names: - Maijs
-    month_names: - Jūnijs
-    month_names: - Jūlijs
-    month_names: - Augusts
-    month_names: - Septembris
-    month_names: - Oktobris
-    month_names: - Novembris
-    month_names: - Decembris
-    abbr_month_names: - ~
-    abbr_month_names: - Jan
-    abbr_month_names: - Feb
-    abbr_month_names: - Mar
-    abbr_month_names: - Apr
-    abbr_month_names: - Mai
-    abbr_month_names: - Jūn
-    abbr_month_names: - Jūl
-    abbr_month_names: - Aug
-    abbr_month_names: - Sep
-    abbr_month_names: - Okt
-    abbr_month_names: - Nov
-    abbr_month_names: - Dec
+    month_names:
+      - ~
+      - Janvāris
+      - Februāris
+      - Marts
+      - Aprīlis
+      - Maijs
+      - Jūnijs
+      - Jūlijs
+      - Augusts
+      - Septembris
+      - Oktobris
+      - Novembris
+      - Decembris
+    abbr_month_names:
+      - ~
+      - Jan
+      - Feb
+      - Mar
+      - Apr
+      - Mai
+      - Jūn
+      - Jūl
+      - Aug
+      - Sep
+      - Okt
+      - Nov
+      - Dec
     # Used in date_select and datime_select.
     order:
       - :day

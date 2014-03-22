@@ -8,48 +8,52 @@ ca:
       short: "%e de %b"
       long: "%a, %e de %b de %Y"
       
-    day_names: - Diumenge
-    day_names: - Dilluns
-    day_names: - Dimarts
-    day_names: - Dimecres
-    day_names: - Dijous
-    day_names: - Divendres
-    day_names: - Dissabte
-    abbr_day_names: - dg
-    abbr_day_names: - dl
-    abbr_day_names: - dt
-    abbr_day_names: - dc
-    abbr_day_names: - dj
-    abbr_day_names: - dv
-    abbr_day_names: - ds
+    day_names:
+      - Diumenge
+      - Dilluns
+      - Dimarts
+      - Dimecres
+      - Dijous
+      - Divendres
+      - Dissabte
+    abbr_day_names:
+      - dg
+      - dl
+      - dt
+      - dc
+      - dj
+      - dv
+      - ds
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Gener
-    month_names: - Febrer
-    month_names: - Març
-    month_names: - Abril
-    month_names: - Maig
-    month_names: - Juny
-    month_names: - Juliol
-    month_names: - Agost
-    month_names: - Setembre
-    month_names: - Octubre
-    month_names: - Novembre
-    month_names: - Desembre
-    abbr_month_names: - ~
-    abbr_month_names: - Gen
-    abbr_month_names: - Feb
-    abbr_month_names: - Mar
-    abbr_month_names: - Abr
-    abbr_month_names: - Mai
-    abbr_month_names: - Jun
-    abbr_month_names: - Jul
-    abbr_month_names: - Ago
-    abbr_month_names: - Set
-    abbr_month_names: - Oct
-    abbr_month_names: - Nov
-    abbr_month_names: - Des
+    month_names:
+      - ~
+      - Gener
+      - Febrer
+      - Març
+      - Abril
+      - Maig
+      - Juny
+      - Juliol
+      - Agost
+      - Setembre
+      - Octubre
+      - Novembre
+      - Desembre
+    abbr_month_names:
+      - ~
+      - Gen
+      - Feb
+      - Mar
+      - Abr
+      - Mai
+      - Jun
+      - Jul
+      - Ago
+      - Set
+      - Oct
+      - Nov
+      - Des
     # Used in date_select and datime_select.
     order:
       - :year

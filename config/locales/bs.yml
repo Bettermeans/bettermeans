@@ -8,48 +8,52 @@ bs:
       short: "%e. %b"
       long: "%e. %B %Y"
 
-    day_names: - Nedjelja
-    day_names: - Ponedjeljak
-    day_names: - Utorak
-    day_names: - Srijeda
-    day_names: - Četvrtak
-    day_names: - Petak
-    day_names: - Subota
-    abbr_day_names: - Ned
-    abbr_day_names: - Pon
-    abbr_day_names: - Uto
-    abbr_day_names: - Sri
-    abbr_day_names: - Čet
-    abbr_day_names: - Pet
-    abbr_day_names: - Sub
+    day_names:
+      - Nedjelja
+      - Ponedjeljak
+      - Utorak
+      - Srijeda
+      - Četvrtak
+      - Petak
+      - Subota
+    abbr_day_names:
+      - Ned
+      - Pon
+      - Uto
+      - Sri
+      - Čet
+      - Pet
+      - Sub
 
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Januar
-    month_names: - Februar
-    month_names: - Mart
-    month_names: - April
-    month_names: - Maj
-    month_names: - Jun
-    month_names: - Jul
-    month_names: - Avgust
-    month_names: - Septembar
-    month_names: - Oktobar
-    month_names: - Novembar
-    month_names: - Decembar
-    abbr_month_names: - ~
-    abbr_month_names: - Jan
-    abbr_month_names: - Feb
-    abbr_month_names: - Mar
-    abbr_month_names: - Apr
-    abbr_month_names: - Maj
-    abbr_month_names: - Jun
-    abbr_month_names: - Jul
-    abbr_month_names: - Avg
-    abbr_month_names: - Sep
-    abbr_month_names: - Okt
-    abbr_month_names: - Nov
-    abbr_month_names: - Dec
+    month_names:
+      - ~
+      - Januar
+      - Februar
+      - Mart
+      - April
+      - Maj
+      - Jun
+      - Jul
+      - Avgust
+      - Septembar
+      - Oktobar
+      - Novembar
+      - Decembar
+    abbr_month_names:
+      - ~
+      - Jan
+      - Feb
+      - Mar
+      - Apr
+      - Maj
+      - Jun
+      - Jul
+      - Avg
+      - Sep
+      - Okt
+      - Nov
+      - Dec
     # Used in date_select and datime_select.
     order:
       - :day

@@ -8,48 +8,52 @@ th:
       short: "%b %d"
       long: "%B %d, %Y"
       
-    day_names: - Sunday
-    day_names: - Monday
-    day_names: - Tuesday
-    day_names: - Wednesday
-    day_names: - Thursday
-    day_names: - Friday
-    day_names: - Saturday
-    abbr_day_names: - Sun
-    abbr_day_names: - Mon
-    abbr_day_names: - Tue
-    abbr_day_names: - Wed
-    abbr_day_names: - Thu
-    abbr_day_names: - Fri
-    abbr_day_names: - Sat
+    day_names:
+      - Sunday
+      - Monday
+      - Tuesday
+      - Wednesday
+      - Thursday
+      - Friday
+      - Saturday
+    abbr_day_names:
+      - Sun
+      - Mon
+      - Tue
+      - Wed
+      - Thu
+      - Fri
+      - Sat
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - January
-    month_names: - February
-    month_names: - March
-    month_names: - April
-    month_names: - May
-    month_names: - June
-    month_names: - July
-    month_names: - August
-    month_names: - September
-    month_names: - October
-    month_names: - November
-    month_names: - December
-    abbr_month_names: - ~
-    abbr_month_names: - Jan
-    abbr_month_names: - Feb
-    abbr_month_names: - Mar
-    abbr_month_names: - Apr
-    abbr_month_names: - May
-    abbr_month_names: - Jun
-    abbr_month_names: - Jul
-    abbr_month_names: - Aug
-    abbr_month_names: - Sep
-    abbr_month_names: - Oct
-    abbr_month_names: - Nov
-    abbr_month_names: - Dec
+    month_names:
+      - ~
+      - January
+      - February
+      - March
+      - April
+      - May
+      - June
+      - July
+      - August
+      - September
+      - October
+      - November
+      - December
+    abbr_month_names:
+      - ~
+      - Jan
+      - Feb
+      - Mar
+      - Apr
+      - May
+      - Jun
+      - Jul
+      - Aug
+      - Sep
+      - Oct
+      - Nov
+      - Dec
     # Used in date_select and datime_select.
     order:
       - :year

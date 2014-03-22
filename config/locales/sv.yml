@@ -8,48 +8,52 @@ sv:
       short: "%e %b"
       long: "%e %B, %Y"
       
-    day_names: - söndag
-    day_names: - måndag
-    day_names: - tisdag
-    day_names: - onsdag
-    day_names: - torsdag
-    day_names: - fredag
-    day_names: - lördag
-    abbr_day_names: - sön
-    abbr_day_names: - mån
-    abbr_day_names: - tis
-    abbr_day_names: - ons
-    abbr_day_names: - tor
-    abbr_day_names: - fre
-    abbr_day_names: - lör
+    day_names:
+      - söndag
+      - måndag
+      - tisdag
+      - onsdag
+      - torsdag
+      - fredag
+      - lördag
+    abbr_day_names:
+      - sön
+      - mån
+      - tis
+      - ons
+      - tor
+      - fre
+      - lör
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - januari
-    month_names: - februari
-    month_names: - mars
-    month_names: - april
-    month_names: - maj
-    month_names: - juni
-    month_names: - juli
-    month_names: - augusti
-    month_names: - september
-    month_names: - oktober
-    month_names: - november
-    month_names: - december
-    abbr_month_names: - ~
-    abbr_month_names: - jan
-    abbr_month_names: - feb
-    abbr_month_names: - mar
-    abbr_month_names: - apr
-    abbr_month_names: - maj
-    abbr_month_names: - jun
-    abbr_month_names: - jul
-    abbr_month_names: - aug
-    abbr_month_names: - sep
-    abbr_month_names: - okt
-    abbr_month_names: - nov
-    abbr_month_names: - dec
+    month_names:
+      - ~
+      - januari
+      - februari
+      - mars
+      - april
+      - maj
+      - juni
+      - juli
+      - augusti
+      - september
+      - oktober
+      - november
+      - december
+    abbr_month_names:
+      - ~
+      - jan
+      - feb
+      - mar
+      - apr
+      - maj
+      - jun
+      - jul
+      - aug
+      - sep
+      - okt
+      - nov
+      - dec
     # Used in date_select and datime_select.
     order:
       - :day
@@ -189,7 +193,7 @@ sv:
   notice_account_pending: "Ditt konto skapades och avvaktar nu administratörens godkännande."
   notice_default_data_loaded: Standardkonfiguration inläst.
   notice_unable_delete_version: ~
-  notice_issue_done_ratios_updated: % klart uppdaterade.
+  notice_issue_done_ratios_updated: '% klart uppdaterade.'
   notice_this_is_your_profie: "This is your public profile. To manage your account <a href='/my/account'>click here</a>"
   
   error_old_invite : "Old or bad invitation"

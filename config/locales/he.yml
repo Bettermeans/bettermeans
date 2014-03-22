@@ -8,48 +8,52 @@ he:
       short: "%d/%m"
       long: "%d/%m/%Y"
       
-    day_names: - ראשון
-    day_names: - שני
-    day_names: - שלישי
-    day_names: - רביעי
-    day_names: - חמישי
-    day_names: - שישי
-    day_names: - שבת
-    abbr_day_names: - א'
-    abbr_day_names: - ב'
-    abbr_day_names: - ג'
-    abbr_day_names: - ד'
-    abbr_day_names: - ה'
-    abbr_day_names: - ו'
-    abbr_day_names: - ש'
+    day_names:
+      - ראשון
+      - שני
+      - שלישי
+      - רביעי
+      - חמישי
+      - שישי
+      - שבת
+    abbr_day_names:
+      - א'
+      - ב'
+      - ג'
+      - ד'
+      - ה'
+      - ו'
+      - ש'
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - ינואר
-    month_names: - פברואר
-    month_names: - מרץ
-    month_names: - אפריל
-    month_names: - מאי
-    month_names: - יוני
-    month_names: - יולי
-    month_names: - אוגוסט
-    month_names: - ספטמבר
-    month_names: - אוקטובר
-    month_names: - נובמבר
-    month_names: - דצמבר
-    abbr_month_names: - ~
-    abbr_month_names: - יאנ
-    abbr_month_names: - פבר
-    abbr_month_names: - מרץ
-    abbr_month_names: - אפר
-    abbr_month_names: - מאי
-    abbr_month_names: - יונ
-    abbr_month_names: - יול
-    abbr_month_names: - אוג
-    abbr_month_names: - ספט
-    abbr_month_names: - אוק
-    abbr_month_names: - נוב
-    abbr_month_names: - דצמ
+    month_names:
+      - ~
+      - ינואר
+      - פברואר
+      - מרץ
+      - אפריל
+      - מאי
+      - יוני
+      - יולי
+      - אוגוסט
+      - ספטמבר
+      - אוקטובר
+      - נובמבר
+      - דצמבר
+    abbr_month_names:
+      - ~
+      - יאנ
+      - פבר
+      - מרץ
+      - אפר
+      - מאי
+      - יונ
+      - יול
+      - אוג
+      - ספט
+      - אוק
+      - נוב
+      - דצמ
     # Used in date_select and datime_select.
     order:
       - :day

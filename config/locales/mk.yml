@@ -8,48 +8,52 @@ mk:
       short: "%d %b"
       long: "%d %B, %Y"
       
-    day_names: - недела
-    day_names: - понеделник
-    day_names: - вторник
-    day_names: - среда
-    day_names: - четврток
-    day_names: - петок
-    day_names: - сабота
-    abbr_day_names: - нед
-    abbr_day_names: - пон
-    abbr_day_names: - вто
-    abbr_day_names: - сре
-    abbr_day_names: - чет
-    abbr_day_names: - пет
-    abbr_day_names: - саб
+    day_names:
+      - недела
+      - понеделник
+      - вторник
+      - среда
+      - четврток
+      - петок
+      - сабота
+    abbr_day_names:
+      - нед
+      - пон
+      - вто
+      - сре
+      - чет
+      - пет
+      - саб
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - јануари
-    month_names: - февруари
-    month_names: - март
-    month_names: - април
-    month_names: - мај
-    month_names: - јуни
-    month_names: - јули
-    month_names: - август
-    month_names: - септември
-    month_names: - октомври
-    month_names: - ноември
-    month_names: - декември
-    abbr_month_names: - ~
-    abbr_month_names: - јан
-    abbr_month_names: - фев
-    abbr_month_names: - мар
-    abbr_month_names: - апр
-    abbr_month_names: - мај
-    abbr_month_names: - јун
-    abbr_month_names: - јул
-    abbr_month_names: - авг
-    abbr_month_names: - сеп
-    abbr_month_names: - окт
-    abbr_month_names: - ное
-    abbr_month_names: - дек
+    month_names:
+      - ~
+      - јануари
+      - февруари
+      - март
+      - април
+      - мај
+      - јуни
+      - јули
+      - август
+      - септември
+      - октомври
+      - ноември
+      - декември
+    abbr_month_names:
+      - ~
+      - јан
+      - фев
+      - мар
+      - апр
+      - мај
+      - јун
+      - јул
+      - авг
+      - сеп
+      - окт
+      - ное
+      - дек
     # Used in date_select and datime_select.
     order:
       - :day

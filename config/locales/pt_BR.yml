@@ -8,48 +8,52 @@ pt_BR:
       short: "%d de %B"
       long: "%d de %B de %Y"
       
-    day_names: - Domingo
-    day_names: - Segunda
-    day_names: - Terça
-    day_names: - Quarta
-    day_names: - Quinta
-    day_names: - Sexta
-    day_names: - Sábado
-    abbr_day_names: - Dom
-    abbr_day_names: - Seg
-    abbr_day_names: - Ter
-    abbr_day_names: - Qua
-    abbr_day_names: - Qui
-    abbr_day_names: - Sex
-    abbr_day_names: - Sáb
+    day_names:
+      - Domingo
+      - Segunda
+      - Terça
+      - Quarta
+      - Quinta
+      - Sexta
+      - Sábado
+    abbr_day_names:
+      - Dom
+      - Seg
+      - Ter
+      - Qua
+      - Qui
+      - Sex
+      - Sáb
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Janeiro
-    month_names: - Fevereiro
-    month_names: - Março
-    month_names: - Abril
-    month_names: - Maio
-    month_names: - Junho
-    month_names: - Julho
-    month_names: - Agosto
-    month_names: - Setembro
-    month_names: - Outubro
-    month_names: - Novembro
-    month_names: - Dezembro
-    abbr_month_names: - ~
-    abbr_month_names: - Jan
-    abbr_month_names: - Fev
-    abbr_month_names: - Mar
-    abbr_month_names: - Abr
-    abbr_month_names: - Mai
-    abbr_month_names: - Jun
-    abbr_month_names: - Jul
-    abbr_month_names: - Ago
-    abbr_month_names: - Set
-    abbr_month_names: - Out
-    abbr_month_names: - Nov
-    abbr_month_names: - Dez
+    month_names:
+      - ~
+      - Janeiro
+      - Fevereiro
+      - Março
+      - Abril
+      - Maio
+      - Junho
+      - Julho
+      - Agosto
+      - Setembro
+      - Outubro
+      - Novembro
+      - Dezembro
+    abbr_month_names:
+      - ~
+      - Jan
+      - Fev
+      - Mar
+      - Abr
+      - Mai
+      - Jun
+      - Jul
+      - Ago
+      - Set
+      - Out
+      - Nov
+      - Dez
     # Used in date_select and datime_select.
     order:
       - :day

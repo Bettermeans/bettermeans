@@ -8,48 +8,52 @@ mn:
       short: "%b %d"
       long: "%Y, %B %d"
       
-    day_names: - Даваа
-    day_names: - Мягмар
-    day_names: - Лхагва
-    day_names: - Пүрэв
-    day_names: - Баасан
-    day_names: - Бямба
-    day_names: - Ням
-    abbr_day_names: - Дав
-    abbr_day_names: - Мяг
-    abbr_day_names: - Лха
-    abbr_day_names: - Пүр
-    abbr_day_names: - Бсн
-    abbr_day_names: - Бям
-    abbr_day_names: - Ням
+    day_names:
+      - Даваа
+      - Мягмар
+      - Лхагва
+      - Пүрэв
+      - Баасан
+      - Бямба
+      - Ням
+    abbr_day_names:
+      - Дав
+      - Мяг
+      - Лха
+      - Пүр
+      - Бсн
+      - Бям
+      - Ням
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - "1-р сар"
-    month_names: - "2-р сар"
-    month_names: - "3-р сар"
-    month_names: - "4-р сар"
-    month_names: - "5-р сар"
-    month_names: - "6-р сар"
-    month_names: - "7-р сар"
-    month_names: - "8-р сар"
-    month_names: - "9-р сар"
-    month_names: - "10-р сар"
-    month_names: - "11-р сар"
-    month_names: - "12-р сар"
-    abbr_month_names: - ~
-    abbr_month_names: - 1сар
-    abbr_month_names: - 2сар
-    abbr_month_names: - 3сар
-    abbr_month_names: - 4сар
-    abbr_month_names: - 5сар
-    abbr_month_names: - 6сар
-    abbr_month_names: - 7сар
-    abbr_month_names: - 8сар
-    abbr_month_names: - 9сар
-    abbr_month_names: - 10сар
-    abbr_month_names: - 11сар
-    abbr_month_names: - 12сар
+    month_names:
+      - ~
+      - "1-р сар"
+      - "2-р сар"
+      - "3-р сар"
+      - "4-р сар"
+      - "5-р сар"
+      - "6-р сар"
+      - "7-р сар"
+      - "8-р сар"
+      - "9-р сар"
+      - "10-р сар"
+      - "11-р сар"
+      - "12-р сар"
+    abbr_month_names:
+      - ~
+      - 1сар
+      - 2сар
+      - 3сар
+      - 4сар
+      - 5сар
+      - 6сар
+      - 7сар
+      - 8сар
+      - 9сар
+      - 10сар
+      - 11сар
+      - 12сар
     # Used in date_select and datime_select.
     order:
       - :day

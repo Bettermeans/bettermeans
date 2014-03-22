@@ -8,48 +8,52 @@ hr:
       short: "%b %d"
       long: "%B %d, %Y"
       
-    day_names: - Ponedjeljak
-    day_names: - Utorak
-    day_names: - Srijeda
-    day_names: - Četvrtak
-    day_names: - Petak
-    day_names: - Subota
-    day_names: - Nedjelja
-    abbr_day_names: - Ned
-    abbr_day_names: - Pon
-    abbr_day_names: - Uto
-    abbr_day_names: - Sri
-    abbr_day_names: - Čet
-    abbr_day_names: - Pet
-    abbr_day_names: - Sub
+    day_names:
+      - Ponedjeljak
+      - Utorak
+      - Srijeda
+      - Četvrtak
+      - Petak
+      - Subota
+      - Nedjelja
+    abbr_day_names:
+      - Ned
+      - Pon
+      - Uto
+      - Sri
+      - Čet
+      - Pet
+      - Sub
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Sijecanj
-    month_names: - Veljaca
-    month_names: - Ožujak
-    month_names: - Travanj
-    month_names: - Svibanj
-    month_names: - Lipanj
-    month_names: - Srpanj
-    month_names: - Kolovoz
-    month_names: - Rujan
-    month_names: - Listopad
-    month_names: - Studeni
-    month_names: - Prosinac
-    abbr_month_names: - ~
-    abbr_month_names: - Sij
-    abbr_month_names: - Velj
-    abbr_month_names: - Ožu
-    abbr_month_names: - Tra
-    abbr_month_names: - Svi
-    abbr_month_names: - Lip
-    abbr_month_names: - Srp
-    abbr_month_names: - Kol
-    abbr_month_names: - Ruj
-    abbr_month_names: - List
-    abbr_month_names: - Stu
-    abbr_month_names: - Pro
+    month_names:
+      - ~
+      - Sijecanj
+      - Veljaca
+      - Ožujak
+      - Travanj
+      - Svibanj
+      - Lipanj
+      - Srpanj
+      - Kolovoz
+      - Rujan
+      - Listopad
+      - Studeni
+      - Prosinac
+    abbr_month_names:
+      - ~
+      - Sij
+      - Velj
+      - Ožu
+      - Tra
+      - Svi
+      - Lip
+      - Srp
+      - Kol
+      - Ruj
+      - List
+      - Stu
+      - Pro
     # Used in date_select and datime_select.
     order:
       - :year

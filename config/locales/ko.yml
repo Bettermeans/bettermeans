@@ -8,48 +8,52 @@ ko:
       short: "%m/%d"
       long: "%Y년 %m월 %d일 (%a)"
       
-    day_names: - 일요일
-    day_names: - 월요일
-    day_names: - 화요일
-    day_names: - 수요일
-    day_names: - 목요일
-    day_names: - 금요일
-    day_names: - 토요일
-    abbr_day_names: - 일
-    abbr_day_names: - 월
-    abbr_day_names: - 화
-    abbr_day_names: - 수
-    abbr_day_names: - 목
-    abbr_day_names: - 금
-    abbr_day_names: - 토
+    day_names:
+      - 일요일
+      - 월요일
+      - 화요일
+      - 수요일
+      - 목요일
+      - 금요일
+      - 토요일
+    abbr_day_names:
+      - 일
+      - 월
+      - 화
+      - 수
+      - 목
+      - 금
+      - 토
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - 1월
-    month_names: - 2월
-    month_names: - 3월
-    month_names: - 4월
-    month_names: - 5월
-    month_names: - 6월
-    month_names: - 7월
-    month_names: - 8월
-    month_names: - 9월
-    month_names: - 10월
-    month_names: - 11월
-    month_names: - 12월
-    abbr_month_names: - ~
-    abbr_month_names: - 1월
-    abbr_month_names: - 2월
-    abbr_month_names: - 3월
-    abbr_month_names: - 4월
-    abbr_month_names: - 5월
-    abbr_month_names: - 6월
-    abbr_month_names: - 7월
-    abbr_month_names: - 8월
-    abbr_month_names: - 9월
-    abbr_month_names: - 10월
-    abbr_month_names: - 11월
-    abbr_month_names: - 12월
+    month_names:
+      - ~
+      - 1월
+      - 2월
+      - 3월
+      - 4월
+      - 5월
+      - 6월
+      - 7월
+      - 8월
+      - 9월
+      - 10월
+      - 11월
+      - 12월
+    abbr_month_names:
+      - ~
+      - 1월
+      - 2월
+      - 3월
+      - 4월
+      - 5월
+      - 6월
+      - 7월
+      - 8월
+      - 9월
+      - 10월
+      - 11월
+      - 12월
     # Used in date_select and datime_select.
     order:
       - :year

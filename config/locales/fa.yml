@@ -8,48 +8,52 @@ fa:
       short: "%b %d"
       long: "%B %d, %Y"
       
-    day_names: - یک‌شنبه
-    day_names: - دوشنبه
-    day_names: - سه‌شنبه
-    day_names: - چهارشنبه
-    day_names: - پنج‌شنبه
-    day_names: - آدینه
-    day_names: - شنبه
-    abbr_day_names: - یک
-    abbr_day_names: - دو
-    abbr_day_names: - سه
-    abbr_day_names: - چهار
-    abbr_day_names: - پنج
-    abbr_day_names: - آدینه
-    abbr_day_names: - شنبه
+    day_names:
+      - یک‌شنبه
+      - دوشنبه
+      - سه‌شنبه
+      - چهارشنبه
+      - پنج‌شنبه
+      - آدینه
+      - شنبه
+    abbr_day_names:
+      - یک
+      - دو
+      - سه
+      - چهار
+      - پنج
+      - آدینه
+      - شنبه
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - ژانویه
-    month_names: - فوریه
-    month_names: - مارس
-    month_names: - آوریل
-    month_names: - مه
-    month_names: - ژوئن
-    month_names: - ژوئیه
-    month_names: - اوت
-    month_names: - سپتامبر
-    month_names: - اکتبر
-    month_names: - نوامبر
-    month_names: - دسامبر
-    abbr_month_names: - ~
-    abbr_month_names: - ژان
-    abbr_month_names: - فور
-    abbr_month_names: - مار
-    abbr_month_names: - آور
-    abbr_month_names: - مه
-    abbr_month_names: - ژوئن
-    abbr_month_names: - ژوئیه
-    abbr_month_names: - اوت
-    abbr_month_names: - سپت
-    abbr_month_names: - اکت
-    abbr_month_names: - نوا
-    abbr_month_names: - دسا
+    month_names:
+      - ~
+      - ژانویه
+      - فوریه
+      - مارس
+      - آوریل
+      - مه
+      - ژوئن
+      - ژوئیه
+      - اوت
+      - سپتامبر
+      - اکتبر
+      - نوامبر
+      - دسامبر
+    abbr_month_names:
+      - ~
+      - ژان
+      - فور
+      - مار
+      - آور
+      - مه
+      - ژوئن
+      - ژوئیه
+      - اوت
+      - سپت
+      - اکت
+      - نوا
+      - دسا
     # Used in date_select and datime_select.
     order:
       - :year

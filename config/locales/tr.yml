@@ -8,48 +8,52 @@ tr:
       short: "%e %b"
       long: "%e %B %Y, %A"
       
-    day_names: - Pazar
-    day_names: - Pazartesi
-    day_names: - Salı
-    day_names: - Çarşamba
-    day_names: - Perşembe
-    day_names: - Cuma
-    day_names: - Cumartesi
-    abbr_day_names: - Pzr
-    abbr_day_names: - Pzt
-    abbr_day_names: - Sal
-    abbr_day_names: - Çrş
-    abbr_day_names: - Prş
-    abbr_day_names: - Cum
-    abbr_day_names: - Cts
+    day_names:
+      - Pazar
+      - Pazartesi
+      - Salı
+      - Çarşamba
+      - Perşembe
+      - Cuma
+      - Cumartesi
+    abbr_day_names:
+      - Pzr
+      - Pzt
+      - Sal
+      - Çrş
+      - Prş
+      - Cum
+      - Cts
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Ocak
-    month_names: - Şubat
-    month_names: - Mart
-    month_names: - Nisan
-    month_names: - Mayıs
-    month_names: - Haziran
-    month_names: - Temmuz
-    month_names: - Ağustos
-    month_names: - Eylül
-    month_names: - Ekim
-    month_names: - Kasım
-    month_names: - Aralık
-    abbr_month_names: - ~
-    abbr_month_names: - Oca
-    abbr_month_names: - Şub
-    abbr_month_names: - Mar
-    abbr_month_names: - Nis
-    abbr_month_names: - May
-    abbr_month_names: - Haz
-    abbr_month_names: - Tem
-    abbr_month_names: - Ağu
-    abbr_month_names: - Eyl
-    abbr_month_names: - Eki
-    abbr_month_names: - Kas
-    abbr_month_names: - Ara
+    month_names:
+      - ~
+      - Ocak
+      - Şubat
+      - Mart
+      - Nisan
+      - Mayıs
+      - Haziran
+      - Temmuz
+      - Ağustos
+      - Eylül
+      - Ekim
+      - Kasım
+      - Aralık
+    abbr_month_names:
+      - ~
+      - Oca
+      - Şub
+      - Mar
+      - Nis
+      - May
+      - Haz
+      - Tem
+      - Ağu
+      - Eyl
+      - Eki
+      - Kas
+      - Ara
     # Used in date_select and datime_select.
     order:
       - :day

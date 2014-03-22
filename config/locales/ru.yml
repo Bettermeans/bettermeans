@@ -8,48 +8,52 @@ ru:
       short: "%d %b"
       long: "%d %B %Y"
       
-    day_names: - воскресенье
-    day_names: - понедельник
-    day_names: - вторник
-    day_names: - среда
-    day_names: - четверг
-    day_names: - пятница
-    day_names: - суббота
-    abbr_day_names: - Вс
-    abbr_day_names: - Пн
-    abbr_day_names: - Вт
-    abbr_day_names: - Ср
-    abbr_day_names: - Чт
-    abbr_day_names: - Пт
-    abbr_day_names: - Сб
+    day_names:
+      - воскресенье
+      - понедельник
+      - вторник
+      - среда
+      - четверг
+      - пятница
+      - суббота
+    abbr_day_names:
+      - Вс
+      - Пн
+      - Вт
+      - Ср
+      - Чт
+      - Пт
+      - Сб
       
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - января
-    month_names: - февраля
-    month_names: - марта
-    month_names: - апреля
-    month_names: - мая
-    month_names: - июня
-    month_names: - июля
-    month_names: - августа
-    month_names: - сентября
-    month_names: - октября
-    month_names: - ноября
-    month_names: - декабря
-    abbr_month_names: - ~
-    abbr_month_names: - янв.
-    abbr_month_names: - февр.
-    abbr_month_names: - марта
-    abbr_month_names: - апр.
-    abbr_month_names: - мая
-    abbr_month_names: - июня
-    abbr_month_names: - июля
-    abbr_month_names: - авг.
-    abbr_month_names: - сент.
-    abbr_month_names: - окт.
-    abbr_month_names: - нояб.
-    abbr_month_names: - дек.
+    month_names:
+      - ~
+      - января
+      - февраля
+      - марта
+      - апреля
+      - мая
+      - июня
+      - июля
+      - августа
+      - сентября
+      - октября
+      - ноября
+      - декабря
+    abbr_month_names:
+      - ~
+      - янв.
+      - февр.
+      - марта
+      - апр.
+      - мая
+      - июня
+      - июля
+      - авг.
+      - сент.
+      - окт.
+      - нояб.
+      - дек.
     # Used in date_select and datime_select.
     order:
       - :day

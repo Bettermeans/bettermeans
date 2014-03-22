@@ -8,48 +8,52 @@ bg:
       short: "%b %d"
       long: "%B %d, %Y"
       
-    day_names: - Неделя
-    day_names: - Понеделник
-    day_names: - Вторник
-    day_names: - Сряда
-    day_names: - Четвъртък
-    day_names: - Петък
-    day_names: - Събота
-    abbr_day_names: - Нед
-    abbr_day_names: - Пон
-    abbr_day_names: - Вто
-    abbr_day_names: - Сря
-    abbr_day_names: - Чет
-    abbr_day_names: - Пет
-    abbr_day_names: - Съб
-      
+    day_names:
+      - Неделя
+      - Понеделник
+      - Вторник
+      - Сряда
+      - Четвъртък
+      - Петък
+      - Събота
+    abbr_day_names:
+      - Нед
+      - Пон
+      - Вто
+      - Сря
+      - Чет
+      - Пет
+      - Съб
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: - ~
-    month_names: - Януари
-    month_names: - Февруари
-    month_names: - Март
-    month_names: - Април
-    month_names: - Май
-    month_names: - Юни
-    month_names: - Юли
-    month_names: - Август
-    month_names: - Септември
-    month_names: - Октомври
-    month_names: - Ноември
-    month_names: - Декември
-    abbr_month_names: - ~
-    abbr_month_names: - Яну
-    abbr_month_names: - Фев
-    abbr_month_names: - Мар
-    abbr_month_names: - Апр
-    abbr_month_names: - Май
-    abbr_month_names: - Юни
-    abbr_month_names: - Юли
-    abbr_month_names: - Авг
-    abbr_month_names: - Сеп
-    abbr_month_names: - Окт
-    abbr_month_names: - Ное
-    abbr_month_names: - Дек
+    month_names:
+      - ~
+      - Януари
+      - Февруари
+      - Март
+      - Април
+      - Май
+      - Юни
+      - Юли
+      - Август
+      - Септември
+      - Октомври
+      - Ноември
+      - Декември
+    abbr_month_names:
+      - ~
+      - Яну
+      - Фев
+      - Мар
+      - Апр
+      - Май
+      - Юни
+      - Юли
+      - Авг
+      - Сеп
+      - Окт
+      - Ное
+      - Дек
     # Used in date_select and datime_select.
     order:
       - :year
