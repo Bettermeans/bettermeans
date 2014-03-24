@@ -1,25 +1,17 @@
 cs:
   date:
     formats:
-      # Use the strftime parameters for formats.
-      # When no format has been given, it uses default.
-      # You can provide other formats here if you like!
       default: "%Y-%m-%d"
       short: "%b %d"
       long: "%B %d, %Y"
-      
     day_names: [Neděle, Pondělí, Úterý, Středa, Čtvrtek, Pátek, Sobota]
     abbr_day_names: [Ne, Po, Út, St, Čt, Pá, So]
-      
-    # Don't forget the nil at the beginning; there's no such thing as a 0th month
-    month_names: [~, Leden, Únor, Březen, Duben, Květen, Červen, Červenec, Srpen, Září, Říjen, Listopad, Prosinec]
-    abbr_month_names: [~, Led, Úno, Bře, Dub, Kvě, Čer, Čvn, Srp, Zář, Říj, Lis, Pro]
-    # Used in date_select and datime_select.
+    month_names: [null, Leden, Únor, Březen, Duben, Květen, Červen, Červenec, Srpen, Září, Říjen, Listopad, Prosinec]
+    abbr_month_names: [null, Led, Úno, Bře, Dub, Kvě, Čer, Čvn, Srp, Zář, Říj, Lis, Pro]
     order:
-      - :year
-      - :month
-      - :day
-
+    - :year
+    - :month
+    - :day
   time:
     formats:
       default: "%a, %d %b %Y %H:%M:%S %z"
@@ -28,7 +20,6 @@ cs:
       long: "%B %d, %Y %H:%M"
     am: "dop."
     pm: "odp."
-      
   datetime:
     distance_in_words:
       half_a_minute: "půl minuty"
@@ -72,12 +63,8 @@ cs:
         one: "více než 1 rok"
         few: "přes {count} roky"
         other: "přes {count} let"
-
   number:
     human:
-      format:
-        delimiter: ""
-        precision: 1
       storage_units:
         format: "%n %u"
         units:
@@ -89,14 +76,9 @@ cs:
           mb: "MB"
           gb: "GB"
           tb: "TB"
-
-        
-# Used in array.to_sentence.
   support:
     array:
       sentence_connector: "a"
-      skip_last_comma: false
-      
   activerecord:
     errors:
       messages:
@@ -123,9 +105,7 @@ cs:
         greater_than_start_date: "musí být větší než počáteční datum"
         not_same_project: "nepatří do stejného projektu"
         circular_dependency: "Tento vztah by vytvořil cyklickou závislost"
-
   actionview_instancetag_blank_option: Prosím, vyberte
-  
   general_text_No: 'Ne'
   general_text_Yes: 'Ano'
   general_text_no: 'ne'
@@ -134,11 +114,7 @@ cs:
   general_csv_separator: ','
   general_csv_decimal_separator: '.'
   general_csv_encoding: UTF-8
-  general_pdf_encoding: ~
   general_first_day_of_week: '1'
-  
-  notice_account_reactivated: ~
-  notice_account_canceled: ~
   notice_account_inactive_user: Účet ještě nebyl aktivován. Prosím, zkontrolujte email, zda vám nepřišel aktivační odkaz.
   notice_account_updated: Účet byl úspěšně změněn.
   notice_account_invalid_creditentials: Chybné jméno nebo heslo
@@ -166,9 +142,8 @@ cs:
   notice_unable_delete_version: Nelze smazat výstup.
   notice_issue_done_ratios_updated: Koeficienty dokončení úkolu byly aktualizovány.
   notice_this_is_your_profie: "Toto je vás veřejný profil. K jeho úpravě <a href='/my/account'>klikněte sem</a>"
-  
-  error_old_invite : "Stará nebo špatná pozvánka"
-  error_bad_email_update : "Špatně napsaná emailová aktualizace"
+  error_old_invite: "Stará nebo špatná pozvánka"
+  error_bad_email_update: "Špatně napsaná emailová aktualizace"
   error_can_t_load_default_data: "Výchozí nastavení nemohlo být načteno: {value}"
   error_issue_not_found_in_project: 'Úkol nebyl nalezen, nebo nepatří do tohoto projektu'
   error_no_tracker_in_project: 'No issue type is associated to this workstream. Please check the Workstream settings.'
@@ -179,9 +154,7 @@ cs:
   error_workflow_copy_source: 'Prosím vyberte zdrojovou frontu nebo roly'
   error_workflow_copy_target: 'Prosím vyberte cílovou frontu(y) a roly(e)'
   error_general: 'Něco se pokazilo.'
-  
   warning_attachments_not_saved: "{count} soubor(ů) nemohl(o) být uložen(o)."
-  
   mail_subject_lost_password: "Your {value} password"
   mail_body_lost_password: 'Pro změnu vašeho hesla klikněte na následující odkaz:'
   mail_subject_register: "Your {value} account activation"
@@ -192,22 +165,18 @@ cs:
   mail_subject_email_update_activation: "{value} new email activation"
   mail_body_account_activation_request: "Zaregistroval se nový uživatel ({value}). Tento účet čeká na vaše schválení:"
   mail_subject_reminder: "{count} item(s) due in the next days"
-  mail_body_reminder: "{count} item(s) that are owned by you are due in the next {days} days:" #updated
+  mail_body_reminder: "{count} item(s) that are owned by you are due in the next {days} days:"
   mail_subject_wiki_content_added: "wiki stránka '{page}' byla přidána"
   mail_body_wiki_content_added: "Wiki stránka '{page}' byla přidána uživatelem {author}."
   mail_subject_wiki_content_updated: "Wiki stránka '{page}' byla aktualizována"
   mail_body_wiki_content_updated: "Wiki stránka '{page}' byla aktualizována uživatelem {author}."
-  
   gui_validation_error: 1 chyba
   gui_validation_error_plural: "{count} chyb"
-  
-  field_tags : "Tagy"
-  field_points : "Průměrně odhadovaný kredit"
-  field_logo : "Logo"
+  field_tags: "Tagy"
+  field_points: "Průměrně odhadovaný kredit"
+  field_logo: "Logo"
   field_image_file: "Nahrajte vlastní soubor"
   field_image_file_url: "nebo URL obrázku"
-  field_retro: ~
-  field_volunteer: ~
   field_name: Název
   field_description: Popis
   field_summary: Přehled
@@ -236,29 +205,19 @@ cs:
   field_notes: Poznámka
   field_is_closed: Úkol dokončen
   field_is_default: Výchozí stav
-  field_tracker: ~
   field_subject: Předmět
-  field_due_date: ~
-  field_expected_date: ~
-  field_assigned_to: ~ #Changed
   field_priority: Priorita
-  field_fixed_version: ~
   field_user: Uživatel
   field_role: Role
   field_homepage: Domovská stránka
   field_is_public: Veřejný
   field_parent: Dílčí projekt z
-  field_is_in_roadmap: ~
-  field_login: ~
-  field_mail_notification: ~
   field_admin: Administrátor
   field_last_login_on: Poslední přihlášení
   field_language: Jazyk
   field_effective_date: Datum
   field_password: Heslo
   field_new_password: Nové heslo
-  field_password_confirmation: ~
-  field_version: ~
   field_type: Typ
   field_host: Host
   field_port: Port
@@ -269,15 +228,12 @@ cs:
   field_attr_lastname: Příjemní (atribut)
   field_attr_mail: Email (atribut)
   field_onthefly: Automatické vytváření uživatelů
-  field_start_date: ~
   field_done_ratio: "% Hotovo"
   field_auth_source: Autentifikační mód
   field_hide_mail: Nezobrazovat můj email
   field_active_only_jumps: "Zobrazovat v horním menu pouze ty projekty, ve kterých jsem aktivní"
   field_comments: Komentář
-  field_wiki_comments: ~
   field_url: URL
-  field_start_page: ~
   field_subproject: Dílčí projekt
   field_hours: Hodiny
   field_activity: Aktivita
@@ -303,11 +259,6 @@ cs:
   field_content: Obsah
   field_group_by: Seskupovat výsledky podle
   field_sharing: Sdílení
-  field_dpp: ~
-  field_hourly_rate_per_person: ~
-  field_hourly_cap: ~
-  field_pri: ~
-  
   setting_app_title: Název aplikace
   setting_app_subtitle: Podtitulek aplikace
   setting_welcome_text: Uvítací text
@@ -315,7 +266,6 @@ cs:
   setting_login_required: Autentifikace vyžadována
   setting_self_registration: Povolena automatická registrace
   setting_attachment_max_size: Maximální velikost přílohy
-  setting_issues_export_limit: ~
   setting_mail_from: Odesílat emaily z adresy
   setting_bcc_recipients: Příjemci skryté kopie (bcc)
   setting_plain_text_mail: pouze prostý text (ne HTML)
@@ -332,43 +282,30 @@ cs:
   setting_time_format: Formát času
   setting_cross_project_issue_relations: Umožnit vztahy mezi úkoly z jiných projektů
   setting_issue_list_default_columns: Sloupce zobrazované v přehledu úkolu
-  setting_commit_logs_encoding: ~
   setting_emails_footer: Patička emailů
   setting_protocol: Protokol
   setting_per_page_options: Povolené počty řádků na stránce
   setting_user_format: Formát zobrazení uživatele
-  setting_activity_days_default: ~
   setting_display_subprojects_issues: Automaticky zobrazovat položky dílčích projektů v projektu hlavním
   setting_enabled_scm: Povolené SCM
   setting_mail_handler_body_delimiters: "Zkrátit e-maily po jednom z těchto řádků"
   setting_mail_handler_api_enabled: Povolit WS pro příchozí e-maily
   setting_mail_handler_api_key: API klíč
-  setting_sequential_project_identifiers: ~
   setting_gravatar_enabled: Použít uživatelské ikony Gravatar
   setting_gravatar_default: Výchozí Gravatar
   setting_diff_max_lines_displayed: Maximální počet zobrazených řádků rozdílů
   setting_file_max_size_displayed: Maximální velikost textových souborů zobrazených přímo na stránce
   setting_openid: Umožnit přihlašování a registrace s OpenID
   setting_password_min_length: Minimální délka hesla
-  setting_new_project_user_role_id: ~
-  setting_default_projects_modules: ~
-  setting_issue_done_ratio: ~
-  setting_issue_done_ratio_issue_field: ~
-  setting_issue_done_ratio_issue_status: ~
   setting_start_of_week: Začínat kalendáře
   setting_rest_api_enabled: Zapnout službu REST
-  
-  permission_view_project : Prohlédnout projekt
+  permission_view_project: Prohlédnout projekt
   permission_add_project: Vytvořit projekt
   permission_add_subprojects: Vytvořit dílčí projekt
   permission_edit_project: Upravit projekt
   permission_move_project: Přesunout projekt
   permission_select_project_modules: Vybrat nástroje projektu
   permission_manage_members: Spravování členství
-  permission_manage_versions: ~
-  permission_manage_categories: ~
-  permission_add_issues: ~
-  permission_edit_issues: ~
   permission_manage_issue_relations: Spravovat vztahy úkolu
   permission_add_issue_notes: Přidávání poznámek
   permission_edit_issue_notes: Upravování poznámek
@@ -402,57 +339,35 @@ cs:
   permission_protect_wiki_pages: Zabezpečení Wiki stránek
   permission_view_changesets: Zobrazování sady změn
   permission_commit_access: Commit přístup
-  permission_manage_boards: ~
   permission_view_messages: Prohlížení zpráv
   permission_add_messages: Posílání zpráv
   permission_edit_messages: Upravování zpráv
   permission_edit_own_messages: Upravit vlastní zprávy
   permission_delete_messages: Mazání zpráv
   permission_delete_own_messages: Smazat vlastní zprávy
-  
-  project_module_issue_tracking: ~
   project_module_time_tracking: Sledování času
   project_module_news: Novinky
   project_module_documents: Dokumenty
   project_module_files: Soubory
   project_module_wiki: Wiki
-  project_module_boards: ~
-
-  title_member_nomination : "Návrh zvolit uživatele {user} jako člena"
-  title_core_member_nomination : "Návrh zvolit uživatele {user} do Hlavního týmu"
-  title_core_member_removal : "Návrh odebrat uživatele {user} z Hlavního týmu"
-  title_member_removal : "Návrh odebrat uživateli {user} členství"
-
-  label_usage_over : "Vaše vyžití přesahuje limity vašeho Plánu"
-  label_trial_expired : "Vaše zkušební lhůta vypršela"
-  label_email_update: ~
-  label_new_page: ~
+  title_member_nomination: "Návrh zvolit uživatele {user} jako člena"
+  title_core_member_nomination: "Návrh zvolit uživatele {user} do Hlavního týmu"
+  title_core_member_removal: "Návrh odebrat uživatele {user} z Hlavního týmu"
+  title_member_removal: "Návrh odebrat uživateli {user} členství"
+  label_usage_over: "Vaše vyžití přesahuje limity vašeho Plánu"
+  label_trial_expired: "Vaše zkušební lhůta vypršela"
   label_my_issues: Moje úkoly
-  label_joined_issues: ~
-  label_joined: ~
   label_projects_recent: Nedávné projekty
   label_projects_active_in: Projekty, ve kterých jsem aktivní
-  label_projects_all : Všechny mé projekty
-  label_view_all : ~
-  label_track_invites: ~
+  label_projects_all: Všechny mé projekty
   label_unarchive_project: Vrátit projekt z archivu
-  label_unarchive_project_brackets: ~
   label_archive_project: Archivovat projekt
   label_delete_project: Odstranit projekt
   label_move_project: Přesunout projekt
-  label_note_to_recipient: ~
-  label_amount_to_transfer: ~
-  label_select_recipient: ~
-  label_credit_transfers: ~
   label_credit_transfer: "Převést kredit"
-  label_new_credit_transfer: ~
   label_select_project: Vybrat úkol projektu
-  label_previous_credit_transfers: ~
-  label_data_dump: ~
   text_data_dump: Stáhnout si kopii všech položek, které patří do projektů, které vlastníte
-  label_issues: ~
   label_type_of_workstream: Projekty - Předvolby
-  label_your_gravatar: ~
   label_team_with_access: Členové, jimž je umožněn přístup (do tohoto projektu)
   label_select_plan: Zvolit nový Plán
   label_current_plan: Současný Plán
@@ -464,14 +379,13 @@ cs:
   label_project_new: Nový projekt
   label_project_plural: Projekty
   label_x_projects:
-    zero:  žádné projekty
-    one:   1 projekt
+    zero: žádné projekty
+    one: 1 projekt
     other: "{count} projektů"
   label_project_all: Všechny projekty
   label_project_latest: Poslední projekty
   label_enterprise_latest: Poslední veřejné projekty
   label_enterprise_active: Nejaktivnější veřejné projekty
-  label_enterprise_plural: ~
   label_issue: Úkol
   label_issue_new: Nový úkol
   label_issue_plural: Úkoly
@@ -481,9 +395,7 @@ cs:
   label_issue_updated: Úkol aktualizován
   label_document: Dokument
   label_document_new: Nový dokument
-  label_document_plural: ~
   label_document_added: Dokument přidán
-  label_quick_links: ~
   label_role: Role
   label_role_plural: Role
   label_role_new: Nová role
@@ -491,13 +403,6 @@ cs:
   label_member: Člen
   label_member_new: Nový člen
   label_member_plural: Členové
-  label_team : ~
-  label_team_plural : Teams
-  label_active_team : ~
-  label_dashboard : ~
-  label_tracker: ~
-  label_tracker_plural: ~
-  label_tracker_new: ~
   label_workflow: Průběh práce
   label_issue_status: Stav úkolu
   label_issue_status_plural: Stavy úkolů
@@ -506,32 +411,20 @@ cs:
   label_enumeration_new: Nová hodnota
   label_information: Informace
   label_information_plural: Informace
-  label_personal_information: ~
-  label_billing_information: ~
   label_please_login: Prosím přihlašte se
-  label_register: ~
   label_login_with_open_id_option: nebo se přihlašte s OpenID
   label_password_lost: Zapomenuté heslo
   label_home: Úvodní
-  label_my_home: ~
-  label_my_page: ~
   label_new_project: Nový projekt
-  label_my_account: ~
   label_my_projects: Moje projekty
   label_projects_i_belong_to: Projekty, do kterých patřím
   label_projects_i_started: Projekty, které jsem vytvořil
-  label_activities_i_belong_to: ~
   label_administration: Administrace
   label_login: Přihlášení
   label_logout: Odhlášení
   label_help: Nápověda
   label_reported_issues: Nahlášené úkoly
-  label_assigned_to_me_issues: ~
-  label_added_issues: ~
-  label_recent_issues: ~
-  label_assigned: ~
   label_last_login: Poslední přihlášení
-  label_registered_on: ~
   label_activity: Aktivita
   label_overall_activity: Celková aktivita
   label_user_activity: "{value}'s activity"
@@ -542,7 +435,7 @@ cs:
   label_auth_source: Mód autentifikace
   label_auth_source_new: Nový mód autentifikace
   label_auth_source_plural: Módy autentifikace
-  label_subproject : Dílčí projekt
+  label_subproject: Dílčí projekt
   label_subproject_plural: Dílčí projekty
   label_subproject_new: Nový dílčí projekt
   label_new_item_in: Nový úkol v
@@ -560,10 +453,7 @@ cs:
   label_attribute_plural: Atributy
   label_download: "{count} stažení"
   label_download_plural: "{count} stažení"
-  label_no_data: ~
-  label_no_credits: ~
   label_change_status: Změnit stav
-  label_history: History
   label_attachment: Soubor
   label_attachment_new: Nový soubor
   label_attachment_delete: Odstranit soubor
@@ -576,14 +466,9 @@ cs:
   label_news_plural: Novinky
   label_news_latest: Poslední novinky
   label_news_view_all: Zobrazit všechny novinky
-  label_activity_latest: ~
-  label_activity_view_all: ~
   label_news_added: Novinka přidána
   label_settings: Nastavení
   label_overview: Přehled
-  label_version: ~
-  label_version_new: ~
-  label_version_plural: ~
   label_confirmation: Potvrzení
   label_export_to: 'Také k dispozici:'
   label_read: Načítá se...
@@ -593,16 +478,14 @@ cs:
   label_closed_issues: uzavřený
   label_closed_issues_plural: uzavřené
   label_x_open_issues_abbr_on_total:
-    zero:  ~
-    one:   ~
     other: "{count} otevřených z {total}"
   label_x_open_issues_abbr:
-    zero:  0 otevřených
-    one:   1 otevřený
+    zero: 0 otevřených
+    one: 1 otevřený
     other: "{count} otevřených"
   label_x_closed_issues_abbr:
-    zero:  0 uzavřených
-    one:   1 uzavřený
+    zero: 0 uzavřených
+    one: 1 uzavřený
     other: "{count} ukončených"
   label_total: Celkem
   label_permissions: Práva
@@ -646,8 +529,6 @@ cs:
   label_less_or_equal: '<='
   label_in: v
   label_today: dnes
-  label_Today: ~
-  label_same_day: ~
   label_all_time: vše
   label_yesterday: včera
   label_this_week: tento týden
@@ -660,18 +541,14 @@ cs:
   label_less_than_ago: před méně jak (dny)
   label_more_than_ago: před více jak (dny)
   label_ago: před (dny)
-  label_ago_simple: ~
   label_contains: obsahuje
   label_not_contains: neobsahuje
-  label_day: ~
   label_day_plural: dny
   label_browse: Procházet
-  label_browse_workstreams: ~
-  label_browse_activity: ~
   label_modification: "{count} změna"
   label_modification_plural: "{count} změn"
   label_branch: Větev
-  label_tag: Tag 
+  label_tag: Tag
   label_revision: Revize
   label_revision_plural: Revizí
   label_revision_id: "Revision {value}"
@@ -681,11 +558,6 @@ cs:
   label_copied: zkopírováno
   label_renamed: přejmenováno
   label_deleted: odstraněno
-  label_moved: ~
-  label_archived: ~
-  label_unarchived: ~
-  label_project_description: ~
-  label_message: ~
   label_latest_revision: Poslední revize
   label_latest_revision_plural: Poslední revize
   label_view_revisions: Zobrazit revize
@@ -698,30 +570,24 @@ cs:
   label_roadmap: Plán
   label_roadmap_due_in: "Due in {value}"
   label_roadmap_overdue: "{value} late"
-  label_roadmap_no_issues: ~
   label_search: Hledat
   label_result_plural: Výsledky
   label_all_words: Všechna slova
   label_wiki: Wiki
   label_wiki_edit: Wiki úprava
   label_wiki_edit_plural: Wiki úpravy
-  label_wikipage: ~
   label_wiki_page: Wiki stránka
   label_wiki_page_plural: Wiki stránky
   label_index_by_title: Index dle názvu
   label_index_by_date: Index dle data
-  label_current_version: ~
   label_preview: Náhled
   label_feed_plural: Příspěvky
   label_changes_details: Detail všech změn
-  label_issue_tracking: ~
-  label_boards: ~
   label_spent_time: Strávený čas
   label_f_hour: "{value} hodina"
   label_f_hour_plural: "{value} hodin"
   label_time_tracking: Sledování času
   label_change_plural: Změny
-  label_change : ~
   label_statistics: Statistiky
   label_commits_per_month: Commitů za měsíc
   label_commits_per_author: Commitů za autora
@@ -731,11 +597,8 @@ cs:
   label_options: Nastavení
   label_copy_workflow_from: Kopírovat průběh práce z
   label_permissions_report: Přehled práv
-  label_watched_issues: ~
-  label_watched: ~
   label_related_issues: Související úkoly
   label_applied_status: Použitý stav
-  label_loading: ~
   label_relation_new: Nová souvislost
   label_relation_delete: Odstranit souvislost
   label_relates_to: související s
@@ -751,19 +614,13 @@ cs:
   label_start_to_end: od začátku do konce
   label_stay_logged_in: Zůstat přihlášený
   label_disabled: zakázán
-  label_show_completed_versions: ~
   label_me: já
-  label_board: ~
-  label_board_new: ~
-  label_board_plural: ~
   label_topic_plural: Témata
   label_message_plural: Zprávy
   label_message_last: Poslední zpráva
   label_message_new: Nová zpráva
-  label_topic_new: ~
   label_message_posted: Zpráva přidána
   label_reply_plural: Odpovědi
-  label_comments_plural: ~
   label_send_information: Zaslat informace o účtu uživateli
   label_year: Rok
   label_month: Měsíc
@@ -789,7 +646,6 @@ cs:
   label_bulk_edit_selected_issues: Hromadná úprava označených úkolů
   label_theme: Téma
   label_default: Výchozí
-  label_search_titles_only: ~
   label_user_mail_option_all: "V případě jakékoli události v některém z mých projektů"
   label_user_mail_option_selected: "V případě jakékoli události v mnou vybraných projektech..."
   label_user_mail_option_none: "Pouze v případech, které sleduji nebo jsem v nich zapojen"
@@ -822,122 +678,106 @@ cs:
   label_sort: Řazení
   label_ascending: Vzestupně
   label_descending: Sestupně
-  label_date_from_to: ~
   label_wiki_content_added: Wiki stránka přidána
   label_wiki_content_updated: Wiki stránka aktualizována
   label_group: Skupina
   label_group_plural: Skupiny
   label_group_new: Nová skupina
   label_time_entry_plural: Strávený čas
-  label_commit_request_history: ~ #new
-  label_by: "uživatelem {author} před {age}" #new
-  label_requested_by: "Vyžádáno uživatelem {author} před {age} " #new
-  label_offered_by: "Offered by {author} to {responder} {age} ago" #new
-  label_accepted_by: "Accepted by {responder} {age} ago" #new
-  label_declined_by: "Declined by {responder} {age} ago" #new
-  label_from_ago: "od uživatele {author} před {age} " #new
-  label_taken_by: "Taken by {responder} {age} ago" #news
-  label_declined: "Declined {age} ago" #new
-  label_accepted: "Accepted {age} ago" #new
-  label_recinded: "Přerušeno před {age} " #new
-  label_released: "Vydáno před {age} " #new
+  label_by: "uživatelem {author} před {age}"
+  label_requested_by: "Vyžádáno uživatelem {author} před {age} "
+  label_offered_by: "Offered by {author} to {responder} {age} ago"
+  label_accepted_by: "Accepted by {responder} {age} ago"
+  label_declined_by: "Declined by {responder} {age} ago"
+  label_from_ago: "od uživatele {author} před {age} "
+  label_taken_by: "Taken by {responder} {age} ago"
+  label_recinded: "Přerušeno před {age} "
+  label_released: "Vydáno před {age} "
   label_not_sure: "Nejsem si jistý"
   label_commitment: "Závazek"
   label_commitment_offer: "Nabídka vlastnictví"
   label_commitment_request: "Požadavek vlastnictví"
-  label_notification : "Upozornění"
-  label_notifications : "Upozornění"
-  label_new_notification : "upozornění"
-  label_new_notifications : "upozornění"
-  label_response_sent : "Odpověď byla odeslána"
-  label_response_ignored : "Žádost byla zamítnuta"
-  label_you : "vy"
-  label_for : "for"
-  label_from : "z"
-  label_ignored : "Ignorovaný"  
-  label_marked_as_read : "Označeno jako přečtené"  
-  label_ownership_offered : "bylo nabídnuto vlastnictví"
-  label_ownership_offered_to : "Vlastnictví bylo nabídnuto uživateli {user}"
-  label_ownership_offer_declined : "Nabídka vlastnictví byla odmítnuta"
-  label_ownership_offer_accepted : "Nabídka vlastnictví byla přijata"
-  label_ownership_offer_declined_from : "Nabídka vlastnictví byla odmítnuta uživatelem {user}"
-  label_ownership_offer_accepted_from : "Nabídka vlastnictví byla přijata uživatelem {user}"
-  label_ownership_offer_withdrawn : "Nabídka vlastnictví byla stažena"
-  label_ownership_offer_withdrawn_to : "Nabídka vlastnictví uživateli {user} byla stažena"
-  label_ownership_requested : "Žádost o vlastnictví"
-  label_ownership_request_accepted : "Žádost o vlastnictví přijata"
-  label_ownership_request_auto_accepted : "Žádost o vlastnictví automaticky přijata"
-  label_ownership_request_declined : "Žádost o vlastnictví zamítnuta"
-  label_ownership_request_accepted_from : "Žádost o vlastnictví od uživatele {user} byla přijata"
-  label_ownership_request_declined_from : "Žádost o vlastnictví od uživatele {user} byla zamítnuta"
-  label_ownership_request_recinded : "Žádost o vlastnictví byla stažena"
-  label_ownership_released : "Vlastnictví bylo dáno k dispozici"
-  label_ownership_taken : "Vlastnictví přijato"
-  label_commit_request_plural : "Vlastnictví úkolu"
-  label_team_offer : "Pozvánka do Hlavního týmu"
-  label_team_offer_plural : "Členové týmu"
-  label_team_plural : "Tým"
-  label_team_invitation : "Pozvánka do Hlavního týmu"
-  label_team_request : "Žádost Hlavního týmu"
-  label_team_request_plural : "žádosti Hlavního týmu"
-  label_accepted : "přijato"
-  label_sent : "odesláno"
-  label_withdrawn : "staženo"
-  label_declined : "zamítnuto"
-  label_to_join_core_team_of : "připojit se do Hlavního týmu projektu {project}"
-  label_request : "Žádost"
-  label_invitation : "Pozvánka"
-  label_was : "bylo"
-  label_your : 'Vaš/Váše'
-  label_to : "to"
-  label_note_from : "Poznámka od uživatele {author}"
-  label_sending_team_invitation : "{author} chce, abyste se připojil do Hlavního týmu projektu {project}"
-  label_sending_team_request : "{author} se chce připojit do Hlavního týmu projektu  {project}"
-  label_team_view_all : "Prohlédnout podrobnosti týmu"
-  label_team_view_all_enterprise : "Prohlédnout kompletní tým"
-  label_member_role_plural : "Změny týmu" 
-  label_join_core_team : "Připojit se do Hlavního týmu"
-  label_leave_core_team : "Opustit Hlavní tým"
-  label_request_to_join_core_team : "Žádost o připojení k Hlavnímu týmu"
-  label_invitation_to_join_core_team : "Pozvat do Hlavního týmu"
-  label_team_points : "Core Points"
-  label_share : "Sdílet"
-  label_share_plural : "Sdílení"
-  label_credit_plural : "Kredit"
-  label_credit : "Kredit"
-  label_retro_started : "Vyhodnocování zahájeno"
-  label_retro_ended : "Vyhodnocování skončilo"
-  label_motion_started : "Nový podnět: {title}"
-  label_credits : ~
-  label_shares : ~
-  label_credit_queue : ~
-  label_credit_history : ~
-  label_my_credits : ~
-  label_credits_breakdown : ~
-  label_active_credits : ~
-  label_outstanding_credits : ~
-  label_total_credits_issued : ~
-  label_youve_got_credits : "Máte kredit!"
-  label_someone_joined_your_issue : "{joiner} se připojil k vám přiřazenému předmětu"
-  label_someone_added_you_to_their_issue : "{sender} vás přidal k předmětu, který vlastní"
-  label_someone_removed_you_from_their_issue : "{sender} vás odebral z předmětu, který vlastní"
-  label_someone_left_your_issue : "{joiner} opustil vám přiřazený předmět"
-  label_someone_mentioned_you : "{mentioner} vás zmínil"
-  label_agree : "Pro"
-  label_disagree : "Proti"
-  label_block : "Blokovat"
-  label_neutral : "Neutrální"
-  label_history : "Historie"
-  label_select : "Vybrat"
-  label_no_mention : "Žádné nepřečtené zmínky"
-  label_mentions : "Zmínky"
-  
+  label_notification: "Upozornění"
+  label_notifications: "Upozornění"
+  label_new_notification: "upozornění"
+  label_new_notifications: "upozornění"
+  label_response_sent: "Odpověď byla odeslána"
+  label_response_ignored: "Žádost byla zamítnuta"
+  label_you: "vy"
+  label_for: "for"
+  label_from: "z"
+  label_ignored: "Ignorovaný"
+  label_marked_as_read: "Označeno jako přečtené"
+  label_ownership_offered: "bylo nabídnuto vlastnictví"
+  label_ownership_offered_to: "Vlastnictví bylo nabídnuto uživateli {user}"
+  label_ownership_offer_declined: "Nabídka vlastnictví byla odmítnuta"
+  label_ownership_offer_accepted: "Nabídka vlastnictví byla přijata"
+  label_ownership_offer_declined_from: "Nabídka vlastnictví byla odmítnuta uživatelem {user}"
+  label_ownership_offer_accepted_from: "Nabídka vlastnictví byla přijata uživatelem {user}"
+  label_ownership_offer_withdrawn: "Nabídka vlastnictví byla stažena"
+  label_ownership_offer_withdrawn_to: "Nabídka vlastnictví uživateli {user} byla stažena"
+  label_ownership_requested: "Žádost o vlastnictví"
+  label_ownership_request_accepted: "Žádost o vlastnictví přijata"
+  label_ownership_request_auto_accepted: "Žádost o vlastnictví automaticky přijata"
+  label_ownership_request_declined: "Žádost o vlastnictví zamítnuta"
+  label_ownership_request_accepted_from: "Žádost o vlastnictví od uživatele {user} byla přijata"
+  label_ownership_request_declined_from: "Žádost o vlastnictví od uživatele {user} byla zamítnuta"
+  label_ownership_request_recinded: "Žádost o vlastnictví byla stažena"
+  label_ownership_released: "Vlastnictví bylo dáno k dispozici"
+  label_ownership_taken: "Vlastnictví přijato"
+  label_commit_request_plural: "Vlastnictví úkolu"
+  label_team_offer: "Pozvánka do Hlavního týmu"
+  label_team_offer_plural: "Členové týmu"
+  label_team_plural: "Tým"
+  label_team_invitation: "Pozvánka do Hlavního týmu"
+  label_team_request: "Žádost Hlavního týmu"
+  label_team_request_plural: "žádosti Hlavního týmu"
+  label_accepted: "přijato"
+  label_sent: "odesláno"
+  label_withdrawn: "staženo"
+  label_declined: "zamítnuto"
+  label_to_join_core_team_of: "připojit se do Hlavního týmu projektu {project}"
+  label_request: "Žádost"
+  label_invitation: "Pozvánka"
+  label_was: "bylo"
+  label_your: 'Vaš/Váše'
+  label_to: "to"
+  label_note_from: "Poznámka od uživatele {author}"
+  label_sending_team_invitation: "{author} chce, abyste se připojil do Hlavního týmu projektu {project}"
+  label_sending_team_request: "{author} se chce připojit do Hlavního týmu projektu  {project}"
+  label_team_view_all: "Prohlédnout podrobnosti týmu"
+  label_team_view_all_enterprise: "Prohlédnout kompletní tým"
+  label_member_role_plural: "Změny týmu"
+  label_join_core_team: "Připojit se do Hlavního týmu"
+  label_leave_core_team: "Opustit Hlavní tým"
+  label_request_to_join_core_team: "Žádost o připojení k Hlavnímu týmu"
+  label_invitation_to_join_core_team: "Pozvat do Hlavního týmu"
+  label_team_points: "Core Points"
+  label_share: "Sdílet"
+  label_share_plural: "Sdílení"
+  label_credit_plural: "Kredit"
+  label_credit: "Kredit"
+  label_retro_started: "Vyhodnocování zahájeno"
+  label_retro_ended: "Vyhodnocování skončilo"
+  label_motion_started: "Nový podnět: {title}"
+  label_youve_got_credits: "Máte kredit!"
+  label_someone_joined_your_issue: "{joiner} se připojil k vám přiřazenému předmětu"
+  label_someone_added_you_to_their_issue: "{sender} vás přidal k předmětu, který vlastní"
+  label_someone_removed_you_from_their_issue: "{sender} vás odebral z předmětu, který vlastní"
+  label_someone_left_your_issue: "{joiner} opustil vám přiřazený předmět"
+  label_someone_mentioned_you: "{mentioner} vás zmínil"
+  label_agree: "Pro"
+  label_disagree: "Proti"
+  label_block: "Blokovat"
+  label_neutral: "Neutrální"
+  label_history: "Historie"
+  label_select: "Vybrat"
+  label_no_mention: "Žádné nepřečtené zmínky"
+  label_mentions: "Zmínky"
   label_version_sharing_none: Nesdíleno
   label_version_sharing_descendants: S projekty
   label_version_sharing_hierarchy: S hierarchií projektu
-  label_version_sharing_tree: ~
   label_version_sharing_system: Se všemi projekty
-  label_update_issue_done_ratios: ~
   label_copy_source: Zdroj
   label_copy_target: Cíl
   label_copy_same_as_target: Stejný jako cíl
@@ -946,79 +786,61 @@ cs:
   label_missing_api_access_key: Chybějící přístupový klíč API
   label_api_access_key_created_at: "Přístupový klíč API vytvořen před {value}"
   label_dpp_scale: "Škála ohodnocování"
-  
   label_motion: "Podnět"
-  label_motions_new: ~
-  
-
   label_motion_state0: "Probíhá"
   label_motion_state1: "Projednáno"
   label_motion_state2: "Zamítnuto"
   label_motion_state3: "Zrušeno"
-
-  label_motion_vote_type1 : "Jednomyslná shoda"
-  label_motion_vote_type2 : "Těsná většina"  
-  label_motion_vote_type3 : "Share Majority"  
-  
-  label_motion_vote_type1_desc : "žádné blokování ani hlasy proti" 
-  label_motion_vote_type2_desc : "více pro než proti, žádné blokování" 
-  label_motion_vote_type3_desc : "1 share = 1 vote. minimum 2/3 agree" 
-  
-  label_motion_vote_action1 : "Block"
-  label_motion_vote_action9999 : "Disagree"
-  label_motion_vote_action10000 : "Neutral"
-  label_motion_vote_action10001 : "Agree"
-  label_motion_vote_action_share_agree : "Agree with {points} shares"
-  label_motion_vote_action_share_disagree : "Disagree with {points} shares"
-  label_motion_vote_action_share_neutral : "Neutral with {points} shares"
-  label_you_voted : "You voted: <b>{action}</b>"
-  label_voted : "voted"
-  label_you_havent_voted : "You haven't cast your vote yet"
-  label_tally : "Tally"
-
-  label_motion_variation0 : "General Motion"  
-  label_motion_variation1 : "Extraordinary Motion"  
-  label_motion_variation2 : "New Member Nomination"  
-  label_motion_variation3 : "New Core Team Member Nomination"  
-  label_motion_variation4 : "Motion to Remove Member"  
-  label_motion_variation5 : "Motion to Remove Core Team Member"  
-  label_motion_variation6 : "Board Motion (public)"  
-  label_motion_variation7 : "Board Motion (private)"  
-  label_motion_variation8 : "Motion to Add Hourly Activity Type"  
-  
-  label_binding : "Binding"
-  label_non_binding : "Non binding"
-  
-  label_agree_total : "Agree Total"
-  label_disagree_total : "Disagree Total"
-  label_hidden : "(user hidden)"
-  
-  label_motions_active : "Active Motions"
-  label_motions_view_all : "View all Motions"
-  label_new_role : "New role: {role_name}"
-  label_new_invitation : "Invitation to join {project_name} as a {role_name}"
-  
-  label_drop_from_core_team : "Remove from Core"
-  label_nominate_to_core_team : "Nominate to Core"
-  label_drop_from_member : "Remove Membership"
-  label_nominate_to_member : "Nominate to Membership"
-  
-  label_reputation : "Reputation Matrix"
-  label_assessment_accuracy : "Assessment Accuracy"
-  
+  label_motion_vote_type1: "Jednomyslná shoda"
+  label_motion_vote_type2: "Těsná většina"
+  label_motion_vote_type3: "Share Majority"
+  label_motion_vote_type1_desc: "žádné blokování ani hlasy proti"
+  label_motion_vote_type2_desc: "více pro než proti, žádné blokování"
+  label_motion_vote_type3_desc: "1 share = 1 vote. minimum 2/3 agree"
+  label_motion_vote_action1: "Block"
+  label_motion_vote_action9999: "Disagree"
+  label_motion_vote_action10000: "Neutral"
+  label_motion_vote_action10001: "Agree"
+  label_motion_vote_action_share_agree: "Agree with {points} shares"
+  label_motion_vote_action_share_disagree: "Disagree with {points} shares"
+  label_motion_vote_action_share_neutral: "Neutral with {points} shares"
+  label_you_voted: "You voted: <b>{action}</b>"
+  label_voted: "voted"
+  label_you_havent_voted: "You haven't cast your vote yet"
+  label_tally: "Tally"
+  label_motion_variation0: "General Motion"
+  label_motion_variation1: "Extraordinary Motion"
+  label_motion_variation2: "New Member Nomination"
+  label_motion_variation3: "New Core Team Member Nomination"
+  label_motion_variation4: "Motion to Remove Member"
+  label_motion_variation5: "Motion to Remove Core Team Member"
+  label_motion_variation6: "Board Motion (public)"
+  label_motion_variation7: "Board Motion (private)"
+  label_motion_variation8: "Motion to Add Hourly Activity Type"
+  label_binding: "Binding"
+  label_non_binding: "Non binding"
+  label_agree_total: "Agree Total"
+  label_disagree_total: "Disagree Total"
+  label_hidden: "(user hidden)"
+  label_motions_active: "Active Motions"
+  label_motions_view_all: "View all Motions"
+  label_new_role: "New role: {role_name}"
+  label_new_invitation: "Invitation to join {project_name} as a {role_name}"
+  label_drop_from_core_team: "Remove from Core"
+  label_nominate_to_core_team: "Nominate to Core"
+  label_drop_from_member: "Remove Membership"
+  label_nominate_to_member: "Nominate to Membership"
+  label_reputation: "Reputation Matrix"
+  label_assessment_accuracy: "Assessment Accuracy"
   label_hourly_type: "Hourly type"
   label_hourly_type_plural: "Hourly types"
   label_hourly_type_new: "New hourly type"
   label_hourly_rate_per_person: "Hourly rate per person"
   label_hourly_cap: "Hourly cap"
-  
   label_invitation_new: "Invite people"
   label_invitation_others: "Invite others"
-  
   label_all_activity: "Browse all activity"
-  
   label_cancel_account: "Cancel my account"
-  
   field_b_first_name: "First name"
   field_b_last_name: "Last name"
   field_b_address1: "Street Address"
@@ -1030,34 +852,23 @@ cs:
   field_b_phone: "Phone"
   field_b_cc_type: "Type"
   field_b_cc_month: "Expiration Date"
-  field_b_cc_year: ""
   field_b_cc_last_four: "Credit Card"
   label_b_expiration: "Expiration Date"
   label_b_verification_code: "Verification Code"
-  
   label_memberrole: "membership"
-  
-  
-  button_upgrade : ~
-  button_update_billing : Update Billing
-  button_accept_invitation : ~
-  button_working : ~
   button_change_plan: Změnit Plán
-  button_update_billing: ~
+  button_update_billing: Update Billing
   button_login: Přihlásit
   button_submit: Potvrdit
-  button_search: ~
   button_save: Uložit
   button_check_all: Zašrtnout vše
   button_uncheck_all: Odšrtnout vše
   button_delete: Odstranit
   button_create: Vytvořit
-  button_resend: ~
   button_create_and_continue: Vytvořit a pokračovat
   button_test: Testovat
   button_edit: Upravit
   button_add: Přidat
-  button_add_team_member: ~
   button_change: Změnit
   button_apply: Použít
   button_clear: Smazat
@@ -1070,15 +881,11 @@ cs:
   button_move_and_follow: Přesunout a následovat
   button_back: Zpět
   button_cancel: Storno
-  button_close: ~
-  button_activate: Activate
   button_sort: Seřadit
   button_log_time: Přidat čas
-  button_rollback: ~
   button_watch: Sledovat
   button_unwatch: Nesledovat
   button_reply: Reply
-  button_reply: ~
   button_archive: Archivovat
   button_unarchive: Odarchivovat
   button_reset: Resetovat
@@ -1088,55 +895,18 @@ cs:
   button_copy_and_follow: Kopírovat a následovat
   button_annotate: Komentovat
   button_update: Aktualizovat
-  button_comment: ~
-  button_signup: ~
   button_configure: Konfigurovat
   button_quote: Citovat
-  button_participate: ~
-  button_request_commitment_request: ~ #new
-  button_request_commitment_take: ~ #new
-  button_request_commitment_remove: ~ #new
-  button_request_commitment_withdraw: ~ #new
-  button_request_commitment_remove_offer: ~ #new
-  button_request_commitment_giveup: ~ #new  
-  button_request_commitment_transfer: ~ #new    
-  button_request_commitment_accept: ~ #new
-  button_request_commitment_decline: ~ #new
-  button_request_commitment_offer: ~ #new
-  
-  button_team_offer_request: ~ #new
-  button_team_offer_take: ~ #new
-  button_team_offer_withdraw_request: ~  #new
-  button_team_offer_withdraw_invitation: ~ #new
-  button_team_offer_giveup: ~ #new  
-  button_team_offer_accept: ~ #new
-  button_team_offer_decline: ~ #new
-  button_team_offer_invite: ~ #new
-  
-  button_ignore: ~
-  button_mark_as_read: ~
   button_duplicate: Duplikovat
   button_show: Zobrazit
-  
   button_activate: Aktivovat
-  button_deactivate: ~
-  
-  button_dashboard: ~
-  
   status_active: aktivní
   status_registered: registrovaný
   status_locked: uzamčený
-  
   version_status_open: otevřený
   version_status_locked: uzamčený
   version_status_closed: zavřený
-
   field_active: Aktivní
-  field_body: ~
-  field_joined_by: ~
-  field_item_url: ~
-  
-  text_invite_role_instruction: ~
   text_resend_invite_message: "Add a personal comment to the invitation reminder"
   text_reset_link: "Reset invitation code"
   text_personalize_invitations: "Personalize your invitation"
@@ -1147,38 +917,26 @@ cs:
   text_confirm_cancel_account: "Are you sure you want to cancel your account? This action cannot be undone!"
   text_confirm_archive_project: "Jste si jistý, že chcete tento projekt archivovat? Nikomu se již nebude zobrazovat. V budoucnu ho budete moci obnovit."
   text_confirm_unarchive_project: "Jste si jistý, že chcete obnovit tento projekt?"
-  text_included_note: ~
-  text_failed_to_transfer: ~
-  text_your_gravatar: ~
   text_select_mail_notifications: Vyberte akci při které bude zasláno upozornění emailem.
   text_regexp_info: např. ^[A-Z0-9]+$
   text_min_max_length_info: 0 znamená bez limitu
   text_project_destroy_confirmation: Jste si jistý, že chce odstranit tento projekt a všechna související data?
   text_subprojects_destroy_warning: "Jeho dílčí projekt(y): {value} budou také odstraněny."
-  text_workflow_edit: ~
-  text_are_you_sure: ~
   text_journal_changed: "{label} changed from {old} to {new}"
   text_journal_set_to: "{label} set to {value}"
   text_journal_deleted: "{label} deleted ({old})"
   text_journal_added: "{label} {value} added"
-  text_tip_task_begin_day: ~
-  text_tip_task_end_day: ~
-  text_tip_task_begin_end_day: ~
   text_project_identifier_info: 'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "{count} characters maximum."
   text_caracters_minimum: "Must be at least {count} characters long."
   text_length_between: "Length between {min} and {max} characters."
-  text_tracker_no_workflow: ~
   text_unallowed_characters: Nepovolené znaky
   text_comma_separated: Povoleno více hodnot (oddělěné čárkou).
-  text_issues_ref_in_commit_messages: ~
   text_issue_added: "Item {id} has been reported by {author}."
   text_issue_updated: "Item {id} has been updated by {author}."
   text_line_separated: Více hodnot povoleno (jeden řádek pro každou hodnotu).
-  text_wiki_destroy_confirmation: ~
-  text_user_mail_option: "Z neoznačených projektů budete upozorňován pouze na takové události, které se týkají záležitostí, kterých se účastníte (např. úkoly, které jste vytvořil nebo které spravujete)." #updated
-  text_no_configuration_data: "Roles, types, item statuses and workflow have not been configured yet.
-It is highly recommended to load the default configuration. You will be able to modify it once loaded."
+  text_user_mail_option: "Z neoznačených projektů budete upozorňován pouze na takové události, které se týkají záležitostí, kterých se účastníte (např. úkoly, které jste vytvořil nebo které spravujete)."
+  text_no_configuration_data: "Roles, types, item statuses and workflow have not been configured yet. It is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Nahrát výchozí konfiguraci
   text_status_changed_by_changeset: "Applied in changeset {value}."
   text_issues_destroy_confirmation: 'Jste si jistý, že chcete odstranit vybraný/é úkol(y)?'
@@ -1189,13 +947,11 @@ It is highly recommended to load the default configuration. You will be able to 
   text_rmagick_available: RMagick k dispozici (volitelné)
   text_destroy_time_entries_question: "{hours} hours were reported on the items you are about to delete. What do you want to do ?"
   text_destroy_time_entries: Odstranit evidované hodiny.
-  text_assign_time_entries_to_project: ~
   text_reassign_time_entries: 'Reassign reported hours to this item:'
   text_user_wrote: "{value} wrote:"
   text_enumeration_destroy_question: "{count} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Přeřadit je do této:'
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled.
-Configure your SMTP server in config/email.yml and restart the application to enable them."
+  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled. Configure your SMTP server in config/email.yml and restart the application to enable them."
   text_diff_truncated: '... Rozdílový soubor je zkrácen, protože jeho délka přesahuje max. limit.'
   text_wiki_page_destroy_question: "This page has {descendants} child page(s) and descendant(s). What do you want to do?"
   text_wiki_page_nullify_children: "Ponechat podstránky jako kořenové stránky"
@@ -1203,119 +959,76 @@ Configure your SMTP server in config/email.yml and restart the application to en
   text_wiki_page_reassign_children: "Přiřadit podstránky k tomuto rodiči"
   text_create_dialogue_choose_days: "How much time to you need to get this done <br />(from the time you own it)?"
   text_select_user_dialogue_choose_user: "Choose someone to send this request to"
-  text_you_are_the_new_owner_of : "You are the new proud owner of"
-  text_is_asking_ownership_for : "is asking for ownership of a task you"
-  text_is_offering_ownership_for : "is offering you ownership of a task"
-  text_ownership_request_declined : "Ownership request declined"
-  text_ownership_request_accepted : "Ownership request accepted"
-  text_your_ownsership_request_declined_for : "You request for ownership has been declined for "
-  text_ownership_offer_accepted : "Ownership offer accepted"
-  text_your_offer_was_accepted_for : "Your offer was accepted for "
-  text_ownership_offer_declined : "Ownership offer declined"
-  text_your_offer_was_declined_for : "Your offer was declined for "
-  text_loading_dashboard : "Loading dashboard data..."
-  text_loading_dashboard_error : "Failed to load data... please check your internet connectivity and <a href='#' onclick='refresh_local_data();return false;'>refresh</a>"
-  text_retro_started_for : "A retrospective for the "
-  text_retro_started : " projekt byl zahájen. <br/>Máte 3 dny na to, dát svému týmu zpětnou vazbu k jejich přínosnosti"
-  text_retro_ended_for : "A retrospective for the"
-  text_retro_ended : " projekt byl zakončen. <br/>Klikněte níže, abyste viděli zpětnou vazbu týmu a konečnou hodnotu vašeho přínosu"
+  text_you_are_the_new_owner_of: "You are the new proud owner of"
+  text_is_asking_ownership_for: "is asking for ownership of a task you"
+  text_is_offering_ownership_for: "is offering you ownership of a task"
+  text_ownership_request_declined: "Ownership request declined"
+  text_ownership_request_accepted: "Ownership request accepted"
+  text_your_ownsership_request_declined_for: "You request for ownership has been declined for "
+  text_ownership_offer_accepted: "Ownership offer accepted"
+  text_your_offer_was_accepted_for: "Your offer was accepted for "
+  text_ownership_offer_declined: "Ownership offer declined"
+  text_your_offer_was_declined_for: "Your offer was declined for "
+  text_loading_dashboard: "Loading dashboard data..."
+  text_loading_dashboard_error: "Failed to load data... please check your internet connectivity and <a href='#' onclick='refresh_local_data();return false;'>refresh</a>"
+  text_retro_started_for: "A retrospective for the "
+  text_retro_started: " projekt byl zahájen. <br/>Máte 3 dny na to, dát svému týmu zpětnou vazbu k jejich přínosnosti"
+  text_retro_ended_for: "A retrospective for the"
+  text_retro_ended: " projekt byl zakončen. <br/>Klikněte níže, abyste viděli zpětnou vazbu týmu a konečnou hodnotu vašeho přínosu"
   text_credits_transferred: "{sender} just transferred {amount} credits to you in {project}"
-  text_credits_distributed_for : "Za vaši práci na projektu <strong>{workstream}</strong> jste získali kredit: {amount}. Gratulujeme!"
-  text_credits_are_a_gift : "These credits were gifted to you by your peers for your contribution. They're not a part of any retrospective."
-  text_credits_are_an_expense : "These credits are a reimbursment for an expense item. They're not a part of any retrospective."
-  text_joiner_is_now_working_with_you : "{joiner} is now working with you on<br/>{issue}"
-  text_joiner_is_no_longer_working_with_you : "{joiner} is no longer working with you on<br/>{issue}"
-  text_you_are_now_working_with_you : "You are now part of the team working on<br/>{issue}"
-  text_you_are_no_longer_working_on : "You are no longer part of the team working on<br/>{issue}"
-  text_history_hidden_until_you_vote : "Voting history is hidden since you haven't cast your vote"
-  text_tally_hidden_until_you_vote : "Voting tally is hidden until you cast your vote"
-  text_you_dont_have_shares_to_vote : "You need to have shares to weigh in on this motion."
-  text_you_are_now_a_role : "You are now a <b>{role_name}</b> of"
-  text_role_description_Administrator : "As an Admin, you can bypass governance rules and directly add/remove members and workstreams.<br> Use this role sparingly as you are setting up your structures, <br>and then remove yourself from the admin role when you're ready to fully adopt the Open Enterprise governance model."
-  text_role_description_Contributor : "As a contributor, you can now earn credits and own a stake in <b>{enterprise}.</b><br>Your votes on all matters will be visible to everyone, and will be non-binding."
-  text_role_description_Member : "As a member, all your votes are now binding. <br>In addition you can nominate contributors for membership,<br>and vote on Core Team elections."
-  text_role_description_Core Team : "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
-  text_role_description_Core_Team : "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
-  text_role_description_Board : "As a board member,all your votes are binding."
-  text_member_nomination : "{user} is being nominated to be a member of {enterprise}. As a member, all their votes would be binding. In addition they will be able to nominate contributors for membership, and vote on Core Team elections. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
-  text_core_member_nomination : "{user} is being nominated for the Core Team of {enterprise}. As a member of the Core Team they would have binding votes in all matters, including the selection of new members. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
-  text_core_member_removal : "This motion is to remove {user} from the Core Team of {enterprise}. If the motion passes {user} would become a Member. As a Member, their votes will remain binding and their shares and credits would be unaffected. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
-  text_member_removal : "This motion is to remove {user} as a member of {enterprise}. If the motion passes {user} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
-  text_issue_edit_footer : "You can comment on this issue via email, by replying to this email directly."
-  text_message_edit_footer : "You can reply to this message via email, by replying to this email directly."
-  text_invitation_note_default : "Hey,
-
-We've been using bettermeans.com to work on {project}.
-
-Bettermeans lets us work together as equals, and is a transparent, democratic way to get things done together. 
-
-Please accept this invitation to join us.
-
-Warm regards
-{user}"
-  text_you_are_invited : "You are being invited to join"
-  text_generic_invitation : "This link allows anybody to get started as a <strong>contributor</strong> to this workstream."
-  text_generic_invitation_2 : "You can also use the form below to send personalized invitations for folks to join as other roles"
-  text_generic_invitation_long : "The link below allows anybody to become a contributor to this workstream.<br><br>It can be used an infinite amount of times. And doesn't expire until you change it.<br>Send it out via email, or post it somewhere where folks can follow it to join your workstream."
-  text_personal_invitation : "Use the form below to send personalized invitations to potential team members.<br><br>This is the better way to go since people are more likely to respond to an exclusive invite, and don't need to validate their email.<br><br> This is also the more secure option since each invitation can be used only once and expires after a while."
-  text_active_team_explanation : "<strong>Active Members (for this workstream)</strong><br><br>Active members are people that have been involved in this specific workstream in the past 2 weeks. <br><br> Contributors, members, and core team roles are defined at the parent(root) workstream and apply to all it's sub workstreams.<br><br>For example: if someone is a core team member of a workstream then they will have the same role for all sub workstreams. However, they might be active in some and not others."
-  text_email_updated : "Email successfully updated"
-  text_usage_over : "Vyčerpali jste možnosti využívání současného Plánu.<br> Prosíme, upgradujte svůj Plán jakmile to bude možné."
-  text_trial_expired : "Your trial period has expired.<br> Please update your billing info so we can start charging you."
-      
-  text_role_invitation_description_Administrator : "Admins have the most power.<br><br> An Admin can bypass governance rules and directly add/remove members and workstreams, and all their votes are binding.<br><br> Use this role sparingly as you are setting up your structures. Then transition to using other roles for day to day collaboration."
-  text_role_invitation_description_Contributor : "This the first level of participation in an open enterprise.<br><br>Contributors' votes on all matters will be visible to everyone, and will be non-binding.<br><br> Meaning a contributor's voice is here, but their voting doesn't directly affect the items they are weighing in on.<br><br> A contributor can earn credits and contribute to a workstream."
-  text_role_invitation_description_Member : "Members are at the heart of an open enterprise.<br><br> All members' votes are binding.<br><br>In addition members can nominate contributors for membership, and vote on Core Team elections.<br><br> Only invite members whose principles and values are aligned with yours."
-  text_role_invitation_description_Core_Team : "A member of the Core Team has binding votes in all matters, and is very similar to a member.<br><br> The main difference is a Core Team member can vote on the election of new members.<br><br> Essentially, they are the custodians of the organization's principles, and hold the bar for membership.<br><br> Core Team Members are accountable to all members, and their role is to represent their voice."
-  text_role_invitation_description_Board : "As a board member,all your votes are binding, and you have equal priveleges to a Core Team Member.<br><br> Being on the board though, indicates a lesser commitment to being involved in day to day work."
+  text_credits_distributed_for: "Za vaši práci na projektu <strong>{workstream}</strong> jste získali kredit: {amount}. Gratulujeme!"
+  text_credits_are_a_gift: "These credits were gifted to you by your peers for your contribution. They're not a part of any retrospective."
+  text_credits_are_an_expense: "These credits are a reimbursment for an expense item. They're not a part of any retrospective."
+  text_joiner_is_now_working_with_you: "{joiner} is now working with you on<br/>{issue}"
+  text_joiner_is_no_longer_working_with_you: "{joiner} is no longer working with you on<br/>{issue}"
+  text_you_are_now_working_with_you: "You are now part of the team working on<br/>{issue}"
+  text_you_are_no_longer_working_on: "You are no longer part of the team working on<br/>{issue}"
+  text_history_hidden_until_you_vote: "Voting history is hidden since you haven't cast your vote"
+  text_tally_hidden_until_you_vote: "Voting tally is hidden until you cast your vote"
+  text_you_dont_have_shares_to_vote: "You need to have shares to weigh in on this motion."
+  text_you_are_now_a_role: "You are now a <b>{role_name}</b> of"
+  text_role_description_Administrator: "As an Admin, you can bypass governance rules and directly add/remove members and workstreams.<br> Use this role sparingly as you are setting up your structures, <br>and then remove yourself from the admin role when you're ready to fully adopt the Open Enterprise governance model."
+  text_role_description_Contributor: "As a contributor, you can now earn credits and own a stake in <b>{enterprise}.</b><br>Your votes on all matters will be visible to everyone, and will be non-binding."
+  text_role_description_Member: "As a member, all your votes are now binding. <br>In addition you can nominate contributors for membership,<br>and vote on Core Team elections."
+  text_role_description_Core Team: "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
+  text_role_description_Core_Team: "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
+  text_role_description_Board: "As a board member,all your votes are binding."
+  text_member_nomination: "{user} is being nominated to be a member of {enterprise}. As a member, all their votes would be binding. In addition they will be able to nominate contributors for membership, and vote on Core Team elections. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
+  text_core_member_nomination: "{user} is being nominated for the Core Team of {enterprise}. As a member of the Core Team they would have binding votes in all matters, including the selection of new members. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
+  text_core_member_removal: "This motion is to remove {user} from the Core Team of {enterprise}. If the motion passes {user} would become a Member. As a Member, their votes will remain binding and their shares and credits would be unaffected. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
+  text_member_removal: "This motion is to remove {user} as a member of {enterprise}. If the motion passes {user} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
+  text_issue_edit_footer: "You can comment on this issue via email, by replying to this email directly."
+  text_message_edit_footer: "You can reply to this message via email, by replying to this email directly."
+  text_invitation_note_default: "Hey,\nWe've been using bettermeans.com to work on {project}.\nBettermeans lets us work together as equals, and is a transparent, democratic way to get things done together.\nPlease accept this invitation to join us.\nWarm regards {user}"
+  text_you_are_invited: "You are being invited to join"
+  text_generic_invitation: "This link allows anybody to get started as a <strong>contributor</strong> to this workstream."
+  text_generic_invitation_2: "You can also use the form below to send personalized invitations for folks to join as other roles"
+  text_generic_invitation_long: "The link below allows anybody to become a contributor to this workstream.<br><br>It can be used an infinite amount of times. And doesn't expire until you change it.<br>Send it out via email, or post it somewhere where folks can follow it to join your workstream."
+  text_personal_invitation: "Use the form below to send personalized invitations to potential team members.<br><br>This is the better way to go since people are more likely to respond to an exclusive invite, and don't need to validate their email.<br><br> This is also the more secure option since each invitation can be used only once and expires after a while."
+  text_active_team_explanation: "<strong>Active Members (for this workstream)</strong><br><br>Active members are people that have been involved in this specific workstream in the past 2 weeks. <br><br> Contributors, members, and core team roles are defined at the parent(root) workstream and apply to all it's sub workstreams.<br><br>For example: if someone is a core team member of a workstream then they will have the same role for all sub workstreams. However, they might be active in some and not others."
+  text_email_updated: "Email successfully updated"
+  text_usage_over: "Vyčerpali jste možnosti využívání současného Plánu.<br> Prosíme, upgradujte svůj Plán jakmile to bude možné."
+  text_trial_expired: "Your trial period has expired.<br> Please update your billing info so we can start charging you."
+  text_role_invitation_description_Administrator: "Admins have the most power.<br><br> An Admin can bypass governance rules and directly add/remove members and workstreams, and all their votes are binding.<br><br> Use this role sparingly as you are setting up your structures. Then transition to using other roles for day to day collaboration."
+  text_role_invitation_description_Contributor: "This the first level of participation in an open enterprise.<br><br>Contributors' votes on all matters will be visible to everyone, and will be non-binding.<br><br> Meaning a contributor's voice is here, but their voting doesn't directly affect the items they are weighing in on.<br><br> A contributor can earn credits and contribute to a workstream."
+  text_role_invitation_description_Member: "Members are at the heart of an open enterprise.<br><br> All members' votes are binding.<br><br>In addition members can nominate contributors for membership, and vote on Core Team elections.<br><br> Only invite members whose principles and values are aligned with yours."
+  text_role_invitation_description_Core_Team: "A member of the Core Team has binding votes in all matters, and is very similar to a member.<br><br> The main difference is a Core Team member can vote on the election of new members.<br><br> Essentially, they are the custodians of the organization's principles, and hold the bar for membership.<br><br> Core Team Members are accountable to all members, and their role is to represent their voice."
+  text_role_invitation_description_Board: "As a board member,all your votes are binding, and you have equal priveleges to a Core Team Member.<br><br> Being on the board though, indicates a lesser commitment to being involved in day to day work."
   text_project_locked: "This workstream is temporarily locked due to non payment."
-  
-  
-  default_role_administrator: ~
-  default_role_citizen: ~
-  default_role_contributor: ~
-  default_tracker_task: ~
-  default_tracker_subtask: ~
   default_issue_status_new: Nový
-  default_issue_status_open: ~
-  default_issue_status_assigned: ~
-  default_issue_status_done: ~
   default_issue_status_closed: Uzavřený
-  default_issue_status_blocked: ~
-  default_issue_status_inprogress: ~
-  default_issue_status_canceled: ~
-  default_issue_status_estimate: ~
-  default_issue_status_archived: ~
-  default_issue_status_accepted: ~
   default_issue_status_rejected: Odmítnutý
-  default_doc_category_public: ~
-  default_doc_category_private: ~
   default_priority_low: Nízká
   default_priority_normal: Normální
   default_priority_high: Vysoká
   default_priority_urgent: Urgentní
-  default_activity_default: ~
   default_activity_planning: Plánování
-  default_activity_execution: ~
-  default_issue_tracker_gift: ~
-  default_issue_tracker_expense: ~
-  default_issue_tracker_recurring: ~
-  default_issue_tracker_hourly: ~
-  default_issue_tracker_feature: ~
-  default_issue_tracker_bug: ~
-  default_issue_tracker_chore: ~
-
   enumeration_issue_priorities: Priority úkolu
   enumeration_doc_categories: Kategorie dokumentů
   enumeration_activities: Aktivity (sledování času)
   enumeration_system_activity: Systémová aktivita
-  
-  help_reset_link : ~
-  help_how_do_i_join_a_team : ~
-  help_how_do_i_join_a_team_title : ~
-  help_how_do_i_join_a_team_description : "There are two levels of team membership: Contributor, and Core Team. <br /><br /><strong>Becoming a contributor</strong><br />Before getting on a core team you must first contribute to the team. </br>You become a contributor for a workstream by requesting and getting ownership of an existing tasks. <br /> Another way to become a contributor, is to be a core team member of any sub workstream.<br /><br /><strong>Become a core team member</strong><br />Once you are a contributor, you may request (or be invited) to join the Core Team by an existing Core Team member. <br /><br /> You can also join a workstream's core team directly if your a core team member of its parent workstream."
-  help_core_points_title : ~
-  help_core_points_description : "Core points are a way of team members endorsing each other, and signaling confidence in each other's abilities and core values. <br /><br /> When someone on a core team feels that the team is better off with someone on it they can give that person a core point. It also works the other way: If someone feels that someone is hurting the team, they can give them a negative-core point. <br /><br />When a member's total core points exceeds zero, they're invited to be on the core team. If their total falls below zero, they revert back to contributor status. <br /><br />All voting is confidential to minimize internal politics as much as possible.<br />Total core points is calculated by adding up the votes of existing core team members of a workstream and its parent."
+  help_how_do_i_join_a_team_description: "There are two levels of team membership: Contributor, and Core Team. <br /><br /><strong>Becoming a contributor</strong><br />Before getting on a core team you must first contribute to the team. </br>You become a contributor for a workstream by requesting and getting ownership of an existing tasks. <br /> Another way to become a contributor, is to be a core team member of any sub workstream.<br /><br /><strong>Become a core team member</strong><br />Once you are a contributor, you may request (or be invited) to join the Core Team by an existing Core Team member. <br /><br /> You can also join a workstream's core team directly if your a core team member of its parent workstream."
+  help_core_points_description: "Core points are a way of team members endorsing each other, and signaling confidence in each other's abilities and core values. <br /><br /> When someone on a core team feels that the team is better off with someone on it they can give that person a core point. It also works the other way: If someone feels that someone is hurting the team, they can give them a negative-core point. <br /><br />When a member's total core points exceeds zero, they're invited to be on the core team. If their total falls below zero, they revert back to contributor status. <br /><br />All voting is confidential to minimize internal politics as much as possible.<br />Total core points is calculated by adding up the votes of existing core team members of a workstream and its parent."
   help_dpp: Úkoly v projektu jsou oceněny kreditem.<br/><br/>Každý projekt může mít jiné měřítko pro případné oceňování. Měřítko se odlišuje na základě komplexity/složitosti druhu práce na tom kterém projektu.
   help_select_scale: Úkoly v projektu se cení body.<br/><br/>Každý projekt může mít jinou škálu přidělování bodů.<br/><br/>Zvolte si měřítko, které bude nejlépe odpovídat rozsahu vykonávaných prací. To se mění podle povahy práce na jednotlivém projektu.
   help_assessment_accuracy: "Shows the accuracy with which this user was able to assess their contribution, and their team's contribution in retrospectives. <br><br>Assessment accuracy is averaged over time. More weight is given to the more recent retrospectives, and more weight is given to retrospectives with more credits.<br><br>For example: A postive self assessment accuracy score of +7 means the user tends to overrate themselves by 7 percentage points on average. <br><br> An 'other' assessment score of &plusmn 16 means the user tends have a total bias of plus or minus 16 percentage points when rating their peers. <br><br> The closer both these numbers are to zero, the more accurate the user is in their assessment of self and other. "
@@ -1334,7 +1047,6 @@ Warm regards
   help_no_workstreams_archived: "Nemáte žádné archivované projekty."
   help_activities_i_belong_to: "Tento přehled činnosti ukazuje veškerou vaši aktivitu v projektech, které vlastníte nebo do kterých patříte"
   help_this_workstream_is_private: "This is private workstream. When a workstream is made private, all binding members (i.e. members, core team, board, and admins) are given permanent clearance to it. Also, all active contributors to the workstream are given clearance.<br><br> If you want to manage users' clearance to a private workstream, use the members tab under settings."
-
   help_issue_tracking: "This is the essential element of the platform in that it allows you to track all work items using the dashboard and item views. However one situation in which you might turn this off is if you are creating a root workstream for your organization and you are planning on creating lots of subworkstreams where all the work and item tracking would take place. This would leave the other elements such as discussion and wiki but without the dashboard or item tracking."
   help_news: "Tento nástroj vám umožňuje sledovat či ohlašovat novinky. Novinky se užívají k šíření informací o událostech vašemu týmu. Například výhra ve výběrovém řízení nebo uvedení nového produktu."
   help_documents: "Tento nástroj vám umožňuje nahrávat dokumenty ke sdílení se svým týmem."
@@ -1345,8 +1057,6 @@ Warm regards
   help_credits: "Credits are a more open and democratic way of valuing work and awarding compensation. We are really excited about offering this as an option and we strongly encourage you to <a href='http://help.bettermeans.com/faq/credits' target='blank'>learn more about credits</a>."
   help_revision_notes: "Optional: Add notes to this revision of the wiki. These notes will appear in the version history of the wiki"
   help_mentions: "Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br><br>For example if somebody adds this comment to an issue:<br><strong>'I think @{login} should take a look at this'</strong><br>it would appear in your mentions"
-
-  
   help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br> If you want to start a new workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br>We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com' target='blank'> the tour</a> before you begin."
   help_section_project_dashboard: "Welcome to your dashboard!|<strong>This is where the magic happens.</strong> Here you get a full view of all the work within a workstream. Each workstream and subworkstream has its own dashboard. <br><br><strong>Get started by adding a new item</strong> (click on the New Item Link at the top of the New column).<br><br>You can also <strong>offer new ideas/requests, comment, agree and disagree with ideas, prioritize, and estimate</strong>.<br><br>Click on the little key next to the New Item button for a little cheat sheet that shows the meaning of all the icons you see in the Dashboard. As you get rolling with your work, explore <strong>the filters and the search functions on the upper right corner.</strong><br><br> To learn more about voting and how it works in the dashboard <a href= 'http://help.bettermeans.com/dashboard' target='blank'> checkout our help section</a>, or this 9 minute tour of the site.<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br><br>"
   help_section_project_wiki: "<strong>Wikis are great tools for collaboration and therefore each workstream has a wiki.</strong> You can start building your wiki here and you can create multiple pages by clicking <a href='wiki'>Start Page</a> (in blue to the right). Wikis are essentially online documents and everyone that has access can not only read but also edit and contribute to online. <br>Note the different action buttons (on the right in grey), these will be helpful when working on the Wiki."
@@ -1364,4 +1074,3 @@ Warm regards
   help_section_invitation_new: "Použijte pozvánky k registraci členů týmu do vašeho projektu.<br><br> Když někomu zašlete pozvánku, bude vyzván k vytvoření si účtu u bettermeans (pokud ho ještě nemá) a <strong>automaticky přidán jako spolupracovník</strong> na vašem projektu.<br><br>Zvát lidi můžete pouze do kmenového projektu. Takové členství platí i pro všechny dílčí projekty. To znamená, že <strong> člověk nemůže patřit do dílčího projektu, aniž by patřil do projektu kmenového.</strong><br><br> <a href='http://help.bettermeans.com/invitations' target='blank'>Více se dozvíte v pomocné sekci.</a><br><br><br>"
   help_section_browse_workstreams: "<strong>Vítejte do komunity BetterMeans.</strong> Na rozdíl od vaší domovské stránky, zde se zobrazuje přehled celé platformy BetterMeans. Můžete si prohlédnout ostatní veřejné projekty a komentovat nebo se zapojit do projektů druhých lidí. <a href='http://help.bettermeans.com/' target='blank'>Zjistěte víc o platformě BetterMeans</a>"
   help_section_retrospective_show: "<strong>Toto je vyhodnocování.</strong> Během vyhodnocování je odměna určena vašimi spolupracovníky a vlastním hodnocením. Je to způsob, jak být spravedlivě odměněn za vámi odvedenou práci. <br>Ohlédněte se za veškerými splněnými úkoly a co možná nejlépe odhadněte procentuální přínos každého spolupracovníka. Můžete také vyjádřit svoji jistotu tímto hodnocením pomocí posuvníku níže. Více informací o vyhodnocování naleznete na <a href='http://help.bettermeans.com/retrospectives' target='blank'>těchto stránkách.</a>"
-  help_section_free: ~
