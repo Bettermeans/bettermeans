@@ -7,7 +7,7 @@ ly:
       default: "%d.%m.%Y"
       short: "%d %b"
       long: "%d %B %Y"
-      
+
     day_names:
       - Svētdiena
       - Pirmdiena
@@ -24,7 +24,7 @@ ly:
       - Ct
       - Pk
       - St
-      
+
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names:
       - ~
@@ -68,7 +68,7 @@ ly:
       long: "%B %d, %Y %H:%M"
     am: "rītā"
     pm: "vakarā"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: "pus minūte"
@@ -130,13 +130,13 @@ ly:
           gb: "GB"
           tb: "TB"
 
-        
+
 # Used in array.to_sentence.
   support:
     array:
       sentence_connector: "un"
       skip_last_comma: false
-      
+
   activerecord:
     errors:
       messages:
@@ -165,7 +165,7 @@ ly:
         circular_dependency: "Šī relācija radītu ciklisku atkarību"
 
   actionview_instancetag_blank_option: Izvēlieties
-  
+
   general_text_No: 'Nē'
   general_text_Yes: 'Jā'
   general_text_no: 'nē'
@@ -176,7 +176,7 @@ ly:
   general_csv_encoding: UTF-8
   general_pdf_encoding: ~
   general_first_day_of_week: '1'
-  
+
   notice_account_reactivated: ~
   notice_account_canceled: ~
   notice_account_inactive_user: ~
@@ -206,7 +206,7 @@ ly:
   notice_unable_delete_version: ~
   notice_issue_done_ratios_updated: Uzdevuma izpildes koeficients atjaunots.
   notice_this_is_your_profie: "This is your public profile. To manage your account <a href='/my/account'>click here</a>"
-  
+
   error_old_invite : "Old or bad invitation"
   error_bad_email_update : "Poorly formed email update"
   error_can_t_load_default_data: "Default configuration could not be loaded: {value}"
@@ -219,9 +219,9 @@ ly:
   error_workflow_copy_source: 'Lūdzu izvēlieties avota trakeri vai lomu'
   error_workflow_copy_target: 'Lūdzu izvēlēties mērķa trakeri(us) un lomu(as)'
   error_general: 'Something went wrong.'
-  
+
   warning_attachments_not_saved: "{count} file(s) could not be saved."
-  
+
   mail_subject_lost_password: "Your {value} password"
   mail_body_lost_password: 'Lai mainītu paroli, spiediet uz šīs saites:'
   mail_subject_register: "Your {value} account activation"
@@ -237,10 +237,10 @@ ly:
   mail_body_wiki_content_added: "The '{page}' wiki page has been added by {author}."
   mail_subject_wiki_content_updated: "'{page}' wiki page has been updated"
   mail_body_wiki_content_updated: "The '{page}' wiki page has been updated by {author}."
-  
+
   gui_validation_error: 1 kļūda
   gui_validation_error_plural: "{count} errors"
-  
+
   field_tags : "Tags"
   field_points : "Avg estimated credits"
   field_logo : "Logo"
@@ -347,7 +347,7 @@ ly:
   field_hourly_rate_per_person: ~
   field_hourly_cap: ~
   field_pri: ~
-  
+
   setting_app_title: Programmas nosaukums
   setting_app_subtitle: Programmas apakš-nosaukums
   setting_welcome_text: Sveiciena teksts
@@ -397,7 +397,7 @@ ly:
   setting_issue_done_ratio_issue_status: ~
   setting_start_of_week: Sākt kalendāru ar
   setting_rest_api_enabled: Lietot REST web-servisu
-  
+
   permission_view_project : ~
   permission_add_project: ~
   permission_add_subprojects: ~
@@ -449,7 +449,7 @@ ly:
   permission_edit_own_messages: Rediģēt savas ziņas
   permission_delete_messages: Dzēst ziņas
   permission_delete_own_messages: Dzēst savas ziņas
-  
+
   project_module_issue_tracking: ~
   project_module_time_tracking: Laika uzskaite
   project_module_news: Jaunumi
@@ -711,7 +711,7 @@ ly:
   label_modification: "{count} change"
   label_modification_plural: "{count} changes"
   label_branch: Zars
-  label_tag: Birka 
+  label_tag: Birka
   label_revision: Revīzija
   label_revision_plural: Revīzijas
   label_revision_id: "Revision {value}"
@@ -894,8 +894,8 @@ ly:
   label_you : "you"
   label_for : "for"
   label_from : "from"
-  label_ignored : "Ignored"  
-  label_marked_as_read : "Marked as read"  
+  label_ignored : "Ignored"
+  label_marked_as_read : "Marked as read"
   label_ownership_offered : "Ownership offered"
   label_ownership_offered_to : "Ownership offered to {user}"
   label_ownership_offer_declined : "Ownership offer declined"
@@ -935,7 +935,7 @@ ly:
   label_sending_team_request : "{author} wants to join the Core Team for the {project} workstream"
   label_team_view_all : "View team details"
   label_team_view_all_enterprise : "View entire team"
-  label_member_role_plural : "Team Changes" 
+  label_member_role_plural : "Team Changes"
   label_join_core_team : "Join Core Team"
   label_leave_core_team : "Leave Core Team"
   label_request_to_join_core_team : "Request to join Core Team"
@@ -971,7 +971,7 @@ ly:
   label_select : "Select"
   label_no_mention : "No unread mentions"
   label_mentions : "Mentions"
-  
+
   label_version_sharing_none: Nav koplietošanai
   label_version_sharing_descendants: ~
   label_version_sharing_hierarchy: ~
@@ -986,10 +986,10 @@ ly:
   label_missing_api_access_key: Trūkst API pieejas atslēga
   label_api_access_key_created_at: "API access key created {value} ago"
   label_dpp_scale: "Estimation Scale"
-  
+
   label_motion: "Motion"
   label_motions_new: ~
-  
+
 
   label_motion_state0: "In Progress"
   label_motion_state1: "Passed"
@@ -997,13 +997,13 @@ ly:
   label_motion_state3: "Cancelled"
 
   label_motion_vote_type1 : "Unanimous Consensus"
-  label_motion_vote_type2 : "Lazy Majority"  
-  label_motion_vote_type3 : "Share Majority"  
-  
-  label_motion_vote_type1_desc : "no blocks or disagrees" 
-  label_motion_vote_type2_desc : "more agrees than disagree, no blocks" 
-  label_motion_vote_type3_desc : "1 share = 1 vote. minimum 2/3 agree" 
-  
+  label_motion_vote_type2 : "Lazy Majority"
+  label_motion_vote_type3 : "Share Majority"
+
+  label_motion_vote_type1_desc : "no blocks or disagrees"
+  label_motion_vote_type2_desc : "more agrees than disagree, no blocks"
+  label_motion_vote_type3_desc : "1 share = 1 vote. minimum 2/3 agree"
+
   label_motion_vote_action1 : "Block"
   label_motion_vote_action9999 : "Disagree"
   label_motion_vote_action10000 : "Neutral"
@@ -1016,49 +1016,49 @@ ly:
   label_you_havent_voted : "You haven't cast your vote yet"
   label_tally : "Tally"
 
-  label_motion_variation0 : "General Motion"  
-  label_motion_variation1 : "Extraordinary Motion"  
-  label_motion_variation2 : "New Member Nomination"  
-  label_motion_variation3 : "New Core Team Member Nomination"  
-  label_motion_variation4 : "Motion to Remove Member"  
-  label_motion_variation5 : "Motion to Remove Core Team Member"  
-  label_motion_variation6 : "Board Motion (public)"  
-  label_motion_variation7 : "Board Motion (private)"  
-  label_motion_variation8 : "Motion to Add Hourly Activity Type"  
-  
+  label_motion_variation0 : "General Motion"
+  label_motion_variation1 : "Extraordinary Motion"
+  label_motion_variation2 : "New Member Nomination"
+  label_motion_variation3 : "New Core Team Member Nomination"
+  label_motion_variation4 : "Motion to Remove Member"
+  label_motion_variation5 : "Motion to Remove Core Team Member"
+  label_motion_variation6 : "Board Motion (public)"
+  label_motion_variation7 : "Board Motion (private)"
+  label_motion_variation8 : "Motion to Add Hourly Activity Type"
+
   label_binding : "Binding"
   label_non_binding : "Non binding"
-  
+
   label_agree_total : "Agree Total"
   label_disagree_total : "Disagree Total"
   label_hidden : "(user hidden)"
-  
+
   label_motions_active : "Active Motions"
   label_motions_view_all : "View all Motions"
   label_new_role : "New role: {role_name}"
   label_new_invitation : "Invitation to join {project_name} as a {role_name}"
-  
+
   label_drop_from_core_team : "Remove from Core"
   label_nominate_to_core_team : "Nominate to Core"
   label_drop_from_member : "Remove Membership"
   label_nominate_to_member : "Nominate to Membership"
-  
+
   label_reputation : "Reputation Matrix"
   label_assessment_accuracy : "Assessment Accuracy"
-  
+
   label_hourly_type: "Hourly type"
   label_hourly_type_plural: "Hourly types"
   label_hourly_type_new: "New hourly type"
   label_hourly_rate_per_person: "Hourly rate per person"
   label_hourly_cap: "Hourly cap"
-  
+
   label_invitation_new: "Invite people"
   label_invitation_others: "Invite others"
-  
+
   label_all_activity: "Browse all activity"
-  
+
   label_cancel_account: "Cancel my account"
-  
+
   field_b_first_name: "First name"
   field_b_last_name: "Last name"
   field_b_address1: "Street Address"
@@ -1074,10 +1074,10 @@ ly:
   field_b_cc_last_four: "Credit Card"
   label_b_expiration: "Expiration Date"
   label_b_verification_code: "Verification Code"
-  
+
   label_memberrole: "membership"
-  
-  
+
+
   button_upgrade : ~
   button_update_billing : Update Billing
   button_accept_invitation : ~
@@ -1138,35 +1138,35 @@ ly:
   button_request_commitment_remove: ~ #new
   button_request_commitment_withdraw: ~ #new
   button_request_commitment_remove_offer: ~ #new
-  button_request_commitment_giveup: ~ #new  
-  button_request_commitment_transfer: ~ #new    
+  button_request_commitment_giveup: ~ #new
+  button_request_commitment_transfer: ~ #new
   button_request_commitment_accept: ~ #new
   button_request_commitment_decline: ~ #new
   button_request_commitment_offer: ~ #new
-  
+
   button_team_offer_request: ~ #new
   button_team_offer_take: ~ #new
   button_team_offer_withdraw_request: ~  #new
   button_team_offer_withdraw_invitation: ~ #new
-  button_team_offer_giveup: ~ #new  
+  button_team_offer_giveup: ~ #new
   button_team_offer_accept: ~ #new
   button_team_offer_decline: ~ #new
   button_team_offer_invite: ~ #new
-  
+
   button_ignore: ~
   button_mark_as_read: ~
   button_duplicate: Dublēt
   button_show: Rādīt
-  
+
   button_activate: Aktivizēt
   button_deactivate: ~
-  
+
   button_dashboard: ~
-  
+
   status_active: aktīvs
   status_registered: reģistrēts
   status_locked: slēgts
-  
+
   version_status_open: atvērta
   version_status_locked: slēgta
   version_status_closed: aizvērta
@@ -1175,7 +1175,7 @@ ly:
   field_body: ~
   field_joined_by: ~
   field_item_url: ~
-  
+
   text_invite_role_instruction: ~
   text_resend_invite_message: "Add a personal comment to the invitation reminder"
   text_reset_link: "Reset invitation code"
@@ -1287,7 +1287,7 @@ Configure your SMTP server in config/email.yml and restart the application to en
 
 We've been using bettermeans.com to work on {project}.
 
-Bettermeans lets us work together as equals, and is a transparent, democratic way to get things done together. 
+Bettermeans lets us work together as equals, and is a transparent, democratic way to get things done together.
 
 Please accept this invitation to join us.
 
@@ -1302,15 +1302,15 @@ Warm regards
   text_email_updated : "Email successfully updated"
   text_usage_over : "You have exceeded your usage for your current plan.<br> Please upgrade as soon as possible."
   text_trial_expired : "Your trial period has expired.<br> Please update your billing info so we can start charging you."
-      
+
   text_role_invitation_description_Administrator : "Admins have the most power.<br><br> An Admin can bypass governance rules and directly add/remove members and workstreams, and all their votes are binding.<br><br> Use this role sparingly as you are setting up your structures. Then transition to using other roles for day to day collaboration."
   text_role_invitation_description_Contributor : "This the first level of participation in an open enterprise.<br><br>Contributors' votes on all matters will be visible to everyone, and will be non-binding.<br><br> Meaning a contributor's voice is here, but their voting doesn't directly affect the items they are weighing in on.<br><br> A contributor can earn credits and contribute to a workstream."
   text_role_invitation_description_Member : "Members are at the heart of an open enterprise.<br><br> All members' votes are binding.<br><br>In addition members can nominate contributors for membership, and vote on Core Team elections.<br><br> Only invite members whose principles and values are aligned with yours."
   text_role_invitation_description_Core_Team : "A member of the Core Team has binding votes in all matters, and is very similar to a member.<br><br> The main difference is a Core Team member can vote on the election of new members.<br><br> Essentially, they are the custodians of the organization's principles, and hold the bar for membership.<br><br> Core Team Members are accountable to all members, and their role is to represent their voice."
   text_role_invitation_description_Board : "As a board member,all your votes are binding, and you have equal priveleges to a Core Team Member.<br><br> Being on the board though, indicates a lesser commitment to being involved in day to day work."
   text_project_locked: "This workstream is temporarily locked due to non payment."
-  
-  
+
+
   default_role_administrator: ~
   default_role_citizen: ~
   default_role_contributor: ~
@@ -1349,7 +1349,7 @@ Warm regards
   enumeration_doc_categories: Dokumentu kategorijas
   enumeration_activities: Aktivitātes (laika uzskaite)
   enumeration_system_activity: Sistēmas aktivitātes
-  
+
   help_reset_link : ~
   help_how_do_i_join_a_team : ~
   help_how_do_i_join_a_team_title : ~
@@ -1386,7 +1386,7 @@ Warm regards
   help_revision_notes: "Optional: Add notes to this revision of the wiki. These notes will appear in the version history of the wiki"
   help_mentions: "Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br><br>For example if somebody adds this comment to an issue:<br><strong>'I think @{login} should take a look at this'</strong><br>it would appear in your mentions"
 
-  
+
   help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br> If you want to start a new workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br>We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com' target='blank'> the tour</a> before you begin."
   help_section_project_dashboard: "Welcome to your dashboard!|<strong>This is where the magic happens.</strong> Here you get a full view of all the work within a workstream. Each workstream and subworkstream has its own dashboard. <br><br><strong>Get started by adding a new item</strong> (click on the New Item Link at the top of the New column).<br><br>You can also <strong>offer new ideas/requests, comment, agree and disagree with ideas, prioritize, and estimate</strong>.<br><br>Click on the little key next to the New Item button for a little cheat sheet that shows the meaning of all the icons you see in the Dashboard. As you get rolling with your work, explore <strong>the filters and the search functions on the upper right corner.</strong><br><br> To learn more about voting and how it works in the dashboard <a href= 'http://help.bettermeans.com/dashboard' target='blank'> checkout our help section</a>, or this 9 minute tour of the site.<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br><br>"
   help_section_project_wiki: "<strong>Wikis are great tools for collaboration and therefore each workstream has a wiki.</strong> You can start building your wiki here and you can create multiple pages by clicking <a href='wiki'>Start Page</a> (in blue to the right). Wikis are essentially online documents and everyone that has access can not only read but also edit and contribute to online. <br>Note the different action buttons (on the right in grey), these will be helpful when working on the Wiki."
