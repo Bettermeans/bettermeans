@@ -140,7 +140,7 @@ Translating
 -----------
 
 You can find language specific translation groups at:
-https://www.transifex.net/projects/p/bettermeans
+https://www.transifex.net/projects/p/better/
 
 Known issues
 ------------
