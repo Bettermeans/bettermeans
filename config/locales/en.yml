@@ -920,6 +920,7 @@ en:
   label_select : "Select"
   label_no_mention : "No unread mentions"
   label_mentions : "Mentions"
+  label_Tip: Tip
 
   label_version_sharing_none: Not shared
   label_version_sharing_descendants: With workstreams
