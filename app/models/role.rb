@@ -98,7 +98,7 @@ class Role < ActiveRecord::Base
   end
 
   def to_s # heckle_me
-    name
+    l(name_translation_key)
   end
 
   # Return true if the role is a builtin role
@@ -238,6 +238,10 @@ class Role < ActiveRecord::Base
   # Return the builtin 'active' role
   def self.active # spec_me cover_me heckle_me
     find(:first, :conditions => {:builtin => BUILTIN_ACTIVE}) || raise('Missing active builtin role.')
+  end
+
+  def name_translation_key
+    "role.#{name.downcase.gsub(' ', '_')}"
   end
 
   private

@@ -12,7 +12,7 @@
 <% @invitations.each do |invitation| %>
   <tr id="row-<%= invitation.id %>">
     <td><%=h invitation.mail %></td>
-    <td><%=h invitation.role.name %></td>
+    <td><%= l(invitation.role.name_translation_key) %></td>
     <td><%=format_time_ago invitation.created_at %></td>
 
     <%if invitation.status == Invitation::ACCEPTED %>

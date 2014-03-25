@@ -8,7 +8,7 @@
     <th><%=l(:label_permissions)%></th>
     <% @roles.each do |role| %>
     <th>
-        <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
+        <%= content_tag(role.builtin? ? 'em' : 'span', l(role.name_translation_key)) %>
         <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.role-#{role.id}')",
                                                             :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
     </th>

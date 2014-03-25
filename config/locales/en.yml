@@ -190,6 +190,17 @@ en:
   gui_validation_error: 1 error
   gui_validation_error_plural: "%{count} errors"
 
+  role: &role
+    board: Board
+    core_team: Core Team
+    member: Member
+    contributor: Contributor
+    non_member: Non-Member
+    active: Active
+    clearance: Clearance
+    administrator: Administrator
+    anonymous: Anonymous
+
   activity:
     added: added
     announced: announced
@@ -207,6 +218,8 @@ en:
     restarted: restarted
     started: started
     updated: updated
+    object_name:
+      <<: *role
 
   field_tags : "Tags"
   field_points : "Avg estimated credits"

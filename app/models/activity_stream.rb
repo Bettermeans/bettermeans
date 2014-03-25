@@ -130,7 +130,8 @@ class ActivityStream < ActiveRecord::Base
     self.update_attribute(:status, DELETED)
   end
 
+  def object_name_key
+    "activity.object_name.#{object_name.downcase.gsub(' ', '_')}"
+  end
+
 end
-
-
-

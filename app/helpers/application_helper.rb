@@ -1318,7 +1318,7 @@ module ApplicationHelper
     case as.object_type.downcase
     when 'memberrole'
       begin
-        "#{as.indirect_object_phrase || as.object.user.name} is now #{as.object_name}"
+        "#{as.indirect_object_phrase || as.object.user.name} is now #{l(as.object_name_key)}"
       rescue
          "New member role"
       end

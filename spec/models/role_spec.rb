@@ -63,7 +63,8 @@ describe Role do
 
   describe '#to_s' do
     it 'returns the name' do
-      role.to_s.should == 'role'
+      role.name = 'Core Team'
+      role.to_s.should == 'Core Team'
     end
   end
 

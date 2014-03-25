@@ -11,7 +11,7 @@
     <th></th>
     <% @workflow_counts.first.last.each do |role, count| %>
     <th>
-        <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
+      <%= content_tag(role.builtin? ? 'em' : 'span', l(role.name_translation_key)) %>
     </th>
 
     <% end %>

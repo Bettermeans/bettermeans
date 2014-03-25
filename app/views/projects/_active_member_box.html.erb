@@ -12,7 +12,7 @@ if @members_active.any?
         <td>
           <h4><%= link_to_user member.user %></h4>
           <%
-            roles =  member.user.roles_for_project(@project).collect{|role| role.name }
+            roles = member.user.roles_for_project(@project).collect{|role| l(role.name_translation_key) }
             roles.delete(Role.active.name)
             %>
           <%= roles.join(",") %>
