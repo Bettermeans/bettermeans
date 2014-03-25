@@ -3,7 +3,7 @@
     <h4 class="long-words">
     <%= link_to as.actor_name, {:controller => :users, :action => :show, :id => as.actor_id} %>
     <span class='verb'>
-      <%= as.verb.tr('_', ' ') %>
+      <%= l(verb_translation_key(as.verb)) %>
     </span>
     <%= link_to_activity(as) %>
     <%= action_times(as.count) %>

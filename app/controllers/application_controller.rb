@@ -11,6 +11,8 @@ class ApplicationController < ActionController::Base
 
   before_filter :set_user_ip
 
+  helper :all
+
   include SslRequirement
   # don't require ssl in development
   skip_before_filter :ensure_proper_protocol if Rails.env.development?
