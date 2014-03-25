@@ -210,7 +210,7 @@ module ApplicationHelper
     h << "<div id=truncated_#{id.to_s}>"
     h << newhtml.truncate_html(length)
     h = h[0..-5]
-    h << "<a href='' onclick='$(\"#truncated_#{id.to_s}\").remove();$(\"##{id.to_s}\").show();return false;'><strong>... see more</strong></a>"
+    h << "<a href='' onclick='$(\"#truncated_#{id.to_s}\").remove();$(\"##{id.to_s}\").show();return false;'><strong>...#{l(:label_see_more)}</strong></a>"
     h << "<p>"
     h << "</div>"
   end
