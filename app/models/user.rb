@@ -172,9 +172,6 @@ class User < ActiveRecord::Base
     @result_object = Recurly::Account.find(@account.account_code)
   end
 
-  def save_billing(cc,ccverify,ip)
-  end
-
   def self.update_recurly_billing(id,cc,ccverify,ip) # spec_me cover_me heckle_me
     @user = User.find(id)
     begin

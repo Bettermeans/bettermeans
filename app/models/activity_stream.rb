@@ -34,10 +34,6 @@ class ActivityStream < ActiveRecord::Base
     l('issue.from_a_to_b', :original => original, :updated => updated)
   end
 
-  def strong_tag(key)
-    "<strong>#{l("issue.#{key.downcase}").capitalize}</strong>"
-  end
-
   # Finds the recent activities for a given actor, and honors
   # the users activity_stream_preferences.  Please see the README
   # for an example usage.
@@ -144,8 +140,14 @@ class ActivityStream < ActiveRecord::Base
     self.update_attribute(:status, DELETED)
   end
 
-  def object_name_key
+  def object_name_key # spec_me cover_me heckle_me
     "activity.object_name.#{object_name.downcase.gsub(' ', '_')}"
+  end
+
+  private
+
+  def strong_tag(key) # cover_me heckle_me
+    "<strong>#{l("issue.#{key.downcase}").capitalize}</strong>"
   end
 
 end

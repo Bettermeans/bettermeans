@@ -98,7 +98,6 @@ class MyController < ApplicationController
       if @user.save
         @user.pref.save
         @user.reload
-        @user.save_billing cc, params[:ccverify], request.remote_ip
         @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
         set_language_if_valid @user.language
         redirect_with_flash :notice, l(:notice_account_updated), :action => 'account'

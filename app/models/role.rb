@@ -240,7 +240,7 @@ class Role < ActiveRecord::Base
     find(:first, :conditions => {:builtin => BUILTIN_ACTIVE}) || raise('Missing active builtin role.')
   end
 
-  def name_translation_key
+  def name_translation_key # spec_me cover_me heckle_me
     "role.#{name.downcase.gsub(' ', '_')}"
   end
 
