@@ -25,34 +25,34 @@ nl:
       half_a_minute: "halve minuut"
       less_than_x_seconds:
         one: "minder dan een seconde"
-        other: "minder dan {aantal} seconden"
+        other: "minder dan %{aantal} seconden"
       x_seconds:
         one: "1 seconde"
-        other: "{aantal} seconden"
+        other: "%{aantal} seconden"
       less_than_x_minutes:
         one: "minder dan een minuut"
-        other: "minder dan {aantal} seconden"
+        other: "minder dan %{aantal} seconden"
       x_minutes:
         one: "1 minuut"
-        other: "{aantal} minuten"
+        other: "%{aantal} minuten"
       about_x_hours:
         one: "ongeveer 1 uur"
-        other: "ongeveer {aantal} uren"
+        other: "ongeveer %{aantal} uren"
       x_days:
         one: "1 dag"
-        other: "{aantal} dagen"
+        other: "%{aantal} dagen"
       about_x_months:
         one: "ongeveer 1 maand"
-        other: "ongeveer {aantal} maanden"
+        other: "ongeveer %{aantal} maanden"
       x_months:
         one: "1 maand"
-        other: "{aantal} maanden"
+        other: "%{aantal} maanden"
       about_x_years:
         one: "ongeveer 1 jaar"
-        other: "ongeveer {aantal} jaar"
+        other: "ongeveer %{aantal} jaar"
       over_x_years:
         one: "meer dan 1 jaar"
-        other: "meer dan {aantal} jaar"
+        other: "meer dan %{aantal} jaar"
   number:
     human:
       storage_units:
@@ -78,17 +78,17 @@ nl:
         accepted: "moet geaccepteerd worden"
         empty: "mag niet leeg zijn"
         blank: "mag niet blanco zijn"
-        too_long: "is te lang (maximum is {aantal} karakters)"
-        too_short: "is te kort (minimum is {aantal} karakters)"
-        wrong_length: "is verkeerde lengte (moet {aantal} karakters zijn)"
+        too_long: "is te lang (maximum is %{aantal} karakters)"
+        too_short: "is te kort (minimum is %{aantal} karakters)"
+        wrong_length: "is verkeerde lengte (moet %{aantal} karakters zijn)"
         taken: "is al in gebruik"
         not_a_number: "is geen getal"
         not_a_date: "is geen valide datum"
-        greater_than: "moet groter zijn dan {aantal}"
-        greater_than_or_equal_to: "moet groter dan of gelijk zijn aan {aantal}"
-        equal_to: "moet gelijk zijn aan {aantal}"
-        less_than: "moet kleiner zijn dan {aantal}"
-        less_than_or_equal_to: "moet kleiner dan of gelijk zijn aan {aantal}"
+        greater_than: "moet groter zijn dan %{aantal}"
+        greater_than_or_equal_to: "moet groter dan of gelijk zijn aan %{aantal}"
+        equal_to: "moet gelijk zijn aan %{aantal}"
+        less_than: "moet kleiner zijn dan %{aantal}"
+        less_than_or_equal_to: "moet kleiner dan of gelijk zijn aan %{aantal}"
         odd: "moet oneven zijn"
         even: "moet even zijn"
         greater_than_start_date: "moet na de startdatum liggen"
@@ -120,10 +120,10 @@ nl:
   notice_file_not_found: De pagina die u probeerde te benaderen bestaat niet of is verwijderd.
   notice_locking_conflict: De gegevens zijn gewijzigd door een andere gebruiker.
   notice_not_authorized: Het is u niet toegestaan deze pagina te raadplegen.
-  notice_email_sent: "Er is een email gestuurd naar {waarde}"
-  notice_email_error: "Er is een fout opgetreden bij het versturen van email ({waarde})"
+  notice_email_sent: "Er is een email gestuurd naar %{waarde}"
+  notice_email_error: "Er is een fout opgetreden bij het versturen van email (%{waarde})"
   notice_feeds_access_key_reseted: Je RSS toegangssleutel werd gereset.
-  notice_failed_to_save_issues: "{aantal} items konden niet opgeslagen worden van in totaal {totaal} geselecteerde items: {ids}."
+  notice_failed_to_save_issues: "%{aantal} items konden niet opgeslagen worden van in totaal %{totaal} geselecteerde items: %{ids}."
   notice_no_issue_selected: "Geen item geselecteerd! Vink alsjeblieft de items aan die je wil bewerken."
   notice_account_pending: "Uw account is aangemaakt, maar wacht nog op goedkeuring van de beheerder."
   notice_default_data_loaded: Standaard configuratie succesvol geladen.
@@ -131,7 +131,7 @@ nl:
   notice_this_is_your_profie: "Dit is je publieke profiel. Voor het beheren van je account <a href='/my/account'>klikt u hier</a>"
   error_old_invite: "Oude of onjuiste uitnodiging"
   error_bad_email_update: "Slecht geformuleerde email update"
-  error_can_t_load_default_data: "Standaardconfiguratie kan niet worden geladen: {value}"
+  error_can_t_load_default_data: "Standaardconfiguratie kan niet worden geladen: %{value}"
   error_issue_not_found_in_project: 'Het item is niet gevonden of hoort niet bij deze werkstroom'
   error_no_tracker_in_project: 'Er is geen onderwerp aan deze workstream gekoppeld. Controleer alsjeblieft de workstream instellingen.'
   error_no_default_issue_status: 'Er is geen standaard item status gedefinieerd. Controleer alsjeblieft je instellingen (Ga naar "Beheer -&gt; Artikel statussen").'
@@ -140,24 +140,24 @@ nl:
   error_workflow_copy_source: 'Selecteer een bron tracker of rol'
   error_workflow_copy_target: 'Selecteer tracker(s) en rol(len)'
   error_general: 'Er ging iets mis'
-  warning_attachments_not_saved: "{aantal} bestand(en) konden niet worden opgeslagen"
-  mail_subject_lost_password: "Jouw {waarde} password"
+  warning_attachments_not_saved: "%{aantal} bestand(en) konden niet worden opgeslagen"
+  mail_subject_lost_password: "Jouw %{waarde} password"
   mail_body_lost_password: 'Gebruik de volgende link om uw wachtwoord te wijzigen:'
-  mail_subject_register: "Jouw {waarde} activatiecode"
+  mail_subject_register: "Jouw %{waarde} activatiecode"
   mail_body_register: 'Gebruik de volgende link om uw account te activeren:'
-  mail_body_account_information_external: "Je kunt je {waarde} account gebruiken om in te loggen"
+  mail_body_account_information_external: "Je kunt je %{waarde} account gebruiken om in te loggen"
   mail_body_account_information: Uw account gegevens
-  mail_subject_account_activation_request: "{waarde} verzoek om je account te activeren"
-  mail_subject_email_update_activation: "{Value} nieuwe email activatie"
-  mail_body_account_activation_request: "Een nieuwe gebruiker ({value}) heeft zich geregistreerd. Zijn/haar account wacht op jouw goedkeuring: "
-  mail_subject_reminder: "{aantal} item(s) op te leveren in de komende dagen"
-  mail_body_reminder: "{aantal} item(s) waarvan jij eigenaar die in de komende dagen gepland staan om op te leveren"
-  mail_subject_wiki_content_added: "'{pagina}' wiki-pagina werd toegevoegd"
-  mail_body_wiki_content_added: "De '{pagina}' wiki-pagina werd toegevoegd door {auteur}."
-  mail_subject_wiki_content_updated: "'{pagina}' wiki-pagina werd aangepast"
-  mail_body_wiki_content_updated: "'{pagina}' wiki-pagina werd aangepast door {auteur}"
+  mail_subject_account_activation_request: "%{waarde} verzoek om je account te activeren"
+  mail_subject_email_update_activation: "%{Value} nieuwe email activatie"
+  mail_body_account_activation_request: "Een nieuwe gebruiker (%{value}) heeft zich geregistreerd. Zijn/haar account wacht op jouw goedkeuring: "
+  mail_subject_reminder: "%{aantal} item(s) op te leveren in de komende dagen"
+  mail_body_reminder: "%{aantal} item(s) waarvan jij eigenaar die in de komende dagen gepland staan om op te leveren"
+  mail_subject_wiki_content_added: "'%{pagina}' wiki-pagina werd toegevoegd"
+  mail_body_wiki_content_added: "De '%{pagina}' wiki-pagina werd toegevoegd door %{auteur}."
+  mail_subject_wiki_content_updated: "'%{pagina}' wiki-pagina werd aangepast"
+  mail_body_wiki_content_updated: "'%{pagina}' wiki-pagina werd aangepast door %{auteur}"
   gui_validation_error: 1 fout
-  gui_validation_error_plural: "{aantal} fouten"
+  gui_validation_error_plural: "%{aantal} fouten"
   field_tags: "Tags"
   field_points: "Algemeen geschatte waarde"
   field_logo: "Logo"
@@ -309,10 +309,10 @@ nl:
   project_module_documents: Documenten
   project_module_files: Bestanden
   project_module_wiki: Wiki
-  title_member_nomination: "Voorstel om {user} te nomineren als lid "
-  title_core_member_nomination: "Voorstel om {user} te nomineren voor de Core Team"
-  title_core_member_removal: "Voorstel om {user} te verwijderen uit het Core Team"
-  title_member_removal: "Voorstel om {user} te verwijderen als lid"
+  title_member_nomination: "Voorstel om %{user} te nomineren als lid "
+  title_core_member_nomination: "Voorstel om %{user} te nomineren voor de Core Team"
+  title_core_member_removal: "Voorstel om %{user} te verwijderen uit het Core Team"
+  title_member_removal: "Voorstel om %{user} te verwijderen als lid"
   label_usage_over: "Je gebruik is hoger dan in eerste instantie gepland "
   label_trial_expired: "Je proefperiode is afgelopen "
   label_credit_transfer: "Punten overdragen "
@@ -321,8 +321,8 @@ nl:
   label_user_new: Nieuwe gebruiker
   label_user_anonymous: Anoniem
   label_x_projects:
-    other: "{aantal} werkstromen"
-  label_issues_by: "Onderwerpen van {value}"
+    other: "%{aantal} werkstromen"
+  label_issues_by: "Onderwerpen van %{value}"
   label_document: Document
   label_document_new: Nieuw document
   label_document_added: Document toegevoegd
@@ -350,7 +350,7 @@ nl:
   label_last_login: Laatste bezoek
   label_activity: Activiteit
   label_overall_activity: Activiteit
-  label_user_activity: "{Value} 's activiteiten "
+  label_user_activity: "%{Value} 's activiteiten "
   label_new: Nieuw
   label_logged_as: Ingelogd als
   label_environment: Omgeving
@@ -358,8 +358,8 @@ nl:
   label_auth_source: Authenticatiemodus
   label_auth_source_new: Nieuwe authenticatiemodus
   label_auth_source_plural: Authenticatiemodi
-  label_and_its_subprojects: "{Value} en zijn sub workstreams"
-  label_waiting_for_you: "{} wacht op jouw "
+  label_and_its_subprojects: "%{Value} en zijn sub workstreams"
+  label_waiting_for_you: "%{} wacht op jouw "
   label_min_max_length: Min-max lengte
   label_list: Lijst
   label_date: Datum
@@ -370,8 +370,8 @@ nl:
   label_text: Lange tekst
   label_attribute: Attribuut
   label_attribute_plural: Attributen
-  label_download: "{aantal} Download"
-  label_download_plural: "{aantal} Downloads"
+  label_download: "%{aantal} Download"
+  label_download_plural: "%{aantal} Downloads"
   label_change_status: Wijzig status
   label_attachment: Bestand
   label_attachment_new: Nieuw bestand
@@ -396,15 +396,15 @@ nl:
   label_closed_issues: gesloten
   label_closed_issues_plural: gesloten
   label_x_open_issues_abbr_on_total:
-    other: "{aantal} open / {totaal}"
+    other: "%{aantal} open / %{totaal}"
   label_x_open_issues_abbr:
     zero: 0 open
     one: 1 open
-    other: "{aantal} open"
+    other: "%{aantal} open"
   label_x_closed_issues_abbr:
     zero: 0 closed
     one: 1 closed
-    other: "{aantal} gesloten"
+    other: "%{aantal} gesloten"
   label_total: Totaal
   label_permissions: Permissies
   label_current_status: Huidige status
@@ -422,7 +422,7 @@ nl:
   label_months_from: maanden vanaf
   label_gantt: Gantt
   label_internal: Intern
-  label_last_changes: "laatste {aantal} veranderingen"
+  label_last_changes: "laatste %{aantal} veranderingen"
   label_change_view_all: Bekijk alle wijzigingen
   label_personalize_page: Personaliseer deze pagina
   label_comment: Commentaar
@@ -430,7 +430,7 @@ nl:
   label_x_comments:
     zero: no comments
     one: 1 comment
-    other: "{aantal} commentaren"
+    other: "%{aantal} commentaren"
   label_comment_add: Voeg commentaar toe
   label_comment_added: Commentaar toegevoegd
   label_comment_delete: Verwijder commentaar
@@ -451,7 +451,7 @@ nl:
   label_yesterday: gisteren
   label_this_week: deze week
   label_last_week: vorige week
-  label_last_n_days: "laatste {telling}"
+  label_last_n_days: "laatste %{telling}"
   label_this_month: deze maand
   label_last_month: laatste maand
   label_this_year: dit jaar
@@ -463,13 +463,13 @@ nl:
   label_not_contains: bevat niet
   label_day_plural: dagen
   label_browse: Blader
-  label_modification: "{aantal} verandering"
-  label_modification_plural: "{aantal} veranderingen"
+  label_modification: "%{aantal} verandering"
+  label_modification_plural: "%{aantal} veranderingen"
   label_branch: Branch
   label_tag: Tag
   label_revision: Revisie
   label_revision_plural: Revisies
-  label_revision_id: "Herziening {value}"
+  label_revision_id: "Herziening %{value}"
   label_associated_revisions: Geassociëerde revisies
   label_added: toegevoegd
   label_modified: gewijzigd
@@ -486,8 +486,8 @@ nl:
   label_sort_lower: Verplaats naar beneden
   label_sort_lowest: Verplaats naar eind
   label_roadmap: Roadmap
-  label_roadmap_due_in: "Uiterste datum {value}"
-  label_roadmap_overdue: "{Value} te laat"
+  label_roadmap_due_in: "Uiterste datum %{value}"
+  label_roadmap_overdue: "%{Value} te laat"
   label_search: Zoeken
   label_result_plural: Resultaten
   label_all_words: Alle woorden
@@ -502,8 +502,8 @@ nl:
   label_feed_plural: Feeds
   label_changes_details: Details van alle wijzigingen
   label_spent_time: Gespendeerde tijd
-  label_f_hour: "{Value} uur"
-  label_f_hour_plural: "{Value} uren "
+  label_f_hour: "%{Value} uur"
+  label_f_hour_plural: "%{Value} uren "
   label_time_tracking: Tijdregistratie bijhouden
   label_change_plural: Wijzigingen
   label_statistics: Statistieken
@@ -545,16 +545,16 @@ nl:
   label_date_from: Van
   label_date_to: Tot
   label_language_based: Taal gebaseerd
-  label_sort_by: "Sorteren op {value}"
+  label_sort_by: "Sorteren op %{value}"
   label_send_test_email: Stuur een test e-mail
   label_feeds_access_key: RSS access key
   label_missing_feeds_access_key: Geen RSS access key
-  label_feeds_access_key_created_at: "RSS toegangssleutel gemaakt {value} geleden"
+  label_feeds_access_key_created_at: "RSS toegangssleutel gemaakt %{value} geleden"
   label_module_plural: Modules
-  label_added_time_by: "Toegevoegd door {auteur} {tijd} geleden"
-  label_updated_time_by: "Bijgewerkt door {auteur} {tijd} geleden"
-  label_created_time_by: "Gemaakt {tijd} geleden door"
-  label_updated_time: "Bijgewerkte {value} geleden"
+  label_added_time_by: "Toegevoegd door %{auteur} %{tijd} geleden"
+  label_updated_time_by: "Bijgewerkt door %{auteur} %{tijd} geleden"
+  label_created_time_by: "Gemaakt %{tijd} geleden door"
+  label_updated_time: "Bijgewerkte %{value} geleden"
   label_file_plural: Bestanden
   label_changeset_plural: Changesets
   label_default_columns: Standaard kolommen.
@@ -570,7 +570,7 @@ nl:
   label_registration_activation_by_email: accountactivatie per e-mail
   label_registration_manual_activation: handmatige accountactivatie
   label_registration_automatic_activation: automatische accountactivatie
-  label_display_per_page: "Per pagina: {value}"
+  label_display_per_page: "Per pagina: %{value}"
   label_age: Leeftijd
   label_change_properties: Eigenschappen wijzigen
   label_general: Algemeen
@@ -599,15 +599,15 @@ nl:
   label_group_plural: Groepen
   label_group_new: Nieuwe groep
   label_time_entry_plural: Bestede tijd
-  label_by: "door {auteur} {tijd} geleden"
-  label_requested_by: "Aangevraagd door {auteur} {tijd} geleden"
-  label_offered_by: "Aangeboden door {auteur} voor {ontvanger} {tijd} geleden"
-  label_accepted_by: "Aanvaard door {ontvanger} {tijd} geleden"
-  label_declined_by: "Geweigerd door {ontvanger} {tijd} geleden"
-  label_from_ago: "van {auteur} {tijd} geleden"
-  label_taken_by: "Genomen door {ontvanger} {tijd} geleden"
-  label_recinded: "Teruggetrokken {tijd} geleden"
-  label_released: "Vrijgegeven {tijd} geleden"
+  label_by: "door %{auteur} %{tijd} geleden"
+  label_requested_by: "Aangevraagd door %{auteur} %{tijd} geleden"
+  label_offered_by: "Aangeboden door %{auteur} voor %{ontvanger} %{tijd} geleden"
+  label_accepted_by: "Aanvaard door %{ontvanger} %{tijd} geleden"
+  label_declined_by: "Geweigerd door %{ontvanger} %{tijd} geleden"
+  label_from_ago: "van %{auteur} %{tijd} geleden"
+  label_taken_by: "Genomen door %{ontvanger} %{tijd} geleden"
+  label_recinded: "Teruggetrokken %{tijd} geleden"
+  label_released: "Vrijgegeven %{tijd} geleden"
   label_not_sure: "Niet zeker"
   label_commitment: "Verplichting"
   label_commitment_offer: "Eigendom aanbod"
@@ -624,19 +624,19 @@ nl:
   label_ignored: "Genegeerd"
   label_marked_as_read: "Markeren als gelezen"
   label_ownership_offered: "Eigendomsrecht aangeboden"
-  label_ownership_offered_to: "Eigendomsrecht aangeboden voor {user}"
+  label_ownership_offered_to: "Eigendomsrecht aangeboden voor %{user}"
   label_ownership_offer_declined: "Aanbod van eigenaarschap werd niet geaccepteerd"
   label_ownership_offer_accepted: "Aanbod van eigenaarschap werd geaccepteerd"
-  label_ownership_offer_declined_from: "Aanbod van eigenaarschap door {gebruiker} werd niet geaccepteerd"
-  label_ownership_offer_accepted_from: "Aanbod van eigenaarschap door {gebruiker} werd geaccepteerd"
+  label_ownership_offer_declined_from: "Aanbod van eigenaarschap door %{gebruiker} werd niet geaccepteerd"
+  label_ownership_offer_accepted_from: "Aanbod van eigenaarschap door %{gebruiker} werd geaccepteerd"
   label_ownership_offer_withdrawn: "Aanbod van eigenaarschap is teruggetrokken"
-  label_ownership_offer_withdrawn_to: "Aanbod van eigenaarschap aan {gebruiker} is teruggetrokken"
+  label_ownership_offer_withdrawn_to: "Aanbod van eigenaarschap aan %{gebruiker} is teruggetrokken"
   label_ownership_requested: "Eigenaarschap vereist"
   label_ownership_request_accepted: "Verzoek tot eigenaarschap werd geaccepteerd"
   label_ownership_request_auto_accepted: "Verzoek tot eigenaarschap werd automatisch geaccepteerd"
   label_ownership_request_declined: "Verzoek tot eigenaarschap werd niet geaccepteerd"
-  label_ownership_request_accepted_from: "Verzoek tot eigenaarschap van {gebruiker} werd automatisch geaccepteerd"
-  label_ownership_request_declined_from: "Verzoek tot eigenaarschap VAN {gebruiker} werd niet geaccepteerd"
+  label_ownership_request_accepted_from: "Verzoek tot eigenaarschap van %{gebruiker} werd automatisch geaccepteerd"
+  label_ownership_request_declined_from: "Verzoek tot eigenaarschap VAN %{gebruiker} werd niet geaccepteerd"
   label_ownership_request_recinded: "Eigendomrecht verzoek opgegeven "
   label_ownership_released: "Eigenaarschap vrijgegeven"
   label_ownership_taken: "Eigenaarschap opgepakt"
@@ -651,15 +651,15 @@ nl:
   label_sent: "verstuurd"
   label_withdrawn: "ingetrokken"
   label_declined: "afgewezen"
-  label_to_join_core_team_of: "om aan te sluiten bij het {project} Kern Team"
+  label_to_join_core_team_of: "om aan te sluiten bij het %{project} Kern Team"
   label_request: "Aanvraag"
   label_invitation: "Uitnodiging"
   label_was: "was"
   label_your: 'Jouw'
   label_to: "aan"
-  label_note_from: "Notitie van {auteur}"
-  label_sending_team_invitation: "{Auteur} wil dat je je bij het Kern Team aansluit voor de {project} workstream"
-  label_sending_team_request: "{Auteur} wil zich aan het Kern Team toevoegen voor de {project} workstream"
+  label_note_from: "Notitie van %{auteur}"
+  label_sending_team_invitation: "%{Auteur} wil dat je je bij het Kern Team aansluit voor de %{project} workstream"
+  label_sending_team_request: "%{Auteur} wil zich aan het Kern Team toevoegen voor de %{project} workstream"
   label_team_view_all: "Bekijk teamdetails"
   label_team_view_all_enterprise: "Bekijk het hele team"
   label_member_role_plural: "Teamwijzigingen"
@@ -674,13 +674,13 @@ nl:
   label_credit: "Punt"
   label_retro_started: "Retrospectieve gestart"
   label_retro_ended: "Retrospectieve geindigd "
-  label_motion_started: "Nieuw verzoek: {title}"
+  label_motion_started: "Nieuw verzoek: %{title}"
   label_youve_got_credits: "Je hebt punten!"
-  label_someone_joined_your_issue: "{joiner} heeft zichzelf toegevoegd aan een taak die tot jou behoord "
-  label_someone_added_you_to_their_issue: "{Afzender} heeft je toegevoegd aan een taak die tot hem/haar behoord "
-  label_someone_removed_you_from_their_issue: "{Afzender} heeft je verwijderd uit een taak die tot hem/haar behoord"
-  label_someone_left_your_issue: "{joiner} heeft een taak toegeschreven aan jou"
-  label_someone_mentioned_you: "{melder} heeft je vermeld "
+  label_someone_joined_your_issue: "%{joiner} heeft zichzelf toegevoegd aan een taak die tot jou behoord "
+  label_someone_added_you_to_their_issue: "%{Afzender} heeft je toegevoegd aan een taak die tot hem/haar behoord "
+  label_someone_removed_you_from_their_issue: "%{Afzender} heeft je verwijderd uit een taak die tot hem/haar behoord"
+  label_someone_left_your_issue: "%{joiner} heeft een taak toegeschreven aan jou"
+  label_someone_mentioned_you: "%{melder} heeft je vermeld "
   label_agree: "mee eens"
   label_disagree: "mee oneens"
   label_block: "Blokkeren "
@@ -696,7 +696,7 @@ nl:
   label_display_used_statuses_only: Laat alleen statussen zien die gebruikt worden door deze tracker
   label_api_access_key: API access key
   label_missing_api_access_key: Geen API access key
-  label_api_access_key_created_at: "API-toegang sleutel gemaakt {value} geleden"
+  label_api_access_key_created_at: "API-toegang sleutel gemaakt %{value} geleden"
   label_dpp_scale: "Geschatte groote "
   label_motion: "Voorstel "
   label_motion_state0: "In Voortgang "
@@ -713,10 +713,10 @@ nl:
   label_motion_vote_action9999: "Niet mee eens"
   label_motion_vote_action10000: "Neutraal"
   label_motion_vote_action10001: "Mee eens "
-  label_motion_vote_action_share_agree: "instemmen met {punten} aandelen"
-  label_motion_vote_action_share_disagree: "Ben het niet eens met {points} aandelen"
-  label_motion_vote_action_share_neutral: "Ben Neutraal met {points} aandelen"
-  label_you_voted: "Jij hebt gestemd: <b>{actie}</b>"
+  label_motion_vote_action_share_agree: "instemmen met %{punten} aandelen"
+  label_motion_vote_action_share_disagree: "Ben het niet eens met %{points} aandelen"
+  label_motion_vote_action_share_neutral: "Ben Neutraal met %{points} aandelen"
+  label_you_voted: "Jij hebt gestemd: <b>%{actie}</b>"
   label_voted: "gestemd"
   label_you_havent_voted: "Je hebt nog niet gestemd "
   label_tally: "Tally"
@@ -736,8 +736,8 @@ nl:
   label_hidden: "(gebruiker verborgen)"
   label_motions_active: "Actieve voorstellen "
   label_motions_view_all: "Bekijk alle voorstellen "
-  label_new_role: "Nieuwe rol: {rol_naam}"
-  label_new_invitation: "Uitnodiging om bij te dragen aan {project_naam} als een {rol_naam}"
+  label_new_role: "Nieuwe rol: %{rol_naam}"
+  label_new_invitation: "Uitnodiging om bij te dragen aan %{project_naam} als een %{rol_naam}"
   label_drop_from_core_team: "Verwijderen uit de Kern "
   label_nominate_to_core_team: "Nomineren voor de Kern  "
   label_drop_from_member: "Verwijder als lid"
@@ -831,39 +831,39 @@ nl:
   text_select_mail_notifications: Selecteer acties waarvoor mededelingen via mail moeten worden verstuurd.
   text_regexp_info: bv. ^[A-Z0-9]+$
   text_min_max_length_info: 0 betekent geen restrictie
-  text_subprojects_destroy_warning: "De sub workstream (s): {value} wordt ook verwijderd."
-  text_journal_changed: "{label} veranderd van {oud} naar {nieuw}"
-  text_journal_set_to: "{label} ingesteld op {waarde}"
-  text_journal_deleted: "{label} verwijderd {oud}"
-  text_journal_added: "{label} {waarde} toegevoegd"
+  text_subprojects_destroy_warning: "De sub workstream (s): %{value} wordt ook verwijderd."
+  text_journal_changed: "%{label} veranderd van %{oud} naar %{nieuw}"
+  text_journal_set_to: "%{label} ingesteld op %{waarde}"
+  text_journal_deleted: "%{label} verwijderd %{oud}"
+  text_journal_added: "%{label} %{waarde} toegevoegd"
   text_project_identifier_info: 'Alleen kleine letters (az), getallen en streepjes zijn toegestaan. <br /> Eenmaal opgeslagen kan de identificatie kan niet worden gewijzigd.'
-  text_caracters_maximum: "maximaal {aantal} tekens."
-  text_caracters_minimum: "Moet minstens {aantal} tekens lang zijn."
-  text_length_between: "Lengte tussen {min} en {max} karakters."
+  text_caracters_maximum: "maximaal %{aantal} tekens."
+  text_caracters_minimum: "Moet minstens %{aantal} tekens lang zijn."
+  text_length_between: "Lengte tussen %{min} en %{max} karakters."
   text_unallowed_characters: Niet toegestane tekens
   text_comma_separated: Meerdere waarden toegestaan (kommagescheiden).
-  text_issue_added: "Item {id} is aangemeld door {auteur}."
-  text_issue_updated: "Item {id} is bijgewerkt door {auteur}."
+  text_issue_added: "Item %{id} is aangemeld door %{auteur}."
+  text_issue_updated: "Item %{id} is bijgewerkt door %{auteur}."
   text_line_separated: Meerdere waarden toegestaan (elke regel is een waarde).
   text_user_mail_option: "Voor de niet-geselecteerde workstreams ontvangt je alleen meldingen betreft de dingen die je bekijkt of betrokken in bent (bijv. items waarvan je de auteur eigenaar bent).  "
   text_no_configuration_data: "Rollen, type, item toestanden en werk stroom zijn nog niet ingesteld. Het is ten zeerste aanbevolen om de standaard instellingen te laden. Je bent in staat de instellingen na het laden te wijzigen. "
   text_load_default_configuration: Laad de standaardconfiguratie
-  text_status_changed_by_changeset: "Toegepast in instellingen {value}."
+  text_status_changed_by_changeset: "Toegepast in instellingen %{value}."
   text_issues_destroy_confirmation: 'Weet je zeker dat je de geselecteerde item(s) wil verwijderen?'
   text_select_project_modules: 'Select modules to enable for this workstream:'
   text_default_administrator_account_changed: Standaard beheerderaccount gewijzigd
   text_file_repository_writable: Bestandsrepository beschrijfbaar
   text_plugin_assets_writable: Plugin assets directory beschrijfbaar
   text_rmagick_available: RMagick beschikbaar (optioneel)
-  text_destroy_time_entries_question: "{Uur} uren werden gerapporteerd op de items die je van plan bent om te verwijderen? Wat wil je doen?"
+  text_destroy_time_entries_question: "%{Uur} uren werden gerapporteerd op de items die je van plan bent om te verwijderen? Wat wil je doen?"
   text_destroy_time_entries: Verwijder gerapporteerde uren
   text_reassign_time_entries: 'Herzien van de gemelde uren van dit item:'
-  text_user_wrote: "{Value} schreef:"
-  text_enumeration_destroy_question: "{aantal} objecten zijn gekoppeld aan deze waarde."
+  text_user_wrote: "%{Value} schreef:"
+  text_enumeration_destroy_question: "%{aantal} objecten zijn gekoppeld aan deze waarde."
   text_enumeration_category_reassign_to: 'Wijs de volgende waarde toe:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled. Configure your SMTP server in config/email.yml and restart the application to enable them."
   text_diff_truncated: '... Deze diff werd afgekort omdat het de maximale weer te geven karakters overschreed.'
-  text_wiki_page_destroy_question: "This page has {descendants} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
   text_wiki_page_nullify_children: "Behoud subpagina's als hoofdpagina's"
   text_wiki_page_destroy_children: "Verwijder alle subpagina's en onderliggende pagina's"
   text_wiki_page_reassign_children: "Alle subpagina's toewijzen aan deze hoofdpagina"
@@ -885,31 +885,31 @@ nl:
   text_retro_started: " workstream has started. <br/>You have 3 days to give your team feedback on their contribution"
   text_retro_ended_for: "A retrospective for the"
   text_retro_ended: " workstream has ended. <br/>Click below to see your team's feedback, and your final contribution"
-  text_credits_transferred: "{sender} just transferred {amount} credits to you in {project}"
-  text_credits_distributed_for: "You earned {amount} credits for your work on <strong>{workstream}</strong>. Congrats!"
+  text_credits_transferred: "%{sender} just transferred %{amount} credits to you in %{project}"
+  text_credits_distributed_for: "You earned %{amount} credits for your work on <strong>%{workstream}</strong>. Congrats!"
   text_credits_are_a_gift: "These credits were gifted to you by your peers for your contribution. They're not a part of any retrospective."
   text_credits_are_an_expense: "These credits are a reimbursment for an expense item. They're not a part of any retrospective."
-  text_joiner_is_now_working_with_you: "{joiner} is now working with you on<br/>{issue}"
-  text_joiner_is_no_longer_working_with_you: "{joiner} werkt niet langer met je aan <br/>{issue}"
-  text_you_are_now_working_with_you: "Je bent nu onderdeel van het team dat werkt aan <br/>{issue}"
-  text_you_are_no_longer_working_on: "Je bent niet langer onderdeel van het team dat werkt aan <br/>{issue}"
+  text_joiner_is_now_working_with_you: "%{joiner} is now working with you on<br/>%{issue}"
+  text_joiner_is_no_longer_working_with_you: "%{joiner} werkt niet langer met je aan <br/>%{issue}"
+  text_you_are_now_working_with_you: "Je bent nu onderdeel van het team dat werkt aan <br/>%{issue}"
+  text_you_are_no_longer_working_on: "Je bent niet langer onderdeel van het team dat werkt aan <br/>%{issue}"
   text_history_hidden_until_you_vote: "De stemhistorie is niet zichtbaar, omdat jij nog niet hebt gestemd"
   text_tally_hidden_until_you_vote: "Voting tally is hidden until you cast your vote"
   text_you_dont_have_shares_to_vote: "You need to have shares to weigh in on this motion."
-  text_you_are_now_a_role: "Je bent nu een <b>{rol_naam}<b/> van"
+  text_you_are_now_a_role: "Je bent nu een <b>%{rol_naam}<b/> van"
   text_role_description_Administrator: "As an Admin, you can bypass governance rules and directly add/remove members and workstreams.<br> Use this role sparingly as you are setting up your structures, <br>and then remove yourself from the admin role when you're ready to fully adopt the Open Enterprise governance model."
-  text_role_description_Contributor: "As a contributor, you can now earn credits and own a stake in <b>{enterprise}.</b><br>Your votes on all matters will be visible to everyone, and will be non-binding."
+  text_role_description_Contributor: "As a contributor, you can now earn credits and own a stake in <b>%{enterprise}.</b><br>Your votes on all matters will be visible to everyone, and will be non-binding."
   text_role_description_Member: "As a member, all your votes are now binding. <br>In addition you can nominate contributors for membership,<br>and vote on Core Team elections."
   text_role_description_Core Team: "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
   text_role_description_Core_Team: "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
   text_role_description_Board: "As a board member,all your votes are binding."
-  text_member_nomination: "{user} is being nominated to be a member of {enterprise}. As a member, all their votes would be binding. In addition they will be able to nominate contributors for membership, and vote on Core Team elections. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
-  text_core_member_nomination: "{user} is being nominated for the Core Team of {enterprise}. As a member of the Core Team they would have binding votes in all matters, including the selection of new members. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
-  text_core_member_removal: "This motion is to remove {user} from the Core Team of {enterprise}. If the motion passes {user} would become a Member. As a Member, their votes will remain binding and their shares and credits would be unaffected. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
-  text_member_removal: "This motion is to remove {user} as a member of {enterprise}. If the motion passes {user} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
+  text_member_nomination: "%{user} is being nominated to be a member of %{enterprise}. As a member, all their votes would be binding. In addition they will be able to nominate contributors for membership, and vote on Core Team elections. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
+  text_core_member_nomination: "%{user} is being nominated for the Core Team of %{enterprise}. As a member of the Core Team they would have binding votes in all matters, including the selection of new members. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
+  text_core_member_removal: "This motion is to remove %{user} from the Core Team of %{enterprise}. If the motion passes %{user} would become a Member. As a Member, their votes will remain binding and their shares and credits would be unaffected. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
+  text_member_removal: "This motion is to remove %{user} as a member of %{enterprise}. If the motion passes %{user} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
   text_issue_edit_footer: "You can comment on this issue via email, by replying to this email directly."
   text_message_edit_footer: "Je kunt op dit bericht antwoorden, door direct op deze rechtstreeks op deze email te antwoorden"
-  text_invitation_note_default: "Hallo,\nWe gebruiken bettermeans.com om te werken aan {project}.\nBettermeans helpt ons samen te werken als gelijken en is een transparant, democatische manier om samen dingen voor elkaar te krijgen.\nDoe met ons mee en accepteer alsjeblieft deze uitnodiging.\nMet warme groet, {gebruiker}"
+  text_invitation_note_default: "Hallo,\nWe gebruiken bettermeans.com om te werken aan %{project}.\nBettermeans helpt ons samen te werken als gelijken en is een transparant, democatische manier om samen dingen voor elkaar te krijgen.\nDoe met ons mee en accepteer alsjeblieft deze uitnodiging.\nMet warme groet, %{gebruiker}"
   text_you_are_invited: "Je bent uitgenodigd om mee te doen."
   text_generic_invitation: "Via deze link kan iedereen een <strong>bijdrage</strong> leveren aan deze werkstroom."
   text_generic_invitation_2: "Je kunt ook het formulier hieronder gebruiken om mensen persoonlijk uit te nodigen om mee te doen in andere rollen"
@@ -962,7 +962,7 @@ nl:
   help_motions: "Motions are used to make large important decisions that are project-wide. This is a democratic mechanism to make decisions together. There are different types of motions, to learn more about motions <a href='http://help.bettermeans.com/motions' target='blank'>click here</a>."
   help_credits: "Credits are a more open and democratic way of valuing work and awarding compensation. We are really excited about offering this as an option and we strongly encourage you to <a href='http://help.bettermeans.com/faq/credits' target='blank'>learn more about credits</a>."
   help_revision_notes: "Optioneel: Voeg notities toe aan deze bewerking van de wiki. Deze notities verschijnen in de versiegeschiedenis van de wiki"
-  help_mentions: "Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br><br>For example if somebody adds this comment to an issue:<br><strong>'I think @{login} should take a look at this'</strong><br>it would appear in your mentions"
+  help_mentions: "Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br><br>For example if somebody adds this comment to an issue:<br><strong>'I think @%{login} should take a look at this'</strong><br>it would appear in your mentions"
   help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br> If you want to start a new workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br>We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com' target='blank'> the tour</a> before you begin."
   help_section_project_dashboard: "Welcome to your dashboard!|<strong>This is where the magic happens.</strong> Here you get a full view of all the work within a workstream. Each workstream and subworkstream has its own dashboard. <br><br><strong>Get started by adding a new item</strong> (click on the New Item Link at the top of the New column).<br><br>You can also <strong>offer new ideas/requests, comment, agree and disagree with ideas, prioritize, and estimate</strong>.<br><br>Click on the little key next to the New Item button for a little cheat sheet that shows the meaning of all the icons you see in the Dashboard. As you get rolling with your work, explore <strong>the filters and the search functions on the upper right corner.</strong><br><br> To learn more about voting and how it works in the dashboard <a href= 'http://help.bettermeans.com/dashboard' target='blank'> checkout our help section</a>, or this 9 minute tour of the site.<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br><br>"
   help_section_project_wiki: "<strong>Wikis are great tools for collaboration and therefore each workstream has a wiki.</strong> You can start building your wiki here and you can create multiple pages by clicking <a href='wiki'>Start Page</a> (in blue to the right). Wikis are essentially online documents and everyone that has access can not only read but also edit and contribute to online. <br>Note the different action buttons (on the right in grey), these will be helpful when working on the Wiki."

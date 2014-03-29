@@ -24,35 +24,35 @@ tr:
     distance_in_words:
       half_a_minute: "yarım dakika"
       less_than_x_seconds:
-        one: "less than {count} seconds"
-        other: "less than {count} seconds"
+        one: "less than %{count} seconds"
+        other: "less than %{count} seconds"
       x_seconds:
-        one: "{count} saniye"
-        other: "{count} saniye"
+        one: "%{count} saniye"
+        other: "%{count} saniye"
       less_than_x_minutes:
-        one: "{count} dakikadan az"
-        other: "{count} dakikadan az"
+        one: "%{count} dakikadan az"
+        other: "%{count} dakikadan az"
       x_minutes:
-        one: "{count} dakika"
-        other: "{count} dakika"
+        one: "%{count} dakika"
+        other: "%{count} dakika"
       about_x_hours:
-        one: "yaklaşık {count} saat"
-        other: "yaklaşık {count} saat"
+        one: "yaklaşık %{count} saat"
+        other: "yaklaşık %{count} saat"
       x_days:
-        one: "{count} gün"
-        other: "{count} gün"
+        one: "%{count} gün"
+        other: "%{count} gün"
       about_x_months:
-        one: "yaklaşık {count} ay"
-        other: "yaklaşık {count} ay"
+        one: "yaklaşık %{count} ay"
+        other: "yaklaşık %{count} ay"
       x_months:
-        one: "{count} ay"
-        other: "{count} ay"
+        one: "%{count} ay"
+        other: "%{count} ay"
       about_x_years:
-        one: "yaklaşık {count} yıl"
-        other: "yaklaşık {count} yıl"
+        one: "yaklaşık %{count} yıl"
+        other: "yaklaşık %{count} yıl"
       over_x_years:
-        one: "{count} yıldan fazla"
-        other: "{count} yıldan fazla"
+        one: "%{count} yıldan fazla"
+        other: "%{count} yıldan fazla"
   number:
     human:
       storage_units:
@@ -78,17 +78,17 @@ tr:
         accepted: "kabul edilmeli"
         empty: "doldurulmalı"
         blank: "doldurulmalı"
-        too_long: "çok uzun (maximum {} karakter)"
-        too_short: "çok kısa (maximum {} karakter)"
-        wrong_length: "is the wrong length (should be {count} characters)"
+        too_long: "çok uzun (maximum %{} karakter)"
+        too_short: "çok kısa (maximum %{} karakter)"
+        wrong_length: "is the wrong length (should be %{count} characters)"
         taken: "hali hazırda kullanılmakta"
         not_a_number: "geçerli bir sayı değil"
         not_a_date: "no és una data vàlida"
-        greater_than: " {count} den büyük olmalı"
-        greater_than_or_equal_to: " {count} den büyük yada eşit olmalı"
-        equal_to: " {count} a eşit olmalı"
-        less_than: " {count} den küçük olmalı"
-        less_than_or_equal_to: " {count} den küçük yada eşit olmalı"
+        greater_than: " %{count} den büyük olmalı"
+        greater_than_or_equal_to: " %{count} den büyük yada eşit olmalı"
+        equal_to: " %{count} a eşit olmalı"
+        less_than: " %{count} den küçük olmalı"
+        less_than_or_equal_to: " %{count} den küçük yada eşit olmalı"
         odd: "tek olmalı"
         even: "çift olmalı"
         greater_than_start_date: "başlangıç tarihinden büyük olmalı"
@@ -120,10 +120,10 @@ tr:
   notice_file_not_found: Erişmek istediğiniz sayfa mevcut değil ya da kaldırılmış.
   notice_locking_conflict: Veri başka bir kullanıcı tarafından güncellendi.
   notice_not_authorized: Bu sayfaya erişme yetkiniz yok.
-  notice_email_sent: "E-posta {value} 'ye gönderildi"
-  notice_email_error: "An error occurred while sending mail ({value})"
+  notice_email_sent: "E-posta %{value} 'ye gönderildi"
+  notice_email_error: "An error occurred while sending mail (%{value})"
   notice_feeds_access_key_reseted: RSS erişim anahtarınız sıfırlandı.
-  notice_failed_to_save_issues: "Failed to save {count} item(s) on {total} selected: {ids}."
+  notice_failed_to_save_issues: "Failed to save %{count} item(s) on %{total} selected: %{ids}."
   notice_no_issue_selected: "No item is selected! Please, check the items you want to edit."
   notice_account_pending: "Hesabınız oluşturuldu ve yönetici onayı bekliyor."
   notice_default_data_loaded: Varasayılan konfigürasyon başarılıyla yüklendi.
@@ -131,7 +131,7 @@ tr:
   notice_this_is_your_profie: "This is your public profile. To manage your account <a href='/my/account'>click here</a>"
   error_old_invite: "Eski ya da geçersiz davet"
   error_bad_email_update: "Poorly formed email update"
-  error_can_t_load_default_data: "Default configuration could not be loaded: {value}"
+  error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
   error_issue_not_found_in_project: 'The item was not found or does not belong to this workstream'
   error_no_tracker_in_project: 'No issue type is associated to this workstream. Please check the Workstream settings.'
   error_no_default_issue_status: 'No default item status is defined. Please check your configuration (Go to "Administration -> Item statuses").'
@@ -140,24 +140,24 @@ tr:
   error_workflow_copy_source: 'Lütfen kaynak iş tipi ve rolleri seçin'
   error_workflow_copy_target: 'Lütfen hedef iş tipi ve rolleri seçin'
   error_general: 'Bir şey ters gitti.'
-  warning_attachments_not_saved: "{count} dosya kaydedilemedi."
-  mail_subject_lost_password: "{value} parolanız"
+  warning_attachments_not_saved: "%{count} dosya kaydedilemedi."
+  mail_subject_lost_password: "%{value} parolanız"
   mail_body_lost_password: 'Parolanızı değiştirmek için, aşağıdaki bağlantıya tıklayın:'
-  mail_subject_register: "Your {value} account activation"
+  mail_subject_register: "Your %{value} account activation"
   mail_body_register: 'Hesabınızı etkinleştirmek için, aşağıdaki bağlantıya tıklayın:'
-  mail_body_account_information_external: "You can use your {value} account to log in."
+  mail_body_account_information_external: "You can use your %{value} account to log in."
   mail_body_account_information: Hesap bilgileriniz
-  mail_subject_account_activation_request: "{value} account activation request"
-  mail_subject_email_update_activation: "{value} yeni e-posta aktivasyonu"
-  mail_body_account_activation_request: "A new user ({value}) has registered. The account is pending your approval:"
-  mail_subject_reminder: "{count} item(s) due in the next days"
-  mail_body_reminder: "{count} item(s) that are owned by you are due in the next {days} days:"
-  mail_subject_wiki_content_added: "'{page}' wiki page has been added"
-  mail_body_wiki_content_added: "The '{page}' wiki page has been added by {author}."
-  mail_subject_wiki_content_updated: "'{page}' wiki page has been updated"
-  mail_body_wiki_content_updated: "The '{page}' wiki page has been updated by {author}."
+  mail_subject_account_activation_request: "%{value} account activation request"
+  mail_subject_email_update_activation: "%{value} yeni e-posta aktivasyonu"
+  mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
+  mail_subject_reminder: "%{count} item(s) due in the next days"
+  mail_body_reminder: "%{count} item(s) that are owned by you are due in the next %{days} days:"
+  mail_subject_wiki_content_added: "'%{page}' wiki page has been added"
+  mail_body_wiki_content_added: "The '%{page}' wiki page has been added by %{author}."
+  mail_subject_wiki_content_updated: "'%{page}' wiki page has been updated"
+  mail_body_wiki_content_updated: "The '%{page}' wiki page has been updated by %{author}."
   gui_validation_error: 1 hata
-  gui_validation_error_plural: "{count} hata"
+  gui_validation_error_plural: "%{count} hata"
   field_tags: "Etiketler"
   field_points: "Avg estimated credits"
   field_logo: "Logo"
@@ -309,10 +309,10 @@ tr:
   project_module_documents: Belgeler
   project_module_files: Dosyalar
   project_module_wiki: Wiki
-  title_member_nomination: "Motion to elect {user} as a member"
-  title_core_member_nomination: "Motion to elect {user} to the Core Team"
-  title_core_member_removal: "Motion to remove {user} from the Core Team"
-  title_member_removal: "Motion to remove {user} as a member"
+  title_member_nomination: "Motion to elect %{user} as a member"
+  title_core_member_nomination: "Motion to elect %{user} to the Core Team"
+  title_core_member_removal: "Motion to remove %{user} from the Core Team"
+  title_member_removal: "Motion to remove %{user} as a member"
   label_usage_over: "Your usage is over your plan's limits"
   label_trial_expired: "Deneme süreniz sona erdi"
   label_credit_transfer: "Transfer credits"
@@ -321,8 +321,8 @@ tr:
   label_user_new: Yeni Kullanıcı
   label_user_anonymous: Anonim
   label_x_projects:
-    other: "{count} workstreams"
-  label_issues_by: "Items by {value}"
+    other: "%{count} workstreams"
+  label_issues_by: "Items by %{value}"
   label_document: Belge
   label_document_new: Yeni belge
   label_document_added: Belge eklendi
@@ -350,7 +350,7 @@ tr:
   label_last_login: Son bağlantı
   label_activity: Etkinlik
   label_overall_activity: Tüm etkinlikler
-  label_user_activity: "{value}'s activity"
+  label_user_activity: "%{value}'s activity"
   label_new: Yeni
   label_logged_as: 'Kullanıcı :'
   label_environment: Çevre
@@ -358,8 +358,8 @@ tr:
   label_auth_source: Kimlik Denetim Modu
   label_auth_source_new: Yeni Denetim Modu
   label_auth_source_plural: Denetim Modları
-  label_and_its_subprojects: "{value} and its sub workstreams"
-  label_waiting_for_you: "{notifications} waiting for you"
+  label_and_its_subprojects: "%{value} and its sub workstreams"
+  label_waiting_for_you: "%{notifications} waiting for you"
   label_min_max_length: Min - Maks uzunluk
   label_list: Liste
   label_date: Tarih
@@ -370,8 +370,8 @@ tr:
   label_text: Uzun Metin
   label_attribute: Nitelik
   label_attribute_plural: Nitelikler
-  label_download: "{count} Download"
-  label_download_plural: "{count} Downloads"
+  label_download: "%{count} Download"
+  label_download_plural: "%{count} Downloads"
   label_change_status: Değişim Durumu
   label_attachment: Dosya
   label_attachment_new: Yeni Dosya
@@ -396,15 +396,15 @@ tr:
   label_closed_issues: kapalı
   label_closed_issues_plural: kapalı
   label_x_open_issues_abbr_on_total:
-    other: "{count} open / {total}"
+    other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero: hiç açık yok
     one: 1 açık
-    other: "{count} open"
+    other: "%{count} open"
   label_x_closed_issues_abbr:
     zero: hiç kapalı yok
     one: 1 kapalı
-    other: "{count} closed"
+    other: "%{count} closed"
   label_total: Toplam
   label_permissions: İzinler
   label_current_status: Mevcut Durum
@@ -422,7 +422,7 @@ tr:
   label_months_from: ay öncesinden itibaren
   label_gantt: İş-Zaman Çizelgesi
   label_internal: Dahili
-  label_last_changes: "last {count} changes"
+  label_last_changes: "last %{count} changes"
   label_change_view_all: Tüm Değişiklikleri gör
   label_personalize_page: Bu sayfayı kişiselleştir
   label_comment: Yorum
@@ -430,7 +430,7 @@ tr:
   label_x_comments:
     zero: hiç yorum yok
     one: 1 yorum
-    other: "{count} comments"
+    other: "%{count} comments"
   label_comment_add: Yorum Ekle
   label_comment_added: Yorum Eklendi
   label_comment_delete: Yorumları sil
@@ -451,7 +451,7 @@ tr:
   label_yesterday: Dün
   label_this_week: Bu hafta
   label_last_week: Geçen hafta
-  label_last_n_days: "son {count} gün"
+  label_last_n_days: "son %{count} gün"
   label_this_month: Bu ay
   label_last_month: Geçen ay
   label_this_year: Bu yıl
@@ -463,13 +463,13 @@ tr:
   label_not_contains: içermiyor
   label_day_plural: Günler
   label_browse: Gözat
-  label_modification: "{count} change"
-  label_modification_plural: "{count} changes"
+  label_modification: "%{count} change"
+  label_modification_plural: "%{count} changes"
   label_branch: Kol
   label_tag: Etiket
   label_revision: Değişiklik
   label_revision_plural: Değişiklikler
-  label_revision_id: "Revision {value}"
+  label_revision_id: "Revision %{value}"
   label_associated_revisions: Birleştirilmiş değişiklikler
   label_added: eklendi
   label_modified: güncellendi
@@ -486,8 +486,8 @@ tr:
   label_sort_lower: Aşağı taşı
   label_sort_lowest: Dibe taşı
   label_roadmap: Yol Haritası
-  label_roadmap_due_in: "Due in {value}"
-  label_roadmap_overdue: "{value} late"
+  label_roadmap_due_in: "Due in %{value}"
+  label_roadmap_overdue: "%{value} late"
   label_search: Ara
   label_result_plural: Sonuçlar
   label_all_words: Tüm Kelimeler
@@ -502,8 +502,8 @@ tr:
   label_feed_plural: Beslemeler
   label_changes_details: Bütün değişikliklerin detayları
   label_spent_time: Harcanan zaman
-  label_f_hour: "{value} saat"
-  label_f_hour_plural: "{value} saat"
+  label_f_hour: "%{value} saat"
+  label_f_hour_plural: "%{value} saat"
   label_time_tracking: Zaman Takibi
   label_change_plural: Değişiklikler
   label_statistics: İstatistikler
@@ -545,16 +545,16 @@ tr:
   label_date_from: Başlangıç
   label_date_to: Bitiş
   label_language_based: Kullanıcı dili bazlı
-  label_sort_by: "Sort by {value}"
+  label_sort_by: "Sort by %{value}"
   label_send_test_email: Test e-postası gönder
   label_feeds_access_key: RSS erişim anahtarı
   label_missing_feeds_access_key: Bir RSS erişim anahtarı eksik
-  label_feeds_access_key_created_at: "RSS access key created {value} ago"
+  label_feeds_access_key_created_at: "RSS access key created %{value} ago"
   label_module_plural: Modüller
-  label_added_time_by: "Added by {author} {age} ago"
-  label_updated_time_by: "Updated by {author} {age} ago"
-  label_created_time_by: "Created {age} ago by"
-  label_updated_time: "Updated {value} ago"
+  label_added_time_by: "Added by %{author} %{age} ago"
+  label_updated_time_by: "Updated by %{author} %{age} ago"
+  label_created_time_by: "Created %{age} ago by"
+  label_updated_time: "Updated %{value} ago"
   label_file_plural: Dosyalar
   label_changeset_plural: Değişiklik Listeleri
   label_default_columns: Varsayılan Sütunlar
@@ -570,7 +570,7 @@ tr:
   label_registration_activation_by_email: e-posta ile hesap etkinleştirme
   label_registration_manual_activation: Elle hesap etkinleştirme
   label_registration_automatic_activation: Otomatik hesap etkinleştirme
-  label_display_per_page: "Per page: {value}"
+  label_display_per_page: "Per page: %{value}"
   label_age: Yaş
   label_change_properties: Özellikleri değiştir
   label_general: Genel
@@ -599,15 +599,15 @@ tr:
   label_group_plural: Gruplar
   label_group_new: Yeni grup
   label_time_entry_plural: Harcanan zaman
-  label_by: "by {author} {age} ago"
-  label_requested_by: "Requested by {author} {age} ago"
-  label_offered_by: "Offered by {author} to {responder} {age} ago"
-  label_accepted_by: "Accepted by {responder} {age} ago"
-  label_declined_by: "Declined by {responder} {age} ago"
-  label_from_ago: "from {author} {age} ago"
-  label_taken_by: "Taken by {responder} {age} ago"
-  label_recinded: "Withdrawn {age} ago"
-  label_released: "Released {age} ago"
+  label_by: "by %{author} %{age} ago"
+  label_requested_by: "Requested by %{author} %{age} ago"
+  label_offered_by: "Offered by %{author} to %{responder} %{age} ago"
+  label_accepted_by: "Accepted by %{responder} %{age} ago"
+  label_declined_by: "Declined by %{responder} %{age} ago"
+  label_from_ago: "from %{author} %{age} ago"
+  label_taken_by: "Taken by %{responder} %{age} ago"
+  label_recinded: "Withdrawn %{age} ago"
+  label_released: "Released %{age} ago"
   label_not_sure: "Not sure"
   label_commitment: "Commitment"
   label_commitment_offer: "Ownership Offer"
@@ -624,19 +624,19 @@ tr:
   label_ignored: "Ignored"
   label_marked_as_read: "Marked as read"
   label_ownership_offered: "Ownership offered"
-  label_ownership_offered_to: "Ownership offered to {user}"
+  label_ownership_offered_to: "Ownership offered to %{user}"
   label_ownership_offer_declined: "Ownership offer declined"
   label_ownership_offer_accepted: "Ownership offer accepted"
-  label_ownership_offer_declined_from: "{user}'s ownership offer was declined"
-  label_ownership_offer_accepted_from: "{user}'s ownership offer was accepted"
+  label_ownership_offer_declined_from: "%{user}'s ownership offer was declined"
+  label_ownership_offer_accepted_from: "%{user}'s ownership offer was accepted"
   label_ownership_offer_withdrawn: "Ownership offer withdrawn"
-  label_ownership_offer_withdrawn_to: "Ownership offer to {user} was withdrawn"
+  label_ownership_offer_withdrawn_to: "Ownership offer to %{user} was withdrawn"
   label_ownership_requested: "Ownership requested"
   label_ownership_request_accepted: "Ownership request accepted"
   label_ownership_request_auto_accepted: "Ownership request auto accepted"
   label_ownership_request_declined: "Ownership request declined"
-  label_ownership_request_accepted_from: "{user}'s ownership request accepted"
-  label_ownership_request_declined_from: "{user}'s ownership request declined"
+  label_ownership_request_accepted_from: "%{user}'s ownership request accepted"
+  label_ownership_request_declined_from: "%{user}'s ownership request declined"
   label_ownership_request_recinded: "Ownership request recinded"
   label_ownership_released: "Ownership released"
   label_ownership_taken: "Ownership taken"
@@ -651,15 +651,15 @@ tr:
   label_sent: "sent"
   label_withdrawn: "withdrawn"
   label_declined: "declined"
-  label_to_join_core_team_of: "to join the {project} core team"
+  label_to_join_core_team_of: "to join the %{project} core team"
   label_request: "Request"
   label_invitation: "Invitation"
   label_was: "was"
   label_your: 'Your'
   label_to: "to"
-  label_note_from: "Note from {author}"
-  label_sending_team_invitation: "{author} wants you to join the Core Team for the {project} workstream"
-  label_sending_team_request: "{author} wants to join the Core Team for the {project} workstream"
+  label_note_from: "Note from %{author}"
+  label_sending_team_invitation: "%{author} wants you to join the Core Team for the %{project} workstream"
+  label_sending_team_request: "%{author} wants to join the Core Team for the %{project} workstream"
   label_team_view_all: "View team details"
   label_team_view_all_enterprise: "View entire team"
   label_member_role_plural: "Team Changes"
@@ -674,13 +674,13 @@ tr:
   label_credit: "Credit"
   label_retro_started: "Retrospective Started"
   label_retro_ended: "Retrospective Ended"
-  label_motion_started: "New motion: {title}"
+  label_motion_started: "New motion: %{title}"
   label_youve_got_credits: "You've got credits!"
-  label_someone_joined_your_issue: "{joiner} joined an issue assigned to you"
-  label_someone_added_you_to_their_issue: "{sender} added you to an issue they own"
-  label_someone_removed_you_from_their_issue: "{sender} removed you from an issue they own"
-  label_someone_left_your_issue: "{joiner} left an issue assigned to you"
-  label_someone_mentioned_you: "{mentioner} mentioned you"
+  label_someone_joined_your_issue: "%{joiner} joined an issue assigned to you"
+  label_someone_added_you_to_their_issue: "%{sender} added you to an issue they own"
+  label_someone_removed_you_from_their_issue: "%{sender} removed you from an issue they own"
+  label_someone_left_your_issue: "%{joiner} left an issue assigned to you"
+  label_someone_mentioned_you: "%{mentioner} mentioned you"
   label_agree: "Agree"
   label_disagree: "Disagree"
   label_block: "Block"
@@ -696,7 +696,7 @@ tr:
   label_display_used_statuses_only: Sadece bu iş tipi tarafından kullanılan durumları göster
   label_api_access_key: API erişim anahtarı
   label_missing_api_access_key: Bir API erişim anahtarı eksik
-  label_api_access_key_created_at: "API access key created {value} ago"
+  label_api_access_key_created_at: "API access key created %{value} ago"
   label_dpp_scale: "Estimation Scale"
   label_motion: "Motion"
   label_motion_state0: "In Progress"
@@ -713,10 +713,10 @@ tr:
   label_motion_vote_action9999: "Disagree"
   label_motion_vote_action10000: "Neutral"
   label_motion_vote_action10001: "Agree"
-  label_motion_vote_action_share_agree: "Agree with {points} shares"
-  label_motion_vote_action_share_disagree: "Disagree with {points} shares"
-  label_motion_vote_action_share_neutral: "Neutral with {points} shares"
-  label_you_voted: "You voted: <b>{action}</b>"
+  label_motion_vote_action_share_agree: "Agree with %{points} shares"
+  label_motion_vote_action_share_disagree: "Disagree with %{points} shares"
+  label_motion_vote_action_share_neutral: "Neutral with %{points} shares"
+  label_you_voted: "You voted: <b>%{action}</b>"
   label_voted: "voted"
   label_you_havent_voted: "You haven't cast your vote yet"
   label_tally: "Tally"
@@ -736,8 +736,8 @@ tr:
   label_hidden: "(user hidden)"
   label_motions_active: "Active Motions"
   label_motions_view_all: "View all Motions"
-  label_new_role: "New role: {role_name}"
-  label_new_invitation: "Invitation to join {project_name} as a {role_name}"
+  label_new_role: "New role: %{role_name}"
+  label_new_invitation: "Invitation to join %{project_name} as a %{role_name}"
   label_drop_from_core_team: "Remove from Core"
   label_nominate_to_core_team: "Nominate to Core"
   label_drop_from_member: "Remove Membership"
@@ -831,39 +831,39 @@ tr:
   text_select_mail_notifications: Gönderilecek e-posta uyarısına göre hareketi seçin.
   text_regexp_info: örn. ^[A-Z0-9]+$
   text_min_max_length_info: 0 sınırlama yok demektir
-  text_subprojects_destroy_warning: "Its sub workstream(s): {value} will be also deleted."
-  text_journal_changed: "{label} changed from {old} to {new}"
-  text_journal_set_to: "{label} set to {value}"
-  text_journal_deleted: "{label} deleted ({old})"
-  text_journal_added: "{label} {value} added"
+  text_subprojects_destroy_warning: "Its sub workstream(s): %{value} will be also deleted."
+  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_added: "%{label} %{value} added"
   text_project_identifier_info: 'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'
-  text_caracters_maximum: "{count} characters maximum."
-  text_caracters_minimum: "Must be at least {count} characters long."
-  text_length_between: "Length between {min} and {max} characters."
+  text_caracters_maximum: "%{count} characters maximum."
+  text_caracters_minimum: "Must be at least %{count} characters long."
+  text_length_between: "Length between %{min} and %{max} characters."
   text_unallowed_characters: Yasaklı karakterler
   text_comma_separated: Çoklu değer girilebilir(Virgül ile ayrılmış).
-  text_issue_added: "Item {id} has been reported by {author}."
-  text_issue_updated: "Item {id} has been updated by {author}."
+  text_issue_added: "Item %{id} has been reported by %{author}."
+  text_issue_updated: "Item %{id} has been updated by %{author}."
   text_line_separated: Çoklu değer girilebilir (her satıra bir değer).
   text_user_mail_option: "For unselected workstreams, you will only receive notifications about things you watch or you're involved in (eg. items you're the author or owner)."
   text_no_configuration_data: "Roles, types, item statuses and workflow have not been configured yet. It is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Varsayılan yapılandırmayı yükle
-  text_status_changed_by_changeset: "Applied in changeset {value}."
+  text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Are you sure you want to delete the selected item(s) ?'
   text_select_project_modules: 'Select modules to enable for this workstream:'
   text_default_administrator_account_changed: Varsayılan yönetici hesabı değişti
   text_file_repository_writable: Dosya deposu yazılabilir
   text_plugin_assets_writable: Eklenti yardımcı dosya dizini yazılabilir
   text_rmagick_available: RMagick Kullanılabilir (isteğe bağlı)
-  text_destroy_time_entries_question: "{hours} hours were reported on the items you are about to delete. What do you want to do ?"
+  text_destroy_time_entries_question: "%{hours} hours were reported on the items you are about to delete. What do you want to do ?"
   text_destroy_time_entries: Raporlanmış süreleri sil
   text_reassign_time_entries: 'Reassign reported hours to this item:'
-  text_user_wrote: "{value} wrote:"
-  text_enumeration_destroy_question: "{count} objects are assigned to this value."
+  text_user_wrote: "%{value} wrote:"
+  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Hepsini şuna çevir:'
   text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled. Configure your SMTP server in config/email.yml and restart the application to enable them."
   text_diff_truncated: '... Bu fark tam olarak gösterilemiyor çünkü gösterim için ayarlanmış üst sınırı aşıyor.'
-  text_wiki_page_destroy_question: "This page has {descendants} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
   text_wiki_page_nullify_children: "Alt sayfaları ana sayfa olarak sakla"
   text_wiki_page_destroy_children: "Alt sayfaları ve onların alt sayfalarını tamamen sil"
   text_wiki_page_reassign_children: "Alt sayfaları bu sayfanın altına bağla"
@@ -885,31 +885,31 @@ tr:
   text_retro_started: " workstream has started. <br/>You have 3 days to give your team feedback on their contribution"
   text_retro_ended_for: "A retrospective for the"
   text_retro_ended: " workstream has ended. <br/>Click below to see your team's feedback, and your final contribution"
-  text_credits_transferred: "{sender} just transferred {amount} credits to you in {project}"
-  text_credits_distributed_for: "You earned {amount} credits for your work on <strong>{workstream}</strong>. Congrats!"
+  text_credits_transferred: "%{sender} just transferred %{amount} credits to you in %{project}"
+  text_credits_distributed_for: "You earned %{amount} credits for your work on <strong>%{workstream}</strong>. Congrats!"
   text_credits_are_a_gift: "These credits were gifted to you by your peers for your contribution. They're not a part of any retrospective."
   text_credits_are_an_expense: "These credits are a reimbursment for an expense item. They're not a part of any retrospective."
-  text_joiner_is_now_working_with_you: "{joiner} is now working with you on<br/>{issue}"
-  text_joiner_is_no_longer_working_with_you: "{joiner} is no longer working with you on<br/>{issue}"
-  text_you_are_now_working_with_you: "You are now part of the team working on<br/>{issue}"
-  text_you_are_no_longer_working_on: "You are no longer part of the team working on<br/>{issue}"
+  text_joiner_is_now_working_with_you: "%{joiner} is now working with you on<br/>%{issue}"
+  text_joiner_is_no_longer_working_with_you: "%{joiner} is no longer working with you on<br/>%{issue}"
+  text_you_are_now_working_with_you: "You are now part of the team working on<br/>%{issue}"
+  text_you_are_no_longer_working_on: "You are no longer part of the team working on<br/>%{issue}"
   text_history_hidden_until_you_vote: "Voting history is hidden since you haven't cast your vote"
   text_tally_hidden_until_you_vote: "Voting tally is hidden until you cast your vote"
   text_you_dont_have_shares_to_vote: "You need to have shares to weigh in on this motion."
-  text_you_are_now_a_role: "You are now a <b>{role_name}</b> of"
+  text_you_are_now_a_role: "You are now a <b>%{role_name}</b> of"
   text_role_description_Administrator: "As an Admin, you can bypass governance rules and directly add/remove members and workstreams.<br> Use this role sparingly as you are setting up your structures, <br>and then remove yourself from the admin role when you're ready to fully adopt the Open Enterprise governance model."
-  text_role_description_Contributor: "As a contributor, you can now earn credits and own a stake in <b>{enterprise}.</b><br>Your votes on all matters will be visible to everyone, and will be non-binding."
+  text_role_description_Contributor: "As a contributor, you can now earn credits and own a stake in <b>%{enterprise}.</b><br>Your votes on all matters will be visible to everyone, and will be non-binding."
   text_role_description_Member: "As a member, all your votes are now binding. <br>In addition you can nominate contributors for membership,<br>and vote on Core Team elections."
   text_role_description_Core Team: "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
   text_role_description_Core_Team: "As a member of the Core Team you have binding votes in all matters,<br>including the selection of new members.<br>Congratulations!"
   text_role_description_Board: "As a board member,all your votes are binding."
-  text_member_nomination: "{user} is being nominated to be a member of {enterprise}. As a member, all their votes would be binding. In addition they will be able to nominate contributors for membership, and vote on Core Team elections. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
-  text_core_member_nomination: "{user} is being nominated for the Core Team of {enterprise}. As a member of the Core Team they would have binding votes in all matters, including the selection of new members. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
-  text_core_member_removal: "This motion is to remove {user} from the Core Team of {enterprise}. If the motion passes {user} would become a Member. As a Member, their votes will remain binding and their shares and credits would be unaffected. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
-  text_member_removal: "This motion is to remove {user} as a member of {enterprise}. If the motion passes {user} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. The votes on this motion will not be visible to to {user}, but they will be able to see the discussion."
+  text_member_nomination: "%{user} is being nominated to be a member of %{enterprise}. As a member, all their votes would be binding. In addition they will be able to nominate contributors for membership, and vote on Core Team elections. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
+  text_core_member_nomination: "%{user} is being nominated for the Core Team of %{enterprise}. As a member of the Core Team they would have binding votes in all matters, including the selection of new members. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
+  text_core_member_removal: "This motion is to remove %{user} from the Core Team of %{enterprise}. If the motion passes %{user} would become a Member. As a Member, their votes will remain binding and their shares and credits would be unaffected. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
+  text_member_removal: "This motion is to remove %{user} as a member of %{enterprise}. If the motion passes %{user} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
   text_issue_edit_footer: "You can comment on this issue via email, by replying to this email directly."
   text_message_edit_footer: "You can reply to this message via email, by replying to this email directly."
-  text_invitation_note_default: "Hey,\nWe've been using bettermeans.com to work on {project}.\nBettermeans lets us work together as equals, and is a transparent, democratic way to get things done together.\nPlease accept this invitation to join us.\nWarm regards {user}"
+  text_invitation_note_default: "Hey,\nWe've been using bettermeans.com to work on %{project}.\nBettermeans lets us work together as equals, and is a transparent, democratic way to get things done together.\nPlease accept this invitation to join us.\nWarm regards %{user}"
   text_you_are_invited: "You are being invited to join"
   text_generic_invitation: "This link allows anybody to get started as a <strong>contributor</strong> to this workstream."
   text_generic_invitation_2: "You can also use the form below to send personalized invitations for folks to join as other roles"
@@ -962,7 +962,7 @@ tr:
   help_motions: "Motions are used to make large important decisions that are project-wide. This is a democratic mechanism to make decisions together. There are different types of motions, to learn more about motions <a href='http://help.bettermeans.com/motions' target='blank'>click here</a>."
   help_credits: "Credits are a more open and democratic way of valuing work and awarding compensation. We are really excited about offering this as an option and we strongly encourage you to <a href='http://help.bettermeans.com/faq/credits' target='blank'>learn more about credits</a>."
   help_revision_notes: "Optional: Add notes to this revision of the wiki. These notes will appear in the version history of the wiki"
-  help_mentions: "Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br><br>For example if somebody adds this comment to an issue:<br><strong>'I think @{login} should take a look at this'</strong><br>it would appear in your mentions"
+  help_mentions: "Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br><br>For example if somebody adds this comment to an issue:<br><strong>'I think @%{login} should take a look at this'</strong><br>it would appear in your mentions"
   help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br> If you want to start a new workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br>We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com' target='blank'> the tour</a> before you begin."
   help_section_project_dashboard: "Welcome to your dashboard!|<strong>This is where the magic happens.</strong> Here you get a full view of all the work within a workstream. Each workstream and subworkstream has its own dashboard. <br><br><strong>Get started by adding a new item</strong> (click on the New Item Link at the top of the New column).<br><br>You can also <strong>offer new ideas/requests, comment, agree and disagree with ideas, prioritize, and estimate</strong>.<br><br>Click on the little key next to the New Item button for a little cheat sheet that shows the meaning of all the icons you see in the Dashboard. As you get rolling with your work, explore <strong>the filters and the search functions on the upper right corner.</strong><br><br> To learn more about voting and how it works in the dashboard <a href= 'http://help.bettermeans.com/dashboard' target='blank'> checkout our help section</a>, or this 9 minute tour of the site.<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br><br>"
   help_section_project_wiki: "<strong>Wikis are great tools for collaboration and therefore each workstream has a wiki.</strong> You can start building your wiki here and you can create multiple pages by clicking <a href='wiki'>Start Page</a> (in blue to the right). Wikis are essentially online documents and everyone that has access can not only read but also edit and contribute to online. <br>Note the different action buttons (on the right in grey), these will be helpful when working on the Wiki."

@@ -1194,7 +1194,7 @@ fr:
   text_member_removal: "La motion relève du retrait de %{user} du statut de Membre de %{entreprise}. Si la motion est votée, %{user} deviendrait un Contributeur. En tant que Contributeur, ses(/leurs) votes deviendraient consultatifs. Ses (/leurs) parts et crédits ne seraient pas affectés. Les votes sur cette motion ne seront pas visibles pour %{user}, mais il(s)/elle(s) pourra(/pourront) prendre part à la discussion."
   text_issue_edit_footer: "Vous pouvez commenter ce sujet par email, en répondant directement à cet email."
   text_message_edit_footer: "Vous pouvez répondre à cet email."
-  text_invitation_note_default: "Hey,\nNous utilisons la plateforme BetterMeans.com pour avancer sur %{project}.\nBetterMeans nous permet de travailler ensemble à égalité en toute démocratie et transparence, pour réaliser nos idées tous ensemble.\nMerci d'accepter cette invitation à nous rejoindre.\nWarm regards, {user}"
+  text_invitation_note_default: "Hey,\nNous utilisons la plateforme BetterMeans.com pour avancer sur %{project}.\nBetterMeans nous permet de travailler ensemble à égalité en toute démocratie et transparence, pour réaliser nos idées tous ensemble.\nMerci d'accepter cette invitation à nous rejoindre.\nWarm regards, %{user}"
   text_you_are_invited: "Vous êtes invité à rejoindre"
   text_generic_invitation: "The lien permet à tout le monde de commencer en tant que <strong>Contributeur</strong> sur ce WorkSteam."
   text_generic_invitation_2: "Vous pouvez aussi utiliser le formulaire ci-dessous pour envoyer vos invitations personnalisées pour que vos relations puissent rejoindre votre stream avec le rôle de votre choix."

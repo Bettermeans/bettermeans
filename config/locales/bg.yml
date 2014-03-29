@@ -25,34 +25,34 @@ bg:
       half_a_minute: "half a minute"
       less_than_x_seconds:
         one: "по-малко от 1 секунда"
-        other: "по-малко от {count} секунди"
+        other: "по-малко от %{count} секунди"
       x_seconds:
         one: "1 секунда"
-        other: "{count} секунди"
+        other: "%{count} секунди"
       less_than_x_minutes:
         one: "по-малко от 1 минута"
-        other: "по-малко от {count} минути"
+        other: "по-малко от %{count} минути"
       x_minutes:
         one: "1 минута"
-        other: "{count} минути"
+        other: "%{count} минути"
       about_x_hours:
         one: "около 1 час"
-        other: "около {count} часа"
+        other: "около %{count} часа"
       x_days:
         one: "1 ден"
-        other: "{count} дни"
+        other: "%{count} дни"
       about_x_months:
         one: "около 1 месец"
-        other: "около {count} месеца"
+        other: "около %{count} месеца"
       x_months:
         one: "1 месец"
-        other: "{count} месеца"
+        other: "%{count} месеца"
       about_x_years:
         one: "около 1 година"
-        other: "около {count} години"
+        other: "около %{count} години"
       over_x_years:
         one: "над 1 година"
-        other: "над {count} години"
+        other: "над %{count} години"
   number:
     human:
       storage_units:
@@ -78,17 +78,17 @@ bg:
         accepted: "трябва да се приеме"
         empty: "не може да е празно"
         blank: "не може да е празно"
-        too_long: "е твърде дълго (максимум {count} символа)"
-        too_short: "е твърде късо (минимум {count} символа)"
-        wrong_length: "е с грешна дължина (трябва да е {count} символа)"
+        too_long: "е твърде дълго (максимум %{count} символа)"
+        too_short: "е твърде късо (минимум %{count} символа)"
+        wrong_length: "е с грешна дължина (трябва да е %{count} символа)"
         taken: "вече съществува"
         not_a_number: "не е число"
         not_a_date: "е невалидна дата"
-        greater_than: "трябва да бъде по-голямо от {count}"
-        greater_than_or_equal_to: "трябва да бъде по-голямо от или равно на {count}"
-        equal_to: "трябва да бъде равно на {count}"
-        less_than: "трябва да бъде по-малко от {count}"
-        less_than_or_equal_to: "трябва да бъде по-малко от или равно на {count}"
+        greater_than: "трябва да бъде по-голямо от %{count}"
+        greater_than_or_equal_to: "трябва да бъде по-голямо от или равно на %{count}"
+        equal_to: "трябва да бъде равно на %{count}"
+        less_than: "трябва да бъде по-малко от %{count}"
+        less_than_or_equal_to: "трябва да бъде по-малко от или равно на %{count}"
         odd: "трябва да бъде нечетен[a/o]"
         even: "трябва да бъде четен[a/o]"
         greater_than_start_date: "трябва да е след началната дата"
@@ -120,10 +120,10 @@ bg:
   notice_file_not_found: Несъществуваща или преместена страница.
   notice_locking_conflict: Друг потребител променя тези данни в момента.
   notice_not_authorized: Нямате право на достъп до тази страница.
-  notice_email_sent: "На {value} беше изпратен имейл"
-  notice_email_error: "Възникна грешка при изпращане на поща ({value})"
+  notice_email_sent: "На %{value} беше изпратен имейл"
+  notice_email_error: "Възникна грешка при изпращане на поща (%{value})"
   notice_feeds_access_key_reseted: Вашия ключ за RSS достъп беше променен.
-  notice_failed_to_save_issues: "Неуспех при запазване на {count} елемент(а) от {total} избран(и): {ids}."
+  notice_failed_to_save_issues: "Неуспех при запазване на %{count} елемент(а) от %{total} избран(и): %{ids}."
   notice_no_issue_selected: "Не е избран елемент! Моля, маркирайте елементите, които искате да редактирате."
   notice_account_pending: "Профилът Ви е създаден и очаква одобрение от администратор."
   notice_default_data_loaded: Примерната информация е заредена успешно.
@@ -131,7 +131,7 @@ bg:
   notice_this_is_your_profie: "Това е Вашият публичен профил. За да управлявате Вашия акаунт, кликнете <a href='/my/account'>тук</a>"
   error_old_invite: "Стара или некоректна покана"
   error_bad_email_update: "Лошо формирана имейл актуализация"
-  error_can_t_load_default_data: "Конфигурацията по подразбиране не може да бъде заредена: {value}"
+  error_can_t_load_default_data: "Конфигурацията по подразбиране не може да бъде заредена: %{value}"
   error_issue_not_found_in_project: 'Елементът не е намерен или не принадлежи към този работен поток'
   error_no_tracker_in_project: 'Към този работен поток няма асоцииран тип на проблема. Моля проверете настройките на работния поток.'
   error_no_default_issue_status: 'Не е дефиниран статус на елемента по подразбиране. Моля, проверете Вашата конфигурация (отидете в меню "Администрация -> Статуси на елемента").'
@@ -140,24 +140,24 @@ bg:
   error_workflow_copy_source: 'Моля изберете source тракер или роля'
   error_workflow_copy_target: 'Моля изберете тракер(и) и роля (роли).'
   error_general: 'Нещо се обърка.'
-  warning_attachments_not_saved: "{count} файл(а) не можа(ха) да бъде/бъдат съхранен(и)."
-  mail_subject_lost_password: "Вашата {value} парола"
+  warning_attachments_not_saved: "%{count} файл(а) не можа(ха) да бъде/бъдат съхранен(и)."
+  mail_subject_lost_password: "Вашата %{value} парола"
   mail_body_lost_password: 'За да смените паролата си, използвайте следния линк:'
-  mail_subject_register: "Вашата {value} активиране на акаунт"
+  mail_subject_register: "Вашата %{value} активиране на акаунт"
   mail_body_register: 'За да активирате профила си използвайте следния линк:'
-  mail_body_account_information_external: "Можете да използвате Вашия {value} акаунт, за да влезете."
+  mail_body_account_information_external: "Можете да използвате Вашия %{value} акаунт, за да влезете."
   mail_body_account_information: Информацията за профила ви
-  mail_subject_account_activation_request: "Заявка за активиране на {value} акаунт "
-  mail_subject_email_update_activation: "{value} ново активиране по имейл"
-  mail_body_account_activation_request: "Регистриран е нов потребител ({value}). Акаунтът очаква Вашето одобрение:"
-  mail_subject_reminder: "{count} елемент(а) за изпълнение през следващите дни"
-  mail_body_reminder: "{count} елемент(и), на които сте собственик, са дължими в следващите {days} дни:"
-  mail_subject_wiki_content_added: "Добавена е уики страница \"{page}\""
-  mail_body_wiki_content_added: "Уики страницата \"{page}\" е добавена от {author}."
-  mail_subject_wiki_content_updated: "Уики страницата \"{page}\" е актуализирана"
-  mail_body_wiki_content_updated: "Уики страницата \"{page}\" е актуализирана от {author}."
+  mail_subject_account_activation_request: "Заявка за активиране на %{value} акаунт "
+  mail_subject_email_update_activation: "%{value} ново активиране по имейл"
+  mail_body_account_activation_request: "Регистриран е нов потребител (%{value}). Акаунтът очаква Вашето одобрение:"
+  mail_subject_reminder: "%{count} елемент(а) за изпълнение през следващите дни"
+  mail_body_reminder: "%{count} елемент(и), на които сте собственик, са дължими в следващите %{days} дни:"
+  mail_subject_wiki_content_added: "Добавена е уики страница \"%{page}\""
+  mail_body_wiki_content_added: "Уики страницата \"%{page}\" е добавена от %{author}."
+  mail_subject_wiki_content_updated: "Уики страницата \"%{page}\" е актуализирана"
+  mail_body_wiki_content_updated: "Уики страницата \"%{page}\" е актуализирана от %{author}."
   gui_validation_error: 1 грешка
-  gui_validation_error_plural: "{count} грешкa/и"
+  gui_validation_error_plural: "%{count} грешкa/и"
   field_tags: "Етикети"
   field_points: "Усреднена оценка на кредитите"
   field_logo: "Лого"
@@ -309,10 +309,10 @@ bg:
   project_module_documents: Документи
   project_module_files: Файлове
   project_module_wiki: Wiki
-  title_member_nomination: "Предложение да бъде избран {user} за член"
-  title_core_member_nomination: "Предложение да бъде избран {user} за член на основния екип"
-  title_core_member_removal: "Предложение за изключване на {user} от основния екип"
-  title_member_removal: "Предложение за изключване на {user}"
+  title_member_nomination: "Предложение да бъде избран %{user} за член"
+  title_core_member_nomination: "Предложение да бъде избран %{user} за член на основния екип"
+  title_core_member_removal: "Предложение за изключване на %{user} от основния екип"
+  title_member_removal: "Предложение за изключване на %{user}"
   label_usage_over: "Вашето потребление е над границите на Вашия план"
   label_trial_expired: "Вашият пробен период е изтекъл"
   label_credit_transfer: "Прехвърляне на кредити"
@@ -321,8 +321,8 @@ bg:
   label_user_new: Нов потребител
   label_user_anonymous: Анонимен
   label_x_projects:
-    other: "{count} работни потока"
-  label_issues_by: "Елементи по {value}"
+    other: "%{count} работни потока"
+  label_issues_by: "Елементи по %{value}"
   label_document: Документ
   label_document_new: Нов документ
   label_document_added: Добавен документ
@@ -350,7 +350,7 @@ bg:
   label_last_login: Последно свързване
   label_activity: Дейност
   label_overall_activity: Цялостна дейност
-  label_user_activity: "Дейност на {value}"
+  label_user_activity: "Дейност на %{value}"
   label_new: Нов
   label_logged_as: Здравейте,
   label_environment: Среда
@@ -358,8 +358,8 @@ bg:
   label_auth_source: Начин на оторозация
   label_auth_source_new: Нов начин на оторизация
   label_auth_source_plural: Начини на оторизация
-  label_and_its_subprojects: "{value} и неговите работни под-потоци"
-  label_waiting_for_you: "{notifications} Ви очакват"
+  label_and_its_subprojects: "%{value} и неговите работни под-потоци"
+  label_waiting_for_you: "%{notifications} Ви очакват"
   label_min_max_length: Минимална - максимална дължина
   label_list: Списък
   label_date: Дата
@@ -370,8 +370,8 @@ bg:
   label_text: Дълъг текст
   label_attribute: Атрибут
   label_attribute_plural: Атрибути
-  label_download: "{count} Сваляне"
-  label_download_plural: "{count} Сваляния"
+  label_download: "%{count} Сваляне"
+  label_download_plural: "%{count} Сваляния"
   label_change_status: Промяна на състоянието
   label_attachment: Файл
   label_attachment_new: Нов файл
@@ -396,15 +396,15 @@ bg:
   label_closed_issues: затворена
   label_closed_issues_plural: затворени
   label_x_open_issues_abbr_on_total:
-    other: "{count} отворен(и) / {total}"
+    other: "%{count} отворен(и) / %{total}"
   label_x_open_issues_abbr:
     zero: 0 отворени
     one: 1 отворена
-    other: "{count} отворен(и)"
+    other: "%{count} отворен(и)"
   label_x_closed_issues_abbr:
     zero: 0 затворени
     one: 1 затворена
-    other: "{count} затворен(и)"
+    other: "%{count} затворен(и)"
   label_total: Общо
   label_permissions: Права
   label_current_status: Текущо състояние
@@ -422,7 +422,7 @@ bg:
   label_months_from: месеца от
   label_gantt: Мрежов график
   label_internal: Вътрешен
-  label_last_changes: "последните {count} промени"
+  label_last_changes: "последните %{count} промени"
   label_change_view_all: Виж всички промени
   label_personalize_page: Персонализиране
   label_comment: Коментар
@@ -430,7 +430,7 @@ bg:
   label_x_comments:
     zero: 0 коментари
     one: 1 коментар
-    other: "{count} коментар(и)"
+    other: "%{count} коментар(и)"
   label_comment_add: Добавяне на коментар
   label_comment_added: Добавен коментар
   label_comment_delete: Изтриване на коментари
@@ -451,7 +451,7 @@ bg:
   label_yesterday: вчера
   label_this_week: тази седмица
   label_last_week: последната седмица
-  label_last_n_days: "последните {count} дни"
+  label_last_n_days: "последните %{count} дни"
   label_this_month: текущия месец
   label_last_month: последния месец
   label_this_year: текущата година
@@ -463,13 +463,13 @@ bg:
   label_not_contains: не съдържа
   label_day_plural: дни
   label_browse: Разглеждане
-  label_modification: "{count} промяна"
-  label_modification_plural: "{count} промени"
+  label_modification: "%{count} промяна"
+  label_modification_plural: "%{count} промени"
   label_branch: работен вариант
   label_tag: Версия
   label_revision: Ревизия
   label_revision_plural: Ревизии
-  label_revision_id: "Издание {value}"
+  label_revision_id: "Издание %{value}"
   label_associated_revisions: Асоциирани ревизии
   label_added: добавено
   label_modified: променено
@@ -486,8 +486,8 @@ bg:
   label_sort_lower: Премести по-долу
   label_sort_lowest: Премести най-долу
   label_roadmap: Пътна карта
-  label_roadmap_due_in: "Дължимо след {value}"
-  label_roadmap_overdue: "Закъсняло с {value}"
+  label_roadmap_due_in: "Дължимо след %{value}"
+  label_roadmap_overdue: "Закъсняло с %{value}"
   label_search: Търсене
   label_result_plural: Pезултати
   label_all_words: Всички думи
@@ -502,8 +502,8 @@ bg:
   label_feed_plural: Емисии
   label_changes_details: Подробни промени
   label_spent_time: Отделено време
-  label_f_hour: "{value} час"
-  label_f_hour_plural: "{value} часа"
+  label_f_hour: "%{value} час"
+  label_f_hour_plural: "%{value} часа"
   label_time_tracking: Отделяне на време
   label_change_plural: Промени
   label_statistics: Статистики
@@ -545,16 +545,16 @@ bg:
   label_date_from: От
   label_date_to: До
   label_language_based: В зависимост от езика
-  label_sort_by: "Подреди по {value}"
+  label_sort_by: "Подреди по %{value}"
   label_send_test_email: Изпращане на тестов e-mail
   label_feeds_access_key: RSS access ключ
   label_missing_feeds_access_key: Липсващ RSS ключ за достъп
-  label_feeds_access_key_created_at: "RSS ключа за достъп е създаден преди {value}"
+  label_feeds_access_key_created_at: "RSS ключа за достъп е създаден преди %{value}"
   label_module_plural: Модули
-  label_added_time_by: "Добавено от {author} преди {age}"
-  label_updated_time_by: "Променено от {author} преди {age}"
-  label_created_time_by: "Създадено преди {age} от"
-  label_updated_time: "Променено преди {стойност}"
+  label_added_time_by: "Добавено от %{author} преди %{age}"
+  label_updated_time_by: "Променено от %{author} преди %{age}"
+  label_created_time_by: "Създадено преди %{age} от"
+  label_updated_time: "Променено преди %{стойност}"
   label_file_plural: Файлове
   label_changeset_plural: Ревизии
   label_default_columns: По подразбиране
@@ -570,7 +570,7 @@ bg:
   label_registration_activation_by_email: активиране на профила по email
   label_registration_manual_activation: ръчно активиране
   label_registration_automatic_activation: автоматично активиране
-  label_display_per_page: "На страница: {value}"
+  label_display_per_page: "На страница: %{value}"
   label_age: Възраст
   label_change_properties: Промяна на настройки
   label_general: Основни
@@ -599,15 +599,15 @@ bg:
   label_group_plural: Групи
   label_group_new: Нова група
   label_time_entry_plural: Използвано време
-  label_by: "от {author} преди {age}"
-  label_requested_by: "Заявено от {author} преди {age}"
-  label_offered_by: "Предложено от {author} на {responder} преди {age}"
-  label_accepted_by: "Прието от {responder} преди {age}"
-  label_declined_by: "Отхвърлено от {responder} преди {age}"
-  label_from_ago: "от {author} преди {age}"
-  label_taken_by: "Поето от {responder} преди {age}"
-  label_recinded: "Оттеглено преди {age}"
-  label_released: "Освободено преди {age}"
+  label_by: "от %{author} преди %{age}"
+  label_requested_by: "Заявено от %{author} преди %{age}"
+  label_offered_by: "Предложено от %{author} на %{responder} преди %{age}"
+  label_accepted_by: "Прието от %{responder} преди %{age}"
+  label_declined_by: "Отхвърлено от %{responder} преди %{age}"
+  label_from_ago: "от %{author} преди %{age}"
+  label_taken_by: "Поето от %{responder} преди %{age}"
+  label_recinded: "Оттеглено преди %{age}"
+  label_released: "Освободено преди %{age}"
   label_not_sure: "Не съм сигурен"
   label_commitment: "Ангажимент"
   label_commitment_offer: "Предложение за собственост"
@@ -624,19 +624,19 @@ bg:
   label_ignored: "Игнориран(и)"
   label_marked_as_read: "Маркиран(и) като прочетен(и)"
   label_ownership_offered: "Предложена собственост"
-  label_ownership_offered_to: "Предложена собственост на {user}"
+  label_ownership_offered_to: "Предложена собственост на %{user}"
   label_ownership_offer_declined: "Предложението за собственост е отхвърлено"
   label_ownership_offer_accepted: "Предложението за собственост е прието"
-  label_ownership_offer_declined_from: "Предложението на {user} за собственост е отхвърлено"
-  label_ownership_offer_accepted_from: "Предложението на {user} за собственост е прието"
+  label_ownership_offer_declined_from: "Предложението на %{user} за собственост е отхвърлено"
+  label_ownership_offer_accepted_from: "Предложението на %{user} за собственост е прието"
   label_ownership_offer_withdrawn: "Предложението за собственост е оттеглено"
-  label_ownership_offer_withdrawn_to: "Предложението към {user} за собственост е оттеглено"
+  label_ownership_offer_withdrawn_to: "Предложението към %{user} за собственост е оттеглено"
   label_ownership_requested: "Подадена заявка за собственост"
   label_ownership_request_accepted: "Заявката за собственост е приета"
   label_ownership_request_auto_accepted: "Заявката за собственост е проета автоматично"
   label_ownership_request_declined: "Заявката за собственост е отхвърлена"
-  label_ownership_request_accepted_from: "Заявката за собственост на {user} е приета"
-  label_ownership_request_declined_from: "Заявката за собственост на {user} е отхвърлена"
+  label_ownership_request_accepted_from: "Заявката за собственост на %{user} е приета"
+  label_ownership_request_declined_from: "Заявката за собственост на %{user} е отхвърлена"
   label_ownership_request_recinded: "Заявката за собственост е отменена"
   label_ownership_released: "Собствеността е освободена"
   label_ownership_taken: "Собствеността е поета"
@@ -651,15 +651,15 @@ bg:
   label_sent: "изпратени"
   label_withdrawn: "оттеглена"
   label_declined: "отказа"
-  label_to_join_core_team_of: "да се присъедини към Основния екип на {project}"
+  label_to_join_core_team_of: "да се присъедини към Основния екип на %{project}"
   label_request: "Заявка"
   label_invitation: "Покана"
   label_was: "бе"
   label_your: 'Вашият'
   label_to: "за"
-  label_note_from: "Бележка от {author}"
-  label_sending_team_invitation: "{author} желае да се присъедините към Основния екип за работния поток {project}"
-  label_sending_team_request: "{author} желае да се присъедини към Основния екип за работния поток {project}"
+  label_note_from: "Бележка от %{author}"
+  label_sending_team_invitation: "%{author} желае да се присъедините към Основния екип за работния поток %{project}"
+  label_sending_team_request: "%{author} желае да се присъедини към Основния екип за работния поток %{project}"
   label_team_view_all: "Виж детайли за екипа"
   label_team_view_all_enterprise: "Виж целия екип"
   label_member_role_plural: "Промени на екипа"
@@ -674,13 +674,13 @@ bg:
   label_credit: "Кредит"
   label_retro_started: "Ретроспекцията започната"
   label_retro_ended: "Ретроспекцията приключена"
-  label_motion_started: "Ново предложение: {title}"
+  label_motion_started: "Ново предложение: %{title}"
   label_youve_got_credits: "Имате кредити!"
-  label_someone_joined_your_issue: "{joiner} се присъедини към елемент, назначен за вас"
-  label_someone_added_you_to_their_issue: "{sender} Ви добави към елемент, които притежават"
-  label_someone_removed_you_from_their_issue: "{sender} Ви изключи от елемент, които притежават"
-  label_someone_left_your_issue: "{joiner} напусна елемент, назначен за вас"
-  label_someone_mentioned_you: "{mentioner} Ви спомена"
+  label_someone_joined_your_issue: "%{joiner} се присъедини към елемент, назначен за вас"
+  label_someone_added_you_to_their_issue: "%{sender} Ви добави към елемент, които притежават"
+  label_someone_removed_you_from_their_issue: "%{sender} Ви изключи от елемент, които притежават"
+  label_someone_left_your_issue: "%{joiner} напусна елемент, назначен за вас"
+  label_someone_mentioned_you: "%{mentioner} Ви спомена"
   label_agree: "Съгласен съм"
   label_disagree: "Не съм съгласен"
   label_block: "Блокирам"
@@ -696,7 +696,7 @@ bg:
   label_display_used_statuses_only: Показване само на състоянията, използвани от този тракер
   label_api_access_key: API ключ за достъп
   label_missing_api_access_key: Липсващ API ключ
-  label_api_access_key_created_at: "API ключ за достъп, създаден преди {value}"
+  label_api_access_key_created_at: "API ключ за достъп, създаден преди %{value}"
   label_dpp_scale: "Скала на оценяване"
   label_motion: "Предложение"
   label_motion_state0: "В развитие"
@@ -713,10 +713,10 @@ bg:
   label_motion_vote_action9999: "Не съм съгласен"
   label_motion_vote_action10000: "Неутрален"
   label_motion_vote_action10001: "Съгласен съм"
-  label_motion_vote_action_share_agree: "Съгласен съм с {points} дял(а)"
-  label_motion_vote_action_share_disagree: "Не съм съгласен с {точки} дял(а)"
-  label_motion_vote_action_share_neutral: "Неутрален с {точки} дял(а)"
-  label_you_voted: "Вие гласувахте: <b>{action}</b>"
+  label_motion_vote_action_share_agree: "Съгласен съм с %{points} дял(а)"
+  label_motion_vote_action_share_disagree: "Не съм съгласен с %{точки} дял(а)"
+  label_motion_vote_action_share_neutral: "Неутрален с %{точки} дял(а)"
+  label_you_voted: "Вие гласувахте: <b>%{action}</b>"
   label_voted: "гласувал(и)"
   label_you_havent_voted: "Все още не сте гласувал(а)"
   label_tally: "Сверяване"
@@ -736,8 +736,8 @@ bg:
   label_hidden: "(скрит потребител)"
   label_motions_active: "Активни предложения"
   label_motions_view_all: "Виж всички предложения"
-  label_new_role: "Нова роля: {role_name}"
-  label_new_invitation: "Покана да се включите в {project_name} като {role_name}"
+  label_new_role: "Нова роля: %{role_name}"
+  label_new_invitation: "Покана да се включите в %{project_name} като %{role_name}"
   label_drop_from_core_team: "Изключете от Основния"
   label_nominate_to_core_team: "Предложете за Основния"
   label_drop_from_member: "Отнемете членство"
@@ -831,39 +831,39 @@ bg:
   text_select_mail_notifications: Изберете събития за изпращане на e-mail.
   text_regexp_info: пр. ^[A-Z0-9]+$
   text_min_max_length_info: 0 - без ограничения
-  text_subprojects_destroy_warning: "Неговите под-потоци: {value} също ще бъдат изтрити."
-  text_journal_changed: "{label} е променен от {old} на {new}"
-  text_journal_set_to: "{label} е настроен на {value}"
-  text_journal_deleted: "{label} изтрит ({old})"
-  text_journal_added: "{label} {value} добавен"
+  text_subprojects_destroy_warning: "Неговите под-потоци: %{value} също ще бъдат изтрити."
+  text_journal_changed: "%{label} е променен от %{old} на %{new}"
+  text_journal_set_to: "%{label} е настроен на %{value}"
+  text_journal_deleted: "%{label} изтрит (%{old})"
+  text_journal_added: "%{label} %{value} добавен"
   text_project_identifier_info: 'Разрешени за само малки латински букви (a-z), цифри и тирета.<br />Веднъж запазен, идентификаторът не може да бъде променян.'
-  text_caracters_maximum: "Максимум {count} символа."
-  text_caracters_minimum: "Трябва да е с дължина най-малко {count} символа."
-  text_length_between: "Дължина между {min} и {max} символа."
+  text_caracters_maximum: "Максимум %{count} символа."
+  text_caracters_minimum: "Трябва да е с дължина най-малко %{count} символа."
+  text_length_between: "Дължина между %{min} и %{max} символа."
   text_unallowed_characters: Непозволени символи
   text_comma_separated: Позволено е изброяване (с разделител запетая).
-  text_issue_added: "Елемент {id} беше докладван от {author}."
-  text_issue_updated: "Елемент {id} беше актуализиран от {author}."
+  text_issue_added: "Елемент %{id} беше докладван от %{author}."
+  text_issue_updated: "Елемент %{id} беше актуализиран от %{author}."
   text_line_separated: Позволени са много стойности (по едно на ред).
   text_user_mail_option: "За неизбраните работни потоци, ще получавате само уведомления за нещата които наблюдавате или в които участвате (напр. елементи, на които сте автор или собственик)."
   text_no_configuration_data: "Все още не са конфигурирани роли, типове, статуси на елементи и работния процес. Силно препоръчително е да заредите конфигурацията по подразбиране. След това ще можете да я промените."
   text_load_default_configuration: Зареждане на примерна информация
-  text_status_changed_by_changeset: "Приложено в група промени {value}."
+  text_status_changed_by_changeset: "Приложено в група промени %{value}."
   text_issues_destroy_confirmation: 'Сигурни ли сте, че искате да изтриете избрания елемент(и)?'
   text_select_project_modules: 'Изберете модули, които да бъдат разрешени за този работен поток:'
   text_default_administrator_account_changed: Сменен фабричния администраторски профил
   text_file_repository_writable: Възможност за писане в хранилището с файлове
   text_plugin_assets_writable: Папката на приставките е разрешена за запис
   text_rmagick_available: Наличен RMagick (по избор)
-  text_destroy_time_entries_question: "{hours} часа са били отчетени на елементите, които искате да изтриете. Какво искате да бъде направено?"
+  text_destroy_time_entries_question: "%{hours} часа са били отчетени на елементите, които искате да изтриете. Какво искате да бъде направено?"
   text_destroy_time_entries: Изтриване на отделеното време
   text_reassign_time_entries: 'Да преместите отчетените часове към този елемент:'
-  text_user_wrote: "{value} написа:"
-  text_enumeration_destroy_question: "На {count} обектaе присвоена тази стойност."
+  text_user_wrote: "%{value} написа:"
+  text_enumeration_destroy_question: "На %{count} обектaе присвоена тази стойност."
   text_enumeration_category_reassign_to: 'Пресвържете ги към тази стойност:'
   text_email_delivery_not_configured: "Доставката на e-mail не е конфигурирана и уведомленията са забранени. Конфигурирайте Вашия SMTP сървър в config/email.yml и рестартирате приложението, за да ги разрешите."
   text_diff_truncated: '... Този diff не е пълен, понеже е надхвърля максималния размер, който може да бъде показан.'
-  text_wiki_page_destroy_question: "Тази страница има {descendants} страница(и) наследници и потомци. Какво искате да бъде направено?"
+  text_wiki_page_destroy_question: "Тази страница има %{descendants} страница(и) наследници и потомци. Какво искате да бъде направено?"
   text_wiki_page_nullify_children: "Запазване на тези страници като коренни страници"
   text_wiki_page_destroy_children: "Изтриване на страниците деца и всички техни descendants"
   text_wiki_page_reassign_children: "Преназначаване на страниците деца на тази родителска страница"
@@ -885,31 +885,31 @@ bg:
   text_retro_started: " . <br/>Имате 3 дни, за да оцените приноса на своя екип"
   text_retro_ended_for: "Приключи ретроспективата за работния поток"
   text_retro_ended: " . <br/>Кликнете отдолу за да видите отговорите на своя екип и своя окончателен принос"
-  text_credits_transferred: "{sender} Ви прехвърли {amount} кредит(а) в {project}"
-  text_credits_distributed_for: "Спечелихте {amount} кредит(а) за работата си по <strong>{workstream}</strong>. Поздравления!"
+  text_credits_transferred: "%{sender} Ви прехвърли %{amount} кредит(а) в %{project}"
+  text_credits_distributed_for: "Спечелихте %{amount} кредит(а) за работата си по <strong>%{workstream}</strong>. Поздравления!"
   text_credits_are_a_gift: "Тези кредити са Ви дарени от Вашите колеги за Вашия принос. Те не са част от ретроспекция."
   text_credits_are_an_expense: "Тези кредити са компенсация за разходен елемент. Те не са част от ретроспекция."
-  text_joiner_is_now_working_with_you: "{joiner} сега работи с Вас по<br/>{issue}"
-  text_joiner_is_no_longer_working_with_you: "{joiner} вече не работи с Вас по<br/>{issue}"
-  text_you_are_now_working_with_you: "Вече сте част от екипа, който работи върху <br/> {issue}"
-  text_you_are_no_longer_working_on: "Вече не сте част от екипа, който работи върху <br/> {issue}"
+  text_joiner_is_now_working_with_you: "%{joiner} сега работи с Вас по<br/>%{issue}"
+  text_joiner_is_no_longer_working_with_you: "%{joiner} вече не работи с Вас по<br/>%{issue}"
+  text_you_are_now_working_with_you: "Вече сте част от екипа, който работи върху <br/> %{issue}"
+  text_you_are_no_longer_working_on: "Вече не сте част от екипа, който работи върху <br/> %{issue}"
   text_history_hidden_until_you_vote: "Историята на гласуването е скрита, тъй като не сте гласувал"
   text_tally_hidden_until_you_vote: "Проверката на гласуването е скрита, докато не гласувте"
   text_you_dont_have_shares_to_vote: "Вие трябва да имате дялове, за да повлияете на това предложение."
-  text_you_are_now_a_role: "Сега сте <b>{role_name}</b> на"
+  text_you_are_now_a_role: "Сега сте <b>%{role_name}</b> на"
   text_role_description_Administrator: "Като администратор, можете да заобикаляте правилата на управление и директно да добавяте и изключвате членове и работни потоци.<br>Използвайте тази роля пестеливо, докато създавате структурите си,<br> и след това се изключете от ролята на администратор, когато сте готови да приемете изцяло Отворения модел на управление."
-  text_role_description_Contributor: "Като сътрудник, сега можете да печелите кредити и да притежавате собствен дял в <b>{enterprise}.</b><br>Вашите гласове по всички въпроси ще бъдат видими за всички, и ще имат необвързващ характер."
+  text_role_description_Contributor: "Като сътрудник, сега можете да печелите кредити и да притежавате собствен дял в <b>%{enterprise}.</b><br>Вашите гласове по всички въпроси ще бъдат видими за всички, и ще имат необвързващ характер."
   text_role_description_Member: "Като член, Вашите гласове са вече обвързващи. <br>В допълнение можете да номинирате сътрудници за членство<br>и да гласувате на изборите за Основния екип."
   text_role_description_Core Team: "Като член на Основния екип имате обвъзващ глас по всички въпроси,<br>включително избора на нови членове.<br>Поздравления!"
   text_role_description_Core_Team: "Като член на Основния екип имате обвързващ глас по всички въпроси,<br>включително избора на нови членове.<br>Поздравления!"
   text_role_description_Board: "Като член на борда, Вашият глас е обвързващ."
-  text_member_nomination: "{user} е номиниран да бъде член на {enterprise}. Като член, всичките им гласове ще бъдат обвързващи. В допълнение те ще могат да номинират сътрудници за членство, както и да гласуват на изборите за Основен екип. Гласовете по това предложение няма да бъдат видими за {user}, но те ще могат да видят дискусията."
-  text_core_member_nomination: "{user} е номиниран за Oсновния екип на {enterprise}. Като член на Oсновния екип, те биха имали обвързващ глас по всички въпроси, включително избора на нови членове. Гласовете по това предложение няма да бъдат видими за {user}, но те ще могат да видят дискусията."
-  text_core_member_removal: "Това предложение е за изключване на {user} от Основния екип на {enterprise}. Ако предложението бъде прието,{user} ще се стане член. Като член, техните гласове ще остават обвързващи и техните дялове и кредити няма да бъдат засегнати. Гласовете по това предложение няма да бъдат видими за {user}, но те ще могат да видят дискусията."
-  text_member_removal: "Това предложение е за изключване на {user} от {enterprise}. Ако предложението бъде прието, {user} ще стане Сътрудник. Като сътрудник, неговите гласове ще бъдат необвързващи. Неговите акции и кредити няма да бъдат засегнати. Гласовете по това предложение няма да бъдат видими за {user}, но той ще може да види дискусията."
+  text_member_nomination: "%{user} е номиниран да бъде член на %{enterprise}. Като член, всичките им гласове ще бъдат обвързващи. В допълнение те ще могат да номинират сътрудници за членство, както и да гласуват на изборите за Основен екип. Гласовете по това предложение няма да бъдат видими за %{user}, но те ще могат да видят дискусията."
+  text_core_member_nomination: "%{user} е номиниран за Oсновния екип на %{enterprise}. Като член на Oсновния екип, те биха имали обвързващ глас по всички въпроси, включително избора на нови членове. Гласовете по това предложение няма да бъдат видими за %{user}, но те ще могат да видят дискусията."
+  text_core_member_removal: "Това предложение е за изключване на %{user} от Основния екип на %{enterprise}. Ако предложението бъде прието,%{user} ще се стане член. Като член, техните гласове ще остават обвързващи и техните дялове и кредити няма да бъдат засегнати. Гласовете по това предложение няма да бъдат видими за %{user}, но те ще могат да видят дискусията."
+  text_member_removal: "Това предложение е за изключване на %{user} от %{enterprise}. Ако предложението бъде прието, %{user} ще стане Сътрудник. Като сътрудник, неговите гласове ще бъдат необвързващи. Неговите акции и кредити няма да бъдат засегнати. Гласовете по това предложение няма да бъдат видими за %{user}, но той ще може да види дискусията."
   text_issue_edit_footer: "Можете да коментирате по този въпрос по електронната поща, като отговорите директно на този имейл."
   text_message_edit_footer: "Вие можете да отговорите на това съобщение по електронната поща, като отговорите на този имейл директно."
-  text_invitation_note_default: "Здравейте,\nНие използваме bettermeans.com за да работим по {project}.\nBettermeans ни позволява да работим заедно като равни, и е прозрачен, демократичен начин да вършим нещата заедно.\nМоля приемете тази покана да се присъедините към нас.\nС най-топли чувства, {user}"
+  text_invitation_note_default: "Здравейте,\nНие използваме bettermeans.com за да работим по %{project}.\nBettermeans ни позволява да работим заедно като равни, и е прозрачен, демократичен начин да вършим нещата заедно.\nМоля приемете тази покана да се присъедините към нас.\nС най-топли чувства, %{user}"
   text_you_are_invited: "Вие сте поканен(а) да се присъедините"
   text_generic_invitation: "Тази връзка позволява на всеки да започне като <strong>сътрудник</strong> към този работен поток."
   text_generic_invitation_2: "Можете също да използвате формата по-долу, за да изпратите персонализирани покани за хора, които да се присъединят в други роли"
@@ -962,7 +962,7 @@ bg:
   help_motions: "Motions are used to make large important decisions that are project-wide. This is a democratic mechanism to make decisions together. There are different types of motions, to learn more about motions <a href='http://help.bettermeans.com/motions' target='blank'>click here</a>."
   help_credits: "Credits are a more open and democratic way of valuing work and awarding compensation. We are really excited about offering this as an option and we strongly encourage you to <a href='http://help.bettermeans.com/faq/credits' target='blank'>learn more about credits</a>."
   help_revision_notes: "По желание: Добавяне на бележки към тази редакция на уики. Тези бележки ще се появяват в историята на версиите на уики"
-  help_mentions: "Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br><br>For example if somebody adds this comment to an issue:<br><strong>'I think @{login} should take a look at this'</strong><br>it would appear in your mentions"
+  help_mentions: "Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br><br>For example if somebody adds this comment to an issue:<br><strong>'I think @%{login} should take a look at this'</strong><br>it would appear in your mentions"
   help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br> If you want to start a new workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br>We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com' target='blank'> the tour</a> before you begin."
   help_section_project_dashboard: "Welcome to your dashboard!|<strong>This is where the magic happens.</strong> Here you get a full view of all the work within a workstream. Each workstream and subworkstream has its own dashboard. <br><br><strong>Get started by adding a new item</strong> (click on the New Item Link at the top of the New column).<br><br>You can also <strong>offer new ideas/requests, comment, agree and disagree with ideas, prioritize, and estimate</strong>.<br><br>Click on the little key next to the New Item button for a little cheat sheet that shows the meaning of all the icons you see in the Dashboard. As you get rolling with your work, explore <strong>the filters and the search functions on the upper right corner.</strong><br><br> To learn more about voting and how it works in the dashboard <a href= 'http://help.bettermeans.com/dashboard' target='blank'> checkout our help section</a>, or this 9 minute tour of the site.<br><br><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br><br><br>"
   help_section_project_wiki: "<strong>Wikis are great tools for collaboration and therefore each workstream has a wiki.</strong> You can start building your wiki here and you can create multiple pages by clicking <a href='wiki'>Start Page</a> (in blue to the right). Wikis are essentially online documents and everyone that has access can not only read but also edit and contribute to online. <br>Note the different action buttons (on the right in grey), these will be helpful when working on the Wiki."
