@@ -458,7 +458,7 @@ class Issue < ActiveRecord::Base
     end
   end
 
-  #refreshes issue status, returns true if status changed
+  # refreshes issue status, returns true if status changed
   def update_status # spec_me cover_me heckle_me
     original = self.status
     @updated = self.updated_status
@@ -471,8 +471,7 @@ class Issue < ActiveRecord::Base
 
       LogActivityStreams.write_single_activity_stream(User.sysadmin,:name,self,:subject,:changed,"update_to_#{@updated.name}", 0, @updated,{
                 :indirect_object_name_method => :name,
-                :indirect_object_phrase => "From <strong>#{original.name}</strong> to <strong>#{@updated.name}</strong> " })
-
+                :indirect_object_phrase => "#{original.name}:#{@updated.name}"})
 
       if self.status == IssueStatus.accepted
         self.assigned_to.add_as_contributor_if_new(self.project) unless self.assigned_to.nil?

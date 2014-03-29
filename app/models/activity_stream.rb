@@ -24,6 +24,20 @@ class ActivityStream < ActiveRecord::Base
     self.is_public = false if self.hidden_from_user_id > 0
   end
 
+  def indirect_object_phrase # spec_me cover_me heckle_me
+    phrase = super
+    return phrase if phrase.nil? || !phrase.match(/:/)
+    from, to = phrase.split(':')
+
+    original = strong_tag(from)
+    updated = strong_tag(to)
+    l('issue.from_a_to_b', :original => original, :updated => updated)
+  end
+
+  def strong_tag(key)
+    "<strong>#{l("issue.#{key.downcase}").capitalize}</strong>"
+  end
+
   # Finds the recent activities for a given actor, and honors
   # the users activity_stream_preferences.  Please see the README
   # for an example usage.
