@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/acceptance_helper')
+require 'acceptance/acceptance_helper'
 
 feature "Feature name", %q{
   In order to ...
