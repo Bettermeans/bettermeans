@@ -242,22 +242,23 @@ Footer
   text-decoration:underline
 }
 #toTop {
+  opacity: 0.7;
   width:96px;
-  text-indent:-9999px;
-  background: url(/images/static/totop.png) no-repeat 0 0;
   height:15px;
   padding:5px;
   position:fixed;
   bottom:10px;
   right:10px;
   cursor:pointer;
+  background-color: #616161;
+  text-align: center;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
 }
-a:hover#toTop {
-  background: url(/images/static/totop.png) no-repeat 0 -25px;
-}
-a:active#toTop {
-  background: url(/images/static/totop.png) no-repeat 0 -24px;
-}
+
 ul#topnav.sf-menu li.current ul, ul#topnav.sf-menu li ul {
   display:block
 }

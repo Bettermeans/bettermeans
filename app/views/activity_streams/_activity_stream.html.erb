@@ -31,8 +31,8 @@
         </tbody>
       </table>
 <div class="activity-tag">
-&nbsp;&nbsp;<%= since_tag(as.created_at) %> ago in
+&nbsp;&nbsp;<%= "#{since_tag(as.created_at)} #{l('general.ago')} #{l('general.in')}" %>
 <%= link_to h(as.project_name), :controller => 'projects', :action => 'show', :id => as.project_id  %>
-<%= link_to " - #{as.tracker_name} ##{as.object_id}", url_for_activity_stream(as), {:class => class_for_activity_stream(as)} if as.tracker_name%>
+<%= link_to " - #{l("tracker.#{as.tracker_name.downcase}").capitalize} ##{as.object_id}", url_for_activity_stream(as), {:class => class_for_activity_stream(as)} if as.tracker_name%>
 
 </div>

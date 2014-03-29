@@ -1292,7 +1292,13 @@ module ApplicationHelper
   end
 
   def name_for_activity_stream(as) # spec_me cover_me heckle_me
-    (as.tracker_name) ? "a #{as.tracker_name.downcase}" : "a " + l("label_#{as.object_type.downcase}")
+    key =
+      if as.tracker_name
+        "issue.#{as.tracker_name.downcase}"
+      else
+        "label_#{as.object_type.downcase}"
+      end
+    "#{l('general.a')} #{l(key)}"
   end
 
   def class_for_activity_stream(as) # spec_me cover_me heckle_me
