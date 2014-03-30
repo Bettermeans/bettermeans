@@ -2669,24 +2669,17 @@ img.private-workstream, img.volunteer-workstream{
 }
 
 .help-section {
-/*  border: 3px solid #aaa;*/
   padding: 1em 1em 1em 1em;
-/*  margin-bottom: 1.5em;*/
   background-color: #F6EABB;
-/*  background-color: #FEFF6F;*/
-/*  width: 100%;*/
   display: block;
   width: 600px;
+  font-size: 115%;
+  margin-bottom: 0px;
+  padding-top: 1em;
 }
 
 .help-section h3{
   float:left;
-}
-
-.help-section p{
-  font-size: 115%;
-  margin-bottom: 0px;
-  padding-top: 1em;
 }
 
 .help-section a.help-section-link{
