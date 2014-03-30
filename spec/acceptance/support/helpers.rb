@@ -1,6 +1,6 @@
 module HelperMethods
 
-  def login_as(user)
+  def request_login_as(user)
     visit '/'
     click_link 'login'
     fill_in('username', :with => user.login)
