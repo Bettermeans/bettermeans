@@ -16,7 +16,7 @@ guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
   watch(%r{^app/controllers/.+\.rb$})
 end
 
-guard 'rspec', :version => 1, :cli => '--drb --color' do
+guard 'rspec', :version => 1, :cli => '--drb --color', :all_on_start => false do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')

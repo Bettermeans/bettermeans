@@ -143,10 +143,12 @@ en:
     accepted: accepted
     done: done
     feature: feature
+    chore: chore
     from_a_to_b: From %{original} to %{updated}
 
   tracker:
     feature: feature
+    chore: chore
 
   notice_account_reactivated: Your account has been reactivated.<br> Welcome back!<br><br> <a href="/">Home</a>
   notice_account_canceled: Your account is now canceled. Thanks for trying us out.<br><br>We would love your feedback on how we can do better.<br><br><a href="mailto:feedback@bettermeans.com">feedback@bettermeans.com</a>
@@ -237,6 +239,7 @@ en:
     gave_up_on: gave up on
     joined: joined
     left: left
+    moved: moved
     replied_to: replied to
     restarted: restarted
     started: started
