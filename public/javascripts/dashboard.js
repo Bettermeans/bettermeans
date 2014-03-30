@@ -1443,7 +1443,7 @@ try{
     $('#comment_' + journalId + '_text_container').hide();
     $('#comment_' + journalId + '_subject_submit_container').html(input + button + cancel_button);
     $('#comment_' + journalId + '_subject_input').show().focus();
-    $('#comment_' + journalId + '_subject_input').html($('#comment_' + journalId + '_text_container').html().replace(/<br />/g, "\n"));
+    $('#comment_' + journalId + '_subject_input').html($('#comment_' + journalId + '_text_container').html().replace(/<br \/>/g, "\n"));
     keyboard_shortcuts = false;
 
     return false;
@@ -1462,7 +1462,7 @@ function edit_comment_cancel(journalId,dataId){
 function edit_comment_post(journalId,dataId){
 try{
   keyboard_shortcuts = true;
-  var new_text = $('#comment_' + journalId + '_subject_input').val(); //.replace(/<br />/g, "\n");
+  var new_text = $('#comment_' + journalId + '_subject_input').val(); //.replace(/<br \/>/g, "\n");
 
   $('#comment_' + journalId + '_text_container').html(h(new_text).replace(/\r\n/g,"<br />").replace(/\n/g,"<br />")).show();
   $('#comment_' + journalId + '_subject_submit_container').html('');
