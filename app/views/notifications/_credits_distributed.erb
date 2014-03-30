@@ -7,8 +7,8 @@
 <%= link_to "#{l("label_youve_got_credits")}", {:controller => "projects", :action => "credits", :id => enterprise_id},{:target => "_blank"} %>
 </h4>
 <%= l(:text_credits_distributed_for, :amount => number_to_currency(credit_distribution["amount"].to_f.round, :unit => '', :separator => ".", :delimiter => ",", :precision => 0), :workstream => project_name) %>
-<%= "<br><br>" + l(:text_credits_are_a_gift) if credit_distribution["retro_id"] == CreditDistribution::GIFT %>
-<%= "<br><br>" + l(:text_credits_are_an_expense) if credit_distribution["retro_id"] == CreditDistribution::EXPENSE %>
+<%= "<br /><br />" + l(:text_credits_are_a_gift) if credit_distribution["retro_id"] == CreditDistribution::GIFT %>
+<%= "<br /><br />" + l(:text_credits_are_an_expense) if credit_distribution["retro_id"] == CreditDistribution::EXPENSE %>
 
 <p class="gt-table-action-list">
 <%= link_to(l(:button_view), {:controller => "projects", :action => "credits", :id => enterprise_id}, {:id =>'cr_button', :class => 'icon icon-cr-offer', :target => "_blank"})%>

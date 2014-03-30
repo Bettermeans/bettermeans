@@ -53,7 +53,7 @@ module MyHelper
                           :table_id => "all_my_projects_table",
                           :table_bottom_link => link_to(l(:label_project_new), {:controller => :projects, :action => :add}, :class => "gt-btn-blue-large"),
                           :no_data_help => l(:help_no_workstreams),
-                          :no_data_link => link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'}) + "<br>or<br>" + link_to(l(:label_browse_workstreams), {:controller => :projects, :action => :index})
+                          :no_data_link => link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'}) + "<br />or<br />" + link_to(l(:label_browse_workstreams), {:controller => :projects, :action => :index})
                         }
             },
             {:name => 'active',

@@ -136,7 +136,7 @@ class MyController < ApplicationController
 
       if defined? account.billing_info && defined? account.billing_info.errors
         if account.billing_info.errors.length > 0
-          flash.now[:error] = account.billing_info.errors[:base].collect {|v| "#{v}"}.join('<br>')
+          flash.now[:error] = account.billing_info.errors[:base].collect {|v| "#{v}"}.join('<br />')
           return
         end
       end
@@ -191,7 +191,7 @@ class MyController < ApplicationController
         end
 
         if sub.errors && sub.errors.any?
-          flash.now[:error] = sub.errors.collect {|k, v| "#{v}"}.join('<br>')
+          flash.now[:error] = sub.errors.collect {|k, v| "#{v}"}.join('<br />')
           @user.reload
           return
         else

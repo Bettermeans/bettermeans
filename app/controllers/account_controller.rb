@@ -426,7 +426,7 @@ class AccountController < ApplicationController
     invitation = Invitation.find_by_token(params[:invitation_token])
     @user.mail = invitation.mail if invitation
     flash.now[:notice] = "Sign up below to activate your invitation." <<
-                         "<br><br><a href='/login?invitation_token=" <<
+                         "<br /><br /><a href='/login?invitation_token=" <<
                          "#{params[:invitation_token]}'>" <<
                          "Login here if you already have an account.</a>"
   end

@@ -5,25 +5,25 @@
     <tr>
     <% if @motion.concerned_user_id != nil %>
            <td class="gt-avatar">
-              <%= avatar(@motion.concerned_user, :size => '53') %><br>
+              <%= avatar(@motion.concerned_user, :size => '53') %><br />
               <%= link_to_user_from_id @motion.concerned_user_id %>
             </td>
     <% end %>
     <td>
       <%= textilizable (h @motion.description) %>
-      <br><br>
+      <br /><br />
       <p>
         <b>State:</b>
-        <%=l "label_motion_state#{h @motion.state}" %><br>
+        <%=l "label_motion_state#{h @motion.state}" %><br />
         <b>Variation:</b>
-        <%=l "label_motion_variation#{h @motion.variation}" %><br>
+        <%=l "label_motion_variation#{h @motion.variation}" %><br />
         <b>Vote Type:</b>
-        <%=l "label_motion_vote_type#{h @motion.motion_type}" %> (<%=l "label_motion_vote_type#{h @motion.motion_type}_desc" %>)<br>
+        <%=l "label_motion_vote_type#{h @motion.motion_type}" %> (<%=l "label_motion_vote_type#{h @motion.motion_type}_desc" %>)<br />
         <b>Minimum level needed to view:</b>
-        <%="#{h @motion.visibility_level_description}" %><br>
+        <%="#{h @motion.visibility_level_description}" %><br />
         <b>Minimum level for binding vote:</b>
-        <%="#{h @motion.binding_level_description}" %><br>
-        <b>Discussion viewable by: </b>Everyone<br>
+        <%="#{h @motion.binding_level_description}" %><br />
+        <b>Discussion viewable by: </b>Everyone<br />
       </p>
 
     </td>
@@ -118,7 +118,7 @@
 <% html_title h(@topic.subject) %>
 
 <% content_for :sidebar do %>
-<br>
+<br />
 <h3><%= render_title_date %></h3>
 <%= render :partial => "motion_votes/vote", :locals => {:motion => @motion} %>
 <% end %>

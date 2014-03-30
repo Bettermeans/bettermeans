@@ -10,8 +10,8 @@ if @members_active.any?
         <td>
       <% @members_active.each do |member| %>
         <div class="gt-avatar-box">
-          <%= avatar(member.user) %><br>
-          <%= link_to_user member.user, {:format => :firstname} %><br>
+          <%= avatar(member.user) %><br />
+          <%= link_to_user member.user, {:format => :firstname} %><br />
         </div>
       <% end %>
         </td>

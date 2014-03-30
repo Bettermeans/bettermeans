@@ -71,7 +71,7 @@
 
     <div class="gt-logo">
       <a href="/" style="text-decoration:none;" class="left">
-        <img src="/images/static/header_logo.png"></a>
+        <img src="/images/static/header_logo.png" />
       </a>
       <div class="gt-logo-links">
         <%= link_to(l(:label_my_home).upcase, {:controller => 'welcome', :action => 'index'}, :class => 'root') %>&nbsp;
@@ -96,7 +96,7 @@
     <div class="gt-nav">
       <div class="gt-nav-header">
         <span class="gt-nav-breadcrumbs"><%= page_header_title %></span>
-        <br>
+        <br />
         <h1><%= page_header_name %><%= sub_workstream_project_box(@project) %></h1>
         <% if (!has_content?(:searchbar)) %>
       <div class="gt-search gt-search-wide">
@@ -130,7 +130,7 @@
       <% if (has_content?(:help_section)) %>
         <ul>
           <li>
-            <a class="top-help-tip icon icon-help" href='' onclick="help_popup(); return false;"><%= l(:label_Tip) %></a>
+            <a class="top-help-tip icon icon-help" href='#' onclick="help_popup(); return false;"><%= l(:label_Tip) %></a>
           </li>
         </ul>
       <% end %>

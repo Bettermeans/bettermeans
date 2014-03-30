@@ -1208,8 +1208,8 @@ module ApplicationHelper
     # <img id="help_image_panel_' + name + '" src="/images/question_mark.gif" class="help_question_mark">
     # <div id="help_panel_canceled" style="display:none;">
     #   <div class="tip" style="width:300px">
-    #     <strong>Canceled Ideas</strong><br>
-    #       If a request hasn't been prioritized by anyone and has been sitting in the queue for more than a month, anyone team member can cancel it.<br><br>
+    #     <strong>Canceled Ideas</strong><br />
+    #       If a request hasn't been prioritized by anyone and has been sitting in the queue for more than a month, anyone team member can cancel it.<br /><br />
     #       Once a request has been canceled, anyone can re-open it, effectively pushing it back as a new item for reconsideration.
     #   </div>
     # </div>

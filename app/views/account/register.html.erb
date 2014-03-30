@@ -8,7 +8,7 @@
 <% form_tag({:action => 'register'}, :class => "tabular") do %>
 <%= error_messages_for 'user' %>
 
-<div class="signup-header">create an account</div><br>
+<div class="signup-header">create an account</div><br />
 
 <% if @user.auth_source_id.nil? %>
 <p><label for="user_login"><%=l(:field_login)%> <span class="required">*</span></label>
@@ -46,9 +46,9 @@
 
 <%= hidden_field_tag 'invitation_token', params[:invitation_token] %>
 <%= hidden_field_tag 'plan_id', @plan_id %>
-<br><br>
+<br /><br />
 <div class="gt-form-row">
-  <br>
+  <br />
   <%#<label>By signing up you indicate that you have read and agreed to the <a href="/front/user_agreement.html" target="_blank">User Agreement</a> and <a href="/front/open_enterprise_governance_model.html" target="blank">Open Enterprise Governance Model</a>%>
   </label>
 

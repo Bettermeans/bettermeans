@@ -6,19 +6,19 @@
 
 <div class="gt-left-col">
 <strong><%= l(:text_select_project_modules) %></strong>
-<br><br>
+<br /><br />
 <% Redmine::AccessControl.available_project_modules.each do |m| %>
  <label class="floating" style="display:inline">
    <%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m), :id => "check_box_#{m}" %>
  <%= l_or_humanize(m, :prefix => "project_module_") %>
- <%= help_bubble "help_#{m}" %><br>
+ <%= help_bubble "help_#{m}" %><br />
  </label>
 <% end %>
 </div>
 
 <div id="point_scale_container" class="gt-right-col" style="<%= @project.credits_enabled? ? nil : 'display:none'%>">
 <p>
-  <br><br>
+  <br /><br />
   <fieldset>
 <%=  f.select(:dpp, options_for_select(Setting::PAY_SCALES, :selected => @project.dpp.nil? ? Setting::PAY_SCALES_DEFAULT : @project.dpp.round),
                                                       { :include_blank => false},
@@ -33,7 +33,7 @@
 <div class="clear" />
 </div>
 
-<br>
+<br />
 <p><%= check_all_links 'modules-form' %></p>
 <div class="gt-table-buttons">
 <%= submit_tag l(:button_save), :disable_with => l(:button_working) %>

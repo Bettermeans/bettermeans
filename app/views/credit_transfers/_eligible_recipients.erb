@@ -1,11 +1,11 @@
-Available credits: <%= @total_credits %><br><br>
+Available credits: <%= @total_credits %><br /><br />
 
 <% if @user_list.length > 0 %>
 
 <p id="select_concerned_user">
-  <label><%= l(:label_select_recipient) %></label><%= collection_select(:credit_transfer, :recipient_id, @user_list, :user_id, :name, :prompt => l(:label_select)) %><br><br>
+  <label><%= l(:label_select_recipient) %></label><%= collection_select(:credit_transfer, :recipient_id, @user_list, :user_id, :name, :prompt => l(:label_select)) %><br /><br />
   <label><%= l(:label_amount_to_transfer) %></label>
-  <%= text_field_tag 'amount', nil, :size => 10, :style => "width:40%" %><br><br>
+  <%= text_field_tag 'amount', nil, :size => 10, :style => "width:40%" %><br /><br />
   <label><%= l(:label_note_to_recipient) %></label>
   <%= text_area('note', nil, :cols => 30, :rows => 6) %>
   <div class="gt-table-buttons">
@@ -14,8 +14,8 @@ Available credits: <%= @total_credits %><br><br>
 </p>
 <% else %>
   There are no eligible recipients for credits from this project workstream.
- <br><a href="http://help.bettermeans.com/membership" target="blank">Learn more about how membership rules work</a>
- <br>
+ <br /><a href="http://help.bettermeans.com/membership" target="blank">Learn more about how membership rules work</a>
+ <br />
 <% end %>
 
 

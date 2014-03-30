@@ -46,14 +46,14 @@
     <div>
     <%= render :partial => 'credits/my_credits'%>
     </div>
-    <br><br>
+    <br /><br />
     <h2 class="gt-table-head"><%=l(:label_credits_breakdown)%></h2>
     <span id="active_credits_partial">
     <%= render :partial => 'credits/credit_breakdown', :locals => {:group_credits => @active_credits, :title => l(:label_active_credits)}%>
     </span>
-    <br><br>
+    <br /><br />
     <%= render :partial => 'credits/credit_breakdown', :locals => {:group_credits => @oustanding_credits, :title => l(:label_outstanding_credits)}%>
-    <br><br>
+    <br /><br />
     <%= render :partial => 'credits/credit_breakdown', :locals => {:group_credits => @total_credits, :title => l(:label_total_credits_issued)}%>
 <% end %>
 

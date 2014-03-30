@@ -336,7 +336,7 @@ function h(s) {
   var escaped = s;
   escaped = escaped.replace(/\r\n/g, "xxxxxx11");
   escaped = escaped.replace(/\n/g, "xxxxxx11");
-  escaped = escaped.replace(/<br>/g, "xxxxxx11");
+  escaped = escaped.replace(/<br />/g, "xxxxxx11");
   escaped = escaped.replace(/&/g, "&amp;");
   escaped = escaped.replace(/</g, "&lt;");
   escaped = escaped.replace(/>/g, "&gt;");
@@ -469,18 +469,18 @@ function comment_prompt_to_remote(dataId,title,message,param,url,required){
 
   var content = '';
   var note = "$('#prompt_comment_" + dataId + "').val()" ;
-  content = content + '<div id="comment_prompt"><h2>' + title + '</h2><br>';
+  content = content + '<div id="comment_prompt"><h2>' + title + '</h2><br />';
   if (message){
-    content = content + message + '<br><br>';
+    content = content + message + '<br /><br />';
   }
-        content = content + '<p><textarea id="prompt_comment_' + dataId + '" class="comment_prompt_text" rows="10" ></textarea></p><br>';
+        content = content + '<p><textarea id="prompt_comment_' + dataId + '" class="comment_prompt_text" rows="10" ></textarea></p><br />';
     content = content + '<p>';
         content = content + '<input type="submit" onclick="$.fancybox.close();send_remote(\'' + url + '\',\'' + param + '\',' + note + ');" value="Submit"></input>';
     if (!required){
           content = content + '<input type="submit" onclick="$.fancybox.close();send_remote(\'' + url + '\',\'' + param + '\',\'\');" value="No Comment"></input>';
     }
         content = content + '<input type="submit" onclick="$.fancybox.close();return false;" value="Cancel"></input>';
-    content = content + '</p><br><br></div>';
+    content = content + '</p><br /><br /></div>';
 
   $.fancybox(
     {

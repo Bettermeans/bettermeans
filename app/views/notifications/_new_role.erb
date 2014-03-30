@@ -4,7 +4,7 @@
       </td>
       <td>
 <h4><%= link_to l("label_new_role", :role_name => role_name), {:controller => "projects", :action => "team", :id => enterprise_id},{:target => "_blank"} %> </h4>
-<%= l(:text_you_are_now_a_role, :role_name => role_name) %> <%= link_to project_name, {:controller => "projects", :action => "show", :id => enterprise_id} %>. <br><br>
+<%= l(:text_you_are_now_a_role, :role_name => role_name) %> <%= link_to project_name, {:controller => "projects", :action => "show", :id => enterprise_id} %>. <br /><br />
 <%= l("text_role_description_#{role_name}", :enterprise => project_name) %>
 <p class="gt-table-action-list">
 <%= link_to(l(:button_view), {:controller => "projects", :action => "team", :id => enterprise_id}, {:id =>'cr_button', :class => 'icon icon-cr-offer', :target => "_blank"})%>

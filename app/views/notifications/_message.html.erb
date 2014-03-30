@@ -9,7 +9,7 @@
     <td>
 <h4><%= subject %> </h4>
 <h5><%= l(:label_by, :author => link_to_user_from_id(sender_id), :age => time_tag(notification_created_at)) %></h5>
-<%= message %><br><br>
+<%= message %><br /><br />
 <%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => notification_id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>
     </td>
     </tr>

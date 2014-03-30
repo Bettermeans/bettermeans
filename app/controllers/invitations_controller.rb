@@ -77,7 +77,7 @@ class InvitationsController < ApplicationController
         @note = params[:note]
         @roles = Role.find(:all, :conditions => {:level => 1}, :order => "position DESC")
 
-        flash.now[:success] = "#{@email_array.length} invitation(s)  successfully sent to<br>" + @email_array.join(", ")
+        flash.now[:success] = "#{@email_array.length} invitation(s)  successfully sent to<br />" + @email_array.join(", ")
         format.html { render :action => "new" }
         format.xml  { render :xml => @invitation, :status => :created, :location => @invitation }
       else

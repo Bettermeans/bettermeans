@@ -828,7 +828,7 @@ function generate_estimate_flyover(dataId){
       if (item.issue_votes[i].isbinding == false){
         history = history + ' (non-binding)';
       }
-      history = history + '<br>';
+      history = history + '<br />';
     }
 
   }
@@ -1026,8 +1026,8 @@ function generate_pri_flyover(dataId){
   user_pri_id == 0 ? action_header = 'Prioritize' : action_header = 'Change your prioritization:';
 
   var buttons = '';
-  buttons = buttons + generate_pri_action(1, item.id, dataId) + '<br>';
-  buttons = buttons + generate_pri_action(0, item.id, dataId) + '<br>';
+  buttons = buttons + generate_pri_action(1, item.id, dataId) + '<br />';
+  buttons = buttons + generate_pri_action(0, item.id, dataId) + '<br />';
   buttons = buttons + generate_pri_action(-1, item.id, dataId);
 
 
@@ -1039,7 +1039,7 @@ function generate_pri_flyover(dataId){
       if (item.issue_votes[i].isbinding == false){
         history = history + ' (non-binding)';
       }
-      history = history + '<br>';
+      history = history + '<br />';
     }
   }
 
@@ -1134,8 +1134,8 @@ function generate_agree_flyover(dataId){
     you_voted = "Details are hidden until you vote to avoid group think";
   }
   else {
-    you_voted = item.agree + ' agree / ' + item.disagree + ' disagree (binding)<br>';
-    you_voted = you_voted + item.agree_nonbind + ' agree / ' + item.disagree_nonbind + ' disagree (non-binding)<br>';
+    you_voted = item.agree + ' agree / ' + item.disagree + ' disagree (binding)<br />';
+    you_voted = you_voted + item.agree_nonbind + ' agree / ' + item.disagree_nonbind + ' disagree (non-binding)<br />';
   }
 
   var history = '';
@@ -1152,17 +1152,17 @@ function generate_agree_flyover(dataId){
       if (item.issue_votes[i].isbinding == false){
         history = history + ' (non-binding)';
       }
-      history = history + '<br>';
+      history = history + '<br />';
     }
   }
 
 
   if (!((item.status.name != 'New')&&(item.status.name != 'Estimate')&&(item.status.name != 'Open'))) {
     user_agree_id < 0 ? action_header = 'Vote' : action_header = 'Change your vote:';
-    if (points != 1) {buttons = buttons + dash_button('agree',dataId,points == 1,{action:'agree',data:'&points=1'}) + '<br>';}
-    if (points != 0) {buttons = buttons + dash_button('neutral',dataId,points == 0,{action:'agree',data:'&points=0'}) + '<br>';}
-    if (points != -1) {buttons = buttons + dash_button('disagree',dataId,points == -1,{action:'agree',data:'&points=-1'}) + '<br>';}
-    if (points != -9999) {buttons = buttons + dash_button('block',dataId,false,{action:'agree',data:'&points=-9999'}) + '<br>';}
+    if (points != 1) {buttons = buttons + dash_button('agree',dataId,points == 1,{action:'agree',data:'&points=1'}) + '<br />';}
+    if (points != 0) {buttons = buttons + dash_button('neutral',dataId,points == 0,{action:'agree',data:'&points=0'}) + '<br />';}
+    if (points != -1) {buttons = buttons + dash_button('disagree',dataId,points == -1,{action:'agree',data:'&points=-1'}) + '<br />';}
+    if (points != -9999) {buttons = buttons + dash_button('block',dataId,false,{action:'agree',data:'&points=-9999'}) + '<br />';}
   }
 
   return generate_flyover(dataId,'agree',title,you_voted,action_header,buttons,history);
@@ -1193,8 +1193,8 @@ function generate_accept_flyover(dataId){
     you_voted = "Totals are hidden until you vote";
   }
   else {
-    you_voted = item.accept + ' accept / ' + item.reject + ' reject (binding)<br>';
-    you_voted = you_voted + item.accept_nonbind + ' accept / ' + item.reject_nonbind + ' reject (non-binding)<br>';
+    you_voted = item.accept + ' accept / ' + item.reject + ' reject (binding)<br />';
+    you_voted = you_voted + item.accept_nonbind + ' accept / ' + item.reject_nonbind + ' reject (non-binding)<br />';
   }
 
   var history = '';
@@ -1212,16 +1212,16 @@ function generate_accept_flyover(dataId){
       if (item.issue_votes[i].isbinding == false){
         history = history + ' (non-binding)';
       }
-      history = history + '<br>';
+      history = history + '<br />';
     }
   }
 
   if (item.status.name == 'Done') {
     user_accept_id < 0 ? action_header = 'Vote' : action_header = 'Change your vote:';
-    if (points != 1) {buttons = buttons + dash_button('accept',dataId,points == 1,{action:'accept',data:'&points=1'}) + '<br>';}
-    if (points != 0) {buttons = buttons + dash_button('neutral',dataId,points == 0,{action:'accept',data:'&points=0'}) + '<br>';}
-    if (points != -1) {buttons = buttons + dash_button('reject',dataId,points == -1,{action:'accept',data:'&points=-1'}) + '<br>';}
-    if (points != -9999) {buttons = buttons + dash_button('block',dataId,false,{action:'accept',data:'&points=-9999'}) + '<br>';}
+    if (points != 1) {buttons = buttons + dash_button('accept',dataId,points == 1,{action:'accept',data:'&points=1'}) + '<br />';}
+    if (points != 0) {buttons = buttons + dash_button('neutral',dataId,points == 0,{action:'accept',data:'&points=0'}) + '<br />';}
+    if (points != -1) {buttons = buttons + dash_button('reject',dataId,points == -1,{action:'accept',data:'&points=-1'}) + '<br />';}
+    if (points != -9999) {buttons = buttons + dash_button('block',dataId,false,{action:'accept',data:'&points=-9999'}) + '<br />';}
   }
 
   return generate_flyover(dataId,'accept',title,you_voted,action_header,buttons,history);
@@ -1240,7 +1240,7 @@ function generate_details_flyover_description(item){
   html = html + '      <tbody>';
   html = html + '<tr class="noteInfoRow">';
   html = html + '<td class="noteInfo">';
-  html = html + '<span class="specialhighlight">' + h(item.description).replace(/\n/g,"<br>") + '</span>';
+  html = html + '<span class="specialhighlight">' + h(item.description).replace(/\n/g,"<br />") + '</span>';
    html = html + '</td>';
     html = html + '</tr>';
   html = html + '      </tbody>';
@@ -1301,7 +1301,7 @@ function generate_comments(dataId,blank_if_no_comments){
         {
           var note_array = item.journals[i].notes.split('\n');
           for(var j = 1; j < note_array.length; j++ ){
-            if (note_array[j][0]!='>'){note = note + note_array[j].replace(/\n/g,"<br>") + '\n';};
+            if (note_array[j][0]!='>'){note = note + note_array[j].replace(/\n/g,"<br />") + '\n';};
           }
         }
         else
@@ -1331,7 +1331,7 @@ function generate_comment(author,note,created_at,itemId,last_comment,journalId,d
   html = html + '</tr>';
     html = html + '<tr class="noteTextRow">';
   html = html + '<td class="noteText" id="noteText_' + journalId + '">';
-  html = html + '  <span id="comment_' + journalId + '_text_container">' + h(note).replace(/\r\n/g,"<br>").replace(/\n/g,"<br>") + '</span>';
+  html = html + '  <span id="comment_' + journalId + '_text_container">' + h(note).replace(/\r\n/g,"<br />").replace(/\n/g,"<br />") + '</span>';
   html = html + '  <span id="comment_' + journalId + '_subject_submit_container"></span>';
   html = html + '</td>';
   html = html + '</tr>';
@@ -1443,7 +1443,7 @@ try{
     $('#comment_' + journalId + '_text_container').hide();
     $('#comment_' + journalId + '_subject_submit_container').html(input + button + cancel_button);
     $('#comment_' + journalId + '_subject_input').show().focus();
-    $('#comment_' + journalId + '_subject_input').html($('#comment_' + journalId + '_text_container').html().replace(/<br>/g, "\n"));
+    $('#comment_' + journalId + '_subject_input').html($('#comment_' + journalId + '_text_container').html().replace(/<br />/g, "\n"));
     keyboard_shortcuts = false;
 
     return false;
@@ -1462,9 +1462,9 @@ function edit_comment_cancel(journalId,dataId){
 function edit_comment_post(journalId,dataId){
 try{
   keyboard_shortcuts = true;
-  var new_text = $('#comment_' + journalId + '_subject_input').val(); //.replace(/<br>/g, "\n");
+  var new_text = $('#comment_' + journalId + '_subject_input').val(); //.replace(/<br />/g, "\n");
 
-  $('#comment_' + journalId + '_text_container').html(h(new_text).replace(/\r\n/g,"<br>").replace(/\n/g,"<br>")).show();
+  $('#comment_' + journalId + '_text_container').html(h(new_text).replace(/\r\n/g,"<br />").replace(/\n/g,"<br />")).show();
   $('#comment_' + journalId + '_subject_submit_container').html('');
 
   var data = "commit=Update&id=" + journalId + "&issue_id=" + D[dataId].id + "&journal[notes]=" + encodeURIComponent(new_text);
@@ -2224,7 +2224,7 @@ function click_start(dataId,source,data){
   }
 
   if (credits_enabled && !has_current_user_estimated(D[dataId])){
-    $.jGrowl("Sorry, you can't start an item before estimating it first. <br><br>Click on the dice with the question mark on it, to estimate the complexity/size of this item.");
+    $.jGrowl("Sorry, you can't start an item before estimating it first. <br /><br />Click on the dice with the question mark on it, to estimate the complexity/size of this item.");
     return false;
   }
 
@@ -2423,18 +2423,18 @@ function comment_prompt(dataId,source,data,action,required,message){
   var title = required ? 'required' : 'optional';
 
   var content = '';
-  content = content + '<div id="comment_prompt"><h2>Comment</h2><br>';
+  content = content + '<div id="comment_prompt"><h2>Comment</h2><br />';
   if (message){
-    content = content + message + '<br><br>';
+    content = content + message + '<br /><br />';
   }
-        content = content + '<p><textarea id="prompt_comment_' + dataId + '" class="comment_prompt_text" rows="10" ></textarea></p><br>';
+        content = content + '<p><textarea id="prompt_comment_' + dataId + '" class="comment_prompt_text" rows="10" ></textarea></p><br />';
     content = content + '<p>';
         content = content + '<input type="submit" onclick="submit_comment_prompt(' + dataId + ',\'' + data + '\',\'' + action + '\')" value="Submit"></input>';
     if (!required){
           content = content + '<input type="submit" onclick="send_item_action(' + dataId + ',\'' + action + '\',\'' + data + '\'); $.fancybox.close();return false;" value="No Comment"></input>';
     }
         content = content + '<input type="submit" onclick="cancel_comment_prompt(' + dataId + ',\'' + source + '\',\'' + data + '\',\'' + action + '\')" value="Cancel"></input>';
-    content = content + '</p><br><br></div>';
+    content = content + '</p><br /><br /></div>';
 
   $.fancybox(
     {
@@ -4200,7 +4200,7 @@ function is_user_logged_in(){
 }
 
 function ask_for_login(){
-  $.jGrowl("<a href='/login'>Sorry, you need to be logged in first.<br> </a>" , { sticky:true, header: '<a href=\'/login\'>Login Required</a>'});
+  $.jGrowl("<a href='/login'>Sorry, you need to be logged in first.<br /> </a>" , { sticky:true, header: '<a href=\'/login\'>Login Required</a>'});
 }
 
 
@@ -4220,12 +4220,12 @@ function handle_error (xhr, textStatus, errorThrown, dataId, action) {
 
     // sort_panel('open');
     $('#featureicon_' + dataId).attr("src", "/images/error.png");
-    $.jGrowl("Sorry, couldn't " + action + " item:<br>" + h(D[dataId].subject) , { header: 'Error', position: 'bottom-right' });
+    $.jGrowl("Sorry, couldn't " + action + " item:<br />" + h(D[dataId].subject) , { header: 'Error', position: 'bottom-right' });
 
   }
   else{
     $("#new_item_wrapper").remove();
-    $.jGrowl("Sorry, couldn't " + action + "<br>" + XMLHttpRequest, { header: 'Error', position: 'bottom-right' });
+    $.jGrowl("Sorry, couldn't " + action + "<br />" + XMLHttpRequest, { header: 'Error', position: 'bottom-right' });
   }
   keyboard_shortcuts = true;
 

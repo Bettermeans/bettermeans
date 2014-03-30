@@ -10,7 +10,7 @@
         <td>
           <p><strong>
           <%= link_to(h(motion.project.name), :controller => 'projects', :action => 'show', :id => motion.project) + ': ' unless @project %>
-          <%= link_to h(motion.title), project_motion_path(motion.project_id,motion) %></strong><br><span class="small-text">by <%= link_to_user(motion.author) %> <%= since_tag(motion.created_at) %> ago</span></p>
+          <%= link_to h(motion.title), project_motion_path(motion.project_id,motion) %></strong><br /><span class="small-text">by <%= link_to_user(motion.author) %> <%= since_tag(motion.created_at) %> ago</span></p>
 
         </td>
       </tr>

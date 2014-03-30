@@ -10,10 +10,10 @@
   <table class="retrospective">
     <tr><td class="avatar">
     </td><td class="title">
-    </td><td class="title private hidden">&nbsp;&nbsp;&nbsp;&nbsp;Your <%= help_bubble :help_your_assessment %><br>assessment
-    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Team's<%= help_bubble :help_team_assessment %><br>assessment
-    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Final <%= help_bubble :help_final_assessment %><br>distribution
-    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Accuracy<%= help_bubble :help_accuracy %><br>
+    </td><td class="title private hidden">&nbsp;&nbsp;&nbsp;&nbsp;Your <%= help_bubble :help_your_assessment %><br />assessment
+    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Team's<%= help_bubble :help_team_assessment %><br />assessment
+    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Final <%= help_bubble :help_final_assessment %><br />distribution
+    </td><td class="title closed hidden">&nbsp;&nbsp;&nbsp;&nbsp;Accuracy<%= help_bubble :help_accuracy %><br />
     </td><td class="button">
     </td></tr>
 
@@ -24,17 +24,17 @@
     user_retro = x[1]
 %>
   <tr><td class="avatar">
-    <%= avatar_from_id(user_id) %><br>
+    <%= avatar_from_id(user_id) %><br />
     <%= link_to_user_from_id(user_id) %>
 
   </td><td class="stats">
-    <strong><%= user_retro["total_points"].round %> credits (<%= user_retro["percentage_points"] %>%)</strong> <br>
-    <%= user_retro["total_ideas"] %> ideas <br>
-    <%= user_retro["total_journals"] %> comments <br>
-    <%= user_retro["total_votes"] %> votes <br>
+    <strong><%= user_retro["total_points"].round %> credits (<%= user_retro["percentage_points"] %>%)</strong> <br />
+    <%= user_retro["total_ideas"] %> ideas <br />
+    <%= user_retro["total_journals"] %> comments <br />
+    <%= user_retro["total_votes"] %> votes <br />
   </td><td class="percentage private hidden">
     <label id="user_<%= user_id%>_percentage" class="percentage_label"><%= user_retro["given_percentage"] ||=0 %>%</label>
-  <br>
+  <br />
   <% if (@retro.status_id == Retro::STATUS_INPROGRESS) %>
   <div id="slider_<%= user_id%>" class="slider slider-per" user_id="<%= user_id%>" per="<%= user_retro["given_percentage"] %>"></div>
 <% end %>
@@ -51,10 +51,10 @@
   <tr class="open"><td class="avatar">
     &nbsp;
     </td><td class="stats">
-    <br><strong>Confidence</strong><%= help_bubble :help_confidence %><br><br>
+    <br /><strong>Confidence</strong><%= help_bubble :help_confidence %><br /><br />
   </td><td class="percentage private hidden">
     <label id="user_0_percentage" class="percentage_label_confidence"><%= @confidence_percentage ||=0 %>%</label>
-  <br>
+  <br />
   <div id="slider_confidence" class="slider slider-conf" user_id="0" per="<%= @confidence_percentage %>"></div>
   </td><td class="percentage closed">
     <label id="confidence_percentage">&nbsp;</label>
@@ -78,7 +78,7 @@
 </table>
 </div>
 </div>
-<br><br>
+<br /><br />
 
 <div align="center">
 <h2 class="gt-table-head">Contribution Breakdown  : <%= format_date(@retro.from_date) %> to <%= format_date(@retro.to_date)%></h2>
@@ -90,14 +90,14 @@
       <%= render :partial => "issue_details", :locals => { :issue => issue } %>
     <% end %>
     </table>
-    <br>
+    <br />
   </div>
 
 
 
 
 <% content_for :sidebar do %>
-<br><br>
+<br /><br />
 <div style="overflow-x:auto;" align="center" class="gt-content-box">
   <% @chart_width = @point_totals.length*70 + 50
    @chart_width = 1000 if @chart_width > 1000
@@ -120,28 +120,28 @@
               )
     %>"/>
 </div>
-<br>
+<br />
 <div align="center" class="gt-content-box">
   <img src="<%=  Gchart.pie(:title => 'Credits',
                  :size => '400x200',
                  :data => @pie_data_points, :labels => @pie_labels_points )
    %>"/>
  </div>
- <br>
+ <br />
  <div align="center" class="gt-content-box">
    <img src="<%=  Gchart.pie(:title => 'Ideas',
                   :size => '400x200',
                   :data => @pie_data_ideas, :labels => @pie_labels_ideas )
     %>"/>
   </div>
-  <br>
+  <br />
   <div align="center" class="gt-content-box">
    <img src="<%=  Gchart.pie(:title => 'Comments',
                   :size => '400x200',
                   :data => @pie_data_journals, :labels => @pie_labels_journals )
     %>"/>
   </div>
-  <br>
+  <br />
   <div align="center" class="gt-content-box">
     <img src="<%=  Gchart.pie(:title => 'Votes',
                    :size => '400x200',

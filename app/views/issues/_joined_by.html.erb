@@ -6,7 +6,7 @@
           <% next if issue_vote.user_id == @issue.assigned_to_id  %>
             <%= avatar(issue_vote.user, :size => "18") %>&nbsp; &nbsp;<%= link_to_user_from_id(issue_vote.user_id) %>&nbsp;&nbsp;
             <%= link_to_remote "remove", :url => {:controller => 'issues', :action => 'remove_team_member', :id => @issue.id, :user_id => issue_vote.user_id} if User.current.id == @issue.assigned_to_id  %>
-            <br>
+            <br />
           <% end %>
         </span>
         <% if User.current.id == @issue.assigned_to_id %>

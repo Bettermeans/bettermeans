@@ -34,12 +34,12 @@
       <label class="floating" style="display:inline">
       <%= check_box_tag 'project[is_public]', 1, @project.is_public %>
       <%= l(:field_is_public) %>
-      <%= help_bubble "help_is_public" %><br>
+      <%= help_bubble "help_is_public" %><br />
       </label>
       <label class="floating" style="display:inline">
       <%= check_box_tag 'project[volunteer]', 1, @project.volunteer %>
       <%= l(:field_volunteer) %>
-      <%= help_bubble "help_volunteer" %><br>
+      <%= help_bubble "help_volunteer" %><br />
       </label>
   </fieldset>
 </p>
@@ -53,7 +53,7 @@
       <label class="floating" style="display:inline">
       <%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m), :id => "check_box_#{m}" %>
       <%= l_or_humanize(m, :prefix => "project_module_") %>
-      <%= help_bubble "help_#{m}" %><br>
+      <%= help_bubble "help_#{m}" %><br />
       </label>
   <% end %>
   </fieldset>

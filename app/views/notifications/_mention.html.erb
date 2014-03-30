@@ -14,7 +14,7 @@
   <td>
     <span class="icon icon-time right small-text"<%= since_tag(@mention.created_at) %> ago</span>
   <%= link_to (truncate(title,50),url, {:class => "#{@mention.source_type == 'Issue' || @mention.source_type == 'Journal(Issue)' ? 'fancyframe' : ''}"}) %>
-  <br><br>
+  <br /><br />
   <%= make_expandable mention_text %>
 <p class="gt-table-action-list">
 <%= link_to_remote(l(:button_mark_as_read), {:url => {:controller => "notifications", :action => "hide", :notification_id => @mention.id, :message => :label_marked_as_read}}, {:id =>'cr_button', :class => 'icon icon-cr-ignore'})%>

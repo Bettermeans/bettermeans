@@ -8,25 +8,25 @@
   <div class="user_retrospective">
     <h4><%= link_to_user_from_id(user_id) %></h4>
     <table class="retrospective"><tr><td class="stats">
-    <%= user_retro["total_points"] %> points (<%= user_retro["percentage_points"] %>%) <br>
-    <%= user_retro["total_journals"] %> journals <br>
-    <%= user_retro["total_votes"] %> votes <br>
+    <%= user_retro["total_points"] %> points (<%= user_retro["percentage_points"] %>%) <br />
+    <%= user_retro["total_journals"] %> journals <br />
+    <%= user_retro["total_votes"] %> votes <br />
     </td>
     <% if user_retro["issues"].length > 0 %>
     <td class="issues">
     <% user_retro["issues"].each do |issue| %>
-    <%= link_to_issue(issue) %>  - <%= issue.points %> pts  <br>
+    <%= link_to_issue(issue) %>  - <%= issue.points %> pts  <br />
     <% end %>
     </td>
     <% end %>
     </tr></table>
-    <br>
+    <br />
   </div>
 <% end %>
 
 
 <% content_for :sidebar do %>
-<br><br>
+<br /><br />
 <div style="overflow-x:auto;" align="center">
   <% @chart_width = @point_totals.length*70 + 50
    @chart_width = 1000 if @chart_width > 1000
@@ -46,26 +46,26 @@
               )
     %>"/>
 </div>
-<br>
-<br>
+<br />
+<br />
 <div align="center">
   <img src="<%=  Gchart.pie(:title => 'Points',
                  :size => '400x200',
                  :data => @pie_data_points, :labels => @pie_labels_points )
    %>"/>
-   <br>
-   <br>
+   <br />
+   <br />
    <img src="<%=  Gchart.pie(:title => 'Journals',
                   :size => '400x200',
                   :data => @pie_data_journals, :labels => @pie_labels_journals )
     %>"/>
-    <br>
-    <br>
+    <br />
+    <br />
     <img src="<%=  Gchart.pie(:title => 'Votes',
                    :size => '400x200',
                    :data => @pie_data_votes, :labels => @pie_labels_votes )
      %>"/>
-     <br>
-     <br>
+     <br />
+     <br />
 </div>
 <% end %>

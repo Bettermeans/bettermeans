@@ -189,15 +189,15 @@
 
 <div id="help_description" style="display:none;">
   <div class="tip" style="width:180px">
-    <strong>Description</strong><br>
-    A request's description should contain the criteria for the acceptance of the request.<br>
+    <strong>Description</strong><br />
+    A request's description should contain the criteria for the acceptance of the request.<br />
     It should clearly answer the question: <strong>How exactly will we measure that this request is done?</strong> This may take the form of user requirements, acceptance tests, a link to an external document, etc.
   </div>
 </div>
 
 <div id="help_requestid" style="display:none;">
   <div class="tip" style="width:180px">
-    <strong>Permalink</strong><br>
+    <strong>Permalink</strong><br />
     You can copy the link below and use it to directly link to this request
   </div>
 </div>
@@ -205,24 +205,24 @@
 <div id="help_feature" style="display:none;">
   <div class="tip" style="width:300px">
     <% if @project.credits_enabled? %>
-      <strong>There are 6 types of requests:</strong><br><br>
+      <strong>There are 6 types of requests:</strong><br /><br />
     <% else %>
-      <strong>There are 4 types of requests:</strong><br><br>
+      <strong>There are 4 types of requests:</strong><br /><br />
     <% end %>
-    A <strong>Feature</strong> provides verifiable value to the team's customer. Usually it is requested by the customer. The customer can be an internal customer to the enterprise.<br><br>
-    A <strong>Chore</strong> is used internally by the team to track items that don't directly provide value to the team's customer.<br><br>
-    A <strong>Bug</strong> describes a problem in some previously accepted feature or chore.<br><br>
-    A <strong>Recurring</strong> request occurs for repeating needs. Once a recurring request is finished, a new copy of the request is generated and added to the open panel<br><br>
+    A <strong>Feature</strong> provides verifiable value to the team's customer. Usually it is requested by the customer. The customer can be an internal customer to the enterprise.<br /><br />
+    A <strong>Chore</strong> is used internally by the team to track items that don't directly provide value to the team's customer.<br /><br />
+    A <strong>Bug</strong> describes a problem in some previously accepted feature or chore.<br /><br />
+    A <strong>Recurring</strong> request occurs for repeating needs. Once a recurring request is finished, a new copy of the request is generated and added to the open panel<br /><br />
     <% if @project.credits_enabled? %>
-      A <strong>Gift</strong> gives a single user a gift of a certain amount of credits.<br>Gift items are not visible by the gift recipient until it's approved.<br><br>
-      An <strong>Expense</strong> as a fixed value, and cannot be estimated or joined. Expenses are immediately reimbursed after they are accepted, and they don't show up in retrospectives.'<br>
+      A <strong>Gift</strong> gives a single user a gift of a certain amount of credits.<br />Gift items are not visible by the gift recipient until it's approved.<br /><br />
+      An <strong>Expense</strong> as a fixed value, and cannot be estimated or joined. Expenses are immediately reimbursed after they are accepted, and they don't show up in retrospectives.'<br />
     <% end %>
   </div>
 </div>
 
 <div id="help_tags" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Tags</strong> are generally chosen informally and personally by the item's creator or by its viewer, depending on the system.<br><br>
+    <strong>Tags</strong> are generally chosen informally and personally by the item's creator or by its viewer, depending on the system.<br /><br />
     This kind of metadata helps describe an item and allows it to be found again by browsing or searching.
   </div>
 </div>
@@ -230,18 +230,18 @@
 
 <div id="help_complexity_credits" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Estimate Credits:</strong><br><br>
-    <p>Estimate the value of the work item to the project. In other words, how much a person/team will be awarded in credits for completing it.</p><br>
-    <p>If you don't know what kind of effort it would take to complete this task, please don't guess. Just choose "I don't know"</p><br>
+    <strong>Estimate Credits:</strong><br /><br />
+    <p>Estimate the value of the work item to the project. In other words, how much a person/team will be awarded in credits for completing it.</p><br />
+    <p>If you don't know what kind of effort it would take to complete this task, please don't guess. Just choose "I don't know"</p><br />
     <p><strong>Items that won't move to the open queue until they're estimated by at least one member.</strong></p>
   </div>
 </div>
 
 <div id="help_complexity_no_credits" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Complexity:</strong><br><br>
-    <p>Estimate the size and complexity of this work item.</p><br>
-    <p>If you don't know what kind of effort it would take to complete this task, please don't guess. Just choose "I don't know"</p><br>
+    <strong>Complexity:</strong><br /><br />
+    <p>Estimate the size and complexity of this work item.</p><br />
+    <p>If you don't know what kind of effort it would take to complete this task, please don't guess. Just choose "I don't know"</p><br />
     <p><strong>Items that won't move to the open queue until they're estimated by at least one member.</strong></p>
   </div>
 </div>
@@ -251,110 +251,110 @@
 
 <div id="help_estimate" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Estimates</strong><br>
+    <strong>Estimates</strong><br />
     Ideas are estimated in Points. A Point is a team-specific measurement of the effort required to get the request done. Estimates are used to calculate the budget for the request.
   </div>
 </div>
 
 <div id="help_panel_new" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>New Ideas</strong><br>
-      New requests are fresh off of somebody's brain. They are ripe for discussion and consideration. <br><br>
-      At this stage, it's too early to try to prioritize the work. You should mainly focus on giving a new request your thumbs up (or down) indicating wether or not you think it would be useful to get it done.<br><br> And make sure that it is a concise, measurable and realistic request. This is also a good time to ensure that acceptance criteria is clear for this requests i.e. there's an indication of how the team will know that the request is done.<br><br>Once people have agreed that an idea needs to be implemented, it's now a matter of sizing them up by assigning them a number of points.<br> Once enough members have weighed in the request is moved to the open Queue.
+    <strong>New Ideas</strong><br />
+      New requests are fresh off of somebody's brain. They are ripe for discussion and consideration. <br /><br />
+      At this stage, it's too early to try to prioritize the work. You should mainly focus on giving a new request your thumbs up (or down) indicating wether or not you think it would be useful to get it done.<br /><br /> And make sure that it is a concise, measurable and realistic request. This is also a good time to ensure that acceptance criteria is clear for this requests i.e. there's an indication of how the team will know that the request is done.<br /><br />Once people have agreed that an idea needs to be implemented, it's now a matter of sizing them up by assigning them a number of points.<br /> Once enough members have weighed in the request is moved to the open Queue.
   </div>
 </div>
 
 <div id="help_panel_estimate" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Ideas In Estimation</strong><br>
+    <strong>Ideas In Estimation</strong><br />
   </div>
 </div>
 
 <div id="help_panel_inprogress" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Ideas In Progress</strong><br>
-      In Progress requests are owned by someone who is actively working on them. All in progress requests have a maximum delivery time of 30 days. <br><br> Any request that has been in progress for more than 30 days is assumed abandoned and gets automatically pulled back into the "open" queue.
+    <strong>Ideas In Progress</strong><br />
+      In Progress requests are owned by someone who is actively working on them. All in progress requests have a maximum delivery time of 30 days. <br /><br /> Any request that has been in progress for more than 30 days is assumed abandoned and gets automatically pulled back into the "open" queue.
   </div>
 </div>
 
 <div id="help_panel_open" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Open Ideas</strong><br>
-      These requests are ready to be prioritized, started or canceled. <br>
+    <strong>Open Ideas</strong><br />
+      These requests are ready to be prioritized, started or canceled. <br />
       To prioritize a request click the up button. Every time a user prioritizes a request, it climbs higher up the queue.
-      Only the highest requests (ranked by priority) can be started. As well as all request estimated at zero points<br><br>
-      If a request hasn't been prioritized by anyone and has been sitting in the queue for more than a month you have the option of canceling it. <br>
+      Only the highest requests (ranked by priority) can be started. As well as all request estimated at zero points<br /><br />
+      If a request hasn't been prioritized by anyone and has been sitting in the queue for more than a month you have the option of canceling it. <br />
   </div>
 </div>
 
 <div id="help_panel_done" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Done Ideas</strong><br>
-      Once a request is finished its marked Done. Citizens now vote on wether or not the request has met its acceptance criteria.<br><br> Each citizen gets one vote to accept or reject a finished request. Once 3 days have passed after the last vote the request is either permanently accepted or rejected based on a tally of the votes. <br>If there's an equal number of accepts and rejects the request is considered rejected.
+    <strong>Done Ideas</strong><br />
+      Once a request is finished its marked Done. Citizens now vote on wether or not the request has met its acceptance criteria.<br /><br /> Each citizen gets one vote to accept or reject a finished request. Once 3 days have passed after the last vote the request is either permanently accepted or rejected based on a tally of the votes. <br />If there's an equal number of accepts and rejects the request is considered rejected.
   </div>
 </div>
 
 <div id="help_panel_canceled" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Canceled Ideas</strong><br>
-      If a request hasn't been prioritized by anyone and has been sitting in the queue for more than a month, anyone team member can cancel it.<br><br>
+    <strong>Canceled Ideas</strong><br />
+      If a request hasn't been prioritized by anyone and has been sitting in the queue for more than a month, anyone team member can cancel it.<br /><br />
       Once a request has been canceled, anyone can re-open it, effectively pushing it back as a new item for reconsideration.
   </div>
 </div>
 
 <div id="help_panel_unknown" style="display:none;">
   <div class="tip" style="width:300px">
-    <strong>Unsorted Ideas</strong><br>
+    <strong>Unsorted Ideas</strong><br />
     Legacy requests that don't belong in the system anymore. Think of them as bugs in the matrix!
   </div>
 </div>
 
 <div id="help_key" style="display:none">
    <div class="tip" style="width:600px">
-     <strong>Dashboard Key</strong><br>
+     <strong>Dashboard Key</strong><br />
      <table class="dash_key">
        <tr><td>
-     <strong>Work Items</strong><br>
-     <img src="/images/feature_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Feature<br>
-     <img src="/images/bug_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Bug<br>
-     <img src="/images/chore_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Chore<br>
-     <img src="/images/gift_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Gift<br>
-     <img src="/images/expense_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Expense<br>
-     <img src="/images/recurring_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Recurring<br>
-     <br><strong>Estimation</strong><br>
-     <img src="/images/dice_No.png" class="storyPoints hoverDiceIcon">&nbsp;Estimate needed<br>
-     <img src="/images/dice_4.png" class="storyPoints hoverDiceIcon">&nbsp;Average estimate<br>
+     <strong>Work Items</strong><br />
+     <img src="/images/feature_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Feature<br />
+     <img src="/images/bug_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Bug<br />
+     <img src="/images/chore_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Chore<br />
+     <img src="/images/gift_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Gift<br />
+     <img src="/images/expense_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Expense<br />
+     <img src="/images/recurring_icon.png" class="storyTypeIcon hoverDetailsIcon">&nbsp;Recurring<br />
+     <br /><strong>Estimation</strong><br />
+     <img src="/images/dice_No.png" class="storyPoints hoverDiceIcon">&nbsp;Estimate needed<br />
+     <img src="/images/dice_4.png" class="storyPoints hoverDiceIcon">&nbsp;Average estimate<br />
 
-     <br><strong>Priority</strong><br>
-     <div class="pri_button_no_float pri_button_up left"></div>&nbsp;You prioritized this<br>
-     <div class="pri_button_no_float pri_button_down left"></div>&nbsp;You de-prioritized this<br>
-     <div class="pri_button_no_float pri_button_neutral left"></div>&nbsp;You set this pri to neutral<br>
-     <div class="pri_button_no_float pri_button_none left"></div>&nbsp;You haven't prioritized this<br>
-     <div class="pri_button_no_float pri_button_none left">3</div>&nbsp;Total priority is 3<br><br>
+     <br /><strong>Priority</strong><br />
+     <div class="pri_button_no_float pri_button_up left"></div>&nbsp;You prioritized this<br />
+     <div class="pri_button_no_float pri_button_down left"></div>&nbsp;You de-prioritized this<br />
+     <div class="pri_button_no_float pri_button_neutral left"></div>&nbsp;You set this pri to neutral<br />
+     <div class="pri_button_no_float pri_button_none left"></div>&nbsp;You haven't prioritized this<br />
+     <div class="pri_button_no_float pri_button_none left">3</div>&nbsp;Total priority is 3<br /><br />
      <a href="http://help.bettermeans.com/dashboard" target="blank">Learn more</a>
 
      </td><td>
-     <strong>Agreement Voting</strong><br>
-     <div class="action_button_no_float action_button_root">agree?</div>&nbsp;You haven't voted yet<br>
-     <div class="action_button_no_float action_button_agree">agreed</div>&nbsp;You agreed<br>
-     <div class="action_button_no_float action_button_neutral">neutral</div>&nbsp;You are neutral<br>
-     <div class="action_button_no_float action_button_against">against</div>&nbsp;You voted against<br>
-     <div class="action_button_no_float action_button_block">blocked</div>&nbsp;You are blocking<br>
+     <strong>Agreement Voting</strong><br />
+     <div class="action_button_no_float action_button_root">agree?</div>&nbsp;You haven't voted yet<br />
+     <div class="action_button_no_float action_button_agree">agreed</div>&nbsp;You agreed<br />
+     <div class="action_button_no_float action_button_neutral">neutral</div>&nbsp;You are neutral<br />
+     <div class="action_button_no_float action_button_against">against</div>&nbsp;You voted against<br />
+     <div class="action_button_no_float action_button_block">blocked</div>&nbsp;You are blocking<br />
 
-     <br><strong>Acceptance Voting</strong><br>
-     <div class="action_button_no_float action_button_root">accept?</div>&nbsp;You haven't voted yet<br>
-     <div class="action_button_no_float action_button_accept">accepted</div>&nbsp;You accepted<br>
-     <div class="action_button_no_float action_button_neutral">neutral</div>&nbsp;You are neutral<br>
-     <div class="action_button_no_float action_button_reject">rejected</div>&nbsp;You rejected this<br>
-     <div class="action_button_no_float action_button_block">blocked</div>&nbsp;You are blocking<br>
+     <br /><strong>Acceptance Voting</strong><br />
+     <div class="action_button_no_float action_button_root">accept?</div>&nbsp;You haven't voted yet<br />
+     <div class="action_button_no_float action_button_accept">accepted</div>&nbsp;You accepted<br />
+     <div class="action_button_no_float action_button_neutral">neutral</div>&nbsp;You are neutral<br />
+     <div class="action_button_no_float action_button_reject">rejected</div>&nbsp;You rejected this<br />
+     <div class="action_button_no_float action_button_block">blocked</div>&nbsp;You are blocking<br />
 
-     <br><strong>Actions</strong><br>
-     <div class="action_button_no_float action_button_start_no_hide">start</div>&nbsp;Commit to an item and own it<br>
-     <div class="action_button_no_float action_button_join">join</div>&nbsp;Join an item that already has an owner<br>
-     <div class="action_button_no_float action_button_finish">finish</div>&nbsp;Complete a work item<br>
-     <div class="action_button_no_float action_button_cancel">cancel</div>&nbsp;Set item state to canceled<br>
-     <div class="action_button_no_float action_button_release">giveup</div>&nbsp;Release an item you own<br>
-     <div class="action_button_no_float action_button_leave">leave</div>&nbsp;Leave an item you previously joined<br>
+     <br /><strong>Actions</strong><br />
+     <div class="action_button_no_float action_button_start_no_hide">start</div>&nbsp;Commit to an item and own it<br />
+     <div class="action_button_no_float action_button_join">join</div>&nbsp;Join an item that already has an owner<br />
+     <div class="action_button_no_float action_button_finish">finish</div>&nbsp;Complete a work item<br />
+     <div class="action_button_no_float action_button_cancel">cancel</div>&nbsp;Set item state to canceled<br />
+     <div class="action_button_no_float action_button_release">giveup</div>&nbsp;Release an item you own<br />
+     <div class="action_button_no_float action_button_leave">leave</div>&nbsp;Leave an item you previously joined<br />
      </td></tr>
      </table>
 
