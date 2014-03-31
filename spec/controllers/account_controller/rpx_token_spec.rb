@@ -1,9 +1,6 @@
 require 'spec_helper'
 
 describe AccountController, '#rpx_token' do
-  before :each do
-    @request.env['HTTPS'] = 'on'
-  end
 
   context "when token is invalid" do
     it "raises an error" do

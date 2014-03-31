@@ -3,7 +3,6 @@ require 'spec_helper'
 describe CreditsController do
 
   before :each do
-    @request.env['HTTPS'] = 'on'
     controller.stub(:require_admin)
   end
 

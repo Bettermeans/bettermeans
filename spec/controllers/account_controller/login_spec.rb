@@ -1,19 +1,6 @@
 require 'spec_helper'
 describe AccountController, "#login" do
 
-  before :each do
-    @request.env['HTTPS'] = 'on'
-  end
-
-  context "on an http request" do
-    it "redirects to https" do
-      @request.env['HTTPS'] = nil
-      get(:login)
-      url = "https://#{@request.host}#{@request.request_uri}"
-      response.should redirect_to url
-    end
-  end
-
   context "given an invitation token in the session" do
     context "with invitation token passed as a param" do
       it "assigns the params version to @invitation_token" do

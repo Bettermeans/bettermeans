@@ -3,9 +3,6 @@ require 'spec_helper'
 describe AccountController do
   # TODO: can't do this yet, as successful_authentication is stubbed:
   # integrate_views
-  before :each do
-    @request.env['HTTPS'] = 'on'
-  end
 
   describe '#logout' do
     let(:user) { Factory.create(:user) }
