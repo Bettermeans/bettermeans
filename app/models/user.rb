@@ -683,11 +683,12 @@ class User < ActiveRecord::Base
   end
 
   def self.current=(user) # spec_me cover_me heckle_me
-    @current_user = user
+    # TODO: stop relying on this and remove it -- too much state
+    Thread.current[:user] = user
   end
 
   def self.current # spec_me cover_me heckle_me
-    @current_user ||= User.anonymous
+    Thread.current[:user] ||= User.anonymous
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only
