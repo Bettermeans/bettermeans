@@ -179,7 +179,7 @@ class Issue < ActiveRecord::Base
   end
 
   #returns true if issue can be started (in the correct priority tier)
-  def startable? # spec_me cover_me heckle_me
+  def startable? # cover_me heckle_me
     return false unless self.status_id == IssueStatus.open.id
     (pri && pri > project.issues.open_status.maximum("pri") - Setting::NUMBER_OF_STARTABLE_PRIORITY_TIERS) || points_from_credits == 0
   end
