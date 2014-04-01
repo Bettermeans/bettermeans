@@ -1070,7 +1070,24 @@ cs:
   help_section_project_map: "This is the map"
   help_section_project_settings: "Use settings sparingly. If you're admin and core team, make sure to use core team tools when possible in order for things to stay democratic."
   help_section_motion_new: "Podněty se užívají pro důležitá rozhodování, která se týkají celého projektu. Všimněte si rozbalovacího menu s různými druhy podnětů. Je to demokratický způsob, jak činit společná rozhodnutí. Pokud se chcete o podnětech dozvědět víc, <a href= 'http://help.bettermeans.com/motions' >klikněte na tento odkaz</a>."
-  help_section_project_new: "A Workstream is our lingo for a group or set of work.<br /><br /> A workstream could be a <strong>department</strong> of your organization or it could be a <strong>specific project</strong> that you are working on by your self or with others. In creating a workstreams there are a few important things to pay attention to:<br /><br /><ul><li> <strong>Public</strong>: A public workstream means that anyone can see your work and can comment and contribute. If you do not want to have this transparency with the community, you can uncheck this box and you are then creating a private workstream. As the creator, you control who has access, but also note that you have to pay for private workstreams. <a href= 'http://help.bettermeans.com/workstreams' target='blank'> Read more about tradeoffs. </a> </li><li> <strong>Volunteer</strong>: This is a signal to everyone working with you that all work in this workstream is fully volunteer.</li><li> <strong>Credits</strong>: Credits are a more open and democratic way of valuing work and awarding compensation. We are really excited about offering this as an option and we strongly encourage you to <a href= 'http://help.bettermeans.com/credits' target='blank'> learn more about credits. </a></li></ul> Still have questions, <a href= 'http://help.bettermeans.com/support' target='blank'> get in touch</a><br /><br />"
+  help_section_project_new: >-
+    A Workstream is our lingo for a group or set of work.<br /><br /> A workstream
+    could be a <strong>department</strong> of your organization or it could be a <strong>specific
+    project</strong> that you are working on by your self or with others. In creating
+    a workstreams there are a few important things to pay attention to:<br /><br /><ul><li>
+    <strong>Public</strong>: A public workstream means that anyone can see your work
+    and can comment and contribute. If you do not want to have this transparency with
+    the community, you can uncheck this box and you are then creating a private workstream.
+    As the creator, you control who has access, but also note that you have to pay
+    for private workstreams. <a href= 'http://help.bettermeans.com/workstreams' target='blank'>
+    Read more about tradeoffs. </a> </li><li> <strong>Volunteer</strong>: This is
+    a signal to everyone working with you that all work in this workstream is fully
+    volunteer.</li><li> <strong>Credits</strong>: Credits are a more open and democratic
+    way of valuing work and awarding compensation. We are really excited about offering
+    this as an option and we strongly encourage you to <a href= 'http://help.bettermeans.com/credits'
+    target='blank'> learn more about credits. </a></li></ul> Still have questions,
+    <a href= 'http://help.bettermeans.com/support' target='blank'> get in touch</a><br
+    /><br />
   help_section_invitation_new: "Použijte pozvánky k registraci členů týmu do vašeho projektu.<br /><br /> Když někomu zašlete pozvánku, bude vyzván k vytvoření si účtu u bettermeans (pokud ho ještě nemá) a <strong>automaticky přidán jako spolupracovník</strong> na vašem projektu.<br /><br />Zvát lidi můžete pouze do kmenového projektu. Takové členství platí i pro všechny dílčí projekty. To znamená, že <strong> člověk nemůže patřit do dílčího projektu, aniž by patřil do projektu kmenového.</strong><br /><br /> <a href='http://help.bettermeans.com/invitations' target='blank'>Více se dozvíte v pomocné sekci.</a><br /><br /><br />"
   help_section_browse_workstreams: "<strong>Vítejte do komunity BetterMeans.</strong> Na rozdíl od vaší domovské stránky, zde se zobrazuje přehled celé platformy BetterMeans. Můžete si prohlédnout ostatní veřejné projekty a komentovat nebo se zapojit do projektů druhých lidí. <a href='http://help.bettermeans.com/' target='blank'>Zjistěte víc o platformě BetterMeans</a>"
   help_section_retrospective_show: "<strong>Toto je vyhodnocování.</strong> Během vyhodnocování je odměna určena vašimi spolupracovníky a vlastním hodnocením. Je to způsob, jak být spravedlivě odměněn za vámi odvedenou práci. <br />Ohlédněte se za veškerými splněnými úkoly a co možná nejlépe odhadněte procentuální přínos každého spolupracovníka. Můžete také vyjádřit svoji jistotu tímto hodnocením pomocí posuvníku níže. Více informací o vyhodnocování naleznete na <a href='http://help.bettermeans.com/retrospectives' target='blank'>těchto stránkách.</a>"

@@ -105,6 +105,27 @@ fr:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
+  general:
+    a: un(e)
+    refresh: actualiser
+    ago: auparavant
+    in: sur
+    this: ceci
+    add_a_comment: Ajouter un commentaire...
+    go_to_top: Remonter
+    show_more: Voir plus...
+  issue:
+    new: nouveau
+    open: ouvert
+    committed: validé
+    accepted: accepté(e)
+    done: fait
+    feature: demande
+    chore: tâche
+    from_a_to_b: De %{original} à %{updated}
+  tracker:
+    feature: demande
+    chore: tâche
   notice_account_reactivated: Votre compte a été réactivé.<br />Bienvenue à nouveau!<br /><br /><a href"/">Accueil</a>
   notice_account_canceled: 'Votre compte a été annulé. Merci d''avoir utilisé notre plateforme<br /><br />Nous apprécierions vos retours sur la manière dont nous pourrions l''améliorer :  <a href="mailto:feedback@bettermeans.com">feedback@bettermeans.com</a>'
   notice_account_inactive_user: Le compte n'a pas encore été activé. Merci de vérifier votre boîte mail où vous avez dû recevoir votre lien d'activation.
@@ -164,7 +185,6 @@ fr:
   mail_body_wiki_content_updated: "La page wiki '%{Page}' a été mise à jour par %{author}."
   gui_validation_error: 1 erreur
   gui_validation_error_plural: "%{Count} erreurs"
-
   role:
     board: Conseil
     core_team: L'Équipe Principale
@@ -175,12 +195,12 @@ fr:
     clearance: Habilitation
     administrator: Administrateur
     anonymous: Anonyme
-
   activity:
     added: a ajouté
     announced: a annoncé
     attached: a joint
     canceled: a annulé
+    changed: modifié
     commented_on: a posté un commentaire sur
     created: a créé
     deleted: a supprimé
@@ -189,11 +209,11 @@ fr:
     gave_up_on: a abandonné
     joined: a rejoint
     left: a quitté
+    moved: déplacé(e)
     replied_to: a répondu à
     restarted: a relancé
     started: a lancé
     updated: a mis à jour
-
   field_tags: "Étiquettes"
   field_points: "Crédits estimés moyens"
   field_logo: "Logo"
@@ -1110,7 +1130,7 @@ fr:
   text_subprojects_destroy_warning: "Son/Ses sous-workstream(s): %{value} seront aussi supprimés."
   text_workflow_edit: Choisir un rôle et un type pour éditer le workflow
   text_are_you_sure: Êtes-vous sûr(e) ?
-  text_journal_changed: "%{label} est passé de %{old} à %{new}"
+  text_journal_changed: "%{label} passé de %{old} à %{new}"
   text_journal_set_to: "%{label} modifié en %{value}"
   text_journal_deleted: "%{label} supprimé ( %{old} )"
   text_journal_added: "%{label} %{value} ajouté"
@@ -1294,7 +1314,26 @@ fr:
   help_section_project_map: "Ceci est la carte"
   help_section_project_settings: "Utiliser les paramètres avec parcimonie. Si vous êtes administrateur et membre de l'Équipe Principale, veillez à utiliser les outils de l'Équipe de base lorsque cela est possible pour que les choses restent démocratiques."
   help_section_motion_new: "Les Motions sont utilisées pour prendre d'importantes décisions qui impactent le projet dans son ensemble. Notez le menu déroulant avec les différentes types de Motions. Il s'agit d'un mécanisme démocratique pour prendre des décisions ensemble. Pour en savoir plus sur les motions, <a href= 'http://help.bettermeans.com/motions' >cliquez ici</a>."
-  help_section_project_new: "Le terme Workstream est notre jargon pour un groupe ou ensemble de travaux.<br /><br /> Un workstream peut être un <strong>département</strong> de votre entreprise ou un <strong>projet spécifique</strong> sur lequel vous travaillez seul ou avec d'autres. Lors de la création d'un workstream, il faut faire attention à plusieurs choses : <br /><br /><ul><li><strong>Public</strong> Un workstream Public signifie que tout le monde peut voir votre travail, le commenter et y contribuer. Si vous ne souhaitez pas avoir cette transparence vis à vis de la communauté, vous pouvez décocher cette marque et vous créerez alors un workstream privé. En tant que créateur, vous contrôlez qui a accès, veuillez cependant noter que vous devez payer pour les workstreams privés. <a href= 'http://help.bettermeans.com/workstreams' target='blank'> En lire plus sur les avantages et inconvénients.</a> </li><li> <strong>Volontariat</strong> : Signale à tous ceux qui s'associent avec vous que le travail sur ce workstream est totalement basé sur le volontariat.</li><li> <strong>Credits</strong> : Les crédits sont une manière plus ouverte et plus démocratique d'évaluer le travail et d'offrir des compensations. Nous sommes particulièrement excités d'offrir cette option et nous vous encourageons vivement à <a href= 'http://help.bettermeans.com/credits' target='blank'> en apprendre plus à propos des crédits. </a></li></ul> Vous avez d'autres questions ? <a href= 'http://help.bettermeans.com/support' target='blank'> Contactez nous.</a><br /><br />"
+  help_section_project_new: >-
+    Le terme Workstream est notre jargon pour un groupe ou ensemble de travaux.<br
+    /><br /> Un workstream peut être un <strong>département</strong> de votre entreprise
+    ou un <strong>projet spécifique</strong> sur lequel vous travaillez seul ou avec
+    d'autres. Lors de la création d'un workstream, il faut faire attention à plusieurs
+    choses : <br /><br /><ul><li><strong>Public</strong> Un workstream Public signifie
+    que tout le monde peut voir votre travail, le commenter et y contribuer. Si vous
+    ne souhaitez pas avoir cette transparence vis à vis de la communauté, vous pouvez
+    décocher cette marque et vous créerez alors un workstream privé. En tant que créateur,
+    vous contrôlez qui a accès, veuillez cependant noter que vous devez payer pour
+    les workstreams privés. <a href= 'http://help.bettermeans.com/workstreams' target='blank'>
+    En lire plus sur les avantages et inconvénients.</a> </li><li> <strong>Volontariat</strong>
+    : Signale à tous ceux qui s'associent avec vous que le travail sur ce workstream
+    est totalement basé sur le volontariat.</li><li> <strong>Credits</strong> : Les
+    crédits sont une manière plus ouverte et plus démocratique d'évaluer le travail
+    et d'offrir des compensations. Nous sommes particulièrement excités d'offrir cette
+    option et nous vous encourageons vivement à <a href= 'http://help.bettermeans.com/credits'
+    target='blank'> en apprendre plus à propos des crédits. </a></li></ul> Vous avez
+    d'autres questions ? <a href= 'http://help.bettermeans.com/support' target='blank'>
+    Contactez nous.</a><br /><br />
   help_section_invitation_new: "Utilisez des invitations pour proposer à de nouveaux membres de rejoindre votre workstream. <br /><br /> Lorsque vous envoyez une invitation à quelqu'un, il sera invité à créer un compte BetterMeans (s'il n'en a pas déjà un), et <strong>il sera automatiquement ajouté en tant que contributeur</strong> à votre workstream. <br /><br /> Vous ne pouvez inviter des gens qu'à un workstream principal. Leur appartenance à un workstream s'applique aussi à tous les workstreams sous-jacents . En d'autres termes, <strong>une personne ne peut appartenir à un workstream, sans appartenir au workstream parents.</strong> <br /><br /> <a href='http://help.bettermeans.com/invitations' target='blank'>En savoir plus dans notre section d'aide.</a> <br /><br /><br />"
   help_section_browse_workstreams: "<strong>Bienvenue dans la communauté BetterMeans.</strong> Contrairement à notre page d'accueil, cette page offre une vue globale de l'ensemble de la plate-forme BetterMeans. Vous pouvez regarder l'ensemble des workstreams publics et commenter ou rejoindre les projets d'autres personnes. <a href='http://help.bettermeans.com/' target='blank'>En apprendre plus sur la plate-forme BetterMeans</a>"
   help_section_retrospective_show: "<strong>Ceci est une rétrospective.</strong> Dans une rétrospective, une compensation vous est attribuée par vos pairs et votre propre auto-évaluation. C'est une opportunité pour être équitablement rétribué pour votre contribution.<br /> Merci d'examiner toutes les items terminées et de donner votre meilleure estimation du pourcentage de contribution de chaque personne. Vous avez de plus la possibilité d'indiquer la confiance que vous portez à votre jugement en utilisant la jauge au bas des estimations. Pour plus d'information sur les rétrospectives, <a href='http://help.bettermeans.com/retrospectives' target='blank'>cliquez ici</a>."
