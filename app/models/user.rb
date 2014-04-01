@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
   # Prevents unauthorized assignments
   # TODO: password, password_confirmation should be mass assignable, and maybe login
   # this would be better as attr_accessor
-  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
+  attr_protected :admin, :password, :password_confirmation, :hashed_password
 
   # BUGBUG: seems to be some bug here where it allows a nil email
   validates_presence_of :login, :firstname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
@@ -258,7 +258,6 @@ class User < ActiveRecord::Base
     self.lock_workstreams if is_over
 
     if is_over && !self.usage_over_at
-      logger.info { "we are over" }
       Notification.create :recipient_id => self.id,
                           :variation => 'usage_over',
                           :sender_id => User.sysadmin.id,
@@ -269,7 +268,6 @@ class User < ActiveRecord::Base
     end
 
     if !is_over && self.usage_over_at
-      logger.info { "we are not over" }
       Notification.delete_all(:variation => 'usage_over', :source_id => self.id)
       self.update_attribute(:usage_over_at, nil)
       self.unlock_workstreams

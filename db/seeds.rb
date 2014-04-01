@@ -131,7 +131,6 @@ enumerations = Enumeration.create!([
     :name => "something",
     :project_id => nil,
     :is_default => false,
-    :type => nil,
     :parent_id => nil,
     :opt => "",
     :active => true

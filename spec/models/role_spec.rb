@@ -204,17 +204,11 @@ describe Role do
   end
 
   describe "#allowed_to?" do
-    module Redmine
-      module AccessControl
-        def self.allowed_actions(permission)
-          ['foo/bar']
-        end
-
-        def self.public_permissions
-          [OpenStruct.new(:name => 'bar')]
-        end
-      end
+    before(:each) do
+      Redmine::AccessControl.stub(:allowed_actions).and_return(['foo/bar'])
+      Redmine::AccessControl.stub(:public_permissions).and_return([OpenStruct.new(:name => 'bar')])
     end
+
     context "when parameter is a hash" do
       it "returns true if the controller action is permitted" do
         role.should be_allowed_to({:controller => 'foo', :action => 'bar'})

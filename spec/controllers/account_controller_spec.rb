@@ -323,7 +323,7 @@ describe AccountController do
       end
 
       it "sets the user not to be an admin" do
-        post(:register, :user => { :admin => true, :mail => 'bill@bill.com' }, :invitation_token => invitation.token)
+        post(:register, :user => { :mail => 'bill@bill.com' }, :invitation_token => invitation.token)
         assigns(:user).should_not be_admin
       end
 

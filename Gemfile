@@ -22,16 +22,17 @@ gem 'rubytree', '0.7.0'
 gem 'will_paginate', '2.3.15'
 
 group :test do
+  gem 'capybara', '~> 1.1.4'
+  gem 'database_cleaner'
+  gem 'fakeweb'
+  gem 'launchy'
+  gem 'object_daddy', '0.4.3'
+  gem 'poltergeist'
   gem 'rcov'
-  gem 'shoulda'
-  gem 'webrat', '0.7.3'
   gem 'rspec', '1.3.2'
   gem 'rspec-rails', '1.3.4'
-  gem 'pickle', "0.3.4"
-  gem 'factory_girl', "1.3.3"
-  gem 'object_daddy', "0.4.3"
-  #gem 'capybara-webkit'
-  gem 'fakeweb'
+  gem 'shoulda'
+  gem 'steak'
 end
 
 group :development do
@@ -44,7 +45,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'capybara'
+  gem 'factory_girl', '1.3.3'
   gem 'faker'
-  gem 'steak'
 end

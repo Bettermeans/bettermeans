@@ -10,21 +10,45 @@ Spork.prefork do
   Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each {|f| require f}
 
   Spec::Runner.configure do |config|
-    # If you're not using ActiveRecord you should remove these
-    # lines, delete config/database.yml and disable :active_record
-    # in your config/boot.rb
-    config.use_transactional_fixtures = true
+    config.use_transactional_fixtures = false
     config.use_instantiated_fixtures  = false
     config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
 
-    config.before :suite do
-      FakeWeb.allow_net_connect = false
-      load File.dirname(__FILE__) + '/../db/seeds.rb'
+    config.before(:suite) do
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.clean_with(:truncation)
+      FakeWeb.allow_net_connect = %r[^https?://127\.0\.0\.1]
+      load_seeds
     end
 
-    config.after :suite do
-      FakeWeb.allow_net_connect = true
+    config.before(:each) do
+      DatabaseCleaner.strategy = :truncation if integration?
+      DatabaseCleaner.start
     end
+
+    config.after(:each) do
+      Capybara.reset! if integration?
+      DatabaseCleaner.clean
+      DatabaseCleaner.strategy = :transaction
+      load_seeds if integration?
+    end
+
+  end
+
+  def load_seeds
+    load File.dirname(__FILE__) + '/../db/seeds.rb'
+  end
+
+  def integration?
+    self.class.to_s.match(/IntegrationExampleGroup/)
+  end
+
+  def cleaner_strategy
+    active_record_cleaner.instance_variable_get(:@strategy).class
+  end
+
+  def active_record_cleaner
+    DatabaseCleaner.instance_variable_get(:@cleaners)[[:active_record, {}]]
   end
 
   def login

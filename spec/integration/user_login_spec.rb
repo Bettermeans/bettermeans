@@ -1,6 +1,6 @@
-require 'acceptance/acceptance_helper'
+require 'integration/integration_helper'
 
-feature 'User login' do
+feature 'User login', :js => true do
 
   let(:user) { Factory.create(:user, :status => 1) }
 

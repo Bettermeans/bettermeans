@@ -742,11 +742,10 @@ class Project < ActiveRecord::Base
 
   #Setup default forum for workstream
   def after_create # spec_me cover_me heckle_me
-    logger.info { "entering after create" }
-    #Send notification of request or invitation to recipient
-     Board.create! :project_id => id,
-                  :name => Setting.forum_name,
-                  :description => Setting.forum_description + name
+    # Send notification of request or invitation to recipient
+    Board.create! :project_id => id,
+                :name => Setting.forum_name,
+                :description => Setting.forum_description + name
 
     self.refresh_activity_line
     self.save!
@@ -832,7 +831,6 @@ class Project < ActiveRecord::Base
     weight = 1
     activity_total = 0
     my_line.sort.each do |v|
-      logger.info { "activity total #{activity_total} weight #{weight}  value #{v[1]}" }
       activity_total = activity_total +  (weight**1.7 * v[1])
       weight = weight + 1
     end
