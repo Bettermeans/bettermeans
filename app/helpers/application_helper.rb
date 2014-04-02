@@ -1294,7 +1294,7 @@ module ApplicationHelper
   def name_for_activity_stream(as) # spec_me cover_me heckle_me
     key =
       if as.tracker_name
-        "issue.#{as.tracker_name.downcase}"
+        "tracker.#{as.tracker_name.downcase}"
       else
         "label_#{as.object_type.downcase}"
       end
@@ -1324,7 +1324,7 @@ module ApplicationHelper
     case as.object_type.downcase
     when 'memberrole'
       begin
-        "#{as.indirect_object_phrase || as.object.user.name} is now #{l(as.object_name_key)}"
+        "#{as.indirect_object_phrase || as.object.user.name} is now #{l(as.role_key)}"
       rescue
          "New member role"
       end

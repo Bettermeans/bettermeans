@@ -1,15 +1,21 @@
 namespace :oneoff do
 
-  desc 'reformat indirect_object_phrase on activity streams'
-  task :format_phrases => :environment do
+  desc 'clean up verbs for activity streams'
+  task :format_verbs => :environment do
+
+    verb_map = {
+      'changed their estimate for' => 'changed_estimate_for',
+      'publicised' => 'publicized',
+    }
+
     ActivityStream.transaction do
       ActivityStream.all.each do |stream|
-        next unless stream.indirect_object_phrase
-        statuses = stream.indirect_object_phrase.scan(/<strong>(\w+)<\/strong>/).flatten.each(&:downcase)
-        next unless statuses.any?
-        raise "wut? #{statuses.inspect}" unless statuses.length == 2
-        stream.indirect_object_phrase = statuses.join(':')
-        stream.save!
+        verb_map.each do |old, new|
+          if stream.verb == old
+            stream.verb = new
+            stream.save!
+          end
+        end
       end
     end
   end

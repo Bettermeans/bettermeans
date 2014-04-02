@@ -140,8 +140,9 @@ class ActivityStream < ActiveRecord::Base
     self.update_attribute(:status, DELETED)
   end
 
-  def object_name_key # spec_me cover_me heckle_me
-    "activity.object_name.#{object_name.downcase.gsub(' ', '_')}"
+  def role_key # spec_me cover_me heckle_me
+    raise 'not a role' unless object_type.downcase == 'memberrole'
+    "role.#{object_name.downcase.gsub(' ', '_')}"
   end
 
   private

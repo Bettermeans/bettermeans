@@ -395,7 +395,7 @@ class ProjectsController < ApplicationController
   def archive # spec_me cover_me heckle_me
     if @project.active? && request.post? && @project.archive
       project_id_override = @project.parent ? @project.parent.id : @project.id #archived projects don't show up in activity stream, so we log the activity to its parent if it exists
-      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_archived), :workstreams, 0, nil,{:project_id => project_id_override})
+      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, 'archived', :workstreams, 0, nil,{:project_id => project_id_override})
       redirect_with_flash :notice, l(:notice_successful_update), :controller => "my", :action => 'projects'
     else
       render_error(l(:error_general))
@@ -404,7 +404,7 @@ class ProjectsController < ApplicationController
 
   def unarchive # spec_me cover_me heckle_me
     if !@project.active? && request.post? && @project.unarchive
-      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_unarchived), :workstreams, 0, nil,{})
+      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, 'unarchived', :workstreams, 0, nil,{})
 
       respond_to do |wants|
 
@@ -434,7 +434,7 @@ class ProjectsController < ApplicationController
     @project_to_destroy = @project
     if request.post?
       project_id_override = @project.parent ? @project.parent.id : @project.id #deleted projects don't show up in activity stream, so we log the activity to its parent if it exists
-      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_deleted), :workstreams, 0, nil,{:project_id => project_id_override})
+      LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, 'deleted', :workstreams, 0, nil,{:project_id => project_id_override})
       if @project_to_destroy.destroy
         redirect_with_flash :notice, l(:notice_successful_delete), :controller => "welcome", :action => 'index'
       else
@@ -458,7 +458,7 @@ class ProjectsController < ApplicationController
       if (parent = Project.find params[:parent_id]) && @allowed_projects.include?(parent)
         @project.move_to_child_of(parent)
         flash[:success] = l(:notice_successful_update)
-        LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, l(:label_moved), :workstreams, 0, nil,{:project_id => @project.id})
+        LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, 'moved', :workstreams, 0, nil,{:project_id => @project.id})
         redirect_to @project
       else
         render_403 and return
