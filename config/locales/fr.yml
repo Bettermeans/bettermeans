@@ -115,17 +115,16 @@ fr:
     go_to_top: Remonter
     show_more: Voir plus...
   issue:
+    accepted: accepté(e)
+    committed: validé
+    done: fait
+    from_a_to_b: De %{original} à %{updated}
     new: nouveau
     open: ouvert
-    committed: validé
-    accepted: accepté(e)
-    done: fait
-    feature: demande
-    chore: tâche
-    from_a_to_b: De %{original} à %{updated}
   tracker:
-    feature: demande
+    bug: bogue
     chore: tâche
+    feature: demande
   notice_account_reactivated: Votre compte a été réactivé.<br />Bienvenue à nouveau!<br /><br /><a href"/">Accueil</a>
   notice_account_canceled: 'Votre compte a été annulé. Merci d''avoir utilisé notre plateforme<br /><br />Nous apprécierions vos retours sur la manière dont nous pourrions l''améliorer :  <a href="mailto:feedback@bettermeans.com">feedback@bettermeans.com</a>'
   notice_account_inactive_user: Le compte n'a pas encore été activé. Merci de vérifier votre boîte mail où vous avez dû recevoir votre lien d'activation.
@@ -193,14 +192,16 @@ fr:
     non_member: Non-Membre
     active: Actif
     clearance: Habilitation
-    administrator: Administrateur
+    administrator: Administrateur(s)
     anonymous: Anonyme
   activity:
     added: a ajouté
     announced: a annoncé
     attached: a joint
+    blocked: a bloqué
     canceled: a annulé
     changed: modifié
+    changed_estimate_for: a modifié son estimation pour
     commented_on: a posté un commentaire sur
     created: a créé
     deleted: a supprimé
@@ -210,6 +211,8 @@ fr:
     joined: a rejoint
     left: a quitté
     moved: déplacé(e)
+    passed_a: a voté une
+    publicized: a publié
     replied_to: a répondu à
     restarted: a relancé
     started: a lancé
