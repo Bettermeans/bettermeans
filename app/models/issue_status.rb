@@ -36,7 +36,7 @@ class IssueStatus < ActiveRecord::Base
     @@newstatus_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_new)])
   end
 
-  def self.open_id
+  def self.open_id # spec_me cover_me heckle_me
     open.id if open
   end
 

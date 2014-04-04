@@ -73,7 +73,7 @@ class Issue < ActiveRecord::Base
 
   named_scope :open, :conditions => ["#{IssueStatus.table_name}.is_closed = ?", false], :include => :status
 
-  named_scope :open_status, :conditions => {:status_id => IssueStatus.open_id}, :include => :status
+  named_scope :open_status, lambda { { :conditions => {:status_id => IssueStatus.open_id}, :include => :status } }
 
   after_save :after_save
 
