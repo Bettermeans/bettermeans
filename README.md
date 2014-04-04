@@ -7,37 +7,57 @@ live server hosted at: https://better.boon.gl
 *** Use at your own risk!!! There are likely to be vulnerabilities in this
 app!!! ***
 
-Public workstream: https://better.boon.gl/projects/1
-
 Pre-requisites
 --------------
 
-I recommend using rvm to manage your ruby versions:
+I recommend using rvm to manage your ruby versions: https://rvm.io/
 
-* `rvm install 1.8.7-p374`
+```sh
+# install ruby:
+rvm install 1.8.7-p374
 
-* `rvm rubygems 1.8.25`
+# set the rubygems version:
+rvm rubygems 1.8.25
 
-Imagemagick is a dependency:
+# install postgres:
+brew install postgres
 
-* `brew install imagemagick` [see here for errors installing rmagick](http://stackoverflow.com/a/13967303/372479)
+# Imagemagick is also a dependency:
+brew install imagemagick
+# see here for errors installing rmagick: http://stackoverflow.com/a/13967303/372479
+```
 
 Getting started
 ---------------
 
-* `git clone git@github.com:Bettermeans/bettermeans.git`
+First fork the repo using the link above, then:
 
-* bundle install
+```sh
+# clone your copy:
+git clone git@github.com:<your username>/better.git
+cd better/
 
-* Rename `database.yml.example` to `database.yml`
+# Add this copy as upstream:
+git remote add upstream https://github.com/mockdeep/better.git
 
-* Run `rake db:create:all` and `rake db:schema:load`
+# now install gems:
+bundle install
 
-* Then run `rake db:seed` to get some necessary seed data set up
+# set up database config:
+mv config/database.yml.example config/database.yml
 
-* To load schema into test database, run `rake db:test:prepare`
+# set up database:
+rake db:create:all && rake db:schema:load
 
-* To run specs, run `rake`
+# seed data into the database:
+rake db:seed
+
+# set up the test database:
+rake db:test:prepare
+
+# and run the tests:
+rake spec
+```
 
 Production
 ----------
@@ -73,11 +93,13 @@ This is pretty basic. All we need is a unit test hitting the method. For the
 following method:
 
 ```ruby
-def some_method
-  if awesome?
-    'awesome!'
-  else
-    'not awesome :('
+class MyClass
+  def some_method
+    if awesome?
+      'awesome!'
+    else
+      'not awesome :('
+    end
   end
 end
 ```
@@ -85,9 +107,9 @@ end
 You might write a spec that looks like:
 
 ```ruby
-describe '#some_method' do
+describe MyClass, '#some_method' do
   it 'returns "awesome!"' do
-    some_method.should == 'awesome!'
+    MyClass.new.some_method.should == 'awesome!'
   end
 end
 ```
@@ -98,17 +120,17 @@ For code coverage you would need to expand the above test to include both
 branches:
 
 ```ruby
-describe '#some_method' do
+describe MyClass, '#some_method' do
   context 'when awesome' do
     it 'returns "awesome!"' do
-      some_method.should == 'awesome!'
+      MyClass.new.some_method.should == 'awesome!'
     end
   end
 
   context 'when not awesome' do
     it 'returns "not awesome :("' do
       awesome = false
-      some_method.should == 'not awesome :('
+      MyClass.new.some_method.should == 'not awesome :('
     end
   end
 end
@@ -127,14 +149,11 @@ on your code and runs your tests against the mutated code. If your tests don't
 fail then your tests still need some work. Heckle lists out the changes it made
 that did not cause your tests to fail.
 
-You can run heckle
-like this: `spec spec/models/user_spec.rb --heckle User#before_create`
+You can run heckle like this:
 
-Testing
--------
-
-capybara-webkit depends on a WebKit implementation from Qt as explained in
-https://github.com/thoughtbot/capybara-webkit/wiki/Installing-QT
+```sh
+spec spec/models/role/name_translation_key_spec.rb --heckle Role#name_translation_key
+```
 
 Translating
 -----------
