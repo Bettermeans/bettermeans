@@ -57,6 +57,10 @@ rake db:test:prepare
 
 # and run the tests:
 rake spec
+
+# if all passes, then you should be good to go. Please open an issue if you
+# have any problems. You can boot up your server on localhost with:
+script/server
 ```
 
 Production
