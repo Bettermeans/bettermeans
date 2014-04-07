@@ -139,7 +139,6 @@ enumerations = Enumeration.create!([
 
 Role.delete_all
 
-puts 'creating roles'
 # positions are automatically assigned by 'acts_as_list' plugin
 roles = Role.create!([
   {
@@ -435,7 +434,6 @@ roles = Role.create!([
     :assignable => true
   }
 ])
-puts "#{roles.size} roles created"
 
 Plan.delete_all
 plans = Plan.create!([

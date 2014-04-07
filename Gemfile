@@ -23,11 +23,11 @@ gem 'will_paginate', '2.3.15'
 
 group :test do
   gem 'capybara', '~> 1.1.4'
+  gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'fakeweb'
   gem 'launchy'
   gem 'object_daddy', '0.4.3'
-  gem 'poltergeist'
   gem 'rcov'
   gem 'rspec', '1.3.2'
   gem 'rspec-rails', '1.3.4'

@@ -3,6 +3,7 @@
 .DS_Store
 .bundle
 .redcar/
+test_out.png
 /binstubs
 /config/additional_environment.rb
 /config/email.yml

@@ -5,7 +5,7 @@ feature 'Issues', :js => true do
   let(:user) { Factory.create(:user) }
 
   background do
-    HelpSection.stub(:first).and_return(double(:show => false))
+    disable_help
     request_login_as(user)
   end
 
@@ -17,6 +17,32 @@ feature 'Issues', :js => true do
     page.should have_content('In Progress')
     click_link 'Add New Item'
     fill_in 'new_title_input', :with => 'Some Issue'
+    click_button 'Create'
+    page.should have_link 'Some Issue'
+    click_link 'Some Issue'
+
+    within_frame(0) do
+      page.should have_content 'start'
+      page.should have_content 'Watch'
+      page.should have_content 'Upload files'
+      page.should_not have_content 'giveup'
+      page.should_not have_content 'finish'
+
+      within('#todo_section_0') do
+        page.should have_content 'Todos (0)'
+        fill_in 'new_todo_0', :with => 'my task'
+        click_button('Add')
+        page.should have_content 'my task'
+      end
+
+      within('#item_content_buttons_0') do
+        page.should have_content 'start'
+        find('#item_action_link_start0').click
+        page.should have_content 'giveup'
+        page.should have_content 'finish'
+        page.should_not have_content 'start'
+      end
+    end
   end
 
 end
