@@ -5,7 +5,11 @@
 <head>
  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
  <title>Generic ActiveScaffold Layout</title>
- <%= javascript_include_tag :defaults %>
+
+  <%= render 'layouts/javascript_includes' %>
+
+  <%= javascript_include_tag :defaults %>
+
 </head>
 <body>
   <script type="text/javascript">

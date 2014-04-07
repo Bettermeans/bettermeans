@@ -22,11 +22,8 @@ feature 'Issues', :js => true do
     click_link 'Some Issue'
 
     within_frame(0) do
-      page.should have_content 'start'
       page.should have_content 'Watch'
       page.should have_content 'Upload files'
-      page.should_not have_content 'giveup'
-      page.should_not have_content 'finish'
 
       within('#todo_section_0') do
         page.should have_content 'Todos (0)'
@@ -36,6 +33,8 @@ feature 'Issues', :js => true do
       end
 
       within('#item_content_buttons_0') do
+        page.should_not have_content 'giveup'
+        page.should_not have_content 'finish'
         page.should have_content 'start'
         find('#item_action_link_start0').click
         page.should have_content 'giveup'

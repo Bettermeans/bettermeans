@@ -1995,71 +1995,11 @@ function agree_buttons_root(dataId,include_start_button,expanded){
     html = html + dash_button('start',dataId,false); //add start button
   }
 
-  // if ((!user_estimated) && user_voted){
-  //   html = html + dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
-  // }
   var total_votes = item.agree + item.agree_nonbind - item.disagree - item.disagree_nonbind
   html = html + votes_button(dataId,total_votes, user_voted);
 
   return html;
 }
-
-
-
-// function agree_buttons_root(dataId,include_start_button,expanded){
-//   var html = '';
-//   var item = D[dataId];
-//
-//   var tally = 'agree?';
-//   var cssclass = 'root';
-//   var user_voted = false;
-//   var user_estimated = false;
-//
-//
-//   for(var i=0; i < item.issue_votes.length; i++){
-//     //bugbug: hardcoded issue vote (4)
-//     if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 4)){
-//       user_estimated = true;
-//     }
-//
-//     //bugbug: hardcoded issue vote (1)
-//     if ((currentUserLogin == item.issue_votes[i].user.login)&&(item.issue_votes[i].vote_type == 1)){
-//       user_voted = true;
-//       tally = '';
-//
-//       if (item.disagree > 5000){
-//         include_start_button = false;
-//         tally = 'Blocked';
-//       }
-//       else{
-//         tally = (item.agree + item.agree_nonbind) + ' - ' + (item.disagree + item.disagree_nonbind);
-//       }
-//       switch(String(item.issue_votes[i].points))
-//       {
-//         case "1":  cssclass = 'agree';
-//               break;
-//         case "0":  cssclass = 'neutral';
-//               break;
-//         case "-1":  cssclass = 'disagree';
-//               break;
-//         case "-9999": cssclass = 'block';
-//               break;
-//       }
-//     }
-//   }
-//
-//   if (include_start_button && user_estimated && user_voted){
-//     html = html + dash_button('start',dataId,false); //add start button if user estimated and voted
-//   }
-//
-//   if ((!user_estimated) && user_voted){
-//     html = html + dash_button('estimate',dataId,false,{'label':'estimate?'}); //no room to show tally if estimate button is included
-//   }
-//
-//   html = html + dash_button('agree_root',dataId,false,{label:tally,cssclass:cssclass});
-//
-//   return html;
-// }
 
 function accept_buttons_root(dataId,include_start_button,expanded){
 
@@ -2199,7 +2139,7 @@ function dash_button(type,dataId,hide,options_param){
   html = '';
   html = html + '<div id="item_content_buttons_' + type + '_button_' + dataId + '" onclick="' + onclick + '" class="action_button action_button_' + cssclass + '" ' + hide_style + '>';
   html = html + '<a id="item_action_link_' + type + dataId + '" class="action_link clickable" onDblclick="' + ondblclick + '"  onclick="return false;">';
-  html = html + label + '</a></div>';
+  html = html + Better.translate(label) + '</a></div>';
   return html;
 }
 

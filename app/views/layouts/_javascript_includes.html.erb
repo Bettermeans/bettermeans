@@ -1,0 +1,12 @@
+<script type='text/javascript'>
+  var Better = {};
+  Better.translations = {};
+
+  Better.translate = function (word) {
+    return Better.translations[word] || word;
+  };
+
+  <% general_translations.each do |key, phrase| %>
+    Better.translations.<%= key %> = '<%= phrase %>';
+  <% end %>
+</script>

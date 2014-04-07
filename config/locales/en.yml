@@ -128,13 +128,28 @@ en:
 
   general:
     a: a
-    refresh: refresh
-    ago: ago
-    in: in
-    this: this
+    accept: accept
     add_a_comment: Add a comment...
+    ago: ago
+    agree: agree
+    block: block
+    cancel: cancel
+    disagree: disagree
+    finish: finish
+    giveup: giveup
     go_to_top: Go to top
+    in: in
+    join: join
+    leave: leave
+    neutral: neutral
+    refresh: refresh
+    reject: reject
+    restart: restart
+    retro: retro
     show_more: Show more...
+    start: start
+    takeback: take back
+    this: this
 
   issue:
     accepted: accepted
@@ -229,6 +244,7 @@ en:
     announced: announced
     attached: attached
     blocked: blocked
+    blocked_acceptance_of: blocked acceptance of
     canceled: canceled
     changed: changed
     changed_estimate_for: changed their estimate for
@@ -243,6 +259,7 @@ en:
     moved: moved
     passed_a: passed a
     publicized: publicized
+    rejected: rejected
     replied_to: replied to
     restarted: restarted
     started: started

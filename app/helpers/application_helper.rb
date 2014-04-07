@@ -1406,6 +1406,10 @@ module ApplicationHelper
     end
   end
 
+  def general_translations # spec_me cover_me heckle_me
+    I18n.backend.send(:translations)[I18n.locale][:general]
+  end
+
   private
 
   def wiki_helper # cover_me heckle_me
