@@ -1,54 +1,43 @@
-var D = []; //all data
-var R = []; //all retrospectives
+var D = []; // all data
+var R = []; // all retrospectives
 var local_D = null;
 // var local_R = null;
 var MAX_REQUESTS_PER_PERSON = 4;
-var TIMER_INTERVAL = 15000; //15 seconds
-var INACTIVITY_THRESHOLD = 300000; //5 minutes
+var TIMER_INTERVAL = 15000; // 15 seconds
+var INACTIVITY_THRESHOLD = 300000; // 5 minutes
 var timer_active = false;
-var ITEMHASH = new Array(); //mapping between item IDs and their id in the D array
+var ITEMHASH = new Array(); // mapping between item IDs and their id in the D array
 var keyboard_shortcuts = false;
-var searching = false; //true when user is entering text in search box
+var searching = false; // true when user is entering text in search box
 var default_new_title = 'Enter Title Here';
 var new_comment_text = 'Add new comment';
 var new_todo_text = 'Add todo';
 // var panel_height = $(window).height() - $('.gt-hd').height() - $('#help_section').height() + 28;// + $('.gt-footer').height() ;
 var panel_height = $(window).height() - $('.gt-hd').height() + 28;// + $('.gt-footer').height() ;
-var last_activity = new Date(); //tracks last activity of mouse or keyboard click. Used to turn off server polling
-var last_data_pull = new Date(); //tracks last data recieved from server
+var last_activity = new Date(); // tracks last activity of mouse or keyboard click. Used to turn off server polling
+var last_data_pull = new Date(); // tracks last data recieved from server
 var highest_pri = -9999;
-var loaded_panels = 0; //keeps track of how many panels have had their data loaded
-var local_store = null; //local persistant storage
+var loaded_panels = 0; // keeps track of how many panels have had their data loaded
+var local_store = null; // local persistant storage
 var ok_to_save_local_data = false;
 var complexity_description = ['Real Easy','.','.','Average','.','.','Super Hard'];
-var new_attachments = []; //stores ids of attachments to a new item
+var new_attachments = []; // stores ids of attachments to a new item
 var timer_started = false;
 
 $(window).bind('resize', function() {
   resize();
 });
 
-
 $.fn.makeAbsolute = function(rebase) {
-
-    return this.each(function() {
-
-        var el = $(this);
-
-        var pos = el.position();
-
-        el.css({ position: "absolute",
-
-            marginLeft: 0, marginTop: 0,
-
-            top: pos.top, left: pos.left });
-
-        if (rebase)
-
-            el.remove().appendTo("body");
-
-    });
-
+  return this.each(function() {
+    var el = $(this);
+    var pos = el.position();
+    el.css({ position: "absolute",
+      marginLeft: 0, marginTop: 0,
+      top: pos.top, left: pos.left });
+    if (rebase)
+    el.remove().appendTo("body");
+  });
 };
 
 $.fn.watermark = function(css, text) {
