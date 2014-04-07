@@ -107,13 +107,13 @@ fr:
   general_first_day_of_week: '1'
   general:
     a: un(e)
-    refresh: actualiser
-    ago: auparavant
-    in: sur
-    this: ceci
     add_a_comment: Ajouter un commentaire...
+    ago: auparavant
     go_to_top: Remonter
+    in: sur
+    refresh: actualiser
     show_more: Voir plus...
+    this: ceci
   issue:
     accepted: accepté(e)
     committed: validé
