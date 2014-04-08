@@ -39,6 +39,7 @@ group :development do
   gem 'guard-rspec'
   gem 'spork', '0.8.5'
   gem 'guard-spork'
+  gem 'childprocess', '0.3.6' # lock this down as it breaks guard-spork
   #gem 'reek'
   gem 'ruby2ruby', '1.2.2'
   gem 'heckle'

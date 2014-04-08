@@ -42,8 +42,8 @@ GEM
     capybara-webkit (0.13.2)
       capybara (>= 1.0.0, < 1.2)
       json
-    childprocess (0.5.2)
-      ffi (~> 1.0, >= 1.0.11)
+    childprocess (0.3.6)
+      ffi (~> 1.0, >= 1.0.6)
     columnize (0.3.6)
     database_cleaner (1.2.0)
     factory_girl (1.3.3)
@@ -151,6 +151,7 @@ DEPENDENCIES
   SystemTimer (= 1.2.2)
   capybara (~> 1.1.4)
   capybara-webkit
+  childprocess (= 0.3.6)
   comma!
   database_cleaner
   factory_girl (= 1.3.3)
