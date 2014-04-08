@@ -2921,7 +2921,7 @@ function expand_item(dataId){
      'issue_id':D[dataId].id,
      'height':'20px',
      'width':$('#edit_title_input_' + dataId).width() - 30,
-     'defaultText':'add a tag'
+     'defaultText': Better.translate('add_a_tag')
   });
 
   make_text_boxes_toggle_keyboard_shortcuts();
@@ -3451,7 +3451,7 @@ $('#new_tags').tagsInput({
    'issue_id':null,
    'height':'20px',
    'width':$('#issue_tags_container').width(),
-   'defaultText':'add a tag'
+   'defaultText': Better.translate('add_a_tag')
 });
 
 

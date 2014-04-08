@@ -60,7 +60,7 @@
                 </div>
                 <div class="issue-meta-box first-box">
                     <h3 class="issue-meta-title"><%=l(:field_status)%></h3>
-                    <span class="issue-meta-content"><span id="issue_status"><%= @issue.status.name %></span></span>
+                    <span class="issue-meta-content"><span id="issue_status"><%= status_name(@issue.status) %></span></span>
                 </div>
                 <div class="issue-meta-box first-box">
                     <h3 class="issue-meta-title"><%= l(:label_created_time_by, :age => time_tag(@issue.created_at)) %></h3>
@@ -155,7 +155,7 @@
        'issue_id':'<%= @issue.id %>',
        'height':'20px',
        'width':$('#issue_tags_container').width(),
-       'defaultText':'add a tag'
+       'defaultText': Better.translate('add_a_tag')
     });
 
     $('#file_upload').fileUploadUI({

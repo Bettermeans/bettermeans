@@ -89,4 +89,8 @@ module IssuesHelper
     values - existing_team
   end
 
+  def status_name(status)
+    l("issue.#{status.name.downcase}").capitalize
+  end
+
 end

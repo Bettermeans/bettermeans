@@ -25,6 +25,12 @@ feature 'Issues', :js => true do
       page.should have_content 'Watch'
       page.should have_content 'Upload files'
 
+      find('#issue_status').should have_content('Open')
+
+      within('#issue_tags_container') do
+        page.should have_xpath("//input[@default='add a tag']")
+      end
+
       within('#todo_section_0') do
         page.should have_content 'Todos (0)'
         fill_in 'new_todo_0', :with => 'my task'
