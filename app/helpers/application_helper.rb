@@ -388,7 +388,8 @@ module ApplicationHelper
   def show_detail(detail, no_html=false) # spec_me cover_me heckle_me
     case detail.property
     when 'attr'
-      label = l(("field_" + detail.prop_key.to_s.gsub(/\_id$/, "")).to_sym)
+      label = l(("field_" + detail.prop_key.to_s.gsub(/\_id$/, "")))
+
       case detail.prop_key
       when 'due_date', 'start_date'
         value = format_date(detail.value.to_date) if detail.value
@@ -397,8 +398,14 @@ module ApplicationHelper
         p = Project.find_by_id(detail.value) and value = p.name if detail.value
         p = Project.find_by_id(detail.old_value) and old_value = p.name if detail.old_value
       when 'status_id'
-        s = IssueStatus.find_by_id(detail.value) and value = s.name if detail.value
-        s = IssueStatus.find_by_id(detail.old_value) and old_value = s.name if detail.old_value
+        if detail.value
+          s = IssueStatus.find_by_id(detail.value)
+          value = l("issue.#{s.name.downcase}").capitalize
+        end
+        if detail.old_value
+          s = IssueStatus.find_by_id(detail.old_value)
+          old_value = l("issue.#{s.name.downcase}").capitalize
+        end
       when 'tracker_id'
         t = Tracker.find_by_id(detail.value) and value = t.name if detail.value
         t = Tracker.find_by_id(detail.old_value) and old_value = t.name if detail.old_value
@@ -446,7 +453,7 @@ module ApplicationHelper
   end
 
   def format_time_ago(updated_at) # spec_me cover_me heckle_me
-    "#{distance_of_time_in_words(Time.now,local_time(updated_at))} ago"
+    "#{distance_of_time_in_words(Time.now,local_time(updated_at))} #{l('general.ago')}"
   end
 
 

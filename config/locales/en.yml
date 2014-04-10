@@ -129,6 +129,7 @@ en:
   general:
     a: a
     accept: accept
+    add: add
     add_a_comment: Add a comment...
     add_a_tag: add a tag
     ago: ago
@@ -151,6 +152,8 @@ en:
     start: start
     takeback: take back
     this: this
+    todos: todos
+    upload_files: upload files
 
   issue:
     accepted: accepted

@@ -2,6 +2,14 @@
   var Better = {};
   Better.translations = {};
 
+  Better.capitalize = function (string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  Better.translateTitle = function (word) {
+    return Better.capitalize(Better.translate(word));
+  };
+
   Better.translate = function (word) {
     return Better.translations[word] || word;
   };

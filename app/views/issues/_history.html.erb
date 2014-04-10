@@ -17,7 +17,7 @@
             <div class="comment-author-image"><%= avatar(journal.user, :size => "28", :class => "none") %></div>
             <div class="comment-meta-meta">
                 <div class="comment-author"><%= link_to_user journal.user %></div>
-                <div class="comment-date"><%= time_tag(journal.updated_at) %> ago</div>
+                <div class="comment-date"><%= time_tag(journal.updated_at) %> <%= l('general.ago') %></div>
             </div>
         </div>
     </div>

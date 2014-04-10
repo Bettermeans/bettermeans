@@ -1340,7 +1340,7 @@ function generate_todos(dataId,blank_if_no_todos, item_editable){
   var html = '';
   html = html + '<div  id="todo_container_' + item.id + '">';
   html = html + '    <div class="header">';
-  html = html + '      Todos <span id="task_' + dataId  + '_count" class="todoCount">(' + count + ')</span>';
+  html = html + '      ' + Better.translateTitle('todos') + ' <span id="task_' + dataId  + '_count" class="todoCount">(' + count + ')</span>';
   html = html + '    </div>';
   html = html + '    <table class="tasksTable" id="notesTable_todos_' + item.id + '">';
   // html = html + '      <tbody>';
@@ -3644,11 +3644,9 @@ html = html + '              <table>';
 html = html + '                  <tr>';
 html = html + '                  <td align="right">';
 
-// html = html + '                  <a href="" onclick="full_screen(' + dataId + ',\'true\');return false;">Attach files</a>';
 
 if (currentUserIsCore == 'true' || currentUserIsMember == 'true'){
 html = html + '                  <a href="" onclick="full_screen(' + dataId + ');return false;">Relations</a>';
-// html = html + '                  | <a href="" onclick="full_screen(' + dataId + ');return false;">Add Team Members</a>';
 html = html + '                  | <a href="" onclick="full_screen(' + dataId + ');return false;">Move</a>';
 }
 
@@ -3712,7 +3710,7 @@ function generate_todo_section(dataId){
     html = html + '                      <div>';
     html = html + '                        <input class= "tasksTextArea" id="new_todo_' + dataId + '"></input>     ';
     html = html + '                        <div>';
-    html = html + '                           <input value="Add" type="submit" onclick="post_todo(' + dataId + '); return false;">';
+    html = html + '                           <input value="' + Better.translateTitle('add') + '" type="submit" onclick="post_todo(' + dataId + '); return false;">';
     html = html + '                        </div>';
     html = html + '                      </div>';
     html = html + '                    </td>';
@@ -3742,7 +3740,7 @@ function generate_todo_section_lightbox(dataId){
   html = html + '                      <div>';
   html = html + '                        <input class= "tasksTextArea" id="new_todo_' + dataId + '"></input>     ';
   html = html + '                        <div>';
-  html = html + '                           <input value="Add" type="submit" onclick="post_todo(' + dataId + '); return false;">';
+  html = html + '                           <input value="' + Better.translateTitle('add') + '" type="submit" onclick="post_todo(' + dataId + '); return false;">';
   html = html + '                        </div>';
   html = html + '                      </div>';
   html = html + '                    </td>';

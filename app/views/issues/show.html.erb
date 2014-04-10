@@ -24,7 +24,7 @@
                       <form id="file_upload" action="<%= url_for({:controller => :attachments, :action => :create, :container_id => @issue.id, :container_type => "Issue"}) %>" method="POST" enctype="multipart/form-data">
                           <input type="file" name="file" multiple>
                           <button>Upload</button>
-                          <a class="icon icon-attachment" href="#">Upload files</a>
+                          <a class="icon icon-attachment" href="#"><%= l('general.upload_files').capitalize %></a>
                       </form>
                     </p>
 
@@ -99,12 +99,12 @@
 </div>
 
 <% if @journals.any? %>
-<div id="comments" class="comments">
-<%= render :partial => 'history', :locals => { :journals => @journals } %>
-</div>
+  <div id="comments" class="comments">
+    <%= render :partial => 'history', :locals => { :journals => @journals } %>
+  </div>
 <% else %>
-<div id="comments" class="comments">
-</div>
+  <div id="comments" class="comments">
+  </div>
 <% end %>
 
 <div id="add-comment-area" class="comment">
