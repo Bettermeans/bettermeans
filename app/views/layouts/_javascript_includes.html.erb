@@ -6,8 +6,12 @@
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
+  Better.titleize = function (string) {
+    return string.replace(/\w\S*/g, Better.capitalize);
+  }
+
   Better.translateTitle = function (word) {
-    return Better.capitalize(Better.translate(word));
+    return Better.titleize(Better.translate(word));
   };
 
   Better.translate = function (word) {
@@ -15,6 +19,6 @@
   };
 
   <% general_translations.each do |key, phrase| %>
-    Better.translations.<%= key %> = '<%= phrase %>';
+    Better.translations.<%= key %> = '<%= h phrase %>';
   <% end %>
 </script>

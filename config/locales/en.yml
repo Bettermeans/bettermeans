@@ -136,14 +136,24 @@ en:
     agree: agree
     block: block
     cancel: cancel
+    canceled: canceled
+    close: close
+    comment: comment
+    comment_on_this_item: comment on this item
     disagree: disagree
+    done: done
+    dont_show_again: don't show again
     finish: finish
     giveup: giveup
     go_to_top: Go to top
     in: in
+    inprogress: in progress
     join: join
+    key: key
     leave: leave
     neutral: neutral
+    new_item: new item
+    open: open
     refresh: refresh
     reject: reject
     restart: restart

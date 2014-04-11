@@ -505,12 +505,9 @@ function display_panels(){
   loaded_panels = 0;
   insert_panel(0,'new','Open',true);
   add_new_link();
-  // insert_panel(0,'estimate','In Estimation',true);
-  // insert_panel(0,'open','Open',true);
   insert_panel(0,'inprogress','In Progress',true);
   insert_panel(0,'done','Done',false);
   insert_panel(0,'canceled','Canceled',false);
-  // insert_panel(0,'archived','Archived',false);
 }
 
 function wipe_panels(){
@@ -2722,7 +2719,7 @@ function insert_panel(position, name, title, visible){
   // $('#panel_buttons').prepend('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '/>');
   var button = "";
   button = button + '<a id="' + name + '_panel_toggle" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '>';
-  button = button + '<div id="' + name + '_panel_toggle_count" class="panel_button_top">' + title + ' (0)</div>';
+  button = button + '<div id="' + name + '_panel_toggle_count" class="panel_button_top">' + Better.translateTitle(name) + ' (0)</div>';
   button = button + '</a>';
   $('#panel_buttons').prepend(button);
 

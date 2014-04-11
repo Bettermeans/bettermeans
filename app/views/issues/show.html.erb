@@ -109,10 +109,12 @@
 
 <div id="add-comment-area" class="comment">
   <div id="add-comment-textarea-wrapper" class="comment-body">
-        <div><p>Comment on this item:</p></div>
+        <div><p><%= l('general.comment_on_this_item').capitalize %>:</p></div>
         <textarea id="add-comment-textarea" class="comment-body-wrapper autocomplete-mentions"></textarea>
         <div class="comment-form-wrapper">
-            <a class="fakebutton" href="#" onclick="post_comment(); return false;">Comment</a>
+          <a class="fakebutton" href="#" onclick="post_comment(); return false;">
+            <%= l('general.comment').capitalize %>
+          </a>
         </div>
     </div>
 </div>
