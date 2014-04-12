@@ -211,10 +211,10 @@ en:
     week: week
     week: week
     weeks: weeks
-    x_days: %{num} days
-    x_hours: %{num} hours
-    x_months: %{num} months
-    x_weeks: %{num} weeks
+    x_days: '%{num} days'
+    x_hours: '%{num} hours'
+    x_months: '%{num} months'
+    x_weeks: '%{num} weeks'
     year: year
     years: years
 
