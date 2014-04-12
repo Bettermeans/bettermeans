@@ -9,9 +9,9 @@ var timer_active = false;
 var ITEMHASH = new Array(); // mapping between item IDs and their id in the D array
 var keyboard_shortcuts = false;
 var searching = false; // true when user is entering text in search box
-var default_new_title = 'Enter Title Here';
-var new_comment_text = 'Add new comment';
-var new_todo_text = 'Add todo';
+var default_new_title = Better.translate_title('enter_title_here');
+var new_comment_text = Better.translate_title('add_new_comment');
+var new_todo_text = Better.translate_title('add_todo');
 // var panel_height = $(window).height() - $('.gt-hd').height() - $('#help_section').height() + 28;// + $('.gt-footer').height() ;
 var panel_height = $(window).height() - $('.gt-hd').height() + 28;// + $('.gt-footer').height() ;
 var last_activity = new Date(); // tracks last activity of mouse or keyboard click. Used to turn off server polling
@@ -86,7 +86,7 @@ function start(){
 
   $("#dash_key").mybubbletip('#help_key', {deltaDirection: 'right', bindShow: 'click'});
 
-  $('#fast_search').watermark('watermark','Quick Filter');
+  $('#fast_search').watermark('watermark', Better.translate_title('quick_filter'));
   //Checking for single issue display
   if (show_issue_id){
     show_issue_full(show_issue_id);
@@ -1249,7 +1249,7 @@ function generate_comments_section(dataId){
   html = html + '                        <textarea class = "textAreaFocus" id="new_comment_' + dataId + '" rows="1" cols="20" name="story[comment]"></textarea>     ';
   html = html + '                      <div>';
   html = html + '                      <input value="Post Comment" type="submit" id="post_comment_button_' + dataId + '" onclick="post_comment(' + dataId + '); return false;">';
-  html = html + '                          (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
+  html = html + '                          (Format using *<b>' + Better.translate('bold') + '</b>* and _<i>' + Better.translate('italic') + '</i>_ text.)';
   html = html + '                        </div>';
   html = html + '                      </div>';
   html = html + '                    </td>';
@@ -1274,7 +1274,7 @@ function generate_comments(dataId,blank_if_no_comments){
 
   var html = '';
   html = html + '    <div class="header">';
-  html = html + '      Comments <span id="comment_' + item.id  + '_count" class="commentCount">(' + count + ')</span>';
+  html = html + '      ' + Better.translate_title('comments') + ' <span id="comment_' + item.id  + '_count" class="commentCount">(' + count + ')</span>';
   html = html + '    </div>';
   html = html + '    <table class="notesTable" id="notesTable_' + item.id + '">';
   html = html + '      <tbody>';
@@ -1337,7 +1337,7 @@ function generate_todos(dataId,blank_if_no_todos, item_editable){
   var html = '';
   html = html + '<div  id="todo_container_' + item.id + '">';
   html = html + '    <div class="header">';
-  html = html + '      ' + Better.translateTitle('todos') + ' <span id="task_' + dataId  + '_count" class="todoCount">(' + count + ')</span>';
+  html = html + '      ' + Better.translate_title('todos') + ' <span id="task_' + dataId  + '_count" class="todoCount">(' + count + ')</span>';
   html = html + '    </div>';
   html = html + '    <table class="tasksTable" id="notesTable_todos_' + item.id + '">';
   // html = html + '      <tbody>';
@@ -1614,7 +1614,9 @@ function generate_new_link(){
 
   html = html + '<div id="item_content_details_new_link" class="itemCollapsedTextNewLink" onDblclick="new_item();return false;" style="cursor: default;">';
 
-  html = html + '<a href="#" onclick="new_item();return false;">Add New Item</a>';
+  html = html + '<a href="#" onclick="new_item();return false;">';
+  html = html + Better.translate_title('add_new_item');
+  html = html + '</a>';
   html = html + '</div>';
   html = html + '</div>';
   html = html + '</div>';
@@ -2719,7 +2721,7 @@ function insert_panel(position, name, title, visible){
   // $('#panel_buttons').prepend('<input id="' + name + '_panel_toggle" value="' + title + ' (0)" type="submit" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '/>');
   var button = "";
   button = button + '<a id="' + name + '_panel_toggle" onclick="show_panel(\'' + name + '\');return false;" class="dashboard-button-panel" ' + button_style + '>';
-  button = button + '<div id="' + name + '_panel_toggle_count" class="panel_button_top">' + Better.translateTitle(name) + ' (0)</div>';
+  button = button + '<div id="' + name + '_panel_toggle_count" class="panel_button_top">' + Better.translate_title(name) + ' (0)</div>';
   button = button + '</a>';
   $('#panel_buttons').prepend(button);
 
@@ -2736,7 +2738,7 @@ function generate_and_append_panel(position,name,title, visible){
   panelHtml = panelHtml + "<div class='panelHeaderLeft'></div>";
   panelHtml = panelHtml + "<div id='panel_header_" + name +"'class='panelHeader'>";
   panelHtml = panelHtml + "  <a href='javascript:void(0)' class='closePanelLoading panelLink' id='" + name + "_close' title='Close panel' onclick='close_panel(\"" + name + "\");return false;'></a>";
-  panelHtml = panelHtml + "  <span id='" + name +"_panel_title' class='panelTitle'>" + title + " (0)</span>";
+  panelHtml = panelHtml + "  <span id='" + name +"_panel_title' class='panelTitle'>" + Better.translate_title(name) + " (0)</span>";
   panelHtml = panelHtml + '    <img id="help_image_panel_' + name + '" src="/images/help.png" class="help_question_mark">';
   panelHtml = panelHtml + "</div>";
   panelHtml = panelHtml + "<div id='" + name + "_list' class='list'>";
@@ -3325,7 +3327,7 @@ html = html + '                    <td colspan="5">';
 html = html + '                      <div>';
 html = html + '                        <textarea class = "textAreaFocus" id="new_description" rows="2" cols="20" name="story[description]"></textarea>     ';
 html = html + '                      <div>';
-html = html + '                          (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
+html = html + '                          (Format using *<b>' + Better.translate('bold') + '</b>* and _<i>' + Better.translate('italic') + '</i>_ text.)';
 html = html + '                        </div>';
 html = html + '                      </div>';
 html = html + '                    </td>';
@@ -3534,18 +3536,18 @@ html = html + '                <tr>';
 if (item_editable){
   html = html + '                  <td>';
   html = html + '                    <div class="gt-SdButton">';
-  html = html + '                      <input id="edit_save_button' + dataId + '" value="Save" type="submit" onclick="save_edit_item(' + dataId + ');return false;">';
+  html = html + '                      <input id="edit_save_button' + dataId + '" value="' + Better.translate_title('save') + '" type="submit" onclick="save_edit_item(' + dataId + ');return false;">';
   html = html + '                    </div>';
   html = html + '                  </td>';
   html = html + '                  <td>';
   html = html + '                    <div class="gt-SdButton">';
-  html = html + '                      <input id="edit_cancel_button' + dataId + '" value="Cancel" type="submit" onclick="collapse_item(' + dataId + ',false);return false;">';
+  html = html + '                      <input id="edit_cancel_button' + dataId + '" value="' + Better.translate_title('cancel') + '" type="submit" onclick="collapse_item(' + dataId + ',false);return false;">';
   html = html + '                    </div>';
   html = html + '                  </td>';
 }
 html = html + '                  <td>';
 html = html + '                    <div class="gt-SdButton">';
-html = html + '                      <input id="edit_full_screen_button" value="Full Screen" type="submit" onclick="full_screen(' + dataId + ');return false;">';
+html = html + '                      <input id="edit_full_screen_button" value="' + Better.translate_title('full_screen') + '" type="submit" onclick="full_screen(' + dataId + ');return false;">';
 html = html + '                    </div>';
 html = html + '                  </td>';
 html = html + '                  <td style="width:100%;">';
@@ -3600,7 +3602,7 @@ html = html + '                    <td colspan="5">';
 html = html + '                      <div>';
 html = html + '                        <textarea class = "textAreaFocus" id="edit_description_' + dataId + '" rows="1" cols="20" name="story[description]" ' + readonly + '>' + h(D[dataId].description) + '</textarea>     ';
 html = html + '                      <div>';
-html = html + '                          (Format using *<b>bold</b>* and _<i>italic</i>_ text.)';
+html = html + '                          (Format using *<b>' + Better.translate('bold') + '</b>* and _<i>' + Better.translate('italic') + '</i>_ text.)';
 html = html + '                        </div>';
 html = html + '                      </div>';
 html = html + '                    </td>';
@@ -3707,7 +3709,7 @@ function generate_todo_section(dataId){
     html = html + '                      <div>';
     html = html + '                        <input class= "tasksTextArea" id="new_todo_' + dataId + '"></input>     ';
     html = html + '                        <div>';
-    html = html + '                           <input value="' + Better.translateTitle('add') + '" type="submit" onclick="post_todo(' + dataId + '); return false;">';
+    html = html + '                           <input value="' + Better.translate_title('add') + '" type="submit" onclick="post_todo(' + dataId + '); return false;">';
     html = html + '                        </div>';
     html = html + '                      </div>';
     html = html + '                    </td>';
@@ -3737,7 +3739,7 @@ function generate_todo_section_lightbox(dataId){
   html = html + '                      <div>';
   html = html + '                        <input class= "tasksTextArea" id="new_todo_' + dataId + '"></input>     ';
   html = html + '                        <div>';
-  html = html + '                           <input value="' + Better.translateTitle('add') + '" type="submit" onclick="post_todo(' + dataId + '); return false;">';
+  html = html + '                           <input value="' + Better.translate_title('add') + '" type="submit" onclick="post_todo(' + dataId + '); return false;">';
   html = html + '                        </div>';
   html = html + '                      </div>';
   html = html + '                    </td>';

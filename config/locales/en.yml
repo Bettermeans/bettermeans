@@ -126,44 +126,97 @@ en:
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '7'
 
+  numbers:
+    two: two
+    three: three
+
   general:
     a: a
     accept: accept
+    acceptance: acceptance
     add: add
     add_a_comment: Add a comment...
     add_a_tag: add a tag
+    add_new_comment: add new comment
+    add_new_item: add new item
+    add_todo: add todo
+    added: added
     ago: ago
     agree: agree
+    agreement: agreement
     block: block
+    bold: bold
     cancel: cancel
     canceled: canceled
+    century: century
+    clear: clear
     close: close
     comment: comment
     comment_on_this_item: comment on this item
+    comments: comments
+    day: day
+    days: days
+    didnt_touch: didn't touch
     disagree: disagree
     done: done
+    dont_include: Don't include
     dont_show_again: don't show again
+    enter_title_here: enter title here
+    estimate: estimate
+    filter: filter
+    filtered_results: Filtered results
     finish: finish
+    full_screen: full screen
     giveup: giveup
     go_to_top: Go to top
+    hour: hour
+    hours: hours
     in: in
+    include_sub_workstreams: Include sub workstreams
     inprogress: in progress
+    italic: italic
+    items_that_i: Items that I
     join: join
+    just_now: just now
     key: key
     leave: leave
+    minute: minute
+    minutes: minutes
+    month: month
+    month: month
+    months: months
+    needs_my: Needs my
     neutral: neutral
+    new: new
     new_item: new item
     open: open
+    prioritization: prioritization
+    prioritized: prioritized
+    quick_filter: quick filter
     refresh: refresh
     reject: reject
     restart: restart
     retro: retro
+    save: save
+    show_all: show all
     show_more: Show more...
     start: start
+    tagged_with: Tagged with
     takeback: take back
     this: this
     todos: todos
+    touched: touched
+    updated_in_last: Updated in last
     upload_files: upload files
+    week: week
+    week: week
+    weeks: weeks
+    x_days: %{num} days
+    x_hours: %{num} hours
+    x_months: %{num} months
+    x_weeks: %{num} weeks
+    year: year
+    years: years
 
   issue:
     accepted: accepted

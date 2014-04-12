@@ -49,8 +49,12 @@
 <div id="panel_buttons">
   <% if @project.children.any? %>
   <div class="field switch">
-      <label class="cb-enable" id="toggle_sub_on"><span>Include sub workstreams</span></label>
-      <label class="cb-disable" id="toggle_sub_off"><span>Don't include</span></label>
+      <label class="cb-enable" id="toggle_sub_on">
+        <span><%= l('general.include_sub_workstreams') %></span>
+      </label>
+      <label class="cb-disable" id="toggle_sub_off">
+        <span><%= l('general.dont_include') %></span>
+      </label>
       <input type="checkbox" id="include_subworkstreams_checkbox" class="checkbox" />
   </div>
   <% end %>
@@ -64,66 +68,66 @@
   <div class="dash-filter">
     <select id="filter_select" class="filter-search" onchange="filter_select();return false;">
       <option selected="selected" value="all_top">
-        Filter (show all)
+        <%= l('general.filter').capitalize %> (<%= l('general.show_all') %>)
       </option>
       <option value="all">
-        Items that I&nbsp;&nbsp;»
+        <%= l('general.items_that_i') %>&nbsp;&nbsp;»
       </option>
       <option value="untouched_by_me">
-        &nbsp;&nbsp;» didn't touch
+        &nbsp;&nbsp;» <%= l('general.didnt_touch') %>
       </option>
       <option value="touched_by_me">
-        &nbsp;&nbsp;» touched
+        &nbsp;&nbsp;» <%= l('general.touched') %>
       </option>
       <option value="added_by_me">
-        &nbsp;&nbsp;» added
+        &nbsp;&nbsp;» <%= l('general.added') %>
       </option>
       <option value="prioritized">
-        &nbsp;&nbsp;» prioritized
+        &nbsp;&nbsp;» <%= l('general.prioritized') %>
       </option>
       <option value="all">
-        Needs my&nbsp;&nbsp;»
+        <%= l('general.needs_my') %>&nbsp;&nbsp;»
       </option>
       <option value="unagreed">
-        &nbsp;&nbsp;» agreement
+        &nbsp;&nbsp;» <%= l('general.agreement') %>
       </option>
       <option value="unestimated">
-        &nbsp;&nbsp;» estimate
+        &nbsp;&nbsp;» <%= l('general.estimate') %>
       </option>
       <option value="unaccepted">
-        &nbsp;&nbsp;» acceptance
+        &nbsp;&nbsp;» <%= l('general.acceptance') %>
       </option>
       <option value="unprioritized">
-        &nbsp;&nbsp;» prioritization
+        &nbsp;&nbsp;» <%= l('general.prioritization') %>
       </option>
       <option value="all">
-        Updated in last&nbsp;&nbsp;»
+        <%= l('general.updated_in_last') %>&nbsp;&nbsp;»
       </option>
       <option value="1">
-        &nbsp;&nbsp;» 24 hours
+        &nbsp;&nbsp;» <%= l('general.x_hours', :num => 24) %>
       </option>
       <option value="2">
-        &nbsp;&nbsp;» two days
+        &nbsp;&nbsp;» <%= l('general.x_days', :num => l('numbers.two')) %>
       </option>
       <option value="3">
-        &nbsp;&nbsp;» three days
+        &nbsp;&nbsp;» <%= l('general.x_days', :num => l('numbers.three')) %>
       </option>
       <option value="7">
-        &nbsp;&nbsp;» week
+        &nbsp;&nbsp;» <%= l('general.week') %>
       </option>
       <option value="14">
-        &nbsp;&nbsp;» two weeks
+        &nbsp;&nbsp;» <%= l('general.x_weeks', :num => l('numbers.two')) %>
       </option>
       <option value="30">
-        &nbsp;&nbsp;» month
+        &nbsp;&nbsp;» <%= l('general.month') %>
       </option>
       <option value="60">
-        &nbsp;&nbsp;» two months
+        &nbsp;&nbsp;» <%= l('general.x_months', :num => l('numbers.two')) %>
       </option>
       <% tags = @project.all_tags %>
       <% unless tags.empty? %>
         <option value="all">
-          Tagged with&nbsp;&nbsp;»
+          <%= l('general.tagged_with') %>&nbsp;&nbsp;»
         </option>
         <% tags.each do |t| %>
         <option value="<%= t %>">
@@ -134,8 +138,12 @@
     </select>
   </div>
   <div id='filtered_message' style="display:none;" class="filtered-message">
-    Filtered results&nbsp;<span id="filter_detail" style="font-weight:bold;"></span>
-    &nbsp;&nbsp;&nbsp;&nbsp;<a onclick="clear_filters();return false;" class="clickable bold icon icon-x">Clear</a>
+    <%= l('general.filtered_results') %>&nbsp;
+    <span id="filter_detail" style="font-weight:bold;"></span>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a onclick="clear_filters();return false;" class="clickable bold icon icon-x">
+      <%= l('general.clear').capitalize %>
+    </a>
   </div>
 </div>
 

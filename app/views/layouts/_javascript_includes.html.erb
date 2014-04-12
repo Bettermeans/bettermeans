@@ -1,24 +1,16 @@
+<%= javascript_include_tag 'better' %>
+<%= javascript_include_tag 'translator' %>
+
 <script type='text/javascript'>
-  var Better = {};
-  Better.translations = {};
 
-  Better.capitalize = function (string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+  (function () {
 
-  Better.titleize = function (string) {
-    return string.replace(/\w\S*/g, Better.capitalize);
-  }
+    'use strict';
 
-  Better.translateTitle = function (word) {
-    return Better.titleize(Better.translate(word));
-  };
+    <% general_translations.each do |key, phrase| %>
+      Better.add_translation('<%= key %>', '<%= h phrase %>');
+    <% end %>
 
-  Better.translate = function (word) {
-    return Better.translations[word] || word;
-  };
+  }());
 
-  <% general_translations.each do |key, phrase| %>
-    Better.translations.<%= key %> = '<%= h phrase %>';
-  <% end %>
 </script>
