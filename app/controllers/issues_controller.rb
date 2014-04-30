@@ -164,7 +164,7 @@ class IssuesController < ApplicationController
           @issue.update_pri_total @iv.isbinding
         end
 
-        @issue.save if !@issue.update_status
+        @issue.save! unless @issue.update_status
 
         @issue.reload
 
@@ -299,7 +299,7 @@ class IssuesController < ApplicationController
   def prioritize # spec_me cover_me heckle_me
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::PRI_VOTE_TYPE, :points => params[:points]
     @issue.update_pri_total @iv.isbinding
-    @issue.save
+    @issue.save!
     @issue.reload
     respond_to do |format|
       format.js {render :json => @issue.to_dashboard}
@@ -330,7 +330,7 @@ class IssuesController < ApplicationController
     @issue.update_estimate_total @iv.isbinding
     logger.info { "after update #{@issue.inspect}" }
     logger.info { "start saving" }
-    @issue.save if !@issue.update_status
+    @issue.save! unless @issue.update_status
     logger.info { "done saving #{@issue.inspect}" }
     @issue.reload
 
@@ -345,7 +345,7 @@ class IssuesController < ApplicationController
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::AGREE_VOTE_TYPE, :points => params[:points]
     journal = @issue.init_journal(User.current, params[:notes]) if params[:notes]
     @issue.update_agree_total @iv.isbinding
-    @issue.save if !@issue.update_status
+    @issue.save! unless @issue.update_status
     @issue.reload
 
     if params[:notes]
@@ -374,7 +374,7 @@ class IssuesController < ApplicationController
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => params[:points]
     journal = @issue.init_journal(User.current, params[:notes]) if params[:notes]
     @issue.update_accept_total  @iv.isbinding
-    @issue.save if !@issue.update_status
+    @issue.save! unless @issue.update_status
     @issue.reload
 
     if params[:notes]
@@ -400,7 +400,7 @@ class IssuesController < ApplicationController
 
   def join # spec_me cover_me heckle_me
     IssueVote.create :user_id => User.current.id, :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1
-    @issue.save
+    @issue.save!
     @issue.reload
 
     Notification.create :recipient_id => @issue.assigned_to_id,
@@ -419,7 +419,7 @@ class IssuesController < ApplicationController
 
   def add_team_member # spec_me cover_me heckle_me
     IssueVote.create :user_id => params[:issue_vote][:user_id], :issue_id => params[:id], :vote_type => IssueVote::JOIN_VOTE_TYPE, :points => 1
-    @issue.save
+    @issue.save!
     @issue.reload
 
     Notification.create :recipient_id => params[:issue_vote][:user_id],
@@ -463,7 +463,7 @@ class IssuesController < ApplicationController
 
   def leave # spec_me cover_me heckle_me
     IssueVote.delete_all(["user_id = ? AND issue_id = ? AND vote_type = ?", User.current.id, params[:id], IssueVote::JOIN_VOTE_TYPE])
-    @issue.save
+    @issue.save!
     @issue.reload
 
     admin = User.sysadmin

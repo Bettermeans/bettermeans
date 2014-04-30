@@ -191,13 +191,13 @@ class Issue < ActiveRecord::Base
     @new_issue = Issue.new
     @new_issue.attributes = self.attributes.dup.except("id", "created_at", "updated_at")
     @new_issue.status = IssueStatus.open
-    @new_issue.save
+    @new_issue.save!
     self.issue_votes.each do |iv|
       next if iv.vote_type == IssueVote::JOIN_VOTE_TYPE || iv.vote_type == IssueVote::ACCEPT_VOTE_TYPE
       @new_iv = IssueVote.new
       @new_iv.attributes = iv.attributes.dup.except("id", "issue_id")
       @new_iv.issue_id = @new_issue.id
-      @new_iv.save
+      @new_iv.save!
     end
   end
 
@@ -256,8 +256,8 @@ class Issue < ActiveRecord::Base
   end
 
   def update_tags(tags) # spec_me cover_me heckle_me
-    self.update_attribute(:tag_list, tags)
-    self.update_attribute(:tags_copy, self.tags.map {|t|t.name}.join(","))
+    update_attribute(:tag_list, tags)
+    update_attribute(:tags_copy, self.tags.map {|t|t.name}.join(","))
     update_last_item_stamp
   end
 
@@ -494,7 +494,7 @@ class Issue < ActiveRecord::Base
         end
       end
 
-      self.save
+      save!
       return true
     else
       return false
@@ -596,7 +596,7 @@ class Issue < ActiveRecord::Base
     journal.details << JournalDetail.new(:property => 'attachment',
                                          :prop_key => obj.id,
                                          :old_value => obj.filename)
-    journal.save
+    journal.save!
   end
 
   def after_save # cover_me heckle_me
@@ -636,7 +636,7 @@ class Issue < ActiveRecord::Base
                                                       :old_value => @issue_before_change.send(c),
                                                       :value => send(c)) unless send(c)==@issue_before_change.send(c)
       }
-      @current_journal.save
+      @current_journal.save!
     end
   end
 
