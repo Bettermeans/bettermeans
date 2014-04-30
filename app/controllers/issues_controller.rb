@@ -114,6 +114,7 @@ class IssuesController < ApplicationController
     @issue.project = @project
     @issue.tracker ||= Tracker.find(params[:tracker_id] || :first || params[:issue][:tracker_id])
     if @issue.tracker.nil?
+      raise 'no tracker!'
       render_error l(:error_no_tracker_in_project)
       return
     end
@@ -126,6 +127,7 @@ class IssuesController < ApplicationController
 
     default_status = IssueStatus.default
     unless default_status
+      raise 'no default status!'
       render_error l(:error_no_default_issue_status)
       return
     end
