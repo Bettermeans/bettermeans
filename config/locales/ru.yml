@@ -75,6 +75,8 @@ ru:
   general_csv_decimal_separator: ','
   general_csv_encoding: UTF-8
   general_first_day_of_week: '1'
+  general:
+    inprogress: в процессе
   notice_account_updated: Учетная запись успешно обновлена.
   notice_account_invalid_creditentials: Неправильное имя пользователя или пароль
   notice_account_password_updated: Пароль успешно обновлен.
@@ -507,8 +509,10 @@ ru:
   label_message_plural: Сообщения
   label_message_last: Последнее сообщение
   label_message_new: Новое сообщение
+  label_topic_new: Новая тема
   label_message_posted: Добавлено сообщение
   label_reply_plural: Ответы
+  label_comments_plural: Комментарии
   label_send_information: Отправить пользователю информацию по учетной записи
   label_year: Год
   label_month: Месяц
@@ -742,6 +746,7 @@ ru:
   button_update_billing: Update Billing
   button_login: Вход
   button_submit: Принять
+  button_search: Поиск
   button_save: Сохранить
   button_check_all: Отметить все
   button_uncheck_all: Очистить
