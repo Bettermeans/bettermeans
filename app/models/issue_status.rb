@@ -20,51 +20,49 @@ class IssueStatus < ActiveRecord::Base
     find(:first, :conditions =>["is_default=?", true])
   end
 
-  def self.assigned # spec_me cover_me heckle_me
-    @@assigned_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_assigned)])
+  def self.assigned # cover_me heckle_me
+    @@assigned_status ||= find(:first, :conditions => ['name = ?', 'Committed'])
   end
 
-  def self.done # spec_me cover_me heckle_me
-    @@done_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_done)])
+  def self.done # cover_me heckle_me
+    @@done_status ||= find(:first, :conditions => ['name = ?', 'Done'])
   end
 
-  def self.inprogress # spec_me cover_me heckle_me
-    @@inprogress_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_inprogress)])
+  def self.inprogress # cover_me heckle_me
+    @@inprogress_status ||= find(:first, :conditions =>['name = ?', 'Committed'])
   end
 
-  def self.newstatus # spec_me cover_me heckle_me
-    @@newstatus_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_new)])
+  def self.newstatus # cover_me heckle_me
+    @@newstatus_status ||= find(:first, :conditions =>['name = ?', 'New'])
   end
 
   def self.open_id # spec_me cover_me heckle_me
     open.id if open
   end
 
-  def self.open # spec_me cover_me heckle_me
-    @@open_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_open)])
+  def self.open # cover_me heckle_me
+    @@open_status ||= find(:first, :conditions =>['name = ?', 'Open'])
   end
 
-  def self.canceled # spec_me cover_me heckle_me
-    @@canceled_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_canceled)])
+  def self.canceled # cover_me heckle_me
+    @@canceled_status ||= find(:first, :conditions =>['name = ?', 'Canceled'])
   end
 
-  def self.estimate # spec_me cover_me heckle_me
-    @@estimate_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_estimate)])
+  def self.estimate # cover_me heckle_me
+    @@estimate_status ||= find(:first, :conditions =>['name = ?', 'Estimate'])
   end
 
-  def self.accepted # spec_me cover_me heckle_me
-    find(:first, :conditions =>["name=?", l(:default_issue_status_accepted)])
+  def self.accepted # cover_me heckle_me
+    find(:first, :conditions =>['name = ?', 'Accepted'])
   end
 
-  def self.rejected # spec_me cover_me heckle_me
-    find(:first, :conditions =>["name=?", l(:default_issue_status_rejected)])
+  def self.rejected # cover_me heckle_me
+    find(:first, :conditions =>['name = ?', 'Rejected'])
   end
 
-  def self.archived # spec_me cover_me heckle_me
-    @@archived_status ||= find(:first, :conditions =>["name=?", l(:default_issue_status_archived)])
+  def self.archived # cover_me heckle_me
+    @@archived_status ||= find(:first, :conditions =>['name = ?', 'Archived'])
   end
-
-
 
   # Returns an array of all statuses the given role can switch to
   # Uses association cache when called more than one time

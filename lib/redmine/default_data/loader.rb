@@ -99,10 +99,10 @@ module Redmine
             Tracker.create!(:name => l(:default_tracker_subtask), :is_in_chlog => true,  :is_in_roadmap => true,  :position => 2)
 
             # Issue statuses
-            new       = IssueStatus.create!(:name => l(:default_issue_status_new), :is_closed => false, :is_default => true, :position => 1)
-            assigned  = IssueStatus.create!(:name => l(:default_issue_status_assigned), :is_closed => false, :is_default => false, :position => 2)
-            closed    = IssueStatus.create!(:name => l(:default_issue_status_closed), :is_closed => true, :is_default => false, :position => 3)
-            blocked  = IssueStatus.create!(:name => l(:default_issue_status_blocked), :is_closed => false, :is_default => false, :position => 4)
+            new       = IssueStatus.create!(:name => 'New', :is_closed => false, :is_default => true, :position => 1)
+            assigned  = IssueStatus.create!(:name => 'Committed', :is_closed => false, :is_default => false, :position => 2)
+            closed    = IssueStatus.create!(:name => 'Closed', :is_closed => true, :is_default => false, :position => 3)
+            blocked  = IssueStatus.create!(:name => 'Blocked', :is_closed => false, :is_default => false, :position => 4)
 
             # Workflow
             Tracker.find(:all).each { |t|

@@ -1398,18 +1398,6 @@ en:
   default_role_contributor: Contributor
   default_tracker_task: Task
   default_tracker_subtask: Subtask
-  default_issue_status_new: New
-  default_issue_status_open: Open
-  default_issue_status_assigned: Committed
-  default_issue_status_done: Done
-  default_issue_status_closed: Closed
-  default_issue_status_blocked: Blocked
-  default_issue_status_inprogress: Committed
-  default_issue_status_canceled: Canceled
-  default_issue_status_estimate: Estimate
-  default_issue_status_archived: Archived
-  default_issue_status_accepted: Accepted
-  default_issue_status_rejected: Rejected
   default_doc_category_public: Public documentation
   default_doc_category_private: Private documentation
   default_priority_low: Low
