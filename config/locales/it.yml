@@ -1177,18 +1177,6 @@ it:
   default_role_contributor: Collaboratore
   default_tracker_task: Compito
   default_tracker_subtask: Sotto compito
-  default_issue_status_new: Nuovo
-  default_issue_status_open: Aperto
-  default_issue_status_assigned: Assegnato
-  default_issue_status_done: Fatto
-  default_issue_status_closed: Chiuso
-  default_issue_status_blocked: Bloccato
-  default_issue_status_inprogress: Assegnato
-  default_issue_status_canceled: Annullato
-  default_issue_status_estimate: Stima
-  default_issue_status_archived: Archiviato
-  default_issue_status_accepted: Accettato
-  default_issue_status_rejected: Rifiutato
   default_doc_category_public: Documentazione pubblica
   default_doc_category_private: Documentazione privata
   default_priority_low: Bassa

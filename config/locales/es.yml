@@ -929,9 +929,6 @@ es:
   text_role_invitation_description_Core_Team: "Un miembro del Equipo Principal tiene voto obligatorio en todos los asuntos y es muy similar a un miembro. <br /><br /> La principal diferencia es que un miembro del Equipo Central puede votar en la elección de nuevos miembros. <br /><br /> Esencialmente, son los guardianes de los principios de la organización, y marcan el nivel para la membresía. <br /><br /> Los Miembros del Equipo Central son responsables por todos los miembros y su rol es representar su voz."
   text_role_invitation_description_Board: "Como miembro de la junta, todos tus votos son obligatorios, y tienes los mismos privilegios que un Miembro del Equipo Central. <br /><br /> De todos modos, ser parte de la junta indica un menor compromiso con las tareas del día a día."
   text_project_locked: "Esta corriente de trabajo está temporalmente bloqueada debido a falta de pago."
-  default_issue_status_new: Nueva
-  default_issue_status_closed: Cerrada
-  default_issue_status_rejected: Rechazada
   default_priority_low: Baja
   default_priority_normal: Normal
   default_priority_high: Alta

@@ -1238,18 +1238,6 @@ fr:
   default_role_contributor: Contributeur
   default_tracker_task: Tâche
   default_tracker_subtask: Sous-Tâche
-  default_issue_status_new: Nouveau
-  default_issue_status_open: Ouvrir
-  default_issue_status_assigned: Commité
-  default_issue_status_done: Fait
-  default_issue_status_closed: Fermé
-  default_issue_status_blocked: Bloqué
-  default_issue_status_inprogress: Commité
-  default_issue_status_canceled: Annulé
-  default_issue_status_estimate: Estimé
-  default_issue_status_archived: Archivé
-  default_issue_status_accepted: Accepté
-  default_issue_status_rejected: Rejeté
   default_doc_category_public: Documentation publique
   default_doc_category_private: Documentation privée
   default_priority_low: Bas
