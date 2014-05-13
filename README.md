@@ -173,8 +173,11 @@ Attachments doesn't work in dev environment
 License and legalese
 --------------------
 
-Our codebase is based largely on an early fork of Redmine.
+This codebase is based largely on the project Bettermeans, which was itself
+based on Redmine. Both Bettermeans and Redmine are open source and released
+under the terms of the GNU General Public License v2 (GPL). Better is also
+GPLv2.
 
-Redmine is open source and released under the terms of the GNU General Public License v2 (GPL).
-All redmine code is Copyright (C) 2006-2011  Jean-Philippe Lang
-All non-redmine code is Copyright (C) Shereef Bishay, and is dual-licensed: you may use either the GNU General Public License v2 (GPL), or the MIT License (see http://www.opensource.org/licenses/mit-license.php).
+All Redmine code is Copyright (C) 2006-2011  Jean-Philippe Lang
+All Bettermeans code is Copyright (C) Shereef Bishay
+All Better code is Copyright (C) Robert Fletcher
