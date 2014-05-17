@@ -1,7 +1,7 @@
 <%= javascript_include_tag  'retro' %>
 <%= help_section "retrospective_show" %>
 <div align="center">
-  <h2>Retrospective #<%= @retro.id %> : <%= @total_points.round %> Credits - <%= render_title_date %></h2>
+  <h2>Retrospective #<%= @retro.id %> : <%= @total_points.round %> Credits - <%= render_retro_title_date %></h2>
 <% if @user_retro_hash.has_key? User.current.id%>
 <%= javascript_tag  'var belongs = true;'%>
 <% end %>

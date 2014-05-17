@@ -38,7 +38,7 @@
               <td><%= since_tag(@topic.created_at) %> ago</td>
             </tr>
             <tr>
-              <td colspan="2"><%= render_title_date %></td>
+              <td colspan="2"><%= render_motion_title_date %></td>
             </tr>
           </table>
          </td>
@@ -119,7 +119,7 @@
 
 <% content_for :sidebar do %>
 <br />
-<h3><%= render_title_date %></h3>
+<h3><%= render_motion_title_date %></h3>
 <%= render :partial => "motion_votes/vote", :locals => {:motion => @motion} %>
 <% end %>
 

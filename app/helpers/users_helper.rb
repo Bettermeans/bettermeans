@@ -10,15 +10,6 @@ module UsersHelper
                         ["#{l(:status_locked)} (#{user_count_by_status[3].to_i})", 3]], selected)
   end
 
-  # Options for the new membership projects combo-box
-  def options_for_membership_project_select(user, projects) # spec_me cover_me heckle_me
-    options = content_tag('option', "--- #{l(:actionview_instancetag_blank_option)} ---")
-    options << project_tree_options_for_select(projects) do |p|
-      {:disabled => (user.projects.include?(p))}
-    end
-    options
-  end
-
   def change_status_link(user) # spec_me cover_me heckle_me
     url = {:controller => 'users', :action => 'edit', :id => user, :page => params[:page], :status => params[:status], :tab => nil}
 
