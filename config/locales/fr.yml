@@ -105,15 +105,76 @@ fr:
   general_csv_encoding: ISO-8859-1
   general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
+  numbers:
+    two: deux
+    three: trois
   general:
     a: un(e)
+    add: ajouter
     add_a_comment: Ajouter un commentaire...
+    add_a_tag: ajouter un tag
+    add_new_comment: ajouter un nouveau commentaire
+    add_new_item: ajouter un nouvel item
+    add_todo: ajouter une tâche
+    added: ajouté
     ago: auparavant
+    agree: pour
+    block: bloquer
+    bold: gras
+    cancel: annuler
+    canceled: annulé
+    close: fermer
+    comments: commentaires
+    day: jour
+    days: jours
+    disagree: contre
+    dont_show_again: ne plus afficher
+    filter: filtrer
+    finish: terminer
+    full_screen: plein écran
+    giveup: abandonner
     go_to_top: Remonter
+    hour: heure
+    hours: heures
     in: sur
+    inprogress: en cours
+    italic: italique
+    items_that_i: Items que j'ai
+    join: rejoindre
+    just_now: à l'instant
+    key: clé
+    leave: quitter
+    minute: minute
+    minutes: minutes
+    month: mois
+    months: mois
+    needs_my: Nécessitent mon
+    neutral: neutre
+    new: nouveau
+    new_item: nouvel item
+    open: ouvert
+    prioritization: priorisation
+    prioritized: priorisé
+    quick_filter: filtre rapide
     refresh: actualiser
+    reject: rejetter
+    restart: redémarer
+    save: sauvegarder
+    show_all: Tout afficher
     show_more: Voir plus...
+    start: démarrer
     this: ceci
+    todos: tâches
+    updated_in_last: Mis à jour lors de la (les) dernièr(e)s
+    upload_files: joindre des fichiers
+    week: semaine
+    weeks: semaines
+    x_days: '%{num} jours'
+    x_hours: '%{num} heures'
+    x_months: '%{num} mois'
+    x_weeks: '%{num} semaines'
+    year: année
+    years: années
   issue:
     accepted: accepté(e)
     committed: validé
@@ -213,6 +274,7 @@ fr:
     moved: déplacé(e)
     passed_a: a voté une
     publicized: a publié
+    rejected: rejeté
     replied_to: a répondu à
     restarted: a relancé
     started: a lancé
