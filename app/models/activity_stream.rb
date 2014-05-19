@@ -17,7 +17,15 @@ class ActivityStream < ActiveRecord::Base
   belongs_to :indirect_object, :polymorphic => true
   belongs_to :project
 
-  named_scope :recent, {:conditions => "activity_streams.created_at > '#{(Time.now.advance :days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP * -1).to_s}'"}
+  named_scope(
+    :recent,
+    {
+      :conditions => [
+        'activity_streams.created_at > ?',
+        Time.now.advance(:days => Setting::DAYS_FOR_ACTIVE_MEMBERSHIP * -1)
+      ]
+    }
+  )
 
   def before_save # spec_me cover_me heckle_me
     self.is_public = self.project.is_public if self.project

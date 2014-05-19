@@ -36,6 +36,7 @@ group :test do
 end
 
 group :development do
+  gem 'brakeman', :require => false
   gem 'guard-rspec'
   gem 'spork', '0.8.5'
   gem 'guard-spork'

@@ -31,6 +31,18 @@ GEM
       builder
       mime-types
       xml-simple
+    brakeman (1.8.3)
+      activesupport
+      erubis (~> 2.6)
+      fastercsv (~> 1.5)
+      haml (~> 3.0)
+      highline (~> 1.6)
+      i18n
+      multi_json (~> 1.3)
+      ruby2ruby (~> 1.2)
+      ruby_parser (= 2.3.1)
+      sass (~> 3.0)
+      terminal-table (~> 1.4)
     builder (3.1.3)
     capybara (1.1.4)
       mime-types (>= 1.16)
@@ -46,6 +58,7 @@ GEM
       ffi (~> 1.0, >= 1.0.6)
     columnize (0.3.6)
     database_cleaner (1.2.0)
+    erubis (2.7.0)
     factory_girl (1.3.3)
     faker (1.1.2)
       i18n (~> 0.5)
@@ -67,10 +80,12 @@ GEM
       guard (>= 1.1)
       spork (>= 0.8.4)
       sys-proctable
+    haml (3.1.8)
     heckle (1.4.3)
       ParseTree (>= 2.0.0)
       ZenTest (>= 3.5.2)
       ruby2ruby (>= 1.1.6)
+    highline (1.6.21)
     honeybadger (1.10.0)
       json
     i18n (0.6.4)
@@ -120,8 +135,11 @@ GEM
       linecache (>= 0.3)
     ruby2ruby (1.2.2)
       ParseTree (~> 3.0)
+    ruby_parser (2.3.1)
+      sexp_processor (~> 3.0)
     rubytree (0.7.0)
     rubyzip (0.9.9)
+    sass (3.3.7)
     selenium-webdriver (2.35.1)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
@@ -137,6 +155,7 @@ GEM
     steak (1.1.0)
       rspec (>= 1.3)
     sys-proctable (0.9.1)
+    terminal-table (1.4.5)
     thor (0.16.0)
     websocket (1.0.7)
     will_paginate (2.3.15)
@@ -149,6 +168,7 @@ PLATFORMS
 
 DEPENDENCIES
   SystemTimer (= 1.2.2)
+  brakeman
   capybara (~> 1.1.4)
   capybara-webkit
   childprocess (= 0.3.6)
