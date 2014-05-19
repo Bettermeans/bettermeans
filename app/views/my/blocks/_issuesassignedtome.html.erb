@@ -1,5 +1,5 @@
-<% if assigned_issues.length > 0 %>
+<% if @assigned_issues.length > 0 %>
 
-<%= render :partial => 'issues/list_very_simple', :locals => { :issues => assigned_issues } %>
+<%= render :partial => 'issues/list_very_simple', :locals => { :issues => @assigned_issues } %>
 
 <% end %>

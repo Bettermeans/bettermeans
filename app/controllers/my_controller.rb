@@ -30,6 +30,11 @@ class MyController < ApplicationController
 
   # Show user's page
   def page # spec_me cover_me heckle_me
+    @assigned_issues = Issue.visible.open.find(:all,
+                                    :conditions => {:assigned_to_id => User.current.id},
+                                    :include => [:project, :tracker ],
+                                    :order => "#{Issue.table_name}.subject ASC")
+
     @user = User.current
     @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
   end
