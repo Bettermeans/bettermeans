@@ -10,6 +10,7 @@ gem 'SystemTimer', '1.2.2', :require => 'system_timer', :platforms => :ruby_18
 gem 'comma', :git => 'https://github.com/crafterm/comma.git', :ref => 'rails2'
 gem 'fastercsv', '1.5.4'
 gem 'fleximage', '1.0.4'
+gem 'foreigner'
 gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
 gem 'honeybadger', :require => 'honeybadger/rails'
 gem 'pg'

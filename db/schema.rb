@@ -1,4 +1,4 @@
-# This file is auto-generated from the current state of the database. Instead of editing this file,
+# This file is auto-generated from the current state of the database. Instead of editing this file, 
 # please use the migrations feature of Active Record to incrementally modify your database, and
 # then regenerate this schema definition.
 #
@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110330041648) do
+ActiveRecord::Schema.define(:version => 20140519052440) do
 
   create_table "activity_stream_preferences", :force => true do |t|
     t.string   "activity"
@@ -551,7 +551,7 @@ ActiveRecord::Schema.define(:version => 20110330041648) do
   add_index "projects", ["lft"], :name => "index_projects_on_lft"
   add_index "projects", ["rgt"], :name => "index_projects_on_rgt"
 
-  create_table "projects_trackers", :id => false, :force => true do |t|
+  create_table "projects_trackers", :force => true do |t|
     t.integer "project_id", :default => 0, :null => false
     t.integer "tracker_id", :default => 0, :null => false
   end
@@ -860,5 +860,21 @@ ActiveRecord::Schema.define(:version => 20110330041648) do
   add_index "workflows", ["old_status_id", "role_id", "tracker_id"], :name => "wkfs_role_tracker_old_status"
   add_index "workflows", ["old_status_id"], :name => "index_workflows_on_old_status_id"
   add_index "workflows", ["role_id"], :name => "index_workflows_on_role_id"
+
+  add_foreign_key "invitations", "roles", :name => "invitations_role_id_fk"
+
+  add_foreign_key "issues", "issue_statuses", :name => "issues_status_id_fk", :column => "status_id"
+  add_foreign_key "issues", "trackers", :name => "issues_tracker_id_fk"
+
+  add_foreign_key "member_roles", "roles", :name => "member_roles_role_id_fk"
+
+  add_foreign_key "projects_trackers", "trackers", :name => "projects_trackers_tracker_id_fk"
+
+  add_foreign_key "users", "plans", :name => "users_plan_id_fk"
+
+  add_foreign_key "workflows", "issue_statuses", :name => "workflows_new_status_id_fk", :column => "new_status_id"
+  add_foreign_key "workflows", "issue_statuses", :name => "workflows_old_status_id_fk", :column => "old_status_id"
+  add_foreign_key "workflows", "roles", :name => "workflows_role_id_fk"
+  add_foreign_key "workflows", "trackers", :name => "workflows_tracker_id_fk"
 
 end

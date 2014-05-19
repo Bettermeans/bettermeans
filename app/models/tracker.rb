@@ -10,7 +10,8 @@ class Tracker < ActiveRecord::Base
     end
   end
 
-  has_and_belongs_to_many :projects
+  has_many :projects_trackers, :dependent => :destroy
+  has_many :projects, :through => :projects_trackers
   acts_as_list
 
   validates_presence_of :name

@@ -64,7 +64,8 @@ class Project < ActiveRecord::Base
 
   has_many :credit_distributions, :dependent => :delete_all
   has_many :enabled_modules, :dependent => :delete_all
-  has_and_belongs_to_many :trackers, :order => "#{Tracker.table_name}.position"
+  has_many :projects_trackers, :dependent => :destroy
+  has_many :trackers, :through => :projects_trackers, :order => "#{Tracker.table_name}.position"
   has_many :issues, :dependent => :destroy, :order => "#{Issue.table_name}.created_at DESC", :include => [:status, :tracker]
   has_many :issue_votes, :through => :issues
   has_many :issue_changes, :through => :issues, :source => :journals
