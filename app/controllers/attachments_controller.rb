@@ -3,7 +3,7 @@
 #
 
 class AttachmentsController < ApplicationController
-  before_filter :find_project, :except => :create
+  before_filter :find_project, :only => :destroy
   before_filter :read_authorize, :except => [:destroy, :create]
   before_filter :delete_authorize, :only => :destroy
   ssl_required :all
