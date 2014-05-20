@@ -8,4 +8,5 @@ class Plan < ActiveRecord::Base
   def self.free # heckle_me
     find_by_code(FREE_CODE)
   end
+
 end

@@ -7,7 +7,8 @@ describe Tracker do
     it { should have_many(:issues) }
     it { should have_many(:workflows) }
 
-    it { should have_and_belong_to_many(:projects) }
+    it { should have_many(:projects_trackers) }
+    it { should have_many(:projects).through(:projects_trackers) }
   end
 
   describe '#valid?' do

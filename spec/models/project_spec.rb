@@ -20,7 +20,8 @@ describe Project do
     it { should have_many(:users).through(:all_members) }
     it { should have_many(:credit_distributions).dependent(:delete_all) }
     it { should have_many(:enabled_modules).dependent(:delete_all) }
-    it { should have_and_belong_to_many(:trackers) }
+    it { should have_many(:projects_trackers) }
+    it { should have_many(:trackers).through(:projects_trackers) }
     it { should have_many(:issues) }
     it { should have_many(:issue_votes).through(:issues) }
     it { should have_many(:issue_changes).through(:issues) }

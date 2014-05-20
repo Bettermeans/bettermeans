@@ -3,6 +3,66 @@
 
 # TODO: remove 'is_' from columns and variables
 
+Plan.delete_all
+plans = Plan.create!([
+  {
+    :name => "Free",
+    :created_at => nil,
+    :code => 0,
+    :updated_at => nil,
+    :storage_max => 1,
+    :contributor_max => 0,
+    :amount => 0.0,
+    :public_workstream_max => -1,
+    :private_workstream_max => 0,
+    :description => "Free plan"
+  }, {
+    :name => "Basic",
+    :created_at => nil,
+    :code => 1,
+    :updated_at => nil,
+    :storage_max => 1,
+    :contributor_max => 5,
+    :amount => 25.0,
+    :public_workstream_max => -1,
+    :private_workstream_max => 10,
+    :description => "Best for small projects"
+  }, {
+    :name => "Better",
+    :created_at => nil,
+    :code => 2,
+    :updated_at => nil,
+    :storage_max => 5,
+    :contributor_max => 20,
+    :amount => 50.0,
+    :public_workstream_max => -1,
+    :private_workstream_max => 25,
+    :description => "For medium-sized projects"
+  }, {
+    :name => "Super",
+    :created_at => nil,
+    :code => 3,
+    :updated_at => nil,
+    :storage_max => 50,
+    :contributor_max => 100,
+    :amount => 100.0,
+    :public_workstream_max => -1,
+    :private_workstream_max => 60,
+    :description => "Our most popular plan"
+  }, {
+    :name => "Go Nuts!",
+    :created_at => nil,
+    :code => 4,
+    :updated_at => nil,
+    :storage_max => 100,
+    :contributor_max => -1,
+    :amount => 200.0,
+    :public_workstream_max => -1,
+    :private_workstream_max => -1,
+    :description => "Why limit yourself?"
+  }
+])
+
 u = User.new(:firstname => "admin", :mail => "admin@better.boon.gl")
 u.password = (48..126).to_a.sample(20).collect(&:chr).join
 u.password_confirmation = u.password
@@ -432,66 +492,6 @@ roles = Role.create!([
       :view_wiki_edits
     ],
     :assignable => true
-  }
-])
-
-Plan.delete_all
-plans = Plan.create!([
-  {
-    :name => "Free",
-    :created_at => nil,
-    :code => 0,
-    :updated_at => nil,
-    :storage_max => 1,
-    :contributor_max => 0,
-    :amount => 0.0,
-    :public_workstream_max => -1,
-    :private_workstream_max => 0,
-    :description => "Free plan"
-  }, {
-    :name => "Basic",
-    :created_at => nil,
-    :code => 1,
-    :updated_at => nil,
-    :storage_max => 1,
-    :contributor_max => 5,
-    :amount => 25.0,
-    :public_workstream_max => -1,
-    :private_workstream_max => 10,
-    :description => "Best for small projects"
-  }, {
-    :name => "Better",
-    :created_at => nil,
-    :code => 2,
-    :updated_at => nil,
-    :storage_max => 5,
-    :contributor_max => 20,
-    :amount => 50.0,
-    :public_workstream_max => -1,
-    :private_workstream_max => 25,
-    :description => "For medium-sized projects"
-  }, {
-    :name => "Super",
-    :created_at => nil,
-    :code => 3,
-    :updated_at => nil,
-    :storage_max => 50,
-    :contributor_max => 100,
-    :amount => 100.0,
-    :public_workstream_max => -1,
-    :private_workstream_max => 60,
-    :description => "Our most popular plan"
-  }, {
-    :name => "Go Nuts!",
-    :created_at => nil,
-    :code => 4,
-    :updated_at => nil,
-    :storage_max => 100,
-    :contributor_max => -1,
-    :amount => 200.0,
-    :public_workstream_max => -1,
-    :private_workstream_max => -1,
-    :description => "Why limit yourself?"
   }
 ])
 
