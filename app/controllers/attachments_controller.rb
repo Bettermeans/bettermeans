@@ -3,9 +3,9 @@
 #
 
 class AttachmentsController < ApplicationController
-  before_filter :find_project, :only => :destroy
-  before_filter :read_authorize, :except => [:destroy, :create]
-  before_filter :delete_authorize, :only => :destroy
+  before_filter :find_project, :only => [:show, :download, :destroy]
+  before_filter :read_authorize, :except => [:destroy]
+  before_filter :delete_authorize, :only => [:destroy]
   ssl_required :all
 
   verify :method => :post, :only => :destroy
@@ -30,14 +30,6 @@ class AttachmentsController < ApplicationController
 
     render :json => a.to_json
   end
-
-  def redirect_to_s3 # spec_me cover_me heckle_me
-    if @attachment.container.is_a?(Project)
-      @attachment.increment_download
-    end
-    redirect_to("#{RedmineS3::Connection.uri}/#{@attachment.disk_filename}")
-  end
-
 
   def show # spec_me cover_me heckle_me
     if @attachment.is_diff?
@@ -71,6 +63,13 @@ class AttachmentsController < ApplicationController
   end
 
   private
+
+  def redirect_to_s3 # cover_me heckle_me
+    if @attachment.container.is_a?(Project)
+      @attachment.increment_download
+    end
+    redirect_to("#{RedmineS3::Connection.uri}/#{@attachment.disk_filename}")
+  end
 
   def find_project # cover_me heckle_me
     @attachment = Attachment.find(params[:id])
