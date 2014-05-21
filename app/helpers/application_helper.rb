@@ -1416,7 +1416,8 @@ module ApplicationHelper
   def general_translations # spec_me cover_me heckle_me
     # translations aren't necessarily loaded by the time we get here
     I18n.backend.send(:init_translations)
-    I18n.backend.send(:translations)[I18n.locale][:general]
+    translations = I18n.backend.send(:translations)[I18n.locale][:general]
+    translations ||= []
   end
 
   private
