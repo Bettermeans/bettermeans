@@ -264,8 +264,9 @@ class ProjectsController < ApplicationController
       project_ids = [@project.id]
     end
 
-    if params[:status_ids]
-      conditions = "project_id in (#{project_ids}) AND (retro_id < 0 OR retro_id is null) AND status_id in (#{params[:status_ids]})"
+    if params[:status]
+      status_ids = IssueStatus.ids_for(params[:status])
+      conditions = "project_id in (#{project_ids}) AND (retro_id < 0 OR retro_id is null) AND status_id in (#{status_ids})"
     else
       conditions = "project_id in (#{project_ids}) AND (retro_id < 0 OR retro_id is null)"
     end

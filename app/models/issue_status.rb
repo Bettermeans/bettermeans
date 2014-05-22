@@ -15,6 +15,21 @@ class IssueStatus < ActiveRecord::Base
     IssueStatus.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id]) if self.is_default?
   end
 
+  def self.ids_for(name)
+    case name
+    when 'new'
+      [newstatus.id]
+    when 'open'
+      [open.id]
+    when 'inprogress'
+      [inprogress.id]
+    when 'done'
+      [done.id]
+    when 'canceled'
+      [canceled.id]
+    end
+  end
+
   # Returns the default status for new issues
   def self.default # spec_me cover_me heckle_me
     find(:first, :conditions =>["is_default=?", true])

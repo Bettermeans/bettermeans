@@ -195,12 +195,11 @@ function load_dashboard_data(){
 
     ISSUE_COUNT = 0;
 
-    load_dashboard_data_for_statuses('10,11','new');
-    load_dashboard_data_for_statuses('1,6','open');
-    load_dashboard_data_for_statuses('4','inprogress');
-    load_dashboard_data_for_statuses('8,14,13','done');
-    load_dashboard_data_for_statuses('9','canceled');
-    // load_dashboard_data_for_statuses('12','archived');
+    load_dashboard_data_for_status('new');
+    load_dashboard_data_for_status('open');
+    load_dashboard_data_for_status('inprogress');
+    load_dashboard_data_for_status('done');
+    load_dashboard_data_for_status('canceled');
   }
 
   ok_to_save_local_data = true;
@@ -276,7 +275,7 @@ function get_local_data(){
   }
 }
 
-function load_dashboard_data_for_statuses(status_ids,name){
+function load_dashboard_data_for_status(status_name){
   var url = url_for({ controller: 'projects',
                              action    : 'dashdata',
                 id    : projectId
@@ -284,7 +283,7 @@ function load_dashboard_data_for_statuses(status_ids,name){
 
 
   // var url = url + '?status_ids=1,4,6,8,10,11,13,14';
-  url = url + '?status_ids=' + status_ids;
+  url = url + '?status=' + status_name;
 
   if ($('#include_subworkstreams_checkbox').attr("checked") == true){
     url = url + "&include_subworkstreams=true";
