@@ -16,6 +16,9 @@ I recommend using rvm to manage your ruby versions: https://rvm.io/
 # install ruby:
 rvm install 1.8.7-p374
 
+# set ruby version:
+rvm use 1.8.7 --default
+
 # set the rubygems version:
 rvm rubygems 1.8.25
 
