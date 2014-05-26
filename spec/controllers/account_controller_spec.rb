@@ -66,6 +66,13 @@ describe AccountController do
       end
 
       context "if the request is a POST" do
+        context 'when the token is not valid' do
+          it 'redirects to home_url' do
+            post(:lost_password, :token => 'trash')
+            response.should redirect_to(home_url)
+          end
+        end
+
         context "if the user is valid" do
           before :each do
             post(:lost_password, :token => token.value,

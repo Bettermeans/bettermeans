@@ -39,7 +39,8 @@ class AccountController < ApplicationController
   # Enable user to choose a new password
   def lost_password # spec_me cover_me heckle_me
     redirect_to(home_url) && return unless Setting.lost_password?
-    validate_token || create_token
+    return if validate_token
+    create_token unless already_rendered?
   end
 
   # User self-registration
@@ -480,4 +481,9 @@ class AccountController < ApplicationController
     user = @token.user
     user if user.registered?
   end
+
+  def already_rendered?
+    @performed_render || @performed_redirect
+  end
+
 end
