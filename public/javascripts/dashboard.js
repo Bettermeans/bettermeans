@@ -1842,31 +1842,41 @@ function generate_notice(noticeHtml, noticeId){
 function is_cancelable(dataId){
   item = D[dataId];
 
+  // if the current user is core, and...
   if (currentUserIsCore == 'true'){
     var today = new Date();
     var one_day=1000*60*60*24;
     var updated = new Date(item.updated_at).getTime();
     var days = (today.getTime() - updated)/one_day;
+    // it's greater than 30 days old, it can be canceled
     if (days > 30){
       return true;
     }
   }
 
+  // else if the current user is not the owner, it cannot be canceled
   if (currentUserId != item.author_id){
     return false;
   }
   else{
+    // if the current user is the owner and...
+
+    // if anybody else has voted on it, it cannot be canceled
     for (var i = 0; i < item.issue_votes.length; i ++){
       if(item.issue_votes[i].user_id != currentUserId){
         return false;
       }
     }
+
+    // if anybody else has created a journal on it, it cannot be canceled
     for (var j = 0; j < item.journals.length; j ++){
       if((item.journals[j].user_id != currentUserId)&&(item.journals[j].user_id != adminUserId)){
         return false;
       }
     }
   }
+
+  // otherwise, it can be canceled
   return true;
 }
 
