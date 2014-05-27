@@ -19,7 +19,7 @@ guard 'rspec', :version => 1, :cli => '--drb --color', :all_on_start => false do
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')
 
-  watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
+  watch(%r{^app/(.+)\.rb$})                           { |m| ["spec/#{m[1]}/", "spec/#{m[1]}_spec.rb"] }
   watch(%r{^app/(.*)(\.erb|\.haml)$})                 { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
   watch(%r{^app/controllers/(.+_controller)\.rb$})  { |m| ["spec/controllers/#{m[1]}/", "spec/controllers/#{m[1]}_controller_spec.rb"] }
   watch(%r{^spec/support/(.+)\.rb$})                  { "spec" }

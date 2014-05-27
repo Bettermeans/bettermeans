@@ -38,9 +38,11 @@ class Role < ActiveRecord::Base
   ])
 
   named_scope :givable, { :conditions => "builtin = 0", :order => 'position' }
+
+  # TODO: this scope doesn't seem to be used
   named_scope :builtin, lambda { |*args|
-    compare = 'not' if args.first == true
-    { :conditions => "#{compare} builtin = 0" }
+    condition = args.first == true ? 'NOT builtin = 0' : 'builtin = 0'
+    { :conditions => condition }
   }
 
   before_destroy :check_deletable
