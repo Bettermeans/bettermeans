@@ -698,8 +698,9 @@ class IssuesController < ApplicationController
     render :partial => 'common/preview'
   end
 
-  def datadump # spec_me cover_me heckle_me
-    @issues = Issue.find(:all, :conditions => "project_id IN (#{User.current.owned_projects.collect {|p| p.id}.join(",")})")
+  def datadump # cover_me heckle_me
+    project_ids = User.current.owned_projects.map(&:id)
+    @issues = Issue.find(:all, :conditions => ['project_id IN (?)', project_ids])
     render :csv => @issues
   end
 
