@@ -127,6 +127,10 @@ class Project < ActiveRecord::Base
   named_scope :visible, lambda { { :conditions => Project.visible_by(User.current) } }
   named_scope :all_roots, {:conditions => "parent_id is null"}
   named_scope :all_children, {:conditions => "parent_id is not null"}
+  named_scope :recently_added, lambda {
+    { :conditions => ['created_at > ?', 7.days.ago] }
+  }
+
   named_scope :does_not_belong_to, lambda {|id|
     {:conditions => ["owner_id <> :s", {:s => id}],
      :order => 'name'
