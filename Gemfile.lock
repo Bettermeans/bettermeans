@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/crafterm/comma.git
-  revision: 645109fd6ebc6a78912c54b5d16a81d6b7923379
+  revision: 0b57837359bca3d4cb1b03a09896953ec8f1aac9
   ref: rails2
   specs:
-    comma (2.1.1)
+    comma (2.1.3)
       fastercsv (~> 1.5.4)
 
 GEM
