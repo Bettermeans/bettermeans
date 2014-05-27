@@ -40,8 +40,8 @@ class Motion < ActiveRecord::Base
   belongs_to :topic, :class_name => 'Message', :foreign_key => 'topic_id'
 
   named_scope :allactive, :conditions => ["state = #{STATE_ACTIVE}", Time.new.to_date]
-  named_scope :viewable_by, lambda { |*level|
-    {:conditions => "visibility_level >= #{level}", :order => "updated_at DESC"}
+  named_scope :viewable_by, lambda { |level|
+    {:conditions => ['visibility_level >= ?', level], :order => "updated_at DESC"}
   }
 
   before_create :set_values
