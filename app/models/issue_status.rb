@@ -15,7 +15,7 @@ class IssueStatus < ActiveRecord::Base
     IssueStatus.update_all("is_default=#{connection.quoted_false}", ['id <> ?', id]) if self.is_default?
   end
 
-  def self.ids_for(name)
+  def self.ids_for(name) # spec_me cover_me heckle_me
     case name
     when 'new'
       [newstatus.id]

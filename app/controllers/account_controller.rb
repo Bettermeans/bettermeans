@@ -482,7 +482,7 @@ class AccountController < ApplicationController
     user if user.registered?
   end
 
-  def already_rendered?
+  def already_rendered? # cover_me heckle_me
     @performed_render || @performed_redirect
   end
 
