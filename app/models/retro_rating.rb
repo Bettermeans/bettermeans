@@ -15,8 +15,8 @@ class RetroRating < ActiveRecord::Base
 
   named_scope :for_project, lambda { |project_id|
     {
-      :joins      => "JOIN retros ON retro_id = retros.id",
-      :conditions => "retros.project_id = #{project_id}"
+      :joins      => 'JOIN retros ON retro_id = retros.id',
+      :conditions => ['retros.project_id = ?', project_id]
     }
   }
 
