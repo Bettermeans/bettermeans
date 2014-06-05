@@ -34,6 +34,7 @@ group :test do
   gem 'rspec-rails', '1.3.4'
   gem 'shoulda'
   gem 'steak'
+  gem 'timecop', '0.6.1'
 end
 
 group :development do

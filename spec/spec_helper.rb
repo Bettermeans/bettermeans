@@ -59,6 +59,7 @@ Spork.prefork do
   def login_as(user)
     session[:user_id] = user.id
   end
+
 end
 
 Spork.each_run do
