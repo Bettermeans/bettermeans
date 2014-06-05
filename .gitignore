@@ -7,7 +7,6 @@ test_out.png
 /binstubs
 /config/additional_environment.rb
 /config/email.yml
-/config/initializers/session_store.rb
 /config/local_env.rb
 /coverage
 /log/*.log
