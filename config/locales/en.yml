@@ -332,6 +332,7 @@ en:
     started: started
     updated: updated
 
+  field_hashed_password: hashed password
   field_tags : "Tags"
   field_points : "Avg estimated credits"
   field_logo : "Logo"

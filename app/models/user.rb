@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
   attr_protected :admin, :password, :password_confirmation, :hashed_password
 
   # BUGBUG: seems to be some bug here where it allows a nil email
-  validates_presence_of :login, :firstname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
+  validates_presence_of :hashed_password, :login, :firstname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
   validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
   validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }, :case_sensitive => false
   # Login must contain letters, numbers, underscores only
@@ -415,7 +415,7 @@ class User < ActiveRecord::Base
     self.status == STATUS_LOCKED
   end
 
-  def check_password?(clear_password) # spec_me cover_me heckle_me
+  def check_password?(clear_password)
     User.hash_password(clear_password) == self.hashed_password
   end
 
@@ -784,7 +784,7 @@ class User < ActiveRecord::Base
   private
 
   # Return password digest
-  def self.hash_password(clear_password) # cover_me heckle_me
+  def self.hash_password(clear_password)
     # TODO: somehow switch this out, SHA is not recommended for passwords
     Digest::SHA1.hexdigest(clear_password || "")
   end
