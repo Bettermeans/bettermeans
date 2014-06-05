@@ -317,19 +317,21 @@ class User < ActiveRecord::Base
     self.read_attribute(:identity_url)
   end
 
+  def authenticate(password) # spec_me cover_me heckle_me
+    if auth_source
+      auth_source.authenticate(login, password)
+    else
+      self.class.hash_password(password) == hashed_password
+    end
+  end
+
   # Returns the user that matches provided login and password, or nil
-  def self.try_to_login(login, password) # spec_me cover_me heckle_me
+  def self.try_to_login(login, password)
     # Make sure no one can sign in with an empty password
-    return nil if password.to_s.empty?
+    return if password.blank?
     user = find(:first, :conditions => ["login=?", login.downcase])
     if user
-      if user.auth_source
-        # user has an external authentication method
-        return nil unless user.auth_source.authenticate(login, password)
-      else
-        # authentication with local password
-        return nil unless User.hash_password(password) == user.hashed_password
-      end
+      return unless user.authenticate(password)
     else
       # user is not yet registered, try to authenticate with available sources
       attrs = AuthSource.authenticate(login, password)
@@ -337,9 +339,7 @@ class User < ActiveRecord::Base
         user = new(*attrs)
         user.login = login
         user.language = Setting.default_language
-        if user.save
-          user.reload
-        end
+        user.reload if user.save
       end
     end
     user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?

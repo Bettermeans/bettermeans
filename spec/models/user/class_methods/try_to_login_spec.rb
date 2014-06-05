@@ -6,9 +6,8 @@ describe User, '.try_to_login' do
 
   context 'when the given password is blank' do
     it 'returns nil' do
-      user.password = nil
-      user.hashed_password = User.hash_password('')
-      user.save!
+      user.password = ''
+      user.save(false)
       User.try_to_login(user.login, '').should be_nil
       User.try_to_login(user.login, nil).should be_nil
     end
