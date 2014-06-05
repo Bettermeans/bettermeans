@@ -317,7 +317,7 @@ class User < ActiveRecord::Base
     self.read_attribute(:identity_url)
   end
 
-  def authenticate(password) # spec_me cover_me heckle_me
+  def authenticate(password)
     if auth_source
       auth_source.authenticate(login, password)
     else
