@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe User, '.try_to_login' do
+describe User, '.authenticate' do
 
   let(:user) { Factory.create(:user) }
 
@@ -8,14 +8,14 @@ describe User, '.try_to_login' do
     it 'returns nil' do
       user.password = ''
       user.save(false)
-      User.try_to_login(user.login, '').should be_nil
-      User.try_to_login(user.login, nil).should be_nil
+      User.authenticate(user.login, '').should be_nil
+      User.authenticate(user.login, nil).should be_nil
     end
   end
 
   context 'when the user does not exist' do
     it 'returns nil' do
-      User.try_to_login('blah', 'bloo').should be_nil
+      User.authenticate('blah', 'bloo').should be_nil
     end
   end
 
@@ -33,7 +33,7 @@ describe User, '.try_to_login' do
           should_receive(:authenticate).
           with(user.login, user.password).
           and_return(user)
-        User.try_to_login(user.login, user.password).should == user
+        User.authenticate(user.login, user.password).should == user
       end
     end
 
@@ -43,7 +43,7 @@ describe User, '.try_to_login' do
           should_receive(:authenticate).
           with(user.login, user.password).
           and_return(nil)
-        User.try_to_login(user.login, user.password).should be_nil
+        User.authenticate(user.login, user.password).should be_nil
       end
     end
 
@@ -54,7 +54,7 @@ describe User, '.try_to_login' do
           with(user.login, user.password).
           and_raise('woops')
         lambda {
-          User.try_to_login(user.login, user.password)
+          User.authenticate(user.login, user.password)
         }.should raise_exception('woops')
       end
     end
@@ -62,12 +62,12 @@ describe User, '.try_to_login' do
 
   context 'when the given password matches the hashed password' do
     it 'returns the user' do
-      User.try_to_login(user.login, user.password).should == user
+      User.authenticate(user.login, user.password).should == user
     end
 
     it 'updates the last_login_on on the user' do
       Timecop.freeze do
-        User.try_to_login(user.login, user.password)
+        User.authenticate(user.login, user.password)
         user.reload
         user.last_login_on.should == Time.now
       end
@@ -76,13 +76,13 @@ describe User, '.try_to_login' do
 
   context 'when the given password does not match the hashed password' do
     it 'returns nil' do
-      User.try_to_login(user.login, 'foo').should be_nil
+      User.authenticate(user.login, 'foo').should be_nil
     end
   end
 
   context 'when no user is found' do
     context 'when user attributes are found through AuthSource' do
-      let(:user) { User.try_to_login('fake login', 'fake password') }
+      let(:user) { User.authenticate('fake login', 'fake password') }
 
       before(:each) do
         AuthSource.
@@ -114,7 +114,7 @@ describe User, '.try_to_login' do
           })
           User.stub(:new).and_return(fake_user)
           fake_user.should_receive(:reload)
-          User.try_to_login('fake login', 'fake password')
+          User.authenticate('fake login', 'fake password')
         end
       end
 
@@ -138,7 +138,7 @@ describe User, '.try_to_login' do
       end
 
       it 'returns nil' do
-        User.try_to_login('login', 'password').should be_nil
+        User.authenticate('login', 'password').should be_nil
       end
     end
   end

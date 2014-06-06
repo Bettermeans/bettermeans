@@ -367,7 +367,7 @@ describe AccountController, "#login" do
     context "when not openid" do
       context 'when the user is not able to login' do
         before(:each) do
-          User.stub(:try_to_login).and_return(nil)
+          User.stub(:authenticate).and_return(nil)
         end
 
         it 'flashes an error' do
@@ -389,7 +389,7 @@ describe AccountController, "#login" do
 
       context 'when the user is a new record' do
         before(:each) do
-          User.stub(:try_to_login).and_return(new_user)
+          User.stub(:authenticate).and_return(new_user)
           new_user.auth_source_id = 5
           post(:login, :invitation_token => 'blah')
         end
@@ -409,7 +409,7 @@ describe AccountController, "#login" do
 
       context 'when the user is active' do
         before(:each) do
-          User.stub(:try_to_login).and_return(user)
+          User.stub(:authenticate).and_return(user)
         end
 
         it 'logs in the user' do
@@ -461,7 +461,7 @@ describe AccountController, "#login" do
       context 'otherwise' do
         before(:each) do
           user.stub(:active?).and_return(false)
-          User.stub(:try_to_login).and_return(user)
+          User.stub(:authenticate).and_return(user)
         end
 
         it 'flashes an error' do

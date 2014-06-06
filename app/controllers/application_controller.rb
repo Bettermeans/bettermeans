@@ -82,7 +82,7 @@ class ApplicationController < ActionController::Base
         # HTTP Basic, either username/password or API key/random
         authenticate_with_http_basic do |username, password|
           #TODO: track login here: Track.log(Track::LOGIN,session[:client_ip])
-          User.try_to_login(username, password) || User.find_by_api_key(username)
+          User.authenticate(username, password) || User.find_by_api_key(username)
         end
       end
     end

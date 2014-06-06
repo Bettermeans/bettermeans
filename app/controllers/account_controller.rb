@@ -78,7 +78,7 @@ class AccountController < ApplicationController
   private
 
   def password_authentication(invitation_token=nil) # cover_me heckle_me
-    user = User.try_to_login(params[:username], params[:password])
+    user = User.authenticate(params[:username], params[:password])
 
     if user.nil?
       invalid_credentials

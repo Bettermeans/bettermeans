@@ -81,7 +81,7 @@ describe AccountController do
           end
 
           it "changes the user's password" do
-            User.try_to_login(user.login, 'new_password').should == user
+            User.authenticate(user.login, 'new_password').should == user
           end
 
           it "destroys the token" do
@@ -109,7 +109,7 @@ describe AccountController do
           end
 
           it "does not change the user" do
-            User.try_to_login(user.login, 'new_password').should_not be
+            User.authenticate(user.login, 'new_password').should_not be
           end
 
           it "renders the password_recovery template" do
@@ -788,14 +788,14 @@ describe AccountController do
     end
 
     it "tries to login the user" do
-      User.should_receive(:try_to_login).with('bill', 'bill_password')
+      User.should_receive(:authenticate).with('bill', 'bill_password')
       controller.stub(:params).and_return({ :username => 'bill', :password => 'bill_password' })
       controller.send(:password_authentication)
     end
 
     context "when the user does not login properly" do
       it "goes through the invalid credentials flow" do
-        User.stub(:try_to_login)
+        User.stub(:authenticate)
         controller.should_receive(:render).with(:layout => 'static')
         controller.send(:password_authentication)
       end
@@ -806,7 +806,7 @@ describe AccountController do
         user.login = 'bill'
         user.auth_source_id = 15
         user.stub(:new_record?).and_return(true)
-        User.stub(:try_to_login).and_return(user)
+        User.stub(:authenticate).and_return(user)
         controller.should_receive(:onthefly_creation_failed).with(user, { :login => 'bill', :auth_source_id => 15 })
         controller.send(:password_authentication)
       end
@@ -815,7 +815,7 @@ describe AccountController do
     context "when the user is not active" do
       it "goes through the inactive_user flow" do
         user.stub(:active?).and_return(false)
-        User.stub(:try_to_login).and_return(user)
+        User.stub(:authenticate).and_return(user)
         controller.should_receive(:inactive_user)
         controller.send(:password_authentication)
       end
@@ -825,7 +825,7 @@ describe AccountController do
       context "when the user is active" do
         it "goes through the successful_authentication flow" do
           user.stub(:active?).and_return(true)
-          User.stub(:try_to_login).and_return(user)
+          User.stub(:authenticate).and_return(user)
           controller.should_receive(:successful_authentication).with(user, 'token')
           controller.send(:password_authentication, 'token')
           controller.should_receive(:successful_authentication).with(user, nil)

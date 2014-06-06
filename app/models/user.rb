@@ -326,7 +326,7 @@ class User < ActiveRecord::Base
   end
 
   # Returns the user that matches provided login and password, or nil
-  def self.try_to_login(login, password)
+  def self.authenticate(login, password)
     # Make sure no one can sign in with an empty password
     return if password.blank?
     user = find(:first, :conditions => ["login=?", login.downcase])
