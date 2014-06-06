@@ -217,7 +217,7 @@ class MyController < ApplicationController
   end
 
   # Manage user's password
-  def password # spec_me cover_me heckle_me
+  def password
     @user = User.current
     if @user.auth_source_id
       flash.now[:error] = l(:notice_can_t_change_password)
