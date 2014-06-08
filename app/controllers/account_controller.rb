@@ -29,7 +29,7 @@ class AccountController < ApplicationController
   end
 
   # Log out current user and redirect to welcome page
-  def logout # spec_me cover_me heckle_me
+  def logout
     cookies.delete :autologin
     current_user.delete_autologin_tokens
     logout_user
@@ -37,14 +37,14 @@ class AccountController < ApplicationController
   end
 
   # Enable user to choose a new password
-  def lost_password # spec_me cover_me heckle_me
+  def lost_password
     redirect_to(home_url) && return unless Setting.lost_password?
     return if validate_token
     create_token unless already_rendered?
   end
 
   # User self-registration
-  def register # spec_me cover_me heckle_me
+  def register
     redirect_to(home_url) && return unless check_registration
 
     pick_plan
@@ -58,7 +58,7 @@ class AccountController < ApplicationController
   end
 
   # Token based account activation
-  def activate # spec_me cover_me heckle_me
+  def activate
     redirect_to(home_url) && return unless can_activate? && user = registered_user
     user.activate
 
@@ -70,20 +70,20 @@ class AccountController < ApplicationController
     end
   end
 
-  def cancel # spec_me cover_me heckle_me
+  def cancel
     current_user.cancel_account!
     render_message(l(:notice_account_canceled))
   end
 
   private
 
-  def password_authentication(invitation_token=nil) # cover_me heckle_me
+  def password_authentication(invitation_token) # cover_me heckle_me
     user = User.authenticate(params[:username], params[:password])
 
     if user.nil?
       invalid_credentials
     elsif user.new_record?
-      onthefly_creation_failed(user, {:login => user.login, :auth_source_id => user.auth_source_id })
+      onthefly_creation_failed(user, :login => user.login, :auth_source_id => user.auth_source_id)
     elsif user.active?
       successful_authentication(user, invitation_token)
     else
@@ -91,7 +91,7 @@ class AccountController < ApplicationController
     end
   end
 
-  def open_id_authenticate(openid_url) # cover_me heckle_me
+  def open_id_authenticate(openid_url)
     authenticate_with_open_id(openid_url, :required => [:nickname, :fullname, :email], :return_to => signin_url) do |result, identity_url, registration|
       if result.successful?
         user = User.find_or_initialize_by_identity_url(identity_url)
@@ -156,26 +156,26 @@ class AccountController < ApplicationController
   end
 
   # Onthefly creation failed, display the registration form to fill/fix attributes
-  def onthefly_creation_failed(user, auth_source_options = { }) # cover_me heckle_me
+  def onthefly_creation_failed(user, auth_source_options = { })
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
     render :action => 'register'
   end
 
-  def invalid_credentials # cover_me heckle_me
+  def invalid_credentials
     # BUGBUG: "invalid_credentials", spelling
     flash.now[:error] = l(:notice_account_invalid_creditentials)
     render :layout => 'static'
   end
 
-  def inactive_user # cover_me heckle_me
+  def inactive_user
     render_error(l(:notice_account_inactive_user))
   end
 
   # Register a user for email activation.
   #
   # Pass a block for behavior when a user fails to save
-  def register_by_email_activation(user, invitation_token = nil) # cover_me heckle_me
+  def register_by_email_activation(user, invitation_token = nil)
 
     unless invitation_token.blank?
       invitation = Invitation.find_by_token(invitation_token)
@@ -202,7 +202,7 @@ class AccountController < ApplicationController
   # Automatically register a user
   #
   # Pass a block for behavior when a user fails to save
-  def register_automatically(user, &block) # cover_me heckle_me
+  def register_automatically(user, &block)
     # Automatic activation
     user.status = User::STATUS_ACTIVE
     user.last_login_on = Time.now
