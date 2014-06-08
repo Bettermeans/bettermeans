@@ -4,7 +4,7 @@
 
 class AttachmentsController < ApplicationController
   before_filter :find_project, :only => [:show, :download, :destroy]
-  before_filter :read_authorize, :except => [:destroy]
+  before_filter :read_authorize, :except => [:create, :destroy]
   before_filter :delete_authorize, :only => [:destroy]
   ssl_required :all
 
@@ -16,17 +16,13 @@ class AttachmentsController < ApplicationController
 
 
   def create # spec_me cover_me heckle_me
-    logger.info { "params #{params.inspect}" }
     if params[:file]
       file = params[:file]
-      logger.info { "file #{file.inspect}" }
       a = Attachment.create(:container_id => params[:container_id],
                             :container_type => params[:container_type],
                             :file => file,
                             :author => User.current)
-      logger.info { "created attachment #{a.inspect}" }
     end
-    logger.info {"done with create" }
 
     render :json => a.to_json
   end
