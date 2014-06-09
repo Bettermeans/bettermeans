@@ -149,6 +149,10 @@ img.issue-author-image {
     margin-bottom: 0;
 }
 
+.issue-body img {
+  max-width: 70%;
+}
+
 .issue-closed-placeholder {
     position: absolute;
     top: 0;
