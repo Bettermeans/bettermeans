@@ -150,7 +150,7 @@ img.issue-author-image {
 }
 
 .issue-body img {
-  max-width: 70%;
+  max-width: 100%;
 }
 
 .issue-closed-placeholder {
