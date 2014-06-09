@@ -15,7 +15,7 @@ class AttachmentsController < ApplicationController
   before_filter :redirect_to_s3, :except => [:destroy, :create]
 
 
-  def create # spec_me cover_me heckle_me
+  def create # cover_me heckle_me
     if params[:file]
       file = params[:file]
       a = Attachment.create(:container_id => params[:container_id],
