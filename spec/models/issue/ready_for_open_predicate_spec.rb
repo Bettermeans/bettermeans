@@ -10,7 +10,7 @@ describe Issue, '#ready_for_open?' do
     context 'when agree-disagree difference exceeds minimum' do
       it 'returns true' do
         issue.stub(:points_from_credits).and_return 0
-        issue.should be_ready_for_open
+        issue.ready_for_open?.should be true
       end
     end
   end

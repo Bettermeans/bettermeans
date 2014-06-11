@@ -183,7 +183,7 @@ class Query < ActiveRecord::Base
   end
 
   def has_filter?(field) # cover_me heckle_me
-    filters and filters[field]
+    filters and filters[field].present?
   end
 
   def operator_for(field) # cover_me heckle_me

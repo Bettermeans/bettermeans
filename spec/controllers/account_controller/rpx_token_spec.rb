@@ -252,7 +252,7 @@ describe AccountController, '#rpx_token' do
 
       it "reactivates the user" do
         get(:rpx_token)
-        assigns(:user).should be_active
+        assigns(:user).active?.should be true
       end
 
       it "authenticates with a reactivation message" do

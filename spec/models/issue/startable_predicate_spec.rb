@@ -11,7 +11,7 @@ describe Issue, '#startable?' do
       issue.status = IssueStatus.open
       issue.pri = nil
       issue.save!
-      issue.should_not be_startable
+      issue.startable?.should be false
     end
   end
 

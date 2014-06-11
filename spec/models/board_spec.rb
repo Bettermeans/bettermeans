@@ -13,13 +13,13 @@ describe Board do
     it "returns true if the user is allowed to view messages on the project" do
       fake_user = double(:allowed_to? => true)
       User.stub(:current).and_return(fake_user)
-      board.should be_visible
+      board.visible?.should be true
     end
 
     it "returns false if the user is not allowed to view messages on the project" do
       fake_user = double(:allowed_to? => false)
       User.stub(:current).and_return(fake_user)
-      board.should_not be_visible
+      board.visible?.should be false
     end
   end
 

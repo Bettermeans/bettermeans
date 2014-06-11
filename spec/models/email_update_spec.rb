@@ -38,7 +38,7 @@ describe EmailUpdate do
 
     it 'updates activation attributes to true' do
       email_update.accept
-      email_update.activated.should be_true
+      email_update.activated.should be true
     end
 
     it 'updates mail attributes to mail' do

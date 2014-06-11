@@ -9,7 +9,7 @@ describe Issue, '#has_team?' do
       issue = Factory.create(:issue)
       team_votes1 = IssueVote.create!(:vote_type => IssueVote::JOIN_VOTE_TYPE, :issue => issue, :user => user1, :points => 2)
       team_votes2 = IssueVote.create!(:vote_type => IssueVote::JOIN_VOTE_TYPE, :issue => issue, :user => user2, :points => 3)
-      issue.has_team?.should be_true
+      issue.has_team?.should be true
     end
   end
 

@@ -18,21 +18,21 @@ describe Retro do
     context "when project status is ended" do
       it "returns true" do
         retro.status_id = Retro::STATUS_COMPLETE
-        retro.should be_ended
+        retro.ended?.should be true
       end
     end
 
     context "when project status is distributed" do
       it "returns true" do
         retro.status_id = Retro::STATUS_DISTRIBUTED
-        retro.should be_ended
+        retro.ended?.should be true
       end
     end
 
     context "when project status is in progress" do
       it "returns false" do
         retro.status_id = Retro::STATUS_INPROGRESS
-        retro.should_not be_ended
+        retro.ended?.should be false
       end
     end
   end

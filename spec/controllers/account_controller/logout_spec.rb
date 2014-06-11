@@ -12,15 +12,15 @@ describe AccountController, '#logout' do
 
   it 'deletes the autologin cookie' do
     # for some reason both request.cookies and response.cookies are nil regardless
-    controller.send(:cookies)[:autologin].should_not be
+    controller.send(:cookies)[:autologin].should be_nil
   end
 
   it 'deletes all autologin tokens for the given user' do
-    Token.find_by_id(@token.id).should_not be
+    Token.find_by_id(@token.id).should be_nil
   end
 
   it 'sets the currently logged in user to nil' do
-    controller.current_user.should be_anonymous
+    controller.current_user.anonymous?.should be true
   end
 
   it 'redirects to the homepage' do

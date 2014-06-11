@@ -26,7 +26,7 @@ describe Credit do
 
     it 'returns the result of the save' do
       credit.stub(:save).and_return(false)
-      credit.disable.should be_false
+      credit.disable.should be false
     end
   end
 
@@ -59,7 +59,7 @@ describe Credit do
       it 'returns true' do
         credit.issued_on = 10
         credit.created_at = 1
-        credit.previously_issued.should be_true
+        credit.previously_issued.should be true
       end
     end
   end

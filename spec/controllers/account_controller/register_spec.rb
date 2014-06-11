@@ -138,7 +138,7 @@ describe AccountController, '#register' do
 
     it "sets the user not to be an admin" do
       post(:register, :user => { :mail => 'bill@bill.com' }, :invitation_token => invitation.token)
-      assigns(:user).should_not be_admin
+      assigns(:user).admin?.should be false
     end
 
     it "sets the user's status to registered" do

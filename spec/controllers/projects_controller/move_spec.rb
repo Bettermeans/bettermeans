@@ -15,7 +15,7 @@ describe ProjectsController do
   describe "#move" do
     it "should redirect if project has no parent" do
       get :move, :id => @root.id
-      response.should be_redirect
+      response.redirect?.should be true
     end
 
     it "should deny access if user not authorized" do
@@ -46,7 +46,7 @@ describe ProjectsController do
         end
         it "should redirect to project page" do
           post :move, :id => @project.id, :parent_id => @root.id
-          response.should be_redirect
+          response.redirect?.should be true
         end
         it "should create an activity stream" do
           lambda {

@@ -7,14 +7,14 @@ describe Issue, '#ready_for_accepted?' do
   context 'when IssueStatus is accepted' do
     it 'returns true' do
       issue.status = IssueStatus.accepted
-      issue.should be_ready_for_accepted
+      issue.ready_for_accepted?.should be true
     end
   end
 
   context 'when accept_total is < 1 or points are nil' do
     it 'returns false' do
       issue.points = nil
-      issue.should_not be_ready_for_accepted
+      issue.ready_for_accepted?.should be false
     end
   end
 
@@ -24,7 +24,7 @@ describe Issue, '#ready_for_accepted?' do
       issue.accept_total = 5
       issue.points = 1
       issue.updated_at = DateTime.now - cutoff_date - 1
-      issue.should be_ready_for_accepted
+      issue.ready_for_accepted?.should be true
     end
   end
 

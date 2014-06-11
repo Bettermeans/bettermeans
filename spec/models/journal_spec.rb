@@ -71,7 +71,7 @@ describe Journal do
     context 'when there are no details and no notes' do
       it 'returns false' do
         journal = Journal.new
-        journal.save.should be_false
+        journal.save.should be false
       end
     end
   end
@@ -98,7 +98,7 @@ describe Journal do
     context 'when usr is nil' do
       it 'returns false' do
         journal = Journal.new
-        journal.editable_by?(nil).should be_false
+        journal.editable_by?(nil).should be false
       end
     end
   end

@@ -29,14 +29,14 @@ describe Notification do
     context "when notification type is a mention" do
       it "returns true" do
         notification.variation = "mention"
-        notification.should be_mention
+        notification.mention?.should be true
       end
     end
 
     context "when notification type is not a mention" do
       it "returns false" do
         notification.variation = "not mention"
-        notification.should_not be_mention
+        notification.mention?.should be false
       end
     end
   end

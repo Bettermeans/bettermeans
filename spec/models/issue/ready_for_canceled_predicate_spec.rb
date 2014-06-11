@@ -9,7 +9,7 @@ describe Issue, '#ready_for_canceled?' do
       cutoff_date = Setting::LAZY_MAJORITY_LENGTH
       issue.agree_total = -1
       issue.updated_at = DateTime.now - cutoff_date - 1
-      issue.should be_ready_for_canceled
+      issue.ready_for_canceled?.should be true
     end
   end
 

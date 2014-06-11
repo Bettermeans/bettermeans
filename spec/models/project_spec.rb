@@ -109,11 +109,11 @@ describe Project do
 
     describe User.anonymous, "user type" do
       it "has zero memberships" do
-        User.anonymous.memberships.any?.should be_false
+        User.anonymous.memberships.any?.should be false
       end
 
       it "is not admin" do
-        User.anonymous.should_not be_admin
+        User.anonymous.admin?.should be false
       end
     end
   end
@@ -175,13 +175,13 @@ describe Project do
     context 'if status is STATUS_ACTIVE' do
       it 'returns true' do
         project.status = Project::STATUS_ACTIVE
-        project.active?.should be_true
+        project.active?.should be true
       end
     end
     context 'if status is not STATUS_ACTIVE' do
       it 'returns false' do
         project.status = Project::STATUS_ARCHIVED
-        project.active?.should be_false
+        project.active?.should be false
       end
     end
   end
@@ -190,13 +190,13 @@ describe Project do
     context 'if status is STATUS_ARCHIVED' do
       it 'returns true' do
         project.status = Project::STATUS_ARCHIVED
-        project.archived?.should be_true
+        project.archived?.should be true
       end
     end
     context 'if status is not STATUS_ARCHIVED' do
       it 'returns false' do
         project.status = Project::STATUS_ACTIVE
-        project.archived?.should be_false
+        project.archived?.should be false
       end
     end
   end
@@ -205,13 +205,13 @@ describe Project do
     context 'if status is STATUS_LOCKED' do
       it 'returns true' do
         project.status = Project::STATUS_LOCKED
-        project.locked?.should be_true
+        project.locked?.should be true
       end
     end
     context 'if status is not STATUS_LOCKED' do
       it 'returns false' do
         project.status = Project::STATUS_ARCHIVED
-        project.locked?.should be_false
+        project.locked?.should be false
       end
     end
   end
@@ -249,7 +249,7 @@ describe Project do
   describe '#enterprise?' do
     context 'when parent_id is nil' do
       it 'returns true' do
-        project.should be_enterprise
+        project.enterprise?.should be true
       end
     end
 
@@ -258,7 +258,7 @@ describe Project do
         project1 = Factory.create(:project)
         project2 = Factory.create(:project)
         project2.move_to_child_of(project1)
-        project2.should_not be_enterprise
+        project2.enterprise?.should be false
       end
     end
   end

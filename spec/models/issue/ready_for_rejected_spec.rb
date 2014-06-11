@@ -7,7 +7,7 @@ describe Issue, '#ready_for_rejected?' do
   context 'when IssueStatus is rejected' do
     it 'returns true' do
       issue.status = IssueStatus.rejected
-      issue.should be_ready_for_rejected
+      issue.ready_for_rejected?.should be true
     end
   end
 

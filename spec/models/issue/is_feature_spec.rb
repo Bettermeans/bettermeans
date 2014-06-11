@@ -7,14 +7,14 @@ describe Issue, '#is_feature' do
   context 'when tracker is feature' do
     it 'returns true' do
       issue.stub(:tracker).and_return(mock(:feature? => true))
-      issue.is_feature.should be_true
+      issue.is_feature.should be true
     end
   end
 
   context 'when tracker is not feature' do
     it 'returns false' do
       issue.stub(:tracker).and_return(mock(:feature? => false))
-      issue.is_feature.should be_false
+      issue.is_feature.should be false
     end
   end
 end

@@ -27,12 +27,12 @@ describe Token do
   describe '#expired?' do
     it "returns true if expired" do
       token.created_at = Time.now - 40.days
-      token.should be_expired
+      token.expired?.should be true
     end
 
     it "returns false if not expired" do
       token.created_at = Time.now - 20.days
-      token.should_not be_expired
+      token.expired?.should be false
     end
   end
 

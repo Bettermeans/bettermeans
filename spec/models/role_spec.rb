@@ -72,13 +72,13 @@ describe Role do
     it "returns true if builtin is in the COMMUNITY_ROLES" do
       Role::COMMUNITY_ROLES.each do |role_id|
         role.builtin = role_id
-        role.should be_builtin
+        role.builtin?.should be true
       end
     end
 
     it "returns false if builtin is not in the COMMUNITY_ROLES" do
       role.builtin = Role::NON_BUILTIN_ROLE
-      role.should_not be_builtin
+      role.builtin?.should be false
     end
   end
 
@@ -87,7 +87,7 @@ describe Role do
       it "returns true" do
         Role::COMMUNITY_ROLES.each do |role_id|
           role.builtin = role_id
-          role.should be_community_member
+          role.community_member?.should be true
         end
       end
     end
@@ -96,24 +96,24 @@ describe Role do
   describe "#enterprise_member?" do
     it "returns true if level is enterprise" do
       role.level = Role::LEVEL_ENTERPRISE
-      role.should be_enterprise_member
+      role.enterprise_member?.should be true
     end
 
     it "returns false if level is not enterprise" do
       role.level = Role::LEVEL_PLATFORM
-      role.should_not be_enterprise_member
+      role.enterprise_member?.should be false
     end
   end
 
   describe "#platform_member?" do
     it "returns true if level is platform" do
       role.level = Role::LEVEL_PLATFORM
-      role.should be_platform_member
+      role.platform_member?.should be true
     end
 
     it "returns false if level is not 0" do
       role.level = Role::LEVEL_ENTERPRISE
-      role.should_not be_platform_member
+      role.platform_member?.should be false
     end
   end
 
@@ -121,85 +121,85 @@ describe Role do
     it "returns true if builtin is in binding members" do
       Role::BINDING_MEMBERS.each do |role_id|
         role.builtin = role_id
-        role.should be_binding_member
+        role.binding_member?.should be true
       end
     end
 
     it "returns false if builtin is not in binding members" do
       role.builtin = 1
-      role.should_not be_binding_member
+      role.binding_member?.should be false
     end
   end
 
   describe "#admin?" do
     it "returns true if builtin is admin" do
       role.builtin = Role::BUILTIN_ADMINISTRATOR
-      role.should be_admin
+      role.admin?.should be true
     end
 
     it "returns false if builtin is not admin" do
       role.builtin = Role::BUILTIN_NON_MEMBER
-      role.should_not be_admin
+      role.admin?.should be false
     end
   end
 
   describe "#core_member?" do
     it "returns true if builtin is a core member" do
       role.builtin = Role::BUILTIN_CORE_MEMBER
-      role.should be_core_member
+      role.core_member?.should be true
     end
 
     it "returns false if builtin is not core member" do
       role.builtin = Role::BUILTIN_ADMINISTRATOR
-      role.should_not be_core_member
+      role.core_member?.should be false
     end
   end
 
   describe "#contributor?" do
     it "returns true if builtin is contributor" do
       role.builtin = Role::BUILTIN_CONTRIBUTOR
-      role.should be_contributor
+      role.contributor?.should be true
     end
 
     it "returns false if builtin is not contributor" do
       role.builtin = Role::BUILTIN_ADMINISTRATOR
-      role.should_not be_contributor
+      role.contributor?.should be false
     end
   end
 
   describe "#member?" do
     it "returns true if builtin is member" do
       role.builtin = Role::BUILTIN_MEMBER
-      role.should be_member
+      role.member?.should be true
     end
 
     it "returns false if builtin is not member" do
       role.builtin = Role::BUILTIN_ADMINISTRATOR
-      role.should_not be_member
+      role.member?.should be false
     end
   end
 
   describe "#active?" do
     it "returns true if builtin is active" do
       role.builtin = Role::BUILTIN_ACTIVE
-      role.should be_active
+      role.active?.should be true
     end
 
     it "returns false if builtin is not active" do
       role.builtin = Role::BUILTIN_ADMINISTRATOR
-      role.should_not be_active
+      role.active?.should be false
     end
   end
 
   describe "#clearance?" do
     it "returns true if builtin is clearance" do
       role.builtin = Role::BUILTIN_CLEARANCE
-      role.should be_clearance
+      role.clearance?.should be true
     end
 
     it "returns false if builtin is not clearance" do
       role.builtin = Role::BUILTIN_ADMINISTRATOR
-      role.should_not be_clearance
+      role.clearance?.should be false
     end
   end
 
@@ -211,21 +211,21 @@ describe Role do
 
     context "when parameter is a hash" do
       it "returns true if the controller action is permitted" do
-        role.should be_allowed_to({:controller => 'foo', :action => 'bar'})
+        role.allowed_to?({:controller => 'foo', :action => 'bar'}).should be true
       end
 
       it "returns false if the controller action is not permitted" do
-        role.should_not be_allowed_to({:controller => 'foo', :action => 'notbar'})
+        role.allowed_to?({:controller => 'foo', :action => 'notbar'}).should be false
       end
     end
 
     context "when parameter is not a hash" do
       it "returns true if the action is permitted" do
-        role.should be_allowed_to('bar')
+        role.allowed_to?('bar').should be true
       end
 
       it "returns false if the aciton is not permitted" do
-        role.should_not be_allowed_to('notbar')
+        role.allowed_to?('notbar').should be false
       end
     end
   end

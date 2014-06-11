@@ -27,14 +27,14 @@ describe Tracker do
     context 'when the name is Gift' do
       it 'returns true' do
         tracker.name = 'Gift'
-        tracker.should be_gift
+        tracker.gift?.should be true
       end
     end
 
     context 'when the name is not Gift' do
       it 'returns false' do
         tracker.name = 'not_gift'
-        tracker.should_not be_gift
+        tracker.gift?.should be false
       end
     end
   end
@@ -43,14 +43,14 @@ describe Tracker do
     context 'when the name is Expense' do
       it 'returns true' do
         tracker.name = 'Expense'
-        tracker.should be_expense
+        tracker.expense?.should be true
       end
     end
 
     context 'when the name is not Expense' do
       it 'returns false' do
         tracker.name = 'not_expense'
-        tracker.should_not be_expense
+        tracker.expense?.should be false
       end
     end
   end
@@ -59,14 +59,14 @@ describe Tracker do
     context 'when the name is Recurring' do
       it 'returns true' do
         tracker.name = 'Recurring'
-        tracker.should be_recurring
+        tracker.recurring?.should be true
       end
     end
 
     context 'when the name is not Recurring' do
       it 'returns false' do
         tracker.name = 'not_recurring'
-        tracker.should_not be_recurring
+        tracker.recurring?.should be false
       end
     end
   end
@@ -75,14 +75,14 @@ describe Tracker do
     context 'when the name is Hourly' do
       it 'returns true' do
         tracker.name = 'Hourly'
-        tracker.should be_hourly
+        tracker.hourly?.should be true
       end
     end
 
     context 'when the name is not Hourly' do
       it 'returns true' do
         tracker.name = 'not_hourly'
-        tracker.should_not be_hourly
+        tracker.hourly?.should be false
       end
     end
   end
@@ -91,14 +91,14 @@ describe Tracker do
     context 'when the name is Feature' do
       it 'returns true' do
         tracker.name = 'Feature'
-        tracker.should be_feature
+        tracker.feature?.should be true
       end
     end
 
     context 'when the name is not Feature' do
       it 'returns false' do
         tracker.name = 'not_feature'
-        tracker.should_not be_feature
+        tracker.feature?.should be false
       end
     end
   end
@@ -107,14 +107,14 @@ describe Tracker do
     context 'when the name is Bug' do
       it 'returns true' do
         tracker.name = 'Bug'
-        tracker.should be_bug
+        tracker.bug?.should be true
       end
     end
 
     context 'when the name is not Bug' do
       it 'returns false' do
         tracker.name = 'not_bug'
-        tracker.should_not be_bug
+        tracker.bug?.should be false
       end
     end
   end
@@ -123,14 +123,14 @@ describe Tracker do
     context 'when the name is Chore' do
       it 'returns true' do
         tracker.name = 'Chore'
-        tracker.should be_chore
+        tracker.chore?.should be true
       end
     end
 
     context 'when the name is not Chore' do
       it 'returns false' do
         tracker.name = 'not_chore'
-        tracker.should_not be_chore
+        tracker.chore?.should be false
       end
     end
   end

@@ -17,21 +17,21 @@ describe Query do
   describe '#after_initialize' do
     context 'if project is nil' do
       it 'sets @is_for_all to true' do
-        query.instance_variable_get(:@is_for_all).should be_true
+        query.instance_variable_get(:@is_for_all).should be true
       end
     end
 
     context 'if project is not nil' do
       it 'sets @is_for_all to false' do
         query = Query.new(:project => Project.new)
-        query.instance_variable_get(:@is_for_all).should be_false
+        query.instance_variable_get(:@is_for_all).should be false
       end
     end
   end
 
   describe '#has_filter?' do
     it "using field 'status_id' returns filters and filters[field]" do
-      query.has_filter?('status_id').should be_true
+      query.has_filter?('status_id').should be true
     end
   end
 
@@ -72,7 +72,7 @@ describe Query do
   describe '#grouped?' do
     it 'returns true if query is a grouped query' do
       query.group_by = true
-      query.should be_grouped
+      query.grouped?.should be true
     end
   end
 

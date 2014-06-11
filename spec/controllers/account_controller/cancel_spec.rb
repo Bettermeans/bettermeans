@@ -9,7 +9,7 @@ describe AccountController, '#cancel' do
 
   it "cancels the current user's account" do
     get(:cancel)
-    user.reload.should be_canceled
+    user.reload.canceled?.should be true
   end
 
   it "renders an account canceled message" do
