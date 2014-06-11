@@ -245,12 +245,12 @@ class IssuesController < ApplicationController
     @iv = IssueVote.create :user_id => User.current.id, :issue_id => @issue.id, :vote_type => IssueVote::ACCEPT_VOTE_TYPE, :points => 1 #adding accept vote for user who finished the issue
     @issue.update_accept_total  @iv.isbinding
     @issue.clone_recurring if @issue.tracker.recurring?
-    @issue.set_points_from_hourly if @issue.is_hourly? #an hourly item is done, we set the
+    @issue.set_points_from_hourly if @issue.hourly? #an hourly item is done, we set the
     change_status
   end
 
   def release # spec_me cover_me heckle_me
-    if(@issue.is_hourly?)
+    if(@issue.hourly?)
       params[:issue] = {:status_id => IssueStatus.newstatus.id, :assigned_to_id => ''}
     else
       #Deleting current user from issue
@@ -320,7 +320,7 @@ class IssuesController < ApplicationController
 
 
   def estimate # spec_me cover_me heckle_me
-    if(@issue.is_hourly?)
+    if(@issue.hourly?)
       render_error 'Can not estimate hourly items'
       return false;
     end
@@ -710,7 +710,7 @@ class IssuesController < ApplicationController
     @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author])
     @project = @issue.project
     render_message l(:text_project_locked) if @project.locked?
-    render_404 if @issue.is_gift? && @issue.assigned_to_id == User.current.id
+    render_404 if @issue.gift? && @issue.assigned_to_id == User.current.id
   rescue ActiveRecord::RecordNotFound
     render_404
   end

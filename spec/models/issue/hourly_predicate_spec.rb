@@ -1,20 +1,20 @@
 require 'spec_helper'
 
-describe Issue, '#is_hourly?' do
+describe Issue, '#hourly?' do
 
   let(:issue) { Issue.new }
 
   context 'when the tracker is hourly' do
     it 'returns true' do
       issue.stub(:tracker).and_return(mock(:hourly? => true))
-      issue.is_hourly?.should be true
+      issue.hourly?.should be true
     end
   end
 
   context 'when the tracker is not hourly' do
     it 'returns false' do
       issue.stub(:tracker).and_return(mock(:hourly? => false))
-      issue.is_hourly?.should be false
+      issue.hourly?.should be false
     end
   end
 

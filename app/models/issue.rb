@@ -111,27 +111,27 @@ class Issue < ActiveRecord::Base
     return false
   end
 
-  def is_gift? # cover_me heckle_me
+  def gift? # cover_me heckle_me
     tracker.gift?
   end
 
-  def is_expense? # cover_me heckle_me
+  def expense? # cover_me heckle_me
     tracker.expense?
   end
 
-  def is_hourly? # cover_me heckle_me
+  def hourly? # cover_me heckle_me
     tracker.hourly?
   end
 
-  def is_feature # cover_me heckle_me
+  def feature? # cover_me heckle_me
     tracker.feature?
   end
 
-  def is_bug # cover_me heckle_me
+  def bug? # cover_me heckle_me
     tracker.bug?
   end
 
-  def is_chore # cover_me heckle_me
+  def chore? # cover_me heckle_me
     tracker.chore?
   end
 
@@ -139,7 +139,7 @@ class Issue < ActiveRecord::Base
     return IssueStatus.canceled if self.status == IssueStatus.canceled
     return IssueStatus.accepted if ready_for_accepted?
     return IssueStatus.rejected if ready_for_rejected?
-    return IssueStatus.done if self.status == IssueStatus.done || (ready_for_open? && is_gift?)
+    return IssueStatus.done if self.status == IssueStatus.done || (ready_for_open? && gift?)
     return IssueStatus.inprogress if self.status == IssueStatus.inprogress
     return IssueStatus.open if ready_for_open?
     return IssueStatus.canceled if ready_for_canceled?
@@ -475,13 +475,13 @@ class Issue < ActiveRecord::Base
 
       if self.status == IssueStatus.accepted
         self.assigned_to.add_as_contributor_if_new(self.project) unless self.assigned_to.nil?
-        if self.is_gift?
+        if self.gift?
           self.retro_id = Retro::NOT_NEEDED_ID
           self.give_credits
-        elsif self.is_expense?
+        elsif self.expense?
           self.retro_id = Retro::NOT_NEEDED_ID
           self.give_credits
-        elsif self.is_hourly?
+        elsif self.hourly?
           self.retro_id = Retro::GIVEN_BUT_NOT_PART_OF_RETRO
           self.give_credits
         else #if a non-gift/expense/hourly is accepted, set retro id to not started to prep for next retrospective
@@ -503,7 +503,7 @@ class Issue < ActiveRecord::Base
 
   # sets number of points for an hourly item
   def set_points_from_hourly # spec_me cover_me heckle_me
-    return unless self.is_hourly?
+    return unless self.hourly?
 
     if (hourly_type.hourly_rate_per_person * self.team_members.length) > hourly_type.hourly_cap
       self.points = hourly_type.hourly_cap * self.num_hours
@@ -514,17 +514,17 @@ class Issue < ActiveRecord::Base
 
   # issues credits for this one issue to the people it's assigned to
   def give_credits # spec_me cover_me heckle_me
-    if self.is_gift?
+    if self.gift?
       CreditDistribution.create(:user_id => self.assigned_to_id,
                                 :project_id => self.project_id,
                                 :retro_id => CreditDistribution::GIFT,
                                 :amount => self.points) unless self.points == 0 || self.points.nil?
-    elsif self.is_expense?
+    elsif self.expense?
       CreditDistribution.create(:user_id => self.assigned_to_id,
                                 :project_id => self.project_id,
                                 :retro_id => CreditDistribution::EXPENSE,
                                 :amount => self.points) unless self.points == 0 || self.points.nil?
-    elsif self.is_hourly?
+    elsif self.hourly?
       credits_per_person_per_hour = 0
 
       if (hourly_type.hourly_rate_per_person * self.team_members.length) > hourly_type.hourly_cap
