@@ -23,6 +23,15 @@ pt_BR:
   datetime:
     distance_in_words:
       half_a_minute: "meio minuto"
+      x_seconds:
+        one: "1 segundo"
+        other: "%{count} segundos"
+      x_minutes:
+        one: "1 minuto"
+        other: "%{count} minutos"
+      x_days:
+        one: "1 dia"
+        other: "%{count} dias"
   number:
     human:
       storage_units:
@@ -74,6 +83,13 @@ pt_BR:
   general_csv_decimal_separator: ','
   general_csv_encoding: ISO-8859-1
   general_first_day_of_week: '1'
+  general:
+    hour: hora
+    hours: horas
+    minute: minuto
+    minutes: minutos
+    month: mês
+    months: meses
   notice_account_updated: Conta atualizada com sucesso.
   notice_account_invalid_creditentials: Usuário ou senha inválido.
   notice_account_password_updated: Senha alterada com sucesso.
