@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe News do
+
   let(:author) { Factory.create(:user) }
   let(:project) { Factory.create(:project) }
   let(:news) { News.new(:author => author, :project => project) }
@@ -21,20 +22,20 @@ describe News do
     context 'when a current user exists and has view permission' do
       it 'returns true' do
         author.stub(:allowed_to?).and_return true
-        news.visible?(author).should be_true
+        news.visible?(author).should be true
       end
     end
 
     context 'when no user does not have view permission' do
       it 'returns false' do
         author.stub(:allowed_to?).and_return false
-        news.visible?(author).should be_false
+        news.visible?(author).should be false
       end
     end
 
     context 'when no user is nil' do
       it 'returns false' do
-        news.visible?(nil).should be_false
+        news.visible?(nil).should be false
       end
     end
   end
@@ -53,7 +54,7 @@ describe News do
     it 'returns latest news for projects visible by user' do
       news.save!
       Project.stub(:allowed_to_condition).and_return('')
-      News.latest.should eql [news]
+      News.latest.should == [news]
     end
   end
 
@@ -65,26 +66,25 @@ describe News do
   end
 
   describe '#mention' do
-    let(:params) { {:mention_text => "10 mentioned 11"} }
-    let(:sender_id) { 10 }
-    let(:recipient_id) { 11 }
+    let(:sender) { Factory.create(:user) }
+    let(:recipient) { Factory.create(:user) }
 
-    let(:notification) { Notification.create(:params => params, :sender_id => sender_id, :recipient_id => recipient_id) }
+    let(:notification) { Notification.create(:params => params, :sender => sender, :recipient => recipient) }
 
     it 'creates a new notification' do
       expect {
-          news.mention(sender_id, recipient_id, params)
+          news.mention(sender.id, recipient.id, 'blah')
         }.to change(Notification, :count).by(1)
     end
 
     it 'sends noitification from the correct sender' do
-      news.mention(sender_id, recipient_id, params)
-      Notification.last.sender_id.should == sender_id
+      news.mention(sender.id, recipient.id, 'blah')
+      Notification.last.sender.should == sender
     end
 
     it 'sends notification to the correct recipient' do
-      news.mention(sender_id, recipient_id, params)
-      Notification.last.recipient_id.should == recipient_id
+      news.mention(sender.id, recipient.id, 'blah')
+      Notification.last.recipient.should == recipient
     end
   end
 
