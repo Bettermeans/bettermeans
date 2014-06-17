@@ -276,10 +276,6 @@ class Issue < ActiveRecord::Base
     write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
   end
 
-
-  def validate # spec_me cover_me heckle_me
-  end
-
   def init_journal(user, notes = "") # spec_me cover_me heckle_me
     @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
     @issue_before_change = self.clone
