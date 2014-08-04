@@ -182,5 +182,7 @@ under the terms of the GNU General Public License v2 (GPL). Better is also
 GPLv2.
 
 All Redmine code is Copyright (C) 2006-2011  Jean-Philippe Lang
+
 All Bettermeans code is Copyright (C) Shereef Bishay
+
 All Better code is Copyright (C) Robert Fletcher
