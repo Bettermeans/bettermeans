@@ -7,6 +7,17 @@ live server hosted at: https://better.boon.gl
 *** Use at your own risk!!! There are likely to be vulnerabilities in this
 app!!! ***
 
+Contributing
+------------
+
+This project is long out of maintenance. I'm trying to bring it up to snuff in
+my spare time, but as you can see from the commit history, progress is slow.
+If you are interested in contributing, we are looking to add contributors to
+the project. All experience levels are welcome. If you're just getting started
+as a developer, please get in touch and I can help you get up and running.
+Check the dev notes below for details on the biggest area we could use help
+with: testing.
+
 Pre-requisites
 --------------
 
