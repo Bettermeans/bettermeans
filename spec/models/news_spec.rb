@@ -48,7 +48,7 @@ describe News do
     end
   end
 
-  describe News, '.latest' do
+  describe '.latest' do
     let(:news) { News.new(:author => author, :project => project, :title => "title", :description => 'description') }
 
     it 'returns latest news for projects visible by user' do
