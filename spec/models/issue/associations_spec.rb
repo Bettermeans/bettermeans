@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Issue, 'associations' do
+
   it { should belong_to(:project) }
   it { should belong_to(:tracker) }
   it { should belong_to(:status).class_name('IssueStatus') }
@@ -14,4 +15,5 @@ describe Issue, 'associations' do
   it { should have_many(:relations_to).class_name('IssueRelation') }
   it { should have_many(:issue_votes).dependent(:delete_all) }
   it { should have_many(:todos).dependent(:delete_all) }
+
 end

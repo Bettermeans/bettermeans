@@ -18,13 +18,6 @@ describe Issue, '#updated_status' do
     end
   end
 
-  # context 'when status is ready_for_open?' do
-  #   it 'returns IssueStatus.open' do
-  #     issue.stub(:ready_for_open?).and_return true
-  #     issue.updated_status.should == IssueStatus.open
-  #   end
-  # end
-
   context 'when status is ready_for_open?' do
     it 'returns IssueStatus.canceled' do
       issue.stub(:ready_for_canceled?).and_return true

@@ -2,13 +2,7 @@ require 'spec_helper'
 
 describe Board, '#to_s' do
 
-  let(:board) do
-    Board.create!({
-      :name => 'test name',
-      :description => 'test desc',
-      :project_id => 1
-    })
-  end
+  let(:board) { Board.new(:name => 'test name') }
 
   it "returns the board name" do
     board.to_s.should == 'test name'
