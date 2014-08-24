@@ -28,16 +28,23 @@ I recommend using rvm to manage your ruby versions: https://rvm.io/
 rvm install 1.8.7-p374
 
 # set ruby version:
-rvm use 1.8.7 --default
+rvm use 1.8.7
 
 # set the rubygems version:
 rvm rubygems 1.8.25
 
 # install postgres:
+# mac
 brew install postgres
+# debian linux
+sudo apt-get install postgresql postgresql-client postgresql-contrib
 
 # Imagemagick is also a dependency:
+# mac
 brew install imagemagick
+# debian linux
+sudo apt-get install imagemagick
+
 # see here for errors installing rmagick: http://stackoverflow.com/a/13967303/372479
 ```
 
