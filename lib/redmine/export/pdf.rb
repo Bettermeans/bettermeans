@@ -17,7 +17,7 @@ module Redmine
         include Redmine::I18n
         attr_accessor :footer_date
 
-        def initialize(lang) # spec_me cover_me heckle_me
+        def initialize(lang) # cover_me heckle_me
           super()
           set_language_if_valid lang
           case current_language.to_s.downcase
@@ -31,7 +31,7 @@ module Redmine
             AddGBFont()
             @font_for_content = 'GB'
             @font_for_footer = 'GB'
-          when 'zh-tw'
+          when 'zh_tw'
             extend(PDF_Chinese)
             AddBig5Font()
             @font_for_content = 'Big5'
@@ -44,11 +44,11 @@ module Redmine
           SetFont(@font_for_content)
         end
 
-        def SetFontStyle(style, size) # spec_me cover_me heckle_me
+        def SetFontStyle(style, size) # cover_me heckle_me
           SetFont(@font_for_content, style, size)
         end
 
-        def SetTitle(txt) # spec_me cover_me heckle_me
+        def SetTitle(txt) # cover_me heckle_me
           txt = begin
             utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
             hextxt = "<FEFF"  # FEFF is BOM
@@ -60,7 +60,7 @@ module Redmine
           super(txt)
         end
 
-        def textstring(s) # spec_me cover_me heckle_me
+        def textstring(s) # cover_me heckle_me
           # Format a text string
           if s =~ /^</  # This means the string is hex-dumped.
             return s
@@ -69,7 +69,7 @@ module Redmine
           end
         end
 
-        def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='') # spec_me cover_me heckle_me
+        def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='') # cover_me heckle_me
           @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           # these quotation marks are not correctly rendered in the pdf
           txt = txt.gsub(/[â€œâ€�]/, '"') if txt
@@ -84,7 +84,7 @@ module Redmine
           super w,h,txt,border,ln,align,fill,link
         end
 
-        def Footer # spec_me cover_me heckle_me
+        def Footer # cover_me heckle_me
           SetFont(@font_for_footer, 'I', 8)
           SetY(-15)
           SetX(15)
@@ -96,7 +96,7 @@ module Redmine
       end
 
       # Returns a PDF string of a list of issues
-      def issues_to_pdf(issues, project, query) # spec_me cover_me heckle_me
+      def issues_to_pdf(issues, project, query) # cover_me heckle_me
         pdf = IFPDF.new(current_language)
         title = query.new_record? ? l(:label_issue_plural) : query.name
         title = "#{project} - #{title}" if project
@@ -160,7 +160,7 @@ module Redmine
       end
 
       # Returns a PDF string of a single issue
-      def issue_to_pdf(issue) # spec_me cover_me heckle_me
+      def issue_to_pdf(issue) # cover_me heckle_me
         pdf = IFPDF.new(current_language)
         pdf.SetTitle("#{issue.project} - ##{issue.tracker} #{issue.id}")
         pdf.AliasNbPages
@@ -180,7 +180,7 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_priority) + ":","LT")
         pdf.SetFontStyle('',9)
-        pdf.Cell(60,5, issue.priority.to_s,"RT")
+        pdf.Cell(60,5, issue.pri.to_s,"RT")
         pdf.Ln
 
         pdf.SetFontStyle('B',9)
@@ -219,27 +219,11 @@ module Redmine
         pdf.SetFontStyle('B',9)
         pdf.Cell(35,5, l(:field_description) + ":")
         pdf.SetFontStyle('',9)
-        pdf.MultiCell(155,5, @issue.description,"BR")
+        pdf.MultiCell(155,5, issue.description,"BR")
 
         pdf.Line(pdf.GetX, y0, pdf.GetX, pdf.GetY)
         pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
         pdf.Ln
-
-        if issue.changesets.any? && User.current.allowed_to?(:view_changesets, issue.project)
-          pdf.SetFontStyle('B',9)
-          pdf.Cell(190,5, l(:label_associated_revisions), "B")
-          pdf.Ln
-          for changeset in issue.changesets
-            pdf.SetFontStyle('B',8)
-            pdf.Cell(190,5, format_time(changeset.committed_on) + " - " + changeset.author.to_s)
-            pdf.Ln
-            unless changeset.comments.blank?
-              pdf.SetFontStyle('',8)
-              pdf.MultiCell(190,5, changeset.comments)
-            end
-            pdf.Ln
-          end
-        end
 
         pdf.SetFontStyle('B',9)
         pdf.Cell(190,5, l(:label_history), "B")
@@ -277,7 +261,7 @@ module Redmine
       end
 
       # Returns a PDF string of a gantt chart
-      def gantt_to_pdf(gantt, project) # spec_me cover_me heckle_me
+      def gantt_to_pdf(gantt, project) # cover_me heckle_me
         pdf = IFPDF.new(current_language)
         pdf.SetTitle("#{l(:label_gantt)} #{project}")
         pdf.AliasNbPages
