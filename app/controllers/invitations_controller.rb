@@ -3,7 +3,7 @@ class InvitationsController < ApplicationController
   before_filter :authorize, :except => :accept
   ssl_required :all
 
-  def index # spec_me cover_me heckle_me
+  def index # heckle_me
     @all_invites, @invitations = paginate :invitations,
                                    :per_page => 30,
                                    :conditions => {:user_id => User.current.id, :project_id => @project.id},
@@ -12,11 +12,11 @@ class InvitationsController < ApplicationController
     respond_to do |format|
       format.html { render :layout => false if request.xhr? }
       format.xml  { render :xml => @invitations.to_xml }
-      format.json { render :json => @invitation.to_json }
+      format.json { render :json => @invitations.to_json }
     end
   end
 
-  def show # spec_me cover_me heckle_me
+  def show # heckle_me
     @invitation = Invitation.find(params[:id])
 
     respond_to do |format|
@@ -25,7 +25,7 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def new # spec_me cover_me heckle_me
+  def new # heckle_me
     unless @project.root?
       render_error("Project is not root. No invitations needed here.")
       return
@@ -35,15 +35,14 @@ class InvitationsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.xml  { render :xml => @invitation }
     end
   end
 
-  def edit # spec_me cover_me heckle_me
+  def edit # heckle_me
     @invitation = Invitation.find(params[:id])
   end
 
-  def create # spec_me cover_me heckle_me
+  def create # cover_me heckle_me
 
     #can't invite someone to anything other than contributor if you're not admin
     if params[:invitation][:role_id] != Role.contributor.id.to_s && !User.current.admin_of?(@project)
@@ -88,7 +87,7 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def accept # spec_me cover_me heckle_me
+  def accept # heckle_me
     @invitation = Invitation.find(params[:id])
 
     if @invitation.token != params[:token] || @invitation.status != Invitation::PENDING
@@ -119,16 +118,12 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def resend # spec_me cover_me heckle_me
+  def resend # heckle_me
     @invitation = Invitation.find(params[:id])
 
     respond_to do |format|
       if @invitation.resend(params[:note])
-        logger.info { "1" }
-
         format.js do
-          logger.info { "format" }
-
           render :update do |page|
             logger.info { "ID BABY #{@invitation.id}" }
             page.visual_effect :highlight, "row-#{@invitation.id}", :duration => 3
@@ -146,7 +141,7 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def destroy # spec_me cover_me heckle_me
+  def destroy # heckle_me
     @invitation = Invitation.find(params[:id])
     @invitation.destroy
 
@@ -170,7 +165,7 @@ class InvitationsController < ApplicationController
     render_404
   end
 
-  def valid_email?(email) # cover_me heckle_me
+  def valid_email?(email) # heckle_me
     TMail::Address.parse(email)
     return true
   rescue

@@ -7,6 +7,22 @@ live server hosted at: https://better.boon.gl
 *** Use at your own risk!!! There are likely to be vulnerabilities in this
 app!!! ***
 
+Roadmap
+-------
+1. get code coverage up to 100% -> currently 39.57%, controllers first
+2. add spec files for every method (use "spec_me" tags, 1265 and counting)
+3. mutation test every method (use "heckle_me" tags, 1665 left)
+4. upgrade to Ruby 1.9
+5. set up Rubocop and clean up code quality
+6. move vendored gems to Gemfile
+7. fix password hashing
+8. run Brakeman and fix vulnerabilities
+9. rename all references from Bettermeans to Better
+10. upgrade to Rails 3.0, 3.1, 3.2
+11. upgrade to Ruby 2.0, 2.1
+12. upgrade to Rails 4.0, 4.1, 4.2
+13. begin using and extending...
+
 Contributing
 ------------
 
