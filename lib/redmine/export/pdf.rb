@@ -17,7 +17,7 @@ module Redmine
         include Redmine::I18n
         attr_accessor :footer_date
 
-        def initialize(lang) # cover_me heckle_me
+        def initialize(lang) # heckle_me
           super()
           set_language_if_valid lang
           case current_language.to_s.downcase
@@ -44,11 +44,11 @@ module Redmine
           SetFont(@font_for_content)
         end
 
-        def SetFontStyle(style, size) # cover_me heckle_me
+        def SetFontStyle(style, size) # heckle_me
           SetFont(@font_for_content, style, size)
         end
 
-        def SetTitle(txt) # cover_me heckle_me
+        def SetTitle(txt) # heckle_me
           txt = begin
             utf16txt = Iconv.conv('UTF-16BE', 'UTF-8', txt)
             hextxt = "<FEFF"  # FEFF is BOM
@@ -60,7 +60,7 @@ module Redmine
           super(txt)
         end
 
-        def textstring(s) # cover_me heckle_me
+        def textstring(s) # heckle_me
           # Format a text string
           if s =~ /^</  # This means the string is hex-dumped.
             return s
@@ -69,7 +69,7 @@ module Redmine
           end
         end
 
-        def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='') # cover_me heckle_me
+        def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='') # heckle_me
           @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           # these quotation marks are not correctly rendered in the pdf
           txt = txt.gsub(/[â€œâ€�]/, '"') if txt
@@ -84,7 +84,7 @@ module Redmine
           super w,h,txt,border,ln,align,fill,link
         end
 
-        def Footer # cover_me heckle_me
+        def Footer # heckle_me
           SetFont(@font_for_footer, 'I', 8)
           SetY(-15)
           SetX(15)
