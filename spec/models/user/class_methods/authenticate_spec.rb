@@ -69,7 +69,7 @@ describe User, '.authenticate' do
       Timecop.freeze do
         User.authenticate(user.login, user.password)
         user.reload
-        user.last_login_on.should == Time.now
+        user.last_login_on.to_i.should == Time.now.to_i
       end
     end
   end

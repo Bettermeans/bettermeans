@@ -9,8 +9,8 @@ app!!! ***
 
 Roadmap
 -------
-1. get code coverage up to 100% -> currently 39.94%, controllers first
-2. add spec files for every method (use "spec_me" tags, 1257 and counting)
+1. get code coverage up to 100% -> currently 40.09%, controllers first
+2. add spec files for every method (use "spec_me" tags, 1256 and counting)
 3. mutation test every method (use "heckle_me" tags, 1665 left)
 4. upgrade to Ruby 1.9
 5. set up Rubocop and clean up code quality
