@@ -1,7 +1,7 @@
 class MotionVotesController < ApplicationController
   ssl_required :all
 
-  def index # spec_me cover_me heckle_me
+  def index # heckle_me
     @motion_votes = MotionVote.all
 
     respond_to do |format|
@@ -10,7 +10,7 @@ class MotionVotesController < ApplicationController
     end
   end
 
-  def show # spec_me cover_me heckle_me
+  def show # heckle_me
     @motion_vote = MotionVote.find(params[:id])
 
     respond_to do |format|
@@ -19,7 +19,7 @@ class MotionVotesController < ApplicationController
     end
   end
 
-  def new # spec_me cover_me heckle_me
+  def new # heckle_me
     @motion_vote = MotionVote.new
 
     respond_to do |format|
@@ -28,11 +28,11 @@ class MotionVotesController < ApplicationController
     end
   end
 
-  def edit # spec_me cover_me heckle_me
+  def edit # heckle_me
     @motion_vote = MotionVote.find(params[:id])
   end
 
-  def create # spec_me cover_me heckle_me
+  def create # heckle_me
     @motion_vote = MotionVote.new(params[:motion_vote])
     @motion_vote.motion_id = params[:motion_id]
     @motion_vote.user_id = User.current.id
@@ -48,14 +48,14 @@ class MotionVotesController < ApplicationController
       if @motion_vote.save
         format.js  { render :action => "cast_vote", :motion => @motion_vote.motion}
       else
-        format.js { render :action => "error"}
+        format.js { head(:unprocessable_entity) }
         format.html { render :action => "new" }
         format.xml  { render :xml => @motion_vote.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  def update # spec_me cover_me heckle_me
+  def update # heckle_me
     @motion_vote = MotionVote.find(params[:id])
 
     respond_to do |format|
@@ -70,7 +70,7 @@ class MotionVotesController < ApplicationController
     end
   end
 
-  def destroy # spec_me cover_me heckle_me
+  def destroy # heckle_me
     @motion_vote = MotionVote.find(params[:id])
     @motion_vote.destroy
 
@@ -79,4 +79,5 @@ class MotionVotesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
 end

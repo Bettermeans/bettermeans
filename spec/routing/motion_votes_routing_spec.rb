@@ -9,7 +9,7 @@ describe MotionVotesController do
     end
 
     it "routes to #show" do
-      route_for(:controller => "motion_votes", :action => "show", :id => '5').should == "/motion_votes/show/5"
+      route_for(:controller => "motion_votes", :action => "show", :id => '5').should == "/motion_votes/5"
     end
 
     it "routes to #new" do
