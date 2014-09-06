@@ -114,6 +114,8 @@ GEM
       activesupport (= 2.3.18)
       rake (>= 0.8.3)
     rake (0.8.7)
+    rb-inotify (0.8.8)
+      ffi (>= 0.5.0)
     rbx-require-relative (0.0.9)
     rcov (1.0.0)
     recurly (0.3.3)
@@ -193,6 +195,7 @@ DEPENDENCIES
   rack-timeout (= 0.0.1)
   rails (= 2.3.18)
   rake (= 0.8.7)
+  rb-inotify (~> 0.8.8)
   rcov
   recurly (= 0.3.3)
   reportable (= 1.1.2)
