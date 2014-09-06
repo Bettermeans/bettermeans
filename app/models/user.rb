@@ -620,7 +620,7 @@ class User < ActiveRecord::Base
       roles = memberships.collect {|m| m.roles}.flatten.uniq
       roles.detect {|r| r.allowed_to?(action)} || (self.logged? ? Role.non_member.allowed_to?(action) : Role.anonymous.allowed_to?(action))
     else
-      false
+      admin?
     end
   end
 

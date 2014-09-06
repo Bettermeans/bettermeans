@@ -8,4 +8,3 @@
 require 'activity_streams/log_activity_streams.rb'
 
 require 'controllers/activity_stream_preferences_module.rb'
-require 'controllers/activity_streams_module.rb'
