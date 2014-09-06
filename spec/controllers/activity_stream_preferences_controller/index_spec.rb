@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe ActivityStreamPreferencesController, '#index' do
+
+  integrate_views
+
   let(:user) { Factory.create(:user) }
   let(:admin_user) { Factory.create(:user, :admin => true) }
   let!(:activity_stream_pref) { Factory.create(:activity_stream_preference, :user_id => user.id) }
@@ -90,4 +93,5 @@ describe ActivityStreamPreferencesController, '#index' do
     get(:index, :format => 'xml')
     response.body.should == [activity_stream_pref].to_xml
   end
+
 end

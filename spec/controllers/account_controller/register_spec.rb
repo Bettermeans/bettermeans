@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-
 describe AccountController, '#register' do
+
   context "when there is no self_registration setting or session[:auth_source_registration]" do
     it "redirects to home_url" do
       Setting.stub(:self_registration?).and_return(false)
@@ -467,5 +467,5 @@ describe AccountController, '#register' do
       end
     end
   end
-end
 
+end

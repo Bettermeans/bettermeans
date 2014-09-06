@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe ActivityStreamsController, '#new' do
 
+  integrate_views
+
   let(:admin_user) { Factory.create(:user, :admin => true) }
 
   before(:each) { login_as(admin_user) }

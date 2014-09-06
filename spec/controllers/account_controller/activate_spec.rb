@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe AccountController, '#activate' do
+
   context "if self_registration is not set" do
     it "redirects to home_url" do
       user = Factory.create(:user, :status => User::STATUS_REGISTERED)
@@ -97,5 +98,5 @@ describe AccountController, '#activate' do
       response.layout.should == 'layouts/static'
     end
   end
-end
 
+end

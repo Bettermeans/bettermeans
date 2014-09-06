@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe AccountController, '#cancel' do
+
+  integrate_views
+
   let(:user) { Factory.create(:user, :mail => 'bob@bob.com') }
 
   before :each do
@@ -17,4 +20,5 @@ describe AccountController, '#cancel' do
     response.should render_template ''
     response.session[:flash][:notice].should =~ /canceled/
   end
+
 end

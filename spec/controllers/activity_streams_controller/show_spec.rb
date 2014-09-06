@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe ActivityStreamsController, '#show' do
 
+  integrate_views
+
   let(:activity_stream) { Factory.create(:activity_stream) }
   let(:valid_params) { { :id => activity_stream.id } }
   let(:admin_user) { Factory.create(:user, :admin => true) }

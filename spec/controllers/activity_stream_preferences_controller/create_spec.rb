@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe ActivityStreamPreferencesController, '#create' do
+
   let(:user) { Factory.create(:user) }
   let(:admin_user) { Factory.create(:user, :admin => true) }
   let!(:activity_stream_pref) { Factory.create(:activity_stream_preference, :user_id => user.id) }
@@ -100,4 +101,5 @@ describe ActivityStreamPreferencesController, '#create' do
     post(:create, :format => 'xml')
     response.code.should == '200'
   end
+
 end

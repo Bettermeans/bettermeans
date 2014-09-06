@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 describe AccountController, "#login" do
 
   context "given an invitation token in the session" do
