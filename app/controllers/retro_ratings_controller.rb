@@ -1,7 +1,7 @@
 class RetroRatingsController < ApplicationController
   ssl_required :all
 
-  def index # spec_me cover_me heckle_me
+  def index # heckle_me
     @retro_ratings = RetroRating.all
 
     respond_to do |format|
@@ -10,7 +10,7 @@ class RetroRatingsController < ApplicationController
     end
   end
 
-  def show # spec_me cover_me heckle_me
+  def show # heckle_me
     @retro_rating = RetroRating.find(params[:id])
 
     respond_to do |format|
@@ -19,7 +19,7 @@ class RetroRatingsController < ApplicationController
     end
   end
 
-  def new # spec_me cover_me heckle_me
+  def new # heckle_me
     @retro_rating = RetroRating.new
 
     respond_to do |format|
@@ -28,11 +28,11 @@ class RetroRatingsController < ApplicationController
     end
   end
 
-  def edit # spec_me cover_me heckle_me
+  def edit # heckle_me
     @retro_rating = RetroRating.find(params[:id])
   end
 
-  def create # spec_me cover_me heckle_me
+  def create # heckle_me
     @retro_ratings = params[:retro_ratings].values.collect { |retro_rating| RetroRating.new(retro_rating) }
 
     #Archive notification for this retrospective
@@ -46,17 +46,18 @@ class RetroRatingsController < ApplicationController
       if @retro_ratings.all?(&:valid?)
         RetroRating.delete_all(:rater_id => @retro_ratings[0].rater_id , :retro_id => @retro_ratings[0].retro_id)
         @retro_ratings.each(&:save!)
-        format.html { redirect_to(@retro_rating) }
-        format.xml  { render :xml => @retro_rating, :status => :created, :location => @retro_rating }
+        format.html { redirect_to(retro_ratings_path) }
+        format.xml  { render :xml => @retro_ratings, :status => :created, :location => retro_ratings_path }
         format.js  { render :json => @retro_ratings.to_json}
       else
+        @retro_rating = @retro_ratings.detect { |rating| !rating.valid? }
         format.html { render :action => "new" }
         format.xml  { render :xml => @retro_rating.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  def update # spec_me cover_me heckle_me
+  def update # heckle_me
     @retro_rating = RetroRating.find(params[:id])
 
     respond_to do |format|
@@ -71,7 +72,7 @@ class RetroRatingsController < ApplicationController
     end
   end
 
-  def destroy # spec_me cover_me heckle_me
+  def destroy # heckle_me
     @retro_rating = RetroRating.find(params[:id])
     @retro_rating.destroy
 
