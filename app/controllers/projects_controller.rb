@@ -13,11 +13,11 @@ class ProjectsController < ApplicationController
 
   ssl_required :all
 
-  before_filter :find_project, :except => [ :index, :list, :copy, :activity, :update_scale, :add, :index_active, :index_latest ]
+  before_filter :find_project, :except => [:index, :list, :copy, :activity, :update_scale, :add, :index_active, :index_latest]
   before_filter :find_optional_project, :only => [:activity, :add]
 
   #BUGBUG: why aren't these actions being authorized!!! archive can be removed, unarchive doesn't seem to work when removed from here
-  before_filter :authorize, :except => [ :index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :community_members_array, :issue_search, :hourly_types, :join]
+  before_filter :authorize, :except => [:index, :index_latest, :index_active, :list, :add, :copy, :archive, :unarchive, :destroy, :activity, :dashboard, :dashdata, :new_dashdata, :mypris, :update_scale, :community_members, :community_members_array, :issue_search, :hourly_types, :join]
 
   before_filter :authorize_global, :only => :add
   before_filter :require_admin, :only => [ :copy ]
