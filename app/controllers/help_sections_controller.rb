@@ -1,8 +1,10 @@
 class HelpSectionsController < ApplicationController
+
   before_filter :authorize, :except => :dont_show
   ssl_required :all
 
-  def show # spec_me cover_me heckle_me
+  def show # heckle_me
+    @help_section = HelpSection.find(params[:id])
 
     respond_to do |format|
       if @help_section.show
@@ -14,19 +16,17 @@ class HelpSectionsController < ApplicationController
     end
   end
 
-  def dont_show # spec_me cover_me heckle_me
+  def dont_show # heckle_me
     @help_section = HelpSection.find(params[:id])
-    @help_section.show = false
-    @help_section.save
-    respond_to do |wants|
-      wants.js { render :update do |page|
-                    page.replace "help_section", ""
-                  end
-          }
+    @help_section.update_attributes!(:show => false)
+    respond_to do |format|
+      format.js do
+        render(:update) { |page| page.replace "help_section", "" }
+      end
     end
   end
 
-  def new # spec_me cover_me heckle_me
+  def new # heckle_me
     @help_section = HelpSection.new
 
     respond_to do |format|
@@ -35,11 +35,11 @@ class HelpSectionsController < ApplicationController
     end
   end
 
-  def edit # spec_me cover_me heckle_me
+  def edit # heckle_me
     @help_section = HelpSection.find(params[:id])
   end
 
-  def create # spec_me cover_me heckle_me
+  def create # heckle_me
     @help_section = HelpSection.new(params[:help_section])
 
     respond_to do |format|
@@ -54,7 +54,7 @@ class HelpSectionsController < ApplicationController
     end
   end
 
-  def update # spec_me cover_me heckle_me
+  def update # heckle_me
     @help_section = HelpSection.find(params[:id])
 
     respond_to do |format|
@@ -69,7 +69,7 @@ class HelpSectionsController < ApplicationController
     end
   end
 
-  def destroy # spec_me cover_me heckle_me
+  def destroy # heckle_me
     @help_section = HelpSection.find(params[:id])
     @help_section.destroy
 
@@ -78,4 +78,5 @@ class HelpSectionsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
 end
