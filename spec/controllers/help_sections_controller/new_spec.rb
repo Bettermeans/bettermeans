@@ -4,7 +4,7 @@ describe HelpSectionsController, '#new' do
 
   integrate_views
 
-  let(:admin_user) { Factory.create(:user, :admin => true) }
+  let(:admin_user) { Factory.create(:admin_user) }
   let(:xml_params) { { :format => 'xml' } }
 
   before(:each) { login_as(admin_user) }

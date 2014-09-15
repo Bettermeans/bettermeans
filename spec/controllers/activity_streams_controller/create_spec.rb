@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ActivityStreamsController, '#create' do
 
-  let(:admin_user) { Factory.create(:user, :admin => true) }
+  let(:admin_user) { Factory.create(:admin_user) }
   let(:valid_params) { { :activity_stream => { :verb => 'wat' } } }
   let(:xml_params) { valid_params.merge(:format => 'xml') }
 

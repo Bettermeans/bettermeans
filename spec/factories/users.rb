@@ -6,3 +6,6 @@ Factory.define :user do |f|
   f.sequence(:lastname) { |n| "last#{n}" }
 end
 
+Factory.define :admin_user, :parent => :user do |u|
+  u.admin true
+end

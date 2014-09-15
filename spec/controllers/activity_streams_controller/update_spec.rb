@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ActivityStreamsController, '#update' do
 
-  let(:admin_user) { Factory.create(:user, :admin => true) }
+  let(:admin_user) { Factory.create(:admin_user) }
   let(:activity_stream) { Factory.create(:activity_stream) }
   let(:valid_params) do
     { :id => activity_stream.id, :activity_stream => { :verb => 'wat' } }

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe WorkflowsController, '#copy' do
 
-  let(:admin_user) { Factory.create(:user, :admin => true) }
+  let(:admin_user) { Factory.create(:admin_user) }
   let(:tracker) { Factory.create(:tracker) }
   let(:role) { Factory.create(:role) }
   let(:trackers) { Tracker.all.sample(2) }

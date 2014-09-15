@@ -5,7 +5,7 @@ describe ActivityStreamPreferencesController, '#index' do
   integrate_views
 
   let(:user) { Factory.create(:user) }
-  let(:admin_user) { Factory.create(:user, :admin => true) }
+  let(:admin_user) { Factory.create(:admin_user) }
   let!(:activity_stream_pref) { Factory.create(:activity_stream_preference, :user_id => user.id) }
 
   before(:each) do

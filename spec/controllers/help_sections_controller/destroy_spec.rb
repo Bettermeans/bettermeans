@@ -5,7 +5,7 @@ describe HelpSectionsController, '#destroy' do
   integrate_views
 
   let(:help_section) { Factory.create(:help_section) }
-  let(:admin_user) { Factory.create(:user, :admin => true) }
+  let(:admin_user) { Factory.create(:admin_user) }
   let(:valid_params) { { :id => help_section.id } }
   let(:xml_params) { valid_params.merge(:format => 'xml') }
 

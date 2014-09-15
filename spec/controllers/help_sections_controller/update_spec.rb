@@ -5,7 +5,7 @@ describe HelpSectionsController, '#update' do
   integrate_views
 
   let(:help_section) { Factory.create(:help_section) }
-  let(:admin_user) { Factory.create(:user, :admin => true) }
+  let(:admin_user) { Factory.create(:admin_user) }
   let(:valid_params) do
     { :id => help_section.id, :help_section => { :name => 'my new name' } }
   end

@@ -4,7 +4,7 @@ describe HelpSectionsController, '#create' do
 
   integrate_views
 
-  let(:admin_user) { Factory.create(:user, :admin => true) }
+  let(:admin_user) { Factory.create(:admin_user) }
   let(:valid_params) { { :help_section => { :name => 'help me!' } } }
   let(:xml_params) { valid_params.merge(:format => 'xml') }
 

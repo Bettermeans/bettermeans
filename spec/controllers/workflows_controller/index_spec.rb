@@ -4,7 +4,7 @@ describe WorkflowsController, '#index' do
 
   let!(:workflow_1) { Factory.create(:workflow) }
   let!(:workflow_2) { Factory.create(:workflow) }
-  let(:admin_user) { Factory.create(:user, :admin => true) }
+  let(:admin_user) { Factory.create(:admin_user) }
 
   before(:each) { login_as(admin_user) }
 

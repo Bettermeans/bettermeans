@@ -3,7 +3,7 @@ require 'spec_helper'
 describe WorkflowsController, '#edit' do
 
   let(:workflow) { Factory.create(:workflow) }
-  let(:admin_user) { Factory.create(:user, :admin => true) }
+  let(:admin_user) { Factory.create(:admin_user) }
   let(:role) { workflow.role }
   let(:tracker) { workflow.tracker }
   let(:valid_params) { { :role_id => role.id, :tracker_id => tracker.id } }
