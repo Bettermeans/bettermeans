@@ -229,7 +229,8 @@
            data: data,
            success:   function(issue){
              $('.icon-edit').hide();
-             $('.icon-edit-new').show();
+             $('.icon-edit-new').last().show();
+             $('.icon-edit-new').last().parent().show();
              $('#new_comment_edit').show();
              var new_journal_id = issue.journals[issue.journals.length-1].id
              var onclick = "$.ajax({type: 'GET', url: '/journals/edit/" + new_journal_id + "'});return false;";
