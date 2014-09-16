@@ -1,6 +1,8 @@
 require 'spec_helper'
 
-describe CreditsController do
+describe CreditsController, '#update' do
+
+  integrate_views
 
   before :each do
     controller.stub(:require_admin)

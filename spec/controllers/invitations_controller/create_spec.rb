@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe InvitationsController, '#create' do
 
+  integrate_views
+
   let(:user) { Factory.create(:user) }
   let(:project) { Factory.create(:project) }
   let(:invitation_params) do

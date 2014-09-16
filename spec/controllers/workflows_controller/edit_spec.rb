@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe WorkflowsController, '#edit' do
 
+  integrate_views
+
   let(:workflow) { Factory.create(:workflow) }
   let(:admin_user) { Factory.create(:admin_user) }
   let(:role) { workflow.role }

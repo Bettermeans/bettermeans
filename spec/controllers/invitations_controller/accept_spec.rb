@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe InvitationsController, '#accept' do
 
+  integrate_views
+
   let(:invitation) { Factory.create(:invitation) }
   let(:user) { Factory.create(:user) }
   let(:valid_params) { { :id => invitation.id, :token => invitation.token } }

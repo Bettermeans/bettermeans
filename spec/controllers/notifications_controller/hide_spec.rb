@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe NotificationsController, '#hide' do
 
+  integrate_views
+
   let(:notification) { Factory.create(:notification) }
   let(:valid_params) { { :notification_id => notification.id } }
 

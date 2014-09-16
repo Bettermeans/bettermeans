@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe ProjectsController,"#index_latest" do
+
   before :each do
     login
     controller.stub(:respond_to) # TODO: pretty lame to have to do this. Hidden collaborators.

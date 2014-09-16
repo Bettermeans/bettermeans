@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe MotionVotesController, '#new' do
 
+  integrate_views
+
   it 'assigns @motion_vote' do
     get(:new)
     assigns(:motion_vote).should be_new_record

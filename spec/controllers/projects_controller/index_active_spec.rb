@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe ProjectsController,"#index_active" do
+
   before :each do
     login
     controller.stub(:respond_to)

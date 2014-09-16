@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe ProjectsController,"#new_dash_data" do
 
+  integrate_views
+
   before :each do
     login
 
