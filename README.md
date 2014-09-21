@@ -55,6 +55,23 @@ brew install postgres
 # debian linux
 sudo apt-get install postgresql postgresql-client postgresql-contrib
 
+# NOTE: only do this in development mode, as it puts your database in an
+# insecure state
+# update the end of /etc/postgresql/9.1/main/pg_hba.conf to look like this:
+# # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
+# # "local" is for Unix domain socket connections only
+# local   all         all                               trust
+# # IPv4 local connections:
+# host    all         all         127.0.0.1/32          trust
+# # IPv6 local connections:
+# host    all         all         ::1/128               trust
+
+# then run:
+sudo /etc/init.d/postgresql restart
+
+# set up a postgres user:
+createuser -s -r $USER
+
 # Imagemagick is also a dependency:
 # mac
 brew install imagemagick
@@ -82,6 +99,15 @@ bundle install
 
 # set up database config:
 mv config/database.yml.example config/database.yml
+
+# in development mode, for the simplest setup you should be able to remove the
+# username and password options from `config/database.yml` for the development
+# and test group
+
+# You'll need to set up aws access keys in your environment. For testing only,
+# you can set the keys to "trash" just to run the specs
+export BETTER_S3_ACCESS_KEY_ID=trash
+export BETTER_S3_SECRET_ACCESS_KEY=trash
 
 # set up database:
 rake db:create:all && rake db:schema:load
