@@ -9,7 +9,14 @@ app!!! ***
 
 Roadmap
 -------
-1. get code coverage up to 100% -> currently 44.04%, controllers first
+1. get code coverage up to 100% -> currently 44.04%
+  - -> controllers
+  - models
+  - helpers
+  - remove lib code to gems where possible
+  - remove unused lib code where possible
+  - libs
+  - any stragglers
 2. add spec files for every method (use "spec_me" tags, 1203 and counting)
 3. mutation test every method (use "heckle_me" tags, 1665 left)
 4. upgrade to Ruby 1.9
