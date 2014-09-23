@@ -22,14 +22,15 @@ Roadmap
 4. upgrade to Ruby 1.9
 5. set up Rubocop and clean up code quality
 6. integration test and move vendored gems to Gemfile
-7. fix password hashing
-8. run Brakeman and fix vulnerabilities
-9. integrate jshint and clean up javascript
-10. rename all references from Bettermeans to Better
-11. upgrade to Rails 3.0, 3.1, 3.2
-12. upgrade to Ruby 2.0, 2.1
-13. upgrade to Rails 4.0, 4.1, 4.2
-14. begin using and extending...
+7. integrate rails_best_practices and clean up code
+8. fix password hashing
+9. run Brakeman and fix vulnerabilities
+10. integrate jshint and clean up javascript
+11. rename all references from Bettermeans to Better
+12. upgrade to Rails 3.0, 3.1, 3.2
+13. upgrade to Ruby 2.0, 2.1
+14. upgrade to Rails 4.0, 4.1, 4.2
+15. begin using and extending...
 
 Contributing
 ------------
