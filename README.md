@@ -14,14 +14,15 @@ Roadmap
 3. mutation test every method (use "heckle_me" tags, 1665 left)
 4. upgrade to Ruby 1.9
 5. set up Rubocop and clean up code quality
-6. move vendored gems to Gemfile
+6. integration test and move vendored gems to Gemfile
 7. fix password hashing
 8. run Brakeman and fix vulnerabilities
-9. rename all references from Bettermeans to Better
-10. upgrade to Rails 3.0, 3.1, 3.2
-11. upgrade to Ruby 2.0, 2.1
-12. upgrade to Rails 4.0, 4.1, 4.2
-13. begin using and extending...
+9. integrate jshint and clean up javascript
+10. rename all references from Bettermeans to Better
+11. upgrade to Rails 3.0, 3.1, 3.2
+12. upgrade to Ruby 2.0, 2.1
+13. upgrade to Rails 4.0, 4.1, 4.2
+14. begin using and extending...
 
 Contributing
 ------------
