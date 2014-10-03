@@ -65,7 +65,7 @@ brew install postgres
 sudo apt-get install postgresql postgresql-client postgresql-contrib
 
 # NOTE: only do this in development mode, as it puts your database in an
-# insecure state
+# insecure state.
 # update the end of /etc/postgresql/9.1/main/pg_hba.conf to look like this:
 # # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
 # # "local" is for Unix domain socket connections only
@@ -81,13 +81,17 @@ sudo /etc/init.d/postgresql restart
 # set up a postgres user:
 createuser -s -r $USER
 
-# Imagemagick is also a dependency:
-# mac
-brew install imagemagick
-# debian linux
-sudo apt-get install imagemagick
+# Imagemagick is also a dependency. You'll need an older version to be
+# compatible with rmagick, which can be a bit of a pain on MacOS. See here for
+# more details: http://stackoverflow.com/a/13967303/372479
+# It's easier on Debian Linux:
+sudo apt-get install imagemagick libmagickwand-dev
 
-# see here for errors installing rmagick: http://stackoverflow.com/a/13967303/372479
+# and QT
+# Mac:
+brew install qt
+# Debian Linux:
+sudo apt-get install libqt4-dev libqtwebkit-dev
 ```
 
 Getting started
