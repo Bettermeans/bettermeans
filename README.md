@@ -56,7 +56,7 @@ rvm install 1.8.7-p374
 rvm use 1.8.7
 
 # set the rubygems version:
-rvm rubygems 1.8.25
+rvm rubygems 1.8.25 --force
 
 # install postgres:
 # mac
