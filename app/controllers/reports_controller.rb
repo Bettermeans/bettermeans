@@ -5,7 +5,7 @@ class ReportsController < ApplicationController
   menu_item :issues
   before_filter :find_project, :authorize
 
-  def issue_report # spec_me cover_me heckle_me
+  def issue_report # cover_me heckle_me
     @statuses = IssueStatus.find(:all, :order => 'position')
 
     case params[:detail]

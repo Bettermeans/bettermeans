@@ -1,7 +1,7 @@
 class IssueVotesController < ApplicationController
   ssl_required :all
 
-  def index # spec_me cover_me heckle_me
+  def index # cover_me heckle_me
     @issue_votes = IssueVote.all
 
     respond_to do |format|
