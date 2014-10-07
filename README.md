@@ -79,7 +79,10 @@ sudo apt-get install postgresql postgresql-client postgresql-contrib
 sudo /etc/init.d/postgresql restart
 
 # set up a postgres user:
-createuser -s -r $USER
+sudo su
+su postgres
+createuser -s -r <your username>
+# and hit CTRL+D twice to exit back to your regular user account
 
 # Imagemagick is also a dependency. You'll need an older version to be
 # compatible with rmagick, which can be a bit of a pain on MacOS. See here for
@@ -144,8 +147,7 @@ Production
 
 You'll need to set up the following in order to run on production. If you're
 deploying to Heroku you can push environment variables using
-`heroku config:add MY_VAR=whatevs`. Locally you can put them in a `local_env.rb`
-file like `ENV['MY_VAR'] = 'my secret key'`.
+`heroku config:add MY_VAR=whatevs`.
 
 * A honeybadger.io API key: `BETTER_HONEYBADGER_API_KEY=<your key here>`
 * S3 access keys:
