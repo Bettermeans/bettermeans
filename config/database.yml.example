@@ -4,20 +4,16 @@ production:
   host: localhost
   min_messages: WARNING
   username: postgres
-  password: tree
+  password: <your production database password goes here>
 
 development:
   adapter: postgresql
   database: bettermeans_development
   host: localhost
   min_messages: WARNING
-  username: postgres
-  password: tree
 
 test: &TEST
   adapter: postgresql
   database: bettermeans_test
   host: localhost
   min_messages: WARNING
-  username: postgres
-  password: tree
