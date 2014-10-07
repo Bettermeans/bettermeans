@@ -9,7 +9,7 @@ app!!! ***
 
 Roadmap
 -------
-1. get code coverage up to 100% -> currently 44.04%
+1. get code coverage up to 100% -> currently 44.36%
   - -> controllers
   - models
   - helpers

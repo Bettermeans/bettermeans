@@ -2,12 +2,12 @@ class EmailUpdatesController < ApplicationController
   before_filter :require_login
   ssl_required :all
 
-  def new # spec_me cover_me heckle_me
+  def new # cover_me heckle_me
     @email_update = EmailUpdate.new
 
     respond_to do |format|
       format.html
-      format.xml  { render :xml => @invitation }
+      format.xml { render :xml => @email_update }
     end
   end
 
