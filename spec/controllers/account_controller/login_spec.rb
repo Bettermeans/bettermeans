@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe AccountController, "#login" do
 
+  integrate_views
+
   context "given an invitation token in the session" do
     context "with invitation token passed as a param" do
       it "assigns the params version to @invitation_token" do
@@ -471,9 +473,9 @@ describe AccountController, "#login" do
           flash[:error].should =~ /account has not yet been activated/i
         end
 
-        it 'renders the error page' do
+        it 'renders 500 status' do
           post(:login, :invitation_token => 'blah')
-          response.body.should == ' '
+          response.status.should == '500 Internal Server Error'
         end
       end
     end
