@@ -38,7 +38,8 @@ group :test do
 end
 
 group :development do
-  gem 'rb-inotify', '~> 0.8.8'
+  gem 'rb-inotify', '~> 0.8.8', :require => false
+  gem 'rb-fsevent', :require => false
   gem 'brakeman', :require => false
   gem 'guard-rspec'
   gem 'spork', '0.8.5'
