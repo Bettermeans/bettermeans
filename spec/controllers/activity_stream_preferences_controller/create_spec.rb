@@ -62,7 +62,8 @@ describe ActivityStreamPreferencesController, '#create' do
   context 'when params[:locations] is set' do
     let(:location) { "#{activity_stream_pref.activity}.#{activity_stream_pref.location}" }
     before(:each) do
-      Factory.create(:activity_stream_preference, :user_id => user.id)
+      activity_stream_pref.update_attributes!(:activity => 'issues')
+      Factory.create(:activity_stream_preference, :user_id => user.id, :activity => 'news')
     end
 
     it 'selects only activities for the selected locations' do
