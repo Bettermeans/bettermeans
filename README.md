@@ -158,14 +158,14 @@ deploying to Heroku you can push environment variables using
   - `SENDGRID_PASSWORD=<your sendgrid password>`
   - `SENDGRID_USERNAME=<your sendgrid username>`
 
-Dev notes
----------
+Contributing
+------------
 
-We're looking to get spec and heckle coverage up to 100%. You will find methods
-throughout the code base tagged with `spec_me`, `cover_me`, and `heckle_me`.
-These tags represent three levels of test quality in order of increasing
-difficulty. Search through the codebase for places you can help like
-`git grep spec_me`.
+We're looking to get spec and mutation coverage up to 100%. You will find
+methods throughout the code base tagged with `spec_me`, `cover_me`, and
+`heckle_me`.  These tags represent three levels of test quality in order of
+increasing difficulty. Choose your difficulty level and search through the
+codebase for places you can help like `git grep spec_me`.
 
 When the following conditions are met the tag can be removed:
 
@@ -220,7 +220,7 @@ end
 
 You can check the coverage of tests by running `rake spec:rcov`. It generates
 a coverage directory. Open `coverage/index.html` in your browser to view the
-output.
+output and find a class that still needs test coverage.
 
 ### heckle_me
 
