@@ -40,8 +40,8 @@ my spare time, but as you can see from the commit history, progress is slow.
 If you are interested in contributing, we are looking to add contributors to
 the project. All experience levels are welcome. If you're just getting started
 as a developer, please get in touch and I can help you get up and running.
-Check the dev notes below for details on the biggest area we could use help
-with: testing.
+Check the [dev notes](dev notes) below for details on the biggest area we could
+use help with: testing.
 
 Pre-requisites
 --------------
@@ -158,8 +158,8 @@ deploying to Heroku you can push environment variables using
   - `SENDGRID_PASSWORD=<your sendgrid password>`
   - `SENDGRID_USERNAME=<your sendgrid username>`
 
-Contributing
-------------
+Dev notes
+---------
 
 We're looking to get spec and mutation coverage up to 100%. You will find
 methods throughout the code base tagged with `spec_me`, `cover_me`, and
@@ -176,11 +176,21 @@ following method:
 
 ```ruby
 class MyClass
+  attr_accessor :awesome
+
+  def initialize
+    awesome = true
+  end
+
   def some_method
     if awesome?
       'awesome!'
     else
       'not awesome :('
+    end
+
+    def awesome?
+      !!awesome
     end
   end
 end
@@ -211,8 +221,9 @@ describe MyClass, '#some_method' do
 
   context 'when not awesome' do
     it 'returns "not awesome :("' do
-      awesome = false
-      MyClass.new.some_method.should == 'not awesome :('
+      my_instance = MyClass.new
+      my_instance.awesome = false
+      my_instance.some_method.should == 'not awesome :('
     end
   end
 end
@@ -224,17 +235,16 @@ output and find a class that still needs test coverage.
 
 ### heckle_me
 
-Heckle coverage is the hardest. Not only do you need cover the code, you need to
-check for various permutations within it.
-[Heckle](https://github.com/seattlerb/heckle) is a gem that performs mutations
-on your code and runs your tests against the mutated code. If your tests don't
-fail then your tests still need some work. Heckle lists out the changes it made
-that did not cause your tests to fail.
+Heckle coverage is the hardest. Not only do you need cover the code, you need
+to check for various permutations within it.  [Heckle](heckle) is a gem that
+performs mutations on your code and runs your tests against the mutated code.
+If your tests don't fail then your tests still need some work. Heckle lists out
+the changes it made that did not cause your tests to fail.
 
 You can run heckle like this:
 
 ```sh
-spec spec/models/role/name_translation_key_spec.rb --heckle Role#name_translation_key
+spec spec/models/board/visible_predicate_spec.rb --heckle Board#visible?
 ```
 
 Translating
@@ -261,3 +271,6 @@ All Redmine code is Copyright (C) 2006-2011  Jean-Philippe Lang
 All Bettermeans code is Copyright (C) Shereef Bishay
 
 All Better code is Copyright (C) Robert Fletcher
+
+[dev notes](https://github.com/mockdeep/better#dev_notes)
+[heckle](https://github.com/mockdeep/better#dev_notes)
