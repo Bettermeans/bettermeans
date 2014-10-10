@@ -40,8 +40,8 @@ my spare time, but as you can see from the commit history, progress is slow.
 If you are interested in contributing, we are looking to add contributors to
 the project. All experience levels are welcome. If you're just getting started
 as a developer, please get in touch and I can help you get up and running.
-Check the [dev notes](dev notes) below for details on the biggest area we could
-use help with: testing.
+Check the [dev notes](https://github.com/mockdeep/better#dev-notes) below for
+details on the biggest area we could use help with: testing.
 
 Pre-requisites
 --------------
@@ -236,10 +236,11 @@ output and find a class that still needs test coverage.
 ### heckle_me
 
 Heckle coverage is the hardest. Not only do you need cover the code, you need
-to check for various permutations within it.  [Heckle](heckle) is a gem that
-performs mutations on your code and runs your tests against the mutated code.
-If your tests don't fail then your tests still need some work. Heckle lists out
-the changes it made that did not cause your tests to fail.
+to check for various permutations within it.
+[Heckle](https://github.com/seattlerb/heckle) is a gem that performs mutations
+on your code and runs your tests against the mutated code.  If your tests don't
+fail then your tests still need some work. Heckle lists out the changes it made
+that did not cause your tests to fail.
 
 You can run heckle like this:
 
@@ -271,6 +272,3 @@ All Redmine code is Copyright (C) 2006-2011  Jean-Philippe Lang
 All Bettermeans code is Copyright (C) Shereef Bishay
 
 All Better code is Copyright (C) Robert Fletcher
-
-[dev notes](https://github.com/mockdeep/better#dev-notes)
-[heckle](https://github.com/seattlerb/heckle)
