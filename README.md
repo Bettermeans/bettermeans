@@ -239,8 +239,8 @@ Heckle coverage is the hardest. Not only do you need cover the code, you need
 to check for various permutations within it.
 [Heckle](https://github.com/seattlerb/heckle) is a gem that performs mutations
 on your code and runs your tests against the mutated code.  If your tests don't
-fail then your tests still need some work. Heckle lists out the changes it made
-that did not cause your tests to fail.
+fail then they still need some work. Heckle lists out the changes it made that
+did not cause your tests to fail.
 
 You can run heckle like this:
 
