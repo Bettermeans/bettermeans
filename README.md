@@ -272,5 +272,5 @@ All Bettermeans code is Copyright (C) Shereef Bishay
 
 All Better code is Copyright (C) Robert Fletcher
 
-[dev notes](https://github.com/mockdeep/better#dev_notes)
-[heckle](https://github.com/mockdeep/better#dev_notes)
+[dev notes](https://github.com/mockdeep/better#dev-notes)
+[heckle](https://github.com/seattlerb/heckle)
