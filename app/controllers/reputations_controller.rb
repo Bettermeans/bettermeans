@@ -1,7 +1,7 @@
 class ReputationsController < ApplicationController
   ssl_required :all
 
-  def index # spec_me cover_me heckle_me
+  def index # heckle_me
     @reputations = Reputation.all
 
     respond_to do |format|
@@ -10,7 +10,7 @@ class ReputationsController < ApplicationController
     end
   end
 
-  def show # spec_me cover_me heckle_me
+  def show # heckle_me
     @reputation = Reputation.find(params[:id])
 
     respond_to do |format|
@@ -19,7 +19,7 @@ class ReputationsController < ApplicationController
     end
   end
 
-  def new # spec_me cover_me heckle_me
+  def new # heckle_me
     @reputation = Reputation.new
 
     respond_to do |format|
@@ -28,11 +28,11 @@ class ReputationsController < ApplicationController
     end
   end
 
-  def edit # spec_me cover_me heckle_me
+  def edit # heckle_me
     @reputation = Reputation.find(params[:id])
   end
 
-  def create # spec_me cover_me heckle_me
+  def create # heckle_me
     @reputation = Reputation.new(params[:reputation])
 
     respond_to do |format|
@@ -47,7 +47,7 @@ class ReputationsController < ApplicationController
     end
   end
 
-  def update # spec_me cover_me heckle_me
+  def update # heckle_me
     @reputation = Reputation.find(params[:id])
 
     respond_to do |format|
@@ -62,7 +62,7 @@ class ReputationsController < ApplicationController
     end
   end
 
-  def destroy # spec_me cover_me heckle_me
+  def destroy # heckle_me
     @reputation = Reputation.find(params[:id])
     @reputation.destroy
 
