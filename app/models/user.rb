@@ -95,17 +95,17 @@ class User < ActiveRecord::Base
   # = CSV support =
   # ===============
   comma do  # implicitly named :default
-     id
-     login
-     firstname
-     lastname
-     mail
-     last_login_on
-     created_at
-     updated_at
-     plan_id
-     trial_expires_on
-     active_subscription
+    id
+    login
+    firstname
+    lastname
+    mail
+    last_login_on
+    created_at
+    updated_at
+    plan_id
+    trial_expires_on
+    active_subscription
   end
 
   def <=>(user) # spec_me cover_me heckle_me
