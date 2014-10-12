@@ -61,12 +61,12 @@ class AdminController < ApplicationController
     redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
   end
 
-  def user_data_dump # spec_me cover_me heckle_me
+  def user_data_dump # heckle_me
     @users = User.find(:all, :conditions => {:status => 1})
     render :csv => @users
   end
 
-  def info # spec_me cover_me heckle_me
+  def info # heckle_me
     @db_adapter_name = ActiveRecord::Base.connection.adapter_name
     @checklist = [
       [:text_default_administrator_account_changed, User.find(:first, :conditions => ["login=? and hashed_password=?", 'admin', User.hash_password('admin')]).nil?],
