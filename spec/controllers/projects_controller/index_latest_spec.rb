@@ -2,8 +2,10 @@ require 'spec_helper'
 
 describe ProjectsController,"#index_latest" do
 
+  let(:user) { Factory.create(:user) }
+
   before :each do
-    login
+    login_as(user)
     controller.stub(:respond_to) # TODO: pretty lame to have to do this. Hidden collaborators.
     controller.params[:offset] = 5
   end

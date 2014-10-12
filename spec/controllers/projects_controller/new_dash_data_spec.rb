@@ -4,8 +4,10 @@ describe ProjectsController,"#new_dash_data" do
 
   integrate_views
 
+  let(:user) { Factory.create(:user) }
+
   before :each do
-    login
+    login_as(user)
 
     controller.stub(:respond_to)
     controller.params[:offset] = 5

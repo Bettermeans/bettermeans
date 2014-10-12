@@ -51,11 +51,6 @@ Spork.prefork do
     DatabaseCleaner.instance_variable_get(:@cleaners)[[:active_record, {}]]
   end
 
-  def login
-    @user = Factory.create(:user)
-    User.stub(:current).and_return @user
-  end
-
   def login_as(user)
     session[:user_id] = user.id
   end

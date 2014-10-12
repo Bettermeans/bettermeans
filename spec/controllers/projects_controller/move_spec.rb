@@ -4,9 +4,10 @@ describe ProjectsController, '#move' do
 
   integrate_views
 
-  before(:each) do
-    login
-    User.stub_chain(:current, :allowed_to?).and_return true
+  let(:admin_user) { Factory.create(:admin_user) }
+
+  before :each do
+    login_as(admin_user)
     @root = Factory.create(:project, :name => 'root')
     @parent = Factory.create(:project, :name => 'parent')
     @project = Factory.create(:project, :name => 'project')
@@ -20,7 +21,7 @@ describe ProjectsController, '#move' do
   end
 
   it "should deny access if user not authorized" do
-    User.stub_chain(:current, :allowed_to?).and_return false
+    login_as(Factory.create(:user))
     controller.should_receive(:deny_access)
     get :move, :id => @project.id
   end
