@@ -93,9 +93,6 @@
     <br />
   </div>
 
-
-
-
 <% content_for :sidebar do %>
 <br /><br />
 <div style="overflow-x:auto;" align="center" class="gt-content-box">
@@ -103,22 +100,25 @@
    @chart_width = 1000 if @chart_width > 1000
    %>
 
-  <img src="<%= Gchart.bar(
-              :title => 'Contribution Breakdown',
-              :data => [@idea_totals, @vote_totals, @journal_totals],
-              :bar_colors => 'EA7235,757668,E3A34D',
-              #:horizontal => 'true',
-              :stacked => false,
-              :orientation => 'vertical',
-              :size => "#{@chart_width}x200",
-              :axis_with_labels => 'x',
-              :axis_labels => @axis_labels,
-              :bar_width_and_spacing => '15,2,10',
-              :legend => ['Ideas','Votes','Comments'],
-              :custom => "chm=N*f0*,000000,0,-1,11|N*f0*,000000,1,-1,11|N*f0*,000000,2,-1,11&chds=0,#{@max_range}"
-              # :custom => 'chma=50,50,50,50|200,200'
-              )
+  <% if [@idea_totals, @vote_totals, @journal_totals].all?(&:empty?) %>
+    No data
+  <% else %>
+    <img src="<%= Gchart.bar(
+                :title => 'Contribution Breakdown',
+                :data => [@idea_totals, @vote_totals, @journal_totals],
+                :bar_colors => 'EA7235,757668,E3A34D',
+                #:horizontal => 'true',
+                :stacked => false,
+                :orientation => 'vertical',
+                :size => "#{@chart_width}x200",
+                :axis_with_labels => 'x',
+                :axis_labels => @axis_labels,
+                :bar_width_and_spacing => '15,2,10',
+                :legend => ['Ideas','Votes','Comments'],
+                :custom => "chm=N*f0*,000000,0,-1,11|N*f0*,000000,1,-1,11|N*f0*,000000,2,-1,11&chds=0,#{@max_range}"
+                )
     %>"/>
+  <% end %>
 </div>
 <br />
 <div align="center" class="gt-content-box">

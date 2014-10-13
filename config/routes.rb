@@ -5,7 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :reputations
   map.resources :credit_distributions
   map.resources :quotes
-  map.resources :motion_votes, :only => [:create, :show]
+  map.resources :motion_votes, :only => [:create, :show, :edit, :new]
 
   map.signin 'login', :controller => 'account', :action => 'login'
   map.signout 'logout', :controller => 'account', :action => 'logout'

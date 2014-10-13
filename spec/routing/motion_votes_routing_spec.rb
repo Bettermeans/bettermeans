@@ -17,7 +17,7 @@ describe MotionVotesController do
     end
 
     it "routes to #edit" do
-      route_for(:controller => "motion_votes", :action => "edit", :id => '5').should == "/motion_votes/edit/5"
+      route_for(:controller => "motion_votes", :action => "edit", :id => '5').should == "/motion_votes/5/edit"
     end
 
     it "routes to #create" do
