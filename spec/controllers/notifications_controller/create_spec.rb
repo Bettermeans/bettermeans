@@ -28,8 +28,11 @@ describe NotificationsController, '#create' do
   end
 
   context 'when the notification is invalid' do
+    let(:bad_notification) { Factory.build(:notification) }
+
     before(:each) do
-      bad_notification = double(:save => false, :errors => [{ :my => 'an error' }])
+      bad_notification.stub(:valid?).and_return(false)
+      bad_notification.errors.add(:wat, 'an error')
       Notification.stub(:new).and_return(bad_notification)
     end
 
@@ -40,7 +43,7 @@ describe NotificationsController, '#create' do
 
     it 'responds to xml' do
       post(:create, :format => 'xml')
-      response.body.should == [{ :my => 'an error' }].to_xml
+      response.body.should == bad_notification.errors.to_xml
       response.status.should == '422 Unprocessable Entity'
     end
   end

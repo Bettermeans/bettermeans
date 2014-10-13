@@ -3,8 +3,15 @@ require 'spec_helper'
 describe NotificationsController, '#index' do
 
   let(:user) { Factory.create(:user) }
+  let(:sender) { Factory.create(:user) }
   let!(:mention) do
-    Factory.create(:notification, :variation => 'mention', :recipient => user)
+    Factory.create(
+      :notification,
+      :variation => 'mention',
+      :recipient => user,
+      :params => { :title => 'foo', :url => 'http://www.example.com', :mention_text => 'what what' },
+      :sender => sender
+    )
   end
   let!(:notification) { Factory.create(:notification, :recipient => user) }
 

@@ -40,8 +40,8 @@ describe ActivityStreamsController, '#update' do
 
   context 'when the activity stream does not update attributes' do
     before(:each) do
-      activity_stream.stub(:update_attributes).and_return(false)
-      activity_stream.stub(:errors).and_return([{ :wat => 'an error' }])
+      activity_stream.stub(:valid?).and_return(false)
+      activity_stream.errors.add(:wat, 'an error')
       ActivityStream.stub(:find).and_return(activity_stream)
     end
 
@@ -55,7 +55,7 @@ describe ActivityStreamsController, '#update' do
     context 'format xml' do
       it 'renders the activity stream errors'do
         put(:update, xml_params)
-        response.body.should == [{ :wat => 'an error' }].to_xml
+        response.body.should == activity_stream.errors.to_xml
       end
 
       it 'renders status :unprocessable_entity' do

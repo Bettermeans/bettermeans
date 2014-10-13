@@ -422,17 +422,23 @@ describe AccountController, '#register' do
         end
 
         it "registers automatically" do
-          Setting.stub(:self_registration).and_return('3')
           mock_plan = mock("plan", :free? => false)
           mock_user = mock("user", :plan_id => 5, :plan => mock_plan, :trial_expires_on= => nil, :admin= => nil, :status= => nil, :login= => nil, :auth_source_id= => nil, :save => true, :password= => nil, :password_confirmation= => nil, :last_login_on= => nil)
           mock_user.should_receive(:plan_id=)
           User.stub(:new).and_return(mock_user)
-          controller.should_receive(:redirect_to).with(:controller => 'welcome', :action => 'index')
+          user_params = {
+            :mail => 'bill@bill.com',
+            :firstname => 'bill',
+            :login => 'stuff',
+          }
 
-          post(:register, :user => { :mail => 'bill@bill.com',
-                                      :firstname => 'bill',
-                                      :login => 'stuff' },
-                          :invitation_token => invitation.token)
+          post_params = {
+            :user => user_params,
+            :invitation_token => invitation.token,
+          }
+
+          post(:register, post_params)
+          response.should redirect_to(:controller => 'welcome', :action => 'index')
         end
       end
 

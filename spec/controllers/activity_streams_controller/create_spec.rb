@@ -50,8 +50,8 @@ describe ActivityStreamsController, '#create' do
     let(:bad_stream) { ActivityStream.new(valid_params[:activity_stream]) }
 
     before(:each) do
-      bad_stream.should_receive(:save).and_return(false)
-      bad_stream.stub(:errors).and_return([{ :wat => 'an error' }])
+      bad_stream.stub(:valid?).and_return(false)
+      bad_stream.errors.add(:wat, 'an error')
       ActivityStream.should_receive(:new).and_return(bad_stream)
     end
 
@@ -65,7 +65,7 @@ describe ActivityStreamsController, '#create' do
     context 'format xml' do
       it 'renders the activity stream errors' do
         post(:create, xml_params)
-        response.body.should == [{ :wat => 'an error' }].to_xml
+        response.body.should == bad_stream.errors.to_xml
       end
 
       it 'returns http status :unprocessable_entity' do
