@@ -2,14 +2,14 @@ require 'spec_helper'
 
 describe CreditsController, '#edit' do
 
-  before :each do
-    controller.stub(:require_admin)
-  end
+  let(:admin_user) { Factory.create(:admin_user) }
+  let(:credit) { Factory.create(:credit) }
+
+  before(:each) { login_as(admin_user) }
 
   it 'finds a credit object' do
-    Credit.should_receive(:find).with('52').and_return('fake credit')
-    get(:edit, :id => 52)
-    assigns(:credit).should == 'fake credit'
+    get(:edit, :id => credit.id)
+    assigns(:credit).should == credit
   end
 
 end

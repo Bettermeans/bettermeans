@@ -48,8 +48,8 @@ class ProjectsController < ApplicationController
     limit = 10
     @latest_enterprises = Project.latest_public(limit, params[:offset].to_i)
 
-    respond_to do |wants|
-      wants.js do
+    respond_to do |format|
+      format.js do
         render :update do |page|
           page.replace "project_index_bottom_latest", :partial => "project_list", :locals => {
                                               :projects => @latest_enterprises,
@@ -65,8 +65,8 @@ class ProjectsController < ApplicationController
     limit = 10
     @active_enterprises = Project.most_active_public(limit, params[:offset].to_i)
 
-    respond_to do |wants|
-      wants.js do
+    respond_to do |format|
+      format.js do
         render :update do |page|
           page.replace "project_index_bottom_active", :partial => "project_list", :locals => {
                                               :projects => @active_enterprises,
@@ -160,8 +160,8 @@ class ProjectsController < ApplicationController
     @project.invitation_token = Token.generate_token_value
     @project.save
 
-    respond_to do |wants|
-      wants.js do
+    respond_to do |format|
+      format.js do
         render :update do |page|
           page.replace "generic-invitation", :partial => 'invitations/generic_invitation', :locals => {:project => @project}
           page.visual_effect :highlight, "generic-link", :duration => 6
@@ -407,9 +407,9 @@ class ProjectsController < ApplicationController
     if !@project.active? && request.post? && @project.unarchive
       LogActivityStreams.write_single_activity_stream(User.current, :name, @project, :name, 'unarchived', :workstreams, 0, nil,{})
 
-      respond_to do |wants|
+      respond_to do |format|
 
-        wants.js do
+        format.js do
           @my_projects = User.current.owned_projects
 
           render :update do |page|
@@ -420,8 +420,8 @@ class ProjectsController < ApplicationController
         end
       end
     else
-      respond_to do |wants|
-        wants.js do
+      respond_to do |format|
+        format.js do
           render :update do |page|
             page.call '$.jGrowl', l(:error_general)
           end

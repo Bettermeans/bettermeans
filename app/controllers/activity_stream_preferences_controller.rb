@@ -75,7 +75,7 @@ class ActivityStreamPreferencesController < ApplicationController
           redirect_to(activity_stream_preferences_path)
         end
       end
-      format.xml
+      format.xml { head :ok }
     end
   end
 

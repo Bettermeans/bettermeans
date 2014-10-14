@@ -72,6 +72,7 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
 
+  map.resources :invitations, :only => [:edit, :update, :index]
   map.with_options :controller => 'invitations' do |invitations_routes|
     invitations_routes.with_options :conditions => {:method => :get} do |invitations_views|
       invitations_views.connect 'invitations/:id', :action => 'accept'

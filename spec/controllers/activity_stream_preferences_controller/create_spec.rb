@@ -100,7 +100,7 @@ describe ActivityStreamPreferencesController, '#create' do
 
   it 'resonds to xml format' do
     post(:create, :format => 'xml')
-    response.code.should == '200'
+    response.status.should == '200 OK'
   end
 
 end

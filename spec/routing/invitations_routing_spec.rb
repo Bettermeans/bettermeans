@@ -17,7 +17,7 @@ describe InvitationsController do
     end
 
     it "routes to #edit" do
-      route_for(:controller => "invitations", :action => "edit", :id => '5').should == "/invitations/edit/5"
+      route_for(:controller => "invitations", :action => "edit", :id => '5').should == "/invitations/5/edit"
     end
 
     it "routes to #create" do
