@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe HelpSectionsController, '#dont_show' do
 
-  integrate_views
-
   let(:help_section) { Factory.create(:help_section) }
   let(:valid_params) { { :id => help_section.id } }
   let(:js_params) { valid_params.merge(:format => 'js') }
@@ -20,4 +18,5 @@ describe HelpSectionsController, '#dont_show' do
       response.body.should match(/help_section/)
     end
   end
+
 end

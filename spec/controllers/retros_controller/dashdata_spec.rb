@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe RetrosController, '#dashdata' do
 
-  integrate_views
-
   let(:retro) { Factory.create(:retro) }
   let!(:issue) { Factory.create(:issue, :retro => retro) }
   let(:project) { Factory.create(:project) }

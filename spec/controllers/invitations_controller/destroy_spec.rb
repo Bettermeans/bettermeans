@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe InvitationsController, '#destroy' do
 
-  integrate_views
-
   let(:invitation) { Factory.create(:invitation) }
   let(:user) { Factory.create(:user) }
   let(:project) { Factory.create(:project) }

@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe RetroRatingsController, '#index' do
 
-  integrate_views
-
   let!(:retro_rating) { Factory.create(:retro_rating) }
 
   it 'assigns @retro_ratings' do

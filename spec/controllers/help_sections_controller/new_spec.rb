@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe HelpSectionsController, '#new' do
 
-  integrate_views
-
   let(:admin_user) { Factory.create(:admin_user) }
   let(:xml_params) { { :format => 'xml' } }
 

@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe AccountController, '#cancel' do
 
-  integrate_views
-
   let(:user) { Factory.create(:user, :mail => 'bob@bob.com') }
 
   before :each do

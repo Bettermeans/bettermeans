@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe RetroRatingsController, '#destroy' do
 
-  integrate_views
-
   let(:retro_rating) { Factory.create(:retro_rating) }
   let(:valid_params) { { :id => retro_rating.id } }
 

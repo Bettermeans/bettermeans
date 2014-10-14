@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe AccountController, '#lost_password' do
 
-  integrate_views
-
   before :each do
     Setting.stub(:lost_password?).and_return(true)
   end

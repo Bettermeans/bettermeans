@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe NotificationsController, '#destroy' do
 
-  integrate_views
-
   let(:notification) { Factory.create(:notification) }
   let(:valid_params) { { :id => notification.id } }
 

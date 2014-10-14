@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ReportsController, '#issue_report' do
 
-  integrate_views
-
   let(:project) { Factory.create(:project) }
   let(:tracker) { project.trackers.first }
   let(:issue_status) { Factory.create(:issue_status) }

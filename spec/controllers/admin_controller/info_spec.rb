@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe AdminController, '#info' do
 
-  integrate_views
-
   let(:admin_user) { Factory.create(:admin_user) }
 
   before(:each) { login_as(admin_user) }

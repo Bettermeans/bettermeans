@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe RetrosController, '#index_json' do
 
-  integrate_views
-
   let!(:retro) { Factory.create(:retro, :project => project) }
   let(:project) { Factory.create(:project) }
   let(:params) { { :project_id => project.id } }

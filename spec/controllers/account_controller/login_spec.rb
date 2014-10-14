@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe AccountController, "#login" do
 
-  integrate_views
-
   context "given an invitation token in the session" do
     context "with invitation token passed as a param" do
       it "assigns the params version to @invitation_token" do

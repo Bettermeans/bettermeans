@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe QuotesController, '#create' do
 
-  integrate_views
-
   let(:user) { Factory.create(:user) }
   let(:valid_params) { { :quote => { :body => 'help me!' } } }
   let(:xml_params) { valid_params.merge(:format => 'xml') }

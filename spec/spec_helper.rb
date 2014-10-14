@@ -10,6 +10,7 @@ Spork.prefork do
   Dir[File.expand_path(File.join(File.dirname(__FILE__),'support','**','*.rb'))].each {|f| require f}
 
   Spec::Runner.configure do |config|
+    Spec::Rails::Example::ControllerExampleGroup.integrate_views
     config.use_transactional_fixtures = false
     config.use_instantiated_fixtures  = false
     config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
@@ -32,7 +33,6 @@ Spork.prefork do
       DatabaseCleaner.strategy = :transaction
       load_seeds if integration?
     end
-
   end
 
   def load_seeds

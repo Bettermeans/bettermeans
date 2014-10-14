@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe MotionVotesController, '#destroy' do
 
-  integrate_views
-
   let(:motion_vote) { Factory.create(:motion_vote) }
   let(:valid_params) { { :id => motion_vote.id } }
 

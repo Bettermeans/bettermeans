@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ProjectsController, '#move' do
 
-  integrate_views
-
   let(:admin_user) { Factory.create(:admin_user) }
 
   before :each do

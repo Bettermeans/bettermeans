@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ReputationsController, '#update' do
 
-  integrate_views
-
   let(:reputation) { Factory.create(:reputation) }
   let(:valid_params) do
     { :id => reputation.id, :reputation => { :params => 'my new params' } }

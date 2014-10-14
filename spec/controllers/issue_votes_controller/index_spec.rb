@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe IssueVotesController, '#index' do
 
-  integrate_views
-
   let!(:issue_vote) { Factory.create(:issue_vote) }
 
   context 'format html' do

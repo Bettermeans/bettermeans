@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe EmailUpdatesController, '#new' do
 
-  integrate_views
-
   let(:user) { Factory.create(:user) }
 
   before(:each) { login_as(user) }

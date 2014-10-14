@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe RetroRatingsController, '#new' do
 
-  integrate_views
-
   it 'assigns @retro_rating' do
     get(:new)
     assigns(:retro_rating).should be_new_record

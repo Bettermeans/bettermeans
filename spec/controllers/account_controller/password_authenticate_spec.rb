@@ -3,8 +3,6 @@ require 'spec_helper'
 # private method, no state
 describe AccountController, '#password_authentication' do
 
-  integrate_views
-
   let(:user) { Factory.create(:user) }
 
   before :each do

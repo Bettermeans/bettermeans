@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe SharesController, '#index' do
 
-  integrate_views
-
   let!(:share) { Factory.create(:share) }
   let(:project) { Factory.create(:project) }
 

@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe AccountController, '#activate' do
 
-  integrate_views
-
   context 'if self_registration is not set' do
     it 'redirects to home_url' do
       user = Factory.create(:user, :status => User::STATUS_REGISTERED)

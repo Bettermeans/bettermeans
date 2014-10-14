@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe SharesController, '#update' do
 
-  integrate_views
-
   let(:share) { Factory.create(:share) }
   let(:valid_params) do
     { :id => share.id, :share => { :amount => 52 } }

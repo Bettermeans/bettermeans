@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe SharesController, '#show' do
 
-  integrate_views
-
   let(:share) { Factory.create(:share) }
   let(:valid_params) { { :id => share.id } }
   let(:xml_params) { valid_params.merge(:format => 'xml') }

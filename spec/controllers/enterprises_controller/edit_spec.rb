@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe EnterprisesController, '#edit' do
 
-  integrate_views
-
   let(:enterprise) { Factory.create(:enterprise) }
   let(:valid_params) { { :id => enterprise.id } }
 

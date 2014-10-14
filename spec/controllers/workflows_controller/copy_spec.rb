@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe WorkflowsController, '#copy' do
 
-  integrate_views
-
   let(:admin_user) { Factory.create(:admin_user) }
   let(:tracker) { Factory.create(:tracker) }
   let(:role) { Factory.create(:role) }

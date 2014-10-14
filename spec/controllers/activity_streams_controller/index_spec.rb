@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ActivityStreamsController, '#index' do
 
-  integrate_views
-
   let(:project) { Factory.create(:project) }
   let(:user) { Factory.create(:user) }
   let(:valid_params) do

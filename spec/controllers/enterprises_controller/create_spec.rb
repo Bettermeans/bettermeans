@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe EnterprisesController, '#create' do
 
-  integrate_views
-
   let(:valid_params) { { :enterprise => { :name => 'help me!' } } }
   let(:xml_params) { valid_params.merge(:format => 'xml') }
 

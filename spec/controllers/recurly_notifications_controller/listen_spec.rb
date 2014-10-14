@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe RecurlyNotificationsController, '#listen' do
 
-  integrate_views
-
   let(:user) { Factory.create(:user) }
   let(:plan) { Factory.create(:plan, :code => 52) }
   let(:subscription_params) do

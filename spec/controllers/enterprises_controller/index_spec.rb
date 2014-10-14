@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe EnterprisesController, '#index' do
 
-  integrate_views
-
   let!(:enterprise) { Factory.create(:enterprise) }
 
   context 'format html' do

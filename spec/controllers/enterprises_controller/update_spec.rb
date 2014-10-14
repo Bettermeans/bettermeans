@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe EnterprisesController, '#update' do
 
-  integrate_views
-
   let(:enterprise) { Factory.create(:enterprise) }
   let(:valid_params) do
     { :id => enterprise.id, :enterprise => { :name => 'my new name' } }

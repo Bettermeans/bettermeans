@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe AttachmentsController, '#create' do
 
-  integrate_views
-
   let(:file) { fixture_file_upload('/blah.txt', 'application/txt') }
   let(:project) { Factory.create(:project) }
 

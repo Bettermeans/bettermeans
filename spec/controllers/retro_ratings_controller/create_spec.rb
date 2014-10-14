@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe RetroRatingsController, '#create' do
 
-  integrate_views
-
   let(:user) { Factory.create(:user) }
   let(:retro) { Factory.create(:retro) }
 

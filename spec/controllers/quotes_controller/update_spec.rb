@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe QuotesController, '#update' do
 
-  integrate_views
-
   let(:quote) { Factory.create(:quote) }
   let(:valid_params) do
     { :id => quote.id, :quote => { :body => 'my new body' } }

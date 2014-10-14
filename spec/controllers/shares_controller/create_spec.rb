@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe SharesController, '#create' do
 
-  integrate_views
-
   let(:valid_params) { { :share => { :amount => 52 } } }
   let(:xml_params) { valid_params.merge(:format => 'xml') }
 

@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe HelpSectionsController, '#show' do
 
-  integrate_views
-
   let(:help_section) { Factory.create(:help_section) }
   let(:admin_user) { Factory.create(:admin_user) }
   let(:valid_params) { { :id => help_section.id } }

@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe QuotesController, '#new' do
 
-  integrate_views
-
   let(:xml_params) { { :format => 'xml' } }
 
   context 'format html' do

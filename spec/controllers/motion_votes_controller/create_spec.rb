@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe MotionVotesController, '#create' do
 
-  integrate_views
-
   let(:user) { Factory.create(:user) }
   let(:motion) { Factory.create(:motion) }
   let(:valid_params) { { :motion_id => motion.id, :points => 50 } }

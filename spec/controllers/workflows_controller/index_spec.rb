@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe WorkflowsController, '#index' do
 
-  integrate_views
-
   let!(:workflow_1) { Factory.create(:workflow) }
   let!(:workflow_2) { Factory.create(:workflow) }
   let(:admin_user) { Factory.create(:admin_user) }

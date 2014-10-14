@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ReputationsController, '#index' do
 
-  integrate_views
-
   let!(:reputation) { Factory.create(:reputation) }
 
   context 'format html' do

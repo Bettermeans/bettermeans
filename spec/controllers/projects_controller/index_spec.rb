@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ProjectsController, "#index" do
 
-  integrate_views
-
   it "finds the latest public workstreams" do
     Project.should_receive(:latest_public)
 

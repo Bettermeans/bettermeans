@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ActivityStreamsController, '#destroy' do
 
-  integrate_views
-
   let(:admin_user) { Factory.create(:admin_user) }
   let(:activity_stream) { Factory.create(:activity_stream) }
   let(:valid_params) { { :id => activity_stream.id } }

@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe MyController, '#password' do
 
-  integrate_views
-
   let(:user) { Factory.create(:user, :password => 'foobar') }
 
   before(:each) do

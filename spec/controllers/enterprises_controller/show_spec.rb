@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe EnterprisesController, '#show' do
 
-  integrate_views
-
   let(:enterprise) { Factory.create(:enterprise) }
   let(:valid_params) { { :id => enterprise.id } }
   let(:xml_params) { valid_params.merge(:format => 'xml') }

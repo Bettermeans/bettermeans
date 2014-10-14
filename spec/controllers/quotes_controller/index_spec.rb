@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe QuotesController, '#index' do
 
-  integrate_views
-
   let(:user) { Factory.create(:user) }
   let!(:quote) { Factory.create(:quote, :user => user) }
 

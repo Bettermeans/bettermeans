@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ReputationsController, '#show' do
 
-  integrate_views
-
   let(:reputation) { Factory.create(:reputation) }
   let(:valid_params) { { :id => reputation.id } }
   let(:xml_params) { valid_params.merge(:format => 'xml') }

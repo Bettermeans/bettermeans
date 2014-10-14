@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe QuotesController, '#destroy' do
 
-  integrate_views
-
   let(:quote) { Factory.create(:quote) }
   let(:valid_params) { { :id => quote.id } }
   let(:xml_params) { valid_params.merge(:format => 'xml') }

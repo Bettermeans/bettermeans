@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe RetroRatingsController, '#update' do
 
-  integrate_views
-
   let(:retro_rating) { Factory.create(:retro_rating) }
   let(:valid_params) do
     { :id => retro_rating.id, :retro_rating => { :score => 52 } }

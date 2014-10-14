@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe AccountController, '#logout' do
 
-  integrate_views
-
   let(:user) { Factory.create(:user) }
 
   before :each do

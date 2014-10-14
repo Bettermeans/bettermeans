@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ActivityStreamsController, '#edit' do
 
-  integrate_views
-
   let(:activity_stream) { Factory.create(:activity_stream) }
   let(:admin_user) { Factory.create(:admin_user) }
 

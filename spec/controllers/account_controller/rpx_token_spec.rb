@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe AccountController, '#rpx_token' do
 
-  integrate_views
-
   context "when token is invalid" do
     it "raises an error" do
       RPXNow.should_receive(:user_data).with('blah').and_return(nil)

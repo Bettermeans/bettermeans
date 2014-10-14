@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe CreditTransfersController, '#index' do
 
-  integrate_views
-
   let(:user) { Factory.create(:admin_user) }
   let(:project1) { Factory.create(:project) }
   let(:project2) { Factory.create(:project) }
