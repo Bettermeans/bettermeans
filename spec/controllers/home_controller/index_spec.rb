@@ -4,18 +4,18 @@ describe HomeController, '#index' do
 
   let(:user) { Factory.create(:user) }
 
-  context 'current user logged in' do
+  context 'when current user is logged in' do
     before do
       login_as(user)
     end
 
     it 'redirects to welcome/index' do
       get(:index)
-      response.should redirect_to '/welcome'
+      response.should redirect_to(:controller => 'welcome', :action => 'index')
     end
   end
 
-  context 'current user not logged in' do
+  context 'when current user is not logged in' do
     it 'redirects to /front/index.html' do
       get(:index)
       response.should redirect_to '/front/index.html'

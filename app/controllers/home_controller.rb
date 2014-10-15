@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   ssl_required :index
   layout 'static'
-  def index # spec_me cover_me heckle_me
+  def index # cover_me heckle_me
     if User.current.logged?
       redirect_to :controller => 'welcome', :action => 'index'
     else
