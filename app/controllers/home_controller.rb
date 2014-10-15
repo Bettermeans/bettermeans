@@ -9,13 +9,8 @@ class HomeController < ApplicationController
     end
   end
 
-  def show # spec_me cover_me heckle_me
+  def show # cover_me heckle_me
     render :action => params[:page]
-  end
-
-  def robots # spec_me cover_me heckle_me
-    @projects = Project.all_public.active
-    render :layout => false, :content_type => 'text/plain'
   end
 
 end
