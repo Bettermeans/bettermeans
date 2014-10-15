@@ -13,7 +13,7 @@
   </td>
   <td>
     <span class="icon icon-time right small-text"<%= since_tag(@mention.created_at) %> ago</span>
-  <%= link_to(truncate(title, 50), url, {:class => "#{@mention.source_type == 'Issue' || @mention.source_type == 'Journal(Issue)' ? 'fancyframe' : ''}"}) %>
+  <%= link_to(truncate(title, :length => 50), url, {:class => "#{@mention.source_type == 'Issue' || @mention.source_type == 'Journal(Issue)' ? 'fancyframe' : ''}"}) %>
   <br /><br />
   <%= make_expandable mention_text %>
 <p class="gt-table-action-list">
