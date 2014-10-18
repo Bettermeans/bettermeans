@@ -18,7 +18,7 @@ class WikiController < ApplicationController
   log_activity_streams :current_user, :name, :attached, :@page, :title, :add_attachment, :wikis, {}
 
   # display a page (in editing mode if it doesn't exist)
-  def index # spec_me cover_me heckle_me
+  def index # cover_me heckle_me
     page_title = params[:page]
     @page = @wiki.find_or_new_page(page_title)
     if @page.new_record?
