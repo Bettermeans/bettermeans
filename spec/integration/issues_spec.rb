@@ -10,6 +10,7 @@ feature 'Issues', :js => true do
   end
 
   scenario 'starting an issue' do
+    pending
     click_link 'New workstream'
     page.should have_selector('#project_name')
     fill_in 'project_name', :with => 'Some Workstream'
