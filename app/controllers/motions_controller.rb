@@ -8,7 +8,7 @@ class MotionsController < ApplicationController
   ssl_required :all
 
 
-  def index # spec_me cover_me heckle_me
+  def index # heckle_me
     @motions = @project.motions
     respond_to do |format|
       format.html
