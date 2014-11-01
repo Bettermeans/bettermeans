@@ -16,7 +16,7 @@ class MotionsController < ApplicationController
     end
   end
 
-  def show # spec_me cover_me heckle_me
+  def show # heckle_me
     if @motion.concerned_user_id == User.current.id
       render_403
       return false
@@ -29,7 +29,6 @@ class MotionsController < ApplicationController
     @replies = @topic.children.find(:all, :include => [:author, :attachments, {:board => :project}])
     @replies.reverse! if User.current.wants_comments_in_reverse_order?
     @reply = Message.new(:subject => "RE: #{@topic.subject}")
-
 
     respond_to do |format|
       format.html

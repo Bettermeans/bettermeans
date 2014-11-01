@@ -10,7 +10,7 @@ class Board < ActiveRecord::Base
   acts_as_watchable
 
 
-  validates_presence_of :name, :description
+  validates_presence_of :name, :description, :project
   validates_length_of :name, :maximum => 30
   validates_length_of :description, :maximum => 255
 
