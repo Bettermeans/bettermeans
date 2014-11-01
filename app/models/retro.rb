@@ -22,23 +22,12 @@ class Retro < ActiveRecord::Base
   NOT_GIVEN_AND_NOT_PART_OF_RETRO = -3
   GIVEN_BUT_NOT_PART_OF_RETRO = -4
 
-
-
-
   belongs_to :project
   has_many :issues
   has_many :journals, :through => :issues
   has_many :issue_votes, :through => :issues
   has_many :retro_ratings
   has_many :credit_distributions
-
-
-
-  #Sets the from_date according to earliest updated issue in retrospective
-  def set_from_date # spec_me cover_me heckle_me
-    from_date = issues.first(:order => "updated_at ASC").updated_at
-    self.save
-  end
 
   def ended? # cover_me heckle_me
     return status_id == STATUS_COMPLETE || status_id == STATUS_DISTRIBUTED
