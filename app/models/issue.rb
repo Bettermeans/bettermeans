@@ -314,12 +314,12 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns true if the issue is overdue
-  def overdue? # spec_me cover_me heckle_me
+  def overdue? # heckle_me
     !due_date.nil? && (due_date < DateTime.now) && !status.is_closed?
   end
 
   # Users the issue can be assigned to
-  def assignable_users # spec_me cover_me heckle_me
+  def assignable_users # heckle_me
     project.assignable_users
   end
 
