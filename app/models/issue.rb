@@ -373,7 +373,7 @@ class Issue < ActiveRecord::Base
 
   # Returns the due date or the target due date if any
   # Used on gantt chart
-  def due_before # spec_me cover_me heckle_me
+  def due_before # heckle_me
     due_date
   end
 
@@ -382,7 +382,7 @@ class Issue < ActiveRecord::Base
   # Example:
   #   Start Date: 2/26/09, End Date: 3/04/09
   #   duration => 6
-  def duration # spec_me cover_me heckle_me
+  def duration # heckle_me
     (start_date && due_date) ? due_date - start_date : 0
   end
 
@@ -406,7 +406,7 @@ class Issue < ActiveRecord::Base
 
 
   #returns true if this user is allowed to take (and/or offer) ownership for this particular issue
-  def push_allowed?(user) # spec_me cover_me heckle_me
+  def push_allowed?(user) # cover_me heckle_me
     return false if user.nil?
     return true if self.assigned_to == user #Any user who owns an issue can offer for people to take it, or can accept offers
 
