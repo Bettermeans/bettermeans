@@ -498,7 +498,7 @@ class Issue < ActiveRecord::Base
   end
 
   # sets number of points for an hourly item
-  def set_points_from_hourly # spec_me cover_me heckle_me
+  def set_points_from_hourly # cover_me heckle_me
     return unless self.hourly?
 
     if (hourly_type.hourly_rate_per_person * self.team_members.length) > hourly_type.hourly_cap
