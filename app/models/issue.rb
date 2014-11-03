@@ -88,10 +88,8 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns true if there are enough disagreements in relation to the estimated points of the request
-  def ready_for_canceled? # cover_me heckle_me
-    return false if agree_total > 0
-    return true if agree_total < 0 && (updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
-    return false
+  def ready_for_canceled?
+    agree_total < 0 && updated_at < Setting::LAZY_MAJORITY_LENGTH.days.ago
   end
 
   def ready_for_accepted? # cover_me heckle_me
