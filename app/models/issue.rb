@@ -33,6 +33,7 @@ class Issue < ActiveRecord::Base
                 :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
 
   delegate :rejected?, :to => :status
+  delegate :gift?, :expense?, :hourly?, :feature?, :bug?, :chore?, :to => :tracker
 
   # ===============
   # = CSV support =
@@ -103,30 +104,6 @@ class Issue < ActiveRecord::Base
 
   def ready_for_rejected?
     rejected? || points.present? && accept_total < 0 && lazy_majority_passed?
-  end
-
-  def gift? # cover_me heckle_me
-    tracker.gift?
-  end
-
-  def expense? # cover_me heckle_me
-    tracker.expense?
-  end
-
-  def hourly? # cover_me heckle_me
-    tracker.hourly?
-  end
-
-  def feature? # cover_me heckle_me
-    tracker.feature?
-  end
-
-  def bug? # cover_me heckle_me
-    tracker.bug?
-  end
-
-  def chore? # cover_me heckle_me
-    tracker.chore?
   end
 
   def updated_status # cover_me heckle_me
