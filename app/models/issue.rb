@@ -32,7 +32,7 @@ class Issue < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
                 :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
 
-  delegate :rejected?, :to => :status
+  delegate :rejected?, :accepted?, :to => :status
   delegate :gift?, :expense?, :hourly?, :feature?, :bug?, :chore?, :to => :tracker
 
   # ===============
@@ -96,10 +96,7 @@ class Issue < ActiveRecord::Base
   end
 
   def ready_for_accepted? # cover_me heckle_me
-    return true if self.status == IssueStatus.accepted
-    return false if points.nil? || accept_total < 1
-    return true if accept_total > 0 && (self.updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH)
-    return false
+    accepted? || points.present? && accept_total > 0 && lazy_majority_passed?
   end
 
   def ready_for_rejected?

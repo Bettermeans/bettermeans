@@ -83,6 +83,10 @@ class IssueStatus < ActiveRecord::Base
     name == 'Rejected'
   end
 
+  def accepted?
+    name == 'Accepted'
+  end
+
   # Returns an array of all statuses the given role can switch to
   # Uses association cache when called more than one time
   def new_statuses_allowed_to(roles, tracker) # spec_me cover_me heckle_me
