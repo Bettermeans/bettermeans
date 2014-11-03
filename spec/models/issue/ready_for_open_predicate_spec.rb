@@ -2,17 +2,22 @@ require 'spec_helper'
 
 describe Issue, '#ready_for_open?' do
 
-  let(:issue) {
-    Issue.new(:agree => 2, :disagree => 0, :points => 0, :agree_total => 1)
-  }
+  let(:issue) do
+    Issue.new(:points => 0, :agree_total => 1)
+  end
 
-  context 'when points are not nil and agree_total exceeds 0' do
-    context 'when agree-disagree difference exceeds minimum' do
-      it 'returns true' do
-        issue.stub(:points_from_credits).and_return 0
-        issue.ready_for_open?.should be true
-      end
-    end
+  it 'returns true if points and agree_total >= 1' do
+    issue.ready_for_open?.should be true
+  end
+
+  it 'returns false if points is nil' do
+    issue.points = nil
+    issue.ready_for_open?.should be false
+  end
+
+  it 'returns false if agree_total < 1' do
+    issue.agree_total = 0
+    issue.ready_for_open?.should be false
   end
 
 end

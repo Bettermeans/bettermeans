@@ -83,11 +83,8 @@ class Issue < ActiveRecord::Base
   end
 
   # Returns true if there are enough agreements in relation to the estimated points of the request
-  def ready_for_open? # cover_me heckle_me
-    return false if points.nil? || agree_total < 1
-    return true if agree - disagree > points_from_credits / 2
-    return true if agree_total > 0
-    return false
+  def ready_for_open?
+    points.present? && agree_total >= 1
   end
 
   # Returns true if there are enough disagreements in relation to the estimated points of the request
@@ -498,7 +495,7 @@ class Issue < ActiveRecord::Base
   end
 
   # sets number of points for an hourly item
-  def set_points_from_hourly # cover_me heckle_me
+  def set_points_from_hourly # spec_me cover_me heckle_me
     return unless self.hourly?
 
     if (hourly_type.hourly_rate_per_person * self.team_members.length) > hourly_type.hourly_cap
