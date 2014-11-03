@@ -32,6 +32,8 @@ class Issue < ActiveRecord::Base
                 :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}},
                 :type => Proc.new {|o| 'issue' + (o.closed? ? ' closed' : '') }
 
+  delegate :rejected?, :to => :status
+
   # ===============
   # = CSV support =
   # ===============
@@ -89,7 +91,7 @@ class Issue < ActiveRecord::Base
 
   # Returns true if there are enough disagreements in relation to the estimated points of the request
   def ready_for_canceled?
-    agree_total < 0 && updated_at < Setting::LAZY_MAJORITY_LENGTH.days.ago
+    agree_total < 0 && lazy_majority_passed?
   end
 
   def ready_for_accepted? # cover_me heckle_me
@@ -99,11 +101,8 @@ class Issue < ActiveRecord::Base
     return false
   end
 
-  def ready_for_rejected? # cover_me heckle_me
-    return true if self.status == IssueStatus.rejected
-    return false if points.nil? || accept_total > -1
-    return true if accept_total < 0 && (updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH) #rejected
-    return false
+  def ready_for_rejected?
+    rejected? || points.present? && accept_total < 0 && lazy_majority_passed?
   end
 
   def gift? # cover_me heckle_me
@@ -580,6 +579,10 @@ class Issue < ActiveRecord::Base
   end
 
   private
+
+  def lazy_majority_passed?
+    updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
+  end
 
   # Callback on attachment deletion
   def attachment_removed(obj) # cover_me heckle_me

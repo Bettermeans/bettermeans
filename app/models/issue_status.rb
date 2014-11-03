@@ -79,6 +79,10 @@ class IssueStatus < ActiveRecord::Base
     @@archived_status ||= find(:first, :conditions =>['name = ?', 'Archived'])
   end
 
+  def rejected?
+    name == 'Rejected'
+  end
+
   # Returns an array of all statuses the given role can switch to
   # Uses association cache when called more than one time
   def new_statuses_allowed_to(roles, tracker) # spec_me cover_me heckle_me
