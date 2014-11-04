@@ -18,7 +18,7 @@ Roadmap
   - libs
   - any stragglers
 2. add spec files for every method (use "spec_me" tags, 1170 and counting)
-3. mutation test every method (use "heckle_me" tags, 1661 left)
+3. mutation test every method (use "heckle_me" tags, 1652 left)
 4. upgrade to Ruby 1.9
 5. set up Rubocop and clean up code quality
 6. integration test and move vendored gems to Gemfile
