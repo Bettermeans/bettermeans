@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   # See https://rails.lighthouseapp.com/projects/8994/tickets/3360
   # TODO: remove it when Rails is fixed
   before_filter :delete_broken_cookies
-  def delete_broken_cookies # spec_me cover_me heckle_me
+  def delete_broken_cookies # heckle_me
     if cookies['_redmine_session'] && cookies['_redmine_session'] !~ /--/
       cookies.delete '_redmine_session'
       redirect_to home_path
