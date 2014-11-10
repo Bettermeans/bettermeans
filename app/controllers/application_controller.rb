@@ -41,8 +41,8 @@ class ApplicationController < ActionController::Base
   include Redmine::MenuManager::MenuController
   helper Redmine::MenuManager::MenuHelper
 
-  def set_user_ip # spec_me cover_me heckle_me
-    session[:client_ip] = request.headers['X-Real-Ip'] unless session[:client_ip]
+  def set_user_ip # heckle_me
+    session[:client_ip] ||= request.headers['X-Real-Ip']
   end
 
   def user_setup # spec_me cover_me heckle_me
