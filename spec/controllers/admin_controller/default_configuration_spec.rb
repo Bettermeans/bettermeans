@@ -12,6 +12,13 @@ describe AdminController, '#default_configuration' do
       post(:default_configuration)
       flash[:error].should match(/could not be loaded/)
     end
+
+    it 'flashes a success message when it loads the config' do
+      [Role, Tracker, IssueStatus, Enumeration].each(&:delete_all)
+      flash.stub(:sweep)
+      post(:default_configuration, :lang => 'zh')
+      flash[:success].should match(/成功载入默认设置/)
+    end
   end
 
   context 'when the request is not POST' do

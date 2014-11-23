@@ -35,7 +35,7 @@ class AdminController < ApplicationController
 
   # Loads the default configuration
   # (roles, trackers, statuses, workflow, enumerations)
-  def default_configuration # cover_me heckle_me
+  def default_configuration # heckle_me
     if request.post?
       begin
         Redmine::DefaultData::Loader::load(params[:lang])
@@ -47,7 +47,7 @@ class AdminController < ApplicationController
     redirect_to :action => 'index'
   end
 
-  def test_email # cover_me heckle_me
+  def test_email # heckle_me
     raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
     # Force ActionMailer to raise delivery errors so we can catch it
     ActionMailer::Base.raise_delivery_errors = true
