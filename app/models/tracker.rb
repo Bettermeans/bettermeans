@@ -83,7 +83,7 @@ class Tracker < ActiveRecord::Base
 
   private
 
-  def check_integrity # cover_me heckle_me
+  def check_integrity # heckle_me
     raise "Can't delete tracker" if Issue.find(:first, :conditions => ["tracker_id=?", self.id])
   end
 
