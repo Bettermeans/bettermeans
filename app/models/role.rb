@@ -206,7 +206,7 @@ class Role < ActiveRecord::Base
   end
 
   # Return the builtin 'board' role
-  def self.board # spec_me cover_me heckle_me
+  def self.board # cover_me heckle_me
     find(:first, :conditions => {:builtin => BUILTIN_BOARD}) || raise('Missing Board builtin role.')
   end
 
@@ -225,11 +225,6 @@ class Role < ActiveRecord::Base
   # Return the builtin 'member' role
   def self.member # spec_me cover_me heckle_me
     find(:first, :conditions => {:builtin => BUILTIN_MEMBER}) || raise('Missing member builtin role.')
-  end
-
-  # Return the builtin 'founder' role
-  def self.founder # spec_me cover_me heckle_me
-    find(:first, :conditions => {:builtin => BUILTIN_FOUNDER}) || raise('Missing founder builtin role.')
   end
 
   # Return the builtin 'clearance' role
