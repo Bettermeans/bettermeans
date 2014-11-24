@@ -49,15 +49,6 @@ class Notification < ActiveRecord::Base
   def self.recind(variation, source_id, sender_id) # heckle_me
     Notification.update_all(["state = ?", STATE_RECINDED], {:variation => variation, :sender_id => sender_id, :source_id => source_id, :state => 0})
   end
-
-  # Deactivates all unanswered notifications for a particular variation and source id
-  def self.deactivate_all(variation, source_id) # spec_me cover_me heckle_me
-    update_all(variation,source_id,0,STATE_DEACTIVATED)
-  end
-
-  def self.activate_all(variation, source_id) # spec_me cover_me heckle_me
-    update_all(variation,source_id,-1,STATE_ACTIVE)
-  end
 end
 
 
