@@ -185,7 +185,7 @@ class Role < ActiveRecord::Base
   end
 
   # Find all the roles that can be given to a project member
-  def self.find_all_givable(level) # spec_me cover_me heckle_me
+  def self.find_all_givable(level) # heckle_me
     find(:all, :conditions => {:level => level}, :order => 'position')
   end
 
@@ -256,7 +256,7 @@ class Role < ActiveRecord::Base
     @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
   end
 
-  def check_deletable # cover_me heckle_me
+  def check_deletable # heckle_me
     raise "Can't delete role" if members.any?
     raise "Can't delete builtin role" if builtin?
   end
