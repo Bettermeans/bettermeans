@@ -3,7 +3,7 @@
 [![Dependency Status](https://gemnasium.com/mockdeep/better.png)](https://gemnasium.com/mockdeep/better)
 
 Support this project:
-[![gratipay](https://img.shields.io/gratipay/mockdeep.svg)](https://img.shields.io/gratipay/mockdeep)
+[![gratipay](https://img.shields.io/gratipay/mockdeep.svg)](https://www.gratipay.com/mockdeep/)
 
 live server hosted at: https://better.boon.gl
 
