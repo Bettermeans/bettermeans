@@ -71,27 +71,27 @@ de:
   activerecord:
     errors:
       messages:
-        inclusion: "ist kein gültiger Wert"
-        exclusion: "ist nicht verfügbar"
-        invalid: "ist nicht gültig"
-        confirmation: "stimmt nicht mit der Bestätigung überein"
+        inclusion: "ist nicht in der Liste enhalten"
+        exclusion: "ist reserviert"
+        invalid: "ist ungültig"
+        confirmation: "entspricht nicht der Bestätigung"
         accepted: "muss akzeptiert werden"
         empty: "muss ausgefüllt werden"
         blank: "muss ausgefüllt werden"
         too_long: "ist zu lang (höchstens %{count} Zeichen)"
         too_short: "ist zu kurz (mindestens %{count} Zeichen)"
-        wrong_length: "hat die falsche Länge (sollte %{count} Zeichen sein)"
+        wrong_length: "hat die falsche Länge (sollte %{count} Zeichen haben)"
         taken: "ist bereits vergeben"
         not_a_number: "ist keine Zahl"
         not_a_date: "is kein gültiges Datum"
         greater_than: "muss größer als %{count} sein"
         greater_than_or_equal_to: "muss größer oder gleich %{count} sein"
         equal_to: "muss gleich %{count} sein"
-        less_than: "muss weniger als %{count} sein"
+        less_than: "muss kleiner als %{count} sein"
         less_than_or_equal_to: "muss kleiner oder gleich %{count} sein"
         odd: "muss ungerade sein"
         even: "muss gerade sein"
-        greater_than_start_date: "muss größer als Anfangsdatum sein"
+        greater_than_start_date: "muss größer als das Anfangsdatum sein"
         not_same_project: "gehört nicht zum gleichen Workstream"
         circular_dependency: "Diese Beziehung würde eine zyklische Abhängigkeit erzeugen"
   actionview_instancetag_blank_option: Bitte auswählen
@@ -99,11 +99,108 @@ de:
   general_text_Yes: 'Ja'
   general_text_no: 'nein'
   general_text_yes: 'ja'
-  general_lang_name: 'Deutsch'
-  general_csv_separator: ';'
-  general_csv_decimal_separator: ','
+  general_lang_name: 'Englisch'
+  general_csv_separator: ','
+  general_csv_decimal_separator: '.'
   general_csv_encoding: ISO-8859-1
-  general_first_day_of_week: '1'
+  general_pdf_encoding: ISO-8859-1
+  general_first_day_of_week: '7'
+  numbers:
+    two: zwei
+    three: drei
+  general:
+    a: a
+    accept: akzeptieren
+    acceptance: Akzeptanz
+    add: hinzufügen
+    add_a_comment: Kommentar hinzufügen ...
+    add_a_tag: Tag hinzufügen ...
+    add_new_comment: Neuen Kommentar hinzufügen
+    add_new_item: Neues Element hinzufügen
+    add_todo: Aufgabe hinzufügen
+    added: hinzugefügt
+    ago: vor
+    agree: zustimmen
+    agreement: Vereinbarung
+    block: Block
+    bold: fett
+    cancel: abbrechen
+    canceled: abgebrochen
+    century: Jahrhundert
+    clear: leeren
+    close: schließen
+    comment: Kommentar
+    comment_on_this_item: Kommentar zu diesem Element verfassen
+    comments: Kommentare
+    day: Tag
+    days: Tage
+    done: erledigt
+    dont_include: Nicht enthalten
+    dont_show_again: nicht mehr anzeigen
+    enter_title_here: Titel hier eingeben
+    estimate: schätzen
+    filter: Filter
+    filtered_results: Gefilterte Ergebnisse
+    finish: beenden
+    full_screen: Vollbild
+    giveup: aufgeben
+    go_to_top: Zum Seitenanfang
+    hour: Stunde
+    hours: Stunden
+    in: in
+    include_sub_workstreams: Unter-Workstreams einbeziehen
+    inprogress: in Bearbeitung
+    italic: kursiv
+    items_that_i: Elemente, die ich
+    join: beitreten
+    just_now: soeben
+    key: Schlüssel
+    leave: verlassen
+    minute: Minute
+    minutes: Minuten
+    month: Monat
+    months: Monate
+    needs_my: braucht meine
+    neutral: neutral
+    new: neu
+    new_item: neues Element
+    open: offen
+    prioritization: Priorisierung
+    prioritized: priorisiert
+    quick_filter: Schnellfilter
+    reject: verwerfen
+    save: speichern
+    show_all: alles anzeigen
+    show_more: Mehr anzeigen ...
+    start: beginnen
+    tagged_with: Getaggt mit
+    takeback: zurücknehmen
+    this: dies
+    todos: Aufgaben
+    updated_in_last: Aktualisiert in den letzten
+    upload_files: hochgeladene Dateien
+    week: Woche
+    weeks: Wochen
+    x_days: '%{num} Tage'
+    x_hours: '%{num} Stunden'
+    x_months: '%{num} Monate'
+    x_weeks: '%{num}  Wochen'
+    year: Jahr
+    years: Jahre
+  issue:
+    accepted: akzeptiert
+    committed: verpflichtet
+    done: erledigt
+    from_a_to_b: Von %{original} zu %{updated}
+    new: neu
+    open: öffnen
+  tracker:
+    bug: Fehler
+    chore: lästige Arbeit
+    feature: Feature
+  notice_account_reactivated: Dein Account wurde reaktiviert.<br /> Willkommen zurück!<br /><br /> <a href="/">Home</a>
+  notice_account_canceled: Dein Account ist nun gekündigt. Danke, dass du Betterbeans ausprobiert hast.<br /><br />Wir würden uns über Verbesserungsverschläge freuen.<br /><br /><a href="mailto:feedback@bettermeans.com">feedback@bettermeans.com</a>
+  notice_account_inactive_user: Dein Account wurde noch nicht aktiviert. Bitte überprüf deine E-Mails für den Aktivierungslink.
   notice_account_updated: Konto wurde erfolgreich aktualisiert.
   notice_account_invalid_creditentials: Benutzer oder Kennwort ist ungültig.
   notice_account_password_updated: Kennwort wurde erfolgreich aktualisiert.
@@ -136,6 +233,7 @@ de:
   error_no_tracker_in_project: 'No issue type is associated to this workstream. Please check the Workstream settings.'
   error_no_default_issue_status: 'Kein Standard Artikel Status ist definiert. Bitte überprüfen sie ihre Konfiguration (gehe zu "Administration -> Artikel Status").'
   error_can_not_reopen_issue_on_closed_version: 'An item assigned to a closed deliverable can not be reopened'
+  error_can_not_archive_project: Dieses Projekt kann nicht archiviert werden
   error_issue_done_ratios_not_updated: "Der Ticket-Fortschritt wurde nicht aktualisiert."
   error_workflow_copy_source: 'Bitte wählen Sie einen Quell-Tracker und eine Quell-Rolle.'
   error_workflow_copy_target: 'Bitte wählen Sie die Ziel-Tracker und -Rollen.'
@@ -158,21 +256,57 @@ de:
   mail_body_wiki_content_updated: "Die '%{page}' Wiki Seite wurde von %{author} aktualisiert."
   gui_validation_error: 1 Fehler
   gui_validation_error_plural: "%{count} Fehler"
+  role:
+    core_team: Kernteam
+    member: Mitglied
+    contributor: Anbieter
+    non_member: Nicht-Mitglied
+    active: aktiv
+    administrator: Administrator
+    anonymous: anonym
+  activity:
+    added: hinzugefügt
+    announced: angekündigt
+    attached: angehängt
+    blocked: geblockt
+    canceled: abgebrochen
+    changed: geändert
+    changed_estimate_for: ihr Schätzung geändert für
+    created: erstellt
+    deleted: gelsöcht
+    edited: bearbeitet
+    finished: abgeschlossen
+    joined: beigetreten
+    left: links
+    moved: verschoben
+    publicized: veröffentlicht
+    rejected: verworfen
+    replied_to: geantwortet auf
+    started: begonnen
+    updated: aktualisiert
+  field_hashed_password: Hash-Passwort
   field_tags: "Tags"
   field_points: "geschätze durchschnittliche Credits"
   field_logo: "Logo"
   field_image_file: "Lokale Datei hochladen"
   field_image_file_url: "oder Bild URL"
+  field_retro: Rückblickend
+  field_volunteer: Volontär
   field_name: Name
   field_description: Beschreibung
   field_summary: Zusammenfassung
   field_is_required: Erforderlich
+  field_firstname: Vorname
+  field_lastname: Nachname
   field_mail: E-Mail
   field_filename: Datei
   field_filesize: Größe
   field_downloads: Downloads
   field_author: Autor
+  field_created_at: erstellt
+  field_updated_at: aktualisiert
   field_field_format: Format
+  field_is_for_all: Für alle Workstreams
   field_possible_values: Mögliche Werte
   field_regexp: Regulärer Ausdruck
   field_min_length: Minimale Länge
@@ -180,21 +314,29 @@ de:
   field_value: Wert
   field_category: Kategorie
   field_title: Titel
+  field_project: Workstream
+  field_item: Artikel
   field_status: Status
   field_notes: Kommentare
+  field_is_closed: Artikel geschlossen
   field_is_default: Standardeinstellung
   field_subject: Thema
+  field_assigned_to: Besitzer
   field_priority: Priorität
   field_user: Benutzer
   field_role: Rolle
   field_homepage: Projekt-Homepage
   field_is_public: Öffentlich
+  field_is_in_roadmap: Artikel, die in der Roadmap angezeigt werden
+  field_login: Benutzername
+  field_mail_notification: E-Mail-Benachrichtigungen
   field_admin: Administrator
   field_last_login_on: Letzte Anmeldung
   field_language: Sprache
   field_effective_date: Datum
   field_password: Kennwort
   field_new_password: Neues Kennwort
+  field_password_confirmation: Passwort wiederholen
   field_type: Typ
   field_host: Host
   field_port: Port
@@ -210,13 +352,19 @@ de:
   field_hide_mail: E-Mail-Adresse nicht anzeigen
   field_active_only_jumps: "Zeige nur Workstreams, in denen ich aktiv bin, im oberen Schnellwahlmenü"
   field_comments: Kommentar
+  field_wiki_comments: Überarbeitungsnotizen
   field_url: URL
+  field_start_page: Homepage
+  field_subproject: Untergeordneter Workstream
   field_hours: Stunden
   field_activity: Aktivität
   field_spent_on: Datum
   field_identifier: Kennung
   field_is_filter: Als Filter benutzen
+  field_issue_to: verwandter Artikel
+  field_issue: verwandter Artikel
   field_delay: Pufferzeit
+  field_assignable: Artikel können von dieser Rolle besessen werden
   field_redirect_existing_links: Existierende Links umleiten
   field_estimated_hours: Geschätzter Aufwand
   field_column_names: Spalten
@@ -225,6 +373,7 @@ de:
   field_default_value: Standardwert
   field_comments_sorting: Kommentare anzeigen
   field_parent_title: Übergeordnete Seite
+  field_parent_project: Übergeordneter Workstream
   field_editable: Bearbeitbar
   field_watcher: Beobachter
   field_identity_url: OpenID-URL
@@ -238,6 +387,7 @@ de:
   setting_login_required: Authentifizierung erforderlich
   setting_self_registration: Anmeldung ermöglicht
   setting_attachment_max_size: Max. Dateigröße
+  setting_issues_export_limit: Artikel-Export-Beschränkung
   setting_mail_from: E-Mail-Absender
   setting_bcc_recipients: E-Mails als Blindkopie (BCC) senden
   setting_plain_text_mail: Nur reinen Text (kein HTML) senden
@@ -245,16 +395,20 @@ de:
   setting_text_formatting: Textformatierung
   setting_wiki_compression: Wiki-Historie komprimieren
   setting_feeds_limit: Max. Anzahl Einträge pro Atom-Feed
+  setting_default_projects_public: Neue Workstream sind standardmäßig öffentlich einsehbar
   setting_autofetch_changesets: Changesets automatisch abrufen
   setting_commit_ref_keywords: Schlüsselwörter (Beziehungen)
   setting_commit_fix_keywords: Schlüsselwörter (Status)
   setting_autologin: Automatische Anmeldung
   setting_date_format: Datumsformat
   setting_time_format: Zeitformat
+  setting_cross_project_issue_relations: Cross-Workstrean Artikelbeziehungen zulassen
+  setting_issue_list_default_columns: Standard-Spalten, die in der Artikelliste angezeigt werden
   setting_emails_footer: E-Mail-Fußzeile
   setting_protocol: Protokoll
   setting_per_page_options: Objekte pro Seite
   setting_user_format: Benutzer-Anzeigeformat
+  setting_display_subprojects_issues: Elemente der Unter-Workstreams standmäßig im Haupt-Workstream anzeigen
   setting_enabled_scm: Aktivierte Versionskontrollsysteme
   setting_mail_handler_body_delimiters: "Schneide E-Mails nach einer dieser Zeilen ab"
   setting_mail_handler_api_enabled: Abruf eingehender E-Mails aktivieren
@@ -265,12 +419,26 @@ de:
   setting_file_max_size_displayed: Maximale Größe inline angezeigter Textdateien
   setting_openid: Erlaube OpenID-Anmeldung und -Registrierung
   setting_password_min_length: Mindestlänge des Kennworts
+  setting_issue_done_ratio: Berechne das Elemente-Abgeschlossen-Verhältnis mit
+  setting_issue_done_ratio_issue_field: Benutze das Elemente-Feld
+  setting_issue_done_ratio_issue_status: Benutze den Elemete-Status
   setting_start_of_week: Wochenanfang
   setting_rest_api_enabled: REST-Schnittstelle aktivieren
+  permission_view_project: Workstream ansehen
+  permission_add_project: Workstream erstellen
+  permission_add_subprojects: Untergeordneten Workstream erstellen
+  permission_edit_project: Workstream bearbeiten
+  permission_move_project: Workstream verschieben
   permission_manage_members: Mitglieder verwalten
+  permission_manage_categories: Elementekategorien verwalten
+  permission_add_issues: Elemente hinzufügen
+  permission_edit_issues: Elemente bearbeiten
+  permission_manage_issue_relations: Elementebeziehungen verwalten
   permission_add_issue_notes: Kommentare hinzufügen
   permission_edit_issue_notes: Kommentare bearbeiten
   permission_edit_own_issue_notes: Eigene Kommentare bearbeiten
+  permission_move_issues: Elemente verschieben
+  permission_delete_issues: Elemente löschen
   permission_manage_public_queries: Öffentliche Filter verwalten
   permission_save_queries: Filter speichern
   permission_view_gantt: Gantt-Diagramm ansehen
@@ -304,27 +472,63 @@ de:
   permission_edit_own_messages: Eigene Forenbeiträge bearbeiten
   permission_delete_messages: Forenbeiträge löschen
   permission_delete_own_messages: Eigene Forenbeiträge löschen
+  project_module_issue_tracking: Elementeverfolgung
   project_module_time_tracking: Zeiterfassung
   project_module_news: News
   project_module_documents: Dokumente
   project_module_files: Dateien
   project_module_wiki: Wiki
+  project_module_boards: Diskussionen
   title_member_nomination: "Antrag, %{user} als Mitglied zu wählen"
   title_core_member_nomination: "Antrag, %{user} in das Kernteam zu wählen"
   title_core_member_removal: "Antrag, %{user} aus dem Kernteam zu entfernen"
   title_member_removal: "Antrag, %{user} den Status 'Mitglied' zu entziehen"
   label_usage_over: "Du hast die maximale Menge überschritten"
   label_trial_expired: "Dein Testzeitraum ist abgelaufen"
+  label_email_update: Deine neue E-Mail-Adresse
+  label_new_page: Neue Seite
+  label_my_issues: Meine Elemente
+  label_joined_issues: Beigetreten
+  label_joined: Beigetreten
+  label_projects_recent: Letzte Workstreams
+  label_projects_active_in: Workstreams, in denen ich aktiv bin
+  label_projects_all: Alle meine Workstreams
+  label_view_all: Alle ansehen
+  label_unarchive_project: Nicht archivierte Workstreams
+  label_unarchive_project_brackets: (nicht archiviert)
+  label_archive_project: Workstream archivieren
+  label_delete_project: Workstream löschen
+  label_move_project: Workstream verschieben
+  label_select_recipient: Empfänger auswählen
   label_credit_transfer: "Credits transferieren"
+  label_new_credit_transfer: Neue Übertragung
+  label_type_of_workstream: Workstream Einstellungen
+  label_your_gravatar: Profilbild
   label_user: Benutzer
   label_user_plural: Benutzer
   label_user_new: Neuer Benutzer
   label_user_anonymous: Anonym
+  label_project: Workstream
+  label_project_new: Neuer Workstream
+  label_project_plural: Workstreams
   label_x_projects:
+    zero: Keine Workstreams
+    one: 1 Workstream
     other: "%{count} Workstreams"
+  label_project_all: Alle Workstreams
+  label_project_latest: Letzte Workstreams
+  label_enterprise_latest: Letzte öffentliche Workstreams
+  label_enterprise_active: Aktivste öffentliche Workstreams
+  label_issue: Element
+  label_issue_new: Neues Element
+  label_issue_plural: Elemente
+  label_issue_view_all: Alle Elemente ansehen
   label_issues_by: "Einträge nach %{value}"
+  label_issue_added: Element hinzugefügt
+  label_issue_updated: Element hochgeladen
   label_document: Dokument
   label_document_new: Neues Dokument
+  label_document_plural: Dokumentation
   label_document_added: Dokument hinzugefügt
   label_role: Rolle
   label_role_plural: Rollen
@@ -339,14 +543,27 @@ de:
   label_enumeration_new: Neuer Wert
   label_information: Information
   label_information_plural: Informationen
+  label_billing_information: Zahlungsinformationen
   label_please_login: Anmelden
+  label_register: Anmeldung
   label_login_with_open_id_option: oder mit OpenID anmelden
   label_password_lost: Kennwort vergessen
   label_home: Hauptseite
+  label_my_page: Zusammenfassung
+  label_new_project: Neuer Workstream
+  label_my_account: Konto
+  label_my_projects: Meine Workstreams
+  label_projects_i_belong_to: Workstreams, zu denen ich gehöre
+  label_projects_i_started: Workstreams, die ich begonnen habe
+  label_activities_i_belong_to: Aktuelle Aktivitäten
   label_administration: Administration
   label_login: Anmelden
   label_logout: Abmelden
   label_help: Hilfe
+  label_reported_issues: Gemeldete Elemente
+  label_added_issues: Erstellt
+  label_recent_issues: Letzte
+  label_assigned: Besitzen
   label_last_login: Letzte Anmeldung
   label_activity: Aktivität
   label_overall_activity: Aktivität aller Projekte anzeigen
@@ -358,6 +575,7 @@ de:
   label_auth_source: Authentifizierungs-Modus
   label_auth_source_new: Neuer Authentifizierungs-Modus
   label_auth_source_plural: Authentifizierungs-Arten
+  label_new_item_in: Neues Element in
   label_and_its_subprojects: "%{value} und Unter-Workstreams"
   label_waiting_for_you: "%{notifications} warten auf dich"
   label_min_max_length: Länge (Min. - Max.)
@@ -385,6 +603,8 @@ de:
   label_news_plural: News
   label_news_latest: Letzte News
   label_news_view_all: Alle News anzeigen
+  label_activity_latest: Letzte Aktivitäten
+  label_activity_view_all: Alle Aktivitäten ansehen
   label_news_added: News hinzugefügt
   label_settings: Konfiguration
   label_overview: Übersicht
@@ -447,6 +667,8 @@ de:
   label_less_or_equal: '<='
   label_in: an
   label_today: heute
+  label_Today: Heute
+  label_same_day: Am selben Tag
   label_all_time: gesamter Zeitraum
   label_yesterday: gestern
   label_this_week: aktuelle Woche
@@ -461,8 +683,10 @@ de:
   label_ago: vor
   label_contains: enthält
   label_not_contains: enthält nicht
+  label_day: Tag
   label_day_plural: Tage
   label_browse: Codebrowser
+  label_browse_activity: Aktivitäten durchsuchen
   label_modification: "%{count} Änderung"
   label_modification_plural: "%{count} Änderungen"
   label_branch: Zweig
@@ -476,6 +700,10 @@ de:
   label_copied: kopiert
   label_renamed: umbenannt
   label_deleted: gelöscht
+  label_moved: verschoben
+  label_archived: archiviert
+  label_project_description: Beschreibung
+  label_message: Diskussion
   label_latest_revision: Aktuellste Revision
   label_latest_revision_plural: Aktuellste Revisionen
   label_view_revisions: Revisionen anzeigen
@@ -488,12 +716,14 @@ de:
   label_roadmap: Roadmap
   label_roadmap_due_in: "Fällig in %{value}"
   label_roadmap_overdue: "%{value} verspätet"
+  label_roadmap_no_issues: Kein Artikel für dieses lieferbar
   label_search: Suche
   label_result_plural: Resultate
   label_all_words: Alle Wörter
   label_wiki: Wiki
   label_wiki_edit: Wiki-Bearbeitung
   label_wiki_edit_plural: Wiki-Bearbeitungen
+  label_wikipage: Wiki-Seite
   label_wiki_page: Wiki-Seite
   label_wiki_page_plural: Wiki-Seiten
   label_index_by_title: Seiten nach Titel sortiert
@@ -501,11 +731,13 @@ de:
   label_preview: Vorschau
   label_feed_plural: Feeds
   label_changes_details: Details aller Änderungen
+  label_boards: Diskussion
   label_spent_time: Aufgewendete Zeit
   label_f_hour: "%{value} Stunde"
   label_f_hour_plural: "%{value} Stunden"
   label_time_tracking: Zeiterfassung
   label_change_plural: Änderungen
+  label_change: Änderung
   label_statistics: Statistiken
   label_commits_per_month: Übertragungen pro Monat
   label_commits_per_author: Übertragungen pro Autor
@@ -515,6 +747,7 @@ de:
   label_options: Optionen
   label_copy_workflow_from: Workflow kopieren von
   label_permissions_report: Berechtigungsübersicht
+  label_related_issues: zugehörige Elemente
   label_applied_status: Zugewiesener Status
   label_relation_new: Neue Beziehung
   label_relation_delete: Beziehung löschen
@@ -559,6 +792,7 @@ de:
   label_changeset_plural: Changesets
   label_default_columns: Standard-Spalten
   label_no_change_option: (Keine Änderung)
+  label_bulk_edit_selected_issues: Stapelverarbeitung für die ausgewählten Elemente
   label_theme: Stil
   label_default: Standard
   label_user_mail_option_all: "Für alle Veranstaltungen auf all meinen Workstreams"
@@ -690,6 +924,7 @@ de:
   label_no_mention: "Keine ungelesenen Erwähnungen"
   label_mentions: "Erwähnungen"
   label_version_sharing_none: Nicht gemeinsam verwenden
+  label_update_issue_done_ratios: Elemente-Abgeschlossen-Verhältnisse aktualisieren
   label_copy_source: Quelle
   label_copy_target: Ziel
   label_copy_same_as_target: So wie das Ziel
@@ -929,6 +1164,7 @@ de:
   default_priority_normal: Normal
   default_priority_high: Hoch
   default_priority_urgent: Dringend
+  enumeration_issue_priorities: Elementprioritäten
   enumeration_doc_categories: Dokumentenkategorien
   enumeration_activities: Aktivitäten (Zeiterfassung)
   enumeration_system_activity: System-Aktivität
