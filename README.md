@@ -1,9 +1,9 @@
-![status](https://secure.travis-ci.org/mockdeep/better.png?branch=master)
+[![status](https://secure.travis-ci.org/mockdeep/better.png?branch=master)](https://secure.travis-ci.org/mockdeep/better?branch=master)
 [![Code Climate](https://codeclimate.com/github/mockdeep/better.png)](https://codeclimate.com/github/mockdeep/better)
 [![Dependency Status](https://gemnasium.com/mockdeep/better.png)](https://gemnasium.com/mockdeep/better)
 
 Support this project:
-![gratipay](https://img.shields.io/gratipay/mockdeep.svg)
+[![gratipay](https://img.shields.io/gratipay/mockdeep.svg)](https://img.shields.io/gratipay/mockdeep)
 
 live server hosted at: https://better.boon.gl
 
