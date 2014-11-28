@@ -2,6 +2,9 @@
 [![Code Climate](https://codeclimate.com/github/mockdeep/better.png)](https://codeclimate.com/github/mockdeep/better)
 [![Dependency Status](https://gemnasium.com/mockdeep/better.png)](https://gemnasium.com/mockdeep/better)
 
+Support this project:
+![gratipay](https://img.shields.io/gratipay/mockdeep.svg)
+
 live server hosted at: https://better.boon.gl
 
 *** Use at your own risk!!! There are likely to be vulnerabilities in this
