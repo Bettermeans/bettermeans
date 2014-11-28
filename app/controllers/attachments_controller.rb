@@ -88,4 +88,10 @@ class AttachmentsController < ApplicationController
   def delete_authorize # cover_me heckle_me
     @attachment.deletable? ? true : deny_access
   end
+
+  # Returns a string that can be used as filename value in Content-Disposition header
+  def filename_for_content_disposition(name) # cover_me heckle_me
+    request.env['HTTP_USER_AGENT'] =~ %r{MSIE} ? ERB::Util.url_encode(name) : name
+  end
+
 end

@@ -788,4 +788,10 @@ class IssuesController < ApplicationController
     render_error "An error occurred while executing the query and has been logged. Please report this error to your Redmine administrator."
   end
 
+  def attach_files_for_new_issue(issue, attachment_ids) # cover_me heckle_me
+    if attachment_ids
+      Attachment.update_all("container_id = #{issue.id}" , "id in (#{attachment_ids}) and container_id = 0" )
+    end
+  end
+
 end

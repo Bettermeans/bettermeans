@@ -45,47 +45,20 @@ class ApplicationController < ActionController::Base
     session[:client_ip] ||= request.headers['X-Real-Ip']
   end
 
-  def user_setup # spec_me cover_me heckle_me
+  def user_setup # heckle_me
     # Check the settings cache for each request
     Setting.check_cache
     # Find the current user
     User.current = find_current_user
   end
 
-  def redirect_with_flash(flash_type,msg,*params) # spec_me cover_me heckle_me
+  def redirect_with_flash(flash_type,msg,*params) # heckle_me
     flash[flash_type] = msg
     redirect_to(*params)
   end
 
-  def current_user # spec_me cover_me heckle_me
+  def current_user # heckle_me
     User.current
-  end
-
-  # Returns the current user or nil if no user is logged in
-  # and starts a session if needed
-  def find_current_user # spec_me cover_me heckle_me
-    if session[:user_id]
-      # existing session
-      user = (User.active.find(session[:user_id]) rescue nil)
-      user
-    elsif cookies[:autologin] && Setting.autologin?
-      # auto-login feature starts a new session
-      user = User.try_to_autologin(cookies[:autologin])
-      session[:user_id] = user.id if user
-      Track.log(Track::LOGIN,session[:client_ip]) if user
-      user
-    elsif Setting.rest_api_enabled? && ['xml', 'json'].include?(params[:format]) && accept_key_auth_actions.include?(params[:action])
-      if params[:key].present?
-        # Use API key
-        User.find_by_api_key(params[:key])
-      else
-        # HTTP Basic, either username/password or API key/random
-        authenticate_with_http_basic do |username, password|
-          #TODO: track login here: Track.log(Track::LOGIN,session[:client_ip])
-          User.authenticate(username, password) || User.find_by_api_key(username)
-        end
-      end
-    end
   end
 
   # Sets the logged in user
@@ -227,14 +200,6 @@ class ApplicationController < ActionController::Base
     redirect_back_or_default(home_path)
   end
 
-  def render_feed(items, options={}) # cover_me heckle_me
-    @items = items || []
-    @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
-    @items = @items.slice(0, Setting.feeds_limit.to_i)
-    @title = options[:title] || Setting.app_title
-    render :template => "common/feed.atom.rxml", :layout => false, :content_type => 'application/atom+xml'
-  end
-
   def self.accept_key_auth(*actions) # cover_me heckle_me
     actions = actions.flatten.map(&:to_s)
     write_inheritable_attribute('accept_key_auth_actions', actions)
@@ -242,12 +207,6 @@ class ApplicationController < ActionController::Base
 
   def accept_key_auth_actions # cover_me heckle_me
     self.class.read_inheritable_attribute('accept_key_auth_actions') || []
-  end
-
-  def attach_files_for_new_issue(issue,attachment_ids) # cover_me heckle_me
-    if attachment_ids
-      Attachment.update_all("container_id = #{issue.id}" , "id in (#{attachment_ids}) and container_id = 0" )
-    end
   end
 
   # TODO: move to model
@@ -269,34 +228,6 @@ class ApplicationController < ActionController::Base
       end
     end
     attached
-  end
-
-  def attach_temp_files(obj, attachments) # cover_me heckle_me
-    attached = []
-    unsaved = []
-    logger.info { "attaching temp #{attachments.inspect}" }
-    if attachments && attachments.is_a?(Hash)
-      attachments.each_value do |attachment|
-        logger.info { "atatchment #{attachment}" }
-        file = Tempfile.open(attachment)
-        next unless file && file.size > 0
-        a = Attachment.create(:container => obj,
-                              :file => file,
-                              :description => '',
-                              :author => User.current)
-        a.new_record? ? (unsaved << a) : (attached << a)
-      end
-      if unsaved.any?
-        flash.now[:error] = l(:warning_attachments_not_saved, unsaved.size)
-      end
-    end
-    attached
-  end
-
-  #replaces newline characters with more binary-compatible ones
-  def cleanup_newline(text) # cover_me heckle_me
-    return text unless text and !text.empty?
-    text.gsub(/\r?\n/, "\r\n")
   end
 
   # Same as Rails' simple_format helper without using paragraphs
@@ -322,35 +253,33 @@ class ApplicationController < ActionController::Base
     per_page
   end
 
-  # qvalues http header parser
-  # code taken from webrick
-  def parse_qvalues(value) # cover_me heckle_me
-    tmp = []
-    if value
-      parts = value.split(/,\s*/)
-      parts.each {|part|
-        if m = %r{^([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?$}.match(part)
-          val = m[1]
-          q = (m[2] or 1).to_f
-          tmp.push([val, q])
+  private
+
+  # Returns the current user or nil if no user is logged in
+  # and starts a session if needed
+  def find_current_user # cover_me heckle_me
+    if session[:user_id]
+      # existing session
+      user = (User.active.find(session[:user_id]) rescue nil)
+      user
+    elsif cookies[:autologin] && Setting.autologin?
+      # auto-login feature starts a new session
+      user = User.try_to_autologin(cookies[:autologin])
+      session[:user_id] = user.id if user
+      Track.log(Track::LOGIN,session[:client_ip]) if user
+      user
+    elsif Setting.rest_api_enabled? && ['xml', 'json'].include?(params[:format]) && accept_key_auth_actions.include?(params[:action])
+      if params[:key].present?
+        # Use API key
+        User.find_by_api_key(params[:key])
+      else
+        # HTTP Basic, either username/password or API key/random
+        authenticate_with_http_basic do |username, password|
+          #TODO: track login here: Track.log(Track::LOGIN,session[:client_ip])
+          User.authenticate(username, password) || User.find_by_api_key(username)
         end
-      }
-      tmp = tmp.sort_by{|val, q| -q}
-      tmp.collect!{|val, q| val}
+      end
     end
-    return tmp
-  rescue
-    nil
-  end
-
-  # Returns a string that can be used as filename value in Content-Disposition header
-  def filename_for_content_disposition(name) # cover_me heckle_me
-    request.env['HTTP_USER_AGENT'] =~ %r{MSIE} ? ERB::Util.url_encode(name) : name
-  end
-
-  #breakpoint
-  def bp # cover_me heckle_me
-    debugger if ENV['RAILS_ENV'] == 'development'
   end
 
 end

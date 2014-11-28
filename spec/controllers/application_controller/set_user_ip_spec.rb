@@ -4,12 +4,12 @@ describe ApplicationController, '#set_user_ip' do
 
   integrate_views(false)
 
-  class TestController < ApplicationController
+  class SetUserIpSpecController < ApplicationController
     def index
     end
   end
 
-  controller_name :test
+  controller_name :set_user_ip_spec
 
   context 'when there is no :client_ip in the session' do
     it 'sets it from the request headers' do

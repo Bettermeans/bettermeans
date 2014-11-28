@@ -4,12 +4,12 @@ describe ApplicationController, '#delete_broken_cookies' do
 
   integrate_views(false)
 
-  class TestController < ApplicationController
+  class DeleteBrokenCookiesSpecController < ApplicationController
     def index
     end
   end
 
-  controller_name :test
+  controller_name :delete_broken_cookies_spec
 
   context 'when the cookie is invalid' do
     before(:each) do
@@ -34,14 +34,14 @@ describe ApplicationController, '#delete_broken_cookies' do
 
     it 'continues rendering' do
       get(:index)
-      response.should render_template('test/index')
+      response.should render_template('delete_broken_cookies_spec/index')
     end
   end
 
   context 'when there is no cookie' do
     it 'continues rendering' do
       get(:index)
-      response.should render_template('test/index')
+      response.should render_template('delete_broken_cookies_spec/index')
     end
   end
 
