@@ -10,8 +10,9 @@ app!!! ***
 Support this project
 --------------------
 [![Pledgie](https://pledgie.com/campaigns/27557.png)](https://pledgie.com/campaigns/27557)
-[![Gratipay](https://img.shields.io/gratipay/mockdeep.svg)](https://www.gratipay.com/mockdeep/)
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=lobati&url=https://github.com/mockdeep/better&title=Better&language=&tags=github&category=software)
 [![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=416557)](https://www.bountysource.com/trackers/416557-mockdeep-better?utm_source=416557&utm_medium=shield&utm_campaign=TRACKER_BADGE)
+[![Gratipay](https://img.shields.io/gratipay/mockdeep.svg)](https://www.gratipay.com/mockdeep/)
 
 Roadmap
 -------
