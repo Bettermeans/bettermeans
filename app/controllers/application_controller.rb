@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Sets the logged in user
-  def logged_user=(user) # spec_me cover_me heckle_me
+  def logged_user=(user)
     #resetting session, but keeping client_ip
     ip = session[:client_ip] if session[:client_ip]
     reset_session
