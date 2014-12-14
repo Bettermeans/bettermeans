@@ -22,7 +22,47 @@ ru:
     pm: "вечера"
   datetime:
     distance_in_words:
-      half_a_minute: "меньше минуты"
+      half_a_minute: "пол минуты"
+      less_than_x_seconds:
+        one: "меньше чем %{count} секунда"
+        few: "меньше чем %{count} секунды"
+        other: "меньше чем %{count} секунд"
+      x_seconds:
+        one: "%{count} секунда"
+        few: "%{count} секунды"
+        other: "%{count} секунд"
+      less_than_x_minutes:
+        one: "меньше чем %{count} минута"
+        few: "меньше чем %{count} минуты"
+        other: "меньше чем %{count} минут"
+      x_minutes:
+        one: "%{count} минута"
+        few: "%{count} минуты"
+        other: "%{count} минут"
+      about_x_hours:
+        one: "около %{count} часа"
+        few: "около %{count} часов"
+        other: "около %{count} часов"
+      x_days:
+        one: "%{count} день"
+        few: "%{count} дня"
+        other: "%{count} дней"
+      about_x_months:
+        one: "около %{count} месяца"
+        few: "около %{count} месяцев"
+        other: "около %{count} месяцев"
+      x_months:
+        one: "%{count} месяц"
+        few: "%{count} месяца"
+        other: "%{count} месяцев"
+      about_x_years:
+        one: "около %{count} года"
+        few: "около %{count} лет"
+        other: "около %{count} лет"
+      over_x_years:
+        one: "больше %{count} года"
+        few: "больше %{count} лет"
+        other: "больше %{count} лет"
   number:
     human:
       storage_units:
@@ -49,23 +89,23 @@ ru:
         accepted: "нужно подтвердить"
         empty: "не может быть пустым"
         blank: "не может быть пустым"
-        too_long: "is too long (maximum is %{count} characters)"
-        too_short: "is too short (minimum is %{count} characters)"
-        wrong_length: "is the wrong length (should be %{count} characters)"
+        too_long: "слишком длинный (максимум %{count} символов)"
+        too_short: "слишком короткий (минимум %{count} символов)"
+        wrong_length: "неверной длины (должен быть %{count} символов)"
         taken: "уже существует"
         not_a_number: "не является числом"
-        not_a_date: "nije ispravan datum"
-        greater_than: "must be greater than %{count}"
-        greater_than_or_equal_to: "must be greater than or equal to %{count}"
-        equal_to: "must be equal to %{count}"
-        less_than: "must be less than %{count}"
-        less_than_or_equal_to: "must be less than or equal to %{count}"
+        not_a_date: "неверная дата"
+        greater_than: "должно быть больше чем %{count}"
+        greater_than_or_equal_to: "должно быть больше или равно %{count}"
+        equal_to: "должно быть равно %{count}"
+        less_than: "должно быть меньше чем %{count}"
+        less_than_or_equal_to: "должно быть меньше или равно %{count}"
         odd: "может иметь лишь нечетное значение"
         even: "может иметь лишь четное значение"
         greater_than_start_date: "должна быть позднее даты начала"
-        not_same_project: "doesn't belong to the same workstream"
+        not_same_project: "не относится к тому же потоку задач"
         circular_dependency: "Такая связь приведет к циклической зависимости"
-  actionview_instancetag_blank_option: Выберите
+  actionview_instancetag_blank_option: Выберите, пожалуйста
   general_text_No: 'Нет'
   general_text_Yes: 'Да'
   general_text_no: 'нет'
@@ -75,8 +115,104 @@ ru:
   general_csv_decimal_separator: ','
   general_csv_encoding: UTF-8
   general_first_day_of_week: '1'
+  numbers:
+    two: два
+    three: три
   general:
+    a: ' '
+    accept: принять
+    add: добавить
+    add_a_comment: Добавить комментарий...
+    add_a_tag: добавить ярлык
+    add_new_comment: добавить новый комментарий
+    add_new_item: добавить новый объект
+    add_todo: добавить в список дел
+    added: добавлен
+    ago: тому назад
+    agree: согласен
+    agreement: соглашение
+    block: заблокировать
+    bold: жирный
+    cancel: отменить
+    canceled: отменено
+    century: столетие
+    clear: очистить
+    close: закрыть
+    comment: комментировать
+    comment_on_this_item: комментировать этот обеъкт
+    comments: комментарии
+    day: день
+    days: дни
+    didnt_touch: не трогал
+    disagree: не согласен
+    done: сделано
+    dont_include: Не включает
+    dont_show_again: не показывать снова
+    enter_title_here: ввести заголовок здесь
+    estimate: оценка
+    filter: фильтр
+    filtered_results: Профильтрованные результаты
+    finish: закончить
+    full_screen: полный экран
+    giveup: попытка повторной передачи
+    go_to_top: Перейти к началу
+    hour: час
+    hours: часы
+    in: в
+    include_sub_workstreams: Включить подпотоки задач
     inprogress: в процессе
+    italic: курсив
+    items_that_i: Объекты, которые я
+    join: присоединиться
+    just_now: только сейчас
+    key: ключ
+    leave: оставить
+    minute: минута
+    minutes: минуты
+    month: месяц
+    months: месяцы
+    needs_my: Нужен мой
+    neutral: нейтральный
+    new: новый
+    new_item: новый объект
+    open: открыть
+    prioritization: установление приоритетов
+    prioritized: выставлены приоритеты
+    quick_filter: быстрый фильтр
+    refresh: обновить
+    reject: отказать
+    restart: перезапустить
+    retro: ретро
+    save: сохранить
+    show_all: показывать все
+    show_more: Показать больше...
+    start: начать
+    tagged_with: С меткой
+    this: этот
+    todos: список заданий
+    updated_in_last: Последние обновления
+    upload_files: загрузить файлы
+    week: неделя
+    weeks: недели
+    x_days: '%{num} день/дня/ей'
+    x_hours: '%{num} час/а/ов'
+    x_months: '%{num} месяц/а/ев'
+    x_weeks: '%{num} неделя/и/ь'
+    year: год
+    years: года
+  issue:
+    accepted: принято
+    committed: завершено
+    done: сделано
+    from_a_to_b: С %{original} до %{updated}
+    new: новый
+    open: открыть
+  tracker:
+    bug: дефект
+    feature: свойство
+  notice_account_reactivated: Ваша учетная запись восстановлена. .<br /> Добро пожаловать обратно! <br /><br /> <a href="/">Домой</a>
+  notice_account_canceled: Вы вышли из своей учетной записи. Спасибо за использование нашего сайта. <br /><br />Мы с удовольствием прочитаем ваш отзыв о том, как нам стать лучше.<br /><br /><a href="mailto:feedback@bettermeans.com">feedback@bettermeans.com</a>
+  notice_account_inactive_user: Учетная запись еще не активирована. Пожалуйста, проверьте свой email, чтобы активировать учетную запись.
   notice_account_updated: Учетная запись успешно обновлена.
   notice_account_invalid_creditentials: Неправильное имя пользователя или пароль
   notice_account_password_updated: Пароль успешно обновлен.
@@ -93,59 +229,103 @@ ru:
   notice_file_not_found: Страница, на которую Вы пытаетесь зайти, не существует или удалена.
   notice_locking_conflict: Информация обновлена другим пользователем.
   notice_not_authorized: У Вас нет прав для посещения данной страницы.
-  notice_email_sent: "An email was sent to %{value}"
-  notice_email_error: "An error occurred while sending mail (%{value})"
+  notice_email_sent: "Электронное письмо было отправлено на %{value}"
+  notice_email_error: "При отправлении письма (%{value}) возникла ошибка "
   notice_feeds_access_key_reseted: Ваш ключ доступа RSS был сброшен.
-  notice_failed_to_save_issues: "Failed to save %{count} item(s) on %{total} selected: %{ids}."
-  notice_no_issue_selected: "No item is selected! Please, check the items you want to edit."
+  notice_failed_to_save_issues: "Не удалось сохранить %{count} объект(ы) на %{total} выбранный: %{ids}."
+  notice_no_issue_selected: "Объект не выбран! Пожалуйста, проверьте объекты, которые вы хотите отредактировать."
   notice_account_pending: "Ваша учетная запись создана и ожидает подтверждения администратора."
   notice_default_data_loaded: Была загружена конфигурация по умолчанию.
+  notice_unable_delete_version: Невозможно удалить достигнутый результат.
   notice_issue_done_ratios_updated: Параметр &laquo;готовность&raquo; обновлен.
-  notice_this_is_your_profie: "This is your public profile. To manage your account <a href='/my/account'>click here</a>"
-  error_old_invite: "Old or bad invitation"
-  error_bad_email_update: "Poorly formed email update"
-  error_can_t_load_default_data: "Default configuration could not be loaded: %{value}"
-  error_issue_not_found_in_project: 'The item was not found or does not belong to this workstream'
+  notice_this_is_your_profie: "Это ваш общественный профиль. Для управления учетной записью <a href='/my/account'>нажмите сюда</a>"
+  error_old_invite: "Старое или неправильное приглашение"
+  error_bad_email_update: "Плохо сформированное почтовое отправление"
+  error_can_t_load_default_data: "Найстройки по умолчанию не могут быть загружены: %{value}"
+  error_issue_not_found_in_project: 'Объект не был найден или не принадлежит к данному потоку заданий'
   error_no_tracker_in_project: 'No issue type is associated to this workstream. Please check the Workstream settings.'
   error_no_default_issue_status: 'No default item status is defined. Please check your configuration (Go to "Administration -> Item statuses").'
-  error_can_not_reopen_issue_on_closed_version: 'An item assigned to a closed deliverable can not be reopened'
+  error_can_not_reopen_issue_on_closed_version: 'Объект, присвоенный закрытому достигнутому результату, не может быть снова открыт'
+  error_can_not_archive_project: Этот проект не может быть заархивирован
   error_issue_done_ratios_not_updated: "Параметр готовность задач не обновлен"
   error_workflow_copy_source: 'Выберите исходный трекер или роль'
   error_workflow_copy_target: 'Выберите целевые трекеры и роли'
-  error_general: 'Something went wrong.'
-  warning_attachments_not_saved: "%{count} file(s) could not be saved."
-  mail_subject_lost_password: "Your %{value} password"
+  error_general: 'Что-то пошло не так.'
+  warning_attachments_not_saved: "%{count} файл(ы) не мог/ли быть сохранены."
+  mail_subject_lost_password: "Ваш %{value} пароль"
   mail_body_lost_password: 'Для изменения пароля пройдите по следующей ссылке:'
   mail_subject_register: "Your %{value} account activation"
   mail_body_register: 'Для активации учетной записи пройдите по следующей ссылке:'
-  mail_body_account_information_external: "You can use your %{value} account to log in."
+  mail_body_account_information_external: "Вы можете использовать свою %{value} учетную запись, чтобы войти."
   mail_body_account_information: Информация о Вашей учетной записи
-  mail_subject_account_activation_request: "%{value} account activation request"
-  mail_subject_email_update_activation: "%{value} new email activation"
-  mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
-  mail_subject_reminder: "%{count} item(s) due in the next days"
-  mail_body_reminder: "%{count} item(s) that are owned by you are due in the next %{days} days:"
-  mail_subject_wiki_content_added: "'%{page}' wiki page has been added"
-  mail_body_wiki_content_added: "The '%{page}' wiki page has been added by %{author}."
-  mail_subject_wiki_content_updated: "'%{page}' wiki page has been updated"
-  mail_body_wiki_content_updated: "The '%{page}' wiki page has been updated by %{author}."
+  mail_subject_account_activation_request: "%{value} запрос на активацию учетной записи"
+  mail_subject_email_update_activation: "%{value} активация нового email "
+  mail_body_account_activation_request: "Новый пользователь (%{value}) зарегистрировался. Учетная запись ожидает вашего одобрения:"
+  mail_subject_reminder: "%{count} объект(ы) ожидается в ближайшие дни"
+  mail_body_reminder: "%{count} объект(ы), которым/и вы владеете, ожидается/ются в ближайший/ие %{days} день/дни:"
+  mail_subject_wiki_content_added: "'%{page}' страница wiki была добавлена"
+  mail_body_wiki_content_added: "'%{page}' страница wiki была добавлена %{author}."
+  mail_subject_wiki_content_updated: "'%{page}' страница wiki была обновлена"
+  mail_body_wiki_content_updated: "'%{page}' страница wiki была обновлена %{author}."
   gui_validation_error: 1 ошибка
-  gui_validation_error_plural: "%{count} errors"
-  field_tags: "Tags"
+  gui_validation_error_plural: "%{count} ошибки/ок"
+  role:
+    board: Доска
+    core_team: Центральная команда
+    member: Участник
+    contributor: Помощник
+    non_member: Не-участник
+    active: Активный
+    clearance: Очистка
+    administrator: Администратор
+    anonymous: Анонимный пользователь
+  activity:
+    added: добавлен
+    announced: объявлен
+    attached: прикреплен
+    blocked: заблокирован
+    canceled: отменен
+    changed: изменен
+    changed_estimate_for: изменил свою оценку на
+    commented_on: прокомментировал
+    created: создан
+    deleted: удален
+    edited: отредактирован
+    finished: закончен
+    gave_up_on: отказался от
+    joined: присоединен
+    left: оставлен
+    moved: перенесен
+    passed_a: прошел
+    publicized: уведомлен
+    rejected: отказано
+    replied_to: ответил
+    restarted: перезагружен
+    started: запущен
+    updated: обновлен
+  field_hashed_password: хешированный пароль
+  field_tags: "Ключевые слова"
   field_points: "Avg estimated credits"
-  field_logo: "Logo"
-  field_image_file: "Upload local file"
-  field_image_file_url: "or image URL"
+  field_logo: "Логотип"
+  field_image_file: "Загрузить локальный файл"
+  field_image_file_url: "или URL-адрес изображения"
+  field_retro: Ретроспектива
+  field_volunteer: Волонтер
   field_name: Имя
   field_description: Описание
   field_summary: Краткое описание
   field_is_required: Обязательное
+  field_firstname: Имя
+  field_lastname: Фамилия
   field_mail: Email
   field_filename: Файл
   field_filesize: Размер
   field_downloads: Загрузки
   field_author: Автор
+  field_created_at: Создан
+  field_updated_at: Обновлен
   field_field_format: Формат
+  field_is_for_all: Для всех потоков задач
   field_possible_values: Возможные значения
   field_regexp: Регулярное выражение
   field_min_length: Минимальная длина
@@ -153,21 +333,34 @@ ru:
   field_value: Значение
   field_category: Категория
   field_title: Заголовок
+  field_project: Поток задач
+  field_item: Объект
   field_status: Статус
   field_notes: Примечания
+  field_is_closed: Объект закрыт
   field_is_default: Значение по умолчанию
+  field_tracker: Тип
   field_subject: Тема
+  field_due_date: Действителен до
+  field_expected_date: Ожидается к
+  field_assigned_to: Владелец
   field_priority: Приоритет
+  field_fixed_version: Достигнутый результат
   field_user: Пользователь
   field_role: Роль
   field_homepage: Стартовая страница
   field_is_public: Общедоступный
+  field_is_in_roadmap: Объекты, отображаемые в дорожной карте
+  field_login: Имя пользователя
+  field_mail_notification: 'Уведомления по Email '
   field_admin: Администратор
   field_last_login_on: Последнее подключение
   field_language: Язык
   field_effective_date: Дата
   field_password: Пароль
   field_new_password: Новый пароль
+  field_password_confirmation: Введите пароль еще раз
+  field_version: Достигнутый результат
   field_type: Тип
   field_host: Компьютер
   field_port: Порт
@@ -178,17 +371,22 @@ ru:
   field_attr_lastname: Фамилия
   field_attr_mail: email
   field_onthefly: Создание пользователя на лету
+  field_start_date: Дата начала
   field_done_ratio: "Готовность"
   field_auth_source: Режим аутентификации
   field_hide_mail: Скрывать мой email
   field_active_only_jumps: "Show only workstreams I'm active in for top jump menu"
   field_comments: Комментарий
   field_url: URL
+  field_start_page: Домашняя страница
+  field_subproject: Подпоток задач
   field_hours: час(а,ов)
   field_activity: Деятельность
   field_spent_on: Дата
   field_identifier: Уникальный идентификатор
   field_is_filter: Используется в качестве фильтра
+  field_issue_to: Аналогичный объект
+  field_issue: Аналогичный объект
   field_delay: Отложить
   field_redirect_existing_links: Перенаправить существующие ссылки
   field_estimated_hours: Оценка времени
@@ -204,6 +402,7 @@ ru:
   field_content: Content
   field_group_by: Группировать результаты по
   field_sharing: Совместное использование
+  field_dpp: Оценочная шкала
   setting_app_title: Название приложения
   setting_app_subtitle: Подзаголовок приложения
   setting_welcome_text: Текст приветствия
@@ -211,6 +410,7 @@ ru:
   setting_login_required: Необходима аутентификация
   setting_self_registration: Саморегистрация
   setting_attachment_max_size: Максимальный размер вложения
+  setting_issues_export_limit: Лимит экспорта объектов
   setting_mail_from: Исходящий email адрес
   setting_bcc_recipients: Использовать скрытые копии (BCC)
   setting_plain_text_mail: Только простой текст (без HTML)
@@ -238,12 +438,26 @@ ru:
   setting_file_max_size_displayed: Максимальный размер текстового файла для отображения
   setting_openid: Разрешить OpenID для входа и регистрации
   setting_password_min_length: Минимальная длина пароля
+  setting_issue_done_ratio_issue_field: Использовать поле объекта
+  setting_issue_done_ratio_issue_status: Использовать статус объекта
   setting_start_of_week: День начала недели
   setting_rest_api_enabled: Включить веб-сервис REST
+  permission_view_project: Посмотреть поток заданий
+  permission_add_project: Создать поток заданий
+  permission_add_subprojects: Создать подпоток заданий
+  permission_edit_project: Редактировать поток заданий
+  permission_move_project: Перенести поток заданий
+  permission_select_project_modules: Выбрать модули потока заданий
   permission_manage_members: Управление участниками
+  permission_manage_versions: Управление достигнутыми результатами
+  permission_manage_categories: Управление категориями объекта
+  permission_add_issues: Добавить объекты
+  permission_edit_issues: Редактировать объекты
   permission_add_issue_notes: Добавление примечаний
   permission_edit_issue_notes: Редактирование примечаний
   permission_edit_own_issue_notes: Редактирование собственных примечаний
+  permission_move_issues: Перенести объекты
+  permission_delete_issues: Удалить объекты
   permission_manage_public_queries: Управление общими запросами
   permission_save_queries: Сохранение запросов
   permission_view_gantt: Просмотр диаграммы Ганта
@@ -277,6 +491,7 @@ ru:
   permission_edit_own_messages: Редактирование собственных сообщений
   permission_delete_messages: Удаление сообщений
   permission_delete_own_messages: Удаление собственных сообщений
+  project_module_issue_tracking: Отслеживание объектов
   project_module_time_tracking: Учет времени
   project_module_news: Новости
   project_module_documents: Документы
@@ -288,17 +503,44 @@ ru:
   title_member_removal: "Motion to remove %{user} as a member"
   label_usage_over: "Your usage is over your plan's limits"
   label_trial_expired: "Your trial period has expired"
+  label_my_issues: Мои объекты
+  label_projects_all: Все мои потоки заданий
+  label_view_all: Посмотреть все
+  label_track_invites: Отследить все отправленные приглашения
+  label_delete_project: Удалить поток заданий
+  label_move_project: Перенести поток заданий
   label_credit_transfer: "Transfer credits"
+  label_new_credit_transfer: Новый перевод
+  label_previous_credit_transfers: Ваша история
+  label_type_of_workstream: Опции потока заданий
+  label_your_gravatar: Изображение профиля
+  label_select_plan: Выбрать новый план
+  label_current_plan: Нынедействующий план
   label_user: Пользователь
   label_user_plural: Пользователи
   label_user_new: Новый пользователь
   label_user_anonymous: Аноним
+  label_project: Поток заданий
+  label_project_new: Новый поток заданий
+  label_project_plural: Потоки заданий
   label_x_projects:
+    zero: нет потоков заданий
+    one: 1 поток заданий
     other: "%{count} workstreams"
+  label_project_all: Все потоки заданий
+  label_project_latest: Последние потоки заданий
+  label_issue: Объект
+  label_issue_new: Новый объект
+  label_issue_plural: Объекты
+  label_issue_view_all: Посмотреть все объекты
   label_issues_by: "Items by %{value}"
+  label_issue_added: Объект добавлен
+  label_issue_updated: Объект обновлен
   label_document: Документ
   label_document_new: Новый документ
+  label_document_plural: Документы
   label_document_added: Добавлен документ
+  label_quick_links: Быстрые ссылки
   label_role: Роль
   label_role_plural: Роли
   label_role_new: Новая роль
@@ -306,21 +548,43 @@ ru:
   label_member: Участник
   label_member_new: Новый участник
   label_member_plural: Участники
+  label_team: Команда
+  label_active_team: Активные участники
+  label_dashboard: Панель управления
+  label_tracker: Тип
+  label_tracker_plural: Типы
+  label_tracker_new: Новый тип
   label_workflow: Последовательность действий
+  label_issue_status: Статус объекта
+  label_issue_status_plural: Статусы объекта
   label_issue_status_new: Новый статус
   label_enumerations: Списки значений
   label_enumeration_new: Новое значение
   label_information: Информация
   label_information_plural: Информация
+  label_personal_information: Персональная инофрмация
+  label_billing_information: Информация по биллингу
   label_please_login: Пожалуйста, войдите.
+  label_register: Зарегистрироваться
   label_login_with_open_id_option: или войти с помощью OpenID
   label_password_lost: Восстановление пароля
   label_home: Домашняя страница
+  label_new_project: Новый поток заданий
+  label_my_account: Учетная запись
+  label_my_projects: Мои потоки заданий
+  label_projects_i_belong_to: Потоки заданий, к которым я принадлежу
+  label_projects_i_started: Потоки заданий, который я начал
+  label_activities_i_belong_to: Недавняя активность
   label_administration: Администрирование
   label_login: Войти
   label_logout: Выйти
   label_help: Помощь
+  label_reported_issues: Отмеченные объекты
+  label_added_issues: Создано
+  label_recent_issues: недавний
+  label_assigned: собственный
   label_last_login: Последнее подключение
+  label_registered_on: Зарегистрирован через
   label_activity: Действия
   label_overall_activity: Сводный отчет действий
   label_user_activity: "%{value}'s activity"
@@ -331,6 +595,7 @@ ru:
   label_auth_source: Режим аутентификации
   label_auth_source_new: Новый режим аутентификации
   label_auth_source_plural: Режимы аутентификации
+  label_new_item_in: Новый объект в
   label_and_its_subprojects: "%{value} and its sub workstreams"
   label_waiting_for_you: "%{notifications} waiting for you"
   label_min_max_length: Минимальная - максимальная длина
@@ -345,6 +610,7 @@ ru:
   label_attribute_plural: Атрибуты
   label_download: "%{count} Download"
   label_download_plural: "%{count} Downloads"
+  label_no_data: Здесь еще ничего нет
   label_change_status: Изменить статус
   label_attachment: Файл
   label_attachment_new: Новый файл
@@ -358,9 +624,14 @@ ru:
   label_news_plural: Новости
   label_news_latest: Последние новости
   label_news_view_all: Посмотреть все новости
+  label_activity_latest: Последние действия
+  label_activity_view_all: Просмотреть всю историю активности
   label_news_added: Добавлена новость
   label_settings: Настройки
   label_overview: Обзор
+  label_version: Достигнутый результат
+  label_version_new: Новый достигнутый результат
+  label_version_plural: Достигнутые результаты
   label_confirmation: Подтверждение
   label_export_to: 'Экспортировать в'
   label_read: Чтение...
@@ -420,6 +691,8 @@ ru:
   label_less_or_equal: '<='
   label_in: в
   label_today: сегодня
+  label_Today: Сегодня
+  label_same_day: В тот же день
   label_all_time: всё время
   label_yesterday: вчера
   label_this_week: на этой неделе
@@ -432,10 +705,13 @@ ru:
   label_less_than_ago: менее, чем дней(я) назад
   label_more_than_ago: более, чем дней(я) назад
   label_ago: дней(я) назад
+  label_ago_simple: тому назад
   label_contains: содержит
   label_not_contains: не содержит
+  label_day: день
   label_day_plural: дней(я)
   label_browse: Обзор
+  label_browse_activity: Просмотреть активность
   label_modification: "%{count} change"
   label_modification_plural: "%{count} changes"
   label_branch: Ветвь
@@ -449,6 +725,8 @@ ru:
   label_copied: скопировано
   label_renamed: переименовано
   label_deleted: удалено
+  label_project_description: Описание
+  label_message: Обсуждение
   label_latest_revision: Последняя редакция
   label_latest_revision_plural: Последние редакции
   label_view_revisions: Просмотреть редакции
@@ -461,24 +739,30 @@ ru:
   label_roadmap: Оперативный план
   label_roadmap_due_in: "Due in %{value}"
   label_roadmap_overdue: "%{value} late"
+  label_roadmap_no_issues: Нет объектов для данного достигнутого результата
   label_search: Поиск
   label_result_plural: Результаты
   label_all_words: Все слова
   label_wiki: Wiki
   label_wiki_edit: Редактирование Wiki
   label_wiki_edit_plural: Wiki
+  label_wikipage: Страница Wiki
   label_wiki_page: Страница Wiki
   label_wiki_page_plural: Страницы Wiki
   label_index_by_title: Оглавление
   label_index_by_date: История страниц
+  label_current_version: Текущий достигнутый результат
   label_preview: Предпросмотр
   label_feed_plural: RSS
   label_changes_details: Подробности по всем изменениям
+  label_issue_tracking: Работать с поломкой
+  label_boards: Обсуждение
   label_spent_time: Затраченное время
   label_f_hour: "%{value} hour"
   label_f_hour_plural: "%{value} hours"
   label_time_tracking: Учет времени
   label_change_plural: Правки
+  label_change: Правка
   label_statistics: Статистика
   label_commits_per_month: Изменений в месяц
   label_commits_per_author: Изменений на пользователя
@@ -488,7 +772,11 @@ ru:
   label_options: Опции
   label_copy_workflow_from: Скопировать последовательность действий из
   label_permissions_report: Отчет по правам доступа
+  label_watched_issues: Просмотрено
+  label_watched: Просмотрено
+  label_related_issues: Аналогичные объекты
   label_applied_status: Применимый статус
+  label_loading: Обрабатывается...
   label_relation_new: Новое отношение
   label_relation_delete: Удалить связь
   label_relates_to: связана с
@@ -504,7 +792,11 @@ ru:
   label_start_to_end: с начала к концу
   label_stay_logged_in: Оставаться в системе
   label_disabled: отключено
+  label_show_completed_versions: Показать завершенные достигнутые результаты
   label_me: мне
+  label_board: Обсуждение
+  label_board_new: Новое обсуждение
+  label_board_plural: Обсуждения
   label_topic_plural: Темы
   label_message_plural: Сообщения
   label_message_last: Последнее сообщение
@@ -530,22 +822,25 @@ ru:
   label_updated_time_by: "Updated by %{author} %{age} ago"
   label_created_time_by: "Created %{age} ago by"
   label_updated_time: "Updated %{value} ago"
+  label_jump_to_a_project: МОИ РАБОЧИЕ ПОТОКИ
   label_file_plural: Файлы
   label_changeset_plural: Изменения
   label_default_columns: Столбцы по умолчанию
   label_no_change_option: (Нет изменений)
+  label_bulk_edit_selected_issues: Массовое редактирование выбранных объектов
   label_theme: Тема
   label_default: По умолчанию
+  label_search_titles_only: Только заголовки
   label_user_mail_option_all: "For any event on all my workstreams"
   label_user_mail_option_selected: "For any event on the selected workstreams only..."
   label_user_mail_option_none: "Only for things I watch or I'm involved in"
   label_user_mail_no_self_notified: "Не извещать об изменениях, которые я сделал сам"
-  label_user_mail_no_emails: "Disable email notification"
+  label_user_mail_no_emails: "Отключить уведомление по электронной почте"
   label_user_mail_daily_digest: "Send me a daily summary of system updates to issues I'm involved in"
   label_registration_activation_by_email: активация учетных записей по email
   label_registration_manual_activation: активировать учетные записи вручную
   label_registration_automatic_activation: автоматическая активация учетных записей
-  label_display_per_page: "Per page: %{value}"
+  label_display_per_page: "На страницу: %{value}"
   label_age: Возраст
   label_change_properties: Изменить свойства
   label_general: Общее
@@ -568,46 +863,48 @@ ru:
   label_sort: Сортировать
   label_ascending: По возрастанию
   label_descending: По убыванию
+  label_date_from_to: С %{start} до %{end}
   label_wiki_content_added: Добавлена wiki-страница
   label_wiki_content_updated: Обновлена wiki-страница
   label_group: Группа
   label_group_plural: Группы
   label_group_new: Новая группа
   label_time_entry_plural: Затраченное время
-  label_by: "by %{author} %{age} ago"
-  label_requested_by: "Requested by %{author} %{age} ago"
-  label_offered_by: "Offered by %{author} to %{responder} %{age} ago"
-  label_accepted_by: "Accepted by %{responder} %{age} ago"
-  label_declined_by: "Declined by %{responder} %{age} ago"
-  label_from_ago: "from %{author} %{age} ago"
-  label_taken_by: "Taken by %{responder} %{age} ago"
-  label_recinded: "Withdrawn %{age} ago"
-  label_released: "Released %{age} ago"
-  label_not_sure: "Not sure"
+  label_commit_request_history: История владения
+  label_by: "%{author} %{age} тому назад"
+  label_requested_by: "Запрошен  %{author} %{age} тому назад"
+  label_offered_by: "Предложено %{author}  %{responder} %{age} тому назад"
+  label_accepted_by: "Принято %{responder} %{age} тому назад"
+  label_declined_by: "Отклонено %{responder} %{age} тому назад"
+  label_from_ago: "от %{author} %{age} тому назад"
+  label_taken_by: "Взято %{responder} %{age} тому назад"
+  label_recinded: "Изъято %{age} тому назад"
+  label_released: "Выпущен %{age} тому назад"
+  label_not_sure: "Не уверен"
   label_commitment: "Commitment"
-  label_commitment_offer: "Ownership Offer"
-  label_commitment_request: "Ownership Request"
-  label_notification: "Notification"
-  label_notifications: "Notifications"
-  label_new_notification: "notification"
-  label_new_notifications: "notifications"
-  label_response_sent: "Response sent"
-  label_response_ignored: "Request ignored"
-  label_you: "you"
-  label_for: "for"
-  label_from: "from"
-  label_ignored: "Ignored"
-  label_marked_as_read: "Marked as read"
-  label_ownership_offered: "Ownership offered"
-  label_ownership_offered_to: "Ownership offered to %{user}"
-  label_ownership_offer_declined: "Ownership offer declined"
-  label_ownership_offer_accepted: "Ownership offer accepted"
-  label_ownership_offer_declined_from: "%{user}'s ownership offer was declined"
-  label_ownership_offer_accepted_from: "%{user}'s ownership offer was accepted"
-  label_ownership_offer_withdrawn: "Ownership offer withdrawn"
-  label_ownership_offer_withdrawn_to: "Ownership offer to %{user} was withdrawn"
-  label_ownership_requested: "Ownership requested"
-  label_ownership_request_accepted: "Ownership request accepted"
+  label_commitment_offer: "Предложение обладания"
+  label_commitment_request: "Запрос на обладание"
+  label_notification: "Предупреждение"
+  label_notifications: "Предупреждения"
+  label_new_notification: "извещение"
+  label_new_notifications: "извещения"
+  label_response_sent: "Ответ отправлен"
+  label_response_ignored: "Запрос проигнорирован"
+  label_you: "Вы"
+  label_for: "для"
+  label_from: "от"
+  label_ignored: "Проигнорировано"
+  label_marked_as_read: "Отметить как прочитанное"
+  label_ownership_offered: "Обладание предложено"
+  label_ownership_offered_to: "Обладание предложено %{user}"
+  label_ownership_offer_declined: "Предложение обладания отклонено"
+  label_ownership_offer_accepted: "Предложение обладания принято"
+  label_ownership_offer_declined_from: "Предложение обладания от %{user} было отклонено"
+  label_ownership_offer_accepted_from: "Предложение обладания от %{user} было принято"
+  label_ownership_offer_withdrawn: "Изъять предложение обладания"
+  label_ownership_offer_withdrawn_to: "Предложение обладания для пользователя %{user} было изъято"
+  label_ownership_requested: "Запрошено право на обладание"
+  label_ownership_request_accepted: "Запрос права на обладание принят"
   label_ownership_request_auto_accepted: "Ownership request auto accepted"
   label_ownership_request_declined: "Ownership request declined"
   label_ownership_request_accepted_from: "%{user}'s ownership request accepted"
@@ -617,20 +914,20 @@ ru:
   label_ownership_taken: "Ownership taken"
   label_commit_request_plural: "Task ownership"
   label_team_offer: "Core Team Invitation"
-  label_team_offer_plural: "Team members"
-  label_team_plural: "Team"
+  label_team_offer_plural: "Члены команды"
+  label_team_plural: "Команда"
   label_team_invitation: "Core Team Invitation"
   label_team_request: "Core Team Request"
   label_team_request_plural: "Core Team requests"
-  label_accepted: "accepted"
-  label_sent: "sent"
+  label_accepted: "принято"
+  label_sent: "отправлено"
   label_withdrawn: "withdrawn"
-  label_declined: "declined"
+  label_declined: "отклоненный"
   label_to_join_core_team_of: "to join the %{project} core team"
   label_request: "Request"
-  label_invitation: "Invitation"
-  label_was: "was"
-  label_your: 'Your'
+  label_invitation: "Приглашение"
+  label_was: "было"
+  label_your: 'Ваше'
   label_to: "to"
   label_note_from: "Note from %{author}"
   label_sending_team_invitation: "%{author} wants you to join the Core Team for the %{project} workstream"
@@ -643,7 +940,7 @@ ru:
   label_request_to_join_core_team: "Request to join Core Team"
   label_invitation_to_join_core_team: "Invite to Core Team"
   label_team_points: "Core Points"
-  label_share: "Share"
+  label_share: "Поделиться"
   label_share_plural: "Shares"
   label_credit_plural: "Credits"
   label_credit: "Credit"
@@ -656,14 +953,16 @@ ru:
   label_someone_removed_you_from_their_issue: "%{sender} removed you from an issue they own"
   label_someone_left_your_issue: "%{joiner} left an issue assigned to you"
   label_someone_mentioned_you: "%{mentioner} mentioned you"
-  label_agree: "Agree"
-  label_disagree: "Disagree"
+  label_agree: "Согласен"
+  label_disagree: "Не согласен"
   label_block: "Block"
   label_neutral: "Neutral"
   label_history: "История"
-  label_select: "Select"
+  label_select: "Выбрать"
   label_no_mention: "No unread mentions"
-  label_mentions: "Mentions"
+  label_mentions: "Упоминания"
+  label_Tip: Совет
+  label_see_more: просмотреть больше
   label_version_sharing_none: Без совместного использования
   label_copy_source: Источник
   label_copy_target: Цель
@@ -672,22 +971,22 @@ ru:
   label_api_access_key: Ключ доступа к API
   label_missing_api_access_key: Отсутствует ключ доступа к API
   label_api_access_key_created_at: "API access key created %{value} ago"
-  label_dpp_scale: "Estimation Scale"
+  label_dpp_scale: "Оценочная шкала"
   label_motion: "Motion"
-  label_motion_state0: "In Progress"
+  label_motion_state0: "В процессе"
   label_motion_state1: "Passed"
   label_motion_state2: "Defeated"
-  label_motion_state3: "Cancelled"
+  label_motion_state3: "Отменено"
   label_motion_vote_type1: "Unanimous Consensus"
   label_motion_vote_type2: "Lazy Majority"
   label_motion_vote_type3: "Share Majority"
   label_motion_vote_type1_desc: "no blocks or disagrees"
   label_motion_vote_type2_desc: "more agrees than disagree, no blocks"
   label_motion_vote_type3_desc: "1 share = 1 vote. minimum 2/3 agree"
-  label_motion_vote_action1: "Block"
-  label_motion_vote_action9999: "Disagree"
+  label_motion_vote_action1: "Заблокировать"
+  label_motion_vote_action9999: "Не согласен"
   label_motion_vote_action10000: "Neutral"
-  label_motion_vote_action10001: "Agree"
+  label_motion_vote_action10001: "Согласен"
   label_motion_vote_action_share_agree: "Agree with %{points} shares"
   label_motion_vote_action_share_disagree: "Disagree with %{points} shares"
   label_motion_vote_action_share_neutral: "Neutral with %{points} shares"
@@ -704,11 +1003,11 @@ ru:
   label_motion_variation6: "Board Motion (public)"
   label_motion_variation7: "Board Motion (private)"
   label_motion_variation8: "Motion to Add Hourly Activity Type"
-  label_binding: "Binding"
-  label_non_binding: "Non binding"
-  label_agree_total: "Agree Total"
-  label_disagree_total: "Disagree Total"
-  label_hidden: "(user hidden)"
+  label_binding: "Привязывание"
+  label_non_binding: "Без привязывания"
+  label_agree_total: "Согласен со всем"
+  label_disagree_total: "Не согласен со всем"
+  label_hidden: "(пользователь скрыт)"
   label_motions_active: "Active Motions"
   label_motions_view_all: "View all Motions"
   label_new_role: "New role: %{role_name}"
@@ -724,25 +1023,28 @@ ru:
   label_hourly_type_new: "New hourly type"
   label_hourly_rate_per_person: "Hourly rate per person"
   label_hourly_cap: "Hourly cap"
-  label_invitation_new: "Invite people"
-  label_invitation_others: "Invite others"
-  label_all_activity: "Browse all activity"
-  label_cancel_account: "Cancel my account"
-  field_b_first_name: "First name"
-  field_b_last_name: "Last name"
-  field_b_address1: "Street Address"
-  field_b_address2: "Address (line 2)"
-  field_b_city: "City"
-  field_b_state: "State"
-  field_b_zip: "Zip/Postal Code"
-  field_b_country: "Country"
-  field_b_phone: "Phone"
-  field_b_cc_type: "Type"
-  field_b_cc_month: "Expiration Date"
-  field_b_cc_last_four: "Credit Card"
-  label_b_expiration: "Expiration Date"
-  label_b_verification_code: "Verification Code"
+  label_invitation_new: "Пригласить людей"
+  label_invitation_others: "Пригласить других"
+  label_all_activity: "Просмотреть всю активность"
+  label_cancel_account: "Выйти из моего аккаунта"
+  field_b_first_name: "Имя"
+  field_b_last_name: "Фамилия"
+  field_b_address1: "Адрес"
+  field_b_address2: "Адрес (строка 2)"
+  field_b_city: "Город"
+  field_b_state: "Государство"
+  field_b_zip: "Индекс"
+  field_b_country: "Страна"
+  field_b_phone: "Номер телефона"
+  field_b_cc_type: "Тип"
+  field_b_cc_month: "Срок хранения"
+  field_b_cc_last_four: "Кредитная карта"
+  label_b_expiration: "Годен до:"
+  label_b_verification_code: "Верификационный код"
   label_memberrole: "membership"
+  button_upgrade: Обновить
+  button_accept_invitation: Принять приглашение
+  button_working: обрабатывается...
   button_update_billing: Update Billing
   button_login: Вход
   button_submit: Принять
@@ -752,10 +1054,12 @@ ru:
   button_uncheck_all: Очистить
   button_delete: Удалить
   button_create: Создать
+  button_resend: Переслать
   button_create_and_continue: Создать и продолжить
   button_test: Проверить
   button_edit: Редактировать
   button_add: Добавить
+  button_add_team_member: +Добавить кого-либо
   button_change: Изменить
   button_apply: Применить
   button_clear: Очистить
@@ -768,11 +1072,13 @@ ru:
   button_move_and_follow: Переместить и перейти
   button_back: Назад
   button_cancel: Отмена
+  button_close: Закрыть
   button_sort: Сортировать
   button_log_time: Затраченное время
+  button_rollback: Откатиться к этому достигнутому результату
   button_watch: Следить
   button_unwatch: Не следить
-  button_reply: Reply
+  button_reply: Комментарий
   button_archive: Архивировать
   button_unarchive: Разархивировать
   button_reset: Сбросить
@@ -782,11 +1088,32 @@ ru:
   button_copy_and_follow: Копировать и продолжить
   button_annotate: Авторство
   button_update: Обновить
+  button_comment: Комментировать
+  button_signup: Войти
   button_configure: Параметры
   button_quote: Цитировать
+  button_participate: Участвовать
+  button_request_commitment_request: Предложить владение
+  button_request_commitment_take: Стать владельцем
+  button_request_commitment_remove: Отклонить предложение владения
+  button_request_commitment_withdraw: Отклонить
+  button_request_commitment_giveup: Освободиться от владения
+  button_request_commitment_transfer: Передать владение
+  button_request_commitment_accept: Принять
+  button_request_commitment_decline: Отклонить
+  button_request_commitment_offer: Предложить владение
+  button_team_offer_withdraw_invitation: Отклонить приглашение в ключевую команду
+  button_team_offer_giveup: Отписаться от ключевой команды
+  button_team_offer_accept: Принять
+  button_team_offer_decline: Отклонить
+  button_team_offer_invite: Выслать приглашение присоединиться к центральной команде
+  button_ignore: Проигнорировать
+  button_mark_as_read: Отметить как прочитанное
   button_duplicate: Дублировать
   button_show: Показать
   button_activate: Активировать
+  button_deactivate: Отключить
+  button_dashboard: Панель инструментов
   status_active: активен
   status_registered: зарегистрирован
   status_locked: заблокирован
@@ -794,6 +1121,7 @@ ru:
   version_status_locked: заблокирован
   version_status_closed: закрыт
   field_active: Активно
+  text_invite_role_instruction: Пригласить людей на эту функцию
   text_resend_invite_message: "Add a personal comment to the invitation reminder"
   text_reset_link: "Reset invitation code"
   text_personalize_invitations: "Personalize your invitation"
@@ -804,14 +1132,21 @@ ru:
   text_confirm_cancel_account: "Are you sure you want to cancel your account? This action cannot be undone!"
   text_confirm_archive_project: "Are you sure you want to archive this workstream? Nobody will be able to see it anymore. You can unarchive it in the future."
   text_confirm_unarchive_project: "Are you sure you want to unarchive this workstream?"
+  text_included_note: заметка
+  text_failed_to_transfer: Не удалось перевести кредиты. <br />
   text_select_mail_notifications: Выберите действия, при которых будет отсылаться уведомление на электронную почту.
   text_regexp_info: 'например: ^[A-Z0-9]+$'
   text_min_max_length_info: 0 означает отсутствие ограничений
+  text_project_destroy_confirmation: Вы уверены, что хотите удалить поток заданий и связанные с ним данные?
   text_subprojects_destroy_warning: "Its sub workstream(s): %{value} will be also deleted."
-  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_are_you_sure: Вы уверены?
+  text_journal_changed: "%{label} изменен с %{old} на %{new}"
   text_journal_set_to: "%{label} set to %{value}"
-  text_journal_deleted: "%{label} deleted (%{old})"
-  text_journal_added: "%{label} %{value} added"
+  text_journal_deleted: "%{label} удален (%{old})"
+  text_journal_added: "%{label} %{value} добавлен"
+  text_tip_task_begin_day: задание начинается сегодня
+  text_tip_task_end_day: задание заканчивается сегодня
+  text_tip_task_begin_end_day: задание начинается и заканчивается сегодня
   text_project_identifier_info: 'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
@@ -819,13 +1154,14 @@ ru:
   text_unallowed_characters: Запрещенные символы
   text_comma_separated: Допустимы несколько значений (через запятую).
   text_issue_added: "Item %{id} has been reported by %{author}."
-  text_issue_updated: "Item %{id} has been updated by %{author}."
+  text_issue_updated: "Объект %{id} был обновлен пользователем %{author}."
   text_line_separated: Разрешено несколько значений (по одному значению в строку).
-  text_user_mail_option: "For unselected workstreams, you will only receive notifications about things you watch or you're involved in (eg. items you're the author or owner)."
+  text_wiki_destroy_confirmation: Вы уверены, что хотите удалить эту wiki  и все ее содержимое?
+  text_user_mail_option: "В невыбранных потоках заданий Вы получите только сообщения о вещах, которые Вы просматриваете или в которые Вы вовлечены (например, объекты, автором или владельцем которых Вы являетесь)."
   text_no_configuration_data: "Roles, types, item statuses and workflow have not been configured yet. It is highly recommended to load the default configuration. You will be able to modify it once loaded."
   text_load_default_configuration: Загрузить конфигурацию по умолчанию
   text_status_changed_by_changeset: "Applied in changeset %{value}."
-  text_issues_destroy_confirmation: 'Are you sure you want to delete the selected item(s) ?'
+  text_issues_destroy_confirmation: 'Вы уверены, что хотите удалить выбранный(е) объект(ы)?'
   text_select_project_modules: 'Select modules to enable for this workstream:'
   text_default_administrator_account_changed: Учетная запись администратора по умолчанию изменена
   text_file_repository_writable: Хранилище с доступом на запись
@@ -907,7 +1243,9 @@ ru:
   default_priority_urgent: Срочный
   enumeration_doc_categories: Категории документов
   enumeration_activities: Действия (учет времени)
-  enumeration_system_activity: Системное
+  enumeration_system_activity: Активность системы
+  help_how_do_i_join_a_team: Как мне присоединиться к этой команде?
+  help_how_do_i_join_a_team_title: Присоединяемся к команде
   help_how_do_i_join_a_team_description: "There are two levels of team membership: Contributor, and Core Team. <br /><br /><strong>Becoming a contributor</strong><br />Before getting on a core team you must first contribute to the team. </br>You become a contributor for a workstream by requesting and getting ownership of an existing tasks. <br /> Another way to become a contributor, is to be a core team member of any sub workstream.<br /><br /><strong>Become a core team member</strong><br />Once you are a contributor, you may request (or be invited) to join the Core Team by an existing Core Team member. <br /><br /> You can also join a workstream's core team directly if your a core team member of its parent workstream."
   help_core_points_description: "Core points are a way of team members endorsing each other, and signaling confidence in each other's abilities and core values. <br /><br /> When someone on a core team feels that the team is better off with someone on it they can give that person a core point. It also works the other way: If someone feels that someone is hurting the team, they can give them a negative-core point. <br /><br />When a member's total core points exceeds zero, they're invited to be on the core team. If their total falls below zero, they revert back to contributor status. <br /><br />All voting is confidential to minimize internal politics as much as possible.<br />Total core points is calculated by adding up the votes of existing core team members of a workstream and its parent."
   help_assessment_accuracy: "Shows the accuracy with which this user was able to assess their contribution, and their team's contribution in retrospectives. <br /><br />Assessment accuracy is averaged over time. More weight is given to the more recent retrospectives, and more weight is given to retrospectives with more credits.<br /><br />For example: A postive self assessment accuracy score of +7 means the user tends to overrate themselves by 7 percentage points on average. <br /><br /> An 'other' assessment score of &plusmn 16 means the user tends have a total bias of plus or minus 16 percentage points when rating their peers. <br /><br /> The closer both these numbers are to zero, the more accurate the user is in their assessment of self and other. "
@@ -919,17 +1257,17 @@ ru:
   help_item_url: "<strong>Item Permalink</strong><br />You can copy this link and use it to directly link to this item"
   help_volunteer: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br /><br /> That's not to say good karma won't come your way!<br /><br />This is our small contribution to the volunteer world. Please report any abuse to abuse@bettermeans.com"
   help_volunteer_credits: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br /><br /> Credits are being used here to track user contribution, and show who did what for this workstream over time. These credits are not a promise for any rewards, or payment"
-  help_no_my_workstreams: "You haven't created any workstreams yet."
-  help_no_workstreams_i_belong_to: "You are not yet a member of any workstreams that you didn't start."
-  help_no_workstreams_active: "You have not been recently active in any workstreams."
+  help_no_my_workstreams: "Вы еще не создали ни одного потока задач."
+  help_no_workstreams_i_belong_to: "Вы еще не являетесь членом какого-либо потока задач, который бы начали не вы."
+  help_no_workstreams_active: "В последнее время Вы не принимали участия в потоках задач."
   help_no_workstreams: "You haven't yet gotten involved in any workstreams.<br /> Create or join something to get started..."
-  help_no_workstreams_archived: "You have no archived workstreams."
-  help_activities_i_belong_to: "This activity stream shows all activity in workstreams that you own and/or belong to"
+  help_no_workstreams_archived: "У вас нет заархивированных потоков задач."
+  help_activities_i_belong_to: "Этот поток активности показывает всю вашу активность в потоках задач, которыми вы владеете и/или к которым принадлежите."
   help_this_workstream_is_private: "This is private workstream. When a workstream is made private, all binding members (i.e. members, core team, board, and admins) are given permanent clearance to it. Also, all active contributors to the workstream are given clearance.<br /><br /> If you want to manage users' clearance to a private workstream, use the members tab under settings."
   help_issue_tracking: "This is the essential element of the platform in that it allows you to track all work items using the dashboard and item views. However one situation in which you might turn this off is if you are creating a root workstream for your organization and you are planning on creating lots of subworkstreams where all the work and item tracking would take place. This would leave the other elements such as discussion and wiki but without the dashboard or item tracking."
   help_news: "This module allows you to check out or report on the latest news. News is used to broadcast events to your team. For example winning a bid, or a new product release."
-  help_documents: "This module allows you to upload document to share with your team."
-  help_files: "This module allows you to upload files to share with your team."
+  help_documents: "Этот модуль позволяет вам загрузить документ, чтобы поделиться с вашей командой."
+  help_files: "Этот модуль позволяет вам загрузить файлы, чтобы поделиться с вашей командой."
   help_wiki: "Wikis are great tools for collaboration and therefore we provide the option for each workstream to have a wiki. Wikis are essentially online documents and everyone that has access can not only read but also edit and improve online."
   help_boards: "This module creates a discussion board for your workstream and like so many discussion boards before it, you can talk about stuff here. If someone has an idea that they are not yet ready to propose as a motion or work item and want to talk to folks about it, they can start a new topic. You might use the discussion board to discuss general strategy, new possible workstreams, or anything that comes to mind."
   help_motions: "Motions are used to make large important decisions that are project-wide. This is a democratic mechanism to make decisions together. There are different types of motions, to learn more about motions <a href='http://help.bettermeans.com/motions' target='blank'>click here</a>."
