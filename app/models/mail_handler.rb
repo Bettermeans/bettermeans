@@ -1,7 +1,7 @@
 # BetterMeans - Work 2.0
 # Copyright (C) 2006-2011  See readme for details and license#
 
-class MailHandler < ActiveRecord::Base
+class MailHandler < ActionMailer::Base
   include ActionView::Helpers
 
   class UnauthorizedAction < StandardError; end
@@ -13,7 +13,12 @@ class MailHandler < ActiveRecord::Base
   # when extending from ActiveRecord initialize doesn't always get called
   # http://blog.dalethatcher.com/2008/03/rails-dont-override-initialize-on.html
   # better to make this an after_initialize
-  def initialize(email, user,options = {}) # spec_me cover_me heckle_me
+  def initialize(email = nil, user = nil, options = {}) # spec_me cover_me heckle_me
+    # cheat to get around broken implementation for #receive
+    unless email
+      super
+      return
+    end
     logger.info { "initializing mail handler" } if logger
     @@handler_options = options.dup
 
@@ -32,7 +37,7 @@ class MailHandler < ActiveRecord::Base
     dispatch
   end
 
-  def self.receive(email, options={}) # spec_me cover_me heckle_me
+  def self.receive(email, options={})
     @@handler_options = options.dup
 
     @@handler_options[:issue] ||= {}
