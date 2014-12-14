@@ -12,7 +12,7 @@ describe Comment, '#title' do
 
     it 'returns the title of the news item' do
       comment.commented = news
-      comment.commented.title.should == "Rob is cool"
+      comment.title.should == "Rob is cool"
     end
   end
 

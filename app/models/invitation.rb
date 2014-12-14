@@ -37,18 +37,18 @@ class Invitation < ActiveRecord::Base
     return true
   end
 
-  def status_name # spec_me cover_me heckle_me
+  def status_name # heckle_me
     case self.status
       when PENDING
         return "Pending"
       when ACCEPTED
         return "Accepted"
       else
-        return "Unkown"
+        return "Unknown"
     end
   end
 
-  def accept(user=nil) # spec_me cover_me heckle_me
+  def accept(user=nil) # cover_me heckle_me
     return unless self.status == PENDING
 
     if user && !user.anonymous?
