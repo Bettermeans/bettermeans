@@ -20,7 +20,7 @@ class Mailer < ActionMailer::Base
   # Example:
   #   issue_add(issue) => tmail object
   #   Mailer.deliver_issue_add(issue) => sends an email to issue recipients
-  def issue_add(issue) # cover_me heckle_me
+  def issue_add(issue) # heckle_me
     redmine_headers 'Project' => issue.project.identifier,
                     'Issue-Id' => issue.id,
                     'Issue-Author' => issue.author.login
