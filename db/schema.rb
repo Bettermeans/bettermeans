@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140519052440) do
+ActiveRecord::Schema.define(:version => 20141215024605) do
 
   create_table "activity_stream_preferences", :force => true do |t|
     t.string   "activity"
@@ -362,11 +362,6 @@ ActiveRecord::Schema.define(:version => 20140519052440) do
   add_index "journals", ["journalized_id", "journalized_type"], :name => "journals_journalized_id"
   add_index "journals", ["journalized_id"], :name => "index_journals_on_journalized_id"
   add_index "journals", ["user_id"], :name => "index_journals_on_user_id"
-
-  create_table "mail_handlers", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "mails", :force => true do |t|
     t.integer  "sender_id"
