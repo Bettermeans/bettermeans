@@ -2,10 +2,10 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class WatchersController < ApplicationController
+
   before_filter :find_project
   before_filter :require_login, :check_project_privacy, :only => [:watch, :unwatch]
   before_filter :authorize, :only => [:new, :destroy]
-  ssl_required :all
 
   verify :method => :post,
          :only => [ :watch, :unwatch ],

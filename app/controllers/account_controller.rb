@@ -6,7 +6,6 @@ class AccountController < ApplicationController
 
   # prevents login action from being filtered by check_if_login_required application scope filter
   skip_before_filter :check_if_login_required, :except => [ :cancel ]
-  ssl_required :all
 
   # Login request and validation
   def login

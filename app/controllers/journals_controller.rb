@@ -4,7 +4,6 @@
 
 class JournalsController < ApplicationController
   before_filter :find_journal
-  ssl_required :all
 
   def edit # spec_me cover_me heckle_me
     if request.post?

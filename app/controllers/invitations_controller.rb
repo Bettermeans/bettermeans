@@ -1,7 +1,6 @@
 class InvitationsController < ApplicationController
   before_filter :find_project, :except => :accept
   before_filter :authorize, :except => :accept
-  ssl_required :all
 
   def index # heckle_me
     @all_invites, @invitations = paginate :invitations,

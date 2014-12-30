@@ -3,16 +3,12 @@ class CreditsController < ApplicationController
   before_filter :require_admin, :except => [:disable, :enable]
   before_filter :find_credit, :only => [:disable, :enable]
   before_filter :self_authorize, :only => [:disable, :enable]
-  ssl_required :all
-
 
   def index # spec_me cover_me heckle_me
     @project = Project.find(params[:project_id]) unless params[:project_id].nil?
 
     @credits = @project.credits
     @active_credits = @credits.find_all{|credit| credit.enabled == true }.group_by{|credit| credit.owner_id}
-
-
 
     respond_to do |format|
       format.html

@@ -2,10 +2,10 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class TrackersController < ApplicationController
+
   layout 'admin'
 
   before_filter :require_admin
-  ssl_required :all
 
   def index # spec_me cover_me heckle_me
     list

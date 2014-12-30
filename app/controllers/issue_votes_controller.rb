@@ -1,5 +1,4 @@
 class IssueVotesController < ApplicationController
-  ssl_required :all
 
   def index # cover_me heckle_me
     @issue_votes = IssueVote.all

@@ -9,7 +9,6 @@ class MailHandlerController < ActionController::Base
          :only => :index,
          :render => { :nothing => true, :status => 405 }
 
-
   # Submits an incoming email to MailHandler
   def index # spec_me cover_me heckle_me
     options = params.dup

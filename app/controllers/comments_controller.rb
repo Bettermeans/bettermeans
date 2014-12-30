@@ -2,7 +2,6 @@ class CommentsController < ApplicationController
   unloadable
   before_filter :find_issue, :only => [:index, :create ]
   before_filter :find_project, :authorize
-  ssl_required :all
 
   log_activity_streams :current_user, :name, :updated, :@issue, :subject, :create, :issues, {
             :object_description_method => :description,

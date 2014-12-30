@@ -1,5 +1,4 @@
 class EnterprisesController < ApplicationController
-  ssl_required :all
 
   def index # heckle_me
     @enterprises = Enterprise.all

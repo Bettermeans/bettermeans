@@ -1,6 +1,5 @@
 class HourlyTypesController < ApplicationController
   before_filter :find_project
-  ssl_required :all
 
   def new # spec_me cover_me heckle_me
     @hourly_type = HourlyType.new(params[:hourly_type])

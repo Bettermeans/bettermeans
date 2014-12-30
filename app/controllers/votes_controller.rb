@@ -4,7 +4,6 @@ class VotesController < ApplicationController
 
   # First, figure out our nested scope. User or issue?
   before_filter :find_votes_for_my_scope, :only => [:index]
-  ssl_required :all
 
   #TODO: figure out the equivalent of login_required in redmine and fix this line
   before_filter :must_own_vote,  :only => [:edit, :destroy, :update]

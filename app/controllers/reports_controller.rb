@@ -2,6 +2,7 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class ReportsController < ApplicationController
+
   menu_item :issues
   before_filter :find_project, :authorize
 

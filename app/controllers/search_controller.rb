@@ -2,8 +2,8 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class SearchController < ApplicationController
+
   before_filter :find_optional_project
-  ssl_required :all
 
   helper :messages
   include MessagesHelper

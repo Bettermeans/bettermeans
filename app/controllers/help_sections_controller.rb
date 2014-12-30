@@ -1,7 +1,6 @@
 class HelpSectionsController < ApplicationController
 
   before_filter :authorize, :except => :dont_show
-  ssl_required :all
 
   def show # heckle_me
     @help_section = HelpSection.find(params[:id])

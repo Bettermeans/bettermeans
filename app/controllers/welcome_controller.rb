@@ -2,8 +2,8 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class WelcomeController < ApplicationController
+
   caches_action :robots
-  ssl_required :all
 
   before_filter :require_login, :except => :robots
 

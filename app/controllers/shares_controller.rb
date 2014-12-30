@@ -1,7 +1,5 @@
 class SharesController < ApplicationController
 
-  ssl_required :all
-
   def index # heckle_me
     @shares = Share.all
     @project = Project.find(params[:project_id]) unless params[:project_id].nil?

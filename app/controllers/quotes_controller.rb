@@ -1,5 +1,4 @@
 class QuotesController < ApplicationController
-  ssl_required :all
 
   def index # heckle_me
     @quotes = Quote.all

@@ -1,5 +1,4 @@
 class HomeController < ApplicationController
-  ssl_required :index
   layout 'static'
   def index # cover_me heckle_me
     if User.current.logged?

@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
   include SslRequirement
   # don't require ssl in development
   skip_before_filter :ensure_proper_protocol if Rails.env.development? || Rails.env.test?
+  ssl_required :all
 
   layout 'gooey'
 

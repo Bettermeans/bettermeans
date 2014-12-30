@@ -2,6 +2,7 @@
 # Copyright (C) 2006-2011  See readme for details and license#
 
 class RecurlyNotificationsController < ApplicationController
+
   def listen # heckle_me
     logger.info { "params #{params.inspect}" }
     if params[:updated_subscription_notification]

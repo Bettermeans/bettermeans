@@ -1,6 +1,5 @@
 class EmailUpdatesController < ApplicationController
   before_filter :require_login
-  ssl_required :all
 
   def new # cover_me heckle_me
     @email_update = EmailUpdate.new

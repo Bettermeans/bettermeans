@@ -1,8 +1,8 @@
 class RetrosController < ApplicationController
+
   before_filter :find_retro, :only => [:show]
   before_filter :find_project, :only => [:index, :index_json, :dashdata, :new, :edit, :create, :update, :destroy, :show_multiple]
   before_filter :authorize
-  ssl_required :all
 
   def index # heckle_me
     @retros = Retro.all

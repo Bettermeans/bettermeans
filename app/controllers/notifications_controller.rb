@@ -1,5 +1,5 @@
 class NotificationsController < ApplicationController
-  ssl_required :all
+
   def index # heckle_me
     @notifications = Notification.unresponded
     @mentions = @notifications.select {|n| n.mention?}

@@ -4,7 +4,6 @@
 class IssuesController < ApplicationController
   menu_item :new_issue, :only => :new
   default_search_scope :issues
-  ssl_required :all
 
   # BUGBUG: :disagree and :reject don't seem to be used anymore
   before_filter :find_issue, :only => [:show, :edit, :reply, :start, :finish, :release, :cancel, :restart, :prioritize, :agree, :disagree, :accept, :reject, :estimate, :join, :leave, :add_team_member, :remove_team_member, :move, :update_tags]

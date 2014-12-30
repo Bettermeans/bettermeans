@@ -11,8 +11,6 @@ class ProjectsController < ApplicationController
   menu_item :team, :only => :team
   menu_item :credits, :only => :credits
 
-  ssl_required :all
-
   before_filter :find_project, :except => [:index, :list, :copy, :activity, :update_scale, :add, :index_active, :index_latest]
   before_filter :find_optional_project, :only => [:activity, :add]
 

@@ -2,7 +2,6 @@ class TodosController < ApplicationController
 
   before_filter :find_issue, :only => [:index, :create, :update, :destroy ]
   before_filter :find_project, :authorize
-  ssl_required :all
 
   def index # spec_me cover_me heckle_me
     @todos = Todo.all

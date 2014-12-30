@@ -4,11 +4,10 @@
 require 'diff'
 
 class WikiController < ApplicationController
+
   default_search_scope :wiki_pages
   before_filter :find_wiki, :authorize
   before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy]
-  ssl_required :all
-
 
   verify :method => :post, :only => [:destroy, :protect], :redirect_to => { :action => :index }
 

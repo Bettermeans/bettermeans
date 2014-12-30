@@ -5,7 +5,6 @@ class MembersController < ApplicationController
   before_filter :find_member, :except => [:new, :autocomplete_for_member]
   before_filter :find_project, :only => [:new, :autocomplete_for_member]
   before_filter :authorize
-  ssl_required :all
 
   def new # spec_me cover_me heckle_me
     members = []

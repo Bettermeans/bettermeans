@@ -1,5 +1,4 @@
 class RetroRatingsController < ApplicationController
-  ssl_required :all
 
   def index # heckle_me
     @retro_ratings = RetroRating.all

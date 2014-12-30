@@ -5,7 +5,6 @@ class AdminController < ApplicationController
   layout 'admin'
 
   before_filter :require_admin, :except => :user_stats
-  ssl_required :all
 
   helper :sort
   include SortHelper

@@ -3,7 +3,6 @@
 #
 
 class CreditTransfersController < ApplicationController
-  ssl_required :all
   before_filter :authorize_global, :except => :eligible_recipients
 
   def index # cover_me heckle_me

@@ -4,7 +4,6 @@
 class BoardsController < ApplicationController
   default_search_scope :messages
   before_filter :find_project, :authorize
-  ssl_required :all
 
   helper :messages
   include MessagesHelper

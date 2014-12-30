@@ -3,8 +3,6 @@
 
 class MyController < ApplicationController
   before_filter :require_login
-  ssl_required :all
-
 
   helper :issues
 

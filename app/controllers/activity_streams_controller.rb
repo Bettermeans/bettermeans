@@ -7,7 +7,6 @@
 class ActivityStreamsController < ApplicationController
 
   before_filter :authorize, :except => [:index]
-  ssl_required :all
 
   def index # heckle_me
     respond_to do |format|

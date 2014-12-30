@@ -5,8 +5,6 @@ class MotionsController < ApplicationController
   before_filter :check_visibility_permission, :only => [:show]
   before_filter :require_admin, :only => [:edit, :update, :destroy]
   before_filter :authorize, :except => [:check_visibility_permission]
-  ssl_required :all
-
 
   def index # heckle_me
     @motions = @project.motions

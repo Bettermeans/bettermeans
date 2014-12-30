@@ -1,5 +1,4 @@
 class MotionVotesController < ApplicationController
-  ssl_required :all
 
   def index # heckle_me
     @motion_votes = MotionVote.all
