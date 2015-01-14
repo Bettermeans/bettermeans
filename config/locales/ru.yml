@@ -418,16 +418,19 @@ ru:
   setting_text_formatting: Форматирование текста
   setting_wiki_compression: Сжатие истории Wiki
   setting_feeds_limit: Ограничение количества заголовков для RSS потока
+  setting_default_projects_public: Новые рабочие потоки доступны общественности по умолчанию
   setting_autofetch_changesets: Автоматически следить за изменениями хранилища
   setting_commit_ref_keywords: Ключевые слова для поиска
   setting_commit_fix_keywords: Назначение ключевых слов
   setting_autologin: Автоматический вход
   setting_date_format: Формат даты
   setting_time_format: Формат времени
+  setting_commit_logs_encoding: Кодирование сообщений о фиксации
   setting_emails_footer: Подстрочные примечания письма
   setting_protocol: Протокол
   setting_per_page_options: Количество записей на страницу
   setting_user_format: Формат отображения имени
+  setting_activity_days_default: Дни, отображаемые активность рабочего потока
   setting_enabled_scm: Разрешенные SCM
   setting_mail_handler_body_delimiters: "Урезать письмо после одной из этих строк"
   setting_mail_handler_api_enabled: Включить веб-сервис для входящих сообщений
@@ -438,6 +441,7 @@ ru:
   setting_file_max_size_displayed: Максимальный размер текстового файла для отображения
   setting_openid: Разрешить OpenID для входа и регистрации
   setting_password_min_length: Минимальная длина пароля
+  setting_issue_done_ratio: Рассчитать конечное соотношение объекта с
   setting_issue_done_ratio_issue_field: Использовать поле объекта
   setting_issue_done_ratio_issue_status: Использовать статус объекта
   setting_start_of_week: День начала недели
@@ -453,6 +457,7 @@ ru:
   permission_manage_categories: Управление категориями объекта
   permission_add_issues: Добавить объекты
   permission_edit_issues: Редактировать объекты
+  permission_manage_issue_relations: Управлять связями объекта
   permission_add_issue_notes: Добавление примечаний
   permission_edit_issue_notes: Редактирование примечаний
   permission_edit_own_issue_notes: Редактирование собственных примечаний
@@ -485,6 +490,7 @@ ru:
   permission_protect_wiki_pages: Блокирование wiki-страниц
   permission_view_changesets: Просмотр изменений хранилища
   permission_commit_access: Изменение файлов в хранилище
+  permission_manage_boards: Управление обсуждениями
   permission_view_messages: Просмотр сообщение
   permission_add_messages: Отправка сообщений
   permission_edit_messages: Редактирование сообщений
@@ -497,23 +503,40 @@ ru:
   project_module_documents: Документы
   project_module_files: Файлы
   project_module_wiki: Wiki
+  project_module_boards: Обсуждения
   title_member_nomination: "Motion to elect %{user} as a member"
   title_core_member_nomination: "Motion to elect %{user} to the Core Team"
   title_core_member_removal: "Motion to remove %{user} from the Core Team"
   title_member_removal: "Motion to remove %{user} as a member"
   label_usage_over: "Your usage is over your plan's limits"
   label_trial_expired: "Your trial period has expired"
+  label_email_update: Ваш новый адрес электронной почты
+  label_new_page: Новая страница
   label_my_issues: Мои объекты
+  label_joined_issues: Зарегистрирован
+  label_joined: Зарегистрирован
+  label_projects_recent: Недавние рабочие потоки
+  label_projects_active_in: Рабочие потоки, в которых я принимаю участие
   label_projects_all: Все мои потоки заданий
   label_view_all: Посмотреть все
   label_track_invites: Отследить все отправленные приглашения
+  label_unarchive_project: Разархивировать рабочий поток
+  label_unarchive_project_brackets: (разархивировать)
+  label_archive_project: Заархивировать рабочий поток
   label_delete_project: Удалить поток заданий
   label_move_project: Перенести поток заданий
+  label_note_to_recipient: Примечание для получателя (по желанию)
+  label_select_recipient: Выбрать получателя
   label_credit_transfer: "Transfer credits"
   label_new_credit_transfer: Новый перевод
+  label_select_project: Выбрать проект рабочего потока
   label_previous_credit_transfers: Ваша история
+  label_data_dump: дампа данные
+  text_data_dump: Загрузите локальную копию всех данных, которые относятся к рабочему потоку, которым вы владеете
+  label_issues: datadump.csv
   label_type_of_workstream: Опции потока заданий
   label_your_gravatar: Изображение профиля
+  label_team_with_access: Участники с разрешением (к этому рабочему потоку)
   label_select_plan: Выбрать новый план
   label_current_plan: Нынедействующий план
   label_user: Пользователь
@@ -529,11 +552,13 @@ ru:
     other: "%{count} workstreams"
   label_project_all: Все потоки заданий
   label_project_latest: Последние потоки заданий
+  label_enterprise_latest: Последние общедоступные рабочие потоки
+  label_enterprise_active: Наиболее активные общедоступные рабочие потоки
   label_issue: Объект
   label_issue_new: Новый объект
   label_issue_plural: Объекты
   label_issue_view_all: Посмотреть все объекты
-  label_issues_by: "Items by %{value}"
+  label_issues_by: "Объекты %{value}"
   label_issue_added: Объект добавлен
   label_issue_updated: Объект обновлен
   label_document: Документ
@@ -569,6 +594,8 @@ ru:
   label_login_with_open_id_option: или войти с помощью OpenID
   label_password_lost: Восстановление пароля
   label_home: Домашняя страница
+  label_my_home: Домой
+  label_my_page: Краткая информация
   label_new_project: Новый поток заданий
   label_my_account: Учетная запись
   label_my_projects: Мои потоки заданий
@@ -635,11 +662,14 @@ ru:
   label_confirmation: Подтверждение
   label_export_to: 'Экспортировать в'
   label_read: Чтение...
+  label_public_projects: Общедоступные рабочие потоки
   label_open_issues: открыто
   label_open_issues_plural: открыто
   label_closed_issues: закрыто
   label_closed_issues_plural: закрыто
   label_x_open_issues_abbr_on_total:
+    zero: 0 открыто / %{total}
+    one: 1 открыт/ %{total}
     other: "%{count} open / %{total}"
   label_x_open_issues_abbr:
     zero: 0 открыто
@@ -711,6 +741,7 @@ ru:
   label_day: день
   label_day_plural: дней(я)
   label_browse: Обзор
+  label_browse_workstreams: Посмотреть bettermeans
   label_browse_activity: Просмотреть активность
   label_modification: "%{count} change"
   label_modification_plural: "%{count} changes"
@@ -725,6 +756,9 @@ ru:
   label_copied: скопировано
   label_renamed: переименовано
   label_deleted: удалено
+  label_moved: перенесено
+  label_archived: заархивировано
+  label_unarchived: разархивировано
   label_project_description: Описание
   label_message: Обсуждение
   label_latest_revision: Последняя редакция
@@ -947,6 +981,8 @@ ru:
   label_retro_started: "Retrospective Started"
   label_retro_ended: "Retrospective Ended"
   label_motion_started: "New motion: %{title}"
+  label_shares: Шары
+  label_total_credits_issued: Общее количество выпущенных
   label_youve_got_credits: "You've got credits!"
   label_someone_joined_your_issue: "%{joiner} joined an issue assigned to you"
   label_someone_added_you_to_their_issue: "%{sender} added you to an issue they own"
@@ -964,6 +1000,7 @@ ru:
   label_Tip: Совет
   label_see_more: просмотреть больше
   label_version_sharing_none: Без совместного использования
+  label_update_issue_done_ratios: Обновить конечные соотношения объекта
   label_copy_source: Источник
   label_copy_target: Цель
   label_copy_same_as_target: То же, что и у цели
@@ -1045,6 +1082,7 @@ ru:
   button_upgrade: Обновить
   button_accept_invitation: Принять приглашение
   button_working: обрабатывается...
+  button_change_plan: Изменить план
   button_update_billing: Update Billing
   button_login: Вход
   button_submit: Принять
@@ -1121,6 +1159,9 @@ ru:
   version_status_locked: заблокирован
   version_status_closed: закрыт
   field_active: Активно
+  field_body: Тело (боди)
+  field_joined_by: Регистрация по
+  field_item_url: Постоянная ссылка
   text_invite_role_instruction: Пригласить людей на эту функцию
   text_resend_invite_message: "Add a personal comment to the invitation reminder"
   text_reset_link: "Reset invitation code"
@@ -1134,6 +1175,7 @@ ru:
   text_confirm_unarchive_project: "Are you sure you want to unarchive this workstream?"
   text_included_note: заметка
   text_failed_to_transfer: Не удалось перевести кредиты. <br />
+  text_your_gravatar: Мы используем <a href="http://gravatar.com" target="blank">Gravatar</a> , чтобы отображать фото вашего профиля. <br /> Чтобы добавить/обновить фото <a href="http://gravatar.com" target="blank">создайте аккаунт здесь</a>, используя тот же адрес электронной почты, который вы использовали при регистрации на BetterMeans.
   text_select_mail_notifications: Выберите действия, при которых будет отсылаться уведомление на электронную почту.
   text_regexp_info: 'например: ^[A-Z0-9]+$'
   text_min_max_length_info: 0 означает отсутствие ограничений
@@ -1237,10 +1279,28 @@ ru:
   text_role_invitation_description_Core_Team: "A member of the Core Team has binding votes in all matters, and is very similar to a member.<br /><br /> The main difference is a Core Team member can vote on the election of new members.<br /><br /> Essentially, they are the custodians of the organization's principles, and hold the bar for membership.<br /><br /> Core Team Members are accountable to all members, and their role is to represent their voice."
   text_role_invitation_description_Board: "As a board member,all your votes are binding, and you have equal priveleges to a Core Team Member.<br /><br /> Being on the board though, indicates a lesser commitment to being involved in day to day work."
   text_project_locked: "This workstream is temporarily locked due to non payment."
+  default_role_administrator: Администратор
+  default_role_citizen: 'Основной участник '
+  default_role_contributor: Участник/помощник
+  default_tracker_task: Задание
+  default_tracker_subtask: Подзадача
+  default_doc_category_public: Общедоступная документация
+  default_doc_category_private: Личная документация
   default_priority_low: Низкий
   default_priority_normal: Нормальный
   default_priority_high: Высокий
   default_priority_urgent: Срочный
+  default_activity_default: Разное
+  default_activity_planning: Планирование
+  default_activity_execution: Выполнение
+  default_issue_tracker_gift: Подарок
+  default_issue_tracker_expense: Расход
+  default_issue_tracker_recurring: Текущее
+  default_issue_tracker_hourly: Ежечасно
+  default_issue_tracker_feature: Характеристика
+  default_issue_tracker_bug: Ошибка
+  default_issue_tracker_chore: Поденная работа
+  enumeration_issue_priorities: Приоритеты объекта
   enumeration_doc_categories: Категории документов
   enumeration_activities: Действия (учет времени)
   enumeration_system_activity: Активность системы
@@ -1254,7 +1314,7 @@ ru:
   help_final_assessment: "All the Team averages are used to be proportionally distributed over 100%"
   help_confidence: "<strong>Assessment confidence</strong><br />Adjust this slider depending on how confident you are of your assessment of yourself and your peer.<br />Lower confidence, means your ratings will be given less weight, and your self assessment index will be less impact by team-self discrepancies."
   help_accuracy: "<strong>Accuracy and Bias</strong><br />This column shows the accuracy with which users who participated in this retrospective where able to assess themselves and their peers."
-  help_item_url: "<strong>Item Permalink</strong><br />You can copy this link and use it to directly link to this item"
+  help_item_url: "<strong>Постоянная ссылка объекта</strong><br />Вы можете скопировать эту ссылку и использовать ее, чтобы напрямую переходить к объекту"
   help_volunteer: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br /><br /> That's not to say good karma won't come your way!<br /><br />This is our small contribution to the volunteer world. Please report any abuse to abuse@bettermeans.com"
   help_volunteer_credits: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br /><br /> Credits are being used here to track user contribution, and show who did what for this workstream over time. These credits are not a promise for any rewards, or payment"
   help_no_my_workstreams: "Вы еще не создали ни одного потока задач."
@@ -1308,3 +1368,4 @@ ru:
   help_section_invitation_new: "Use invitations to enroll team members to join your workstream.<br /><br /> When you send someone an invitation, they will be prompted to create a bettermeans account (if they don't have one already), and <strong>automatically added as a contributor</strong> to your workstream.<br /><br />You can only invite people to a root workstream. Their membership in a workstream applies to all sub work streams as well. In other words,<strong> a person can't belong to a sub workstream, and not belong to its parent workstream.</strong><br /><br /> <a href='http://help.bettermeans.com/invitations' target='blank'>Learn more in our help section.</a><br /><br /><br />"
   help_section_browse_workstreams: "<strong>Welcome to the BetterMeans Community.</strong> Unlike your home page, this page is the overview of the whole BetterMeans platform. You can look around at other public workstreams and comment and join other people's projects. <a href='http://help.bettermeans.com/' target='blank'>Learn more about the BetterMeans platform</a>"
   help_section_retrospective_show: "<strong>This is a retrospective.</strong> In a retrospective compensation is awarded by your peers and your own self-assessment. This is an opportunity to be fairly compensated for your contribution. <br />You want to look at all of the completed items and then give your best assessment of what percentage you think each person contributed. You also have a chance to say how sure you are using the slider at the bottom. For more information about retrospectives, <a href='http://help.bettermeans.com/retrospectives' target='blank'>click here.</a>"
+  help_section_free: Сохраняйте свою работу открытой и инклюзивной, и мы не возьмем с вас ни копейки, не важно, насколько вы разрастетесь.
