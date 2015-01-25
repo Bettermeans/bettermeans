@@ -8,7 +8,7 @@ class Wiki < ActiveRecord::Base
 
   acts_as_watchable
 
-  validates_presence_of :start_page
+  validates_presence_of :start_page, :project
   validates_format_of :start_page, :with => /^[^,\.\/\?\;\|\:]*$/
 
   def visible?(user=User.current) # spec_me cover_me heckle_me
