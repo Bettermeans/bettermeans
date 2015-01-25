@@ -4,8 +4,8 @@ describe WikiController, '#index' do
 
   let(:user) { Factory.create(:user) }
   let(:project) { Factory.create(:project) }
-  let(:wiki) { project.wiki }
-  let(:wiki_page) { wiki.pages.create!(:title => 'wat') }
+  let(:wiki) { project.reload.wiki }
+  let(:wiki_page) { Factory.create(:wiki_page, :wiki => wiki, :title => 'wat') }
   let!(:wiki_content) do
     WikiContent.create!(:text => 'some text', :page => wiki_page)
   end
