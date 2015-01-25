@@ -77,7 +77,7 @@ class ApplicationController < ActionController::Base
   end
 
   # check if login is globally required to access the application
-  def check_if_login_required # spec_me cover_me heckle_me
+  def check_if_login_required # cover_me heckle_me
     # no check needed if user is already logged in
     return true if User.current.logged?
     require_login if Setting.login_required?
