@@ -77,13 +77,13 @@ class ApplicationController < ActionController::Base
   end
 
   # check if login is globally required to access the application
-  def check_if_login_required # cover_me heckle_me
+  def check_if_login_required # heckle_me
     # no check needed if user is already logged in
     return true if User.current.logged?
     require_login if Setting.login_required?
   end
 
-  def set_localization # spec_me cover_me heckle_me
+  def set_localization # spec_me heckle_me
     I18n.locale = params[:locale] || I18n.default_locale
 
     lang = nil
@@ -95,11 +95,11 @@ class ApplicationController < ActionController::Base
     set_language_if_valid(lang)
   end
 
-  def data_admin_logged_in? # spec_me cover_me heckle_me
-    return false
+  def data_admin_logged_in? # heckle_me
+    false
   end
 
-  def require_login # spec_me cover_me heckle_me
+  def require_login # heckle_me
     if !User.current.logged?
       # Extract only the basic url parameters on non-GET requests
       if request.get?
@@ -117,7 +117,7 @@ class ApplicationController < ActionController::Base
     true
   end
 
-  def require_admin # spec_me cover_me heckle_me
+  def require_admin # heckle_me
     return unless require_login
     if !User.current.admin?
       render_403
@@ -126,25 +126,25 @@ class ApplicationController < ActionController::Base
     true
   end
 
-  def deny_access # spec_me cover_me heckle_me
+  def deny_access # heckle_me
     User.current.logged? ? render_403 : require_login
   end
 
   # Authorize the user for the requested action
-  def authorize(ctrl = params[:controller], action = params[:action], global = false) # spec_me cover_me heckle_me
+  def authorize(ctrl = params[:controller], action = params[:action], global = false) # spec_me heckle_me
     return true if params[:format] == "png"
     allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project, :global => global)
     allowed ? true : deny_access
   end
 
   # Authorize the user for the requested action outside a project
-  def authorize_global(ctrl = params[:controller], action = params[:action], global = true) # spec_me cover_me heckle_me
+  def authorize_global(ctrl = params[:controller], action = params[:action], global = true) # spec_me heckle_me
     authorize(ctrl, action, global)
   end
 
   # make sure that the user is a member of the project (or admin) if project is private
   # used as a before_filter for actions that do not require any particular permission on the project
-  def check_project_privacy # cover_me heckle_me
+  def check_project_privacy # heckle_me
     if @project && @project.active?
       if @project.is_public? || User.current.allowed_to_see_project?(@project) || User.current.admin?
         true
@@ -176,23 +176,23 @@ class ApplicationController < ActionController::Base
     redirect_to default
   end
 
-  def render_403 # cover_me heckle_me
+  def render_403 # heckle_me
     @project = nil
     render :template => "common/403", :layout => (request.xhr? ? false : 'gooey'), :status => 403
     return false
   end
 
-  def render_404 # cover_me heckle_me
+  def render_404 # heckle_me
     render :template => "common/404", :layout => !request.xhr?, :status => 404
     return false
   end
 
-  def render_error(msg) # cover_me heckle_me
+  def render_error(msg) # heckle_me
     flash.now[:error] = msg
     render :text => '', :layout => !request.xhr?, :status => 500
   end
 
-  def render_message(msg) # cover_me heckle_me
+  def render_message(msg) # heckle_me
     flash.now[:notice] = msg
     render :text => '', :layout => !request.xhr?
   end
@@ -201,7 +201,7 @@ class ApplicationController < ActionController::Base
     redirect_back_or_default(home_path)
   end
 
-  def self.accept_key_auth(*actions) # cover_me heckle_me
+  def self.accept_key_auth(*actions) # heckle_me
     actions = actions.flatten.map(&:to_s)
     write_inheritable_attribute('accept_key_auth_actions', actions)
   end
@@ -232,7 +232,7 @@ class ApplicationController < ActionController::Base
   end
 
   # Same as Rails' simple_format helper without using paragraphs
-  def simple_format_without_paragraph(text) # cover_me heckle_me
+  def simple_format_without_paragraph(text) # heckle_me
     text.to_s.
       gsub(/\r\n?/, "\n").                    # \r\n and \r -> \n
       gsub(/\n\n+/, "<br /><br />").          # 2+ newline  -> 2 br
