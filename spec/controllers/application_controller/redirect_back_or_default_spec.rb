@@ -45,9 +45,14 @@ describe ApplicationController, '#redirect_back_or_default' do
     response.should redirect_to('foo')
   end
 
-  it 'redirects to back_url' do
+  it 'redirects to relative back_url' do
     get(:index, :back_url => '/whatevs')
     response.should redirect_to('/whatevs')
+  end
+
+  it 'redirects to back_url when host matches request' do
+    get(:index, :back_url => 'http://test.host/whatevs')
+    response.should redirect_to('http://test.host/whatevs')
   end
 
 end

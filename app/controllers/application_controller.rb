@@ -158,7 +158,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def redirect_back_or_default(default) # cover_me heckle_me
+  def redirect_back_or_default(default) # cover_me
     back_url = CGI.unescape(params[:back_url].to_s)
     if !back_url.blank? && !back_url.include?("/home/") && !back_url.include?("/front/")
       begin
@@ -197,7 +197,7 @@ class ApplicationController < ActionController::Base
     render :text => '', :layout => !request.xhr?
   end
 
-  def invalid_authenticity_token # cover_me heckle_me
+  def invalid_authenticity_token # heckle_me
     redirect_back_or_default(home_path)
   end
 
@@ -206,12 +206,12 @@ class ApplicationController < ActionController::Base
     write_inheritable_attribute('accept_key_auth_actions', actions)
   end
 
-  def accept_key_auth_actions # cover_me heckle_me
+  def accept_key_auth_actions # heckle_me
     self.class.read_inheritable_attribute('accept_key_auth_actions') || []
   end
 
   # TODO: move to model
-  def attach_files(obj, attachments) # cover_me heckle_me
+  def attach_files(obj, attachments) # heckle_me
     attached = []
     unsaved = []
     if attachments && attachments.is_a?(Hash)
