@@ -158,22 +158,26 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def redirect_back_or_default(default) # cover_me
+  def redirect_back_or_default(default)
     back_url = CGI.unescape(params[:back_url].to_s)
-    if !back_url.blank? && !back_url.include?("/home/") && !back_url.include?("/front/")
+    if back_url.blank? || back_url.include?('/home/') || back_url.include?('/front/')
+      redirect_to default
+    else
       begin
         uri = URI.parse(back_url)
 
+        if uri.path.match(%r{/(login|account/register)})
+          redirect_to default
         # do not redirect user to another host or to the login or register page
-        if (uri.relative? || (uri.host == request.host)) && !uri.path.match(%r{/(login|account/register)})
-          redirect_to(back_url)
-          return
+        elsif uri.relative? || uri.host == request.host
+          redirect_to back_url
+        else
+          redirect_to default
         end
       rescue URI::InvalidURIError
-        # redirect to default
+        redirect_to default
       end
     end
-    redirect_to default
   end
 
   def render_403 # heckle_me
