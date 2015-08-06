@@ -257,11 +257,12 @@ class Setting < ActiveRecord::Base
   def self.find_or_default(name) # cover_me heckle_me
     name = name.to_s
     raise "There's no setting named #{name}" unless @@available_settings.has_key?(name)
-    if @@available_settings.has_key? name
-      setting = new(:name => name)
-      setting.value = @@available_settings[name]['default']
-    end
-    setting ||= find_by_name(name)
+    setting = find_by_name(name) || create_default(name)
+  end
+
+  def self.create_default(name)
+    default_value = @@available_settings[name]['default']
+    create!(:name => name, :value => default_value)
   end
 
 end
