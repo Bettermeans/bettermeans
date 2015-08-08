@@ -12,7 +12,7 @@ describe AccountController, '#register' do
 
   context "when there is a Setting.self_registration" do
     before :each do
-      Setting.self_registration = 5
+      Setting.stub(:self_registration).and_return(5)
       get(:register)
     end
 
@@ -142,6 +142,7 @@ describe AccountController, '#register' do
     end
 
     it "sets the user's status to registered" do
+      Setting.stub(:self_registration).and_return(5)
       post(:register, :user => { :mail => 'bill@bill.com' }, :invitation_token => invitation.token)
       assigns(:user).status.should == User::STATUS_REGISTERED
     end

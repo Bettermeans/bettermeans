@@ -87,6 +87,7 @@ describe AccountController, "#login" do
           context 'when self_registration is set' do
             before(:each) do
               Setting.stub(:self_registration?).and_return(true)
+              Setting.stub(:self_registration).and_return(5)
             end
 
             it 'sets the login on the user' do

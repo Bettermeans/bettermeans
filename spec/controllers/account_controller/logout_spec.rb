@@ -7,7 +7,7 @@ describe AccountController, '#logout' do
   before :each do
     controller.logged_user = user
     @token = Token.create(:user => user, :action => 'autologin')
-    request.cookies["autologin"] = @token.value
+    request.cookies['autologin'] = @token.value
     get(:logout)
   end
 

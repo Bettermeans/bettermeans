@@ -28,6 +28,7 @@ Spork.prefork do
     end
 
     config.after(:each) do
+      Setting.instance_variable_get(:@cached_settings).clear
       Capybara.reset! if integration?
       DatabaseCleaner.clean
       DatabaseCleaner.strategy = :transaction
