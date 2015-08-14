@@ -58,7 +58,7 @@ class IssuesController < ApplicationController
 
   log_activity_streams :current_user, :name, :restarted, :@issue, :subject, :restart, :issues, {}
 
-  def index # cover_me heckle_me
+  def index # heckle_me
     retrieve_query
     sort_init(@query.sort_criteria.empty? ? [['id', 'desc']] : @query.sort_criteria)
     sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.available_columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
@@ -85,7 +85,6 @@ class IssuesController < ApplicationController
         format.pdf  { send_data(issues_to_pdf(@issues, @project, @query), :type => 'application/pdf', :filename => 'export.pdf') }
       end
     else
-      # Send html if the query is not valid
       render(:template => 'issues/index.html.erb', :layout => !request.xhr?)
     end
   rescue ActiveRecord::RecordNotFound

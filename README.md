@@ -16,7 +16,7 @@ Support this project
 
 Roadmap
 -------
-1. get code coverage up to 100% -> currently 48.23%
+1. get code coverage up to 100% -> currently 48.27%
   - -> controllers
   - models
   - helpers
