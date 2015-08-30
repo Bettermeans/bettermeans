@@ -26,42 +26,52 @@ ru:
       less_than_x_seconds:
         one: "меньше чем %{count} секунда"
         few: "меньше чем %{count} секунды"
+        many: "меньше чем %{count} секунд"
         other: "меньше чем %{count} секунд"
       x_seconds:
         one: "%{count} секунда"
         few: "%{count} секунды"
+        many: "%{count} секунд"
         other: "%{count} секунд"
       less_than_x_minutes:
         one: "меньше чем %{count} минута"
         few: "меньше чем %{count} минуты"
+        many: "меньше чем %{count} минут"
         other: "меньше чем %{count} минут"
       x_minutes:
         one: "%{count} минута"
         few: "%{count} минуты"
+        many: "%{count} минут"
         other: "%{count} минут"
       about_x_hours:
         one: "около %{count} часа"
         few: "около %{count} часов"
+        many: "около %{count} часов"
         other: "около %{count} часов"
       x_days:
         one: "%{count} день"
         few: "%{count} дня"
+        many: "%{count} дней"
         other: "%{count} дней"
       about_x_months:
         one: "около %{count} месяца"
         few: "около %{count} месяцев"
+        many: "около %{count} месяцев"
         other: "около %{count} месяцев"
       x_months:
         one: "%{count} месяц"
         few: "%{count} месяца"
+        many: "%{count} месяцев"
         other: "%{count} месяцев"
       about_x_years:
         one: "около %{count} года"
         few: "около %{count} лет"
+        many: "около %{count} лет"
         other: "около %{count} лет"
       over_x_years:
         one: "больше %{count} года"
         few: "больше %{count} лет"
+        many: "больше %{count} лет"
         other: "больше %{count} лет"
   number:
     human:
@@ -71,6 +81,7 @@ ru:
           byte:
             one: "байт"
             few: "a55163fa7426f3d9af7f53c80849e243_pl_3"
+            many: "байта"
             other: "байта"
           kb: "KB"
           mb: "МБ"
@@ -114,6 +125,7 @@ ru:
   general_csv_separator: ';'
   general_csv_decimal_separator: ','
   general_csv_encoding: UTF-8
+  general_pdf_encoding: ISO-8859-1
   general_first_day_of_week: '1'
   numbers:
     two: два
@@ -121,6 +133,7 @@ ru:
   general:
     a: ' '
     accept: принять
+    acceptance: одобрение
     add: добавить
     add_a_comment: Добавить комментарий...
     add_a_tag: добавить ярлык
@@ -188,6 +201,7 @@ ru:
     show_more: Показать больше...
     start: начать
     tagged_with: С меткой
+    takeback: отказываться/принимать обратно
     this: этот
     todos: список заданий
     updated_in_last: Последние обновления
@@ -209,6 +223,7 @@ ru:
     open: открыть
   tracker:
     bug: дефект
+    chore: поденная работа
     feature: свойство
   notice_account_reactivated: Ваша учетная запись восстановлена. .<br /> Добро пожаловать обратно! <br /><br /> <a href="/">Домой</a>
   notice_account_canceled: Вы вышли из своей учетной записи. Спасибо за использование нашего сайта. <br /><br />Мы с удовольствием прочитаем ваш отзыв о том, как нам стать лучше.<br /><br /><a href="mailto:feedback@bettermeans.com">feedback@bettermeans.com</a>
@@ -271,7 +286,7 @@ ru:
   gui_validation_error_plural: "%{count} ошибки/ок"
   role:
     board: Доска
-    core_team: Центральная команда
+    core_team: Ядро Команды
     member: Участник
     contributor: Помощник
     non_member: Не-участник
@@ -284,6 +299,7 @@ ru:
     announced: объявлен
     attached: прикреплен
     blocked: заблокирован
+    blocked_acceptance_of: заблокированное одобрение от
     canceled: отменен
     changed: изменен
     changed_estimate_for: изменил свою оценку на
@@ -305,7 +321,7 @@ ru:
     updated: обновлен
   field_hashed_password: хешированный пароль
   field_tags: "Ключевые слова"
-  field_points: "Avg estimated credits"
+  field_points: "Предполагаемые в среднем кредиты"
   field_logo: "Логотип"
   field_image_file: "Загрузить локальный файл"
   field_image_file_url: "или URL-адрес изображения"
@@ -350,6 +366,7 @@ ru:
   field_role: Роль
   field_homepage: Стартовая страница
   field_is_public: Общедоступный
+  field_parent: Подпоток задач
   field_is_in_roadmap: Объекты, отображаемые в дорожной карте
   field_login: Имя пользователя
   field_mail_notification: 'Уведомления по Email '
@@ -375,8 +392,9 @@ ru:
   field_done_ratio: "Готовность"
   field_auth_source: Режим аутентификации
   field_hide_mail: Скрывать мой email
-  field_active_only_jumps: "Show only workstreams I'm active in for top jump menu"
+  field_active_only_jumps: "Показывать в верхнем всплывающем меню только те потоки задачи, в которых я активен."
   field_comments: Комментарий
+  field_wiki_comments: Заметки по исправлениям
   field_url: URL
   field_start_page: Домашняя страница
   field_subproject: Подпоток задач
@@ -388,6 +406,7 @@ ru:
   field_issue_to: Аналогичный объект
   field_issue: Аналогичный объект
   field_delay: Отложить
+  field_assignable: Объектам может быть присвоена эта роль.
   field_redirect_existing_links: Перенаправить существующие ссылки
   field_estimated_hours: Оценка времени
   field_column_names: Столбцы
@@ -396,6 +415,7 @@ ru:
   field_default_value: Значение по умолчанию
   field_comments_sorting: Отображение комментариев
   field_parent_title: Родительская страница
+  field_parent_project: Родительский поток задач
   field_editable: Редактируемое
   field_watcher: Наблюдатель
   field_identity_url: OpenID URL
@@ -403,6 +423,8 @@ ru:
   field_group_by: Группировать результаты по
   field_sharing: Совместное использование
   field_dpp: Оценочная шкала
+  field_hourly_rate_per_person: Почасовая ставка на человека
+  field_pri: Приоритет
   setting_app_title: Название приложения
   setting_app_subtitle: Подзаголовок приложения
   setting_welcome_text: Текст приветствия
@@ -418,29 +440,35 @@ ru:
   setting_text_formatting: Форматирование текста
   setting_wiki_compression: Сжатие истории Wiki
   setting_feeds_limit: Ограничение количества заголовков для RSS потока
-  setting_default_projects_public: Новые рабочие потоки доступны общественности по умолчанию
+  setting_default_projects_public: Новые потоки задач доступны общественности по умолчанию
   setting_autofetch_changesets: Автоматически следить за изменениями хранилища
   setting_commit_ref_keywords: Ключевые слова для поиска
   setting_commit_fix_keywords: Назначение ключевых слов
   setting_autologin: Автоматический вход
   setting_date_format: Формат даты
   setting_time_format: Формат времени
+  setting_cross_project_issue_relations: Разрешить связи между объектами пересекающихся потоков задач
+  setting_issue_list_default_columns: Колонки по умолчанию отображаются в списке объекта
   setting_commit_logs_encoding: Кодирование сообщений о фиксации
   setting_emails_footer: Подстрочные примечания письма
   setting_protocol: Протокол
   setting_per_page_options: Количество записей на страницу
   setting_user_format: Формат отображения имени
-  setting_activity_days_default: Дни, отображаемые активность рабочего потока
+  setting_activity_days_default: Дни, отображаемые активность потока задач
+  setting_display_subprojects_issues: Отобразить объекты подпотоков задач на главной панели потоков задач по умолчанию
   setting_enabled_scm: Разрешенные SCM
   setting_mail_handler_body_delimiters: "Урезать письмо после одной из этих строк"
   setting_mail_handler_api_enabled: Включить веб-сервис для входящих сообщений
   setting_mail_handler_api_key: API ключ
+  setting_sequential_project_identifiers: Создание последовательных идентификаторов потока задач
   setting_gravatar_enabled: Использовать аватар пользователя из Gravatar
   setting_gravatar_default: Изображение Gravatar по умолчанию
   setting_diff_max_lines_displayed: Максимальное число строк для diff
   setting_file_max_size_displayed: Максимальный размер текстового файла для отображения
   setting_openid: Разрешить OpenID для входа и регистрации
   setting_password_min_length: Минимальная длина пароля
+  setting_new_project_user_role_id: Роль, данная пользователю без прав администрирования, который создает поток задач
+  setting_default_projects_modules: Модули, включенные по умолчанию, для новых потоков задач
   setting_issue_done_ratio: Рассчитать конечное соотношение объекта с
   setting_issue_done_ratio_issue_field: Использовать поле объекта
   setting_issue_done_ratio_issue_status: Использовать статус объекта
@@ -505,8 +533,8 @@ ru:
   project_module_wiki: Wiki
   project_module_boards: Обсуждения
   title_member_nomination: "Motion to elect %{user} as a member"
-  title_core_member_nomination: "Motion to elect %{user} to the Core Team"
-  title_core_member_removal: "Motion to remove %{user} from the Core Team"
+  title_core_member_nomination: "Действие, чтобы выбрать %{user} в Ядро Команды"
+  title_core_member_removal: "Действие, чтобы убрать %{user} из Ядра Команды"
   title_member_removal: "Motion to remove %{user} as a member"
   label_usage_over: "Your usage is over your plan's limits"
   label_trial_expired: "Your trial period has expired"
@@ -515,45 +543,48 @@ ru:
   label_my_issues: Мои объекты
   label_joined_issues: Зарегистрирован
   label_joined: Зарегистрирован
-  label_projects_recent: Недавние рабочие потоки
-  label_projects_active_in: Рабочие потоки, в которых я принимаю участие
+  label_projects_recent: Недавние потоки заданий
+  label_projects_active_in: Потоки заданий, в которых я принимаю участие
   label_projects_all: Все мои потоки заданий
   label_view_all: Посмотреть все
   label_track_invites: Отследить все отправленные приглашения
-  label_unarchive_project: Разархивировать рабочий поток
+  label_unarchive_project: Разархивировать поток задач
   label_unarchive_project_brackets: (разархивировать)
-  label_archive_project: Заархивировать рабочий поток
+  label_archive_project: Заархивировать поток задач
   label_delete_project: Удалить поток заданий
   label_move_project: Перенести поток заданий
   label_note_to_recipient: Примечание для получателя (по желанию)
+  label_amount_to_transfer: Сумма перевода
   label_select_recipient: Выбрать получателя
-  label_credit_transfer: "Transfer credits"
+  label_credit_transfers: Переводы кредитов
+  label_credit_transfer: "Перевести кредиты"
   label_new_credit_transfer: Новый перевод
-  label_select_project: Выбрать проект рабочего потока
+  label_select_project: Выбрать проект потока задач
   label_previous_credit_transfers: Ваша история
   label_data_dump: дампа данные
-  text_data_dump: Загрузите локальную копию всех данных, которые относятся к рабочему потоку, которым вы владеете
+  text_data_dump: Загрузите локальную копию всех данных, которые относятся к потоку задач, которым вы владеете
   label_issues: datadump.csv
   label_type_of_workstream: Опции потока заданий
   label_your_gravatar: Изображение профиля
-  label_team_with_access: Участники с разрешением (к этому рабочему потоку)
+  label_team_with_access: Участники с разрешением (к этому потоку задач)
   label_select_plan: Выбрать новый план
   label_current_plan: Нынедействующий план
   label_user: Пользователь
   label_user_plural: Пользователи
   label_user_new: Новый пользователь
   label_user_anonymous: Аноним
-  label_project: Поток заданий
-  label_project_new: Новый поток заданий
-  label_project_plural: Потоки заданий
+  label_project: Поток задач
+  label_project_new: Новый поток задач
+  label_project_plural: Потоки задач
   label_x_projects:
-    zero: нет потоков заданий
-    one: 1 поток заданий
-    other: "%{count} workstreams"
-  label_project_all: Все потоки заданий
-  label_project_latest: Последние потоки заданий
-  label_enterprise_latest: Последние общедоступные рабочие потоки
-  label_enterprise_active: Наиболее активные общедоступные рабочие потоки
+    zero: нет потоков задач
+    one: 1 поток задач
+    other: "%{count} потока/ов задач"
+  label_project_all: Все потоки задач
+  label_project_latest: Последние потоки задач
+  label_enterprise_latest: Последние общедоступные потоки задач
+  label_enterprise_active: Наиболее активные общедоступные потоки задач
+  label_enterprise_plural: Открытые предприятия
   label_issue: Объект
   label_issue_new: Новый объект
   label_issue_plural: Объекты
@@ -596,10 +627,10 @@ ru:
   label_home: Домашняя страница
   label_my_home: Домой
   label_my_page: Краткая информация
-  label_new_project: Новый поток заданий
+  label_new_project: Новый поток задач
   label_my_account: Учетная запись
-  label_my_projects: Мои потоки заданий
-  label_projects_i_belong_to: Потоки заданий, к которым я принадлежу
+  label_my_projects: Мои потоки задач
+  label_projects_i_belong_to: Потоки задач, к которым я принадлежу
   label_projects_i_started: Потоки заданий, который я начал
   label_activities_i_belong_to: Недавняя активность
   label_administration: Администрирование
@@ -607,6 +638,7 @@ ru:
   label_logout: Выйти
   label_help: Помощь
   label_reported_issues: Отмеченные объекты
+  label_assigned_to_me_issues: Завершено
   label_added_issues: Создано
   label_recent_issues: недавний
   label_assigned: собственный
@@ -622,8 +654,11 @@ ru:
   label_auth_source: Режим аутентификации
   label_auth_source_new: Новый режим аутентификации
   label_auth_source_plural: Режимы аутентификации
+  label_subproject: Подпоток задач
+  label_subproject_plural: Подпотоки задач
+  label_subproject_new: Новый подпоток задач
   label_new_item_in: Новый объект в
-  label_and_its_subprojects: "%{value} and its sub workstreams"
+  label_and_its_subprojects: "%{value} и его/ее подпотоки задач"
   label_waiting_for_you: "%{notifications} waiting for you"
   label_min_max_length: Минимальная - максимальная длина
   label_list: Список
@@ -638,6 +673,7 @@ ru:
   label_download: "%{count} Download"
   label_download_plural: "%{count} Downloads"
   label_no_data: Здесь еще ничего нет
+  label_no_credits: У вас нет кредитов, которые можно перевести
   label_change_status: Изменить статус
   label_attachment: Файл
   label_attachment_new: Новый файл
@@ -662,7 +698,7 @@ ru:
   label_confirmation: Подтверждение
   label_export_to: 'Экспортировать в'
   label_read: Чтение...
-  label_public_projects: Общедоступные рабочие потоки
+  label_public_projects: Общедоступные потоки задач
   label_open_issues: открыто
   label_open_issues_plural: открыто
   label_closed_issues: закрыто
@@ -856,7 +892,7 @@ ru:
   label_updated_time_by: "Updated by %{author} %{age} ago"
   label_created_time_by: "Created %{age} ago by"
   label_updated_time: "Updated %{value} ago"
-  label_jump_to_a_project: МОИ РАБОЧИЕ ПОТОКИ
+  label_jump_to_a_project: МОИ ПОТОКИ ЗАДАЧ
   label_file_plural: Файлы
   label_changeset_plural: Изменения
   label_default_columns: Столбцы по умолчанию
@@ -865,8 +901,8 @@ ru:
   label_theme: Тема
   label_default: По умолчанию
   label_search_titles_only: Только заголовки
-  label_user_mail_option_all: "For any event on all my workstreams"
-  label_user_mail_option_selected: "For any event on the selected workstreams only..."
+  label_user_mail_option_all: "Для любого события во всех моих потоках задач"
+  label_user_mail_option_selected: "Для любого события только в выбранных потоках задач..."
   label_user_mail_option_none: "Only for things I watch or I'm involved in"
   label_user_mail_no_self_notified: "Не извещать об изменениях, которые я сделал сам"
   label_user_mail_no_emails: "Отключить уведомление по электронной почте"
@@ -912,7 +948,7 @@ ru:
   label_declined_by: "Отклонено %{responder} %{age} тому назад"
   label_from_ago: "от %{author} %{age} тому назад"
   label_taken_by: "Взято %{responder} %{age} тому назад"
-  label_recinded: "Изъято %{age} тому назад"
+  label_recinded: "Отозвано %{age} тому назад"
   label_released: "Выпущен %{age} тому назад"
   label_not_sure: "Не уверен"
   label_commitment: "Commitment"
@@ -935,8 +971,8 @@ ru:
   label_ownership_offer_accepted: "Предложение обладания принято"
   label_ownership_offer_declined_from: "Предложение обладания от %{user} было отклонено"
   label_ownership_offer_accepted_from: "Предложение обладания от %{user} было принято"
-  label_ownership_offer_withdrawn: "Изъять предложение обладания"
-  label_ownership_offer_withdrawn_to: "Предложение обладания для пользователя %{user} было изъято"
+  label_ownership_offer_withdrawn: "Отозвать предложение владения"
+  label_ownership_offer_withdrawn_to: "Предложение владения для пользователя %{user} было отозвано"
   label_ownership_requested: "Запрошено право на обладание"
   label_ownership_request_accepted: "Запрос права на обладание принят"
   label_ownership_request_auto_accepted: "Ownership request auto accepted"
@@ -947,43 +983,50 @@ ru:
   label_ownership_released: "Ownership released"
   label_ownership_taken: "Ownership taken"
   label_commit_request_plural: "Task ownership"
-  label_team_offer: "Core Team Invitation"
+  label_team_offer: "Приглашение Ядра Команды"
   label_team_offer_plural: "Члены команды"
   label_team_plural: "Команда"
-  label_team_invitation: "Core Team Invitation"
-  label_team_request: "Core Team Request"
-  label_team_request_plural: "Core Team requests"
+  label_team_invitation: "Приглашение Ядра Команды"
+  label_team_request: "Запрос Ядра Команды"
+  label_team_request_plural: "Запросы Ядра Команды"
   label_accepted: "принято"
   label_sent: "отправлено"
-  label_withdrawn: "withdrawn"
+  label_withdrawn: "отозванный"
   label_declined: "отклоненный"
-  label_to_join_core_team_of: "to join the %{project} core team"
+  label_to_join_core_team_of: "чтобы присоединиться к %{project} Ядра Команды"
   label_request: "Request"
   label_invitation: "Приглашение"
   label_was: "было"
   label_your: 'Ваше'
   label_to: "to"
   label_note_from: "Note from %{author}"
-  label_sending_team_invitation: "%{author} wants you to join the Core Team for the %{project} workstream"
-  label_sending_team_request: "%{author} wants to join the Core Team for the %{project} workstream"
+  label_sending_team_invitation: "%{author} хочет, чтобы вы присоединились к Ядру Команды для работы над %{project} потоком задач"
+  label_sending_team_request: "%{author} хочет, чтобы вы присоединились к Ядру Команды для работы над %{project} потоком задач"
   label_team_view_all: "View team details"
   label_team_view_all_enterprise: "View entire team"
   label_member_role_plural: "Team Changes"
-  label_join_core_team: "Join Core Team"
-  label_leave_core_team: "Leave Core Team"
-  label_request_to_join_core_team: "Request to join Core Team"
-  label_invitation_to_join_core_team: "Invite to Core Team"
+  label_join_core_team: "Присоединиться к Ядру Команды"
+  label_leave_core_team: "Покинуть Ядро Команды"
+  label_request_to_join_core_team: "Запрос на присоединение к Ядру Команды"
+  label_invitation_to_join_core_team: "Пригласить в Ядро Команды"
   label_team_points: "Core Points"
   label_share: "Поделиться"
   label_share_plural: "Shares"
-  label_credit_plural: "Credits"
-  label_credit: "Credit"
+  label_credit_plural: "Кредиты"
+  label_credit: "Кредит"
   label_retro_started: "Retrospective Started"
   label_retro_ended: "Retrospective Ended"
   label_motion_started: "New motion: %{title}"
+  label_credits: Кредиты
   label_shares: Шары
+  label_credit_queue: Очередь кредитов (Активные кредиты)
+  label_credit_history: Кредитная история (Все кредиты)
+  label_my_credits: Мои кредиты
+  label_credits_breakdown: Распределение кредита
+  label_active_credits: Активные кредиты
+  label_outstanding_credits: Непогашенные кредиты
   label_total_credits_issued: Общее количество выпущенных
-  label_youve_got_credits: "You've got credits!"
+  label_youve_got_credits: "Вы получили кредиты!"
   label_someone_joined_your_issue: "%{joiner} joined an issue assigned to you"
   label_someone_added_you_to_their_issue: "%{sender} added you to an issue they own"
   label_someone_removed_you_from_their_issue: "%{sender} removed you from an issue they own"
@@ -1000,6 +1043,10 @@ ru:
   label_Tip: Совет
   label_see_more: просмотреть больше
   label_version_sharing_none: Без совместного использования
+  label_version_sharing_descendants: К потокам задач
+  label_version_sharing_hierarchy: К иерархии потока задач
+  label_version_sharing_tree: К дереву потока задач
+  label_version_sharing_system: Ко всем потокам задач
   label_update_issue_done_ratios: Обновить конечные соотношения объекта
   label_copy_source: Источник
   label_copy_target: Цель
@@ -1010,6 +1057,7 @@ ru:
   label_api_access_key_created_at: "API access key created %{value} ago"
   label_dpp_scale: "Оценочная шкала"
   label_motion: "Motion"
+  label_motions_new: Новое действие
   label_motion_state0: "В процессе"
   label_motion_state1: "Passed"
   label_motion_state2: "Defeated"
@@ -1034,9 +1082,9 @@ ru:
   label_motion_variation0: "General Motion"
   label_motion_variation1: "Extraordinary Motion"
   label_motion_variation2: "New Member Nomination"
-  label_motion_variation3: "New Core Team Member Nomination"
+  label_motion_variation3: "Новое назначение участника Ядра Команды"
   label_motion_variation4: "Motion to Remove Member"
-  label_motion_variation5: "Motion to Remove Core Team Member"
+  label_motion_variation5: "Действия для удаления участника Ядра Команды"
   label_motion_variation6: "Board Motion (public)"
   label_motion_variation7: "Board Motion (private)"
   label_motion_variation8: "Motion to Add Hourly Activity Type"
@@ -1133,18 +1181,22 @@ ru:
   button_participate: Участвовать
   button_request_commitment_request: Предложить владение
   button_request_commitment_take: Стать владельцем
-  button_request_commitment_remove: Отклонить предложение владения
-  button_request_commitment_withdraw: Отклонить
+  button_request_commitment_remove: Отозвать предложение владения
+  button_request_commitment_withdraw: Отозвать
+  button_request_commitment_remove_offer: Отозвать предложение владения
   button_request_commitment_giveup: Освободиться от владения
   button_request_commitment_transfer: Передать владение
   button_request_commitment_accept: Принять
   button_request_commitment_decline: Отклонить
   button_request_commitment_offer: Предложить владение
-  button_team_offer_withdraw_invitation: Отклонить приглашение в ключевую команду
-  button_team_offer_giveup: Отписаться от ключевой команды
+  button_team_offer_request: Запрос на присоединение к Ядру Команды
+  button_team_offer_take: Вступить в Ядро Команды
+  button_team_offer_withdraw_request: Отозвать запрос на вступление в Ядро Команды
+  button_team_offer_withdraw_invitation: Отозвать приглашение в Ядро Команды
+  button_team_offer_giveup: Отписаться от Ядра Команды
   button_team_offer_accept: Принять
   button_team_offer_decline: Отклонить
-  button_team_offer_invite: Выслать приглашение присоединиться к центральной команде
+  button_team_offer_invite: Выслать приглашение присоединиться к Ядру Команды
   button_ignore: Проигнорировать
   button_mark_as_read: Отметить как прочитанное
   button_duplicate: Дублировать
@@ -1169,10 +1221,10 @@ ru:
   text_email_instruction: "Enter up to 50 emails, one email per line"
   text_invite_others_to_contribute: "Invite anyone to contribute to"
   text_invite_others_to_contribute_personal: "OR - Send personalized, individual invitations"
-  text_confirm_delete_project: "Are you sure you want to delete this workstream? This action cannot be undone!"
+  text_confirm_delete_project: "Вы уверены, что хотите удалить этот поток задач? Это действие нельзя будет отменить!"
   text_confirm_cancel_account: "Are you sure you want to cancel your account? This action cannot be undone!"
-  text_confirm_archive_project: "Are you sure you want to archive this workstream? Nobody will be able to see it anymore. You can unarchive it in the future."
-  text_confirm_unarchive_project: "Are you sure you want to unarchive this workstream?"
+  text_confirm_archive_project: "Вы уверены, что хотите заархивировать этот поток задач? Никто не сможет его больше увидеть. Вы можете разархивировать его в будущем."
+  text_confirm_unarchive_project: "Вы уверены, что хотите разархивировать этот поток задач?"
   text_included_note: заметка
   text_failed_to_transfer: Не удалось перевести кредиты. <br />
   text_your_gravatar: Мы используем <a href="http://gravatar.com" target="blank">Gravatar</a> , чтобы отображать фото вашего профиля. <br /> Чтобы добавить/обновить фото <a href="http://gravatar.com" target="blank">создайте аккаунт здесь</a>, используя тот же адрес электронной почты, который вы использовали при регистрации на BetterMeans.
@@ -1180,7 +1232,8 @@ ru:
   text_regexp_info: 'например: ^[A-Z0-9]+$'
   text_min_max_length_info: 0 означает отсутствие ограничений
   text_project_destroy_confirmation: Вы уверены, что хотите удалить поток заданий и связанные с ним данные?
-  text_subprojects_destroy_warning: "Its sub workstream(s): %{value} will be also deleted."
+  text_subprojects_destroy_warning: "Его подпоток(и) задач: %{value} будет также удален."
+  text_workflow_edit: Выберите роль и тип для редактирования рабочего процесса
   text_are_you_sure: Вы уверены?
   text_journal_changed: "%{label} изменен с %{old} на %{new}"
   text_journal_set_to: "%{label} set to %{value}"
@@ -1193,8 +1246,10 @@ ru:
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_length_between: "Length between %{min} and %{max} characters."
+  text_tracker_no_workflow: Ни один рабочий процесс не определен для этого типа
   text_unallowed_characters: Запрещенные символы
   text_comma_separated: Допустимы несколько значений (через запятую).
+  text_issues_ref_in_commit_messages: Ссылка и исправление объектов в сообщениях фиксации
   text_issue_added: "Item %{id} has been reported by %{author}."
   text_issue_updated: "Объект %{id} был обновлен пользователем %{author}."
   text_line_separated: Разрешено несколько значений (по одному значению в строку).
@@ -1204,83 +1259,84 @@ ru:
   text_load_default_configuration: Загрузить конфигурацию по умолчанию
   text_status_changed_by_changeset: "Applied in changeset %{value}."
   text_issues_destroy_confirmation: 'Вы уверены, что хотите удалить выбранный(е) объект(ы)?'
-  text_select_project_modules: 'Select modules to enable for this workstream:'
+  text_select_project_modules: 'Выберите модули, которые хотите включить в этот поток задач'
   text_default_administrator_account_changed: Учетная запись администратора по умолчанию изменена
   text_file_repository_writable: Хранилище с доступом на запись
   text_plugin_assets_writable: Каталог модулей доступен для записи
   text_rmagick_available: Доступно использование RMagick (опционально)
-  text_destroy_time_entries_question: "%{hours} hours were reported on the items you are about to delete. What do you want to do ?"
+  text_destroy_time_entries_question: "%{hours} часов было зарегистрировано у объекта, который вы собираетесь удалить. Что вы хотите сделать?"
   text_destroy_time_entries: Удалить зарегистрированное время
-  text_reassign_time_entries: 'Reassign reported hours to this item:'
+  text_assign_time_entries_to_project: Привязать зарегистрированное время к потоку задач
+  text_reassign_time_entries: 'Повторно назначить зарегистрированное время этому объекту:'
   text_user_wrote: "%{value} wrote:"
   text_enumeration_destroy_question: "%{count} objects are assigned to this value."
   text_enumeration_category_reassign_to: 'Назначить им следующее значение:'
-  text_email_delivery_not_configured: "Email delivery is not configured, and notifications are disabled. Configure your SMTP server in config/email.yml and restart the application to enable them."
+  text_email_delivery_not_configured: "Доставка Email не настроена, уведомления отключены.\nНастройте ваш SMTP сервер в файле confing/email.yml и перезапустите приложение, чтобы применить настройки."
   text_diff_truncated: '... Этот diff ограничен, так как превышает максимальный отображаемый размер.'
-  text_wiki_page_destroy_question: "This page has %{descendants} child page(s) and descendant(s). What do you want to do?"
+  text_wiki_page_destroy_question: "У этой страницы есть %{descendants} дочерняя(ие) страница-ы и потомок(и). Что вы хотите сделать?"
   text_wiki_page_nullify_children: "Сделать дочерние страницы главными страницами"
   text_wiki_page_destroy_children: "Удалить дочерние страницы и всех их потомков"
   text_wiki_page_reassign_children: "Переопределить дочерние страницы на текущую страницу"
-  text_create_dialogue_choose_days: "How much time to you need to get this done <br />(from the time you own it)?"
-  text_select_user_dialogue_choose_user: "Choose someone to send this request to"
-  text_you_are_the_new_owner_of: "You are the new proud owner of"
-  text_is_asking_ownership_for: "is asking for ownership of a task you"
-  text_is_offering_ownership_for: "is offering you ownership of a task"
-  text_ownership_request_declined: "Ownership request declined"
-  text_ownership_request_accepted: "Ownership request accepted"
-  text_your_ownsership_request_declined_for: "You request for ownership has been declined for "
-  text_ownership_offer_accepted: "Ownership offer accepted"
-  text_your_offer_was_accepted_for: "Your offer was accepted for "
-  text_ownership_offer_declined: "Ownership offer declined"
-  text_your_offer_was_declined_for: "Your offer was declined for "
-  text_loading_dashboard: "Loading dashboard data..."
-  text_loading_dashboard_error: "Failed to load data... please check your internet connectivity and <a href='#' onclick='refresh_local_data();return false;'>refresh</a>"
-  text_retro_started_for: "A retrospective for the "
-  text_retro_started: " workstream has started. <br/>You have 3 days to give your team feedback on their contribution"
-  text_retro_ended_for: "A retrospective for the"
-  text_retro_ended: " workstream has ended. <br/>Click below to see your team's feedback, and your final contribution"
-  text_credits_transferred: "%{sender} just transferred %{amount} credits to you in %{project}"
-  text_credits_distributed_for: "You earned %{amount} credits for your work on <strong>%{workstream}</strong>. Congrats!"
-  text_credits_are_a_gift: "These credits were gifted to you by your peers for your contribution. They're not a part of any retrospective."
-  text_credits_are_an_expense: "These credits are a reimbursment for an expense item. They're not a part of any retrospective."
-  text_joiner_is_now_working_with_you: "%{joiner} is now working with you on<br/>%{issue}"
-  text_joiner_is_no_longer_working_with_you: "%{joiner} is no longer working with you on<br/>%{issue}"
-  text_you_are_now_working_with_you: "You are now part of the team working on<br/>%{issue}"
-  text_you_are_no_longer_working_on: "You are no longer part of the team working on<br/>%{issue}"
-  text_history_hidden_until_you_vote: "Voting history is hidden since you haven't cast your vote"
-  text_tally_hidden_until_you_vote: "Voting tally is hidden until you cast your vote"
-  text_you_dont_have_shares_to_vote: "You need to have shares to weigh in on this motion."
-  text_you_are_now_a_role: "You are now a <b>%{role_name}</b> of"
-  text_role_description_Administrator: "As an Admin, you can bypass governance rules and directly add/remove members and workstreams.<br /> Use this role sparingly as you are setting up your structures, <br />and then remove yourself from the admin role when you're ready to fully adopt the Open Enterprise governance model."
-  text_role_description_Contributor: "As a contributor, you can now earn credits and own a stake in <b>%{enterprise}.</b><br />Your votes on all matters will be visible to everyone, and will be non-binding."
-  text_role_description_Member: "As a member, all your votes are now binding. <br />In addition you can nominate contributors for membership,<br />and vote on Core Team elections."
-  text_role_description_Core Team: "As a member of the Core Team you have binding votes in all matters,<br />including the selection of new members.<br />Congratulations!"
-  text_role_description_Core_Team: "As a member of the Core Team you have binding votes in all matters,<br />including the selection of new members.<br />Congratulations!"
-  text_role_description_Board: "As a board member,all your votes are binding."
-  text_member_nomination: "%{user} is being nominated to be a member of %{enterprise}. As a member, all their votes would be binding. In addition they will be able to nominate contributors for membership, and vote on Core Team elections. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
-  text_core_member_nomination: "%{user} is being nominated for the Core Team of %{enterprise}. As a member of the Core Team they would have binding votes in all matters, including the selection of new members. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
-  text_core_member_removal: "This motion is to remove %{user} from the Core Team of %{enterprise}. If the motion passes %{user} would become a Member. As a Member, their votes will remain binding and their shares and credits would be unaffected. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
-  text_member_removal: "This motion is to remove %{user} as a member of %{enterprise}. If the motion passes %{user} would become a Contributor. As a Contributor, their votes will be non-binding. Their shares and credits would be unaffected. The votes on this motion will not be visible to to %{user}, but they will be able to see the discussion."
-  text_issue_edit_footer: "You can comment on this issue via email, by replying to this email directly."
-  text_message_edit_footer: "You can reply to this message via email, by replying to this email directly."
-  text_invitation_note_default: "Hey,\nWe've been using bettermeans.com to work on %{project}.\nBettermeans lets us work together as equals, and is a transparent, democratic way to get things done together.\nPlease accept this invitation to join us.\nWarm regards %{user}"
-  text_you_are_invited: "You are being invited to join"
-  text_generic_invitation: "This link allows anybody to get started as a <strong>contributor</strong> to this workstream."
-  text_generic_invitation_2: "You can also use the form below to send personalized invitations for folks to join as other roles"
-  text_generic_invitation_long: "The link below allows anybody to become a contributor to this workstream.<br /><br />It can be used an infinite amount of times. And doesn't expire until you change it.<br />Send it out via email, or post it somewhere where folks can follow it to join your workstream."
-  text_personal_invitation: "Use the form below to send personalized invitations to potential team members.<br /><br />This is the better way to go since people are more likely to respond to an exclusive invite, and don't need to validate their email.<br /><br /> This is also the more secure option since each invitation can be used only once and expires after a while."
-  text_active_team_explanation: "<strong>Active Members (for this workstream)</strong><br /><br />Active members are people that have been involved in this specific workstream in the past 2 weeks. <br /><br /> Contributors, members, and core team roles are defined at the parent(root) workstream and apply to all it's sub workstreams.<br /><br />For example: if someone is a core team member of a workstream then they will have the same role for all sub workstreams. However, they might be active in some and not others."
-  text_email_updated: "Email successfully updated"
-  text_usage_over: "You have exceeded your usage for your current plan.<br /> Please upgrade as soon as possible."
-  text_trial_expired: "Your trial period has expired.<br /> Please update your billing info so we can start charging you."
-  text_role_invitation_description_Administrator: "Admins have the most power.<br /><br /> An Admin can bypass governance rules and directly add/remove members and workstreams, and all their votes are binding.<br /><br /> Use this role sparingly as you are setting up your structures. Then transition to using other roles for day to day collaboration."
-  text_role_invitation_description_Contributor: "This the first level of participation in an open enterprise.<br /><br />Contributors' votes on all matters will be visible to everyone, and will be non-binding.<br /><br /> Meaning a contributor's voice is here, but their voting doesn't directly affect the items they are weighing in on.<br /><br /> A contributor can earn credits and contribute to a workstream."
-  text_role_invitation_description_Member: "Members are at the heart of an open enterprise.<br /><br /> All members' votes are binding.<br /><br />In addition members can nominate contributors for membership, and vote on Core Team elections.<br /><br /> Only invite members whose principles and values are aligned with yours."
-  text_role_invitation_description_Core_Team: "A member of the Core Team has binding votes in all matters, and is very similar to a member.<br /><br /> The main difference is a Core Team member can vote on the election of new members.<br /><br /> Essentially, they are the custodians of the organization's principles, and hold the bar for membership.<br /><br /> Core Team Members are accountable to all members, and their role is to represent their voice."
-  text_role_invitation_description_Board: "As a board member,all your votes are binding, and you have equal priveleges to a Core Team Member.<br /><br /> Being on the board though, indicates a lesser commitment to being involved in day to day work."
-  text_project_locked: "This workstream is temporarily locked due to non payment."
+  text_create_dialogue_choose_days: "Сколько вам потребуется времени, чтобы выполнить это <br />(начиная с того момента, когда вам это поручат)?"
+  text_select_user_dialogue_choose_user: "Выберите кого-нибудь, кому послать этот запрос"
+  text_you_are_the_new_owner_of: "Вы новый гордый владелец"
+  text_is_asking_ownership_for: "запрашивает право собственности на задачу, которую вы"
+  text_is_offering_ownership_for: "предлагает вам право собственности на задачу"
+  text_ownership_request_declined: "Запрос права собственности отклонен"
+  text_ownership_request_accepted: "Запрос права собственности принят"
+  text_your_ownsership_request_declined_for: "Ваш запрос на право собственности был отклонен для"
+  text_ownership_offer_accepted: "Предложение права собственности принято"
+  text_your_offer_was_accepted_for: "Ваше предложение было принято для"
+  text_ownership_offer_declined: "Предложение права собственности отклонено"
+  text_your_offer_was_declined_for: "Ваше предложение было отклонено для"
+  text_loading_dashboard: "Загрузка данных для обзорной панели..."
+  text_loading_dashboard_error: "Не удалось загрузить данные. Пожалуйста, проверьте ваше интернет соединение <a href=\"#\" onclick=\"refresh_local_data();return false;\">обновите</a>"
+  text_retro_started_for: "Ретроспектива для"
+  text_retro_started: " поток заданий начался. <br /> У вас есть 3 дня, чтобы дать обратную связь для своей команды по их вкладу в работу"
+  text_retro_ended_for: "Ретроспектива для"
+  text_retro_ended: " поток заданий закончился. <br /> Нажмите ниже, чтобы посмотреть отчет своей команды и ваш полный вклад в работу"
+  text_credits_transferred: "%{sender} перевел вам %{amount} кредитов в %{project}"
+  text_credits_distributed_for: "Поздравляем! Вы заработали %{amount} кредитов в работе над <strong>%{workstream}</strong>."
+  text_credits_are_a_gift: "Эти кредиты были подарены вам за ваш вклад в работу. Они не являются частью ни одной из ретроспектив."
+  text_credits_are_an_expense: "Эти кредиты являются возмещением определенных расходов. Они не являются частью ни одной из ретроспектив."
+  text_joiner_is_now_working_with_you: "%{joiner} теперь работает с вами над <br /> %{issue}"
+  text_joiner_is_no_longer_working_with_you: "%{joiner} больше не работает с вами над <br /> %{issue}"
+  text_you_are_now_working_with_you: "Теперь вы участник команды, которая работает над <br /> %{issue}"
+  text_you_are_no_longer_working_on: "Вы больше не участник команды, которая работает над <br /> %{issue}"
+  text_history_hidden_until_you_vote: "История голосования скрыта, потому что вы еще не проголосовали."
+  text_tally_hidden_until_you_vote: "Итоги голосования будут скрыты до тех пор, пока вы не проголосуете."
+  text_you_dont_have_shares_to_vote: "У вас должны быть шары, чтобы иметь вес в этом действии."
+  text_you_are_now_a_role: "Теперь вы <b>%{role_name}</b> в"
+  text_role_description_Administrator: "В роли Администратора вы можете обходить правила управления и напрямую добавлять/удалять участников и потоки заданий.<br /> Используйте эту роль очень бережно для настройки структур.<br /> Затем снимите с себя роль Администратора, когда будете готовы следовать модели управления \"Открытое Предприятие\"."
+  text_role_description_Contributor: "В роли Помощника вы можете зарабатывать кредиты и стать владельцем части <b>%{enterprise}</b>.<br /> Ваши голоса по всем вопросам будут видны всем и будут носить необязательный характер."
+  text_role_description_Member: "В роли Участника все ваши голоса носят обязательный характер.<br /> В дополнение ко всему, вы сможете назначать Помощников Участниками,<br /> и принимать участие в выборах членов Ядра Команды."
+  text_role_description_Core Team: "В роли члена Ядра Команды ваши голоса по всем вопросам носят обязательный характер,<br /> включая отбор новых Участников.<br /> Поздравляем!"
+  text_role_description_Core_Team: "В роли члена Ядра Команды ваши голоса по всем вопросам носят обязательный характер,<br /> включая отбор новых Участников.<br /> Поздравляем!"
+  text_role_description_Board: "В роли Члена Правления все ваши голоса носят обязательный характер."
+  text_member_nomination: "%{user} проходит выборы, чтобы стать Участником %{enterprise}. В роли Участника, все его голоса будут носить обязательный характер. В дополнение ко всему, у него будет возможность назначать Помощников Участниками и принимать участие в выборах членов Ядра Команды. Голоса этого ходатайства не будут видны для %{user}, но они смогут увидеть это обсуждение."
+  text_core_member_nomination: "%{user} проходит выборы, чтобы стать членом Ядра Команды %{enterprise}. В роли члена Ядра Команды, его голоса по всем вопросам будут носить обязательный характер, включая выборы новых Участников. Голоса этого ходатайства не будут видны для %{user}, но они смогут увидеть это обсуждение."
+  text_core_member_removal: "Это ходатайство о том, чтобы исключить %{user} из состава членов Ядра Команды %{enterprise}. Если ходатайство будет удовлетворено, то %{user} станут Участниками. В роли Участников, их голоса так же будут носить обязательный характер. Их акции и кредиты будут оставлены без изменений. Голоса этого ходатайства не будут видны для %{user}, но они смогут увидеть это обсуждение."
+  text_member_removal: "Это ходатайство о том, чтобы исключить %{user} из состава Участников %{enterprise}. Если ходатайство будет удовлетворено, то %{user} станут Помощниками. В роли Помощников, их голоса будут носить необязательный характер. Их акции и кредиты будут оставлены без изменений. Голоса этого ходатайства не будут видны для %{user}, но они смогут увидеть это обсуждение."
+  text_issue_edit_footer: "Вы можете прокомментировать эту проблему по email, просто ответив на это письмо."
+  text_message_edit_footer: "Вы можете ответить на это сообщение по email, просто ответив на это письмо."
+  text_invitation_note_default: "Эй!\nМы использовали bettermeans.com, чтобы работать над %{project}.\n\nBettermeans позволяет нам работать вместе на равных, является прозрачной, демократической средой для достижения общих целей.\n\nПожалуйста, примите это приглашение, чтобы присоединиться к нам.\n\nС наилучшими пожеланиями,\n%{user}."
+  text_you_are_invited: "Вас пригласили принять участие."
+  text_generic_invitation: "Эта ссылка позволяет любому человеку принять участие в роли <strong>Помощника</strong> в этом потоке заданий."
+  text_generic_invitation_2: "Так же вы можете воспользоваться формой ниже, чтобы  выслать персональные приглашения друзьям на разные роли."
+  text_generic_invitation_long: "Ссылка ниже позволяет кому угодно стать Помощником в этом потоке заданий.<br /><br /> Она может быть использована неограниченное число раз. Она будет являться действительной, пока вы не решите изменить её.<br /> Отсылайте её по email или размещайте везде, где люди смогут пройти по ней и присоединиться к работе над вашим потоком заданий."
+  text_personal_invitation: "Используйте форму ниже, чтобы отсылать персонализированные приглашения потенциальным членам команды.<br /><br /> Это наилучший путь, т.к. люди чаще откликаются на персональные обращения и им не нужно будет подтверждать свой email адрес.<br /><br /> Так же это является и наиболее безопасным путем, т.к. приглашение является одноразовым и становится недействительным после определённого промежутка времени."
+  text_active_team_explanation: "<strong>Активные участники (для этого потока заданий)</strong><br /><br /> Активные участники - это люди, которые были вовлечены в этот поток заданий в течении прошедших 2х недель.<br /><br /> Роли Помощников, Участников, Членов Ядра Команды заданы в родительском(корневом) потоке заданий и применяются ко всем под-потокам.<br /><br /> Например: если кто-то является членом Ядра Команды в каком-либо потоке заданий, тогда он будет иметь ту же роль и во всех под-потоках. При этом, пользователь может проявлять активность в одних под-потоках и быть совсем неактивным в других."
+  text_email_updated: "Адрес электронной почты успешно обновлен"
+  text_usage_over: "Вы превысили использование текущего тарифного плана.<br /> Пожалуйста, улучшите ваш тарифный план так скоро, насколько это возможно."
+  text_trial_expired: "Пробный период истек.<br /> Пожалуйста, обновите вашу платежную информацию, чтобы перейти на другой тарифный план."
+  text_role_invitation_description_Administrator: "У Администраторов больше всего власти.<br /><br /> Администратор может обходить правила управления и напрямую добавлять/удалять участников и потоки заданий, все их голоса носят обязательный характер.<br /><br /> Используйте эту роль очень бережно для настройки структур. Затем перейдите к использованию других ролей для ежедневного сотрудничества."
+  text_role_invitation_description_Contributor: "Это является первым этапом участия в Открытом Предприятии.<br /><br /> Голоса Помощников по всем вопросам будут видны всем и носят необязательный характер.<br /><br /> Это означает, что голос Помощников присутствует, но их голосование напрямую не влияет на предмет голосования, т.е. их голос не имеет веса.<br /><br /> Помощник может зарабатывать кредиты и оказывать помощь в работе потока заданий."
+  text_role_invitation_description_Member: "Участники - это \"сердце\" Открытого Предприятия.<br /><br /> Все голоса Участников носят обязательный характер.<br /><br /> В дополнение Участники могут назначать Помощников на роли Участников, а так же могут голосовать на выборах членов Ядра Команды.<br /><br /> Приглашайте на эту роль только тех людей, с которыми у вас совпадают взгляды и ценности."
+  text_role_invitation_description_Core_Team: "У члена Ядра Команды голоса носят обязательный характер, они очень близки к Участникам.<br /><br /> Основным различием является то, что член Ядра Команды может участвовать в выборах новых Участников.<br /><br /> Проще говоря, они являются хранителями принципов организации и удерживают позиции для членства.<br /><br /> Члены Ядра Команды отчитываются перед всеми участниками с другими ролями и их задачей является представлять их голос."
+  text_role_invitation_description_Board: "В роли Члена Правления все ваши голоса носят обязательный характер и у вас такие же привилегии, как и у членов Ядра Команды.<br /><br /> Эта роль всего лишь указывает на меньшую обязанность быть вовлеченным в ежедневную работу."
+  text_project_locked: "Этот поток временно заблокирован за неуплату."
   default_role_administrator: Администратор
-  default_role_citizen: 'Основной участник '
+  default_role_citizen: Член Ядра Команды
   default_role_contributor: Участник/помощник
   default_tracker_task: Задание
   default_tracker_subtask: Подзадача
@@ -1304,47 +1360,51 @@ ru:
   enumeration_doc_categories: Категории документов
   enumeration_activities: Действия (учет времени)
   enumeration_system_activity: Активность системы
+  help_reset_link: Сброс этой ссылки меняет код приглашения. Это отключает предыдущую ссылку(и) и препятствует кому-либо зарегистрированному ее использовать. <br /> <br /> Это действие не влияет на персональные приглашения,высланные вами.
   help_how_do_i_join_a_team: Как мне присоединиться к этой команде?
   help_how_do_i_join_a_team_title: Присоединяемся к команде
-  help_how_do_i_join_a_team_description: "There are two levels of team membership: Contributor, and Core Team. <br /><br /><strong>Becoming a contributor</strong><br />Before getting on a core team you must first contribute to the team. </br>You become a contributor for a workstream by requesting and getting ownership of an existing tasks. <br /> Another way to become a contributor, is to be a core team member of any sub workstream.<br /><br /><strong>Become a core team member</strong><br />Once you are a contributor, you may request (or be invited) to join the Core Team by an existing Core Team member. <br /><br /> You can also join a workstream's core team directly if your a core team member of its parent workstream."
-  help_core_points_description: "Core points are a way of team members endorsing each other, and signaling confidence in each other's abilities and core values. <br /><br /> When someone on a core team feels that the team is better off with someone on it they can give that person a core point. It also works the other way: If someone feels that someone is hurting the team, they can give them a negative-core point. <br /><br />When a member's total core points exceeds zero, they're invited to be on the core team. If their total falls below zero, they revert back to contributor status. <br /><br />All voting is confidential to minimize internal politics as much as possible.<br />Total core points is calculated by adding up the votes of existing core team members of a workstream and its parent."
+  help_how_do_i_join_a_team_description: "Существует 2 уровня членства в команде: Помощник и член Ядра Команды.<br /><br /> <strong>Стать Помощником</strong><br /> Перед тем, как стать членом Ядра Команды, сначала нужно сделать свой вклад в работу команды.<br /> Вы становитесь Помощником для потока заданий с помощью запроса и получения права владения существующими задачами.<br /> Другой способ стать Помощником - быть членом Ядра Команды в любом дочернем потоке задач.<br /><br /> <strong>Стать членом Ядра Команды</strong><bt /> Как только вы стали Помощником, вы можете сделать запрос (или получить приглашение), чтобы присоединиться к членам Ядра Команды.<br /><br /> Так же вы можете присоединиться к Ядру Команды потока задач напрямую, если вы являетесь членом Ядра Команды родительского потока задач."
+  help_core_points_title: Очки Ядра
+  help_core_points_description: "Очки Ядра - это способ одобрения и признания друг друга для членов команды. Так же, Очки Ядра сигнализируют об уверенности в навыках и ценностях друг друга.<br /><br /> Когда кто-то из членов Ядра Команды чувствует, что команда становится лучше с кем-то, они могут дать этому человеку Очки Ядра. Это работает и в противоположной ситуации: если кто-то чувствует, что кто-то приносит вред команде, они могут отнять у этого человека Очки Ядра.<br /><br /> Когда Очки Ядра члена команды больше нуля, они приглашаются стать членами Ядра Команды. Если этот показатель падает ниже нуля, они опять становятся Помощниками.<br /><br /> Все голосования проводятся тайно для того, чтобы свести к минимуму внутреполитический фактор.<br /> Показатель Очков Ядра складывается из голосов существующих членов Ядра Команды потока задач и родительских потоков задач."
+  help_dpp: Объекты в рабочем потоке оцениваются в кредитах.<br/><br/>Каждый рабочий поток имеет разный размер возможной оценки. Размер изменяется в зависимости от сложности/детализации типа работы над тем или иным рабочим потоком.
+  help_select_scale: Объекты в рабочем потоке оцениваются в баллах.<br/><br/>Каждый рабочий поток может иметь различные размеры оплаты.<br/><br/>Выберите размер, который лучше всего покрывает размеры рабочего объекта. Этот показатель меняется в зависимости от характера работы для конкретного рабочего потока.
   help_assessment_accuracy: "Shows the accuracy with which this user was able to assess their contribution, and their team's contribution in retrospectives. <br /><br />Assessment accuracy is averaged over time. More weight is given to the more recent retrospectives, and more weight is given to retrospectives with more credits.<br /><br />For example: A postive self assessment accuracy score of +7 means the user tends to overrate themselves by 7 percentage points on average. <br /><br /> An 'other' assessment score of &plusmn 16 means the user tends have a total bias of plus or minus 16 percentage points when rating their peers. <br /><br /> The closer both these numbers are to zero, the more accurate the user is in their assessment of self and other. "
-  help_your_assessment: "<strong>Your assessment</strong><br />Your view of how much you and your team mates contributed to the execution of the items completed in this retrospective overall. What percentage of the work did you accomplish, compared to your team mates.During the retrospective, every team member is asked to assess everyone's contribution. Once the retrospective is complete, the assessments will be averaged out and displayed here."
-  help_team_assessment: "<strong>Team assessment</strong><br />This is the average percentage contribution the work item as assessed by your peers. Each person's self-assessment is taken out of the average and only their team mates' assessment counts towards this number."
-  help_final_assessment: "All the Team averages are used to be proportionally distributed over 100%"
-  help_confidence: "<strong>Assessment confidence</strong><br />Adjust this slider depending on how confident you are of your assessment of yourself and your peer.<br />Lower confidence, means your ratings will be given less weight, and your self assessment index will be less impact by team-self discrepancies."
-  help_accuracy: "<strong>Accuracy and Bias</strong><br />This column shows the accuracy with which users who participated in this retrospective where able to assess themselves and their peers."
-  help_item_url: "<strong>Постоянная ссылка объекта</strong><br />Вы можете скопировать эту ссылку и использовать ее, чтобы напрямую переходить к объекту"
+  help_your_assessment: "<strong>Ваша оценка</strong><br /> Ваш взгляд на то, какой вклад в выполнение внесли лично вы и ваши коллеги в данной ретроспективе. Каков процент выполненной вами работы по отношению к работе, выполненной коллегами. В течении ретроспективы, каждому участнику команды будет предложено оценить вклад других участников. Как только ретроспектива будет окончена, оценки будут усреднены и отображены здесь."
+  help_team_assessment: "<strong>Оценка команды</strong><br /> Это усреднённое процентное выражение вклада в работу по оценке ваших коллег. Самооценка каждого человека не учитывается при усреднении, в этом числе учтены лишь оценки коллег."
+  help_final_assessment: "Средние показатели всей команды распределяются пропорционально по 100%"
+  help_confidence: "<strong>Уверенность оценки</strong><br /> Передвиньте слайдер таким образом, чтобы значение отражало степень вашей уверенности в самооценке и оценке ваших коллег.<br /> Меньшее значение уверенности будет означать, что ваши оценки будут иметь меньший вес. Так же это подразумевает меньшее влияние расхождения между самооценкой и оценкой команды."
+  help_accuracy: "<strong>Точность и смещение</strong><br /> Эта колонка показывает точность пользователей, участвовавших в данной ретроспективе, в которой у них была возможность оценить самих себя и своих коллег."
+  help_item_url: "<strong>Постоянная ссылка</strong><br/> Вы можете скопировать эту ссылку, чтобы использовать для прямого перехода на эту страницу."
   help_volunteer: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br /><br /> That's not to say good karma won't come your way!<br /><br />This is our small contribution to the volunteer world. Please report any abuse to abuse@bettermeans.com"
-  help_volunteer_credits: "All work done on this workstream is on a volunteer basis. It will not be compensated for in money, barter, or any other monetary means.<br /><br /> Credits are being used here to track user contribution, and show who did what for this workstream over time. These credits are not a promise for any rewards, or payment"
+  help_volunteer_credits: "Вся работа, выполненная в этом рабочем потоке, основывается на волонтерском принципе. Она не будет оплачена деньгами, бартером или каким-либо другим монетарным способом.<br /><br /> Кредиты используются здесь, чтобы отследить вклад пользователя, и показать, кто что делал для этого рабочего потока в течение всего времени. Эти кредиты - это не обещание каких-либо вознаграждений или оплаты."
   help_no_my_workstreams: "Вы еще не создали ни одного потока задач."
   help_no_workstreams_i_belong_to: "Вы еще не являетесь членом какого-либо потока задач, который бы начали не вы."
   help_no_workstreams_active: "В последнее время Вы не принимали участия в потоках задач."
-  help_no_workstreams: "You haven't yet gotten involved in any workstreams.<br /> Create or join something to get started..."
+  help_no_workstreams: "Вы еще не вовлечены ни в один поток задач.<br /> Создайте свой поток задач или присоединитесь к какому-либо, чтобы начать..."
   help_no_workstreams_archived: "У вас нет заархивированных потоков задач."
   help_activities_i_belong_to: "Этот поток активности показывает всю вашу активность в потоках задач, которыми вы владеете и/или к которым принадлежите."
-  help_this_workstream_is_private: "This is private workstream. When a workstream is made private, all binding members (i.e. members, core team, board, and admins) are given permanent clearance to it. Also, all active contributors to the workstream are given clearance.<br /><br /> If you want to manage users' clearance to a private workstream, use the members tab under settings."
-  help_issue_tracking: "This is the essential element of the platform in that it allows you to track all work items using the dashboard and item views. However one situation in which you might turn this off is if you are creating a root workstream for your organization and you are planning on creating lots of subworkstreams where all the work and item tracking would take place. This would leave the other elements such as discussion and wiki but without the dashboard or item tracking."
-  help_news: "This module allows you to check out or report on the latest news. News is used to broadcast events to your team. For example winning a bid, or a new product release."
+  help_this_workstream_is_private: "Это частный поток задач. Когда поток задач сделан частным, всем участникам (т.е. участники, ядро команды, доска и администраторы) дается  постоянное разрешение на участие в нем. Также разрешение дается всем активным вкладчикам. <br /><br /> Если вы хотите управлять допуском участников к частному потоку задач, используйте панель управления участниками под настройками."
+  help_issue_tracking: "Это простой элемент платформы, который позволяет вам отследить все рабочие элементы через Обзорную панель и просмотр элементов. Однако, есть одна ситуация, когда вы могли бы отключить этот элемент. Когда вы создаете корневой поток задач для вашей организации и планируете создавать множество дочерних потоков, где будет происходить отслеживание всех работ. При этом останутся другие элементы, такие как обсуждения и wiki, но без обзорной панели и отслеживания рабочих элементов."
+  help_news: "Этот модуль позволяет вам проверять или сообщать о последних новостях. Новости используются для трансляции событий вашей команде. Например, получение награды или выпуск новой продукции."
   help_documents: "Этот модуль позволяет вам загрузить документ, чтобы поделиться с вашей командой."
   help_files: "Этот модуль позволяет вам загрузить файлы, чтобы поделиться с вашей командой."
-  help_wiki: "Wikis are great tools for collaboration and therefore we provide the option for each workstream to have a wiki. Wikis are essentially online documents and everyone that has access can not only read but also edit and improve online."
-  help_boards: "This module creates a discussion board for your workstream and like so many discussion boards before it, you can talk about stuff here. If someone has an idea that they are not yet ready to propose as a motion or work item and want to talk to folks about it, they can start a new topic. You might use the discussion board to discuss general strategy, new possible workstreams, or anything that comes to mind."
+  help_wiki: "Wikis  - это отличный инструмент для совместной работы и поэтому мы предоставляем каждому рабочему потоку возможность иметь wiki. Wikis  - это, по существу, онлайн документы и каждый, у кого есть доступ, может не только прочитать, но также и отредактировать и улучшить их онлайн."
+  help_boards: "Этот модуль создает доску для обсуждений для вашего потока задач, где вы сможете обсуждать различные вещи. Если у кого-то есть идея, которую еще никто не предложил как ходатайство или рабочий элемент, и он хочет обсудить её с другими, то он может начать новую тему. Вы так же могли бы использовать доску обсуждений для обсуждения основной стратегии, новых возможных потоков задач или всего, что приходит на ум."
   help_motions: "Motions are used to make large important decisions that are project-wide. This is a democratic mechanism to make decisions together. There are different types of motions, to learn more about motions <a href='http://help.bettermeans.com/motions' target='blank'>click here</a>."
-  help_credits: "Credits are a more open and democratic way of valuing work and awarding compensation. We are really excited about offering this as an option and we strongly encourage you to <a href='http://help.bettermeans.com/faq/credits' target='blank'>learn more about credits</a>."
-  help_revision_notes: "Optional: Add notes to this revision of the wiki. These notes will appear in the version history of the wiki"
+  help_credits: "Кредиты - это более открытый и демократичный способ оценки работы и выдачи компенсации. Мы действительно очень рады предложить вам их в качестве опции и настоятельно рекомендуем <a href='http://help.bettermeans.com/faq/credits' target='blank'> узнать больше о кредитах</a>."
+  help_revision_notes: "Дополнительно: Добавление примечаний к этой версии wiki. Эти заметки будут показываться в истории версии wiki"
   help_mentions: "Mentions happen when someone mentions you by using the '@' symbol before your username in any comments or descriptions. <br /><br />For example if somebody adds this comment to an issue:<br /><strong>'I think @%{login} should take a look at this'</strong><br />it would appear in your mentions"
   help_section_project_show: "<strong>Welcome to the Overview Page.</strong>  From here you can get working and invite others to join in the fun. Take a look around <br /> If you want to start a new workstream and are not sure what to do next or want tips for getting started <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br /> If you are joining an existing workstream and you are unsure what you are looking at, we are here to help, <a href= 'http://help.bettermeans.com/quickstart' target='blank'>click here.</a><br />We would recommend following the links above and/or taking <a href= 'http://help.bettermeans.com' target='blank'> the tour</a> before you begin."
-  help_section_project_dashboard: "Welcome to your dashboard!|<strong>This is where the magic happens.</strong> Here you get a full view of all the work within a workstream. Each workstream and subworkstream has its own dashboard. <br /><br /><strong>Get started by adding a new item</strong> (click on the New Item Link at the top of the New column).<br /><br />You can also <strong>offer new ideas/requests, comment, agree and disagree with ideas, prioritize, and estimate</strong>.<br /><br />Click on the little key next to the New Item button for a little cheat sheet that shows the meaning of all the icons you see in the Dashboard. As you get rolling with your work, explore <strong>the filters and the search functions on the upper right corner.</strong><br /><br /> To learn more about voting and how it works in the dashboard <a href= 'http://help.bettermeans.com/dashboard' target='blank'> checkout our help section</a>, or this 9 minute tour of the site.<br /><br /><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br /><br /><br />"
-  help_section_project_wiki: "<strong>Wikis are great tools for collaboration and therefore each workstream has a wiki.</strong> You can start building your wiki here and you can create multiple pages by clicking <a href='wiki'>Start Page</a> (in blue to the right). Wikis are essentially online documents and everyone that has access can not only read but also edit and contribute to online. <br />Note the different action buttons (on the right in grey), these will be helpful when working on the Wiki."
-  help_section_project_news: "<strong>Check out or report on the latest news here.</strong> News is used to broadcast events to your team. For example winning a bid, or a new product release."
-  help_section_project_discussion: "Like so many discussion boards before it, you can talk about stuff here. If you have an idea that you are not yet ready to propose as a motion or work item and want to talk to folks about it, <strong>start a new topic.</strong> You might use the discussion board to discuss general strategy, new possible workstream, new target audience, or anything that comes to mind."
-  help_section_project_activity: "<strong>Stay current on what's hot in your work using the activity stream.</strong> The activity stream is a very useful way of seeing what is the latest activity in your workstreams and subworkstreams. Any updates or comments or new items or status changes to items basically when anything changes in your workstream, it will appear here. For more information, <a href= 'http://help.bettermeans.com/activity_stream' target='blank'> click here. </a>"
+  help_section_project_dashboard: "Добро пожаловать в вашу обзорную панель!|<strong>Это то место, где творится магия!</strong> Здесь вы получите полное представление о работе внутри потока задач. У каждого потока задач и его дочерних потоков есть свои обзорные панели.<br /><br /><strong>Начните с добавления чего-нибудь нового</strong> (нажмите на кнопку \"Новый элемент\" в начале столбца \"Новое\").<br /><br />Так же вы можете <strong>предлагать идеи, комментировать, соглашаться или быть против идей, расставлять приоритеты и оценивать</strong>.<br /><br />Нажмите на маленький ключик рядом с кнопкой \"Новый элемент\", чтобы посмотреть шпаргалку, которая подскажет вам значения всех иконок, которые вы видите на Обзорной панели. Пока вы вливаетесь в работу, вы можете познакомиться с <strong>фильтрами и поисковыми функциями в правом верхнем углу экрана.</strong><br /><br />Чтобы узнать больше о голосованиях и о том, как работает Обзорная панель <a href= 'http://help.bettermeans.com/dashboard' target='blank'>взгляните на этот раздел помощи</a>, или посмотрите этот 9-минутный тур по нашему сайту.<br /><br /><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=..'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=..' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br /><br /><br />"
+  help_section_project_wiki: "<strong>Wikis - это отличный инструмент для совместной работы и поэтому в каждом рабочем потоке есть wiki.</strong> Вы можете начать конструировать свою собственную wiki здесь, а также вы можете создать различные страницы, нажав <a href='wiki'>Стартовая страница</a> (в синем поле справа). Wikis - это, по существу, онлайн документы и каждый, у кого есть доступ, может не только прочитать, но также и отредактировать и поспособствовать развитию онлайн. <br />Взгляните на различные кнопки действий (справа в сером поле), это будет полезно при работе с Wiki."
+  help_section_project_news: "<strong>Проверяйте или сообщайте о последних новостях здесь.</strong> Новости используются для трансляции событий в вашей команде. Например, получение награды или выпуск новой продукции."
+  help_section_project_discussion: "Как и на многих других досках для обсуждений, вы можете обсуждать здесь различные вещи. Если у вас есть идея, которую вы еще не готовы предложить в качестве ходатайства или рабочего элемента, и хотите обсудить её с другими людьми, то <strong>создайте новую тему.</strong> Вы так же могли бы использовать доску обсуждений для обсуждения основной стратегии, новых возможных потоков задач, новой аудитории или всего, что приходит на ум."
+  help_section_project_activity: "<strong>Будьте в курсе \"горячих\" моментов вашей работы, используя ленту активности.</strong> Лента активности - это очень полезный инструмент для того, чтобы отслеживать последнюю активность в ваших потоках задач и их дочерних потоках. Все обновления, комментарии, новые элементы, изменения статусов элементов и все, что касается изменений в потоке задач, будет отображено здесь. Если вы хотите узнать больше, <a href= 'http://help.bettermeans.com/activity_stream' target='blank'>нажмите здесь</a>."
   help_section_project_team: "<strong>How great is your team!</strong> Use this page to track the roles people are playing for this workstream. Remember, these roles apply to all sub workstreams as well.<br /><br />You can also use the links on the right to invite more team members. <a href='http://help.bettermeans.com/invitations' target='blank'> Learn more about invitations here</a>.<br /><br /> There are no job titles in an Open Enterprise, but there are levels of engagement that each come with different voting privileges, <a href= 'http://help.bettermeans.com/membership' target='blank'> learn more about that here.</a><br /><br /> "
   help_section_project_credits: "<strong>This page tracks all the credits for your project.</strong> Credits are a way of tracking relative contribution. They are an indicator of what peers have given each other. <br />Credits can be used in many ways depending on how your organization or project runs. They can represent actual money in which case this is an accounts payable page, or they could represent relative contribution in which case this is a contribution tracking page. To learn more about how credits can work, <a href= 'http://help.bettermeans.com/credits' target='blank'> click here.</a>"
-  help_section_my_account: "<strong>This is your account page.</strong> Unlike your public profile this page is private to you.<br /><br /> Here you can do important things like change your password, email settings and other preferences. You can also see your current usage levels and if needed you can change your subscription plan with BetterMeans.<br /><br /> If you have questions about your account, please email <a href='mailto:billing@bettermeans.com'>billing@bettermeans.com</a>"
+  help_section_my_account: "<strong>Это страница вашего аккаунта.</strong> В отличие от вашего общего профиля эта страница видна только вам.<br /><br /> Здесь вы можете делать такие важные вещи, как менять пароль, настройки электронной почты и другие предпочтения.  Вы также можете просмотреть текущие уровни использования и, при необходимости вы можете изменить свой тарифный план с BetterMeans. <br /><br /> Если у вас есть вопросы по поводу вашего аккаунта, свяжитесь с нами:  <a href='mailto:billing@bettermeans.com'>billing@bettermeans.com</a>"
   help_section_welcome_index: "Welcome on board!|<strong>Get started by creating your own workstream, or browsing around and contributing to existing ones</strong><br /><br />We highly recommend this overview of how things work on bettermeans:<br /><br /><object width='560' height='340'><param name='movie' value='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0'></param><param name='allowFullScreen' value='true'></param><param name='allowscriptaccess' value='always'></param><embed src='http://www.youtube.com/v/0wJAf229YUs?fs=1&amp;hl=en_US&amp;rel=0' type='application/x-shockwave-flash' allowscriptaccess='always' allowfullscreen='true' width='560' height='340'></embed></object><br /><br />You can also <a href='http://help.bettermeans.com' target='blank'>visit our help site for a more info</a> and answers to frequently asked questions.<br /><br />Please don't forget to send as all the feedback you have!<br /><br /><br />"
-  help_section_project_map: "This is the map"
+  help_section_project_map: "Это карта"
   help_section_project_settings: "Use settings sparingly. If you're admin and core team, make sure to use core team tools when possible in order for things to stay democratic."
   help_section_motion_new: "Motions are used to make large important decisions that are project-wide. Notice the dropdown menu with the different types of motions. This is a democratic mechanism to make decisions together. To learn more about motions <a href= 'http://help.bettermeans.com/motions' >click here</a>"
   help_section_project_new: >-
@@ -1366,6 +1426,6 @@ ru:
     <a href= 'http://help.bettermeans.com/support' target='blank'> get in touch</a><br
     /><br />
   help_section_invitation_new: "Use invitations to enroll team members to join your workstream.<br /><br /> When you send someone an invitation, they will be prompted to create a bettermeans account (if they don't have one already), and <strong>automatically added as a contributor</strong> to your workstream.<br /><br />You can only invite people to a root workstream. Their membership in a workstream applies to all sub work streams as well. In other words,<strong> a person can't belong to a sub workstream, and not belong to its parent workstream.</strong><br /><br /> <a href='http://help.bettermeans.com/invitations' target='blank'>Learn more in our help section.</a><br /><br /><br />"
-  help_section_browse_workstreams: "<strong>Welcome to the BetterMeans Community.</strong> Unlike your home page, this page is the overview of the whole BetterMeans platform. You can look around at other public workstreams and comment and join other people's projects. <a href='http://help.bettermeans.com/' target='blank'>Learn more about the BetterMeans platform</a>"
-  help_section_retrospective_show: "<strong>This is a retrospective.</strong> In a retrospective compensation is awarded by your peers and your own self-assessment. This is an opportunity to be fairly compensated for your contribution. <br />You want to look at all of the completed items and then give your best assessment of what percentage you think each person contributed. You also have a chance to say how sure you are using the slider at the bottom. For more information about retrospectives, <a href='http://help.bettermeans.com/retrospectives' target='blank'>click here.</a>"
+  help_section_browse_workstreams: "<strong>Добро пожаловать в сообщество BetterMeans.</strong> В отличие от вашей домашней страницы эта страница является обзорной для всей платформы BetterMeans.  <a href='http://help.bettermeans.com/' target='blank'>Узнать больше о платформе BetterMeans</a>"
+  help_section_retrospective_show: "<strong>Это ретроспектива.</strong> В ретроспективе присуждается компенсация в соответствии с вашей самооценкой и оценкой ваших коллег. Это отличная возможность получать награду за ваш вклад в работу.<br /> Просмотрите все выполненные рабочие элементы и дайте процентную оценку того, сколько по-вашему мнению каждый участник выполнил работы в процентах. Также у вас есть шанс сказать, насколько вы уверены, используя слайдер снизу. Чтобы узнать больше о ретроспективах, <a href='http://help.bettermeans.com/retrospectives' target='blank'>нажмите здесь.</a>"
   help_section_free: Сохраняйте свою работу открытой и инклюзивной, и мы не возьмем с вас ни копейки, не важно, насколько вы разрастетесь.
