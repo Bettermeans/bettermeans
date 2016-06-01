@@ -65,6 +65,9 @@ rvm use 1.8.7
 # set the rubygems version:
 rvm rubygems 1.8.25 --force
 
+# need an older version of bundler for now:
+gem install -v 1.10.6 bundler --no-rdoc --no-ri
+
 # install postgres:
 # mac
 brew install postgres
