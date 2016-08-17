@@ -11,9 +11,11 @@ development:
   database: bettermeans_development
   host: localhost
   min_messages: WARNING
+  schema_search_path: public
 
-test: &TEST
+test:
   adapter: postgresql
   database: bettermeans_test
   host: localhost
   min_messages: WARNING
+  schema_search_path: public
