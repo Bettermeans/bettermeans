@@ -1,4 +1,4 @@
-require 'integration/integration_helper'
+# require 'integration/integration_helper'
 
 feature 'User login', :js => true do
 

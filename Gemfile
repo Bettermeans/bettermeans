@@ -23,8 +23,8 @@ gem 'rubytree', '0.7.0'
 gem 'will_paginate', '2.3.15'
 
 group :test do
-  gem 'capybara', '~> 1.1.4'
-  gem 'capybara-webkit'
+  # gem 'capybara', '~> 1.1.4'
+  # gem 'capybara-webkit'
   gem 'database_cleaner'
   gem 'fakeweb'
   gem 'launchy'

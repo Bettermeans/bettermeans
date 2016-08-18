@@ -29,7 +29,7 @@ Spork.prefork do
 
     config.after(:each) do
       Setting.instance_variable_get(:@cached_settings).clear
-      Capybara.reset! if integration?
+      # Capybara.reset! if integration?
       DatabaseCleaner.clean
       DatabaseCleaner.strategy = :transaction
       load_seeds if integration?

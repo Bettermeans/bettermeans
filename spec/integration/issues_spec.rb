@@ -1,4 +1,4 @@
-require 'integration/integration_helper'
+# require 'integration/integration_helper'
 
 feature 'Issues', :js => true do
 
