@@ -48,7 +48,6 @@ class Attachment < ActiveRecord::Base
     end
   end
 
-
   def file=(incoming_file) # spec_me cover_me heckle_me
     unless incoming_file.nil?
       @temp_file = incoming_file
@@ -101,11 +100,11 @@ class Attachment < ActiveRecord::Base
     increment!(:downloads)
   end
 
-  def project # spec_me cover_me heckle_me
+  def project # heckle_me
     container.project
   end
 
-  def visible?(user=User.current) # spec_me cover_me heckle_me
+  def visible?(user=User.current) # heckle_me
     container.attachments_visible?(user)
   end
 
