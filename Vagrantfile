@@ -1,7 +1,8 @@
 $script = <<SCRIPT
-yum install -y git ruby23* rubygems23*
-alternatives --set ruby /usr/bin/ruby2.3 
+yum install -y git ruby19* rubygems19*
+alternatives --set ruby /usr/bin/ruby1.9
 
+yum install -y autoconf automake libtool
 yum install -y ImageMagick-devel mysql-devel postgresql-devel sqlite-devel
 gem install bundler
 
