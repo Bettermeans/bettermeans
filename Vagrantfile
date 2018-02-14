@@ -6,7 +6,19 @@ yum install -y autoconf automake libtool
 yum install -y ImageMagick-devel mysql-devel postgresql-devel sqlite-devel
 yum install -y postgresql postgresql-server
 
-sudo gem update --system
+sudo service postgresql initdb
+sudo service postgresql start
+
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'tree';"
+
+sudo echo "" > /var/lib/pgsql9/data/pg_hba.conf
+sudo echo "local   all             all                                     md5" >> /var/lib/pgsql9/data/pg_hba.conf
+sudo echo "host    all             all             127.0.0.1/32            md5" >> /var/lib/pgsql9/data/pg_hba.conf
+sudo echo "host    all             all             ::1/128                 md5" >> /var/lib/pgsql9/data/pg_hba.conf
+
+sudo service postgresql restart
+
+sudo gem update --system 1.8.30
 gem install bundler
 gem install ZenTest
 

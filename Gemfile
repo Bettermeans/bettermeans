@@ -1,8 +1,8 @@
 source :rubygems
 
-gem 'rake', '0.9.0'
+gem 'rake', "~> 0.9.0"
 
-gem 'rails', '2.3.14'
+gem 'rails', '2.3.17'
 
 gem 'rubytree', '0.7.0'
 gem 'rpx_now', '0.6.24'
@@ -16,7 +16,7 @@ gem 'SystemTimer', '1.2.2', :require => 'system_timer', :platforms => :ruby_18
 gem 'rack-timeout', '0.0.1'
 gem 'will_paginate', '2.3.15'
 gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
-gem 'rdoc', '5.1.0'
+gem 'rdoc', '4.3.0'
 
 group :test do
   gem 'shoulda'
