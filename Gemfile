@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'rake', "~> 0.9.0"
+gem 'rake', "~> 0.9.1"
 
 gem 'rails', '2.3.17'
 
@@ -23,8 +23,8 @@ group :test do
   gem 'nokogiri', '1.6.8.1'
   gem 'rack-test', '0.7.0'
   gem 'webrat', '0.7.3'
-  gem 'rspec', '1.3.2'
-  gem 'rspec-rails', '1.3.4'
+  gem 'rspec', '3.4.0'
+  gem 'rspec-rails'
   gem 'pickle', "0.3.4"
   gem 'factory_girl', "1.3.3"
   gem 'object_daddy', "0.4.3"
@@ -37,13 +37,11 @@ group :development do
   gem 'mysql2', '< 0.3'
   gem 'listen', '2.10.1'
   gem 'guard-rspec'
-  gem 'spork', '0.8.5'
-  gem 'guard-spork'
-  gem 'ruby2ruby', '1.2.2'
-  gem 'heckle'
+#  gem 'ruby2ruby', '1.2.2'
+#  gem 'heckle'
 end
 
-group :development, :test do
+#group :development, :test do
   gem 'test-unit', '1.2.3'
-  gem 'steak'
-end
+#  gem 'steak'
+#end
