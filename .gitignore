@@ -31,3 +31,4 @@ serverlog
 .redcar/
 .bundle
 /bin
+.vagrant
