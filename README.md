@@ -12,9 +12,7 @@ Instructions for getting started are below:
 
 * Bring up a development VM - `vagrant up`
 
-* Make sure all dependencies are installed - `cd /vagrant && bundle install`
-
-* Run rake `db:create:all` and `rake db:schema:load`
+* Start the rails server - `cd /vagrant && ./scripts/server -d`
 
 That's it. Now you're ready to change the world. Here's to making a dent in things together!
 
