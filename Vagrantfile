@@ -1,4 +1,4 @@
-$script = <<SCRIPT
+$system = <<SCRIPT
 yum install -y git ruby19* rubygems19*
 alternatives --set ruby /usr/bin/ruby1.9
 
@@ -21,16 +21,24 @@ sudo service postgresql restart
 sudo gem update --system 1.8.30
 gem install bundler
 gem install ZenTest
+SCRIPT
 
+$app = <<SCRIPT
 cd /vagrant/
+
 /usr/local/bin/bundle update
 /usr/local/bin/bundle install
+
+~/bin/rake db:create:all
+~/bin/rake db:schema:load
+~/bin/rake db:migrate
 SCRIPT
 
 Vagrant.configure("2") do |config|
   config.vm.box         = "mvbcoding/awslinux"
   config.ssh.insert_key = false
-  config.vm.provision "shell", inline: $script
+  config.vm.provision "shell", inline: $system
+  config.vm.provision "shell", inline: $app, privileged: false
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
