@@ -3,52 +3,24 @@ BetterMeans
 
 BetterMeans is giving birth to a new kind of company. An Open Enterprise.
 
-More details can be found at http://bettermeans.com and here http://bettermeans.org
-
-
 Getting started
 ---------------
 
-* `git clone git@github.com:Bettermeans/bettermeans.git`
+Instructions for getting started are below:
 
-* bundle install
+* git clone git@github.com:akio-outori/bettermeans.git
 
-* Rename `database.yml.example` to `database.yml`
+* Bring up a development VM - `vagrant up`
 
-* Run rake `db:create:all` and `rake db:schema:load`
+* Start the rails server - `cd /vagrant && ./scripts/server -d`
 
 That's it. Now you're ready to change the world. Here's to making a dent in things together!
-
 
 Dev notes
 ---------
 
-Platform workstream: http://bettermeans.com/projects/2/dashboard
-
-IRC: #bettermeans irc.feenode.net
-
-mailinglist: bettermeans@librelist.org (or build in workstream forum)
-
-
-Testing
--------
-
-capybara-webkit depends on a WebKit implementation from Qt as explained in https://github.com/thoughtbot/capybara-webkit/wiki/Installing-QT
-
-
-Translating
------------
-
-You can find language specific translation groups at: https://www.transifex.net/projects/p/bettermeans
-
-
-Known issues
-------------
-
-Attachments doesn't work in dev environment
-
-Logging in via the janrain plugin (e.g. google, twitter...etc) won't work in dev environment (if you need to work with this, drop me a message, there's an involved workaround)
-
+Bettermeans is currently in the process of being updated to a modern version of Ruby.  See the issue board for details on getting started or contact the maintainers via the WNC Tech slack or
+email `jeffhallyburton@gmail.com` to get started.
 
 License and legalese
 --------------------
