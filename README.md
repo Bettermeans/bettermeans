@@ -8,11 +8,29 @@ Getting started
 
 Instructions for getting started are below:
 
-* git clone git@github.com:akio-outori/bettermeans.git
+#### Setup
 
+Bettermeans includes a Vagrantfile that contains all the information you need to set up your own development Virtual Machine.  
+To get started, follow the instructions below:
+
+* git clone git@github.com:akio-outori/bettermeans.git
 * Bring up a development VM - `vagrant up`
 
-* Start the rails server - `cd /vagrant && ./scripts/server -d`
+#### Starting the Application
+
+All files for the application are stored in /vagrant.  This directory is synced to the  
+repo files downloaded via git above.  **Changes to files on your VM will change your local  
+git branch**.
+
+* Use Vagrant to ssh into the vm - `vagrant ssh`
+* cd to `/vagrant`
+* run `./scripts/server -d`
+
+#### Accessing the Application
+
+If the steps above succeeded, the Bettermeans application will be running on http://localhost:8080  
+in your browser.
+
 
 That's it. Now you're ready to change the world. Here's to making a dent in things together!
 
