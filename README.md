@@ -3,52 +3,42 @@ BetterMeans
 
 BetterMeans is giving birth to a new kind of company. An Open Enterprise.
 
-More details can be found at http://bettermeans.com and here http://bettermeans.org
-
-
 Getting started
 ---------------
 
-* `git clone git@github.com:Bettermeans/bettermeans.git`
+Instructions for getting started are below:
 
-* bundle install
+#### Setup
 
-* Rename `database.yml.example` to `database.yml`
+Bettermeans includes a Vagrantfile that contains all the information you need to set up your own development Virtual Machine.  
+To get started, follow the instructions below:
 
-* Run rake `db:create:all` and `rake db:schema:load`
+* git clone git@github.com:akio-outori/bettermeans.git
+* Bring up a development VM - `vagrant up`
+
+#### Starting the Application
+
+All files for the application are stored in /vagrant.  This directory is synced to the  
+repo files downloaded via git above.  **Changes to files on your VM will change your local  
+git branch**.
+
+* Use Vagrant to ssh into the vm - `vagrant ssh`
+* cd to `/vagrant`
+* run `./scripts/server -d`
+
+#### Accessing the Application
+
+If the steps above succeeded, the Bettermeans application will be running on http://localhost:8080  
+in your browser.
+
 
 That's it. Now you're ready to change the world. Here's to making a dent in things together!
-
 
 Dev notes
 ---------
 
-Platform workstream: http://bettermeans.com/projects/2/dashboard
-
-IRC: #bettermeans irc.feenode.net
-
-mailinglist: bettermeans@librelist.org (or build in workstream forum)
-
-
-Testing
--------
-
-capybara-webkit depends on a WebKit implementation from Qt as explained in https://github.com/thoughtbot/capybara-webkit/wiki/Installing-QT
-
-
-Translating
------------
-
-You can find language specific translation groups at: https://www.transifex.net/projects/p/bettermeans
-
-
-Known issues
-------------
-
-Attachments doesn't work in dev environment
-
-Logging in via the janrain plugin (e.g. google, twitter...etc) won't work in dev environment (if you need to work with this, drop me a message, there's an involved workaround)
-
+Bettermeans is currently in the process of being updated to a modern version of Ruby.  See the issue board for details on getting started or contact the maintainers via the WNC Tech slack or
+email `jeffhallyburton@gmail.com` to get started.
 
 License and legalese
 --------------------
