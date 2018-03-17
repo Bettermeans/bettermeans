@@ -1,16 +1,17 @@
 # require 'integration/integration_helper'
+require 'spec_helper'
 
 feature 'Issues', :js => true do
 
   let(:user) { Factory.create(:user) }
 
   background do
+    pending
     disable_help
     request_login_as(user)
   end
 
   scenario 'starting an issue' do
-    pending
     click_link 'New workstream'
     page.should have_selector('#project_name')
     fill_in 'project_name', :with => 'Some Workstream'

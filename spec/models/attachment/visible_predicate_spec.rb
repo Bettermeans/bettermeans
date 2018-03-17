@@ -25,6 +25,7 @@ describe Attachment, '#visible?' do
     issue.should_receive(:attachments_visible?).with(fake_user).and_return(true)
     User.current = fake_user
     attachment.visible?.should be true
+    User.current = nil
   end
 
 end
