@@ -92,7 +92,7 @@ class ActivityStream < ActiveRecord::Base
       AND location = '#{location.to_s}'"
   end
 
-  def self.fetch(user_id, project_id, with_subprojects, limit, max_created_at = nil) # spec_me cover_me heckle_me
+  def self.fetch(user_id, project_id, with_subprojects, limit, max_created_at = nil) # cover_me heckle_me
     max_created_at = DateTime.now if max_created_at.nil? || max_created_at == ""
     length = limit  || Setting::ACTIVITY_STREAM_LENGTH
 
@@ -144,11 +144,11 @@ class ActivityStream < ActiveRecord::Base
   end
 
   # Soft Delete in as some activites are necessary for site stats
-  def soft_destroy # spec_me cover_me heckle_me
+  def soft_destroy # heckle_me
     self.update_attribute(:status, DELETED)
   end
 
-  def role_key # spec_me cover_me heckle_me
+  def role_key
     raise 'not a role' unless object_type.downcase == 'memberrole'
     "role.#{object_name.downcase.gsub(' ', '_')}"
   end
