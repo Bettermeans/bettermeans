@@ -15,5 +15,5 @@ test_out.png
 /tmp
 config/database.yml
 serverlog
-
+.c9/
 *debuglog.txt
