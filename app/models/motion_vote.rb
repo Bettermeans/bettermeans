@@ -5,12 +5,7 @@ class MotionVote < ActiveRecord::Base
   before_save :set_binding
   after_save :update_agree_total, :remove_notifications
 
-  named_scope :belong_to_user, lambda {|user_id| {:conditions => {:user_id => user_id}} } do
-    def default # spec_me cover_me heckle_me
-      find(:first, :conditions => { :is_default => true })
-    end
-  end
-
+  named_scope :belong_to_user, lambda {|user_id| {:conditions => {:user_id => user_id}} }
 
   named_scope :history, :order => 'updated_at DESC', :include => :user
 
