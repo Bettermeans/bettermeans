@@ -407,7 +407,7 @@ class User < ActiveRecord::Base
     cancel
   end
 
-  def canceled? # spec_me cover_me heckle_me
+  def canceled?
     status == STATUS_CANCELED
   end
 
