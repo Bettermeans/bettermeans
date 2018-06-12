@@ -397,7 +397,7 @@ class User < ActiveRecord::Base
     self.update_attribute(:status, STATUS_LOCKED)
   end
 
-  def cancel # spec_me cover_me heckle_me
+  def cancel # heckle_me
     self.update_attribute(:status, STATUS_CANCELED)
     # TODO: get rid of this, not sure why we change the email
     self.update_attribute(:mail, self.mail + ".canceled.#{rand(1000)}")
@@ -411,7 +411,7 @@ class User < ActiveRecord::Base
     status == STATUS_CANCELED
   end
 
-  def locked? # spec_me cover_me heckle_me
+  def locked? # heckle_me
     self.status == STATUS_LOCKED
   end
 
