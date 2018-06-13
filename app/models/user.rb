@@ -392,7 +392,7 @@ class User < ActiveRecord::Base
     self.status == STATUS_REGISTERED
   end
 
-  def lock # spec_me cover_me heckle_me
+  def lock # heckle_me
     # TODO: don't use update_attribute, as it bypasses validations
     self.update_attribute(:status, STATUS_LOCKED)
   end
