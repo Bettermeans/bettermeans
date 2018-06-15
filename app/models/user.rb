@@ -403,10 +403,6 @@ class User < ActiveRecord::Base
     self.update_attribute(:mail, self.mail + ".canceled.#{rand(1000)}")
   end
 
-  def cancel_account! # spec_me cover_me heckle_me
-    cancel
-  end
-
   def canceled?
     status == STATUS_CANCELED
   end

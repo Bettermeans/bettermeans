@@ -70,7 +70,7 @@ class AccountController < ApplicationController
   end
 
   def cancel
-    current_user.cancel_account!
+    current_user.cancel
     render_message(l(:notice_account_canceled))
   end
 
