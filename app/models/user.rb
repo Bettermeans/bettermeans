@@ -760,7 +760,7 @@ class User < ActiveRecord::Base
     tokens.find_all_by_action('autologin').collect(&:delete)
   end
 
-  def activate # spec_me cover_me heckle_me
+  def activate # heckle_me
     self.status = STATUS_ACTIVE
   end
 
