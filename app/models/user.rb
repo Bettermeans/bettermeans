@@ -370,7 +370,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def active? # spec_me cover_me heckle_me
+  def active? # heckle_me
     self.status == STATUS_ACTIVE
   end
 
@@ -388,7 +388,7 @@ class User < ActiveRecord::Base
     self.update_attribute(:mail, newmail) if self.mail != newmail
   end
 
-  def registered? # spec_me cover_me heckle_me
+  def registered? # heckle_me
     self.status == STATUS_REGISTERED
   end
 
@@ -496,11 +496,11 @@ class User < ActiveRecord::Base
     end
   end
 
-  def logged? # spec_me cover_me heckle_me
+  def logged? # heckle_me
     true
   end
 
-  def anonymous? # spec_me cover_me heckle_me
+  def anonymous? # heckle_me
     !logged?
   end
 
