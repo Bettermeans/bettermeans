@@ -2,18 +2,13 @@ require 'spec_helper'
 
 describe User, '#fullname=' do
 
-  let(:user) { Factory.build(:user) }
-
-  before(:each) do
-    user.firstname = 'firstname'
-    user.lastname = 'lastname'
-  end
+  let(:user) { User.new(:firstname => 'sally', :lastname => 'bob') }
 
   context "when given nil" do
     it "does not change first & last name" do
       user.fullname = nil
-      user.firstname.should == 'firstname'
-      user.lastname.should == 'lastname'
+      user.firstname.should == 'sally'
+      user.lastname.should == 'bob'
     end
   end
 

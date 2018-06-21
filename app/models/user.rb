@@ -764,7 +764,7 @@ class User < ActiveRecord::Base
     self.status = STATUS_ACTIVE
   end
 
-  def fullname=(fullname) # spec_me cover_me heckle_me
+  def fullname=(fullname) # heckle_me
     self.firstname, self.lastname = fullname.split if fullname
   end
 
