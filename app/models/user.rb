@@ -677,7 +677,7 @@ class User < ActiveRecord::Base
     drop_from_project project, Role::BUILTIN_CORE_MEMBER
   end
 
-  def self.current=(user) # spec_me cover_me heckle_me
+  def self.current=(user) # heckle_me
     # TODO: stop relying on this and remove it -- too much state
     Thread.current[:user] = user
   end
