@@ -682,7 +682,7 @@ class User < ActiveRecord::Base
     Thread.current[:user] = user
   end
 
-  def self.current # spec_me cover_me heckle_me
+  def self.current # heckle_me
     Thread.current[:user] ||= User.anonymous
   end
 
