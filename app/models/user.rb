@@ -483,7 +483,7 @@ class User < ActiveRecord::Base
     find(:first, :conditions => ["LOWER(login) = ?", login.to_s.downcase])
   end
 
-  def to_s # spec_me cover_me heckle_me
+  def to_s # heckle_me
     name
   end
 
