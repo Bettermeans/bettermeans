@@ -225,8 +225,7 @@ class User < ActiveRecord::Base
 
   end
 
-
-  def reload(*args) # spec_me cover_me heckle_me
+  def reload(*args) # heckle_me
     @name = nil
     super
   end
