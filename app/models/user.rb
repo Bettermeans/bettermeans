@@ -487,12 +487,8 @@ class User < ActiveRecord::Base
   end
 
   # Returns the current day according to user's time zone
-  def today # spec_me cover_me heckle_me
-    if time_zone.nil?
-      Date.today
-    else
-      Time.now.in_time_zone(time_zone).to_date
-    end
+  def today # heckle_me
+    time_zone ? Time.now.in_time_zone(time_zone).to_date : Date.today
   end
 
   def logged? # heckle_me
