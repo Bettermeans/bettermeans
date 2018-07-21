@@ -478,7 +478,7 @@ class User < ActiveRecord::Base
   end
 
   # Makes find_by_login case-insensitive
-  def self.find_by_login(login) # spec_me cover_me heckle_me
+  def self.find_by_login(login) # heckle_me
     find(:first, :conditions => ["LOWER(login) = ?", login.to_s.downcase])
   end
 
