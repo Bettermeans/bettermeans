@@ -462,9 +462,10 @@ class User < ActiveRecord::Base
     notified_projects_ids
   end
 
-  def self.find_by_rss_key(key) # spec_me cover_me heckle_me
+  def self.find_by_rss_key(key) # heckle_me
+    # BUG? Should probably be find by action and value
     token = Token.find_by_value(key)
-    token && token.user.active? ? token.user : nil
+    token.user if token && token.user.active?
   end
 
   def self.find_by_api_key(key) # spec_me cover_me heckle_me
