@@ -693,7 +693,7 @@ class User < ActiveRecord::Base
     anonymous_user
   end
 
-  def self.sysadmin # spec_me cover_me heckle_me
+  def self.sysadmin # heckle_me
     User.find_by_login("admin")
   end
 
