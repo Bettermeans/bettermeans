@@ -439,7 +439,7 @@ class User < ActiveRecord::Base
   end
 
   # Return user's RSS key (a 40 chars long string), used to access feeds
-  def rss_key # spec_me cover_me heckle_me
+  def rss_key # heckle_me
     token = self.rss_token || Token.create(:user => self, :action => 'feeds')
     token.value
   end
