@@ -752,7 +752,7 @@ class User < ActiveRecord::Base
     nil
   end
 
-  def delete_autologin_tokens # spec_me cover_me heckle_me
+  def delete_autologin_tokens # heckle_me
     tokens.find_all_by_action('autologin').collect(&:delete)
   end
 
