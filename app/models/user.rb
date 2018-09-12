@@ -108,7 +108,7 @@ class User < ActiveRecord::Base
     active_subscription
   end
 
-  def <=>(user) # spec_me cover_me heckle_me
+  def <=>(user) # heckle_me
     if self.class.name == user.class.name
       self.to_s.downcase <=> user.to_s.downcase
     else
