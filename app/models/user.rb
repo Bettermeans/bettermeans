@@ -426,7 +426,7 @@ class User < ActiveRecord::Base
     self
   end
 
-  def pref # spec_me cover_me heckle_me
+  def pref # heckle_me
     self.preference ||= UserPreference.new(:user => self)
   end
 
