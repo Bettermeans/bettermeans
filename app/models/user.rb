@@ -118,14 +118,14 @@ class User < ActiveRecord::Base
   end
 
 
-  def before_create # spec_me cover_me heckle_me
+  def before_create # heckle_me
     self.plan ||= Plan.free
     self.mail_notification = false
     self.login = self.login.downcase
     true
   end
 
-  def before_save # spec_me cover_me heckle_me
+  def before_save # heckle_me
     # update hashed_password if password was set
     self.hashed_password = User.hash_password(self.password) if self.password
     self.mail_hash =  Digest::MD5.hexdigest(self.mail) unless mail.nil?
