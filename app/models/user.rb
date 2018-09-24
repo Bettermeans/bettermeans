@@ -434,7 +434,7 @@ class User < ActiveRecord::Base
     @time_zone ||= (self.pref.time_zone.blank? ? nil : ActiveSupport::TimeZone[self.pref.time_zone])
   end
 
-  def wants_comments_in_reverse_order? # spec_me cover_me heckle_me
+  def wants_comments_in_reverse_order? # heckle_me
     self.pref[:comments_sorting] == 'desc'
   end
 
