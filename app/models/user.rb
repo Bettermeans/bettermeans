@@ -445,7 +445,7 @@ class User < ActiveRecord::Base
   end
 
   # Return user's API key (a 40 chars long string), used to access the API
-  def api_key # spec_me cover_me heckle_me
+  def api_key # heckle_me
     token = self.api_token || Token.create(:user => self, :action => 'api')
     token.value
   end
