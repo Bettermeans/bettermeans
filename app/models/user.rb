@@ -230,8 +230,10 @@ class User < ActiveRecord::Base
     super
   end
 
-  def lock_workstreams? # spec_me cover_me heckle_me
-    (self.usage_over_at && self.usage_over_at.advance(:days => -1 * Setting::WORKSTREAM_LOCK_THRESHOLD) > DateTime.now) || (self.trial_expired_at && self.trial_expired_at.advance(:days => -1 *  Setting::WORKSTREAM_LOCK_THRESHOLD) > DateTime.now)
+  def lock_workstreams? # heckle_me
+    lock_threshold_date = Setting::WORKSTREAM_LOCK_THRESHOLD.days.ago
+    (self.usage_over_at? && self.usage_over_at < lock_threshold_date) ||
+      (self.trial_expired_at? && self.trial_expired_at < lock_threshold_date)
   end
 
   #detects if usage is way over, or trial has expired for a while, and locks out private workstreams belonging to user
