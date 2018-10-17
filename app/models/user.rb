@@ -237,7 +237,7 @@ class User < ActiveRecord::Base
   end
 
   #detects if usage is way over, or trial has expired for a while, and locks out private workstreams belonging to user
-  def lock_workstreams # spec_me cover_me heckle_me
+  def lock_workstreams # heckle_me
     if self.lock_workstreams?
       self.owned_projects.each {|p| p.lock unless p.is_public?}
     end
