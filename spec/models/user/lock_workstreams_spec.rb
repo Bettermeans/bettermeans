@@ -13,7 +13,7 @@ describe User, '#lock_workstreams' do
 
   context "when usage is beyond grace period" do
 
-    before { user.usage_over_at = 31.day.ago }
+    before { user.usage_over_at = 31.days.ago }
 
     it "locks private projects owned by the user" do
       project = Factory.create(:project, :owner => user, :is_public => false)

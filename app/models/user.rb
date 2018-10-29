@@ -243,9 +243,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  def unlock_workstreams # spec_me cover_me heckle_me
+  def unlock_workstreams # heckle_me
     unless self.lock_workstreams?
-      self.owned_projects.each {|p| p.unlock unless p.is_public?}
+      self.owned_projects.each(&:unlock)
     end
   end
 
