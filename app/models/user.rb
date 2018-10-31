@@ -249,8 +249,10 @@ class User < ActiveRecord::Base
     end
   end
 
-  def usage_over? # spec_me cover_me heckle_me
-    self.project_storage_total > self.plan.storage_max || self.private_project_total > self.plan.private_workstream_max || self.private_contributor_total > self.plan.contributor_max
+  def usage_over? # heckle_me
+    self.project_storage_total > self.plan.storage_max ||
+      self.private_project_total > self.plan.private_workstream_max ||
+      self.private_contributor_total > self.plan.contributor_max
   end
 
   #detects if usage is over, and sets date of going over
