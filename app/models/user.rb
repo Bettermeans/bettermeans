@@ -505,7 +505,7 @@ class User < ActiveRecord::Base
   end
 
   # Return user's roles for project
-  def roles_for_project(child_project) # spec_me cover_me heckle_me
+  def roles_for_project(child_project) # cover_me heckle_me
     project = child_project.root
     roles = []
     # No role on archived projects
