@@ -527,8 +527,8 @@ class User < ActiveRecord::Base
   end
 
   # Return true if the user is a communitymember of project
-  def community_member_of?(project) # spec_me cover_me heckle_me
-    !roles_for_project(project.root).detect {|role| role.community_member?}.nil?
+  def community_member_of?(project) # heckle_me
+    roles_for_project(project).any?(&:community_member?)
   end
 
   # Return true if the user is an enterprise member of project
