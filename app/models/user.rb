@@ -537,9 +537,9 @@ class User < ActiveRecord::Base
   end
 
   # Return true if the user is admin of project
-   def admin_of?(project) # spec_me cover_me heckle_me
-     !roles_for_project(project.root).detect {|role| role.admin?}.nil?
-   end
+  def admin_of?(project) # heckle_me
+    roles_for_project(project).any?(&:admin?)
+  end
 
 
   # Return true if the user is a member of project
