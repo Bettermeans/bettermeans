@@ -543,8 +543,8 @@ class User < ActiveRecord::Base
 
 
   # Return true if the user is a member of project
-  def member_of?(project) # spec_me cover_me heckle_me
-    !roles_for_project(project.root).detect {|role| role.member?}.nil?
+  def member_of?(project) # heckle_me
+    roles_for_project(project).any?(&:member?)
   end
 
   # Return true if the user is a core member of project
