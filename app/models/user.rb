@@ -587,8 +587,8 @@ class User < ActiveRecord::Base
 
 
   # Returns position level for user's role in project's enterprise (the lower number, the higher in heirarchy the user)
-  def position_for(project) # spec_me cover_me heckle_me
-    roles_for_project(project.root).sort{|x,y| x.position <=> y.position}.first.position
+  def position_for(project)
+    roles_for_project(project).map(&:position).min
   end
 
   # Return true if the user is allowed to do the specified action on project
