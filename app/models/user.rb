@@ -541,20 +541,19 @@ class User < ActiveRecord::Base
     roles_for_project(project).any?(&:admin?)
   end
 
-
   # Return true if the user is a member of project
   def member_of?(project) # heckle_me
     roles_for_project(project).any?(&:member?)
   end
 
   # Return true if the user is a core member of project
-   def core_member_of?(project) # spec_me cover_me heckle_me
-     !roles_for_project(project.root).detect {|role| role.core_member?}.nil?
+   def core_member_of?(project) # heckle_me
+     roles_for_project(project).any?(&:core_member?)
    end
 
    # Return true if the user is a contributor of project
-  def contributor_of?(project) # spec_me cover_me heckle_me
-     !roles_for_project(project.root).detect {|role| role.contributor?}.nil?
+  def contributor_of?(project) # heckle_me
+     roles_for_project(project).any?(&:contributor?)
   end
 
   # Return true if the user's votes are binding
