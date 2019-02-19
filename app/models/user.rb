@@ -594,10 +594,10 @@ class User < ActiveRecord::Base
   # action can be:
   # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
   # * a permission Symbol (eg. :edit_project)
-  def allowed_to?(action, project, options={}) # spec_me cover_me heckle_me
+  def allowed_to?(action, project, options={})
     if project
       # No action allowed on archived projects except unarchive
-      return false unless project.active? || project.locked? || (action.class.to_s == "Hash" && action[:action] == "unarchive")
+      return false if project.archived? && !(action.is_a?(Hash) && action[:action] == "unarchive")
       # No action allowed on disabled modules
       return false unless project.allows_to?(action)
       # Admin users are authorized for anything else
@@ -606,17 +606,19 @@ class User < ActiveRecord::Base
       # #Check if user is a citizen of the enterprise, and the citizen role is allowed to take that action
       # return true if citizen_of?(project) && Role.citizen.allowed_to?(action)
       roles = roles_for_project(project)
-      return false unless roles
-      roles.detect {|role| role.allowed_to?(action)} && allowed_to_see_project?(project)
+      roles.any? {|role| role.allowed_to?(action)} && allowed_to_see_project?(project)
     elsif options[:global]
-      # Admin users are always authorized
-      return true if admin?
-      # authorize if user has at least one role that has this permission
-      roles = memberships.collect {|m| m.roles}.flatten.uniq
-      roles.detect {|r| r.allowed_to?(action)} || (self.logged? ? Role.non_member.allowed_to?(action) : Role.anonymous.allowed_to?(action))
+      admin? ||
+        logged? && Role.non_member.allowed_to?(action) ||
+        Role.anonymous.allowed_to?(action) ||
+        all_roles.any? {|r| r.allowed_to?(action)}
     else
       admin?
     end
+  end
+
+  def all_roles # spec_me cover_me heckle_me
+    memberships.collect(&:roles).flatten.uniq
   end
 
   #Adds current user to core team of project
