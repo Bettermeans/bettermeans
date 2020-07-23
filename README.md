@@ -54,6 +54,8 @@ Pre-requisites
 --------------
 
 I recommend using rvm to manage your ruby versions: https://rvm.io/
+For Ubuntu machines, you can install the repo from here: https://github.com/rvm/ubuntu_rvm
+The repo provides dependencies for older versions of Ruby, so may be your best option.
 
 ```sh
 # install ruby:
@@ -74,6 +76,9 @@ brew install postgres
 # debian linux
 sudo apt-get install postgresql postgresql-client postgresql-contrib
 
+# You will need PostgresQL version 8.4 or thereabouts
+# You can find repos for Linux here: https://wiki.postgresql.org/wiki/Apt
+
 # NOTE: only do this in development mode, as it puts your database in an
 # insecure state.
 # update the end of /etc/postgresql/9.1/main/pg_hba.conf to look like this:
@@ -89,10 +94,7 @@ sudo apt-get install postgresql postgresql-client postgresql-contrib
 sudo /etc/init.d/postgresql restart
 
 # set up a postgres user:
-sudo su
-su postgres
-createuser -s -r <your username>
-# and hit CTRL+D twice to exit back to your regular user account
+sudo -u postgres createuser -s $(whoami)
 
 # Imagemagick is also a dependency. You'll need an older version to be
 # compatible with rmagick, which can be a bit of a pain on MacOS. See here for
